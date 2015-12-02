@@ -1,0 +1,66 @@
+.preview {
+	
+	background-color: darken(@background-color, 8%);
+	
+	padding-top:0;
+	
+	&.image {
+		background-color: #222;
+	}
+	
+	
+	img {
+		max-width: 100%;
+		display: block;
+		margin: 0 auto;
+	}
+	
+	iframe {
+		width: 100%;
+		height: 100%;
+	}
+	
+	.container {
+		padding: 0;
+	}
+	
+	.page-content {
+		height: 100%;
+		.box-sizing(border-box);
+		padding-top: 52px;
+	}
+	
+	
+	.disclaimer {
+		padding: 40px;
+	}
+	
+	.footer {
+		display: none;
+	}
+	
+	.button {
+		margin-top: 5px;
+	}
+	
+	.doc-page {
+		min-width:960px;
+		max-width: 70%;
+		
+		min-height: 80%;
+		margin: 20px auto 10px;
+		padding: 10px 20px;
+		background-color: #fff;
+	}
+	
+	.page-break {
+		background-color: darken(@background-color, 8%);
+		height: 8px;
+		margin: 10px -20px; 
+	}
+	
+	
+	table {
+		border: 1px solid darken(@background-color, 8%);
+	}
+}

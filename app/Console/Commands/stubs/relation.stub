@@ -1,0 +1,14 @@
+    public function {{relation_method_name}}(){
+        
+        // One to One
+        return $this->hasOne('{{model}}');
+
+        // One to Many
+        // return $this->hasMany('{{model}}');
+        // return $this->hasMany('{{model}}', '{{foreign}}', '{{reference}}');
+	    
+        // Many to Many
+        // return $this->belongsToMany('{{model}}');
+        // return $this->belongsToMany('{{model}}', 'PIVOT_TABLE'); //last is pivot table name
+
+    }

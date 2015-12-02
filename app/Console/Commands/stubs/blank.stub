@@ -1,0 +1,19 @@
+<?php namespace {{namespace}};
+
+{{use}}
+
+class {{class}} extends Model {
+{{comments}}
+{{declare}}
+
+    /**
+     * The database table used by the model.
+     *
+     * @var string
+     */
+    protected $table = '{{table}}';
+
+{{attributes}}
+{{relations}}
+
+}

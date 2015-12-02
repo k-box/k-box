@@ -1,0 +1,103 @@
+
+.profile {
+	// display: inline-block;
+}
+
+.profile-pic {
+
+	border-radius: 48px;
+	.square(48px);
+	overflow: hidden;
+
+	background-color: #222;
+
+	display: inline-block;
+
+	img {
+		.square(48px);
+	}
+
+	&.inline {
+		display: inline-block;
+		float: left;
+		margin-right: 6px;
+	}
+
+	.initials {
+		.h4-typography;
+		color: #fff;
+		.square(48px);
+		text-align: center;
+		line-height: 48px;
+		vertical-align: middle;
+		display: inline-block;
+	}
+
+}
+
+.top-header {
+	.profile-pic {
+		border-radius: 0;
+	}
+}
+
+
+.avatar {
+	
+	position: relative;
+
+	display: inline-block;
+
+	.user-type, .user-name {
+		margin-right: 12px;
+	}
+
+	.user-type {
+		font-weight: 400;
+		max-width: 200px;
+		.text-truncate();
+
+	}
+
+	.user-name {
+		font-weight: 600;
+		// display: block;
+	}
+
+	.profile {
+		display: none;
+		
+		position: absolute;
+		width: 200px;
+		height: 48px;
+
+		// padding: 6px;
+
+		left:-200px;
+
+		text-align: right;
+
+		background-color: darken(@darken-accent-color, 5%);
+
+		.box-sizing(border-box);
+
+		cursor: default;
+	}
+
+
+	&:hover {
+
+		background-color: darken(@darken-accent-color, 5%);
+
+		.profile {
+
+			display: inline-block;
+		}
+
+		.profile-pic {
+			// padding: 5px;
+			// position: absolute;
+		}
+
+	}
+}

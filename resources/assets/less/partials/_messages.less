@@ -1,0 +1,103 @@
+
+.description {
+	color: @black-60;
+	font-size: 14px;
+	margin-bottom: 0.6rem;
+}
+
+
+.alert {
+	background: #FCF8E3;
+	padding: 15px 0 15px 15px;
+	margin-bottom: 10px;
+	
+	color: #888;
+	border-radius: 3px;
+	position: relative;
+
+	p {
+		margin-bottom: 0;
+	}
+
+	.close {
+	  background: rgba(0, 0, 0, 0.1);
+	  display: block;
+	  position: absolute;
+	  right: 0;
+	  top: 0;
+	  bottom: 0;
+	  border-radius: 0 3px 3px 0;
+	  padding: 10px 30px;
+	}
+
+	.close [class*="icon-"] {
+	  font-size: 1.875em;
+	  color: #fff;
+	}
+
+	&.success {
+	  background: #a1d36e;
+	  color: #fff;
+	}
+
+	&.info {
+	  background: #6ad1dd;
+	  color: #fff;
+	}
+
+	&.error {
+	  background: @brand-danger;
+	  color: #fff;
+	}
+
+
+	.icon-checkmark, .icon-exclamation {
+	  display: inline-block;
+	  margin-right: 10px;
+	}
+}
+
+@keyframes long-running-show-animation {
+	0% { display:block; opacity:0; top: @base-padding/2; }
+  100% { opacity:1; top: @base-padding; }
+}
+
+/**
+	Little overlay message for a long running ajax process
+*/
+
+.long-running-message {
+
+	display: none;
+
+	position: fixed;
+
+	border-radius: 3px;
+
+	padding: @base-padding/2;
+
+	top: @base-padding;
+
+	max-width: 480px;
+
+	left: 50%;
+
+	transform: translate(-50%, 0);
+
+	text-align: center;
+
+	z-index: 910;
+
+	background-color: @warning-color;
+
+	color: #111;
+
+	&.visible {
+
+		animation: long-running-show-animation linear 0.4s;
+
+		display: block;
+
+
+	}
+}

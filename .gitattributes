@@ -1,0 +1,11 @@
+# Autodetect text files
+* text=auto
+
+*.png binary
+
+# Force the following filetypes to have unix eols, so Windows does not break them
+*.html text eol=lf
+*.php text eol=lf
+*.js text eol=lf
+*.css text eol=lf
+*.less text eol=lf

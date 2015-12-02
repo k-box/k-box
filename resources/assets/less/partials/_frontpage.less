@@ -1,0 +1,118 @@
+
+
+.hero {
+
+	min-height: 400px;
+
+	.box-sizing(border-box);
+
+	margin: 0 -@base-padding @base-padding;
+	padding: @base-padding*2 @base-padding @base-padding/2;
+
+	background-color: #021741;
+
+	color: #fff;
+
+	.hero-title, p {
+		padding: 6px;
+		margin-bottom: 0;
+
+		text-shadow:1px 1px 1px #000;
+	}
+
+
+
+
+	@media (min-width: 720px) {
+
+		.columns {
+		    margin-left: 4%;
+
+		    &:first-child { 
+    			margin-left: 0;
+    		}
+		}
+
+		.five { 
+			width: 39.3333333333%;
+		}
+		.seven {
+			width: 56.6666666667%;
+		}
+
+
+		background: #021741 url('../../images/hero_720x281.jpg') no-repeat center center;
+		background-size: cover;
+	}
+
+	/* Larger than desktop */
+	@media (min-width: 1000px) {
+		background: #021741 url('../../images/hero_1000x500.jpg') no-repeat center center;
+		background-size: cover;
+
+		p {
+			max-width: 70%;
+		}
+	}
+
+	/* Larger than Desktop HD */
+	@media (min-width: 1200px) {
+		background: #021741 url('../../images/hero_1280x500.jpg') no-repeat center center;
+		background-size: cover;
+
+		.five { 
+			padding-right: 5%;
+		}
+	}
+
+	
+
+}
+
+.hero-title {
+
+	font-size: 3.0rem;
+
+	
+
+	strong {
+		display: inline-block;
+	}
+
+
+	@media (min-width: 720px) {
+
+		// background-color: rgba(0,0,0,0.4);
+	
+		font-size: 4.0rem;
+	
+	}
+
+
+}
+
+
+.frontpage {
+
+	.login-form {
+
+		padding: @base-padding/2;
+		background-color: rgba(0,0,0,0.4);
+
+		p {
+			max-width: 100%;
+		}
+
+		input[type='text'], input[type='password'], input[type='email'] {
+			width: 100%;
+			color: @text-color;
+		}
+
+		.field-error {
+			display: block;
+			width: 100%;
+		}
+
+	}
+
+}

@@ -1,0 +1,24 @@
+vendor/
+.DS_Store
+.env*
+*.env
+node_modules
+public/build
+public/js/*
+public/js /*
+public/css/*
+public/images/sprite*.png
+storage/documents/*
+.idea
+.vagrant
+puphpet
+Vagrantfile
+
+public/js/*.js
+public/css/*.css
+public/css/all.css
+typings/*
+
+# VS Code
+.settings/
+.vscode/

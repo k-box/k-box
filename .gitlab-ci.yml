@@ -1,0 +1,54 @@
+stages:
+  - build
+  - test
+  - deploy
+
+composer_npm:
+  stage: build
+  script:
+    - mv env.ci .env
+    - composer install --no-dev --prefer-dist
+    - npm install
+    - bower install
+    - gulp --production
+    - mv .env env.ci
+    - rm -f .bowerrc
+    - rm -f bower.json
+    - rm -f gulpfile.js
+    - rm -f composer.json
+    - rm -f composer.lock
+    - rm -f testing.env
+    - rm -f phpunit.xml
+    - rm -f package.json
+    - tar --transform 's,^.,dms,' -cJ . --exclude=.git --exclude=.gitignore --exclude=.gitattributes --exclude=.gitlab-ci.yml --exclude=tests --exclude=node_modules --exclude=resources/assets/js --exclude=resources/assets/less --exclude=resources/assets/sass --exclude=resources/assets/vendor > /var/www/temp/builds/klink-dms-$CI_BUILD_REF_NAME.tar.xz
+    - tar --transform 's,^.,dms,' -cz . --exclude=.git --exclude=.gitignore --exclude=.gitattributes --exclude=.gitlab-ci.yml --exclude=tests --exclude=node_modules --exclude=resources/assets/js --exclude=resources/assets/less --exclude=resources/assets/sass --exclude=resources/assets/vendor > /var/www/temp/builds/klink-dms-$CI_BUILD_REF_NAME.tar.gz
+    - rm vendor -fr
+  only:
+    - master
+    - staging
+    - project-edition
+    - project-edition-development
+  tags:
+    - php
+    - nodejs
+    - shell
+    
+docker_image_pe:
+  stage: deploy
+  script: 
+    - cd /opt/klink-docker
+    - docker-compose -f klink-services.yml build dmsproject
+  only:
+    - project-edition
+  tags:
+    - shell
+    
+docker_image_se:
+  stage: deploy
+  script: 
+    - cd /opt/klink-docker
+    - docker-compose -f klink-services.yml build dms
+  only:
+    - master
+  tags:
+    - shell
