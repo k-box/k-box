@@ -1,7 +1,6 @@
 <?php namespace KlinkDMS\Http\Controllers\Document;
 
 use KlinkDMS\Group;
-use KlinkDMS\Http\Requests\Request;
 use KlinkDMS\Http\Controllers\Controller;
 use KlinkDMS\DocumentDescriptor;
 use KlinkDMS\Capability;
@@ -12,24 +11,25 @@ use KlinkDMS\Http\Requests\UpdateGroupRequest;
 use Illuminate\Support\Collection;
 use KlinkDMS\Exceptions\GroupAlreadyExistsException;
 use KlinkDMS\Pagination\LengthAwarePaginator as Paginator;
+use Illuminate\Http\Request;
+use KlinkDMS\Traits\Searchable;
 
 class GroupsController extends Controller {
 
+	use Searchable;
 
 	/**
 	 * [$adapter description]
 	 * @var \Klink\DmsDocuments\DocumentsService
 	 */
 	private $service = null;
-	
-	private $searchService = null;
 
 	/**
 	 * Create a new controller instance.
 	 *
 	 * @return void
 	 */
-	public function __construct(\Klink\DmsDocuments\DocumentsService $service, \Klink\DmsSearch\SearchService $searchService)
+	public function __construct(\Klink\DmsDocuments\DocumentsService $service)
 	{
             
 		$this->middleware('auth');
@@ -38,7 +38,6 @@ class GroupsController extends Controller {
 
 		$this->service = $service;
 		
-		$this->searchService = $searchService;
 	}
 
 
@@ -75,7 +74,7 @@ class GroupsController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function index(AuthGuard $auth, \Request $request)
+	public function index(AuthGuard $auth, Request $request)
 	{
 
 		// ok famo una prova creiamo dei gruppi e associamoli a un doc e vediamo che succede
@@ -98,7 +97,7 @@ class GroupsController extends Controller {
         });
 		
 		
-		if ($request::ajax() && $request::wantsJson())
+		if ($request->ajax() && $request->wantsJson())
 		{
 		    return new JsonResponse(compact('private_groups', 'personal_groups'), 200);
 		}
@@ -118,10 +117,10 @@ class GroupsController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function create()
+	public function create(AuthGuard $auth, Request $request)
 	{
 		
-		$auth_user = \Auth::user();
+		$auth_user = $auth->user();
 		
 		$view_args = [
 			'show_cancel' => true, 'create' => true, 
@@ -131,7 +130,7 @@ class GroupsController extends Controller {
 
 		// if context info is available
 		
-		$is_private = \Request::input('isPrivate', true)  === "false" ? false: true;
+		$is_private = $request->input('isPrivate', true)  === "false" || $request->input('isPrivate', true)  === false  ? false: true;
 		$view_args['private'] = $is_private;
 		
 		// if($is_private){
@@ -141,11 +140,11 @@ class GroupsController extends Controller {
 		// 	$view_args['collections'] = Group::getTreeWhere('is_private', '=', false);	
 		// }
 		
-		if(\Request::has('group_context')){
+		if($request->has('group_context')){
 			
 			// preselect a parent collection
 
-			$group = Group::findOrFail(\Request::input('group_context', 0));
+			$group = Group::findOrFail($request->input('group_context', 0));
 
 			$view_args = array_merge($view_args, [
 				'show_parent' => true, 
@@ -226,54 +225,88 @@ class GroupsController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function show(AuthGuard $auth, \Request $request, $id)
+	public function show(AuthGuard $auth, Request $request, $id)
 	{
 
-		$filtered_ids = false;
-		$collections = array();
-		$all = array();
-		$parents = array();
+		$req = $this->searchRequestCreate($request);
+		
+		$req->visibility('private');
+		
+		$user = $auth->user();
 		
 		$group = Group::findOrFail($id);
 		
-		if($this->searchService->hasSearchRequest($request)){
-
-			$id_set2 = array( ($group->is_private ? $group->user_id : '0') . ':' . $group->id );
-
-			$filtered_ids = $this->searchService->searchForId($request, 'private', array(), $id_set2);
+		
+		
+		$results = $this->search($req, function($_request) use($user, $group) {
 			
-//			dd(compact('filtered_ids', 'id_set2'));
-
-			$pagination = new Paginator($filtered_ids->ids, 
-			$filtered_ids->total_results, 
-			26, $filtered_ids->page, [
-            	'path'  => $request::url(),
-            	'query' => $request::query(),
-        	]);
-		}
-
-		if(!$filtered_ids){
+			$group_ids = array($group->toKlinkGroup()); 
 			
-			$all = $group->documents()->get();
-	
-			$parents = $group->getAncestors()->reverse();
-		}
-		else {
+			$group_ids = array_merge($group_ids, $group->getDescendants()->map(function($grp){
+				return $grp->toKlinkGroup();	
+			})->all());
+			
+			$_request->on($group_ids);
+			
+			if($_request->isPageRequested() && !$_request->isSearchRequested()){
 
-			$all = DocumentDescriptor::whereIn('hash', $filtered_ids->ids)->get();
-		}
+				$_request->setForceFacetsRequest();
+
+				return $group->documents;
+			}
+			
+			// get all sub-collections for making the correct search request -> on(...)
+			
+			
+			
+			return false;
+			
+		}, function($res_item) use($user){
+			return DocumentDescriptor::where('local_document_id', $res_item->localDocumentID)->first();
+		});
+		
+// 		if($this->searchService->hasSearchRequest($request)){
+// 
+// 			$id_set2 = array( ($group->is_private ? $group->user_id : '0') . ':' . $group->id );
+// 
+// 			$filtered_ids = $this->searchService->searchForId($request, 'private', array(), $id_set2);
+// 			
+// //			dd(compact('filtered_ids', 'id_set2'));
+// 
+// 			$pagination = new Paginator($filtered_ids->ids, 
+// 			$filtered_ids->total_results, 
+// 			26, $filtered_ids->page, [
+//             	'path'  => $request::url(),
+//             	'query' => $request::query(),
+//         	]);
+// 		}
+// 
+// 		if(!$filtered_ids){
+// 			
+// 			$all = $group->documents()->get();
+// 	
+// 			
+// 		}
+// 		else {
+// 
+// 			$all = DocumentDescriptor::whereIn('hash', $filtered_ids->ids)->get();
+// 		}
+
+		$parents = $group->getAncestors()->reverse();
 
 		return view('documents.documents', [
 			'pagetitle' => $group->name, 
-			'documents' => $all, 
-			'collections' => $collections, 
+			'documents' => $results, 
+			'collections' => array(), 
 			'context' => 'group', 
 			'context_group' => $group->id, 
 			'context_group_instance' => $group, 
 			'filter' => $group->name, 
 			'parents' => $parents, 
-			'pagination' => ($filtered_ids) ? $pagination : null,
-			'search_terms' => ($filtered_ids) ? $filtered_ids->term : '',
+			'pagination' => $results,
+			'search_terms' => $req->term,
+			'facets' => $results->facets(),
+			'filters' => $results->filters(),
 			'empty_message' => trans('documents.empty_msg', ['context' => $group->name]) ]);
 	}
 
@@ -282,6 +315,16 @@ class GroupsController extends Controller {
 	{
 
 		$selected_group = Group::findOrFail($id);
+		
+		if(!is_null($selected_group->project)){
+			return view('panels.prevent_edit', [
+				'message' => trans('projects.errors.prevent_edit_description', [
+					'link' => route('projects.edit', ['id' =>$selected_group->project->id]),
+					'name' => $selected_group->project->name
+				]),
+				'name' => $selected_group->name
+			]);
+		}
 
 		$view_args = [
 		'show_cancel' => true, 
@@ -322,7 +365,7 @@ class GroupsController extends Controller {
 			$user = $auth->user();
 
 
-			if(!$group->is_private && !$auth->user()->can(Capability::MANAGE_INSTITUTION_GROUPS) ){
+			if(!$group->is_private && !$auth->user()->can(Capability::MANAGE_PROJECT_COLLECTIONS) ){
 				throw new ForbiddenException(trans('errors.group_edit_institution'));
 			}
 
@@ -461,17 +504,25 @@ class GroupsController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function destroy(AuthGuard $auth, $id)
+	public function destroy(AuthGuard $auth, Request $request, $id)
 	{
 		// if the group is public only who can manage institution's groups can do this
 
 		try{
+			
+			$selected_group = Group::findOrFail($id);
+			
+			if(!is_null($selected_group->project)){
+				
+				throw new \Exception(trans('projects.errors.prevent_delete_description'));
+				
+			}
 
-			$this->service->deleteGroup($auth->user(), Group::findOrFail($id));
+			$this->service->deleteGroup($auth->user(), $selected_group);
 			
 			\Cache::flush();
 
-			if ($request::ajax() && $request::wantsJson())
+			if ($request->ajax() && $request->wantsJson())
 			{
 				return new JsonResponse(array('status' => 'ok'), 200);
 			}
@@ -480,7 +531,7 @@ class GroupsController extends Controller {
 
 		}catch(ForbiddenException $fe){
 
-			if ($request::ajax() && $request::wantsJson())
+			if ($request->ajax() && $request->wantsJson())
 			{
 				return new JsonResponse(array('error' => $fe->getMessage()), 403);
 			}
@@ -488,7 +539,7 @@ class GroupsController extends Controller {
 			return response("forbidden", 403);
 		}catch(\Exception $fe){
 
-			if ($request::ajax() && $request::wantsJson())
+			if ($request->ajax() && $request->wantsJson())
 			{
 				return new JsonResponse(array('error' => $fe->getMessage()), 500);
 			}

@@ -62,7 +62,7 @@ class AdministrationDashboardController extends Controller {
 
     $storage = $this->documents->getStorageStatus();
 
-    // dd(compact('storage', 'public', 'private'));
+    // dd($storage);
 
     return view('administration.administration', [
         'document_total' => $public+$private,

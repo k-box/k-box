@@ -32,6 +32,28 @@
         @endif
         <input type="text" name="name" value="{{old('name', isset($user) ? $user->name : '')}}" />
     </p>
+
+
+    @if(isset($institutions))
+
+    <p>
+        
+        <label>{{trans('administration.accounts.labels.institution')}}</label>
+        @if( $errors->has('institution') )
+            <span class="field-error">{{ implode(",", $errors->get('institution'))  }}</span>
+        @endif
+
+        <?php $old_institution = old('institution', isset($user) ? $user->getInstitution() : null) ?>
+        
+        <select name="institution">
+            <option style="color:#808080">{{trans('administration.accounts.labels.select_institution')}}</option>
+            @foreach($institutions as $inst)
+                <option value="{{$inst->id}}" @if(isset($user) && !is_null($old_institution) && $old_institution === $inst->id) selected @endif>{{$inst->name}}</option>
+            @endforeach
+        </select>
+        
+    </p>
+    @endif
     
     @if(!isset($edit_enabled) || (isset($edit_enabled) && $edit_enabled))
     
@@ -59,6 +81,7 @@
         
         <button type="submit">{{$submit_text}}</button> or <a href="{{route('administration.users.index')}}">Cancel</a>
     </p>
+    
     
     
     <script>

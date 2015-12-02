@@ -267,6 +267,7 @@ class ViewComposerServiceProvider extends ServiceProvider {
 				$view->with('show_admin_link', $show_admin_link);
 				
 				$view->with('show_doc_link', $show_doc_link);
+				$view->with('show_projects_link', $user->isProjectManager());
 				
 				$view->with('show_groups_link', $people_group);
 				
@@ -280,6 +281,7 @@ class ViewComposerServiceProvider extends ServiceProvider {
 				$view->with('show_groups_link', false);
 				$view->with('show_shared_link', false);
 				$view->with('show_search_link', false);
+				$view->with('show_projects_link', false);
 			}
 
 		});

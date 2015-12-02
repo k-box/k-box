@@ -14,7 +14,7 @@ storage-statistics
 @section('widget_content')
 
 <div class="document">
-
+	
 @foreach($storage_status['document_categories'] as $key => $values)
 
 	@if($values['total'] > 0)

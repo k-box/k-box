@@ -17,6 +17,14 @@
 		</li>
 		@endif
 		
+		@if(isset($show_projects_link) && $show_projects_link)
+		<li class="menu-item @if(\Request::is('projects*'))current-item @endif">
+			<a href="{{ route('projects.index') }}">
+				{{trans('projects.page_title')}}
+			</a>
+		</li>
+		@endif
+		
 		@if(isset($show_doc_link) && isset($show_search_link) && $show_search_link && !$show_doc_link)
 		<li class="menu-item @if(\Request::is('document*'))current-item @endif">
 			<a href="{{ route('documents.starred.index') }}">

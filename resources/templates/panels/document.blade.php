@@ -207,8 +207,11 @@
 			</div>
 			<div class="nine colums">
 				
-				{{$item->institution->name}}
-
+				@if(!is_null($item->owner) && !is_null($item->owner->getInstitution()))
+					{{$item->owner->institution->name}}
+		        @else
+					{{$item->institution->name}}
+				@endif
 			</div>
 		</div>
 		<div class="row">

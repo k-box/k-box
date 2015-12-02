@@ -114,6 +114,16 @@ return array(
 		'update' => array(KlinkDMS\Capability::MANAGE_PEOPLE_GROUPS, KlinkDMS\Capability::MANAGE_PERSONAL_PEOPLE_GROUPS),
 		'destroy' => array(KlinkDMS\Capability::MANAGE_PEOPLE_GROUPS, KlinkDMS\Capability::MANAGE_PERSONAL_PEOPLE_GROUPS),
 	),
+	
+	'projects' => array(
+		'index' => KlinkDMS\Capability::$QUALITY_CONTENT_MANAGER,
+		'create' => KlinkDMS\Capability::$QUALITY_CONTENT_MANAGER,
+		'store' => KlinkDMS\Capability::$QUALITY_CONTENT_MANAGER,
+		'show' => KlinkDMS\Capability::$QUALITY_CONTENT_MANAGER,
+		'edit' => KlinkDMS\Capability::$QUALITY_CONTENT_MANAGER,
+		'update' => KlinkDMS\Capability::$QUALITY_CONTENT_MANAGER,
+		'destroy' => KlinkDMS\Capability::$QUALITY_CONTENT_MANAGER,
+	),
 
 	'import' => KlinkDMS\Capability::IMPORT_DOCUMENTS,
    	'import-refresh' => KlinkDMS\Capability::IMPORT_DOCUMENTS,
@@ -170,7 +180,17 @@ return array(
 			'update' => KlinkDMS\Capability::MANAGE_USERS,
 			'destroy' => KlinkDMS\Capability::MANAGE_USERS,
 		),
-
+		
+		'institutions' => array(
+			'index' => KlinkDMS\Capability::MANAGE_DMS,
+			'create' => KlinkDMS\Capability::MANAGE_DMS,
+			'store' => KlinkDMS\Capability::MANAGE_DMS,
+			'show' => KlinkDMS\Capability::MANAGE_DMS,
+			'edit' => KlinkDMS\Capability::MANAGE_DMS,
+			'update' => KlinkDMS\Capability::MANAGE_DMS,
+			'destroy' => KlinkDMS\Capability::MANAGE_DMS,
+		),
+		
 		'settings' => array(
 			'index' => KlinkDMS\Capability::MANAGE_DMS,
 			'create' => KlinkDMS\Capability::MANAGE_DMS,
@@ -180,7 +200,6 @@ return array(
 			'update' => KlinkDMS\Capability::MANAGE_DMS,
 			'destroy' => KlinkDMS\Capability::MANAGE_DMS,
 		),
-
 	),
 
  );

@@ -130,13 +130,23 @@
 // Colors -----------------------
 
 @text-color: 				      #222; // the body text default color
-@header-text-color:			  #fff;
+
+
 
 @background-color:			  lighten(#F2F2F2, 4%);
-@darken-background-color:	#E6E6E6;
-@accent-color: 				    #283593; //the base accent color
+@darken-background-color:	darken(#E6E6E6, 2%);
+@accent-color: 				    #4d648d; //the base accent color
 @darken-accent-color:		  darken(@accent-color, 8%);
-@highlight-color:			    #448AFF; // used for highlights some parts, like and undrline below a selected menu
+@highlight-color:			    #283655; // used for highlights some parts, like and undrline below a selected menu
+
+
+// header colors
+
+@header-background-color: @background-color;
+@header-text-color:			  #222;
+
+@sub-header-background-color: @accent-color;
+@sub-header-text-color:			  #fff;
 
 @plate-color: #E4F1FE;
 

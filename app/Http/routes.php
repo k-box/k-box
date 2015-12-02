@@ -55,6 +55,8 @@ Route::resource('administration/users', 'Administration\UserAdministrationContro
 
 Route::resource('administration/messages', 'Administration\MessagingController', ['only' => ['create', 'store']]);
 
+Route::resource('administration/institutions', 'Administration\InstitutionsController');
+
 Route::controller('administration/network', 'Administration\NetworkAdministrationController', [
      'getIndex' => 'administration.network.index',
 ]);
@@ -114,7 +116,7 @@ Route::get('documents/{institution}/{local_id}', [
 Route::get('documents/{visibility}', [ 
         'uses' => 'Document\DocumentsController@index',
         'as' => 'documents.visibility',
-    ])->where(['visibility' => '(public|private)']);
+    ])->where(['visibility' => '(public|private|personal)']);
 
 Route::put('documents/import/clearcompleted',
   [ 
@@ -175,6 +177,8 @@ Route::resource('profile', 'UserProfileController', ['only' => ['index', 'store'
 
 
 Route::resource('people', 'People\PeopleGroupsController');
+
+Route::resource('projects', 'Projects\ProjectsController');
 
 
 

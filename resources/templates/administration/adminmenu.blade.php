@@ -10,6 +10,15 @@
 			<span class="title">{{trans('administration.menu.accounts')}}</span>
 		</a>
 	</li>
+	
+	<li>
+		<a href="{{ route('administration.institutions.index') }}" class="block @if(\Request::is('*institutions')) current @endif">
+			<span class="icon">
+				<span class="icon-action-black icon-action-black-ic_account_balance_black_24dp"></span>
+			</span>
+			<span class="title">{{trans('administration.menu.institutions')}}</span>
+		</a>
+	</li>
 
 	<li><a href="{{ route('administration.languages.index') }}" class="block @if(\Request::is('*languages')) current @endif">
 			<span class="icon">

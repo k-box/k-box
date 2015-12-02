@@ -9,6 +9,14 @@
 @section('action-menu')
 
 
+<!--<div class="action-group">
+    <a href="{{ route('administration.institutions.create') }}" class="button">
+        <span class="btn-icon icon-content-white icon-content-white-ic_add_circle_outline_white_24dp"></span>{{trans('administration.institutions.create_institutions_btn')}}
+    </a>
+    
+</div>-->
+
+
 @stop
 
 @section('content')

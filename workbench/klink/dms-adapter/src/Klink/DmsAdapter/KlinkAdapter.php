@@ -131,7 +131,7 @@ class KlinkAdapter
 
 				\Log::error('Error get Institution from K-Link', array('context' => 'KlinkAdapter::getInstitution', 'param' => $klink_id, 'exception' => $e));
 
-				return $klink_id;
+				return null;
 			}
 		}
 
@@ -159,9 +159,8 @@ class KlinkAdapter
 	 * @param  array  $columns [description]
 	 * @return [type]          [description]
 	 */
-	public function getInstitutions($columns = array('*'))
+	public function getInstitutions($columns = array('*'), $forceSync = false)
 	{
-
 		$cached = Institution::all($columns);
 		
 		$connection = $this->connection;
@@ -197,6 +196,17 @@ class KlinkAdapter
 		
 		return $cached;
 
+	}
+	
+	/**
+		Save the institution details on the Core
+	*/
+	public function saveInstitution(Institution $institution){
+		$this->connection->saveInstitution($institution->toKlinkInstitutionDetails());
+	}
+	
+	public function deleteInstitution(Institution $institution){
+		$this->connection->deleteInstitution($institution->klink_id);
 	}
 
 	/**

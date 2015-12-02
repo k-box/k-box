@@ -9,8 +9,11 @@ use KlinkDMS\Option;
 use KlinkDMS\User;
 use KlinkDMS\Capability;
 use KlinkDMS\DocumentDescriptor;
+use KlinkDMS\Traits\Searchable;
 
 class DmsSyncCommand extends Command {
+	
+	use Searchable;
 
 	/**
 	 * The console command name.
@@ -27,19 +30,16 @@ class DmsSyncCommand extends Command {
 	protected $description = 'Performs a synchronization of the documents from the DMS to the Core. In other words if a document is not found on the core will be added, to force a global reindex use dms:reindex.';
 
 	private $service = null;
-	
-	private $search = null;
 
 	/**
 	 * Create a new command instance.
 	 *
 	 * @return void
 	 */
-	public function __construct(\Klink\DmsDocuments\DocumentsService $adapterService, \Klink\DmsSearch\SearchService $searchService)
+	public function __construct(\Klink\DmsDocuments\DocumentsService $adapterService)
 	{
 		parent::__construct();
 		$this->service = $adapterService;
-		$this->search = $searchService;
 	}
 
 	/**
@@ -61,24 +61,32 @@ class DmsSyncCommand extends Command {
 		$count_local_private_id_set = count($local_private_id_set);
 		$count_local_public_id_set = count($local_public_id_set);
 		
+		$total_private_on_core = $this->service->getDocumentsCount('private');
+		
 		if($debug){
 			$this->line($count_local_private_id_set . ' local private documents');
 		}
 		
 		$facets_private = \KlinkFacetsBuilder::create()
-			->institution(\Config::get('dms.institutionID'))
+			// ->institution(\Config::get('dms.institutionID'))
 			->localDocumentId(implode(',', $local_private_id_set))->build();
 		
-		$test = $this->search->search( '*', 0,  $count_local_private_id_set, 'private', $facets_private );
+		$request = $this->searchRequestCreate()->visibility('private')->limit($total_private_on_core);
+		
+		$test = $this->search($request, null, function($r){
+			return $r->getHash();
+		});
+		
+		// $test = $this->search->search( '*', 0,  $count_local_private_id_set, 'private', $facets_private );
 			
-		$mapped = [];
-		if(!is_null($test) && $test->getTotalResults() > 0){
+		// $mapped = [];
+		if(!is_null($test) && $test->total() > 0){
 			
-			$this->line('> '. $test->getTotalResults() .' on the core');
+			$this->line('> '. $test->total() .' on the core');
 			
-			$mapped = array_map(function($r){
-				return $r->hash;
-			}, $test->getResults());
+			// $mapped = array_map(function($r){
+			// 	return $r->hash;
+			// }, $test->getResults());
 		}
 		else {
 			//no results or error
@@ -87,7 +95,7 @@ class DmsSyncCommand extends Command {
 			}
 		}
 		
-		$hash_diff = array_values(array_diff($local_private_hash_set, $mapped));
+		$hash_diff = array_values(array_diff($local_private_hash_set, $test->items()));
 		
 		$count_hash_diff = count($hash_diff);
 		

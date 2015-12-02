@@ -52,18 +52,45 @@ class GroupsComposer {
             
             $can_personal = $auth_user->can(Capability::MANAGE_OWN_GROUPS);
             
-            $can_see_private = $auth_user->can(Capability::MANAGE_INSTITUTION_GROUPS);
+            $can_see_private = $auth_user->can(Capability::MANAGE_PROJECT_COLLECTIONS);
             
-            $can_edit_private = $auth_user->can(Capability::MANAGE_INSTITUTION_GROUPS);
+            $can_edit_private = $auth_user->can(Capability::MANAGE_PROJECT_COLLECTIONS);
             
             $view->with('user_can_edit_personal_groups', $can_personal);
             $view->with('user_can_see_private_groups', $can_see_private);
             $view->with('user_can_edit_private_groups', $can_edit_private);
 
             if($can_see_private){
-                $private_groups = \Cache::remember('dms_institution_collections', 60, function(){
-                    return Group::getTreeWhere('is_private', '=', false);
-                });
+
+                if($auth_user->isDMSManager()){
+                    $private_groups = \Cache::remember('dms_project_collections', 60, function() {
+                    
+                        return Group::getTreeWhere('is_private', '=', false);
+                    });
+                }
+                else if($auth_user->isProjectManager()){
+                    
+                    $private_groups = \Cache::remember('dms_project_collections-' . $auth_user->id, 60, function() use($auth_user) {
+                    
+                        $roots_project_of_user = $auth_user->managedProjects()->with('collection')->get()->fetch('collection.id')->all();
+                    
+                        return Group::getTreeWhere('is_private', '=', false)->filter(function($item) use($roots_project_of_user) {
+                            
+                          return in_array($item->id, $roots_project_of_user);  
+                        });
+                    });
+                }
+                else {
+                    $private_groups = \Cache::remember('dms_project_collections-' . $auth_user->id, 60, function()  use($auth_user) {
+                        
+                        $roots_project_of_user = $auth_user->projects()->with('collection')->get()->fetch('collection.id')->all();
+                    
+                        return Group::getTreeWhere('is_private', '=', false)->filter(function($item) use($roots_project_of_user) {
+                            
+                          return in_array($item->id, $roots_project_of_user);  
+                        });
+                    });
+                }
                 
                 $view->with('private_groups', $private_groups);
             }
@@ -120,7 +147,7 @@ class GroupsComposer {
 
             
             $view->with('user_can_edit_private_groups', $auth_user->can(Capability::MANAGE_OWN_GROUPS));
-            $view->with('user_can_edit_public_groups', $auth_user->can(Capability::MANAGE_INSTITUTION_GROUPS));
+            $view->with('user_can_edit_public_groups', $auth_user->can(Capability::MANAGE_PROJECT_COLLECTIONS));
             
         }
     }

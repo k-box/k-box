@@ -41,7 +41,7 @@ class DmsSearchServiceProvider extends ServiceProvider {
 	 */
 	public function provides()
 	{
-		return ['\Klink\DmsSearch\SearchService', '\Klink\DmsSearch\EnhancedSearchResults'];
+		return ['\Klink\DmsSearch\SearchService', '\Klink\DmsSearch\SearchRequest', '\Klink\DmsSearch\EnhancedSearchResults'];
 	}
 
 }

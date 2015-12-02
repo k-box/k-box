@@ -1,11 +1,12 @@
 <?php namespace KlinkDMS\Http\Controllers\Document;
 
-use KlinkDMS\Http\Requests;
+use Illuminate\Http\Request;
 use KlinkDMS\Http\Controllers\Controller;
 use KlinkDMS\DocumentDescriptor;
 use KlinkDMS\Shared;
 use KlinkDMS\Group;
 use KlinkDMS\Capability;
+use KlinkDMS\Project;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Contracts\Auth\Guard as AuthGuard;
 use KlinkDMS\Http\Requests\DocumentAddRequest;
@@ -18,8 +19,11 @@ use Carbon\Carbon;
 use KlinkDMS\Pagination\LengthAwarePaginator as Paginator;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use KlinkDMS\Traits\Searchable;
 
 class DocumentsController extends Controller {
+	
+	use Searchable;
 
 	/*
 	|--------------------------------------------------------------------------
@@ -36,14 +40,14 @@ class DocumentsController extends Controller {
 	 */
 	private $service = null;
 	
-	private $searchService = null;
+	// private $searchService = null;
 
 	/**
 	 * Create a new controller instance.
 	 *
 	 * @return void
 	 */
-	public function __construct(\Klink\DmsDocuments\DocumentsService $adapterService, \Klink\DmsSearch\SearchService $searchService)
+	public function __construct(\Klink\DmsDocuments\DocumentsService $adapterService/*, \Klink\DmsSearch\SearchService $searchService*/)
 	{
             
 		$this->middleware('auth', ['except' => ['show', 'showByKlinkId']]);
@@ -52,7 +56,7 @@ class DocumentsController extends Controller {
 
 		$this->service = $adapterService;
 		
-		$this->searchService = $searchService;
+		// $this->searchService = $searchService;
 	}
 
 	/**
@@ -60,70 +64,83 @@ class DocumentsController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function index(AuthGuard $auth, \Request $request, $visibility = 'private' )
+	public function index(AuthGuard $auth, Request $request, $visibility = 'private' )
 	{
 		
-		// check if there are search parameters
+		$user = $auth->user();
+
+		if(!$user->isDMSManager() && $visibility==='private'){
+			$visibility = 'personal';
+		}
 		
 		$filtered_ids = false;
 		$pagination = false;
 		$showing_only_local_public = false;
 		
+		$is_personal = $visibility === 'personal' ? true : false;
+		if($is_personal) {
+			$visibility = 'private';
+		}
+
+		$req = $this->searchRequestCreate($request);
 		
-		$results = $this->searchService->searchAction($request, $visibility, function(){
+		$req->visibility($visibility);
+		
+		$results = $this->search($req, function($_request) use($is_personal, $user) {
 			
-			return false;
+			if($_request->visibility === \KlinkVisibilityType::KLINK_PUBLIC){
+				// if public => return direct search because we want them to see the public network
+				return false;
+			}
 			
-		}, function($filtering, $limit, $page, $total) use ($visibility, $showing_only_local_public){
+			if($is_personal) {
+				
+				$personal_doc_id = DocumentDescriptor::local()->private()->ofUser($user->id)->get(array('local_document_id'))->fetch('local_document_id')->all();
+				
+				$_request->in($personal_doc_id);
+
+			}
 			
-			if(!$filtering){			
+			if($_request->isPageRequested() && !$_request->isSearchRequested()){
 				$all_query = DocumentDescriptor::local();
 				
+				$_request->setForceFacetsRequest();
 			
-				if(!is_null($visibility) && $visibility === \KlinkVisibilityType::KLINK_PRIVATE){
+				if($_request->visibility === \KlinkVisibilityType::KLINK_PRIVATE){
 					$all_query = $all_query->private();
+					if($is_personal){
+						$all_query = $all_query->ofUser($user->id);
+					}
 				}
 				
-				if(!is_null($visibility) && $visibility === \KlinkVisibilityType::KLINK_PUBLIC){					
-					return $this->searchService->search( '*', $limit * ($page - 1), $limit, $visibility,  \KlinkFacetsBuilder::create()->institution(0)->documentType(0)->language(0)->build());
-				}
 				
 				
-			}
-			else {
-				if(!is_null($visibility) && $visibility === \KlinkVisibilityType::KLINK_PUBLIC){
-					
-					$facets = property_exists($filtering, 'facet_params') ? $filtering->facet_params : \KlinkFacetsBuilder::create()->institution(0)->documentType(0)->language(0)->build();
-					
-					return $this->searchService->search( $filtering->term , $limit * ($page - 1), $limit, $visibility,  $facets);
-					
-				}
-				else {
-					$all_query = DocumentDescriptor::whereIn('hash', $filtering->ids);
-				}
+				return $all_query->orderBy('title', 'ASC');
 			}
 			
-			$all_query = $all_query->orderBy('title', 'ASC');
-			
-			return $all_query->forPage($page, $limit)->get();
 			
 			
-		}, true);
-		
+			
+			return false; // force to execute a search on the core instead on the database
+		}, function($res_item){
+			// TODO: it only works for PRIVATE and PERSONAL
+			return DocumentDescriptor::where('local_document_id', $res_item->getLocalDocumentID())->first();
+		});
 
 		// Adding user's root groups and institution level groups to the result
 		// $groups = Group::roots()->private($auth->user()->id)->orPublic()->get();
+
 		return view('documents.documents', [
-			'pagetitle' => (is_null($visibility) ? '': trans('documents.menu.' . $visibility) .' ') . trans('documents.page_title'), 
-			'documents' => $results->documents, /*'collections' => $groups,*/ 
+			'pagetitle' => (is_null($visibility) ? '': trans('documents.menu.' . ($is_personal ? 'personal' : $visibility)) .' ') . trans('documents.page_title'), 
+			'documents' => $results->getCollection(), /*'collections' => $groups,*/ 
 			'context' => is_null($visibility) ? 'all' : $visibility,
-			'pagination' => $results->pagination,
-			'search_terms' => $results->term,
-			'facets' => $results->facets,
-			'filters' => $results->filters,
-			'current_visibility' => $visibility,
+			'pagination' => $results,
+			'search_terms' => $req->term,
+			'facets' => $results->facets(),
+			'filters' => $results->filters(),
+			'current_visibility' => $is_personal ? 'private' : $visibility,
 			'hint' => $showing_only_local_public ? trans('documents.messages.local_public_only') : false,
-			'filter' => $visibility]);
+			'filter' => $is_personal ? 'personal' : $visibility]);
 	}
 	
 	public function recent(AuthGuard $auth, \Request $request)
@@ -238,7 +255,7 @@ class DocumentsController extends Controller {
 	{
 		
 		$user = $auth->user();
-		
+
 		$all = $this->service->getUserTrash($user)->all();		
 
 		return view('documents.trash', [
@@ -265,10 +282,10 @@ class DocumentsController extends Controller {
 		return view('documents.documents', ['pagetitle' => trans('documents.menu.not_indexed'), 'documents' => $all, 'context' => 'notindexed', 'filter' => trans('documents.menu.not_indexed'), 'empty_message' => 'All the documents has been correctly added to K-Link.']);
 	}
 
-	public function sharedWithMe(AuthGuard $auth)
+	public function sharedWithMe(AuthGuard $auth, Request $request)
 	{
 		
-		$with_me = null; $by_me = null;
+		// $with_me = null; /*$by_me = null;*/
 		
 		$auth_user = $auth->user();
 		
@@ -278,32 +295,61 @@ class DocumentsController extends Controller {
             
         $can_see_share = $auth_user->can(Capability::RECEIVE_AND_SEE_SHARE);
 		
-		if($can_see_share){
+		
+		$req = $this->searchRequestCreate($request);
+		
+		$req->visibility('private');
+		
+		$with_me = $this->search($req, function($_request) use($auth_user, $can_share_with_personal, $can_share_with_private, $can_see_share) {
+			
+			if(!$can_see_share){
+				return new Collection();
+			}
+			
+			
 			
 			$group_ids = $auth_user->involvedingroups()->get(array('peoplegroup_id'))->fetch('peoplegroup_id')->toArray();
-			
+					
 			$all_in_groups = Shared::sharedWithGroups($group_ids)->get();
-		
+				
 			$all_single = Shared::sharedWithMe($auth_user)->with(array('shareable', 'sharedwith'))->get();
-	
-			$with_me = $all_single->merge($all_in_groups)->unique();
 			
-		}
-		
-		if($can_share_with_private || $can_share_with_personal){
-
-			$by_me = Shared::sharedByMe($auth->user())->with(array('shareable', 'sharedwith'))->get();
-		
-		}
+			$all_shared = $all_single->merge($all_in_groups)->unique();
+			
+			$shared_docs = $all_shared->fetch('shareable.local_document_id')->all();
+			
+			$_request->in($shared_docs);
+			
+			if($_request->isPageRequested()){
+				
+				$_request->setForceFacetsRequest();
+				
+				return $all_shared;
+				
+			}
+			
+			
+			
+			return false; // force to execute a search on the core instead on the database
+		}, function($res_item){
+			// from KlinkSearchResultItem to Shared instance
+			return DocumentDescriptor::where('local_document_id', $res_item->localDocumentID)->first();
+		});
 
 		return view('documents.sharedwithme', [
 			'pagetitle' => trans('documents.menu.shared'), 
 			'shared_with_me' => $with_me, 
-			'shared_by_me' => $by_me, 
+			'current_visibility' => 'private',
+			// 'shared_by_me' => $by_me, 
 			'can_share' => $can_share_with_personal || $can_share_with_private,
-			'context' => 'shared', 
+			'context' => 'shared',
 			'filter' => trans('documents.menu.shared'), 
+			'pagination' => $with_me,
+			'search_terms' => $req->term,
+			'facets' => $with_me->facets(),
+			'filters' => $with_me->filters(),
 			'empty_message' => trans('share.empty_message')]);
+		
 	}
 
 	/**
@@ -317,6 +363,9 @@ class DocumentsController extends Controller {
 		$user = $auth->user();
 
 		$visibility = 'private';
+		if(!$user->isDMSManager()){
+			$visibility = 'personal';
+		}
 		
 		return view('documents.create', [
 				'pagetitle' => trans('documents.create.page_title'),  
@@ -368,8 +417,8 @@ class DocumentsController extends Controller {
 
 			    
 			}
-			else if($request->hasFile('document') ){
-				
+			else if($request->hasFile('document') && !$request->file('document')->isValid()){
+
 				if ($request->wantsJson()) {
 					return new JsonResponse(array('error' => trans('errors.upload.simple', ['description' => $request->file('document')->getErrorMessage()])), 400);
 				}
@@ -503,7 +552,7 @@ class DocumentsController extends Controller {
 					'document' => $document,
 					'file' => $document->file,
 					'can_make_public' => !$document->trashed() && $user->can(Capability::CHANGE_DOCUMENT_VISIBILITY),
-					'can_edit_groups' => !$document->trashed() && $user->can(array(Capability::MANAGE_OWN_GROUPS, Capability::MANAGE_INSTITUTION_GROUPS)),
+					'can_edit_groups' => !$document->trashed() && $user->can(array(Capability::MANAGE_OWN_GROUPS, Capability::MANAGE_PROJECT_COLLECTIONS)),
 					'can_upload_file' => !$document->trashed() && $user->can(Capability::UPLOAD_DOCUMENTS),
 					'can_edit_document' => !$document->trashed() && $user->can(array(Capability::EDIT_DOCUMENT, Capability::DELETE_DOCUMENT)),
 					'versions' => !is_null($document->file) ? $document->file->revisionOfRecursive()->get() : new Collection,

@@ -22,7 +22,7 @@ return [
 		'private' => 'Личные',
 		'shared' => 'Разделяемое',
 		'is_public' => 'Общие Документы',
-		'is_public_description' => 'This document is publicly available to other Institution in the K-Link Network',
+		'is_public_description' => 'Этот документ доступен для других Институтов участников К-Линк',
 		'trashed' => 'Этот документ находится в корзине',
 
 	),
@@ -53,6 +53,12 @@ return [
 		// no apples | have one apple | have %count% apples | have %count% apples
 		// 0 | 1-4 | 5+
 		// 21 | 22-24 | 25+
+		/**
+		
+		- If the number is 1, or the number ends in the word 1 (example: 1, 21, 61) (but not 11), then you should use the first case
+		- If the number, or the last digit of the number is 2, 3 or 4, (example: 22, 42, 103, 4) (but not 12, 13 & 14), then you should use the second case
+		- If the number ends in any other digit you should use the 3rd case. All the 'teens'  fit in to this catagory (11, 12, 13, 14, 15,16,17,18,19). Any number ending with 0 (including 0 itself) also fits into this category
+*/
 		'web-page' => 'веб страница|веб страницы|веб страниц',
 		'document' => 'документ|документа|документов',  
 		'spreadsheet' => 'таблица|таблицы|таблиц',
@@ -120,6 +126,8 @@ return [
 		'page_title' => 'Предварительный просмотр :document',
 		'error' => 'Извините, но мы не смогли загрузить предварительный просмотр ":document".',
 		'not_available' => 'Предварительный  просмотр не возможен для данного документа.',
+		'google_file_disclaimer' => ':document это файл с Google Диска, поэтому мы не можем предварительно показать файл здесь, вам следует открыть его на Google Диске.',
+    	'open_in_google_drive_btn' => 'Открыть в Google Диске',
 	),
 
 	'versions' => array(

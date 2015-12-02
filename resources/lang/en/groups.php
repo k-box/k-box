@@ -13,8 +13,10 @@ return [
 	'collections' => array(
 		'title' 		=> 'Collections',
 		'personal_title' => 'My Collections',
-		'private_title' => 'Institution Collections',
+		'private_title' => 'Projects',
 		'description'   => 'Collection helps organize your documents.',
+		
+		'empty_private_msg' => 'No Projects at the moment.',
 
 	),
 
@@ -41,8 +43,9 @@ return [
 		'collection_name_label' => 'Collection name',
 
 		'parent_label' => 'Parent Collection',
+		'parent_project_label' => 'In the Project Collection',
 
-		'make_public' => 'Make this collection visible to users of the Institution.',
+		'make_public' => 'Make this collection visible to users of the Project.',
 		'make_private' => 'Make this Collection personal',
 	),
 	

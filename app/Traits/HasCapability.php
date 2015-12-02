@@ -109,6 +109,11 @@ trait HasCapability
         return $this->canAll(Capability::$CONTENT_MANAGER);
     }
 
+    public function isPartner()
+    {
+        return $this->canAll(Capability::$PARTNER) && !$this->can(Capability::MANAGE_PEOPLE_GROUPS);
+    }
+
     /**
      * Check if the user has full administrative powers
      * 
@@ -131,6 +136,19 @@ trait HasCapability
     public function isDMSManager()
     {
         return $this->canAll(Capability::$DMS_MASTER);
+    }
+    
+    
+    /**
+     * Check if the user is a Project Manager
+     * 
+     * Test if the user has all the @see \KlinkDMS\Capability::$DMS_MASTER capabilities
+     * 
+     * @return boolean true if the user is a project manager, false otherwise
+     */
+    public function isProjectManager()
+    {
+        return $this->canAll(Capability::$PROJECT_MANAGER);
     }
 
 

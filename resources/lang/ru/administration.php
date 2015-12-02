@@ -22,6 +22,8 @@ return [
 		'mail'=>'Почта',
 		'update'=>'Обновление и восстановление',
 		'maintenance'=>'Обслуживание и События',
+		'institutions'=>'Организации',
+    	'settings'=>'Настройки',
 
 	),
 
@@ -200,6 +202,15 @@ return [
 		'queue_runner_not_running_description' => 'The jobs runner is not running so Mail Messages and Document Indexing may not work as expected.',
 		
 		'logs_widget_title' => 'Latest Log entries', 
+	),
+	
+	'settings' => array(
+		'viewing_section' => 'Просмотр',
+		'viewing_section_help' => 'Вы можете настроить Вид просмотра документов для пользователя.',
+		'save_btn' => 'Сохранить настройки',
+		'saved' => 'Настройки были обнавлены. Пользователи смогут увидеть обновления после перезагрузки страницы.',
+		'save_error' => 'Данные настройки не могут быть сохранены. :error',
+		'map_visualization_chk' => 'Включить вид Карта',
 	),
 
 ];

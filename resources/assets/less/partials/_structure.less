@@ -78,13 +78,26 @@ table {
 		width: 100%;
 		display: inline-block;
 	}
+	
 }
 
+.logo.white {
+
+	.modsvg & {
+		background: transparent url('../../images/klink_dms_logo_white.svg') no-repeat center center;
+		background-size: 34px 34px;
+	}
+
+	.no-modsvg & {
+		background: transparent url('../../images/klink_dms_logo_white.png') no-repeat center center;
+		background-size: 34px 34px;
+	}
+}
 
 .header {
 	
 	
-	color: #fff;
+	color: @header-text-color;
 
 	.box-sizing(border-box);
 
@@ -135,7 +148,7 @@ body {
 
 	position: relative;
 
-	background-color: @accent-color;
+	background-color: @header-background-color;
 	color: @header-text-color;
 
 	& > div {
@@ -148,9 +161,9 @@ body {
 
 .sub-header {
 
-	color: #fff;
+	color: @sub-header-text-color;
 
-	background-color: @darken-accent-color;
+	background-color: @sub-header-background-color;
 
 	// margin: 0 -@base-padding -@base-padding/2;
 	padding: 0px @base-padding;
@@ -342,11 +355,11 @@ body {
 
 	a {
 		text-decoration: none;
-		color: fade(#fff, 80%);
+		color: fade(@header-text-color, 80%);
 		.h6-typography;
 
 		&:hover {
-			color: #fff;
+			color: @header-text-color;
 		}
 
 	}
@@ -428,6 +441,7 @@ body {
 	.footer {
 		color: lighten(desaturate(@accent-color, 30%), 40%);
 		text-align: center;
+		padding: 0;
 
 
 	}

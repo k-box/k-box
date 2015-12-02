@@ -121,6 +121,7 @@ class BulkController extends Controller {
 			$status = array('status' => 'ok', 'message' =>  $message);
 
 
+			\Cache::flush();
 
 
 			if ($request->ajax() && $request->wantsJson())
@@ -178,6 +179,12 @@ class BulkController extends Controller {
 		if($force && !$user->can(Capability::CLEAN_TRASH)){
 			\Log::warning('User tried to force delete a group without permission', ['user' => $user->id, 'document' => $id]);
 			throw new ForbiddenException(trans('documents.messages.delete_force_forbidden'), 2);
+		}
+			
+		if(!is_null($group->project)){
+			
+			throw new ForbiddenException(trans('projects.errors.prevent_delete_description'));
+			
 		}
 		
 		\Log::info('Deleting group', ['params' => $id]);

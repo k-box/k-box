@@ -9,6 +9,7 @@ use KlinkDMS\GroupType;
 use KlinkDMS\Capability;
 use KlinkDMS\Import;
 use KlinkDMS\Option;
+use KlinkDMS\Project;
 use KlinkDMS\Institution;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\Storage;
@@ -137,6 +138,90 @@ class DocumentsService {
 		
 	}
 
+	/**
+	 * Proxy to the adapter->getConnection()->addDocument call to catch indexing error and operating a fallback retry as partially supported file.
+	 *
+	 * @return KlinkDocumentDescriptor the descriptor returned by the K-Link Core
+	 */
+	private function addDocumentProxy(DocumentDescriptor $descr, File $file){
+		
+		$klink_descriptor = $descr->toKlinkDocumentDescriptor();
+		
+		$document = new \KlinkDocument($klink_descriptor, $this->getFileContentForIndexing($file));
+		
+		try{
+			
+			$returned_descriptor = $this->adapter->getConnection()->addDocument( $document );
+
+			\Log::info('Core indexDocument returned descriptor for ' . $descr->id, array('context' => 'DocumentsService', 'response' => $returned_descriptor));
+			
+			return $returned_descriptor;
+
+		}catch(\KlinkException $kex){
+
+			// try again, if fails again throw error
+			
+			\Log::warning('Index document fallback used for document ' . $descr->id, array('cause' => $kex));
+			
+			try{
+				
+				$document = new \KlinkDocument($klink_descriptor, !is_null($descr->abstract) && !is_null($descr->abstract) ? $descr->abstract : $descr->title);
+				
+				$returned_descriptor = $this->adapter->getConnection()->addDocument( $document );
+
+				\Log::info('Core indexDocument returned descriptor for ' . $descr->id, array('context' => 'DocumentsService', 'response' => $returned_descriptor));
+				
+				return $returned_descriptor;
+				
+			}catch(\KlinkException $kex_internal){
+				
+				throw $kex_internal;
+			
+			}
+			
+		}
+	}
+	
+	private function updateDocumentProxy(DocumentDescriptor $descr, File $file, $visibility){
+		
+		$klink_descriptor = $descr->toKlinkDocumentDescriptor($visibility == \KlinkVisibilityType::KLINK_PUBLIC);
+		
+		$document = new \KlinkDocument($klink_descriptor, $this->getFileContentForIndexing($file));
+		
+		try{
+			
+			$returned_descriptor = $this->adapter->getConnection()->updateDocument( $document );
+
+			\Log::info('Core indexDocument returned descriptor for ' . $descr->id, array('context' => 'DocumentsService', 'response' => $returned_descriptor));
+			
+			return $returned_descriptor;
+
+		}catch(\KlinkException $kex){
+
+			// try again, if fails again throw error
+			
+			\Log::warning('Index document fallback used for document ' . $descr->id, array('cause' => $kex));
+			
+			try{
+				
+				$document = new \KlinkDocument($klink_descriptor, !is_null($descr->abstract) && !is_null($descr->abstract) ? $descr->abstract : $descr->title);
+				
+				$returned_descriptor = $this->adapter->getConnection()->updateDocument( $document );
+
+				\Log::info('Core indexDocument returned descriptor for ' . $descr->id, array('context' => 'DocumentsService', 'response' => $returned_descriptor));
+				
+				return $returned_descriptor;
+				
+			}catch(\KlinkException $kex_internal){
+				
+				throw $kex_internal;
+			
+			}
+			
+		}
+
+	}
+
 
 	/**
 	 * Index a previously uploaded file (giving the \KlinkDMS\File model instance) into K-Link. At the end of the indexing process a DocumentDescriptor will be created, persisted and returned to the caller.
@@ -186,7 +271,7 @@ class DocumentsService {
             'document_type' => $document_type,
             'user_owner' => $file->user->name . ' <' . $file->user->email . '>',
             'user_uploader' => $file->user->name . ' <' . $file->user->email . '>',
-            'owner_id' => $file->user->id,
+            'owner_id' => $file->user_id,
             'file_id' => $file->id,
             'created_at' => $file->created_at,
             'status' => DocumentDescriptor::STATUS_PENDING
@@ -200,6 +285,11 @@ class DocumentsService {
 
 			$descr->save();
 
+			if(!is_null($owner)){
+				$descr->owner()->associate($owner);
+				$descr->save();
+			}
+
 			// Add the descriptor to the given group
 
 			if(!is_null($group)){
@@ -208,14 +298,7 @@ class DocumentsService {
 
 			}
 
-			$klink_descriptor = $descr->toKlinkDocumentDescriptor();
-
-			$document = new \KlinkDocument($klink_descriptor, $this->getFileContentForIndexing($file));
-
-
-		
-			
-			$returned_descriptor = $this->adapter->getConnection()->addDocument( $document );
+			$returned_descriptor = $this->addDocumentProxy($descr, $file);
 
 			\Log::info('Core indexDocument', array('context' => 'DocumentsService', 'response' => $returned_descriptor));
 
@@ -228,8 +311,6 @@ class DocumentsService {
 			\Cache::flush();
 
 			return $descr;
-
-			
 
 		}catch(\InvalidArgumentException $kex){
 
@@ -309,13 +390,9 @@ class DocumentsService {
 			$descriptor->save();
 		}
 
-		$klink_descriptor = $descriptor->toKlinkDocumentDescriptor($visibility == \KlinkVisibilityType::KLINK_PUBLIC);
-
-		$document = new \KlinkDocument($klink_descriptor, $this->getFileContentForIndexing($descriptor->file));
-
 		try{
 			
-			$returned_descriptor = $this->adapter->getConnection()->updateDocument( $document );
+			$returned_descriptor = $this->updateDocumentProxy($descriptor, $descriptor->file, $visibility);
 
 			\Log::info('Core re-indexDocument', array('context' => 'DocumentsService', 'response' => $returned_descriptor));
 
@@ -627,7 +704,7 @@ class DocumentsService {
 	 *
 	 * Rules: 
 	 * - Admin gets everything
-	 * - Institution Admin gets personal trashed docs/collection + trashed docs and collections in institutions collections
+	 * - Project Admin gets personal trashed docs/collection + trashed docs and collections in projects they manage
 	 * - others get personal trashed documents
 	 *
 	 * @param  User           $user       The user
@@ -644,6 +721,10 @@ class DocumentsService {
 			// if I'm not the Admin I can see only my deleted documents
 			$trashed_documents = $trashed_documents->ofUser($user->id);
 		}
+		
+		// TODO: include documents from any users, but are in a Project if the user is a project manager
+
+		// $all = $trashed_documents->get();
 
 		$trashed_collections = new Collection;
 		
@@ -654,11 +735,44 @@ class DocumentsService {
 		}
 		
 		
-		if($user_is_dms_manager || $user->can(Capability::MANAGE_INSTITUTION_GROUPS)){
-			
+		// Get the project collections w.r.t. user capabilities
+		if($user_is_dms_manager){
+			// all possible project collection
 			$public_trashed = Group::onlyTrashed()->public()->get();
 			$trashed_collections = $trashed_collections->merge($public_trashed);
 			
+		}
+		else if($user->isProjectManager()){
+			
+			$projects = Project::with('collection');
+			
+			if(!$user_is_dms_manager){
+				$projects = $projects->managedBy($user->id);
+			}
+			
+			$projects = Project::with(array('collection'))->managedBy($user->id)->get();
+			
+			if($projects->count() > 0){
+				
+				$closure_table = Group::getClosureTable();
+				
+				$project_collections_ids = $projects->fetch('collection.id')->toArray();
+				
+				// get the collection descendants that has the project collection as ancestor
+				$descendants = \DB::table($closure_table->getTable())->
+					whereIn($closure_table->getAncestorColumn(), $project_collections_ids)->
+					whereNotIn($closure_table->getDescendantColumn(), $project_collections_ids)->get(array($closure_table->getDescendantColumn()));
+				
+				$descendants_array = array_fetch($descendants, $closure_table->getDescendantColumn()); 
+				
+				$project_trashed_collections = Group::onlyTrashed()->public()->whereIn('id', $descendants_array)->get();
+				
+				$trashed_collections = $trashed_collections->merge($project_trashed_collections);
+			
+			}
+		}
+		else if($user->can(Capability::MANAGE_PROJECT_COLLECTIONS)){
+			// only show groups that he/she has access
 		}
 
 		$paginator_instance = null;
@@ -666,11 +780,42 @@ class DocumentsService {
 		return new TrashContentResponse($trashed_documents->get(), $trashed_collections, $paginator_instance);
 	}
 
-	
+	/**
+	 * Get the document collections in which the document has been added and to which the user has access to.
+	 * In other words: private collections, project collections that are under a project managed by the user or on which the user has been added to.
+	 *
+	 * @param DocumentDescriptor $document the document to get the collections for
+	 * @param User $user the user, of course
+	 * @return Collection the collection of the Groups
+	 */
+	public function getDocumentCollections(DocumentDescriptor $document, User $user){
+		// get Projects accessible by the user => get collections for the projects
+		// get private collections of the user
+		$project_collections_ids = $user->projects()->with('collection')->get()->merge($user->managedProjects()->with('collection')->get())->fetch('collection.id')->all();
+		
+		// all descendants of $projects
+		$closure_table = Group::getClosureTable();
+		$descendants = \DB::table($closure_table->getTable())->
+					whereIn($closure_table->getAncestorColumn(), $project_collections_ids)->
+					whereNotIn($closure_table->getDescendantColumn(), $project_collections_ids)->get(array($closure_table->getDescendantColumn()));
+					
+		$descendants_array = array_fetch($descendants, $closure_table->getDescendantColumn());
+		
+		$project_collections_ids = array_merge($project_collections_ids, $descendants_array); 
+		
+		$private_groups = $document->groups()->private($user->id)->get();
+		
+		$public_groups = $document->groups()->public()->whereIn('groups.id', $project_collections_ids)->get();
+		
+		
+		return $private_groups->merge($public_groups);
+		
+		//  && $document->groups()->private($auth_user->id)->orPublic()->count() > 0
+	}
 
 	// --- Groups related functions ----------------------------
 
-
+	
 	// group operation are only available for private descriptor so only private descriptors are touched by operation on groups
 
 	/**
@@ -687,7 +832,7 @@ class DocumentsService {
 	public function createGroup(User $user, $name, $color=null, Group $parent = null, $is_private = true, GroupType $type = null)
 	{
 
-		if(!$user->can(Capability::MANAGE_OWN_GROUPS) || (!$is_private && !$user->can(Capability::MANAGE_INSTITUTION_GROUPS)) ){
+		if(!$user->can(Capability::MANAGE_OWN_GROUPS) || (!$is_private && !$user->can(Capability::MANAGE_PROJECT_COLLECTIONS)) ){
 			throw new ForbiddenException("Permission denieded for performing the group creation.");
 		}
 
@@ -811,18 +956,18 @@ class DocumentsService {
 	public function updateGroup(User $user, Group $group, array $details)
 	{
 
-		if(!$group->is_private && !$user->can(Capability::MANAGE_INSTITUTION_GROUPS) ){
-			throw new ForbiddenException("You cannot edit institution level groups.");
+		if(!$group->is_private && !$user->can(Capability::MANAGE_PROJECT_COLLECTIONS) ){
+			throw new ForbiddenException("You cannot edit project collections.");
 		}
 
 		if(!$user->can(Capability::MANAGE_OWN_GROUPS) && $group->user_id != $auth->user()->id ){
-			throw new ForbiddenException("You cannot edit someone else group.");
+			throw new ForbiddenException("You cannot edit someone else collection.");
 		}
 
 		$hasSiblings = $group->hasSiblings();
 
 		if(isset($details['name']) && !empty($details['name']) && $hasSiblings){
-			//check is rename is safe
+			//check if rename is safe
 
 			$group_collection = $group->isRoot() ? Group::getRoots() : $group->getParent()->getChildren();
 
@@ -861,7 +1006,7 @@ class DocumentsService {
 
 		});
 	}
-
+	
 	/**
 	 * Delete a Group.
 	 * The group and all the descendant are marked as delete and the documents contained are only removed from the groups (not deleted)
@@ -869,8 +1014,8 @@ class DocumentsService {
 	public function deleteGroup(User $user, Group $group)
 	{
 
-		if($user->id != $group->user_id && (!$user->can(Capability::MANAGE_OWN_GROUPS) || (!$group->is_private && !$user->can(Capability::MANAGE_INSTITUTION_GROUPS))) ){
-			throw new ForbiddenException("Permission denieded for performing the group deletion.");
+		if($user->id != $group->user_id && (!$user->can(Capability::MANAGE_OWN_GROUPS) || (!$group->is_private && !$user->can(Capability::MANAGE_PROJECT_COLLECTIONS))) ){
+			throw new ForbiddenException("Permission denieded for performing the collection deletion.");
 		}
 
 		$that = $this;
@@ -1103,8 +1248,8 @@ class DocumentsService {
 			return true;
 		}
 		
-		if(!$user->can(Capability::MANAGE_INSTITUTION_GROUPS) ){
-			throw new ForbiddenException("Permission denieded for making the group public.");
+		if(!$user->can(Capability::MANAGE_PROJECT_COLLECTIONS) ){
+			throw new ForbiddenException("Permission denieded for making the collection a project collection.");
 		}
 
 		// change flag
@@ -1133,8 +1278,8 @@ class DocumentsService {
 			return true;
 		}
 
-		if(!$user->can(Capability::MANAGE_INSTITUTION_GROUPS) ){
-			throw new ForbiddenException("Permission denieded for making the group public.");
+		if(!$user->can(Capability::MANAGE_PROJECT_COLLECTIONS) ){
+			throw new ForbiddenException("Permission denieded for making the project collection a personal collection.");
 		}
 		
 		// change flag
@@ -1183,9 +1328,9 @@ class DocumentsService {
 	 */
 	public function addDocumentsToGroup(User $user, Collection $documents, Group $group /*, $docTitles = null*/, $perform_reindex = true)
 	{
-		if( (!$group->is_private && !$user->can(Capability::MANAGE_INSTITUTION_GROUPS)) ||
+		if( (!$group->is_private && !$user->can(Capability::MANAGE_PROJECT_COLLECTIONS)) ||
 			(!$user->can(Capability::MANAGE_OWN_GROUPS) && ($user->id != $group->user_id)) ){
-			throw new ForbiddenException("Permission denieded for adding the document to the group.");
+			throw new ForbiddenException("Permission denieded for adding the document to the collection.");
 		}
 
 		$group->documents()->saveMany($documents->all()); // documents must be a collection of DocumentDescriptors
@@ -1197,9 +1342,9 @@ class DocumentsService {
 
 	public function addDocumentToGroup(User $user, DocumentDescriptor $document, Group $group /*, $docTitles = null*/, $perform_reindex = true)
 	{
-		if( (!$group->is_private && !$user->can(Capability::MANAGE_INSTITUTION_GROUPS)) ||
+		if( (!$group->is_private && !$user->can(Capability::MANAGE_PROJECT_COLLECTIONS)) ||
 			(!$user->can(Capability::MANAGE_OWN_GROUPS) && ($user->id != $group->user_id)) ){
-			throw new ForbiddenException("Permission denieded for adding the document to the group.");
+			throw new ForbiddenException("Permission denieded for adding the document to the collection.");
 		}
 
 		$group->documents()->save($document);
@@ -1215,9 +1360,9 @@ class DocumentsService {
 	public function removeDocumentsFromGroup(User $user, Collection $documents, Group $group, $perform_reindex = true)
 	{
 
-		if( (!$group->is_private && !$user->can(Capability::MANAGE_INSTITUTION_GROUPS)) ||
+		if( (!$group->is_private && !$user->can(Capability::MANAGE_PROJECT_COLLECTIONS)) ||
 			(!$user->can(Capability::MANAGE_OWN_GROUPS) && ($user->id != $group->user_id)) ){
-			throw new ForbiddenException("Permission denieded for removing the document from the group.");
+			throw new ForbiddenException("Permission denieded for removing the document from the collection.");
 		}
 
 		// $documents is integer, is DocumentDescriptor, is array of ints, is Collection and contains DocumentDescriptor
@@ -1236,9 +1381,9 @@ class DocumentsService {
 	public function removeDocumentFromGroup(User $user, DocumentDescriptor $document, Group $group, $perform_reindex = true)
 	{
 
-		if( (!$group->is_private && !$user->can(Capability::MANAGE_INSTITUTION_GROUPS)) ||
+		if( (!$group->is_private && !$user->can(Capability::MANAGE_PROJECT_COLLECTIONS)) ||
 			(!$user->can(Capability::MANAGE_OWN_GROUPS) && ($user->id != $group->user_id)) ){
-			throw new ForbiddenException("Permission denieded for removing the document from the group.");
+			throw new ForbiddenException("Permission denieded for removing the document from the collection.");
 		}
 
 		$group->documents()->detach($document);
@@ -1533,6 +1678,8 @@ class DocumentsService {
                 $file_model->created_at = \Carbon\Carbon::createFromFormat('U', $file_m_time);
             }
             $file_model->save();
+
+            $file_model = $file_model->fresh();
 
             try{
 

@@ -17,7 +17,7 @@ class UserRequest extends Request {
 
 		$tests = [
 			'name' => 'required|string',
-			'capabilities' => 'required|array|exists:capabilities,key',
+			'institution' => 'sometimes|required|exists:institutions,id',
 		];
 
 		if($action['as'] == 'administration.users.store'){

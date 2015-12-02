@@ -24,14 +24,6 @@ class DatabaseSeeder extends Seeder {
 		 */
 		$this->call('CapabilitiesTableSeeder');
 
-		/**
-		 * Seed the institutions table using the K-Link Core obtained institutions list
-		 */
-		$this->call('InstitutionTableSeeder');
-
-
-		// $this->call('UserTableSeeder');
-
 	}
 
 }

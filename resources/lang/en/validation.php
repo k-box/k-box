@@ -98,7 +98,9 @@ return [
 		'remote_import' => [
 			'required_if' => 'You must specify a valid page url to start import.',
 		],
-		
+		'users' => [
+			'required' => 'Please select at least one user.',
+		],
 		'document' => [
 			'required' => 'The document you are uploading exceeds the maximum allowed size of ' .\Config::get('dms.max_upload_size') . 'KB',
 		]

@@ -7,14 +7,14 @@ return [
 	| K-Link DMS Version (aka Application version)
 	|--------------------------------------------------------------------------
 	 */
-	'version' => '0.4.18',
+	'version' => '0.5.7',
 	
 	/*
 	|--------------------------------------------------------------------------
 	| K-Link DMS Edition. Used when upgrading for a version to a new version
 	|--------------------------------------------------------------------------
 	 */
-	'edition' => 'standard',
+	'edition' => 'project',
 
 
 	/*

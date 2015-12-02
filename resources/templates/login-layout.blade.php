@@ -10,8 +10,8 @@
 
 		<div class="twelve columns" style="text-align:center">
 			
-			<div class="logo">&nbsp;</div>
-			<h4 class="title">{{$dms_institution_name}}</h4>
+			<div class="logo white">&nbsp;</div>
+			<h4 class="title">{{trans('dashboard.project_edition')}}</h4>
 
 		</div>
 

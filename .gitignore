@@ -19,6 +19,5 @@ public/css/*.css
 public/css/all.css
 typings/*
 
-# VS Code
 .settings/
 .vscode/

@@ -117,6 +117,11 @@ class DocumentDescriptor extends Model {
         return $this->morphMany('KlinkDMS\Shared', 'shareable');
     }
 
+    public function owner()
+    {
+        return $this->belongsTo('KlinkDMS\User', 'owner_id', 'id');
+    }
+
 
     public function isShared()
     {
@@ -344,8 +349,15 @@ class DocumentDescriptor extends Model {
     public function toKlinkDocumentDescriptor($need_public = false)
     {
 
+
+        $institution = $this->institution->klink_id;
+        
+        if(!is_null($this->owner) && !is_null($this->owner->getInstitution())){
+            $institution = $this->owner->institution->klink_id;
+        } 
+
         $descr = \KlinkDocumentDescriptor::create(
-            $this->institution->klink_id,
+            $institution,
             $this->local_document_id,
             $this->hash,
             $this->title,
@@ -380,7 +392,7 @@ class DocumentDescriptor extends Model {
             $descr->setTitleAliases(array_filter($names));
         }
 
-
+        //TODO: insert also the ancestors of the group
         if(!$need_public && !$this->groups->isEmpty()){
 
             $each = $this->groups->map(function($el){

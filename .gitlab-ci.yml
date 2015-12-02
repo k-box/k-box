@@ -36,10 +36,12 @@ composer_npm:
 docker_image_pe:
   stage: deploy
   script: 
+    - cp /var/www/temp/builds/klink-dms-project-edition.tar.gz /opt/klink-docker/dms/downloads/dms.tar.gz
     - cd /opt/klink-docker
     - docker-compose -f klink-services.yml build dmsproject
   only:
     - project-edition
+    - project-edition-development
   tags:
     - shell
     

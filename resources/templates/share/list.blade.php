@@ -32,12 +32,17 @@
 
 	<div id="document-area" class="share-section shared-with-me clearfix">
 
+		@if(isset($facets))
+		
+			@include('documents.facets')
+		
+		@endif
 
 		<div class="list tiles" >
 
 			@forelse ($shares as $result)
 		
-				@include('documents.descriptor', ['item' => ($result instanceof \KlinkDMS\DocumentDescriptor) ? $result : $result->shareable])
+				@include('documents.descriptor', ['link_route' => 'shares.group', 'item' => ($result instanceof \KlinkDMS\DocumentDescriptor) ? $result : $result->shareable])
 		
 			@empty
 		
@@ -46,6 +51,14 @@
 			@endforelse
 
 		</div>
+		
+		@if( isset($pagination) && !is_null($pagination) )
+			<div class="pagination-container">
+	
+				{!! $pagination->render() !!}
+	
+			</div>
+		@endif
 
 	</div>
 	

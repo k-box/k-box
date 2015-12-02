@@ -65,7 +65,19 @@ class Institution extends Model {
      */
     public function toKlinkInstitutionDetails()
     {
-        return KlinkInstitutionDetails::create('test', 'test institution',  'Organization');
+        $instance = \KlinkInstitutionDetails::create($this->klink_id, $this->name,  $this->type);
+        
+        $instance->setUrl($this->url);
+        
+        $instance->setThumbnail($this->thumbnail_uri);
+        $instance->setMail($this->email);
+        $instance->setPhoneNumber($this->phone);
+        $instance->addressStreet = $this->address_street;
+        $instance->addressCountry = $this->address_country;
+        $instance->addressLocality = $this->address_locality;
+        $instance->addressZip = $this->address_zip;
+        
+        return $instance;
     }
 
     /**
@@ -153,8 +165,5 @@ class Institution extends Model {
         return $exists;        
 
     }
-
-
-    
 
 }

@@ -31,11 +31,6 @@
 				&nbsp;
 			</a>
 		</div>
-<!--		<h4 class="title">
-			<a href="@if($is_user_logged){{$current_user_home_route}}@else{{route('frontpage')}}/@endif">
-				{{$dms_institution_name}}
-			</a>
-		</h4>-->
 		
 @if($show_search)		
 		@include('search.searchform')

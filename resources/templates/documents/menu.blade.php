@@ -3,16 +3,30 @@
 	<ul class="documents-navigation">
 		
 		
+		@if($can_see_private)
+
 		<li>
 			<a href="{{route('documents.index')}}/private" class="menu-el @if(\Request::is('*private') || \Request::is('*documents')) current @endif">
-				<span class="menu-icon icon-action-black icon-action-black-ic_lock_black_24dp"></span> {{trans('documents.menu.private')}}
+				<span class="menu-icon icon-action-black icon-action-black-ic_account_balance_black_24dp"></span> {{trans('documents.menu.private')}}
 			</a>
 		</li>
+
+		@else 
+
 		<li>
+			<a href="{{route('documents.index')}}/personal" class="menu-el @if(\Request::is('*personal') || \Request::is('*documents')) current @endif">
+				<span class="menu-icon icon-action-black icon-action-black-ic_lock_black_24dp"></span> {{trans('documents.menu.personal')}}
+			</a>
+		</li>
+
+		@endif
+
+
+		<!--<li>
 			<a href="{{route('documents.index')}}/public" class="menu-el @if(\Request::is('*public')) current @endif">
 				<span class="menu-icon icon-social-black icon-social-black-ic_public_black_24dp"></span> {{trans('documents.menu.public')}}
 			</a>
-		</li>
+		</li>-->
 		<li>
 			<a href="{{route('documents.recent')}}" class="menu-el @if(\Request::is('*recent')) current @endif">
 				<span class="menu-icon icon-action-black icon-action-black-ic_schedule_black_24dp"></span> {{trans('documents.menu.recent')}}

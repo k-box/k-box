@@ -11,7 +11,7 @@ return [
 	|
 	*/
 
-	'page_title' => ':name профайл',
+	'page_title' => ':name профайл',//check with Alessio
 
 	'go_to_profile' => 'Показать ваш профайл',
 	

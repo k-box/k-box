@@ -67,7 +67,7 @@
 			{{ $item->name }}
 		</span>
 		@else
-		<a href="{{route('documents.groups.show', $item->id)}}" class="link" title="{{ $item->name }}">
+		<a href="{{route( isset($link_route) ? $link_route : 'documents.groups.show', $item->id)}}" class="link" title="{{ $item->name }}">
 			{{ $item->name }}
 		</a>
 		@endif

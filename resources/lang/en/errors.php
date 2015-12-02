@@ -39,6 +39,7 @@ return [
 
 	'panels' => array(
 		'title' => 'Oops! something unexcepted has happened.',
+		'prevent_edit' => 'You cannot edit :name'
 	),
 
 	'import' => array(

@@ -12,7 +12,7 @@
 
 	<div class="input-group">
 
-    	<input type="search" class="search-field" placeholder="{{trans('search.form.placeholder')}}" value="@if(isset($search_terms)){{ $search_terms }}@endif" name="s" @if(empty($search_terms)) autofocus @endif />
+    	<input type="search" class="search-field" placeholder="{{trans('search.form.placeholder')}}" value="@if(isset($search_terms) && $search_terms!=='*'){{ $search_terms }}@endif" name="s" @if(empty($search_terms)) autofocus @endif />
     
 
 		@if(!isset($context))

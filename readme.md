@@ -1,8 +1,13 @@
 
+Project Edition [![build status](https://git.klink.asia/ci/projects/1/status.png?ref=project-edition)](https://git.klink.asia/ci/projects/1?ref=project-edition)
+
+Project Edition (dev) [![build status](https://git.klink.asia/ci/projects/1/status.png?ref=project-edition-development)](https://git.klink.asia/ci/projects/1?ref=project-edition-development)
+
 # K-Link DMS
 
 > unleash the power of K-Link
 
+**version 0.5.6**
 
 The K-Link DMS is built on top of Laravel 5.0.
 
@@ -250,6 +255,12 @@ The supported commands are:
 - `dms:queuelisten`: Start listening for jobs on the queue and report the status to the admin interface.
 - `dms:sync`: Performs a synchronization of the documents from the DMS that do not exists on the Core.
 
+
+### `dms:update` command
+
+Perform the update procedure on the current DMS instance. The update consists in migration execution, seeding or other tasks.
+
+if you specify the option `--no-test` you can disable the Core connection test.
 
 
 

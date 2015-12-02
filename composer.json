@@ -1,9 +1,9 @@
 {
-	"name": "laravel/laravel",
-	"description": "The Laravel Framework.",
+	"name": "klink/dms",
+	"description": "The K-Link DMS.",
 	"keywords": ["framework", "laravel"],
 	"license": "MIT",
-	"type": "project",
+	"type": "project",	
 	
 	"repositories": [
         {

@@ -22,6 +22,7 @@ return [
 		'mail'=>'Mail',
 		'update'=>'Update and recovery',
 		'maintenance'=>'Maintenance and Events',
+		'institutions'=>'Institutions',
 		'settings'=>'Settings',
 
 	),
@@ -36,6 +37,7 @@ return [
 
 			'name_column' => 'name',
 			'email_column' => 'email',
+			'institution_column' => 'institution',
 
 		),
 		
@@ -51,6 +53,9 @@ return [
 
 			'create' => 'Create',
 			'update' => 'Update',
+
+			'institution' => 'Institution',
+			'select_institution' => 'Select the user Institution affiliation...',
 
 		),
 
@@ -68,11 +73,12 @@ return [
 			'make_search' => 'The user can access all the private documents of the institution',
 			'manage_own_groups' => 'The user can manage personal document collections',
 			'manage_institution_groups' => 'The user can manage institution\'s document collections',
+			'manage_project_collections' => 'The user can manage project collections',
 			
 			'manage_share' => 'User may share private documents with a single or a group of users',
 			'receive_share' => 'User can see documents that have been shared with him',
-			
-			'manage_share_personal' => 'User may share private documents with a single or a "personal" group of users',
+		
+			'manage_share_personal' => 'User may share personal documents with a single or a "personal" group of users',
 			'manage_share_private' => 'User can share documents to groups of users defined at institution level',
 			
 			'clean_trash' => 'User can permanently remove documents from the trash',
@@ -88,7 +94,9 @@ return [
 	        'partner' => 'Partner',
 	        'content_manager' => 'Content Manager',
 	        'quality_content_manager' => 'Quality Content Manager',
-	        'admin' => 'Admin',
+	        'project_admin' => 'Project Administrator',
+	        'admin' => 'K-Box Admin',
+	        'klinker' => 'K-Linker',
 
 		),
 
@@ -197,7 +205,38 @@ return [
 		
 		'logs_widget_title' => 'Latest Log entries', 
 	),
-
+	
+	
+	'institutions' => array(
+		
+		'edit_title' => 'Edit :name details',
+		'create_title' => 'Create new Institution',
+		'create_institutions_btn' => 'Add new Institution',
+		'saved' => 'Institution :name updated.',
+		'update_error' => 'Institution detail not saved: :error',
+		'create_error' => 'The Institution cannot be created: :error',
+		'delete_not_possible' => 'The institution :name is currently being used for documents and/or user affiliation. Please remove all the documents and the user affiliation before deleting it.',
+		'delete_error' => 'The institution :name cannot be deleted: :error',
+		'deleted' => 'The institution :name has been removed.',
+		'delete_confirm' => 'Deleting institution :name from the network?',
+		
+		'labels' => array(
+			'klink_id' => 'Institution Identifier (in the K-Link Network)', 
+			'name' => 'Institution name', 
+			'email' => 'Institution E-Mail for getting information', 
+			'phone' => 'Institution secretary phone number', 
+			'url' => 'Institution website address', 
+			'thumbnail_url' => 'Institution image or avatar (url of an image)', 
+			'address_street' => 'Institution Street Address', 
+			'address_country' => 'Institution Country', 
+			'address_locality' => 'Institution City', 
+			'address_zip' => 'Postal Code', 
+			'update' => 'Save Details',
+			'create' => 'Create Institution'
+		),
+	),
+	
+	
 	'settings' => array(
 		'viewing_section' => 'Viewing',
 		'viewing_section_help' => 'You can configure how the users can view the documents.',

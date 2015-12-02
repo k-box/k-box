@@ -42,7 +42,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
    *
    * @var array
    */
-  protected $fillable = ['name', 'email', 'password'];
+  protected $fillable = ['name', 'email', 'password', 'institution_id'];
 
   /**
    * The attributes excluded from the model's JSON form.
@@ -111,6 +111,10 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     return $this->hasMany('KlinkDMS\Shared', 'user_id');
   }
 
+  public function institution(){
+    return $this->hasOne('KlinkDMS\Institution', 'id', 'institution_id');
+  }
+
   /**
    * [starred description]
    * @return [type] [description]
@@ -132,6 +136,14 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
   }
 
 
+  public function projects() {
+    return $this->belongsToMany('KlinkDMS\Project', 'userprojects', 'user_id', 'project_id');
+  }
+  
+  public function managedProjects() {
+    return $this->hasMany('KlinkDMS\Project');
+  }
+
     /**
      * Generates a random eight characters password.
      * 
@@ -142,6 +154,17 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         return str_random(8);
     }
 
+    /**
+      Gets the user institution
+    */
+    public function getInstitution(){
+        return !is_null($this->institution) ? $this->institution->id : null;
+    }
+    
+    
+    public function getInstitutionName(){
+        return !is_null($this->institution) ? $this->institution->name : '';
+    }
 
 
   /**
@@ -187,7 +210,8 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
   public function homeRoute(){
     
     $search = $this->can(Capability::MAKE_SEARCH);
-    $see_share = $this->can(Capability::RECEIVE_AND_SEE_SHARE); 
+    $see_share = $this->can(Capability::RECEIVE_AND_SEE_SHARE);
+    $partner = $this->canAll(Capability::$PARTNER); 
     
     if($this->isDMSManager()){
 			// full manager redirect to the dashboard

@@ -41,7 +41,9 @@ final class DmsCreateAdminUserCommand extends Command {
 	{
 
 		$the_username = $this->argument('email');
+		$the_name = $this->argument('name');
 		$the_password = $this->argument('password');
+
 
 		$validator = \Validator::make(
 		    array('name' => $the_username),
@@ -67,7 +69,7 @@ final class DmsCreateAdminUserCommand extends Command {
 			$nice_name = $et_offset !== false ? substr($the_username, 0, $et_offset) : $the_username;
 
 			$the_user = User::create(array( 
-				'name' => $nice_name,
+				'name' => !is_null($the_name) ? $the_name : $nice_name,
 				'email' => $the_username,
 				'password' => \Hash::make($the_password)
 			));
@@ -98,6 +100,7 @@ final class DmsCreateAdminUserCommand extends Command {
 		return [
 			['email', InputArgument::REQUIRED, 'User email.'],
 			['password', InputArgument::REQUIRED, 'User password.'],
+			['name', InputArgument::OPTIONAL, 'User nicename.']
 		];
 	}
 

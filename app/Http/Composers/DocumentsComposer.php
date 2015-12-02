@@ -53,7 +53,7 @@ class DocumentsComposer {
 
             $view->with('can_upload', $auth_user->can(Capability::UPLOAD_DOCUMENTS));
             
-            $view->with('can_create_collection', $auth_user->can(Capability::MANAGE_OWN_GROUPS) || $auth_user->can(Capability::MANAGE_INSTITUTION_GROUPS));
+            $view->with('can_create_collection', $auth_user->can(Capability::MANAGE_OWN_GROUPS) || $auth_user->can(Capability::MANAGE_PROJECT_COLLECTIONS));
             
             $view->with('can_make_public', $auth_user->can(Capability::CHANGE_DOCUMENT_VISIBILITY));
             
@@ -62,6 +62,12 @@ class DocumentsComposer {
             $view->with('can_share', $auth_user->can(array(Capability::SHARE_WITH_PERSONAL, Capability::SHARE_WITH_PRIVATE)));
 
             $view->with('can_manage_documents', $auth_user->isContentManager());
+            
+            $view->with('can_delete_documents', $auth_user->can(Capability::DELETE_DOCUMENT));
+
+            $view->with('can_partner', $auth_user->isPartner());
+            
+            $view->with('can_see_private', $auth_user->isDMSManager());
 
             $view->with('list_style_current', $auth_user->optionListStyle());
         }
@@ -167,16 +173,23 @@ class DocumentsComposer {
                 $auth_user = \Auth::user();
 
                 $view->with('stars_count', $document->stars()->count());
+                
+                // TODO: check only collections that are private OR project in which the user is involved
 
-                if($document->isMine() && $document->groups()->private($auth_user->id)->orPublic()->count() > 0){
-                    $view->with('is_in_collection', true);
+                
+
+                if($document->isMine()){
+                    
+                    $collections = $this->documents->getDocumentCollections($document, $auth_user);
+                    
+                    $view->with('is_in_collection', !$collections->isEmpty());
 
                     //is_private
 
-                    $view->with('groups', $document->groups()->private($auth_user->id)->orPublic()->get());
+                    $view->with('groups', $collections);
 
                     $view->with('user_can_edit_private_groups', $auth_user->can(Capability::MANAGE_OWN_GROUPS));
-                    $view->with('user_can_edit_public_groups', $auth_user->can(Capability::MANAGE_INSTITUTION_GROUPS));
+                    $view->with('user_can_edit_public_groups', $auth_user->can(Capability::MANAGE_PROJECT_COLLECTIONS));
 
                 }
                 else {
@@ -355,11 +368,7 @@ class DocumentsComposer {
             
         }
         
-        
         if(!is_null($facets)){
-            
-            
-            
             
             $group_facets = array_values(array_filter($facets, function($f){
                 return $f->name === 'documentGroups';
@@ -394,6 +403,7 @@ class DocumentsComposer {
                             $group_facet->collapsed = $group_facet->count == 0;
                             $private[] = $group_facet;
                             //dd($group_facet);
+
                         }
                         else if(strpos($group_facet->term, ':')){
                             // dd($group_facet);
@@ -407,7 +417,7 @@ class DocumentsComposer {
                     }
                     
                     }catch(\Exception $exc){
-                        
+
                     }
                     
                 }

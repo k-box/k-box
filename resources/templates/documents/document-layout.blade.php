@@ -149,7 +149,7 @@
 			@endif
 			-->
 
-			@if($context!=='trash' && $context!=='shared' && $context!=='starred' && isset($can_manage_documents) && $can_manage_documents)
+			@if($context!=='trash' && $context!=='shared' && $context!=='starred' && isset($can_delete_documents) && $can_delete_documents)
 
 				<a href="#" class="button" rv-on-click="del"  rv-disabled="nothingIsSelected">
 					<span class="btn-icon icon-action-white icon-action-white-ic_delete_white_24dp"></span>{{trans('actions.trash_btn')}}
@@ -229,7 +229,7 @@
 			
 			@endif
 			
-			@if(isset($context) && $context!=='starred' && $context!=='recent'  && $context!=='group' && $context!=='shared')
+			@if(isset($context) && $context!=='recent')
 				@include('documents.facets')
 			@endif
 

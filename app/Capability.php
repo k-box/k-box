@@ -77,7 +77,11 @@ class Capability extends Model {
      */
     const MANAGE_INSTITUTION_GROUPS = 'manage_institution_groups';
     
-    
+    /**
+     * The user can create/edit/remove collections under a project
+     */
+    const MANAGE_PROJECT_COLLECTIONS = 'manage_project_collections';
+
     /**
      * User may share private documents with a single or a personal group of users
      */
@@ -121,7 +125,7 @@ class Capability extends Model {
         self::CHANGE_DOCUMENT_VISIBILITY,
         self::DELETE_DOCUMENT,
         self::MANAGE_OWN_GROUPS,
-        self::MANAGE_INSTITUTION_GROUPS,
+        self::MANAGE_PROJECT_COLLECTIONS,
         self::MANAGE_DMS,
         self::MANAGE_USERS,
         self::MANAGE_LOG,
@@ -151,12 +155,13 @@ class Capability extends Model {
         self::SHARE_WITH_PERSONAL,
         self::SHARE_WITH_PRIVATE );
         
+    // is the project manager for the Project edition
     static $QUALITY_CONTENT_MANAGER = array( 
         self::MAKE_SEARCH, 
         self::UPLOAD_DOCUMENTS, 
         self::IMPORT_DOCUMENTS,
         self::MANAGE_OWN_GROUPS,
-        self::MANAGE_INSTITUTION_GROUPS,
+        self::MANAGE_PROJECT_COLLECTIONS,
         self::DELETE_DOCUMENT,
         self::EDIT_DOCUMENT, 
         self::CHANGE_DOCUMENT_VISIBILITY,
@@ -164,7 +169,24 @@ class Capability extends Model {
         self::MANAGE_PERSONAL_PEOPLE_GROUPS,
         self::RECEIVE_AND_SEE_SHARE,
         self::CLEAN_TRASH,
-        self::SHARE_WITH_PERSONAL );
+        self::SHARE_WITH_PERSONAL,
+        self::SHARE_WITH_PRIVATE );
+        
+    static $PROJECT_MANAGER = array( 
+        self::MAKE_SEARCH, 
+        self::UPLOAD_DOCUMENTS, 
+        self::IMPORT_DOCUMENTS,
+        self::MANAGE_OWN_GROUPS,
+        self::MANAGE_PROJECT_COLLECTIONS,
+        self::DELETE_DOCUMENT,
+        self::EDIT_DOCUMENT, 
+        self::CHANGE_DOCUMENT_VISIBILITY,
+        self::MANAGE_PEOPLE_GROUPS,
+        self::MANAGE_PERSONAL_PEOPLE_GROUPS,
+        self::RECEIVE_AND_SEE_SHARE,
+        self::CLEAN_TRASH,
+        self::SHARE_WITH_PERSONAL,
+        self::SHARE_WITH_PRIVATE );
 
     static $UPLOADER = array( 
         self::UPLOAD_DOCUMENTS,
@@ -176,7 +198,13 @@ class Capability extends Model {
 
     static $PARTNER = array( 
         self::MAKE_SEARCH,
-        self::RECEIVE_AND_SEE_SHARE );
+        self::RECEIVE_AND_SEE_SHARE,
+        self::UPLOAD_DOCUMENTS,
+        self::DELETE_DOCUMENT,
+        self::MANAGE_OWN_GROUPS,
+        self::SHARE_WITH_PERSONAL,
+        self::MANAGE_PROJECT_COLLECTIONS,
+        self::EDIT_DOCUMENT, );
 
     static $GUEST = array( 
         self::RECEIVE_AND_SEE_SHARE );
@@ -194,6 +222,8 @@ class Capability extends Model {
               self::DELETE_DOCUMENT),
           'manage_own_documents_visibility' => array(
               self::CHANGE_DOCUMENT_VISIBILITY),
+          'manage_institution_groups' => array(
+              self::MANAGE_PROJECT_COLLECTIONS),
     );
 
 
@@ -262,6 +292,8 @@ class Capability extends Model {
      * capabilities and, if not, add them to the database (old unused capabilities are not removed)
      */
     public static function syncCapabilities(){
+        
+        \Log::info('Sync Capabilities called');
     
         $current_caps = self::all(array('key'))->fetch('key')->toArray();
     
@@ -273,9 +305,10 @@ class Capability extends Model {
         
         $new = array_diff($constants, $current_caps);
     
-        $needed = !empty($difference); // check if upgrade is needed
+        $needed = !empty($new); // check if upgrade is needed
         
         if(!$needed){
+            \Log::info('Capability upgrade not needed, constants and capabilities table are in sync');
             return false;
         }
         
@@ -289,8 +322,12 @@ class Capability extends Model {
             foreach($new as $to_add){
                $n_cap = Capability::create(array('key' => $to_add)); 
                
+               \Log::info('Added new capability', array('cap' => $n_cap));
+               
                $new_caps_ids[$n_cap->key] = $n_cap->id;
             }
+            
+
             
             // get the current users and their capabilities
             
@@ -310,6 +347,8 @@ class Capability extends Model {
                     if($user->can($o_key)){
                         
                         $new_caps_to_add = Capability::fromKeys($mappings[$o_key])->get();
+                        
+                        \Log::info('Upgrading capabilities to user ' . $user->id, array('old' => $o_key, 'new' => $new_caps_to_add));
                         
                         foreach($new_caps_to_add as $new_cap){
                             $user->addCapability($new_cap);

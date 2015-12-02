@@ -51,6 +51,11 @@ class Group extends Entity implements GroupInterface
         return $this->belongsTo('KlinkDMS\User');
 
     }
+    
+    public function project(){
+
+        return $this->belongsTo('KlinkDMS\Project', 'id', 'collection_id');
+    }
 
     /**
      * [documents description]

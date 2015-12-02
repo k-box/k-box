@@ -114,12 +114,25 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
         }
         
         var dragText = evt.originalEvent.dataTransfer.getData('text');
-        evt.originalEvent.dataTransfer.dropEffect = dragText !== 'dms_drag_collection' ? 'copy' : 'link';
+        evt.originalEvent.dataTransfer.dropEffect = dragText !== 'dms_drag_collection' ? 'copy' : 'none';
 
         // console.log('DROP', dragText, this);
         
         if(dragText!=='dms_drag_action'){
-            dragText = JSON.parse(dragText);
+            try{
+                dragText = JSON.parse(dragText);
+            }catch(e){
+                //deserialization error, now is not a problem, maybe in future use only JSON for DMS actions
+            }
+        }
+        
+        if(dragText.toString() !== "[object Object]" && /^https?:\/\/.*$/.test(dragText)){
+            
+            console.info('URL dropped', dragText, /^https?:\/\/.*$/.test(dragText));
+            
+            DMS.MessageBox.error('Drag and drop not permitted', 'The drag and drop operation you are performing is not permitted.');
+            
+            return false;
         }
 
         var dropAction = $this.data('dropAction');
@@ -594,16 +607,24 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
 
             createGroup: function(evt, vm, groupId, isPrivate){
                 
-                var params = undefined;
+                var params = undefined,
+                    isPrivateRequest = isPrivate !== undefined || (evt.currentTarget && $(evt.currentTarget).data('isprivate') !== undefined);
 
-                if(groupId){
-                    params = params || {};
-                    params.group_context = groupId;
-                }
+                // if(groupId){
+                //     params = params || {};
+                //     params.group_context = groupId;
+                // }
                 
-                if(isPrivate !== undefined || (evt.currentTarget && $(evt.currentTarget).data('isprivate') !== undefined)){
+                if(isPrivateRequest){
                     params = params || {};
                     params.isPrivate = isPrivate !== undefined ? isPrivate : $(evt.currentTarget).data('isprivate');
+                }
+                
+                if(groupId || (module.context.filter === "group" && module.context.group && isPrivateRequest && params.isPrivate === false)){
+                    
+                    params = params || {};
+                    params.group_context = groupId ? groupId : module.context.group;
+
                 }
 
                 Panels.dialogOpen(DMS.Paths.GROUPS_CREATE, params, {callbacks: { form_submit_success: function(evt, data){
@@ -888,7 +909,7 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
                 
                 if(source.isprivate && !target.isprivate){
                     // from private to public
-                    DMS.MessageBox.question("Make Collection visible?", "You are about to move a personal collection under an institutional collection. This will make your collection visible to all", 'Yes, Move!', 'No, Cancel', function(isConfirmed){
+                    DMS.MessageBox.question("Move to Project?", "You are about to move a personal collection under a Project. This will make your collection visible to all users of the Project.", 'Yes, Move!', 'No, Cancel', function(isConfirmed){
                         if(isConfirmed){
                             _collectionMove(source, target);
                         }
@@ -899,7 +920,7 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
                 }
                 else if(!source.isprivate && target.isprivate){
                     // from public to private 
-                    DMS.MessageBox.question("Make Collection personal?", "You are about to move an institutional collection under to your personal collections. This collection will not be seen by the other users", 'Yes, Move!', 'No, Cancel', function(isConfirmed){
+                    DMS.MessageBox.question("Make Collection personal?", "You are about to move out a Project collection to your personal collections. This collection will not be seen by the other users.", 'Yes, Move!', 'No, Cancel', function(isConfirmed){
                         if(isConfirmed){
                             _collectionMove(source, target);
                         }

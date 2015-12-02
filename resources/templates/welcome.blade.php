@@ -5,22 +5,17 @@
 @section('content')
 
 	<div class="row hero">
-		<div class="seven columns">
+		<div class="six columns">
 			
-			<h1 class="hero-title">{!! trans('dashboard.welcome.hero_title', ['institution' => $dms_institution_name])!!}</h1>
+			<h1 class="hero-title">{!! trans('dashboard.welcome.hero_title')!!}</h1>
 
-			<p>{!! trans('dashboard.welcome.hero_sub', ['institutions' => $dms_how_many_institutions, 'documents' => $dms_how_many_public_documents])!!}</p>
-
-			<p>{{trans('dashboard.welcome.hero_description')}}</p>
-
-		</div>
-		<div class="five columns">
+			
 			
 			@include('auth.loginform')
 
 		</div>
 	</div>
-
+<!-- picture from Sergei Zolkin via Unsplash https://unsplash.com/szolkin https://images.unsplash.com/photo-1433840496881-cbd845929862?q=80&fm=jpg&s=c9a1a21dbf8a9d16477ea4b54afc8a48 -->
 		
 
 

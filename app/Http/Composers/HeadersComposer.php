@@ -41,10 +41,6 @@ class HeadersComposer {
 
         $body_classes = [];
 
-        // institution name
-        $view->with('dms_institution_name', 
-            $this->adapter->getInstitutionName(\Config::get('dms.institutionID'))); // 'Test Institution'
-
         // $view->with('dms_institution_name', 'Test');
 
         $is_logged = \Auth::check();
@@ -71,7 +67,7 @@ class HeadersComposer {
         
         $show_search = !is_null( $route_name ) && !starts_with($route_name, 'admin') &&  
                        !str_contains($route_name, 'trash') &&  !str_contains($route_name, 'recent') && 
-                       !str_contains($route_name, 'share') &&  !str_contains($route_name, 'people.index') &&
+                       !str_contains($route_name, 'projects')  && !str_contains($route_name, 'people.index') &&
                        !str_contains($route_name, 'profile.index') &&
                        !str_contains($route_name, 'people.show') &&
                        ($is_logged || \Config::get('dms.are_guest_public_search_enabled'));
@@ -84,48 +80,6 @@ class HeadersComposer {
         $is_frontpage = $route_name === 'dashboard' || $route_name === 'frontpage';
 
         $view->with('is_frontpage', $is_frontpage );
-
-//        if( !is_null( $route_name ) ){
-//            $body_classes[] = $route_name;
-//        }
-//
-//        if( !is_null( $route_name ) && starts_with($route_name, 'documents')){
-//            $body_classes[] = 'dropzone-container';
-//        }
-//
-//        if( is_null( $route_name ) && !is_null(\Route::getCurrentRoute()) ){
-//            $path = \Route::getCurrentRoute()->getPath();
-//
-//            $exploded = array_slice( explode('/', $path), 0, 2);
-//
-//            $body_classes[] =  implode(' ', $exploded);
-//        }
-//
-//        $is_frontpage = $route_name === 'dashboard' || $route_name === 'frontpage';
-//
-//        $view->with('is_frontpage', $is_frontpage );
-//
-//        if($is_frontpage){
-//
-//            $view->with('dms_how_many_public_documents', $this->adapter->getDocumentsCount());
-//
-//            $view->with('dms_how_many_institutions', $this->adapter->getInstitutionsCount());
-//
-//        }
-//
-//        $already_added_classes = isset($view['body_classes']) ? $view['body_classes'] : null;
-//
-//        
-//
-//        if(!is_null($already_added_classes)){
-//            $body_classes[] = $already_added_classes;
-//            
-//            $body_classes = array_unique($body_classes);
-//        }
-//
-////        dd(compact('already_added_classes', 'body_classes'));
-//        
-//        $view->with('body_classes', implode(' ', $body_classes));
         
     }
 

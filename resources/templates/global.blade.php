@@ -87,6 +87,20 @@
 	
 	<script>
 		
+		<?php 
+		
+		$support_context = json_encode(array(
+			'product' => 'DMS Project',
+			'version' => \Config::get("dms.version"),
+			'route' => !is_null(\Route::getCurrentRoute()->getName()) ? \Route::getCurrentRoute()->getName() : \Route::getCurrentRoute()->getPath(),
+			'context' => isset($context) ? $context : null,
+			'group' => isset($context_group) ? $context_group : null,
+			'visibility' => isset($current_visibility) ? $current_visibility : null,
+			'search_terms' => isset($search_terms) ? e($search_terms) : null,
+		));
+		
+		?>
+		
 		UserVoice=window.UserVoice||[];(function(){var uv=document.createElement('script');uv.type='text/javascript';uv.async=true;uv.src='//widget.uservoice.com/{{\Config::get("dms.feedback_api_key")}}.js';var s=document.getElementsByTagName('script')[0];s.parentNode.insertBefore(uv,s)})();
 
 		UserVoice.push(['set', {
@@ -94,13 +108,9 @@
 		  trigger_color: 'white',
 		  trigger_background_color: '#448dd6',
 		  ticket_custom_fields: {
-		    'Product': 'DMS',
-		    'Type': 'Support Request',
-			'Version':'{{\Config::get("dms.version")}}',
-			'Institution':'{{\Config::get("dms.institutionID")}}',
-			@if(isset($context))
-				'context': '{{$context}} @if(isset($context_group)) group: {{$context_group}}, @endif @if(isset($current_visibility)) visibility: {{$current_visibility}}, @endif @if(isset($search_terms)) search: {{$search_terms}} @endif'
-			@endif
+			
+			'context': '{!!$support_context!!}'
+			
 		  },
 		}]);
 		

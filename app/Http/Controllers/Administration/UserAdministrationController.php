@@ -2,12 +2,14 @@
 
 use KlinkDMS\Capability;
 use KlinkDMS\DocumentDescriptor;
+use KlinkDMS\Institution;
 use KlinkDMS\Http\Controllers\Controller;
 use KlinkDMS\Http\Requests\UserRequest;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Hash;
 use KlinkDMS\User;
 use Illuminate\Contracts\Auth\Guard;
+use Klink\DmsAdapter\KlinkAdapter;
 use Illuminate\Contracts\Auth\PasswordBroker as PasswordBrokerContract;
 
 /**
@@ -24,18 +26,20 @@ class UserAdministrationController extends Controller {
   |
   */
 
+  private $adapter = null;
 
   /**
    * Create a new controller instance.
    *
    * @return void
    */
-  public function __construct() {
+  public function __construct(KlinkAdapter $adapter) {
 
     $this->middleware('auth');
 
     $this->middleware('capabilities');
 
+    $this->adapter = $adapter;
   }
 
   /**
@@ -70,8 +74,8 @@ class UserAdministrationController extends Controller {
     $user_types = array(
         'guest' => Capability::$GUEST,
         'partner' => Capability::$PARTNER,
-        'content_manager' => Capability::$CONTENT_MANAGER,
-        'quality_content_manager' => Capability::$QUALITY_CONTENT_MANAGER,
+        'project_admin' => Capability::$QUALITY_CONTENT_MANAGER,
+        'klinker' => Capability::$QUALITY_CONTENT_MANAGER,
         'admin' => Capability::$ADMIN,
       );
       
@@ -111,15 +115,17 @@ class UserAdministrationController extends Controller {
       }
     
     
+      $institutions = $this->adapter->getInstitutions();
     
-    
-       $viewBag = [
+
+      $viewBag = [
+        'mode' => 'create',
+        'institutions' => $institutions,
+        'user_types' => $user_types,
          'pagetitle' => trans('administration.accounts.create.title'),
-          'mode' => 'create',
-          'user_types' => $user_types,
         'capabilities' => array_values($perms),
-          'type_resolutor' => $type_resolutor,
-        ];
+        'type_resolutor' => $type_resolutor,
+      ];
       
 
       return view('administration.users.create', $viewBag);
@@ -140,7 +146,8 @@ class UserAdministrationController extends Controller {
           $user = User::create([
               'name' => $request->get('name'),
               'email' => trim($request->get('email')),
-              'password' => Hash::make($password)
+              'password' => Hash::make($password),
+              'institution_id' => $request->get('institution', null)
           ]);
     
           $user->addCapabilities($request->get('capabilities'));
@@ -197,8 +204,11 @@ class UserAdministrationController extends Controller {
       $user_types = array(
         'guest' => Capability::$GUEST,
         'partner' => Capability::$PARTNER,
-        'content_manager' => Capability::$CONTENT_MANAGER,
-        'quality_content_manager' => Capability::$QUALITY_CONTENT_MANAGER,
+        // 'content_manager' => Capability::$CONTENT_MANAGER,
+        // 'quality_content_manager' => Capability::$QUALITY_CONTENT_MANAGER,
+        
+        'project_admin' => Capability::$PROJECT_MANAGER,
+        'klinker' => Capability::$PROJECT_MANAGER,
         'admin' => Capability::$ADMIN,
       );
       
@@ -238,12 +248,15 @@ class UserAdministrationController extends Controller {
       }
       
       // dd($perms);
+      
+      $institutions = $this->adapter->getInstitutions();
 
 
       $viewBag = [
         'pagetitle' => trans('administration.accounts.edit_account_title', ['name' => $user->name]),
         'user' => $user,
         'user_types' => $user_types,
+        'institutions' => $institutions,
         'capabilities' => array_values($perms),
         'type_resolutor' => $type_resolutor,
         'edit_enabled' => $auth->user()->id != $user->id,
@@ -287,7 +300,7 @@ class UserAdministrationController extends Controller {
       if($user->name != $request->get('name')){
           $user->name = $request->get('name');
       }
-
+      
       if($user->getInstitution() != $request->get('institution')){
           $user->institution_id = $request->get('institution');
       }

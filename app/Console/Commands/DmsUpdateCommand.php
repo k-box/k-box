@@ -44,15 +44,23 @@ class DmsUpdateCommand extends Command {
 	{
 
 		$this->line("Started DMS configuration for <info>". $this->getLaravel()->environment() ."</info>...");
-	
+		
 		$this->write('  Testing K-Link configuration...');
-		$config_test = $this->launch('dms:test');
+	
+		if(!$this->option('no-test')){
+			
+			$config_test = $this->launch('dms:test');
+		
+		}
+		else {
+			$config_test = -1;
+		}
 
 		$user_info = null;
 
-		if($config_test == 0){
+		if($config_test == 0 || $config_test == -1){
 
-			$this->line('  <info>OK</info>');
+			$this->line('  <info>'.(($config_test == 0) ? 'OK': 'Skipped').'</info>');
 
 			$this->write('  Enabling maintenance mode...');
 			$down_exit_code = $this->launch('down');
@@ -72,23 +80,6 @@ class DmsUpdateCommand extends Command {
 
 			}
 
-			
-// 			if(!$this->isAdminUserConfigured()){
-// 
-// 				$this->write('  Creating administrator user...');
-// 
-// 				
-// 
-// 				$admin_created = $this->launchAndCapture('dms:create-admin', $user_info);
-// 
-// 				if($admin_created > 0){
-// 					$this->line('  <error>ERROR '. $admin_created .'</error>');
-// 					return 30 + $admin_created;
-// 				}
-// 				$this->info('  OK');
-// 
-// 
-// 			}
 			
 			$this->write('  Optimizing installation...');
 			$up_exit_code = $this->launch('optimize');
@@ -180,7 +171,7 @@ class DmsUpdateCommand extends Command {
 	protected function getOptions()
 	{
 		return [
-			['example', null, InputOption::VALUE_OPTIONAL, 'An example option.', null],
+			['no-test', null, InputOption::VALUE_NONE, 'Disable the connection test to the reference K-Link Core.', null],
 		];
 	}
 

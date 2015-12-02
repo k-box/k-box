@@ -7,9 +7,9 @@
 <!--<a href="#unshare" class="button disabled" rv-on-click="unshare">
 		Edit share
 	</a>-->
-	<a href="#unshare" class="button" rv-on-click="unshare">
+	<!--<a href="#unshare" class="button" rv-on-click="unshare">
 		Unshare
-	</a>
+	</a>-->
 @endif
 
 @stop
@@ -17,7 +17,7 @@
 @section('document_list_area')
 
 
-	@if(!is_null($shared_by_me))
+	@if(isset($shared_by_me) && !is_null($shared_by_me))
 
 	<div class="share-section shared-by-me clearfix">
 
@@ -50,17 +50,25 @@
 	@if(!is_null($shared_with_me))
 
 	<div class="share-section shared-with-me clearfix">
-
+<!--
 		<div>
 			<h5 class="title">{{trans('share.shared_with_me_title')}}</h5>
-		</div>
+		</div>-->
 
 
 		<div class="list {{$list_style_current}}" >
 
 			@forelse ($shared_with_me as $result)
 		
-				@include('documents.descriptor', ['item' => $result->shareable, 'share_id' => $result->id, 'shared_by' => $result->user])
+				@if(is_a($result, 'KlinkDMS\Shared'))
+		
+					@include('documents.descriptor', ['item' => $result->shareable, 'share_id' => $result->id, 'shared_by' => $result->user])
+				
+				@else
+				
+					@include('documents.descriptor', ['item' => $result])
+				
+				@endif
 		
 			@empty
 		

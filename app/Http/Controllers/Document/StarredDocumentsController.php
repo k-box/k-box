@@ -7,8 +7,12 @@ use KlinkDMS\DocumentDescriptor;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\JsonResponse;
 use KlinkDMS\Pagination\LengthAwarePaginator as Paginator;
+use KlinkDMS\Traits\Searchable;
+use Illuminate\Http\Request;
 
 class StarredDocumentsController extends Controller {
+	
+	use Searchable;
 
 	// USER + DESCR ID (INST + LOCAL DOC ID)
 	
@@ -19,15 +23,13 @@ class StarredDocumentsController extends Controller {
 	private $service = null;
 
 	private $documentsService = null;
-	
-	private $searchService = null;
 
 	/**
 	 * Create a new controller instance.
 	 *
 	 * @return void
 	 */
-	public function __construct(\Klink\DmsAdapter\KlinkAdapter $adapterService, \Klink\DmsDocuments\DocumentsService $documentsService, \Klink\DmsSearch\SearchService $searchService)
+	public function __construct(\Klink\DmsAdapter\KlinkAdapter $adapterService, \Klink\DmsDocuments\DocumentsService $documentsService)
 	{
 
 		$this->middleware('auth');
@@ -36,8 +38,6 @@ class StarredDocumentsController extends Controller {
 
 		$this->service = $adapterService;
 		$this->documentsService = $documentsService;
-		
-		$this->searchService = $searchService;
 
 	}
 
@@ -46,79 +46,54 @@ class StarredDocumentsController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function index(Guard $auth, \Request $request)
+	public function index(Guard $auth, Request $request)
 	{
 		
-		$filtered_ids = false;
+		$req = $this->searchRequestCreate($request);
 		
-		$pagination = false;
+		$req->visibility('private');
 		
-		$limit = \Config::get('dms.items_per_page');
-		$page = $request::input('page', 1);
+		$user = $auth->user();
 		
-		if($this->searchService->hasSearchRequest($request)){
+		$results = $this->search($req, function($_request) use($user) {
 			
-			$id_set2 = Starred::with('document')->ofUser($auth->user()->id)->get()->fetch('document.local_document_id')->all();
+			$all_starred = Starred::with('document')->ofUser($user->id);
 			
-			$filtered_private = $this->searchService->searchForId($request, 'private', $id_set2);
-			$filtered_public = $this->searchService->searchForId($request, 'public', $id_set2);
+			$personal_doc_id = $all_starred->get()->fetch('document.local_document_id')->all();
+				
+			$_request->in($personal_doc_id);
 			
-			$filtered_ids = new \stdClass;
-			$filtered_ids->ids = array_merge($filtered_private->ids, $filtered_public->ids);
-			$filtered_ids->term = $filtered_private->term;
-			$filtered_ids->total_results = max(array($filtered_private->total_results, $filtered_public->total_results));
-			$filtered_ids->filters = null;
-			$filtered_ids->facets = null;
-			$filtered_ids->page = $filtered_private->page;
-			
-			// dd(compact('id_set2', 'filtered_private', 'filtered_public', 'filtered_ids'));
-//			$filtered_ids->facet_params = $facets_to_apply;
-		}
-		
-		if(!$filtered_ids){
-			$total = $auth->user()->starred->count();
-			$all_starred_by_me = $auth->user()->starred->forPage($page, $limit)->load('document')->sort(function($e){
-				return $e->document->is_public;
-			});
-			// dd(compact('total', 'all_starred_by_me'));
-			$pagination = new Paginator($all_starred_by_me, 
-			$total, 
-			$limit, $page, [
-            	'path'  => $request::url(),
-            	'query' => $request::query(),
-        	]);
-		}
-		else {
-			
-			$all_query = DocumentDescriptor::whereIn('hash', $filtered_ids->ids)->get(array('id'))->fetch('id')->toArray();
-			$total = Starred::whereIn('document_id', $all_query)->count();
-			$all_starred_by_me = Starred::whereIn('document_id', $all_query)->forPage($page, $limit)->get();
+			if($_request->isPageRequested() && !$_request->isSearchRequested()){
 
-			$pagination = new Paginator($filtered_ids->ids, 
-			$total, 
-			$limit, $page, [
-            	'path'  => $request::url(),
-            	'query' => $request::query(),
-        	]);
-		}
+				$_request->setForceFacetsRequest();
 
+				return $all_starred;
+			}
+			
+				
+			
+			
+			return false; // force to execute a search on the core instead on the database
+			
+		}, function($res_item) use($user){
+			return DocumentDescriptor::where('local_document_id', $res_item->localDocumentID)->first()->stars()->ofUser($user->id)->first();
+		});
 		
-
-		if ($request::ajax() && $request::wantsJson())
+		if ($request->wantsJson())
 		{
-		    return response()->json($all_starred_by_me);
+		    return response()->json($results);
 		}
-		
-		// dd($all_starred_by_me);
 
 		return view('documents.starred', array(
 			'pagetitle' => trans('starred.page_title'), 
 			'filter' => trans('starred.page_title'), 
 			'context' => 'starred', 
-			'starred' => $all_starred_by_me, 
-			'pagination' => ($pagination) ? $pagination : null,
-			'search_terms' => ($filtered_ids) ? $filtered_ids->term : '',
-			'empty_message' => ($filtered_ids && $all_starred_by_me->count()==0) ? 'Nothing found in stared for "' . $filtered_ids->term . '"'  : trans('starred.empty_message')
+			'starred' => $results, 
+			'pagination' => $results,
+			'search_terms' => $req->term,
+			'facets' => $results->facets(),
+			'filters' => $results->filters(),
+			'empty_message' => ($results->count()==0) ? 'Nothing found in starred for "' . $req->term . '"'  : trans('starred.empty_message')
 		));
 	}
 

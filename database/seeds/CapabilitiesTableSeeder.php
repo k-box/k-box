@@ -46,7 +46,7 @@ class CapabilitiesTableSeeder extends Seeder {
 
 		Capability::create(array( 'key' => Capability::MANAGE_OWN_GROUPS, 'description' => 'The user can manage own groups.' ));
 
-		Capability::create(array( 'key' => Capability::MANAGE_INSTITUTION_GROUPS, 'description' => 'The user can manage institution\'s visible groups.' ));
+		Capability::create(array( 'key' => Capability::MANAGE_PROJECT_COLLECTIONS, 'description' => 'The user can manage project collections.' ));
 
 
 		// Search capabilities

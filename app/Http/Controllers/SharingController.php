@@ -1,6 +1,6 @@
 <?php namespace KlinkDMS\Http\Controllers;
 
-use KlinkDMS\Http\Requests;
+use Illuminate\Http\Request;
 use KlinkDMS\Http\Controllers\Controller;
 use KlinkDMS\DocumentDescriptor;
 use KlinkDMS\Group;
@@ -10,15 +10,17 @@ use KlinkDMS\Shared;
 use KlinkDMS\User;
 use Illuminate\Http\JsonResponse;
 use KlinkDMS\Http\Requests\CreateShareRequest;
-use Illuminate\Http\Request;
 use Illuminate\Contracts\Auth\Guard as AuthGuard;
 use Illuminate\Database\Eloquent;
 use Illuminate\Support\Collection;
+use KlinkDMS\Traits\Searchable;
 
 /**
  * Manage you personal shares
  */
 class SharingController extends Controller {
+	
+	use Searchable;
 
 
 	/**
@@ -47,56 +49,72 @@ class SharingController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function index(AuthGuard $auth)
+	public function index(AuthGuard $auth, Request $request)
 	{
-
-		//Grouping and filters parameter are available
-		
-		// dd(Shared::all()->load(array('shareable', 'sharedwith')));
-
-		// $doc = $this->service->getDocument('KLINK', '4428d5');
-
-// 		$what = new Collection;
-// 		$who = new Collection;
-// 
-// 		$what->push(DocumentDescriptor::findOrFail(25));
-// 		$what->push(Group::findOrFail(5));
-// 		
-// 		
-// 		$who->push(PeopleGroup::findOrFail(1));
-// 		$who->push(User::findOrFail(2));
-// 
-// 		$user = $auth->user();
-// 		
-// 		dd($this->createShare($what, $who, $user));
-
-		// $doc->shares()->create(array(
-		// 		'user_id' => $user->id,
-		// 		'shared_with' => $user->id,
-		// 		'token' => 'aaaaaaa',
-
-		// 	));
-
-		// $share = Shared::create(array('user_'));
-
-
-		// dd($doc->shares);
-		// 
 		
 		$user = $auth->user();
 		
-		$group_ids = $user->involvedingroups()->get(array('peoplegroup_id'))->fetch('peoplegroup_id')->toArray();
+// 		$group_ids = $user->involvedingroups()->get(array('peoplegroup_id'))->fetch('peoplegroup_id')->toArray();
+// 		
+// 		$all_in_groups = Shared::sharedWithGroups($group_ids)->get();
+// 		
+// 		$all_single = Shared::sharedWithMe($user)->with(array('shareable', 'sharedwith'))->get();
+// 
+// 		$all = $all_single->merge($all_in_groups)->unique();
 		
-		$all_in_groups = Shared::sharedWithGroups($group_ids)->get();
 		
-		$all_single = Shared::sharedWithMe($user)->with(array('shareable', 'sharedwith'))->get();
-
-		$all = $all_single->merge($all_in_groups)->unique();
+		$req = $this->searchRequestCreate($request);
+		
+		$req->visibility('private');
+		
+		$all = $this->search($req, function($_request) use($user) {
+			
+			$group_ids = $user->involvedingroups()->get(array('peoplegroup_id'))->fetch('peoplegroup_id')->toArray();
+					
+			$all_in_groups = Shared::sharedWithGroups($group_ids)->get();
+			
+				
+			$all_single = Shared::sharedWithMe($user)->with(array('shareable', 'sharedwith'))->get();
+			
+			$all_shared = $all_single->merge($all_in_groups)->unique();
+			
+			$shared_docs = $all_shared->fetch('shareable.local_document_id')->all();
+			$shared_files_in_groups = array_flatten(array_filter($all_shared->map(function($g){
+				if($g->shareable_type === 'KlinkDMS\Group'){
+					return $g->shareable->documents->fetch('local_document_id')->all();
+				} 
+				return null;
+				})->all()));
+			
+			// dd(compact('all_single', 'shared_groups'));
+			
+			$_request->in(array_merge($shared_docs, $shared_files_in_groups));
+			// $_request->on();
+			
+			if($_request->isPageRequested()){
+				
+				$_request->setForceFacetsRequest();
+				
+				return $all_shared;
+				
+			}
+			
+			return false; // force to execute a search on the core instead on the database
+		}, function($res_item){
+			// from KlinkSearchResultItem to Shared instance
+			return DocumentDescriptor::where('local_document_id', $res_item->localDocumentID)->first();
+		});
+		
 
 		return view('share.list', [
 			'shares' => $all,
 			'pagetitle' => trans('share.page_title'),
-			'context' => 'sharing'
+			'context' => 'sharing',
+			'current_visibility' => 'private',
+			'pagination' => $all,
+			'search_terms' => $req->term,
+			'facets' => $all->facets(),
+			'filters' => $all->filters(),
 		]);
 	}
 
@@ -381,17 +399,54 @@ class SharingController extends Controller {
 	
 	
 	
-	public function showGroup(AuthGuard $auth, $id){
+	public function showGroup(AuthGuard $auth, Request $request, $id){
+		
+				
+		// if shareable == group, Search is possible
 		
 		$group = Group::findOrFail($id);
 		
-		$all = $group->documents()->get();
+		// $all = $group->documents()->get();
+		
+		$req = $this->searchRequestCreate($request);
+		
+		$req->visibility('private');
+		
+		$all = $this->search($req, function($_request) use($group) {
+			
+			$group_ids = array($group->toKlinkGroup()); 
+			
+			$group_ids = array_merge($group_ids, $group->getDescendants()->map(function($grp){
+				return $grp->toKlinkGroup();	
+			})->all());
+			
+			$_request->on($group_ids);
+			
+			if($_request->isPageRequested() && !$_request->isSearchRequested()){
+
+				$_request->setForceFacetsRequest();
+
+				return $group->documents()->get();
+			}
+			
+			return false;
+			
+		}, function($res_item){
+			return DocumentDescriptor::where('local_document_id', $res_item->localDocumentID)->first();
+		});
+		
+		
 
 		return view('share.list', [
 			'shares' => $all,
 			'pagetitle' => $group->name . ' - ' . trans('share.page_title'),
 			'shared_group' => $group,
-			'context' => 'sharing'
+			'context' => 'sharing',
+			'current_visibility' => 'private',
+			'pagination' => $all,
+			'search_terms' => $req->term,
+			'facets' => $all->facets(),
+			'filters' => $all->filters(),
 		]);
 		
 	}

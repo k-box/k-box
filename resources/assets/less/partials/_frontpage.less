@@ -1,4 +1,5 @@
 
+@hero-background-color: #8c9288;
 
 .hero {
 
@@ -9,7 +10,7 @@
 	margin: 0 -@base-padding @base-padding;
 	padding: @base-padding*2 @base-padding @base-padding/2;
 
-	background-color: #021741;
+	background-color: @hero-background-color;
 
 	color: #fff;
 
@@ -41,13 +42,13 @@
 		}
 
 
-		background: #021741 url('../../images/hero_720x281.jpg') no-repeat center center;
+		background: @hero-background-color url('../../images/hero_720x281.jpg') no-repeat center center;
 		background-size: cover;
 	}
 
 	/* Larger than desktop */
 	@media (min-width: 1000px) {
-		background: #021741 url('../../images/hero_1000x500.jpg') no-repeat center center;
+		background: @hero-background-color url('../../images/hero_1000x500.jpg') no-repeat center center;
 		background-size: cover;
 
 		p {
@@ -57,7 +58,7 @@
 
 	/* Larger than Desktop HD */
 	@media (min-width: 1200px) {
-		background: #021741 url('../../images/hero_1280x500.jpg') no-repeat center center;
+		background: @hero-background-color url('../../images/hero_1280x500.jpg') no-repeat center center;
 		background-size: cover;
 
 		.five { 
@@ -113,6 +114,10 @@
 			width: 100%;
 		}
 
+	}
+	
+	.sub-header {
+		display: none;
 	}
 
 }
