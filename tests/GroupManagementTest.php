@@ -2,13 +2,18 @@
 
 use KlinkDMS\User;
 use KlinkDMS\Group;
-use Laracasts\TestDummy\DbTestCase;
 
-class GroupManagementTest extends DbTestCase {
+use Illuminate\Foundation\Testing\WithoutMiddleware;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
+
+class GroupManagementTest extends TestCase {
 
 	private $service = null;
 
 	private $user = null;
+    
+    use DatabaseTransactions;
 
 	public function setUp()
 	{
@@ -16,10 +21,6 @@ class GroupManagementTest extends DbTestCase {
 		parent::setUp();
 
 		$this->service = $this->app->make('Klink\DmsDocuments\DocumentsService');
-
-		$this->seed('UserTableSeeder');
-
-		$this->user = User::findByEmail('admin@klink.local');
 
 	}
 
@@ -128,8 +129,8 @@ class GroupManagementTest extends DbTestCase {
 			B   C        C   G
 			   D  E
 		*/
-
-		$tree = $this->createTestGroupTree($this->user, $this->service);
+        $user = $this->createAdminUser();
+		$tree = $this->createTestGroupTree($user, $this->service);
 
 		$this->assertEquals(8, Group::all()->count());
 
@@ -171,22 +172,23 @@ class GroupManagementTest extends DbTestCase {
 
 	public function testGroupUpdate()
 	{
+        $user = $this->createAdminUser();
+        
+		$a = $this->service->createGroup($user, 'a');
 
-		$a = $this->service->createGroup($this->user, 'a');
-
-		$b = $this->service->createGroup($this->user, 'b', null, $a);
+		$b = $this->service->createGroup($user, 'b', null, $a);
 
 
 
 		// change A name to Autumn
 
-		$a = $this->service->updateGroup($this->user, $a, array('name' => 'Autumn'));
+		$a = $this->service->updateGroup($user, $a, array('name' => 'Autumn'));
 
 		$this->assertEquals('Autumn', $a->name);
 
 
 		// change B name to Benny
-		$b = $this->service->updateGroup($this->user, $b, array('name' => 'Benny'));
+		$b = $this->service->updateGroup($user, $b, array('name' => 'Benny'));
 
 		$this->assertEquals('Benny', $b->name);
 
@@ -197,19 +199,24 @@ class GroupManagementTest extends DbTestCase {
 	 */
 	public function testGroupUpdateForbidden($value='')
 	{
-		$a = $this->service->createGroup($this->user, 'a');
+        
+        $user = $this->createAdminUser();
+        
+		$a = $this->service->createGroup($user, 'a');
 
-		$b = $this->service->createGroup($this->user, 'b', null, $a);
+		$b = $this->service->createGroup($user, 'b', null, $a);
 
-		$c = $this->service->createGroup($this->user, 'c', null, $a);
+		$c = $this->service->createGroup($user, 'c', null, $a);
 
 
-		$b = $this->service->updateGroup($this->user, $b, array('name' => 'c'));
+		$b = $this->service->updateGroup($user, $b, array('name' => 'c'));
 	}
 
 	public function testGroupCreationFromFolder()
 	{
-		$group = $this->service->createGroupsFromFolderPath($this->user, '/pretty/path/for/example/');
+        $user = $this->createAdminUser();
+        
+		$group = $this->service->createGroupsFromFolderPath($user, '/pretty/path/for/example/');
 
 		$this->assertEquals('example', $group->name);
 
@@ -220,14 +227,16 @@ class GroupManagementTest extends DbTestCase {
 		$this->assertEquals('pretty', $group->getParent()->getParent()->getParent()->name);
 
 
-		$group = $this->service->createGroupsFromFolderPath($this->user, '/pretty/path/for/example/');
+		$group = $this->service->createGroupsFromFolderPath($user, '/pretty/path/for/example/');
 
 	}
 
 	public function testGroupCreationFromFolderTwice()
 	{
-		$group = $this->service->createGroupsFromFolderPath($this->user, '/pretty/path/for/example/');
-		$group = $this->service->createGroupsFromFolderPath($this->user, '/pretty/path/for/example/');
+        $user = $this->createAdminUser();
+        
+		$group = $this->service->createGroupsFromFolderPath($user, '/pretty/path/for/example/');
+		$group = $this->service->createGroupsFromFolderPath($user, '/pretty/path/for/example/');
 
 		$this->echoTree();
 
@@ -240,8 +249,10 @@ class GroupManagementTest extends DbTestCase {
 	 */
 	public function testGroupCopyBaseCases()
 	{
+        
+        $user = $this->createAdminUser();
 
-		$tree = $this->createTestGroupTree($this->user, $this->service);
+		$tree = $this->createTestGroupTree($user, $this->service);
 
 
 		$this->echoTree();
@@ -252,7 +263,7 @@ class GroupManagementTest extends DbTestCase {
 		$g = $tree['g'];
 
 		// copy B as new root
-		$this->service->copyGroup($this->user, $b, null);
+		$this->service->copyGroup($user, $b, null);
 
 		$b->fresh();
 
@@ -263,7 +274,7 @@ class GroupManagementTest extends DbTestCase {
 		$this->assertEquals(2, Group::byName('b')->count());
 
 		
-		$this->service->copyGroup($this->user, $b, $g);
+		$this->service->copyGroup($user, $b, $g);
 
 		$g->fresh();
 
@@ -275,7 +286,7 @@ class GroupManagementTest extends DbTestCase {
 
 		$bRoot = Group::getRoots()->where('name', 'b')->first();
 
-		$this->service->copyGroup($this->user, $f, $bRoot);
+		$this->service->copyGroup($user, $f, $bRoot);
 
 		$f->fresh();
 
@@ -288,8 +299,9 @@ class GroupManagementTest extends DbTestCase {
 
 	public function testGroupCopyAdvancedCases()
 	{
-
-		$tree = $this->createTestGroupTree($this->user, $this->service);
+        $user = $this->createAdminUser();
+        
+		$tree = $this->createTestGroupTree($user, $this->service);
 
 
 		$this->echoTree();
@@ -299,7 +311,7 @@ class GroupManagementTest extends DbTestCase {
 		$c = $tree['c'];
 
 		// copy C under the F that has already a C child for the same this->user
-		$this->service->copyGroup($this->user, $c, $f, true);
+		$this->service->copyGroup($user, $c, $f, true);
 
 		$f->fresh();
 
@@ -316,8 +328,9 @@ class GroupManagementTest extends DbTestCase {
 	 */
 	public function testGroupMovesBaseCases()
 	{
-
-		$tree = $this->createTestGroupTree($this->user, $this->service);
+        $user = $this->createAdminUser();
+        
+		$tree = $this->createTestGroupTree($user, $this->service);
 
 
 		$this->echoTree();
@@ -332,7 +345,7 @@ class GroupManagementTest extends DbTestCase {
 
 
 		// move B as new root
-		$this->service->moveGroup($this->user, $b, null);
+		$this->service->moveGroup($user, $b, null);
 
 		$b->fresh();
 
@@ -342,7 +355,7 @@ class GroupManagementTest extends DbTestCase {
 
 		// Move E under B
 
-		$this->service->moveGroup($this->user, $e, $b);
+		$this->service->moveGroup($user, $e, $b);
 
 		$e->fresh();
 
@@ -355,7 +368,7 @@ class GroupManagementTest extends DbTestCase {
 
 		$original_children_count = $f->countChildren();
 
-		$this->service->moveGroup($this->user, $f, $e);
+		$this->service->moveGroup($user, $f, $e);
 
 		$f->fresh();
 
@@ -372,15 +385,17 @@ class GroupManagementTest extends DbTestCase {
 	 */
 	public function testGroupMovesAdvancedCases()
 	{
+        
+        $user = $this->createAdminUser();
 
-		$tree = $this->createTestGroupTree($this->user, $this->service);
+		$tree = $this->createTestGroupTree($user, $this->service);
 
 		$a = $tree['a'];
 		$c = $tree['c'];
 		$f = $tree['f'];
 
 		// copy C under the F that has already a C child for the same this->user, so now we have the same tree in two different places
-		$this->service->copyGroup($this->user, $c, $f, true);
+		$this->service->copyGroup($user, $c, $f, true);
 
 		$f->fresh();
 
@@ -388,7 +403,7 @@ class GroupManagementTest extends DbTestCase {
 
 		// Move C under F (merge existing)
 
-		$this->service->moveGroup($this->user, $c, $f, true);
+		$this->service->moveGroup($user, $c, $f, true);
 
 		$a->fresh();
 		$f->fresh();
@@ -408,13 +423,15 @@ class GroupManagementTest extends DbTestCase {
 	 */
 	public function testGroupMoveForbidden()
 	{
+        
+        $user = $this->createAdminUser();
 
-		$tree = $this->createTestGroupTree($this->user, $this->service);
+		$tree = $this->createTestGroupTree($user, $this->service);
 		
 		$f = $tree['f'];
 		$c = $tree['c'];
 
-		$this->service->moveGroup($this->user, $c, $f);
+		$this->service->moveGroup($user, $c, $f);
 
 
 
@@ -425,26 +442,30 @@ class GroupManagementTest extends DbTestCase {
 	 */
 	public function testGroupCopyForbidden()
 	{
+        
+        $user = $this->createAdminUser();
 
-		$tree = $this->createTestGroupTree($this->user, $this->service);
+		$tree = $this->createTestGroupTree($user, $this->service);
 		
 		$f = $tree['f'];
 		$c = $tree['c'];
 
-		$this->service->copyGroup($this->user, $c, $f);
+		$this->service->copyGroup($user, $c, $f);
 
 	}
 
 
 	public function testCanCopyOrMoveGroup()
 	{
+        
+        $user = $this->createAdminUser();
 
-		$tree = $this->createTestGroupTree($this->user, $this->service);
+		$tree = $this->createTestGroupTree($user, $this->service);
 		
 		$f = $tree['f'];
 		$c = $tree['c'];
 
-		$val = $this->service->canCopyOrMoveGroup($this->user, $c, $f);
+		$val = $this->service->canCopyOrMoveGroup($user, $c, $f);
 
 		$this->assertFalse($val);
 

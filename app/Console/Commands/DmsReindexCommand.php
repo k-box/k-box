@@ -47,9 +47,15 @@ class DmsReindexCommand extends Command {
 	public function fire()
 	{
 
+		$only_public = $this->option('public');
+
 		$this->line("Started Documents reindexing <info>". $this->getLaravel()->environment() ."</info>...");
 		
-		$docs = DocumentDescriptor::local()->withVisibility(\KlinkVisibilityType::KLINK_PRIVATE)->get();
+		$query = DocumentDescriptor::local();
+		
+		$docs = $only_public ? $query->public() : $query->private(); 
+		
+		$docs = $query->get();
 		
 		$count_docs = count($docs);
 		
@@ -63,7 +69,7 @@ class DmsReindexCommand extends Command {
 		
 			try{
 				
-				$this->service->reindexDocument($doc);
+				$this->service->reindexDocument($doc, $only_public ? \KlinkVisibilityType::KLINK_PUBLIC : \KlinkVisibilityType::KLINK_PRIVATE);
 				
 				$this->line('  <info>OK</info>');
 					
@@ -97,7 +103,7 @@ class DmsReindexCommand extends Command {
 	protected function getOptions()
 	{
 		return [
-			['example', null, InputOption::VALUE_OPTIONAL, 'An example option.', null],
+			['public', null, InputOption::VALUE_NONE, 'Tells to reindex only the public documents.', null],
 		];
 	}
 

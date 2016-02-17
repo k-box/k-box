@@ -51,7 +51,7 @@ class RedirectIfForbidden implements Middleware {
 				\Log::info('Null permission info', array('context' => 'RedirectIfForbidden middleware', 'param' => $request));
 			}
 
-			$has_cap = $this->auth->user()->can($required_perm);
+			$has_cap = is_array($required_perm) && array_key_exists('all', $required_perm) ? $this->auth->user()->can_all_capabilities($required_perm['all']) : $this->auth->user()->can_capability($required_perm);
 			            
 			if( $has_cap ){
 
@@ -65,7 +65,7 @@ class RedirectIfForbidden implements Middleware {
 
 //			throw new \KlinKDMS\Exceptions\ForbiddenException();
 			if($request->wantsJson()){
-				return new JsonResponse(array('error' => trans('documents.messages.delete_forbidden')), 403);
+				return new JsonResponse(array('error' => trans('errors.forbidden_exception')), 403);
 			}
 
 			return view('errors.403');

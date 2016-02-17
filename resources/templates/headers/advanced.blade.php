@@ -1,1 +1,0 @@
-@extends('headers.header-layout')

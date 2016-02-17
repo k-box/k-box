@@ -158,9 +158,9 @@ class SharingController extends Controller {
 		})->get();
 		
 		
-		$can_institutional = $me->can(Capability::SHARE_WITH_PRIVATE);
+		$can_institutional = $me->can_capability(Capability::SHARE_WITH_PRIVATE);
 		
-		$can_personal = $me->can(Capability::SHARE_WITH_PERSONAL);
+		$can_personal = $me->can_capability(Capability::SHARE_WITH_PERSONAL);
 		
 		$people_query = PeopleGroup::with('people');
 		

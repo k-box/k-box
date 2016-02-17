@@ -2,13 +2,13 @@
   "name": "klink-dms",
   "version": "0.5.6",
   "repository": {
-      "type": "vcs",
-      "url": "https://git.klink.asia/klinkdms/dms/"
+    "type": "vcs",
+    "url": "https://git.klink.asia/klinkdms/dms/"
   },
   "license": "MIT",
   "devDependencies": {
-    "gulp": "^3.8.8",
-    "laravel-elixir": "~0.18.7",
-    "laravel-elixir-bower": "0.1.0"
-  }
+    "gulp": "^3.9.0",
+    "laravel-elixir": "~3.0.0"
+  },
+  "dependencies": {}
 }

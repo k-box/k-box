@@ -33,6 +33,9 @@ return [
         //https://github.com/barryvdh/laravel-async-queue
         'async' => array(
             'driver' => 'async',
+            'table'  => 'jobs',
+            'queue'  => 'default',
+            'expire' => 60,
         ),
             
             
@@ -83,7 +86,8 @@ return [
 	*/
 
 	'failed' => [
-		'database' => 'mysql', 'table' => 'failed_jobs',
+		'database' => env('DB_CONNECTION', 'mysql'), 
+        'table' => 'failed_jobs',
 	],
 
 ];

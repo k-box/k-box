@@ -1,44 +1,19 @@
 <?php
 
-use Laracasts\TestDummy\DbTestCase;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class ExampleTest extends DbTestCase {
-
-	public function setUp()
-	{
-
-		parent::setUp();
-		
-	}
-
-	/**
-	 * A basic functional test example.
-	 *
-	 * @return void
-	 */
-	public function testBasicExample()
-	{
-		
-		$response = $this->call('GET', '/');
-
-		$this->assertResponseOk();
-		
-		// $this->assertResponseStatus(403);
-		
-// 		$this->assertRedirectedTo('foo');
-// 
-// 		$this->assertRedirectedToRoute('route.name');
-// 		
-// 		$this->assertRedirectedToAction('Controller@method');
-
-		// $this->assertViewHas('name');
-		// $this->assertViewHas('age', $value);
-		// 
-		// // logging in as user
-		// $user = new User(['name' => 'John']);
-		// 
-		// $this->be($user);
-		
-	}
-
+class ExampleTest extends TestCase
+{
+    /**
+     * A basic functional test example.
+     *
+     * @return void
+     */
+    public function testBasicExample()
+    {
+        $this->visit('/')
+             ->see('Login');
+    }
 }

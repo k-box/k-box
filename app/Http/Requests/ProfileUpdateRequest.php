@@ -23,9 +23,9 @@ class ProfileUpdateRequest extends Request {
 	public function rules()
 	{
 		return [
-			'name' => 'sometimes|required|alpha_num',
+			'name' => 'sometimes|required|string',
 			'email' => 'sometimes|required|email|unique:users,email',
-			'password' => 'sometimes|required|alpha_num|min:8',
+			'password' => 'sometimes|required|min:8|regex:[\S]',
 			'password_confirm' => 'required_with:password|same:password',
 			'_change' => 'required|in:pass,mail,info,language',
 			User::OPTION_LANGUAGE => 'sometimes|required|in:en,ru'

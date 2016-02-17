@@ -1,6 +1,5 @@
 <div class="doc-filters" id="filters-area">
 
-	
 	<div class="elastic-list-container" rv-visible="isVisible">
 		<div id="elasticlist" class="elasticlist">
 	
@@ -37,7 +36,7 @@
 
 	<div class="filter-buttons">
 		<a href="#" class="button" rv-on-click="openClose">
-			<span class="btn-icon icon-content-black icon-content-black-ic_filter_list_black_24dp"></span>Filters
+			<span class="btn-icon icon-content-black icon-content-black-ic_filter_list_black_24dp"></span>{{trans('actions.filters.filter')}}
 
 		</a>
 			
@@ -45,7 +44,7 @@
 			
 		@if(isset($filters) && !empty($filters))
 			<a href="{{$facet_filters_url}}" class="button">
-				<span class="btn-icon icon-content-black icon-content-black-ic_clear_black_24dp"></span>Clear filters
+				<span class="btn-icon icon-content-black icon-content-black-ic_clear_black_24dp"></span>{{trans('actions.filters.clear_filters')}}
 			</a>
 		@endif
 	</div>

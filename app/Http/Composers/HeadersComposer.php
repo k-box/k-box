@@ -24,10 +24,10 @@ class HeadersComposer {
      * @param  UserRepository  $users
      * @return void
      */
-    public function __construct(\Klink\DmsAdapter\KlinkAdapter $adapter)
+    public function __construct(/*\Klink\DmsAdapter\KlinkAdapter $adapter*/)
     {
         
-        $this->adapter = $adapter;
+        //$this->adapter = $adapter;
     }
 
     /**
@@ -41,7 +41,6 @@ class HeadersComposer {
 
         $body_classes = [];
 
-        // $view->with('dms_institution_name', 'Test');
 
         $is_logged = \Auth::check();
 
@@ -64,13 +63,14 @@ class HeadersComposer {
 
         $route_name = \Route::currentRouteName();
 
-        
-        $show_search = !is_null( $route_name ) && !starts_with($route_name, 'admin') &&  
+
+        $show_search = (!$is_logged && \Config::get('dms.are_guest_public_search_enabled') && !starts_with($route_name, 'password')) || 
+                        ($is_logged && !is_null( $route_name ) && !starts_with($route_name, 'admin') &&  
                        !str_contains($route_name, 'trash') &&  !str_contains($route_name, 'recent') && 
                        !str_contains($route_name, 'projects')  && !str_contains($route_name, 'people.index') &&
-                       !str_contains($route_name, 'profile.index') &&
-                       !str_contains($route_name, 'people.show') &&
-                       ($is_logged || \Config::get('dms.are_guest_public_search_enabled'));
+                       !str_contains($route_name, 'profile.index') && !str_contains($route_name, 'people.show') && 
+                       !starts_with($route_name, 'password') && !starts_with($route_name, 'microsite'));
+
         $view->with('show_search', $show_search );
 
         $view->with('search_target', $show_search && array_key_exists($route_name, self::$search_target_for_routes) ? self::$search_target_for_routes[$route_name] : $route_name);

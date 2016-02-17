@@ -344,7 +344,7 @@ class Capability extends Model {
                 
                 foreach($old_keys as $o_key){
                 
-                    if($user->can($o_key)){
+                    if($user->can_capability($o_key)){
                         
                         $new_caps_to_add = Capability::fromKeys($mappings[$o_key])->get();
                         

@@ -419,7 +419,7 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
             
             
         }
-
+ 
     }
     
     function _doMakePublic(params, changeTitles){
@@ -444,12 +444,15 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
                 
                 
             }, function(obj, err, errText){
-                
+                debugger;
                 if(obj.responseJSON && obj.responseJSON.status === 'error'){
                     DMS.MessageBox.error('Publish Error', obj.responseJSON.message);
                 }
                 else if(obj.responseJSON && obj.responseJSON.error){
                     DMS.MessageBox.error('Publish Error', obj.responseJSON.error);
+                }
+                else if(obj.status == 422){
+                    DMS.MessageBox.error('Publish Error', 'Cannot perform the publish operation. The Publish request contained an error. ' + (obj.responseText ? obj.responseText : errText) );
                 }
                 else {
                     DMS.MessageBox.error('Publish Error', 'Cannot perform the publish operation. ' + errText);
@@ -505,11 +508,27 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
 
                 var url_path = id ? id : $this.data('inst')+ '/' + $this.data('doc');
                 
-                Panels.openAjax(selection_id, this, DMS.Paths.DOCUMENTS + '/' + url_path, {}, {
+                var pnl = Panels.openAjax(selection_id, this, DMS.Paths.DOCUMENTS + '/' + url_path, {}, {
                     callbacks: {
                         click: _panelClickEventHandler
                     }
+                }).on('dms:panel-loaded', function(panel_evt, panel){
+                    
+                    var clipboard = new Clipboard('.clipboard-btn');
+
+                    clipboard.on('success', function(e) {                        
+                        DMS.MessageBox.success('Copied!', 'The link has been copied to your clipboard');
+                        
+                        e.clearSelection();
+                    });
+
+                    clipboard.on('error', function(e) {
+                        DMS.MessageBox.error('Cannot copy to clipboard', 'The link cannot be copied to the clipboard, you can copy it manually by pressing Ctrl+C on the keyboard. ' + e.text);
+                    });
+                    
                 });
+                
+                   
 
                 _updateBinds();
             }
@@ -725,7 +744,7 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
             makePublic: function(evt, docSelection){
                 // if nothing is selected && in group -> make all files public?
                 // if something is selected => make public the selection
-                
+                debugger;
                 evt.preventDefault();
                 
                 if(module.context.filter === 'group' || docSelection.group) {
@@ -1557,7 +1576,7 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
 
             	    // uploadMultiple: true,
             		parallelUploads: 1,
-                    maxFilesize:100000,
+                    maxFilesize:202800,
             		maxFiles: 10000,
                     
                     headers: {

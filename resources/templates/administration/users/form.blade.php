@@ -13,7 +13,6 @@
     <input type="hidden" name="_token" value="{{{ csrf_token() }}}"> 
 
     <p>
-        <?php $email_field_name = isset($edit_enabled) ? 'change_email' : 'email'; ?>
         <label>{{trans('administration.accounts.labels.email')}}</label>
         @if( $errors->has('email') )
             <span class="field-error">{{ implode(",", $errors->get('email'))  }}</span>

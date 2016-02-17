@@ -85,5 +85,10 @@ return [
 	
 	'make_institutional_people_group' => 'Сделать институциональным',	
 	'make_personal_people_group' => 'Сохранить личным',	
+    
+    'filters' => array(
+        'filter' => 'фильтры',
+        'clear_filters' => 'снять фильтры',
+    ),
 
 ];

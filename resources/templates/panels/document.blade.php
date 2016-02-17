@@ -57,17 +57,22 @@
 
 </div>
 <div class="actions">
+    
+    <?php $real_download_link = null; ?>
+    <?php $real_preview_link = null; ?>
 	
 	@if(!$item->trashed())
 
 		@if(!$item->isRemoteWebPage() && !starts_with($item->document_uri, 'http://msri-hub.ucentralasia.org/') && !starts_with($item->document_uri, 'http://staging-uca.cloudapp.net/'))
 	
 			@if(!is_null($item->file) )
-	
+	           <?php $real_preview_link = DmsRouting::preview($item); ?>
 				<a href="{{DmsRouting::preview($item)}}" class="button" target="_blank">{!!trans('panels.open_btn')!!} </a>
 	
 			@endif
-	
+	       
+           <?php $real_download_link = DmsRouting::download($item); ?>
+           
 			<a href="{{DmsRouting::download($item)}}" target="_blank" download="{{ $item->title }}" class="button">
 				{{trans('panels.download_btn')}} 
 	
@@ -76,13 +81,13 @@
 				@endif
 			</a>
 		@elseif(starts_with($item->document_uri, 'http://msri-hub.ucentralasia.org/') || starts_with($item->document_uri, 'http://staging-uca.cloudapp.net/'))
-		
+		      <?php $real_preview_link = $item->document_uri; ?>
 			<a href="{{$item->document_uri}}" class="button"  target="_blank">{!!trans('panels.open_site_btn')!!} </a>
 		
 		@else 
 	
 			@if(!is_null($item->file))
-	
+	            <?php $real_preview_link = $item->file->original_uri; ?>
 				<a href="{{$item->file->original_uri}}" class="button" target="_blank">{!!trans('panels.open_site_btn')!!} </a>
 	
 			@endif
@@ -179,6 +184,59 @@
 				<p>{{trans('panels.not_shared')}}</p>
 
 			@endif
+            
+
+            @if( !is_null( $real_download_link ) || !is_null( $real_preview_link ) )
+
+                <div class="copy-links">
+                    <h6 class="title">{{ trans('share.share_link_section') }}</h6>
+                    
+                    @if( !is_null( $real_download_link ) )
+                    
+                        <p>
+                        
+                            <input id="download_link" class="code" readonly value="{{ $real_download_link }}">
+
+                            <!-- Trigger -->
+                            <a href="#" class="clipboard-btn" data-clipboard-target="#download_link">
+                                {{ trans('share.download_link_copy') }}
+                            </a>
+                        
+                        </p>
+                        
+                        @if( !is_null( $real_preview_link ) )
+                        
+                            <p>
+                            
+                                <input id="document_link" class="code" readonly value="{{ $real_preview_link }}">
+
+                                <!-- Trigger -->
+                                <a href="#" class="clipboard-btn" data-clipboard-target="#document_link">
+                                    {{ trans('share.preview_link_copy') }}
+                                </a>
+                            
+                            </p>
+                        
+                        @endif
+                    
+                    @elseif( !is_null( $real_preview_link ) )
+                    
+                        <p>
+                        
+                            <input id="document_link" class="code" readonly value="{{ $real_preview_link }}">
+
+                            <!-- Trigger -->
+                            <a href="#" class="clipboard-btn" data-clipboard-target="#document_link">
+                                {{ trans('share.document_link_copy') }}
+                            </a>
+                        
+                        </p>
+                    
+                    @endif
+                
+                </div>
+            
+            @endif
 
 		</div>
 

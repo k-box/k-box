@@ -28,13 +28,14 @@ return [
 
 	'no_results' => 'Sorry nothing has been found for <strong>:term</strong> into <strong>:collection</strong> documents.',
 
-	'try_message' => 'Try search into :collectionlink documents or for words that starts with :startwithlink',
+	'try_message' => 'Try search for words that starts with :startwithlink',
 
 
 	'facets' => array(
 		'institutionId' => 'Institution',
 		'language' => "Language",
         'documentType' => "Document Type",
+        'documentGroups' => "Collections",
 	),
 
 ];

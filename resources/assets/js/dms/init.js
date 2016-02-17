@@ -291,7 +291,7 @@ window.DMS = (function(_$, _nprogress, _rivets, _alert){
 					showCancelButton: true,
 					confirmButtonColor: "#DD6B55",
 					confirmButtonText: "Yes, delete it!",
-					cancelButtonText: "No, cancel plx!",
+					cancelButtonText: "No, cancel!",
 					closeOnConfirm: close_on_confirm ? close_on_confirm : false,
 					closeOnCancel: close_on_cancel ? close_on_cancel : false }, 
 					callback

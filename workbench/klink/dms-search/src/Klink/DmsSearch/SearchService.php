@@ -542,8 +542,12 @@ class SearchService {
 			//let's apply the hack
 			$hacked=array();
 			foreach($filters as $filter){
+				
+				$filter = is_object($filter) ? (array) $filter : $filter;
+				
 				if(isset($filter['options'])){
-		            $key = $filter['options']['key'];
+					
+					$key = is_object($filter['options']) ? $filter['options']->key : $filter['options']['key'];
 					
 		            $vals = str_replace('\\', '', str_replace($filter['field'].':', '', $filter['query']));
 		            

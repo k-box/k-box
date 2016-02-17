@@ -21,12 +21,13 @@
 
 		@endif
 
-
-		<!--<li>
-			<a href="{{route('documents.index')}}/public" class="menu-el @if(\Request::is('*public')) current @endif">
+        @if( isset($is_klink_public_enabled) && $is_klink_public_enabled)
+		<li>
+			<a href="{{ route('documents.index') }}/public" class="menu-el @if(\Request::is('*public')) current @endif">
 				<span class="menu-icon icon-social-black icon-social-black-ic_public_black_24dp"></span> {{trans('documents.menu.public')}}
 			</a>
-		</li>-->
+		</li>
+        @endif
 		<li>
 			<a href="{{route('documents.recent')}}" class="menu-el @if(\Request::is('*recent')) current @endif">
 				<span class="menu-icon icon-action-black icon-action-black-ic_schedule_black_24dp"></span> {{trans('documents.menu.recent')}}

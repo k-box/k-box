@@ -20,14 +20,11 @@ composer_npm:
     - rm -f testing.env
     - rm -f phpunit.xml
     - rm -f package.json
-    - tar --transform 's,^.,dms,' -cJ . --exclude=.git --exclude=.gitignore --exclude=.gitattributes --exclude=.gitlab-ci.yml --exclude=tests --exclude=node_modules --exclude=resources/assets/js --exclude=resources/assets/less --exclude=resources/assets/sass --exclude=resources/assets/vendor > /var/www/temp/builds/klink-dms-$CI_BUILD_REF_NAME.tar.xz
     - tar --transform 's,^.,dms,' -cz . --exclude=.git --exclude=.gitignore --exclude=.gitattributes --exclude=.gitlab-ci.yml --exclude=tests --exclude=node_modules --exclude=resources/assets/js --exclude=resources/assets/less --exclude=resources/assets/sass --exclude=resources/assets/vendor > /var/www/temp/builds/klink-dms-$CI_BUILD_REF_NAME.tar.gz
     - rm vendor -fr
   only:
     - master
-    - staging
     - project-edition
-    - project-edition-development
   tags:
     - php
     - nodejs
@@ -41,7 +38,6 @@ docker_image_pe:
     - docker-compose -f klink-services.yml build dmsproject
   only:
     - project-edition
-    - project-edition-development
   tags:
     - shell
     

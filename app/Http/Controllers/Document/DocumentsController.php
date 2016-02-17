@@ -50,9 +50,9 @@ class DocumentsController extends Controller {
 	public function __construct(\Klink\DmsDocuments\DocumentsService $adapterService/*, \Klink\DmsSearch\SearchService $searchService*/)
 	{
             
-		$this->middleware('auth', ['except' => ['show', 'showByKlinkId']]);
+		$this->middleware('auth', ['except' => ['showByKlinkId']]);
 
-		$this->middleware('capabilities', ['except' => ['show', 'showByKlinkId']]);
+		$this->middleware('capabilities', ['except' => ['showByKlinkId']]);
 
 		$this->service = $adapterService;
 		
@@ -123,8 +123,8 @@ class DocumentsController extends Controller {
 			
 			return false; // force to execute a search on the core instead on the database
 		}, function($res_item){
-			// TODO: it only works for PRIVATE and PERSONAL
-			return DocumentDescriptor::where('local_document_id', $res_item->getLocalDocumentID())->first();
+            $local = DocumentDescriptor::where('local_document_id', $res_item->getLocalDocumentID())->first();
+			return !is_null( $local ) ? $local : $res_item;
 		});
 
 		// Adding user's root groups and institution level groups to the result
@@ -289,11 +289,11 @@ class DocumentsController extends Controller {
 		
 		$auth_user = $auth->user();
 		
-		$can_share_with_personal = $auth_user->can(Capability::SHARE_WITH_PERSONAL);
+		$can_share_with_personal = $auth_user->can_capability(Capability::SHARE_WITH_PERSONAL);
 
-        $can_share_with_private = $auth_user->can(Capability::SHARE_WITH_PRIVATE);
+        $can_share_with_private = $auth_user->can_capability(Capability::SHARE_WITH_PRIVATE);
             
-        $can_see_share = $auth_user->can(Capability::RECEIVE_AND_SEE_SHARE);
+        $can_see_share = $auth_user->can_capability(Capability::RECEIVE_AND_SEE_SHARE);
 		
 		
 		$req = $this->searchRequestCreate($request);
@@ -510,6 +510,11 @@ class DocumentsController extends Controller {
 		}catch(ModelNotFoundException $kex){
 			\Log::warning('Document Descriptor not found', ['error' => $kex, 'id' => $id]);
 			return view('panels.error', ['error_title' => trans('errors.404_title'), 'message' => $kex->getMessage()]);
+		}catch(ForbiddenException $kex){
+			\Log::warning('Document Descriptor not accessible by user', ['error' => $kex, 'id' => $id, 'user' => $auth->user()->id]);
+            
+            return view('panels.error', ['error_title' => trans('errors.403_title'), 'message' => trans('errors.forbidden_see_document_exception')]);
+			
 		}catch(\Exception $kex){
 			\Log::error('Document Descriptor panel show error', ['error' => $kex, 'id' => $id]);
 			return view('panels.error', ['message' => $kex->getMessage()]);
@@ -544,26 +549,49 @@ class DocumentsController extends Controller {
 	public function edit($id, AuthGuard $auth)
 	{
 		try{
-
+            /*
+             enable edit view only if the user
+             - the owner of the document
+             - has access to one the collection containing the document
+            */
 			$document = DocumentDescriptor::withTrashed()->findOrFail($id);
 			$user = $auth->user();
+            
+            $is_owner = $document->owner_id === $user->id;
+            
+            // collections in which the document is and that can be seen by the user
+            $collections = $this->service->getDocumentCollections($document, $user)->count(); 
+            
+            if( !$is_owner && $collections === 0 && !$document->isShared() ){
+                
+                throw new ForbiddenException( trans('errors.forbidden_edit_document_exception') , 403);
+            }
+            
 
 				$view_params = array(
 					'document' => $document,
 					'file' => $document->file,
-					'can_make_public' => !$document->trashed() && $user->can(Capability::CHANGE_DOCUMENT_VISIBILITY),
-					'can_edit_groups' => !$document->trashed() && $user->can(array(Capability::MANAGE_OWN_GROUPS, Capability::MANAGE_PROJECT_COLLECTIONS)),
-					'can_upload_file' => !$document->trashed() && $user->can(Capability::UPLOAD_DOCUMENTS),
-					'can_edit_document' => !$document->trashed() && $user->can(array(Capability::EDIT_DOCUMENT, Capability::DELETE_DOCUMENT)),
+					'can_make_public' => !$document->trashed() && $user->can_capability(Capability::CHANGE_DOCUMENT_VISIBILITY),
+					'can_edit_groups' => !$document->trashed() && $user->can_capability(array(Capability::MANAGE_OWN_GROUPS, Capability::MANAGE_PROJECT_COLLECTIONS)),
+					'can_upload_file' => !$document->trashed() && $user->can_capability(Capability::UPLOAD_DOCUMENTS),
+					'can_edit_document' => !$document->trashed() && $user->can_capability(array(Capability::EDIT_DOCUMENT, Capability::DELETE_DOCUMENT)),
 					'versions' => !is_null($document->file) ? $document->file->revisionOfRecursive()->get() : new Collection,
 					'pagetitle' => trans('documents.edit.page_title', ['document' => $document->title]),
 					'context' => 'document', 'context_document' => $document->id, 'filter' => $document->name,
 				);
 
 				return view('documents.edit', $view_params);
-			
+		
+        }catch(ForbiddenException $kex){
+            
+            \Log::warning('User tried to edit a document who don\'t has access to', ['error' => $kex, 'user' => $auth->user()->id, 'document' => $id]);
+            
+			throw $kex;
+            
+        }catch(\Exception $kex){
 
-		}catch(\Exception $kex){
+            \Log::error('Error generating data for documents.edit view', ['error' => $kex]);
+            
 			return view('panels.error', ['message' => $kex->getMessage()]);
 		}
 	}
@@ -603,7 +631,7 @@ class DocumentsController extends Controller {
 
 			$user = $auth->user();
 
-			if(!$user->can(Capability::EDIT_DOCUMENT)){
+			if(!$user->can_capability(Capability::EDIT_DOCUMENT)){
 				throw new ForbiddenException(trans('documents.messages.forbidden'), 1);
 			}
 
@@ -789,21 +817,21 @@ class DocumentsController extends Controller {
 			
 			$user = $auth->user();
 			
-			if(!$user->can(Capability::DELETE_DOCUMENT)){
+			if(!$user->can_capability(Capability::DELETE_DOCUMENT)){
 				throw new ForbiddenException(trans('documents.messages.delete_forbidden'), 1);
 			}
 			
 			
 			$descriptor = DocumentDescriptor::findOrFail($id);
 			
-			if($descriptor->isPublic() && !$user->can(Capability::CHANGE_DOCUMENT_VISIBILITY)){
+			if($descriptor->isPublic() && !$user->can_capability(Capability::CHANGE_DOCUMENT_VISIBILITY)){
 				\Log::warning('User tried to delete a public document without permission', ['user' => $user->id, 'document' => $id]);
 				throw new ForbiddenException(trans('documents.messages.delete_public_forbidden'), 2);
 			}
 			
 			$force = $request::input('force', false);
 			
-			if($force && !$user->can(Capability::CLEAN_TRASH)){
+			if($force && !$user->can_capability(Capability::CLEAN_TRASH)){
 				\Log::warning('User tried to force delete a document without permission', ['user' => $user->id, 'document' => $id]);
 				throw new ForbiddenException(trans('documents.messages.delete_force_forbidden'), 2);
 			}

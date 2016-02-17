@@ -34,7 +34,7 @@ trait HasCapability
      * @param string|array $permission Capability name or array of Capability names
      * @return boolean return true if the user supports at least one of the specified $permission
      */
-    public function can($permission)
+    public function can_capability($permission)
     {
 
         if(empty($permission)){
@@ -76,7 +76,7 @@ trait HasCapability
      * @param string[] $capabilities the array of Capability names to check for
      * @return boolean true if the the $capabilities are met by the user
      */
-    public function canAll(array $capabilities)
+    public function can_all_capabilities(array $capabilities)
     {
 
         if(empty($capabilities)){
@@ -106,12 +106,12 @@ trait HasCapability
      */
     public function isContentManager()
     {
-        return $this->canAll(Capability::$CONTENT_MANAGER);
+        return $this->can_all_capabilities(Capability::$CONTENT_MANAGER);
     }
 
     public function isPartner()
     {
-        return $this->canAll(Capability::$PARTNER) && !$this->can(Capability::MANAGE_PEOPLE_GROUPS);
+        return $this->can_all_capabilities(Capability::$PARTNER) && !$this->can_capability(Capability::MANAGE_PEOPLE_GROUPS);
     }
 
     /**
@@ -123,7 +123,7 @@ trait HasCapability
      */
     public function isDMSAdmin()
     {
-        return $this->canAll(Capability::$ADMIN);
+        return $this->can_all_capabilities(Capability::$ADMIN);
     }
 
     /**
@@ -135,7 +135,7 @@ trait HasCapability
      */
     public function isDMSManager()
     {
-        return $this->canAll(Capability::$DMS_MASTER);
+        return $this->can_all_capabilities(Capability::$DMS_MASTER);
     }
     
     
@@ -148,7 +148,7 @@ trait HasCapability
      */
     public function isProjectManager()
     {
-        return $this->canAll(Capability::$PROJECT_MANAGER);
+        return $this->can_all_capabilities(Capability::$PROJECT_MANAGER);
     }
 
 

@@ -66,7 +66,7 @@ class BulkController extends Controller {
 			
 			$force = $request->input('force', false);
 			
-			// if($force && !$user->can(Capability::CLEAN_TRASH)){
+			// if($force && !$user->can_capability(Capability::CLEAN_TRASH)){
 			// 	throw new ForbiddenException(trans('documents.messages.delete_force_forbidden'));
 			// }
 
@@ -152,12 +152,12 @@ class BulkController extends Controller {
 		
 		$descriptor = ($id instanceof DocumentDescriptor) ? $id : DocumentDescriptor::withTrashed()->findOrFail($id);
 			
-		if($descriptor->isPublic() && !$user->can(Capability::CHANGE_DOCUMENT_VISIBILITY)){
+		if($descriptor->isPublic() && !$user->can_capability(Capability::CHANGE_DOCUMENT_VISIBILITY)){
 			\Log::warning('User tried to delete a public document without permission', ['user' => $user->id, 'document' => $id]);
 			throw new ForbiddenException(trans('documents.messages.delete_public_forbidden'), 2);
 		}
 		
-		// if($force && !$user->can(Capability::CLEAN_TRASH)){
+		// if($force && !$user->can_capability(Capability::CLEAN_TRASH)){
 		// 	\Log::warning('User tried to force delete a document without permission', ['user' => $user->id, 'document' => $id]);
 		// 	throw new ForbiddenException(trans('documents.messages.delete_force_forbidden'), 2);
 		// }
@@ -176,7 +176,7 @@ class BulkController extends Controller {
 		
 		$group = ($id instanceof Group) ? $id : Group::withTrashed()->findOrFail($id);
 		
-		if($force && !$user->can(Capability::CLEAN_TRASH)){
+		if($force && !$user->can_capability(Capability::CLEAN_TRASH)){
 			\Log::warning('User tried to force delete a group without permission', ['user' => $user->id, 'document' => $id]);
 			throw new ForbiddenException(trans('documents.messages.delete_force_forbidden'), 2);
 		}

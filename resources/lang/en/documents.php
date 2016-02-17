@@ -31,7 +31,7 @@ return [
 
 	'menu' => array(
 		'all' => 'All',
-		'public' => 'Public',
+		'public' => 'K-Link Public',
 		'private' => 'Private',
 		'personal' => 'Personal',
 		'starred' => 'Starred',
@@ -55,6 +55,8 @@ return [
 		'presentation' => 'presentation|presentations',
 		'uri-list' => 'URL list|URLs list',
 		'image' => 'image|images',
+        'geodata' => 'geographic data|geographic data',
+        'text-document' => 'textual document|textual documents',
 	),
 
 	'empty_msg' => 'No documents in <strong>:context</strong>',
@@ -150,5 +152,6 @@ return [
 		'delete_force_forbidden' => 'You cannot permanently delete a Document. Please contact a Project Manager or an Administrator.',
 		'drag_hint' => 'Drop here the file to start the upload.',
 		'recent_hint_dms_manager' => 'You are viewing all the document updates made by each user of the DMS.',
+		'no_documents' => 'No Documents, you can upload new documents here using the "Create or Add" button above or by dragging and dropping them here.',
 	),
 ];

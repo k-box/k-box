@@ -421,7 +421,12 @@ class DocumentDescriptor extends Model {
 
             $this->abstract = $instance->getAbstract();
             $this->language = $instance->getLanguage();
-            $this->authors = implode(',', $instance->getAuthors());
+            if(is_array($instance->getAuthors())){
+                $this->authors = implode(',', $instance->getAuthors());
+            }
+            else {
+                \Log::warning('Klink Document Descriptor merge, authors not an array', ['descriptor' => $instance, 'authors' => var_export($instance->getAuthors(), true)]);
+            }
 
         }
         else {
@@ -460,7 +465,7 @@ class DocumentDescriptor extends Model {
             'abstract' => $instance->getAbstract(),
             'language' => $instance->getLanguage(),
             'is_public' => $instance->getVisibility() == \KlinkVisibilityType::KLINK_PUBLIC,
-            'authors' => implode(',', $instance->getAuthors()), //is Array so there is something that might be done
+            'authors' => is_array($instance->getAuthors()) ? implode(',', $instance->getAuthors()) : $instance->getAuthors(), //is Array so there is something that might be done
         ));
         
         return $cached;

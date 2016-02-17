@@ -13,9 +13,9 @@ return [
 
 	'en' => 'English',
 	'ru' => 'Russian',
-	'kg' => 'Kyrgyz Russian',
+	'ky' => 'Kyrgyz',
 	'de' => 'German',
 	'it' => 'Italian',
 	'fr' => 'French',
-
+    
 ];

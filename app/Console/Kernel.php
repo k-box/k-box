@@ -21,6 +21,7 @@ class Kernel extends ConsoleKernel {
 		'KlinkDMS\Console\Commands\DmsSyncCommand',
 		'KlinkDMS\Console\Commands\DmsSessionChecker',
 		'KlinkDMS\Console\Commands\DmsViewClearCommand',
+		'KlinkDMS\Console\Commands\DmsImportCommand',
 	];
 
 	/**

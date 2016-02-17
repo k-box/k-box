@@ -432,3 +432,11 @@ php artisan migrate --env=testing
 
 php artisan db:seed --env=testing
 ```
+
+
+# Laravel 5.1 LTS Upgrades
+
+- Added directory `bootstrap/cache`. This directory should be writable, and will be used by the framework to store temporary optimization files like `compiled.php`, `routes.php`, `config.php`, and `services.json`.
+- Added env parameter APP_LOG to specify the logging configuration, available options are "single", "daily", "syslog"
+- changed config/app.php cipher from MCRYPT_RIJNDAEL_128 to AES-256-CBC
+- if you use XDebug is highly reccommended to set xdebug.max_nesting_level = 500 because Laravel framework 5.1 has an increased number of function calls that, in some occasions are more than 100

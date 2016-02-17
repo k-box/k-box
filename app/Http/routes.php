@@ -178,6 +178,12 @@ Route::resource('profile', 'UserProfileController', ['only' => ['index', 'store'
 
 Route::resource('people', 'People\PeopleGroupsController');
 
+
+\Route::get('projects/{slug}/{language?}', [ 
+    'uses' => '\Klink\DmsMicrosites\Controllers\MicrositeController@show',
+    'as' => 'projects.site',
+])->where(['slug' => '[a-z\\-]+', 'language' => '^[a-z]{2}$']);
+
 Route::resource('projects', 'Projects\ProjectsController');
 
 
@@ -207,10 +213,29 @@ Route::get('klink/{id}/{action}',[
 |
 */
 
-Route::controllers([
-	'auth' => 'Auth\AuthController',
-	'password' => 'Auth\PasswordController',
-]);
+// Login and Logout
+
+Route::get('auth/login', [ 
+        'uses' => 'Auth\AuthController@getLogin',
+        'as' => 'auth.login',
+    ]);
+
+Route::post('auth/login', 'Auth\AuthController@postLogin');
+Route::get('auth/logout', 'Auth\AuthController@getLogout');
+
+// Password reset link request routes...
+Route::get('password/email', [ 
+        'uses' => 'Auth\PasswordController@getEmail',
+        'as' => 'password.reset',
+    ]);
+Route::post('password/email', 'Auth\PasswordController@postEmail');
+
+// Password reset routes...
+Route::get('password/reset/{token}', [ 
+        'uses' => 'Auth\PasswordController@getReset',
+        'as' => 'password.token',
+    ]);
+Route::post('password/reset', 'Auth\PasswordController@postReset');
 
 
 /*
@@ -231,3 +256,13 @@ Route::get('terms', ['as' => 'terms', 'uses' => 'SupportPagesController@terms'])
 
 Route::get('help/import', ['as' => 'importhelp', 'uses' => 'SupportPagesController@importhelp']);
 Route::get('help', ['as' => 'help', 'uses' => 'SupportPagesController@help']);
+
+
+// Microsites routes
+
+Route::get('site/{slug}', [ 
+    'uses' => '\Klink\DmsMicrosites\Controllers\MicrositeController@show',
+    'as' => 'microsites.slug',
+]);
+
+Route::resource('microsites', '\Klink\DmsMicrosites\Controllers\MicrositeController');

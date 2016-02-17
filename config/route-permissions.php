@@ -116,13 +116,23 @@ return array(
 	),
 	
 	'projects' => array(
-		'index' => KlinkDMS\Capability::$QUALITY_CONTENT_MANAGER,
-		'create' => KlinkDMS\Capability::$QUALITY_CONTENT_MANAGER,
-		'store' => KlinkDMS\Capability::$QUALITY_CONTENT_MANAGER,
-		'show' => KlinkDMS\Capability::$QUALITY_CONTENT_MANAGER,
-		'edit' => KlinkDMS\Capability::$QUALITY_CONTENT_MANAGER,
-		'update' => KlinkDMS\Capability::$QUALITY_CONTENT_MANAGER,
-		'destroy' => KlinkDMS\Capability::$QUALITY_CONTENT_MANAGER,
+		'index' => array('all' => KlinkDMS\Capability::$PROJECT_MANAGER),
+		'create' => array('all' => KlinkDMS\Capability::$PROJECT_MANAGER),
+		'store' => array('all' => KlinkDMS\Capability::$PROJECT_MANAGER),
+		'show' => array('all' => KlinkDMS\Capability::$PROJECT_MANAGER),
+		'edit' => array('all' => KlinkDMS\Capability::$PROJECT_MANAGER),
+		'update' => array('all' => KlinkDMS\Capability::$PROJECT_MANAGER),
+		'destroy' => array('all' => KlinkDMS\Capability::$PROJECT_MANAGER),
+	),
+    
+    'microsites' => array(
+		'index' => array('all' => KlinkDMS\Capability::$PROJECT_MANAGER),
+		'create' => array('all' => KlinkDMS\Capability::$PROJECT_MANAGER),
+		'store' => array('all' => KlinkDMS\Capability::$PROJECT_MANAGER),
+		'show' => array('all' => KlinkDMS\Capability::$PROJECT_MANAGER),
+		'edit' => array('all' => KlinkDMS\Capability::$PROJECT_MANAGER),
+		'update' => array('all' => KlinkDMS\Capability::$PROJECT_MANAGER),
+		'destroy' => array('all' => KlinkDMS\Capability::$PROJECT_MANAGER),
 	),
 
 	'import' => KlinkDMS\Capability::IMPORT_DOCUMENTS,

@@ -1,6 +1,9 @@
 <?php 
 
-use Laracasts\TestDummy\DbTestCase;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
+
 use KlinkDMS\Capability;
 use KlinkDMS\Starred;
 use Laracasts\TestDummy\Factory;
@@ -9,16 +12,11 @@ use Klink\DmsSearch\SearchRequest;
 use Illuminate\Http\Request;
 use KlinkDMS\Traits\Searchable;
 
-class SearchTest extends DbTestCase {
+class SearchTest extends TestCase {
 
 	use Searchable;
-
-	public function setUp()
-	{
-
-		parent::setUp();
-		
-	}
+    use DatabaseMigrations;
+    use DatabaseTransactions;
 	
 	public function testSearchRequestBaseConstruction()
 	{
@@ -338,9 +336,20 @@ class SearchTest extends DbTestCase {
 	
 	
 	public function testSearchStarred_all_override(){
-		$expected_total_results = Starred::with('document')->ofUser(1)->count();
+        
+        // add some documents and star them
+        
+        $user = $this->createAdminUser();
+        
+        $starred = factory('KlinkDMS\DocumentDescriptor', 3)
+            ->create()
+            ->each(function($doc) use ($user) {
+                $doc->stars()->create(['user_id' => $user->id]);
+            });
+        
+		$expected_total_results = Starred::with('document')->ofUser($user->id)->count();
 		
-		$starred_docs_ids = Starred::with('document')->ofUser(1)->get()->fetch('document.local_document_id')->all();
+		$starred_docs_ids = Starred::with('document')->ofUser($user->id)->get()->fetch('document.local_document_id')->all();
 		
 		$req = SearchRequest::create()->page(1)->limit(1);
 		
@@ -350,11 +359,11 @@ class SearchTest extends DbTestCase {
 		
 		$that = $this;
 		
-		$results = $this->search($req, function($_request) use($that){
+		$results = $this->search($req, function($_request) use($that, $user){
 			
 			$that->assertInstanceOf('Klink\DmsSearch\SearchRequest', $_request);
 			
-			return Starred::with('document')->ofUser(1); // or Collection or Eloquent\Builder instance
+			return Starred::with('document')->ofUser($user->id); // or Collection or Eloquent\Builder instance
 		});
 		
 		$this->assertInstanceOf('KlinkDMS\Pagination\SearchResultsPaginator', $results, 'Result not a paginator');
@@ -376,9 +385,21 @@ class SearchTest extends DbTestCase {
 	
 	public function testSearchStarred_in(){
 		
-		$expected_total_results = Starred::with('document')->ofUser(1)->count();
+        $this->markTestIncomplete(
+          'This test Requires that the documents are indexed in the core.'
+        );
+        
+        $user = $this->createAdminUser();
+        
+        $starred = factory('KlinkDMS\DocumentDescriptor', 3)
+            ->create()
+            ->each(function($doc) use ($user) {
+                $doc->stars()->create(['user_id' => $user->id]);
+            });
+        
+		$expected_total_results = Starred::with('document')->ofUser($user->id)->count();
 		
-		$starred_docs_ids = Starred::with('document')->ofUser(1)->get()->fetch('document.local_document_id')->all();
+		$starred_docs_ids = Starred::with('document')->ofUser($user->id)->get()->fetch('document.local_document_id')->all();
 		
 		$req = SearchRequest::create()->page(1)->limit($expected_total_results);
 		
@@ -396,8 +417,6 @@ class SearchTest extends DbTestCase {
 			
 			return false; // force to execute a search on the core instead on the database
 		});
-		
-		// dd($results);
 		
 		$this->assertInstanceOf('KlinkDMS\Pagination\SearchResultsPaginator', $results, 'Result not a paginator');
 		

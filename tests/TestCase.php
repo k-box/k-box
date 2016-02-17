@@ -9,13 +9,15 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
 
 
 	protected $artisan = null;
+    
+    protected $baseUrl = 'http://localhost/';
 	
 	public function setUp()
 	{
 
 		parent::setUp();
 
-		$artisan = $this->app->make('Illuminate\Contracts\Console\Kernel');
+		
 
 		// $artisan->call('migrate',array('-n'=>true));
 
@@ -38,24 +40,68 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
 
 		return $app;
 	}
+    
+    
+    protected function seedDatabase(){
+        $artisan = app()->make('Illuminate\Contracts\Console\Kernel');
+// 
+// 		// $artisan->call('migrate',array('-n'=>true));
+// 
+		$artisan->call('db:seed',array('-n'=> true));
+    }
+    
 	
 	
 	protected function createAdminUser(){
-		
-		$admin_user = Factory::create('admin_user');
+        
+        if( Capability::all()->isEmpty() ){
+            $this->seedDatabase();
+            
+            var_dump( 'Database seeding completed' );
+        }
+        
+        $admin_user = factory(\KlinkDMS\User::class)->create();
 		
 		$admin_user->addCapabilities( Capability::$ADMIN );
 		
 		return $admin_user;
 	}
 	
-	protected function createUser($capabilities){
+	protected function createUser($capabilities, $user_params = []){
+        
+        if( Capability::all()->isEmpty() ){
+            $this->seedDatabase();
+            
+            var_dump( 'Database seeding completed' );
+        }
 		
-		$user = Factory::create('KlinkDMS\User');
+		$user = factory(\KlinkDMS\User::class)->create( $user_params );
 		
 		$user->addCapabilities( $capabilities );
 		
 		return $user;
 	}
+    
+    
+    public function assertViewName($expected){
+        
+        try{
+        
+            if( isset( $this->response ) && !empty( $this->response->original->name() ) ){
+                
+                $this->assertEquals($expected, $this->response->original->name() );
+                
+                return;
+            }
+            
+            $this->fail('Response does not have a view');
+        
+        
+        }catch(\Exception $e){
+            $this->fail('Exception while checking view name assertion. ' . $e->getMessage());
+        }
+        
+        
+    }
 
 }

@@ -70,7 +70,6 @@ final class RoutingHelpers {
 	
 	public static function filterSearch($empty_url, $current_active_filters, $facet, $term, $selected = false){
 	
-		// var_dump(compact('empty_url', 'current_active_filters', 'facet', 'term', 'selected'));
 		
 		if(empty($current_active_filters)){
 			return $empty_url . '&fs='.$facet.'&'.$facet.'='.$term;

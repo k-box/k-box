@@ -1,6 +1,6 @@
-<?php namespace KlinkDMS\Commands;
+<?php namespace KlinkDMS\Jobs;
 
-use KlinkDMS\Commands\Command;
+use KlinkDMS\Commands\Job;
 use KlinkDMS\User;
 use KlinkDMS\Option;
 use KlinkDMS\DocumentDescriptor;
@@ -13,7 +13,7 @@ use Klink\DmsDocuments\DocumentsService;
 /**
  * Command that perform the global reindex of all the documents saved in the DMS
  */
-class ReindexAll extends Command implements SelfHandling, ShouldBeQueued {
+class ReindexAll extends Job implements SelfHandling, ShouldBeQueued {
 
 	use InteractsWithQueue, SerializesModels;
 

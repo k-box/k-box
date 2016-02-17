@@ -58,18 +58,7 @@
 			@unless (empty($search_terms) || $only_facets)
 			<p class="advice">{!!trans('search.no_results', ['term' =>$search_terms, 'collection' => trans('documents.visibility.' . $current_visibility)])!!}</p>
 
-			<?php
-				$opposite = $current_visibility=='public' ? 'private' : 'public';
-			?>
-
-			@if($current_visibility=='public')
-					<?php $link = '<span class="btn-icon icon-action-black icon-action-black-ic_lock_black_24dp"></span>' . trans('documents.visibility.private'); ?>
-				@else
-					<?php $link = '<span class="btn-icon icon-social-black icon-social-black-ic_public_black_24dp"></span>'. trans('documents.visibility.public'); ?>
-				@endif
-
 			<p class="advice">{!!trans('search.try_message', [
-					'collectionlink' => '<a href="'. route('search') .'?s='.$search_terms.'&visibility='.$opposite.'" class="button">'.$link.'</a>',
 					'startwithlink' => '<a href="'. route('search') .'?s='.$search_terms.'*&visibility='.$current_visibility.'" class="button">'.$search_terms.'&hellip;</a>'
 				])!!}
 

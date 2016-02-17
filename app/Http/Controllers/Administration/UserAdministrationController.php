@@ -286,7 +286,7 @@ class UserAdministrationController extends Controller {
           $already_exists = User::withTrashed()->fromEmail($change_mail)->first();
           
           if($current_mail != $change_mail && is_null($already_exists)){
-              $user->email = $request->get('change_email');
+              $user->email = $request->get('email');
           }
           else if($current_mail != $change_mail && !is_null($already_exists)){
               return redirect()->back()->withInput()->withErrors([
@@ -405,6 +405,9 @@ class UserAdministrationController extends Controller {
 
         
       }catch(\Exception $ex){
+          
+          \Log::error('Password reset from admin interface error', ['error' => $ex]);
+          
         return redirect()->back()->withErrors([
 	            'error' => trans('administration.accounts.reset_not_sent', ['email' => $id, 'error' => $ex->getMessage()])
 	        ]);

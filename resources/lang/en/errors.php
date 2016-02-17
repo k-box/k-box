@@ -34,6 +34,8 @@ return [
 	'document_not_found' => 'The document you are looking for cannot be found or was deleted.',
 
 	'forbidden_exception' => 'You don\'t have access to the page.',
+	'forbidden_edit_document_exception' => 'You cannot\'t edit the document.',
+	'forbidden_see_document_exception' => 'You cannot\'t view the document as it is personal of a user.',
 	
 	'fatal' => 'Fatal error :reason',
 
@@ -44,6 +46,8 @@ return [
 
 	'import' => array(
 		'folder_not_readable' => 'The folder :folder is not readable. Make sure to have read permission.',
+		'url_already_exists' => 'A file from the same website url (:url) has been already imported.',
+		'download_error' => 'The document ":url" cannot be downloaded. :error',
 	),
 
 
@@ -61,6 +65,9 @@ return [
 	
 	'401_title' => 'You cannot view the page K-Link DMS',
 	'401_text' => 'Woops! Looks like you can<strong>not</strong> view the page<br/>due to your <strong>Authorization</strong> level.',
+    
+    '403_title' => 'You don\'t have the permission to view the page',
+	'403_text' => 'Woops! Looks like you can<strong>not</strong> view the page<br/>due to your <strong>Authorization</strong> level.',
 
 	'405_title' => 'Method Not Allowed on the K-Link DMS',
 	'405_text' => 'Don\'t call me like this again.',

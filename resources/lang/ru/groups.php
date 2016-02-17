@@ -31,7 +31,7 @@ return [
 	'created_on' => 'создано',
 	'created_by' => 'создано',
 
-	'private_badge_label' => 'Личная Коллекция Документов',
+	'private_badge_label' => 'Личная Коллекция документов',
 
 	'group_icon_label' => 'Коллекция',
 
@@ -64,7 +64,7 @@ return [
 		
 		'saving' => 'Сохранение...',
 		
-		'invalidargumentexception' => 'Извините, Опреация не может быть выполнена. :exception',
+		'invalidargumentexception' => 'Извините, опреация не может быть выполнена. :exception',
 	),
 
 ];

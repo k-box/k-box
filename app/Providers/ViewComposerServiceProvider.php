@@ -50,14 +50,13 @@ class ViewComposerServiceProvider extends ServiceProvider {
 
 
 	public function registerHeadersComposer(){
-		view()->composer('headers.header-layout', 'KlinkDMS\Http\Composers\HeadersComposer');
-		view()->composer('headers.basic', 'KlinkDMS\Http\Composers\HeadersComposer');
+		view()->composer('headers.header', 'KlinkDMS\Http\Composers\HeadersComposer');
 		view()->composer('login-layout', 'KlinkDMS\Http\Composers\HeadersComposer');
 		view()->composer('share.create', 'KlinkDMS\Http\Composers\HeadersComposer');
 	}
 	
 	public function registerFrontpageComposer(){
-		view()->composer('welcome', 'KlinkDMS\Http\Composers\FrontpageComposer@welcome');
+		// view()->composer('welcome', 'KlinkDMS\Http\Composers\FrontpageComposer@welcome');
 	}
 
 
@@ -93,6 +92,7 @@ class ViewComposerServiceProvider extends ServiceProvider {
 		view()->composer('documents.document-layout', 'KlinkDMS\Http\Composers\DocumentsComposer@layout');
 		view()->composer('documents.documents', 'KlinkDMS\Http\Composers\DocumentsComposer@layout');
 		view()->composer('documents.sharedwithme', 'KlinkDMS\Http\Composers\DocumentsComposer@shared');
+		view()->composer('documents.menu', 'KlinkDMS\Http\Composers\DocumentsComposer@menu');
 		
 		view()->composer('documents.trash', 'KlinkDMS\Http\Composers\DocumentsComposer@layout');
 
@@ -118,44 +118,44 @@ class ViewComposerServiceProvider extends ServiceProvider {
 
 
 
-		view()->composer('dashboard.notices', function($view){
-
-			if(\Auth::check()){
-
-				$notices = array();
-
-				$user = \Auth::user();
-
-				if($user->isDMSAdmin()){
-					
-					$pretend = \Config::get('mail.pretend');
-
-					if($pretend){
-						$notices[] = trans('notices.mail_testing_mode_msg', ['url' => route('administration.mail.index')]);
-					}
-
-					$from_mail = \Config::get('mail.from.address');
-					$from_name = \Config::get('mail.from.name');
-					
-					if(empty($from_mail) || empty($from_name)){
-						$notices[] = trans('notices.mail_config_msg', ['url' => route('administration.mail.index')]);
-					}
-				}
-
-
-				if(ends_with($user->email, 'klink.local')){
-					$notices[] = trans('notices.account_mail_msg', ['url' => route('profile.index')]);
-				}
-				
-
-				if(!empty($notices)){
-
-					$view->with('notices', $notices);
-
-				}
-			}
-
-		});
+// 		view()->composer('dashboard.notices', function($view){
+// 
+// 			if(\Auth::check()){
+// 
+// 				$notices = array();
+// 
+// 				$user = \Auth::user();
+// 
+// 				if($user->isDMSAdmin()){
+// 					
+// 					$pretend = \Config::get('mail.pretend');
+// 
+// 					if($pretend){
+// 						$notices[] = trans('notices.mail_testing_mode_msg', ['url' => route('administration.mail.index')]);
+// 					}
+// 
+// 					$from_mail = \Config::get('mail.from.address');
+// 					$from_name = \Config::get('mail.from.name');
+// 					
+// 					if(empty($from_mail) || empty($from_name)){
+// 						$notices[] = trans('notices.mail_config_msg', ['url' => route('administration.mail.index')]);
+// 					}
+// 				}
+// 
+// 
+// 				if(ends_with($user->email, 'klink.local')){
+// 					$notices[] = trans('notices.account_mail_msg', ['url' => route('profile.index')]);
+// 				}
+// 				
+// 
+// 				if(!empty($notices)){
+// 
+// 					$view->with('notices', $notices);
+// 
+// 				}
+// 			}
+// 
+// 		});
 
 	}
 
@@ -166,23 +166,11 @@ class ViewComposerServiceProvider extends ServiceProvider {
 
 			$user = isset($view['user_name']) ? $view['user_name'] : \Auth::user()->name;
 
-			// dd($view);
-
-			// if(!isset($view['image'])){
-
-
-			// 	$user = isset($view['user_name']) ? $view['user_name'] : \Auth::user()->name;
-
-			// 	// image
-			// 	// user_name
-
 			$user_name = studly_case($user);
-
 
 			$view->with('user_initial', $user_name[0]);
 			$view->with('avatar_color', '#34495e');
 
-			// }
 		});
 
 	}
@@ -256,13 +244,13 @@ class ViewComposerServiceProvider extends ServiceProvider {
 				$user = \Auth::user();
 				
 				$show_admin_link = $user->isDMSManager();
-				$show_doc_link = $user->isContentManager() || $user->can(Capability::UPLOAD_DOCUMENTS) || $user->can(Capability::EDIT_DOCUMENT);
+				$show_doc_link = $user->isContentManager() || $user->can_capability(Capability::UPLOAD_DOCUMENTS) || $user->can_capability(Capability::EDIT_DOCUMENT);
 
-				$people_group = $user->can(array(Capability::MANAGE_PEOPLE_GROUPS, Capability::MANAGE_PERSONAL_PEOPLE_GROUPS));
+				$people_group = $user->can_capability(array(Capability::MANAGE_PEOPLE_GROUPS, Capability::MANAGE_PERSONAL_PEOPLE_GROUPS));
 
-				$show_shared_link = !$show_doc_link && $user->can(Capability::RECEIVE_AND_SEE_SHARE) && $user->can(Capability::MAKE_SEARCH);
+				$show_shared_link = !$show_doc_link && $user->can_capability(Capability::RECEIVE_AND_SEE_SHARE) && $user->can_capability(Capability::MAKE_SEARCH);
 				
-				$show_search_link = !$show_doc_link && $user->can(Capability::RECEIVE_AND_SEE_SHARE) && $user->can(Capability::MAKE_SEARCH);
+				$show_search_link = !$show_doc_link && $user->can_capability(Capability::RECEIVE_AND_SEE_SHARE) && $user->can_capability(Capability::MAKE_SEARCH);
 
 				$view->with('show_admin_link', $show_admin_link);
 				

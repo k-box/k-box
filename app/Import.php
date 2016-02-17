@@ -11,6 +11,12 @@ class Import extends Model {
      * status codes
      */
     const STATUS_QUEUED = 0;
+    
+    /**
+     * Indicates that the import has been paused. This status can only be reached from the queued status before 
+     * the import will be processed. A running import cannot be put in a paused state
+     */
+    const STATUS_PAUSED = 6;
 
     /**
      * Indicate that the document, reference by a DocumentDescriptor, is currently in indexing
@@ -36,6 +42,7 @@ class Import extends Model {
      * status message
      */
     const MESSAGE_QUEUED = "queued";
+    const MESSAGE_PAUSED = "paused";
     const MESSAGE_DOWNLOADING = "downloading";
     const MESSAGE_COMPLETED = "completed";
     const MESSAGE_INDEXING = "indexing";
@@ -56,6 +63,11 @@ class Import extends Model {
     parent_id: Import => parent_id===0 ? root
     created_at
     updated_at
+    
+    message: text
+    
+    payload: json
+    
     */
 
     /**
@@ -66,6 +78,12 @@ class Import extends Model {
     protected $table = 'import';
 
     protected $dates = ['created_at','updated_at'];
+    
+    protected $casts = [
+        'payload' => 'array',
+    ];
+    
+    protected $hidden = [ 'payload' ];
 
 
 

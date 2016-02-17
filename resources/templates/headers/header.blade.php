@@ -4,7 +4,7 @@
 	<div class="top-header">
 
 
-		@if( $is_user_logged )
+		@if( isset( $is_user_logged ) && $is_user_logged )
 
 			<div class="u-pull-right">
 
@@ -16,7 +16,7 @@
 
 			</div>
 
-		@elseif(!$is_frontpage)
+		@elseif(isset( $is_frontpage ) && !$is_frontpage)
 
 			<div class="u-pull-right">
 
@@ -27,12 +27,12 @@
 		@endif
 
 		<div class="logo">
-			<a href="@if($is_user_logged){{$current_user_home_route}}@else{{route('frontpage')}}/@endif">
+			<a href="@if(isset( $is_user_logged ) && $is_user_logged){{$current_user_home_route}}@else{{route('frontpage')}}/@endif">
 				&nbsp;
 			</a>
 		</div>
 		
-@if($show_search)		
+@if( isset( $show_search ) && $show_search)		
 		@include('search.searchform')
 @endif
 

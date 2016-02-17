@@ -17,9 +17,9 @@ return [
 			Welcome mail template
 		 */
 
-		'disclaimer' => 'Это письмо содержит информацию о вашей учетной записи, пожалуиста сохраните его в безопасном месте.',
+		'disclaimer' => 'Это письмо содержит информацию о вашей учетной записи, пожалуйста сохраните его в безопасном месте.',
 		'welcome' => 'Добро пожаловать, :name,',
-		'credentials' => 'теперь у вас есть доступ в СУД К-Линк вашей организации с<br/> учетной записью <strong>:mail</strong><br/>и паролем <strong>:password</strong>',
+		'credentials' => 'теперь у вас есть доступ в K-LINK DMS вашей организации с<br/> учетной записью <strong>:mail</strong><br/>и паролем <strong>:password</strong>',
 
 		'login_button' => '<a href=":link">Логин</a>',
 		

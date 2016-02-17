@@ -33,12 +33,12 @@ class WelcomeController extends Controller {
 	public function index()
 	{
 
-		if( \Config::get('dms.are_guest_public_search_enabled') ){
+		// if( \Config::get('dms.are_guest_public_search_enabled') ){
 			return view('welcome', ['classes' => 'frontpage']); // ;
-		}
-		else {
-			return view('auth.login');
-		}
+		// }
+		// else {
+		// 	return view('auth.login');
+		// }
 
 	}
 

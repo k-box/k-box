@@ -84,6 +84,11 @@ return [
 	'delete_people_group' => 'Delete group',
 	
 	'make_institutional_people_group' => 'Make Institutional',	
-	'make_personal_people_group' => 'Keep Personal',	
+	'make_personal_people_group' => 'Keep Personal',
+    
+    'filters' => array(
+        'filter' => 'Filters',
+        'clear_filters' => 'Clear Filters',
+    ),
 
 ];

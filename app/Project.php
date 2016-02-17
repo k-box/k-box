@@ -71,6 +71,12 @@ class Project extends Model {
       return $query->where('user_id', $user);
     }    
     
+    /**
+     * The associated microsite
+     */
+    public function microsite(){
+        return $this->hasOne('\Klink\DmsMicrosites\Microsite');
+    }
     
     // /**
     //  * 

@@ -23,7 +23,7 @@
 
 		@else
 
-			<p>No documents, start upload something (you can use the drag and drop)</p>
+			<p>{{ trans('document.messages.no_documents') }}</p>
 
 		@endif
 		

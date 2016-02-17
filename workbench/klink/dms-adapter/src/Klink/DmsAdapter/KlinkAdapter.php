@@ -57,6 +57,7 @@ class KlinkAdapter
 			\Log::warning('Exception while reading K-Link Public core settings', array('exception' => $qe));
 		}
 
+
 		$this->klink_config = new \KlinkConfiguration(\Config::get('dms.institutionID'), \Config::get('dms.identifier'), $cores);
 		
 		if($can_read_options && Option::option(Option::PUBLIC_CORE_DEBUG, false)){
@@ -75,6 +76,11 @@ class KlinkAdapter
 
 		return $inst->name;
 	}
+    
+    
+    public function isKlinkPublicEnabled(){
+        return !!Option::option(Option::PUBLIC_CORE_ENABLED, false);
+    }
 
 
 	public function getConnection()
@@ -234,6 +240,10 @@ class KlinkAdapter
 	public function getDocumentsCount($visibility = 'public')
 	{
 
+        if(!$this->isKlinkPublicEnabled()){
+            return 0;
+        }
+
 		$conn = $this->connection;
 
 		$value = \Cache::remember($visibility . '_documents_count', 15, function() use($conn, $visibility)
@@ -263,7 +273,11 @@ class KlinkAdapter
 
 			$fs = \KlinkFacetsBuilder::create()->documentType()->build();
 
-			$public_facets_response = $conn->facets( $fs );
+            $public_facets_response = array();
+
+            if($this->isKlinkPublicEnabled()){
+                $public_facets_response = $conn->facets( $fs );
+            }
 
 			$private_facets_response = $conn->facets( $fs, 'private' );
 

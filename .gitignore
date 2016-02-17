@@ -7,7 +7,6 @@ public/build
 public/js/*
 public/js /*
 public/css/*
-public/images/sprite*.png
 storage/documents/*
 .idea
 .vagrant

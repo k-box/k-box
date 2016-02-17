@@ -71,8 +71,11 @@ class AllComposer {
 
         $route_name = \Route::currentRouteName();        
 
-        if( !is_null( $route_name ) ){
+        if( !is_null( $route_name )  && $route_name != 'auth.login'){
             $body_classes[] = $route_name;
+        }
+        else if( !is_null( $route_name )  && $route_name === 'auth.login'){
+            $body_classes[] = 'login';
         }
 
         if( !is_null( $route_name ) && starts_with($route_name, 'documents')){
@@ -84,7 +87,7 @@ class AllComposer {
 
             $exploded = array_slice( explode('/', $path), 0, 2);
 
-            $body_classes[] =  implode(' ', $exploded);
+            $body_classes[] =  implode(' ', $exploded);   
         }
 
         $is_frontpage = $route_name === 'dashboard' || $route_name === 'frontpage';

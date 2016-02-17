@@ -28,7 +28,7 @@ return [
 	'edit_btn_title' => 'Изменить детали документа',
 
 	'restore_btn' => 'Восстановить',
-	'restore_btn_title' => 'Восстановить документы с корзины',
+	'restore_btn_title' => 'Восстановить документы из корзины',
 
 	'version_btn' => 'Версии',
 	'version_btn_title' => 'Управлять и добавлять версии документа',
@@ -42,7 +42,7 @@ return [
 	'not_shared' => 'Не разделяемое',
 	'not_in_collection' => 'Не в коллекции',
 
-	'collection_remove' => 'Удалить с :collection',
+	'collection_remove' => 'Удалить из :collection',
 
 	'collection_open' => 'Открыть :collection',
 

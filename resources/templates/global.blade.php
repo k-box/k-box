@@ -13,7 +13,8 @@
 
 
 
-		<link rel="stylesheet" href="{{ url(elixir("css/all.css")) }}">
+		<link rel="stylesheet" href="{{ url(elixir("css/vendor.css")) }}">
+		<link rel="stylesheet" href="{{ url(elixir("css/app.css")) }}">
 
 		<!--[if lt IE 9]>
 			<link rel="stylesheet" href="{{ url(elixir("css/ie8.css")) }}">

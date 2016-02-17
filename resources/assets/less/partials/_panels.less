@@ -183,8 +183,27 @@
 	&.visible {
 		display: block;
 	}
+    
+    
+    .code {
+        font-family: Courier New, Courier, monospace;
+        line-height: 24px;
+        padding: 0;
+        border: 0;
+        width: 100%;
+        background-color: darken(#fff, 8%);
+        margin-bottom: 0;
+    }
 
-
+    .clipboard-btn {
+        letter-spacing: inherit;
+        
+    }
+    
+    .code + .clipboard-btn {
+        margin-bottom: 10px;
+        display: inline-block;
+    }
 }
 
 

@@ -313,10 +313,9 @@ class SearchRequest {
 		}
 		
 		if(!is_null($this->on_collections) && $this->on_collections->count() > 0){
-			$this->filters['documentGroups'] = $this->on_collections->all();
+            $this->filters['documentGroups'] = empty($this->filters['documentGroups']) ? $this->on_collections->all() : array_merge( $this->filters['documentGroups'], $this->on_collections->all() );
 		}
-		
-		
+
 		$fs_builder = \KlinkFacetsBuilder::create();
 		
 		// $current_filters = null;
@@ -349,9 +348,11 @@ class SearchRequest {
 			$default_facets_names = array_diff($default_facets_names, $current_names);
 		}
 	
+        //clean only filters from $default_facets_names \KlinkFacet::$ONLY_FILTER
+        $default_facets_names = array_diff($default_facets_names, \KlinkFacet::$ONLY_FILTER);
+    
 		// what default facets are missing? we need to add it
 		foreach ($default_facets_names as $fs) {
-			
 			$fs_builder->{$fs}(0);
 			
 		}

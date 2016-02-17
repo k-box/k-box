@@ -227,7 +227,7 @@ define("modules/selection", ["jquery", "DMS", "combokeys", "lodash"], function (
     	el = el.data ? el : $(el);
 
     	this.id = el.data('id');
-    	this.type = el.data('type');
+    	this.type = el.data('type') !== 'group' ? 'document' : 'group';
     	this.raw = el.data();
     	this.title = el.find('.link').attr('title');
 		this.share = el.data('shareid');
@@ -468,7 +468,7 @@ define("modules/selection", ["jquery", "DMS", "combokeys", "lodash"], function (
 		 * @return {[type]}      [description]
 		 */
 		selectionByType: function(selectedType, property){
-			
+			debugger;
 			var filtered = _.where(_selected, {'type' : selectedType});
 			
 			if(property){

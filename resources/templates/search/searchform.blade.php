@@ -2,7 +2,7 @@
 @if(isset($search_target_parameters) && !!$search_target_parameters)
 <form role="search" method="get" class="search-form" id="main-search" data-bind="search" action="{{ route($search_target, $search_target_parameters) }}">
 @else
-<form role="search" method="get" class="search-form" id="main-search" data-bind="search" action="{{ route($search_target) }}">
+<form role="search" method="get" class="search-form" id="main-search" data-bind="search" action="{{ route( isset( $search_target ) ? $search_target : 'search' ) }}">
 @endif
 
 	@if(isset($current_visibility) && ($current_visibility==='private' || $current_visibility==='personal' || $current_visibility==='public'))

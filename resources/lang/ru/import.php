@@ -15,21 +15,21 @@ return [
 
 	'clear_completed_btn' => 'Очистка завершена',
 
-	'import_status_general' => '{0} импорт завершен|{1} :num импортирование в прогрессе|[2,Inf] :num импортирование в прогрессе',
+	'import_status_general' => '{0} импортирование завершено|{1} :num импортирование в прогрессе|[2,Inf] :num импортирование в прогрессе',
 
-	'import_status_details' => ':total всего, :completed завершено и :executing в прцессе',
+	'import_status_details' => ':total всего, :completed завершено и :executing в процессе',
 
 	'form' => array(
 		'submit_folder' => 'Папка для импорта',
-		'submit_web' => 'Импортировть с веб',
+		'submit_web' => 'Импортировать с веб',
 
 		'select_web' => 'С URL',
 		'select_folder' => 'С папки',
 
-		'placeholder_web' => 'http(s)://somesite.com/file.pdf',
-		'placeholder_folder' => '/path/to/a/folder',
+		'placeholder_web' => 'http(s)://какой-нибудь.com/файл.pdf',
+		'placeholder_folder' => '/путь/к/какой-нибудь/папке',
 
-		'help_web' => 'Пожалуиста, введите один url на одну строку. Веб адрес, которым нужна аутентификация, не поддерживаются.',
+		'help_web' => 'Пожалуйста, введите один url на одну строку. Веб адреса, которым нужна аутентификация, не поддерживаются.',
 		'help_folder' => 'Network shares must be mounted on local filesystem, see <a href=":help_page_route" target="_blank">Помощь в импортировании</a>.',//I didn't understand the meaning of this phrase
 
 	)

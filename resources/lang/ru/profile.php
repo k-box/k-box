@@ -19,6 +19,7 @@ return [
 		'mail_changed' => 'Адрес почтового ящика был изменен.',
 		'name_changed' => 'Имя пользователя было изменено.',
 		'password_changed' => 'Пароль был изменен.',
+		'language_changed' => 'Язык был обновлен.',
 	),
 
 	'labels' => array(

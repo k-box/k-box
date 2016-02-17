@@ -3,7 +3,7 @@
 
 @section('header')
 
-	@include('headers.basic')
+	@include('headers.header')
 
 @stop
 

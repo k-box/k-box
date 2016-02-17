@@ -49,21 +49,21 @@ class DocumentsComposer {
 
             $auth_user = \Auth::user();
 
-            $view->with('can_import', $auth_user->can(Capability::IMPORT_DOCUMENTS));
+            $view->with('can_import', $auth_user->can_capability(Capability::IMPORT_DOCUMENTS));
 
-            $view->with('can_upload', $auth_user->can(Capability::UPLOAD_DOCUMENTS));
+            $view->with('can_upload', $auth_user->can_capability(Capability::UPLOAD_DOCUMENTS));
             
-            $view->with('can_create_collection', $auth_user->can(Capability::MANAGE_OWN_GROUPS) || $auth_user->can(Capability::MANAGE_PROJECT_COLLECTIONS));
+            $view->with('can_create_collection', $auth_user->can_capability(Capability::MANAGE_OWN_GROUPS) || $auth_user->can_capability(Capability::MANAGE_PROJECT_COLLECTIONS));
             
-            $view->with('can_make_public', $auth_user->can(Capability::CHANGE_DOCUMENT_VISIBILITY));
+            $view->with('can_make_public', $auth_user->can_capability(Capability::CHANGE_DOCUMENT_VISIBILITY));
             
-            $view->with('can_clean_trash', $auth_user->can(Capability::CLEAN_TRASH));
+            $view->with('can_clean_trash', $auth_user->can_capability(Capability::CLEAN_TRASH));
             
-            $view->with('can_share', $auth_user->can(array(Capability::SHARE_WITH_PERSONAL, Capability::SHARE_WITH_PRIVATE)));
+            $view->with('can_share', $auth_user->can_capability(array(Capability::SHARE_WITH_PERSONAL, Capability::SHARE_WITH_PRIVATE)));
 
             $view->with('can_manage_documents', $auth_user->isContentManager());
             
-            $view->with('can_delete_documents', $auth_user->can(Capability::DELETE_DOCUMENT));
+            $view->with('can_delete_documents', $auth_user->can_capability(Capability::DELETE_DOCUMENT));
 
             $view->with('can_partner', $auth_user->isPartner());
             
@@ -74,6 +74,10 @@ class DocumentsComposer {
         else {
             $view->with('list_style_current', 'tiles');
         }
+    }
+    
+    public function menu(View $view){
+        $view->with('is_klink_public_enabled', $this->adapter->isKlinkPublicEnabled());
     }
 
     /**
@@ -127,7 +131,7 @@ class DocumentsComposer {
 
                 $view->with('badge_shared', $document->isShared());
 
-                if($auth_user->can(Capability::EDIT_DOCUMENT)){
+                if($auth_user->can_capability(Capability::EDIT_DOCUMENT)){
 
                     $view->with('badge_error', $document->status === DocumentDescriptor::STATUS_ERROR);
 
@@ -188,8 +192,8 @@ class DocumentsComposer {
 
                     $view->with('groups', $collections);
 
-                    $view->with('user_can_edit_private_groups', $auth_user->can(Capability::MANAGE_OWN_GROUPS));
-                    $view->with('user_can_edit_public_groups', $auth_user->can(Capability::MANAGE_PROJECT_COLLECTIONS));
+                    $view->with('user_can_edit_private_groups', $auth_user->can_capability(Capability::MANAGE_OWN_GROUPS));
+                    $view->with('user_can_edit_public_groups', $auth_user->can_capability(Capability::MANAGE_PROJECT_COLLECTIONS));
 
                 }
                 else {
@@ -213,7 +217,7 @@ class DocumentsComposer {
 
                 // dd(compact('with_me', 'by_me'));
                 
-                if($auth_user->can(Capability::EDIT_DOCUMENT)){
+                if($auth_user->can_capability(Capability::EDIT_DOCUMENT)){
                     $view->with('user_can_edit', true);
                 }
                 else {
@@ -221,10 +225,10 @@ class DocumentsComposer {
                 }
                 
                 
-                $view->with('use_groups_page', $auth_user->can(Capability::MANAGE_OWN_GROUPS));
+                $view->with('use_groups_page', $auth_user->can_capability(Capability::MANAGE_OWN_GROUPS));
 
 
-                if($auth_user->can(Capability::UPLOAD_DOCUMENTS) && !is_null($document->file)){
+                if($auth_user->can_capability(Capability::UPLOAD_DOCUMENTS) && !is_null($document->file)){
                     $view->with('show_versions', true);
 
                     $view->with('has_versions', !is_null($document->file->revision_of));
@@ -309,7 +313,7 @@ class DocumentsComposer {
 
 
 
-                if($auth_user->can(Capability::UPLOAD_DOCUMENTS) && !is_null($document->file)){
+                if($auth_user->can_capability(Capability::UPLOAD_DOCUMENTS) && !is_null($document->file)){
                     
                     // $view->with('show_versions', true);
 
@@ -424,7 +428,7 @@ class DocumentsComposer {
 
 
                 
-                $cols['documentGroups'] = array('label' => 'Collections', 'items' => $private);
+                $cols['documentGroups'] = array('label' => trans('search.facets.documentGroups'), 'items' => $private);
                 
             }
             
@@ -433,8 +437,18 @@ class DocumentsComposer {
                     
                     $cols[$f->name]['items'] = array_filter(array_map(function($f_items) use($f, $filters, $are_filters_empty) {
                         
-                        if(!$are_filters_empty){
+                        if( $f->name == 'language' ){
+                            $f_items->label =  trans('languages.' . $f_items->term );
+                        }
+                        else if( $f->name == 'documentType' ){
+                            $f_items->label =  trans_choice('documents.type.' . $f_items->term, 1 );
+                        }
+                        else {
+                            $lang_group = $f_items->term;
+                        }
                         
+                        if(!$are_filters_empty){
+                                            
                             if(array_key_exists($f->name, $filters) && in_array($f_items->term, $filters[$f->name])){
                                 $f_items->selected = true;
                                 $f_items->collapsed = $f_items->count == 0;
@@ -466,7 +480,7 @@ class DocumentsComposer {
             
             
         }
-// dd($cols);
+//  dd(compact('cols', 'filters'));
         $view->with('columns', $cols);
         
         $view->with('width', 100/count($cols));
@@ -568,11 +582,11 @@ class DocumentsComposer {
 
             $auth_user = \Auth::user();
 
-            $view->with('can_share_with_personal', $auth_user->can(Capability::SHARE_WITH_PERSONAL));
+            $view->with('can_share_with_personal', $auth_user->can_capability(Capability::SHARE_WITH_PERSONAL));
 
-            $view->with('can_share_with_private', $auth_user->can(Capability::SHARE_WITH_PRIVATE));
+            $view->with('can_share_with_private', $auth_user->can_capability(Capability::SHARE_WITH_PRIVATE));
             
-            $view->with('can_see_share', $auth_user->can(Capability::RECEIVE_AND_SEE_SHARE));
+            $view->with('can_see_share', $auth_user->can_capability(Capability::RECEIVE_AND_SEE_SHARE));
             
             
 

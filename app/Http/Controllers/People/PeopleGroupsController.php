@@ -36,9 +36,9 @@ class PeopleGroupsController extends Controller {
 	{
 		$user = $auth->user();
 		
-		$can_institutional = $user->can(Capability::MANAGE_PEOPLE_GROUPS);
+		$can_institutional = $user->can_capability(Capability::MANAGE_PEOPLE_GROUPS);
 		
-		$can_personal = $user->can(Capability::MANAGE_PERSONAL_PEOPLE_GROUPS);
+		$can_personal = $user->can_capability(Capability::MANAGE_PERSONAL_PEOPLE_GROUPS);
 
 		
 		$groups_query = PeopleGroup::with('people');
@@ -164,7 +164,7 @@ class PeopleGroupsController extends Controller {
 			
 			
 			
-			if($request->has('make_institutional') && !$user->can(Capability::MANAGE_PEOPLE_GROUPS)){
+			if($request->has('make_institutional') && !$user->can_capability(Capability::MANAGE_PEOPLE_GROUPS)){
 				throw new \Exception('You cannot edit institutional groups');
 			}
 			

@@ -42,12 +42,8 @@
 
 	<div class="row">
 		
-		<!--<div class="six columns">
-			folders
-		</div>-->
-		
 		<div class="six columns">
-			<p>{{trans('projects.labels.users')}}</p>
+			<h4>{{trans('projects.labels.users')}}</h4>
 			@forelse($project->users as $user)
 			
 				
@@ -63,6 +59,38 @@
 			@endforelse
 		</div>
 		
+        <div class="six columns">
+			<h4>{!! trans('microsites.labels.microsite') !!}</h4>
+			<p>
+                <span class="description">{{trans('microsites.hints.what')}}</span>
+            </p>
+            
+            @if( is_null( $project->microsite ) )
+            
+                <p>
+                    <a id="microsite_create" href="{{ route('microsites.create', ['project' => $project->id]) }}" class="button">{{ trans('microsites.actions.create') }}</a>
+                    <span class="description">{{ trans('microsites.hints.create_for_project') }}</span>
+                </p>
+            
+            @else 
+            
+                <p>
+                    <a target="_blank" href="{{ route('projects.site', ['slug' => $project->microsite->slug]) }}" class="button">{{ trans('microsites.actions.view_site') }}</a>
+                </p>
+            
+                <p>
+                    <a id="microsite_edit" href="{{ route('microsites.edit', ['id' => $project->microsite->id]) }}" class="button">{{ trans('microsites.actions.edit') }}</a>
+                    <span class="description">{{ trans('microsites.hints.edit_microsite') }}</span>
+                </p>
+                
+                <p>
+                    <a href="{{ route('microsites.destroy', ['id' => $project->microsite->id]) }}" data-method="delete" data-ask="{{ trans('microsites.actions.delete_ask', ['title' => $project->microsite->title]) }}" class="button danger">{{ trans('microsites.actions.delete') }}</a>
+                    <span class="description">{{ trans('microsites.hints.delete_microsite') }}</span>
+                </p>
+            
+            @endif
+            
+		</div>
 		
 	</div>
 
@@ -82,9 +110,50 @@
 @section('scripts')
 
 	<script>
-	// require(['modules/people'], function(People){
-	
-	// });
+	require(["jquery", "DMS"], function($, DMS){
+	   $("a[data-method=delete]").click(function(evt){
+          
+          var $this = $(this);
+                    
+          DMS.MessageBox.deleteQuestion($this.data('ask'), '', function(value){
+          
+            if( value ){
+                
+                DMS.MessageBox.wait('Deleting...', '');
+                
+                return $.ajax({
+                    url: $this.attr('href'), // + '?_token=' + DMS.csrf(),
+                    type: 'DELETE',
+                    dataType: 'json',
+                    data: { _token: DMS.csrf() },
+                    success: function success(data){
+                        
+                        if(data.status && data.status === 'ok' && data.message){
+                            DMS.MessageBox.success(data.message, '');
+                            window.location.reload();
+                        }
+                        else if(data.error) {
+                            DMS.MessageBox.warning(data.error, '');
+                        }
+                        
+                    },
+                    error: function fail(obj, err, errText){
+                        
+                        DMS.MessageBox.error('Cannot complete the microsite delete', errText);
+                        
+                    }
+                });
+
+            }
+              
+              
+          }, true, false);
+          
+          
+          evt.preventDefault();
+           return false;
+       });
+	});
 	</script>
 
 @stop

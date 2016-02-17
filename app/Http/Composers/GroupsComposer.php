@@ -50,11 +50,11 @@ class GroupsComposer {
             
             $view->with('current_user', $auth_user->id);
             
-            $can_personal = $auth_user->can(Capability::MANAGE_OWN_GROUPS);
+            $can_personal = $auth_user->can_capability(Capability::MANAGE_OWN_GROUPS);
             
-            $can_see_private = $auth_user->can(Capability::MANAGE_PROJECT_COLLECTIONS);
+            $can_see_private = $auth_user->can_capability(Capability::MANAGE_PROJECT_COLLECTIONS);
             
-            $can_edit_private = $auth_user->can(Capability::MANAGE_PROJECT_COLLECTIONS);
+            $can_edit_private = $auth_user->can_capability(Capability::MANAGE_PROJECT_COLLECTIONS);
             
             $view->with('user_can_edit_personal_groups', $can_personal);
             $view->with('user_can_see_private_groups', $can_see_private);
@@ -146,8 +146,8 @@ class GroupsComposer {
             // $group = $view['group'];
 
             
-            $view->with('user_can_edit_private_groups', $auth_user->can(Capability::MANAGE_OWN_GROUPS));
-            $view->with('user_can_edit_public_groups', $auth_user->can(Capability::MANAGE_PROJECT_COLLECTIONS));
+            $view->with('user_can_edit_private_groups', $auth_user->can_capability(Capability::MANAGE_OWN_GROUPS));
+            $view->with('user_can_edit_public_groups', $auth_user->can_capability(Capability::MANAGE_PROJECT_COLLECTIONS));
             
         }
     }

@@ -13,6 +13,7 @@ use KlinkDMS\Exceptions\GroupAlreadyExistsException;
 use KlinkDMS\Pagination\LengthAwarePaginator as Paginator;
 use Illuminate\Http\Request;
 use KlinkDMS\Traits\Searchable;
+use KlinkDMS\Exceptions\ForbiddenException;
 
 class GroupsController extends Controller {
 
@@ -236,7 +237,10 @@ class GroupsController extends Controller {
 		
 		$group = Group::findOrFail($id);
 		
-		
+		if($group->is_private && $group->user_id !== $user->id){
+            
+            throw new ForbiddenException( trans('errors.401_title'), 401);
+        }
 		
 		$results = $this->search($req, function($_request) use($user, $group) {
 			
@@ -365,11 +369,11 @@ class GroupsController extends Controller {
 			$user = $auth->user();
 
 
-			if(!$group->is_private && !$auth->user()->can(Capability::MANAGE_PROJECT_COLLECTIONS) ){
+			if(!$group->is_private && !$auth->user()->can_capability(Capability::MANAGE_PROJECT_COLLECTIONS) ){
 				throw new ForbiddenException(trans('errors.group_edit_institution'));
 			}
 
-			if(!$auth->user()->can(Capability::MANAGE_OWN_GROUPS) && $group->user_id != $auth->user()->id ){
+			if(!$auth->user()->can_capability(Capability::MANAGE_OWN_GROUPS) && $group->user_id != $auth->user()->id ){
 				throw new ForbiddenException(trans('errors.group_edit_else'));
 			}
 

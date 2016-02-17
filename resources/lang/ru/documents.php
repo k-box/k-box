@@ -18,11 +18,11 @@ return [
 		'language' => 'язык',
 		'added_on' => 'добавлено',
 		'last_modified' => 'Изменено',
-		'indexing_error' => 'Документ не был индексирован в К-Линк',
+		'indexing_error' => 'Документ не был индексирован в K-LINK',
 		'private' => 'Личные',
 		'shared' => 'Разделяемое',
 		'is_public' => 'Общие Документы',
-		'is_public_description' => 'Этот документ доступен для других Институтов участников К-Линк',
+		'is_public_description' => 'Этот документ доступен для других Институтов участников K-LINK',
 		'trashed' => 'Этот документ находится в корзине',
 
 	),
@@ -31,7 +31,7 @@ return [
 
 	'menu' => array(
 		'all' => 'Все',
-		'public' => 'Общие',
+		'public' => 'K-Link Общие',
 		'private' => 'Закрытые',
 		'personal' => 'Личные',
 		'starred' => 'Со звездочкой',
@@ -53,7 +53,7 @@ return [
 		// no apples | have one apple | have %count% apples | have %count% apples
 		// 0 | 1-4 | 5+
 		// 21 | 22-24 | 25+
-		/**
+        /**
 		
 		- If the number is 1, or the number ends in the word 1 (example: 1, 21, 61) (but not 11), then you should use the first case
 		- If the number, or the last digit of the number is 2, 3 or 4, (example: 22, 42, 103, 4) (but not 12, 13 & 14), then you should use the second case
@@ -77,11 +77,11 @@ return [
 		
 		'restored' => ':num элемент восстановлен.|:num элемента восстановлена.|:num элементов восстановлено.',
 
-		'remove_error' => 'Не возможно удалить элементы. Ни один документ или коллекция не были удалены. :error',
+		'remove_error' => 'Невозможно удалить элементы. Ни один документ или коллекция не были удалены. :error',
 		
-		'restore_error' => 'Не возможно восстановить документ. :error',
+		'restore_error' => 'Невозможно восстановить документ. :error',
 		
-		'make_public' => ':num  документ был опубликован через Открытую Сеть К-Линк|:num документов доступны в Сети К-Линк.|:num документы доступны в Сети К-Линк.',
+		'make_public' => ':num  документ был опубликован через Открытую Сеть K-LINK|:num документов доступны в Сети K-LINK.|:num документы доступны в Сети K-LINK.',
 		
 		'make_public_error' => 'Операция публикации не была завершена в связи с ошибкой. :error',
 
@@ -89,14 +89,14 @@ return [
 
 	'create' => array(
 		'page_breadcrumb' => 'Создать',
-		'page_title' => 'Создать новый Документ',
+		'page_title' => 'Создать новый документ',
 	),
 
 	'edit' => array(
 		'page_breadcrumb' => 'Edit :документ',
 		'page_title' => 'Edit :документ',
 
-		'title_placeholder' => 'Название Документа',
+		'title_placeholder' => 'Название документа',
 
 		'abstract_label' => 'Абстракт',
 		'abstract_placeholder' => 'Абстракт документа',
@@ -111,14 +111,14 @@ return [
 		'created_on' => 'Создано <strong>:time</strong>',
 		'uploaded_by' => 'Загружено <strong>:name</strong>',
 
-		'public_visibility_description' => 'Данный документ будет доступен для всех организаций участников Сети К-Линк',
+		'public_visibility_description' => 'Данный документ будет доступен для всех организаций участников Сети K-LINK',
 		
 		
-		'not_index_message' => 'Документо не был успешно добавлен в К-Линк. Пожалуийста, попробуйте <button type="submit">Переиндексировать его</button> сейчас или свяжитесь с ваши администратором.',
+		'not_index_message' => 'Документо не был успешно добавлен в K-LINK. Пожалуийста, попробуйте <button type="submit">переиндексировать его</button> сейчас или свяжитесь с ваши администратором.',
 	),
 
 	'update' => array(
-		'error' => 'Не возможно Обновить этот документ. Не было никаких изменений. :error',
+		'error' => 'Невозможно обновить этот документ. Не было никаких изменений. :error',
 	),
 
 
@@ -153,13 +153,11 @@ return [
 		'updated' => 'Документ обновлен',
 		'local_public_only' => 'В настоящее время показаны только Открытые документы Организации.',
 		'forbidden' => 'У вас нет прав для изменения документа.',
-		// 'delete_forbidden' => 'Вы не можете удалять документы, пожалуйста, свжитесь с Контент Менеджером.',
-		// 'delete_public_forbidden' => 'Вы не можете удалять Открытые Документы, пожалуйста, свяжитесь с Менеджером по Качеству содержания(Quality Content Manager).',
-		// 'delete_force_forbidden' => 'Вы не можете безвозвратно удалить документ. Пожалуйста, свяжитесь с Менеджером по Качеству содержания(Quality Content Manager).',
 		'delete_forbidden' => 'Вы не можете удалять документы, пожалуйста, свяжитесь с Проектным менеджером или с Администратором.',
-		'delete_public_forbidden' => 'Вы не можете удалить публичный документ, пожалуйста, свяжитесь с участником К-Линк или Администратором.',
+		'delete_public_forbidden' => 'Вы не можете удалить публичный документ, пожалуйста, свяжитесь с участником K-LINK или Администратором.',
 		'delete_force_forbidden' => 'Вы не можете безвозвратно удалить документ. Пожалуйста, свяжитесь с Проектным менеджером или с Администратором.',
 		'drag_hint' => 'Перебросьте файлы сюда для того чтобы начать загрузку.',
-		'recent_hint_dms_manager' => 'Вы видите все обновления документов введенные каждым пользователем СУД.',
+		'recent_hint_dms_manager' => 'Вы видите все обновления документов введенные каждым пользователем DMS.',
+        'no_documents' => 'No Documents, you can upload new documents here using the "Create or Add" button above or by dragging and dropping them here.',
 	),
 ];

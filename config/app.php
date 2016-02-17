@@ -78,9 +78,9 @@ return [
 	|
 	*/
 
-	'key' => getenv('APP_KEY') ?: '0CjGv0c4KF00D62TB10r3tJQdKM6cE0s',
+	'key' => getenv('APP_KEY') ?: '0CjGv0c4KF00D62T', //B10r3tJQdKM6cE0s
 
-	'cipher' => MCRYPT_RIJNDAEL_128,
+	'cipher' => 'AES-128-CBC', //AES-256-CBC
 
 	/*
 	|--------------------------------------------------------------------------
@@ -95,7 +95,7 @@ return [
 	|
 	*/
 
-	'log' => 'daily',
+	'log' => env('APP_LOG', 'daily'),
 
 	/*
 	|--------------------------------------------------------------------------
@@ -122,11 +122,12 @@ return [
 		/*
 		 * Laravel Framework Service Providers...
 		 */
-		'Illuminate\Foundation\Providers\ArtisanServiceProvider',
-		'Illuminate\Auth\AuthServiceProvider',
-		'Illuminate\Bus\BusServiceProvider',
-		'Illuminate\Cache\CacheServiceProvider',
-		'Illuminate\Foundation\Providers\ConsoleSupportServiceProvider',
+		Illuminate\Foundation\Providers\ArtisanServiceProvider::class,
+		Illuminate\Auth\AuthServiceProvider::class,
+        Illuminate\Broadcasting\BroadcastServiceProvider::class,
+		Illuminate\Bus\BusServiceProvider::class,
+		Illuminate\Cache\CacheServiceProvider::class,
+		Illuminate\Foundation\Providers\ConsoleSupportServiceProvider::class,
 		'Illuminate\Routing\ControllerServiceProvider',
 		'Illuminate\Cookie\CookieServiceProvider',
 		'Illuminate\Database\DatabaseServiceProvider',
@@ -134,8 +135,10 @@ return [
 		'Illuminate\Filesystem\FilesystemServiceProvider',
 		'Illuminate\Foundation\Providers\FoundationServiceProvider',
 		'Illuminate\Hashing\HashServiceProvider',
+        
 		'KlinkDMS\Providers\SettingsServiceProvider', //so the service provider will have access to what is needed, but before the mail provider (we want to override the mail config!!)
-		'Illuminate\Mail\MailServiceProvider',
+		
+        'Illuminate\Mail\MailServiceProvider',
 		'Illuminate\Pagination\PaginationServiceProvider',
 		'Illuminate\Queue\QueueServiceProvider',
 		'Illuminate\Redis\RedisServiceProvider',
@@ -146,6 +149,8 @@ return [
 		'Illuminate\View\ViewServiceProvider',
 
 		'KlinkDMS\Providers\BusServiceProvider',
+        
+		'KlinkDMS\Providers\AuthServiceProvider',
 
 		/**
 		 * Klink Related
@@ -177,6 +182,8 @@ return [
 		 * For rendering subviews and partial in a more clean way
 		 */
 		'KlinkDMS\Providers\ViewComposerServiceProvider',
+        
+        'Klink\DmsMicrosites\Providers\DmsMicrositesServiceProvider',
 
 	],
 
@@ -191,7 +198,7 @@ return [
 	|
 	*/
 
-	'manifest' => storage_path().'/framework',
+	//'manifest' => storage_path().'/framework',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -236,6 +243,7 @@ return [
 		'URL'       => 'Illuminate\Support\Facades\URL',
 		'Validator' => 'Illuminate\Support\Facades\Validator',
 		'View'      => 'Illuminate\Support\Facades\View',
+        'Gate' => Illuminate\Support\Facades\Gate::class,
 
         'ImportCommand' => 'KlinkDMS\Commands\ImportCommand',
 

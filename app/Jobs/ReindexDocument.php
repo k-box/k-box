@@ -1,6 +1,6 @@
-<?php namespace KlinkDMS\Commands;
+<?php namespace KlinkDMS\Jobs;
 
-use KlinkDMS\Commands\Command;
+use KlinkDMS\Commands\Job;
 
 use KlinkDMS\User;
 use KlinkDMS\Option;
@@ -15,7 +15,7 @@ use Illuminate\Contracts\Queue\ShouldBeQueued;
 /**
  * Command for executing a Document Reindexing
  */
-class ReindexDocument extends Command implements SelfHandling, ShouldBeQueued {
+class ReindexDocument extends Job implements SelfHandling, ShouldBeQueued {
 
 	use InteractsWithQueue, SerializesModels;
 

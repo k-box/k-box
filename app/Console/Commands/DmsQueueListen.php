@@ -66,7 +66,7 @@ class DmsQueueListen extends Command {
 			// throw new \Exception("Error Processing Request", 1);
 			
 		
-			$queue_listen_result = $this->call('queue:listen');
+			$queue_listen_result = $this->call('queue:listen', ['--tries' => 3]);
 
 		
 		}catch(\Exception $ex){

@@ -4,6 +4,7 @@ use KlinkDMS\Pagination\LengthAwarePaginator as Paginator;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\Request;
 use KlinkDMS\Traits\Searchable;
+use KlinkDMS\Exceptions\ForbiddenException;
 
 class SearchController extends Controller {
 	
@@ -46,10 +47,12 @@ class SearchController extends Controller {
 	{
 
 		$req = $this->searchRequestCreate($request);
+		
+		if(!$auth->check() && $req->visibility == \KlinkVisibilityType::KLINK_PRIVATE){
+			$req->visibility( \KlinkVisibilityType::KLINK_PUBLIC );
+		}
 
 		$grand_total = $this->service->getTotalIndexedDocuments($req->visibility);
-
-		
 
 		$test = $all = $this->search($req);
 		

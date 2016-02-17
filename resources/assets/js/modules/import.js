@@ -74,9 +74,15 @@ define("modules/import", ["jquery", "DMS", "modules/minimalbind", "sweetalert"],
         vm.canImport = false;
 
         _updateUI();
-
+        
+        var from = form.from.value;
+        
+        if(from == undefined){
+            from = $(form.from).val();
+        }
+        
         _DMS.Ajax.post(_DMS.Paths.IMPORT, {
-            from: form.from.value,
+            from: from,
             remote_import: form.remote_import.value,
             folder_import: form.folder_import.value,
         }, function(data){

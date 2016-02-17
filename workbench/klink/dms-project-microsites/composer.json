@@ -1,0 +1,22 @@
+{
+    "name": "klink/dmsprojectmicrosites",
+    "description": "",
+    "authors": [
+        {
+            "name": "Alessio Vertemati",
+            "email": "alessio@oneofftech.xyz"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0"
+    },
+    "autoload": {
+        "classmap": [
+            "src/migrations"
+        ],
+        "psr-4": {
+            "Klink\\DmsMicrosites\\": "src/"
+        }
+    },
+    "minimum-stability": "dev"
+}

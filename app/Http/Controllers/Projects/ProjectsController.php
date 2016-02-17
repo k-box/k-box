@@ -40,7 +40,7 @@ class ProjectsController extends Controller {
 		
 		$projects = Project::managedBy($user->id)->get();
 		
-		if ($request::ajax() && $request::wantsJson())
+		if ($request::wantsJson())
 		{
 		    return response()->json($projects);
 		}
@@ -57,13 +57,13 @@ class ProjectsController extends Controller {
 		try{
 			$user = $auth->user();
 			
-			$project = Project::findOrFail($id)->load(array('users', 'manager'));
+			$project = Project::findOrFail($id)->load(array('users', 'manager', 'microsite'));
 
 			$projects = Project::managedBy($user->id)->get();
 			
-			if ($request::ajax() && $request::wantsJson())
+			if ($request::wantsJson())
 			{
-			    return response()->json($projects);
+			    return response()->json($project);
 			}
 	
 			return view('projects.show', array(
@@ -76,7 +76,7 @@ class ProjectsController extends Controller {
 
 			\Log::error('Error showing project', ['context' => 'ProjectsController', 'params' => $id, 'exception' => $ex]);
 
-			if ($request::ajax() && $request::wantsJson())
+			if ($request::wantsJson())
 			{
 			    return new JsonResponse(array('status' => trans('projects.errors.exception', ['exception' => $ex->getMessage()])), 500);
 			}
@@ -172,7 +172,7 @@ class ProjectsController extends Controller {
 			
 			\Cache::flush();
 
-			if ($request->ajax() && $request->wantsJson())
+			if ($request->wantsJson())
 			{
 			    return response()->json($project);
 			}
@@ -186,7 +186,7 @@ class ProjectsController extends Controller {
 
 			\Log::error('Error creating project', ['context' => 'ProjectsController', 'params' => $request, 'exception' => $ex]);
 
-			if ($request->ajax() && $request->wantsJson())
+			if ($request->wantsJson())
 			{
 			    return new JsonResponse(array('status' => trans('projects.errors.exception', ['exception' => $ex->getMessage()])), 500);
 			}
@@ -256,7 +256,7 @@ class ProjectsController extends Controller {
 			
 			\Cache::flush();
 
-			if ($request->ajax() && $request->wantsJson())
+			if ($request->wantsJson())
 			{
 			    return response()->json($project);
 			}
@@ -270,7 +270,7 @@ class ProjectsController extends Controller {
 
 			\Log::error('Error updating project', ['context' => 'ProjectsController', 'params' => $request, 'exception' => $ex]);
 
-			if ($request->ajax() && $request->wantsJson())
+			if ($request->wantsJson())
 			{
 			    return new JsonResponse(array('status' => trans('projects.errors.exception', ['exception' => $ex->getMessage()])), 500);
 			}

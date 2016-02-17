@@ -8,10 +8,12 @@ use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use KlinkDMS\Traits\HasCapability;
 use KlinkDMS\Traits\UserOptionsAccessor;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Foundation\Auth\Access\Authorizable;
+use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 
-class User extends Model implements AuthenticatableContract, CanResetPasswordContract {
+class User extends Model implements AuthenticatableContract, AuthorizableContract, CanResetPasswordContract {
 
-  use Authenticatable, CanResetPassword, HasCapability, SoftDeletes, UserOptionsAccessor;
+  use Authenticatable, Authorizable, CanResetPassword, HasCapability, SoftDeletes, UserOptionsAccessor;
 
   const OPTION_LIST_TYPE = "list_style";
   
@@ -209,17 +211,17 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
   
   public function homeRoute(){
     
-    $search = $this->can(Capability::MAKE_SEARCH);
-    $see_share = $this->can(Capability::RECEIVE_AND_SEE_SHARE);
-    $partner = $this->canAll(Capability::$PARTNER); 
+    $search = $this->can_capability(Capability::MAKE_SEARCH);
+    $see_share = $this->can_capability(Capability::RECEIVE_AND_SEE_SHARE);
+    $partner = $this->can_all_capabilities(Capability::$PARTNER); 
     
     if($this->isDMSManager()){
 			// full manager redirect to the dashboard
 			return route('administration.index'); // '/home';
 		}
 		else if($this->isContentManager() || 
-				$this->can(Capability::UPLOAD_DOCUMENTS) ||
-				$this->can(Capability::EDIT_DOCUMENT)){
+				$this->can_capability(Capability::UPLOAD_DOCUMENTS) ||
+				$this->can_capability(Capability::EDIT_DOCUMENT)){
 					
 			//documents manager redirect to documents
 			return route('documents.index');

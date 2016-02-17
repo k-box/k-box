@@ -24,6 +24,7 @@ use KlinkDMS\Http\Request;
 use Carbon\Carbon;
 use KlinkDMS\Exceptions\GroupAlreadyExistsException;
 use Klink\DmsDocuments\TrashContentResponse;
+use KlinkDMS\Jobs\ImportCommand;
 
 class DocumentsService {
 
@@ -729,7 +730,7 @@ class DocumentsService {
 		$trashed_collections = new Collection;
 		
 		// get personal trashed collections
-		if($user->can(Capability::MANAGE_OWN_GROUPS)){
+		if($user->can_capability(Capability::MANAGE_OWN_GROUPS)){
 			$private_trashed = Group::onlyTrashed()->private($user->id)->get();
 			$trashed_collections = $trashed_collections->merge($private_trashed);
 		}
@@ -771,7 +772,7 @@ class DocumentsService {
 			
 			}
 		}
-		else if($user->can(Capability::MANAGE_PROJECT_COLLECTIONS)){
+		else if($user->can_capability(Capability::MANAGE_PROJECT_COLLECTIONS)){
 			// only show groups that he/she has access
 		}
 
@@ -832,7 +833,7 @@ class DocumentsService {
 	public function createGroup(User $user, $name, $color=null, Group $parent = null, $is_private = true, GroupType $type = null)
 	{
 
-		if(!$user->can(Capability::MANAGE_OWN_GROUPS) || (!$is_private && !$user->can(Capability::MANAGE_PROJECT_COLLECTIONS)) ){
+		if(!$user->can_capability(Capability::MANAGE_OWN_GROUPS) || (!$is_private && !$user->can_capability(Capability::MANAGE_PROJECT_COLLECTIONS)) ){
 			throw new ForbiddenException("Permission denieded for performing the group creation.");
 		}
 
@@ -914,7 +915,7 @@ class DocumentsService {
 		return \DB::transaction(function() use($user, $folder, $merge, $type, $make_private, $parent)
 		{
 
-			$paths = array_values(array_filter(explode('/', $folder)));
+			$paths = array_values(array_filter(explode(DIRECTORY_SEPARATOR, $folder)));
 
 			$count_paths = count($paths);
 
@@ -956,11 +957,11 @@ class DocumentsService {
 	public function updateGroup(User $user, Group $group, array $details)
 	{
 
-		if(!$group->is_private && !$user->can(Capability::MANAGE_PROJECT_COLLECTIONS) ){
+		if(!$group->is_private && !$user->can_capability(Capability::MANAGE_PROJECT_COLLECTIONS) ){
 			throw new ForbiddenException("You cannot edit project collections.");
 		}
 
-		if(!$user->can(Capability::MANAGE_OWN_GROUPS) && $group->user_id != $auth->user()->id ){
+		if(!$user->can_capability(Capability::MANAGE_OWN_GROUPS) && $group->user_id != $auth->user()->id ){
 			throw new ForbiddenException("You cannot edit someone else collection.");
 		}
 
@@ -1014,7 +1015,7 @@ class DocumentsService {
 	public function deleteGroup(User $user, Group $group)
 	{
 
-		if($user->id != $group->user_id && (!$user->can(Capability::MANAGE_OWN_GROUPS) || (!$group->is_private && !$user->can(Capability::MANAGE_PROJECT_COLLECTIONS))) ){
+		if($user->id != $group->user_id && (!$user->can_capability(Capability::MANAGE_OWN_GROUPS) || (!$group->is_private && !$user->can_capability(Capability::MANAGE_PROJECT_COLLECTIONS))) ){
 			throw new ForbiddenException("Permission denieded for performing the collection deletion.");
 		}
 
@@ -1248,7 +1249,7 @@ class DocumentsService {
 			return true;
 		}
 		
-		if(!$user->can(Capability::MANAGE_PROJECT_COLLECTIONS) ){
+		if(!$user->can_capability(Capability::MANAGE_PROJECT_COLLECTIONS) ){
 			throw new ForbiddenException("Permission denieded for making the collection a project collection.");
 		}
 
@@ -1278,7 +1279,7 @@ class DocumentsService {
 			return true;
 		}
 
-		if(!$user->can(Capability::MANAGE_PROJECT_COLLECTIONS) ){
+		if(!$user->can_capability(Capability::MANAGE_PROJECT_COLLECTIONS) ){
 			throw new ForbiddenException("Permission denieded for making the project collection a personal collection.");
 		}
 		
@@ -1328,8 +1329,8 @@ class DocumentsService {
 	 */
 	public function addDocumentsToGroup(User $user, Collection $documents, Group $group /*, $docTitles = null*/, $perform_reindex = true)
 	{
-		if( (!$group->is_private && !$user->can(Capability::MANAGE_PROJECT_COLLECTIONS)) ||
-			(!$user->can(Capability::MANAGE_OWN_GROUPS) && ($user->id != $group->user_id)) ){
+		if( (!$group->is_private && !$user->can_capability(Capability::MANAGE_PROJECT_COLLECTIONS)) ||
+			(!$user->can_capability(Capability::MANAGE_OWN_GROUPS) && ($user->id != $group->user_id)) ){
 			throw new ForbiddenException("Permission denieded for adding the document to the collection.");
 		}
 
@@ -1342,8 +1343,8 @@ class DocumentsService {
 
 	public function addDocumentToGroup(User $user, DocumentDescriptor $document, Group $group /*, $docTitles = null*/, $perform_reindex = true)
 	{
-		if( (!$group->is_private && !$user->can(Capability::MANAGE_PROJECT_COLLECTIONS)) ||
-			(!$user->can(Capability::MANAGE_OWN_GROUPS) && ($user->id != $group->user_id)) ){
+		if( (!$group->is_private && !$user->can_capability(Capability::MANAGE_PROJECT_COLLECTIONS)) ||
+			(!$user->can_capability(Capability::MANAGE_OWN_GROUPS) && ($user->id != $group->user_id)) ){
 			throw new ForbiddenException("Permission denieded for adding the document to the collection.");
 		}
 
@@ -1360,8 +1361,8 @@ class DocumentsService {
 	public function removeDocumentsFromGroup(User $user, Collection $documents, Group $group, $perform_reindex = true)
 	{
 
-		if( (!$group->is_private && !$user->can(Capability::MANAGE_PROJECT_COLLECTIONS)) ||
-			(!$user->can(Capability::MANAGE_OWN_GROUPS) && ($user->id != $group->user_id)) ){
+		if( (!$group->is_private && !$user->can_capability(Capability::MANAGE_PROJECT_COLLECTIONS)) ||
+			(!$user->can_capability(Capability::MANAGE_OWN_GROUPS) && ($user->id != $group->user_id)) ){
 			throw new ForbiddenException("Permission denieded for removing the document from the collection.");
 		}
 
@@ -1381,8 +1382,8 @@ class DocumentsService {
 	public function removeDocumentFromGroup(User $user, DocumentDescriptor $document, Group $group, $perform_reindex = true)
 	{
 
-		if( (!$group->is_private && !$user->can(Capability::MANAGE_PROJECT_COLLECTIONS)) ||
-			(!$user->can(Capability::MANAGE_OWN_GROUPS) && ($user->id != $group->user_id)) ){
+		if( (!$group->is_private && !$user->can_capability(Capability::MANAGE_PROJECT_COLLECTIONS)) ||
+			(!$user->can_capability(Capability::MANAGE_OWN_GROUPS) && ($user->id != $group->user_id)) ){
 			throw new ForbiddenException("Permission denieded for removing the document from the collection.");
 		}
 
@@ -1453,27 +1454,31 @@ class DocumentsService {
 
 		foreach ($urls as $url) {
 			if($this->fileExistsFromOriginalUrl($url)){
-				throw new FileAlreadyExistsException('A file from the same origin ('.$url.') is already in import or imported.', 1);
+				throw new FileAlreadyExistsException(trans('errors.import.url_already_exists', ['url' => $url]), 1);
 			}
 
 			\KlinkHelpers::is_valid_url($url);
 		}
 
 		//ok, now it's time to import (aka enqueue)
+        
+        $temp_hash = 'aaa';
 
 		foreach ($urls as $url) {
+            
+            $temp_hash = md5($url);
 
 			$filename = $this->extractFileNameFromUrl($url);
 
 			$file = new File();
 	        $file->name= $filename; // could be edited during the async process
-	        $file->hash=md5($url); // edited during the async process
+	        $file->hash=$temp_hash; // edited during the async process
 	        $file->mime_type=''; // edited during the async process
 	        $file->size= 0; // edited during the async process
 	        $file->revision_of=null;
 	        $file->thumbnail_path=null;
 
-            $file->path = $this->constructLocalPathForImport($filename);
+            $file->path = $this->constructLocalPathForImport($filename, $temp_hash);
             
             $file->user_id = $uploader->id;
             $file->original_uri = $url;
@@ -1490,8 +1495,8 @@ class DocumentsService {
             $import->parent_id = null;
             $import->status_message = Import::MESSAGE_QUEUED;
             $import->save();
-            
-            Queue::push('ImportCommand@init', array('user' => $uploader,'import' => $import));
+			
+			Queue::push(new ImportCommand($uploader, $import));
 
         }
 
@@ -1600,9 +1605,9 @@ class DocumentsService {
 
             // create the corresponding group
 
-            $group = $this->createGroupsFromFolderPath($uploader, str_replace(Config::get('dms.upload_folder'), '', $file->path), true);
+            $group = $this->createGroupsFromFolderPath($uploader, str_replace(realpath(Config::get('dms.upload_folder')), '', $file->path), true);
             
-            Queue::push('ImportCommand@init', array('user' => $uploader,'import' => $import, 'copy' => $copy, 'group' => $group->id));
+			Queue::push(new ImportCommand($uploader, $import, $group, $copy));
 
         }
 
@@ -1830,11 +1835,15 @@ class DocumentsService {
 	 * @param string $original_filename The name of the file that will be saved on disk and needs a folder
 	 * @return string the absolute path reserved on disk for the filename
 	 */
-	public function constructLocalPathForImport( $original_filename )
+	public function constructLocalPathForImport( $original_filename, $seed = null )
 	{
 		// sanitize filename
 
 		$filename = $this->sanitize_file_name($original_filename);
+        
+        if( !is_null($seed) && !empty($seed) ){
+            $filename = $filename . '-' . $seed;
+        }
 
 		// folder based on YEAR/MONTH
 

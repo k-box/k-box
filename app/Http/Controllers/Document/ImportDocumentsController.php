@@ -229,27 +229,24 @@ class ImportDocumentsController extends Controller {
 
         $currently_added_info = null;
 
-        if ($request->ajax() && $request->wantsJson()){
+        if ($request->wantsJson()){
 
 
 
             $this->user = $auth_user;
-                
-            $remote = $request->get('from') === "remote";
+
+            $remote = $request->input('from') === "remote";
 
             try{
             
                 if($remote){
-                    $url = $request->get('remote_import');
-
-
+                    $url = $request->input('remote_import');
 
                     $currently_added_info = $this->documentsService->importFromUrl($url, $auth_user);
 
                 }
                 else {
-                    $url = $request->get('folder_import');
-                    
+                    $url = $request->input('folder_import');
                     if(!is_dir($url)){
                         return new JsonResponse(array('folder_import' => trans('errors.import.folder_not_readable', ['folder' => $url])), 422);
                     }
@@ -264,7 +261,7 @@ class ImportDocumentsController extends Controller {
                 if(!is_null($currently_added_info) && isset($currently_added_info['message'])){
                     $resp['status']['details'] = '<strong>'.$currently_added_info['message'] . '</strong>, ' . $resp['status']['details'];
                 }
-
+                
                 return response()->json($resp);
 
             }catch(FileAlreadyExistsException $aex){
@@ -279,13 +276,19 @@ class ImportDocumentsController extends Controller {
 
                 return new JsonResponse(array('' . (($remote) ? 'remote_import' : 'folder_import') => $ex->getMessage()), 422);
 
+            }catch(\Exception $ex){
+
+                \Log::error('Import store', ['exception' => $ex]);
+
+                return new JsonResponse(array('' . (($remote) ? 'remote_import' : 'folder_import') => $ex->getMessage()), 422);
+
             }
 
             
 
         }
 
-        return response('Not allowed.', 403);
+        return response('Format not supported.', 400);
     }
      
 }

@@ -17,7 +17,7 @@ return [
 
     "user"     => "Es konnte leider kein Nutzer mit dieser E-Mail Adresse gefunden werden.",
 
-    "token"    => "Der Passwort-Wiederherstellungs-Schlüssel ist ungültig oder abgelaufen.",
+    "token"    => "Die Passwort-Reset-Link, den Sie verwendet haben, ist nicht mehr erhältlich. es wird nur für 5 Minuten nach der Passwort-Reset-Anfrage nutzbar.",
 
     "sent"     => "Passworterinnerung wurde gesendet!",
 

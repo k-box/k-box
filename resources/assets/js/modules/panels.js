@@ -194,6 +194,7 @@ define("modules/panels", ["jquery", "DMS", "combokeys"], function ($, DMS, _comb
 
 		updateContent: function(id, newContent){
 			_opened_panels.html(newContent);
+            _opened_panels.trigger('dms:panel-loaded', [_opened_panels]);
 		},
 
 		openAjax: function(id, vm, url, params, options){
@@ -230,7 +231,7 @@ define("modules/panels", ["jquery", "DMS", "combokeys"], function ($, DMS, _comb
 					module.updateContent(id, content);
 				});
 			// }
-
+            return panel;
 		},
 
 		isOpened: function(id){
@@ -253,6 +254,7 @@ define("modules/panels", ["jquery", "DMS", "combokeys"], function ($, DMS, _comb
 			var default_options = {
 				callbacks: {
 					click: $.noop(),
+					open: $.noop(),
 				}
 			};
 
@@ -275,6 +277,8 @@ define("modules/panels", ["jquery", "DMS", "combokeys"], function ($, DMS, _comb
 			_opened_panels.on('dms:panel-click', options.callbacks.click);
 
 			_panel_cache.on('click', _closeBtnCallback);
+            
+            _opened_panels.trigger('dms:panel-open', [_opened_panels]);
 
 			return _opened_panels;
 
