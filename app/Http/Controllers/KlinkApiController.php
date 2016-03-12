@@ -34,9 +34,9 @@ class KlinkApiController extends Controller {
 
 		// no need for input syntax validation, already performed by Laravel when invoking this controller
 
-		$doc = DocumentDescriptor::withTrashed()->fromKlinkId(Institution::current()->id, $id)->with('file')->first();
+		$doc = DocumentDescriptor::withTrashed()->where('local_document_id', $id)->with('file')->first();
 
-		if(is_null($doc)){
+		if(is_null($doc) || (!is_null($doc) && !$doc->isMine())){
 			\App::abort(404, trans('errors.document_not_found'));
 		}
         
@@ -126,7 +126,7 @@ class KlinkApiController extends Controller {
 
 		if($request->has('preview')){
 			
-			$extension = \KlinkDocumentUtils::getExtensionFromMimeType($doc->mime_type);
+			$extension = \KlinkDocumentUtils::getExtensionFromMimeType($file->mime_type);
 
 			$render = $this->previewService->render($file);
 

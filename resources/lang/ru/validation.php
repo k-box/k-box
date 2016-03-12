@@ -44,7 +44,7 @@ return [
     "ip"                   => "Поле :attribute должно быть действительным IP-адресом.",
     "max"                  => [
         "numeric" => "Поле :attribute не может быть более :max.",
-        "file"    => "Размер файла в поле :attribute не может быть более :max Килобайт(а).",
+        "file"    => "Размер файла в поле :attribute не может быть более :max Кб.",
         "string"  => "Количество символов в поле :attribute не может превышать :max.",
         "array"   => "Количество элементов в поле :attribute не может превышать :max."
     ],
@@ -112,6 +112,10 @@ return [
 		],
         'document' => [
 			'required' => 'Загружаемый Вами документ превышает максимально допустимый размер ' .\Config::get('dms.max_upload_size') . 'KB',
+		],
+        'slug' => [
+            // used when the microsite slug fails to validate
+			'regex' => 'The slug must be made of lower case characters with dashes. Must not contain numbers or start with "create".',
 		]
     ],
 

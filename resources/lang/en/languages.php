@@ -11,6 +11,8 @@ return [
 	|
 	*/
 
+    'no_language' => 'No language recognized',
+    '' => 'No language recognized',
 	'en' => 'English',
 	'ru' => 'Russian',
 	'ky' => 'Kyrgyz',

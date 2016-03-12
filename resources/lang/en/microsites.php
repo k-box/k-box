@@ -25,7 +25,7 @@ return [
         'edit_microsite' => 'Change the microsite page content and settings',
         
         'site_title' => 'The name of the website that will be showed to the users',
-        'slug' => 'The user friendly version of the website URL path, this will help users find and remember the website address',
+        'slug' => 'The user friendly version of the website URL path, this will help users find and remember the website address. Slug cannot start with the "create" word.',
         'logo' => 'The logo of the website, max size 280x80 pixels. The image must be hosted somewhere with a secure connection over HTTPS',
         'default_language' => 'The language in which the website will be showed if the user don\'t explicitely ask for a language',
 
@@ -45,6 +45,8 @@ return [
         'view_site' => 'View Microsite',
         'publish' => 'Publish the Microsite',
         'view_project_documents' => 'Go to Project',
+        'search' => 'Search K-Link...',
+        'search_project' => 'Search :project...',
     ],
     
     'messages' => [
@@ -61,6 +63,7 @@ return [
         'update' => 'There was a problem updating the microsite. :error',
         'delete_forbidden' => 'You cannot delete the microsite ":title" because you are not a project manager of the project related to the microsite.',
         'forbidden' => 'You need to be a Project Administrator to interact with the microsites.',
+        'user_not_affiliated_to_an_institution' => 'You are not affiliated with an Institution, please ask to change your profile before creating a Microsite.',
     ],
 	
     'labels' => [

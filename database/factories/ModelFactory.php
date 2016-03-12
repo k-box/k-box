@@ -33,7 +33,7 @@ $factory->define(KlinkDMS\File::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->sentence,
         'hash' => $faker->sha256,
-        'path' => '/path/to/file.pdf',
+        'path' => base_path('tests/data/example.pdf'),
         'mime_type' => 'application/pdf',
         'user_id' => factory(KlinkDMS\User::class)->create()->id, 
         'size' => $faker->randomNumber(2),

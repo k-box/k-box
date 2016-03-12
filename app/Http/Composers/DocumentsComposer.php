@@ -4,6 +4,7 @@
 use KlinkDMS\Capability;
 use KlinkDMS\DocumentDescriptor;
 use KlinkDMS\File;
+use KlinkDMS\Group;
 
 use Illuminate\Contracts\View\View;
 
@@ -74,6 +75,8 @@ class DocumentsComposer {
         else {
             $view->with('list_style_current', 'tiles');
         }
+        
+        $view->with('is_klink_public_enabled', $this->adapter->isKlinkPublicEnabled());
     }
     
     public function menu(View $view){
@@ -177,45 +180,24 @@ class DocumentsComposer {
                 $auth_user = \Auth::user();
 
                 $view->with('stars_count', $document->stars()->count());
+
+                $collections = $this->documents->getDocumentCollections($document, $auth_user);
                 
-                // TODO: check only collections that are private OR project in which the user is involved
+                $view->with('is_in_collection', !$collections->isEmpty());
 
-                
+                $view->with('groups', $collections);
 
-                if($document->isMine()){
-                    
-                    $collections = $this->documents->getDocumentCollections($document, $auth_user);
-                    
-                    $view->with('is_in_collection', !$collections->isEmpty());
+                $view->with('user_can_edit_private_groups', $auth_user->can_capability(Capability::MANAGE_OWN_GROUPS));
+                $view->with('user_can_edit_public_groups', $auth_user->can_capability(Capability::MANAGE_PROJECT_COLLECTIONS));
 
-                    //is_private
-
-                    $view->with('groups', $collections);
-
-                    $view->with('user_can_edit_private_groups', $auth_user->can_capability(Capability::MANAGE_OWN_GROUPS));
-                    $view->with('user_can_edit_public_groups', $auth_user->can_capability(Capability::MANAGE_PROJECT_COLLECTIONS));
-
-                }
-                else {
-                    $view->with('is_in_collection', false);
-                }
-
-                // $view->with('badge_shared', $document->isShared());
-
-                // the document is shared with me
-                // $with_me = $document->shares()->sharedWithMe($auth_user)->with('user')->get();
                 
                 if($document->isMine()){
                 // the document is shared by me
                     $by_me = $document->shares()->by($auth_user)->with('sharedwith')->get();
     
-    
-                    // $view->with('shared_with_me', $with_me);
                     $view->with('shared_by_me', $by_me);
                 
                 }
-
-                // dd(compact('with_me', 'by_me'));
                 
                 if($auth_user->can_capability(Capability::EDIT_DOCUMENT)){
                     $view->with('user_can_edit', true);
@@ -351,6 +333,8 @@ class DocumentsComposer {
     public function facets(View $view){
         
         $auth_user = \Auth::user();
+        
+        $group_instance = isset($view['context_group_instance']) ? $view['context_group_instance'] : null;
 
         $facets = isset($view['facets']) ? $view['facets'] : null;
         $filters = isset($view['filters']) ? $view['filters'] : null;
@@ -372,6 +356,8 @@ class DocumentsComposer {
             
         }
         
+        $adapter = app()->make('klinkadapter');
+        
         if(!is_null($facets)){
             
             $group_facets = array_values(array_filter($facets, function($f){
@@ -380,45 +366,40 @@ class DocumentsComposer {
             
             if(!empty($group_facets)){
                 $private = array();
-                $personal = array();
                 
                 $items = $group_facets[0]->items;
+                
+                // dd($items);
                 
                 foreach($items as $group_facet){
                     
                     try{
                     
-                    if($group_facet->count > 0){
-                        if(starts_with($group_facet->term, '0:')){
-                            // private
-                            $pg = \KlinkDMS\Group::findOrFail(str_replace('0:', '', $group_facet->term));
-                            $group_facet->label = $pg->name;
-                            $group_facet->selected = false;
-                            $group_facet->collapsed = $group_facet->count == 0;
-                            $group_facet->institution = true;
-                            $private[] = $group_facet;
+                        if($group_facet->count > 0){
+
+                            $grp_id = substr($group_facet->term, 2);
                             
-                        }
-                        else if(starts_with($group_facet->term, $auth_user->id . ':')){
-                            //personal
-                            $pug = \KlinkDMS\Group::findOrFail(str_replace($auth_user->id . ':', '', $group_facet->term));
-                            $group_facet->label = $pug->name;
-                            $group_facet->selected = false;
-                            $group_facet->collapsed = $group_facet->count == 0;
-                            $private[] = $group_facet;
-                            //dd($group_facet);
+                            $grp = Group::findOrFail( $grp_id );
+                            
+                            if( $this->documents->isCollectionAccessible($auth_user, $grp) ){
+                                
+                                // considering only really accessible collections
+                                
+                                $group_facet->label = $grp->name;
+                                $group_facet->selected = false;
+                                
+                                if(!is_null($group_instance)){
+                                    
+                                    $group_facet->locked = $group_instance->toKlinkGroup() === $group_facet->term;
+
+                                }                                
+                                
+                                $group_facet->collapsed = $group_facet->count == 0;
+                                $group_facet->institution = !$grp->is_private;
+                                $private[] = $group_facet;
+                            }
 
                         }
-                        else if(strpos($group_facet->term, ':')){
-                            // dd($group_facet);
-                            // $group_facet->label = '';
-                            // $group_facet->selected = false;
-                            // $group_facet->collapsed = true;
-                            //$private[] = $group_facet;
-
-                        }
-
-                    }
                     
                     }catch(\Exception $exc){
 
@@ -428,20 +409,26 @@ class DocumentsComposer {
 
 
                 
-                $cols['documentGroups'] = array('label' => trans('search.facets.documentGroups'), 'items' => $private);
+                $cols['documentGroups'] = array(
+                    'label' => trans('search.facets.documentGroups'), 
+                    'items' => $private
+                );
                 
             }
             
             foreach($facets as $f){
                 if(array_key_exists($f->name, $cols)){
                     
-                    $cols[$f->name]['items'] = array_filter(array_map(function($f_items) use($f, $filters, $are_filters_empty) {
+                    $cols[$f->name]['items'] = array_filter(array_map(function($f_items) use($f, $filters, $are_filters_empty, $adapter) {
                         
                         if( $f->name == 'language' ){
                             $f_items->label =  trans('languages.' . $f_items->term );
                         }
                         else if( $f->name == 'documentType' ){
                             $f_items->label =  trans_choice('documents.type.' . $f_items->term, 1 );
+                        }
+                        else if( $f->name == 'institution' || $f->name == 'institutionId' ){
+                            $f_items->label =  $adapter->getInstitutionName($f_items->term);
                         }
                         else {
                             $lang_group = $f_items->term;

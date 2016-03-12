@@ -10,9 +10,9 @@
 	@endif
 	
 
-	<div class="input-group">
+	<div class="input-group hint--bottom hint--info search--hint" data-hint="{!! isset($context) && isset($filter) ? trans('search.form.hint_in', ['location' => $filter]) : trans('search.form.hint') !!}">
 
-    	<input type="search" class="search-field" placeholder="{{trans('search.form.placeholder')}}" value="@if(isset($search_terms) && $search_terms!=='*'){{ $search_terms }}@endif" name="s" @if(empty($search_terms)) autofocus @endif />
+    	<input type="search" class="search-field" placeholder="{{ isset($context) && isset($filter) ? trans('search.form.placeholder_in', ['location' => $filter]) : trans('search.form.placeholder') }}" value="@if(isset($search_terms) && $search_terms!=='*'){{ $search_terms }}@endif" name="s" @if(empty($search_terms)) autofocus @endif />
     
 
 		@if(!isset($context))
@@ -30,21 +30,7 @@
 		    @endif
     	</div>
 		
-		@elseif(isset($context) && isset($filter))
-		
-			<div class="input-group-addon visibility-switcher" id="visibility-switcher">
-		
-				<a href="#public" title="{{$context}} - {{$filter}}" class="item current">
-		    		<span class="icon ">in <strong>{{$filter}}</strong></span>
-		    		<span class="label"></span>
-		    	</a>
-			</div>
-		
 		@endif
-
-
-
-    	
 
     </div>
     <button type="submit" class="search-submit" title="{{trans('search.form.submit')}}">

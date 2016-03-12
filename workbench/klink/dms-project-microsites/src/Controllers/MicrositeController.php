@@ -56,7 +56,7 @@ class MicrositeController extends Controller {
         
         $user = $auth->user();
         
-        if( !$user->can_capability(Capability::$PROJECT_MANAGER) ){
+        if( !$user->can_capability(Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH) ){
             throw new ForbiddenException( trans('microsites.errors.forbidden'), 401);
         }
         
@@ -80,6 +80,12 @@ class MicrositeController extends Controller {
             
             throw new HttpResponseException(redirect()->back()->withErrors(
 	            ['error' => trans('microsites.errors.create_already_exists', ['project' => $project->name ])]
+	          ));
+        }
+        
+        if( is_null( $user->institution_id ) ){            
+            throw new HttpResponseException(redirect()->back()->withErrors(
+	            ['error' => trans('microsites.errors.user_not_affiliated_to_an_institution')]
 	          ));
         }
         
@@ -374,7 +380,7 @@ class MicrositeController extends Controller {
 			
             $user = $auth->user();
             
-            if( !$user->can_capability(Capability::$PROJECT_MANAGER) ){
+            if( !$user->can_capability(Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH) ){
                 throw new ForbiddenException( trans('microsites.errors.forbidden'), 401);
             }
             

@@ -76,7 +76,7 @@ trait Searchable
     public function facets(SearchRequest $request){
         
         $service = app('Klink\DmsSearch\SearchService');
-            
+        
         if(!$request->is_facets_forced && !$request->isSearchRequested() && $request->isPageRequested()){
             return $service->defaultFacets($request->visibility);
         }
@@ -85,15 +85,10 @@ trait Searchable
         
         $ft_response = app('Klink\DmsSearch\SearchService')->search($request);
         
-        return $ft_response->facets();
-        
         // dd(compact('request', 'ft_response'));
         
-        // execute a normal search and grab the filters
+        return $ft_response->facets();
         
-        // throw new BadMethodCallException(sprintf('Use only for requesting default facets, isSearchRequested = %s (expected false), isPageRequested = %s (expected true).', 
-        //     $request->isSearchRequested(),
-        //     $request->isPageRequested()));
     }
     
     public function searchRequestCreate(Request $request = null){

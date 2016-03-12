@@ -2,23 +2,14 @@
 	
 	<p>
 		
-	&copy; <?php 
-  $fromYear = 2014; 
-  $thisYear = (int)date('Y'); 
-  echo $fromYear . (($fromYear != $thisYear) ? '-' . $thisYear : '');?>. K-Link
-	<span class="version"><?php echo Config::get('dms.version'); ?> {{\App::environment()}}</span>.
+	&copy; 2014-{{date('Y')}} K-Link.
+	<span class="version hint--top" data-hint="{{\App::environment()}} {{ Config::get('dms.build') }}">DMS v{{ Config::get('dms.version') }}</span>.
 
 	@if(!isset($not_show_links))
 
 		<span class="links">
 			
 			<a href="{{ route('help') }}">{{trans('pages.help')}}</a>
-			
-			<a href="mailto:tickets@klink.uservoice.com" id="support_trigger">{{trans('pages.support')}}</a>
-
-			<!--<a href="{{ route('terms') }}">{{trans('pages.terms')}}</a>
-
-			<a href="{{ route('privacy') }}">{{trans('pages.privacy')}}</a>-->
 
 			<a href="{{ route('contact') }}">{{trans('pages.contact')}}</a>
 

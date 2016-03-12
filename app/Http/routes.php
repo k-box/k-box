@@ -182,7 +182,7 @@ Route::resource('people', 'People\PeopleGroupsController');
 \Route::get('projects/{slug}/{language?}', [ 
     'uses' => '\Klink\DmsMicrosites\Controllers\MicrositeController@show',
     'as' => 'projects.site',
-])->where(['slug' => '[a-z\\-]+', 'language' => '^[a-z]{2}$']);
+])->where(['slug' => '(?!create)[a-z\\-]+', 'language' => '^[a-z]{2}$']); // slug cannot contain 'create' as generates a conflict with projects.create route
 
 Route::resource('projects', 'Projects\ProjectsController');
 

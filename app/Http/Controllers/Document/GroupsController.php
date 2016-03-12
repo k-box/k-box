@@ -237,16 +237,21 @@ class GroupsController extends Controller {
 		
 		$group = Group::findOrFail($id);
 		
-		if($group->is_private && $group->user_id !== $user->id){
+		if(!$this->service->isCollectionAccessible($user, $group)){
             
             throw new ForbiddenException( trans('errors.401_title'), 401);
         }
 		
 		$results = $this->search($req, function($_request) use($user, $group) {
+            
+            // getCollectionsAccessibleByUser
+            
+            // GET the current $group and all sub-collections accessible by the User
+            // Could be the case that a sub-collection is marked private?
 			
 			$group_ids = array($group->toKlinkGroup()); 
 			
-			$group_ids = array_merge($group_ids, $group->getDescendants()->map(function($grp){
+			$group_ids = array_merge($group_ids, $this->service->getCollectionsAccessibleByUserFrom($user, $group)->map(function($grp){
 				return $grp->toKlinkGroup();	
 			})->all());
 			
@@ -268,33 +273,7 @@ class GroupsController extends Controller {
 		}, function($res_item) use($user){
 			return DocumentDescriptor::where('local_document_id', $res_item->localDocumentID)->first();
 		});
-		
-// 		if($this->searchService->hasSearchRequest($request)){
-// 
-// 			$id_set2 = array( ($group->is_private ? $group->user_id : '0') . ':' . $group->id );
-// 
-// 			$filtered_ids = $this->searchService->searchForId($request, 'private', array(), $id_set2);
-// 			
-// //			dd(compact('filtered_ids', 'id_set2'));
-// 
-// 			$pagination = new Paginator($filtered_ids->ids, 
-// 			$filtered_ids->total_results, 
-// 			26, $filtered_ids->page, [
-//             	'path'  => $request::url(),
-//             	'query' => $request::query(),
-//         	]);
-// 		}
-// 
-// 		if(!$filtered_ids){
-// 			
-// 			$all = $group->documents()->get();
-// 	
-// 			
-// 		}
-// 		else {
-// 
-// 			$all = DocumentDescriptor::whereIn('hash', $filtered_ids->ids)->get();
-// 		}
+
 
 		$parents = $group->getAncestors()->reverse();
 

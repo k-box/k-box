@@ -23,6 +23,11 @@ class Option extends Model {
     const PUBLIC_CORE_PASSWORD = 'public_core_password';
     const PUBLIC_CORE_DEBUG = 'public_core_debug';
     const PUBLIC_CORE_CORRECT_CONFIG = 'public_core_correct';
+    
+    /**
+     * The option that stores the key for the UserVoice support service
+     */
+    const SUPPORT_TOKEN = 'support_token';
 
 
     /**
@@ -154,6 +159,26 @@ class Option extends Model {
         
         return static::option(self::MAP_VISUALIZATION_SETTING, true);
         
+    }
+    
+    /**
+     * Get the support service access token.
+     *
+     * First the static configuration is checked, then the stored options will be checked
+     *
+     * @return string|boolean the support ticket integration token if configured, false if not configured
+     */
+    public static function support_token(){
+        $conf = config("dms.support_token");
+        
+        if(is_null($conf)){
+            
+            $opt = static::option( static::SUPPORT_TOKEN, false );
+            
+            return empty($opt) ? false : $opt;
+        }
+        
+        return $conf;
     }
 
 

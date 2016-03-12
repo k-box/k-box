@@ -238,4 +238,27 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 		}
   }
     
+    
+    
+    
+    
+    
+    
+    
+    static function boot()
+    {
+        parent::boot();
+
+        static::saved(function ($user)
+        {
+            \Cache::forget('dms_project_collections-' . $user->id);
+            \Cache::forget('dms_personal_collections'.$user->id);
+            return $user;
+        });
+    }
+    
+    
+    
+    
+    
 }

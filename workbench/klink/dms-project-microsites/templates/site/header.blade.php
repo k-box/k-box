@@ -18,7 +18,7 @@
             
             <div class="search seven columns">
                 <form action="{{ $search_action }}" method="GET">
-                    <input type="text" name="s" id="s" placeholder="{{ trans('search.form.placeholder') }}" title="{{ trans('search.form.placeholder') }}">
+                    <input type="text" name="s" id="s" placeholder="{{ !$isloggedin ? trans('microsites.actions.search') : trans('microsites.actions.search_project', ['project' => $title]) }}" title="{{ trans('search.form.placeholder') }}">
                 </form>
             </div>
             

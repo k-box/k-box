@@ -103,6 +103,9 @@ return [
 		],
 		'document' => [
 			'required' => 'The document you are uploading exceeds the maximum allowed size of ' .\Config::get('dms.max_upload_size') . 'KB',
+		],
+		'slug' => [
+			'regex' => 'The slug must be made of lower case characters with dashes. Must not contain numbers or start with "create".',
 		]
 
 	],

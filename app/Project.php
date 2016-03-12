@@ -87,5 +87,23 @@ class Project extends Model {
     // }
     
 
-    
+    static function boot()
+    {
+        parent::boot();
+
+        static::saved(function ($project)
+        {
+            
+            \Cache::forget('dms_project_collections-' . $project->user_id);
+            
+            $affected_users = $project->users()->get();
+            
+            foreach ($affected_users as $u) {
+                \Cache::forget('dms_project_collections-' . $u->id);
+            }
+            
+            return $project;
+
+        });
+    }
 }

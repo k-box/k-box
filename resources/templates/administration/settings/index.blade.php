@@ -57,6 +57,34 @@
         
         </div>
         
+        <div class="widget">
+
+            <form  method="post" action="{{route('administration.settings.store')}}">
+    
+                <input type="hidden" name="_token" value="{{{ csrf_token() }}}">
+                
+                
+                
+                <h3>{{trans('administration.settings.support_section')}}</h3>
+    
+                <p class="description">{{trans('administration.settings.support_section_help')}}</p> 
+            
+                <p>                
+                    <label for="support_token">{{trans('administration.settings.support_token_field')}}</label>
+                    @if( $errors->has('support_token') )
+                        <span class="field-error">{{ implode(",", $errors->get('support_token'))  }}</span>
+                    @endif
+                    <input type="text" name="support_token" id="support_token" value="{{old('support_token', isset($support_token) ? $support_token : '')}}">
+                </p>
+                
+                <button type="submit" class="button">
+                    {{trans('administration.settings.support_save_btn')}}
+                </button>
+            
+            </form>
+        
+        </div>
+        
         
         <div class="widget">
 

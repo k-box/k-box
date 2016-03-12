@@ -48,7 +48,7 @@ class Microsites_IntegrationTest extends TestCase {
 		
 		return array( 
 			array(Capability::$ADMIN, 200),
-			array(Capability::$PROJECT_MANAGER, 200),
+			array(Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH, 200),
             array(Capability::$DMS_MASTER, 403),
 			array(Capability::$PARTNER, 403),
 			array(Capability::$GUEST, 403),
@@ -71,10 +71,11 @@ class Microsites_IntegrationTest extends TestCase {
 			array(array('slug' => '125'), 'slug', 'validation'),
 			array(array('slug' => null), 'slug', 'validation'),
 			array(array('slug' => ''), 'slug', 'validation'),
+			array(array('slug' => 'create'), 'slug', 'validation'),
+			array(array('slug' => 'create-best-performance'), 'slug', 'validation'),
 			array(array('logo' => ''), 'logo', 'validation'),
 			array(array('logo' => 'helpme'), 'logo', 'validation'),
 			array(array('logo' => 'http://helpme.com/'), 'logo', 'validation'),
-			array(array('logo' => null), 'logo', 'validation'),
 			array(array('logo' => array()), 'logo', 'validation'),
 			array(array('default_language' => array()), 'default_language', 'validation'),
 			array(array('default_language' => ''), 'default_language', 'validation'),
@@ -253,6 +254,28 @@ class Microsites_IntegrationTest extends TestCase {
         
     }
     
+    public function testMicrositeCreateInvokedWithoutUserAffiliation(){
+        
+        $user = $this->createAdminUser(['institution_id' => null]);
+        
+        $project = factory('KlinkDMS\Project')->create(['user_id' => $user->id]);
+        
+        $project_manager = $user;
+        
+        \Session::start();
+        
+        $this->actingAs( $project_manager );
+        
+        $this->visit( route('projects.show', ['id' => $project->id ]) );
+        
+        $this->visit( route('microsites.create', ['project' => $project->id]) );
+        
+        $this->seePageIs( route('projects.show', ['id' => $project->id ]) );
+        
+        $this->see( trans('microsites.errors.user_not_affiliated_to_an_institution') );
+        
+    }
+    
     
     public function testMicrositeCreateOnProjectWithExistingMicrosite(){
         
@@ -295,6 +318,62 @@ class Microsites_IntegrationTest extends TestCase {
         unset($microsite_request['project_id']);
         unset($microsite_request['institution_id']);
         unset($microsite_request['user_id']);
+        
+        $microsite_request['content'] = [
+            'en' => [
+                'title' => 'Example page',
+                'slug' => 'Example page',
+                'content' => 'Example page content',
+            ]
+        ];
+        
+        \Session::start();
+        
+        $this->actingAs( $project_manager );
+        
+        $microsite_request['_token'] = csrf_token();
+        
+        $this->post( route('microsites.store'), $microsite_request);
+        
+        $microsite = Microsite::where('slug', $microsite_request['slug'])->first();
+        
+        $this->assertNotNull($microsite, 'Cannot get stored microsite after create');
+        
+        $this->assertEquals( $microsite_request['title'], $microsite->title );
+        $this->assertEquals( $microsite_request['project'], $microsite->project_id );
+        $this->assertEquals( $project_manager->id, $microsite->user_id );
+        $this->assertEquals( $project_manager->institution_id, $microsite->institution_id );
+        
+        $page = $microsite->pages()->first();
+        
+        $this->assertNotNull( $page, "microsite pages is null or empty" );
+        $this->assertEquals( $microsite_request['content']['en']['content'], $page->content, "Page content has not been stored" );
+        $this->assertEquals( $microsite_request['content']['en']['title'], $page->title, "Page title has not been stored" );
+        $this->assertEquals( $microsite_request['content']['en']['slug'], $page->slug, "Page slug has not been stored" );
+        $this->assertEquals( 'en', $page->language, "Page language has not been stored" );
+
+        $this->assertRedirectedToRoute('microsites.edit', ['id' => $microsite->id]);
+        
+    }
+    
+    public function testMicrositeStoreWithValidData_NoLogo(){
+        
+        $project = factory('KlinkDMS\Project')->create();
+        
+        $project_manager = $project->manager()->first();
+        
+        
+        $microsite_request = factory('Klink\DmsMicrosites\Microsite')->make([
+            'project_id' => $project->id,
+            'project' => $project->id,
+            'user_id' => $project_manager->id,
+            'institution_id' => $project_manager->institution_id,
+        ])->toArray();
+        
+        unset($microsite_request['project_id']);
+        unset($microsite_request['institution_id']);
+        unset($microsite_request['user_id']);
+        unset($microsite_request['logo']);
         
         $microsite_request['content'] = [
             'en' => [
@@ -385,10 +464,13 @@ class Microsites_IntegrationTest extends TestCase {
         if($error_type === 'authorize'){
             $this->see('Forbidden');
         }
-        else {
+        else if(!is_null($error_type)) {
             
             $this->assertSessionHasErrors( array($attribute) );
         
+        }
+        else {
+            $this->assertFalse($this->app['session.store']->has('errors'), "expecting no error, but found one");
         }
         
     }

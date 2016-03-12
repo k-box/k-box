@@ -7,16 +7,6 @@
 	
 		<strong><span class="icon icon-action-black icon-action-black-ic_group_work_black_24dp"></span>{{trans('projects.page_title')}}</strong>
 	
-		<div class="u-pull-right magic">
-
-			@if($user_can_edit_private_groups && isset($context) && $context=='group')
-			<a href="#" rv-on-click="menu.createGroup" data-isprivate="false" title="{{trans('actions.create_collection_btn')}}">
-				<span class="btn-icon icon-content-black icon-content-black-ic_add_circle_outline_black_24dp"></span>
-			</a>
-			@endif 
-
-		</div>
-	
 	</div>
 
 	<div class="tree-group">

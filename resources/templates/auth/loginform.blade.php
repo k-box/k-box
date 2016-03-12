@@ -22,7 +22,7 @@
 	<input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
 
 	<p>
-		<input type="submit" class="button-primary"  tabindex="3" value="{{trans('login.form.submit')}}">
+		<input type="submit" id="login-submit" name="login-submit" class="button-primary"  tabindex="3" value="{{trans('login.form.submit')}}">
 	</p>
 
 </form>

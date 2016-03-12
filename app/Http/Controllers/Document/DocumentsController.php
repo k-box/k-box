@@ -85,7 +85,7 @@ class DocumentsController extends Controller {
 		$req = $this->searchRequestCreate($request);
 		
 		$req->visibility($visibility);
-		
+        
 		$results = $this->search($req, function($_request) use($is_personal, $user) {
 			
 			if($_request->visibility === \KlinkVisibilityType::KLINK_PUBLIC){
@@ -96,8 +96,16 @@ class DocumentsController extends Controller {
 			if($is_personal) {
 				
 				$personal_doc_id = DocumentDescriptor::local()->private()->ofUser($user->id)->get(array('local_document_id'))->fetch('local_document_id')->all();
-				
+                
 				$_request->in($personal_doc_id);
+
+                $accessible = $this->service->getCollectionsAccessibleByUser($user);
+                
+                $group_ids = $accessible->personal->map(function($grp){
+                    return $grp->toKlinkGroup();	
+                })->all();
+                
+                $_request->on($group_ids);
 
 			}
 			
@@ -139,6 +147,7 @@ class DocumentsController extends Controller {
 			'facets' => $results->facets(),
 			'filters' => $results->filters(),
 			'current_visibility' => $is_personal ? 'private' : $visibility,
+			'is_personal' => $is_personal,
 			'hint' => $showing_only_local_public ? trans('documents.messages.local_public_only') : false,
 			'filter' => $is_personal ? 'personal' : $visibility]);
 	}
@@ -562,10 +571,10 @@ class DocumentsController extends Controller {
             // collections in which the document is and that can be seen by the user
             $collections = $this->service->getDocumentCollections($document, $user)->count(); 
             
-            if( !$is_owner && $collections === 0 && !$document->isShared() ){
-                
-                throw new ForbiddenException( trans('errors.forbidden_edit_document_exception') , 403);
-            }
+            // if( !$is_owner && $collections === 0 && !$document->isShared() ){
+            //     
+            //     throw new ForbiddenException( trans('errors.forbidden_edit_document_exception') , 403);
+            // }
             
 
 				$view_params = array(
@@ -735,6 +744,7 @@ class DocumentsController extends Controller {
 					    $file_model = $this->service->createFileFromUpload($request->file('document'), $user, $document->file);
 
 					    $document->file_id = $file_model->id;
+					    $document->mime_type = $file_model->mime_type;
 
 					    
 					}

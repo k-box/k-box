@@ -13,16 +13,16 @@
 
 
 
-		<link rel="stylesheet" href="{{ url(elixir("css/vendor.css")) }}">
-		<link rel="stylesheet" href="{{ url(elixir("css/app.css")) }}">
+		<link rel="stylesheet" href="{{ css_asset("css/vendor.css") }}">
+		<link rel="stylesheet" href="{{ css_asset("css/app.css") }}">
 
 		<!--[if lt IE 9]>
-			<link rel="stylesheet" href="{{ url(elixir("css/ie8.css")) }}">
+			<link rel="stylesheet" href="{{ css_asset("css/ie8.css") }}">
 			<script src="{{ url("js/ie8-shivm.js") }}"></script>    
 		<![endif]-->
 
 		
-		<script type="text/javascript" src="{{ url(elixir("js/vendor.js")) }}"></script>
+		<script type="text/javascript" src="{{ js_asset("js/vendor.js") }}"></script>
 		
 		@include('require-config')
                 
@@ -85,6 +85,7 @@
 	@yield('scripts')
 	
 	
+    @if(support_token() !== false)
 	
 	<script>
 		
@@ -102,11 +103,12 @@
 		
 		?>
 		
-		UserVoice=window.UserVoice||[];(function(){var uv=document.createElement('script');uv.type='text/javascript';uv.async=true;uv.src='//widget.uservoice.com/{{\Config::get("dms.feedback_api_key")}}.js';var s=document.getElementsByTagName('script')[0];s.parentNode.insertBefore(uv,s)})();
+		UserVoice=window.UserVoice||[];(function(){var uv=document.createElement('script');uv.type='text/javascript';uv.async=true;uv.src='//widget.uservoice.com/{{ support_token() }}.js';var s=document.getElementsByTagName('script')[0];s.parentNode.insertBefore(uv,s)})();
 
 		UserVoice.push(['set', {
 		  accent_color: '#448dd6',
 		  trigger_color: 'white',
+          locale: '{{ \App::getLocale() }}',
 		  trigger_background_color: '#448dd6',
 		  ticket_custom_fields: {
 			
@@ -127,6 +129,8 @@
 		UserVoice.push(['addTrigger', '#support_trigger', { }]);
 		UserVoice.push(['autoprompt', {}]);
 	</script>
+    
+    @endif
 
 	</body>
 	

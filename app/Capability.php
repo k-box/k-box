@@ -187,6 +187,21 @@ class Capability extends Model {
         self::CLEAN_TRASH,
         self::SHARE_WITH_PERSONAL,
         self::SHARE_WITH_PRIVATE );
+        
+    static $PROJECT_MANAGER_NO_CLEAN_TRASH = array( 
+        self::MAKE_SEARCH, 
+        self::UPLOAD_DOCUMENTS, 
+        self::IMPORT_DOCUMENTS,
+        self::MANAGE_OWN_GROUPS,
+        self::MANAGE_PROJECT_COLLECTIONS,
+        self::DELETE_DOCUMENT,
+        self::EDIT_DOCUMENT, 
+        self::CHANGE_DOCUMENT_VISIBILITY,
+        self::MANAGE_PEOPLE_GROUPS,
+        self::MANAGE_PERSONAL_PEOPLE_GROUPS,
+        self::RECEIVE_AND_SEE_SHARE,
+        self::SHARE_WITH_PERSONAL,
+        self::SHARE_WITH_PRIVATE );
 
     static $UPLOADER = array( 
         self::UPLOAD_DOCUMENTS,

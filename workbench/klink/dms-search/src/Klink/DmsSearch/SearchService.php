@@ -83,10 +83,8 @@ class SearchService {
 
 			
 
-			//TODO: when we will have faceting this part could be speed-up so we could have all the details of the instituions at once
+			// TODO: when we will have faceting this part could be speed-up so we could have all the details of the instituions at once
 			// TODO: always enable institution facets to speedup the ID to name conversion for all the results in the response (and for the query)
-
-			// TODO: convert foreach into array_map
 			
 			foreach ($results_from_the_core->items as $res) {
 				
@@ -98,8 +96,6 @@ class SearchService {
 				$institution = $this->adapter->getInstitution( $res->institutionID );
 
 				if($is_starrable && !is_string($institution)){
-
-					// $institution = $this->adapter->getInstitution( $res->institutionID );
 
 					$cachedDoc = DocumentDescriptor::findByInstitutionAndDocumentId($institution->id, $res->getLocalDocumentID());
 
@@ -123,8 +119,6 @@ class SearchService {
 				$res->klink_id = $res->getKlinkId();
 			}
 			
-			// TODO: language code to human understandable name expansion
-// dd(compact('terms', 'offset', 'resultsPerPage', 'results_from_the_core'));
 			return $results_from_the_core;
 
 		}catch(\KlinkException $ex){
@@ -203,7 +197,7 @@ class SearchService {
 		
 		// $results = $default($filtered_ids, $limit, $page, $total);
 		
-		// dd($results);
+		// dd($results->facets);
 		
 		if($results instanceof \KlinkSearchResult){
 			
@@ -231,257 +225,18 @@ class SearchService {
 	}
 	
 	
-	
-// 	public function searchForId(\Request $request, $visibility = 'private', $idFilter = array(), $groupFilter = array()){
-// 		
-// 		//idFilter use documentId() on facets buildesr
-// 		
-// 		if($this->hasSearchRequest($request)){
-// 			
-// 			
-// 			$search_terms = $request::input('s', '*');
-// 
-// 			$page = $request::input('page', 1);
-// 			$limit = 1; //\Config::get('dms.items_per_page');
-// 	
-// 			$grand_total = $this->getTotalIndexedDocuments($visibility);
-// 	
-// 	
-// 			$facets = array();
-// 	
-// 			$default_facets_names = ['documentType', 'language'];
-// 			
-// 			if($visibility=='public'){
-// 				$default_facets_names[] = 'institutionId';
-// 			}
-// 			
-// 			if(empty($groupFilter) && $visibility=='private'){
-// 				$default_facets_names[] = 'documentGroups';
-// 			}
-// 	
-// 			$fs_builder = \KlinkFacetsBuilder::create();
-// 	
-// 			$current_filters = null;
-// 	
-// 			$param_fs = $request::input('fs', null);
-// 			$empty_fs = empty($param_fs);
-// 			
-// 			
-// 	
-// 			if($request::has('fs') && !$empty_fs){
-// 				$fs_names = \KlinkFacetsBuilder::allNames(); //check what we have in the parameters
-// 	
-// 				// also parameter validation
-// 	
-// 				$current_names = [];
-// 	
-// 				$param_inner_fs = null;
-// 				$empty_inner_fs = true;
-// 				foreach ($fs_names as $fs) {
-// 					$param_inner_fs = $request::input($fs, null);
-// 					$empty_inner_fs = empty($param_inner_fs);
-// 					if($request::has($fs) && !$empty_inner_fs){
-// 						$current_names[] = $fs;
-// 						// ok valid facet
-// 	
-// 						$filter_value = $request::input($fs);
-// 	
-// 						$fs_builder->{$fs}($filter_value, $grand_total, 0);
-// 	
-// 						$current_filters[$fs] = explode(',', $filter_value);
-// 					}
-// 				}
-// 	
-// 				$default_facets_names = array_diff($default_facets_names, $current_names);
-// 			}
-// 	
-// 			// what default facets are missing? we need to add it
-// 			foreach ($default_facets_names as $fs) {
-// 				
-// 				$fs_builder->{$fs}(0);
-// 				
-// 			}
-// 			
-// 			if(!empty($idFilter)){
-// 				$fs_builder->localDocumentId(implode(',', $idFilter));
-// 			}
-// 			
-// 			if(!empty($groupFilter)){
-// 				$fs_builder->documentGroups(implode(',', $groupFilter));
-// 			}
-// 			
-// 			
-// 	
-// 			
-// 	
-// 			// >>>> only to support the elastic list given the fact that don't use the facets api
-// 			// $all = !!$request::input('all', false);
-// 	
-// 			// if($all){
-// 			// 	$limit = $grand_total;
-// 			// }
-// 	
-// 			// <<<< 
-// 			$fake = false;
-// 			if(empty($search_terms)){
-// 				// showing search page without query, let's request only the facets
-// 				$search_terms = '*';
-// 				$limit=0;
-// 				$fake = true;
-// 			}
-// 	
-// 			// TODO: se ho sia public che private devo fare le due ricerche e poi mettere i risultati separati
-// //			$default_facets = \KlinkFacetsBuilder::create()->institution()->documentType()->language()->build(); // usefull for the elastic list, so we setup always that
-// 	
-// 			$facets_to_apply = $fs_builder->build();
-// 			
-// 			$test = $this->_search( $search_terms, $limit * ($page - 1), $limit, $visibility, $facets_to_apply );
-// 			
-// 			if(!is_null($test) && $test->getTotalResults() > 0){
-// 				// we have some results
-// 				
-// 				$mapped = array_map(function($r){
-// 					return $r->hash;
-// 				}, $test->getResults());
-// 				
-// //				dd($mapped);
-// 
-// //var_dump($test->getFacets());
-// 				
-// 				$return_obj = new \stdClass;
-// 				$return_obj->ids = $mapped;
-// 				$return_obj->term = $search_terms;
-// 				$return_obj->total_results = $test->getTotalResults();
-// 				$return_obj->filters = $current_filters;
-// 				$return_obj->facets = $test->getFacets();
-// 				$return_obj->page = $page;
-// 				$return_obj->facet_params = $facets_to_apply;
-// 				
-// 				return $return_obj;
-// 			}
-// 			else {
-// 				$return_obj = new \stdClass;
-// 				$return_obj->ids = array();
-// 				$return_obj->term = $search_terms;
-// 				$return_obj->total_results = 0;
-// 				$return_obj->filters = $current_filters;
-// 				$return_obj->facets = $this->defaultFacets($visibility);
-// 				$return_obj->page = $page;
-// 				$return_obj->facet_params = null;
-// 				return $return_obj;
-// 			}
-// 		}
-// 		else {
-// 			return false;
-// 		}
-// 		
-// 	}
-	
+
+	/**
+     * Check if a request has search parameters in inputs.
+     *
+     * Check if has `s` or `fs` parameter
+     *
+     * @param \Request $request the request
+     * @return boolean true if has search parameters, false otherwise
+     */
 	public function hasSearchRequest(\Request $request){
 		return !!$request::input('s', false) || !!$request::input('fs', false);
 	}
-	
-	
-	
-	
-	/*
-	 * 
-	 *
-	 * @param  \Closure  $callback
-	 * @return mixed
-	 *
-	 * @throws \Exception
-	*/
-// 	public function searchAction(\Request $request, $visibility = 'private', \Closure $filterCallback, \Closure $default, $ignorePublic = false){
-// 		
-// 		$filtered_ids = false;
-// 		$pagination = null;
-// 		$limit = 1; \Config::get('dms.items_per_page');
-// 		$page = $request::input('page', 1);
-// 		$total = $this->getTotalIndexedDocuments($visibility);
-// 		
-// 		\Log::info('search action', ['request' => $request::all(), 'visibility' => $visibility, 'ignorePublic' => $ignorePublic]);
-// 		
-// 		$filters_callback_result = (!is_null($filterCallback) && $filterCallback) ? $filterCallback($request, $visibility) : array();
-// 		
-// 		if($filters_callback_result !== false){
-// 			// dd($filters_callback_result);
-// 			$total = count($filters_callback_result);
-// 		}
-// 		
-// 		// extract the facets and filters from the request
-// 
-// 		if($this->hasSearchRequest($request)/* && !($visibility === 'public' && !$ignorePublic)*/){
-// 			
-// 			
-// 			
-// 			$filtered_ids = $this->searchForId($request, $visibility, $filters_callback_result);
-// 			
-// 			$pagination = new Paginator($filtered_ids->ids, 
-// 			$filtered_ids->total_results, 
-// 			$limit, $filtered_ids->page, [
-//             	'path'  => $request::url(),
-//             	'query' => $request::query(),
-//         	]);
-// 			
-// 			
-// 			$page = $filtered_ids->page;
-// 		}
-// //		else if($visibility === 'public' /*&& $ignorePublic*/){
-// //			$filtered_ids = new \stdClass;
-// //			$filtered_ids->ids = array();
-// //			$filtered_ids->term = $request::input('s', '*');
-// //			$filtered_ids->total_results = 0;
-// //			$filtered_ids->filters = null;
-// //			$filtered_ids->facets = $this->defaultFacets($visibility);
-// //			$filtered_ids->page = $page;
-// //		}
-// 		
-// 		
-// 		$queried = $default($filtered_ids, $limit, $page, $total);
-// 		
-// 		// dd($queried);
-// 		
-// 		if($queried instanceof \KlinkSearchResult){
-// 			
-// 			$total = property_exists($queried, 'total_results') ? $queried->total_results : property_exists($queried, 'numFound') ? $queried->numFound : $total ; 
-// 			
-// 			$pagination = new Paginator($queried->items, 
-// 			$total, 
-// 			$limit, $page, [
-//             	'path'  => $request::url(),
-//             	'query' => $request::query(),
-//         	]);
-// 			
-// 			$return_obj = new \stdClass;
-// 			$return_obj->documents = new Collection($queried->items);
-// 			$return_obj->term = $queried->query === '*' ? '' : $queried->query;
-// 			$return_obj->total_results = $queried->itemCount;
-// 			$return_obj->filters = $this->overcomeCoreBuginFilters($queried->filters);
-// 			$return_obj->facets = $this->limitFacets( $queried->facets );
-// 			$return_obj->page = $page;
-// 			$return_obj->pagination = $pagination;
-// 		}
-// 		else {
-// 			$pagination = new Paginator($queried,
-// 			$filtered_ids ? $filtered_ids->total_results : $total, //$queried->count(), 
-// 			$limit, $page, [
-//             	'path'  => $request::url(),
-//             	'query' => $request::query(),
-//         	]);
-// 			
-// 			$return_obj = new \stdClass;
-// 			$return_obj->documents = $queried;
-// 			$return_obj->term = $filtered_ids ? $filtered_ids->term : '';
-// 			$return_obj->total_results = $filtered_ids ? $filtered_ids->total_results : $queried->count();
-// 			$return_obj->filters = $filtered_ids ? $this->overcomeCoreBuginFilters($filtered_ids->filters) : array();
-// 			$return_obj->facets = $this->limitFacets( $filtered_ids ? $filtered_ids->facets : $this->defaultFacets($visibility) );
-// 			$return_obj->page = $filtered_ids ? $filtered_ids->page : 0;
-// 			$return_obj->pagination = $pagination;	
-// 		}
-// 
-// 		return $return_obj;
-// 	}
 	
 	
 	public function defaultFacets($visibility='private'){
@@ -495,7 +250,9 @@ class SearchService {
 		});
 	}
 	
-	
+	/**
+     * Limits the language facets based on the configuration `dms.limit_languages_to`
+     */
 	public function limitFacets($facets){
 		$config = \Config::get('dms.limit_languages_to', false);
 		

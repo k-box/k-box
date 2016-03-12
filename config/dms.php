@@ -7,7 +7,9 @@ return [
 	| K-Link DMS Version (aka Application version)
 	|--------------------------------------------------------------------------
 	 */
-	'version' => '0.6.0',
+	'version' => '0.6.1',
+    
+    'build' => 'BUILDCODE',
 	
 	/*
 	|--------------------------------------------------------------------------
@@ -195,16 +197,17 @@ return [
 	
 	/*
 	|--------------------------------------------------------------------------
-	| Feedback Widget Key
+	| Support Widget Token
 	|--------------------------------------------------------------------------
 	| 
-	| The UserVoice feedback key 
+	| The UserVoice support key 
 	|
+	| default: null, support is not configured and not enabled
 	|
 	| @var string
 	*/
 	
-	'feedback_api_key' => getenv('FEEDBACK_API_KEY') ?: 'O2C19h6uGprEjDfhiFDQ',
+	'support_token' => getenv('SUPPORT_TOKEN') ?: null,
 	
 	
 	/*
@@ -220,6 +223,6 @@ return [
 	| @var boolean|string
 	*/
 	
-	'limit_languages_to' => getenv('DMS_LIMIT_LANGUAGES_TO') ?: false,
+	'limit_languages_to' => getenv('DMS_LIMIT_LANGUAGES_TO') ?: 'en,de,it,fr,ky,ru',
 	
 ];

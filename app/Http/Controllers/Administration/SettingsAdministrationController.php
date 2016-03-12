@@ -45,7 +45,7 @@ class SettingsAdministrationController extends Controller {
   
   
   public function index(AuthGuard $auth) {
-
+      
     $data = array(
       'pagetitle' => trans('administration.menu.settings'),
       'map_visualization' => Option::is_map_visualization_enabled(),
@@ -54,6 +54,7 @@ class SettingsAdministrationController extends Controller {
       Option::PUBLIC_CORE_URL => Option::option(Option::PUBLIC_CORE_URL, ''),
       Option::PUBLIC_CORE_USERNAME => Option::option(Option::PUBLIC_CORE_USERNAME, ''),
       Option::PUBLIC_CORE_PASSWORD => @base64_decode(Option::option(Option::PUBLIC_CORE_PASSWORD, '')),
+      Option::SUPPORT_TOKEN => support_token(),
     );
 
     return view('administration.settings.index', $data);
@@ -72,6 +73,14 @@ class SettingsAdministrationController extends Controller {
           else {
             // disable it
             Option::put(Option::MAP_VISUALIZATION_SETTING, false);
+          }
+          
+          if($request->has(Option::SUPPORT_TOKEN) && !empty($request->input(Option::SUPPORT_TOKEN, null))){
+            Option::put(Option::SUPPORT_TOKEN, $request->input(Option::SUPPORT_TOKEN, null));
+          }
+          else {
+            // disable it
+            Option::put(Option::SUPPORT_TOKEN, '');
           }
 
 

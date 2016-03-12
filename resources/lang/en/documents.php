@@ -24,7 +24,7 @@ return [
 		'is_public' => 'Public Document',
 		'is_public_description' => 'This document is publicly available to other Institution in the K-Link Network',
 		'trashed' => 'This document is in the trash',
-
+        'klink_public_not_mine' => 'This document is only a reference to the document added to K-Link Public, therefore you cannot make any changes.',
 	),
 
 	'page_title' => 'Documents',
@@ -72,6 +72,8 @@ return [
 		'remove_error' => 'Cannot delete elements. :error',
 		
 		'copy_error' => 'Cannot copy to collection. :error',
+		'copy_completed_all' => 'All documents has been added to :collection',
+		'copy_completed_some' => '{0}No documents has been added because were already in ":collection"|[1,Inf]:count Documents added to :collection, the remaining :remaining were already in :collection',
 		
 		'restore_error' => 'Cannot restore document. :error',
 		

@@ -385,7 +385,9 @@ class UserAdministrationController extends Controller {
       try{
         $user = User::findOrFail($id);
 
-        $view = \Password::sendResetLink(array('email' => $user->email, 'id' => $user->id));
+        $view = \Password::sendResetLink(array('email' => $user->email, 'id' => $user->id), function($m, $user, $token){
+            $m->subject(trans('mail.password_reset_subject'));
+        });
         
         if($view == PasswordBrokerContract::INVALID_USER){
           return redirect()->back()->withErrors([

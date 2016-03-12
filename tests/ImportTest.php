@@ -197,6 +197,9 @@ class ImportTest extends TestCase {
         
         $this->assertNotEquals(md5($url), $saved_import->file->hash, "File hash not changed");
         
+        $this->assertNotEquals(0, $saved_import->file->size, "File Size not changed");
+        $this->assertEquals($saved_import->bytes_received, $saved_import->file->size, "File Size not equal to downloaded size");
+        
         $this->assertContains($mime_type, $saved_import->file->mime_type, "Inferred mime type is different than what is expected");
         
         // var_dump($saved_import->toArray());

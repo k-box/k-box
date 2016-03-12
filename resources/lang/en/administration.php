@@ -254,7 +254,11 @@ return [
 		'klinkpublic_password' => 'The password used for authenticating on K-Link Public',
 		'klinkpublic_url' => 'The URL of the K-Link Public reference node',
 		
-		
+        'support_section' => 'Support',
+        'support_section_help' => 'If you have a support subscription please insert here the authentication token to enable your users to submit support requests and receive help from the K-Link Dev team.',
+		'support_token_field' => 'Support Token',
+        'support_save_btn' => 'Save Support Settings',
+        
 	),
 
 ];

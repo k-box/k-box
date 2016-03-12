@@ -18,10 +18,10 @@ class MicrositeCreationRequest extends Request {
 		$tests = [
             'project' => 'required|integer|exists:projects,id',
             'title' => 'required|string',
-            'slug' => array('required','string','regex:/[a-z\\-]+/','unique:microsites,slug'),
+            'slug' => array('required','string','regex:/^(?!create)[a-z\\-]+/','unique:microsites,slug'),
             'description' => 'sometimes|required|string',
-            'logo' => 'sometimes|required|string|url|regex:/^https/',
-            'hero_image' => 'sometimes|required|string|url|regex:/^https/',
+            'logo' => 'sometimes|string|url|regex:/^https/',
+            'hero_image' => 'sometimes|string|url|regex:/^https/',
             'default_language' => 'sometimes|required|string|regex:/^[a-z]{2}$/',
             'content' => 'required|array',
             'menu' => 'sometimes|required|array'
@@ -55,7 +55,7 @@ class MicrositeCreationRequest extends Request {
         
         $user = $this->user();
         
-        if( !$user->can_capability(Capability::$PROJECT_MANAGER) ){
+        if( !$user->can_capability(Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH) ){
             return false;
         }
         

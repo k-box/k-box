@@ -23,7 +23,7 @@
 
 		@else
 
-			<p>{{ trans('document.messages.no_documents') }}</p>
+			<p>{{ trans('documents.messages.no_documents') }}</p>
 
 		@endif
 		

@@ -30,9 +30,19 @@
 
 @endif
 
+@if(!$document->isMine())
+
+<div class="is-trashed">
+
+	{{trans('documents.descriptor.klink_public_not_mine')}}
+
+</div>
+
+@endif
+
 <form action="{{route('documents.update', $document->id)}}" enctype="multipart/form-data" method="post" class="document-form" id="edit-form">
 
-	@if(!$document->isIndexed())
+	@if($document->isMine() && !$document->isIndexed())
 	
 	<div class="alert info">
 		{!!trans('documents.edit.not_index_message')!!}
@@ -53,7 +63,7 @@
 				@if( $errors->has('title') )
 		            <span class="field-error">{{ implode(",", $errors->get('title'))  }}</span>
 		        @endif
-				<input type="text" placeholder="{{trans('documents.edit.title_placeholder')}}" title="{{trans('documents.edit.title_placeholder')}}" name="title" value="{{old('title', isset($document) ? $document->title : '')}}" class="title" @if(!$can_edit_document) disabled @endif> 
+				<input type="text" placeholder="{{trans('documents.edit.title_placeholder')}}" title="{{trans('documents.edit.title_placeholder')}}" name="title" value="{{old('title', isset($document) ? $document->title : '')}}" class="title" @if(!$document->isMine() || !$can_edit_document) disabled @endif> 
 
 				<div class="description">
 
@@ -106,7 +116,7 @@
 			@if( $errors->has('abstract') )
 	            <span class="field-error">{{ implode(",", $errors->get('abstract'))  }}</span>
 	        @endif
-  			<textarea class="u-full-width" placeholder="{{trans('documents.edit.abstract_placeholder')}}" id="abstract" name="abstract" @if(!$can_edit_document) disabled @endif>
+  			<textarea class="u-full-width" placeholder="{{trans('documents.edit.abstract_placeholder')}}" id="abstract" name="abstract" @if(!$document->isMine() || !$can_edit_document) disabled @endif>
 {{old('abstract', isset($document) ? $document->abstract : '')}}</textarea>
 
   			<label for="authors">{{trans('documents.edit.authors_label')}}</label>
@@ -114,7 +124,7 @@
   			@if( $errors->has('authors') )
 	            <span class="field-error">{{ implode(",", $errors->get('authors'))  }}</span>
 	        @endif
-  			<textarea class="u-full-width" @if(!$can_edit_document) disabled @endif placeholder="{{trans('documents.edit.authors_placeholder')}}" id="authors" name="authors">
+  			<textarea class="u-full-width" @if(!$document->isMine() || !$can_edit_document) disabled @endif placeholder="{{trans('documents.edit.authors_placeholder')}}" id="authors" name="authors">
 {{old('authors', isset($document) ? $document->authors : '')}}</textarea>
 			
 
@@ -122,7 +132,7 @@
   			@if( $errors->has('language') )
 	            <span class="field-error">{{ implode(",", $errors->get('language'))  }}</span>
 	        @endif
-			<select class="u-full-width" id="language" name="language" @if(!$can_edit_document) disabled @endif>
+			<select class="u-full-width" id="language" name="language" @if(!$document->isMine() || !$can_edit_document) disabled @endif>
 			<option value="en" @if($document->language == 'en') selected @endif>{{trans('languages.en')}}</option>
 			<option value="ru" @if($document->language == 'ru') selected @endif>{{trans('languages.ru')}}</option>
 			<option value="kg" @if($document->language == 'kg') selected @endif>{{trans('languages.kg')}}</option>
@@ -142,14 +152,14 @@
 
 			<div class="form-actions">
 
-				@if($can_edit_document)
+				@if($document->isMine() && $can_edit_document)
 					<button type="submit" class="button-primary ladda-button">
 						<span class="normal">{{trans('actions.save')}}</span>
 						<span class="processing">{{trans('actions.saving')}}</span>
 					</button>
 				@endif
 
-				@if($can_make_public)
+				@if($document->isMine() && $can_make_public)
 
 				<div>
 					<input type="checkbox" name="visibility" id="visibility" value="public" @if($document->isPublic()) checked @endif>

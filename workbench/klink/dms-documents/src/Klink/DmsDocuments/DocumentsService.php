@@ -4,6 +4,7 @@ use Illuminate\Support\ServiceProvider;
 use KlinkDMS\DocumentDescriptor;
 use KlinkDMS\File;
 use KlinkDMS\User;
+use KlinkDMS\Shared;
 use KlinkDMS\Group;
 use KlinkDMS\GroupType;
 use KlinkDMS\Capability;
@@ -575,7 +576,7 @@ class DocumentsService {
 		}
 		
 		
-		return \DB::transaction(function() use($descriptor){
+		$transaction = \DB::transaction(function() use($descriptor){
 		
 			\Log::info('Permanently deleting document', ['descriptor' => $descriptor]);
 			
@@ -604,12 +605,14 @@ class DocumentsService {
 			
 			unlink($file_path);
 			
-			\Cache::flush();
-		
-		// if evertyhing on the DB is deleted  remove the File from disk (this action is very risky to perform before cleaning the DB, if error occurs we are in a bad situation)
+		    // if evertyhing on the DB is deleted  remove the File from disk (this action is very risky to perform before cleaning the DB, if error occurs we are in a bad situation)
 		
 			return $is_deleted;
 		});
+        
+        \Cache::flush();
+        
+        return $transaction;
 		
 	}
 	
@@ -780,6 +783,172 @@ class DocumentsService {
 		
 		return new TrashContentResponse($trashed_documents->get(), $trashed_collections, $paginator_instance);
 	}
+    
+    
+    /**
+     * Retrieves all the collections accessible by the specified User
+     *
+     * @param User $user the user, of course 
+     * @return object with personal and projects fields, each will be the {@see Collection} of accessible collections for the specific type
+     */
+    public function getCollectionsAccessibleByUser( User $user ){
+        
+        $can_personal = $user->can_capability(Capability::MANAGE_OWN_GROUPS);
+            
+        $can_see_private = $user->can_capability(Capability::MANAGE_PROJECT_COLLECTIONS);
+
+        $private_groups = null;
+        $personal_groups = null;
+
+        if($can_see_private){
+
+            if($user->isDMSManager()){
+                $private_groups = \Cache::remember('dms_project_collections', 60, function() {
+                
+                    return Group::getTreeWhere('is_private', '=', false);
+                });
+            }
+            else {
+                
+                $private_groups = \Cache::remember('dms_project_collections-' . $user->id, 60, function() use($user) {
+                    
+                        $managed_private_groups = null;
+                        
+                        if($user->isProjectManager()){    
+                        
+                            $roots_project_of_user = $user->managedProjects()->with('collection')->get()->fetch('collection.id')->all();
+                        
+                            $managed_private_groups = Group::getTreeWhere('is_private', '=', false)->filter(function($item) use($roots_project_of_user) {
+                                
+                                return in_array($item->id, $roots_project_of_user);  
+                            });
+                        }
+                        
+                        $roots_project_of_user = $user->projects()->with('collection')->get()->fetch('collection.id')->all();
+                    
+                        $private_groups = Group::getTreeWhere('is_private', '=', false)->filter(function($item) use($roots_project_of_user) {
+                            
+                            return in_array($item->id, $roots_project_of_user);  
+                        });
+                        
+                        if(!is_null($managed_private_groups)){
+                            $private_groups = $private_groups->merge($managed_private_groups);
+                        }
+                        
+                        return $private_groups;
+                });
+                
+            }
+        }
+
+        if($can_personal){
+            $personal_groups = \Cache::remember('dms_personal_collections'.$user->id, 60, function() use($user) {
+                return Group::getPersonalTree($user->id);
+            });
+        }
+
+        
+        $r = new \stdClass;
+        $r->personal = $personal_groups;
+        $r->projects = $private_groups;
+        return $r;
+    }
+    
+    /**
+     * Check if the specified user can access/see a collection
+     *
+     * @param User $user the user, of course 
+     * @param Group $group the parent collection that contains all the child I want 
+     * @return bool true if access is granted, false otherwise
+     */
+    public function isCollectionAccessible( User $user, Group $group ){
+        
+        if( $user->isDMSManager() ){
+            // admin can do everything
+            return true;
+        }
+        
+        // check if is personal
+        $personal = $group->is_private && $group->user_id === $user->id && $user->can_capability(Capability::MANAGE_OWN_GROUPS);
+        
+        // check if is in a project accessible by the user
+        
+        if($user->can_capability(Capability::MANAGE_PROJECT_COLLECTIONS)){
+            $project_collections_ids = $user->projects()->with('collection')->get()->merge($user->managedProjects()->with('collection')->get())->fetch('collection.id')->all();
+        }
+        else {
+            $project_collections_ids = $user->projects()->with('collection')->get()->fetch('collection.id')->all();
+        }
+        
+        $project = !$group->is_private;
+        
+        if(is_null($group->parent_id)){
+            $project = $project && in_array($group->id, $project_collections_ids);
+        }
+        else {
+            $ancestors = $group->getAncestors()->fetch('id')->all();
+            $project = $project && in_array($ancestors, $project_collections_ids);
+        } 
+        
+        // check if is shared with the user
+        $shared = Shared::sharedWithMe($user)->where('shareable_id', $group->id)->where('shareable_type', get_class($group))->count() > 0;
+        
+        // var_dump('User '. $user->id .' Collection '. $group->id .' ' . $group->name . ' = ' . var_export(compact('personal', 'project', 'shared'), true) );
+        
+        return $personal || $project || $shared;
+    }
+    
+    /**
+     * Retrieves all the collections accessible by the specified User, that are descendant of the specified collection
+     *
+     * @param User $user the user, of course 
+     * @param Group $group the parent collection that contains all the child I want 
+     * @return Collection<Group> The collections that are accessible by the $user from the specified $group
+     */
+    public function getCollectionsAccessibleByUserFrom( User $user, Group $group ){
+        
+        try{
+        
+            return \Cache::remember('collections-of-'.$user->id.'-from-' . $group->id, 60, function() use($user, $group) {
+                
+                $collections = Collection::make();
+                
+                if( !$this->isCollectionAccessible( $user,  $group ) ){
+                    throw new ForbiddenException( 'You cannot access the collection due to permision levels', 1);
+                }
+            
+                $collection_ids = [ $group->id ];
+                
+                $closure_table = Group::getClosureTable();
+                    $descendants = \DB::table($closure_table->getTable())->
+                                whereIn($closure_table->getAncestorColumn(), $collection_ids)->
+                                whereNotIn($closure_table->getDescendantColumn(), $collection_ids)->get(array($closure_table->getDescendantColumn()));
+                                
+                $descendants_array = array_fetch($descendants, $closure_table->getDescendantColumn());
+                    
+                $collection_ids = array_merge($collection_ids, $descendants_array); 
+
+                if( $group->is_private ){
+                    $instance = new Group;
+                    $collections = $instance->private($user->id)->whereIn('id', $collection_ids)->get();
+                    
+                }
+                else {
+                    $instance = new Group;
+                    $collections = $instance->public()->whereIn('id', $collection_ids)->get();
+                }
+                
+                return $collections;
+            
+            });
+        
+        }catch(\Exception $ex){
+            \Log::warning('get collections accessible by user '.$user->id.' from ' . $group->id, ['error' => $ex]);
+            return Collection::make();
+        }
+        
+    }
+    
 
 	/**
 	 * Get the document collections in which the document has been added and to which the user has access to.
@@ -787,7 +956,7 @@ class DocumentsService {
 	 *
 	 * @param DocumentDescriptor $document the document to get the collections for
 	 * @param User $user the user, of course
-	 * @return Collection the collection of the Groups
+	 * @return Collection<Groups> the collection of groups in which the $document is categorized 
 	 */
 	public function getDocumentCollections(DocumentDescriptor $document, User $user){
 		// get Projects accessible by the user => get collections for the projects
@@ -811,7 +980,6 @@ class DocumentsService {
 		
 		return $private_groups->merge($public_groups);
 		
-		//  && $document->groups()->private($auth_user->id)->orPublic()->count() > 0
 	}
 
 	// --- Groups related functions ----------------------------
@@ -865,13 +1033,6 @@ class DocumentsService {
 		}
 		else {
 			$new_group->makeRoot(0);
-		}
-		
-		if($is_private){
-			\Cache::forget('dms_personal_collections' . $user->id);
-		}
-		else {
-			\Cache::forget('dms_institution_collections');
 		}
 
 		return $new_group;
@@ -1318,14 +1479,15 @@ class DocumentsService {
 
 	}
 
-
-	public function canAddDocumentsToGroup(User $user, Collection $documents, Group $group)
-	{
-		# test if the documents passed are already in the same group
-	}
-
 	/**
-	 * Add documents to a group
+	 * Add documents to a group.
+     *
+     * This method don't check if documents are already added to the group
+     *
+     * @param User $user the user that is performing the operation
+     * @param Collection<DocumentDescriptor> $documents the document descriptors to be added to the $group
+     * @param Group $group the group to be added to the documents
+     * @param bool $perform_reindex if the document reindex operation must be performed, default true
 	 */
 	public function addDocumentsToGroup(User $user, Collection $documents, Group $group /*, $docTitles = null*/, $perform_reindex = true)
 	{
@@ -1333,6 +1495,8 @@ class DocumentsService {
 			(!$user->can_capability(Capability::MANAGE_OWN_GROUPS) && ($user->id != $group->user_id)) ){
 			throw new ForbiddenException("Permission denieded for adding the document to the collection.");
 		}
+        
+        // TODO: filter $documents already in that group
 
 		$group->documents()->saveMany($documents->all()); // documents must be a collection of DocumentDescriptors
 

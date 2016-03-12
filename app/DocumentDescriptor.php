@@ -392,14 +392,13 @@ class DocumentDescriptor extends Model {
             $descr->setTitleAliases(array_filter($names));
         }
 
-        //TODO: insert also the ancestors of the group
         if(!$need_public && !$this->groups->isEmpty()){
 
             $each = $this->groups->map(function($el){
                 return $el->toKlinkGroup();
             });
 
-            $descr->setDocumentGroups( $each->toArray() );
+            $descr->setDocumentGroups( array_filter( $each->toArray() ) );
 
         }
 

@@ -27,13 +27,23 @@ elixir(function(mix) {
 	// run gulp --production for production environment
 
 	//npm install laravel-elixir-imagemin
+    
+    if (elixir.config.production) {
+        // get production app.less and output as app.css
+        mix.less( 'app.less', elixir.config.cssOutput + 'app.css' );
+    }
+    else {
+        // get development app_dev.less and output as app.css
+        mix.less('app_dev.less', elixir.config.cssOutput + 'app.css');
+    }
 
-    mix.less('app.less').less('ie8.less').less('microsite.less') //compile the app.less file into app.css and ie8.less into ie8.css into the public/css folder
+    mix.less('ie8.less').less('microsite.less') //compile the app.less file into app.css and ie8.less into ie8.css into the public/css folder
         //concat vendor styles and app style in single stylesheet
         .styles([
             "/nprogress/nprogress.css",
             "/sweetalert/lib/sweet-alert.css",
-            "/klink-map/siris.css"
+            "/klink-map/siris.css",
+            "/hint.css/hint.base.css"
         ], elixir.config.cssOutput + "/vendor.css", elixir.config.bowerDir)
     	.scripts([
                 'lodash/lodash.min.js',
@@ -91,8 +101,10 @@ elixir(function(mix) {
             elixir.config.bowerDir //base dir
         )
     	// Copy pure JS modules to public folder
-    	.copyJsModules() //'resources/assets/js/modules/', 'public/js/modules/')
+    	.copyJsModules(); //'resources/assets/js/modules/', 'public/js/modules/')
 	    
 	    // make versionable to resolve caching problems
-	    .version( ["public/css/vendor.css", "public/css/app.css", "public/css/ie8.css", "public/js/vendor.js"] );
+        if (elixir.config.production) {
+	       mix.version( ["public/css/vendor.css", "public/css/app.css", "public/css/ie8.css", "public/js/vendor.js"] );
+        }
 });

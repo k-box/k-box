@@ -215,6 +215,8 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
                         }
 
                     });
+                    
+                    DMS.MessageBox.wait('Adding documents...', 'Please wait while the documents are being added to the collection...');
 
                     DMS.Services.Bulk.copyTo({
                         documents: documents, 
@@ -225,30 +227,30 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
 
                         if(data.status && data.status === 'ok'){
 
-                            DMS.MessageBox.success('Copied', data.message);
+                            DMS.MessageBox.success('Added to', data.message);
 
                         }
                         else if(data.message) {
-                            DMS.MessageBox.error('Cannot copy to', data.message);
+                            DMS.MessageBox.error('Cannot add to collection', data.message);
                         }
 
                     }, function(obj, err, errText){
 
                         if(obj.responseJSON && obj.responseJSON.status === 'error'){
-                            DMS.MessageBox.error('Cannot copy to', obj.responseJSON.message);
+                            DMS.MessageBox.error('Cannot add to collection', obj.responseJSON.message);
                         }
                         else if(obj.responseJSON && obj.responseJSON.error){
                             DMS.MessageBox.error('Cannot copy', obj.responseJSON.error);
                         }
                         else {
-                            DMS.MessageBox.error('Cannot copy to', 'Cannot copy to.');
+                            DMS.MessageBox.error('Cannot add to collection', errText);
                         }
 
                     });
 
                 }
                 else{
-                    _alert('Select at least 1 element');
+                    DMS.MessageBox.error('Select at least 1 document', '');
                 }   
 
 
@@ -427,13 +429,6 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
         if(changeTitles){
             
             DMS.MessageBox.warning('Change Name not currently available', 'Change Name not currently available');
-//            Panels.dialogOpen(DMS.Paths.SHARE_CREATE, {groups:groupId}, {callbacks: { form_submit_success: function(evt, data){
-//
-//                Panels.dialogClose();
-//
-//                DMS.MessageBox.success('Share created', 'The document has been shared');
-//
-//            } }});
         }
         else {
             
@@ -744,12 +739,10 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
             makePublic: function(evt, docSelection){
                 // if nothing is selected && in group -> make all files public?
                 // if something is selected => make public the selection
-                debugger;
                 evt.preventDefault();
                 
-                if(module.context.filter === 'group' || docSelection.group) {
-                    // no selection
-                    // let's check the context
+                if(docSelection.group) {
+                    // group selection by context menu
                     
                     var grp_message = 'You will make all the documents in this collection publicly available on the K-Link Network. (click outside to undo)';
                     
@@ -793,15 +786,13 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
                             _doMakePublic({documents:toPublic});
                         }
                         else {
-                            // _doMakePublic({documents:toPublic}, true);
                             DMS.MessageBox.close();
                             
                         }
                     }); 
                 }
-                
                 else {
-                    DMS.MessageBox.warning('Publish on K-Link Network', 'You cannot publish the whole list of documents, please select the documents to make available in the K-Link Netwrok.');
+                    DMS.MessageBox.warning('Publish on K-Link Network', 'Please select the documents you want to make available in the K-Link Network.');
                 }
                 
                 return false;

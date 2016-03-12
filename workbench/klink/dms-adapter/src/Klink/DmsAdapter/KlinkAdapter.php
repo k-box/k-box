@@ -154,7 +154,7 @@ class KlinkAdapter
 
 		$cached = $this->getInstitution( $klink_id );
 
-		return is_null($cached) ?: $cached->name;
+		return is_null($cached) ? $klink_id : $cached->name;
 	}
 
 	/**

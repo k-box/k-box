@@ -43,7 +43,8 @@
             "Klink\\DmsSearch\\": "workbench/klink/dms-search/src/",
             "Klink\\DmsDocuments\\": "workbench/klink/dms-documents/src/",
 			"Klink\\DmsPreviews\\": "workbench/klink/dms-previews/src/"
-        }
+        },
+        "files" : [ "app/helpers.php" ]
 	},
 	"autoload-dev": {
 		"classmap": [

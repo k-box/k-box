@@ -123,8 +123,8 @@
 
 		<div class="action-group">
 
-			@if($context!=='trash' && $context!=='shared' && $context!=='public' && isset($can_make_public) && $can_make_public)
-				<a href="#pub" class="button" rv-on-click="makePublic">
+			@if(isset($is_klink_public_enabled) && $is_klink_public_enabled && $context!=='trash' && $context!=='shared' && $context!=='public' && isset($can_make_public) && $can_make_public)
+				<a href="#pub" class="button hint--bottom" rv-on-click="makePublic" data-hint="{{trans('actions.hints.make_public')}}" >
 					<span class="btn-icon icon-social-white icon-social-white-ic_public_white_24dp"></span>{{trans('actions.make_public')}}
 				</a>
 			@endif

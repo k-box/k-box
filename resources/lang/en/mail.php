@@ -25,6 +25,8 @@ return [
 		
 
 	),
+    
+    'password_reset_subject' => 'You requested a password reset for your DMS account',
 
 
 	

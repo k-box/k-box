@@ -50,11 +50,6 @@
 	@if(!is_null($shared_with_me))
 
 	<div class="share-section shared-with-me clearfix">
-<!--
-		<div>
-			<h5 class="title">{{trans('share.shared_with_me_title')}}</h5>
-		</div>-->
-
 
 		<div class="list {{$list_style_current}}" >
 
@@ -77,6 +72,14 @@
 			@endforelse
 
 		</div>
+        
+        @if( isset($pagination) && !is_null($pagination) )
+            <div class="pagination-container">
+
+                {!! $pagination->render() !!}
+
+            </div>
+        @endif
 
 	</div>
 	

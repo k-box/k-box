@@ -17,7 +17,7 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
 
 		parent::setUp();
 
-		
+        $this->resetEvents();
 
 		// $artisan->call('migrate',array('-n'=>true));
 
@@ -87,7 +87,7 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
         
         try{
         
-            if( isset( $this->response ) && !empty( $this->response->original->name() ) ){
+            if( isset( $this->response ) && !is_string($this->response->original) && !empty( $this->response->original->name() ) ){
                 
                 $this->assertEquals($expected, $this->response->original->name() );
                 
@@ -95,8 +95,7 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
             }
             
             $this->fail('Response does not have a view');
-        
-        
+
         }catch(\Exception $e){
             $this->fail('Exception while checking view name assertion. ' . $e->getMessage());
         }
@@ -104,4 +103,33 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
         
     }
 
+
+
+
+    public function resetEvents()
+    {
+        $models = $this->getModels();
+
+        foreach ($models as $model)
+        {
+            call_user_func([$model, 'flushEventListeners']);
+
+            call_user_func([$model, 'boot']);
+        }
+    }
+    
+    protected function getModels()
+    {
+        // Replace with your models directory if you've moved it.
+        $files = \File::files(base_path() . '/app/models');
+        
+        $models = [];
+
+        foreach ($files as $file)
+        {
+            $models[] = pathinfo($file, PATHINFO_FILENAME);
+        }
+
+        return $models;
+    }
 }

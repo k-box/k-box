@@ -31,7 +31,8 @@ return [
 		'dropdown' => 'Selection',
 		'all' => 'All',
 		'clear' => 'Clear',
-		'invert' => 'Invert'
+		'invert' => 'Invert',
+        'hint' => 'Select All/Clear selection',
 
 	),
 
@@ -89,6 +90,11 @@ return [
     'filters' => array(
         'filter' => 'Filters',
         'clear_filters' => 'Clear Filters',
+        'collection_locked' => 'This is the collection you are browsing and cannot be removed.'
     ),
+    
+    'hints' => [
+        'make_public' => 'Select some documents before making them available in the K-Link Network',
+    ],
 
 ];

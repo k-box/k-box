@@ -126,7 +126,7 @@ class ImportCommand extends Job implements ShouldBeQueued, SelfHandling {
             // Base URI is used with relative requests
             'base_uri' => $this->url,
             // You can set any number of default request options.
-            'timeout'  => 10.0,
+            'timeout'  => 30.0,
         ]);
         
         $response = $client->request('GET', $this->url, ['sink' => $file->path]);

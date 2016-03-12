@@ -33,7 +33,7 @@
         @if( $errors->has('logo') )
             <span class="field-error">{{ implode(",", $errors->get('logo'))  }}</span>
         @endif
-        <input class="u-full-width" type="text" name="logo" value="{{ old('logo', isset($microsite) ? $microsite->logo : '') }}" required />
+        <input class="u-full-width" type="text" name="logo" value="{{ old('logo', isset($microsite) ? $microsite->logo : '') }}" />
         <span class="description">{{ trans('microsites.hints.logo') }}</span>
     </p>    
     

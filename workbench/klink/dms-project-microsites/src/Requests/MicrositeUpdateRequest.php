@@ -14,13 +14,15 @@ class MicrositeUpdateRequest extends Request {
 	 */
 	public function rules()
 	{
+        
+        $microsite_id = $this->route('microsites');
 
 		$tests = [
             'title' => 'required|string',
-            'slug' => array('required','string','regex:/[a-z\\-]+/'),
+            'slug' => array('required','string','regex:/^(?!create)[a-z\\-]+/','unique:microsites,slug,' . $microsite_id),
             'description' => 'sometimes|required|string',
-            'logo' => 'sometimes|required|string|url|regex:/^https/',
-            'hero_image' => 'sometimes|required|string|url|regex:/^https/',
+            'logo' => 'sometimes|string|url|regex:/^https/',
+            'hero_image' => 'sometimes|string|url|regex:/^https/',
             'default_language' => 'sometimes|required|string|regex:/^[a-z]{2}$/',
             'content' => 'required|array',
             'menu' => 'sometimes|required|array'
@@ -54,7 +56,7 @@ class MicrositeUpdateRequest extends Request {
       
         $user = $this->user();
         
-        if( !$user->can_capability(Capability::$PROJECT_MANAGER) ){
+        if( !$user->can_capability(Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH) ){
             return false;
         }
         

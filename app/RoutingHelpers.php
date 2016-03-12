@@ -70,6 +70,7 @@ final class RoutingHelpers {
 	
 	public static function filterSearch($empty_url, $current_active_filters, $facet, $term, $selected = false){
 	
+    
 		
 		if(empty($current_active_filters)){
 			return $empty_url . '&fs='.$facet.'&'.$facet.'='.$term;
@@ -88,8 +89,13 @@ final class RoutingHelpers {
             
             foreach($current_active_filters as $key => $values){
                 
+                $values = array_unique($values);
+                
 				if($selected && $facet===$key && in_array($term, $values)){
 					
+                    $active[] = $key.'='.implode(',', array_diff($values, [$term]));
+                    
+                    // dd(['args' => compact('active', 'empty_url', 'current_active_filters', 'facet', 'term', 'selected')]);
 				}
 				else if(!$selected && $facet===$key && !in_array($term, $values)){
 					$values[] = $term;
@@ -111,7 +117,13 @@ final class RoutingHelpers {
             
 			// var_dump(compact('empty_url', 'current_active_filters', 'facet', 'term', 'selected', 'active'));
 			
-            return $empty_url . '&fs=' . implode(',', $fs).'&' . implode('&', $active);
+            $url_to_return = $empty_url . '&fs=' . implode(',', $fs).'&' . implode('&', $active);
+            
+            // dd($url_to_return);
+            
+            \Log::warning('filterSearch routing', ['args' => compact('empty_url', 'current_active_filters', 'facet', 'term', 'selected'), 'composed' => $url_to_return]);
+            
+            return $url_to_return;
         }
 		
 		

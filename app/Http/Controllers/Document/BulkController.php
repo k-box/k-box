@@ -8,6 +8,7 @@ use KlinkDMS\Capability;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Contracts\Auth\Guard as AuthGuard;
 use KlinkDMS\Http\Requests\BulkDeleteRequest;
+use KlinkDMS\Http\Requests\BulkMoveRequest;
 use KlinkDMS\Http\Requests\BulkRestoreRequest;
 use KlinkDMS\Http\Requests\BulkMakePublicRequest;
 use KlinkDMS\Exceptions\ForbiddenException;
@@ -58,7 +59,7 @@ class BulkController extends Controller {
 
 		// ids might be comma separated, single transaction
 
-		\Log::info('Bulk Deleting', ['params' => $request]);
+		\Log::info('Bulk Deleting', ['params' => $request->all()]);
 
 		try{
 			
@@ -94,6 +95,8 @@ class BulkController extends Controller {
 
 				return count($docs);
 			});
+            
+             
 
 			$group_delete_count = \DB::transaction(function() use($request, $that, $user, $all_that_can_be_deleted, $force){
 				
@@ -115,6 +118,11 @@ class BulkController extends Controller {
 
 				return count($grps);
 			});
+            
+            // TODO: now it's time to submit to the queue the reindex job for each DocumentDescriptor
+            // submit: 
+            // - documents affected by direct removal
+            // - documents affected by group deletetion
 
 			$count = ($document_delete_count + $group_delete_count);
 			$message = $force ? trans_choice('documents.bulk.permanently_removed', $count, ['num' => $count]) : trans_choice('documents.bulk.removed', $count, ['num' => $count]);
@@ -261,38 +269,60 @@ class BulkController extends Controller {
 	 * @param  BulkDeleteRequest $request [description]
 	 * @return [type]                     [description]
 	 */
-	public function copyTo(AuthGuard $auth, BulkDeleteRequest $request)
+	public function copyTo(AuthGuard $auth, BulkMoveRequest $request)
 	{
 
 		// ids might be comma separated, single transaction
 
-		\Log::info('Bulk CopyTo', ['params' => $request]);
+		\Log::info('Bulk CopyTo', ['params' => $request->all()]);
 
 		try{
 
-			$that = $this;
+            $docs = $request->input('documents', array());
+            $grps = $request->input('groups', array());
 
-			$status = \DB::transaction(function() use($request, $that, $auth){
+            $add_to = $request->input('destination_group', 0);
 
-				$docs = $request->input('documents', array());
-				$grps = $request->input('groups', array());
+            $add_to_this_group = Group::findOrFail($add_to);
 
-				$add_to = $request->input('destination_group', 0);
+            $already_added = $add_to_this_group->documents()->whereIn('document_descriptors.id', $docs)->get(['document_descriptors.*'])->fetch('id')->toArray();
+            
+            $already_there_from_this_request = array_intersect($already_added, $docs); 
+            
+            $count_docs_original = count($docs);
+            $docs = array_diff($docs, $already_added ); //removes already added docs from the list
+            
+            $documents = DocumentDescriptor::whereIn('id', $docs)->get();
 
-				$add_to_this_group = Group::findOrFail($add_to);
+            $this->service->addDocumentsToGroup($auth->user(), $documents, $add_to_this_group, false);
+            
+            $reindex_went_ok = true;
+            try{
+            
+                $this->service->reindexDocuments($documents); //documents must be a collection of DocumentDescriptors
+            
+            }catch(\Exception $ke){
+                // reindex exception while bulk copy to
+                \Log::warning('Reindex exception while Bulk COPY TO', ['documents_subject_to_reindex' => $docs, 'error' => $ke]);
+                $reindex_went_ok = false;
+            }
+ 
 
-				$documents = DocumentDescriptor::whereIn('id', $docs)->get();
+            $status = array(
+                'status' => 'ok', 
+                'message' =>  !empty($already_there_from_this_request) ? 
+                    trans_choice('documents.bulk.copy_completed_some', count($docs), ['count' => count($docs), 'collection' => $add_to_this_group->name, 'remaining' => $count_docs_original - count($docs)]) : 
+                    trans('documents.bulk.copy_completed_all', ['collection' => $add_to_this_group->name])
+            );
+            
+            if(!$reindex_went_ok){
+                $status['reindex'] = trans('errors.reindex_failed');
+            }
 
-				$that->service->addDocumentsToGroup($auth->user(), $documents, $add_to_this_group);
-
-				$count = (count($docs) + count($grps));
-				return array('status' => 'ok', 'message' =>  'ok');
-			});
 
 
 
-
-			if ($request->ajax() && $request->wantsJson())
+			if ($request->wantsJson())
 			{
 				return new JsonResponse($status, 200);
 			}
@@ -301,11 +331,11 @@ class BulkController extends Controller {
 
 		}catch(\Exception $kex){
 
-			\Log::error('Bulk Deleting error', ['error' => $kex, 'request' => $request]);
+			\Log::error('Bulk Copy to error', ['error' => $kex, 'request' => $request->all()]);
 
 			$status = array('status' => 'error', 'message' =>  trans('documents.bulk.copy_error', ['error' => $kex->getMessage()]));
 
-			if ($request->ajax() && $request->wantsJson())
+			if ($request->wantsJson())
 			{
 				return new JsonResponse($status, 422);
 			}

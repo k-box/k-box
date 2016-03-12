@@ -77,4 +77,6 @@ return [
 	
 	'klink_exception_title' => 'K-Link Services Error',
 	'klink_exception_text' => 'There were a problem connecting to the K-Link Services.',
+    
+    'reindex_failed' => 'Search might not be up-to-date with latest changes, please consult the support team for more information.'
 ];

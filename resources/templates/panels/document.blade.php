@@ -131,7 +131,7 @@
 
 @endif
 
-	@if($is_user_logged && $item->isMine())
+	@if($is_user_logged)
 
 		<div class="meta collections">
 			<h6 class="title">{{trans('panels.groups_section_title')}}</h6>
@@ -161,6 +161,10 @@
 			@endif
 
 		</div>
+        
+    @endif
+    
+    @if($is_user_logged && $item->isMine())
 
 		<div class="meta share">
 			<h6 class="title">{{trans('panels.share_section_title')}}</h6>
@@ -287,9 +291,7 @@
 				{{trans('panels.meta.language')}}
 			</div>
 			<div class="nine colums">
-				
-				{{trans('languages.' . $item->language)}}
-
+				{{!empty($item->language) ? trans('languages.' . $item->language) : trans('languages.no_language')}}
 			</div>
 		</div>
 		<div class="row">

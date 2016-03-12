@@ -110,8 +110,8 @@
 
 		
 		<span class="meta-info language"  title="{{trans('documents.descriptor.language')}}">
-			@if ($item->language)
-				<span class="meta-label">{{trans('documents.descriptor.language')}}&nbsp;</span>{{trans('languages.' . $item->language)}}
+            @if ($item->language)
+				<span class="meta-label">{{trans('documents.descriptor.language')}}&nbsp;</span>{{!empty($item->language) ? trans('languages.' . $item->language) : trans('languages.no_language')}}
 			@endif
 		</span>
 		
@@ -176,8 +176,8 @@
 
 		
 		<span class="meta-info language">
-			@if ($item->language)
-				<span class="meta-label">{{trans('documents.descriptor.language')}}&nbsp;</span>{{trans('languages.' . $item->language)}}
+            @if ($item->language)
+				<span class="meta-label">{{trans('documents.descriptor.language')}}&nbsp;</span>{{ !empty($item->language) ? trans('languages.' . $item->language) : trans('languages.no_language') }}
 			@endif
 		</span>
 		

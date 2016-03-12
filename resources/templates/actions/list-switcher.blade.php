@@ -1,13 +1,13 @@
 
 <div class="action-group switcher" id="list-switcher" data-list="#documents-list .list" data-current="{{$list_style_current}}"> <!--.list --> 
 
-<a href="#" data-list="details" class="switch" title="{{trans('actions.switcher.details')}}">
+<a href="#" data-list="details" class="switch hint--bottom" data-hint="{{trans('actions.switcher.details')}}">
 	<span class="icon-action-white icon-action-white-ic_view_list_white_24dp"></span>
 </a> 
-<a href="#" data-list="tiles" class="switch" title="{{trans('actions.switcher.tiles')}}">
+<a href="#" data-list="tiles" class="switch hint--bottom" data-hint="{{trans('actions.switcher.tiles')}}">
 	<span class="icon-action-white icon-action-white-ic_view_stream_white_24dp"></span>
 </a>
-<a href="#" data-list="cards" class="switch" title="{{trans('actions.switcher.grid')}}">
+<a href="#" data-list="cards" class="switch hint--bottom" data-hint="{{trans('actions.switcher.grid')}}">
 	<span class="icon-action-white icon-action-white-ic_view_module_white_24dp"></span>
 </a>
 
