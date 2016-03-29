@@ -180,6 +180,69 @@ class CollectionsTest extends TestCase {
         
     }
     
+    public function testIsCollectionAccessible(){
+        
+        $service = app('Klink\DmsDocuments\DocumentsService');
+        
+        // create a project
+        
+        $project = factory('KlinkDMS\Project')->create();
+        
+        $user = $project->manager()->first();
+        
+        $project_collection = $project->collection()->first();
+        
+        // add a collection to it
+        $collection = $service->createGroup( $user, 'sub-collection name', null, $project_collection, false );
+        
+        // test if sub-collection is accessible by the project admin
+        
+        $accessible = $service->isCollectionAccessible($user, $collection);
+        
+        $this->assertTrue($accessible, 'Collection is not accessible by the creator');
+        
+        
+        $projectA = factory('KlinkDMS\Project')->create(['user_id' => $user->id]);
+        $projectB = factory('KlinkDMS\Project')->create(['user_id' => $user->id]);
+        $projectC = factory('KlinkDMS\Project')->create(['user_id' => $user->id]);
+        
+        $collection2 = $service->createGroup( $user, 'sub-sub-collection name', null, $collection, false );
+        
+        $accessible = $service->isCollectionAccessible($user, $collection2);
+        
+        $this->assertTrue($accessible, 'Collection is not accessible by the creator');
+        
+        $user_admin = $this->createAdminUser();
+        
+        
+        $collection3 = $service->createGroup( $user, 'by admin', null, $project_collection, false );
+        
+        $accessible = $service->isCollectionAccessible($user, $collection3);
+        
+        $this->assertTrue($accessible, 'Collection is not accessible by the creator');
+        
+        $partner = $this->createUser(Capability::$PARTNER);
+        
+        $accessible = $service->isCollectionAccessible($partner, $collection);
+        $this->assertFalse($accessible, 'Collection 1 is accessible by Partner user not added to the project');
+        $accessible = $service->isCollectionAccessible($partner, $collection2);
+        $this->assertFalse($accessible, 'Collection 2 is accessible by Partner user not added to the project');
+        $accessible = $service->isCollectionAccessible($partner, $collection3);
+        $this->assertFalse($accessible, 'Collection 3 is accessible by Partner user not added to the project');
+        
+        // add 1 partner user to the project
+        
+        $project->users()->save($partner);
+        
+        $accessible = $service->isCollectionAccessible($partner, $collection);
+        $this->assertTrue($accessible, 'Collection 1 is not accessible by Partner user not added to the project');
+        $accessible = $service->isCollectionAccessible($partner, $collection2);
+        $this->assertTrue($accessible, 'Collection 2 is not accessible by Partner user not added to the project');
+        $accessible = $service->isCollectionAccessible($partner, $collection3);
+        $this->assertTrue($accessible, 'Collection 3 is not accessible by Partner user not added to the project');
+        
+    }
+    
     public function testCollectionCacheForUserUpdate(){
         
         

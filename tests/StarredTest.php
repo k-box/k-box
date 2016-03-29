@@ -10,10 +10,6 @@ use Laracasts\TestDummy\Factory;
 use Illuminate\Support\Collection;
 
 class StarredTest extends TestCase {
-    
-    
-    use WithoutMiddleware;
-
 
 	public function user_provider(){
 		

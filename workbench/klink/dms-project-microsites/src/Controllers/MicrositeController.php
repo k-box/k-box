@@ -243,7 +243,7 @@ class MicrositeController extends Controller {
         // ^@rss:([https:\/\/].*)$
         
 
-        $content = app()->make('micrositeparser')->toHtml($raw_content);
+        $content = !is_null($raw_content) ? app()->make('micrositeparser')->toHtml($raw_content) : '';
         
         \App::setLocale($language); // change respose locale based on $language
         
@@ -303,7 +303,7 @@ class MicrositeController extends Controller {
             
             $microsite = Microsite::findOrFail($id)->load('project', 'contents');
             
-            $site_request = $request->except(['content', 'menu']);
+            $site_request = $request->except(['content', 'menu', '_method', '_token']);
             
             $site_content_request = $request->only(['content', 'menu']);
                         
@@ -331,7 +331,7 @@ class MicrositeController extends Controller {
 			$site = \DB::transaction(function() use($microsite, $site_request, $pages, $menus) {
                 
                 $st = $microsite->update( $site_request );
-                
+
                 if( !empty($pages) ){
                     foreach ($pages as $page) {
                         MicrositeContent::findOrFail($page['id'])->update( array_except($page, ['id']) );
@@ -353,12 +353,14 @@ class MicrositeController extends Controller {
                  ]) 
 	        ]);
 
-		} catch(\Exception $fe){
+		} catch(\Exception $ex){
 
 			// if ($request->wantsJson())
 			// {
 			// 	return new JsonResponse(array('error' => $fe->getMessage()), 500);
 			// }
+
+            \Log::error('Microsite update error', ['id' => $id, 'request' => $request->all(), 'error' => $ex]);
 
 			return redirect()->back()->withInput()->withErrors(
 	            ['error' => trans('microsites.errors.update', ['error' => $ex->getMessage()])]

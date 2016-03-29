@@ -101,11 +101,13 @@ class DocumentsController extends Controller {
 
                 $accessible = $this->service->getCollectionsAccessibleByUser($user);
                 
-                $group_ids = $accessible->personal->map(function($grp){
-                    return $grp->toKlinkGroup();	
-                })->all();
-                
-                $_request->on($group_ids);
+                if(!is_null($accessible->personal)){
+                    $group_ids = $accessible->personal->map(function($grp){
+                        return $grp->toKlinkGroup();	
+                    })->all();
+                    
+                    $_request->on($group_ids);
+                }
 
 			}
 			
@@ -701,7 +703,7 @@ class DocumentsController extends Controller {
 					$document->title = e($request->input('title'));
 				}
 
-				if($request->has('abstract') && $request->input('abstract') !== $document->abstract){
+				if( ($request->has('abstract') || $request->input('abstract', false) === '') && $request->input('abstract') !== $document->abstract){
 					$document->abstract = e($request->input('abstract'));
 				}
 
@@ -709,22 +711,26 @@ class DocumentsController extends Controller {
 					$document->language = e($request->input('language'));
 				}
 
-				$add_to_public = false;
-				$remove_from_public = false;
-				if($request->has('visibility') && $request->input('visibility') === \KlinkVisibilityType::KLINK_PUBLIC && !$document->is_public){
-					// if was not public and is marked as public
-					$document->is_public = true;
-					$add_to_public = true;
+                if($user->can_capability(Capability::CHANGE_DOCUMENT_VISIBILITY)){
 
-					\Log::info('Document add public', ['descriptor' => $document, 'add_to_public' => $add_to_public]);
-				}
-				else if(!$request->has('visibility') && $document->is_public){
-					//was public and is no more marker as public
-					$document->is_public = false;
-					$remove_from_public = true;
+                    $add_to_public = false;
+                    $remove_from_public = false;
+                    if($request->has('visibility') && $request->input('visibility') === \KlinkVisibilityType::KLINK_PUBLIC && !$document->is_public){
+                        // if was not public and is marked as public
+                        $document->is_public = true;
+                        $add_to_public = true;
 
-					\Log::info('Document remove from public', ['descriptor' => $document, 'remove_from_public' => $remove_from_public]);
-				}
+                        \Log::info('Document add public', ['descriptor' => $document, 'add_to_public' => $add_to_public]);
+                    }
+                    else if(!$request->has('visibility') && $document->is_public){
+                        //was public and is no more marker as public
+                        $document->is_public = false;
+                        $remove_from_public = true;
+
+                        \Log::info('Document remove from public', ['descriptor' => $document, 'remove_from_public' => $remove_from_public]);
+                    }
+                
+                }
 
 				if($request->has('authors') && $request->input('authors') !== $document->authors){
 					$document->authors = e($request->input('authors')); //deve essere un array così poi laravel lo serializza
@@ -768,7 +774,7 @@ class DocumentsController extends Controller {
 
 					$this->service->reindexDocument($document, \KlinkVisibilityType::KLINK_PRIVATE);
 
-					if($add_to_public){
+					if( (isset($add_to_public) && $add_to_public) || $document->is_public){
 						$this->service->reindexDocument($document, \KlinkVisibilityType::KLINK_PUBLIC);
 					}
 					else if($remove_from_public){
@@ -806,7 +812,7 @@ class DocumentsController extends Controller {
 				return new JsonResponse($status, 500);
 			}
 
-			return redirect()->route('documents.edit', $id)->withErrors([
+			return redirect()->route('documents.edit', $id)->withInput()->withErrors([
 	            'error' => trans('documents.update.error', ['error' => $kex->getMessage()])
 	        ]);
 			

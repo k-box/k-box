@@ -40,7 +40,7 @@ class Microsite extends Model {
      *
      * @var array
      */
-    protected $fillable = ['project_id', 'title', 'slug', 'user_id', 'description', 'institution_id', 'logo', 'hero_image'];
+    protected $fillable = ['project_id', 'title', 'slug', 'user_id', 'description', 'institution_id', 'logo', 'hero_image', 'default_language'];
     
 
     /**

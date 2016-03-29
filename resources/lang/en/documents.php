@@ -39,6 +39,8 @@ return [
 		'recent' => 'Recent',
 		'trash' => 'Trash',
 		'not_indexed' => 'Not Indexed',
+        'recent_hint' => 'Here latest working documents owned by you are listed',
+        'starred_hint' => 'Here your important or interesting documents are listed',
 	),
 
 

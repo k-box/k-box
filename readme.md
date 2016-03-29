@@ -254,7 +254,8 @@ The supported commands are:
 - `dms:update`: Perform the installation/update steps for the K-Link DMS.
 - `dms:queuelisten`: Start listening for jobs on the queue and report the status to the admin interface.
 - `dms:sync`: Performs a synchronization of the documents from the DMS that do not exists on the Core.
-
+- [`users:import`](https://git.klink.asia/klinkdms/dms/wikis/users-import-command): Import users from a CSV file
+- [`dms:import`](https://git.klink.asia/klinkdms/dms/wikis/import-command): Import collections, projects and documents from a folder on a the filesystem
 
 ### `dms:update` command
 

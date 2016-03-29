@@ -10,5 +10,17 @@ use Exception;
 class FileAlreadyExistsException extends Exception
 {
 	
-	
+	private $existing_file = null;
+    
+    
+    public function setExistingFile($file){
+        $this->existing_file = $file;
+        return $this;
+    }
+    
+    public function getExistingFile(){
+        return $this->existing_file;
+    }
+    
+    
 }

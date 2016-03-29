@@ -226,8 +226,15 @@ class GroupManagementTest extends TestCase {
 
 		$this->assertEquals('pretty', $group->getParent()->getParent()->getParent()->name);
 
+	}
+    
+    public function testGroupCreationFromFolderWithSingleFolder()
+	{
+        $user = $this->createAdminUser();
+        
+		$group = $this->service->createGroupsFromFolderPath($user, 'example/');
 
-		$group = $this->service->createGroupsFromFolderPath($user, '/pretty/path/for/example/');
+		$this->assertEquals('example', $group->name);
 
 	}
 

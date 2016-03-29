@@ -17,12 +17,12 @@ class MicrositeCreationRequest extends Request {
 
 		$tests = [
             'project' => 'required|integer|exists:projects,id',
-            'title' => 'required|string',
-            'slug' => array('required','string','regex:/^(?!create)[a-z\\-]+/','unique:microsites,slug'),
-            'description' => 'sometimes|required|string',
-            'logo' => 'sometimes|string|url|regex:/^https/',
-            'hero_image' => 'sometimes|string|url|regex:/^https/',
-            'default_language' => 'sometimes|required|string|regex:/^[a-z]{2}$/',
+            'title' => 'required|string|not_array',
+            'slug' => array('required','string', 'not_array','regex:/^(?!create)[a-z\\-]+/','unique:microsites,slug'),
+            'description' => 'sometimes|string|not_array',
+            'logo' => 'sometimes|not_array|string|url|min:5|regex:/^https/',
+            'hero_image' => 'sometimes|not_array|string|url|min:5|regex:/^https/',
+            'default_language' => 'sometimes|required|string|not_array|regex:/^[a-z]{2}$/',
             'content' => 'required|array',
             'menu' => 'sometimes|required|array'
 		];

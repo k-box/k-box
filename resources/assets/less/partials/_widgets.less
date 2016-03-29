@@ -247,10 +247,6 @@
 
 // contact
 
-.contact {
-
-}
-
 .contact-card {
 	.widget;
 
@@ -270,18 +266,22 @@
 	z-index: 15000;
 
 	.institution-image {
-		width: 100%;
-
+		// width: 100%;
+        box-sizing: border-box;
 		height: 140px;
 
 		background-color: @black-10;
 
 
-		margin: -0.8rem -1.2rem 0.8rem;
+		margin: -8px -12px 8px;
 
-		padding: 0.8rem 1.2rem;
+		overflow:hidden;
 
-		
+		img {
+            width: 100%;
+            box-sizing: border-box;
+            height: auto;
+        }
 	}
 
 

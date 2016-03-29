@@ -135,7 +135,7 @@ $factory->define(KlinkDMS\Project::class, function (Faker\Generator $faker) {
         'institution_id' => $institution
     ]);
     
-    $user->addCapabilities( KlinkDMS\Capability::$ADMIN );
+    $user->addCapabilities( KlinkDMS\Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH );
     
     $project_title = $faker->sentence; 
         
@@ -162,8 +162,8 @@ $factory->define(Klink\DmsMicrosites\Microsite::class, function (Faker\Generator
         'title' => $faker->sentence,
         'slug' => $faker->slug,
         'description' => $faker->paragraph,
-        'logo' => $faker->imageUrl,
-        'hero_image' => $faker->imageUrl,
+        'logo' => str_replace('http://', 'https://', $faker->imageUrl),
+        'hero_image' => str_replace('http://', 'https://', $faker->imageUrl),
         'default_language' => 'en',
         'user_id' => $project_manager->id,
         'institution_id' => $project_manager->institution_id,

@@ -8,14 +8,20 @@ use KlinkDMS\Import;
 use KlinkDMS\User;
 use KlinkDMS\File;
 use KlinkDMS\Group;
+use KlinkDMS\Project;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Bus\DispatchesCommands;
-use KlinkDMS\Commands\ImportCommand;
+use KlinkDMS\Jobs\ImportCommand;
+
+use KlinkDMS\Console\Traits\Login;
+use KlinkDMS\Console\Traits\DebugOutput;
+
+use KlinkDMS\Exceptions\ForbiddenException;
 
 
 class DmsImportCommand extends Command {
 	
-	use DispatchesCommands;
+	use DispatchesCommands, Login, DebugOutput;
 
 	/**
 	 * The console command name.
@@ -55,23 +61,28 @@ class DmsImportCommand extends Command {
 		
 		$folder = realpath($this->argument('folder'));
 		$is_local = $this->option('local');
-		$use_roots = false; //$this->option('use-roots');
-		$is_institutional = $this->option('institutional');
+		$use_roots = $this->option('also-current-folder');
+		$is_project = $this->option('create-projects');
 		$skip = $this->option('skip');
 		$exclude = $this->option('exclude');
+		$user_param = $this->option('user');
+		$enable_file_conflict_resolution = $this->option('attempt-to-resolve-file-conflict');
 		
 		if(!$folder){
-			$this->error('The specified folder argument "'.$this->argument('folder').'" is not a valid folder');
+                        
+            throw new \Exception('The specified folder "'.$this->argument('folder').'" is not a valid folder');
+            
 		}
 		
 		$this->info('DMS Import command. Please login before proceeding');
-		// $username = $this->ask('Username?');
-		// $password = $this->secret('Password?');
 		
-		// Log in test
+        $this->askLogin();
 		
-		$user = User::findOrFail(1);
+		$user = is_null($this->user()) ? User::findOrFail( $user_param ) : $this->user();
 
+        if(!$user->isProjectManager()){
+            throw new ForbiddenException("The user must be at least a project administrator", 1);            
+        }
 		
 		// local first and only path must be the storage folder
 		
@@ -82,7 +93,7 @@ class DmsImportCommand extends Command {
 
 		$this->line('Gathering folder structure for ' . $folder);
 	
-		$subdirs = array_merge([$folder],  $this->directories($folder, $skip));
+		$subdirs = $this->directories($folder, $skip);
 
 		// var_dump($subdirs);
 
@@ -90,7 +101,8 @@ class DmsImportCommand extends Command {
 		
 		$parent_group = null;
 		if($use_roots){
-			$parent_group = $this->service->createGroupsFromFolderPath($user, basename($folder), true, !$is_institutional);
+            $subdirs = array_merge([$folder],  $this->directories($folder, $skip));
+			$parent_group = $this->service->createGroupsFromFolderPath($user, basename($folder), true, !$is_project);
 		}
 		
 		$hash = md5($folder);
@@ -131,17 +143,32 @@ class DmsImportCommand extends Command {
 	
 				// create the corresponding group
 	
-				$group = $this->service->createGroupsFromFolderPath($user, str_replace(realpath(\Config::get('dms.upload_folder')).DIRECTORY_SEPARATOR, '', $file->path), true, !$is_institutional, $parent_group);
+				$group = $this->service->createGroupsFromFolderPath($user, str_replace(realpath(\Config::get('dms.upload_folder')).DIRECTORY_SEPARATOR, '', $file->path), true, !$is_project, $parent_group);
+                
+                if(!$use_roots && $is_project){
+                    $this->debugLine('Creating project from ' . $group->id . ':' . $group->name);
+                    
+                    $newProject = Project::create(array(
+                        'user_id' => $user->id,
+                        'name' => $group->name,
+                        'description' => '',
+                        'collection_id' => $group->id
+					));
+                }
 				
-				if($debug){
-					$this->line('Enqueuing ' . $file->id .':' . $file->name . ' as import ' . $import->id . ' in group ' . $group->id . ':' . $group->name);
-				}
+                $this->line('Enqueuing ' . $file->id .':' . $file->name . ' as import ' . $import->id . ' in group ' . $group->id . ':' . $group->name);
 				
 				\Log::info('Import Enqueued', array('file' => $file, 'import' => $import, 'original_root_folder' => $folder, 'group' => $group));
 				
-				// \Queue::push('ImportCommand@init', array('user' => $user,'import' => $import, 'copy' => !$is_local, 'group' => $group->id, 'skip' => $skip, 'exclude' => $exclude));
-				
-				$this->dispatch(new ImportCommand($user, $import, $group, !$is_local, $skip));
+				// $this->dispatch(new ImportCommand($user, $import, $group, !$is_local, $skip, $this->getOutput()));
+                // Foce to handle the import in place instead of using the queue
+				$command = with(new ImportCommand($user, $import, $group, !$is_local, $skip, $this->getOutput()));
+                
+                if($enable_file_conflict_resolution){
+                    $command->useFileConflictResolution();
+                }
+                
+                $command->handle($this->service);
 			
 			}
 			else {
@@ -154,8 +181,10 @@ class DmsImportCommand extends Command {
             
 
         }
+        
+        $this->info('Import process completed.');
 
-
+        return 0;
 	}
 
 	/**
@@ -166,7 +195,7 @@ class DmsImportCommand extends Command {
 	protected function getArguments()
 	{
 		return [
-			['folder', InputArgument::REQUIRED, 'The folder you want to import documents from.'],
+			['folder', InputArgument::REQUIRED, 'The folder you want to import.'],
 		];
 	}
 
@@ -178,11 +207,13 @@ class DmsImportCommand extends Command {
 	protected function getOptions()
 	{
 		return [
-			['local', null, InputOption::VALUE_NONE, 'Consider the folder as the storage path and do not copy files, but only performs indexing and collection creations.', null],
-			['institutional', null, InputOption::VALUE_NONE, 'Create institutional collections from folders', null],
-			// ['use-roots', null, InputOption::VALUE_NONE, 'Use the specified folder argument as the names for the collections', null],
+			['local', 'l', InputOption::VALUE_NONE, 'Consider the folder as the storage path and do not copy files, but only performs indexing and collection creations.', null],
+			['create-projects', 'p', InputOption::VALUE_NONE, 'Create projects from folders without a parent', null],
+			['user', 'u', InputOption::VALUE_REQUIRED, 'Specify the user that will be the owner of the created collections and documents', null],
+			['also-current-folder', 'c', InputOption::VALUE_NONE, 'Use the specified folder argument as the source for all collections and import files that are stored in it', null],
 			['skip', null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Skip the folders that match the specified pattern', null],
 			['exclude', null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Exclude files that match the specified pattern', null],
+			['attempt-to-resolve-file-conflict', 'd', InputOption::VALUE_NONE, '', null],
 		];
 	}
 	

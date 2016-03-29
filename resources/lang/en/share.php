@@ -32,7 +32,7 @@ return [
 
 	'shared_with_me_title' => 'Shared by Others',
 	
-	'shared_with_label' => 'Shared with',
+	'shared_with_label' => 'Shared by you with',
 	'shared_by_label' => 'Shared by',
 	
 	'bulk_destroy' => 'Shares deleted|Some shares cannot be deleted<br/>:errors',

@@ -29,12 +29,12 @@
 		</li>
         @endif
 		<li>
-			<a href="{{route('documents.recent')}}" class="menu-el @if(\Request::is('*recent')) current @endif">
+			<a href="{{route('documents.recent')}}" class="hint--bottom menu-el @if(\Request::is('*recent')) current @endif" data-hint="{{trans('documents.menu.recent_hint')}}">
 				<span class="menu-icon icon-action-black icon-action-black-ic_schedule_black_24dp"></span> {{trans('documents.menu.recent')}}
 			</a>
 		</li>
 		<li>
-			<a href="{{route('documents.starred.index')}}" class="menu-el @if(\Request::is('*starred*')) current @endif">
+			<a href="{{route('documents.starred.index')}}" class="hint--bottom menu-el @if(\Request::is('*starred*')) current @endif" data-hint="{{trans('documents.menu.recent_hint')}}">
 				<span class="menu-icon icon-toggle-black icon-toggle-black-ic_star_black_24dp"></span> {{trans('documents.menu.starred')}}
 			</a>
 		</li>

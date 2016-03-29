@@ -148,7 +148,7 @@ return [
 		'Illuminate\Validation\ValidationServiceProvider',
 		'Illuminate\View\ViewServiceProvider',
 
-		'KlinkDMS\Providers\BusServiceProvider',
+		// 'KlinkDMS\Providers\BusServiceProvider',
         
 		'KlinkDMS\Providers\AuthServiceProvider',
 

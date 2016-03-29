@@ -71,8 +71,10 @@ return [
 		"array"   => "The :attribute must contain :size items.",
 	],
 	"unique"               => "The :attribute has already been taken.",
-	"url"                  => "The :attribute format is invalid.",
+	"url"                  => "The :attribute must be a valid URL (e.g. http://something.com).",
 	"timezone"             => "The :attribute must be a valid zone.",
+	"not_array"             => "The :attribute must not contain multiple values.",
+	"empty_if"             => "The :attribute must be empty.",
 
 	/*
 	|--------------------------------------------------------------------------
@@ -106,6 +108,14 @@ return [
 		],
 		'slug' => [
 			'regex' => 'The slug must be made of lower case characters with dashes. Must not contain numbers or start with "create".',
+		],
+        'logo' => [
+			'url' => 'The logo must be a valid URL to an image file',
+			'regex' => 'The logo must be a valid URL to an image file',
+		],
+        'hero_image' => [
+			'url' => 'The full screen image must be a valid URL to an image file',
+			'regex' => 'The full screen image must be a valid URL to an image file',
 		]
 
 	],

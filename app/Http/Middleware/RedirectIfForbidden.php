@@ -52,7 +52,7 @@ class RedirectIfForbidden implements Middleware {
 			}
 
 			$has_cap = is_array($required_perm) && array_key_exists('all', $required_perm) ? $this->auth->user()->can_all_capabilities($required_perm['all']) : $this->auth->user()->can_capability($required_perm);
-			            
+
 			if( $has_cap ){
 
 				return $next($request);

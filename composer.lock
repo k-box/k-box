@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "08d71f10854d37bb105faee5eb100e10",
-    "content-hash": "c50495aae44bb663c25cef95e673c511",
+    "hash": "3187c972e8fe19848840b8753838520e",
+    "content-hash": "a3d1bd0ff78ccfda9f0cceb434f1a701",
     "packages": [
         {
             "name": "barryvdh/laravel-async-queue",
@@ -1107,17 +1107,17 @@
         },
         {
             "name": "klink/adapterboilerplate",
-            "version": "1.1.0",
+            "version": "1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://git.klink.asia/kadapters/adapterboilerplate.git",
-                "reference": "96e70e6bb0363c8ed66089d8f3507b2648d6b1b6"
+                "reference": "4140666dbbbf0a0de4061143fc0cc6ac2cf27315"
             },
             "dist": {
                 "type": "tar",
-                "url": "http://repo.klink.dyndns.ws//dist/klink-adapterboilerplate-1.1.0-11af59.tar",
-                "reference": "96e70e6bb0363c8ed66089d8f3507b2648d6b1b6",
-                "shasum": "768a84d6de64ac3f7189e18a22b8ef3d4159278e"
+                "url": "http://repo.klink.dyndns.ws//dist/klink-adapterboilerplate-1.2.0-6fa92f.tar",
+                "reference": "4140666dbbbf0a0de4061143fc0cc6ac2cf27315",
+                "shasum": "bbcd6592f24e3da3dfcff1b5990ed1c84c86e8ca"
             },
             "require": {
                 "ext-curl": "*",
@@ -1153,7 +1153,7 @@
                 "wiki": "https://git.klink.asia/kadapters/adapterboilerplate/wikis/home",
                 "source": "https://git.klink.asia/kadapters/adapterboilerplate"
             },
-            "time": "2016-02-03 00:00:00"
+            "time": "2016-03-26 00:00:00"
         },
         {
             "name": "laravel/framework",
@@ -1350,6 +1350,63 @@
                 "parser"
             ],
             "time": "2016-01-14 04:29:54"
+        },
+        {
+            "name": "league/csv",
+            "version": "8.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thephpleague/csv.git",
+                "reference": "0a1b535df48507f58ed3c7ab44e72272b11163ac"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thephpleague/csv/zipball/0a1b535df48507f58ed3c7ab44e72272b11163ac",
+                "reference": "0a1b535df48507f58ed3c7ab44e72272b11163ac",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mbstring": "*",
+                "php": ">=5.5.0"
+            },
+            "require-dev": {
+                "fabpot/php-cs-fixer": "^1.9",
+                "phpunit/phpunit": "^4.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "8.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "League\\Csv\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ignace Nyamagana Butera",
+                    "email": "nyamsprod@gmail.com",
+                    "homepage": "https://github.com/nyamsprod/",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Csv data manipulation made easy in PHP",
+            "homepage": "http://csv.thephpleague.com",
+            "keywords": [
+                "csv",
+                "export",
+                "filter",
+                "import",
+                "read",
+                "write"
+            ],
+            "time": "2015-12-11 09:28:14"
         },
         {
             "name": "league/flysystem",

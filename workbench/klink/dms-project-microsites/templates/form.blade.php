@@ -62,7 +62,7 @@
         <select class="u-full-width" id="default_language" name="default_language">
         <option value="en" @if( (isset($microsite) && $microsite->default_language == 'en' ) || old('default_language') == 'en') selected @endif>{{trans('languages.en')}}</option>
         <option value="ru" @if( (isset($microsite) && $microsite->default_language == 'ru' ) || old('default_language') == 'ru') selected @endif>{{trans('languages.ru')}}</option>
-        <option value="kg" @if( (isset($microsite) && $microsite->default_language == 'kg' ) || old('default_language') == 'kg') selected @endif>{{trans('languages.kg')}}</option>
+        <option value="ky" @if( (isset($microsite) && $microsite->default_language == 'ky' ) || old('default_language') == 'ky') selected @endif>{{trans('languages.ky')}}</option>
         <option value="de" @if( (isset($microsite) && $microsite->default_language == 'de' ) || old('default_language') == 'de') selected @endif>{{trans('languages.de')}}</option>
         <option value="fr" @if( (isset($microsite) && $microsite->default_language == 'fr' ) || old('default_language') == 'fr') selected @endif>{{trans('languages.fr')}}</option>
         <option value="it" @if( (isset($microsite) && $microsite->default_language == 'it' ) || old('default_language') == 'it') selected @endif>{{trans('languages.it')}}</option>

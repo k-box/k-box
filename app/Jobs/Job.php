@@ -24,7 +24,7 @@ abstract class Job
         
         $failer = app()->make('queue.failer');
             
-        if ($failer) {
+        if (property_exists($this, 'job') && !is_null($this->job) && $failer) {
             $failer->log('connection', is_null($this->job->getQueue()) ? 'default' : $this->job->getQueue(), $this->job->getRawBody());
 
             if(method_exists($this->job, 'failed')){

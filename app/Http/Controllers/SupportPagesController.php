@@ -83,7 +83,7 @@ class SupportPagesController extends Controller {
 		$geocode = $this->geoCodeCity($inst->address_locality, $inst->address_country);
 
 		$page_title = trans('pages.contact');
-
+        
 		return view('static.contact', compact('inst', 'since', 'geocode', 'page_title'));
 	}
 
@@ -95,7 +95,7 @@ class SupportPagesController extends Controller {
 	{
 		//http://nominatim.openstreetmap.org/search?q=bishkek,kyrgyzstan&format=json
 
-		$slug = str_slug($city . ' ' . $country, '-');
+		$slug = str_slug($city . '-' . $country, '-');
 
 		$value = \Cache::rememberForever('geocode_' . $slug, function() use($city, $country)
 		{
@@ -103,7 +103,7 @@ class SupportPagesController extends Controller {
 			$http = new \KlinkHttp();
 
 			$headers = array(
-				'timeout' => 120,
+				'timeout' => 60,
 				'httpversion' => '1.1',
 				'compress' => 'true'
 			);

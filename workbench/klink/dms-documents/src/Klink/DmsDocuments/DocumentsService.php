@@ -849,8 +849,8 @@ class DocumentsService {
 
         
         $r = new \stdClass;
-        $r->personal = $personal_groups;
-        $r->projects = $private_groups;
+        $r->personal = !is_null($personal_groups) ? $personal_groups : Collection::make([]);
+        $r->projects = !is_null($private_groups) ? $private_groups : Collection::make([]);
         return $r;
     }
     
@@ -862,6 +862,8 @@ class DocumentsService {
      * @return bool true if access is granted, false otherwise
      */
     public function isCollectionAccessible( User $user, Group $group ){
+        
+        // var_dump('calling isCollectionAccessible ' . var_export($user->isDMSManager(), true));
         
         if( $user->isDMSManager() ){
             // admin can do everything
@@ -887,7 +889,14 @@ class DocumentsService {
         }
         else {
             $ancestors = $group->getAncestors()->fetch('id')->all();
-            $project = $project && in_array($ancestors, $project_collections_ids);
+            
+            if(is_array($ancestors)){
+                $project = $project && !empty(array_intersect($ancestors, $project_collections_ids));
+            }
+            else {
+                $project = $project && in_array($ancestors, $project_collections_ids);
+            }
+
         } 
         
         // check if is shared with the user
@@ -1071,12 +1080,13 @@ class DocumentsService {
 		$that = $this;
 
 		$type = GroupType::getFolderType();
-
+        
+        $folder = str_replace('\\', '/', $folder);
 
 		return \DB::transaction(function() use($user, $folder, $merge, $type, $make_private, $parent)
 		{
 
-			$paths = array_values(array_filter(explode(DIRECTORY_SEPARATOR, $folder)));
+			$paths = array_values(array_filter(explode('/', $folder)));
 
 			$count_paths = count($paths);
 

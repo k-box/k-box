@@ -66,78 +66,88 @@ class SettingsAdministrationController extends Controller {
     
       try{
           
-          if($request->has(Option::MAP_VISUALIZATION_SETTING)){
-            // if !active => activate it
-            Option::put(Option::MAP_VISUALIZATION_SETTING, true);
-          }
-          else {
-            // disable it
-            Option::put(Option::MAP_VISUALIZATION_SETTING, false);
-          }
+            if($request->input('map-settings-save-btn', false) === ''){
           
-          if($request->has(Option::SUPPORT_TOKEN) && !empty($request->input(Option::SUPPORT_TOKEN, null))){
-            Option::put(Option::SUPPORT_TOKEN, $request->input(Option::SUPPORT_TOKEN, null));
-          }
-          else {
-            // disable it
-            Option::put(Option::SUPPORT_TOKEN, '');
-          }
-
-
-        if($request->has(Option::PUBLIC_CORE_URL) &&
-            $request->input(Option::PUBLIC_CORE_USERNAME) &&
-            $request->input(Option::PUBLIC_CORE_PASSWORD)){
-                
-            $url = $request->input(Option::PUBLIC_CORE_URL, null);
-            $username = $request->input(Option::PUBLIC_CORE_USERNAME, null);
-            $password = $request->input(Option::PUBLIC_CORE_PASSWORD, null);
-            
-            $test_result = app('Klink\DmsAdapter\KlinkAdapter')->testExplicitNetworkConnectivity($url, $username, $password);
-            
-            if(!$test_result['result']){
-                // failure
-                
-                $ex_message = $test_result['error']->getMessage();
-                
-                if(!is_null($test_result['error']->getPrevious())){
-                    $ex_message .= ' ' . $test_result['error']->getPrevious()->getMessage();
+                if($request->has(Option::MAP_VISUALIZATION_SETTING)){
+                    // if !active => activate it
+                    Option::put(Option::MAP_VISUALIZATION_SETTING, true);
                 }
-             
-                return redirect()->back()->withInput()->withErrors([
-                    'error' => trans('administration.settings.save_error', ['error' => $ex_message])
-                ]);
-                
-            }
-            
-            Option::put(Option::PUBLIC_CORE_URL, $url);
-            Option::put(Option::PUBLIC_CORE_USERNAME, $username);
-            Option::put(Option::PUBLIC_CORE_PASSWORD, base64_encode($password));   
-            Option::put(Option::PUBLIC_CORE_CORRECT_CONFIG, true);
-            
-            \Log::info('Changed K-Link Public configuration', array(
-                'by_user' => $auth->user()->id,
-                'new_config' => array('url' => $url, 'username' => $username)
-                ));   
-                
-        }
-
-      
-          if($request->has(Option::PUBLIC_CORE_ENABLED)){
-            // if !active => activate it
-            Option::put(Option::PUBLIC_CORE_ENABLED, true);
-
-          }
-          else {
-            // disable it
-            Option::put(Option::PUBLIC_CORE_ENABLED, false);
-          }
+                else {
+                    // disable it
+                    Option::put(Option::MAP_VISUALIZATION_SETTING, false);
+                }
           
-          if($request->has(Option::PUBLIC_CORE_DEBUG)){
-              Option::put(Option::PUBLIC_CORE_DEBUG, true);
-          }
-          else {
-            Option::put(Option::PUBLIC_CORE_DEBUG, false);
-          }
+            }
+          
+            if($request->input('support-settings-save-btn', false) === ''){
+          
+                if($request->has(Option::SUPPORT_TOKEN) && !empty($request->input(Option::SUPPORT_TOKEN, null))){
+                    Option::put(Option::SUPPORT_TOKEN, $request->input(Option::SUPPORT_TOKEN, null));
+                }
+                else {
+                    // disable it
+                    Option::put(Option::SUPPORT_TOKEN, '');
+                }
+            }
+
+            if($request->input('public-settings-save-btn', false) === ''){
+
+                if($request->has(Option::PUBLIC_CORE_URL) &&
+                    $request->input(Option::PUBLIC_CORE_USERNAME) &&
+                    $request->input(Option::PUBLIC_CORE_PASSWORD)){
+                        
+                    $url = $request->input(Option::PUBLIC_CORE_URL, null);
+                    $username = $request->input(Option::PUBLIC_CORE_USERNAME, null);
+                    $password = $request->input(Option::PUBLIC_CORE_PASSWORD, null);
+                    
+                    $test_result = app('Klink\DmsAdapter\KlinkAdapter')->testExplicitNetworkConnectivity($url, $username, $password);
+                    
+                    if(!$test_result['result']){
+                        // failure
+                        
+                        $ex_message = $test_result['error']->getMessage();
+                        
+                        if(!is_null($test_result['error']->getPrevious())){
+                            $ex_message .= ' ' . $test_result['error']->getPrevious()->getMessage();
+                        }
+                    
+                        return redirect()->back()->withInput()->withErrors([
+                            'error' => trans('administration.settings.save_error', ['error' => $ex_message])
+                        ]);
+                        
+                    }
+                    
+                    Option::put(Option::PUBLIC_CORE_URL, $url);
+                    Option::put(Option::PUBLIC_CORE_USERNAME, $username);
+                    Option::put(Option::PUBLIC_CORE_PASSWORD, base64_encode($password));   
+                    Option::put(Option::PUBLIC_CORE_CORRECT_CONFIG, true);
+                    
+                    \Log::info('Changed K-Link Public configuration', array(
+                        'by_user' => $auth->user()->id,
+                        'new_config' => array('url' => $url, 'username' => $username)
+                        ));   
+                        
+                }
+
+            
+                if($request->has(Option::PUBLIC_CORE_ENABLED)){
+                    // if !active => activate it
+                    Option::put(Option::PUBLIC_CORE_ENABLED, true);
+
+                }
+                else {
+                    // disable it
+                    Option::put(Option::PUBLIC_CORE_ENABLED, false);
+                }
+                
+                if($request->has(Option::PUBLIC_CORE_DEBUG)){
+                    Option::put(Option::PUBLIC_CORE_DEBUG, true);
+                }
+                else {
+                    Option::put(Option::PUBLIC_CORE_DEBUG, false);
+                }
+                
+           }
       
           return redirect()->route('administration.settings.index')->with([
               'flash_message' => trans('administration.settings.saved')

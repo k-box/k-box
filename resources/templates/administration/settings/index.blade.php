@@ -49,7 +49,7 @@
                     <input type="checkbox" name="map_visualization" id="map_visualization" value="true" @if(isset($map_visualization) && $map_visualization) checked @endif /><label for="map_visualization">{{trans('administration.settings.map_visualization_chk')}}</label>
                 </p>
                 
-                <button type="submit" class="button">
+                <button type="submit" class="button" name="map-settings-save-btn"  id="map-settings-save-btn">
                     {{trans('administration.settings.save_btn')}}
                 </button>
             
@@ -71,13 +71,13 @@
             
                 <p>                
                     <label for="support_token">{{trans('administration.settings.support_token_field')}}</label>
-                    @if( $errors->has('support_token') )
+                    @if( isset($errors) && $errors->has('support_token') )
                         <span class="field-error">{{ implode(",", $errors->get('support_token'))  }}</span>
                     @endif
                     <input type="text" name="support_token" id="support_token" value="{{old('support_token', isset($support_token) ? $support_token : '')}}">
                 </p>
                 
-                <button type="submit" class="button">
+                <button type="submit" class="button" id="support-settings-save-btn" name="support-settings-save-btn">
                     {{trans('administration.settings.support_save_btn')}}
                 </button>
             
@@ -105,19 +105,19 @@
                 <p>
                     
                     <label for="public_core_url">{{trans('administration.settings.klinkpublic_url')}}</label>
-                    @if( $errors->has('public_core_url') )
+                    @if( isset($errors) && $errors->has('public_core_url') )
                         <span class="field-error">{{ implode(",", $errors->get('public_core_url'))  }}</span>
                     @endif
                     <input type="text" required name="public_core_url" id="public_core_url" value="{{old('public_core_url', isset($public_core_url) ? $public_core_url : '')}}">
 
                     <label for="public_core_username">{{trans('administration.settings.klinkpublic_username')}}</label>
-                    @if( $errors->has('public_core_username') )
+                    @if( isset($errors) && $errors->has('public_core_username') )
                         <span class="field-error">{{ implode(",", $errors->get('public_core_username'))  }}</span>
                     @endif
                     <input type="text" required name="public_core_username" id="public_core_username" value="{{old('public_core_username', isset($public_core_username) ? $public_core_username : '')}}">
 
                     <label for="public_core_password">{{trans('administration.settings.klinkpublic_password')}}</label>
-                    @if( $errors->has('public_core_password') )
+                    @if( isset($errors) && $errors->has('public_core_password') )
                         <span class="field-error">{{ implode(",", $errors->get('public_core_password'))  }}</span>
                     @endif
                     <input type="password" required name="public_core_password" id="public_core_password" value="{{old('public_core_password', isset($public_core_password) ? $public_core_password : '')}}">
@@ -128,7 +128,7 @@
                     <input type="checkbox" name="public_core_debug" id="public_core_debug" value="true" @if(isset($public_core_debug) && $public_core_debug) checked @endif /><label for="public_core_debug">{{trans('administration.settings.klinkpublic_debug_enabled')}}</label>
                 </p>
                 
-                <button type="submit" class="button">
+                <button type="submit" class="button" id="public-settings-save-btn" name="public-settings-save-btn">
                     {{trans('administration.settings.save_btn')}}
                 </button>
             

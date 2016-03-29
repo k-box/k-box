@@ -1,4 +1,4 @@
-@if($errors->any())
+@if(isset($errors) && $errors->any())
 
     <div class="alert error">
 
@@ -11,15 +11,6 @@
         <p>You have some errors, please correct them before proceeding</p>
 
         @endif
-
-        <!-- <ul>
-        
-            @foreach($errors->all() as $error)
-
-                <li>{{$error}}</li>
-
-            @endforeach
-        </ul> -->
 
     </div>
 

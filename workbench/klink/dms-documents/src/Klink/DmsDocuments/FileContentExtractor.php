@@ -219,7 +219,6 @@ class FileContentExtractor {
 		// https://developers.google.com/kml/documentation/kmzarchives
 		
 		if(!class_exists('ZipArchive')){
-			dd('cannot open zip archive');
 			return $this->kml( 'zip://' .  $path . '#doc.xml'); 
 		}
 		

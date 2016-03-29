@@ -1,0 +1,8 @@
+User (Name, Last Name);Email;Role (Guest, Partner, Project Administrator, K-Linker, K-Box Administrator);Manage Project;User of project
+user-1;user-1@klink.asia;Partner;;test
+user-2;user-2@klink.asia;Guest;;
+user-3;user-3@klink.asia;ProjectAdmin;lead by;test,secondary
+user-4;user-4@klink.asia;K-Linker;;panco,pillo,pluto
+user-5;user-5@klink.asia;Admin;;
+user-6;user-6@klink.asia;;Cannot Be PrjAdmin;Another Project
+user-7;user-7@klink.asia;;;Another Project

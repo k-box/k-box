@@ -62,28 +62,30 @@
 
 @section('scripts')
 
-  <script>
-            
-  require(['leaflet'], function(Leaflet){
+    @if(isset($geocode) && !empty($geocode))
 
-    var map = Leaflet.noConflict().map('bigmap', {
-        center: [{{$geocode['lat']}},{{$geocode['lon']}}],
-        zoom: 10,
-        touchZoom:false,
-        scrollWheelZoom:false,
-        doubleClickZoom:false,
-        boxZoom:false,
-        zoomControl:false
-    });
+        <script>
+                    
+        require(['leaflet'], function(Leaflet){
 
-    Leaflet.tileLayer('//{s}.tiles.mapbox.com/v3/examples.map-i875mjb7/{z}/{x}/{y}.png', {
-      attribution: '&copy; <a href="https://www.mapbox.com">MapBox</a>'
-    }).addTo(map);
+            var map = Leaflet.noConflict().map('bigmap', {
+                center: [{{$geocode['lat']}},{{$geocode['lon']}}],
+                zoom: 10,
+                touchZoom:false,
+                scrollWheelZoom:false,
+                doubleClickZoom:false,
+                boxZoom:false,
+                zoomControl:false
+            });
 
+            Leaflet.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+
+        });
+        
+        </script>
     
-
-  });
-  
-  </script>
+    @endif
 
 @stop

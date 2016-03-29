@@ -57,13 +57,11 @@ class BulkController extends Controller {
 	public function destroy(AuthGuard $auth, BulkDeleteRequest $request)
 	{
 
-		// ids might be comma separated, single transaction
-
-		\Log::info('Bulk Deleting', ['params' => $request->all()]);
-
 		try{
 			
 			$user = $auth->user();
+            
+            \Log::info('Bulk Deleting', ['triggered_by' => $user->id, 'params' => $request->all()]);
 			
 			$force = $request->input('force', false);
 			
@@ -75,49 +73,45 @@ class BulkController extends Controller {
 			
 			$all_that_can_be_deleted = $this->service->getUserTrash($user);
 
-			$document_delete_count = \DB::transaction(function() use($request, $that, $user, $all_that_can_be_deleted, $force){
-				
-				// Documents delete transaction
 
-				$docs = $request->input('documents', array());
 				
-				if(!is_array($docs)){
-					$docs = array($docs);
-				}
-				
-				if(empty($docs) && $force){
-					$docs =  $all_that_can_be_deleted->documents();
-				}
-				
-				foreach ($docs as $document) {
-					$that->deleteSingle($user, $document, $force);
-				}
 
-				return count($docs);
-			});
+            // document delete
             
-             
+            $docs = $request->input('documents', array());
+            
+            if(!is_array($docs)){
+                $docs = array($docs);
+            }
+            
+            if(empty($docs) && $force){
+                $docs =  $all_that_can_be_deleted->documents();
+            }
+            
+            foreach ($docs as $document) {
+                $that->deleteSingle($user, $document, $force);
+            }
 
-			$group_delete_count = \DB::transaction(function() use($request, $that, $user, $all_that_can_be_deleted, $force){
-				
-				// Collections delete transaction
+            $document_delete_count = count($docs);
+            
+            // group delete 
 
-				$grps = $request->input('groups', array());
+            $grps = $request->input('groups', array());
 
-				if(!is_array($grps)){
-					$grps = array($grps);
-				}
-				
-				if(empty($grps) && $force){
-					$grps = $all_that_can_be_deleted->collections();
-				}
-				
-				foreach ($grps as $grp) {
-					$that->deleteSingleGroup($user, $grp, $force);
-				}
+            if(!is_array($grps)){
+                $grps = array($grps);
+            }
+            
+            if(empty($grps) && $force){
+                $grps = $all_that_can_be_deleted->collections();
+            }
+            
+            foreach ($grps as $grp) {
+                $that->deleteSingleGroup($user, $grp, $force);
+            }
 
-				return count($grps);
-			});
+            $group_delete_count = count($grps);
+			
             
             // TODO: now it's time to submit to the queue the reindex job for each DocumentDescriptor
             // submit: 
@@ -141,7 +135,7 @@ class BulkController extends Controller {
 
 		}catch(\Exception $kex){
 
-			\Log::error('Bulk Deleting error', ['error' => $kex, 'request' => $request]);
+			\Log::error('Bulk Deleting error', ['error' => $kex, 'user' => $auth->user(), 'request' => $request->all()]);
 
 			$status = array('status' => 'error', 'message' =>  trans('documents.bulk.remove_error', ['error' => $kex->getMessage()]));
 

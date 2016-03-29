@@ -78,24 +78,26 @@
 
 		@if(isset($share_id) && isset($shared_with))
 			<span class="meta-info shared-with" title="{{trans('share.shared_with_label')}}">
-				<span class="meta-label">{{trans('share.shared_with_label')}}&nbsp;</span>@include('share.with', ['with_who' => $shared_with])
+				<span class="meta-label">{{trans('share.shared_with_label')}} </span>@include('share.with', ['with_who' => $shared_with])
 			</span>			
 		@endif
 		
 		@if(isset($share_id) && isset($shared_by))
 			<span class="meta-info shared-by" title="{{trans('share.shared_by_label')}}">
-				<span class="meta-label">{{trans('share.shared_by_label')}}nbsp;</span>@include('share.with', ['with_who' => $shared_by])
+				<span class="meta-label">{{trans('share.shared_by_label')}} </span>@include('share.with', ['with_who' => $shared_by])
 			</span>			
 		@endif
 
+        @if($item->user)
 		<span class="meta-info institution-name" title="{{trans('groups.created_by')}}">
-			<span class="meta-label">{{trans('groups.created_by')}}&nbsp;</span>{{$item->user->name}}
+			<span class="meta-label">{{trans('groups.created_by')}} </span>{{$item->user->name}}
 		</span>
+        @endif
 		
 		
 		
 		<span class="meta-info creation-date" title="{{trans('groups.created_on')}}">
-			<span class="meta-label">{{trans('groups.created_on')}}&nbsp;</span>{{$item->getCreatedAt()}}
+			<span class="meta-label">{{trans('groups.created_on')}} </span>{{$item->getCreatedAt()}}
 		</span>
 		
 	</div>

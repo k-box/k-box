@@ -144,16 +144,15 @@ class Capability extends Model {
         self::MANAGE_BACKUP );
 
     static $CONTENT_MANAGER = array( 
-        self::MAKE_SEARCH, 
-        self::UPLOAD_DOCUMENTS, 
-        self::IMPORT_DOCUMENTS,
-        self::MANAGE_OWN_GROUPS,
-        self::DELETE_DOCUMENT,
-        self::EDIT_DOCUMENT,
+        self::MAKE_SEARCH,
         self::RECEIVE_AND_SEE_SHARE,
-        self::MANAGE_PERSONAL_PEOPLE_GROUPS,
+        self::UPLOAD_DOCUMENTS,
+        self::DELETE_DOCUMENT,
+        self::MANAGE_OWN_GROUPS,
         self::SHARE_WITH_PERSONAL,
-        self::SHARE_WITH_PRIVATE );
+        self::MANAGE_PROJECT_COLLECTIONS,
+        self::CHANGE_DOCUMENT_VISIBILITY,
+        self::EDIT_DOCUMENT, );
         
     // is the project manager for the Project edition
     static $QUALITY_CONTENT_MANAGER = array( 

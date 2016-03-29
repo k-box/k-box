@@ -132,4 +132,17 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
 
         return $models;
     }
+    
+    
+    
+    function runArtisanCommand($command, $arguments = [])
+    {
+        $command->setLaravel(app());
+        
+        $output = new Symfony\Component\Console\Output\BufferedOutput;
+        
+        $this->runCommand($command, $arguments, $output);
+        
+        return $output->fetch();
+    }
 }

@@ -15,7 +15,7 @@ use KlinkDMS\Traits\Searchable;
 class SearchTest extends TestCase {
 
 	use Searchable;
-    use DatabaseMigrations;
+    // use DatabaseMigrations;
     use DatabaseTransactions;
 	
 	public function testSearchRequestBaseConstruction()

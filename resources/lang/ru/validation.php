@@ -15,10 +15,10 @@ return [
     */
 
     "accepted"             => "Вы должны принять :attribute.",
-    "active_url"           => "Поле :attribute недействительный URL.",
+    "active_url"           => ":attribute не является действительным URL адресом.",
     "after"                => "В поле :attribute должна быть дата после :date.",
     "alpha"                => "Поле :attribute может содержать только буквы.",
-    "alpha_dash"           => "Поле :attribute может содержать только буквы, цифры и дефис.",
+    "alpha_dash"           => "Поле :attribute может содержать только буквы, цифры и тире.",
     "alpha_num"            => "Поле :attribute может содержать только буквы и цифры.",
     "array"                => "Поле :attribute должно быть массивом.",
     "before"               => "В поле :attribute должна быть дата до :date.",
