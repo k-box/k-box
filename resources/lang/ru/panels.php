@@ -22,7 +22,7 @@ return [
 	),
 
 	'download_btn' => 'Скачать',
-	'open_btn' => 'Обзор<sup>бета</sup>',
+	'open_btn' => 'Просмотр<sup>бета</sup>',
 	'open_site_btn' => 'Открыть веб-страницу',
 	'edit_btn' => 'Изменить',
 	'edit_btn_title' => 'Изменить детали документа',
@@ -37,10 +37,10 @@ return [
 	'share_section_title' => 'Вы поделились с',
 	'groups_section_title' => 'Коллекции',
 	'version_section_title' => 'Версии документов',
-	'abstract_section_title' => 'Введение',
+	'abstract_section_title' => 'Краткое содержание',
 	
-	'not_shared' => 'Не разделяемое',
-	'not_in_collection' => 'Не в коллекции',
+	'not_shared' => 'Совместный доступ к документу еще не создан',
+	'not_in_collection' => 'Документ не присутствует в коллекциях',
 
 	'collection_remove' => 'Удалить из :collection',
 

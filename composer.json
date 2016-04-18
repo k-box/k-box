@@ -8,7 +8,7 @@
 	"repositories": [
         {
             "type": "composer",
-            "url": "http://repo.klink.dyndns.ws"
+            "url": "https://build.klink.asia/composer/"
         }
         
     ],
@@ -20,7 +20,7 @@
 		"franzose/closure-table": "~4.0.1",
 		"graham-campbell/markdown": "~6.0",
 		"phpoffice/phpword": "~0.12.0",
-        "klink/adapterboilerplate" : "~1.2.0",
+        "klink/adapterboilerplate" : "~2.0.0",
 		"guzzlehttp/guzzle": "6.0.2",
 		"doctrine/dbal": "^2.5",
         "league/csv": "^8.0"
@@ -66,7 +66,6 @@
 		]
 	},
 	"config": {
-		"preferred-install": "dist",
-        "secure-http": false
+		"preferred-install": "dist"
 	}
 }

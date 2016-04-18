@@ -27,7 +27,7 @@ return [
 		'password' => 'Password',
 		'password_description' => 'The password must be alphanumeric and have a minimum length of 8 characters',
 		'password_confirm' => 'Confirm your password',
-		'language' => 'Select the language to use for the localization',
+		'language' => 'Select your preferred language',
 	),
 
 	'change_password_btn' => 'Change password',

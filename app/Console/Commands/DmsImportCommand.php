@@ -102,7 +102,7 @@ class DmsImportCommand extends Command {
 		$parent_group = null;
 		if($use_roots){
             $subdirs = array_merge([$folder],  $this->directories($folder, $skip));
-			$parent_group = $this->service->createGroupsFromFolderPath($user, basename($folder), true, !$is_project);
+			// $parent_group = $this->service->createGroupsFromFolderPath($user, basename($folder), true, !$is_project);
 		}
 		
 		$hash = md5($folder);

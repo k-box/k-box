@@ -379,7 +379,7 @@ class ImportCommand extends Job implements ShouldBeQueued, SelfHandling {
 	{
 		$directories = array();
 
-		foreach (Finder::create()->in($directory)->files()->depth('== 0') as $dir)
+		foreach (Finder::create()->in($directory)->files()->notName('Thumbs.db')->depth('== 0') as $dir)
 		{
 			$directories[] = $dir->getPathname();
 		}

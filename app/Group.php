@@ -156,6 +156,14 @@ class Group extends Entity implements GroupInterface
         return $this->created_at->format(trans('units.date_format'));
     }
     
+    /**
+     * Overcome the problem that is_private is stored as a string because it is in a key
+     */
+    public function getIsPrivateAttribute($value)
+    {
+        return filter_var($value, FILTER_VALIDATE_BOOLEAN);
+    }
+    
     
     public static function getClosureTable(){
         $instance = new static;

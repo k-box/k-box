@@ -17,7 +17,7 @@ return [
 	'new_button' => 'Новый проект',
 	
 	'create_page_title' => 'Создать новый проект',
-	'edit_page_title' => 'Изменить имя проекта :name',
+	'edit_page_title' => 'Изменить название проекта :name',
 	
 	'edit_button' => 'Изменить',
 	'delete_button' => 'Удалить',
@@ -27,7 +27,7 @@ return [
 		'description' => 'Описание проекта',
 		
 		'users' => 'Пользователи',
-		'users_hint' => 'Выберите пользователей для включения проект',
+		'users_hint' => 'Выберите пользователя для предоставления доступа в проект',
 		
 		
 		'create_submit' => 'Создать проект',
@@ -49,7 +49,7 @@ return [
 	
 	'project_created' => 'Проект :name был создан',
 	
-	'project_updated' => 'Проект :name был создан',
+	'project_updated' => 'Проект :name был обновлен',
 	
 
 ];

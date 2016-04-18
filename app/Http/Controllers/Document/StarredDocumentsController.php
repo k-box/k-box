@@ -93,7 +93,7 @@ class StarredDocumentsController extends Controller {
 			'search_terms' => $req->term,
 			'facets' => $results->facets(),
 			'filters' => $results->filters(),
-			'empty_message' => ($results->count()==0) ? 'Nothing found in starred for "' . $req->term . '"'  : trans('starred.empty_message')
+			'empty_message' => ($results->count()==0 && $req->term !== '*') ? trans('search.no_results_no_markup', ['term' => $req->term, 'collection' =>  trans('starred.page_title')])  : trans('starred.empty_message')
 		));
 	}
 

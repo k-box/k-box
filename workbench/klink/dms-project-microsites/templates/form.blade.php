@@ -51,7 +51,7 @@
     
     <p>
         <label>{{trans('microsites.labels.publishing_box')}}</label>
-        <button type="submit" class="button-primary">{{ trans( isset($microsite) ? 'microsites.actions.save' : 'microsites.actions.publish') }}</button><br/>or <a href="{{ route('projects.show', ['id' => $project->id]) }}">{{trans('microsites.labels.cancel_and_back')}}</a>
+        <button type="submit" class="button-primary">{{ trans( isset($microsite) ? 'microsites.actions.save' : 'microsites.actions.publish') }}</button><br/>{{trans('actions.or_alt')}} <a href="{{ route('projects.show', ['id' => $project->id]) }}">{{trans('microsites.labels.cancel_and_back')}}</a>
     </p>
     
     <p>

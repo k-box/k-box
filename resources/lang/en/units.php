@@ -21,6 +21,7 @@ return [
 	'this_week' => 'Earlier this week',
 	'this_month' => 'Earlier this month',
 	'older' => 'Older',
-	'date_format' => 'd M Y',
+     // translators: Do not translate this. This expression is the date formatting string. Please refer to http://php.net/manual/en/function.date.php
+	'date_format' => 'd M Y', 
 
 ];

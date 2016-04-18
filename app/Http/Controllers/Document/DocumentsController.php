@@ -151,7 +151,8 @@ class DocumentsController extends Controller {
 			'current_visibility' => $is_personal ? 'private' : $visibility,
 			'is_personal' => $is_personal,
 			'hint' => $showing_only_local_public ? trans('documents.messages.local_public_only') : false,
-			'filter' => $is_personal ? 'personal' : $visibility]);
+			'filter' => trans('documents.menu.' . ($is_personal ? 'personal' : $visibility))
+            ]);
 	}
 	
 	public function recent(AuthGuard $auth, \Request $request)

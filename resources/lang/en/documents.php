@@ -39,10 +39,9 @@ return [
 		'recent' => 'Recent',
 		'trash' => 'Trash',
 		'not_indexed' => 'Not Indexed',
-        'recent_hint' => 'Here latest working documents owned by you are listed',
+		'recent_hint' => 'Here latest working documents owned by you are listed',
         'starred_hint' => 'Here your important or interesting documents are listed',
 	),
-
 
 	'visibility' => array(
 		'public' => 'Public',
@@ -75,7 +74,7 @@ return [
 		
 		'copy_error' => 'Cannot copy to collection. :error',
 		'copy_completed_all' => 'All documents has been added to :collection',
-		'copy_completed_some' => '{0}No documents has been added because were already in ":collection"|[1,Inf]:count Documents added to :collection, the remaining :remaining were already in :collection',
+		'copy_completed_some' => '{0}No documents has been added because were already in ":collection"|[1,Inf]:count Documents added to :collection, the remaining :remaining where already in :collection',
 		
 		'restore_error' => 'Cannot restore document. :error',
 		

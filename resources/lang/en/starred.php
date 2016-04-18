@@ -14,7 +14,7 @@ return [
 
 	'add' => 'Add to starred',
 	'remove' => 'Remove from starred',
-	'empty_message' => 'You\'re starred documents will appear here. Start to put stars.',
+	'empty_message' => 'Your starred documents will appear here. Start to put stars.',
 
 	'page_title' => 'Starred',
 

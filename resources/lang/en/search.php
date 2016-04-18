@@ -30,6 +30,7 @@ return [
 	'loading_filters' => 'Loading filters...',
 
 	'no_results' => 'Sorry nothing has been found for <strong>:term</strong> into <strong>:collection</strong> documents.',
+	'no_results_no_markup' => 'Sorry nothing has been found for :term in :collection',
 
 	'try_message' => 'Try search for words that starts with :startwithlink',
 

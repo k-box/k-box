@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "3187c972e8fe19848840b8753838520e",
-    "content-hash": "a3d1bd0ff78ccfda9f0cceb434f1a701",
+    "hash": "9c83290655d4a5cca565d7bfe7018034",
+    "content-hash": "888e0b61ef5a825a80f88c330967df76",
     "packages": [
         {
             "name": "barryvdh/laravel-async-queue",
@@ -1107,17 +1107,17 @@
         },
         {
             "name": "klink/adapterboilerplate",
-            "version": "1.2.0",
+            "version": "2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://git.klink.asia/kadapters/adapterboilerplate.git",
-                "reference": "4140666dbbbf0a0de4061143fc0cc6ac2cf27315"
+                "reference": "3018dc7685c6c13ea272d9aeaf50c0a884824ecc"
             },
             "dist": {
                 "type": "tar",
-                "url": "http://repo.klink.dyndns.ws//dist/klink-adapterboilerplate-1.2.0-6fa92f.tar",
-                "reference": "4140666dbbbf0a0de4061143fc0cc6ac2cf27315",
-                "shasum": "bbcd6592f24e3da3dfcff1b5990ed1c84c86e8ca"
+                "url": "https://build.klink.asia/composer//dist/klink-adapterboilerplate-2.0.0-12fdce.tar",
+                "reference": "3018dc7685c6c13ea272d9aeaf50c0a884824ecc",
+                "shasum": "661af46f1aaf0f60fcb23213ca0be3b2296a955a"
             },
             "require": {
                 "ext-curl": "*",
@@ -1153,7 +1153,7 @@
                 "wiki": "https://git.klink.asia/kadapters/adapterboilerplate/wikis/home",
                 "source": "https://git.klink.asia/kadapters/adapterboilerplate"
             },
-            "time": "2016-03-26 00:00:00"
+            "time": "2016-04-18 00:00:00"
         },
         {
             "name": "laravel/framework",
@@ -1665,12 +1665,12 @@
             "version": "v0.10.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/netresearch/jsonmapper.git",
+                "url": "https://github.com/cweiske/jsonmapper.git",
                 "reference": "a58388bdda93424363de20bc20fe0e349ec735ee"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/netresearch/jsonmapper/zipball/a58388bdda93424363de20bc20fe0e349ec735ee",
+                "url": "https://api.github.com/repos/cweiske/jsonmapper/zipball/a58388bdda93424363de20bc20fe0e349ec735ee",
                 "reference": "a58388bdda93424363de20bc20fe0e349ec735ee",
                 "shasum": ""
             },

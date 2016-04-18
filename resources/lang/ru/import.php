@@ -15,7 +15,7 @@ return [
 
 	'clear_completed_btn' => 'Очистка завершена',
 
-	'import_status_general' => '{0} импортирование завершено|{1} :num импортирование в прогрессе|[2,Inf] :num импортирование в прогрессе',
+	'import_status_general' => '{0} импортирование завершено| :num импортирование в прогрессе| :num импортирования в прогрессе| :num импортирований в прогрессе',
 
 	'import_status_details' => ':total всего, :completed завершено и :executing в процессе',
 
@@ -24,13 +24,13 @@ return [
 		'submit_web' => 'Импортировать с веб',
 
 		'select_web' => 'С URL',
-		'select_folder' => 'С папки',
+		'select_folder' => 'Из папки',
 
-		'placeholder_web' => 'http(s)://какой-нибудь.com/файл.pdf',
+		'placeholder_web' => 'http(s)://названиесайта.com/файл.pdf',
 		'placeholder_folder' => '/путь/к/какой-нибудь/папке',
 
-		'help_web' => 'Пожалуйста, введите один url на одну строку. Веб адреса, которым нужна аутентификация, не поддерживаются.',
-		'help_folder' => 'Network shares must be mounted on local filesystem, see <a href=":help_page_route" target="_blank">Помощь в импортировании</a>.',//I didn't understand the meaning of this phrase
+		'help_web' => 'Пожалуйста, введите не больше одного url на строку. Веб адреса, которым нужна аутентификация, не поддерживаются.',
+		'help_folder' => 'Сетевые папки должны находиться на локальной файловой системе, как указано в <a href=":help_page_route" target="_blank">Помощи по импортированию</a>.',
 
 	)
 

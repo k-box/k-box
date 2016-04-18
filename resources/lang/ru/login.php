@@ -11,7 +11,7 @@ return [
 	|
 	*/
 
-	'page_title' => 'Зайти',
+	'page_title' => 'Войти',
 
 	'logout' => 'Выйти',
 
@@ -21,7 +21,7 @@ return [
 		'email_placeholder' => 'Почта (например, user@klink.local)',
 		'password_label' => 'Пароль',
 		'password_placeholder' => 'Пароль',
-		'submit' => 'Зайти',
+		'submit' => 'Войти',
 	),
 
 ];

@@ -19,13 +19,13 @@ return [
 
 		'disclaimer' => 'Это письмо содержит информацию о вашей учетной записи, пожалуйста, сохраните его в безопасном месте.',
 		'welcome' => 'Добро пожаловать, :name,',
-		'credentials' => 'теперь у вас есть доступ в K-LINK DMS вашей организации с<br/> учетной записью <strong>:mail</strong><br/>и паролем <strong>:password</strong>',
+		'credentials' => 'Вы можете пройти в K-LINK DMS вашей организации, используя <br/> имя пользователя <strong>:mail</strong><br/>и пароль <strong>:password</strong>',
 
-		'login_button' => '<a href=":link">Логин</a>',
+		'login_button' => '<a href=":link">Войти в систему</a>',
 		
 
 	),
 
-    'password_reset_subject' => 'Вы запросили восстановление пароля для вашего аккаунта в K-DMS',
+    'password_reset_subject' => 'Вы запросили ссылку для сброса пароля для вашего аккаунта в K-LINK DMS',
 	
 ];

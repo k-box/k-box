@@ -123,7 +123,7 @@ class DocumentsService {
 	
 		try{
 			
-			if($file->isIndexable()){
+			if($file->isIndexable() && $file->size < 209715200){
 				return $file->path;
 			}
 			

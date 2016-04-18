@@ -15,7 +15,7 @@ return [
 
 	"password" => "Passwords must be at least six characters and match the confirmation.",
 	"user" => "We can't find a user with that e-mail address.",
-	"token" => "The password reset link you have used is expired. it will be usable only for 5 minutes after the password reset request.",
+	"token" => "The password reset link you have used is expired. It will be usable only for 5 minutes after the password reset request.",
 	"sent" => "Password reset link sent!",
 	"reset" => "Password has been reset!",
 
