@@ -12,6 +12,7 @@ return [
 	*/
 
 	'edit' => 'Edit',
+	'details' => 'Details',
 	'expand'     => 'Expand',
 	'collapse'     => 'Collapse',
 	'expand_all'     => 'Expand All',
@@ -34,7 +35,17 @@ return [
 		'invert' => 'Invert',
         'hint' => 'Select All/Clear selection',
 
+        'at_least_one_document' => 'Select at least 1 document',
+        'at_least_one' => 'Please select at least 1 document or collection',
 	),
+    
+    'clipboard' => [
+        'copied_title' => 'Copied!',
+        'copied_link_text' => 'The link has been copied to your clipboard',
+        
+        'not_copied_title' => 'Cannot copy to clipboard',
+        'not_copied_link_text' => 'The link cannot be copied to the clipboard, you can copy it manually by pressing Ctrl+C on the keyboard.',
+    ],
 
 
 	'switcher' => array(
@@ -59,6 +70,10 @@ return [
 
 	'save' => 'Save',
 	'saving' => 'Saving...',
+	'deleting' => 'Deleting...',
+	'restoring' => 'Restoring...',
+	'cleaning_trash' => 'Cleaning the trash...',
+	'cleaning_trash_wait' => 'Please wait while the trash is being cleaned...',
 
 	'add_to' => 'Add to',
 	'move_to' => 'Move to',
@@ -66,11 +81,13 @@ return [
 	'add_or_move_to' => 'Collections',
 
 	'make_public' => 'Make Public',
+	'publish_documents' => 'Publish Documents',
 	'make_private' => 'Keep Private',
 
 	'create_add_dropdown' => 'Create or Add',
 
 	'trash_btn' => 'Delete',
+	'trash_btn_alt' => 'Move to Trash',
 	'restore_btn' => 'Restore',
 	'empty_trash' => 'Empty Trash',
 
@@ -96,5 +113,24 @@ return [
     'hints' => [
         'make_public' => 'Select some documents before making them available in the K-Link Network',
     ],
+    
+    'not_available' => 'Oops, the action is not ready for the primetime!',
+
+    // buttons on the dialog
+    'dialogs' => [
+        'cancel_btn' => 'No, cancel!',
+        'cancel_btn_alt' => 'Cancel',
+        
+        'yes_btn' => 'Yes',
+        'no_btn' => 'No',
+        'ok_btn' => 'OK',
+        
+        'delete_btn' => 'Yes, delete it!',
+        
+        // showed when on a dialog, like the one in people group creation, the input field is empty, but a value is required
+        'input_required' => 'You need to write something!',
+        
+        
+    ]
 
 ];

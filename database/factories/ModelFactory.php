@@ -37,6 +37,7 @@ $factory->define(KlinkDMS\File::class, function (Faker\Generator $faker) {
         'mime_type' => 'application/pdf',
         'user_id' => factory(KlinkDMS\User::class)->create()->id, 
         'size' => $faker->randomNumber(2),
+        'original_uri' => ''
     ]; 
 });
 
@@ -59,7 +60,7 @@ $factory->define(KlinkDMS\Institution::class, function (Faker\Generator $faker) 
 
 $factory->define(KlinkDMS\DocumentDescriptor::class, function (Faker\Generator $faker) {
     
-    $hash = $faker->sha256;
+    $hash = $faker->sha256 . '' . $faker->sha256;
     
     $user = factory(KlinkDMS\User::class)->create();
     
@@ -87,8 +88,8 @@ $factory->define(KlinkDMS\DocumentDescriptor::class, function (Faker\Generator $
         'mime_type' => 'application/pdf',
         'visibility' => 'private',
         'document_type' => 'document',
-        'user_owner' => '',
-        'user_uploader' => '',
+        'user_owner' => 'some user <usr@user.com>',
+        'user_uploader' => 'some user <usr@user.com>',
         'abstract' => $faker->paragraph,
         'language' => $faker->languageCode,
         'file_id' => $file->id,

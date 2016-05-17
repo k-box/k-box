@@ -24,6 +24,9 @@ return [
 		'name_and_parent' => 'Коллекция ":name" под ":parent" уже существует.',
 	),
 
+	'generic_text' => 'Опаньки! Произошло что-то неожиданное.',
+    'generic_text_alt' => 'Опаньки! Произошло что-то неожиданное. :error',
+    'generic_title' => 'Опаньки!',
 
 	'reindex_all' => 'Переиндексация всех процедур не может быть завершена в связи с ошибкой. Посмотрите журнал ошибок или свяжитесь с администратором.', //logs as list of errors
 
@@ -34,20 +37,20 @@ return [
 	'document_not_found' => 'Нужный вам документ не может быть найден или был удален.',
 
 	'forbidden_exception' => 'У вас нет доступа к странице.',
-	'forbidden_edit_document_exception' => 'Вам не дали права на редактирование документа.',
-	'forbidden_see_document_exception' => 'Вы не можете просмотреть данный документ, потому что он является личным.',
+	'forbidden_edit_document_exception' => 'Вы не можете редактировать документ.',
+	'forbidden_see_document_exception' => 'Вы не можете просмотреть документ, т.к. он в личном пользовании.',
 	
 	'fatal' => 'Фатальная ошибка :reason',
 
 	'panels' => array(
 		'title' => 'Ой! Непредвиденная ошибка.',
-		'prevent_edit' => 'Вы не можете редактировать :name'
+		'prevent_edit' => 'Вы не можете редактировать :name',
 	),
 
 	'import' => array(
 		'folder_not_readable' => 'Папка :folder недоступна для чтения. Убедитесь что у вас есть права на чтение.',
-		'url_already_exists' => 'Файл с подобного вебсайта (:url) уже был импортирован.',
-		'download_error' => 'Документ ":url" не доступен для загрузки. :error',
+		'url_already_exists' => 'Файл из вебсайта с тем же url (:url) уже был импортирован.',
+		'download_error' => 'Документ ":url" не может быть загружен. :error',
 	),
 
 
@@ -77,5 +80,16 @@ return [
 
 	'klink_exception_title' => 'Ошибка сервисов K-LINK.',
 	'klink_exception_text' => 'Ошибка в подключении к сервисам K-LINK.',
-	'reindex_failed' => 'Последние изменения могут не быть отражены в поиске. Пожалуйста, свяжитесь с командой поддержки для более подробной информации.'
+	
+	'reindex_failed' => 'Search might not be up-to-date with latest changes, please consult the support team for more information.',
+    
+    'page_loading_title' => 'Проблема загрузки', 
+    'page_loading_text' => 'Загрузка страницы кажется замедленной и некоторая функциональность может быть недоступна. Пожалуйста, обновите страницу.',
+    
+    'dragdrop' => [
+        'not_permitted_title' => 'На данный момент перетаскивание недоступно',
+        'not_permitted_text' => 'Вы не можете совершить перетаскивание.',
+        'link_not_permitted_title' => 'Перетаскивание ссылок недоступно.',
+        'link_not_permitted_text' => 'В настоящее время вы не можете перетаскивать ссылки на вебсайты.',
+    ],
 ];

@@ -1,4 +1,4 @@
-define("modules/panels", ["jquery", "DMS", "combokeys"], function ($, DMS, _combokeys) {
+define("modules/panels", ["jquery", "DMS", "combokeys", "language"], function ($, DMS, _combokeys, Lang) {
     
 	console.log('panels module initialization...');
 
@@ -9,9 +9,9 @@ define("modules/panels", ["jquery", "DMS", "combokeys"], function ($, DMS, _comb
 	var keyb = new _combokeys(document); //TODO: optimize this
 
 
-	var panel_template = '<div class="panel"><a href="#close" title="Close" class="close icon-navigation-black icon-navigation-black-ic_close_black_24dp"></a><div id="inner">Loading...</div></div>',
-		dialog_template = '<div class="dialog"><div id="inner">Loading...</div></div>',
-		panel_error_content = '<a href="#close" title="Close" class="close icon-navigation-white icon-navigation-white-ic_close_white_24dp"></a><div class="header"><h4 class="title">%title%</h4></div><p>%message%</p>';
+	var panel_template = '<div class="panel"><a href="#close" title="' + Lang.trans('panels.close_btn') + '" class="close icon-navigation-black icon-navigation-black-ic_close_black_24dp"></a><div id="inner">' + Lang.trans('panels.loading_message') + '</div></div>',
+		dialog_template = '<div class="dialog"><div id="inner">' + Lang.trans('panels.loading_message') + '</div></div>',
+		panel_error_content = '<a href="#close" title="' + Lang.trans('panels.close_btn') + '" class="close icon-navigation-white icon-navigation-white-ic_close_white_24dp"></a><div class="header"><h4 class="title">%title%</h4></div><p>%message%</p>';
 
 
 	function _initialize(template){
@@ -185,7 +185,7 @@ define("modules/panels", ["jquery", "DMS", "combokeys"], function ($, DMS, _comb
 	var module = {
 
 		showProgress: function(id){
-			_opened_panels.html("Loading");
+			_opened_panels.html( Lang.trans('panels.loading_message') );
 		},
 
 		showError: function(id){
@@ -210,7 +210,7 @@ define("modules/panels", ["jquery", "DMS", "combokeys"], function ($, DMS, _comb
 
 			// if(_opened_panel_id !== id){
 
-				module.updateContent(id, '<a href="#close" title="Close" class="close icon-navigation-black icon-navigation-black-ic_close_black_24dp"></a> Loading...');
+				module.updateContent(id, '<a href="#close" title="' + Lang.trans('panels.close_btn') + '" class="close icon-navigation-black icon-navigation-black-ic_close_black_24dp"></a> ' + Lang.trans('panels.loading_message') );
 
 				if(!params){
 					params = {};
@@ -226,7 +226,7 @@ define("modules/panels", ["jquery", "DMS", "combokeys"], function ($, DMS, _comb
 					
 					console.error(obj, err, text);
 					
-					var content = panel_error_content.replace('%title%', 'Error').replace('%message%', obj.responseText);
+					var content = panel_error_content.replace('%title%', Lang.trans('panels.load_error_title')).replace('%message%', obj.responseText);
 
 					module.updateContent(id, content);
 				});
@@ -373,7 +373,7 @@ define("modules/panels", ["jquery", "DMS", "combokeys"], function ($, DMS, _comb
 
 			if(!_opened_dialog_id || (_opened_dialog_id && _opened_dialog_id !== url)){
 
-				_opened_dialog.html('Loading...');
+				_opened_dialog.html( Lang.trans('panels.loading_message') );
 
 				DMS.Ajax.getHtml(url, params, function(ok){
 					_opened_dialog_id = url;
@@ -381,7 +381,7 @@ define("modules/panels", ["jquery", "DMS", "combokeys"], function ($, DMS, _comb
 
 				}, function(obj, err, text){
 
-					_opened_dialog.html('Oops the dialog cannot be loaded :(<br/>' + text);
+					_opened_dialog.html( Lang.trans('panels.load_error', {error: text}));
 				});
 
 			}

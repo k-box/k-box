@@ -236,7 +236,6 @@ return [
 		),
 	),
 	
-	
 	'settings' => array(
 		'viewing_section' => 'Viewing',
 		'viewing_section_help' => 'You can configure how the users can view the documents.',

@@ -145,7 +145,7 @@ Route::post('documents/copy',[
   ]);
 
 Route::resource('documents/import', 'Document\ImportDocumentsController', 
-	['names' => ['index' => 'import'], 'only' => ['index', 'store']]);
+	['names' => ['index' => 'import'], 'only' => ['index', 'store', 'destroy', 'update']]);
 
 
 

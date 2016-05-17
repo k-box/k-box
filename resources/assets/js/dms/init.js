@@ -37,7 +37,8 @@ window.DMS = (function(_$, _nprogress, _rivets, _alert){
 
 	var longRunningTimeout = undefined, longRunningMsgShowed = false, longRunningMsg = undefined;
 
-
+    var Lang = undefined;
+    
 	var $document = _$(document);
 	
 	_$.ajaxSetup({ cache: false });
@@ -179,10 +180,11 @@ window.DMS = (function(_$, _nprogress, _rivets, _alert){
 	var module = { 
 		VERSION: '0.1',
 
-		initialize: function(){
+		initialize: function(lang){
 			_token = _$("meta[name='token']").attr('content');
 			_base  = _$("meta[name='base']").attr('content');
 			longRunningMsg = _$('#long-running-message');
+            Lang = lang;
 		},
 
 		/**
@@ -196,6 +198,7 @@ window.DMS = (function(_$, _nprogress, _rivets, _alert){
 			post: _post,
 			put: _put,
 			del: _delete,
+			delete: _delete,
 		},
 
 		Paths : {
@@ -249,19 +252,46 @@ window.DMS = (function(_$, _nprogress, _rivets, _alert){
 			 * @return {[type]}       [description]
 			 */
 			success: function(title, text){
-				_alert(title, text, "success");
+                _alert({
+					title: title,
+					text: text,
+                    type: "success",
+                    confirmButtonText: Lang.trans('actions.dialogs.ok_btn'),
+					showCancelButton: false,
+					showConfirmButton: true,
+					closeOnConfirm: true });
 			},
 
 			error: function(title, text){
-				_alert(title, text, "error");
+                _alert({
+					title: title,
+					text: text,
+                    type: "error",
+                    confirmButtonText: Lang.trans('actions.dialogs.ok_btn'),
+					showCancelButton: false,
+					showConfirmButton: true,
+					closeOnConfirm: true });
 			},
 			
 			warning: function(title, text){
-				_alert(title, text, "warning");
+				_alert({
+					title: title,
+					text: text,
+                    type: "warning",
+                    confirmButtonText: Lang.trans('actions.dialogs.ok_btn'),
+					showCancelButton: false,
+					showConfirmButton: true,
+					closeOnConfirm: true });
 			},
 
 			show: function(title, text){
-				_alert(title, text);
+				_alert({
+					title: title,
+					text: text,
+                    confirmButtonText: Lang.trans('actions.dialogs.ok_btn'),
+					showCancelButton: false,
+					showConfirmButton: true,
+					closeOnConfirm: true });
 			},
 
 			/**
@@ -290,8 +320,8 @@ window.DMS = (function(_$, _nprogress, _rivets, _alert){
 					type: "warning",
 					showCancelButton: true,
 					confirmButtonColor: "#DD6B55",
-					confirmButtonText: "Yes, delete it!",
-					cancelButtonText: "No, cancel!",
+					confirmButtonText: Lang.trans('actions.dialogs.delete_btn'),
+					cancelButtonText: Lang.trans('actions.dialogs.cancel_btn'),
 					closeOnConfirm: close_on_confirm ? close_on_confirm : false,
 					closeOnCancel: close_on_cancel ? close_on_cancel : false }, 
 					callback
@@ -337,7 +367,7 @@ window.DMS = (function(_$, _nprogress, _rivets, _alert){
 					function(inputValue){
 						if (inputValue === false) return false;
 						if (inputValue === "") {
-							swal.showInputError("You need to write something!");
+							swal.showInputError( Lang.trans('actions.dialogs.input_required'));
 							return false;
 						}
 						callback(inputValue); 

@@ -59,6 +59,9 @@ class ImportTest extends TestCase {
             array( 'https://www.change.org/p/unfccc-united-nations-framework-convention-on-climate-change-ensure-that-the-impact-of-climate-change-on-mountain-peoples-and-ecosystems-is-fully-addressed-in-the-unfccc-cop21-new-climate-deal?source_location=petitions_share_skip', 'text/html' ),
             array( 'https://www.change.org/p/unfccc-united-nations-framework-convention-on-climate-change-ensure-that-the-impact-of-climate-change-on-mountain-peoples-and-ecosystems-is-fully-addressed-in-the-unfccc-cop21-new-climate-deal?source_location', 'text/html' ),
             array( 'http://klink.asia', 'text/html' ),
+            array( 'http://www.iisd.org/sites/default/files/publications/mainstreaming-climate-change-toolkit-guidebook.pdf', 'application/pdf' ),
+            array( 'http://www.vehi.net/dostoevsky/izpodpol.html', 'text/html' ),
+            array( 'http://ian.umces.edu/pdfs/ian_report_392.pdf', 'application/pdf' ),
 		);
 	} 
     
@@ -209,6 +212,256 @@ class ImportTest extends TestCase {
         $this->assertContains($mime_type, $saved_import->file->mime_type, "Inferred mime type is different than what is expected");
         
         // var_dump($saved_import->toArray());
+        
+    }
+    
+    
+    public function testImportFailurePayloadStored(){
+        
+        $url = 'https://klink.asia/fail.pdf';
+        
+        $save_path = Config::get('dms.upload_folder') . DIRECTORY_SEPARATOR . md5($url);
+        
+        $user = $this->createAdminUser();
+        
+        $file = factory('KlinkDMS\File')->create([
+            'mime_type' => '',
+            'size' => 0,
+            'path' => $save_path,
+            'user_id' => $user->id,
+            'original_uri' => $url
+        ]);
+        
+        $import = factory('KlinkDMS\Import')->create([
+            'file_id' => $file->id,
+            'user_id' => $user->id,
+            'is_remote' => true
+        ]);
+
+        dispatch(new ImportCommand($user, $import)); //make sure to have QUEUE_DRIVER=sync in testing.env
+        
+        $saved_import = Import::findOrFail($import->id);
+        
+        $this->assertNotNull($saved_import->job_payload);
+        $this->assertEquals(Import::STATUS_ERROR, $saved_import->status);
+        
+    }
+    
+    public function testDestroyImportWithCompletedStatus(){
+        
+        $url = 'https://klink.asia/fail.pdf';
+        
+        $save_path = Config::get('dms.upload_folder') . DIRECTORY_SEPARATOR . md5($url);
+        
+        $user = $this->createAdminUser();
+        
+        $file = factory('KlinkDMS\File')->create([
+            'mime_type' => '',
+            'size' => 0,
+            'path' => $save_path,
+            'user_id' => $user->id,
+            'original_uri' => $url
+        ]);
+        
+        $import = factory('KlinkDMS\Import')->create([
+            'file_id' => $file->id,
+            'user_id' => $user->id,
+            'is_remote' => true,
+            'status' => Import::STATUS_COMPLETED,
+            'message' => Import::MESSAGE_COMPLETED,
+        ]);
+        
+        $this->actingAs($user);
+		
+        \Session::start(); // Start a session for the current test
+
+		$this->json( 'DELETE', route('documents.import.destroy', [
+                'id' => $import->id, 
+                '_token' => csrf_token()])
+             );
+        $this->seeJson([
+            'status' => 'ok',
+            'message' => trans('import.remove.removed_message', ['import' => $import->file->name])
+        ]);
+        
+        $this->assertResponseOk();
+        
+    }
+    
+    public function testDestroyImportWithErrorStatus(){
+        
+        $url = 'https://klink.asia/fail.pdf';
+        
+        $save_path = Config::get('dms.upload_folder') . DIRECTORY_SEPARATOR . md5($url);
+        
+        $user = $this->createAdminUser();
+        
+        $file = factory('KlinkDMS\File')->create([
+            'mime_type' => '',
+            'size' => 0,
+            'path' => $save_path,
+            'user_id' => $user->id,
+            'original_uri' => $url
+        ]);
+        
+        $import = factory('KlinkDMS\Import')->create([
+            'file_id' => $file->id,
+            'user_id' => $user->id,
+            'is_remote' => true,
+            'status' => Import::STATUS_ERROR,
+            'message' => Import::MESSAGE_ERROR,
+        ]);
+        
+        $file_name = $import->file->name;
+        
+        $this->actingAs($user);
+		
+        \Session::start(); // Start a session for the current test
+
+		$this->json( 'DELETE', route('documents.import.destroy', [
+                'id' => $import->id, 
+                '_token' => csrf_token()])
+             );
+        $this->seeJson([
+            'status' => 'ok',
+             'message' => trans('import.remove.removed_message', ['import' => $file_name])
+        ]);
+        
+        $this->assertResponseOk();
+        
+    }
+    
+    public function testDestroyImportWithPendingStatus(){
+        
+        $url = 'https://klink.asia/fail.pdf';
+        
+        $save_path = Config::get('dms.upload_folder') . DIRECTORY_SEPARATOR . md5($url);
+        
+        $user = $this->createAdminUser();
+        
+        $file = factory('KlinkDMS\File')->create([
+            'mime_type' => '',
+            'size' => 0,
+            'path' => $save_path,
+            'user_id' => $user->id,
+            'original_uri' => $url
+        ]);
+        
+        $import = factory('KlinkDMS\Import')->create([
+            'file_id' => $file->id,
+            'user_id' => $user->id,
+            'is_remote' => true,
+            'status' => Import::STATUS_DOWNLOADING,
+            'message' => Import::MESSAGE_DOWNLOADING,
+        ]);
+        
+        $this->actingAs($user);
+		
+        \Session::start(); // Start a session for the current test
+
+		$this->json( 'DELETE', route('documents.import.destroy', [
+                'id' => $import->id, 
+                '_token' => csrf_token()])
+             );
+
+        $this->seeJson([
+            'status' => 'error',
+            'error' => trans('import.remove.destroy_forbidden_status')
+        ]);
+        
+        $this->assertResponseStatus(422);
+        
+    }
+    
+    public function testDestroyImportFromAnotherUser(){
+        
+        $url = 'https://klink.asia/fail.pdf';
+        
+        $save_path = Config::get('dms.upload_folder') . DIRECTORY_SEPARATOR . md5($url);
+        
+        $user = $this->createAdminUser();
+        $user2 = $this->createUser( Capability::$PROJECT_MANAGER );
+        
+        $file = factory('KlinkDMS\File')->create([
+            'mime_type' => '',
+            'size' => 0,
+            'path' => $save_path,
+            'user_id' => $user->id,
+            'original_uri' => $url
+        ]);
+        
+        $import = factory('KlinkDMS\Import')->create([
+            'file_id' => $file->id,
+            'user_id' => $user->id,
+            'is_remote' => true,
+            'status' => Import::STATUS_DOWNLOADING,
+            'message' => Import::MESSAGE_DOWNLOADING,
+        ]);
+        
+        $this->actingAs($user2);
+		
+        \Session::start(); // Start a session for the current test
+
+		$this->json( 'DELETE', route('documents.import.destroy', [
+                'id' => $import->id, 
+                '_token' => csrf_token()])
+             );
+        
+        $this->seeJson([
+            'status' => 'error',
+            'error' => trans('import.remove.destroy_forbidden_user', ['import' => $import->file->name])
+        ]);
+             
+        $this->assertResponseStatus(422);
+        
+    }
+    
+    
+    public function testRetryImport(){
+        
+        $url = 'https://klink.asia/fail.pdf';
+        
+        $save_path = Config::get('dms.upload_folder') . DIRECTORY_SEPARATOR . md5($url);
+        
+        $user = $this->createAdminUser();
+        
+        $file = factory('KlinkDMS\File')->create([
+            'mime_type' => '',
+            'size' => 0,
+            'path' => $save_path,
+            'user_id' => $user->id,
+            'original_uri' => $url
+        ]);
+        
+        $import = factory('KlinkDMS\Import')->create([
+            'file_id' => $file->id,
+            'user_id' => $user->id,
+            'is_remote' => true
+        ]);
+
+        dispatch(new ImportCommand($user, $import)); //make sure to have QUEUE_DRIVER=sync in testing.env
+        
+        $saved_import = Import::findOrFail($import->id);
+        
+        $this->assertNotNull($saved_import->job_payload);
+        $this->assertEquals(Import::STATUS_ERROR, $saved_import->status);
+        
+        
+        $this->actingAs($user);
+		
+        \Session::start(); // Start a session for the current test
+
+		$this->json( 'PUT', route('documents.import.update', [
+                'id' => $import->id, 
+                '_token' => csrf_token()])
+             , ['retry' => true]);
+        
+        $this->seeJson([
+            'status' => 'ok',
+            'message' => trans('import.retry.retry_completed_message', ['import' => $saved_import->file->name])
+        ]);
+             
+        $this->assertResponseStatus(200);
         
     }
     

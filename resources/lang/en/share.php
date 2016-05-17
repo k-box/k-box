@@ -44,4 +44,11 @@ return [
     
     'link_copied_to_clipboard' => 'The link has been copied to your clipboard, you can use CTRL+V to paste the link somewhere else.',
 	
+    'dialog' => [
+        'share_created' => 'Share Created',
+        'collection_shared' => 'Collection shared',
+        'collection_shared_text' => 'The Collection has been shared',
+        'document_shared' => 'Document shared',
+        'document_shared_text' => 'The Document has been shared',
+    ]
 ];

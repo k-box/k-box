@@ -1,4 +1,4 @@
-define("modules/people", ["require", "modernizr", "jquery", "DMS", "modules/minimalbind", "context", "lodash", "sweetalert" ], function (_require, _modernizr, $, DMS, _rivets, _context, _, _alert) {
+define("modules/people", ["require", "modernizr", "jquery", "DMS", "modules/minimalbind", "context", "lodash", "sweetalert", "language" ], function (_require, _modernizr, $, DMS, _rivets, _context, _, _alert, Lang) {
 
 
 	var _pageArea = $(document),
@@ -103,14 +103,14 @@ define("modules/people", ["require", "modernizr", "jquery", "DMS", "modules/mini
             group = _getGroupById(groupId);
         
         if(!user){
-            DMS.MessageBox.error('Cannot add user', 'The user cannot be added to the group. An unexpected error occurred.');
+            DMS.MessageBox.error(Lang.trans('groups.people.cannot_add_user_dialog_title'), Lang.trans('groups.people.cannot_add_user_dialog_text'));
             return false;
         }
         
         var already_there = _.where(group.people, user);
         
         if(already_there && already_there.length > 0){
-            DMS.MessageBox.warning('User '+ user.name + ' already exists in the group', 'User '+ user.name + ' already exists in the group');
+            DMS.MessageBox.warning( Lang.trans('groups.people.user_already_exists', {name: user.name}), '');
             return false;
         }
         
@@ -134,7 +134,7 @@ define("modules/people", ["require", "modernizr", "jquery", "DMS", "modules/mini
 //           group.name = old;
            group.saving = false;
            _updateBinds();
-           _outputError('Add User to group', obj);
+           _outputError(Lang.trans('groups.people.cannot_add_user_dialog_title'), obj);
         });
 
 
@@ -241,12 +241,12 @@ define("modules/people", ["require", "modernizr", "jquery", "DMS", "modules/mini
         
         createGroup: function(evt, vm){
             
-            DMS.MessageBox.prompt('Create Group', 'the name of the group:', 'Awesome group', function(inputValue){
+            DMS.MessageBox.prompt(Lang.trans('groups.people.create_group_dialog_title'), Lang.trans('groups.people.create_group_dialog_text'), Lang.trans('groups.people.create_group_dialog_placeholder'), function(inputValue){
                 
                 console.info(inputValue);
                 
                 if(_groupAlreadyExixtsByName(inputValue)){
-                    _alert.showInputError("A group with the same name already exists");
+                    _alert.showInputError( Lang.trans('groups.people.group_name_already_exists'));
                     return false;   
                 }
                 
@@ -273,7 +273,7 @@ define("modules/people", ["require", "modernizr", "jquery", "DMS", "modules/mini
                         group.saving = false;
                     }
                     else {
-                        DMS.MessageBox.error('Create group failed', res.status ? res.status : 'The group cannot be created and is all that we know.');
+                        DMS.MessageBox.error( Lang.trans('groups.people.create_group_error_title'), res.status ? res.status : Lang.trans('groups.people.create_group_generic_error_text'));
                         module.details.groups = _.filter(module.details.groups, function(i){ return i.id !== 0; });
                     }
                     
@@ -283,7 +283,7 @@ define("modules/people", ["require", "modernizr", "jquery", "DMS", "modules/mini
                    module.details.groups = _.filter(module.details.groups, function(i){ return i.id !== 0; });
                    _updateBinds();
                    
-                   _outputError('Create group', obj);
+                   _outputError(Lang.trans('groups.people.create_group_error_title'), obj);
                 });
                 
             });
@@ -295,12 +295,12 @@ define("modules/people", ["require", "modernizr", "jquery", "DMS", "modules/mini
             var that = $(this),
                 group = _getGroup(that);
                 
-            DMS.MessageBox.prompt('Rename "' + group.name +'" to', 'the name of the group:', group.name, function(inputValue){
+            DMS.MessageBox.prompt(Lang.trans('groups.people.rename_dialog_title', {name: group.name}), Lang.trans('groups.people.rename_dialog_text'), group.name, function(inputValue){
                 
-                console.info(inputValue);
+                // console.info(inputValue);
                 
                 if(_groupAlreadyExixtsByName(inputValue)){
-                    _alert.showInputError("A group with the same name already exists");
+                    _alert.showInputError(Lang.trans('groups.people.group_name_already_exists'));
                     return false;   
                 }
                 
@@ -320,7 +320,7 @@ define("modules/people", ["require", "modernizr", "jquery", "DMS", "modules/mini
                         }
                         else {
                             group.name = old;
-                            DMS.MessageBox.error('Group rename failed', res.status ? res.status : 'The group cannot be renamed and is all that we know.');
+                            DMS.MessageBox.error(Lang.trans('groups.people.rename_error_title'), res.status ? res.status : Lang.trans('groups.people.rename_generic_error_text'));
                         }
                         group.saving = false;
                         _updateBinds();
@@ -330,7 +330,7 @@ define("modules/people", ["require", "modernizr", "jquery", "DMS", "modules/mini
                        group.saving = false;
                        _updateBinds();
                        
-                       _outputError('Rename group', obj);
+                       _outputError(Lang.trans('groups.people.rename_error_title'), obj);
                     });
                 
             });
@@ -423,7 +423,7 @@ define("modules/people", ["require", "modernizr", "jquery", "DMS", "modules/mini
             var that = $(this),
                 group = _getGroup(that);
                 
-            DMS.MessageBox.deleteQuestion('Delete "' + group.name +'"?', 'Remove the group' + group.name +' ? This operation cannot be undone.', function(selection){
+            DMS.MessageBox.deleteQuestion( Lang.trans('groups.people.delete_dialog_title', {name: group.name}), Lang.trans('groups.people.delete_dialog_text', {name: group.name}), function(selection){
                 if(selection){
                     
                     module.details.groups = _.filter(module.details.groups, function(i){ return i.id !== group.id; }); 
@@ -436,7 +436,7 @@ define("modules/people", ["require", "modernizr", "jquery", "DMS", "modules/mini
                         }
                         else {
                             module.details.groups.push(group);
-                            DMS.MessageBox.error('Delete group failed', res.status ? res.status : 'The group cannot be deleted and is all that we know.');
+                            DMS.MessageBox.error( Lang.trans('groups.people.delete_error_title'), res.status ? res.status : Lang.trans('groups.people.delete_generic_error_text'));
                         }
                         
 //                        group.saving = false;
@@ -448,7 +448,7 @@ define("modules/people", ["require", "modernizr", "jquery", "DMS", "modules/mini
                        module.details.groups.push(group);
                        _updateBinds();
                        
-                       _outputError('Delete group', obj);
+                       _outputError(Lang.trans('groups.people.delete_error_title'), obj);
                     });
                 }
             }, true, true);
@@ -463,7 +463,7 @@ define("modules/people", ["require", "modernizr", "jquery", "DMS", "modules/mini
                 user = _getUser(uid),
                 group = _getGroup(that);
                 
-            DMS.MessageBox.deleteQuestion('Remove ' + uname +'?', 'Remove ' + uname +' from ' + group.name +'', function(selection){
+            DMS.MessageBox.deleteQuestion(Lang.trans('groups.people.remove_user_dialog_title', {name: uname}), Lang.trans('groups.people.remove_user_dialog_text', {name: uname, group: group.name}), function(selection){
                 if(selection){
                     
                     group.people = _.filter(group.people, function(i){ return i.id !== uid; }); 
@@ -486,13 +486,11 @@ define("modules/people", ["require", "modernizr", "jquery", "DMS", "modules/mini
                        group.people.push(user);
                        group.saving = false;
                        _updateBinds();
-                       _outputError('Remove user from group', obj);
+                       _outputError(Lang.trans('groups.people.remove_user_error_title'), obj);
                     });
                 }
             }, true, true);
               
-//            console.log();
-//            console.info("REMOVE USER FROM GROUP");
             evt.preventDefault();
         }
 	};
@@ -500,14 +498,9 @@ define("modules/people", ["require", "modernizr", "jquery", "DMS", "modules/mini
 
 	
     _bind = _rivets.bind(_pageArea, module);
-    
-//    _filterBind = _rivets.bind(_filtersArea, filters_module);
 
     function _updateBinds(){
-//        module.menu.somethingIsSelected = _Selection.isAnySelected();
-//        module.menu.nothingIsSelected = !module.menu.somethingIsSelected;
 
-        
         if(_bind){
             _bind.sync();
         }
@@ -515,132 +508,6 @@ define("modules/people", ["require", "modernizr", "jquery", "DMS", "modules/mini
     }
 
 
-//    function _contextNoop(e){
-//        e.preventDefault();
-//        console.log('Context menu click', this, e);
-//    }
-
-//    _context.attach(_documentArea, '.item', [
-//        {
-//            text: "Details",
-//            action: function(e){
-//                e.preventDefault();
-//
-//                if(_Selection.selectionCount() > 1){
-//
-//                    DMS.MessageBox.error('Multiple Selection', 'The details view currently don\'t support multiple selection');
-//                    return false;
-//                }
-//
-//                module.select.call(this, e, this);
-//
-//
-//            }
-//        },
-//        {
-//            text: "Share",
-//            action: function(e){
-//                if(!_Selection.isSelect(this, true)){
-//                    _Selection.select(this, true);
-//                }
-//                module.menu.share(e, this);
-//            },
-//            icon: 'icon-action-black icon-action-black-ic_exit_to_app_black_24dp'
-//        },
-//        {
-//            text: "Make Public",
-//            action: function(e){ 
-//                if(!_Selection.isSelect(this, true)){
-//                    _Selection.select(this, true);
-//                }
-//                module.menu.makePublic(e, this);
-//            },
-//            icon: 'icon-social-black icon-social-black-ic_public_black_24dp'
-//        },
-//        {
-//            divider: true,
-//        },
-//        {
-//            text: "Edit",
-//            action: function(e){
-//
-//                e.preventDefault();
-//
-//                if(_Selection.selectionCount() > 1){
-//
-//                    DMS.MessageBox.error('Multiple Selection', 'The edit action is not available on multiple selection');
-//                    return false;
-//                }
-//
-//                var id = this.data('id');
-//
-//                DMS.Services.Documents.openEditPage(id);
-//            },
-//            icon: 'icon-content-black icon-content-black-ic_create_black_24dp'
-//        },
-//        {
-//            text: "Delete",
-//            action: function(e){
-//                if(!_Selection.isSelect(this, true)){
-//                    _Selection.select(this, true);
-//                }
-//                module.menu.del(e, this);
-//            }
-//        }
-//    ]);
-//
-//
-//
-//    _context.attach(_treeView, '.groups-menu', [
-//        {
-//            text: "Edit",
-//            action: module.groups.showEdit,
-//            icon: 'icon-content-black icon-content-black-ic_create_black_24dp'
-//        },
-//        {
-//            text: "Delete",
-//            action: function(e){ 
-//                var id = this.data('groupId'),
-//                    anchor = this.hasClass('tree-item') ? this : this.find('.tree-item');
-//                module.menu.deleteGroup(e, id, anchor ? anchor[0].innerText.trim() : undefined);
-//            },
-//        },
-//        {
-//            divider: true,
-//        },
-//        {
-//            text: "Create sub-Collection",
-//            action: function(e){ 
-//                var id = this.data('groupId');
-//                module.menu.createGroup(e, id, id);
-//            },
-//            icon: 'icon-content-black icon-content-black-ic_add_black_24dp'
-//        },
-//        {
-//            divider: true,
-//        },
-//        {
-//            text: "Share",
-//            action: function(e){ 
-//                var id = this.data('groupId');
-//                module.menu.shareGroup(e, id);
-//            },
-//            icon: 'icon-action-black icon-action-black-ic_exit_to_app_black_24dp'
-//        },
-//        {
-//            text: "Publish Documents",
-//            action: function(e){ 
-//                var id = this.data('groupId'),
-//                    name = this.find('.tree-item-inner').first().text().trim();
-//
-//                module.menu.makePublic(e, {group: id, name: name});
-//            },
-//            icon: 'icon-social-black icon-social-black-ic_public_black_24dp'
-//        }
-//    ]);
-
-    
-    
 
 
 	return module;

@@ -85,7 +85,7 @@
 					
 					<div class="u-pull-right">
 						
-						@if($user_can_institutional)
+						@if($user_can_institutional && false)
 						
 							{% if(el.is_institution_group){ %}
 						

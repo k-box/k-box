@@ -23,6 +23,10 @@ return [
 		'only_name' => 'A collection named ":name" already exists.',
 		'name_and_parent' => 'The collection ":name" under ":parent" already exists.',
 	),
+    
+    'generic_text' => 'Oops! something unexpected has happened.',
+    'generic_text_alt' => 'Oops! something unexpected has happened. :error',
+    'generic_title' => 'Oops!',
 
 
 	'reindex_all' => 'The reindex all procedure cannot be completed due to an error. See the logs or contact the administrator.',
@@ -40,8 +44,8 @@ return [
 	'fatal' => 'Fatal error :reason',
 
 	'panels' => array(
-		'title' => 'Oops! something unexcepted has happened.',
-		'prevent_edit' => 'You cannot edit :name'
+		'title' => 'Oops! something unexpected has happened.',
+		'prevent_edit' => 'You cannot edit :name',
 	),
 
 	'import' => array(
@@ -78,5 +82,15 @@ return [
 	'klink_exception_title' => 'K-Link Services Error',
 	'klink_exception_text' => 'There were a problem connecting to the K-Link Services.',
     
-    'reindex_failed' => 'Search might not be up-to-date with latest changes, please consult the support team for more information.'
+    'reindex_failed' => 'Search might not be up-to-date with latest changes, please consult the support team for more information.',
+    
+    'page_loading_title' => 'Loading Problem', 
+    'page_loading_text' => 'The page loading seems slow and some functionality may not be available, please refresh the page.',
+    
+    'dragdrop' => [
+        'not_permitted_title' => 'Drag and Drop not Available',
+        'not_permitted_text' => 'You cannot perform tha drag and drop operation.',
+        'link_not_permitted_title' => 'Drag links is not available',
+        'link_not_permitted_text' => 'Currently you cannot drag and drop links to websites.',
+    ]
 ];

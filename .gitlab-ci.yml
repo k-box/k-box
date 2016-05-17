@@ -4,6 +4,14 @@ stages:
   - test
   - deploy
 
+cache:
+  key: "$CI_BUILD_REF_NAME"
+  group: sharedcache
+  paths:
+  - vendor/
+  - node_modules/
+  - resources/assets/vendor
+
 composer_npm:
   stage: build
   script:
@@ -12,6 +20,7 @@ composer_npm:
     - npm install
     - bower install
     - gulp --production
+    - php artisan dms:lang-publish
     - mv .env env.ci
     - rm -f .bowerrc
     - rm -f bower.json
@@ -23,10 +32,10 @@ composer_npm:
     - rm -f package.json
     - sed -i "s/BUILDCODE/${CI_BUILD_REF}/g" ./config/dms.php
     - tar --transform 's,^.,dms,' -cz . --exclude=.git --exclude=.gitignore --exclude=.gitattributes --exclude=.gitlab-ci.yml --exclude=tests --exclude=node_modules --exclude=resources/assets/js --exclude=resources/assets/less --exclude=resources/assets/sass --exclude=resources/assets/vendor > /var/www/temp/builds/klink-dms-$CI_BUILD_REF_NAME.tar.gz
-    - rm vendor -fr
   only:
     - master
     - project-edition
+    - project-edition-development
   tags:
     - php
     - nodejs
@@ -35,7 +44,7 @@ composer_npm:
 docker_image_pe:
   stage: docker
   script: 
-    - cp /var/www/temp/builds/klink-dms-project-edition.tar.gz /opt/klink-docker/dms/downloads/dms.tar.gz
+    - cp /var/www/temp/builds/klink-dms-$CI_BUILD_REF_NAME.tar.gz /opt/klink-docker/dms/downloads/dms.tar.gz
     - cd /opt/klink-docker
     - docker-compose -f klink-services.yml build dmsproject
   only:

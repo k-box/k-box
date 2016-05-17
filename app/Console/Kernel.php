@@ -25,6 +25,9 @@ class Kernel extends ConsoleKernel {
 		'KlinkDMS\Console\Commands\DmsUserImportCommand',
 		'KlinkDMS\Console\Commands\Collections\DmsCollectionsCommand',
 		'KlinkDMS\Console\Commands\Collections\DmsCollectionsCleanDuplicatesDocumentsCommand',
+        'KlinkDMS\Console\Commands\DmsLanguagePublishCommand',
+		'KlinkDMS\Console\Commands\ThumbnailGenerationCommand',
+		'KlinkDMS\Console\Commands\ImportJobPayloadFetcher',
 	];
 
 	/**

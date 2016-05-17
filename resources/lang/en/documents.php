@@ -39,8 +39,8 @@ return [
 		'recent' => 'Recent',
 		'trash' => 'Trash',
 		'not_indexed' => 'Not Indexed',
-		'recent_hint' => 'Here latest working documents owned by you are listed',
-        'starred_hint' => 'Here your important or interesting documents are listed',
+		'recent_hint' => 'You will find here recently modified documents you own',
+        'starred_hint' => 'You will find here all your starred documents',
 	),
 
 	'visibility' => array(
@@ -73,6 +73,7 @@ return [
 		'remove_error' => 'Cannot delete elements. :error',
 		
 		'copy_error' => 'Cannot copy to collection. :error',
+		
 		'copy_completed_all' => 'All documents has been added to :collection',
 		'copy_completed_some' => '{0}No documents has been added because were already in ":collection"|[1,Inf]:count Documents added to :collection, the remaining :remaining where already in :collection',
 		
@@ -81,7 +82,33 @@ return [
 		'make_public' => ':num document has been published over the K-Link Public Network|:num documents were made available in the K-Link Network.',
 		
 		'make_public_error' => 'The publish operation was not completed due to an error. :error',
+		'make_public_error_title' => 'Cannot publish in K-Link Network',
+        
+        'make_public_success_text_alt' => 'The documents are now publicly available on the K-Link Network',
+		'make_public_success_title' => 'Publish completed',
 
+        'adding_title' => 'Adding documents...',
+        'adding_message' => 'Please wait while the documents are being added to the collection...',
+        'added_to_collection' => 'Added',
+        
+        'add_to_error' => 'Cannot add to collection',
+        
+        'making_public_title' => 'Publishing...',
+        'making_public_text' => 'Please wait while the documents will be made publicly available in the K-Link Network',
+    
+        'make_public_change_title_not_available' => 'The option for changing title before Publish is not currently available.',
+
+        'make_public_all_collection_dialog_text' => 'You will make all the documents in this collection publicly available on the K-Link Network. (click outside to undo)',
+        'make_public_inside_collection_dialog_text' => 'You will make all the documents inside ":item" publicly available on the K-Link Network. (click outside to undo)',
+        
+        'make_public_dialog_title' => 'Publish ":item" on K-Link Network',
+        'make_public_dialog_title_alt' => 'Publish on K-Link Network',
+        
+        'publish_btn' => 'Publish!',
+        'make_public_empty_selection' => 'Please select the documents you want to make available in the K-Link Network.',
+        
+        'make_public_dialog_text' => 'You will make ":item" publicly available on the K-Link Network. (click outside to stop)',
+        'make_public_dialog_text_count' => 'You will make :count documents publicly available on the K-Link Network. (click outside to stop)',
 	),
 
 	'create' => array(
@@ -116,7 +143,46 @@ return [
 
 	'update' => array(
 		'error' => 'Cannot Update the document. Nothing has been changed. :error',
+        
+        'removed_from_title' => 'Removed from collection',
+        'removed_from_text' => 'The document has been removed from ":collection"',
+        'removed_from_text_alt' => 'The document has been removed from the collection',
+        
+        'cannot_remove_from_title' => 'Cannot remove from collection',
+        'cannot_remove_from_general_error' => 'Cannot remove document from collection, if the problem persists please contact the DMS Administrator.',
+
 	),
+    
+    'restore' => [
+        
+        'restore_dialog_title' => 'Restore :document?',
+        'restore_dialog_text' => 'You\'re about to restore ":document"',
+        'restore_dialog_title_count' => 'Restore :count documents?',
+        'restore_dialog_text' => 'You\'re about to restore ":document"',
+        'restore_dialog_text_count' => 'You\'re about to restore :count elements',
+        'restore_dialog_yes_btn' => 'Yes, Restore!',
+        'restore_dialog_no_btn' => 'No, Cancel',
+        
+        'restore_success_title' => 'Restored',
+        'restore_error_title' => 'I was not able to restore',
+        'restore_error_text_generic' => 'Unfortunately I was not able to move out of the trash what you needed.',
+      
+        'restoring' => 'Restoring...',
+    ],
+    
+    'delete' => [
+        
+        'dialog_title' => 'Delete ":document"?',
+        'dialog_title_alt' => 'Delete document?',
+        'dialog_title_count' => 'Delete :count documents?',
+        'dialog_text' => 'You\'re about to delete :document.',
+        'dialog_text_count' => 'You\'re about to delete :count documents',
+        'deleted_dialog_title' => ':document has been deleted',
+        'deleted_dialog_title_alt' => 'Deleted',
+        'cannot_delete_dialog_title' => 'Cannot delete ":document"!',
+        'cannot_delete_dialog_title_alt' => 'Cannot delete!',
+        'cannot_delete_general_error' => 'There was a problem deleting the document, please contact an Administrator.',
+    ],
 
 
 	'preview' => array(
@@ -157,4 +223,37 @@ return [
 		'recent_hint_dms_manager' => 'You are viewing all the document updates made by each user of the DMS.',
 		'no_documents' => 'No Documents, you can upload new documents here using the "Create or Add" button above or by dragging and dropping them here.',
 	),
+    
+    
+    'trash' => [
+        
+        'clean_title' => 'Clean trash?',
+        'yes_btn' => 'Yes, Clean!',
+        'no_btn' => 'No, Cancel',
+        
+        'empty_all_text' => 'All the documents in the trash will be permanently deleted. This action will remove files and revision, starred, collections and shares. This action cannot be undone.',
+        'empty_selected_text' => 'You\'re about to permanently delete the selected documents. You will remove also files and revision, starred, collections and shares. This action cannot be undone.',
+        
+        'cleaned' => 'Trash Cleaned',
+        'cannot_clean' => 'Cannot clean trash',
+        'cannot_clean_general_error' => 'There was a problem cleaning the trash, please contact an Administrator if the problem persists.',
+    ],
+    
+    
+    'upload' => [
+        'folders_dragdrop_not_supported' => 'Your browser don\'t support folder drag and drop.',
+        'error_dialog_title' => 'File Upload error',
+        
+        'max_uploads_reached_title' => 'Sorry, but you have to wait a little',
+        'max_uploads_reached_text' => 'We can process only a little amount of file, so please have a little patience before adding another file.',
+        
+        'all_uploaded' => 'All the files have been successfully uploaded.',
+		
+		'upload_dialog_title' => 'Upload',
+		'dragdrop_not_supported' => 'Your browser does not support drag and drop file uploads.',
+		'dragdrop_not_supported_text' => 'Please upload your files using file selector in "Create or Add".',
+		'remove_btn' => "Remove file", //this is the little link that is showed after the file upload has been processed
+		'cancel_btn' => 'Cancel upload', //for future use
+		'cancel_question' => 'Are you sure you want to cancel this upload?',  //for future use
+    ],
 ];

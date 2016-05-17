@@ -26,6 +26,9 @@ use Carbon\Carbon;
 use KlinkDMS\Exceptions\GroupAlreadyExistsException;
 use Klink\DmsDocuments\TrashContentResponse;
 use KlinkDMS\Jobs\ImportCommand;
+use Symfony\Component\Debug\Exception\FatalErrorException;
+use ErrorException;
+use KlinkDMS\Jobs\ThumbnailGenerationJob;
 
 class DocumentsService {
 
@@ -923,7 +926,7 @@ class DocumentsService {
                 $collections = Collection::make();
                 
                 if( !$this->isCollectionAccessible( $user,  $group ) ){
-                    throw new ForbiddenException( 'You cannot access the collection due to permision levels', 1);
+					throw new ForbiddenException( trans('groups.add_documents.forbidden', ['name' => $group->name]), 1);
                 }
             
                 $collection_ids = [ $group->id ];
@@ -1501,9 +1504,11 @@ class DocumentsService {
 	 */
 	public function addDocumentsToGroup(User $user, Collection $documents, Group $group /*, $docTitles = null*/, $perform_reindex = true)
 	{
-		if( (!$group->is_private && !$user->can_capability(Capability::MANAGE_PROJECT_COLLECTIONS)) ||
-			(!$user->can_capability(Capability::MANAGE_OWN_GROUPS) && ($user->id != $group->user_id)) ){
-			throw new ForbiddenException("Permission denieded for adding the document to the collection.");
+		
+		if( !$this->isCollectionAccessible($user, $group) ){
+			
+			throw new ForbiddenException( trans('groups.add_documents.forbidden', ['name' => $group->name]), 1);
+			
 		}
         
         // TODO: filter $documents already in that group
@@ -1517,9 +1522,10 @@ class DocumentsService {
 
 	public function addDocumentToGroup(User $user, DocumentDescriptor $document, Group $group /*, $docTitles = null*/, $perform_reindex = true)
 	{
-		if( (!$group->is_private && !$user->can_capability(Capability::MANAGE_PROJECT_COLLECTIONS)) ||
-			(!$user->can_capability(Capability::MANAGE_OWN_GROUPS) && ($user->id != $group->user_id)) ){
-			throw new ForbiddenException("Permission denieded for adding the document to the collection.");
+		if( !$this->isCollectionAccessible($user, $group) ){
+			
+			throw new ForbiddenException( trans('groups.add_documents.forbidden', ['name' => $group->name]), 1);
+			
 		}
 
 		$group->documents()->save($document);
@@ -1535,9 +1541,10 @@ class DocumentsService {
 	public function removeDocumentsFromGroup(User $user, Collection $documents, Group $group, $perform_reindex = true)
 	{
 
-		if( (!$group->is_private && !$user->can_capability(Capability::MANAGE_PROJECT_COLLECTIONS)) ||
-			(!$user->can_capability(Capability::MANAGE_OWN_GROUPS) && ($user->id != $group->user_id)) ){
-			throw new ForbiddenException("Permission denieded for removing the document from the collection.");
+		if( !$this->isCollectionAccessible($user, $group) ){
+			
+			throw new ForbiddenException( trans('groups.remove_documents.forbidden', ['name' => $group->name]), 1);
+			
 		}
 
 		// $documents is integer, is DocumentDescriptor, is array of ints, is Collection and contains DocumentDescriptor
@@ -1556,9 +1563,10 @@ class DocumentsService {
 	public function removeDocumentFromGroup(User $user, DocumentDescriptor $document, Group $group, $perform_reindex = true)
 	{
 
-		if( (!$group->is_private && !$user->can_capability(Capability::MANAGE_PROJECT_COLLECTIONS)) ||
-			(!$user->can_capability(Capability::MANAGE_OWN_GROUPS) && ($user->id != $group->user_id)) ){
-			throw new ForbiddenException("Permission denieded for removing the document from the collection.");
+		if( !$this->isCollectionAccessible($user, $group) ){
+			
+			throw new ForbiddenException( trans('groups.remove_documents.forbidden', ['name' => $group->name]), 1);
+			
 		}
 
 		$group->documents()->detach($document);
@@ -1580,10 +1588,14 @@ class DocumentsService {
 		$imports_completed = Import::completed($user->id)->with('file')->get();
 
         $imports_progress = Import::notCompleted($user->id)->with('file')->get();
+        
+		$imports_error = Import::withError($user->id)->get();
 
         $only_progress = $imports_progress->count();
 
         $only_completed = $imports_completed->count();
+        
+		$only_error = $imports_error->count();
 
         $total = $only_completed + $only_progress;
 		
@@ -1595,7 +1607,7 @@ class DocumentsService {
             ),
             'imports' => $imports_progress->merge($imports_completed),
             'imports_total' => $total,
-            'imports_completed' => $only_completed,
+            'imports_completed' => $only_completed + $only_error,
             'imports_progress' => $only_progress,
         );
 
@@ -1863,6 +1875,8 @@ class DocumentsService {
             try{
 
                 $descriptor = $this->indexDocument( $file_model, $visibility, $uploader, $group, true ); //TODO: pass also the group info to the indexDocument function
+				
+				dispatch(new ThumbnailGenerationJob($file_model));
 
                 // if(is_array($descriptor)){
                 	//something bad happened during indexing, but the descriptor is saved on the db
@@ -2099,7 +2113,14 @@ class DocumentsService {
 		}
 
 		if(!$file->isIndexable() && !$website){
-			return $this->getDefaultThumbnail($file->mime_type);
+			
+			$thumb_path = $this->getDefaultThumbnail($file->mime_type);
+			
+			$file->thumbnail_path = $thumb_path;
+
+			$file->save();
+			
+			return $thumb_path;
 		}
 
 		// ok let's generate a new thumbnail
@@ -2146,9 +2167,19 @@ class DocumentsService {
 
 			$thumb_path = $this->getDefaultThumbnail($file->mime_type);
 
+		}catch(ErrorException $kex){
+
+			\Log::error('Error generating thumbnail', array('context' => 'DocumentsService::generateThumbnail', 'param' => $file->toArray(), 'exception' => $kex));
+
+			$thumb_path = $this->getDefaultThumbnail($file->mime_type);
+
+		}catch(FatalErrorException $kex){
+
+			\Log::error('Error generating thumbnail', array('context' => 'DocumentsService::generateThumbnail', 'param' => $file->toArray(), 'exception' => $kex));
+
+			$thumb_path = $this->getDefaultThumbnail($file->mime_type);
+
 		}
-
-
 
 		$file->thumbnail_path = $thumb_path;
 
@@ -2162,14 +2193,20 @@ class DocumentsService {
 		if(strpos($mimeType, 'audio')!==false){
 			$doc_type = 'music';
 		}
-		else if(strpos($mimeType, 'video')!==false){
-			$doc_type = 'video';
+		else if($mimeType === 'text/uri-list'){
+			$doc_type = 'web-page';
 		}
 		else {
 			$doc_type = \KlinkDocumentUtils::documentTypeFromMimeType($mimeType);
 		}
-
-		return public_path('images/' . $doc_type . '.png');
+        
+        $path = public_path('images/' . $doc_type . '.png');
+        
+        if(@is_file($path)){
+            return $path;
+        }
+        
+		return public_path('images/unknown.png');
 
 	}
 

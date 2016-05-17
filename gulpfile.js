@@ -16,13 +16,12 @@ elixir.extend('copyJsModules', function() {
 });
 
 elixir.config.bowerDir = elixir.config.assetsPath + "/vendor/";
+elixir.config.npmDir = "./node_modules/";
 elixir.config.cssOutput = "public/css/";
 elixir.config.jsOutput = "public/js/";
 elixir.config.sourcemaps = false;
 
 elixir(function(mix) {
-
-	
 
 	// run gulp --production for production environment
 
@@ -63,6 +62,12 @@ elixir(function(mix) {
             elixir.config.bowerDir //base dir
     	)
         .scripts([
+                '../js/deps/i18n.js'
+            ],
+            elixir.config.jsOutput +'i18n.js', //output dir
+            elixir.config.bowerDir //base dir
+        )
+        .scripts([
                 'dropzone/dist/min/dropzone-amd-module.min.js'
             ],
             elixir.config.jsOutput +'/modules/dropzone.js', //output dir
@@ -80,12 +85,7 @@ elixir(function(mix) {
             elixir.config.jsOutput +'/modules/map.js', //output dir
             elixir.config.bowerDir //base dir
         )
-        .scripts([
-                'turf/turf.min.js'
-            ],
-            elixir.config.jsOutput +'/modules/turf.js', //output dir
-            elixir.config.bowerDir //base dir
-        )
+        .copy(elixir.config.bowerDir + 'turf/turf.min.js', elixir.config.jsOutput +'/modules/turf.js')
         .scripts([
                 'html5shiv/dist/html5shiv.min.js', // for supporting header, footer,... elements
                 'es5-shim/es5-shim.min.js', // Shims EcmaScript 5 methods
@@ -94,12 +94,7 @@ elixir(function(mix) {
             elixir.config.jsOutput +'/ie8-shivm.js', //output dir
             elixir.config.bowerDir //base dir
         )
-        .scripts([
-                'd3/d3.min.js'
-            ],
-            elixir.config.jsOutput + '/modules/d3.js', //output dir
-            elixir.config.bowerDir //base dir
-        )
+        .copy(elixir.config.bowerDir + 'd3/d3.min.js', elixir.config.jsOutput +'/modules/d3.js')
     	// Copy pure JS modules to public folder
     	.copyJsModules(); //'resources/assets/js/modules/', 'public/js/modules/')
 	    

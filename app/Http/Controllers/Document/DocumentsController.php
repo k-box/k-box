@@ -778,7 +778,7 @@ class DocumentsController extends Controller {
 					if( (isset($add_to_public) && $add_to_public) || $document->is_public){
 						$this->service->reindexDocument($document, \KlinkVisibilityType::KLINK_PUBLIC);
 					}
-					else if($remove_from_public){
+					else if(isset($remove_from_public) && $remove_from_public){
 						$this->service->deletePublicDocument($document);
 					}
 				}

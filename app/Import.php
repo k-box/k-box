@@ -67,6 +67,7 @@ class Import extends Model {
     message: text
     
     payload: json
+    job_payload: Laravel serialized payload of the Job in the queue, not empty only in case of failures
     
     */
 
@@ -83,7 +84,9 @@ class Import extends Model {
         'payload' => 'array',
     ];
     
-    protected $hidden = [ 'payload' ];
+    protected $hidden = [ 'payload', 'job_payload' ];
+    
+    protected $appends = ['is_error', 'is_completed'];
 
 
 
@@ -130,7 +133,7 @@ class Import extends Model {
     }
     public function scopeWithError($query,$user_id)
     {
-        return $query->where('status', self::STATUS_ERROR)->where('user',$user_id);
+        return $query->where('status', self::STATUS_ERROR)->where('user_id',$user_id);
     }
     
     public function scopeFromUser($query,$user_id)
@@ -145,5 +148,27 @@ class Import extends Model {
 
     public function scopeAllRoots($query){
         return $query->whereNull('parent_id');
+    }
+    
+    
+    
+    public function isError(){
+        return $this->status === self::STATUS_ERROR || $this->status === self::STATUS_ERROR_ALREADY_EXISTS;
+    }
+    
+    public function isCompleted(){
+        return $this->status === self::STATUS_COMPLETED;
+    }
+    
+    
+    // accessor methods for adding is_error and is_completed in the serialized json
+    public function getIsErrorAttribute()
+    {
+        return $this->isError();
+    }
+    
+    public function getIsCompletedAttribute()
+    {
+        return $this->isCompleted();
     }
 }

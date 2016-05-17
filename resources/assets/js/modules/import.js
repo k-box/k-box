@@ -1,4 +1,4 @@
-define("modules/import", ["jquery", "DMS", "modules/minimalbind", "sweetalert"], function ($, _DMS, _rivets, _alert) {
+define("modules/import", ["jquery", "DMS", "modules/minimalbind", "sweetalert", 'language'], function ($, _DMS, _rivets, _alert, Lang) {
 
     //used to adjust the time between the refreshes
     var refresh_download_delay = 2000, //milli
@@ -8,45 +8,6 @@ define("modules/import", ["jquery", "DMS", "modules/minimalbind", "sweetalert"],
         _importEl = $("#import"),
         _cleaBtn = $('#action-bar');
     
-    // _rivets.binders.width = function(el, value){
-    //     el.style.width = value;
-    // }
-
-    // _rivets.binders.importclass = function(el, value) {
-        
-    //     var $el = $(el);
-
-    //     if($el.data("_c")){
-    //         $el.removeClass("import-" + $el.data("_c"));
-    //     }
-        
-    //     $el.addClass("import-" + value);
-
-    //     $el.data("_c", value);
-
-    // };
-
-    // _rivets.binders.statusclass = function(el, value) {
-    //     var $el = $(el);
-
-    //     if($el.data("_c")){
-    //         $el.removeClass("status-" + $el.data("_c"));
-    //     }
-        
-    //     $el.addClass("status-" + value);
-
-    //     $el.data("_c", value);
-    // };
-
-    // _rivets.formatters.percentage = function(value,total) {
-    //     return value==null ? '0%' : total===0 ? "0%" : Math.round(value*100/total)+"%";
-    // };
-
-    // _rivets.formatters.default = function(value, _default) {
-    //     return value ? value : _default;
-    // };
-
-
     
     //object to be binded to the view
     var _status = {
@@ -56,8 +17,6 @@ define("modules/import", ["jquery", "DMS", "modules/minimalbind", "sweetalert"],
         progress_percentage: "0%"
 
     };
-
-    //{file: {name: 'ciao', original_uri:'jbfdubfdu', mime_type:'prova'}, status_message: 'queued', created_at:'4555', bytes_expected:10, bytes_received:2, is_remote:false}
 
     var _import_list = {elements : []};
 
@@ -287,6 +246,111 @@ define("modules/import", ["jquery", "DMS", "modules/minimalbind", "sweetalert"],
         enableClearCompleted: function(){
             import_module.cannotClear = false;
             _updateUI();
+        },
+        
+        remove: function(evt, vm){
+            
+            var _this = $(this),
+                id = _this.data('id'),
+                name = _this.data('name');
+            
+            
+            _DMS.MessageBox.question(
+                Lang.trans("import.remove.remove_dialog_title", {"import" : name}), 
+                Lang.trans("import.remove.remove_confirmation", {"import" : name}), 
+                Lang.trans("import.remove.remove_btn"), 
+                Lang.trans("actions.cancel"), function(value){
+                
+                if(value){
+                    
+                    _DMS.MessageBox.wait(Lang.trans("import.remove.removing", {"import" : name}), "...");
+                    
+                    _DMS.Ajax.del(_DMS.Paths.IMPORT + '/' + id, function(data){
+                        
+                        data = data.status && data.status !== 'ok' && data.responseJSON ? data.responseJSON : data;
+                        
+                        if(data.status && data.status === "error"){
+                            _DMS.MessageBox.error(Lang.trans("import.remove.destroy_error_dialog_title"), data.error ? data.error : 'data.error');
+                        }
+                        else {
+                            
+                            _this.parents('.item').remove();
+                                               
+                            _DMS.MessageBox.close();
+                        }
+
+                    }, function(obj, status, statusText){
+                        
+                        var message = statusText;
+                        
+                        if(data.responseJSON && data.responseJSON.status && data.responseJSON.status === "error"){
+                            message = data.responseJSON.error;
+                        }
+                        
+                        _DMS.MessageBox.error(
+                            Lang.trans("import.remove.destroy_error_dialog_title"), 
+                            Lang.trans("import.remove.destroy_error", {"error": statusText})
+                        );
+
+                    });
+                    
+                }
+                else {
+                    _DMS.MessageBox.close();
+                }
+                
+            })
+            
+        },
+        retry: function(evt, vm){
+            
+            var _this = $(this),
+                id = _this.data('id'),
+                name = _this.data('name');
+                  
+            _DMS.MessageBox.wait(Lang.trans("import.retry.retrying", {"import" : name}), "...");
+            
+            _DMS.Ajax.put(_DMS.Paths.IMPORT + '/' + id, {retry:1}, function(data){
+                
+                data = data.status && data.status !== 'ok' && data.responseJSON ? data.responseJSON : data;
+                
+                if(data.status && data.status === "error"){
+                    _DMS.MessageBox.error(Lang.trans("import.retry.retry_error_dialog_title"), data.error ? data.error : 'data.error');
+                }
+                else {
+                    
+                    _checkUpdates();
+                    setTimeout(function(){
+                        _DMS.MessageBox.close();
+                    }, 600);
+
+                }
+
+            }, function(obj, status, statusText){
+                
+                if(obj.responseJSON && obj.responseJSON.retry){
+                    _DMS.MessageBox.error(
+                        Lang.trans("import.retry.retry_error_dialog_title"), 
+                        Lang.trans("import.retry.retry_error", {"error": obj.responseJSON.retry[0]})
+                    );
+                }
+                else if(obj.responseJSON && obj.responseJSON.error){
+                    _DMS.MessageBox.error(
+                        Lang.trans("import.retry.retry_error_dialog_title"), 
+                        Lang.trans("import.retry.retry_error", {"error": obj.responseJSON.error})
+                    );
+                }
+                else {
+                
+                    _DMS.MessageBox.error(
+                        Lang.trans("import.retry.retry_error_dialog_title"), 
+                        Lang.trans("import.retry.retry_error", {"error": statusText})
+                    );
+                    
+                }
+
+            });
+            
         }
     }
 
@@ -294,9 +358,6 @@ define("modules/import", ["jquery", "DMS", "modules/minimalbind", "sweetalert"],
     _rivets_bind = _rivets.bind(_importEl, import_module);
 
     _rivets.bind(_cleaBtn, import_module);
-
-
-        // console.log(_rivets_bind);
 
 	return import_module;
 });

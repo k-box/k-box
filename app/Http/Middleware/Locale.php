@@ -65,6 +65,11 @@ final class Locale {
 			}
 
 		}
+        
+        if(empty($language)){
+            // this because the user might not have a option language property defined or might be empty
+            $language = config('app.locale');
+        }
 
         App::setLocale($language);
 

@@ -56,11 +56,16 @@ class SupportPagesController extends Controller {
 	public function help()
 	{
 		
-		$help_file_content = file_get_contents( base_path('resources/assets/pages/help.md') );
+		$fallback = base_path('resources/assets/pages/en/help.md');
+		$path = base_path('resources/assets/pages/'. app()->getLocale() .'/help.md');
+		
+		$help_file_content = file_get_contents( @is_file($path) ? $path : $fallback );
 
 		$page_text = \Markdown::convertToHtml($help_file_content);
 
-		return view('static.page', ['page_title' => trans('pages.help'), 'page_content' => $page_text]);
+		return view('static.page', [
+			'pagetitle' => trans('pages.help'),
+			'page_content' => $page_text]);
 	}
 
 	public function importhelp()

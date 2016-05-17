@@ -52,7 +52,7 @@
 
                         {% _.forEach(elements, function(el) { %}
 
-                        <div class="item import-{# el.status_message #}" data-id="00" data-file-id="999" >
+                        <div class="item import-{# el.status_message #}" data-id="{# el.id #}" data-file-id="{# el.file.id #}" >
 
                             <div class="icon">
                                 <span class="status-icon icon-action-black status-{# el.status_message #}"></span>
@@ -68,6 +68,10 @@
                                 {# el.file.name #}
 
                                 <span class="comment origin">{# el.file.original_uri #}</span>
+                                
+                                {% if(el.message){ %}
+                                    <strong>{# el.message #}</strong>
+                                {% } %}
                                 
                             </h2>
 
@@ -87,6 +91,17 @@
 
                                 <span class="meta-info progress">
                                      {# el.bytes_expected==null ? '0' : el.bytes_expected===0 ? "0" : Math.round(el.bytes_received*100/el.bytes_expected) #}%
+                                </span>
+                                
+                                <span class="meta-info">
+                                    {% if(el.is_error){ %}
+                                    <button class="hint--left" rv-on-click="retry" data-id="{# el.id #}" data-name="{# el.file.name #}" data-hint="{{trans('import.retry.retry_btn_hint')}}">{{trans('import.retry.retry_btn')}}</button>
+                                    {% } %}
+                                    
+                                    {% if(el.is_error || el.is_completed){ %}
+                                    <button class="hint--left" rv-on-click="remove" data-id="{# el.id #}" data-name="{# el.file.name #}" data-hint="{{trans('import.remove.remove_btn_hint')}}">{{trans('import.remove.remove_btn')}}</button>
+                                    {% } %}
+                                    
                                 </span>
                                 
                             </div>

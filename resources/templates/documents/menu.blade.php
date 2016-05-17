@@ -34,7 +34,7 @@
 			</a>
 		</li>
 		<li>
-			<a href="{{route('documents.starred.index')}}" class="hint--bottom menu-el @if(\Request::is('*starred*')) current @endif" data-hint="{{trans('documents.menu.recent_hint')}}">
+			<a href="{{route('documents.starred.index')}}" class="hint--bottom menu-el @if(\Request::is('*starred*')) current @endif" data-hint="{{trans('documents.menu.starred_hint')}}">
 				<span class="menu-icon icon-toggle-black icon-toggle-black-ic_star_black_24dp"></span> {{trans('documents.menu.starred')}}
 			</a>
 		</li>

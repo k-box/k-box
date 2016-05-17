@@ -1,4 +1,4 @@
-define("modules/star", ["jquery", "DMS", "sweetalert"], function (_$, _DMS, _alert) {
+define("modules/star", ["jquery", "DMS", "sweetalert", "language"], function (_$, _DMS, _alert, Lang) {
     
 	console.log('Loading star micro-module...');
 
@@ -23,7 +23,7 @@ define("modules/star", ["jquery", "DMS", "sweetalert"], function (_$, _DMS, _ale
 				}, function(jqXHR, textStatus, errorThrown){
 					console.error('error on starred-delete response', textStatus, errorThrown);
 
-					_DMS.MessageBox.error('Oops!', 'Something unexpected has happened. ' . errorThrown);
+					_DMS.MessageBox.error( Lang.trans('errors.generic_title'), Lang.trans('errors.generic_text_alt', {error: errorThrown}));
 				})
 
 				
@@ -46,7 +46,7 @@ define("modules/star", ["jquery", "DMS", "sweetalert"], function (_$, _DMS, _ale
 					else{
 						console.error('Invalid Starred-add response', data);
 
-						_DMS.MessageBox.error('Oops!', 'Something unexpected has happened.');
+						_DMS.MessageBox.error( Lang.trans('errors.generic_title'), Lang.trans('errors.generic_text'));
 					}
 					
 
@@ -54,7 +54,7 @@ define("modules/star", ["jquery", "DMS", "sweetalert"], function (_$, _DMS, _ale
 					
 					console.error('error on starred-add response', textStatus, errorThrown);
 
-					_DMS.MessageBox.error('Oops!', 'Something unexpected has happened. ' . errorThrown);
+					_DMS.MessageBox.error( Lang.trans('errors.generic_title'), Lang.trans('errors.generic_text_alt', {error: errorThrown}));
 				})
 
 			}

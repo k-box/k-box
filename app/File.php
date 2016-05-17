@@ -85,6 +85,13 @@ class File extends Model {
     {
         return \KlinkDocumentUtils::isMimeTypeIndexable( $this->mime_type );
     }
+    
+    /**
+     * Check if the file is a web page and has a remote URI
+     */
+    public function isRemoteWebPage(){
+        return $this->mime_type === 'text/html' && starts_with($this->original_uri, 'http');
+    }
 
 
     public function scopeFromOriginalUri($query, $uri)
@@ -103,6 +110,42 @@ class File extends Model {
     public function scopeVersionsOf($value='')
     {
         # code...
+    }
+    
+    
+    /**
+     * Delete the file from the database and from the file system
+     * Deletes also the thumbnail, if exists.
+     */
+    public function physicalDelete(){
+        
+        $is_folder = $this->is_folder;
+        
+        $file_path  = $this->path;
+        $thumb_path = $this->thumbnail_path;
+        
+        $done = false;
+        
+        if($is_folder){
+            $done = $this->forceDelete();
+        }
+        else {
+        
+            // real deletion
+            $done = true;
+            
+            if(@is_file($file_path)){
+                $done = @unlink($file_path);
+            }
+            
+            if($done){
+                @unlink($thumb_path);
+                
+                $done = $this->forceDelete();
+            }
+        }
+        
+        return !$this->exists;
     }
 
 

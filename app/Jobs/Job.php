@@ -25,6 +25,7 @@ abstract class Job
         $failer = app()->make('queue.failer');
             
         if (property_exists($this, 'job') && !is_null($this->job) && $failer) {
+            // Add it to the failed jobs table (if the database job queue is used)
             $failer->log('connection', is_null($this->job->getQueue()) ? 'default' : $this->job->getQueue(), $this->job->getRawBody());
 
             if(method_exists($this->job, 'failed')){
@@ -32,7 +33,7 @@ abstract class Job
             }
         }
         
-        $this->delete();
+        $this->delete(); // deletes the job from the queue
 
     }
 }

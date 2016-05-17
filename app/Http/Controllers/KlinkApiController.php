@@ -41,12 +41,17 @@ class KlinkApiController extends Controller {
 		}
         
        
-        if( $doc->trashed() || ( !$doc->isPublic() && is_null( $request->user() ) ) ){
-            return redirect()->guest('/auth/login');
-		}
+        
 
 
 		if($action==='document'){
+            
+            if( $doc->trashed() ){
+                \App::abort(404, trans('errors.document_not_found'));
+            }
+            else if( !$doc->isPublic() && is_null( $request->user() ) ){
+                return redirect()->guest('/auth/login');
+            }
 
 			return $this->getDocument($request, $doc);
 
@@ -91,22 +96,28 @@ class KlinkApiController extends Controller {
 	        // return the 304 Response immediately
 	        return $response;
 	    }
+        
+        if( !$doc->isPublic() && is_null( $request->user() ) ){
+            $response->setContent( file_get_contents( public_path('images/document.png') ) );
+        }
+        else {
 
-	    if(empty($file->thumbnail_path)){
+            if(empty($file->thumbnail_path)){
 
-	    	$is_webpage = $doc->isRemoteWebPage();
-	    	
-	    	$t_path = $this->documentService->generateThumbnail($file, 'default', true, $is_webpage);
+                $is_webpage = $doc->isRemoteWebPage();
+                
+                $t_path = $this->documentService->generateThumbnail($file, 'default', true, $is_webpage);
 
-	    	$response->setContent( file_get_contents( $t_path ) );
-	    	
-	    }
-	    else if(@is_file($file->thumbnail_path)){
-	    	$response->setContent( file_get_contents( $file->thumbnail_path ) );
-		}
-		else {
-			$response->setContent( file_get_contents( public_path('images/document.png') ) );
-		}
+                $response->setContent( file_get_contents( $t_path ) );
+                
+            }
+            else if(@is_file($file->thumbnail_path)){
+                $response->setContent( file_get_contents( $file->thumbnail_path ) );
+            }
+            else {
+                $response->setContent( file_get_contents( public_path('images/document.png') ) );
+            }
+        }
 
 	    $response->header('Content-Type', 'image/png');
 

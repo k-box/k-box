@@ -7,11 +7,11 @@ Project Edition (dev) [![build status](https://git.klink.asia/ci/projects/1/stat
 
 > unleash the power of K-Link
 
-**version 0.5.6**
+**version 0.8.0**
 
 The K-Link DMS is built on top of Laravel 5.0.
 
-This readme file is reserved for **developers**, nothing about features and how to interact with the DMS from a user's perspective will be written here.
+This readme file is reserved for **developers**, nothing about features and how to interact with the DMS from a user's perspective will be written here. For user oriented documentation please see the folder `docs/user` available in the repository.
 
 
 ## Setting up the development environment
@@ -37,9 +37,6 @@ The following sections will guide you trough the prerequisites installation, env
 6. Test if is all up
 
 The setup has been tested on Ubuntu 14.04 and MacOS X Yosemite (with [MAMP](http://www.mamp.info/en/))
-
-**A note on SSL certificates.** The Gitlab server that hosts the repositories uses a Self Signed Certificate for HTTPS, if you plan to use HTTPS to clone and push please refer to this [StackOverflow answer](http://stackoverflow.com/questions/9072376/configure-git-to-accept-a-particular-self-signed-server-certificate-for-a-partic) tells you everything you need to know (besides some command line operations the idea is valid for both Linux, Windows and MacOS). If the StackOverflow answer is not available
-please refer to [this snippet](https://gitlab.klink.dyndns.ws:3000/snippets/12).
 
 
 ### 1. OS and Web Server prerequisites
@@ -256,6 +253,7 @@ The supported commands are:
 - `dms:sync`: Performs a synchronization of the documents from the DMS that do not exists on the Core.
 - [`users:import`](https://git.klink.asia/klinkdms/dms/wikis/users-import-command): Import users from a CSV file
 - [`dms:import`](https://git.klink.asia/klinkdms/dms/wikis/import-command): Import collections, projects and documents from a folder on a the filesystem
+- `import:fetch-payload`: Take the failed job payload and associate it to the given import
 
 ### `dms:update` command
 
@@ -441,3 +439,123 @@ php artisan db:seed --env=testing
 - Added env parameter APP_LOG to specify the logging configuration, available options are "single", "daily", "syslog"
 - changed config/app.php cipher from MCRYPT_RIJNDAEL_128 to AES-256-CBC
 - if you use XDebug is highly reccommended to set xdebug.max_nesting_level = 500 because Laravel framework 5.1 has an increased number of function calls that, in some occasions are more than 100
+
+
+
+# Frontend localization
+
+The javascript localization is handled with the help of the RequireJS [i18n plugin](https://github.com/requirejs/i18n).
+
+Language files are constructed at build time and copied in `/public/js/nls/` folder. Please do not edit that files.
+
+The system will load `/public/js/nls/lang.js` which contains the english fallback and then will try to load the specific locales if available (and specified in the `require-config.blade.php` file)
+
+Construction of the language files is performed on the basis of the Laravel language files and a custom made command that extracts specific strings from them in order to be inserted in the javascript language file. Configuration options resides in the `config/localization.php` file
+
+to generate the javascript language files launch
+
+```bash
+php artisan dms:lang-publish 
+```
+
+Localization files will be available through the `language` module (RequireJS module). The loaded language file will be the one for the specific locale of the page, i.e. if the page `lang` is `en` only the `en` strings will be available. 
+
+This code block shows how to reference the `language` module
+
+```js
+define(['language'], function(Lang) {
+    
+	// Use Lang.trans( ...) 
+
+});
+```
+
+## `language` module API
+
+### `trans`
+
+```
+trans ( messageKey : string, replacements : ReplacementObject ) : string
+```
+
+_Parameters:_
+
+- `messageKey`: the key of the translation string to retrieve
+- `replacements`: if the translation string contains placeholder, like `:attribute`, you could substitute them with something more useful, see [ReplacementObject](#replacementobject) 
+
+_Returns:_
+
+the localized string, with applied replacements or messageKey if the corresponding localized string cannot be found
+
+
+### `choice`
+
+```
+choice ( messageKey : string, count : number, replacements : ReplacementObject ) : boolean
+```
+_Parameters:_
+
+- `messageKey`: the key of the translation string to retrieve
+- `count`: the number of elements used for the selection of the proper translation string
+- `replacements`: if the translation string contains placeholder, like `:attribute`, you could substitute them with something more useful, see [ReplacementObject](#replacementobject)
+
+_Returns:_
+
+the localized string, with applied replacements or messageKey if the corresponding localized string cannot be found
+
+**Important Notice**: currently only english pluralization rules are supported.
+
+### `alternate`
+
+```
+trans ( messageKey : string, alternateMessageKey : string, basedOn : string, replacements : ReplacementObject ) : string
+```
+
+Choose the translation string from messageKey or alternateMessageKey based on the existence of basedOn key in replacements.
+
+_Parameters:_
+
+- `messageKey`: the key of the translation string to retrieve
+- `alternateMessageKey`: the key of the translation string to retrieve as a fallback
+- `basedOn`: the property name to check inside replacements to decide if use `messageKey` or `alternateMessageKey`
+- `replacements`: if the translation string contains placeholder, like `:attribute`, you could substitute them with something more useful, see [ReplacementObject](#replacementobject) 
+
+_Returns:_
+
+the localized string, with applied replacements, using messageKey if the property basedOn exists and not null in replacements, using alternateMessageKey otherwise
+
+
+### `has`
+
+```
+has ( messageKey : string ) : boolean
+```
+
+Tests if the given key is defined in the translation set.
+
+_Parameters:_
+
+- `messageKey`: the key of the translation string to retrieve
+
+_Returns:_
+
+`true` if the localized string exists, `false` otherwise.
+
+
+### ReplacementObject 
+
+The replacement object is a plain Javascript object in which keys must be named parameters contained in the translation string and values could be any string. Values will be substituted to placeholders in the translation string.
+
+For example, let's consider the following translation string
+
+```
+":page cannot be found"
+```
+
+the replacement object that can be used is
+
+```json
+{ "page": "value" }
+```
+
+

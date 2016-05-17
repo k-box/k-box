@@ -78,8 +78,11 @@ class ImportCommand extends Job implements ShouldBeQueued, SelfHandling {
         try{
         
             Log::info('Executing ImportCommand', array(
-                'import' => $this->import,'user' => $this->user,'group' => $this->group,
-                'copy' => $this->copy,'exclude' => $this->exclude,
+                'import' => $this->import,'user' => $this->user,
+                'group' => $this->group,
+                'copy' => $this->copy,
+                'exclude' => $this->exclude,
+                'job_id' => $this->job->getJobId()
             ));
             
             $this->service = $documentsService;
@@ -104,6 +107,8 @@ class ImportCommand extends Job implements ShouldBeQueued, SelfHandling {
             $this->import->status_message = Import::MESSAGE_ERROR;
             $this->import->message = $kex->getMessage();
             $this->import->payload = array( 'error' => class_basename( $kex ) . ' in ' . basename( $kex->getFile() ) . ' line ' . $kex->getLine() . ': ' . $kex->getMessage() );
+            
+            $this->import->job_payload = $this->job->getRawBody(); //save the original job payload
     
             $this->import->save();
             
@@ -111,7 +116,6 @@ class ImportCommand extends Job implements ShouldBeQueued, SelfHandling {
             
             $this->fail();
             
-            // throw $kex;
         }
         
     }
@@ -127,7 +131,7 @@ class ImportCommand extends Job implements ShouldBeQueued, SelfHandling {
     }
     
     
-    function doImportUrl(){
+    protected function doImportUrl(){
         
         $file = $this->import->file;
         
@@ -148,7 +152,7 @@ class ImportCommand extends Job implements ShouldBeQueued, SelfHandling {
             // Base URI is used with relative requests
             'base_uri' => $this->url,
             // You can set any number of default request options.
-            'timeout'  => 30.0,
+            'timeout'  => 60.0,
         ]);
         
         $response = $client->request('GET', $this->url, ['sink' => $file->path]);

@@ -85,7 +85,8 @@ return array(
 			'index' => KlinkDMS\Capability::IMPORT_DOCUMENTS,
 			'store' => KlinkDMS\Capability::IMPORT_DOCUMENTS,
 			'clearcompleted' => KlinkDMS\Capability::IMPORT_DOCUMENTS,
-			// 'destroy' => KlinkDMS\Capability::IMPORT_DOCUMENTS,
+			'destroy' => KlinkDMS\Capability::IMPORT_DOCUMENTS,
+			'update' => KlinkDMS\Capability::IMPORT_DOCUMENTS,
 			// 'status' => KlinkDMS\Capability::IMPORT_DOCUMENTS,
 
 		),

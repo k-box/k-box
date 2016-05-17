@@ -1,13 +1,21 @@
-# Contribution
+# Table of content
+* [Purpose](#purpose)
+* [Submitting issues](#submitting-issues)
+ * [Labeling issues](#labelling-issues)
+ * [Templates](#templates)
+* [Contributing changes](#Contributing changes)
+ * [Rules](#rules) 
+ * [General flow](#general-flow)
+
+# Purpose
 
 This document provides a set of best practices for bug reports, features suggestions, code submissions / pull requests, etc.
 
-## Submitting bug reports, features request, enhancements and so on
+# Submitting issues
 
-Bugs, features and enhancements are tracked as [Gitlab issues](https://git.klink.asia/klinkdms/dms/issues).
+Bugs, and features are tracked as [Gitlab issues](https://git.klink.asia/klinkdms/dms/issues).
 
 To submit a bug report create an issue that explains the problem and include additional details to help maintainers reproduce the problem:
-
 - Search the project’s issue tracker to make sure it’s not a known issue.
 - Use a clear and descriptive title for the issue to identify the problem.
 - Describe the exact steps which reproduce the problem in as many details as possible.
@@ -16,24 +24,22 @@ To submit a bug report create an issue that explains the problem and include add
 - Explain which behavior you expected to see instead and why.
 
 Please make sure to highlight:
+- the DMS version you are on
+- the browser you use, and its version
+- your operating system? Windows? (Vista? 7? 32-bit? 64-bit?) Mac OS X? (10.7.4? 10.9.0?) Linux? (Which distro? Which version of that distro? 32 or 64 bits?).
 
-- What DMS version are you using
-- What browser have you used
-- What operating system are you on? Windows? (Vista? 7? 32-bit? 64-bit?) Mac OS X? (10.7.4? 10.9.0?) Linux? (Which distro? Which version of that distro? 32 or 64 bits?).
-
-We use also labels to facilitate the organization of the whole set of issues. **An issue that don't follow the label convetion will not be addressed in any case.**
+We use also labels to facilitate the organization of the whole set of issues. **An issue that don't follow the label convention will not be addressed in any case.**
 
 _We are in the process of merging the Project and Standard edition into a single code base, so new issues must be related to the Project Edition only._ 
+
 _Issues about the Standard Edition will not be addressed unless they have a counterpart in the current development branch of the Project Edition._
 
-### Labeling issues
+## Labeling issues
 
 **Type** named labels define the type of issues that can be submitted
 
 - `Type: Bug` The issue represents a bug, a wrong effect of an action
-- `Type: Enhancement` The issue represents an enhancement of a current feature, please put the features in brackets in the title of the issue
 - `Type: Feature` New feature request 
-- `Type: Iteration Plan` The Plan that governs a release
 - `Type: Question` A question that need an answer, a potential discussion 
 
 **Priority** an issue could have a priority, `critical > high > medium > low`
@@ -50,43 +56,73 @@ _Issues about the Standard Edition will not be addressed unless they have a coun
 - `Category: UI` the issue regards User Interface elements
 - `Category: Build Process` Relates to the build of a release 
 
-**Status** These status labels cover a broad range of states that an issue may be in during different stages of development. The idea is that only one status label will be applied to any particular issue; for instance a new feature can’t both be “In Progress” and “Abandoned” because that doesn’t really make a lot of sense.
-
-- `Status: Confirmed`: states that what is described in the issue can be reproduced and the issue details covers everything needed to solve it 
-- `Status: Completed`: issue has been completed, a comment metioning the commit or the merge request that covers the fix should be added 
-- `Status: In Progress` fixing is in progress
-- `Status: Information Needed` more details are needed, for example to reproduce the issue
-- `Status: Duplicated` the issue is duplicated
-- `Status: Won't fix` the issue will not be fixed
-
 **Coming From**: adds an information about how the issue was brought to the developer attention
 
 - `Coming From: Idea` the issue was originated after the review of an idea in the Support forum
 - `Coming From: Support Ticket` The issue was originated by a user submitted support ticket
 
-
-#### Labeling rules
+### Labeling rules
 
 The labels that can be applied to a single issue must follow this rules:
 
 - only one `Type` label
 - only one `Priority` Label
-- only one `Status` label, if the issue change its status remove the old status label and apply the new one
 - only one `Coming From` label (optional)
 - only one `Category` label (optional)
 
 When an issue is created the `Status` label might be omitted
 
+## Templates
 
+Templates have been created to make everyone's life easier:
+
+* Submitters know how to ask or propose
+* Developers understand quickly where the information is
+
+### Bugs
+```
+# General
+Overview of the issue
+
+# Step to reproduce
+1. Click on the logo
+2. Enter the search field
+3. Type "test"
+Nothing happens: something should happen
+
+# Additional info
+Screenshots, documents
+
+# Environment
+K-DMS:
+Browser:
+OS:
+```
+
+### Features
+```
+# Rationale
+Why this feature is necessary, what needs it covers, what problems it fixes.
+
+# Description
+Detailed description of the feature: UI, text, path in the app...
+
+# Additional info
+Concepts, external links, documentation...
+
+# Tasks
+(Optional)
+List of task to be perfomed to develop this feature
+
+```
 ## Contributing changes
 
+### Rules
+
 - Always make a new branch for your work, no matter how small. This makes it easy for others to take just that one set of changes from your repository, in case you have multiple unrelated changes floating around.
-
- - A corollary: don’t submit unrelated changes in the same branch/pull request! The maintainer shouldn’t have to reject your awesome bugfix because the feature you put in with it needs more review.
-
+- A corollary: don’t submit unrelated changes in the same branch/pull request! The maintainer shouldn’t have to reject your awesome bugfix because the feature you put in with it needs more review.
 - Base your branch on the `project-edition-development` branch
 - Add unit tests
-
 
 ### General flow
 

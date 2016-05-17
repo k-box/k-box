@@ -2,13 +2,19 @@
 
 @section('sub-header')
 
-	{{$page_title}}
+	@if(isset($page_title))
+		{{$page_title}}
+	@elseif(isset($pagetitle))
+		{{$pagetitle}}
+	@endif
 
 @stop
 
 
 @section('content')
 
-	{!!$page_content!!}
+	<div class="book">
+		{!!$page_content!!}
+	</div>
 
 @stop

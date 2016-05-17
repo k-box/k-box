@@ -12,6 +12,7 @@ return [
 	*/
 
 	'edit' => 'Изменить',
+	'details' => 'Детали',
 	'expand'     => 'Расширить',
 	'collapse'     => 'Свернуть',
 	'expand_all'     => 'Расширить все',
@@ -33,8 +34,18 @@ return [
 		'clear' => 'Очистить',
 		'invert' => 'Инвертировать',
         'hint' => 'Выбрать все/Очистить выбранное',
+	 
+		'at_least_one_document' => 'Выберите хотя бы 1 документ',
+        'at_least_one' => 'Пожалуйста, выберите хотя бы 1 документ или коллекцию',
 	),
-
+ 
+	'clipboard' => [
+        'copied_title' => 'Копировано!',
+        'copied_link_text' => 'Ссылка была копирована',
+        
+        'not_copied_title' => 'Невозможно копировать',
+        'not_copied_link_text' => 'Ссылка не может быть копирована. Вы можете скопировать ее вручную, с помощью комбинации Ctrl+C на клавиатуре.',
+    ],
 
 	'switcher' => array(
 
@@ -58,6 +69,10 @@ return [
 
 	'save' => 'Сохранить',
 	'saving' => 'Сохранение...',
+	'deleting' => 'Удаление...',
+	'restoring' => 'Восстановление...',
+	'cleaning_trash' => 'Удаление из корзины...',
+	'cleaning_trash_wait' => 'Пожалуйста, подождите пока совершается очистка корзины...',
 
 	'add_to' => 'Добавить к',
 	'move_to' => 'Переместить в',
@@ -65,11 +80,13 @@ return [
 	'add_or_move_to' => 'Коллекции',
 
 	'make_public' => 'Сделать открытым',
+	'publish_documents' => 'Добавить в открытый доступ',
 	'make_private' => 'Сохранить закрытым',
 
 	'create_add_dropdown' => 'Создать или добавить',
 
 	'trash_btn' => 'Удалить',
+	'trash_btn_alt' => 'Передвинуть в Корзину',
 	'restore_btn' => 'Восстановить',
 	'empty_trash' => 'Очистить корзину',
 
@@ -96,4 +113,24 @@ return [
         'make_public' => 'Выберите несколько документов, прежде чем предоставить им открытый доступ в Сети K-Link',
     ],
 
+	'not_available' => 'Опаньки, данное действие не готово для вашего пользования!',
+
+    // buttons on the dialog
+    'dialogs' => [
+        'cancel_btn' => 'Нет, отменить!',
+        'cancel_btn_alt' => 'Отменить',
+        
+        'yes_btn' => 'Да',
+        'no_btn' => 'Нет',
+        'ok_btn' => 'OK',
+        
+        'delete_btn' => 'Да, удалить!',
+        
+        // showed when on a dialog, like the one in people group creation, the input field is empty, but a value is required
+        'input_required' => 'Напишите что-нибудь!',
+        
+        
+    ]
+
 ];
+

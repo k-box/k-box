@@ -138,6 +138,49 @@ class DocumentsTest extends TestCase {
 	}
     
     /**
+	 * Tests if the update for submit from the edit page is done correctly 
+	 *
+     * parameter $ignored is not taken into consideration due to reuse of an existing dataProvider
+     *
+     * @dataProvider user_provider_document_link_test
+	 * @return void
+	 */
+    public function testDocumentUpdate( $caps, $ignored )
+	{
+        
+        $user = $this->createUser( $caps );
+        
+        $file = factory('KlinkDMS\File')->create([
+            'user_id' => $user->id,
+            'original_uri' => ''
+        ]);
+        
+        $doc = factory('KlinkDMS\DocumentDescriptor')->create([
+            'owner_id' => $user->id,
+            'file_id' => $file->id
+        ]);
+        
+        
+        $url = route( 'documents.edit', $doc->id );
+        
+        $this->actingAs($user);
+        
+        $this->visit( $url );
+        
+        $this->type('Document new Title', 'title');
+        
+        $this->press(trans('actions.save'));
+        
+        $this->seePageIs( $url );
+        
+        $this->see(trans('documents.messages.updated'));
+        
+        $this->see('Document new Title');
+        
+  		
+	}
+    
+    /**
      * Tests if when using a document link the login page is firstly showed and then performs 
      * the redirect to the document page correctly
      *

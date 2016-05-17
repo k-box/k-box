@@ -1,4 +1,6 @@
 
+@if(!is_null($item->file))
+
 <div class="item import-{{$item->status_message}}" data-id="{{$item->id}}" data-file-id="{{$item->file->id}}">
 
 	<div class="icon">
@@ -20,6 +22,12 @@
 		{{ $item->file->name }}
 
 		<span class="comment origin">{{$item->file->original_uri}}</span>
+		
+		@if(!empty($item->message))
+		
+		<strong>{{$item->message}}</strong>
+		
+		@endif
 		
 	</h2>
 
@@ -52,6 +60,17 @@
 			
 		</span>
 		
+		<span class="meta-info">
+			@if($item->isError() && !is_null($import->file))
+				<button class="hint--left" data-id="{{$item->id}}" data-name="{{ $item->file->name }}"  rv-on-click="retry" data-hint="{{trans('import.retry.retry_btn_hint')}}">{{trans('import.retry.retry_btn')}}</button>
+			@endif
+			
+			@if($item->isError() || $item->isCompleted())
+			<button class="hint--left" data-id="{{$item->id}}" data-name="{{ $item->file->name }}"  rv-on-click="remove" data-hint="{{trans('import.remove.remove_btn_hint')}}">{{trans('import.remove.remove_btn')}}</button>
+			@endif
+		</span>
+		
 	</div>
 
 </div>
+@endif

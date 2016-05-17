@@ -8,6 +8,7 @@ public/js/*
 public/js /*
 public/css/*
 storage/documents/*
+tests/data/**/thumbnails
 .idea
 .vagrant
 puphpet

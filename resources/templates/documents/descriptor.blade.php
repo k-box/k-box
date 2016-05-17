@@ -177,7 +177,8 @@
 		
 		<span class="meta-info language">
             @if ($item->language)
-				<span class="meta-label">{{trans('documents.descriptor.language')}}&nbsp;</span>{{ !empty($item->language) ? trans('languages.' . $item->language) : trans('languages.no_language') }}
+			<?php $lang = $item->language; ?>
+				<span class="meta-label">{{trans('documents.descriptor.language')}}&nbsp;</span>{{ !empty($lang) ? trans('languages.' . $lang) : trans('languages.no_language') }}
 			@endif
 		</span>
 		

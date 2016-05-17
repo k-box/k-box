@@ -1,4 +1,4 @@
-define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/star", "sweetalert", "modules/panels", "combokeys", "modules/selection", "modules/minimalbind", "context", "lodash", 'elasticlist' ], function (_require, _modernizr, $, DMS, Star, _alert, Panels, _combokeys, _Selection, _rivets, _context, _, Elastic) {
+define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/star", "sweetalert", "modules/panels", "combokeys", "modules/selection", "modules/minimalbind", "context", "lodash", 'elasticlist', 'language' ], function (_require, _modernizr, $, DMS, Star, _alert, Panels, _combokeys, _Selection, _rivets, _context, _, Elastic, Lang) {
     
 	console.log('loading documents-page module...');
 
@@ -130,7 +130,7 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
             
             console.info('URL dropped', dragText, /^https?:\/\/.*$/.test(dragText));
             
-            DMS.MessageBox.error('Drag and drop not permitted', 'The drag and drop operation you are performing is not permitted.');
+            DMS.MessageBox.error( Lang.trans('errors.dragdrop.link_not_permitted_title'), Lang.trans('errors.dragdrop.link_not_permitted_text'));
             
             return false;
         }
@@ -216,7 +216,7 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
 
                     });
                     
-                    DMS.MessageBox.wait('Adding documents...', 'Please wait while the documents are being added to the collection...');
+                    DMS.MessageBox.wait( Lang.trans('documents.bulk.adding_title'), Lang.trans('documents.bulk.adding_message') );
 
                     DMS.Services.Bulk.copyTo({
                         documents: documents, 
@@ -227,30 +227,30 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
 
                         if(data.status && data.status === 'ok'){
 
-                            DMS.MessageBox.success('Added to', data.message);
+                            DMS.MessageBox.success( Lang.trans('documents.bulk.added_to_collection'), data.message);
 
                         }
                         else if(data.message) {
-                            DMS.MessageBox.error('Cannot add to collection', data.message);
+                            DMS.MessageBox.error( Lang.trans('documents.bulk.add_to_error'), data.message);
                         }
 
                     }, function(obj, err, errText){
 
                         if(obj.responseJSON && obj.responseJSON.status === 'error'){
-                            DMS.MessageBox.error('Cannot add to collection', obj.responseJSON.message);
+                            DMS.MessageBox.error( Lang.trans('documents.bulk.add_to_error'), obj.responseJSON.message);
                         }
                         else if(obj.responseJSON && obj.responseJSON.error){
-                            DMS.MessageBox.error('Cannot copy', obj.responseJSON.error);
+                            DMS.MessageBox.error( Lang.trans('documents.bulk.add_to_error'), responseJSON.error);
                         }
                         else {
-                            DMS.MessageBox.error('Cannot add to collection', errText);
+                            DMS.MessageBox.error( Lang.trans('documents.bulk.add_to_error'), errText);
                         }
 
                     });
 
                 }
                 else{
-                    DMS.MessageBox.error('Select at least 1 document', '');
+                    DMS.MessageBox.error( Lang.trans('actions.selection.at_least_one_document'), '');
                 }   
 
 
@@ -277,24 +277,24 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
 
             if(data.id){
 
-                DMS.MessageBox.wait('Moved', 'The collection has been moved, we are refreshing your visualization...');
+                DMS.MessageBox.wait(Lang.trans('groups.move.moved_alt'), Lang.trans('groups.move.moved_text'));
                 DMS.navigateReload();
 
             }
             else if(data.message) {
-                DMS.MessageBox.error('Cannot move', data.message);
+                DMS.MessageBox.error(Lang.trans('groups.move.error_title_alt'), data.message);
             }
 
         }, function(obj, err, errText){
 
             if(obj.responseJSON && obj.responseJSON.status === 'error'){
-                DMS.MessageBox.error('Cannot move', obj.responseJSON.message);
+                DMS.MessageBox.error(Lang.trans('groups.move.error_title_alt'), obj.responseJSON.message);
             }
             else if(obj.responseJSON && obj.responseJSON.error){
-                DMS.MessageBox.error('Cannot move', obj.responseJSON.error);
+                DMS.MessageBox.error(Lang.trans('groups.move.error_title_alt'), obj.responseJSON.error);
             }
             else {
-                DMS.MessageBox.error('Cannot move', 'The move operation cannot be performed due to an error, please contact your DMS Administrator.');
+                DMS.MessageBox.error(Lang.trans('groups.move.error_title_alt'), Lang.trans('groups.move.error_text_generic'));
             }
 
         });
@@ -313,7 +313,7 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
 
                 if(data_back.id){
 
-                    DMS.MessageBox.success('Removed from collection', 'The document has been removed from the collection');
+                    DMS.MessageBox.success( Lang.trans('documents.update.removed_from_title'), Lang.trans('documents.update.removed_from_text_alt'));
 
                     // Reload panel
                     Panels.openAjax('document'+data_back.id, this, DMS.Paths.DOCUMENTS + '/' + data_back.id, {}, {
@@ -324,7 +324,7 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
 
                 }
                 else {
-                    DMS.MessageBox.error('Cannot remove from collection', data_back);
+                    DMS.MessageBox.error( Lang.trans('documents.update.cannot_remove_from_title'), data_back);
                 }
 
             }, function(obj, err, errorText){
@@ -341,18 +341,18 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
 
                     });
 
-                    DMS.MessageBox.error('Cannot Update document', html);
+                    DMS.MessageBox.error(Lang.trans('documents.update.cannot_remove_from_title'), html);
 
 
                 }
                 else if(obj.responseJSON && obj.responseJSON.status === 'error'){
-                    DMS.MessageBox.error('Cannot remove from collection', obj.responseJSON.message);
+                    DMS.MessageBox.error( Lang.trans('documents.update.cannot_remove_from_title'), obj.responseJSON.message);
                 }
                 else if(obj.responseJSON && obj.responseJSON.error){
-                    DMS.MessageBox.error('Cannot remove from collection', obj.responseJSON.error);
+                    DMS.MessageBox.error( Lang.trans('documents.update.cannot_remove_from_title'), obj.responseJSON.error);
                 }
                 else {
-                    DMS.MessageBox.error('Update remove from collection', 'Cannot remove document from collection');
+                    DMS.MessageBox.error(Lang.trans('documents.update.cannot_remove_from_title'), Lang.trans('documents.update.cannot_remove_from_general_error'));
                 }
 
             });
@@ -360,18 +360,22 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
         }
         else if(data.action && data.action === 'restore'){
             
-                DMS.MessageBox.question("Restore document?", "Restore the document", 'Yes, Restore!', 'No, Cancel', function(isConfirmed){
+                DMS.MessageBox.question(
+                    Lang.trans('documents.restore.restore_dialog_title'), 
+                    Lang.trans('documents.restore.restore_dialog_question'), 
+                    Lang.trans('documents.restore.restore_dialog_no_btn'), 
+                    Lang.trans('documents.restore.restore_dialog_no_btn'), function(isConfirmed){
 
                     if(isConfirmed){
 
-                        DMS.MessageBox.wait('restoring...', '...');
+                        DMS.MessageBox.wait(Lang.trans('documents.restore.restoring'), '...');
 
 
                         DMS.Services.Bulk.restore({documents: [data.id], context:'trash'}, function(data){
 
                             if(data.status && data.status === 'ok'){
 
-                                DMS.MessageBox.success('Restored', data.message);
+                                DMS.MessageBox.success( Lang.trans('documents.restore.restore_success_title'), data.message);
 
                                 // Reload panel
                                 Panels.openAjax('document'+data.id, this, DMS.Paths.DOCUMENTS + '/' + data.id, {}, {
@@ -382,7 +386,7 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
 
                             }
                             else if(data.message) {
-                                DMS.MessageBox.error('Cannot restore', data.message);
+                                DMS.MessageBox.error(Lang.trans('documents.restore.restore_error_title'), data.message);
                             }
                             
                         }, function(obj, err, errText){
@@ -399,15 +403,15 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
             
                                 });
             
-                                DMS.MessageBox.error('Cannot restore document', html);
+                                DMS.MessageBox.error(Lang.trans('documents.restore.restore_error_title'), html);
             
             
                             }
                             else if(obj.responseJSON && obj.responseJSON.status === 'error'){
-                                DMS.MessageBox.error('Cannot Restore document', obj.responseJSON.message);
+                                DMS.MessageBox.error(Lang.trans('documents.restore.restore_error_title'), obj.responseJSON.message);
                             }
                             else {
-                                DMS.MessageBox.error('Restore Document', 'The document restore procedure was not completed succesfully');
+                                DMS.MessageBox.error(Lang.trans('documents.restore.restore_error_title'), Lang.trans('documents.restore.restore_error_text_generic'));
                             }
 
                         });
@@ -428,29 +432,29 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
         
         if(changeTitles){
             
-            DMS.MessageBox.warning('Change Name not currently available', 'Change Name not currently available');
+            DMS.MessageBox.warning(Lang.trans('actions.not_available'), Lang.trans('documents.bulk.make_public_change_title_not_available'));
         }
         else {
             
-            DMS.MessageBox.wait('Publishing...', 'Please wait while the documents will be made publicly available in the K-Link Network.');
+            DMS.MessageBox.wait(Lang.trans('documents.bulk.making_public_title'), Lang.trans('documents.bulk.making_public_title'));
             DMS.Services.Bulk.makePublic(params, function(data){
                 
-                DMS.MessageBox.success('Publish completed', (data && data.message) ? data.message : 'The documents has been shared');
+                DMS.MessageBox.success(Lang.trans('documents.bulk.make_public_success_title'), (data && data.message) ? data.message : Lang.trans('documents.bulk.make_public_success_text_alt'));
                 
                 
             }, function(obj, err, errText){
                 debugger;
                 if(obj.responseJSON && obj.responseJSON.status === 'error'){
-                    DMS.MessageBox.error('Publish Error', obj.responseJSON.message);
+                    DMS.MessageBox.error(Lang.trans('documents.bulk.make_public_error_title'), bj.responseJSON.message);
                 }
                 else if(obj.responseJSON && obj.responseJSON.error){
-                    DMS.MessageBox.error('Publish Error', obj.responseJSON.error);
+                    DMS.MessageBox.error(Lang.trans('documents.bulk.make_public_error_title'), bj.responseJSON.error);
                 }
                 else if(obj.status == 422){
-                    DMS.MessageBox.error('Publish Error', 'Cannot perform the publish operation. The Publish request contained an error. ' + (obj.responseText ? obj.responseText : errText) );
+                    DMS.MessageBox.error(Lang.trans('documents.bulk.make_public_error_title'), Lang.trans('make_public_error', {error: (obj.responseText ? obj.responseText : errText) } ));
                 }
                 else {
-                    DMS.MessageBox.error('Publish Error', 'Cannot perform the publish operation. ' + errText);
+                    DMS.MessageBox.error(Lang.trans('documents.bulk.make_public_error_title'), Lang.trans('make_public_error', {error: errText} ));
                 }
                 
             });
@@ -512,13 +516,13 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
                     var clipboard = new Clipboard('.clipboard-btn');
 
                     clipboard.on('success', function(e) {                        
-                        DMS.MessageBox.success('Copied!', 'The link has been copied to your clipboard');
+                        DMS.MessageBox.success( Lang.trans('actions.clipboard.copied_title'), Lang.trans('actions.clipboard.copied_link_text'));
                         
                         e.clearSelection();
                     });
 
                     clipboard.on('error', function(e) {
-                        DMS.MessageBox.error('Cannot copy to clipboard', 'The link cannot be copied to the clipboard, you can copy it manually by pressing Ctrl+C on the keyboard. ' + e.text);
+                        DMS.MessageBox.error(Lang.trans('actions.clipboard.not_copied_title'), Lang.trans('actions.clipboard.not_copied_link_text'));
                     });
                     
                 });
@@ -605,12 +609,12 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
                         // DMS.navigateReload();
                         Panels.dialogClose();
 
-                        DMS.MessageBox.success('Share created', 'The document has been shared');
+                        DMS.MessageBox.success(Lang.trans('share.dialog.document_shared'), Lang.trans('share.dialog.document_shared_text'));
 
                     } }});
                 }
                 else{
-                    _alert('Select at least 1 element');
+                    _alert( Lang.trans('actions.selection.at_least_one') );
                 }
                 
                 evt.preventDefault();
@@ -658,7 +662,7 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
 
                     Panels.dialogClose();
 
-                    DMS.MessageBox.success('Share created', 'The document has been shared');
+                    DMS.MessageBox.success( Lang.trans('share.dialog.collection_shared'), Lang.trans('share.dialog.collection_shared_text'));
 
                 } }});
                 
@@ -744,17 +748,17 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
                 if(docSelection.group) {
                     // group selection by context menu
                     
-                    var grp_message = 'You will make all the documents in this collection publicly available on the K-Link Network. (click outside to undo)';
+                    var grp_message = Lang.trans('documents.bulk.make_public_all_collection_dialog_text');
                     
                     var grp_title = docSelection.name ? '"' + docSelection.name + '"' : 'Collection'; 
                     
                     if(docSelection.name){
-                        grp_message = 'You will make all the documents inside "'+ docSelection.name +'" publicly available on the K-Link Network. (click outside to undo)';
+                        grp_message = Lang.trans('documents.bulk.make_public_inside_collection_dialog_text', {item: docSelection.name});
                     }
                     
                     var grp_id = docSelection.group ? docSelection.group : module.context.group; 
                     
-                    DMS.MessageBox.question('Publish '+ grp_title +' on K-Link Network', grp_message, 'Publish!', 'Cancel', function(choice){
+                    DMS.MessageBox.question( Lang.trans('documents.bulk.make_public_dialog_title', {item: grp_title}) , grp_message, Lang.trans('documents.bulk.publish_btn'), Lang.trans('actions.cancel'), function(choice){
                         
                         if(choice){
                             _doMakePublic({group:grp_id});
@@ -771,15 +775,14 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
                     //something is selected
                     
                     var count = _Selection.selectionCount(),
-                        q_message = 'You will make '+ count +' documents publicly available on the K-Link Network. (click outside to undo)',
-                        q_btn = 'Cancel'; 
+                        q_message = Lang.trans('documents.bulk.make_public_dialog_text_count', {count: count}),
+                        q_btn = Lang.trans('actions.cancel'); 
                     
                     if(count==1){
-                        q_message = 'You will make "'+ _Selection.first().title +'" publicly available on the K-Link Network. (click outside to undo)';
-                        q_btn = 'Cancel';
+                        q_message = Lang.trans('documents.bulk.make_public_dialog_text', {item: _Selection.first().title});
                     }
                     
-                    DMS.MessageBox.question('Publish on K-Link Network', q_message, 'Publish!', q_btn, function(choice){
+                    DMS.MessageBox.question(Lang.trans('documents.bulk.make_public_dialog_title_alt'), q_message, Lang.trans('documents.bulk.publish_btn'), q_btn, function(choice){
                         if(choice){
                             var toPublic = _Selection.selectionByType(_Selection.Types.DOCUMENT, 'id');
                         
@@ -792,7 +795,7 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
                     }); 
                 }
                 else {
-                    DMS.MessageBox.warning('Publish on K-Link Network', 'Please select the documents you want to make available in the K-Link Network.');
+                    DMS.MessageBox.warning(Lang.trans('documents.bulk.make_public_dialog_title_alt'), Lang.trans('documents.bulk.make_public_empty_selection'));
                 }
                 
                 return false;
@@ -803,12 +806,12 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
                 var deleteTitle, deleteMessage;
 
                 if(groupname){
-                    deleteTitle = 'Delete "'+ groupname.trim()+ '"?';
-                    deleteMessage = 'You\'re about to delete "'+ groupname.trim()+ '". This will delete only the collection and will remove it from the documents. The documents will not be deleted.';
+                    deleteTitle = Lang.trans('groups.delete.dialog_title', {collection: groupname.trim() });
+                    deleteMessage = Lang.trans('groups.delete.dialog_text', {collection: groupname.trim() });
                 }
                 else {
-                    deleteTitle = 'Delete Collection?';
-                    deleteMessage = 'You\'re about to delete the selected Collection. This will delete only the collection and will remove it from the documents. The documents will not be deleted.';
+                    deleteTitle = Lang.trans('groups.delete.dialog_title_alt');
+                    deleteMessage = Lang.trans('groups.delete.dialog_text_alt');
                 }
 
                 
@@ -817,14 +820,14 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
 
                     if(isConfirmed){
 
-                        DMS.MessageBox.wait('deleting...', '...');
+                        DMS.MessageBox.wait( Lang.trans('actions.deleting'), '...');
 
 
                         DMS.Services.Bulk.remove({groups:groupId, context:module.context.filter}, function(data){
 
                             if(data.status && data.status === 'ok'){
 
-                                DMS.MessageBox.success('Deleted', data.message);
+                                DMS.MessageBox.success( Lang.alternate('groups.delete.deleted_dialog_title', 'groups.delete.deleted_dialog_title_alt', 'collection', {collection: groupname ? groupname.trim() : undefined }) , data.message);
                                 
                                 if(module.context.filter===CONTEXT_GROUP && groupId==module.context.group){
                                     DMS.navigate(DMS.Paths.DOCUMENTS);
@@ -837,19 +840,19 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
 
                             }
                             else if(data.message) {
-                                DMS.MessageBox.error('Cannot delete collection', data.message);
+                                DMS.MessageBox.error(Lang.alternate('groups.delete.cannot_delete_dialog_title', 'groups.delete.cannot_delete_dialog_title_alt', 'collection', {collection: groupname ? groupname.trim() : undefined }), data.message);
                             }
 
                         }, function(obj, err, errText){
 
                             if(obj.responseJSON && obj.responseJSON.status === 'error'){
-                                DMS.MessageBox.error('Cannot delete collection', obj.responseJSON.message);
+                                DMS.MessageBox.error(Lang.alternate('groups.delete.cannot_delete_dialog_title', 'groups.delete.cannot_delete_dialog_title_alt', 'collection', {collection: groupname ? groupname.trim() : undefined }), obj.responseJSON.message);
                             }
                             else if(obj.responseJSON && obj.responseJSON.error){
-                                DMS.MessageBox.error('Cannot remove collection', obj.responseJSON.error);
+                                DMS.MessageBox.error(Lang.alternate('groups.delete.cannot_delete_dialog_title', 'groups.delete.cannot_delete_dialog_title_alt', 'collection', {collection: groupname ? groupname.trim() : undefined }), obj.responseJSON.error);
                             }
                             else {
-                                DMS.MessageBox.error('Cannot delete collection', 'Cannot delete the specified elements. Nothing has been deleted.');
+                                DMS.MessageBox.error(Lang.alternate('groups.delete.cannot_delete_dialog_title', 'groups.delete.cannot_delete_dialog_title_alt', 'collection', {collection: groupname ? groupname.trim() : undefined }), Lang.trans('groups.delete.cannot_delete_general_error'));
                             }
 
                         });
@@ -978,51 +981,51 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
 
                     elementTitle = currentSelection[0].title;
 
-                    // debugger;
-
                     if(count == 1){
-                        deleteTitle = 'Restore "'+ elementTitle+ '"?';
-                        deleteMessage = 'You\'re about to restore "'+ elementTitle+ '".';
+                        deleteTitle = Lang.trans('documents.restore.restore_dialog_title', {document: elementTitle});
+                        deleteMessage = Lang.trans('documents.restore.restore_dialog_text', {document: elementTitle});
                     }
                     else {
-                        deleteTitle = 'Restore '+ count +' elements?';
-                        deleteMessage = 'You\'re about to restore '+ count +' elements.';
+                        deleteTitle = Lang.trans('documents.restore.restore_dialog_title_count', {count: count});
+                        deleteMessage = Lang.trans('documents.restore.restore_dialog_text_count', {count: count});
                     }
 
                     
 
-                    DMS.MessageBox.question(deleteTitle, deleteMessage, 'Yes, Restore!', 'No, Cancel', function(isConfirmed){
+                    DMS.MessageBox.question(deleteTitle, deleteMessage, 
+                        Lang.trans('documents.restore.restore_dialog_yes_btn'), 
+                        Lang.trans('documents.restore.restore_dialog_no_btn'), function(isConfirmed){
 
                         if(isConfirmed){
 
                             console.log(groups, documents);
 
-                            DMS.MessageBox.wait('restoring...', '...');
+                            DMS.MessageBox.wait( Lang.trans('actions.restoring'), '...');
 
 
                             DMS.Services.Bulk.restore({documents: documents, groups:groups, context:module.context.filter}, function(data){
 
                                 if(data.status && data.status === 'ok'){
 
-                                    DMS.MessageBox.success('Restored', data.message);
+                                    DMS.MessageBox.success( Lang.trans('documents.restore.restore_success_title'), data.message);
 
                                     _Selection.clearAndDestroy();
 
                                 }
                                 else if(data.message) {
-                                    DMS.MessageBox.error('Cannot restore', data.message);
+                                    DMS.MessageBox.error(Lang.trans('documents.restore.restore_error_title'), data.message);
                                 }
 
                             }, function(obj, err, errText){
 
                                 if(obj.responseJSON && obj.responseJSON.status === 'error'){
-                                    DMS.MessageBox.error('Cannot restore', obj.responseJSON.message);
+                                    DMS.MessageBox.error(Lang.trans('documents.restore.restore_error_title'), obj.responseJSON.message);
                                 }
                                 else if(obj.responseJSON && obj.responseJSON.error){
-                                    DMS.MessageBox.error('Cannot restore', obj.responseJSON.error);
+                                    DMS.MessageBox.error(Lang.trans('documents.restore.restore_error_title'), obj.responseJSON.error);
                                 }
                                 else {
-                                    DMS.MessageBox.error('Cannot restore', 'Cannot restore the specified elements.');
+                                    DMS.MessageBox.error(Lang.trans('documents.restore.restore_error_title'), Lang.trans('documents.restore.restore_error_text_generic'));
                                 }
 
                             });
@@ -1036,7 +1039,7 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
 
                 }
                 else{
-                    _alert('Select at least 1 element');
+                    _alert(Lang.trans('actions.selection.at_least_one_document'));
                 }   
 
                 evt.preventDefault();
@@ -1048,13 +1051,13 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
 
                 evt.preventDefault();
 
-                var question_msg = "All the documents in the trash will be permanently deleted. This action will remove files and revision, starred, collections and shares. This action cannot be undo.",
+                var question_msg = Lang.trans('documents.trash.empty_all_text'),
                     documents = [],
                     groups = [],
                     data_args = {force: "1", context:module.context.filter};
 
                 if(_Selection.isAnySelected()){
-                    question_msg = "You are about to permanently delete "+ _Selection.selectionCount() +" documents. This action will remove files and revision, starred, collections and shares. This action cannot be undo.";
+                    question_msg = Lang.trans('documents.trash.empty_selected_text');
                                         
                 }
                 else {
@@ -1078,17 +1081,19 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
                     data_args.documents = documents;
                     data_args.groups = groups;
                 
-                DMS.MessageBox.question('Clean trash?', question_msg, 'Yes, Clean!', 'No, Cancel', function(isConfirmed){
+                DMS.MessageBox.question( Lang.trans('documents.trash.clean_title'), question_msg, 
+                    Lang.trans('documents.trash.yes_btn'), 
+                    Lang.trans('documents.trash.no_btn'), function(isConfirmed){
                         
                     if(isConfirmed){ 
                         
-                        DMS.MessageBox.wait('Emptying...', 'Please wait while the trash is being cleaned...');
+                        DMS.MessageBox.wait( Lang.trans('actions.cleaning_trash'), Lang.trans('actions.cleaning_trash_wait'));
 
                         DMS.Services.Bulk.remove(data_args, function(data){
 
                             if(data.status && data.status === 'ok'){
 
-                                DMS.MessageBox.success('Deleted', data.message);
+                                DMS.MessageBox.success( Lang.trans('documents.trash.cleaned'), data.message);
 
                                 if(_Selection.isAnySelected()){
                                     _Selection.clearAndDestroy();
@@ -1100,19 +1105,19 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
 
                             }
                             else if(data.message) {
-                                DMS.MessageBox.error('Cannot delete', data.message);
+                                DMS.MessageBox.error(Lang.trans('documents.trash.cannot_clean'), data.message);
                             }
 
                         }, function(obj, err, errText){
 
                             if(obj.responseJSON && obj.responseJSON.status === 'error'){
-                                DMS.MessageBox.error('Cannot delete', obj.responseJSON.message);
+                                DMS.MessageBox.error(Lang.trans('documents.trash.cannot_clean'), obj.responseJSON.message);
                             }
                             else if(obj.responseJSON && obj.responseJSON.error){
-                                DMS.MessageBox.error('Cannot delete', obj.responseJSON.error);
+                                DMS.MessageBox.error(Lang.trans('documents.trash.cannot_clean'), obj.responseJSON.error);
                             }
                             else {
-                                DMS.MessageBox.error('Cannot delete', 'Cannot delete the specified elements. Nothing has been deleted.');
+                                DMS.MessageBox.error(Lang.trans('documents.trash.cannot_clean'), Lang.trans('documents.trash.cannot_clean_general_error'));
                             }
 
                         });
@@ -1156,12 +1161,12 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
                     // debugger;
 
                     if(count == 1){
-                        deleteTitle = 'Delete "'+ elementTitle+ '"?';
-                        deleteMessage = 'You\'re about to delete "'+ elementTitle+ '".';
+                        deleteTitle = Lang.trans('documents.delete.dialog_title', {document: elementTitle});
+                        deleteMessage = Lang.trans('documents.delete.dialog_text', {document: elementTitle});
                     }
                     else {
-                        deleteTitle = 'Delete '+ count +' elements?';
-                        deleteMessage = 'You\'re about to delete '+ count +' elements.';
+                        deleteTitle = Lang.trans('documents.delete.dialog_title_count', {count: count});
+                        deleteMessage = Lang.trans('documents.delete.dialog_text_count', {count: count});
                     }
 
                     
@@ -1172,32 +1177,32 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
 
                             console.log(groups, documents);
 
-                            DMS.MessageBox.wait('deleting...', '...');
+                            DMS.MessageBox.wait( Lang.trans('actions.deleting'), '...');
 
 
                             DMS.Services.Bulk.remove({documents: documents, groups:groups, context:module.context.filter}, function(data){
 
                                 if(data.status && data.status === 'ok'){
 
-                                    DMS.MessageBox.success('Deleted', data.message);
+                                    DMS.MessageBox.success( Lang.trans('documents.delete.deleted'), data.message);
 
                                     _Selection.clearAndDestroy();
 
                                 }
                                 else if(data.message) {
-                                    DMS.MessageBox.error('Cannot delete', data.message);
+                                    DMS.MessageBox.error(Lang.trans('documents.delete.cannot_delete_dialog_title_alt'), data.message);
                                 }
 
                             }, function(obj, err, errText){
 
                                 if(obj.responseJSON && obj.responseJSON.status === 'error'){
-                                    DMS.MessageBox.error('Cannot delete', obj.responseJSON.message);
+                                    DMS.MessageBox.error(Lang.trans('documents.delete.cannot_delete_dialog_title_alt'), obj.responseJSON.message);
                                 }
                                 else if(obj.responseJSON && obj.responseJSON.error){
-                                    DMS.MessageBox.error('Cannot delete', obj.responseJSON.error);
+                                    DMS.MessageBox.error(Lang.trans('documents.delete.cannot_delete_dialog_title_alt'), obj.responseJSON.error);
                                 }
                                 else {
-                                    DMS.MessageBox.error('Cannot delete', 'There was a problem deleting the document, please contact an Administrator.');
+                                    DMS.MessageBox.error(Lang.trans('documents.delete.cannot_delete_dialog_title_alt'), Lang.trans('documents.delete.cannot_delete_general_error'));
                                 }
 
                             });
@@ -1211,7 +1216,7 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
 
                 }
                 else{
-                    _alert('Select at least 1 element');
+                    _alert( Lang.trans('actions.selection.at_least_one_document') );
                 }   
 
                 evt.preventDefault();
@@ -1241,7 +1246,7 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
 
                 console.error('error on create group');
 
-                _alert("Oops, Something went wrong!", obj.responseText, "error");
+                _alert(Lang.trans('errors.generic_title'), obj.responseText, "error");
 
             });
 
@@ -1276,7 +1281,9 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
 
                 //only first child
 
-                evt.preventDefault();
+                if(evt){
+                    evt.preventDefault();
+                }
 
                 return false;
             },
@@ -1302,15 +1309,47 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
                     _treeView.find('.tree-chevron').data('expanded', true);
                 }
 
-                evt.preventDefault();
+                if(evt){
+                    evt.preventDefault();
+                }
 
                 return false;
             },
             
             ensureCurrentVisibility: function(){
-                var parents = _treeView.find('.current').parents('.tree-childs');
-                parents.addClass('expanded').removeClass('collapsed');
-                parents.find('.tree-chevron').data('expanded', true);
+                var current = _treeView.find('.current');
+                
+                var tree_item_parents = current.parents('.tree-item');
+                
+                if(current.length > 0){
+                
+                    var first = current[0];
+                    
+                    if(typeof first.scrollIntoViewIfNeeded === "function"){
+                        first.scrollIntoViewIfNeeded();
+                    }
+                    else if(typeof first.scrollIntoView === "function"){
+                        first.scrollIntoView();
+                    }
+                    
+                    
+                    if(tree_item_parents.length > 0){
+                        
+                        tree_item_parents.each(function(k, v){
+                            
+                            var chev = $(v).find('.tree-chevron');
+                            if(chev.length > 0){
+                                var func = module.groups.expandOrCollapse.bind(chev[0]);
+                                func(undefined, this);
+                            }
+                            
+                        }.bind(this));
+                        
+                    }
+                    
+                }
+                
+                
             },
 
             showEdit: function(evt, vm){
@@ -1422,7 +1461,7 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
 
         _context.attach(_documentArea, '.item', [
             {
-                text: "Details",
+                text: Lang.trans('actions.details'),
                 action: function(e){
                     e.preventDefault();
     
@@ -1438,7 +1477,7 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
                 }
             },
             {
-                text: "Share",
+                text: Lang.trans('share.share_btn'),
                 action: function(e){
                     if(!_Selection.isSelect(this, true)){
                         _Selection.select(this, true);
@@ -1448,7 +1487,7 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
                 icon: 'icon-action-black icon-action-black-ic_exit_to_app_black_24dp'
             },
             {
-                text: "Make Public",
+                text: Lang.trans('actions.make_public'),
                 action: function(e){ 
                     if(!_Selection.isSelect(this, true)){
                         _Selection.select(this, true);
@@ -1461,7 +1500,7 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
                 divider: true,
             },
             {
-                text: "Edit",
+                text: Lang.trans('actions.edit'),
                 action: function(e){
     
                     e.preventDefault();
@@ -1479,7 +1518,7 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
                 icon: 'icon-content-black icon-content-black-ic_create_black_24dp'
             },
             {
-                text: "Delete",
+                text: Lang.trans('actions.trash_btn_alt'),
                 action: function(e){
                     if(!_Selection.isSelect(this, true)){
                         _Selection.select(this, true);
@@ -1493,12 +1532,12 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
     
         _context.attach(_treeView, '.groups-menu', [
             {
-                text: "Edit",
+                text: Lang.trans('actions.edit'),
                 action: module.groups.showEdit,
                 icon: 'icon-content-black icon-content-black-ic_create_black_24dp'
             },
             {
-                text: "Delete",
+                text: Lang.trans('actions.trash_btn_alt'),
                 action: function(e){ 
                     var id = this.data('groupId'),
                         anchor = this.hasClass('tree-item-inner') ? this : this.find('.tree-item-inner');
@@ -1510,7 +1549,7 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
                 divider: true,
             },
             {
-                text: "Create sub-Collection",
+                text: Lang.trans('actions.create_collection_btn'),
                 action: function(e){ 
                     var id = this.data('groupId'),
                         isPrivate = this.data('isprivate');
@@ -1522,7 +1561,7 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
                 divider: true,
             },
             {
-                text: "Share",
+                text: Lang.trans('share.share_btn'),
                 action: function(e){ 
                     var id = this.data('groupId');
                     module.menu.shareGroup(e, id);
@@ -1530,7 +1569,7 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
                 icon: 'icon-action-black icon-action-black-ic_exit_to_app_black_24dp'
             },
             {
-                text: "Publish Documents",
+                text: Lang.trans('actions.publish_documents'),
                 action: function(e){ 
                     var id = this.data('groupId'),
                         name = this.find('.tree-item-inner').first().text().trim();
@@ -1562,13 +1601,25 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
                     // acceptedFiles: 'image/*,application/pdf,application/msword,application/vnd.ms-excel,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.openxmlformats-officedocument.presentationml.presentation,application/vnd.openxmlformats-officedocument.wordprocessingml.document',
 
                     addRemoveLinks:true,
-                    dictCancelUpload:'',
+                    
                     previewTemplate: '<div class="dz-preview dz-file-preview"><div class="dz-details"><div class="dz-filename"><span data-dz-name></span></div><div class="dz-size" data-dz-size></div><img data-dz-thumbnail /></div><div class="dz-progress"><span class="dz-upload" data-dz-uploadprogress></span></div><div class="dz-success-mark"><span>✔</span></div><div class="dz-error-mark"><span>✘</span></div><div class="dz-error-message"><span data-dz-errormessage></span></div></div>',
 
             	    // uploadMultiple: true,
             		parallelUploads: 1,
                     maxFilesize:202800,
             		maxFiles: 10000,
+                    
+                    dictDefaultMessage: Lang.trans('documents.messages.drag_hint'),
+                    dictFallbackMessage: Lang.trans('documents.upload.dragdrop_not_supported'),
+                    dictFallbackText: Lang.trans('documents.upload.dragdrop_not_supported_text'),
+                    dictFileTooBig: Lang.trans('validation.custom.document.required'), //"File is too big ({{filesize}}MB). Max filesize: {{maxFilesize}}MB.",
+                    dictInvalidFileType: "You can't upload files of this type.",
+                    dictResponseError: "Server responded with {{statusCode}} code.",
+                    dictCancelUpload: '', //old: "Cancel upload"
+                    dictCancelUploadConfirmation: Lang.trans('documents.upload.cancel_question'),
+                    dictRemoveFile: Lang.trans('documents.upload.remove_btn'),
+                    dictRemoveFileConfirmation: null,
+                    dictMaxFilesExceeded: Lang.trans('documents.upload.max_uploads_reached_text'),
                     
                     headers: {
                       "X-CSRF-TOKEN" : DMS.csrf()
@@ -1578,7 +1629,7 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
                        
                        if(!file.type && file.size%4096 == 0){
                            // Firefox way is so different than the others that I don't support it
-                           done("Your browser don't support folder drag and drop.");
+                           done( Lang.trans('documents.upload.folders_dragdrop_not_supported'));
                        }
                        else {
                            done();
@@ -1623,7 +1674,7 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
                                     msg = xhr.responseText;
                                 }
 
-                                DMS.MessageBox.error('File Upload error', msg);
+                                DMS.MessageBox.error(Lang.trans('documents.upload.error_dialog_title'), msg);
                             });
 
                             this.on("success", function (file, response) {
@@ -1664,7 +1715,7 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
                                     module.uploads.status = "completed";
                                     $('#upload-status').removeClass('visible');
                                     DMS.navigateReload();
-                                    _alert("All the files have been successfully uploaded.", "Have a nice search.", "success");
+                                    _alert( Lang.trans('documents.upload.all_uploaded'), "", "success");
                                 }
 
                             });
@@ -1675,7 +1726,7 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
                             });
 
                             this.on("maxfilesreached", function(){
-                            	_alert("Sorry, but you have to wait a little", "We can process only a little amount of file, so please have a little patience before adding another file.", "error");
+                            	_alert(Lang.trans('documents.upload.max_uploads_reached_title'), Lang.trans('documents.upload.max_uploads_reached_text'), "error");
                             });
                         }
             	  });

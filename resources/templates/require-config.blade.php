@@ -6,20 +6,27 @@ require.config({
         elasticlist:"modules/elasticlist",
 		map:"modules/map",
 		turf:"modules/turf",
-        "leaflet": "//cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet"
+        "leaflet": "//cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet",
+        language: "modules/language",
     },
     shim: {
         d3: {
           exports: 'd3'
         }
     },
-    urlArgs: "bust=" +  (new Date()).getTime(), //for preventing bad caching
-    skipDataMain:true
+    urlArgs: "bust={{ Config::get('dms.build') }}",
+    skipDataMain:true,
+    config: {
+        //Set the config for the i18n
+        //module ID
+        i18n: {
+            locale: '{{ app()->getLocale() }}',
+            nls: 'localization'
+        }
+    }
 
     
 });
-
-
 
 
 // -- require js configuration
@@ -64,21 +71,20 @@ define('context', [], function() {
 @if(app()->environment() === 'production')
     require.onError = function(err){
     
-    	swal('Loading problem :(', 'Some functionalities may not be available.', 'error');
+    	swal("{{trans('errors.page_loading_title')}}", "{{trans('errors.page_loading_text')}}", 'error');
     
       	console.error(err);
     }
 @endif
 
 
-require(['jquery', 'DMS'], function($, DMS){
+require(['jquery', 'DMS', 'language'], function($, DMS, Lang){
 
-  DMS.initialize();
-  // console.info('DMS initialized.');
+  DMS.initialize(Lang);
 
     $(document).ready(function() {
       $('#document-area .thumbnail img').unveil(undefined, function() {
-          console.log('Image loaded');
+        //   console.log('Image loaded');
       });
     });
     

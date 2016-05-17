@@ -12,7 +12,10 @@ use Illuminate\Foundation\Bus\DispatchesCommands;
 use KlinkDMS\Commands\ImportCommand;
 use Illuminate\Support\Facades\Log;
 use KlinkDMS\Exceptions\FileAlreadyExistsException;
+use KlinkDMS\Exceptions\ForbiddenException;
 use Illuminate\Http\JsonResponse;
+use KlinkDMS\Http\Requests\ImportUpdateRequest;
+use Exception;
 
 class ImportDocumentsController extends Controller {
 
@@ -91,132 +94,6 @@ class ImportDocumentsController extends Controller {
         return response('ok', 200);
 
     }
-        /*
-         * LOCAL SHARE FILE IMPORT
-         * 
-         * (1 file to download= 1 downloadjob in the queue, even folders, are pushed into the queue)
-         * at each level (folder) it's called this function to push the download job in the Queue  
-         * and to link the possible children folder to the parent_id (upper level)
-         * 
-         * starting from root to recursively explore the folders until I find all files and no folders
-         * 
-         */
-        // private function level($import){
-        //     $file = File::find($import->file_id);
-        //     $files_in_the_folder = scandir($file->original_uri);
-        //     if(is_dir($file->original_uri) && $files_in_the_folder){
-        //         foreach($files_in_the_folder as $f){
-        //             if($f=="." || $f==".."){
-        //                 continue;
-        //             }
-        //             $file_child = new File();
-        //             $file_child->name=$f;//lo modifica dopo la queue
-        //             $file_child->hash='';//lo modifica dopo la queue
-        //             $file_child->mime_type='';//lo modifica dopo la queue
-        //             $file_child->size= is_dir($file->original_uri.$f) ? 1 : 0;
-        //             $file_child->revision_of=null;
-        //             $file_child->thumbnail_path=null;
-        //             $file_child->path = uniqid();
-        //             $file_child->user_id = $this->user->id;
-        //             $dir_slash =is_dir($file->original_uri.$f) ? "/" : '';
-        //             $file_child->original_uri = $file->original_uri."".$f. $dir_slash;
-        //             $file_child->is_folder = is_dir($file->original_uri."".$f.$dir_slash);
-        //             $file_child->save();
-
-
-        //             $import_child = new Import();
-        //             $import_child->bytes_expected = 1;
-        //             $import_child->bytes_received = 1;
-        //             $import_child->file_id = $file_child->id;
-        //             $import_child->is_remote = false;
-        //             $import_child->status = Import::STATUS_QUEUED;
-        //             $import_child->user_id = $this->user->id;
-        //             $import_child->parent_id = $import->id;
-        //             $import_child->status_message = Import::MESSAGE_QUEUED;
-        //             $import_child->save();
-
-        //             Queue::push('ImportCommand@init', array('user' => $this->user,'import' => $import_child));
-        //             if(is_dir($file->original_uri.$f)){
-        //                 $this->level($import_child);//the child that becomes a parent...
-        //             }
-        //         }
-        //     }else{
-        //         /*
-        //          * it is not a directory. just treat as normal url remote import if it's a file
-        //          */
-        //         if(is_file($file->original_uri)){
-        //             Queue::push('ImportCommand@init', array('user' => $auth->user(),'import' => $import));
-        //         }
-        //     }
-        // }
-	
-
-        /*
-         * client update function about the status of the $import_id
-         */
-        // public function show($import_id, Guard $auth, \Request $request){
-        //     if ($request::ajax() && $request::wantsJson() || getenv("APP_ENV")=="testing")
-        //     {
-        //         $root = Import::find($import_id)->first();
-        //         $completed = 0;
-        //         $expected = 0;
-        //         $import_completed = array();
-        //         $import_not_completed = array();
-        //         $children = array();
-        //         $file = File::find($root->file_id);
-                
-        //         if($root->is_remote){//remote single file import
-        //             if($root->status == Import::STATUS_COMPLETED){  
-        //                 array_push($import_completed,$root);
-        //             }else{
-        //                 array_push($import_not_completed,$root);
-        //             }
-        //             $expected = $root->bytes_expected;
-        //             $completed = $root->bytes_received;
-        //             $root->file = $file;
-        //         }else{//shared import
-        //             $this->childrenArray = array();
-        //             $this->children($root->id);
-        //             if(count($this->childrenArray)>0){
-        //                 foreach($this->childrenArray as $c){
-        //                     $completed += (int)$c->bytes_received;
-        //                     $expected  += (int)$c->bytes_expected;
-        //                     $f = File::find($c->file_id);
-        //                     $c->file = $f;
-        //                     if($c->status==Import::STATUS_COMPLETED){
-        //                         array_push( $import_completed , $c);
-        //                     }else{
-        //                         array_push( $import_not_completed , $c);
-        //                     }
-
-        //                 }
-        //             }
-        //         }
-        //         $files = count($import_completed)+count($import_not_completed);
-        //         return response()->json(array(
-        //             'result' => 'ok',
-        //             "not_completed" => $import_not_completed,
-        //             "completed" => $import_completed,
-        //             "downloading" => $completed,
-        //             'expected' => $expected,
-        //             'msg' => $files !== 1 ? $files." files found" : "1 file found"
-        //         ));
-        //     }
-        // }
-        //solo per $this->status()
-        // private function children($parent){
-        //     $children = Import::myChildren($parent)->get();
-        //     if(count($children)>0){
-        //         foreach($children as $c){
-        //             $file = File::find($c->file_id);
-        //             if($file->is_folder){
-        //                 $this->children($c->id);
-        //             }else{
-        //                 array_push($this->childrenArray, $c);
-        //             }
-        //         }
-        //     }
-        // }
 
     /**
      * Handle the creation of an import job
@@ -290,5 +167,188 @@ class ImportDocumentsController extends Controller {
 
         return response('Format not supported.', 400);
     }
-     
+    
+    
+    public function update(Guard $auth, ImportUpdateRequest $request, $id){
+        
+        $user = $auth->user();
+        
+        $import = Import::with('file')->findOrFail($id);
+        
+        try{
+            
+            if(is_null($import->file)){
+                throw new Exception(trans('import.retry.retry_error_file_not_found'));
+            }
+        
+            if(!$user->isDMSManager() || ($user->id !== $import->user_id)){
+                
+                if(is_null($import->file)){
+                    throw new ForbiddenException(trans('import.retry.retry_forbidden_user_alternate'));
+                }
+                
+                throw new ForbiddenException(trans('import.retry.retry_forbidden_user', ['import' => $import->file->name]));
+                
+            }
+            
+            if( !$import->isError() ){
+                
+                throw new ForbiddenException(trans('import.retry.forbidden_status'));
+                
+            }
+            
+            if( empty($import->job_payload) ){
+                
+                throw new Exception(trans('import.retry.retry_error_file_not_found'));
+                
+            }
+            
+            $import->status = Import::STATUS_QUEUED;
+            $import->status_message = Import::MESSAGE_QUEUED;
+            $import->save();
+            
+            // retry code here
+            $failed_payload = $import->job_payload;
+            $failed_payload = $this->resetAttempts($failed_payload);
+            app('queue')->pushRaw($failed_payload, 'default');
+            
+            
+            if($request->wantsJson()){
+                
+                return response()->json([
+                    'status' => 'ok',
+                    'message' => trans('import.retry.retry_completed_message', ['import' => $import->file->name])
+                ]);
+
+            }
+            
+            return response('Format not supported.', 400);
+        
+        }catch(ForbiddenException $ex){
+
+            \Log::error('Import update', ['user_id' => $user->id, 'import_id' => $id, 'exception' => $ex]);
+
+            return new JsonResponse( [
+                    'status' => 'error',
+                    'error' => $ex->getMessage()
+                ], 422);
+
+        }catch(\Exception $ex){
+
+            \Log::error('Import update', ['user_id' => $user->id, 'import_id' => $id, 'exception' => $ex]);
+
+            return new JsonResponse( [
+                    'status' => 'error',
+                    'error' => $ex->getMessage()
+                ], 400);
+
+        }
+        
+    }
+
+    
+    public function destroy(Guard $auth, \Illuminate\Http\Request $request, $id){
+        
+        $user = $auth->user();
+        
+        $import = Import::with('file')->findOrFail($id);
+        
+        try{
+        
+            if(!$user->isDMSManager() || ($user->id !== $import->user_id)){
+                
+                if(is_null($import->file)){
+                    throw new ForbiddenException(trans('import.remove.destroy_forbidden_user_alternate'));
+                }
+                
+                throw new ForbiddenException(trans('import.remove.destroy_forbidden_user', ['import' => $import->file->name]));
+                
+            }
+            
+            if( !($import->isError() || $import->isCompleted()) ){
+                
+                throw new ForbiddenException(trans('import.remove.destroy_forbidden_status'));
+                
+            }
+            
+            $done = false;
+            
+            if( $import->isError() && !is_null($import->file) ){
+
+                $done = $import->file->physicalDelete();
+                
+                if($done){
+                    $done = $import->delete();
+                }
+                
+            }
+            else if( $import->isCompleted() ){
+                
+                $done = $import->delete();
+                
+            }
+            
+            $done = !$import->exists; // get the status of the model, because delete methods can return null
+            
+            
+            if($request->wantsJson()){
+                
+                if(!$done){
+                    
+                    \Log::error('Import destroy', ['user_id' => $user->id, 'import_id' => $id, 'file_id' => is_null($import->file) ? $import->file : $import->file->id, 'exception' => 'FILE_OR_IMPORT_NOT_DELETED']);
+                    
+                    return new JsonResponse( [
+                        'status' => 'error',
+                        'error' => trans('import.remove.destroy_error', ['error' => 'File or Import delete not completed'])
+                    ], 422);
+                }
+
+                return response()->json([
+                    'status' => 'ok',
+                    'message' => trans('import.remove.removed_message', ['import' => $import->file->name])
+                ]);
+
+            }
+            
+            return response('Format not supported.', 400);
+        
+        }catch(ForbiddenException $ex){
+
+            \Log::error('Import destroy', ['user_id' => $user->id, 'import_id' => $id, 'exception' => $ex]);
+
+            return new JsonResponse( [
+                    'status' => 'error',
+                    'error' => $ex->getMessage()
+                ], 422);
+
+        }catch(\Exception $ex){
+
+            \Log::error('Import destroy', ['user_id' => $user->id, 'import_id' => $id, 'exception' => $ex]);
+
+            return new JsonResponse( [
+                    'status' => 'error',
+                    'error' => $ex->getMessage()
+                ], 500);
+
+        }
+        
+    }
+    
+    
+     /**
+     * Reset the payload attempts.
+     *
+     * copied from https://github.com/laravel/framework/blob/2a38acf7ee2882d831a3b9a1361a710e70ffa31e/src/Illuminate/Queue/Console/RetryCommand.php
+     *
+     * @param  string  $payload
+     * @return string
+     */
+    protected function resetAttempts($payload)
+    {
+        $payload = json_decode($payload, true);
+        if (isset($payload['attempts'])) {
+            $payload['attempts'] = 1;
+        }
+        return json_encode($payload);
+    }
 }
