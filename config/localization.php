@@ -184,6 +184,8 @@ return [
         'errors.generic_text',
         'errors.generic_text_alt',
         'errors.generic_title',
+        'errors.preference_not_saved_title',
+        'errors.preference_not_saved_text',
         
         'panels.loading_message',
         'panels.load_error',

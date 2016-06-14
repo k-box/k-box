@@ -257,6 +257,10 @@ class DocumentsService {
 		}
 
 		$institution = $this->adapter->getInstitution( \Config::get('dms.institutionID') );
+		
+		if(!is_null($owner->institution_id)){
+			$institution = $owner->institution;
+		}
 
 		$document_type = \KlinkDocumentUtils::documentTypeFromMimeType( $file->mime_type );
 		$local_document_id = substr($file->hash, 0, 6);
@@ -274,9 +278,9 @@ class DocumentsService {
             'mime_type' => $file->mime_type,
             'visibility' => $visibility,
             'document_type' => $document_type,
-            'user_owner' => $file->user->name . ' <' . $file->user->email . '>',
-            'user_uploader' => $file->user->name . ' <' . $file->user->email . '>',
-            'owner_id' => $file->user_id,
+            'user_owner' => $owner->name . ' <' . $owner->email . '>',
+            'user_uploader' => $owner->name . ' <' . $owner->email . '>',
+            'owner_id' => $owner->id,
             'file_id' => $file->id,
             'created_at' => $file->created_at,
             'status' => DocumentDescriptor::STATUS_PENDING
@@ -310,6 +314,8 @@ class DocumentsService {
 			$descr = $descr->mergeWithKlinkDocumentDescriptor( $returned_descriptor );
 
 			$descr->status = DocumentDescriptor::STATUS_INDEXED;
+            
+            $descr->last_error = null;
 
 			$descr->save();
 
@@ -320,6 +326,8 @@ class DocumentsService {
 		}catch(\InvalidArgumentException $kex){
 
 			$descr->status = DocumentDescriptor::STATUS_ERROR;
+            
+            $descr->last_error = $kex;
 
 			$descr->save();
 
@@ -328,13 +336,15 @@ class DocumentsService {
 			\Log::error('Error indexing document into K-Link', array('context' => 'DocumentsService', 'param' => $file->toArray(), 'exception' => $kex));
 
 			if($return_also_if_indexing_error){
-				return array('descriptor' => $descr, 'error' => $kex);
+				return $descr;
 			}
 			
 			throw $kex;
 		}catch(\KlinkException $kex){
 
 			$descr->status = DocumentDescriptor::STATUS_ERROR;
+            
+            $descr->last_error = $kex;
 
 			$descr->save();
 
@@ -343,20 +353,22 @@ class DocumentsService {
 			\Log::error('Error indexing document into K-Link', array('context' => 'DocumentsService', 'param' => $file->toArray(), 'exception' => $kex));
 
 			if($return_also_if_indexing_error){
-				return array('descriptor' => $descr, 'error' => $kex);
+				return $descr;
 			}
 			
 			throw $kex;
 		}catch(\Exception $kex){
 
 			$descr->status = DocumentDescriptor::STATUS_ERROR;
+            
+            $descr->last_error = $kex;
 
 			$descr->save();
 
 			\Log::error('Error indexing document into K-Link', array('context' => 'DocumentsService', 'param' => $file->toArray(), 'exception' => $kex));
 
 			if($return_also_if_indexing_error){
-				return array('descriptor' => $descr, 'error' => $kex);
+				return $descr;
 			}
 			
 			throw $kex;
@@ -404,16 +416,32 @@ class DocumentsService {
 			$descriptor = $descriptor->mergeWithKlinkDocumentDescriptor( $returned_descriptor );
 
 			$descriptor->status = DocumentDescriptor::STATUS_INDEXED;
+            
+            $descriptor->last_error = null;
 
 			$descriptor->save();
 
 			\Cache::flush();
 
 			return $descriptor;
+            
+        }catch(\InvalidArgumentException $kex){
+
+			$descriptor->status = DocumentDescriptor::STATUS_ERROR;
+            
+            $descriptor->last_error = $kex;
+
+			$descriptor->save();
+
+			\Log::error('Error re-indexing document into K-Link', array('context' => 'DocumentsService', 'param' => $descriptor->toArray(), 'exception' => $kex));
+			
+			throw $kex;
 
 		}catch(\KlinkException $kex){
 
 			$descriptor->status = DocumentDescriptor::STATUS_ERROR;
+            
+            $descriptor->last_error = $kex;
 
 			$descriptor->save();
 
@@ -424,6 +452,8 @@ class DocumentsService {
 		}catch(\Exception $kex){
 
 			$descriptor->status = DocumentDescriptor::STATUS_ERROR;
+            
+            $descriptor->last_error = $kex;
 
 			$descriptor->save();
 

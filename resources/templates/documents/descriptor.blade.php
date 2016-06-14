@@ -33,18 +33,24 @@
 
 	<div class="badges">
 		
+		@if( isset($badge_public) && $badge_public )
+		
+			<div class="badge public" title="{{trans('documents.descriptor.is_public')}}">
+				<span class="icon-social-black icon-social-black-ic_public_black_24dp"></span>
+			</div>
+		
+		@elseif( isset($badge_private) && $badge_private )
+
+			<div class="badge private" title="{{trans('documents.descriptor.private')}}">
+				<span class="icon-action-black icon-action-black-ic_lock_black_24dp"></span>
+			</div>
+
+		@endif
+		
 		@if( isset($badge_shared) && $badge_shared )
 
 			<div class="badge shared" title="{{trans('documents.descriptor.shared')}}">
 				<span class="icon-social-black icon-social-black-ic_people_black_24dp"></span>
-			</div>
-
-		@endif
-
-		@if( isset($badge_private) && $badge_private )
-
-			<div class="badge private" title="{{trans('documents.descriptor.private')}}">
-				<span class="icon-action-black icon-action-black-ic_lock_black_24dp"></span>
 			</div>
 
 		@endif

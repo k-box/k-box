@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\Debug\Exception\FatalErrorException;
 use KlinkException;
+use ErrorException;
 
 class Handler extends ExceptionHandler {
 
@@ -89,7 +90,7 @@ class Handler extends ExceptionHandler {
 		        		return response($message, 404);
 		        	}
 					
-					return response()->make(view('errors.404', ['error_message' => $message]), 404);
+					return response()->make(view('errors.404', ['error_message' => $message, 'reason' => $message]), 404);
 				}
 				else if($e->getStatusCode(413)){
 					if($request->wantsJson()){
@@ -112,7 +113,7 @@ class Handler extends ExceptionHandler {
 	        		return response(trans('errors.404_text'), 404);
 	        	}
 	
-	            return response()->make(view('errors.404'), 404);
+	            return response()->make(view('errors.404', ['reason' => 'ModelNotFoundException ' . $e->getMessage()]), 404);
 	        }
 			else if($e instanceof TokenMismatchException)
 	        {
@@ -125,17 +126,6 @@ class Handler extends ExceptionHandler {
 	
 	            return response(trans('errors.token_mismatch_exception'), 401);
 	        }
-			else if($e instanceof \Symfony\Component\Debug\Exception\FatalErrorException)
-	        {
-	        	if($request->wantsJson()){
-	        		return new JsonResponse(array('error' => trans('errors.500_text')), 500);
-	        	}
-				else if($request->ajax()){
-	        		return response(trans('errors.500_text'), 500);
-	        	}
-	
-	            return response()->make(view('errors.500'), 500);
-	        }
 			else if($e instanceof ForbiddenException)
 	        {
 	        	if($request->wantsJson()){
@@ -145,7 +135,7 @@ class Handler extends ExceptionHandler {
 	        		return response(trans('errors.403_text'), 403);
 	        	}
 	
-	            return response()->make(view('errors.403'), 403);
+	            return response()->make(view('errors.403', ['reason' => 'ForbiddenException ' . $e->getMessage()]), 403);
 	        }
 			else if($e instanceof KlinkException)
 	        {
@@ -166,11 +156,29 @@ class Handler extends ExceptionHandler {
 	        		return response(trans('errors.fatal', array('reason' => $e->getMessage())), 500);
 	        	}
 	
-	            return response(trans('errors.fatal', array('reason' => $e->getMessage())), 500);
+	            return response()->make(view('errors.fatal', ['reason' => 'FatalErrorException ' . $e->getMessage()]), 500);
+			}
+            else if($e instanceof ErrorException){
+				if($request->wantsJson()){
+	        		return new JsonResponse(array('error' => trans('errors.fatal', array('reason' => $e->getMessage()))), 500);
+	        	}
+				else if($request->ajax()){
+	        		return response(trans('errors.fatal', array('reason' => $e->getMessage())), 500);
+	        	}
+	
+                return response()->make(view('errors.500', ['reason' => 'ErrorException ' . $e->getMessage()]), 500);
 			}
 			else
 			{
-				return parent::render($request, $e);
+                if($request->wantsJson()){
+	        		return new JsonResponse(array('error' => trans('errors.fatal', array('reason' => $e->getMessage()))), 500);
+	        	}
+				else if($request->ajax()){
+	        		return response(trans('errors.fatal', array('reason' => $e->getMessage())), 500);
+	        	}
+	
+                return response()->make(view('errors.500', ['reason' => $e->getMessage()]), 500);
+				// return parent::render($request, $e);
 			}
 	
 		}

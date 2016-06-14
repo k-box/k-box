@@ -30,9 +30,11 @@ $factory->defineAs(KlinkDMS\User::class, 'admin', function (Faker\Generator $fak
 
 $factory->define(KlinkDMS\File::class, function (Faker\Generator $faker) {
     
+    $hash = $faker->sha256 . '' . $faker->sha256;
+    
     return [
         'name' => $faker->sentence,
-        'hash' => $faker->sha256,
+        'hash' => $hash,
         'path' => base_path('tests/data/example.pdf'),
         'mime_type' => 'application/pdf',
         'user_id' => factory(KlinkDMS\User::class)->create()->id, 

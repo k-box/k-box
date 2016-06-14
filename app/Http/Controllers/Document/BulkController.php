@@ -348,7 +348,7 @@ class BulkController extends Controller {
 	public function makePublic(AuthGuard $auth, BulkMakePublicRequest $request){
 		
 		
-		\Log::info('Bulk Make Public', ['params' => $request]);
+		\Log::info('Bulk Make Public', ['params' => $request->all()]);
 
 		try{
 

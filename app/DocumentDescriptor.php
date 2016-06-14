@@ -69,6 +69,7 @@ class DocumentDescriptor extends Model {
     updated_at
     status
     is_public: boolean
+    last_error: json 
     
     */
 
@@ -85,6 +86,12 @@ class DocumentDescriptor extends Model {
     protected $dates = ['deleted_at'];
 
     protected $fillable = ['owner_id','institution_id', 'file_id','local_document_id','title','hash','document_uri','thumbnail_uri','mime_type','visibility','document_type','user_owner','user_uploader','abstract','language','authors'];
+    
+    protected $casts = [
+        // 'last_error' => 'array',
+    ];
+    
+    protected $hidden = [ 'last_error' ];
 
     public function file(){
         
@@ -349,12 +356,12 @@ class DocumentDescriptor extends Model {
     public function toKlinkDocumentDescriptor($need_public = false)
     {
 
-
-        $institution = $this->institution->klink_id;
+        $inst = $this->institution;
         
-        if(!is_null($this->owner) && !is_null($this->owner->getInstitution())){
-            $institution = $this->owner->institution->klink_id;
-        } 
+        $institution = config('dms.institutionID'); //fallback if institution is null
+        if(!is_null($inst)){
+            $institution = $this->institution->klink_id;
+        }
 
         $descr = \KlinkDocumentDescriptor::create(
             $institution,
@@ -471,7 +478,10 @@ class DocumentDescriptor extends Model {
 
     }
 
-
+    public function getIsPublicAttribute($value)
+    {
+        return filter_var($value, FILTER_VALIDATE_BOOLEAN);
+    }
 
     public function isMine()
     {
@@ -504,6 +514,68 @@ class DocumentDescriptor extends Model {
     
     public function getCreatedAt(){
         return $this->created_at->format(trans('units.date_format'));
+    }
+    
+    public function setLastErrorAttribute($value){
+        
+        
+        if(is_a($value, '\Exception')){
+            $obj = new \stdClass;
+            $obj->message = $value->getMessage();
+            $obj->type = get_class($value);
+            $obj->payload = $value;
+            
+            $value = $obj;
+        }
+        else if(is_object($value)){
+            $obj = new \stdClass;
+            $obj->payload = $value;
+            $obj->type = get_class($value);
+            $value = $obj;
+        }
+        else if(is_array($value)){
+            $obj = new \stdClass;
+            $obj->payload = $value;
+            $obj->type = 'array';
+            $value = $obj;
+        }
+        else if( is_string($value) || is_numeric($value)  || is_bool($value) ){
+            $obj = new \stdClass;
+            $obj->payload = $value;
+            $obj->type = is_string($value) ? 'string' : (is_bool($value) ? 'boolean' : 'number');
+            $value = $obj;
+        }
+        else if( !is_null($value) ){
+            $obj = new \stdClass;
+            $obj->payload = $value;
+            $obj->type = 'unknown';
+            $value = $obj;
+        }
+        
+        $this->attributes['last_error'] = is_null($value) ? null : json_encode($value);
+    }
+    
+    /**
+     * Attribute modifier for last_error
+     * Transform the encoded last_error in the database in a plain PHP object
+     *
+     * The returned object could have the following properties:
+     * - `type`: the type of the entity stored
+     * - `payload`: the original object stored
+     * - `message`: (optional) The exception message, if the `payload` was an Exception instance or sub-class
+
+     * The `type` property that can assume the following values
+     * - `string`: in case the payload is a string
+     * - `boolean`: in case the payload is a boolean
+     * - `number`: in case the payload is a number
+     * - `array`: in case the payload is an array
+     * - class name: in case the payload is an object or an exception
+     *
+     */
+    public function getLastErrorAttribute($value){
+        
+        return is_null($value) ? null : json_decode($value);
+        
     }
 
 }

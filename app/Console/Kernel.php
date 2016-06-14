@@ -28,6 +28,7 @@ class Kernel extends ConsoleKernel {
         'KlinkDMS\Console\Commands\DmsLanguagePublishCommand',
 		'KlinkDMS\Console\Commands\ThumbnailGenerationCommand',
 		'KlinkDMS\Console\Commands\ImportJobPayloadFetcher',
+		'KlinkDMS\Console\Commands\DocumentsCheckInstitutionCommand',
 	];
 
 	/**

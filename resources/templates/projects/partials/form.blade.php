@@ -27,7 +27,7 @@
     
     <p>
         
-        <button type="submit">{{$submit_btn}}</button> or <a href="@if(isset($cancel_route)) {{$cancel_route}} @else{{route('projects.index')}}@endif">{{trans('projects.labels.cancel')}}</a>
+        <button type="submit">{{$submit_btn}}</button> {{trans('actions.or_alt')}} <a href="@if(isset($cancel_route)) {{$cancel_route}} @else{{route('projects.index')}}@endif">{{trans('projects.labels.cancel')}}</a>
     </p>
 
 

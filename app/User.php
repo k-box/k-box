@@ -18,6 +18,8 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
   const OPTION_LIST_TYPE = "list_style";
   
   const OPTION_LANGUAGE = "language";
+  
+  const OPTION_TERMS_ACCEPTED = "terms_accepted";
 
 
   /*
@@ -177,6 +179,13 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 
 
     return  (!is_null($opt)) ? $opt->value : 'cards';
+  }
+  
+  public function optionTermsAccepted(){
+    $opt = $this->getOption(self::OPTION_TERMS_ACCEPTED, null);
+
+
+    return  (!is_null($opt)) ? $opt->value : false;
   }
 
   // option kqy, value

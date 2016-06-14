@@ -60,5 +60,7 @@
 		</div>
 
 	</div>
+	
+	@include('dashboard.terms_notice')
 
 </header>

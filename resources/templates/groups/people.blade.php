@@ -110,8 +110,6 @@
 					
 					
 					<h4><a href="{{route('people.index')}}/{# el.id #}">{# el.name #}</a> <span rv-on-click="renameGroup" title="{{trans('actions.rename_people_group')}}" class="btn-icon icon-content-black icon-content-black-ic_create_black_24dp"></span></h4>
-					
-					<span class="description">{% if(el.is_institution_group){ %} Institution group {% }else{ %} Personal group {% } %}</span>
 	
 					<div class="details users-inside">
 						{% _.forEach(el.people, function(u) { %}

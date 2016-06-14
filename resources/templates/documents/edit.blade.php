@@ -90,24 +90,15 @@
 <div class="meta collections">
 			<label>{{trans('panels.groups_section_title')}}</label>
 
-			@if(isset($is_in_collection) && $is_in_collection)
-
-
-				@foreach($groups as $group)
-
-					<div class="badge" @if($group->color) data-color="{{$group->color}}" @endif>
-						
-						{{$group->name}}
-						
-					</div>
-
-				@endforeach
-
-			@else
-
-				<p>{{trans('panels.not_in_collection')}}</p>
-
-			@endif
+			@include('documents.partials.collections', [
+				'document_is_trashed' => true,
+				'user_can_edit_public_groups' => false,
+				'user_can_edit_private_groups' => false,
+				'document_id' =>  false,
+				'collections' => $groups,
+				'use_groups_page' => $use_groups_page,
+				'is_in_collection' => isset($is_in_collection) && $is_in_collection 
+			])
 
 		</div>
 
@@ -135,7 +126,7 @@
 			<select class="u-full-width" id="language" name="language" @if(!$document->isMine() || !$can_edit_document) disabled @endif>
 			<option value="en" @if($document->language == 'en') selected @endif>{{trans('languages.en')}}</option>
 			<option value="ru" @if($document->language == 'ru') selected @endif>{{trans('languages.ru')}}</option>
-			<option value="kg" @if($document->language == 'kg') selected @endif>{{trans('languages.kg')}}</option>
+			<option value="ky" @if($document->language == 'ky') selected @endif>{{trans('languages.ky')}}</option>
 			<option value="de" @if($document->language == 'de') selected @endif>{{trans('languages.de')}}</option>
 			<option value="fr" @if($document->language == 'fr') selected @endif>{{trans('languages.fr')}}</option>
 			<option value="it" @if($document->language == 'it') selected @endif>{{trans('languages.it')}}</option>

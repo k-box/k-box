@@ -185,6 +185,36 @@ window.DMS = (function(_$, _nprogress, _rivets, _alert){
 			_base  = _$("meta[name='base']").attr('content');
 			longRunningMsg = _$('#long-running-message');
             Lang = lang;
+			
+			var accept_terms = _$('.js-terms-accept-dialog');
+			
+			if(accept_terms.length === 1){
+				
+				if(window.localStorage && !window.localStorage['terms_accepted']){
+					accept_terms.removeClass('alert__hidden');
+				}
+				
+				accept_terms.on('click', 'button', function(evt){
+					var _that = _$(this);
+					var action = _that.data('action');
+					
+					if(action==='close'){
+						accept_terms.addClass('alert__hidden');
+						
+						if(window.localStorage){
+							window.localStorage.setItem('terms_accepted', true);
+						}
+					}
+					else if(action==='accept'){
+						module.Services.Options.acceptTerms(function(){
+							accept_terms.addClass('alert__hidden');
+						});
+					} 
+				});
+				
+				
+				
+			}
 		},
 
 		/**
@@ -362,6 +392,8 @@ window.DMS = (function(_$, _nprogress, _rivets, _alert){
 					type: "input",
 					showCancelButton: true,
 					closeOnConfirm: false,
+					confirmButtonText: Lang.trans('actions.dialogs.ok_btn'),
+					cancelButtonText: Lang.trans('actions.dialogs.cancel_btn'),
 //					animation: "slide-from-top",
 					inputPlaceholder: placeholder }, 
 					function(inputValue){
@@ -576,6 +608,14 @@ window.DMS = (function(_$, _nprogress, _rivets, _alert){
 			Options: {
 				saveListStyle: function(style, success, error){
 					module.Ajax.post(module.Paths.USER_PROFILE_OPTIONS, {list_style: style}, success, error);
+				},
+				acceptTerms: function(callback){
+					module.Ajax.post(module.Paths.USER_PROFILE_OPTIONS, {terms_accepted: '1'}, callback, function(){
+						
+						module.MessageBox.error(Lang.trans('errors.preference_not_saved_title'), Lang.trans('errors.preference_not_saved_text'));
+						
+						callback();
+					});
 				}
 			}
 

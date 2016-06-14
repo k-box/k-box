@@ -22,6 +22,8 @@ class DocumentUpdateRequest extends Request {
 	public function rules()
 	{
 		// $action = $this->route()->getAction();
+		
+		$max_size = \Config::get('dms.max_upload_size');
 
 		$tests = [
 			'remove_group' => 'sometimes|required|exists:groups,id',
@@ -33,7 +35,7 @@ class DocumentUpdateRequest extends Request {
 			'visibility' => 'sometimes|required|string|in:public,private',
 		    
 		    // if this is present a new file version will be created and will inherit the 
-			'document' => 'sometimes|required|between:0,30000', //new document version
+			'document' => 'sometimes|required|between:0,' . $max_size, //new document version
 			
 		];
 

@@ -25,6 +25,9 @@ class DmsUpdateCommand extends Command {
 	 */
 	protected $description = 'Perform the installation/update steps for the K-Link DMS.';
 
+
+	private $retry = 2;
+
 	/**
 	 * Create a new command instance.
 	 *
@@ -260,17 +263,35 @@ class DmsUpdateCommand extends Command {
 
 	private function isInstalled()
 	{
+		
+		try{
+			$exists_options_table = \Schema::hasTable('options');
 
-		$exists_options_table = \Schema::hasTable('options');
+			$exists_users_table = \Schema::hasTable('users');
 
-		$exists_users_table = \Schema::hasTable('users');
+			if (!$exists_options_table && !$exists_users_table)
+			{
+				return false;
+			}
 
-		if (!$exists_options_table && !$exists_users_table)
-		{
-		    return false;
+			return true;
+		}catch(\PDOException $ex){
+			// connection refused
+			if($ex->getCode() === 2002 && $this->retry >= 0){
+				
+				$this->log('Database connection error. Retry ('. $this->retry .')');
+					
+				sleep( 8 - $this->retry );
+				
+				$this->retry = $this->retry - 1;
+				return $this->isInstalled();
+			}
+			
+			throw $ex;
+			
 		}
 
-		return true;
+		
 	}
 
 	private function isSeeded()

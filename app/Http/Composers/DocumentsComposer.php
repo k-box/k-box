@@ -107,7 +107,7 @@ class DocumentsComposer {
         }
 
         if(\Auth::check() && !is_null($docOrItem)){
-// dd($docOrItem);
+
             if(class_basename(get_class($docOrItem)) === 'DocumentDescriptor'){
 
                 $document = $docOrItem;
@@ -116,6 +116,7 @@ class DocumentsComposer {
 
 
                 $view->with('badge_private', $document->isPrivate());
+                $view->with('badge_public', $document->isPublic());
 
                 $view->with('is_starrable', true);
 

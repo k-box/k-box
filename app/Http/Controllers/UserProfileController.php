@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\Guard as Auth;
 use Illuminate\Http\Request;
 use KlinkDMS\User;
 use KlinkDMS\Http\Requests\ProfileUpdateRequest;
+use Illuminate\Http\JsonResponse;
 use KlinkDMS\Http\Requests\UserOptionUpdateRequest;
 
 class UserProfileController extends Controller {
@@ -118,6 +119,20 @@ class UserProfileController extends Controller {
 			$user->save();
 
 		}
+		
+		if($request->has(User::OPTION_TERMS_ACCEPTED)){
+
+			$user->setOption(User::OPTION_TERMS_ACCEPTED, filter_var($request->get(User::OPTION_TERMS_ACCEPTED), FILTER_VALIDATE_BOOLEAN));
+
+			$user->save();
+
+		}
+		
+		if($request->wantsJson()){
+			return new JsonResponse(['status' => 'ok'], 200);
+		}
+		
+		response(200);
 
 	}
 

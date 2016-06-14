@@ -1,7 +1,8 @@
 stages:
   - build
-  - docker
   - test
+  - build_production
+  - build_docker
   - deploy
 
 cache:
@@ -12,8 +13,39 @@ cache:
   - node_modules/
   - resources/assets/vendor
 
-composer_npm:
+build_dev:
+# performs only composer install with dev dependencies
   stage: build
+  script:
+    - mv env.ci .env
+    - composer install --prefer-dist
+    - mv .env env.ci
+  except:
+    - triggers
+    - tags
+  tags:
+    - php
+    - nodejs
+    - shell
+    
+linting:
+# check if the php files contains syntax error and mess-detector
+  stage: test
+  script:
+    - mv env.ci .env
+    - ./vendor/bin/parallel-lint --exclude vendor .
+    - mv .env env.ci
+  except:
+    - triggers
+    - tags
+  tags:
+    - php
+    - nodejs
+    - shell
+
+build_prod:
+# perform the build to be used in production
+  stage: build_production
   script:
     - mv env.ci .env
     - composer install --no-dev --prefer-dist
@@ -22,51 +54,54 @@ composer_npm:
     - gulp --production
     - php artisan dms:lang-publish
     - mv .env env.ci
-    - rm -f .bowerrc
-    - rm -f bower.json
-    - rm -f gulpfile.js
-    - rm -f composer.json
-    - rm -f composer.lock
-    - rm -f testing.env
-    - rm -f phpunit.xml
-    - rm -f package.json
     - sed -i "s/BUILDCODE/${CI_BUILD_REF}/g" ./config/dms.php
-    - tar --transform 's,^.,dms,' -cz . --exclude=.git --exclude=.gitignore --exclude=.gitattributes --exclude=.gitlab-ci.yml --exclude=tests --exclude=node_modules --exclude=resources/assets/js --exclude=resources/assets/less --exclude=resources/assets/sass --exclude=resources/assets/vendor > /var/www/temp/builds/klink-dms-$CI_BUILD_REF_NAME.tar.gz
+    - tar --transform 's,^.,dms,' -cz . $TAR_PARAMETERS > ${BUILD_FOLDER}/klink-dms-$CI_BUILD_REF_NAME.tar.gz
   only:
-    - master
-    - project-edition
-    - project-edition-development
+    - release
+    - triggers
   tags:
     - php
     - nodejs
     - shell
-    
-docker_image_pe:
-  stage: docker
+
+build_docker_test_image:
+  stage: build_docker
   script: 
-    - cp /var/www/temp/builds/klink-dms-$CI_BUILD_REF_NAME.tar.gz /opt/klink-docker/dms/downloads/dms.tar.gz
-    - cd /opt/klink-docker
-    - docker-compose -f klink-services.yml build dmsproject
+    - cp ${BUILD_FOLDER}/klink-dms-$CI_BUILD_REF_NAME.tar.gz ${TEST_DOCKER_FOLDER}/dms/downloads/dms.tar.gz
+    - cd ${TEST_DOCKER_FOLDER}
+    - docker-compose -f klink-services.yml -p ${TEST_INSTANCE_PREFIX} build dmsproject 
   only:
-    - project-edition
-  tags:
-    - shell
-    
-docker_image_se:
-  stage: docker
-  script: 
-    - cd /opt/klink-docker
-    - docker-compose -f klink-services.yml build dms
-  only:
-    - master
+    - triggers
   tags:
     - shell
 
-test_deploy:
+    
+run_test_image:
   stage: deploy
   script: 
-    - docker-compose -f /opt/dms_klink_asia/klink-docker/docker-compose-kbox.yml up -d frontend
+    - cd ${TEST_DOCKER_FOLDER}
+    - docker-compose -f docker-compose-kbox.yml -p ${TEST_INSTANCE_PREFIX} stop && docker-compose -f docker-compose-kbox.yml -p ${TEST_INSTANCE_PREFIX} rm -v -f && docker-compose -f docker-compose-kbox.yml -p ${TEST_INSTANCE_PREFIX} up -d frontend
   only:
-    - project-edition
+    - triggers
+  tags:
+    - shell
+    
+build_docker_prod_image:
+  stage: build_docker
+  script: 
+    - cp ${BUILD_FOLDER}/klink-dms-$CI_BUILD_REF_NAME.tar.gz ${PROD_BUILD_DOCKER_FOLDER}/dms/downloads/klink-dms-project-edition.tar.gz
+    - cd ${PROD_BUILD_DOCKER_FOLDER}
+    - docker-compose -f klink-services.yml build dmsproject
+  only:
+    - release
+  tags:
+    - shell
+    
+dms_klink_asia_deploy:
+  stage: deploy
+  script: 
+    - docker-compose -f ${PROD_DOCKER_FOLDER}/docker-compose-kbox.yml up -d frontend
+  only:
+    - release
   tags:
     - shell

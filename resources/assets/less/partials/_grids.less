@@ -88,7 +88,35 @@
 	}
 
 	.badges {
-		display: none;
+		display: inline-block;
+
+		padding: 8px;
+
+		.badge {
+
+			height: @base-padding;
+			
+			width: 24px;
+
+			opacity: 1;
+
+			display: block;
+
+			padding: 8px;
+
+			margin-bottom: 8px;
+
+			background-color: @background-color;
+
+			border-radius: 24px;
+
+			box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.1);
+
+
+			&.shared {
+				opacity: 0;
+			}
+		}
 	}
 
 	// Item style
@@ -324,14 +352,6 @@
 
 	}
 
-	.link {
-		// max-width: 90%;
-	}
-
-	.title {
-		// max-width: 78%;
-	}
-
 	.item {
 
 		&:hover {
@@ -393,6 +413,20 @@
 		border-radius: 24px;
 
 		box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.1);
+	}
+	
+	.badges {
+		display: block;
+		position: absolute;
+		left: 40px;
+		bottom: 0;
+		z-index: 100;
+		
+		height: 32px;
+
+		.badge.shared {
+			opacity: 0;
+		}
 	}
 
 	.meta-label {
@@ -558,28 +592,14 @@
 		right: -6px;
 		top: 50px;
 		z-index: 10;
+		
+		height: auto;
 
 		padding: 8px;
-
-		// background-color: @background-color;
-
+		
 		.badge {
 
-			height: @base-padding;
-
-			opacity: 0;
-
-			display: block;
-
-			padding: 8px;
-
-			margin-bottom: 8px;
-
-			background-color: @background-color;
-
-			border-radius: 24px;
-
-			box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.1);
+			opacity: 0.8;
 
 		}
 	}
@@ -653,12 +673,26 @@
 
 
 
-		.icon {
+		.icon, .badge, .badges {
 			line-height: 24px;
 
 			vertical-align: middle;
 			
 			background-color: transparent;
+		}
+		
+		.badges {
+			padding: 0;
+		}
+		
+		.badge {
+			display: none;
+			margin-bottom: 0;
+			box-shadow: none;
+			
+			&.public, &.private {
+				display: inherit;
+			}
 		}
 
 		.title {
@@ -703,14 +737,14 @@
 			line-height: 24px;
 			vertical-align: middle;
 			max-width: 140px;
-			min-width: 140px;
+			min-width: 120px;
 			
 			&.modified-date {
 				max-width: initial;
 			}
 			
 			&.institution-name {
-				max-width: 140px;
+				max-width: 120px;
 				.text-truncate();
 				
 				display: none;
@@ -1080,6 +1114,8 @@ ul.blocks {
 
 .tree-view {
 	
+	margin-bottom: 1em;
+	
 	.magic {
 		visibility: hidden;
 		opacity: 0;
@@ -1238,6 +1274,8 @@ ul.blocks {
 
 		padding: 6px 0;
 		display: block;
+		
+		transition: background 0.2s linear;
 
 		&.current {
 			background-color: #fff;
@@ -1282,5 +1320,9 @@ ul.blocks {
 			display: none;
 		}
 	}
+}
+
+.newly-created {
+	background: yellow;
 }
 

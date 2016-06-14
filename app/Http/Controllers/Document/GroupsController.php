@@ -251,7 +251,7 @@ class GroupsController extends Controller {
 			
 			$group_ids = array($group->toKlinkGroup()); 
 			
-			$group_ids = array_merge($group_ids, $this->service->getCollectionsAccessibleByUserFrom($user, $group)->map(function($grp){
+			$group_ids = array_merge($group_ids, $this->service->getCollectionsAccessibleByUserFrom($user, $group)->take(80)->map(function($grp){
 				return $grp->toKlinkGroup();	
 			})->all());
 			

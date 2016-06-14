@@ -94,9 +94,9 @@ Nothing happens: something should happen
 Screenshots, documents
 
 # Environment
-K-DMS:
-Browser:
-OS:
+* K-DMS:
+* Browser:
+* OS:
 ```
 
 ### Features

@@ -6,9 +6,9 @@
 			<input type="radio" value="remote"  rv-on-change="showRemotePanel" name="from" id="remote" checked="true"><label for="remote">{{trans('import.form.select_web')}}</label>
 		</div>
 
-		<div class="radio-tab-item">
+		<!--<div class="radio-tab-item">
 			<input type="radio" value="folder" rv-on-change="showFolderPanel" name="from" id="folder"><label for="folder">{{trans('import.form.select_folder')}}</label>
-		</div>
+		</div>-->
 
 	</div>
 
@@ -19,10 +19,6 @@
 		<button type="submit" class="button-primary" rv-enabled="canImport">
 	    	{{trans('import.form.submit_folder')}}
 	    </button>
-
-    	<p class="help">
-    		{!!trans('import.form.help_folder', ['help_page_route' => route('importhelp') ])!!}
-    	</p>
 
 	</div>
 

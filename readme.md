@@ -1,17 +1,14 @@
 
-Project Edition [![build status](https://git.klink.asia/ci/projects/1/status.png?ref=project-edition)](https://git.klink.asia/ci/projects/1?ref=project-edition)
 
-Project Edition (dev) [![build status](https://git.klink.asia/ci/projects/1/status.png?ref=project-edition-development)](https://git.klink.asia/ci/projects/1?ref=project-edition-development)
+[![build status](https://git.klink.asia/ci/projects/1/status.png?ref=master)](https://git.klink.asia/ci/projects/1?ref=master) ![latest version](https://img.shields.io/badge/version-0.9.0-blue.svg) ![dev version](https://img.shields.io/badge/dev-0.9.1-orange.svg)
 
 # K-Link DMS
 
-> unleash the power of K-Link
-
-**version 0.8.0**
+**version 0.9.0**
 
 The K-Link DMS is built on top of Laravel 5.0.
 
-This readme file is reserved for **developers**, nothing about features and how to interact with the DMS from a user's perspective will be written here. For user oriented documentation please see the folder `docs/user` available in the repository.
+This readme file is reserved for **developers**. For user oriented documentation please see the folder [`docs/user`](./docs/user/en) available in the repository.
 
 
 ## Setting up the development environment
@@ -414,23 +411,16 @@ If an alias is used remember to update the `RewriteBase` rule in `.htaccess` fil
 
 
 
-## Unit Test
+# Testing
 
-Unit test is done with PHPUnit and the Laravel testing framework. 
+## Unit Tests
 
-To perform the unit tests you must have done a full `composer install` with also the development dependencies.
+See `docs/developer/testing/unit-tests.md`
 
-environment: `testing`
 
-testing environment configuration is in the `testing.env` file and in the `phpunit.xml` file.
+## Test Instance
 
-Prior to the execution of the unit tests you must migrate and seed the database
-
-```bash
-php artisan migrate --env=testing
-
-php artisan db:seed --env=testing
-```
+See `docs/developer/testing/test-instance.md`
 
 
 # Laravel 5.1 LTS Upgrades

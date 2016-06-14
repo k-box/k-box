@@ -135,30 +135,16 @@
 
 		<div class="meta collections">
 			<h6 class="title">{{trans('panels.groups_section_title')}}</h6>
-
-			@if(isset($is_in_collection) && $is_in_collection)
-
-
-				@foreach($groups as $group)
-
-					<div class="badge" @if($group->color) data-color="{{$group->color}}" @endif>
-						<a href="{{route( $use_groups_page ? 'documents.groups.show' : 'shares.group' , $group->id)}}" class="badge-link" title="{{ trans('panels.collection_open', ['collection' => $group->name ])}}">
-							{{$group->name}}
-						</a>
-						@if(!$item->trashed() && (($group->is_private && $user_can_edit_private_groups) || (!$group->is_private && $user_can_edit_public_groups)))
-							<a href="#remove" data-action="removeGroup" data-group-id="{{$group->id}}" data-document-id="{{$item->id}}" class="badge-remove" title="{{ trans('panels.collection_remove', ['collection' => $group->name ])}}">
-								X
-							</a>
-						@endif
-					</div>
-
-				@endforeach
-
-			@else
-
-				<p>{{trans('panels.not_in_collection')}}</p>
-
-			@endif
+			
+			@include('documents.partials.collections', [
+				'document_is_trashed' => $item->trashed(),
+				'user_can_edit_public_groups' => $user_can_edit_public_groups,
+				'user_can_edit_private_groups' => $user_can_edit_private_groups,
+				'document_id' =>  $item->id,
+				'collections' => $groups,
+				'use_groups_page' => $use_groups_page,
+				'is_in_collection' => isset($is_in_collection) && $is_in_collection 
+			])
 
 		</div>
         
@@ -268,10 +254,7 @@
 				{{trans('panels.meta.institution')}}
 			</div>
 			<div class="nine colums">
-				
-				@if(!is_null($item->owner) && !is_null($item->owner->getInstitution()))
-					{{$item->owner->institution->name}}
-		        @else
+				@if(!is_null($item->institution))
 					{{$item->institution->name}}
 				@endif
 			</div>

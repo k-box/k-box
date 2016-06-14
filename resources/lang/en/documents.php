@@ -58,13 +58,15 @@ return [
 		'image' => 'image|images',
         'geodata' => 'geographic data|geographic data',
         'text-document' => 'textual document|textual documents',
+        'video' => 'video|videos',
+        'archive' => 'archive|archives',
 	),
 
 	'empty_msg' => 'No documents in <strong>:context</strong>',
 
 	'bulk' => array(
 
-		'removed' => ':num element deleted. You can see it in the trash.|:num elements deleted. You can see them in the trash.',
+		'removed' => ':num element deleted.|:num elements deleted.',
 		
 		'permanently_removed' => ':num element permanently deleted.|:num elements permanently deleted.',
 		

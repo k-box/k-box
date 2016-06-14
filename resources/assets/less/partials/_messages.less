@@ -49,12 +49,66 @@
 	  background: @brand-danger;
 	  color: #fff;
 	}
+	
+	&.warning {
+	  background: #e85600;
+	  color: #fff;
+	}
 
 
 	.icon-checkmark, .icon-exclamation {
 	  display: inline-block;
 	  margin-right: 10px;
 	}
+}
+
+.alert__hidden {
+    display: none;
+}
+
+.alert__choice {
+    
+    line-height: 24px;
+    vertical-align: middle;
+    
+    cursor: default;
+	  
+    button, .button {
+        // display: inline-block;
+        margin-bottom: 0;
+        color: inherit;
+        text-transform: initial;
+        background: #444;
+        background: rgba(0,0,0,0.2);
+        border: 0;
+        padding: 6px 12px;
+        line-height: inherit;
+        height: auto;
+        
+        &:first-of-type {
+            margin-left: 15px;
+        }
+        
+        
+        
+        &.primary {
+            background: #333;
+            background: rgba(0,0,0,0.4);
+        }
+        
+        &:hover, &:active {
+            background: #111;
+            
+        }
+    }
+    
+    a {
+        text-decoration: underline;
+        
+        &:hover {
+            color: #000;
+        }
+    }
 }
 
 @keyframes long-running-show-animation {

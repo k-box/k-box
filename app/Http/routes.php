@@ -254,7 +254,7 @@ Route::get('privacy', ['as' => 'privacy', 'uses' => 'SupportPagesController@priv
 
 Route::get('terms', ['as' => 'terms', 'uses' => 'SupportPagesController@terms']);
 
-Route::get('help/import', ['as' => 'importhelp', 'uses' => 'SupportPagesController@importhelp']);
+// Route::get('help/import', ['as' => 'importhelp', 'uses' => 'SupportPagesController@importhelp']);
 Route::get('help', ['as' => 'help', 'uses' => 'SupportPagesController@help']);
 
 

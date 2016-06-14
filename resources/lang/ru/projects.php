@@ -17,21 +17,21 @@ return [
 	'new_button' => 'Новый проект',
 	
 	'create_page_title' => 'Создать новый проект',
-	'edit_page_title' => 'Изменить название проекта :name',
+	'edit_page_title' => 'Изменить :name',
 	
 	'edit_button' => 'Изменить',
 	'delete_button' => 'Удалить',
 
 	'labels' => array(
-		'name' => 'Имя проекта',
-		'description' => 'Описание проекта',
+		'name' => 'Название',
+		'description' => 'Описание',
 		
 		'users' => 'Пользователи',
-		'users_hint' => 'Выберите пользователя для предоставления доступа в проект',
+		'users_hint' => 'Выберите пользователей для предоставления доступа в проект ',
 		
 		
-		'create_submit' => 'Создать проект',
-		'edit_submit' => 'Сохранить проект',
+		'create_submit' => 'Создать',
+		'edit_submit' => 'Сохранить',
 		'cancel' => 'Отменить',
 	),
 	
@@ -40,16 +40,16 @@ return [
 	
 	'errors' => array(
 
-		'exception' => 'Проект не может быть создан. (:exception)',
+		'exception' => 'Невозможно создать проект. (:exception)',
 		
-		'prevent_edit_description' => 'Здесь Вы не можете редактировать коллекцию проекта, пожалуйста, перейдите на <a href=":link">Проекты > Изменить :name</a> для редактирования.',
+		'prevent_edit_description' => 'Изменение проекта возможно в <a href=":link">Проекты > Изменить :name</a>',
 		
 		'prevent_delete_description' => 'Эта проектная коллекция не может быть удалена.'
 	),
 	
-	'project_created' => 'Проект :name был создан',
+	'project_created' => 'Проект :name создан',
 	
-	'project_updated' => 'Проект :name был обновлен',
+	'project_updated' => 'Проект :name обновлен',
 	
 
 ];

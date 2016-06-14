@@ -441,9 +441,10 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
                 
                 DMS.MessageBox.success(Lang.trans('documents.bulk.make_public_success_title'), (data && data.message) ? data.message : Lang.trans('documents.bulk.make_public_success_text_alt'));
                 
+                DMS.navigateReload();
                 
             }, function(obj, err, errText){
-                debugger;
+                
                 if(obj.responseJSON && obj.responseJSON.status === 'error'){
                     DMS.MessageBox.error(Lang.trans('documents.bulk.make_public_error_title'), bj.responseJSON.message);
                 }
@@ -646,6 +647,11 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
                 }
 
                 Panels.dialogOpen(DMS.Paths.GROUPS_CREATE, params, {callbacks: { form_submit_success: function(evt, data){
+
+                    console.log(data);
+                    if(window.sessionStorage && data.id){
+                        window.sessionStorage.setItem('collections-created', data.id);
+                    }
 
                     DMS.navigateReload();
 
@@ -1158,8 +1164,6 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
 
                     elementTitle = currentSelection[0].title;
 
-                    // debugger;
-
                     if(count == 1){
                         deleteTitle = Lang.trans('documents.delete.dialog_title', {document: elementTitle});
                         deleteMessage = Lang.trans('documents.delete.dialog_text', {document: elementTitle});
@@ -1184,7 +1188,7 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
 
                                 if(data.status && data.status === 'ok'){
 
-                                    DMS.MessageBox.success( Lang.trans('documents.delete.deleted'), data.message);
+                                    DMS.MessageBox.success( Lang.trans('documents.delete.deleted_dialog_title_alt'), data.message);
 
                                     _Selection.clearAndDestroy();
 
@@ -1325,14 +1329,6 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
                 
                     var first = current[0];
                     
-                    if(typeof first.scrollIntoViewIfNeeded === "function"){
-                        first.scrollIntoViewIfNeeded();
-                    }
-                    else if(typeof first.scrollIntoView === "function"){
-                        first.scrollIntoView();
-                    }
-                    
-                    
                     if(tree_item_parents.length > 0){
                         
                         tree_item_parents.each(function(k, v){
@@ -1346,6 +1342,56 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
                         }.bind(this));
                         
                     }
+                    
+                    if(typeof first.scrollIntoViewIfNeeded === "function"){
+                        first.scrollIntoViewIfNeeded();
+                    }
+                    else if(typeof first.scrollIntoView === "function"){
+                        first.scrollIntoView();
+                    }
+                    
+                }
+                
+                if(window.sessionStorage && window.sessionStorage['collections-created']){
+                    var collection_id = window.sessionStorage.getItem('collections-created');
+                    
+                    var new_collection = _treeView.find('.tree-item-inner[data-group-id^='+collection_id+']');
+                    console.warn(new_collection);
+                
+                    if(new_collection.length > 0){
+                        var new_collection_parents = new_collection.parents('.tree-item');
+                        var first = new_collection[0];
+                        
+                        if(new_collection_parents.length > 0){
+                            
+                            new_collection_parents.each(function(k, v){
+                            
+                                var chev = $(v).find('.tree-chevron.collapsed');
+                                if(chev.length > 0){
+                                    var func = module.groups.expandOrCollapse.bind(chev[0]);
+                                    func(undefined, this);
+                                }
+                                
+                            }.bind(this));
+                            
+                        }
+                        
+                        if(typeof first.scrollIntoViewIfNeeded === "function"){
+                            first.scrollIntoViewIfNeeded();
+                        }
+                        else if(typeof first.scrollIntoView === "function"){
+                            first.scrollIntoView();
+                        }
+                        
+                        new_collection.addClass('newly-created');
+                        
+                        setTimeout(function(){
+                            new_collection.removeClass('newly-created');
+                            window.sessionStorage.removeItem('collections-created');
+                        }, 900);
+                        
+                    }
+                    
                     
                 }
                 
@@ -1627,13 +1673,27 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
                     
                    accept: function(file, done) {
                        
-                       if(!file.type && file.size%4096 == 0){
-                           // Firefox way is so different than the others that I don't support it
-                           done( Lang.trans('documents.upload.folders_dragdrop_not_supported'));
-                       }
-                       else {
-                           done();
-                       }
+                    //    DMS.MessageBox.question('Authorize', 'Authorize', 'I Agree to the policy', 'No, I don\'t agree', function(isConfirmed){
+                          
+                    //       DMS.MessageBox.close();
+                          
+                    //       if(isConfirmed){
+                              
+                            if( !file.type && file.size%4096 == 0){
+                                // Firefox way is so different than the others that I don't support it
+                                done( Lang.trans('documents.upload.folders_dragdrop_not_supported'));
+                            }
+                            else {
+                                done();
+                            }
+                        //   } 
+                        //   else {
+                        //       done( "No confirmation");
+                        //   }
+                          
+                    //    });
+                       
+                    
                    },
 
                     error: function(file, message) {

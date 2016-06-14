@@ -38,6 +38,20 @@ class DocumentsTest extends TestCase {
 		);
     }
     
+    public function vibility_provider() {
+        return array( 
+			array('public'),
+			array('private'),
+        );
+    }
+
+    public function user_provider_that_can_make_public() {
+        return array( 
+			array(Capability::$ADMIN),
+			array(Capability::$PROJECT_MANAGER),
+		);
+    }
+    
     public function user_provider_document_link_login_with_second_user_test() {
         return array( 
 			array(Capability::$ADMIN, Capability::$ADMIN),
@@ -63,8 +77,6 @@ class DocumentsTest extends TestCase {
         
         $user = $this->createAdminUser();
         
-        $user_not_owner = $this->createAdminUser();
-        
         $file = factory('KlinkDMS\File')->create([
             'user_id' => $user->id,
             'original_uri' => ''
@@ -89,12 +101,6 @@ class DocumentsTest extends TestCase {
         $this->visit( $url )->seePageIs( $url );
         
         $this->assertResponseOk();
-        
-        // test with login with another user
-        
-        $this->actingAs($user_not_owner);
-        
-        $this->visit( $url )->see( trans('errors.403_title') );
         
 	}
     
@@ -179,6 +185,135 @@ class DocumentsTest extends TestCase {
         
   		
 	}
+    
+    /**
+     * @dataProvider user_provider_that_can_make_public
+     */
+    public function testDocumentUpdateMakePublicFromEditPage($caps){
+        
+        $user = $this->createUser( $caps );
+        
+        $file = factory('KlinkDMS\File')->create([
+            'user_id' => $user->id,
+            'original_uri' => ''
+        ]);
+        
+        $doc = factory('KlinkDMS\DocumentDescriptor')->create([
+            'owner_id' => $user->id,
+            'file_id' => $file->id
+        ]);
+        
+        $url = route( 'documents.edit', $doc->id );
+        
+        $this->actingAs($user);
+        
+        $this->visit( $url );
+        
+        // Make public
+        
+        $this->check('visibility');
+        
+        $this->press(trans('actions.save'));
+        
+        $this->seePageIs( $url );
+        
+        $saved = DocumentDescriptor::findOrFail($doc->id);
+        
+        $this->assertTrue($saved->is_public);
+        
+        // Make private again
+        
+        $this->uncheck('visibility');
+        
+        $this->press(trans('actions.save'));
+        
+        $this->seePageIs( $url );
+        
+        $saved = DocumentDescriptor::findOrFail($doc->id);
+        
+        $this->assertFalse($saved->is_public);
+        
+    }
+    
+    
+    /**
+     * @dataProvider user_provider_that_can_make_public
+     */
+    public function testDocumentUpdateRemoveCollectionFromPublicDocument($caps){
+        $user = $this->createUser( $caps );
+        
+        $file = factory('KlinkDMS\File')->create([
+            'user_id' => $user->id,
+            'original_uri' => ''
+        ]);
+        
+        $doc = factory('KlinkDMS\DocumentDescriptor')->create([
+            'owner_id' => $user->id,
+            'file_id' => $file->id,
+            'is_public' => true
+        ]);
+        
+        $service = app('Klink\DmsDocuments\DocumentsService');
+        
+        $group = $service->createGroup($user, 'Personal collection of user ' . $user->id);
+        
+        $group->documents()->save($doc);
+        
+        
+        $this->actingAs($user);
+		
+        \Session::start(); // Start a session for the current test
+
+		$this->json( 'PUT', route('documents.update', ['id' => $doc->id]), [
+                 '_token' => csrf_token(),
+                'remove_group' => $group->id]);
+        
+        $this->seeJson([
+            'id' => $doc->id,
+            'is_public' => true,
+        ]);
+        
+        $this->assertResponseStatus(200);
+        
+    }
+    
+    /**
+     * @dataProvider user_provider_that_can_make_public
+     */
+    public function testDocumentUpdateAddCollectionToPublicDocument($caps){
+        $user = $this->createUser( $caps );
+        
+        $file = factory('KlinkDMS\File')->create([
+            'user_id' => $user->id,
+            'original_uri' => ''
+        ]);
+        
+        $doc = factory('KlinkDMS\DocumentDescriptor')->create([
+            'owner_id' => $user->id,
+            'file_id' => $file->id,
+            'is_public' => true
+        ]);
+        
+        $service = app('Klink\DmsDocuments\DocumentsService');
+        
+        $group = $service->createGroup($user, 'Personal collection of user ' . $user->id);
+        
+        $this->actingAs($user);
+		
+        \Session::start(); // Start a session for the current test
+
+		$this->json( 'PUT', route('documents.update', ['id' => $doc->id]), [
+                 '_token' => csrf_token(),
+                'add_group' => $group->id]);
+        
+        $this->seeJson([
+            'id' => $doc->id,
+            'is_public' => true,
+        ]);
+        
+        $this->assertResponseStatus(200);
+        
+    }
     
     /**
      * Tests if when using a document link the login page is firstly showed and then performs 
@@ -369,6 +504,227 @@ class DocumentsTest extends TestCase {
         
         $this->seePageIs( $doc_link );
         
+    }
+    
+    /**
+     * Test the conversion from KlinkDMS\DocumentDescriptor to \KlinkDocumentDescriptor
+     * @dataProvider vibility_provider
+     */
+    public function testDocumentDescriptorToKlinkDocumentDescriptor($visibility){
+        
+        $institution = factory('KlinkDMS\Institution')->create(); 
+        
+        $user = $this->createUser( Capability::$PROJECT_MANAGER, [
+            'institution_id' => $institution->id
+        ] );
+        
+        $file = factory('KlinkDMS\File')->create([
+            'user_id' => $user->id,
+            'original_uri' => ''
+        ]);
+        
+        $doc = factory('KlinkDMS\DocumentDescriptor')->create([
+            'owner_id' => $user->id,
+            'file_id' => $file->id,
+            'hash' => $file->hash,
+            'institution_id' => $institution->id,
+            'is_public' => $visibility === 'private' ? false : true
+        ]);
+        
+        $service = app('Klink\DmsDocuments\DocumentsService');
+        
+        $group = $service->createGroup($user, 'Personal collection of user ' . $user->id);
+        
+        $group->documents()->save($doc);
+        
+        
+        $descriptor = $doc->toKlinkDocumentDescriptor( $visibility === 'private' ? false : true );
+        
+        $this->assertNotNull($descriptor);
+        
+        $this->assertEquals($institution->klink_id, $descriptor->institutionID);
+        
+        $this->assertEquals($visibility, $descriptor->visibility);
+        
+        $this->assertEquals($doc->title, $descriptor->title);
+        
+        $this->assertEquals($doc->hash, $descriptor->hash, 'Descriptor hash not equal to DocumentDescriptor');
+        $this->assertEquals($doc->hash, $file->hash, 'File Hash not equal to DocumentDescriptor hash');
+        
+        if($visibility === 'private'){
+            $this->assertNotEmpty($descriptor->documentGroups);
+            $this->assertEquals($group->toKlinkGroup(), $descriptor->documentGroups[0]);
+        }
+        else {
+            $this->assertEmpty($descriptor->documentGroups);
+        }
+        
+    } 
+    
+    /**
+     * Test the conversion from KlinkDMS\DocumentDescriptor to \KlinkDocumentDescriptor
+     * @dataProvider vibility_provider
+     */
+    public function testDocumentDescriptorToKlinkDocumentDescriptorWhenUserChangeAffiliation($visibility){
+        
+        $institution = factory('KlinkDMS\Institution')->create(); 
+        $institution2 = factory('KlinkDMS\Institution')->create(); 
+        
+        $user = $this->createUser( Capability::$PROJECT_MANAGER, [
+            'institution_id' => $institution->id
+        ] );
+        
+        $file = factory('KlinkDMS\File')->create([
+            'user_id' => $user->id,
+            'original_uri' => ''
+        ]);
+        
+        $doc = factory('KlinkDMS\DocumentDescriptor')->create([
+            'owner_id' => $user->id,
+            'institution_id' => $institution->id,
+            'file_id' => $file->id,
+            'hash' => $file->hash,
+            'is_public' => $visibility === 'private' ? false : true
+        ]);
+        
+        $service = app('Klink\DmsDocuments\DocumentsService');
+        
+        $group = $service->createGroup($user, 'Personal collection of user ' . $user->id);
+        
+        $group->documents()->save($doc);
+        
+        $user->institution_id = $institution2->id;
+        $user->save();
+        
+        $descriptor = $doc->toKlinkDocumentDescriptor( $visibility === 'private' ? false : true );
+        
+        $this->assertNotNull($descriptor);
+        
+        $this->assertNotEquals($user->institution->klink_id, $descriptor->institutionID);
+        $this->assertEquals($institution->klink_id, $descriptor->institutionID);
+        
+        $this->assertEquals($visibility, $descriptor->visibility);
+        
+        $this->assertEquals($doc->title, $descriptor->title);
+        
+        $this->assertEquals($doc->hash, $descriptor->hash, 'Descriptor hash not equal to DocumentDescriptor');
+        $this->assertEquals($doc->hash, $file->hash, 'File Hash not equal to DocumentDescriptor hash');
+        
+        if($visibility === 'private'){
+            $this->assertNotEmpty($descriptor->documentGroups);
+            $this->assertEquals($group->toKlinkGroup(), $descriptor->documentGroups[0]);
+        }
+        else {
+            $this->assertEmpty($descriptor->documentGroups);
+        }
+        
+    }
+    
+    
+    public function testDocumentReindexingStartedByAUserThatIsNotTheOwner(){
+        
+        $institution = factory('KlinkDMS\Institution')->create(); 
+        $institution2 = factory('KlinkDMS\Institution')->create(); 
+        
+        $user = $this->createUser( Capability::$PROJECT_MANAGER, [
+            'institution_id' => $institution->id
+        ] );
+                
+        
+        
+        $file = factory('KlinkDMS\File')->create([
+            'user_id' => $user->id,
+            'original_uri' => ''
+        ]);
+        
+        $doc = factory('KlinkDMS\DocumentDescriptor')->create([
+            'owner_id' => $user->id,
+            'file_id' => $file->id,
+            'hash' => $file->hash,
+            'is_public' => false,
+            'institution_id' => $institution->id
+        ]);
+        
+        $service = app('Klink\DmsDocuments\DocumentsService');
+        
+        $core = app('Klink\DmsAdapter\KlinkAdapter')->getConnection();
+        
+        // first indexing, like the one after the upload
+        $service->reindexDocument($doc, 'private');
+        
+        $facets = \KlinkFacetsBuilder::i()->localDocumentID($doc->local_document_id)->build();
+        
+        // Search for it, must only be indexed once
+        
+        $search_results = $core->search('*', 'private', 10, 0, $facets);
+        
+        $this->assertEquals(1, $search_results->getTotalResults());
+        
+        
+        // Pick another user
+        
+        $second_user = $this->createUser( Capability::$PARTNER, [
+            'institution_id' => $institution2->id
+        ] );
+        
+        // make an edit to the document, save it and then reindex
+        
+        $url = route( 'documents.edit', $doc->id );
+        
+        $this->actingAs($second_user);
+        
+        $this->visit( $url );
+        
+        $this->type('Document new Title', 'title');
+        
+        $this->press(trans('actions.save'));
+        
+        $this->seePageIs( $url );
+        
+        $this->see(trans('documents.messages.updated'));
+        
+        $this->see('Document new Title');
+        
+        $doc = DocumentDescriptor::findOrFail($doc->id);
+        
+        $this->assertEquals($institution->id, $doc->institution_id);
+        
+        $search_results = $core->search('*', 'private', 10, 0, $facets);
+        
+        $this->assertEquals(1, $search_results->getTotalResults(), 'not only one result');
+        
+        
+    }
+    
+    public function testDocumentStoreForInstitution(){
+        
+        $institution = factory('KlinkDMS\Institution')->create();
+        
+        $user = $this->createUser( Capability::$PARTNER, [
+            'institution_id' => $institution->id
+        ] );
+        
+        $url = route( 'documents.create' );
+        
+        $this->actingAs($user);
+        
+        $this->visit( $url );
+        
+        $this->attach(__DIR__ . '/data/example.pdf', 'document');
+        
+        $this->press(trans('actions.upload_alt'));
+        
+        preg_match('/action="(.*)\/(\d{1,4})" e/', $this->response->getContent(), $matches);
+        
+        $this->assertEquals(3, count($matches));
+        
+        $id = $matches[2];
+        
+        $doc = DocumentDescriptor::findOrFail($id);
+        
+        $this->assertEquals($user->id, $doc->owner_id, 'User not equal to owner');
+        $this->assertEquals($user->institution_id, $doc->institution_id, 'User Institution not equal to document institution_id');
+
     }
     
 }

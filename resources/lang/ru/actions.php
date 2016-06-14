@@ -86,7 +86,7 @@ return [
 	'create_add_dropdown' => 'Создать или добавить',
 
 	'trash_btn' => 'Удалить',
-	'trash_btn_alt' => 'Передвинуть в Корзину',
+	'trash_btn_alt' => 'В корзину',
 	'restore_btn' => 'Восстановить',
 	'empty_trash' => 'Очистить корзину',
 
@@ -130,7 +130,9 @@ return [
         'input_required' => 'Напишите что-нибудь!',
         
         
-    ]
+    ],
+	
+	'got_it' => 'Согласен!',
 
 ];
 

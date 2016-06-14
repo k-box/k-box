@@ -23,16 +23,17 @@ The DMS specific commands are:
 - `dms:reindex`: Perform the reindexing of the currently indexed documents
 - `dms:sessions`: Get the user's session status
 - `dms:test`: This command will test the K-Link Core configuration and connection
-- [`dms:update`](commands/update-command): Perform the installation/update steps for the K-Link DMS
+- [`dms:update`](commands/update-command.md): Perform the installation/update steps for the K-Link DMS
 - `dms:queuelisten`: Start listening for jobs on the queue and report the status to the admin interface
 - `dms:sync`: Performs a synchronization of the documents that do not exists in the Core, but can be found in the DMS
-- [`dms:import`](commands/import-command): Import collections, projects and documents from a folder on a the filesystem
-- [`users:import`](commands/user-import-command): Import users from a CSV file
+- [`dms:import`](commands/import-command.md): Import collections, projects and documents from a folder on a the filesystem
+- [`users:import`](commands/user-import-command.md): Import users from a CSV file
 - `dms:lang-publish`: Publish language files for the frontend
 - `collections:clean-duplicates`: Clean the duplicated documents contained in a collection
 - `collections:list`: List collections as viewed from a user
-- [`import:fetch-payload`](commands/import-fetch-payload): Take the failed job payload and associate it to the given import
+- [`import:fetch-payload`](commands/import-fetch-payload.md): Take the failed job payload and associate it to the given import
 - `thumbnail:generate`: Generate the thumbnail of a Document
+- [`documents:check-affiliation`](commands/documents-check-affiliation.md): Check if there are documents assigned to a different institution than the user uploader one
 
 
 
@@ -60,3 +61,14 @@ The very first step of solving each support request is gather the largest amount
 
 Sometimes log entries reveal the nature of the error showed to the user, sometimes not. In the latter case assign the ticket to a developer.
 
+
+## Testing
+
+### Automatic tests
+
+After each code push to git.klink.asia the system will automatically execute a syntax check over every PHP file.
+
+### Manual triggered tests
+
+- [Unit Tests](testing/unit-tests.md)
+- [Test Instance](testing/test-instance.md)

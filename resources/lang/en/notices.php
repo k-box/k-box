@@ -17,4 +17,6 @@ return [
 	'account_mail_msg' => 'Please <a href=":url">change your account E-Mail</a> to a real E-Mail address otherwise you will not be able to receive messages.',
 
 	'long_running_msg' => '<strong>Still Working!</strong> Seems that the action is taking a quite amout of time, sorry about that.',
+	
+	'terms_of_use' => 'By uploading or sharing a document you agree to the <a href=":policy_link">Service Policy</a>',
 ];

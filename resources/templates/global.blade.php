@@ -126,7 +126,6 @@
 		@endif
 		
 		UserVoice.push(['addTrigger', { mode: 'contact', trigger_position: 'bottom-right' }]);
-		UserVoice.push(['addTrigger', '#support_trigger', { }]);
 		UserVoice.push(['autoprompt', {}]);
 	</script>
     

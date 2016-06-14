@@ -131,6 +131,8 @@ return [
         'input_required' => 'You need to write something!',
         
         
-    ]
+    ],
+	
+	'got_it' => 'Got it!',
 
 ];

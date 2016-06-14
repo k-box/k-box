@@ -16,6 +16,7 @@ return [
 	'terms'  => 'Terms',
 	'terms_long'  => 'Terms of Service',
 	'privacy' => 'Privacy',
-	'contact' => 'Contact'
+	'contact' => 'Contact',
+	'service_policy' => 'Service Policy',
 
 ];

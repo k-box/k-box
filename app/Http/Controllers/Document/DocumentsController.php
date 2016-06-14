@@ -248,10 +248,6 @@ class DocumentsController extends Controller {
 			
 			return $group;
 	    });
-		
-//		dd($grouped);
-		
-//		dd($documents->toArray());
 
 		return view('documents.recent', [
 			'search_terms' => '',
@@ -260,7 +256,7 @@ class DocumentsController extends Controller {
 			'list_style_current' => $user->optionListStyle(),
 			'pagetitle' => trans('documents.menu.recent') .' ' . trans('documents.page_title'), 
 			'documents' => $grouped, 'groupings' => array_keys($grouped->toArray()), /*'collections' => $groups,*/ 'context' => 'recent', 
-			'filter' => 'recent']);
+			'filter' => trans('documents.menu.recent')]);
 	}
 
 	public function trash(AuthGuard $auth)
@@ -712,23 +708,30 @@ class DocumentsController extends Controller {
 					$document->language = e($request->input('language'));
 				}
 
-                if($user->can_capability(Capability::CHANGE_DOCUMENT_VISIBILITY)){
-
-                    $add_to_public = false;
-                    $remove_from_public = false;
-                    if($request->has('visibility') && $request->input('visibility') === \KlinkVisibilityType::KLINK_PUBLIC && !$document->is_public){
+				$was_document_public = $document->is_public;
+				$is_json = $request->isJson();
+				$has_visibility =$request->has('visibility');
+				\Log::info('info', compact('is_json', 'has_visibility'));
+				 
+				if($user->can_capability(Capability::CHANGE_DOCUMENT_VISIBILITY)){
+					
+                    if($request->has('visibility') && $request->input('visibility') === \KlinkVisibilityType::KLINK_PUBLIC && !$was_document_public){
                         // if was not public and is marked as public
                         $document->is_public = true;
-                        $add_to_public = true;
-
-                        \Log::info('Document add public', ['descriptor' => $document, 'add_to_public' => $add_to_public]);
+                        
+                        \Log::info('Document should be added to public', ['descriptor' => $document->id, 'triggered_by' => $user->id]);
                     }
-                    else if(!$request->has('visibility') && $document->is_public){
+                    else if($request->has('visibility') && $request->input('visibility') === \KlinkVisibilityType::KLINK_PRIVATE && $was_document_public){
                         //was public and is no more marker as public
                         $document->is_public = false;
-                        $remove_from_public = true;
 
-                        \Log::info('Document remove from public', ['descriptor' => $document, 'remove_from_public' => $remove_from_public]);
+                        \Log::info('Document should be removed from public', ['descriptor' => $document->id, 'triggered_by' => $user->id]);
+                    }
+					else if(!$request->wantsJson() && !$request->has('visibility') && $was_document_public){
+                        //was public and is no more marker as public
+                        $document->is_public = false;
+
+                        \Log::info('Document should be removed from public', ['descriptor' => $document->id, 'triggered_by' => $user->id, 'comes_from' => 'documents.edit']);
                     }
                 
                 }
@@ -775,16 +778,28 @@ class DocumentsController extends Controller {
 
 					$this->service->reindexDocument($document, \KlinkVisibilityType::KLINK_PRIVATE);
 
-					if( (isset($add_to_public) && $add_to_public) || $document->is_public){
-						$this->service->reindexDocument($document, \KlinkVisibilityType::KLINK_PUBLIC);
+					
+					if($user->can_capability(Capability::CHANGE_DOCUMENT_VISIBILITY)){
+						
+						if( !$was_document_public && $document->is_public){
+							\Log::info('Applying visibility change', ['descriptor' => $document->id, 'old' => $was_document_public, 'new' => $document->is_public]);
+							$this->service->reindexDocument($document, \KlinkVisibilityType::KLINK_PUBLIC);
+						}
+						else if($was_document_public && !$document->is_public){
+							\Log::info('Applying visibility change', ['descriptor' => $document->id, 'old' => $was_document_public, 'new' => $document->is_public]);
+							$this->service->deletePublicDocument($document);
+						}
+					
 					}
-					else if(isset($remove_from_public) && $remove_from_public){
-						$this->service->deletePublicDocument($document);
+					else if($was_document_public && $document->is_public){
+						\Log::info('Reindexing also Public Document because Doc is dirty', ['descriptor' => $document->id]);
+						$this->service->reindexDocument($document, \KlinkVisibilityType::KLINK_PUBLIC);
 					}
 				}
 				else {
 					$document->touch();
 				}
+				
 
 				
 
@@ -793,7 +808,7 @@ class DocumentsController extends Controller {
 
 			
 
-			if ($request->ajax() && $request->wantsJson())
+			if ($request->wantsJson())
 			{
 				return new JsonResponse($ret, 200);
 			}
@@ -808,7 +823,7 @@ class DocumentsController extends Controller {
 
 			$status = array('status' => 'error', 'message' =>  trans('documents.update.error', ['error' => $kex->getMessage()]));
 
-			if ($request->ajax() && $request->wantsJson())
+			if ($request->wantsJson())
 			{
 				return new JsonResponse($status, 500);
 			}

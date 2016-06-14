@@ -13,19 +13,38 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
  * Tests user handling
 */
 class UsersTest extends TestCase {
+    
+    use DatabaseTransactions;
+    
+    public function capabilities() {
+        return [ 
+			
+            [Capability::$ADMIN],
+			[Capability::$PROJECT_MANAGER],
+			[Capability::$PARTNER],
+        ];
+    }
+    
+    public function options_values_to_test_for_each_profile() {
+        return [ 
+			
+            [Capability::$ADMIN, User::OPTION_LIST_TYPE, ['details','tiles','cards']],
+			[Capability::$PROJECT_MANAGER, User::OPTION_LIST_TYPE, ['details','tiles','cards']],
+			[Capability::$PARTNER, User::OPTION_LIST_TYPE, ['details','tiles','cards']],
+			[Capability::$GUEST, User::OPTION_LIST_TYPE, ['details','tiles','cards']],
+            
+            [Capability::$ADMIN, User::OPTION_LANGUAGE, ['en', 'ru']],
+			[Capability::$PROJECT_MANAGER, User::OPTION_LANGUAGE, ['en', 'ru']],
+			[Capability::$PARTNER, User::OPTION_LANGUAGE, ['en', 'ru']],
+			[Capability::$GUEST, User::OPTION_LANGUAGE, ['en', 'ru']],
+            
+            [Capability::$ADMIN, User::OPTION_TERMS_ACCEPTED, ['1', true]],
+			[Capability::$PROJECT_MANAGER, User::OPTION_TERMS_ACCEPTED, ['1', true]],
+			[Capability::$PARTNER, User::OPTION_TERMS_ACCEPTED, ['1', true]],
+			[Capability::$GUEST, User::OPTION_TERMS_ACCEPTED, ['1', true]],
+        ];
+    }
 
-// 	public function setUp()
-// 	{
-// 
-// 		parent::setUp();
-// 
-// 		$artisan = $this->app->make('Illuminate\Contracts\Console\Kernel');
-// 
-// 		// $artisan->call('migrate',array('-n'=>true));
-// 
-// 		// $artisan->call('db:seed',array('-n'=>true));
-// 		//dd(env('DB_NAME'));
-// 	}
 // 
 // 	/**
 // 	 * Tests the basic atomic operations around a user creation, capability checking and softdeleting
@@ -129,40 +148,58 @@ class UsersTest extends TestCase {
 // 		
 // 		
 // 	}
-// 	
-// 	public function option_name_value_provider(){
-// 		
-// 		return array(
-// 			array('test_string', 'value'),
-// 			array('test_int', 10),
-// 			array('test_float', 10.0),
-// 		);
-// 	}
-// 	
-// 	/**
-// 		@dataProvider option_name_value_provider
-// 	*/
-// 	public function testUserOptions($name, $value){
-// 		
-// 		$user = $this->createAdminUser();
-// 		
-// 		$test_opt = $user->getOption($name);
-// 		
-// 		$this->assertNull($test_opt);
-// 		
-// 		$user->setOption($name, $value);
-// 		
-// 		$test_opt = $user->getOption($name);
-// 		
-// 		$this->assertEquals($value, $test_opt->value);
-// 		
-// 	}
-// 	
-// 	public function testUserAdministrationController(){
-// 		$this->markTestIncomplete(
-//           'This test has not been implemented yet.'
-//         );
-// 	}
-	
+
+    /**
+     * @dataProvider options_values_to_test_for_each_profile
+     */
+    function testUserProfileOptions($cap, $option, $values){
+        
+        $user = $this->createUser($cap);
+        
+        \Session::start(); // Start a session for the current test
+		
+		$this->actingAs($user);
+        
+        foreach ($values as $value) {
+            $this->post( route('profile.update'), [
+                $option => $value,
+                '_token' => csrf_token()
+            ]);
+            
+            $this->assertResponseStatus(200);
+            
+            $this->assertEquals($user->getOption($option)->value, $value);
+        }
+        
+    }
+    
+    
+    /**
+     * @dataProvider capabilities
+     */
+    function testTermsMessageShow($cap){
+        
+        $user = $this->createUser($cap);
+        
+        $this->actingAs($user);
+        
+        $this->visit( route('documents.index') );
+        
+        // check if showed
+
+        $this->see( trans('notices.terms_of_use', ['policy_link' => route('terms')]) );
+        
+        // save the option
+        
+        $user->setOption(User::OPTION_TERMS_ACCEPTED, true);        
+        
+        // reload 
+        
+        $this->visit( route('documents.index') );
+        
+        // check if not showed
+        
+        $this->dontSee( trans('notices.terms_of_use', ['policy_link' => route('terms')]) );
+    }
 
 }
