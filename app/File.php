@@ -34,6 +34,7 @@ class File extends Model {
         'application/vnd.google-apps.document',
 		'application/vnd.google-apps.presentation',
 		'application/vnd.google-apps.spreadsheet',
+        'application/vnd.openxmlformats-officedocument.presentationml.presentation'
         );
 
     /**

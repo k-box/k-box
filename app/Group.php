@@ -3,6 +3,7 @@ namespace KlinkDMS;
 
 use Franzose\ClosureTable\Models\Entity;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use KlinkDMS\Traits\LocalizableDateFields;
 
 class Group extends Entity implements GroupInterface
 {
@@ -22,7 +23,7 @@ class Group extends Entity implements GroupInterface
     is_private:boolean (default true)
     */
 
-    use SoftDeletes;
+    use SoftDeletes, LocalizableDateFields;
 
     /**
      * The table associated with the model.
@@ -149,11 +150,6 @@ class Group extends Entity implements GroupInterface
         $uid = $this->is_private ? $this->user_id : 0 ;
 
         return $uid . ':' . $this->id;
-    }
-
-
-    public function getCreatedAt(){
-        return $this->created_at->format(trans('units.date_format'));
     }
     
     /**

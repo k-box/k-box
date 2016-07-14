@@ -35,6 +35,8 @@ class SettingsControllerTest extends TestCase
         $this->assertViewHas(Option::PUBLIC_CORE_URL);
         $this->assertViewHas(Option::PUBLIC_CORE_USERNAME);
         $this->assertViewHas(Option::PUBLIC_CORE_PASSWORD);
+        $this->assertViewHas(Option::PUBLIC_CORE_NETWORK_NAME_EN);
+        $this->assertViewHas(Option::PUBLIC_CORE_NETWORK_NAME_RU);
         $this->assertViewHas(Option::SUPPORT_TOKEN);
         
     }

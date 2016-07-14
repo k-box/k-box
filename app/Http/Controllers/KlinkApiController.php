@@ -140,7 +140,7 @@ class KlinkApiController extends Controller {
 			$extension = \KlinkDocumentUtils::getExtensionFromMimeType($file->mime_type);
 
 			$render = $this->previewService->render($file);
-
+			
 			return view('documents.preview', [
 				'document' => $doc, 
 				'file' => $file,

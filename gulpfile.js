@@ -42,7 +42,8 @@ elixir(function(mix) {
             "/nprogress/nprogress.css",
             "/sweetalert/lib/sweet-alert.css",
             "/klink-map/siris.css",
-            "/hint.css/hint.base.css"
+            "/hint.css/hint.base.css",
+            "/select2/dist/css/select2.css"
         ], elixir.config.cssOutput + "/vendor.css", elixir.config.bowerDir)
     	.scripts([
                 'lodash/lodash.min.js',
@@ -52,6 +53,7 @@ elixir(function(mix) {
                 'sweetalert/lib/sweet-alert.min.js',
     			'nprogress/nprogress.js',
     			'clipboard/dist/clipboard.js',
+    			'select2/dist/js/select2.js',
                 '../js/deps/modernizr.js',
                 '../js/deps/combokeys.js',
                 '../js/deps/contextmenu.js',

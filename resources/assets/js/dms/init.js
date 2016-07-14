@@ -475,6 +475,12 @@ window.DMS = (function(_$, _nprogress, _rivets, _alert){
 					module.Ajax.post(module.Paths.DOCUMENTS + '/remove', data, success, error);
 				},
 
+				emptytrash: function(success, error){
+					console.log('Calling Bulk.emptytrash');
+
+					module.Ajax.del(module.Paths.DOCUMENTS + '/trash', success, error);
+				},
+
 				copyTo: function(data, success, error){
 					console.log('Calling Bulk.copyTo', data);
 
@@ -507,6 +513,12 @@ window.DMS = (function(_$, _nprogress, _rivets, _alert){
 					console.log('Calling Documents.remove', id);
 
 					module.Ajax.del(module.Paths.DOCUMENTS + '/' + id, success, error);
+				},
+
+				forceRemove: function(id, success, error){
+					console.log('Calling Documents.remove', id);
+
+					module.Ajax.del(module.Paths.DOCUMENTS + '/' + id + "?force=true", success, error);
 				},
 				
 				
@@ -556,6 +568,12 @@ window.DMS = (function(_$, _nprogress, _rivets, _alert){
 					console.log('Calling Groups.remove');
 
 					module.Ajax.del(module.Paths.GROUPS + '/' + id, success, error);
+				},
+
+				forceRemove: function(id, success, error){
+					console.log('Calling Groups.remove');
+
+					module.Ajax.del(module.Paths.GROUPS + '/' + id + "?force=true", success, error);
 				},
 
 				open: function(id){

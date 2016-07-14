@@ -14,6 +14,13 @@
 
 @section('action-menu')
 	
+	<div class="action-group">
+
+		<a href="{{route('projects.show', ['id' => $project->id])}}" class="button">
+			<span class="btn-icon icon-content-white icon-content-white-ic_create_white_24dp"></span>{{trans('projects.close_edit_button')}}
+		</a>
+
+	</div>
 	
 @stop
 
@@ -28,7 +35,7 @@
 	@include('errors.list')
 
 
-    <form  method="post" action="{{route('projects.update', ['id' => $project->id])}}">
+    <form  method="post" class="js-project-form" action="{{route('projects.update', ['id' => $project->id])}}">
 		
 		<input type="hidden" name="_method" value="PUT">
 		
@@ -54,9 +61,15 @@
 @section('scripts')
 
 	<script>
-	// require(['modules/people'], function(People){
-	// 	People.data({!! $groups !!}, {!! $available_users_encoded !!});
+
+	// require(['jquery'], function($){
+
+	// 	$(".js-select-users").select2({
+	// 		placeholder: "{{trans('projects.labels.users_placeholder')}}",
+	// 	});
+
 	// });
+
 	</script>
 
 @stop

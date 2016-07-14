@@ -86,7 +86,7 @@ class SupportPagesController extends Controller {
 
 		$inst = $this->adapter->getInstitution(\Config::get('dms.institutionID'));
 
-		$since = $inst->created_at->diffForHumans(Carbon::now(), true);
+		$since = localized_date_human_diff($inst->created_at);
 
 		$geocode = $this->geoCodeCity($inst->address_locality, $inst->address_country);
 

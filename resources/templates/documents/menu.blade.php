@@ -23,8 +23,8 @@
 
         @if( isset($is_klink_public_enabled) && $is_klink_public_enabled)
 		<li>
-			<a href="{{ route('documents.index') }}/public" class="menu-el @if(\Request::is('*public')) current @endif">
-				<span class="menu-icon icon-social-black icon-social-black-ic_public_black_24dp"></span> {{trans('documents.menu.public')}}
+			<a href="{{ route('documents.index') }}/public" class="hint--bottom menu-el @if(\Request::is('*public')) current @endif" data-hint="{{trans('networks.menu_public_hint', ['network' => network_name() ])}}">
+				<span class="menu-icon icon-social-black icon-social-black-ic_public_black_24dp"></span> {{ network_name() }}
 			</a>
 		</li>
         @endif

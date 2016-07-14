@@ -56,6 +56,7 @@ return [
 
 
 	'group_edit_institution' => "You cannot edit institution level groups.",
+	'group_edit_project' => "You cannot edit project collections.",
 	'group_edit_else' => "You cannot edit someone else's groups.",
 
 	'503_title' => 'K-Link DMS Maintenance',
@@ -100,5 +101,7 @@ return [
 	
 	'preference_not_saved_title' => 'Preference not saved',
 	'preference_not_saved_text' => 'Sorry, we were unable to save your preference, please try again later.',
+
+	'generic_form_error' => 'You have some errors, please correct them before proceeding',
 
 ];

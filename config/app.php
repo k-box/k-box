@@ -152,6 +152,8 @@ return [
         
 		'KlinkDMS\Providers\AuthServiceProvider',
 
+		'Jenssegers\Date\DateServiceProvider',
+
 		/**
 		 * Klink Related
 		 */
@@ -250,6 +252,8 @@ return [
         'Markdown' => 'GrahamCampbell\Markdown\Facades\Markdown',
 		
 		'DmsRouting' => 'KlinkDMS\RoutingHelpers',
+
+		'LocalizedDate' => Jenssegers\Date\Date::class,
 
 	],
 

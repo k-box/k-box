@@ -6,6 +6,7 @@ use Config;
 use Session;
 use App;
 use KlinkDMS\UserOption;
+use Jenssegers\Date\Date as LocalizedDate;
 
 /**
  * Set the language locale based on the configured language for the user and/or the browser language
@@ -72,6 +73,8 @@ final class Locale {
         }
 
         App::setLocale($language);
+
+		LocalizedDate::setLocale( $language );
 
 		return $next($request);
 	}

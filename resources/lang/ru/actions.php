@@ -35,8 +35,9 @@ return [
 		'invert' => 'Инвертировать',
         'hint' => 'Выбрать все/Очистить выбранное',
 	 
-		'at_least_one_document' => 'Выберите хотя бы 1 документ',
-        'at_least_one' => 'Пожалуйста, выберите хотя бы 1 документ или коллекцию',
+		'at_least_one_document' => 'Выберите хотя бы один документ',
+        'at_least_one' => 'Пожалуйста, выберите хотя бы один документ или коллекцию',
+		'only_one' => 'Пожалуйста, выберите только один документ или коллекцию',
 	),
  
 	'clipboard' => [
@@ -79,7 +80,6 @@ return [
 
 	'add_or_move_to' => 'Коллекции',
 
-	'make_public' => 'Сделать открытым',
 	'publish_documents' => 'Добавить в открытый доступ',
 	'make_private' => 'Сохранить закрытым',
 
@@ -87,6 +87,7 @@ return [
 
 	'trash_btn' => 'Удалить',
 	'trash_btn_alt' => 'В корзину',
+	'forcedelete_btn_alt' => 'Удалить безвозвратно',
 	'restore_btn' => 'Восстановить',
 	'empty_trash' => 'Очистить корзину',
 
@@ -125,6 +126,7 @@ return [
         'ok_btn' => 'OK',
         
         'delete_btn' => 'Да, удалить!',
+		'move_btn' => 'Да, переместить!',
         
         // showed when on a dialog, like the one in people group creation, the input field is empty, but a value is required
         'input_required' => 'Напишите что-нибудь!',

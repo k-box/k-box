@@ -17,6 +17,7 @@ return [
 		'main_contact' => 'Main contact',
 		'language' => 'Language',
 		'added_on' => 'Added on',
+		'deleted_on' => 'Trashed on',
 		'uploaded_by' => 'Uploaded by',
 		'size' => 'Size',
 		'authors' => 'Authors'

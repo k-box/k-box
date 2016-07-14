@@ -68,3 +68,116 @@ if (! function_exists('support_token')) {
     }
 }
 
+
+if (! function_exists('localized_date')) {
+    /**
+     * Convert a DateTime instance to a localizable date instance
+     *
+     * @uses Jenssegers\Date\Date
+     *
+     * @param  DateTime $dt a DateTime instance to be localized
+     * @return Jenssegers\Date\Date the localizable date class instance
+     */
+    function localized_date(\DateTime $dt)
+    {
+        
+        return Jenssegers\Date\Date::instance($dt); 
+    }
+}
+
+if (! function_exists('localized_date_human_diff')) {
+    /**
+     * Convert a DateTime instance to a localizable date instance
+     *
+     * @uses Jenssegers\Date\Date
+     *
+     * @param  DateTime $dt a DateTime instance to be localized
+     * @return Jenssegers\Date\Date the localizable date class instance
+     */
+    function localized_date_human_diff(\DateTime $dt)
+    {
+
+        $dt = localized_date($dt);
+
+        $diff = $dt->diffInDays();
+        
+        if($diff < 2){
+            return $dt->diffForHumans();
+        }
+
+        return $dt->format( trans('units.date_format') ); 
+    }
+}
+
+if (! function_exists('localized_date_full')) {
+    /**
+     * Convert a DateTime instance to a localizable date instance
+     *
+     * @uses Jenssegers\Date\Date
+     *
+     * @param  DateTime $dt a DateTime instance to be localized
+     * @return Jenssegers\Date\Date the localizable date class instance
+     */
+    function localized_date_full(\DateTime $dt)
+    {
+
+        $dt = localized_date($dt);
+
+        return $dt->format( trans('units.date_format_full') ); 
+    }
+}
+
+if (! function_exists('localized_date_short')) {
+    /**
+     * Convert a DateTime instance to a localizable date instance
+     *
+     * @uses Jenssegers\Date\Date
+     *
+     * @param  DateTime $dt a DateTime instance to be localized
+     * @return Jenssegers\Date\Date the localizable date class instance
+     */
+    function localized_date_short(\DateTime $dt)
+    {
+
+        $dt = localized_date($dt);
+
+        return $dt->format( trans('units.date_format') ); 
+
+    }
+
+}
+
+
+if (! function_exists('network_name')) {
+    /**
+     * Get the configured network name
+     *
+     *
+     * @return string the configured network name localized according to the current application locale
+     */
+    function network_name()
+    {
+
+        $opt_en = \Cache::rememberForever('network-name-en', function() {
+            return \KlinkDMS\Option::option(\KlinkDMS\Option::PUBLIC_CORE_NETWORK_NAME_EN, '');
+        });
+        $opt_ru = \Cache::rememberForever('network-name-ru', function() {
+            return \KlinkDMS\Option::option(\KlinkDMS\Option::PUBLIC_CORE_NETWORK_NAME_RU, '');
+        });
+
+        $locale = \App::getLocale();
+        
+        if($locale === 'en' && !empty($opt_en)){
+            return $opt_en;
+        }
+        else if($locale === 'ru' && !empty($opt_en) && empty($opt_ru)){
+            return $opt_en;
+        }
+        else if($locale === 'ru' && !empty($opt_ru)){
+            return $opt_ru;
+        }
+
+        return trans('networks.klink_network_name'); 
+    }
+}
+

@@ -43,20 +43,15 @@
 	<div class="row">
 		
 		<div class="six columns">
-			<h4>{{trans('projects.labels.users')}}</h4>
-			@forelse($project->users as $user)
-			
-				
-				<span>
-					<span class="btn-icon icon-social-black icon-social-black-ic_person_black_24dp"></span>
-					{{$user->name}}
-				</span>
-			
-			@empty
-			
-				<p class="description">{{trans('groups.people.no_users')}}</p>
-				
-			@endforelse
+
+            <a class="u-pull-right" href="{{route('projects.edit', ['id' => $project->id])}}#add-members">{{ trans('projects.labels.add_users_button') }}</a>
+
+            <h4>{{trans('projects.labels.users')}}</h4>
+
+            
+
+            @include('projects.partials.userlist', ['users' => $project_users, 'description' => null, 'empty_message' => trans('projects.no_members'), 'edit' => false ])
+
 		</div>
 		
         <div class="six columns">

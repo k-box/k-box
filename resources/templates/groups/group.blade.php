@@ -96,7 +96,7 @@
 		
 		
 		
-		<span class="meta-info creation-date" title="{{trans('groups.created_on')}}">
+		<span class="meta-info creation-date" title="{{trans('groups.created_on')}} {{$item->getCreatedAt(true)}}">
 			<span class="meta-label">{{trans('groups.created_on')}} </span>{{$item->getCreatedAt()}}
 		</span>
 		

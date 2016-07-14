@@ -7,7 +7,7 @@ return [
 	| K-Link DMS Version (aka Application version)
 	|--------------------------------------------------------------------------
 	 */
-	'version' => '0.9.1',
+	'version' => '0.10.1',
     
     'build' => 'BUILDCODE',
 	
@@ -225,4 +225,45 @@ return [
 	
 	'limit_languages_to' => getenv('DMS_LIMIT_LANGUAGES_TO') ?: 'en,de,it,fr,ky,ru',
 	
+	/*
+	|--------------------------------------------------------------------------
+	| Recent section personalization
+	|--------------------------------------------------------------------------
+	*/
+
+	'recent' => [
+
+		/*
+		|--------------------------------------------------------------------------
+		| The maximum number of elements in the recent list
+		|--------------------------------------------------------------------------
+		| 
+		| Use this option to limit the number of documents that can be showed
+		| in the recent documents
+		|
+		| default: 1000
+		|
+		| @var int
+		*/
+
+		'limit' => getenv('DMS_RECENT_LIMIT') ?: 1000,
+
+		/*
+		|--------------------------------------------------------------------------
+		| The maximum number of weeks to consider a document recent
+		|--------------------------------------------------------------------------
+		| 
+		| Use this option to limit how old a document could be in order to be
+		| considered a recent document.
+		| Unit: weeks. A document updated more than 3 weeks before the current date 
+		| will not be considered recent
+		|
+		| default: 3 weeks
+		|
+		| @var int
+		*/
+
+		'time_limit' => getenv('DMS_RECENT_TIMELIMIT') ?: 3,
+
+	],
 ];

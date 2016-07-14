@@ -1,6 +1,6 @@
 <?php namespace KlinkDMS\Http\Controllers\Document;
 
-use KlinkDMS\Http\Requests;
+use Illuminate\Http\Request;
 use KlinkDMS\Http\Controllers\Controller;
 use KlinkDMS\DocumentDescriptor;
 use KlinkDMS\Group;
@@ -149,6 +149,72 @@ class BulkController extends Controller {
 		}
 
 	}
+
+	public function emptytrash(AuthGuard $auth, Request $request)
+	{
+
+		try{
+			
+			$user = $auth->user();
+            
+            \Log::info('Cleaning trash', ['triggered_by' => $user->id]);
+			
+			
+
+			
+			$all_that_can_be_deleted = $this->service->getUserTrash($user);
+
+
+            // document delete
+            
+            $docs =  $all_that_can_be_deleted->documents();
+            
+            foreach ($docs as $document) {
+                $this->service->permanentlyDeleteDocument($user, $document);
+            }
+
+
+            
+            $grps = $all_that_can_be_deleted->collections();
+            
+            
+            foreach ($grps as $grp) {
+                $this->service->permanentlyDeleteGroup($grp, $user);
+            }
+
+            
+
+			$count = ($docs->count() + $grps->count());
+			$message = trans_choice('documents.bulk.permanently_removed', $count, ['num' => $count]);
+			$status = array('status' => 'ok', 'message' =>  $message);
+
+
+			\Cache::flush();
+
+
+			if ($request->ajax() && $request->wantsJson())
+			{
+				return new JsonResponse($status, 200);
+			}
+
+			return response('ok');
+
+		}catch(\Exception $kex){
+
+			\Log::error('Trash Empty action error', ['error' => $kex, 'user' => $auth->user()]);
+
+			$status = array('status' => 'error', 'message' =>  trans('documents.bulk.remove_error', ['error' => $kex->getMessage()]));
+
+			if ($request->wantsJson())
+			{
+				return new JsonResponse($status, 422);
+			}
+
+			return response('error');
+			
+		}
+
+	}
 	
 	private function deleteSingle($user, $id, $force = false){
 		
@@ -167,10 +233,10 @@ class BulkController extends Controller {
 		\Log::info('Deleting Document', ['params' => $id]);
 	
 		if(!$force){
-			return $this->service->deleteDocument($descriptor);
+			return $this->service->deleteDocument($user, $descriptor);
 		}
 		else {
-			return $this->service->permanentlyDeleteDocument($descriptor);
+			return $this->service->permanentlyDeleteDocument($user, $descriptor);
 		}
 	}
 	
@@ -379,7 +445,7 @@ class BulkController extends Controller {
 				}
 
 				$count = $documents->count();
-				return array('status' => 'ok', 'message' =>  trans_choice('documents.bulk.make_public', $count, ['num' => $count]));
+				return array('status' => 'ok', 'message' =>  trans_choice('networks.made_public', $count, ['num' => $count, 'network' => network_name() ]));
 			});
 
 
@@ -396,7 +462,7 @@ class BulkController extends Controller {
 
 			\Log::error('Bulk Make Public error', ['error' => $kex, 'request' => $request]);
 
-			$status = array('status' => 'error', 'message' =>  trans('documents.bulk.make_public_error', ['error' => $kex->getMessage()]));
+			$status = array('status' => 'error', 'message' =>  trans('networks.make_public_error', ['error' => $kex->getMessage()]));
 
 			if ($request->ajax() && $request->wantsJson())
 			{

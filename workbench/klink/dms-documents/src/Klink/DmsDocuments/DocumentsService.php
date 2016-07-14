@@ -527,15 +527,22 @@ class DocumentsService {
 	 * @throws InvalidArgumentException 
 	 * @throws KlinkException is something unexpected has occurred
 	 */
-	public function deleteDocument(DocumentDescriptor $descriptor, $visibilityToRemove = null)
+	public function deleteDocument(User $user, DocumentDescriptor $descriptor, $visibilityToRemove = null)
 	{
+
+		if(!$user->can_capability(Capability::DELETE_DOCUMENT)){
+			throw new ForbiddenException(trans('documents.messages.delete_forbidden'), 1);
+		}
+
+		if($descriptor->isPublic() && !$user->can_capability(Capability::CHANGE_DOCUMENT_VISIBILITY)){
+			\Log::warning('User tried to delete a public document without permission', ['user' => $user->id, 'document' => $id]);
+			throw new ForbiddenException(trans('documents.messages.delete_public_forbidden'), 2);
+		}
 
 		if(!$descriptor->isMine()){
 			//no action required because is an institution document saved by the DMS
 			return true;
 		}
-		
-		# if server returns 404 no problem, just update the local info
 		
 		$descriptor->status = DocumentDescriptor::STATUS_REMOVING;
 
@@ -599,13 +606,17 @@ class DocumentsService {
 	/**
 	 * Permanently removes a document (will be removed from starred, groups and all the revisions will be deleted)
 	 */
-	public function permanentlyDeleteDocument(DocumentDescriptor $descriptor){
+	public function permanentlyDeleteDocument(User $user, DocumentDescriptor $descriptor){
 		
 		if(!$descriptor->trashed() && !$descriptor->isMine()){
 			$trashed = $this->deleteDocument($descriptor);
 			if(!$trashed){
 				throw new \Exception('The document cannot be moved to trash automatically');
 			}
+		}
+
+		if(!$user->can_capability(Capability::CLEAN_TRASH)){
+			throw new ForbiddenException(trans('documents.messages.delete_forbidden'), 1);
 		}
 		
 		
@@ -634,13 +645,12 @@ class DocumentsService {
 			
 			$is_deleted = $file->forceDelete();
 			
-			// remove the descriptor Shares (not handled by foreign keys) file revisions
+			// if evertyhing on the DB is deleted  remove the File from disk (this action is very risky to perform before cleaning the DB, if error occurs we are in a bad situation)
 			
 			unlink($file_path);
 			
-		    // if evertyhing on the DB is deleted  remove the File from disk (this action is very risky to perform before cleaning the DB, if error occurs we are in a bad situation)
-		
-			return $is_deleted;
+			
+			return true;
 		});
         
         \Cache::flush();
@@ -657,36 +667,39 @@ class DocumentsService {
 				throw new \Exception('The document cannot be moved to trash automatically');
 			}
 		}
+
+		if(!$group->is_private && !$user->can_capability(Capability::MANAGE_INSTITUTION_GROUPS)){
+			throw new ForbiddenException(trans('groups.delete.forbidden_delete_project_collection', ['collection' => $group->name]));
+		}
+
+		if($group->is_private && $user->id != $group->user_id && !$user->can_capability(Capability::MANAGE_OWN_GROUPS)){
+			throw new ForbiddenException(trans('groups.delete.forbidden_delete_collection', ['collection' => $group->name]));
+		}
 		
+		// $shares_query = $group->shares();
+		// $is_shared = $shares_query->count() > 0;
 		
 		return \DB::transaction(function() use($group){
 		
 			\Log::info('Permanently deleting group', ['group' => $group]);
-			
-			// $is_shared = $is_deleted = $group->shares()->count() > 0;
-			// 
-			// if($is_shared){
-			// 	$is_deleted = $group->shares()->delete();
-			// 	
-			// 	if(!$is_deleted){
-			// 		\Log::warning('Delete aborted - share check', compact('is_deleted'));
-			// 		throw new \Exception('The Document is shared and cannot be removed from the shares. Please un-share the document and then try to delete it again.');
-			// 	}
-			// }
+
+			// TODO: remove all shares
 			
 			
 			$is_deleted = $group->forceDelete();
 
+			$group->deleteSubtree(false, true);
+
 			\Cache::flush();
 		
-			return $is_deleted;
+			return true;
 		});
 		
 	}
 	
 	/**
-		restore a previously deleted document
-	*/
+	 *	restore a previously deleted document
+	 */
 	public function restoreDocument(DocumentDescriptor $descriptor)
 	{
 		
@@ -1001,26 +1014,31 @@ class DocumentsService {
 	 * @return Collection<Groups> the collection of groups in which the $document is categorized 
 	 */
 	public function getDocumentCollections(DocumentDescriptor $document, User $user){
-		// get Projects accessible by the user => get collections for the projects
+		
 		// get private collections of the user
-		$project_collections_ids = $user->projects()->with('collection')->get()->merge($user->managedProjects()->with('collection')->get())->fetch('collection.id')->all();
-		
-		// all descendants of $projects
-		$closure_table = Group::getClosureTable();
-		$descendants = \DB::table($closure_table->getTable())->
-					whereIn($closure_table->getAncestorColumn(), $project_collections_ids)->
-					whereNotIn($closure_table->getDescendantColumn(), $project_collections_ids)->get(array($closure_table->getDescendantColumn()));
-					
-		$descendants_array = array_fetch($descendants, $closure_table->getDescendantColumn());
-		
-		$project_collections_ids = array_merge($project_collections_ids, $descendants_array); 
-		
 		$private_groups = $document->groups()->private($user->id)->get();
 		
-		$public_groups = $document->groups()->public()->whereIn('groups.id', $project_collections_ids)->get();
+		// get project collections accessible wrt user profile
+		$public_groups = $document->groups()->public();
 		
+		if( !$user->isDMSManager() ){
+
+			$project_collections_ids_method1 = $user->projects()->with('collection')->get()->merge($user->managedProjects()->with('collection')->get())->fetch('collection.id')->all();
 		
-		return $private_groups->merge($public_groups);
+			// all descendants of $projects
+			$closure_table = Group::getClosureTable();
+			$descendants = \DB::table($closure_table->getTable())->
+						whereIn($closure_table->getAncestorColumn(), $project_collections_ids_method1)->
+						whereNotIn($closure_table->getDescendantColumn(), $project_collections_ids_method1)->get(array($closure_table->getDescendantColumn()));
+						
+			$descendants_array = array_fetch($descendants, $closure_table->getDescendantColumn());
+			
+			$project_collections_ids = array_merge($project_collections_ids_method1, $descendants_array);
+
+			$public_groups = $public_groups->whereIn('groups.id', $project_collections_ids);
+		}
+		
+		return $private_groups->merge($public_groups->get());
 		
 	}
 
@@ -1219,9 +1237,15 @@ class DocumentsService {
 	public function deleteGroup(User $user, Group $group)
 	{
 
-		if($user->id != $group->user_id && (!$user->can_capability(Capability::MANAGE_OWN_GROUPS) || (!$group->is_private && !$user->can_capability(Capability::MANAGE_PROJECT_COLLECTIONS))) ){
-			throw new ForbiddenException("Permission denieded for performing the collection deletion.");
+		if(!$group->is_private && !$user->can_capability(Capability::MANAGE_INSTITUTION_GROUPS)){
+			throw new ForbiddenException(trans('groups.delete.forbidden_delete_project_collection', ['collection' => $group->name]));
 		}
+
+		if($group->is_private && $user->id != $group->user_id && !$user->can_capability(Capability::MANAGE_OWN_GROUPS)){
+			throw new ForbiddenException(trans('groups.delete.forbidden_delete_collection', ['collection' => $group->name]));
+		}
+
+		// TODO: if the collection was shared and the user that is deleting is the target of the share?
 
 		$that = $this;
 		$retval = \DB::transaction(function() use($user, $group, $that)
@@ -1256,7 +1280,6 @@ class DocumentsService {
 		});
 		
 		\Cache::forget('dms_personal_collections' . $user->id);
-		\Cache::forget('dms_institution_collections');
 		
 		return $retval;
 	}
@@ -1462,11 +1485,24 @@ class DocumentsService {
 		$group->color = 'f1c40f';
 		$group->save();
 		// reindex all the documents in that group
-		
-		\Cache::forget('dms_personal_collections' . $user->id);
-		\Cache::forget('dms_institution_collections');
 
 		$this->reindexDocuments($group->documents);
+
+		$group->getDescendants()->each(function($c){
+			
+			$c->is_private = false;
+			$c->color = 'f1c40f';
+			$c->save();
+
+			$this->reindexDocuments($c->documents);
+		
+		});
+
+		// TODO: make public also the sub-collections
+		
+		\Cache::forget('dms_personal_collections' . $user->id);
+
+		
 		
 		
 
@@ -1491,12 +1527,23 @@ class DocumentsService {
 		$group->is_private = true;
 		$group->color = '16a085';
 		$group->save();
-		
-		\Cache::forget('dms_personal_collections' . $user->id);
-		\Cache::forget('dms_institution_collections');
-
 
 		$this->reindexDocuments($group->documents);
+
+		$group->getDescendants()->each(function($c){
+			
+			$c->is_private = true;
+			$c->color = '16a085';
+			$c->save();
+
+			$this->reindexDocuments($c->documents);
+		
+		});
+		
+		\Cache::forget('dms_personal_collections' . $user->id);
+
+
+		
 		// reindex all the documents in that group
 
 		return true;

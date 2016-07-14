@@ -22,6 +22,7 @@ use Illuminate\Support\Collection;
 use KlinkDMS\Http\Request;
 use Carbon\Carbon;
 use KlinkDMS\Exceptions\GroupAlreadyExistsException;
+use Klink\DmsPreviews\Presentations\PresentationTree;
 
 class PreviewsService {
 
@@ -69,6 +70,31 @@ class PreviewsService {
 			catch(\Exception $ex){
 				
 				\Log::error('Error while generating docx preview', ['file' => $file, 'error' => $ex]);
+				
+				return false;
+			}
+		}
+		else if($extension==='pptx' /*|| $extension==='ppt'*/){
+		
+			try{
+		
+				$pptReader = \PhpOffice\PhpPresentation\IOFactory::createReader('PowerPoint2007');
+				$oPHPPresentation = $pptReader->load( $file->path );
+				$oTree = new PresentationTree($oPHPPresentation);
+				
+				// var_dump($oPHPPresentation);
+				// var_dump($oTree->display());
+				return $oTree->display();
+				
+			}catch(\InvalidArgumentException $ex){
+				
+				\Log::error('Error while generating pptx preview', ['file' => $file, 'error' => $ex]);
+				
+				return false;
+			}
+			catch(\Exception $ex){
+				
+				\Log::error('Error while generating pptx preview', ['file' => $file, 'error' => $ex]);
 				
 				return false;
 			}

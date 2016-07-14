@@ -37,6 +37,7 @@ return [
 
         'at_least_one_document' => 'Select at least 1 document',
         'at_least_one' => 'Please select at least 1 document or collection',
+        'only_one' => 'Please select only 1 document or collection',
 	),
     
     'clipboard' => [
@@ -80,7 +81,6 @@ return [
 
 	'add_or_move_to' => 'Collections',
 
-	'make_public' => 'Make Public',
 	'publish_documents' => 'Publish Documents',
 	'make_private' => 'Keep Private',
 
@@ -88,6 +88,7 @@ return [
 
 	'trash_btn' => 'Delete',
 	'trash_btn_alt' => 'Move to Trash',
+	'forcedelete_btn_alt' => 'Permanently Delete',
 	'restore_btn' => 'Restore',
 	'empty_trash' => 'Empty Trash',
 
@@ -110,9 +111,9 @@ return [
         'collection_locked' => 'This is the collection you are browsing and cannot be removed.'
     ),
     
-    'hints' => [
-        'make_public' => 'Select some documents before making them available in the K-Link Network',
-    ],
+    // 'hints' => [
+    //     'make_public' => 'Select some documents before making them available in the K-Link Network',
+    // ],
     
     'not_available' => 'Oops, the action is not ready for the primetime!',
 
@@ -126,6 +127,7 @@ return [
         'ok_btn' => 'OK',
         
         'delete_btn' => 'Yes, delete it!',
+        'move_btn' => 'Yes, Move!',
         
         // showed when on a dialog, like the one in people group creation, the input field is empty, but a value is required
         'input_required' => 'You need to write something!',
@@ -134,5 +136,7 @@ return [
     ],
 	
 	'got_it' => 'Got it!',
+
+	'remove' => 'Remove',
 
 ];

@@ -124,8 +124,8 @@
 		<div class="action-group">
 
 			@if(isset($is_klink_public_enabled) && $is_klink_public_enabled && $context!=='trash' && $context!=='shared' && $context!=='public' && isset($can_make_public) && $can_make_public)
-				<a href="#pub" class="button hint--bottom" rv-on-click="makePublic" data-hint="{{trans('actions.hints.make_public')}}" >
-					<span class="btn-icon icon-social-white icon-social-white-ic_public_white_24dp"></span>{{trans('actions.make_public')}}
+				<a href="#pub" class="button hint--bottom" rv-on-click="makePublic" data-hint="{{trans('networks.publish_to_hint', ['network' => network_name()])}}" >
+					<span class="btn-icon icon-social-white icon-social-white-ic_public_white_24dp"></span>{{trans('networks.publish_to_short')}}
 				</a>
 			@endif
 
@@ -263,6 +263,7 @@
 		@if(isset($context))
 			Documents.setContext({
 				filter:'{{$context}}',
+				network_name: '{{ network_name() }}',
 				@if(isset($context_group)) group: '{{$context_group}}', @endif
 				@if(isset($current_visibility)) visibility: '{{$current_visibility}}', @endif
 				search: @if(isset($search_terms)) '{{$search_terms}}' @else '' @endif,

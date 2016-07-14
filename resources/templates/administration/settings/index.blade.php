@@ -94,38 +94,61 @@
                 
                 
                 
-                <h3>{{trans('administration.settings.klinkpublic_section')}}</h3>
+                <h3>{{trans('networks.settings.section')}}</h3>
     
-                <p class="description">{{trans('administration.settings.klinkpublic_section_help')}}</p> 
+                <p class="description">{{trans('networks.settings.section_help')}}</p> 
             
                 <p>                
-                    <input type="checkbox" name="public_core_enabled" id="public_core_enabled" value="true" @if(isset($public_core_enabled) && $public_core_enabled) checked @endif /><label for="public_core_enabled">{{trans('administration.settings.klinkpublic_enabled')}}</label>
+                    <input type="checkbox" name="public_core_enabled" id="public_core_enabled" value="true" @if(isset($public_core_enabled) && $public_core_enabled) checked @endif /><label for="public_core_enabled">{{trans('networks.settings.enabled')}}</label>
                 </p>
 
                 <p>
                     
-                    <label for="public_core_url">{{trans('administration.settings.klinkpublic_url')}}</label>
+                    <label for="public_core_url">{{trans('networks.settings.url')}}</label>
                     @if( isset($errors) && $errors->has('public_core_url') )
                         <span class="field-error">{{ implode(",", $errors->get('public_core_url'))  }}</span>
                     @endif
                     <input type="text" required name="public_core_url" id="public_core_url" value="{{old('public_core_url', isset($public_core_url) ? $public_core_url : '')}}">
 
-                    <label for="public_core_username">{{trans('administration.settings.klinkpublic_username')}}</label>
+                    <label for="public_core_username">{{trans('networks.settings.username')}}</label>
                     @if( isset($errors) && $errors->has('public_core_username') )
                         <span class="field-error">{{ implode(",", $errors->get('public_core_username'))  }}</span>
                     @endif
                     <input type="text" required name="public_core_username" id="public_core_username" value="{{old('public_core_username', isset($public_core_username) ? $public_core_username : '')}}">
 
-                    <label for="public_core_password">{{trans('administration.settings.klinkpublic_password')}}</label>
+                    <label for="public_core_password">{{trans('networks.settings.password')}}</label>
                     @if( isset($errors) && $errors->has('public_core_password') )
                         <span class="field-error">{{ implode(",", $errors->get('public_core_password'))  }}</span>
                     @endif
                     <input type="password" required name="public_core_password" id="public_core_password" value="{{old('public_core_password', isset($public_core_password) ? $public_core_password : '')}}">
                 </p>
                 
+                <div>
+
+                    
+                    <strong>{{ trans('networks.settings.name_section') }}</strong><br/>
+                    <span class="description">{{ trans('networks.settings.name_section_help') }}</span>
+
+                    <p>
+                    <label for="public_core_network_name_en">{{trans('networks.settings.name_en')}}</label>
+                    @if( isset($errors) && $errors->has('public_core_network_name_en') )
+                        <span class="field-error">{{ implode(",", $errors->get('public_core_network_name_en'))  }}</span>
+                    @endif
+                    <input type="text" required name="public_core_network_name_en" id="public_core_network_name_en" value="{{old('public_core_network_name_en', isset($public_core_network_name_en) ? $public_core_network_name_en : '')}}">
+
+                    <label for="public_core_network_name_ru">{{trans('networks.settings.name_ru')}}</label>
+                    @if( isset($errors) && $errors->has('public_core_network_name_ru') )
+                        <span class="field-error">{{ implode(",", $errors->get('public_core_network_name_ru'))  }}</span>
+                    @endif
+                    <input type="text" required name="public_core_network_name_ru" id="public_core_network_name_ru" value="{{old('public_core_network_name_ru', isset($public_core_network_name_ru) ? $public_core_network_name_ru : '')}}">
+
+                    </p>
+
+
+                </div>
                 
                 <p>                
-                    <input type="checkbox" name="public_core_debug" id="public_core_debug" value="true" @if(isset($public_core_debug) && $public_core_debug) checked @endif /><label for="public_core_debug">{{trans('administration.settings.klinkpublic_debug_enabled')}}</label>
+                    <input type="checkbox" name="public_core_debug" id="public_core_debug" value="true" @if(isset($public_core_debug) && $public_core_debug) checked @endif /><label for="public_core_debug">{{trans('networks.settings.debug_enabled')}}</label>
                 </p>
                 
                 <button type="submit" class="button" id="public-settings-save-btn" name="public-settings-save-btn">

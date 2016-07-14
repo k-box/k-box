@@ -154,7 +154,7 @@
 
 				<div>
 					<input type="checkbox" name="visibility" id="visibility" value="public" @if($document->isPublic()) checked @endif>
-					<label for="visibility">{{trans('actions.make_public')}}</label>
+					<label for="visibility">{{trans('networks.publish_to_long', ['network' => network_name()])}}</label>
 					<span class="description @if($document->isPrivate()) hidden @endif">{{trans('documents.edit.public_visibility_description')}}</span>
 				</div>
 
@@ -162,13 +162,16 @@
 				
 
 				<div class="minimeta">
+					<div>
+					<span data-hint="{{ $document->getUpdatedAt(true) }}" class="hint--bottom">{!! trans('documents.edit.last_edited', ['time' => $document->getUpdatedAtHumanDiff(true)]) !!}</span>
+					</div>
 
-					<p>{!! trans('documents.edit.last_edited', ['time' => $document->updated_at->diffForHumans()]) !!}</p>
-
-					<p>{!! trans('documents.edit.created_on', ['time' => $document->created_at->toDayDateTimeString()]) !!}</p>
+					<div>
+					<span data-hint="{{ $document->getCreatedAt(true) }}" class="hint--bottom">{!! trans('documents.edit.created_on', ['time' => $document->getCreatedAt()]) !!}</span>
+					</div>
 
 					@if(!is_null($document->file))
-					<p>{!! trans('documents.edit.uploaded_by', ['name' => $document->file->user->name]) !!}</p>
+						<p>{!! trans('documents.edit.uploaded_by', ['name' => !is_null($document->file->user) ? $document->file->user->name : e($document->user_uploader) ]) !!}</p>
 					@endif
 
 				</div>

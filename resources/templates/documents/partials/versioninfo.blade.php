@@ -41,7 +41,7 @@
 
 					
 				</span>
-				<span>{{$version->updated_at->diffForHumans()}}</span>
+				<span title="{{ localized_date_full($version->updated_at) }}">{{ localized_date_human_diff($version->updated_at) }}</span>
 			</li>
 
 			<?php $counter = $counter-1; ?>

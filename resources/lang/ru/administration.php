@@ -246,13 +246,13 @@ return [
 		'map_visualization_chk' => 'Включить вид Карта',
         
         // Settings to enable/disable K-Link Public integration
-        'klinkpublic_section' => 'Открытая сеть K-Link ',
-		'klinkpublic_section_help' => 'Настроить доступ к Открытой сети K-Link',
-		'klinkpublic_enabled' => 'Разрешить предоставление открытого доступа к документам',
-		'klinkpublic_debug_enabled' => 'Разрешить отладку соединения K-Link',
-		'klinkpublic_username' => 'Пользователь, используемый для опознования в Открытой сети K-Link ',
-		'klinkpublic_password' => 'Пароль, используемый для опознования в Открытой сети K-Link ',
-		'klinkpublic_url' => 'URL, используемый для исходного узла Открытой сети K-Link ',
+        // 'klinkpublic_section' => 'Открытая сеть K-Link ',
+		// 'klinkpublic_section_help' => 'Настроить доступ к Открытой сети K-Link',
+		// 'klinkpublic_enabled' => 'Разрешить предоставление открытого доступа к документам',
+		// 'klinkpublic_debug_enabled' => 'Разрешить отладку соединения K-Link',
+		// 'klinkpublic_username' => 'Пользователь, используемый для опознования в Открытой сети K-Link ',
+		// 'klinkpublic_password' => 'Пароль, используемый для опознования в Открытой сети K-Link ',
+		// 'klinkpublic_url' => 'URL, используемый для исходного узла Открытой сети K-Link ',
 		
         // Settings to enable/disable UserVoice ticket integration
         'support_section' => 'Поддержка',

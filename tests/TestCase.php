@@ -81,6 +81,65 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
 		
 		return $user;
 	}
+
+
+    protected function createUsers($capabilities, $count, $user_params = []){
+        
+        if( Capability::all()->isEmpty() ){
+            $this->seedDatabase();
+        }
+		
+		$users = factory(\KlinkDMS\User::class, $count)->create( $user_params );
+
+        $users->each(function($el) use($capabilities){
+            $el->addCapabilities( $capabilities );
+        });
+
+		return $users;
+	}
+
+
+    protected function createDocument(User $user, $visibility = 'private'){
+
+        $template = base_path('tests/data/example.pdf');
+        $destination = storage_path('documents/example-document.pdf');
+
+        copy($template, $destination);
+
+        $file = factory('KlinkDMS\File')->create([
+            'user_id' => $user->id,
+            'original_uri' => '',
+            'path' => $destination,
+        ]);
+        
+        $doc = factory('KlinkDMS\DocumentDescriptor')->create([
+            'owner_id' => $user->id,
+            'file_id' => $file->id,
+            'hash' => $file->hash,
+            'is_public' => $visibility === 'private' ? false : true
+        ]);
+
+        return $doc;
+
+    }
+
+    protected function createCollection(User $user, $is_personal = true, $childs = 0){
+
+        $service = app('Klink\DmsDocuments\DocumentsService');
+
+        $group = $service->createGroup($user, 'Collection of user ' . $user->id, null, null, $is_personal);
+
+        if($childs > 0){
+
+            for ($i=0; $i < $childs; $i++) { 
+                $service->createGroup($user, 'Child ' . $user->id . '-' . $group->id . '-' . $i, null, $group, $is_personal);
+            }
+
+        }
+
+        return $group;
+
+    }
     
     
     public function assertViewName($expected){

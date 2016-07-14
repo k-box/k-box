@@ -28,6 +28,8 @@ class SettingsSaveRequest extends Request {
 			'public_core_username' => 'sometimes|required_with:public_core_url|string',
 			'public_core_password' => 'sometimes|required_with:public_core_url|string',
 			'public_core_debug' => 'sometimes|required|in:true',
+			'public_core_network_name_en' => 'sometimes|string',
+			'public_core_network_name_ru' => 'sometimes|string',
 			'support_token' => 'sometimes|string',
 		];
 	}

@@ -8,7 +8,7 @@
 	    
 	    @else
 
-        <p>You have some errors, please correct them before proceeding</p>
+        <p>{{trans('errors.generic_form_error')}}</p>
 
         @endif
 

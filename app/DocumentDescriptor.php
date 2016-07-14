@@ -4,6 +4,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use KlinkDMS\Starred;
 use Carbon\Carbon;
+use LocalizedDate;
+use KlinkDMS\Traits\LocalizableDateFields;
 
 class DocumentDescriptor extends Model {
 
@@ -73,7 +75,7 @@ class DocumentDescriptor extends Model {
     
     */
 
-    use SoftDeletes;
+    use SoftDeletes, LocalizableDateFields;
 
 
     /**
@@ -493,28 +495,26 @@ class DocumentDescriptor extends Model {
     }
     
     
-    public function ago(){
-        $diff = $this->updated_at->diffInDays();
+    // public function ago(){
+    //     $diff = $this->updated_at->diffInDays();
         
-        if($diff < 7){
-            return $this->updated_at->diffForHumans();
-        }
+    //     if($diff < 7){
+    //         return $this->updated_at->diffForHumans();
+    //     }
         
-        return $this->updated_at->format(trans('units.date_format'));
-    }
+    //     return utf8_encode($this->updated_at->formatLocalized(trans('units.date_format')));
+    // }
     
     public function isIndexed(){
         return $this->status !== self::STATUS_NOT_INDEXED && $this->status !== self::STATUS_ERROR;
     }
     
-    
-//    public function getUpdatedAtAttribute($value){
-//        dd($value);
-//    }
-    
-    public function getCreatedAt(){
-        return $this->created_at->format(trans('units.date_format'));
-    }
+    // public function getCreatedAt(){
+
+    //     dd(LocalizedDate::now()->format('l j F Y H:i:s'));
+
+    //     return $this->created_at->formatLocalized(trans('units.date_format'));
+    // }
     
     public function setLastErrorAttribute($value){
         

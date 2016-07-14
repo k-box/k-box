@@ -66,7 +66,7 @@ The creation can only be performed by the Project Administrator through the Proj
 
 On the Project management page, of the project you want to have a microsite, you can press the button _Create Microsite_ (picture below) to start creating the Microsite.
 
-![microsite create button](./img/microsite-create-1.png)
+![microsite create button](./img/microsite-create-1.JPG)
 
 The page showed in the next picture will be showed. From that page you can configure every aspect of the Microsite.
 

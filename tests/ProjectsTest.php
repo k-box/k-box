@@ -41,6 +41,20 @@ class ProjectsTest extends TestCase {
 			array( Capability::$GUEST, array('projects.index', 'projects.show', 'projects.create', 'projects.edit'), 403 ),
 		);
 	}
+
+    public function create_input_provider(){
+		
+		return array( 
+			array( false, false, false ),
+			array( true, false, false ),
+			array( false, true, false ),
+			array( false, false, true ),
+			array( true, false, true ),
+			array( true, true, false ),
+			array( false, true, true ),
+			array( true, true, true ),
+		);
+	}
     
     
     
@@ -103,6 +117,108 @@ class ProjectsTest extends TestCase {
             }
             
         }
+        
+    }
+
+
+    /**
+     * @dataProvider create_input_provider
+     */
+    public function testProjectCreate($omit_title = false, $omit_description = false, $omit_user = false){
+
+        $user = $this->createUser(Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH);
+
+        $expected_available_users = $this->createUsers(Capability::$PARTNER, 4);
+
+        \Session::start();
+        
+        $this->actingAs( $user );
+        
+        $this->visit( route('projects.create') )->seePageIs( route('projects.create') );
+
+        $this->assertResponseOk();
+
+        $this->assertViewHas('manager_id', $user->id);
+
+        $this->assertViewHas('available_users');
+
+        $available_users = $this->response->original->available_users;
+
+        $this->assertEquals($expected_available_users->count(), $available_users->count());
+
+
+        // Compile the form (according to the data parameters) and submit it
+
+        if(!$omit_title){
+            $this->type('Project title', 'name');
+        }
+
+        if(!$omit_description){
+            $this->type('Project description', 'description');
+        }
+
+        if(!$omit_user){
+            $this->select($expected_available_users->first()->id, 'users');
+        }
+
+
+        $this->press( trans('projects.labels.create_submit') );
+
+        // check if the show page is stored
+
+        if($omit_title || $omit_user){
+
+            $this->seePageIs( route('projects.create') );
+
+            $this->see(trans('errors.generic_form_error'));
+
+            $this->assertArrayHasKey('errors', $this->response->original->getFactory()->getShared());
+            
+            $errobag = $this->response->original->getFactory()->getShared()['errors'];
+
+            if($omit_title){
+                $this->assertTrue($errobag->has('name'));
+            }
+
+            if($omit_user){
+                $this->assertTrue($errobag->has('users'));
+            }
+
+        }
+        else {
+
+            $this->assertResponseOk();
+
+            $this->assertViewHas('project');
+
+        }
+
+    }
+
+
+    public function testProjectEdit(){
+
+        $project = factory('KlinkDMS\Project')->create();
+        
+        $user = $project->manager()->first();
+
+        $expected_available_users = $this->createUsers(Capability::$PARTNER, 4);
+
+        \Session::start();
+        
+        $this->actingAs( $user );
+        
+        $this->visit( route('projects.edit', ['id' => $project->id]) )->seePageIs( route('projects.edit', ['id' => $project->id]) );
+
+        $this->assertResponseOk();
+
+        $this->assertViewHas('manager_id', $user->id);
+
+        $this->assertViewHas('available_users');
+
+        $available_users = $this->response->original->available_users;
+
+        $this->assertEquals($expected_available_users->count(), $available_users->count());
         
     }
     

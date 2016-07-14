@@ -114,7 +114,7 @@ class SearchService {
 
 				$res->institutionName = !is_string($institution) ? $institution->name : $institution;
 
-				$res->creationDate = \Carbon\Carbon::createFromFormat( \DateTime::RFC3339, $res->creationDate)->formatLocalized('%A %d %B %Y');
+				$res->creationDate = localized_date_short(\Carbon\Carbon::createFromFormat( \DateTime::RFC3339, $res->creationDate));
 
 				$res->klink_id = $res->getKlinkId();
 			}

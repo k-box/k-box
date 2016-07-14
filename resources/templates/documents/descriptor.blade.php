@@ -122,12 +122,12 @@
 		</span>
 		
 
-		<span class="meta-info creation-date" title="{{trans('documents.descriptor.added_on')}} {{$item->created_at->toDateTimeString()}}">
+		<span class="meta-info creation-date" title="{{trans('documents.descriptor.added_on')}} {{$item->getCreatedAt(true)}}">
 			<span class="meta-label">{{trans('documents.descriptor.added_on')}}&nbsp;</span>{{$item->getCreatedAt()}}
 		</span>
 		
-		<span class="meta-info modified-date" title="{{trans('documents.descriptor.last_modified')}} {{$item->updated_at->toDateTimeString()}}">
-			<span class="meta-label">{{trans('documents.descriptor.last_modified')}}&nbsp;</span>{{$item->ago()}}
+		<span class="meta-info modified-date" title="{{trans('documents.descriptor.last_modified')}} {{$item->getUpdatedAt(true)}}">
+			<span class="meta-label">{{trans('documents.descriptor.last_modified')}}&nbsp;</span>{{ $item->getUpdatedAtHumanDiff() }}
 		</span>
 
 		<span class="meta-info visibility">
@@ -148,6 +148,12 @@
 
 	<div class="icon">
 		<span class="klink-document-icon klink-{{$item->documentType}}"></span>
+	</div>
+
+	<div class="badges">
+		<div class="badge public" title="{{trans('documents.descriptor.is_public')}}">
+			<span class="icon-social-black icon-social-black-ic_public_black_24dp"></span>
+		</div>
 	</div>
 
 	<div class="thumbnail klink-{{$item->documentType}}">

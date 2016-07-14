@@ -2,10 +2,12 @@
 
 use Laracasts\TestDummy\Factory;
 use KlinkDMS\User;
+use KlinkDMS\File;
 use KlinkDMS\Institution;
 use KlinkDMS\Capability;
 use KlinkDMS\DocumentDescriptor;
 use Illuminate\Support\Facades\Artisan;
+use KlinkDMS\Exceptions\ForbiddenException;
 
 
 use Illuminate\Foundation\Testing\WithoutMiddleware;
@@ -142,6 +144,40 @@ class DocumentsTest extends TestCase {
         }
   		
 	}
+
+    /**
+	 * Tests if the edit page is showed even if the user uploader of the document was disabled 
+	 *
+     * @dataProvider user_provider_for_editpage_public_checkbox_test
+	 * @return void
+	 */
+    public function testDocumentEditPageWhenUserDisabled( $caps, $can_see )
+	{
+        
+        $user = $this->createUser( $caps );
+        $user2 = $this->createUser( $caps );
+        
+        $file = factory('KlinkDMS\File')->create([
+            'user_id' => $user->id,
+            'original_uri' => ''
+        ]);
+        
+        $doc = factory('KlinkDMS\DocumentDescriptor')->create([
+            'owner_id' => $user->id,
+            'file_id' => $file->id,
+        ]);
+
+        $user->delete();
+
+        $url = route( 'documents.edit', $doc->id );
+        
+        $this->actingAs($user2);
+        
+        $this->visit( $url );
+        
+        $this->assertResponseOk();
+  		
+	}
     
     /**
 	 * Tests if the update for submit from the edit page is done correctly 
@@ -192,16 +228,18 @@ class DocumentsTest extends TestCase {
     public function testDocumentUpdateMakePublicFromEditPage($caps){
         
         $user = $this->createUser( $caps );
+
+        $doc = $this->createDocument($user);
         
-        $file = factory('KlinkDMS\File')->create([
-            'user_id' => $user->id,
-            'original_uri' => ''
-        ]);
+        // $file = factory('KlinkDMS\File')->create([
+        //     'user_id' => $user->id,
+        //     'original_uri' => ''
+        // ]);
         
-        $doc = factory('KlinkDMS\DocumentDescriptor')->create([
-            'owner_id' => $user->id,
-            'file_id' => $file->id
-        ]);
+        // $doc = factory('KlinkDMS\DocumentDescriptor')->create([
+        //     'owner_id' => $user->id,
+        //     'file_id' => $file->id
+        // ]);
         
         $url = route( 'documents.edit', $doc->id );
         
@@ -725,6 +763,161 @@ class DocumentsTest extends TestCase {
         $this->assertEquals($user->id, $doc->owner_id, 'User not equal to owner');
         $this->assertEquals($user->institution_id, $doc->institution_id, 'User Institution not equal to document institution_id');
 
+    }
+
+
+    public function testDocumentService_deleteDocument(){
+
+        $user = $this->createUser( Capability::$PARTNER );
+
+        $doc = $this->createDocument($user);
+
+        $service = app('Klink\DmsDocuments\DocumentsService');
+
+        $is_deleted = $service->deleteDocument($user, $doc);
+
+        $this->assertTrue($is_deleted);
+
+        $doc = DocumentDescriptor::withTrashed()->findOrFail($doc->id);
+
+        $this->assertTrue($doc->trashed());
+
+        $this->assertNull($doc->file);
+
+        $file = File::withTrashed()->findOrFail($doc->file_id);
+
+        $this->assertTrue($file->trashed());
+
+    }
+
+    /**
+     * @expectedException KlinkDMS\Exceptions\ForbiddenException
+     */
+    public function testDocumentService_deleteDocument_forbidden(){
+
+        $user = $this->createUser( Capability::$GUEST );
+
+        $doc = $this->createDocument($user);
+
+        $service = app('Klink\DmsDocuments\DocumentsService');
+
+        $service->deleteDocument($user, $doc);
+
+    }
+
+    public function testDocumentDelete(){
+
+        $user = $this->createUser( Capability::$PARTNER);
+
+        $doc = $this->createDocument($user);
+
+        \Session::start();
+
+        $url = route( 'documents.destroy', ['id' => $doc->id, 
+                '_token' => csrf_token()] );
+        
+        $this->actingAs($user);
+
+        $this->delete( $url );
+
+        $this->see('ok');
+		
+		$this->assertResponseStatus(202);
+
+        $doc = DocumentDescriptor::withTrashed()->findOrFail($doc->id);
+
+        $this->assertTrue($doc->trashed());
+
+    }
+
+    
+    
+    public function testDocumentService_permanentlyDeleteDocument(){
+
+        $user = $this->createUser( Capability::$PROJECT_MANAGER );
+
+        $doc = $this->createDocument($user);
+
+        $service = app('Klink\DmsDocuments\DocumentsService');
+
+        $service->deleteDocument($user, $doc); // put doc in trash
+        $doc = DocumentDescriptor::withTrashed()->findOrFail($doc->id);
+
+
+        $is_deleted = $service->permanentlyDeleteDocument($user, $doc);
+        
+        $this->assertTrue($is_deleted);
+
+        $exists_doc = DocumentDescriptor::withTrashed()->exists($doc->id);
+
+        $this->assertFalse($exists_doc);
+
+        $file = File::withTrashed()->find($doc->file_id);
+
+        $this->assertNull($file);
+        
+    }
+
+    /**
+     * @expectedException KlinkDMS\Exceptions\ForbiddenException
+     */
+    public function testDocumentService_permanentlyDeleteDocument_forbidden(){
+
+        $user = $this->createUser( Capability::$PARTNER );
+
+        $doc = $this->createDocument($user);
+
+        $service = app('Klink\DmsDocuments\DocumentsService');
+
+        $service->deleteDocument($user, $doc); // put doc in trash
+
+        $is_deleted = $service->permanentlyDeleteDocument($user, $doc);
+        
+    }
+
+
+    /**
+     * @expectedException Illuminate\Database\Eloquent\ModelNotFoundException
+     */
+    public function testDocumentForceDelete(){
+
+        $user = $this->createUser( Capability::$PROJECT_MANAGER);
+
+        $doc = $this->createDocument($user);
+
+        \Session::start();
+
+        $url = route( 'documents.destroy', ['id' => $doc->id, 
+                '_token' => csrf_token()] );
+        
+        $this->actingAs($user);
+
+        $this->delete( $url );
+
+        $this->see('ok');
+		
+		$this->assertResponseStatus(202);
+
+        $url = route( 'documents.destroy', [
+                'id' => $doc->id, 
+                'force' => true, 
+                '_token' => csrf_token()] );
+
+        $this->delete( $url );
+
+        $this->see('ok');
+		
+		$this->assertResponseStatus(202);
+
+        $doc = DocumentDescriptor::withTrashed()->findOrFail($doc->id);
+
+
+    }
+
+    public function testDocumentReferenceDelete(){
+        $this->markTestIncomplete(
+          'Implementation needed.'
+        );
     }
     
 }

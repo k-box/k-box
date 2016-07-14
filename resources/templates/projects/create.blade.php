@@ -14,15 +14,6 @@
 
 @section('action-menu')
 	
-	<div class="action-group">
-
-		<a href="{{route('projects.create')}}" class="button" rv-on-click="createGroup">
-			<span class="btn-icon icon-content-white icon-content-white-ic_add_circle_outline_white_24dp"></span>{{trans('projects.new_button')}}
-		</a>
-
-	</div>
-
-	<div class="separator"></div>
 @stop
 
 
@@ -38,7 +29,7 @@
 
     <form  method="post" action="{{route('projects.store')}}">
     
-	@include('projects.partials.form', ['submit_btn' => trans('projects.labels.create_submit')])
+	@include('projects.partials.form', ['submit_btn' => trans('projects.labels.create_submit'), 'create' => true])
         
     </form>
 			
@@ -61,7 +52,7 @@
 
 	<script>
 	// require(['modules/people'], function(People){
-	// 	People.data({!! $groups !!}, {!! $available_users_encoded !!});
+	
 	// });
 	</script>
 

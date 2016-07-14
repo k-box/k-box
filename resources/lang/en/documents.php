@@ -81,13 +81,13 @@ return [
 		
 		'restore_error' => 'Cannot restore document. :error',
 		
-		'make_public' => ':num document has been published over the K-Link Public Network|:num documents were made available in the K-Link Network.',
+		// 'make_public' => ':num document has been published over the K-Link Public Network|:num documents were made available in the K-Link Network.',
 		
-		'make_public_error' => 'The publish operation was not completed due to an error. :error',
-		'make_public_error_title' => 'Cannot publish in K-Link Network',
+		// 'make_public_error' => 'The publish operation was not completed due to an error. :error',
+		// 'make_public_error_title' => 'Cannot publish in K-Link Network',
         
-        'make_public_success_text_alt' => 'The documents are now publicly available on the K-Link Network',
-		'make_public_success_title' => 'Publish completed',
+        // 'make_public_success_text_alt' => 'The documents are now publicly available on the K-Link Network',
+		// 'make_public_success_title' => 'Publish completed',
 
         'adding_title' => 'Adding documents...',
         'adding_message' => 'Please wait while the documents are being added to the collection...',
@@ -95,22 +95,22 @@ return [
         
         'add_to_error' => 'Cannot add to collection',
         
-        'making_public_title' => 'Publishing...',
-        'making_public_text' => 'Please wait while the documents will be made publicly available in the K-Link Network',
+        // 'making_public_title' => 'Publishing...',
+        // 'making_public_text' => 'Please wait while the documents will be made publicly available in the K-Link Network',
     
-        'make_public_change_title_not_available' => 'The option for changing title before Publish is not currently available.',
+        // 'make_public_change_title_not_available' => 'The option for changing title before Publish is not currently available.',
 
-        'make_public_all_collection_dialog_text' => 'You will make all the documents in this collection publicly available on the K-Link Network. (click outside to undo)',
-        'make_public_inside_collection_dialog_text' => 'You will make all the documents inside ":item" publicly available on the K-Link Network. (click outside to undo)',
+        // 'make_public_all_collection_dialog_text' => 'You will make all the documents in this collection publicly available on the K-Link Network. (click outside to undo)',
+        // 'make_public_inside_collection_dialog_text' => 'You will make all the documents inside ":item" publicly available on the K-Link Network. (click outside to undo)',
         
-        'make_public_dialog_title' => 'Publish ":item" on K-Link Network',
-        'make_public_dialog_title_alt' => 'Publish on K-Link Network',
+        // 'make_public_dialog_title' => 'Publish ":item" on K-Link Network',
+        // 'make_public_dialog_title_alt' => 'Publish on K-Link Network',
         
-        'publish_btn' => 'Publish!',
-        'make_public_empty_selection' => 'Please select the documents you want to make available in the K-Link Network.',
+        // 'publish_btn' => 'Publish!',
+        // 'make_public_empty_selection' => 'Please select the documents you want to make available in the K-Link Network.',
         
-        'make_public_dialog_text' => 'You will make ":item" publicly available on the K-Link Network. (click outside to stop)',
-        'make_public_dialog_text_count' => 'You will make :count documents publicly available on the K-Link Network. (click outside to stop)',
+        // 'make_public_dialog_text' => 'You will make ":item" publicly available on the K-Link Network. (click outside to stop)',
+        // 'make_public_dialog_text_count' => 'You will make :count documents publicly available on the K-Link Network. (click outside to stop)',
 	),
 
 	'create' => array(
@@ -184,6 +184,20 @@ return [
         'cannot_delete_dialog_title' => 'Cannot delete ":document"!',
         'cannot_delete_dialog_title_alt' => 'Cannot delete!',
         'cannot_delete_general_error' => 'There was a problem deleting the document, please contact an Administrator.',
+    ],
+
+	'permanent_delete' => [
+        
+        'dialog_title' => 'Permanently Delete ":document"?',
+        'dialog_title_alt' => 'Permanently Delete document?',
+        'dialog_title_count' => 'Delete :count documents?',
+        'dialog_text' => 'You\'re about to permanently delete :document. This operation cannot be undone.',
+        'dialog_text_count' => 'You\'re about to permanently delete :count documents. This operation cannot be undone.',
+        'deleted_dialog_title' => ':document has been permanently deleted',
+        'deleted_dialog_title_alt' => 'Permanently Deleted',
+        'cannot_delete_dialog_title' => 'Cannot permanently delete ":document"!',
+        'cannot_delete_dialog_title_alt' => 'Cannot permanently delete!',
+        'cannot_delete_general_error' => 'There was a problem while permanently deleting the document, please contact an Administrator.',
     ],
 
 

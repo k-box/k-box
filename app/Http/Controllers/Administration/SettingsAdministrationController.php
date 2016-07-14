@@ -54,6 +54,8 @@ class SettingsAdministrationController extends Controller {
       Option::PUBLIC_CORE_URL => Option::option(Option::PUBLIC_CORE_URL, ''),
       Option::PUBLIC_CORE_USERNAME => Option::option(Option::PUBLIC_CORE_USERNAME, ''),
       Option::PUBLIC_CORE_PASSWORD => @base64_decode(Option::option(Option::PUBLIC_CORE_PASSWORD, '')),
+      Option::PUBLIC_CORE_NETWORK_NAME_EN => Option::option(Option::PUBLIC_CORE_NETWORK_NAME_EN, ''),
+      Option::PUBLIC_CORE_NETWORK_NAME_RU => Option::option(Option::PUBLIC_CORE_NETWORK_NAME_RU, ''),
       Option::SUPPORT_TOKEN => support_token(),
     );
 
@@ -122,12 +124,18 @@ class SettingsAdministrationController extends Controller {
                     Option::put(Option::PUBLIC_CORE_PASSWORD, base64_encode($password));   
                     Option::put(Option::PUBLIC_CORE_CORRECT_CONFIG, true);
                     
-                    \Log::info('Changed K-Link Public configuration', array(
+                    \Log::info('Changed Network configuration', array(
                         'by_user' => $auth->user()->id,
                         'new_config' => array('url' => $url, 'username' => $username)
                         ));   
                         
                 }
+
+                Option::put(Option::PUBLIC_CORE_NETWORK_NAME_EN, $request->input(Option::PUBLIC_CORE_NETWORK_NAME_EN, ''));
+                Option::put(Option::PUBLIC_CORE_NETWORK_NAME_RU, $request->input(Option::PUBLIC_CORE_NETWORK_NAME_RU, ''));
+
+                \Cache::forget('network-name-en');
+                \Cache::forget('network-name-ru');
 
             
                 if($request->has(Option::PUBLIC_CORE_ENABLED)){

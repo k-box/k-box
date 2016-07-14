@@ -2,6 +2,7 @@
 
 use Laracasts\TestDummy\Factory;
 use KlinkDMS\User;
+use KlinkDMS\Group;
 use KlinkDMS\Capability;
 use KlinkDMS\DocumentDescriptor;
 use Illuminate\Support\Facades\Artisan;
@@ -81,7 +82,7 @@ class CollectionsTest extends TestCase {
         
         $user = $this->createAdminUser();
         
-        $user_not_owner = $this->createAdminUser();
+        $user_not_owner = $this->createUser(Capability::$PARTNER);
         
         $service = app('Klink\DmsDocuments\DocumentsService');        
         
@@ -350,6 +351,238 @@ class CollectionsTest extends TestCase {
         $this->assertEquals(1, $grp1->documents()->count());
         $this->assertEquals(0, $grp2->documents()->count());
         
+    }
+
+    public function testDocumentService_deleteGroup(){
+
+        $user = $this->createUser( Capability::$PARTNER );
+
+        $group = $this->createCollection($user, true, 3);
+
+        // get childs
+        $children = $group->getChildren();
+
+        $children_ids = $children->fetch('id')->toArray();
+
+        $this->assertEquals(3, $children->count(), 'Children count pre-condition');
+
+        $service = app('Klink\DmsDocuments\DocumentsService');
+
+        $is_deleted = $service->deleteGroup($user, $group);
+
+        $this->assertTrue($is_deleted);
+
+        $group = Group::withTrashed()->findOrFail($group->id);
+
+        $trashed_children = Group::withTrashed()->whereIn('id', $children_ids)->get();
+
+        $after_delete_children = $group->getChildren();
+
+        $this->assertTrue($group->trashed());
+
+        // assert all childs are trashed
+
+        $this->assertEquals(0, $after_delete_children->count());
+        $this->assertEquals(3, $trashed_children->count());
+
+    }
+
+    /**
+     * @expectedException KlinkDMS\Exceptions\ForbiddenException
+     */
+    public function testDocumentService_deleteGroup_forbidden(){
+
+        $user = $this->createUser( Capability::$PARTNER );
+        $user2 = $this->createUser( Capability::$PARTNER );
+
+        $doc = $this->createCollection($user);
+
+        $service = app('Klink\DmsDocuments\DocumentsService');
+
+        $service->deleteGroup($user2, $doc);
+
+    }
+
+    public function testCollectionDelete(){
+
+        $user = $this->createUser( Capability::$PARTNER);
+
+        $doc = $this->createCollection($user);
+
+        \Session::start();
+
+        $url = route( 'documents.groups.destroy', ['id' => $doc->id, 
+                '_token' => csrf_token()] );
+        
+        $this->actingAs($user);
+
+        $this->delete( $url );
+
+        $this->see('ok');
+		
+		$this->assertResponseStatus(202);
+
+        $doc = Group::withTrashed()->findOrFail($doc->id);
+
+        $this->assertTrue($doc->trashed());
+
+    }
+
+    
+    
+    public function testDocumentService_permanentlyDeleteGroup(){
+
+        $user = $this->createUser( Capability::$PROJECT_MANAGER );
+
+        $group = $this->createCollection($user, true, 3);
+
+        // get childs
+        $children = $group->getChildren();
+
+        $children_ids = $children->fetch('id')->toArray();
+
+        $this->assertEquals(3, $children->count(), 'Children count pre-condition');
+
+
+
+        $service = app('Klink\DmsDocuments\DocumentsService');
+
+        $service->deleteGroup($user, $group); // put doc in trash
+        
+        $group = Group::withTrashed()->findOrFail($group->id);
+
+        $is_deleted = $service->permanentlyDeleteGroup($group, $user);
+        
+        $this->assertTrue($is_deleted);
+
+        $exists_doc = Group::withTrashed()->find($group->id);
+
+        
+
+        $this->assertNull($exists_doc);
+
+        $after_delete_children = $group->getChildren();
+
+        $trashed_children = Group::withTrashed()->whereIn('id', $children_ids)->get();
+
+        // assert all childs are trashed
+        $this->assertEquals(0, $after_delete_children->count());
+        
+    }
+
+    /**
+     * @expectedException KlinkDMS\Exceptions\ForbiddenException
+     */
+    public function testDocumentService_permanentlyDeleteGroup_forbidden(){
+
+        $user = $this->createUser( Capability::$PROJECT_MANAGER );
+        $user2 = $this->createUser( Capability::$PARTNER );
+
+        $group = $this->createCollection($user, false);
+
+        $service = app('Klink\DmsDocuments\DocumentsService');
+
+        $service->deleteGroup($user, $group); // put doc in trash
+
+        $is_deleted = $service->permanentlyDeleteDocument($group, $user2);
+        
+    }
+
+
+    /**
+     * @expectedException Illuminate\Database\Eloquent\ModelNotFoundException
+     */
+    public function testGroupForceDelete(){
+
+        $user = $this->createUser( Capability::$PROJECT_MANAGER);
+
+        $doc = $this->createCollection($user);
+
+        \Session::start();
+
+        $url = route( 'documents.groups.destroy', ['id' => $doc->id, 
+                '_token' => csrf_token()] );
+        
+        $this->actingAs($user);
+
+        $this->delete( $url );
+
+        $this->see('ok');
+		
+		$this->assertResponseStatus(202);
+
+        $url = route( 'documents.groups.destroy', [
+                'id' => $doc->id, 
+                'force' => true, 
+                '_token' => csrf_token()] );
+
+        $this->delete( $url );
+
+        $this->see('ok');
+		
+		$this->assertResponseStatus(202);
+
+        $doc = Group::withTrashed()->findOrFail($doc->id);
+
+
+    }
+
+
+    public function testMoveFromPersonalToProject(){
+
+        $service = app('Klink\DmsDocuments\DocumentsService');
+
+        $project = factory('KlinkDMS\Project')->create();
+
+        $user = $this->createUser(Capability::$PROJECT_MANAGER);
+        
+        $collection = $service->createGroup( $user, 'personal' );
+        $collection_under = $service->createGroup( $user, 'personal-sub-collection', null, $collection );
+        $collection_under2 = $service->createGroup( $user, 'personal-sub-sub-collection', null, $collection_under );
+
+        // move $collection under $project->collection()
+
+        $service->makeGroupPublic($user, $collection);
+        $service->moveGroup($user, $collection, $project->collection);
+
+        $collection_under = $collection_under->fresh();
+
+
+        $this->assertFalse($collection->is_private);
+        $this->assertFalse($collection_under->is_private);
+        $this->assertNotNull($collection->parent_id);
+
+        $this->assertEquals([false, false, false], $project->collection->getDescendants()->fetch('is_private')->toArray());
+
+    }
+
+
+    public function testMoveFromProjectToPersonal(){
+
+        $service = app('Klink\DmsDocuments\DocumentsService');
+
+        $project = factory('KlinkDMS\Project')->create();
+
+        $user = $this->createUser(Capability::$PROJECT_MANAGER);
+        
+        $collection = $service->createGroup( $user, 'personal', null, $project->collection, false );
+        $collection_container = $service->createGroup( $user, 'personal-container', null );
+        $collection_under = $service->createGroup( $user, 'personal-sub-collection', null, $collection, false );
+        $collection_under2 = $service->createGroup( $user, 'personal-sub-sub-collection', null, $collection_under, false );
+
+        $service->makeGroupPrivate($user, $collection);
+        $service->moveGroup($user, $collection, $collection_container);
+
+        $collection_under = $collection_under->fresh();
+
+
+        $this->assertTrue($collection->is_private);
+        $this->assertTrue($collection_under->is_private);
+        $this->assertNotNull($collection->parent_id);
+        $this->assertEquals(0, $project->collection->getDescendants()->count());
+
+        $this->assertEquals([true, true, true], $collection_container->getDescendants()->fetch('is_private')->toArray());
+
     }
        
 }

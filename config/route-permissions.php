@@ -54,6 +54,7 @@ return array(
 			
 			'restore' => KlinkDMS\Capability::DELETE_DOCUMENT,
 			'remove' => KlinkDMS\Capability::DELETE_DOCUMENT,
+			'emptytrash' => KlinkDMS\Capability::CLEAN_TRASH,
 			'copyto' => KlinkDMS\Capability::$CONTENT_MANAGER,
 			'makepublic' => KlinkDMS\Capability::CHANGE_DOCUMENT_VISIBILITY,
 

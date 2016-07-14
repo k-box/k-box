@@ -245,14 +245,6 @@ return [
 		
 		'map_visualization_chk' => 'Enable the map visualization',
 		
-		'klinkpublic_section' => 'K-Link Public',
-		'klinkpublic_section_help' => 'Configure the access to the K-Link Public network',
-		'klinkpublic_enabled' => 'Enable publish documents to the K-Link Public',
-		'klinkpublic_debug_enabled' => 'Enable the Debug of the K-Link Connection',
-		'klinkpublic_username' => 'The user used for authenticating on K-Link Public',
-		'klinkpublic_password' => 'The password used for authenticating on K-Link Public',
-		'klinkpublic_url' => 'The URL of the K-Link Public reference node',
-		
         'support_section' => 'Support',
         'support_section_help' => 'If you have a support subscription please insert here the authentication token to enable your users to submit support requests and receive help from the K-Link Dev team.',
 		'support_token_field' => 'Support Token',

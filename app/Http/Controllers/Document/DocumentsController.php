@@ -141,7 +141,7 @@ class DocumentsController extends Controller {
 		// $groups = Group::roots()->private($auth->user()->id)->orPublic()->get();
 
 		return view('documents.documents', [
-			'pagetitle' => (is_null($visibility) ? '': trans('documents.menu.' . ($is_personal ? 'personal' : $visibility)) .' ') . trans('documents.page_title'), 
+			'pagetitle' => (is_null($visibility) ? '': ( $visibility === 'public' ? network_name() .' ' : trans('documents.menu.' . ($is_personal ? 'personal' : $visibility)) .' ') ) . trans('documents.page_title'), 
 			'documents' => $results->getCollection(), /*'collections' => $groups,*/ 
 			'context' => is_null($visibility) ? 'all' : $visibility,
 			'pagination' => $results,
@@ -151,7 +151,7 @@ class DocumentsController extends Controller {
 			'current_visibility' => $is_personal ? 'private' : $visibility,
 			'is_personal' => $is_personal,
 			'hint' => $showing_only_local_public ? trans('documents.messages.local_public_only') : false,
-			'filter' => trans('documents.menu.' . ($is_personal ? 'personal' : $visibility))
+			'filter' => $visibility === 'public' ? network_name() : trans('documents.menu.' . ($is_personal ? 'personal' : $visibility))
             ]);
 	}
 	
@@ -164,7 +164,7 @@ class DocumentsController extends Controller {
 		
 		$user_is_dms_manager = $user->isDMSManager(); 
 		
-		$date_limit = $base_now->copy()->subMonths(3);
+		$date_limit = $base_now->copy()->subWeeks( config('dms.recent.time_limit') );
 		
 		$limit = \Config::get('dms.items_per_page');
 		$page = $request::input('page', 1);
@@ -178,36 +178,33 @@ class DocumentsController extends Controller {
 			$doc_activities = $doc_activities->ofUser($user->id);
 		}
 		
-		$documents_query = $doc_activities->where('updated_at', '>=', $date_limit)->get(['id'])->fetch('id')->toArray();
+		$documents_query = $doc_activities->where('updated_at', '>=', $date_limit)->orderBy('updated_at', 'DESC')->get(['id'])->fetch('id')->toArray();
 		
 		// Last Starred
 		
-		$starred_query = $user->starred()->where('updated_at', '>=', $date_limit)->get(['document_id'])->fetch('document_id')->toArray(); //->with('document')
+		$starred_query = $user->starred()->where('updated_at', '>=', $date_limit)->orderBy('updated_at', 'DESC')->get(['document_id'])->fetch('document_id')->toArray(); //->with('document')
 		
 		
 		// Last Shared docs
 		
-		$shared_query = Shared::by($user)->where('updated_at', '>=', $date_limit)->where('shareable_type', '=', 'KlinkDMS\DocumentDescriptor')->get(['shareable_id'])->fetch('shareable_id')->toArray(); //->with('shareable')
+		$shared_query = Shared::by($user)->where('updated_at', '>=', $date_limit)->orderBy('updated_at', 'DESC')->where('shareable_type', '=', 'KlinkDMS\DocumentDescriptor')->get(['shareable_id'])->fetch('shareable_id')->toArray(); //->with('shareable')
 		
 		// let's make them together'
 		
 		$all_ids = array_unique(array_merge($documents_query, $starred_query, $shared_query));
 		
+		$list_of_doc_ids = Collection::make($all_ids)->take( config('dms.recent.limit') );
 		
 		// get the id of the last (bla bla bla) and group them
 		
-		$all_query = DocumentDescriptor::whereIn('id', $all_ids);
+		$all_query = DocumentDescriptor::whereIn('id', $list_of_doc_ids->all());
 
 		
 		$all_query = $all_query->orderBy('updated_at', 'DESC');
 		
-		$total = $all_query->count(); /*\Cache::remember('dms_recent_documents_count', 5, function() use($all_query) {
-			return  $all_query->count();
-		});*/
+		$total = $all_query->count();
 		
-		$documents = $all_query->forPage($page, $limit)->get(); /*\Cache::remember('dms_recent_documents_page'.$page, 5, function() use($all_query, $page, $limit) {
-			return $all_query->forPage($page, $limit)->get();
-		});*/
+		$documents = $all_query->forPage($page, $limit)->get();
 		
 		$pagination = new Paginator($documents, 
 			$total, 
@@ -842,7 +839,7 @@ class DocumentsController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function destroy(AuthGuard $auth, \Request $request, $id)
+	public function destroy(AuthGuard $auth, Request $request, $id)
 	{
 		
 		try{
@@ -854,15 +851,17 @@ class DocumentsController extends Controller {
 			}
 			
 			
-			$descriptor = DocumentDescriptor::findOrFail($id);
+			$descriptor = DocumentDescriptor::withTrashed()->findOrFail($id);
+
+			// TODO: if is a reference to a public document remove it if is not starred, shared or in a collection
 			
 			if($descriptor->isPublic() && !$user->can_capability(Capability::CHANGE_DOCUMENT_VISIBILITY)){
 				\Log::warning('User tried to delete a public document without permission', ['user' => $user->id, 'document' => $id]);
 				throw new ForbiddenException(trans('documents.messages.delete_public_forbidden'), 2);
 			}
 			
-			$force = $request::input('force', false);
-			
+			$force = $request->input('force', false);
+
 			if($force && !$user->can_capability(Capability::CLEAN_TRASH)){
 				\Log::warning('User tried to force delete a document without permission', ['user' => $user->id, 'document' => $id]);
 				throw new ForbiddenException(trans('documents.messages.delete_force_forbidden'), 2);
@@ -870,18 +869,18 @@ class DocumentsController extends Controller {
 	
 			\Log::info('Deleting Document', ['params' => $id]);
 	
-			if(!$force){
-				$this->service->deleteDocument($descriptor);
+			if(!$force || $force && !$descriptor->trashed()){
+				$this->service->deleteDocument($user, $descriptor);
 			}
 			else {
-				$this->service->permanentlyDeleteDocument($descriptor);
+				$this->service->permanentlyDeleteDocument($user, $descriptor);
 			}
 
 			
 
-			if (\Request::ajax() && \Request::wantsJson())
+			if ($request->wantsJson())
 			{
-				return new JsonResponse(array('status' => 'ok'), 202);
+				return new JsonResponse(array('status' => 'ok', 'message' => $force ? trans('documents.permanent_delete.deleted_dialog_title', ['document' => $descriptor->title]): trans('documents.delete.deleted_dialog_title', ['document' => $descriptor->title])), 202);
 			}
 
 			return response('ok', 202);
@@ -892,7 +891,7 @@ class DocumentsController extends Controller {
 
 			$status = array('status' => 'error', 'message' =>  trans('documents.bulk.remove_error', ['error' => $kex->getMessage()]));
 
-			if ($request->ajax() && $request->wantsJson())
+			if ($request->wantsJson())
 			{
 				return new JsonResponse($status, 422);
 			}

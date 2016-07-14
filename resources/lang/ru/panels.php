@@ -15,6 +15,7 @@ return [
 		'main_contact' => 'Контактное лицо',
 		'language' => 'Язык',
 		'added_on' => 'Добавлено',
+		'deleted_on' => 'удалены',
 		'uploaded_by' => 'Загружено',
 		'size' => 'Размер',
 		'authors' => 'Автор'

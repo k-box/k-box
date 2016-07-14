@@ -95,6 +95,10 @@ Route::get('documents/trash', [
         'uses' => 'Document\DocumentsController@trash',
         'as' => 'documents.trash',
     ]);
+Route::delete('documents/trash',[ 
+      'uses' => 'Document\BulkController@emptytrash',
+      'as' => 'documents.bulk.emptytrash',
+  ]);
 Route::get('documents/notindexed', [ 
         'uses' => 'Document\DocumentsController@notIndexed',
         'as' => 'documents.notindexed',

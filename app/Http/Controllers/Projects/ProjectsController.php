@@ -69,7 +69,8 @@ class ProjectsController extends Controller {
 			return view('projects.show', array(
 				'pagetitle' => trans('projects.page_title_with_name', ['name' => $project->name]), 
 				'projects' => $projects,
-				'project' => $project 
+				'project' => $project, 
+				'project_users' => $project->users()->orderBy('name', 'ASC')->get(),
 			));
 		
 		}catch(\Exception $ex){
@@ -95,16 +96,20 @@ class ProjectsController extends Controller {
 		
 		$user = $auth->user();
 
-		$available_users = $this->getAvailableUsers($user);
+		$current_members = $prj->users()->orderBy('name', 'ASC')->get();
+
+		$skip = $current_members->merge([$user]);
+
+		$available_users = $this->getAvailableUsers($skip);
 
 		return view('projects.edit', array(
 			'pagetitle' => trans('projects.edit_page_title', ['name' => $prj->name]), 
 			'available_users' => $available_users, 
 			'manager_id' => $user->id,
 			'groups' => PeopleGroup::all(),
-			'available_users_encoded' => json_encode($available_users),
+			// 'available_users_encoded' => json_encode($available_users),
 			'project' => $prj,
-			'project_users' => $prj->users->fetch('id')->all()
+			'project_users' => $current_members,
 		));
 	}
 	
@@ -120,14 +125,12 @@ class ProjectsController extends Controller {
 			'pagetitle' => trans('projects.create_page_title'), 
 			'available_users' => $available_users, 
 			'manager_id' => $user->id,
-			'groups' => PeopleGroup::all(),
-			'available_users_encoded' => json_encode($available_users)
+			// 'groups' => PeopleGroup::all(),
+			// 'available_users_encoded' => json_encode($available_users)
 		));
 	}
 	
-	private function getAvailableUsers($current_user){
-		return User::whereNotIn('id', array($current_user->id))->get();
-	}
+	
 
 	/**
 	 * Store a newly created resource in storage.
@@ -159,15 +162,19 @@ class ProjectsController extends Controller {
 				return $newProject;
 			});
 			
-			\DB::transaction(function() use($project, $request) {
-				
-				$users = $request->get('users');
-				
-				foreach($users as $user){
-					$project->users()->attach( $user );
-				}
-				
-			});
+			if($request->has('users')){
+
+				\DB::transaction(function() use($project, $request) {
+					
+					$users = $request->get('users');
+					
+					foreach($users as $user){
+						$project->users()->attach( $user );
+					}
+					
+				});
+
+			}
 
 			
 			\Cache::flush();
@@ -191,7 +198,7 @@ class ProjectsController extends Controller {
 			    return new JsonResponse(array('status' => trans('projects.errors.exception', ['exception' => $ex->getMessage()])), 500);
 			}
 			
-			return redirect()->back()->withInput()/*->route('projects.create')*/->withErrors(
+			return redirect()->back()->withInput()->withErrors(
 	            ['error' => trans('projects.errors.exception', ['exception' => $ex->getMessage()])]
 	          );
 			
@@ -226,10 +233,14 @@ class ProjectsController extends Controller {
 					$project->description = $request->input('description');
 					$project->save();
 				}
+				else if(!$request->has('description') && !empty($project->description)){
+					$project->description = '';
+					$project->save();
+				}
 				
 				
 				// test if there are users to add/remove to/from the project
-				
+				if($request->has('users')){
 					$users = $request->get('users');
 					// users are ID
 				
@@ -249,6 +260,7 @@ class ProjectsController extends Controller {
 							$project->users()->detach( $user );
 						}
 					}
+				}
 				
 				return $project->fresh();
 			});
@@ -261,7 +273,7 @@ class ProjectsController extends Controller {
 			    return response()->json($project);
 			}
 			
-			return redirect()->route('projects.show', ['id' => $project->id])->with([
+			return redirect()->route('projects.edit', ['id' => $project->id])->with([
 	            'flash_message' => trans('projects.project_updated', ['name' => $project->name]) 
 	        ]);
 			
@@ -292,33 +304,27 @@ class ProjectsController extends Controller {
 	public function destroy($id)
 	{
 
-// 		try{
-// 			
-// 			$executed = \DB::transaction(function() use($id){
-// 				
-// 				$pgrp = PeopleGroup::findOrFail($id);
-// 			
-// 				$affectedRows = Shared::sharedWithGroups(array($id))->delete();
-// 		
-// 				\Log::info('Deleted people group', ['group' => $pgrp, 'shares_deleted' => $affectedRows]);
-// 		
-// 				return $pgrp->delete();	
-// 				
-// 			});
-// 	
-// 			if($executed){
-// 				return response()->json( array('status' => 'ok'));
-// 			}
-// 	
-// 			return response()->json( array('status' => 'error'));
-// 		
-// 		}catch(\Exception $ex){
-// 
-// 			\Log::error('Error deleting poeple group', ['id' => $id, 'exception' => $ex]);
-// 
-// 			return new JsonResponse(array('status' => trans('groups.people.invalidargumentexception', ['exception' => $ex->getMessage()])), 500);
-// 
-// 		}
+
+	}
+
+	/**
+	 * Filter the list of users that can be added to a project
+	 */
+	private function getAvailableUsers($users){
+
+		$skip = [];
+
+		if(class_basename(get_class($users)) === 'User'){
+			$skip[] = $users->id;
+		}
+		else if(class_basename(get_class($users)) === 'Collection'){
+			$skip = $users->fetch('id')->all();
+		}
+		else if(is_array($users)){
+			$skip = array_merge($skip, $users);
+		}
+
+		return User::whereNotIn('id', $skip)->orderBy('name', 'ASC')->get();
 
 	}
 

@@ -283,10 +283,25 @@
 			</div>
 			<div class="nine colums">
 				
-				{{$item->created_at}}
+				{{$item->getCreatedAt(true)}}
 
 			</div>
 		</div>
+
+		@if($item->trashed())
+
+		<div class="row">
+			<div class="three columns label">
+				{{trans('panels.meta.deleted_on')}}
+			</div>
+			<div class="nine colums">
+				
+				{{$item->getDeletedAt(true)}}
+
+			</div>
+		</div>
+
+		@endif
 
 		@if(!is_null($item->file))
 

@@ -349,7 +349,7 @@ class GroupsController extends Controller {
 
 
 			if(!$group->is_private && !$auth->user()->can_capability(Capability::MANAGE_PROJECT_COLLECTIONS) ){
-				throw new ForbiddenException(trans('errors.group_edit_institution'));
+				throw new ForbiddenException(trans('errors.group_edit_project'));
 			}
 
 			if(!$auth->user()->can_capability(Capability::MANAGE_OWN_GROUPS) && $group->user_id != $auth->user()->id ){
@@ -438,6 +438,7 @@ class GroupsController extends Controller {
 
 				// $group->moveTo(0, $parent_group);
 				$group = $this->service->moveGroup($user, $group, $parent_group);
+				//TODO: check if is updating also sub-collections
 
 			}
 
@@ -493,7 +494,9 @@ class GroupsController extends Controller {
 
 		try{
 			
-			$selected_group = Group::findOrFail($id);
+			$selected_group = Group::withTrashed()->findOrFail($id);
+
+			$user = $auth->user();
 			
 			if(!is_null($selected_group->project)){
 				
@@ -501,20 +504,32 @@ class GroupsController extends Controller {
 				
 			}
 
-			$this->service->deleteGroup($auth->user(), $selected_group);
+			$force = $request->input('force', false);
+			
+			if($force && !$user->can_capability(Capability::CLEAN_TRASH)){
+				\Log::warning('User tried to force delete a document without permission', ['user' => $user->id, 'document' => $id]);
+				throw new ForbiddenException(trans('documents.messages.delete_force_forbidden'), 2);
+			}
+
+			if($force && $selected_group->trashed()){
+				$this->service->permanentlyDeleteGroup($selected_group, $user);
+			}
+			else {
+				$this->service->deleteGroup($user, $selected_group);
+			}
 			
 			\Cache::flush();
 
-			if ($request->ajax() && $request->wantsJson())
+			if ($request->wantsJson())
 			{
-				return new JsonResponse(array('status' => 'ok'), 200);
+				return new JsonResponse(array('status' => 'ok', 'message' => trans('groups.delete.deleted_dialog_title', ['collection' => $selected_group->name])), 202);
 			}
 
-			return response('ok');
+			return response('ok', 202);
 
 		}catch(ForbiddenException $fe){
 
-			if ($request->ajax() && $request->wantsJson())
+			if ($request->wantsJson())
 			{
 				return new JsonResponse(array('error' => $fe->getMessage()), 403);
 			}
@@ -522,12 +537,12 @@ class GroupsController extends Controller {
 			return response("forbidden", 403);
 		}catch(\Exception $fe){
 
-			if ($request->ajax() && $request->wantsJson())
+			if ($request->wantsJson())
 			{
 				return new JsonResponse(array('error' => $fe->getMessage()), 500);
 			}
 			
-			return response("generic_error", 500);
+			return response("generic_error " . $fe->getMessage() , 500);
 		}
 	}
 

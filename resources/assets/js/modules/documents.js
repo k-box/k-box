@@ -432,30 +432,30 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
         
         if(changeTitles){
             
-            DMS.MessageBox.warning(Lang.trans('actions.not_available'), Lang.trans('documents.bulk.make_public_change_title_not_available'));
+            DMS.MessageBox.warning(Lang.trans('actions.not_available'), Lang.trans('networks.make_public_change_title_not_available'));
         }
         else {
             
-            DMS.MessageBox.wait(Lang.trans('documents.bulk.making_public_title'), Lang.trans('documents.bulk.making_public_title'));
+            DMS.MessageBox.wait(Lang.trans('networks.making_public_title', {network: module.context.network_name}), Lang.trans('networks.making_public_title', {network: module.context.network_name}));
             DMS.Services.Bulk.makePublic(params, function(data){
                 
-                DMS.MessageBox.success(Lang.trans('documents.bulk.make_public_success_title'), (data && data.message) ? data.message : Lang.trans('documents.bulk.make_public_success_text_alt'));
+                DMS.MessageBox.success(Lang.trans('networks.make_public_success_title'), (data && data.message) ? data.message : Lang.trans('networks.make_public_success_text_alt', {network: module.context.network_name}));
                 
                 DMS.navigateReload();
                 
             }, function(obj, err, errText){
                 
                 if(obj.responseJSON && obj.responseJSON.status === 'error'){
-                    DMS.MessageBox.error(Lang.trans('documents.bulk.make_public_error_title'), bj.responseJSON.message);
+                    DMS.MessageBox.error(Lang.trans('networks.make_public_error_title',{network: module.context.network_name}), bj.responseJSON.message);
                 }
                 else if(obj.responseJSON && obj.responseJSON.error){
-                    DMS.MessageBox.error(Lang.trans('documents.bulk.make_public_error_title'), bj.responseJSON.error);
+                    DMS.MessageBox.error(Lang.trans('networks.make_public_error_title',{network: module.context.network_name}), bj.responseJSON.error);
                 }
                 else if(obj.status == 422){
-                    DMS.MessageBox.error(Lang.trans('documents.bulk.make_public_error_title'), Lang.trans('make_public_error', {error: (obj.responseText ? obj.responseText : errText) } ));
+                    DMS.MessageBox.error(Lang.trans('networks.make_public_error_title',{network: module.context.network_name}), Lang.trans('make_public_error', {error: (obj.responseText ? obj.responseText : errText) } ));
                 }
                 else {
-                    DMS.MessageBox.error(Lang.trans('documents.bulk.make_public_error_title'), Lang.trans('make_public_error', {error: errText} ));
+                    DMS.MessageBox.error(Lang.trans('networks.make_public_error_title',{network: module.context.network_name}), Lang.trans('make_public_error', {error: errText} ));
                 }
                 
             });
@@ -469,6 +469,35 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
         
 
 
+
+    }
+
+    function _handleSuccessPermanentDeleteResponse(data){
+
+        if(data.status && data.status === 'ok'){
+
+            DMS.MessageBox.success( Lang.trans('documents.permanent_delete.deleted_dialog_title_alt'), data.message);
+
+            _Selection.clearAndDestroy();
+
+        }
+        else if(data.message) {
+            DMS.MessageBox.error(Lang.trans('documents.permanent_delete.cannot_delete_dialog_title_alt'), data.message);
+        }
+
+    }
+
+    function _handleFailedPermanentDeleteResponse(obj, err, errText){
+
+        if(obj.responseJSON && obj.responseJSON.status === 'error'){
+            DMS.MessageBox.error(Lang.trans('documents.permanent_delete.cannot_delete_dialog_title_alt'), obj.responseJSON.message);
+        }
+        else if(obj.responseJSON && obj.responseJSON.error){
+            DMS.MessageBox.error(Lang.trans('documents.permanent_delete.cannot_delete_dialog_title_alt'), obj.responseJSON.error);
+        }
+        else {
+            DMS.MessageBox.error(Lang.trans('documents.permanent_delete.cannot_delete_dialog_title_alt'), Lang.trans('documents.permanent_delete.cannot_delete_general_error'));
+        }
 
     }
 
@@ -754,17 +783,17 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
                 if(docSelection.group) {
                     // group selection by context menu
                     
-                    var grp_message = Lang.trans('documents.bulk.make_public_all_collection_dialog_text');
+                    var grp_message = Lang.trans('networks.make_public_all_collection_dialog_text', {network: module.context.network_name});
                     
                     var grp_title = docSelection.name ? '"' + docSelection.name + '"' : 'Collection'; 
                     
                     if(docSelection.name){
-                        grp_message = Lang.trans('documents.bulk.make_public_inside_collection_dialog_text', {item: docSelection.name});
+                        grp_message = Lang.trans('networks.make_public_inside_collection_dialog_text', {item: docSelection.name, network: module.context.network_name});
                     }
                     
                     var grp_id = docSelection.group ? docSelection.group : module.context.group; 
                     
-                    DMS.MessageBox.question( Lang.trans('documents.bulk.make_public_dialog_title', {item: grp_title}) , grp_message, Lang.trans('documents.bulk.publish_btn'), Lang.trans('actions.cancel'), function(choice){
+                    DMS.MessageBox.question( Lang.trans('networks.make_public_dialog_title', {item: grp_title, network: module.context.network_name}) , grp_message, Lang.trans('networks.publish_btn'), Lang.trans('actions.cancel'), function(choice){
                         
                         if(choice){
                             _doMakePublic({group:grp_id});
@@ -781,14 +810,14 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
                     //something is selected
                     
                     var count = _Selection.selectionCount(),
-                        q_message = Lang.trans('documents.bulk.make_public_dialog_text_count', {count: count}),
+                        q_message = Lang.trans('networks.make_public_dialog_text_count', {count: count, network: module.context.network_name}),
                         q_btn = Lang.trans('actions.cancel'); 
                     
                     if(count==1){
-                        q_message = Lang.trans('documents.bulk.make_public_dialog_text', {item: _Selection.first().title});
+                        q_message = Lang.trans('networks.make_public_dialog_text', {item: _Selection.first().title, network: module.context.network_name});
                     }
                     
-                    DMS.MessageBox.question(Lang.trans('documents.bulk.make_public_dialog_title_alt'), q_message, Lang.trans('documents.bulk.publish_btn'), q_btn, function(choice){
+                    DMS.MessageBox.question(Lang.trans('networks.make_public_dialog_title_alt', {network: module.context.network_name}), q_message, Lang.trans('networks.publish_btn'), q_btn, function(choice){
                         if(choice){
                             var toPublic = _Selection.selectionByType(_Selection.Types.DOCUMENT, 'id');
                         
@@ -801,7 +830,7 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
                     }); 
                 }
                 else {
-                    DMS.MessageBox.warning(Lang.trans('documents.bulk.make_public_dialog_title_alt'), Lang.trans('documents.bulk.make_public_empty_selection'));
+                    DMS.MessageBox.warning(Lang.trans('networks.make_public_dialog_title_alt', {network: module.context.network_name}), Lang.trans('networks.make_public_empty_selection', {network: module.context.network_name}));
                 }
                 
                 return false;
@@ -917,18 +946,19 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
                 console.warn('Move collection ', source, "under", target);
                 
                 if(!source.groupId && !target.groupId){
-                    DMS.MessageBox.error('Wrong move', 'The move action applies only to collections.');
+                    DMS.MessageBox.error(Lang.trans('groups.move.error_title_generic'), Lang.trans('groups.move.error_not_collection'));
                     return false;
                 }
                 
                 if(source.groupId === target.groupId){
-                    DMS.MessageBox.error('Wrong move', 'You cannot move a collection under itself.');
+                    DMS.MessageBox.error(Lang.trans('groups.move.error_title_generic'), Lang.trans('groups.move.error_same_collection'));
                     return false;
                 }
                 
                 if(source.isprivate && !target.isprivate){
                     // from private to public
-                    DMS.MessageBox.question("Move to Project?", "You are about to move a personal collection under a Project. This will make your collection visible to all users of the Project.", 'Yes, Move!', 'No, Cancel', function(isConfirmed){
+                    var title = target.groupName ? Lang.trans('groups.move.move_to_title', {collection: target.groupName}) : Lang.trans('groups.move.move_to_project_title_alt'); 
+                    DMS.MessageBox.question(title, Lang.trans('groups.move.move_to_project_text', {collection: source.groupName}), Lang.trans('actions.dialogs.move_btn'), Lang.trans('actions.dialogs.cancel_btn'), function(isConfirmed){
                         if(isConfirmed){
                             _collectionMove(source, target);
                         }
@@ -939,7 +969,8 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
                 }
                 else if(!source.isprivate && target.isprivate){
                     // from public to private 
-                    DMS.MessageBox.question("Make Collection personal?", "You are about to move out a Project collection to your personal collections. This collection will not be seen by the other users.", 'Yes, Move!', 'No, Cancel', function(isConfirmed){
+                    var title = target.groupName ? Lang.trans('groups.move.move_to_title', {collection: target.groupName}) : Lang.trans('groups.move.move_to_personal_title');
+                    DMS.MessageBox.question(title, Lang.trans('groups.move.move_to_personal_text', {collection: source.groupName}), Lang.trans('actions.dialogs.move_btn'), Lang.trans('actions.dialogs.cancel_btn'), function(isConfirmed){
                         if(isConfirmed){
                             _collectionMove(source, target);
                         }
@@ -1056,38 +1087,8 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
             emptytrash: function(evt, vm){
 
                 evt.preventDefault();
-
-                var question_msg = Lang.trans('documents.trash.empty_all_text'),
-                    documents = [],
-                    groups = [],
-                    data_args = {force: "1", context:module.context.filter};
-
-                if(_Selection.isAnySelected()){
-                    question_msg = Lang.trans('documents.trash.empty_selected_text');
-                                        
-                }
-                else {
-                    _Selection.all();
-                }
-
-
-                var currentSelection = _Selection.selection();
-
-                    $.each(currentSelection, function(index, sel){
-
-                        if(sel.type === 'group'){
-                            groups.push(sel.id);
-                        }
-                        else{
-                            documents.push(sel.id);
-                        }
-
-                    });
-                    
-                    data_args.documents = documents;
-                    data_args.groups = groups;
                 
-                DMS.MessageBox.question( Lang.trans('documents.trash.clean_title'), question_msg, 
+                DMS.MessageBox.question( Lang.trans('documents.trash.clean_title'), Lang.trans('documents.trash.empty_all_text'), 
                     Lang.trans('documents.trash.yes_btn'), 
                     Lang.trans('documents.trash.no_btn'), function(isConfirmed){
                         
@@ -1095,19 +1096,13 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
                         
                         DMS.MessageBox.wait( Lang.trans('actions.cleaning_trash'), Lang.trans('actions.cleaning_trash_wait'));
 
-                        DMS.Services.Bulk.remove(data_args, function(data){
+                        DMS.Services.Bulk.emptytrash( function(data){
 
                             if(data.status && data.status === 'ok'){
 
                                 DMS.MessageBox.success( Lang.trans('documents.trash.cleaned'), data.message);
 
-                                if(_Selection.isAnySelected()){
-                                    _Selection.clearAndDestroy();
-                                }
-                                else {
-                                    DMS.navigateReload();
-                                }
-                                
+                                DMS.navigateReload();
 
                             }
                             else if(data.message) {
@@ -1222,6 +1217,48 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
                 else{
                     _alert( Lang.trans('actions.selection.at_least_one_document') );
                 }   
+
+                evt.preventDefault();
+                return false;
+            },
+
+            forcedel: function(evt, vm){
+
+                if(_Selection.selectionCount() == 1){ //max 1 element selected
+
+                    var currentSelection = _Selection.first();
+
+                    console.log("current selection", currentSelection);
+
+                    var groups = null,
+                        documents = null,
+                        deleteTitle = Lang.trans('documents.permanent_delete.dialog_title', {document: currentSelection.title});
+                        deleteMessage = Lang.trans('documents.permanent_delete.dialog_text', {document: currentSelection.title});
+
+                    DMS.MessageBox.deleteQuestion(deleteTitle, deleteMessage, function(isConfirmed){
+
+                        if(isConfirmed){
+
+                            DMS.MessageBox.wait( Lang.trans('actions.deleting'), '...');
+
+                            if(currentSelection.type === "document"){
+                                DMS.Services.Documents.forceRemove(currentSelection.id, _handleSuccessPermanentDeleteResponse, _handleFailedPermanentDeleteResponse);
+                            }
+                            else {
+                                DMS.Services.Groups.forceRemove(currentSelection.id, _handleSuccessPermanentDeleteResponse, _handleFailedPermanentDeleteResponse);
+                            }
+
+                        }
+                        else {
+                            DMS.MessageBox.close();
+                        }
+
+                    });
+
+                }
+                else{
+                    _alert( Lang.trans('actions.selection.only_one') );
+                }
 
                 evt.preventDefault();
                 return false;
@@ -1505,7 +1542,9 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
 
     function attachContextMenu(){
 
-        _context.attach(_documentArea, '.item', [
+        var _menu_items = [];
+
+        _menu_items.push(
             {
                 text: Lang.trans('actions.details'),
                 action: function(e){
@@ -1521,8 +1560,10 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
     
     
                 }
-            },
-            {
+            });
+
+        if(module.context.filter !== 'trash'){
+            _menu_items.push({
                 text: Lang.trans('share.share_btn'),
                 action: function(e){
                     if(!_Selection.isSelect(this, true)){
@@ -1533,7 +1574,7 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
                 icon: 'icon-action-black icon-action-black-ic_exit_to_app_black_24dp'
             },
             {
-                text: Lang.trans('actions.make_public'),
+                text: Lang.trans('networks.publish_to_short'),
                 action: function(e){ 
                     if(!_Selection.isSelect(this, true)){
                         _Selection.select(this, true);
@@ -1541,38 +1582,59 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
                     module.menu.makePublic(e, this);
                 },
                 icon: 'icon-social-black icon-social-black-ic_public_black_24dp'
-            },
-            {
-                divider: true,
-            },
-            {
-                text: Lang.trans('actions.edit'),
-                action: function(e){
-    
-                    e.preventDefault();
-    
-                    if(_Selection.selectionCount() > 1){
-    
-                        DMS.MessageBox.error('Multiple Selection', 'The edit action is not available on multiple selection');
-                        return false;
+            });
+        }
+
+        _menu_items.push({
+            divider: true,
+        });
+
+            if(module.context.filter === 'trash'){
+                _menu_items.push({
+                    text: Lang.trans('actions.forcedelete_btn_alt'),
+                    action: function(e){
+                        if(!_Selection.isSelect(this, true)){
+                            _Selection.select(this, true);
+                        }
+                        module.menu.forcedel(e, this);
                     }
-    
-                    var id = this.data('id');
-    
-                    DMS.Services.Documents.openEditPage(id);
-                },
-                icon: 'icon-content-black icon-content-black-ic_create_black_24dp'
-            },
-            {
-                text: Lang.trans('actions.trash_btn_alt'),
-                action: function(e){
-                    if(!_Selection.isSelect(this, true)){
-                        _Selection.select(this, true);
-                    }
-                    module.menu.del(e, this);
-                }
+                });
             }
-        ]);
+            else {
+
+                _menu_items.push({
+                    text: Lang.trans('actions.edit'),
+                    action: function(e){
+        
+                        e.preventDefault();
+        
+                        if(_Selection.selectionCount() > 1){
+        
+                            DMS.MessageBox.error('Multiple Selection', 'The edit action is not available on multiple selection');
+                            return false;
+                        }
+        
+                        var id = this.data('id');
+        
+                        DMS.Services.Documents.openEditPage(id);
+                    },
+                    icon: 'icon-content-black icon-content-black-ic_create_black_24dp'
+                });
+
+                _menu_items.push({
+                    text: Lang.trans('actions.trash_btn_alt'),
+                    action: function(e){
+                        if(!_Selection.isSelect(this, true)){
+                            _Selection.select(this, true);
+                        }
+                        module.menu.del(e, this);
+                    }
+                });
+            }
+
+            
+
+        _context.attach(_documentArea, '.item', _menu_items);
     
     
     

@@ -548,4 +548,24 @@ the replacement object that can be used is
 { "page": "value" }
 ```
 
+## Date and time localization
+
+The trait `KlinkDMS\Traits\LocalizableDateFields` has been added to offer localized date and time output for Eloquent Models.
+
+If you want to offer date and time localization use `Jenssegers\Date\Date` as the datetime class instead of Carbon.
+
+You can convert a `Carbon` instance to `Jenssegers\Date\Date` by using `Jenssegers\Date\Date::instance( /* Carbon */ $carbon_date)`.
+
+the class `Jenssegers\Date\Date` is an extension of `Carbon`.
+
+For chaining there is also
+
+- `localized_date(DateTime $dt)` that takes a php `DateTime` instance (also a `Carbon` instance) and converts it to a localizable Date instance
+
+Other two commond shortcut methods are available
+
+- `localized_date_human_diff(DateTime $dt)` that ouputs a human diff between the current date and the specified date if the difference in days is less than 2
+- `localized_date_full(DateTime $dt)` outputs a localized long date/time (according to the translation `units.date_format_full`)
+- `localized_date_short(DateTime $dt)` outputs a localized short date (according to the translation `units.date_format`)
+
 
