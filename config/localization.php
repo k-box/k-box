@@ -192,6 +192,7 @@ return [
         'errors.generic_title',
         'errors.preference_not_saved_title',
         'errors.preference_not_saved_text',
+        'errors.413_text',
         
         'panels.loading_message',
         'panels.load_error',

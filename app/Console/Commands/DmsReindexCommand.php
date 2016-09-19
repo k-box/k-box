@@ -24,7 +24,7 @@ class DmsReindexCommand extends Command {
 	 *
 	 * @var string
 	 */
-	protected $description = 'Perform the reindexing of the currently indexed documents.';
+	protected $description = 'Perform the reindexing of indexed document descriptors.';
 
 	private $service = null;
 
@@ -47,37 +47,176 @@ class DmsReindexCommand extends Command {
 	public function fire()
 	{
 
-		$only_public = $this->option('public');
+		// Options 
 
-		$this->line("Started Documents reindexing <info>". $this->getLaravel()->environment() ."</info>...");
+		$only_public = $this->option('only-public');
 		
+		$force = $this->option('force');
+		
+		$interpret_as_klink_id = $this->option('klink-id');
+
+		$skip = $this->option('skip');
+
+		$take = $this->option('take');
+
+		$users = $this->option('users');
+
+		if(is_string($take)){
+			$take = intval($take);
+		}
+
+		if(is_string($skip)){
+			$skip = intval($skip);
+		}
+
+
+
+		// Arguments 
+
+		$documents = $this->argument('documents');
+
+
+		// Processing
+
+		if($interpret_as_klink_id && ( is_null($documents) || empty($documents) ) ){
+			throw new \InvalidArgumentException('Option --klink-id can only be used if argument list is not empty.');
+		}
+
+		if(!empty($documents) && !empty($users) ){
+			throw new \InvalidArgumentException('Documents cannot be specified in conjunction with option --user.');
+		}
+
+		if(!is_null($skip) && $skip < 0 ){
+			throw new \InvalidArgumentException('Skip must be a positive integer or zero.');
+		}
+
+		if(!is_null($take) && ($take <= 0 || !is_integer($take)) ){
+			throw new \InvalidArgumentException('Take must be a positive integer. Minimum value 1');
+		}
+
+		if(!is_array($documents)){
+			$documents = [ $documents ];
+		}
+
+
 		$query = DocumentDescriptor::local();
+
+		$docs = $only_public ? $query->public() : $query->private();
+
+
+		if( !is_null($documents) && !empty($documents) ){
+
+			// get the documents reported by ID or Local_document_id
+
+			$query->whereIn( $interpret_as_klink_id ? 'local_document_id' : 'id', $documents); 
 		
-		$docs = $only_public ? $query->public() : $query->private(); 
-		
+		}
+
+		if( !empty($users) ){
+
+			if(!is_array($users)){
+				$users = [ $users ];
+			}
+
+			$query->whereIn('owner_id', $users);
+
+		}
+
+
+		if( !is_null($take) ){
+			$query->take($take);
+		}
+
+		if( !is_null($skip) ){
+			$query->skip($skip);
+		}
+
+
 		$docs = $query->get();
+
 		
-		$count_docs = count($docs);
+		$count_docs = $docs->count();
+
+		$this->line("Reindexing <info>". $count_docs ." documents</info>...");
+
+		if(!is_null($take) || !is_null($skip)){
+
+			$this->line( sprintf('Take %1$s, Skip %2$s', !is_null($take) ? $take : 'none', !is_null($skip) ? $skip : 'none' ) );
+			
+		}
+
+		$last_modified_on = null;
+
+		$reindexed_documents_count = 0;
 		
-		$this->line("<comment>". $count_docs ." documents</comment>...");
-		
-		for($i=0;$i<$count_docs;$i++){
+		for($i = 0; $i < $count_docs; $i++){
 		
 			$doc = $docs[$i];
 		
-			$this->write("Reindexing ". $doc->id ."...");
+			// Save the original updated_at time, so we could go back in time to not mess with the user recent list
+			$last_modified_on = $doc->updated_at;
+
 		
 			try{
 				
-				$this->service->reindexDocument($doc, $only_public ? \KlinkVisibilityType::KLINK_PUBLIC : \KlinkVisibilityType::KLINK_PRIVATE);
+				if( $doc->isPublic() && $only_public ){
+
+					$this->service->reindexDocument(
+						$doc,
+						\KlinkVisibilityType::KLINK_PUBLIC,
+						$force);
+
+				}
+				else {
+
+					$this->service->reindexDocument(
+						$doc,
+						\KlinkVisibilityType::KLINK_PRIVATE,
+						$force);
+
+					if( $doc->isPublic() ){
+
+						$this->service->reindexDocument(
+							$doc,
+							\KlinkVisibilityType::KLINK_PUBLIC,
+							$force);
+
+					}
+
+				}
+
 				
-				$this->line('  <info>OK</info>');
+
+				
+				
+				// $this->line('  <info>OK</info>');
+		
+				$reindexed_documents_count++;
 					
 			}catch(\Exception $ex){
-				$this->line('  <error>ERROR '. $ex->getMessage() .'</error>');
+
+				$this->line( sprintf('<error>Document %1$s (hash: %2$s user: %3$s) raised error: %4$s</error>',
+					$doc->id,
+					$doc->local_document_id,
+					$doc->user_id,
+					$ex->getMessage()) );
 			}
-		
+
+			// update the local model. This is important because here we have a cached model that 
+			// might not contain updates made by the reindex process. If we (later) save the non-updated one 
+			// the persisted model will not inherit the changes
+			$doc = $doc->fresh(); 
+
+			// Move back the updated_at time to the original one, so we are not messing with the user recent list
+			$doc->updated_at = $last_modified_on;
+
+			$doc->timestamps = false; //temporarly disable the automatic upgrade of the updated_at field
+
+			$doc->save();
+
 		}
+
+		$this->line("<comment>". $reindexed_documents_count ." documents reindexed</comment>.");
 		
 		return 0;
 
@@ -91,7 +230,7 @@ class DmsReindexCommand extends Command {
 	protected function getArguments()
 	{
 		return [
-			// ['example', InputArgument::REQUIRED, 'An example argument.'],
+			['documents', InputArgument::IS_ARRAY | InputArgument::OPTIONAL, 'The list of documents to reindex given in the form of IDs'],
 		];
 	}
 
@@ -103,7 +242,15 @@ class DmsReindexCommand extends Command {
 	protected function getOptions()
 	{
 		return [
-			['public', null, InputOption::VALUE_NONE, 'Tells to reindex only the public documents.', null],
+			['only-public', null, InputOption::VALUE_NONE, 'Consider only the documents that have been published on the network and update only the public version.', null],
+			['force', 'f', InputOption::VALUE_NONE, 'Force the rebuild of the document and thumbnail URL.', null],
+
+			['klink-id', null, InputOption::VALUE_NONE, 'Interpret the documents argument as local document id', null],
+			
+			['skip', null, InputOption::VALUE_REQUIRED, 'Enable to skip some documents from the batch operation. Zero based value. Normally used in conjunction with limit', null],
+			['take', null, InputOption::VALUE_REQUIRED, 'The maximum number of documents per batch. If no limit is specified all documents will be reindex in a single batch', null],
+			
+			['users', 'u', InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Filter for documents of a specific user. The ID of the User is here expected', null],
 		];
 	}
 
@@ -136,174 +283,6 @@ class DmsReindexCommand extends Command {
 	}
 
 
-
-	private function launch($command, array $arguments = array()){
-		$verbosity = $this->getOutput()->getVerbosity();
-
-		if($verbosity > 1){
-
-			return $this->call($command, $arguments);
-			
-		}
-
-		return $this->callSilent($command, $arguments);
-	}
-
-	public function launchAndCapture($command, &$capture, array $arguments = array())
-	{
-		$instance = $this->getApplication()->find($command);
-
-		$arguments['command'] = $command;
-
-		$out = new BufferedOutput;
-
-		$res = $instance->run(new ArrayInput($arguments), $out);
-
-		$capture = $out->fetch();
-
-		return $res;
-	}
-
-
-
-	private function doInstallOrUpdate()
-	{
-		$this->log('searching for previous installation...');
-
-		$result = 0;
-
-		if($this->isInstalled() && $this->isSeeded()){
-			$result = $this->doUpdate();
-		}
-		else {
-			$result = $this->doInstall();
-		}
-
-		if($result == 0){
-			$this->info('  OK');
-		}
-		else {
-			$this->line('  <error>ERROR '. $up_exit_code .'</error>');
-		}
-
-		return $result;
-	}
-
-
-	private function isInstalled()
-	{
-
-		$exists_options_table = \Schema::hasTable('options');
-
-		$exists_users_table = \Schema::hasTable('users');
-
-		if (!$exists_options_table && !$exists_users_table)
-		{
-		    return false;
-		}
-
-		return true;
-	}
-
-	private function isSeeded()
-	{
-		$c_option = Option::findByKey('c');
-
-		if(is_null($c_option)){
-			return false;
-		}
-
-		return true;
-	}
-
-
-	private function isAdminUserConfigured()
-	{
-
-		$exists = !is_null(User::findByEmail('admin@klink.local'));
-
-		if($exists){
-			return true;
-		}
-
-		// someone has changed the default administrator user
-
-		$all = User::all();
-
-		foreach ($all as $user) {
-			if($user->isDMSAdmin()){
-				return true;
-			}
-		}
-
-		return false;
-	}
-
-
-
-	private function doInstall()
-	{
-		$this->write('  <comment>Installing the K-Link DMS...</comment>');
-
-		$db_return = \DB::transaction(function(){
-
-			if(!$this->isInstalled()){
-			
-				$this->log('    Performing database migration');
-				$migrate_result = $this->launch('migrate', array('--force' => true));
-
-				if($migrate_result > 0){
-					return $migrate_result;
-				}
-
-			}
-
-			if(!$this->isSeeded()){
-
-				$this->log('    Performing database seeding');
-				$seed_result = $this->launch('db:seed', array('--force' => true));
-
-				if($seed_result > 0){
-					return $seed_result;
-				}
-
-				Option::create(array('key' => 'c', 'value' => '' . time()));
-
-			}
-
-			// set info on table that the procedure has been completed succesfully
-
-			
-
-			return 0;
-
-		});
-
-		return $db_return;
-	}
-
-
-	private function doUpdate()
-	{
-		$this->write('  <comment>Updating the current K-Link DMS installation...</comment>');
-		
-
-		// TODO: perform security backup
-
-		$migrate_result = $this->launch('migrate', array('--force' => true));
-		
-		
-		// update the database if needed
-		
-		if(Capability::syncCapabilities()){
-			
-			$this->write('  <comment>The user\' capabilities have been upgraded. You might check it in the user\'s management.</comment>');
-			
-		}
-
-		return $migrate_result;
-		
-	}
 
 
 

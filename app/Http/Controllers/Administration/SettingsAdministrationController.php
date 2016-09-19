@@ -57,6 +57,7 @@ class SettingsAdministrationController extends Controller {
       Option::PUBLIC_CORE_NETWORK_NAME_EN => Option::option(Option::PUBLIC_CORE_NETWORK_NAME_EN, ''),
       Option::PUBLIC_CORE_NETWORK_NAME_RU => Option::option(Option::PUBLIC_CORE_NETWORK_NAME_RU, ''),
       Option::SUPPORT_TOKEN => support_token(),
+      Option::ANALYTICS_TOKEN => Option::analytics_token(),
     );
 
     return view('administration.settings.index', $data);
@@ -89,6 +90,17 @@ class SettingsAdministrationController extends Controller {
                 else {
                     // disable it
                     Option::put(Option::SUPPORT_TOKEN, '');
+                }
+            }
+
+            if($request->input('analytics-settings-save-btn', false) === ''){
+          
+                if($request->has(Option::ANALYTICS_TOKEN) && !empty($request->input(Option::ANALYTICS_TOKEN, null))){
+                    Option::put(Option::ANALYTICS_TOKEN, $request->input(Option::ANALYTICS_TOKEN, null));
+                }
+                else {
+                    // disable it
+                    Option::put(Option::ANALYTICS_TOKEN, '');
                 }
             }
 

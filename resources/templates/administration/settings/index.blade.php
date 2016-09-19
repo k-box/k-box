@@ -159,6 +159,34 @@
         
         </div>
 
+        <div class="widget">
+
+            <form  method="post" action="{{route('administration.settings.store')}}">
+    
+                <input type="hidden" name="_token" value="{{{ csrf_token() }}}">
+                
+                
+                
+                <h3>{{trans('administration.settings.analytics_section')}}</h3>
+    
+                <p class="description">{{trans('administration.settings.analytics_section_help')}}</p> 
+            
+                <p>                
+                    <label for="analytics_token">{{trans('administration.settings.analytics_token_field')}}</label>
+                    @if( isset($errors) && $errors->has('analytics_token') )
+                        <span class="field-error">{{ implode(",", $errors->get('analytics_token'))  }}</span>
+                    @endif
+                    <input type="text" name="analytics_token" id="analytics_token" value="{{old('analytics_token', isset($analytics_token) ? $analytics_token : '')}}">
+                </p>
+                
+                <button type="submit" class="button" id="analytics-settings-save-btn" name="analytics-settings-save-btn">
+                    {{trans('administration.settings.analytics_save_btn')}}
+                </button>
+            
+            </form>
+        
+        </div>
+
     </div>
 
 </div>

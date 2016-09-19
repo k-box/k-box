@@ -14,7 +14,7 @@ return [
 
 	'descriptor' => array(
 
-		'owned_by' => 'владелец',
+		'added_by' => 'Добавил',
 		'language' => 'язык',
 		'added_on' => 'добавлено',
 		'last_modified' => 'Изменено',

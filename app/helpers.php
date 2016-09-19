@@ -181,3 +181,18 @@ if (! function_exists('network_name')) {
     }
 }
 
+if (! function_exists('analytics_token')) {
+    /**
+     * Get the analytics service tracking token
+     *
+     * @uses \KlinkDMS\Option::analytics_token()
+     *
+     * @return string|boolean the analytics site identifier/token
+     */
+    function analytics_token()
+    {
+        
+        return \KlinkDMS\Option::analytics_token(); 
+    }
+}
+

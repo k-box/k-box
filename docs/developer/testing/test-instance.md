@@ -8,10 +8,12 @@ The only way to login is to use the `admin@klink.local` account. For security re
 
 ## Fair usage of the Test instance
 
-The test instance has been created in order to test a feature before it can be added to the current `development`. **You can only test one source code branch at a time**. 
+The test instance has been created in order to test a feature before it can be added to the current development of the next release, which happen in the `master`. 
+
+Is very important to remark that **Only one source code branch can be tested at each deploy**. 
+
 If someone triggers a new test you will loose your work on the test instance.
 
-> Only one feature/issue branch can be tested at time
 
 ## Triggering the test instance for a source code branch
 

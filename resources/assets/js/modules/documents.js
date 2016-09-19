@@ -1793,7 +1793,13 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
                                     msg = response.document;
                                 }
                                 else {
-                                    msg = xhr.responseText;
+                                    if(xhr.responseText.indexOf('Request Entity Too Large') != -1 || xhr.responseText.indexOf('POST Content-Length') != -1 ){
+                                        msg = Lang.trans('errors.413_text');
+                                    }
+                                    else {
+                                        msg = Lang.trans('errors.generic_text'); //xhr.responseText;
+                                    }
+                                    
                                 }
 
                                 DMS.MessageBox.error(Lang.trans('documents.upload.error_dialog_title'), msg);

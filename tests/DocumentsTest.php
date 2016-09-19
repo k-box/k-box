@@ -914,6 +914,42 @@ class DocumentsTest extends TestCase {
 
     }
 
+
+    public function testNewDocumentVersionUpload(){
+
+        // upload a document (faked by already existing entry in the database)
+
+        $user = $this->createUser( Capability::$PROJECT_MANAGER);
+
+        $doc = $this->createDocument($user);
+
+        // create a new version, with different mime_type
+
+        $new_path = base_path('tests/data/example-presentation.pptx');
+        $new_mime_type = 'application/vnd.openxmlformats-officedocument.presentationml.presentation';
+        $new_document_type = 'presentation';
+        $new_hash = \KlinkDocumentUtils::generateDocumentHash( base_path('tests/data/example-presentation.pptx') );
+
+        $this->actingAs($user);
+        
+        $this->visit( route('documents.edit', $doc->id ))
+          ->see( trans('documents.versions.new_version_button') )
+          ->attach(base_path('tests/data/example-presentation.pptx'), 'document')
+          ->press( trans('actions.save') /*trans('documents.versions.new_version_button')*/)
+          ->see( trans('documents.messages.updated') )
+          ->dontSee( 'documents.messages.updated' );
+
+        // check change to: mime_type, document_type, hash and file_id. No changes should be applied to local_document_id
+
+        $updated_descriptor = $doc->fresh();
+
+
+        $this->assertEquals($updated_descriptor->mime_type, $new_mime_type, 'Mime type not matching');
+        $this->assertEquals($updated_descriptor->document_type, $new_document_type, 'Document type not matching');
+        $this->assertEquals($updated_descriptor->hash, $new_hash, 'Hash not matching');
+        $this->assertEquals($updated_descriptor->local_document_id, $doc->local_document_id, 'Local document ID not matching');
+    }
+
     public function testDocumentReferenceDelete(){
         $this->markTestIncomplete(
           'Implementation needed.'

@@ -159,6 +159,13 @@ class Group extends Entity implements GroupInterface
     {
         return filter_var($value, FILTER_VALIDATE_BOOLEAN);
     }
+
+    public function getNameAttribute($value){
+
+        // some values can be escaped, like the single quote char ' to #039; and needs to be escaped
+        return htmlspecialchars_decode($value, ENT_QUOTES);
+
+    }
     
     
     public static function getClosureTable(){

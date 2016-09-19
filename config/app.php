@@ -80,7 +80,7 @@ return [
 
 	'key' => getenv('APP_KEY') ?: '0CjGv0c4KF00D62T', //B10r3tJQdKM6cE0s
 
-	'cipher' => 'AES-128-CBC', //AES-256-CBC
+	'cipher' => \Illuminate\Support\Str::length( getenv('APP_KEY') ) === 32 ? 'AES-256-CBC' : 'AES-128-CBC', //AES-256-CBC
 
 	/*
 	|--------------------------------------------------------------------------

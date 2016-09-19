@@ -4,7 +4,7 @@ Unit test is done with PHPUnit and the Laravel testing framework.
 
 To perform the unit tests you must have done a full `composer install` with also the development dependencies.
 
-environment: `testing`
+## environment: `testing`
 
 testing environment configuration is in the `testing.env` file and in the `phpunit.xml` file.
 
@@ -19,5 +19,5 @@ $ php artisan db:seed --env=testing
 After that you can run
 
 ```
-$ phpunit
+$ ./vendor/bin/phpunit
 ```

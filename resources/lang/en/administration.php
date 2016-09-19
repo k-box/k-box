@@ -249,6 +249,11 @@ return [
         'support_section_help' => 'If you have a support subscription please insert here the authentication token to enable your users to submit support requests and receive help from the K-Link Dev team.',
 		'support_token_field' => 'Support Token',
         'support_save_btn' => 'Save Support Settings',
+
+		'analytics_section' => 'Analytics',
+        'analytics_section_help' => 'Analytics gives you the power to understand how users are using the system and how many of them use it regularly. In this section you can opt-in for the K-Link Analytics.',
+		'analytics_token_field' => 'Analytics token',
+        'analytics_save_btn' => 'Save Analytics Settings',
         
 	),
 

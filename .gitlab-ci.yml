@@ -7,7 +7,6 @@ stages:
 
 cache:
   key: "$CI_BUILD_REF_NAME"
-  group: sharedcache
   paths:
   - vendor/
   - node_modules/
@@ -20,9 +19,6 @@ build_dev:
     - mv env.ci .env
     - composer install --prefer-dist
     - mv .env env.ci
-  except:
-    - triggers
-    - tags
   tags:
     - php
     - nodejs
@@ -35,9 +31,6 @@ linting:
     - mv env.ci .env
     - ./vendor/bin/parallel-lint --exclude vendor .
     - mv .env env.ci
-  except:
-    - triggers
-    - tags
   tags:
     - php
     - nodejs
@@ -50,15 +43,12 @@ build_prod:
     - mv env.ci .env
     - composer install --no-dev --prefer-dist
     - npm install
-    - bower install
-    - gulp --production
+    - node_modules/.bin/bower install
+    - node_modules/.bin/gulp --production
     - php artisan dms:lang-publish
     - mv .env env.ci
     - sed -i "s/BUILDCODE/${CI_BUILD_REF}/g" ./config/dms.php
     - tar --transform 's,^.,dms,' -cz . $TAR_PARAMETERS > ${BUILD_FOLDER}/klink-dms-$CI_BUILD_REF_NAME.tar.gz
-  only:
-    - release
-    - triggers
   tags:
     - php
     - nodejs
@@ -70,38 +60,48 @@ build_docker_test_image:
     - cp ${BUILD_FOLDER}/klink-dms-$CI_BUILD_REF_NAME.tar.gz ${TEST_DOCKER_FOLDER}/dms/downloads/dms.tar.gz
     - cd ${TEST_DOCKER_FOLDER}
     - docker-compose -f klink-services.yml -p ${TEST_INSTANCE_PREFIX} build dmsproject 
-  only:
-    - triggers
+  when: manual
+  except:
+    - master
+    - release
   tags:
     - shell
 
     
 run_test_image:
   stage: deploy
+  environment: Review
+  when: manual
+  except:
+    - master
+    - release
   script: 
     - cd ${TEST_DOCKER_FOLDER}
     - docker-compose -f docker-compose-kbox.yml -p ${TEST_INSTANCE_PREFIX} stop && docker-compose -f docker-compose-kbox.yml -p ${TEST_INSTANCE_PREFIX} rm -v -f && docker-compose -f docker-compose-kbox.yml -p ${TEST_INSTANCE_PREFIX} up -d frontend
-  only:
-    - triggers
   tags:
     - shell
     
 build_docker_prod_image:
   stage: build_docker
   script: 
-    - cp ${BUILD_FOLDER}/klink-dms-$CI_BUILD_REF_NAME.tar.gz ${PROD_BUILD_DOCKER_FOLDER}/dms/downloads/klink-dms-project-edition.tar.gz
-    - cd ${PROD_BUILD_DOCKER_FOLDER}
+    - cp ${BUILD_FOLDER}/klink-dms-$CI_BUILD_REF_NAME.tar.gz ${PROD_DOCKER_FOLDER}/dms/downloads/dms.tar.gz
+    - cd ${PROD_DOCKER_FOLDER}
     - docker-compose -f klink-services.yml build dmsproject
+  when: manual
   only:
+    - master
     - release
   tags:
     - shell
     
 dms_klink_asia_deploy:
   stage: deploy
+  environment: Staging
   script: 
-    - docker-compose -f ${PROD_DOCKER_FOLDER}/docker-compose-kbox.yml up -d frontend
+    - docker-compose -f ${PROD_DOCKER_FOLDER}/docker-compose-kbox.yml stop && docker-compose -f ${PROD_DOCKER_FOLDER}/docker-compose-kbox.yml rm -v -f && docker-compose -f ${PROD_DOCKER_FOLDER}/docker-compose-kbox.yml up -d frontend
+  when: manual
   only:
+    - master
     - release
   tags:
     - shell

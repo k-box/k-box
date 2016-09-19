@@ -14,10 +14,10 @@ return [
 
 	'descriptor' => array(
 
-		'owned_by' => 'owned by',
+		'added_by' => 'added by',
 		'language' => 'language',
 		'added_on' => 'added on',
-		'last_modified' => 'Last Modified',
+		'last_modified' => 'last modified',
 		'indexing_error' => 'The document has not been indexed in K-Link',
 		'private' => 'Private',
 		'shared' => 'Shared',

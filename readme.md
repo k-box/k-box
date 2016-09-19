@@ -1,14 +1,14 @@
 
 
-[![build status](https://git.klink.asia/ci/projects/1/status.png?ref=master)](https://git.klink.asia/ci/projects/1?ref=master) ![latest version](https://img.shields.io/badge/version-0.9.0-blue.svg) ![dev version](https://img.shields.io/badge/dev-0.9.1-orange.svg)
+[![build status](https://git.klink.asia/klinkdms/dms/badges/master/build.svg)](https://git.klink.asia/klinkdms/dms/commits/master) ![latest version](https://img.shields.io/badge/version-0.10.1-blue.svg) ![dev version](https://img.shields.io/badge/dev-0.10.2-orange.svg)
 
 # K-Link DMS
 
-**version 0.9.0**
+**version 0.10.2**
 
-The K-Link DMS is built on top of Laravel 5.0.
+The K-Link DMS is built on top of [Laravel](https://laravel.com/) 5.1 (LTS).
 
-This readme file is reserved for **developers**. For user oriented documentation please see the folder [`docs/user`](./docs/user/en) available in the repository.
+This readme file is reserved for **developers**. For user oriented documentation please see the folder [`docs/user`](./docs/user/en) available in this repository.
 
 
 ## Setting up the development environment
@@ -240,25 +240,33 @@ Plase be sure that the following folders have write permissions:
 
 The DMS command line suite of commands rely on the Laravel artisan CLI.
 
-The supported commands are:
+Some of the supported commands are:
 
-- `dms:reindex`: Perform the reindexing of the currently indexed documents.
-- `dms:sessions`: Get the user's session status.
+- [`dms:update`](./docs/developer/commands/update-command.md): Perform the installation/update steps for the K-Link DMS.
+- [`dms:reindex`](./docs/developer/commands/reindex-command.md): Perform the reindexing of the currently indexed documents.
 - `dms:test`: This command will test the K-Link Core configuration and connection.
-- `dms:update`: Perform the installation/update steps for the K-Link DMS.
+- `dms:sessions`: Get the user's session status.
 - `dms:queuelisten`: Start listening for jobs on the queue and report the status to the admin interface.
 - `dms:sync`: Performs a synchronization of the documents from the DMS that do not exists on the Core.
-- [`users:import`](https://git.klink.asia/klinkdms/dms/wikis/users-import-command): Import users from a CSV file
-- [`dms:import`](https://git.klink.asia/klinkdms/dms/wikis/import-command): Import collections, projects and documents from a folder on a the filesystem
-- `import:fetch-payload`: Take the failed job payload and associate it to the given import
+- [`dms:import`](./docs/developer/commands/import-command.md): Import collections, projects and documents from a folder on a the filesystem
+- `dms:lang-publish`: Publish Javascript language files for RequireJS i18n plugin
+- [`users:import`](./docs/developer/commands/user-import-command.md): Import users from a CSV file
+- [`import:fetch-payload`](./docs/developer/commands/import-fetch-payload.md): Take the failed job payload and associate it to the given import
+- [`documents:check-affiliation`](./docs/developer/commands/documents-check-affiliation.md): Check if all the documents has the same institution of the first uploader. The command assumes that the user affiliation has not been changed since the upload of the document
+- [`documents:check-latest-version`](./docs/developer/commands/documents-check-latest-version.md): Check if the latest version details of a Document are correctly reported in a document descriptor
+- `collections:clean-duplicates`: Clean the duplicated documents contained in a collection
+- `collections:list`: Performs actions on collections
+     
 
-### `dms:update` command
+More command details in [`docs/developer/commands`](./docs/developer/commands/).
 
-Perform the update procedure on the current DMS instance. The update consists in migration execution, seeding or other tasks.
+For a complete list of available commands execute
 
-if you specify the option `--no-test` you can disable the Core connection test.
+```
+php artisan
+```
 
-
+in the root folder of the source code
 
 ---------------------
 
@@ -415,12 +423,12 @@ If an alias is used remember to update the `RewriteBase` rule in `.htaccess` fil
 
 ## Unit Tests
 
-See `docs/developer/testing/unit-tests.md`
+See `./docs/developer/testing/unit-tests.md`
 
 
 ## Test Instance
 
-See `docs/developer/testing/test-instance.md`
+See `./docs/developer/testing/test-instance.md`
 
 
 # Laravel 5.1 LTS Upgrades

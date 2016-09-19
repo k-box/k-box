@@ -50,6 +50,8 @@
 		<meta name="msapplication-TileImage" content="{{ url('/') }}/mstile-144x144.png?v=1">
 		<meta name="theme-color" content="#ffffff">
 
+		@include('analytics')
+
 	</head>
 	<body class="{{$body_classes}}">
 

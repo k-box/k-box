@@ -95,8 +95,8 @@
 	<div class="meta">
 
 		@if(!isset($share_id))
-		<span class="meta-info institution-name" title="{{trans('documents.descriptor.owned_by')}}">
-			<span class="meta-label">{{trans('documents.descriptor.owned_by')}}&nbsp;</span>{{$item->institution->name}}
+		<span class="meta-info institution-name" title="{{trans('documents.descriptor.added_by')}}">
+			<span class="meta-label">{{trans('documents.descriptor.added_by')}}&nbsp;</span>{{$item->institution->name}}
 		</span>
 		@endif
 		
@@ -183,7 +183,7 @@
 	<div class="meta">
 
 		<span class="meta-info institution-name">
-			<span class="meta-label">{{trans('documents.descriptor.owned_by')}}&nbsp;</span>{{$item->institutionName}}
+			<span class="meta-label">{{trans('documents.descriptor.added_by')}}&nbsp;</span>{{$item->institutionName}}
 		</span>
 
 		

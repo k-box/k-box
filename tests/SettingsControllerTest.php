@@ -38,6 +38,7 @@ class SettingsControllerTest extends TestCase
         $this->assertViewHas(Option::PUBLIC_CORE_NETWORK_NAME_EN);
         $this->assertViewHas(Option::PUBLIC_CORE_NETWORK_NAME_RU);
         $this->assertViewHas(Option::SUPPORT_TOKEN);
+        $this->assertViewHas(Option::ANALYTICS_TOKEN);
         
     }
     
@@ -114,6 +115,40 @@ class SettingsControllerTest extends TestCase
         
         
         $this->assertViewHas(Option::SUPPORT_TOKEN, '');
+
+        
+    }
+
+    public function testAnalyticsSettingStore(){
+        
+        
+        $user = $this->createAdminUser();
+        
+        $this->actingAs($user);
+        
+        $this->visit( route('administration.settings.index') );
+        
+        $this->type('Analytics-token-value', 'analytics_token');
+        
+        $this->press(trans('administration.settings.analytics_save_btn'));
+        
+        $this->see( trans('administration.settings.saved') );
+        $this->dontSee( 'administration.settings.saved' );
+
+        $this->assertEquals('Analytics-token-value', analytics_token());
+        
+        
+        $this->assertViewHas(Option::ANALYTICS_TOKEN, 'Analytics-token-value');
+        
+        $this->type('', 'analytics_token');
+        
+        $this->press(trans('administration.settings.analytics_save_btn'));
+        
+        $this->see( trans('administration.settings.saved') );
+        $this->dontSee( 'administration.settings.saved' );
+        
+        
+        $this->assertViewHas(Option::ANALYTICS_TOKEN, '');
 
         
     }
