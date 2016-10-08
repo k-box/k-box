@@ -16,16 +16,15 @@ class DocumentDescriptorTest extends TestCase
     
     
     public function objects_to_store_as_last_error(){
-		
+
         $ex1 = new FileNamingException('Exception test');
-        $ex2 = new FileAlreadyExistsException();
+        
         
         $obj = new \stdClass;
         $obj->internal = 'hello';
         
 		return array( 
 			array( $ex1, ['message', 'type', 'payload'], 'KlinkDMS\Exceptions\FileNamingException' ),
-			array( $ex2, ['message', 'type', 'payload'], 'KlinkDMS\Exceptions\FileAlreadyExistsException' ),
 			array( $obj, ['payload', 'type'], 'stdClass' ),
 			array( ['1', '2'], ['payload', 'type'], 'array' ),
 			array( ['key' => 'value'], ['payload', 'type'], 'array' ),

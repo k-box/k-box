@@ -7,7 +7,7 @@ return [
 	| K-Link DMS Version (aka Application version)
 	|--------------------------------------------------------------------------
 	 */
-	'version' => '0.10.2',
+	'version' => '0.11.0',
     
     'build' => 'BUILDCODE',
 	

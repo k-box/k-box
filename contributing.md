@@ -28,13 +28,12 @@ Please make sure to highlight:
 - the browser you use, and its version
 - your operating system? Windows? (Vista? 7? 32-bit? 64-bit?) Mac OS X? (10.7.4? 10.9.0?) Linux? (Which distro? Which version of that distro? 32 or 64 bits?).
 
-We use also labels to facilitate the organization of the whole set of issues. **An issue that don't follow the label convention will not be addressed in any case.**
+To facilitate the submission of an issue [templates](#templates) are available.
 
-_We are in the process of merging the Project and Standard edition into a single code base, so new issues must be related to the Project Edition only._ 
-
-_Issues about the Standard Edition will not be addressed unless they have a counterpart in the current development branch of the Project Edition._
 
 ## Labeling issues
+
+We use also labels to facilitate the organization of the whole set of issues. **An issue that don't follow the label convention will not be addressed in any case.**
 
 **Type** named labels define the type of issues that can be submitted
 
@@ -60,6 +59,7 @@ _Issues about the Standard Edition will not be addressed unless they have a coun
 
 - `Coming From: Idea` the issue was originated after the review of an idea in the Support forum
 - `Coming From: Support Ticket` The issue was originated by a user submitted support ticket
+- `Coming From: Testing` The issue has been discovered during internal testing
 
 ### Labeling rules
 
@@ -79,50 +79,24 @@ Templates have been created to make everyone's life easier:
 * Submitters know how to ask or propose
 * Developers understand quickly where the information is
 
-### Bugs
-```
-# General
-Overview of the issue
+The available templates are:
 
-# Step to reproduce
-1. Click on the logo
-2. Enter the search field
-3. Type "test"
-Nothing happens: something should happen
+- **Bug**: for bug reports
+- **Feature**: for new feature requests
 
-# Additional info
-Screenshots, documents
+The selection between the templates is presented in the Issue creation UI. If you want you can contribute to the improvement of those templates by submitting a merge 
+request on the files contained in the folder [`.gitlab/issue_templates`](./.gitlab/issue_templates). 
 
-# Environment
-* K-DMS:
-* Browser:
-* OS:
-```
 
-### Features
-```
-# Rationale
-Why this feature is necessary, what needs it covers, what problems it fixes.
-
-# Description
-Detailed description of the feature: UI, text, path in the app...
-
-# Additional info
-Concepts, external links, documentation...
-
-# Tasks
-(Optional)
-List of task to be perfomed to develop this feature
-
-```
 ## Contributing changes
 
 ### Rules
 
-- Always make a new branch for your work, no matter how small. This makes it easy for others to take just that one set of changes from your repository, in case you have multiple unrelated changes floating around.
-- A corollary: don’t submit unrelated changes in the same branch/pull request! The maintainer shouldn’t have to reject your awesome bugfix because the feature you put in with it needs more review.
-- Base your branch on the `project-edition-development` branch
-- Add unit tests
+1. Always make a new branch for your work, no matter how small. This makes it easy for others to take just that one set of changes from your repository, in case you have multiple unrelated changes floating around.
+2. Base your branch on the `master` branch
+3. A corollary: don’t submit unrelated changes in the same branch/pull request! The maintainer shouldn’t have to reject your awesome bugfix because the feature you put in with it needs more review.
+4. Add unit tests
+5. Add also the documentation in `docs` folder
 
 ### General flow
 

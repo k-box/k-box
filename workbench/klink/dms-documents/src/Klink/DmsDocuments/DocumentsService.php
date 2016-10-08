@@ -252,7 +252,7 @@ class DocumentsService {
 
 		if( DocumentDescriptor::existsByHash($file->hash) ){
 
-			throw new FileAlreadyExistsException("Document Already exists", 1987);
+			throw new FileAlreadyExistsException($file->name, DocumentDescriptor::findByHash($file->hash));
 			
 		}
 
@@ -668,7 +668,7 @@ class DocumentsService {
 			}
 		}
 
-		if(!$group->is_private && !$user->can_capability(Capability::MANAGE_INSTITUTION_GROUPS)){
+		if(!$group->is_private && !$user->can_capability(Capability::MANAGE_PROJECT_COLLECTIONS)){
 			throw new ForbiddenException(trans('groups.delete.forbidden_delete_project_collection', ['collection' => $group->name]));
 		}
 
@@ -1237,7 +1237,7 @@ class DocumentsService {
 	public function deleteGroup(User $user, Group $group)
 	{
 
-		if(!$group->is_private && !$user->can_capability(Capability::MANAGE_INSTITUTION_GROUPS)){
+		if(!$group->is_private && !$user->can_capability(Capability::MANAGE_PROJECT_COLLECTIONS)){
 			throw new ForbiddenException(trans('groups.delete.forbidden_delete_project_collection', ['collection' => $group->name]));
 		}
 
@@ -1717,7 +1717,12 @@ class DocumentsService {
 
 		foreach ($urls as $url) {
 			if($this->fileExistsFromOriginalUrl($url)){
-				throw new FileAlreadyExistsException(trans('errors.import.url_already_exists', ['url' => $url]), 1);
+
+				$f = File::fromOriginalUri($url)->first();
+
+				$descr = $f->getLastVersion()->document;
+
+				throw new FileAlreadyExistsException($url, $descr, $f);
 			}
 
 			\KlinkHelpers::is_valid_url($url);
@@ -1800,14 +1805,6 @@ class DocumentsService {
 		if(!$recursive){
 			throw new \NotImplementedException("The NO-RECURSION option is not available in this build", 42000);
 		}
-
-		// TODO: [important] some checks before importing the same folder structure again !!!!
-
-		// foreach ($paths as $path) {
-		// 	if($this->fileExistsFromOriginalUrl($path)){
-		// 		throw new FileAlreadyExistsException('A file from the same origin ('.$path.') is already in import or imported.', 1);
-		// 	}
-		// }
 
 
 		// get the common ancestor to all the paths so we have starting path for folder names (and for recreating folder structure)
@@ -1911,11 +1908,26 @@ class DocumentsService {
 
 			$hash = \KlinkDocumentUtils::generateDocumentHash($file);
 
-			if(File::existsByHash($hash)){
+
+
+			if(DocumentDescriptor::existsByHash($hash)){
 
 				unlink($file);
 				
-				throw new FileAlreadyExistsException(trans('errors.upload.filealreadyexists', ['filename' => $upload->getClientOriginalName()]), 1);
+				throw new FileAlreadyExistsException($upload->getClientOriginalName(), DocumentDescriptor::findByHash($hash));
+
+			}
+			
+			if(File::existsByHash($hash)){
+
+				unlink($file);
+
+				// get the document from the file
+				$file_model = File::findByHash($hash);
+				$existing_descriptor = $file_model->getLastVersion()->document;
+				
+				throw new FileAlreadyExistsException($upload->getClientOriginalName(), $existing_descriptor, $file_model);
+
 				
 			}
 
@@ -2018,8 +2030,12 @@ class DocumentsService {
 			if(File::existsByHash($hash)){
 
 				unlink($file);
+
+				$f = File::findByHash($hash);
+
+				$descr = $f->getLastVersion()->document;
 				
-				throw new FileAlreadyExistsException(trans('errors.upload.filealreadyexists', ['filename' => $upload->getClientOriginalName()]), 1);
+				throw new FileAlreadyExistsException($filename, $descr, $f);
 				
 			}
 
@@ -2107,7 +2123,7 @@ class DocumentsService {
 		$filename = $this->sanitize_file_name($original_filename);
         
         if( !is_null($seed) && !empty($seed) ){
-            $filename = $filename . '-' . $seed;
+            $filename = substr($filename, 0, 50) . '-' . $seed;
         }
 
 		// folder based on YEAR/MONTH

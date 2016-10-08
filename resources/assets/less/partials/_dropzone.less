@@ -14,7 +14,8 @@
 
   position: fixed;
   bottom: 0px;
-  width: 50%;
+  width: 60%;
+  
   right: 0;
 
   z-index: 500;
@@ -27,28 +28,28 @@
     display: block;
   }
 
-  &.ready {
-    background-color: lighten(#FDE3A7, 10%);
-  }
+  // &.ready {
+  //   background-color: lighten(#FDE3A7, 10%);
+  // }
 
-  &.uploading {
+  // &.uploading {
 
-    background-color: #FDE3A7;
+  //   background-color: #FDE3A7;
 
-  }
+  // }
 
-  &.completed {
+  // &.completed {
 
-    background-color: #26A65B;
+  //   background-color: #26A65B;
 
-    color: #fff;
+  //   color: #fff;
 
-  }
+  // }
 
-  &.error {
-    background-color: #F2784B;
-    color: #fff;
-  }
+  // &.error {
+  //   background-color: #F2784B;
+  //   color: #fff;
+  // }
 
 
 
@@ -149,11 +150,6 @@
 
     padding: 6px;
     margin-bottom: 2px;
-    // min-height: 100px;
-
-    strong {
-      font-weight: normal;
-    }
 
     div {
       display: inline-block;
@@ -165,19 +161,39 @@
 
     .dz-size {
       margin-left: @base-padding/2;
+      
+      strong {
+        font-weight: normal
+      }
+    }
+
+    .dz-filename {
+      font-weight: bold;
     }
 
     .dz-progress {
       width: 200px;
       height: 24px;
       float: right;
-      background-color: @black-10;
 
       .dz-upload {
         background-color: #000;
         background-color: rgba(0,0,0,0.7);
         display: block;
-        height: 100%
+        height: 100%;
+        opacity: 0.2
+      }
+    }
+
+    &.dz-processing {
+
+      .dz-progress {
+
+        background-color: @black-10;
+      }
+
+      .dz-upload {
+        opacity: 1
       }
     }
 
@@ -195,14 +211,17 @@
       .dz-error-message {
         display: block;
       }
+
+      .dz-progress {
+        opacity: 0
+      }
     }
 
     &.dz-success {
       background-color: @success-color;
 
-      // .dz-success-mark {
-      //   display: inline-block;
-      //   float: right;
-      // }
+      .dz-progress {
+        opacity: 0
+      }
     }
 }

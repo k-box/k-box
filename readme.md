@@ -1,10 +1,10 @@
 
 
-[![build status](https://git.klink.asia/klinkdms/dms/badges/master/build.svg)](https://git.klink.asia/klinkdms/dms/commits/master) ![latest version](https://img.shields.io/badge/version-0.10.1-blue.svg) ![dev version](https://img.shields.io/badge/dev-0.10.2-orange.svg)
+[![build status](https://git.klink.asia/klinkdms/dms/badges/master/build.svg)](https://git.klink.asia/klinkdms/dms/commits/master) ![latest version](https://img.shields.io/badge/version-0.11.0-blue.svg) ![dev version](https://img.shields.io/badge/dev-0.12.0-orange.svg)
 
 # K-Link DMS
 
-**version 0.10.2**
+**version 0.11.0**
 
 The K-Link DMS is built on top of [Laravel](https://laravel.com/) 5.1 (LTS).
 
@@ -96,29 +96,21 @@ To install all the prerequisites execute the following commands (considering Com
 composer install --prefer-dist
 
 # install bower (is possible that you might need to use sudo)
-npm install -g bower
+npm install bower
 
 # install Gulp (is possible that you might need to use sudo)
-npm install -g gulp
+npm install gulp
 
 # install the build system dependencies
 npm install
 
 # download and install the frontend libraries
-bower install
-```
-
-Due to the fact that a Laravel service plugin is currently in test phase and not released through composer please enter the `workbench/klink/dms-adapter/` folder and run composer
-
-```bash
-cd workbench/klink/dms-adapter/
-composer install --prefer-dist --no-dev
+node_modules/.bin/bower install
 ```
 
 After executing all the installation of the prerequisites you can execute gulp to process the files and build the frontend needed files.
 ```bash
-# (is possible that you might need to use sudo)
-gulp
+node_modules/.bin/gulp
 ```
 
 To verify that the build process has been performed correctly the following folders and files must exists in the `public` subfolder:
@@ -166,7 +158,7 @@ The following table explains the configuration parameter that can (or must) be i
 | `DMS_CORE_ADDRESS`                    | **required** | url     |               | The URL of the K-Link Core that will be used by the DMS. |
 | `DMS_CORE_USERNAME`                   | **required** | string  |               | The username for authenticating on the core. |
 | `DMS_CORE_PASSWORD`                   | **required** | string  |               | The password for authenticating on the core. |
-| `DMS_IDENTIFIER`                      | **required** | string  |               | The unique identifier for the DMS instance |
+| `DMS_IDENTIFIER`                      |              | string  |               | The unique identifier for the DMS instance |
 | `DMS_ARE_GUEST_PUBLIC_SEARCH_ENABLED` |              | boolean |               | Tell if the DMS will allow guest user to perform public search over K-Link instance |
 | `DMS_USE_HTTPS`                       |              | boolean | false         | Force the use of HTTPS |
 
@@ -186,13 +178,14 @@ DB_TABLE_PREFIX=kdms
 
 **Important: make sure that all the required parameters are inserted into the `.env` file.**
 
-**It's important that the parameter DMS_INSTITUTION_IDENTIFIER, DMS_CORE_ADDRESS, DMS_CORE_USERNAME, DMS_CORE_PASSWORD, DMS_IDENTIFIER are configured in the `.env` file before proceeding** (contact your K-Link Development team referent to get the values for those parameters).
+**It's important that the parameter `DMS_INSTITUTION_IDENTIFIER`, `DMS_CORE_ADDRESS`, `DMS_CORE_USERNAME`, `DMS_CORE_PASSWORD`, `DMS_IDENTIFIER` are configured in the `.env` file before proceeding** 
+(contact your K-Link Development team referent to get the values for those parameters).
 
 Just to verify that at least the PHP dependencies and the environment is configured correctly execute the following command
 
 	> php artisan
 
-The ouput must be the list of invocable artisan commands.
+The ouput must be the list of available commands.
 
 
 ### 4. Testing the K-Link parameters
@@ -238,35 +231,10 @@ Plase be sure that the following folders have write permissions:
 
 ## DMS Command Line
 
-The DMS command line suite of commands rely on the Laravel artisan CLI.
+The DMS offers various commands that can be executed in Command Line. 
+See [`docs/developer/commands`](./docs/developer/commands/index.md) for the full list.
 
-Some of the supported commands are:
 
-- [`dms:update`](./docs/developer/commands/update-command.md): Perform the installation/update steps for the K-Link DMS.
-- [`dms:reindex`](./docs/developer/commands/reindex-command.md): Perform the reindexing of the currently indexed documents.
-- `dms:test`: This command will test the K-Link Core configuration and connection.
-- `dms:sessions`: Get the user's session status.
-- `dms:queuelisten`: Start listening for jobs on the queue and report the status to the admin interface.
-- `dms:sync`: Performs a synchronization of the documents from the DMS that do not exists on the Core.
-- [`dms:import`](./docs/developer/commands/import-command.md): Import collections, projects and documents from a folder on a the filesystem
-- `dms:lang-publish`: Publish Javascript language files for RequireJS i18n plugin
-- [`users:import`](./docs/developer/commands/user-import-command.md): Import users from a CSV file
-- [`import:fetch-payload`](./docs/developer/commands/import-fetch-payload.md): Take the failed job payload and associate it to the given import
-- [`documents:check-affiliation`](./docs/developer/commands/documents-check-affiliation.md): Check if all the documents has the same institution of the first uploader. The command assumes that the user affiliation has not been changed since the upload of the document
-- [`documents:check-latest-version`](./docs/developer/commands/documents-check-latest-version.md): Check if the latest version details of a Document are correctly reported in a document descriptor
-- `collections:clean-duplicates`: Clean the duplicated documents contained in a collection
-- `collections:list`: Performs actions on collections
-     
-
-More command details in [`docs/developer/commands`](./docs/developer/commands/).
-
-For a complete list of available commands execute
-
-```
-php artisan
-```
-
-in the root folder of the source code
 
 ---------------------
 
@@ -429,16 +397,6 @@ See `./docs/developer/testing/unit-tests.md`
 ## Test Instance
 
 See `./docs/developer/testing/test-instance.md`
-
-
-# Laravel 5.1 LTS Upgrades
-
-- Added directory `bootstrap/cache`. This directory should be writable, and will be used by the framework to store temporary optimization files like `compiled.php`, `routes.php`, `config.php`, and `services.json`.
-- Added env parameter APP_LOG to specify the logging configuration, available options are "single", "daily", "syslog"
-- changed config/app.php cipher from MCRYPT_RIJNDAEL_128 to AES-256-CBC
-- if you use XDebug is highly reccommended to set xdebug.max_nesting_level = 500 because Laravel framework 5.1 has an increased number of function calls that, in some occasions are more than 100
-
-
 
 # Frontend localization
 

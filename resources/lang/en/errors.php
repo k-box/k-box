@@ -19,6 +19,17 @@ return [
 		'filealreadyexists' => 'The file :filename already exists.',
 	),
 
+	'filealreadyexists' => [
+		'generic' => 'The document :name already exists in the K-DMS with the title <strong>":title"</strong>.',
+		'incollection' => 'The document is already available in <strong>":collection"</strong> with the title <strong>":title"</strong>',
+		'incollection_by_you' => 'You already uploaded this document as <strong>":title"</strong> in <strong>":collection"</strong>',
+		'by_you' => 'You already uploaded this document as <strong>":title"</strong>',
+		'revision_of_document' => 'The document you are uploading is an existing revision of <strong>":title"</strong>, added by :user (:email)',
+		'revision_of_your_document' => 'The document is an existing revision of your document titled <strong>:title</strong>',
+		'by_user' => 'The document has already been added to the K-DMS by :user (:email).',
+		'in_the_network' => 'The document is already available in <strong>:network</strong> as <strong>":title"</strong>. Added by :institution',
+	],
+
 	'group_already_exists_exception' => array(
 		'only_name' => 'A collection named ":name" already exists.',
 		'name_and_parent' => 'The collection ":name" under ":parent" already exists.',
@@ -41,6 +52,8 @@ return [
 	'forbidden_edit_document_exception' => 'You cannot edit the document.',
 	'forbidden_see_document_exception' => 'You cannot view the document as it is personal of a user.',
 	
+	'kcore_connection_problem' => 'The connection to the K-Link Core cannot be established.',
+
 	'fatal' => 'Fatal error :reason',
 
 	'panels' => array(

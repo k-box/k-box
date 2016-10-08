@@ -240,23 +240,34 @@ class KlinkAdapter
 	public function getDocumentsCount($visibility = 'public')
 	{
 
-        if(!$this->isKlinkPublicEnabled()){
+        if(!$this->isKlinkPublicEnabled() && $visibility==='public'){
             return 0;
         }
 
-		$conn = $this->connection;
+		try{
 
-		$value = \Cache::remember($visibility . '_documents_count', 15, function() use($conn, $visibility)
-		{
-			\Log::info('Updating documents count cache for ' . $visibility);
+			$conn = $this->connection;
+
+			$value = \Cache::remember($visibility . '_documents_count', 15, function() use($conn, $visibility)
+			{
+				\Log::info('Updating documents count cache for ' . $visibility);
+				
+				$res = $conn->search( '*', $visibility, 0, 0 );
+
+				return $res->getTotalResults();
+			});
 			
-		    $res = $conn->search( '*', $visibility, 0, 0 );
+			return $value;
 
-			return $res->getTotalResults();
-		});
+		}catch(\Exception $e){
+
+			\Log::error('Error getDocumentsCount', array('visibility' => $visibility, 'exception' => $e));
+
+			return 0;
+
+		}
 
 
-		return $value;
 		
 	}
 
@@ -274,10 +285,6 @@ class KlinkAdapter
 			$fs = \KlinkFacetsBuilder::create()->documentType()->build();
 
             $public_facets_response = array();
-
-            if($this->isKlinkPublicEnabled()){
-                $public_facets_response = $conn->facets( $fs );
-            }
 
 			$private_facets_response = $conn->facets( $fs, 'private' );
 

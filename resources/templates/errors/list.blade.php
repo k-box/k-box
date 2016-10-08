@@ -4,7 +4,7 @@
 
     	@if( $errors->has('error') )
 
-	        <p>{{ implode(",", $errors->get('error'))  }}</p>
+	        <p>{!! implode(",", $errors->get('error'))  !!}</p>
 	    
 	    @else
 

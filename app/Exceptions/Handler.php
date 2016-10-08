@@ -8,6 +8,7 @@ use Illuminate\Http\JsonResponse;
 use Symfony\Component\Debug\Exception\FatalErrorException;
 use KlinkException;
 use ErrorException;
+use GuzzleHttp\Exception\TransferException;
 
 class Handler extends ExceptionHandler {
 
@@ -167,6 +168,16 @@ class Handler extends ExceptionHandler {
 	        	}
 	
                 return response()->make(view('errors.500', ['reason' => 'ErrorException ' . $e->getMessage()]), 500);
+			}
+			else if($e instanceof TransferException){
+				if($request->wantsJson()){
+	        		return new JsonResponse(array('error' => trans('errors.kcore_connection_problem', array('reason' => $e->getMessage()))), 500);
+	        	}
+				else if($request->ajax()){
+	        		return response(trans('errors.kcore_connection_problem', array('reason' => $e->getMessage())), 500);
+	        	}
+	
+                return response()->make(view('errors.kcore_connection', ['reason' => 'TransferException ' . $e->getMessage()]), 500);
 			}
 			else
 			{

@@ -95,10 +95,12 @@ class DocumentDescriptor extends Model {
     
     protected $hidden = [ 'last_error' ];
 
+    /**
+     * The File that belongs to this document descriptor
+     */
     public function file(){
         
-        // One to One
-        return $this->belongsTo('\KlinkDMS\File');
+        return $this->hasOne('\KlinkDMS\File', 'id', 'file_id');
 
     }
 
@@ -302,6 +304,21 @@ class DocumentDescriptor extends Model {
     public static function existsByHash($hash)
     {
         return !is_null(self::withTrashed()->where('hash', $hash)->first());
+    }
+
+    /**
+     * Search for a DocumentDescriptor based on the Hash
+     *
+     * @param  string $hash The hash
+     * @return DocumentDescriptor the document descriptor instance if found
+     * @throws Illuminate\Database\Eloquent\ModelNotFoundException if the document descriptor cannot be found
+     */
+    public static function findByHash($hash)
+    {
+
+        $model = self::withTrashed()->where('hash', $hash)->firstOrFail();
+
+        return $model;
     }
 
 

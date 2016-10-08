@@ -137,10 +137,10 @@ class DocumentsTest extends TestCase {
         $this->assertResponseOk();
         
         if( $can_see ){
-            $this->see('Make Public');
+            $this->see( trans('networks.publish_to_long', ['network' => network_name()]) );
         }
         else {
-            $this->dontSee('Make Public');
+            $this->dontSee(trans('networks.publish_to_long', ['network' => network_name()]));
         }
   		
 	}
@@ -954,6 +954,66 @@ class DocumentsTest extends TestCase {
         $this->markTestIncomplete(
           'Implementation needed.'
         );
+    }
+
+
+    public function testDocumentDescriptorFileRelation(){
+
+        $user = $this->createAdminUser();
+
+        $descr = $this->createDocument($user);
+
+        $file = $descr->file;
+
+        $this->assertNotNull($file);
+        $this->assertEquals($descr->hash, $file->hash);
+
+        
+        $this->assertNotNull($file->document);
+
+        $relatedDocument = $file->document;
+
+        $this->assertEquals($descr->id, $relatedDocument->id);
+        $this->assertEquals($descr->hash, $relatedDocument->hash);
+
+        
+
+    }
+
+    public function testFileRevisions(){
+
+        $user = $this->createAdminUser();
+
+        $descr = $this->createDocument($user);
+        
+        $file = $descr->file;
+
+        $revision_of_revision = factory('KlinkDMS\File')->create([
+            'user_id' => $user->id,
+            'original_uri' => '',
+            'path' => $file->path,
+            'revision_of' => null,
+        ]);
+
+        $revision = factory('KlinkDMS\File')->create([
+            'user_id' => $user->id,
+            'original_uri' => '',
+            'path' => $file->path,
+            'revision_of' => $revision_of_revision->id,
+        ]);
+
+
+        $file->revision_of = $revision->id;
+
+        $file->save();
+
+        $this->assertEquals(3, $file->getVersions()->count()); // 2 old revisions + the current version
+        $this->assertEquals(1, $revision_of_revision->getVersions()->count()); // only the current version
+
+        $lastVersion = $revision_of_revision->getLastVersion();
+
+        $this->assertEquals($file->id, $lastVersion->id);
+
     }
     
 }

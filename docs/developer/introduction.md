@@ -48,7 +48,7 @@ How differs from the standard DMS?
 
 How is the project concept implemented?
 
-- refer to the [database](./database) section
+- refer to the [database](./database.md) section
 
 Current Limitation of the strategy?
 

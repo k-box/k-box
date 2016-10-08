@@ -135,6 +135,8 @@ class ImportTest extends TestCase {
     public function testImportControllerCreateWithFileAlreadyExistsException( $url ){
         
         $this->withoutMiddleware();
+
+        // $title = app('Klink\DmsDocuments\DocumentsService')->extractFileNameFromUrl($url);
         
         $user = $this->createAdminUser();
         
@@ -144,6 +146,10 @@ class ImportTest extends TestCase {
             'from' => 'remote',
             'remote_import' => $url
         ])->seeJson();
+
+        $res = json_decode($this->response->getContent());
+
+        $title = collect($res->imports)->first()->file->name;
         
         $this->assertResponseOk();
 
@@ -151,7 +157,7 @@ class ImportTest extends TestCase {
             'from' => 'remote',
             'remote_import' => $url
         ])->seeJson([
-            'remote_import' => trans('errors.import.url_already_exists', ['url' => $url])
+            'remote_import' => trans('errors.filealreadyexists.revision_of_your_document', ['title' => $title])
         ]);
         
         $this->assertResponseStatus(422);

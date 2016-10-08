@@ -18,13 +18,6 @@ class AdministrationDashboardController extends Controller {
   |
   */
 
-
-  /**
-   * [$adapter description]
-   * @var \Klink\DmsAdapter\KlinkAdapter
-   */
-  private $adapter = NULL;
-
   /**
    * [$documents description]
    * @var \Klink\DmsDocuments\DocumentsService
@@ -36,15 +29,11 @@ class AdministrationDashboardController extends Controller {
    *
    * @return void
    */
-  public function __construct(\Klink\DmsAdapter\KlinkAdapter $adapterService, \Klink\DmsDocuments\DocumentsService $documentsService) {
+  public function __construct(\Klink\DmsDocuments\DocumentsService $documentsService) {
 
     $this->middleware('auth');
 
     $this->middleware('capabilities');
-
-    // Only if the user has the correct capabilities
-
-    $this->adapter = $adapterService;
 
     $this->documents = $documentsService;
   }
@@ -56,17 +45,9 @@ class AdministrationDashboardController extends Controller {
    */
   public function index() {
 
-    $public = $this->adapter->getDocumentsCount('public');
-
-    $private = $this->adapter->getDocumentsCount('private');
-
     $storage = $this->documents->getStorageStatus();
 
-    // dd($storage);
-
     return view('administration.administration', [
-        'document_total' => $public+$private,
-        'document_public' => $public,
         'storage_status' => $storage
       ]);
   }

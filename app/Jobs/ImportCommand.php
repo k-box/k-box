@@ -19,6 +19,7 @@ use GuzzleHttp\Client;
 use KlinkDMS\Exceptions\FileDownloadException;
 use KlinkDMS\Exceptions\FileAlreadyExistsException;
 use Symfony\Component\Console\Output\OutputInterface; 
+use Exception;
 
 class ImportCommand extends Job implements ShouldBeQueued, SelfHandling {
 
@@ -82,7 +83,7 @@ class ImportCommand extends Job implements ShouldBeQueued, SelfHandling {
                 'group' => $this->group,
                 'copy' => $this->copy,
                 'exclude' => $this->exclude,
-                'job_id' => $this->job->getJobId()
+                'job_id' => !is_null($this->job) ? $this->job->getJobId() : 'commandline'
             ));
             
             $this->service = $documentsService;
@@ -108,7 +109,9 @@ class ImportCommand extends Job implements ShouldBeQueued, SelfHandling {
             $this->import->message = $kex->getMessage();
             $this->import->payload = array( 'error' => class_basename( $kex ) . ' in ' . basename( $kex->getFile() ) . ' line ' . $kex->getLine() . ': ' . $kex->getMessage() );
             
-            $this->import->job_payload = $this->job->getRawBody(); //save the original job payload
+            if(!is_null($this->job)){
+                $this->import->job_payload = $this->job->getRawBody(); //save the original job payload
+            }
     
             $this->import->save();
             
@@ -339,7 +342,8 @@ class ImportCommand extends Job implements ShouldBeQueued, SelfHandling {
                     
                     if(is_null($descriptor)){
                         $this->line('  > No descriptor found for file '. $file_found->id .'. ');
-                        throw with(new FileAlreadyExistsException('File already exists. The file ' . $file . ' has the same fingerprint of ' . $file_found->id .':' . $file_found->name .' at ' . $file_found->path ))->setExistingFile($file_found);
+                        
+                        throw new Exception('File already exists. The file ' . $file . ' has the same fingerprint of ' . $file_found->id .':' . $file_found->name .' at ' . $file_found->path );
                     }
                     
                     try{
@@ -363,7 +367,7 @@ class ImportCommand extends Job implements ShouldBeQueued, SelfHandling {
                 }
                 else {
                     Log::warning('Skipping file import - already exists -', array('import' => $this->import->toArray(), 'import_file' => $folder->toArray(), 'file' => $file));
-                    throw with(new FileAlreadyExistsException('File already exists. The file ' . $file . ' has the same fingerprint of ' . $file_found->id .':' . $file_found->name .' at ' . $file_found->path ))->setExistingFile($file_found);
+                    throw new Exception('File already exists. The file ' . $file . ' has the same fingerprint of ' . $file_found->id .':' . $file_found->name .' at ' . $file_found->path );
                 }
                 
                 

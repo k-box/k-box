@@ -145,7 +145,7 @@ class ImportDocumentsController extends Controller {
 
                 \Log::error('Import store', ['exception' => $aex]);
 
-                return new JsonResponse(array('' . (($remote) ? 'remote_import' : 'folder_import') => $aex->getMessage()), 422);
+                return new JsonResponse(array('' . (($remote) ? 'remote_import' : 'folder_import') => $aex->render($auth_user)), 422);
 
             }catch(\InvalidArgumentException $ex){
 
@@ -181,7 +181,7 @@ class ImportDocumentsController extends Controller {
                 throw new Exception(trans('import.retry.retry_error_file_not_found'));
             }
         
-            if(!$user->isDMSManager() || ($user->id !== $import->user_id)){
+            if(!$user->isDMSManager() || ($user->id != $import->user_id)){
                 
                 if(is_null($import->file)){
                     throw new ForbiddenException(trans('import.retry.retry_forbidden_user_alternate'));
@@ -255,7 +255,7 @@ class ImportDocumentsController extends Controller {
         
         try{
         
-            if(!$user->isDMSManager() || ($user->id !== $import->user_id)){
+            if(!$user->isDMSManager() || ($user->id != $import->user_id)){
                 
                 if(is_null($import->file)){
                     throw new ForbiddenException(trans('import.remove.destroy_forbidden_user_alternate'));

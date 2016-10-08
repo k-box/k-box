@@ -18,6 +18,17 @@ return [
 		'filenamepolicy' => 'Файл :filename не отвечает правилам названия документов.',
 		'filealreadyexists' => 'Файл :filename уже существует.',
 	),
+	
+    	'filealreadyexists' => [
+		'generic' => 'Документ :name уже существует в K-DMS под именем <strong>":title"</strong>.',
+		'incollection' => 'Документ уже доступен в <strong>":collection"</strong> под именем <strong>":title"</strong>',
+		'incollection_by_you' => 'Вы уже загрузили данный документ как <strong>":title"</strong> в <strong>":collection"</strong>',
+		'by_you' => 'Вы уже загрузили данный документ как <strong>":title"</strong>',
+		'revision_of_document' => 'Загружаемый документ является обновленной версией <strong>":title"</strong>, который добавил(a) :user (:email)',
+		'revision_of_your_document' => 'Загружаемый документ является обновленной версией Вашего документа под именем <strong>":title"</strong>',
+		'by_user' => ':user (:email) уже добавил(a) данный документ в K-DMS.',
+		'in_the_network' => 'Документ уже доступен в <strong>:network</strong> под именем <strong>":title"</strong>. Добавил :institution',
+	],
 
 	'group_already_exists_exception' => array(
 		'only_name' => 'Коллекция с таким именем ":name" уже существует.',

@@ -447,11 +447,11 @@ class DocumentsController extends Controller {
 			\Log::warning('DocumentsController store - File already exists check', ['error' => $ex]);
 
 			if ($request->wantsJson()) {
-				return new JsonResponse(array('error' => $ex->getMessage()), 409);
+				return new JsonResponse(array('error' => $ex->render($auth->user())), 409);
 			}
 			
 			return redirect()->back()->withErrors([
-				'error' => $ex->getMessage()
+				'error' => $ex->render($auth->user())
 			]);
 			
 
@@ -708,7 +708,6 @@ class DocumentsController extends Controller {
 				$was_document_public = $document->is_public;
 				$is_json = $request->isJson();
 				$has_visibility =$request->has('visibility');
-				\Log::info('info', compact('is_json', 'has_visibility'));
 				 
 				if($user->can_capability(Capability::CHANGE_DOCUMENT_VISIBILITY)){
 					
@@ -765,7 +764,7 @@ class DocumentsController extends Controller {
 
 				}catch(FileAlreadyExistsException $fex){
 
-					throw new Exception(trans('documents.versions.filealreadyexists'), 10, $fex);
+					throw new Exception($fex->render($user));
 					
 				}
 
@@ -776,7 +775,6 @@ class DocumentsController extends Controller {
 					$document->save();
 
 					$this->service->reindexDocument($document, \KlinkVisibilityType::KLINK_PRIVATE);
-
 					
 					if($user->can_capability(Capability::CHANGE_DOCUMENT_VISIBILITY)){
 						
@@ -788,7 +786,11 @@ class DocumentsController extends Controller {
 							\Log::info('Applying visibility change', ['descriptor' => $document->id, 'old' => $was_document_public, 'new' => $document->is_public]);
 							$this->service->deletePublicDocument($document);
 						}
-					
+						else if($was_document_public && $document->is_public){
+							\Log::info('Reindexing also Public Document because Doc is dirty', ['descriptor' => $document->id]);
+							$this->service->reindexDocument($document, \KlinkVisibilityType::KLINK_PUBLIC);
+						}
+
 					}
 					else if($was_document_public && $document->is_public){
 						\Log::info('Reindexing also Public Document because Doc is dirty', ['descriptor' => $document->id]);

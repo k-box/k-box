@@ -12,6 +12,22 @@ cache:
   - node_modules/
   - resources/assets/vendor
 
+.standard_build_and_execution: &standard_build_and_execution
+# build and execute a docker image, use variables 
+# INSTANCE_PREFIX => the prefix of the docker container/image to be used
+# BUILD_LOCATION => the folder where the base tar.gz file is located
+# DOCKER_LOCATION => the folder where to run the docker-compose commands
+  when: manual
+  stage: deploy
+  tags:
+    - shell
+  script: 
+    - cp ${BUILD_LOCATION}/klink-dms-$CI_BUILD_REF_NAME.tar.gz ${DOCKER_LOCATION}/dms/downloads/dms.tar.gz
+    - cd ${DOCKER_LOCATION}
+    - docker-compose -f klink-services.yml -p ${INSTANCE_PREFIX} build dmsproject
+    - docker-compose -f docker-compose-kbox.yml -p ${INSTANCE_PREFIX} stop && docker-compose -f docker-compose-kbox.yml -p ${INSTANCE_PREFIX} rm -v -f && docker-compose -f docker-compose-kbox.yml -p ${INSTANCE_PREFIX} up -d frontend
+
+
 build_dev:
 # performs only composer install with dev dependencies
   stage: build
@@ -54,50 +70,28 @@ build_prod:
     - nodejs
     - shell
 
-build_docker_test_image:
-  stage: build_docker
-  script: 
-    - cp ${BUILD_FOLDER}/klink-dms-$CI_BUILD_REF_NAME.tar.gz ${TEST_DOCKER_FOLDER}/dms/downloads/dms.tar.gz
-    - cd ${TEST_DOCKER_FOLDER}
-    - docker-compose -f klink-services.yml -p ${TEST_INSTANCE_PREFIX} build dmsproject 
-  when: manual
-  except:
-    - master
-    - release
-  tags:
-    - shell
-
     
-run_test_image:
-  stage: deploy
+test_klink_asia_deploy:
+# creates the DMS docker image and restart the test instance with the new image
   environment: Review
-  when: manual
+  <<: *standard_build_and_execution
   except:
     - master
     - release
-  script: 
-    - cd ${TEST_DOCKER_FOLDER}
-    - docker-compose -f docker-compose-kbox.yml -p ${TEST_INSTANCE_PREFIX} stop && docker-compose -f docker-compose-kbox.yml -p ${TEST_INSTANCE_PREFIX} rm -v -f && docker-compose -f docker-compose-kbox.yml -p ${TEST_INSTANCE_PREFIX} up -d frontend
-  tags:
-    - shell
-    
-build_docker_prod_image:
-  stage: build_docker
-  script: 
-    - cp ${BUILD_FOLDER}/klink-dms-$CI_BUILD_REF_NAME.tar.gz ${PROD_DOCKER_FOLDER}/dms/downloads/dms.tar.gz
-    - cd ${PROD_DOCKER_FOLDER}
-    - docker-compose -f klink-services.yml build dmsproject
-  when: manual
-  only:
-    - master
-    - release
-  tags:
-    - shell
-    
+  variables:
+    INSTANCE_PREFIX: $TEST_INSTANCE_PREFIX
+    BUILD_LOCATION: $BUILD_FOLDER 
+    DOCKER_LOCATION: $TEST_DOCKER_FOLDER 
+
+
 dms_klink_asia_deploy:
+# creates the DMS docker image and restart the DMS.klink.asia instance with the new image
   stage: deploy
   environment: Staging
-  script: 
+  script:
+    - cp ${BUILD_FOLDER}/klink-dms-$CI_BUILD_REF_NAME.tar.gz ${PROD_DOCKER_FOLDER}/dms/downloads/dms.tar.gz
+    - cd ${PROD_DOCKER_FOLDER}
+    - docker-compose -f klink-services.yml build dmsproject 
     - docker-compose -f ${PROD_DOCKER_FOLDER}/docker-compose-kbox.yml stop && docker-compose -f ${PROD_DOCKER_FOLDER}/docker-compose-kbox.yml rm -v -f && docker-compose -f ${PROD_DOCKER_FOLDER}/docker-compose-kbox.yml up -d frontend
   when: manual
   only:

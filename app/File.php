@@ -54,6 +54,17 @@ class File extends Model {
     }
 
     /**
+     * The DocumentDescriptor that links to this File.
+     *
+     * Can be null in case of File revision
+     */
+    public function document(){
+        
+        return $this->belongsTo('\KlinkDMS\DocumentDescriptor', 'id', 'file_id');
+
+    }
+
+    /**
      * Getting all the versions of the File
      * @return [type] [description]
      */
@@ -159,8 +170,71 @@ class File extends Model {
         return !is_null(File::fromHash($hash)->first());
     }
 
+    public static function findByHash($hash){
+        return File::fromHash($hash)->firstOrFail();
+    }
+
     public static function existsByHashAndSourceFolder($hash, $source_folder){
         return !is_null(File::fromHash($hash)->fromOriginalUri($source_folder)->first());
     }
+
+
+    private function flatten_revisions(File $file, &$revisions = array()){
+
+        $revisions[] = $file;
+
+        if(is_null($file->revision_of)){
+            return $revisions;
+        }
+        else {
+            return $this->flatten_revisions($file->revisionOf()->first(), $revisions);
+        }
+
+    }
+
+    private function last_version_recursive(File $file){
+
+        $belongsTo = $file->belongsTo('\KlinkDMS\File', 'id', 'revision_of')->first();
+
+        if(!is_null($belongsTo)){
+
+            return $this->last_version_recursive($belongsTo);
+        }
+
+        return $file;
+
+    }
+
+    /**
+     * Return all the document versions that are older than the current file
+     */
+    public function getVersions(){
+
+        $all = $this->flatten_revisions($this);
+
+        return collect($all);
+
+    }
+
+    /**
+     * The latest available version.
+     *
+     * Find and return the last known revision of this file
+     */
+    public function getLastVersion(){
+
+        // return $this->belongsTo('\KlinkDMS\File', 'id', 'revision_of')->first();
+
+        return $this->last_version_recursive($this);
+
+        // return $this->belongsTo('\KlinkDMS\File', 'id', 'revision_of');
+
+        // $all = $this->flatten_revisions($this);
+
+        // return collect($all);
+
+    }
+
+    // 
 
 }

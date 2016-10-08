@@ -30,7 +30,7 @@ class DocumentsCheckDescriptorCommandTest extends TestCase {
 
     // function that might be useful
 
-    private function createWrongDocument( $options ){
+    private function createWrongDocument( $options = [] ){
 
         $docs = factory('KlinkDMS\DocumentDescriptor')->create( $options );
         

@@ -125,7 +125,10 @@ class InstitutionsController extends Controller {
     
       $inst = Institution::findOrFail($id);
     
-      return 'Institutions show ';
+      return view('administration.institutions.show', [
+        'pagetitle' => $inst->name,
+        'institution' => $inst,
+        ]);
   }
 
 

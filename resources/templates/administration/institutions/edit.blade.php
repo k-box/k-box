@@ -2,7 +2,7 @@
 
 @section('sub-header')
 
-    <a href="{{route('administration.index')}}" class="parent">Administration</a> <a href="{{route('administration.institutions.index')}}" class="parent">{{trans('administration.menu.institutions')}}</a> {{$institution->name}}
+    <a href="{{route('administration.index')}}" class="parent">{{trans('administration.page_title')}}</a> <a href="{{route('administration.institutions.index')}}" class="parent">{{trans('administration.menu.institutions')}}</a> {{$institution->name}}
 
 @stop
 

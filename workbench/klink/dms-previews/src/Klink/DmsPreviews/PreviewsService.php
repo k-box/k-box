@@ -16,7 +16,6 @@ use Illuminate\Support\Facades\Config;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use KlinkDMS\Exceptions\ForbiddenException;
-use KlinkDMS\Exceptions\FileAlreadyExistsException;
 use KlinkDMS\Exceptions\FileNamingException;
 use Illuminate\Support\Collection;
 use KlinkDMS\Http\Request;

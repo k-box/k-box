@@ -1765,14 +1765,17 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
                           if (typeof message !== "String" && message.error) {
                             message = message.error;
                           }
-                          if (typeof message !== "String" && message.document) {
+                          else if (typeof message !== "String" && message.document) {
                             message = _.isArray(message.document) ? message.document.join(",") : message.document;
+                          }
+                          else {
+                            message = Lang.trans('errors.generic_text');
                           }
                           _ref = file.previewElement.querySelectorAll("[data-dz-errormessage]");
                           _results = [];
                           for (_i = 0, _len = _ref.length; _i < _len; _i++) {
                             node = _ref[_i];
-                            _results.push(node.textContent = message);
+                            _results.push(node.innerHTML = message);
                           }
                           return _results;
                         }
@@ -1785,24 +1788,24 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
 
                                 module.uploads.status = "error";
 
-                                var msg = "";
-                                if(response.error){
-                                    msg = response.error;
-                                }
-                                else if(response.document){
-                                    msg = response.document;
-                                }
-                                else {
-                                    if(xhr.responseText.indexOf('Request Entity Too Large') != -1 || xhr.responseText.indexOf('POST Content-Length') != -1 ){
-                                        msg = Lang.trans('errors.413_text');
-                                    }
-                                    else {
-                                        msg = Lang.trans('errors.generic_text'); //xhr.responseText;
-                                    }
+                                // var msg = "";
+                                // if(response.error){
+                                //     msg = response.error;
+                                // }
+                                // else if(response.document){
+                                //     msg = response.document;
+                                // }
+                                // else {
+                                //     if(xhr.responseText.indexOf('Request Entity Too Large') != -1 || xhr.responseText.indexOf('POST Content-Length') != -1 ){
+                                //         msg = Lang.trans('errors.413_text');
+                                //     }
+                                //     else {
+                                //         msg = Lang.trans('errors.generic_text'); //xhr.responseText;
+                                //     }
                                     
-                                }
+                                // }
 
-                                DMS.MessageBox.error(Lang.trans('documents.upload.error_dialog_title'), msg);
+                                // DMS.MessageBox.error(Lang.trans('documents.upload.error_dialog_title'), msg);
                             });
 
                             this.on("success", function (file, response) {
