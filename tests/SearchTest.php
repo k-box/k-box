@@ -6,6 +6,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 use KlinkDMS\Capability;
 use KlinkDMS\Starred;
+use KlinkDMS\DocumentDescriptor;
 use Laracasts\TestDummy\Factory;
 use Illuminate\Support\Collection;
 use Klink\DmsSearch\SearchRequest;
@@ -36,6 +37,7 @@ class SearchTest extends TestCase {
 		$this->assertNull($req->filters);
 		
 		$this->assertNull($req->facets);
+		$this->assertNull($req->highlight);
 		
 		
 		$req = SearchRequest::create()
@@ -57,6 +59,8 @@ class SearchTest extends TestCase {
 		$this->assertNull($req->filters);
 		
 		$this->assertNull($req->facets);
+
+		$this->assertNull($req->highlight);
 		
 		// var_dump($req);
 		
@@ -140,6 +144,8 @@ class SearchTest extends TestCase {
 		$this->assertInstanceOf('\KlinkFacet', $document_groups[0]);
 		
 		$this->assertEquals('0:10,0:1,0:15', $document_groups[0]->getFilter());
+
+		$this->assertNull($req->explicit_filters);
 		
 		
 		
@@ -202,6 +208,10 @@ class SearchTest extends TestCase {
 			'documentGroups' => ['0:10','1:11'],
 			'documentType' => ['document']), $req->filters);
 		
+		$this->assertNotNull($req->explicit_filters);
+
+		$this->assertEquals(['documentType', 'language', 'documentGroups'], $req->explicit_filters);
+
 		$fs_and_fs = $req->facets_and_filters;
 		
 		$this->assertInstanceOf('\KlinkFacetsBuilder', $fs_and_fs);
@@ -317,7 +327,7 @@ class SearchTest extends TestCase {
 		$total_pages = $res->lastPage();
 		for($pg = $res->currentPage() + 1; $pg < $total_pages; $pg++){
 			
-			var_dump(sprintf('Requesting page %s of %s', $pg, $total_pages));
+			// var_dump(sprintf('Requesting page %s of %s', $pg, $total_pages));
 			
 			$req->page($pg);
 			
@@ -436,30 +446,201 @@ class SearchTest extends TestCase {
 		$this->assertNotNull($results->facets(), 'Null Facets, where the default facets are?');
 		
 		
-		
-		// // questa dovrebbe essere una ricerca vera e propria o no?
-		// $results = $this->search($req);
-		// 
-		// 
-		// 
-		// $req = SearchRequest::create()->search('X')->page(1)->limit(1)->in([1,2]);
-		// $this->assertFalse($req->isAllRequested(), '3 - isAllRequested');
-		// $this->assertFalse($req->isPageRequested(), '3 - isPageRequested');
-		// $this->assertTrue($req->isSearchRequested(), '3 - isSearchRequested');
-		// // questa dovrebbe essere una ricerca vera e propria?
-		// $results = $this->search($req);
-		// 
-		// create test document set, mark them as starred
-		// search for known documents
-		// check if are returned
 	}
 
-// 		
-// 		$this->assertInstanceOf('Illuminate\Http\JsonResponse', $response);
-// 		
-// 		$this->assertEquals(array('status' => 'ok'), $response->getData(true));
-// 		
-// 		$this->assertEquals(0, Starred::count());
-// 	}
+
+	public function highlight_provider(){
+		
+		return array( 
+			// first: how many documents to generate
+			// second: the expected page
+			// third: the expected position in the page
+			// elements per page: 12
+			array( 1, 1, 0 ),
+			array( 2, 1, 1 ),
+			array( 10, 1, 9 ),
+			array( 11, 1, 10 ),
+			array( 12, 1, 11 ),
+			array( 13, 2, 0 ),
+			array( 24, 2, 11 ),
+			array( 25, 3, 0 ),
+			// array( 50,  ),
+			// array( 100 ),
+		);
+        
+	}
+
+	/**
+	 * Test that the highlight attribute work as expected
+	 *
+	 * @param $count how many documents to create
+	 * @param $expected_page The page on which we expect to be after the highlight
+	 * @param $expected_position_in_page The expected offset in the page result of our highlighted element
+	 *
+	 * @dataProvider highlight_provider
+	 */
+	public function testSearchRequestWithHighlight($count, $expected_page, $expected_position_in_page)
+	{
+
+		$generated = factory('KlinkDMS\DocumentDescriptor', $count)->create();
+
+		$docs = $count === 1 ? collect([$generated]) : $generated ;
+
+		$interested_in = $docs->last();
+		
+		$req = SearchRequest::create()
+			->highlight($interested_in->id);
+
+
+		$this->assertInstanceOf('Klink\DmsSearch\SearchRequest', $req);
+		
+		$this->assertEquals($interested_in->id, $req->highlight);
+		
+		// Now let's consider a search over all the documents available to show
+		// the page that contains the highlighted one 
+
+		$results = $this->search($req, function($_request) use($docs, $count){
+			
+			return $docs; // the general collection that contains the documents
+		});
+
+		// Here the page number must be different than 1 and equal to 3
+		$this->assertEquals($expected_page, $results->currentPage());
+		
+		$this->assertEquals(12, $results->perPage());
+
+		$this->assertEquals($count, $results->total());
+		
+		$this->assertFalse($results->hasMorePages());
+
+		$first = $results[$expected_position_in_page];
+
+		$this->assertEquals($interested_in->id, $first->id);
+
+		
+
+		// Now let's use a query builder instance instead of a Collection
+		$req = SearchRequest::create()
+			->highlight($interested_in->id);
+
+		$results = $this->search($req, function($_request) use($docs){
+			
+			return DocumentDescriptor::where('id', '>=', $docs->first()->id)->
+			       where('id', '<=', $docs->last()->id);
+		});
+
+		// Here the page number must be different than 1 and equal to 3
+		$this->assertEquals($expected_page, $results->currentPage());
+		
+		$this->assertEquals(12, $results->perPage());
+
+		$this->assertEquals($count, $results->total());
+		
+		$this->assertFalse($results->hasMorePages());
+
+		$first = $results[$expected_position_in_page];
+
+		$this->assertEquals($interested_in->id, $first->id);
+		
+	}
+
+	/**
+	 * Test that the highlight attribute work as expected when ordering clause are applied
+	 */
+	public function testSearchRequestWithHighlightAndCustomOrderClause()
+	{
+
+		$document_names = ['a', 'z', 'b', 'c', 'm', 'k'];
+		$ordered_document_names = ['a', 'b', 'c', 'k', 'm', 'z' ];
+		$count = count($document_names);
+		$per_page = 2;
+		$interested_in_title = 'k';
+		$expected_page = 2;
+		$expected_position_in_page = 1;
+
+		$first_element = null;
+		$last_element = null;
+
+		foreach ($document_names as $index => $title) {
+
+			$created = factory('KlinkDMS\DocumentDescriptor')->create([
+				'title' => $title
+			]);
+
+			if($index===0){
+				$first_element = $created->id;
+			}
+
+			$last_element = $created->id;
+
+		}
+
+
+		$docs = DocumentDescriptor::where('id', '>=', $first_element)->
+			       where('id', '<=', $last_element)->orderBy('title', 'asc');
+
+	    $interesting_query = clone $docs;
+		$interested_in = $interesting_query->where('title', $interested_in_title)->first();
+		
+		$req = SearchRequest::create()
+		    ->limit($per_page)
+			->highlight($interested_in->id);
+
+
+		$this->assertInstanceOf('Klink\DmsSearch\SearchRequest', $req);
+		
+		$this->assertEquals($interested_in->id, $req->highlight);
+		$this->assertEquals($per_page, $req->limit);
+		
+		// Now let's consider a search over all the documents available to show
+		// the page that contains the highlighted one 
+
+		$results = $this->search($req, function($_request) use($docs, $count){
+			
+			return $docs->get(); // the general collection that contains the documents
+
+		});
+
+		// Here the page number must be different than 1 and equal to 3
+		$this->assertEquals($expected_page, $results->currentPage());
+		
+		$this->assertEquals($per_page, $results->perPage());
+
+		$this->assertEquals($count, $results->total());
+		
+		$this->assertTrue($results->hasMorePages());
+
+		$first = $results[$expected_position_in_page];
+
+		$this->assertEquals($interested_in->id, $first->id);
+
+		
+
+		// Now let's use a query builder instance instead of a Collection
+		$req = SearchRequest::create()
+		    ->limit($per_page)
+			->highlight($interested_in->id);
+		
+		$docs = DocumentDescriptor::where('id', '>=', $first_element)->
+			       where('id', '<=', $last_element)->orderBy('title', 'asc');
+
+		$results = $this->search($req, function($_request) use($docs){
+			
+			return $docs;
+		});
+
+		$this->assertEquals($expected_page, $results->currentPage());
+		
+		$this->assertEquals($per_page, $results->perPage());
+
+		$this->assertEquals($count, $results->total());
+		
+		$this->assertTrue($results->hasMorePages());
+
+		$first = $results[$expected_position_in_page];
+
+		$this->assertEquals($interested_in->id, $first->id);
+		
+	}
 
 }

@@ -13,9 +13,9 @@
 					
 						@foreach($value['items'] as $f)
 							
-							<a href="{{DmsRouting::filterSearch($facet_filters_url, $current_active_filters, $facet, $f->term, $f->selected )}}" class="el-filter @if($f->selected) current @endif @if($f->collapsed) collapsed @endif @if( property_exists($f, 'locked') && $f->locked) locked hint--top @endif" @if( property_exists($f, 'locked') && $f->locked)data-hint="{{trans('actions.filters.collection_locked')}}"@endif title="@if(property_exists($f, 'label')) {{$f->label}} @else {{$f->term}} @endif &nbsp;({{$f->count}})" data-facet="{{$facet}}" data-filter="{{$f->term}}">
+							<a href="{{DmsRouting::filterSearch($facet_filters_url, $current_active_filters, $facet, $f->term, $f->selected )}}" class="el-filter @if(property_exists($f, 'is_project') && $f->is_project) project--mark @elseif(property_exists($f, 'is_project')) personal--mark @endif @if($f->selected) current @endif @if($f->collapsed) collapsed @endif @if( property_exists($f, 'locked') && $f->locked) locked hint--top @endif" @if( property_exists($f, 'locked') && $f->locked)data-hint="{{trans('actions.filters.collection_locked')}}"@endif title="@if(property_exists($f, 'parents')) {{$f->parents}} @elseif(property_exists($f, 'label')) {{$f->label}} @else {{$f->term}} @endif " data-facet="{{$facet}}" data-filter="{{$f->term}}">
 								<span class="el-filter-count">{{$f->count}}</span>
-								<span class="el-filter-name">@if(property_exists($f, 'institution') && $f->institution)<span class="institution_collection_mark icon icon-action-black icon-action-black icon-action-black-ic_group_work_black_24dp"></span>@endif @if(property_exists($f, 'label')){{$f->label}}@else{{$f->term}}@endif</span>
+								<span class="el-filter-name">@if(property_exists($f, 'label')){{$f->label}}@else{{$f->term}}@endif</span>
 							</a>
 							
 						@endforeach

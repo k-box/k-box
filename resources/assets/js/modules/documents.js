@@ -501,6 +501,16 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
 
     }
 
+    function getParameterByName(name, url) {
+        if (!url) url = window.location.search || window.location.href;
+        name = name.replace(/[\[\]]/g, "\\$&");
+        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
+
 
 	var module = {
 
@@ -597,6 +607,23 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
             }
             module._filtersVisible = !$.isArray(module.context.filters);
             _updateBinds();
+
+            // If the highlight parameter is present, 
+            // let's highlight the doc for a couple of seconds
+
+            var highlight_doc = $("[data-id=" + getParameterByName('highlight') + "]");
+            highlight_doc.addClass('newly-created');
+
+            if(typeof highlight_doc.scrollIntoViewIfNeeded === "function"){
+                highlight_doc.scrollIntoViewIfNeeded();
+            }
+            else if(typeof highlight_doc.scrollIntoView === "function"){
+                highlight_doc.scrollIntoView();
+            }
+                        
+            setTimeout(function(){
+                highlight_doc.removeClass('newly-created');
+            }, 2500);
             
             if(module.context.filter !== 'sharing') {
                 attachContextMenu();

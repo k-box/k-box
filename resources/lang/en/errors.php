@@ -21,8 +21,8 @@ return [
 
 	'filealreadyexists' => [
 		'generic' => 'The document :name already exists in the K-DMS with the title <strong>":title"</strong>.',
-		'incollection' => 'The document is already available in <strong>":collection"</strong> with the title <strong>":title"</strong>',
-		'incollection_by_you' => 'You already uploaded this document as <strong>":title"</strong> in <strong>":collection"</strong>',
+		'incollection' => 'The document is already available in <a href=":collection_link"><strong>":collection"</strong></a> with the title <strong>":title"</strong>',
+		'incollection_by_you' => 'You already uploaded this document as <strong>":title"</strong> in <a href=":collection_link"><strong>":collection"</strong></a>',
 		'by_you' => 'You already uploaded this document as <strong>":title"</strong>',
 		'revision_of_document' => 'The document you are uploading is an existing revision of <strong>":title"</strong>, added by :user (:email)',
 		'revision_of_your_document' => 'The document is an existing revision of your document titled <strong>:title</strong>',

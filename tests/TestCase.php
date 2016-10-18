@@ -110,6 +110,7 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
             'user_id' => $user->id,
             'original_uri' => '',
             'path' => $destination,
+            'hash' => hash_file('sha512', $destination)
         ]);
         
         $doc = factory('KlinkDMS\DocumentDescriptor')->create([

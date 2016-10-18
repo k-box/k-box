@@ -332,15 +332,28 @@ class DocumentsComposer {
 
 
     public function facets(View $view){
-        
+
+
         $auth_user = \Auth::user();
         
+        
         $group_instance = isset($view['context_group_instance']) ? $view['context_group_instance'] : null;
+
+        $group_instance_descendants = [];
+
+        if(!is_null($group_instance)){
+            $group_instance_descendants = $group_instance->getDescendants()->map(function($grp){
+                    return $grp->id;
+                })->all();
+            array_push($group_instance_descendants, $group_instance->id);
+        }
 
         $facets = isset($view['facets']) ? $view['facets'] : null;
         $filters = isset($view['filters']) ? $view['filters'] : null;
         $current_visibility = isset($view['current_visibility']) ? $view['current_visibility'] : 'private';
         $are_filters_empty = empty($filters);
+
+        
         
         if($current_visibility=='private'){
             $cols = array(              
@@ -364,13 +377,12 @@ class DocumentsComposer {
             $group_facets = array_values(array_filter($facets, function($f){
                 return $f->name === 'documentGroups';
             }));
-            
+
             if(!empty($group_facets)){
                 $private = array();
                 
                 $items = $group_facets[0]->items;
                 
-                // dd($items);
                 
                 foreach($items as $group_facet){
                     
@@ -381,22 +393,26 @@ class DocumentsComposer {
                             $grp_id = substr($group_facet->term, 2);
                             
                             $grp = Group::findOrFail( $grp_id );
-                            
-                            if( $this->documents->isCollectionAccessible($auth_user, $grp) ){
+
+                            // boxing the collections to descendant of the collection 
+                            // currently browsed by the user (if any)
+
+                            if( (is_null($group_instance) && $this->documents->isCollectionAccessible($auth_user, $grp)) || 
+                                (!is_null($group_instance) && in_array($grp_id, $group_instance_descendants)) ){
                                 
                                 // considering only really accessible collections
                                 
                                 $group_facet->label = $grp->name;
-                                $group_facet->selected = false;
+                                $group_facet->selected = false;                             
                                 
-                                if(!is_null($group_instance)){
-                                    
-                                    $group_facet->locked = $group_instance->toKlinkGroup() === $group_facet->term;
 
-                                }                                
+                                if($grp->countAncestors() > 0){
+                                    $group_facet->parents = $grp->getAncestors()->sortByDesc('depth')->implode('name', ' > ');
+                                }
                                 
                                 $group_facet->collapsed = $group_facet->count == 0;
                                 $group_facet->institution = !$grp->is_private;
+                                $group_facet->is_project = !$grp->is_private;
                                 $private[] = $group_facet;
                             }
 

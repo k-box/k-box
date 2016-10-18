@@ -21,8 +21,8 @@ return [
 	
     	'filealreadyexists' => [
 		'generic' => 'Документ :name уже существует в K-DMS под именем <strong>":title"</strong>.',
-		'incollection' => 'Документ уже доступен в <strong>":collection"</strong> под именем <strong>":title"</strong>',
-		'incollection_by_you' => 'Вы уже загрузили данный документ как <strong>":title"</strong> в <strong>":collection"</strong>',
+		'incollection' => 'Документ уже доступен в <a href=":collection_link"><strong>":collection"</strong></a> под именем <strong>":title"</strong>',
+		'incollection_by_you' => 'Вы уже загрузили данный документ как <strong>":title"</strong> в <a href=":collection_link"><strong>":collection"</strong></a>',
 		'by_you' => 'Вы уже загрузили данный документ как <strong>":title"</strong>',
 		'revision_of_document' => 'Загружаемый документ является обновленной версией <strong>":title"</strong>, который добавил(a) :user (:email)',
 		'revision_of_your_document' => 'Загружаемый документ является обновленной версией Вашего документа под именем <strong>":title"</strong>',

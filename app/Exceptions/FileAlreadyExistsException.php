@@ -110,7 +110,8 @@ class FileAlreadyExistsException extends Exception
 
                 return trans('errors.filealreadyexists.incollection_by_you', [
                     'title' => e($this->existing_descriptor->title),
-                    'collection' => e($collection->name)
+                    'collection' => e($collection->name),
+                    'collection_link' => route('documents.groups.show', [ 'id' => $collection->id, 'highlight' => $this->existing_descriptor->id])
                 ]);
 
             }
@@ -137,7 +138,8 @@ class FileAlreadyExistsException extends Exception
 
                 return trans('errors.filealreadyexists.incollection', [
                     'title' => e($this->existing_descriptor->title),
-                    'collection' => e($collection->name)
+                    'collection' => e($collection->name),
+                    'collection_link' => route('documents.groups.show', [ 'id' => $collection->id, 'highlight' => $this->existing_descriptor->id])
                 ]);
 
             }

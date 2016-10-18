@@ -132,7 +132,8 @@ class FileAlreadyExistsExceptionTest extends TestCase {
 
         $this->assertEquals(trans('errors.filealreadyexists.incollection_by_you', [
                 'title' => $doc->title,
-                'collection' => $collection->name
+                'collection' => $collection->name,
+                'collection_link' => route('documents.groups.show', [ 'id' => $collection->id, 'highlight' => $doc->id])
             ]), $ex->render($user));
         
 	}
@@ -158,7 +159,8 @@ class FileAlreadyExistsExceptionTest extends TestCase {
 
         $this->assertEquals(trans('errors.filealreadyexists.incollection', [
                 'title' => $doc->title,
-                'collection' => $collection->name
+                'collection' => $collection->name,
+                'collection_link' => route('documents.groups.show', [ 'id' => $collection->id, 'highlight' => $doc->id])
             ]), $ex->render($user));
         
 	}

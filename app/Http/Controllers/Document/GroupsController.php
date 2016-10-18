@@ -241,20 +241,20 @@ class GroupsController extends Controller {
             
             throw new ForbiddenException( trans('errors.401_title'), 401);
         }
+		// getCollectionsAccessibleByUser
 		
-		$results = $this->search($req, function($_request) use($user, $group) {
+		// GET the current $group and all sub-collections accessible by the User
+		// Could be the case that a sub-collection is marked private?
+		$group_ids = array($group->toKlinkGroup()); 
+
+		$group_ids = array_merge($group_ids, $this->service->getCollectionsAccessibleByUserFrom($user, $group)->take(80)->map(function($grp){
+			return $grp->toKlinkGroup();	
+		})->all());
+		
+		$results = $this->search($req, function($_request) use($user, $group, $group_ids) {
             
-            // getCollectionsAccessibleByUser
-            
-            // GET the current $group and all sub-collections accessible by the User
-            // Could be the case that a sub-collection is marked private?
 			
-			$group_ids = array($group->toKlinkGroup()); 
-			
-			$group_ids = array_merge($group_ids, $this->service->getCollectionsAccessibleByUserFrom($user, $group)->take(80)->map(function($grp){
-				return $grp->toKlinkGroup();	
-			})->all());
-			
+
 			$_request->on($group_ids);
 			
 			if($_request->isPageRequested() && !$_request->isSearchRequested()){

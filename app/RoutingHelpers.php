@@ -95,7 +95,6 @@ final class RoutingHelpers {
 					
                     $active[] = $key.'='.implode(',', array_diff($values, [$term]));
                     
-                    // dd(['args' => compact('active', 'empty_url', 'current_active_filters', 'facet', 'term', 'selected')]);
 				}
 				else if(!$selected && $facet===$key && !in_array($term, $values)){
 					$values[] = $term;
@@ -105,38 +104,22 @@ final class RoutingHelpers {
 					$active[] = $key.'='.implode(',', $values);
 				}
 				
-				//if($facet===$key && !$selected){
-                	
-				//}
-                
+			    
             }
 			
 			if(!$exists && !$selected){
 				$active[] = $facet.'='.$term;
 			}
             
-			// var_dump(compact('empty_url', 'current_active_filters', 'facet', 'term', 'selected', 'active'));
 			
             $url_to_return = $empty_url . '&fs=' . implode(',', $fs).'&' . implode('&', $active);
             
-            // dd($url_to_return);
             
             \Log::warning('filterSearch routing', ['args' => compact('empty_url', 'current_active_filters', 'facet', 'term', 'selected'), 'composed' => $url_to_return]);
             
             return $url_to_return;
         }
 		
-		
-		
-		
-		// if($selected){
-		// 	//not apply the current filter, but remove it
-		// }
-		// else {
-		// 	return $full_url . '&fs='.$facet.'&'.$facet.'='.$term;
-		// }
-		// 
-		// return $empty_url;
 	}
 	
 	

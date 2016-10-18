@@ -6,6 +6,7 @@ use KlinkDMS\File;
 use KlinkDMS\Institution;
 use KlinkDMS\Capability;
 use KlinkDMS\DocumentDescriptor;
+use KlinkDMS\Project;
 use Illuminate\Support\Facades\Artisan;
 use KlinkDMS\Exceptions\ForbiddenException;
 
@@ -288,7 +289,8 @@ class DocumentsTest extends TestCase {
         $doc = factory('KlinkDMS\DocumentDescriptor')->create([
             'owner_id' => $user->id,
             'file_id' => $file->id,
-            'is_public' => true
+            'is_public' => true,
+            'hash' => $file->hash
         ]);
         
         $service = app('Klink\DmsDocuments\DocumentsService');
@@ -329,7 +331,8 @@ class DocumentsTest extends TestCase {
         $doc = factory('KlinkDMS\DocumentDescriptor')->create([
             'owner_id' => $user->id,
             'file_id' => $file->id,
-            'is_public' => true
+            'is_public' => true,
+            'hash' => $file->hash
         ]);
         
         $service = app('Klink\DmsDocuments\DocumentsService');
@@ -1013,6 +1016,92 @@ class DocumentsTest extends TestCase {
         $lastVersion = $revision_of_revision->getLastVersion();
 
         $this->assertEquals($file->id, $lastVersion->id);
+
+    }
+
+    /**
+     * test that title attribute on collections filter is reporting the parents 
+     * of a collection. Test also that the correct classes, based on group being a project
+     * are applied to the filter element
+     */
+    public function testParentCollectionsOnFilters(){
+
+        $project_collection_names = ['Project Root', 'Project First Level', 'Second Level'];
+
+        $user = $this->createUser( Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH );
+        
+        $service = app('Klink\DmsDocuments\DocumentsService');
+
+        $project = null;
+        $project_group = null;
+        $project_group_root = null;
+        $project_childs = count($project_collection_names);
+
+        foreach ($project_collection_names as $index => $name) {
+            
+            $project_group = $service->createGroup($user, $name, null, $project_group, false);
+
+            if($index === 0){
+                $project = Project::create([
+                    'name' => $name,
+                    'user_id' => $user->id,
+                    'collection_id' => $project_group->id,
+                ]);
+                $project_group_root = $project_group;
+            }
+            
+        }
+
+        // add and index a document in "C", both project and personal
+
+        $descriptor = $this->createDocument($user);
+
+        $service->addDocumentToGroup($user, $descriptor, $project_group);
+        $descriptor = $descriptor->fresh();
+
+        // goto private documents page
+
+        $this->actingAs($user);
+        
+        // goto link, see linked page
+
+        $url = route( 'documents.groups.show', ['id' => $project_group->id] );
+
+        $this->visit( $url )->seePageIs( $url );
+
+        // test what's inside the view data for filters/facets
+
+        $this->see( trans('actions.filters.filter') );
+
+        // The next 4 lines are an hack to get the view data enhanced by the composer
+        // The final view will not have this data, because the facets.blade.php template
+        // is internal to the page view, therefore already rendered when the response ends
+
+        $view = $this->response->original; // is a view
+        $composer = app('KlinkDMS\Http\Composers\DocumentsComposer');
+        $composer->facets($view);
+        $this->response->original = $view;
+
+        // --- end hack
+
+        $this->assertViewHas('columns');
+
+        $filters = $view->columns['documentGroups'];
+        
+        $this->assertNotNull($filters);
+        $this->assertNotEmpty($filters['items']);
+
+        $item = collect($filters['items'])->first();
+
+        $this->assertNotNull($item);
+        
+        $this->assertTrue($item->is_project);
+        $this->assertEquals('Project Root > Project First Level', $item->parents, 'Parents order');
+
+        // maybe confirm that class X is applied to .el-filter
+        $this->see('project--mark');
+
+        $this->see('Project Root > Project First Level');
 
     }
     

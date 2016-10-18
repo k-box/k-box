@@ -851,7 +851,7 @@ class DocumentsService {
             if($user->isDMSManager()){
                 $private_groups = \Cache::remember('dms_project_collections', 60, function() {
                 
-                    return Group::getTreeWhere('is_private', '=', false);
+                    return Group::getProjectsTree();
                 });
             }
             else {
@@ -864,7 +864,7 @@ class DocumentsService {
                         
                             $roots_project_of_user = $user->managedProjects()->with('collection')->get()->fetch('collection.id')->all();
                         
-                            $managed_private_groups = Group::getTreeWhere('is_private', '=', false)->filter(function($item) use($roots_project_of_user) {
+                            $managed_private_groups = Group::getProjectsTree()->filter(function($item) use($roots_project_of_user) {
                                 
                                 return in_array($item->id, $roots_project_of_user);  
                             });
@@ -872,7 +872,7 @@ class DocumentsService {
                         
                         $roots_project_of_user = $user->projects()->with('collection')->get()->fetch('collection.id')->all();
                     
-                        $private_groups = Group::getTreeWhere('is_private', '=', false)->filter(function($item) use($roots_project_of_user) {
+                        $private_groups = Group::getProjectsTree()->filter(function($item) use($roots_project_of_user) {
                             
                             return in_array($item->id, $roots_project_of_user);  
                         });

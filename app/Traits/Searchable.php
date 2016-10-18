@@ -7,6 +7,7 @@ use KlinkDMS\Pagination\SearchResultsPaginator;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Http\Request;
+use DB;
 
 /**
  * Add support for faster access to search features
@@ -39,6 +40,47 @@ trait Searchable
           if($override_response !== false && !$request->isSearchRequested()){
               
               $total = (method_exists($override_response, 'getCountForPagination')) ? $override_response->getCountForPagination() : $override_response->count();
+
+              $to_highlight = $request->highlight;
+
+              // someone wants to highlight a document?
+  
+              if(!is_null($to_highlight) && $to_highlight != 0){
+                  // if collection, we already have all the results, 
+                  // so we need to retrieve the element with ID == $to_highlight 
+                  // and calculate its offset
+  
+                  $new_page = $request->page;
+  
+                  if(is_a($override_response, 'Illuminate\Support\Collection')){
+  
+                      $key = $override_response->where('id', $to_highlight)->
+                             keys()->first();
+  
+                      $new_page = floor($key / $request->limit) + 1;
+                  }
+                  else {
+                      
+                      // duplicate the query to not change the original meaning
+                      $row_count_query = clone $override_response;
+
+                      // counting how many elements we have before the chosen one
+                      // For this we use MariaDB session variables, because the counter 
+                      // is not available by default
+
+                      \DB::statement(\DB::raw('set @row=0'));
+
+                      $key = $row_count_query->select(\DB::raw('@row:=@row+1 as row'), 'id')->get(['row', 'id'])
+                          ->where('id', $to_highlight)->first()->row - 1; // row is base 1
+                      
+                      $new_page = floor($key / $request->limit) + 1;
+                      
+                  }
+  
+                  // then edit requested page accordingly
+                  $request->page( intval($new_page, 10) );
+              }
+
               $paginated = $total === 0 ? new Collection() : (is_a($override_response, 'Illuminate\Support\Collection') ? $override_response->forPage($request->page, $request->limit) : $override_response->forPage($request->page, $request->limit)->get());
 
               return new SearchResultsPaginator(
@@ -49,7 +91,7 @@ trait Searchable
                 	$total, 
                 	$request->limit, $request->page, [
                 		'path'  => $request->url,
-                		'query' => $request->query,
+                		'query' => collect($request->query)->except('highlight')->toArray(),
                 	]);
 
           }

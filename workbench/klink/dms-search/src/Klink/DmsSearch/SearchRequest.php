@@ -26,6 +26,10 @@ class SearchRequest {
 	protected $limit = 12;
 	
 	protected $filters = null;
+	/**
+	 * Tells what filters are added directly by the user
+	 */
+	protected $explicit_filters = null;
 	
 	protected $facets = null;
 	
@@ -35,6 +39,12 @@ class SearchRequest {
 	
 	protected $url = null;
 	protected $query = null;
+
+	/**
+	 * The ID of the document to highlight in a collection/section
+	 * Only supported if search is not applied 
+	 */
+	protected $highlight = null;
 
 
 	protected function __construct()
@@ -68,6 +78,8 @@ class SearchRequest {
 			$instance->search($request->input('s', '*'));
 			
 			$instance->page(intval($request->input('page', 1), 10));
+
+			$instance->highlight(intval($request->input('highlight', null), 10));
 			
 			$instance->visibility($request->input('visibility', \KlinkVisibilityType::KLINK_PRIVATE));
 			
@@ -179,6 +191,22 @@ class SearchRequest {
 		$this->page = $number;
 		return $this;
 	}
+
+	/**
+	 * Tell to highlight the element with a specified ID.
+	 *
+	 * This means showing the page that contains the element.
+	 *
+	 * This option can only be used if no search on KCore is performed.
+	 * During a search this parameter is ignored
+	 *
+	 * @return SearchRequest
+	 */
+	function highlight($id){
+		
+		$this->highlight = $id;
+		return $this;
+	}
 	
 	/**
 	 * Set the number of results per page
@@ -223,6 +251,9 @@ class SearchRequest {
 	 */
 	function filters($fs){
 		$this->filters = is_null($this->filters) ? $fs : array_merge($this->filters, $fs);
+
+		$this->explicit_filters = array_keys($this->filters);
+
 		return $this;
 	}
 	
@@ -240,7 +271,7 @@ class SearchRequest {
 	}
 	
 	/**
-	 * On collection||array of groups/collections.
+	 * On collection: array of groups/collections.
 	 *
 	 * this will have impact on applied filters: the usage of `on` has always higher priority than the filter on collections specified using the `filters` method
 	 *
@@ -259,7 +290,7 @@ class SearchRequest {
 	}
 	
 	/**
-	 * In collection||array of local documents
+	 * In list of local documents
 	 *
 	 * this will have impact on facets and filters
 	 *
@@ -299,6 +330,8 @@ class SearchRequest {
 		$facets = array();
 
 		$default_facets_names = ['documentType', 'language'];
+
+		$on_collection_used = false;
 		
 		if($this->visibility=='public'){
 			$default_facets_names[] = 'institutionId';
@@ -313,9 +346,11 @@ class SearchRequest {
 		}
 		
 		if(!is_null($this->on_collections) && $this->on_collections->count() > 0){
-            $this->filters['documentGroups'] = empty($this->filters['documentGroups']) ? $this->on_collections->all() : array_merge( $this->filters['documentGroups'], $this->on_collections->all() );
+			$on_collection_used = empty($this->filters['documentGroups']); 
+            $this->filters['documentGroups'] = $on_collection_used ? $this->on_collections->all() : $this->filters['documentGroups'];
 		}
-
+// var_dump($on_collection_used);		
+// dd($this);
 		$fs_builder = \KlinkFacetsBuilder::create();
 		
 		// $current_filters = null;
@@ -332,7 +367,7 @@ class SearchRequest {
 				if(array_key_exists($fs, $this->filters)){
 					$current_names[] = $fs;
 
-					$filter_value = implode(',',$this->filters[$fs]); // this is an hack because facets builder imposes 1st parameter of type string if invoked with 3 parameters 
+					$filter_value = $fs === 'documentGroups' && $this->is_search_request && !$on_collection_used ? implode('|',$this->filters[$fs]) : implode(',',$this->filters[$fs]);  
 					
 					try{
 

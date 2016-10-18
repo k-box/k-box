@@ -132,6 +132,23 @@ class Group extends Entity implements GroupInterface
         return $instance
             ->where('is_private', '=', true)
             ->where('user_id', '=', $user_id)
+            ->orderBy('name', 'asc')
+            ->get($columns)->toTree();
+    }
+
+    public static function getProjectsTree(array $columns = ['*'])
+    {
+        /**
+         * @var Entity $instance
+         */
+        $instance = new static;
+        $columns = $instance->prepareTreeQueryColumns($columns);
+
+        
+
+        return $instance
+            ->where('is_private', '=', false)
+            ->orderBy('name', 'asc')
             ->get($columns)->toTree();
     }
 

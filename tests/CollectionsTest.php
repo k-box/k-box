@@ -3,6 +3,7 @@
 use Laracasts\TestDummy\Factory;
 use KlinkDMS\User;
 use KlinkDMS\Group;
+use KlinkDMS\Project;
 use KlinkDMS\Capability;
 use KlinkDMS\DocumentDescriptor;
 use Illuminate\Support\Facades\Artisan;
@@ -20,6 +21,14 @@ class CollectionsTest extends TestCase {
     use DatabaseTransactions;
     
     
+    public function user_provider_admin_project() {
+        return array( 
+			array(Capability::$ADMIN),
+			array(Capability::$PROJECT_MANAGER),
+			array(Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH),
+		);
+    }
+
     public function user_provider_for_editpage_public_checkbox_test() {
         return array( 
 			array(Capability::$ADMIN, true),
@@ -178,6 +187,86 @@ class CollectionsTest extends TestCase {
         $this->assertNotNull($collections_user2->projects);
         $this->assertEquals(2, $collections_user2->projects->count(), 'Projects collection count after user2 has been added to ProjectA');
         $this->assertEquals(2, $collections_user2->personal->count(), 'Personal collection final count');
+        
+    }
+
+    /**
+     * Test that the accessible collections by a user are returned 
+     * in alphabetical order, based on Group->$name
+     *
+     * @dataProvider user_provider_admin_project
+     */
+    public function testCollectionListingInAlphabeticalOrder( $caps ){
+        
+        $collection_names = ['z', 'a', 'd', 'b', 'cc', 'ca', 'k'];
+        $expected_collection_names = ['a', 'b', 'ca', 'cc', 'd', 'k', 'z'];
+
+        $project_collection_names = ['pz', 'pa', 'pd', 'pb', 'pcc', 'pca', 'pk'];
+        $project_expected_collection_names = ['pa', 'pb', 'pca', 'pcc', 'pd', 'pk', 'pz'];
+
+        $user = $this->createUser( $caps );
+        
+
+        $service = app('Klink\DmsDocuments\DocumentsService');
+
+        $project = null;
+        $project_group = null;
+        $project_childs = count($collection_names);
+
+        foreach ($project_collection_names as $name) {
+            $project_group = $service->createGroup($user, $name, null, null, false);
+
+            $project = Project::create([
+                'name' => $name,
+                'user_id' => $user->id,
+                'collection_id' => $project_group->id,
+            ]);
+
+            for ($i=0; $i < $project_childs; $i++) { 
+                $service->createGroup($user, $project_collection_names[$i], null, $project_group, false);
+            }
+            
+        }
+        
+
+        $group = null;
+        $childs = count($collection_names);
+
+        foreach ($collection_names as $name) {
+            $group = $service->createGroup($user, $name, null, null, true);
+
+            for ($i=0; $i < $childs; $i++) { 
+                $service->createGroup($user, $collection_names[$i], null, $group, true);
+            }
+            
+        }
+
+        // make sure no cached elements are returned
+        \Cache::forget('dms_project_collections');
+        \Cache::forget('dms_project_collections-' . $user->id);
+
+        $collections = $service->getCollectionsAccessibleByUser($user);
+
+
+        // Testing the personal collection tree
+
+        $personals = $collections->personal; 
+
+        $this->assertEquals($expected_collection_names, $personals->fetch('name')->toArray());
+
+        foreach ($personals as $sub_collection) {
+            $this->assertEquals($expected_collection_names, $sub_collection->children->fetch('name')->toArray());
+        }
+
+        // testing the project collection tree
+
+        $projects = $collections->projects;
+
+        $this->assertEquals($project_expected_collection_names, $projects->fetch('name')->toArray());
+
+        foreach ($projects as $sub_collection) {
+            $this->assertEquals($project_expected_collection_names, $sub_collection->children->fetch('name')->toArray());
+        }
         
     }
     

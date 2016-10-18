@@ -202,11 +202,11 @@ class SearchService {
 		if($results instanceof \KlinkSearchResult){
 			
 			$total = property_exists($results, 'total_results') ? $results->total_results : property_exists($results, 'numFound') ? $results->numFound : $this->getTotalIndexedDocuments($request->visibility) ; 
-			
+
 			$pagination = new Paginator(
 				$results->query === '*' ? '' : $results->query,
 				$results->items, 
-				$this->overcomeCoreBuginFilters($results->filters),
+				$this->removeFilters($this->overcomeCoreBuginFilters($results->filters), $request->explicit_filters) ,
 				$this->limitFacets( $results->facets ),
 				$total, 
 				$request->limit, $request->page, [
@@ -281,6 +281,31 @@ class SearchService {
 		
 		return $facets;
 	}
+
+
+	/**
+	 * Clean-up the returned filter from the search, based on
+	 * "was the filter applied by the user?"
+	 * if the user didn't apply filter, the returning filters will be none
+	 * if the user applied some filters, the return will only contain those filters
+	 */
+	private function removeFilters($returned, $applied_by_user){
+
+		if(empty($applied_by_user)){
+			return [];
+		}
+
+		$cloned = [];
+
+		foreach ($returned as $key => $value) {
+			if(in_array($key, $applied_by_user)){
+				// unset($returned[$key]);
+				$cloned[$key] = $value;
+			}
+		}
+
+		return $cloned;
+	}
 	
 	
 	private function overcomeCoreBuginFilters($filters){
@@ -309,7 +334,8 @@ class SearchService {
 		            $vals = str_replace('\\', '', str_replace($filter['field'].':', '', $filter['query']));
 		            
 		            if(starts_with($vals, '(')){
-		                $vals = str_replace('OR', '', str_replace('(', '', str_replace(')', '', $vals)));
+		                $vals = str_replace('AND', '', str_replace('OR', '', str_replace('(', '', str_replace(')', '', $vals))));
+		                
 						$vals = array_filter(explode(' ', $vals));
 		            }
 		            else {
