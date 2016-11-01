@@ -369,8 +369,11 @@ class BulkController extends Controller {
  
 
             $status = array(
-                'status' => 'ok', 
-                'message' =>  !empty($already_there_from_this_request) ? 
+                'status' => !empty($already_there_from_this_request) ? 'partial' : 'ok', 
+                'title' =>  !empty($already_there_from_this_request) ? 
+                    trans_choice('documents.bulk.some_added_to_collection', count($docs), []) : 
+                    trans('documents.bulk.added_to_collection'),
+				'message' =>  !empty($already_there_from_this_request) ? 
                     trans_choice('documents.bulk.copy_completed_some', count($docs), ['count' => count($docs), 'collection' => $add_to_this_group->name, 'remaining' => $count_docs_original - count($docs)]) : 
                     trans('documents.bulk.copy_completed_all', ['collection' => $add_to_this_group->name])
             );

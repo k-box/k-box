@@ -97,11 +97,12 @@ define("modules/panels", ["jquery", "DMS", "combokeys", "language"], function ($
 		console.log("Click callback", this, evt);
 
 		var that = $(this),
-			// panel = that.parents('.panel'),
+			panel = that.parents('.panel').find('h4.title'),
 			data = that.data();
-		// console.log(panel, data);
-		// var id = panel.data('panel-id');
-		// console.log(id);
+		
+		if(panel.length > 0){
+			data.title = panel.text();
+		}
 		_opened_panels.trigger('dms:panel-click', [data]);
 
 		evt.preventDefault();

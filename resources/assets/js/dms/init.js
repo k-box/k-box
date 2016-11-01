@@ -350,7 +350,7 @@ window.DMS = (function(_$, _nprogress, _rivets, _alert){
 					type: "warning",
 					showCancelButton: true,
 					confirmButtonColor: "#DD6B55",
-					confirmButtonText: Lang.trans('actions.dialogs.delete_btn'),
+					confirmButtonText: Lang.trans('actions.dialogs.remove_btn'),
 					cancelButtonText: Lang.trans('actions.dialogs.cancel_btn'),
 					closeOnConfirm: close_on_confirm ? close_on_confirm : false,
 					closeOnCancel: close_on_cancel ? close_on_cancel : false }, 

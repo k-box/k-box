@@ -31,10 +31,10 @@ class FileAlreadyExistsException extends Exception
      * @param File $file (optional) the exact {@see File} revision of the document descriptor
      * @return FileAlreadyExistsException
      */
-    public function __construct($upload_name, DocumentDescriptor $descr, File $file = null) {
+    public function __construct($upload_name, DocumentDescriptor $descr = null, File $file = null) {
 		parent::__construct( trans('errors.filealreadyexists.generic', [
             'name' => e($upload_name),
-            'title' => e($descr->title)
+            'title' => is_null($descr) && !is_null($file) ? e($file->name) : (is_null($descr) && is_null($file) ? e($upload_name) : e($descr->title))
         ]), 409 );
         
         
@@ -90,6 +90,10 @@ class FileAlreadyExistsException extends Exception
      * @return string the issue message already localized
      */
     public function render(User $user){
+
+        if(is_null($this->existing_descriptor)){
+            return $this->getMessage();
+        }
 
         if($this->existing_descriptor->isPublic()){
 

@@ -22,12 +22,12 @@ class FileAlreadyExistsExceptionTest extends TestCase {
     use DatabaseTransactions;
 
     /**
-	 * ...
-	 *
-	 * @return void
-	 */
-	public function testFileAlreadyExistsConstruction( )
-	{
+        * ...
+        *
+        * @return void
+        */
+        public function testFileAlreadyExistsConstruction( )
+        {
 
         $user = $this->createAdminUser();
         $doc = $this->createDocument($user, 'public');
@@ -44,6 +44,16 @@ class FileAlreadyExistsExceptionTest extends TestCase {
                 'title' => $doc->title
             ]), $ex->getMessage());
         
+        $this->assertNull($ex->getFileVersion());
+
+        $ex = new FileAlreadyExistsException($upload_name);
+
+        $this->assertEquals(trans('errors.filealreadyexists.generic', [
+                'name' => $upload_name,
+                'title' => $upload_name
+            ]), $ex->getMessage());
+        
+        $this->assertNull($ex->getDescriptor());
         $this->assertNull($ex->getFileVersion());
         
         

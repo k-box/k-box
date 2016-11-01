@@ -57,6 +57,7 @@ return [
         'actions.dialogs.no_btn',
         'actions.dialogs.ok_btn',
         'actions.dialogs.delete_btn',
+        'actions.dialogs.remove_btn',
         'actions.dialogs.move_btn',
         'actions.dialogs.input_required',
         
@@ -64,13 +65,13 @@ return [
         'documents.bulk.adding_title',
         'documents.bulk.adding_message',
         'documents.bulk.added_to_collection',
+        'documents.bulk.some_added_to_collection',
         'documents.bulk.add_to_error',
         
         'documents.restore.restore_dialog_title',
         'documents.restore.restore_dialog_title_count',
         'documents.restore.restore_dialog_text',
         'documents.restore.restore_dialog_text_count',
-        'documents.restore.restore_dialog_question_alt',
         'documents.restore.restore_dialog_yes_btn',
         'documents.restore.restore_dialog_no_btn',
         'documents.restore.restore_success_title',

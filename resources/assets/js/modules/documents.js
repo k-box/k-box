@@ -227,7 +227,12 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
 
                         if(data.status && data.status === 'ok'){
 
-                            DMS.MessageBox.success( Lang.trans('documents.bulk.added_to_collection'), data.message);
+                            DMS.MessageBox.success( data.title , data.message);
+
+                        }
+                        else if(data.status && data.status === 'partial'){
+
+                            DMS.MessageBox.warning( data.title, data.message);
 
                         }
                         else if(data.message) {
@@ -359,11 +364,11 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
 
         }
         else if(data.action && data.action === 'restore'){
-            
+
                 DMS.MessageBox.question(
-                    Lang.trans('documents.restore.restore_dialog_title'), 
-                    Lang.trans('documents.restore.restore_dialog_question'), 
-                    Lang.trans('documents.restore.restore_dialog_no_btn'), 
+                    Lang.trans('documents.restore.restore_dialog_title', { document: data.title}), 
+                    Lang.trans('documents.restore.restore_dialog_text', { document: data.title}), 
+                    Lang.trans('documents.restore.restore_dialog_yes_btn'), 
                     Lang.trans('documents.restore.restore_dialog_no_btn'), function(isConfirmed){
 
                     if(isConfirmed){
@@ -371,12 +376,12 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
                         DMS.MessageBox.wait(Lang.trans('documents.restore.restoring'), '...');
 
 
-                        DMS.Services.Bulk.restore({documents: [data.id], context:'trash'}, function(data){
+                        DMS.Services.Bulk.restore({documents: [data.id], context:'trash'}, function(resdata){
 
-                            if(data.status && data.status === 'ok'){
+                            if(resdata.status && resdata.status === 'ok'){
 
-                                DMS.MessageBox.success( Lang.trans('documents.restore.restore_success_title'), data.message);
-
+                                DMS.MessageBox.success( Lang.trans('documents.restore.restore_success_title'), resdata.message);
+debugger;
                                 // Reload panel
                                 Panels.openAjax('document'+data.id, this, DMS.Paths.DOCUMENTS + '/' + data.id, {}, {
                                     callbacks: {
@@ -385,15 +390,13 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
                                 });
 
                             }
-                            else if(data.message) {
-                                DMS.MessageBox.error(Lang.trans('documents.restore.restore_error_title'), data.message);
+                            else if(resdata.message) {
+                                DMS.MessageBox.error(Lang.trans('documents.restore.restore_error_title'), resdata.message);
                             }
                             
                         }, function(obj, err, errText){
 
                             if(obj.status === 422){
-
-                                console.log(obj.responseJSON);
             
                                 var html = '';
             

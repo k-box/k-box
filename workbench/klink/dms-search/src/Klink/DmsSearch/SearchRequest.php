@@ -349,8 +349,7 @@ class SearchRequest {
 			$on_collection_used = empty($this->filters['documentGroups']); 
             $this->filters['documentGroups'] = $on_collection_used ? $this->on_collections->all() : $this->filters['documentGroups'];
 		}
-// var_dump($on_collection_used);		
-// dd($this);
+
 		$fs_builder = \KlinkFacetsBuilder::create();
 		
 		// $current_filters = null;
@@ -367,7 +366,7 @@ class SearchRequest {
 				if(array_key_exists($fs, $this->filters)){
 					$current_names[] = $fs;
 
-					$filter_value = $fs === 'documentGroups' && $this->is_search_request && !$on_collection_used ? implode('|',$this->filters[$fs]) : implode(',',$this->filters[$fs]);  
+					$filter_value = implode(',',$this->filters[$fs]);  
 					
 					try{
 

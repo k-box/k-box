@@ -484,7 +484,7 @@ class DocumentsComposer {
             
             
         }
-//  dd(compact('cols', 'filters'));
+
         $view->with('columns', $cols);
         
         $view->with('width', 100/count($cols));
@@ -496,31 +496,23 @@ class DocumentsComposer {
         
         //include active facets/filters
         
-        $b_url = '?s=' . $search_terms . '&visibility=' . $current_visibility;
-        $url = $b_url;
-        
-        // if(!$are_filters_empty){
-        //     $fs = array_keys($filters);
-        //     
-        //     $active = array();
-        //     
-        //     foreach($filters as $key => $values){
-        //                         
-        //         $active[] = $key.'='.implode(',', $values);
-        //         
-        //     }
-        //     
-        //     $url = $b_url . '&fs=' . implode(',', $fs).'&' . implode('&', $active);
-        // }
-        
+        $url_components = [];
 
-        // $view->with('facet_search_base_url', $url);
+        if($search_terms !=='*'){
+            $url_components[] = 's=' . $search_terms;
+        }
+
+        if($current_visibility !== \KlinkVisibilityType::KLINK_PRIVATE){
+            $url_components[] = 'visibility=' . $current_visibility;
+        }
+
+        $b_url = (!empty($url_components) ? '?' : '') . implode('&', $url_components);
         
         $view->with('facet_filters_url', $b_url);
         
         $view->with('current_active_filters', $filters);
 
-
+        $view->with('clear_filter_url', \URL::current() . $b_url);
 
     }
     

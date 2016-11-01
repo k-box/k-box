@@ -1,8 +1,7 @@
 stages:
   - build
   - test
-  - build_production
-  - build_docker
+  - release
   - deploy
 
 cache:
@@ -28,33 +27,45 @@ cache:
     - docker-compose -f docker-compose-kbox.yml -p ${INSTANCE_PREFIX} stop && docker-compose -f docker-compose-kbox.yml -p ${INSTANCE_PREFIX} rm -v -f && docker-compose -f docker-compose-kbox.yml -p ${INSTANCE_PREFIX} up -d frontend
 
 
-build_dev:
-# performs only composer install with dev dependencies
+.composer_install: &composer_install
+# performs composer install with dev dependencies and syntax check
   stage: build
   script:
     - mv env.ci .env
     - composer install --prefer-dist
-    - mv .env env.ci
-  tags:
-    - php
-    - nodejs
-    - shell
-    
-linting:
-# check if the php files contains syntax error and mess-detector
-  stage: test
-  script:
-    - mv env.ci .env
     - ./vendor/bin/parallel-lint --exclude vendor .
     - mv .env env.ci
+
+# PHP dependency build and syntax check
+
+build_dev:5.5:
+  <<: *composer_install
   tags:
     - php
     - nodejs
     - shell
 
+build_dev:5.6:
+  <<: *composer_install
+  image: "docker.klink.asia:5043/klink/php-ci-docker:5.6-alpine"
+  tags:
+    - docker
+
+build_dev:7.0:
+  <<: *composer_install
+  image: "docker.klink.asia:5043/klink/php-ci-docker:7.0-alpine"
+  allow_failure: true
+  tags:
+    - docker
+
+
+# Build production
+# - Build PHP dependencies without dev related packages
+# - Build the frontend
+# - Generate the tar.gz file for deploy
+
 build_prod:
-# perform the build to be used in production
-  stage: build_production
+  stage: release
   script:
     - mv env.ci .env
     - composer install --no-dev --prefer-dist
@@ -70,13 +81,14 @@ build_prod:
     - nodejs
     - shell
 
-    
+
+# Docker related deploy
+
 test_klink_asia_deploy:
 # creates the DMS docker image and restart the test instance with the new image
   environment: Review
   <<: *standard_build_and_execution
   except:
-    - master
     - release
   variables:
     INSTANCE_PREFIX: $TEST_INSTANCE_PREFIX
@@ -86,16 +98,12 @@ test_klink_asia_deploy:
 
 dms_klink_asia_deploy:
 # creates the DMS docker image and restart the DMS.klink.asia instance with the new image
-  stage: deploy
   environment: Staging
-  script:
-    - cp ${BUILD_FOLDER}/klink-dms-$CI_BUILD_REF_NAME.tar.gz ${PROD_DOCKER_FOLDER}/dms/downloads/dms.tar.gz
-    - cd ${PROD_DOCKER_FOLDER}
-    - docker-compose -f klink-services.yml build dmsproject 
-    - docker-compose -f ${PROD_DOCKER_FOLDER}/docker-compose-kbox.yml stop && docker-compose -f ${PROD_DOCKER_FOLDER}/docker-compose-kbox.yml rm -v -f && docker-compose -f ${PROD_DOCKER_FOLDER}/docker-compose-kbox.yml up -d frontend
-  when: manual
+  <<: *standard_build_and_execution
+  variables:
+    INSTANCE_PREFIX: $DMS_INSTANCE_PREFIX
+    BUILD_LOCATION: $BUILD_FOLDER 
+    DOCKER_LOCATION: $PROD_DOCKER_FOLDER
   only:
     - master
     - release
-  tags:
-    - shell

@@ -92,6 +92,7 @@ return [
         'adding_title' => 'Adding documents...',
         'adding_message' => 'Please wait while the documents are being added to the collection...',
         'added_to_collection' => 'Added',
+        'some_added_to_collection' => '{0}Documents not added|[1,Inf]Some documents not added',
         
         'add_to_error' => 'Cannot add to collection',
         

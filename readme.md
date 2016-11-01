@@ -1,10 +1,8 @@
 
 
-[![build status](https://git.klink.asia/klinkdms/dms/badges/master/build.svg)](https://git.klink.asia/klinkdms/dms/commits/master) ![latest version](https://img.shields.io/badge/version-0.12.0-blue.svg) ![dev version](https://img.shields.io/badge/dev-0.12.0-orange.svg)
+[![build status](https://git.klink.asia/klinkdms/dms/badges/master/build.svg)](https://git.klink.asia/klinkdms/dms/commits/master) ![latest version](https://img.shields.io/badge/version-0.12.1-blue.svg)
 
 # K-Link DMS
-
-**version 0.12.0-RC1**
 
 The K-Link DMS is built on top of [Laravel](https://laravel.com/) 5.1 (LTS).
 

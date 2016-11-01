@@ -151,12 +151,22 @@ class DocumentsService {
 	private function addDocumentProxy(DocumentDescriptor $descr, File $file){
 		
 		$klink_descriptor = $descr->toKlinkDocumentDescriptor();
+
+		$original_hash = $klink_descriptor->hash; 
+
+		$content = $this->getFileContentForIndexing($file);
+
+		if(!is_file($content)){
+			$klink_descriptor->hash = \KlinkDocumentUtils::generateHash($content);
+		}
 		
-		$document = new \KlinkDocument($klink_descriptor, $this->getFileContentForIndexing($file));
+		$document = new \KlinkDocument($klink_descriptor, $content);
 		
 		try{
 			
 			$returned_descriptor = $this->adapter->getConnection()->addDocument( $document );
+
+			$returned_descriptor->hash = $original_hash;
 
 			\Log::info('Core indexDocument returned descriptor for ' . $descr->id, array('context' => 'DocumentsService', 'response' => $returned_descriptor));
 			
@@ -169,10 +179,16 @@ class DocumentsService {
 			\Log::warning('Index document fallback used for document ' . $descr->id, array('cause' => $kex));
 			
 			try{
+
+				$alternate_content = !is_null($descr->abstract) && !is_null($descr->abstract) ? $descr->abstract : $descr->title;
 				
-				$document = new \KlinkDocument($klink_descriptor, !is_null($descr->abstract) && !is_null($descr->abstract) ? $descr->abstract : $descr->title);
+				$klink_descriptor->hash = \KlinkDocumentUtils::generateHash($alternate_content);
+				
+				$document = new \KlinkDocument($klink_descriptor, $alternate_content);
 				
 				$returned_descriptor = $this->adapter->getConnection()->addDocument( $document );
+
+				$returned_descriptor->hash = $original_hash;
 
 				\Log::info('Core indexDocument returned descriptor for ' . $descr->id, array('context' => 'DocumentsService', 'response' => $returned_descriptor));
 				
@@ -190,12 +206,23 @@ class DocumentsService {
 	private function updateDocumentProxy(DocumentDescriptor $descr, File $file, $visibility){
 		
 		$klink_descriptor = $descr->toKlinkDocumentDescriptor($visibility == \KlinkVisibilityType::KLINK_PUBLIC);
+
+		$content = $this->getFileContentForIndexing($file);
+
+		$original_hash = $klink_descriptor->hash; 
+
+
+		if(!is_file($content)){
+			$klink_descriptor->hash = \KlinkDocumentUtils::generateHash($content);
+		}
 		
-		$document = new \KlinkDocument($klink_descriptor, $this->getFileContentForIndexing($file));
+		$document = new \KlinkDocument($klink_descriptor, $content);
 		
 		try{
 			
 			$returned_descriptor = $this->adapter->getConnection()->updateDocument( $document );
+
+			$returned_descriptor->hash = $original_hash;
 
 			\Log::info('Core indexDocument returned descriptor for ' . $descr->id, array('context' => 'DocumentsService', 'response' => $returned_descriptor));
 			
@@ -208,10 +235,16 @@ class DocumentsService {
 			\Log::warning('Index document fallback used for document ' . $descr->id, array('cause' => $kex));
 			
 			try{
+
+				$alternate_content = !is_null($descr->abstract) && !is_null($descr->abstract) ? $descr->abstract : $descr->title;
+
+				$klink_descriptor->hash = \KlinkDocumentUtils::generateHash($alternate_content);
 				
-				$document = new \KlinkDocument($klink_descriptor, !is_null($descr->abstract) && !is_null($descr->abstract) ? $descr->abstract : $descr->title);
-				
+				$document = new \KlinkDocument($klink_descriptor, $alternate_content);
+
 				$returned_descriptor = $this->adapter->getConnection()->updateDocument( $document );
+
+				$returned_descriptor->hash = $original_hash;
 
 				\Log::info('Core indexDocument returned descriptor for ' . $descr->id, array('context' => 'DocumentsService', 'response' => $returned_descriptor));
 				

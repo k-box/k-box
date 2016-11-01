@@ -41,7 +41,7 @@
                 <span class="btn-icon icon-content-black icon-content-black-ic_filter_list_black_24dp"></span>{{trans('actions.filters.filter')}}
             </a>
             @if(isset($filters) && !empty($filters))
-            <a href="{{$facet_filters_url}}" class="button"><span class="btn-icon icon-content-black icon-content-black-ic_clear_black_24dp"></span>{{trans('actions.filters.clear_filters')}}</a>
+            <a href="{{$clear_filter_url}}" class="button"><span class="btn-icon icon-content-black icon-content-black-ic_clear_black_24dp"></span>{{trans('actions.filters.clear_filters')}}</a>
             @endif
         </div>
 	</div>

@@ -82,6 +82,62 @@ class DocumentsServiceTest extends TestCase {
         $this->assertEquals($user->isDMSManager() ? 4 : 3, $collections->count());
         
     }
+
+
+    /**
+     * issue https://git.klink.asia/klinkdms/dms/issues/690
+     */
+    public function testFallbackDocumentReIndexingAfterForceHashCheckOnKCore(){
+
+        // todo test add and reindex
+        $user = $this->createAdminUser();
+
+        $descr = $this->createDocument($user);
+        
+        $file = $descr->file;
+
+        // change the document to a complete non-sense mime-type to 
+        // force a fallback text extraction
+        $descr->mime_type = 'text/basiliscus';
+        $file->mime_type = 'text/basiliscus';
+        $file->save();
+        $file = $file->fresh();
+        $descr->save();
+        $descr = $descr->fresh();
+
+        $service = app('Klink\DmsDocuments\DocumentsService');
+
+        $ret = $service->reindexDocument($descr, 'private');
+
+        $this->assertInstanceOf(DocumentDescriptor::class, $ret);
+    }
+
+    /**
+     * issue https://git.klink.asia/klinkdms/dms/issues/690
+     */
+    public function testFallbackDocumentIndexingAfterForceHashCheckOnKCore(){
+
+        // todo test add and reindex
+        $user = $this->createAdminUser();
+        
+        $file = factory('KlinkDMS\File')->create([
+            'user_id' => $user->id,
+            'original_uri' => ''
+        ]);;
+
+        // change the document to a complete non-sense mime-type to 
+        // force a fallback text extraction
+
+        $file->mime_type = 'text/basiliscus';
+        $file->save();
+        $file = $file->fresh();
+
+        $service = app('Klink\DmsDocuments\DocumentsService');
+
+        $ret = $service->indexDocument($file, 'private', $user);
+
+        $this->assertInstanceOf(DocumentDescriptor::class, $ret);
+    }
     
    
     

@@ -126,6 +126,8 @@ return [
         'ok_btn' => 'OK',
         
         'delete_btn' => 'Да, удалить!',
+		'remove_btn' => 'Да, удалить!',
+		'trash_btn' => 'Да, отправить в корзину!',
 		'move_btn' => 'Да, переместить!',
         
         // showed when on a dialog, like the one in people group creation, the input field is empty, but a value is required

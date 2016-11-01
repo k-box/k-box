@@ -69,6 +69,14 @@ class DocumentsTest extends TestCase {
 		);
     }
 
+
+    public function data_provider_for_facets_composer() {
+        return array( 
+            array([], ''),
+			array(['s' => 'pasture'], '?s=pasture'),
+		);
+    }
+
 	/**
 	 * Test that the route for documents.show is not leaking private documents to anyone
 	 *
@@ -1102,6 +1110,80 @@ class DocumentsTest extends TestCase {
         $this->see('project--mark');
 
         $this->see('Project Root > Project First Level');
+
+    }
+
+    /**
+     * @dataProvider data_provider_for_facets_composer
+     */
+    public function testFacetsViewComposerUrlConstruction($search_parameters, $expected_url){
+
+        $project_collection_names = ['Project Root', 'Project First Level', 'Second Level'];
+
+        $user = $this->createUser( Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH );
+        
+        $service = app('Klink\DmsDocuments\DocumentsService');
+
+        $project = null;
+        $project_group = null;
+        $project_group_root = null;
+        $project_childs = count($project_collection_names);
+
+        foreach ($project_collection_names as $index => $name) {
+            
+            $project_group = $service->createGroup($user, $name, null, $project_group, false);
+
+            if($index === 0){
+                $project = Project::create([
+                    'name' => $name,
+                    'user_id' => $user->id,
+                    'collection_id' => $project_group->id,
+                ]);
+                $project_group_root = $project_group;
+            }
+            
+        }
+
+        // add and index a document in "C", both project and personal
+
+        $descriptor = $this->createDocument($user);
+
+        $service->addDocumentToGroup($user, $descriptor, $project_group);
+        $descriptor = $descriptor->fresh();
+
+        // goto private documents page
+
+        $this->actingAs($user);
+        
+        // goto link, see linked page
+
+        $url = route( 'documents.groups.show', array_merge(['id' => $project_group->id], $search_parameters) );
+
+        $this->visit( $url )->seePageIs( $url );
+
+        // The next 4 lines are an hack to get the view data enhanced by the composer
+        // The final view will not have this data, because the facets.blade.php template
+        // is internal to the page view, therefore already rendered when the response ends
+
+        $view = $this->response->original; // is a view
+        $composer = app('KlinkDMS\Http\Composers\DocumentsComposer');
+        $composer->facets($view);
+        $this->response->original = $view;
+
+        // --- end hack
+
+        $this->assertViewHas('facet_filters_url');
+        $this->assertViewHas('current_active_filters');
+
+        $this->assertViewHas('columns');
+
+        $base_url = $view->facet_filters_url;
+        
+        $this->assertEquals($expected_url, $base_url);
+
+        $this->assertViewHas('clear_filter_url');
+
+        $this->assertEquals($url, $view->clear_filter_url);
 
     }
     
