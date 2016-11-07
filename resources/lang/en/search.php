@@ -14,8 +14,8 @@ return [
 
 
 	'form' => array(
-		'placeholder' => 'Search',
-		'placeholder_in' => 'Search ":location"',
+		'placeholder' => 'Search...',
+		'placeholder_in' => 'Search ":location"...',
 		'hint' => 'Search for words and phrases, you could use AND and/or OR modifiers to make something interesting.',
 		'hint_in' => 'Search inside :location',
 		'submit' => 'Start searching',

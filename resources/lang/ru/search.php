@@ -14,8 +14,8 @@ return [
 
 
 	'form' => array(
-		'placeholder' => 'Поиск',
-        'placeholder_in' => 'Искать в ":location"',
+		'placeholder' => 'Поиск...',
+        'placeholder_in' => 'Искать в ":location"...',
 		'hint' => 'Поиск слов и фраз. Вы также можете использовать союзы AND и/или OR для более содержательного поиска.',
 		'hint_in' => 'Искать в :location',
 		'submit' => 'Начните поиск',

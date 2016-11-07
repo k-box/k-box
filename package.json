@@ -1,6 +1,6 @@
 {
   "name": "klink-dms",
-  "version": "0.12.0",
+  "version": "0.12.2",
   "repository": {
     "type": "vcs",
     "url": "https://git.klink.asia/klinkdms/dms/"

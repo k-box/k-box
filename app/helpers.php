@@ -166,7 +166,7 @@ if (! function_exists('network_name')) {
         });
 
         $locale = \App::getLocale();
-        
+
         if($locale === 'en' && !empty($opt_en)){
             return $opt_en;
         }
@@ -177,7 +177,7 @@ if (! function_exists('network_name')) {
             return $opt_ru;
         }
 
-        return trans('networks.klink_network_name'); 
+        return empty($opt_en) ? trans('networks.klink_network_name') : $opt_en; 
     }
 }
 

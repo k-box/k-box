@@ -138,26 +138,22 @@
 	
 	color: @text-color;
 
-	border: 1px solid #ddd;
-	border-left: 0;
-
+	border: 0;
 	
-	display: none;
+	position: absolute;
+	right: 0;
+	top: 0;
 	
-	@media (min-width: @breakpoint) {
-		display: inline-block;
-	}
+    padding: 6px 10px;
+	
+	// @media (min-width: @breakpoint) {
+	// 	display: inline-block;
+	// }
 
 
-	padding: 6px 10px;
-
-	background-color: @background-color;
-
-	float: left;
 
   	&:hover {
   		background-color: #ddd;
-  		border-color:#ddd;
   	}
 
   	&:active {

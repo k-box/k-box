@@ -10,30 +10,14 @@
 	@endif
 	
 
-	<div class="input-group hint--bottom hint--info search--hint" data-hint="{!! isset($context) && isset($filter) ? trans('search.form.hint_in', ['location' => $filter]) : trans('search.form.hint') !!}">
+	<div class="hint--bottom hint--info search--hint" data-hint="{!! isset($filter) ? trans('search.form.hint_in', ['location' => $filter]) : trans('search.form.hint') !!}">
 
-    	<input type="search" class="search-field" placeholder="{{ isset($context) && isset($filter) ? trans('search.form.placeholder_in', ['location' => $filter]) : trans('search.form.placeholder') }}" value="@if(isset($search_terms) && $search_terms!=='*'){{ $search_terms }}@endif" name="s" @if(empty($search_terms)) autofocus @endif />
-    
+    	<input type="search" class="search-field" placeholder="{{ isset($filter) ? trans('search.form.placeholder_in', ['location' => $filter]) : trans('search.form.placeholder') }}" value="@if(isset($search_terms) && $search_terms!=='*'){{ $search_terms }}@endif" name="s" @if(empty($search_terms)) autofocus @endif />
 
-		@if(!isset($context))
-
-    	<div class="input-group-addon visibility-switcher" id="visibility-switcher">
-    		<a href="#public" data-bind="public" title="{{trans('search.form.public_switch_alt')}}" class="item @if(isset($current_visibility) && $current_visibility=='public') current @endif">
-	    		<span class="icon icon-social-black icon-social-black-ic_public_black_24dp"></span>
-	    		<span class="label">{{trans('documents.visibility.public')}}</span>
-	    	</a>
-	    	@if($is_user_logged)
-		    	<a href="#private" data-bind="private" title="{{trans('search.form.private_switch_alt')}}" class="item @if(isset($current_visibility) && $current_visibility=='private') current @endif">
-		    		<span class="icon icon-action-black icon-action-black-ic_lock_black_24dp"></span>
-		    		<span class="label">{{trans('documents.visibility.private')}}</span>
-		    	</a>
-		    @endif
-    	</div>
-		
-		@endif
+		<button type="submit" class="search-submit" title="{{trans('search.form.submit')}}">
+			<span class="icon-action-black icon-action-black-ic_search_black_24dp"></span>
+		</button>
 
     </div>
-    <button type="submit" class="search-submit" title="{{trans('search.form.submit')}}">
-    	<span class="icon-action-black icon-action-black-ic_search_black_24dp"></span>
-    </button>
+    
 </form>

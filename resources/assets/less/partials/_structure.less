@@ -178,32 +178,26 @@ body {
 
 	.clearfix();
 
-	& > div {
+	.parent-navigation {
 		display: inline-block;
+
 		line-height: @top-header-height - 4px;
 		vertical-align: middle;
-		
-		
-		&:first-of-type {
-			
-			width:20%;
-			overflow: hidden;
-			height: 44px;
-			
-			.text-truncate();
-			
-			@media (min-width: @breakpoint+20) {
-				width:auto;
-				overflow: none;
-			}
-		}
-			
-		
+
+		// max-width: 40%;
+
+		white-space: nowrap;
+		overflow: auto;
+
+		cursor: default;
 	}
+
 
 	.parent {
 		
 		opacity: 0.6;
+
+		
 
 		&:hover {
 			opacity: 1;
@@ -246,6 +240,7 @@ body {
   			vertical-align: middle;
   			
 		 }
+
 	}
 
 //	.search-form {
@@ -795,4 +790,42 @@ ul.pagination {
 		margin-top: 1.0em;
 		display: inline-block;
 	}
+}
+
+.parent-navigation {
+
+	-ms-overflow-style: -ms-autohiding-scrollbar;
+
+&::-webkit-scrollbar {
+  width: 2px;
+  height: 6px;
+}
+&::-webkit-scrollbar-button {
+  width: 0px;
+  height: 0px;
+}
+&::-webkit-scrollbar-thumb {
+  background: #e1e1e1;
+  border: 0;
+  
+}
+&::-webkit-scrollbar-thumb:hover {
+  background: #ffffff;
+}
+&::-webkit-scrollbar-thumb:active {
+  background: @darken-accent-color;
+}
+&::-webkit-scrollbar-track {
+  background: lighten(@sub-header-background-color, 12%);
+  border: 0;
+}
+&::-webkit-scrollbar-track:hover {
+  background: lighten(@sub-header-background-color, 20%);
+}
+&::-webkit-scrollbar-track:active {
+  background: lighten(@sub-header-background-color, 20%);
+}
+&::-webkit-scrollbar-corner {
+  background: transparent;
+}
 }

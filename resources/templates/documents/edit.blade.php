@@ -42,7 +42,7 @@
 
 <form action="{{route('documents.update', $document->id)}}" enctype="multipart/form-data" method="post" class="document-form" id="edit-form">
 
-	@if($document->isMine() && !$document->isIndexed())
+	@if(!$document->trashed() && $document->isMine() && !$document->isIndexed())
 	
 	<div class="alert info">
 		{!!trans('documents.edit.not_index_message')!!}

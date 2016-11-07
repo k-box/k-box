@@ -31,6 +31,8 @@ input[type='text'], textarea {
 	display: inline-block;
 	
 	padding: 0;
+
+	position: relative;
 	
 	@media (min-width: @breakpoint) {
 		padding: 0 @base-padding/3;
@@ -40,7 +42,7 @@ input[type='text'], textarea {
 	
 	.box-sizing(border-box);
 	
-	line-height: @top-header-height;
+	
 	vertical-align: middle;
 	
 
@@ -64,8 +66,6 @@ input[type='text'], textarea {
 
 .search-field {
 	color: @text-color;
-
-	display: table-cell;
 
 	min-width: 100px;
 	width: 100px;

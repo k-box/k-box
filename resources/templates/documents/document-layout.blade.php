@@ -258,6 +258,21 @@
 @section('scripts')
 
 	<script>
+
+	(function(){
+
+		var subHeader = $(".sub-header");
+
+		if(subHeader){
+			
+			var actions = subHeader.find(".actions");
+			var parentNavigation = subHeader.find(".parent-navigation");
+
+			parentNavigation.width(subHeader.width() - actions.width() - 10);
+		}
+
+	})();
+
 	require(['modules/list-switcher', 'modules/documents', 'modules/panels'], function(Switcher, Documents, Panels){
 
 		@if(isset($context))

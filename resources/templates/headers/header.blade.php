@@ -45,7 +45,7 @@
 
 	<div class="sub-header">
 
-		<div>
+		<div class="parent-navigation">
 			@yield('sub-header')
 		</div>
 
