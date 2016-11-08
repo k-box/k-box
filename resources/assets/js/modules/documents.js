@@ -598,6 +598,7 @@ debugger;
             search: undefined,
             filters: [],
             facets: [],
+            maxUploadSize: 202800,
             
 			//used for saving information about the page, like visibility and groups to pass to the uploader
 		},
@@ -1744,7 +1745,7 @@ debugger;
 
             	    // uploadMultiple: true,
             		parallelUploads: 1,
-                    maxFilesize:202800,
+                    maxFilesize: module.context.maxUploadSize,
             		maxFiles: 10000,
                     
                     dictDefaultMessage: Lang.trans('documents.messages.drag_hint'),
@@ -1799,7 +1800,7 @@ debugger;
                             message = _.isArray(message.document) ? message.document.join(",") : message.document;
                           }
                           else {
-                            message = Lang.trans('errors.generic_text');
+                            message = message.indexOf('KB') ? message : Lang.trans('errors.generic_text');
                           }
                           _ref = file.previewElement.querySelectorAll("[data-dz-errormessage]");
                           _results = [];

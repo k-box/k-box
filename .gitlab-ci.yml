@@ -26,6 +26,24 @@ cache:
     - docker-compose -f klink-services.yml -p ${INSTANCE_PREFIX} build dmsproject
     - docker-compose -f docker-compose-kbox.yml -p ${INSTANCE_PREFIX} stop && docker-compose -f docker-compose-kbox.yml -p ${INSTANCE_PREFIX} rm -v -f && docker-compose -f docker-compose-kbox.yml -p ${INSTANCE_PREFIX} up -d frontend
 
+.build_and_tag: &build_and_tag
+# build and execute a docker image, use variables 
+# INSTANCE_PREFIX => the prefix of the docker container/image to be used
+# BUILD_LOCATION => the folder where the base tar.gz file is located
+# DOCKER_LOCATION => the folder where to run the docker-compose commands
+  stage: deploy
+  tags:
+    - shell
+  script: 
+    - cp ${BUILD_LOCATION}/klink-dms-$CI_BUILD_REF_NAME.tar.gz ${DOCKER_LOCATION}/dms/downloads/dms.tar.gz
+    - cd ${DOCKER_LOCATION}
+    - docker-compose -f klink-services.yml -p ${INSTANCE_PREFIX} build dmsproject
+    - docker tag -f ${INSTANCE_PREFIX}_dmsproject docker.klink.asia:5043/klinkdocker_dmsproject:${CI_BUILD_REF_NAME/v/}
+    - docker tag -f ${INSTANCE_PREFIX}_dmsproject docker.klink.asia:5043/klinkdocker_dmsproject:latest
+    - docker tag -f ${INSTANCE_PREFIX}_dmsproject klinkdocker_dmsproject:${CI_BUILD_REF_NAME/v/}
+    - docker push docker.klink.asia:5043/klinkdocker_dmsproject:latest
+    - docker push docker.klink.asia:5043/klinkdocker_dmsproject:${CI_BUILD_REF_NAME/v/}
+
 
 .composer_install: &composer_install
 # performs composer install with dev dependencies and syntax check
@@ -107,3 +125,13 @@ dms_klink_asia_deploy:
   only:
     - master
     - release
+
+tag_docker_image:
+# creates the DMS docker image and push it to the registry
+  <<: *build_and_tag
+  variables:
+    INSTANCE_PREFIX: $DMS_INSTANCE_PREFIX
+    BUILD_LOCATION: $BUILD_FOLDER 
+    DOCKER_LOCATION: $PROD_DOCKER_FOLDER
+  only:
+    - tags
