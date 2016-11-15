@@ -200,6 +200,7 @@ return [
         'panels.load_error_title',
         
         'validation.custom.document.required',
+        'validation.custom.document.required_alt',
         
         'share.share_btn',
         

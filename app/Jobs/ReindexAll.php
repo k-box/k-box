@@ -1,6 +1,6 @@
 <?php namespace KlinkDMS\Jobs;
 
-use KlinkDMS\Commands\Job;
+use KlinkDMS\Jobs\Job;
 use KlinkDMS\User;
 use KlinkDMS\Option;
 use KlinkDMS\DocumentDescriptor;

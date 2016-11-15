@@ -165,7 +165,7 @@ return [
 	| @var integer
 	*/
 
-	'max_upload_size' => getenv('DMS_MAX_UPLOAD_SIZE') ?: 202800,
+	'max_upload_size' => getenv('DMS_MAX_UPLOAD_SIZE') ?: 204800,
 
 	/*
 	|--------------------------------------------------------------------------

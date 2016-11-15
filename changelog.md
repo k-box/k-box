@@ -1,13 +1,15 @@
 # Changelog
 
-preliminary changelog for version 0.12.2
+0.12.4 bugfix release.
 
 ## Changes
 
-- bugfix: reindex message is not visible anymore on the edit page of 
-  a trashed document
-- UI: reduced the chance to get a multine action bar when language is set to russian
-- UI: search box layout changes to improve cross browser compatibility
+- bugfix: error while running the reindex command from Administration > Storage
+- bugfix: Drag and drop a folder in a project now creates collections under a project
+- enhancement: Drag and drop over a collection on the sidebar starts the upload 
+  in that collection. No more strange message is shown
+- enhancement: better error message when upload size exceed the configured limit
+- enhancement: default file limit for upload is now exactly 200MB (was 198MB previously)
 
 ## Upgrade barometer
 

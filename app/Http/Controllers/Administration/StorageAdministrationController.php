@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use KlinkDMS\User;
 use KlinkDMS\Option;
 use Klink\DmsDocuments\DocumentsService;
-use KlinkDMS\Commands\ReindexAll;
+use KlinkDMS\Jobs\ReindexAll;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 
 /**

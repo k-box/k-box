@@ -112,11 +112,16 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
         if (evt.preventDefault) {
             evt.preventDefault(); 
         }
-        
+
         var dragText = evt.originalEvent.dataTransfer.getData('text');
         evt.originalEvent.dataTransfer.dropEffect = dragText !== 'dms_drag_collection' ? 'copy' : 'none';
 
         // console.log('DROP', dragText, this);
+
+        var files = evt.originalEvent.dataTransfer.files;
+        if (files.length) {
+            return;
+        }
         
         if(dragText!=='dms_drag_action'){
             try{
@@ -1751,7 +1756,7 @@ debugger;
                     dictDefaultMessage: Lang.trans('documents.messages.drag_hint'),
                     dictFallbackMessage: Lang.trans('documents.upload.dragdrop_not_supported'),
                     dictFallbackText: Lang.trans('documents.upload.dragdrop_not_supported_text'),
-                    dictFileTooBig: Lang.trans('validation.custom.document.required'), //"File is too big ({{filesize}}MB). Max filesize: {{maxFilesize}}MB.",
+                    dictFileTooBig: Lang.trans('validation.custom.document.required_alt', {size: module.context.maxUploadSize, unit: 'MB'}), //"File is too big ({{filesize}}MB). Max filesize: {{maxFilesize}}MB.",
                     dictInvalidFileType: "You can't upload files of this type.",
                     dictResponseError: "Server responded with {{statusCode}} code.",
                     dictCancelUpload: '', //old: "Cancel upload"
@@ -1845,6 +1850,38 @@ debugger;
 
                             });
 
+                            this.on('drop', function(evt){
+                                // debugger;
+// console.info('drop called', evt, this);
+                                if(evt.target){
+                                    
+                                    var target = $(evt.target);
+                                    var targetInfo = target.data();
+
+                                    // drop target might not be the item that has
+                                    // attached the data that I need 
+
+                                    if(!targetInfo.groupId){
+
+                                        targetInfo = target.parents('.tree-item-inner').data();
+
+                                    }
+
+                                    if(targetInfo){
+                                        // storing the groupId for later
+                                        module.uploads.targetGroup = targetInfo.groupId || null;  
+                                        // this.targetGroup = targetInfo.groupId || null;  
+                                    }
+                                    else {
+                                        module.uploads.targetGroup = null;
+                                        // this.targetGroup = null;
+                                    }
+
+                                }
+
+                                // return true;
+                            });
+
                             this.on("addedfile", function(file){
 
                                 $('#upload-status').addClass('visible');
@@ -1853,6 +1890,13 @@ debugger;
                             	module.uploads.totalFiles = this.files.length;
 
                             	module.uploads.status = "uploading";
+
+                                if(module.uploads.targetGroup){
+                                    // if we saw an upload over a group, add this information
+                                    file.targetGroup = module.uploads.targetGroup; 
+                                    // module.uploads.targetGroup = null;
+                                    // this.targetGroup = null;
+                                }
 
                             });
 
@@ -1908,7 +1952,14 @@ debugger;
 
               		formData.append("_token", DMS.csrf());
 
-                    if(module.context.filter && module.context.filter === CONTEXT_GROUP ){
+                    if(file.targetGroup){ 
+                        // if we saw an upload over a group, add this information 
+ 
+                        formData.append("group", file.targetGroup); 
+ 
+                    } 
+
+                    if(!file.targetGroup && module.context.filter && module.context.filter === CONTEXT_GROUP ){
 
                         formData.append("group", module.context.group);
 

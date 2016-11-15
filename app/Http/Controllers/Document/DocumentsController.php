@@ -401,7 +401,7 @@ class DocumentsController extends Controller {
 
 				if($request->has('folder_path')){
 					 $folder_path = $request->input('folder_path');
-					 $parent = $this->service->createGroupsFromFolderPath($auth->user(), $folder_path, true, true, $grp);
+					 $parent = $this->service->createGroupsFromFolderPath($auth->user(), $folder_path, true, is_null($grp) ? true : $grp->is_private, $grp);
 				}
 
 				//test and report exceptions

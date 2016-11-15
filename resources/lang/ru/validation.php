@@ -113,6 +113,7 @@ return [
 		],
         'document' => [
 			'required' => 'Загружаемый Вами документ превышает максимально допустимый размер ' .\Config::get('dms.max_upload_size') . 'KB',
+			'required_alt' => 'Загружаемый Вами документ превышает максимально допустимый размер :size :unit',
 		],
         'slug' => [
             // used when the microsite slug fails to validate
