@@ -1,15 +1,10 @@
 # Changelog
 
-0.12.4 bugfix release.
+0.12.5 typo in release version.
 
 ## Changes
 
-- bugfix: error while running the reindex command from Administration > Storage
-- bugfix: Drag and drop a folder in a project now creates collections under a project
-- enhancement: Drag and drop over a collection on the sidebar starts the upload 
-  in that collection. No more strange message is shown
-- enhancement: better error message when upload size exceed the configured limit
-- enhancement: default file limit for upload is now exactly 200MB (was 198MB previously)
+- fix: release version was 0.12.3 instead of 0.12.4, so now is 0.12.5
 
 ## Upgrade barometer
 

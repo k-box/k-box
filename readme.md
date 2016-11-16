@@ -1,6 +1,6 @@
 
 
-[![build status](https://git.klink.asia/klinkdms/dms/badges/master/build.svg)](https://git.klink.asia/klinkdms/dms/commits/master) ![latest version](https://img.shields.io/badge/version-0.12.4-blue.svg)
+[![build status](https://git.klink.asia/klinkdms/dms/badges/master/build.svg)](https://git.klink.asia/klinkdms/dms/commits/master) ![latest version](https://img.shields.io/badge/version-0.12.5-blue.svg)
 
 # K-Link DMS
 
