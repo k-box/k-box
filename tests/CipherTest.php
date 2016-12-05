@@ -6,6 +6,9 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class ChiperTest extends TestCase
 {
+
+    use DatabaseTransactions;
+    
     /**
      * Test the selection of the cipher based on the configured APP_KEY
      *

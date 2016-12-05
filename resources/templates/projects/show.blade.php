@@ -148,6 +148,29 @@
           evt.preventDefault();
            return false;
        });
+
+
+        var h = new holmes({
+
+            input: '.js-search-user',
+
+            find: '.userlist .userlist__user',
+
+            placeholder: "{{ trans('projects.labels.search_member_not_found') }}",
+
+            mark: true,
+
+            class: {
+
+                visible: 'visible',
+
+                hidden: 'hidden'
+
+            }
+
+        });
+
+        h.start();
 	});
 	</script>
 

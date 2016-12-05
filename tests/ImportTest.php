@@ -202,7 +202,7 @@ class ImportTest extends TestCase {
         $saved_import = Import::with('file')->findOrFail($import->id);
         
         
-        $this->assertEquals(KlinkDMS\Import::STATUS_COMPLETED, $saved_import->status);
+        $this->assertEquals(KlinkDMS\Import::STATUS_COMPLETED, $saved_import->status, 'Import not completed');
         
         $this->assertEquals(KlinkDMS\Import::MESSAGE_COMPLETED, $saved_import->status_message);
         

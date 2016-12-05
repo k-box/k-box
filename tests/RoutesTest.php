@@ -15,6 +15,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 */
 class RoutesTest extends TestCase {
     
+	use DatabaseTransactions;
     
     public function routes_provider(){
 		
@@ -26,7 +27,6 @@ class RoutesTest extends TestCase {
 			array( 'contact' ),
 			array( 'privacy' ),
 			array( 'terms' ),
-			array( 'importhelp' ),
 			array( 'help' ),
 		);
         

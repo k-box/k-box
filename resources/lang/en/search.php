@@ -31,6 +31,8 @@ return [
 
 	'no_results' => 'Sorry nothing has been found for <strong>:term</strong> into <strong>:collection</strong> documents.',
 	'no_results_no_markup' => 'Sorry nothing has been found for :term in :collection',
+	'no_results_generic' => 'No documents match your search criteria.',
+	'no_results_for_term' => 'No documents match your search for ":term".',
 
 	'try_message' => 'Try search for words that starts with :startwithlink',
 
@@ -40,6 +42,7 @@ return [
 		'language' => "Language",
         'documentType' => "Document Type",
         'documentGroups' => "Collections",
+		'projectId' => 'Project'
 	),
 
 ];

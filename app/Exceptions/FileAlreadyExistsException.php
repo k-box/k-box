@@ -95,15 +95,6 @@ class FileAlreadyExistsException extends Exception
             return $this->getMessage();
         }
 
-        if($this->existing_descriptor->isPublic()){
-
-            return trans('errors.filealreadyexists.in_the_network', [
-                'network' => e(network_name()),
-                'title' => e($this->existing_descriptor->title),
-                'institution' => e($this->existing_descriptor->institution->name)
-            ]);
-
-        }
 
 
         if($this->existing_descriptor->owner_id === $user->id){
@@ -133,7 +124,7 @@ class FileAlreadyExistsException extends Exception
             ]);
 
         }
-        else {
+        else if(!is_null($this->existing_descriptor->owner_id)) {
 
             $collection = $this->existing_descriptor->groups()->public()->first();
             $owner = $this->existing_descriptor->owner;
@@ -167,6 +158,15 @@ class FileAlreadyExistsException extends Exception
 
         }
         
+        if($this->existing_descriptor->isPublic()){
+
+            return trans('errors.filealreadyexists.in_the_network', [
+                'network' => e(network_name()),
+                'title' => e($this->existing_descriptor->title),
+                'institution' => e($this->existing_descriptor->institution->name)
+            ]);
+
+        }
 
     }
     

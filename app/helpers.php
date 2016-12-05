@@ -196,3 +196,16 @@ if (! function_exists('analytics_token')) {
     }
 }
 
+if (! function_exists('flags')) {
+    /**
+     * Shortcut for accessing the KlinkDMS\Flags class  
+     *
+     *
+     * @return KlinkDMS\Flags 
+     */
+    function flags()
+    {
+        return new \KlinkDMS\Flags(); 
+    }
+}
+

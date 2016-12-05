@@ -34,9 +34,18 @@
 		
 		
 	</div>
-
+@if(auth()->check())
 	<div class="filter-buttons">
+
+
         <div>
+
+			<!--@ i f(isset($context) && $context === 'projectspage')
+				<span class="sort-widget">
+                	<span class="btn-icon icon-content-black icon-content-black-ic_sort_black_24dp"></span> {{ trans('documents.sort.sorted_by', ['sort' => isset($is_search_requested) && $is_search_requested ? trans('documents.sort.type_search_relevance') : trans('documents.sort.type_project_name')])}}
+				</span>
+			@e n d if-->
+		
             <a href="#" class="button" rv-on-click="openClose">
                 <span class="btn-icon icon-content-black icon-content-black-ic_filter_list_black_24dp"></span>{{trans('actions.filters.filter')}}
             </a>
@@ -45,6 +54,6 @@
             @endif
         </div>
 	</div>
-
+@endif
 
 </div>

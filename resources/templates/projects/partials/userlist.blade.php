@@ -6,6 +6,10 @@
         
         <?php $olds = old('users', array()); ?>
 
+<div class="search-user">
+    <input type="text" name="search-user" class="search-user__input js-search-user" placeholder="{{ trans('projects.labels.search_member_placeholder') }}">
+</div>
+
         <div class="userlist">
 
         @forelse($users as $user)
@@ -17,6 +21,8 @@
                 </div>
                 
                 <strong class="userlist__name">{{$user->name}}</strong>
+                
+                <span class="userlist__email"><a href="mailto:{{$user->email}}">{{$user->email}}</a></span>
 
 
                 @if(!is_null($user->institution))

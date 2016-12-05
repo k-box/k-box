@@ -43,6 +43,22 @@ return [
         'starred_hint' => 'You will find here all your starred documents',
 	),
 
+	'sort' => [
+		'sorted_by' => 'Sorted by :sort',
+		'type_project_name' => 'project name',
+		'type_search_relevance' => 'search relevance',
+		'type_updated_at' => 'update date',
+	],
+
+	'filtering' => [
+		'date_range_hint' => 'Preferred time range',
+		'items_per_page_hint' => 'Number of items per page',
+		'today' => 'Today',
+		'yesterday' => 'Since Yesterday',
+		'currentweek' => 'Last 7 days',
+		'currentmonth' => 'Last 30 days',
+	],
+
 	'visibility' => array(
 		'public' => 'Public',
 		'private' => 'Private',
@@ -63,6 +79,7 @@ return [
 	),
 
 	'empty_msg' => 'No documents in <strong>:context</strong>',
+	'empty_msg_recent' => 'No documents for <strong>:range</strong>',
 
 	'bulk' => array(
 
@@ -247,6 +264,8 @@ return [
         'clean_title' => 'Clean trash?',
         'yes_btn' => 'Yes, Clean!',
         'no_btn' => 'No, Cancel',
+
+		'empty_trash' => 'Nothing is in trash',
         
         'empty_all_text' => 'All the documents in the trash will be permanently deleted. This action will remove files and revision, starred, collections and shares. This action cannot be undone.',
         'empty_selected_text' => 'You\'re about to permanently delete the selected documents. You will remove also files and revision, starred, collections and shares. This action cannot be undone.',
@@ -272,5 +291,6 @@ return [
 		'remove_btn' => "Remove file", //this is the little link that is showed after the file upload has been processed
 		'cancel_btn' => 'Cancel upload', //for future use
 		'cancel_question' => 'Are you sure you want to cancel this upload?',  //for future use
+		'outside_project_target_area' => 'Please drag and drop your file over a Project to upload it.',
     ],
 ];

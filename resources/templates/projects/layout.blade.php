@@ -27,17 +27,17 @@
 	<div class="row">
 
 		<div class="three columns">
-			<div class="documents-menu">
+			<div class="sidemenu">
 				
-				<ul class="documents-navigation">
+				
 				
 				@forelse($projects as $p)
 				
-					<li>
-						<a href="{{route('projects.show', ['id' => $p->id])}}" class="menu-el @if(isset($project) && $project->id == $p->id) current @endif">
-							<span class="menu-icon icon-action-black icon-action-black-ic_group_work_black_24dp"></span> {{$p->name}}
+					
+						<a href="{{route('projects.show', ['id' => $p->id])}}" class="sidemenu__item @if(isset($project) && $project->id == $p->id) current @endif">
+							<span class="sidemenu__item__icon icon-action-black icon-action-black-ic_group_work_black_24dp"></span> {{$p->name}}
 						</a>
-					</li>
+					
 					
 				@empty
 				
@@ -45,7 +45,7 @@
 				
 				@endforelse
 				
-				</ul>
+				
 			</div>
 		</div>
 

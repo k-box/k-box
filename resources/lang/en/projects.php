@@ -13,6 +13,7 @@ return [
 	'page_title' => 'Projects',
 	'page_title_with_name' => 'Project :name',
 
+	'all_projects' => 'All Projects',
 
 	'new_button' => 'New Project',
 	
@@ -29,6 +30,8 @@ return [
 		'project_details' => 'Project Details',
 		
 		'users' => 'Users',
+		'search_member_placeholder' => 'Search for a project member...',
+		'search_member_not_found' => 'No member with that name or institution.',
 		'add_users' => 'Add users to the project',
 		'add_users_button' => 'Add User',
 		'users_placeholder' => 'Select user(s)',
@@ -40,6 +43,19 @@ return [
 		'cancel' => 'Cancel',
 
 		'users_in_project' => 'Current project members (:count)',
+
+		'managed_by' => 'Managed by',
+		'created_on' => 'Created on',
+		'user_count_label' => 'Members',
+		'user_count' => ':count member|:count members',
+		'documents_count_label' => 'Documents',
+		'documents_count' => ':count document|:count documents',
+
+		'avatar' => 'Project avatar',
+		'avatar_description' => 'The maximum file size allowed is 200KB. Best viewed if 300 x 160 pixels.',
+		'avatar_remove_btn' => 'Remove avatar',
+		'avatar_remove_confirmation' => 'The project avatar will be removed. Are you sure?',
+		'avatar_remove_error_generic' => 'The avatar cannot be removed.',
 	),
 
 	'remove_user_hint' => 'Remove the user from the Project',
@@ -67,5 +83,7 @@ return [
 	
 	'project_updated' => 'Project :name has been updated',
 	
+	'no_projects' => 'Currently there are no project to list here.',
 
+	'show_documents' => 'Show documents',
 ];

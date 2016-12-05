@@ -3,6 +3,7 @@
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Contracts\Auth\Guard;
 use KlinkDMS\RecentSearch;
+use KlinkDMS\Capability;
 use KlinkDMS\DocumentDescriptor;
 use KlinkDMS\Starred;
 use KlinkDMS\Pagination\SearchResultsPaginator as Paginator;
@@ -77,9 +78,9 @@ class SearchService {
 
 			$results_from_the_core = $this->adapter->getConnection()->search( $terms, $visibility, $resultsPerPage, $offset, $facets );
 
-			$is_starrable = $this->auth->check();
+			$is_starrable = $this->auth->check() && $this->auth->user()->can(Capability::MAKE_SEARCH);
 
-			$current_user = !$is_starrable ?: $this->auth->user();
+			$current_user = !$this->auth->check() ? false : $this->auth->user();
 
 			
 
@@ -112,7 +113,12 @@ class SearchService {
 					}
 				}
 
-				$res->institutionName = !is_string($institution) ? $institution->name : $institution;
+				if(!is_null($institution)){
+					$res->institutionName = !is_string($institution) ? $institution->name : $institution;
+				}
+				else {
+					$res->institutionName = $res->institutionID;
+				}
 
 				$res->creationDate = localized_date_short(\Carbon\Carbon::createFromFormat( \DateTime::RFC3339, $res->creationDate));
 

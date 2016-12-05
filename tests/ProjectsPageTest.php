@@ -1,0 +1,261 @@
+<?php
+
+use KlinkDMS\Import;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
+use KlinkDMS\User;
+use KlinkDMS\File;
+use KlinkDMS\Capability;
+use KlinkDMS\Jobs\ImportCommand;
+use Klink\DmsMicrosites\Microsite;
+use KlinkDMS\Traits\Searchable;
+
+/**
+ * Test the Projects page for the Unified Search (routes documents.projects.*)
+ */
+class ProjectsPageTest extends TestCase {
+    
+    use Searchable;
+    use DatabaseTransactions;
+    
+    public function expected_routes_provider(){
+		
+		return array( 
+			array( 'documents.projects.index', [] ),
+			array( 'documents.projects.show', ['id' => 1] ),
+		);
+	}
+    
+    
+    public function routes_and_capabilities_provider(){
+		
+		return array( 
+			array( Capability::$ADMIN, array('documents.projects.index' => 'documents.projects.projectspage', 'documents.projects.show' => 'documents.projects.detail'), 200 ),
+			array( Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH, array('documents.projects.index' => 'documents.projects.projectspage', 'documents.projects.show' => 'documents.projects.detail'), 200 ),
+			array( Capability::$PROJECT_MANAGER, array('documents.projects.index' => 'documents.projects.projectspage', 'documents.projects.show' => 'documents.projects.detail'), 200 ),
+			array( Capability::$DMS_MASTER, array('documents.projects.index' => 'documents.projects.projectspage', 'documents.projects.show' => 'documents.projects.detail'), 403 ),
+			array( Capability::$PARTNER, array('documents.projects.index' => 'documents.projects.projectspage', 'documents.projects.show' => 'documents.projects.detail'), 200 ),
+			array( Capability::$GUEST, array('documents.projects.index' => 'documents.projects.projectspage', 'documents.projects.show' => 'documents.projects.detail'), 403 ),
+		);
+	}
+
+    
+    
+    
+     
+    
+    /**
+	 * Test the expected project routes are available
+	 *
+	 * @dataProvider expected_routes_provider
+	 * @return void
+	 */
+    public function testProjectPageRoutesExistence($route_name, $parameters){
+        
+        // you will see InvalidArgumentException if the route is not defined
+        
+        route( $route_name, $parameters );
+        
+    }
+    
+    /**
+	 * Test if some routes browsed after login are viewable or not and shows the expected page and error code
+	 *
+	 * @dataProvider routes_and_capabilities_provider
+	 * @return void
+	 */
+    public function testProjectPageAccess( $caps, $routes, $expected_return_code){
+        
+        $params = null;
+        $user = null;
+        
+        foreach ($routes as $route => $viewname) {
+            
+            $user = $this->createUser($caps);
+            
+            if( strpos($route, 'show') !== false ){
+                
+                $project = factory('KlinkDMS\Project')->create(['user_id' => $user->id]);
+                
+                $params = ['projects' => $project->id];
+            }
+            else {
+                $params = [];
+            }
+            
+            $this->actingAs($user);
+            
+            $generated_url = route($route, $params);
+
+            $this->visit($generated_url);
+            
+            if($expected_return_code === 200){
+                
+                $this->assertResponseOk();
+                $this->seePageIs( $generated_url );
+                $this->assertViewName( $viewname );
+                
+            }
+            else {
+                $view = $this->response->original;
+                
+                $this->assertViewName('errors.' . $expected_return_code);
+            }
+            
+        }
+        
+    }
+
+    public function testProjectPageHasSearchBar(){
+        $user = $this->createUser(Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH);
+
+        $this->actingAs($user);
+
+        $generated_url = route('documents.projects.index');
+
+        $this->visit($generated_url);
+
+        $this->see('search-form');
+    }
+
+    public function testProjectPageIsListingProjects(){
+        // Project listing, but links to collections
+        $user = $this->createUser(Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH);
+
+        $document = $this->createDocument($user);
+
+        // manages project1
+        $project1 = $this->createProject(['user_id' => $user->id]);
+        // is added to project2
+        $project2 = $this->createProject();
+        $project2->users()->attach($user->id);
+
+        $service = app('Klink\DmsDocuments\DocumentsService');
+        $service->addDocumentToGroup($user, $document, $project1->collection);
+        $document = $document->fresh();
+
+        $expected_projects = collect([$project1, $project2])->sortBy('name')->map(function($el){
+            return $el->id;              
+        });
+
+        $this->actingAs($user);
+
+        $generated_url = route('documents.projects.index');
+
+        $this->visit($generated_url);
+
+        $this->assertViewHas('pagetitle', trans('projects.page_title'));
+        $this->assertViewHas('current_visibility', 'private');
+        $this->assertViewHas('filter', trans('projects.all_projects'));
+        $this->assertViewHas('projects');
+
+        $view = $this->response->original;
+
+        $projects = $view->projects;
+
+        $this->assertNotEmpty($projects, 'empty project list');
+        $this->assertCount(2, $projects, 'project count');
+
+        $this->assertEquals(
+            array_values($expected_projects->toArray()), 
+            array_values($projects->fetch('id')->toArray()));
+        
+
+        // Test: projectspage shows for each project: 
+            // - The project manager, in the form of username
+            // - The number of members in the project
+            // - The total amount of files available in the project
+            // - The project creation date will be shown only in details view.
+
+        $this->see($project1->manager->name);
+        $this->see($project2->manager->name);
+        $this->see($project1->getCreatedAt());
+        $this->see($project2->getCreatedAt());
+        $this->see(trans_choice('projects.labels.user_count', $project1->users->count(), ['count' => $project1->users->count()]));
+        $this->see(trans_choice('projects.labels.user_count', $project2->users->count(), ['count' => $project2->users->count()]));
+        $this->see(trans_choice('projects.labels.documents_count', 1, ['count' => 1]));
+        $this->see(trans_choice('projects.labels.documents_count', 0, ['count' => 0]));
+
+        // Trick get the facets view to test which columns are available in the elastic list
+        $view = $this->response->original; // is a view
+        $composer = app('KlinkDMS\Http\Composers\DocumentsComposer');
+        $composer->facets($view);
+        $this->response->original = $view;
+
+        $this->assertViewHas('columns');
+
+        $columns = $this->response->original->columns;
+
+        $this->assertEquals(
+            ['language', 'documentType', 'projectId', 'documentGroups'], 
+            array_keys($columns));
+
+
+    }
+
+    public function testProjectPageProjectFilterListing(){
+        // test projects are labeled in the elastic list and do not show projects not accessible by the user
+        
+        $user = $this->createUser( Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH );
+        
+        $service = app('Klink\DmsDocuments\DocumentsService');
+
+        $document = $this->createDocument($user);
+
+        // manages project1
+        $project1 = $this->createProject(['user_id' => $user->id]);
+        // is added to project2
+        $project2 = $this->createProject();
+        $project2->users()->attach($user->id);
+
+        $service->addDocumentToGroup($user, $document, $project1->collection);
+        $document = $document->fresh();
+
+        $personal = $this->createCollection($user, true);
+        $service->addDocumentToGroup($user, $document, $personal);
+        $document = $document->fresh();
+
+
+        $this->actingAs($user);
+
+        $generated_url = route('documents.projects.index');
+
+        $this->visit($generated_url);
+
+
+        // Trick get the facets view to test which columns are available in the elastic list
+        $view = $this->response->original; // is a view
+        $composer = app('KlinkDMS\Http\Composers\DocumentsComposer');
+        $composer->facets($view);
+        $this->response->original = $view;
+
+        $this->assertViewHas('columns');
+
+        $columns = $this->response->original->columns;
+        
+        $this->assertEquals(
+            ['language', 'documentType', 'projectId', 'documentGroups'], 
+            array_keys($columns));
+
+        $project_filters = collect($columns['projectId']['items'])->map(function($el){
+            return $el->term;
+        });
+        $collection_filters = collect($columns['documentGroups']['items'])->map(function($el){
+            return $el->term;
+        });
+
+        $this->assertArraySubset([$project1->id], $project_filters->toArray());
+        $this->assertArraySubset(['0:' . $project1->collection->id], $collection_filters->toArray());
+        $this->assertFalse(in_array($personal->toKlinkGroup(), $collection_filters->toArray()));
+    }
+
+    // Test: projectspage clicking on a project redirect to the collection
+    // Test: projectspage has project column in filters
+    // Test: projectspage has action bar if search is performed
+    
+    // Test: the project-documents-count cache of a project is cleared when a document is added to the project 
+    // Test: details page 
+
+    // Projects: test avatar upload from project edit/create page
+}

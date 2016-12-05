@@ -12,18 +12,39 @@
 */
 
 $factory->define(KlinkDMS\User::class, function (Faker\Generator $faker) {
+    $institution_count = \KlinkDMS\Institution::count();
+    
+    if($institution_count == 0){
+        $institution = factory(KlinkDMS\Institution::class)->create()->id;
+    }
+    else {
+        $institution = \KlinkDMS\Institution::all()->random()->id;
+    }
+
     return [
         'name' => $faker->name,
         'email' => $faker->email,
-        'password' => bcrypt(str_random(10))
+        'password' => bcrypt(str_random(10)),
+        'institution_id' => $institution
     ];
 });
 
 $factory->defineAs(KlinkDMS\User::class, 'admin', function (Faker\Generator $faker) {
+
+    $institution_count = \KlinkDMS\Institution::count();
+    
+    if($institution_count == 0){
+        $institution = factory(KlinkDMS\Institution::class)->create()->id;
+    }
+    else {
+        $institution = \KlinkDMS\Institution::all()->random()->id;
+    }
+    
     return [
         'name' => 'admin',
         'email' => 'admin@klink.local',
-        'password' => bcrypt(str_random(10))
+        'password' => bcrypt(str_random(10)),
+        'institution_id' => $institution
     ];
 });
 

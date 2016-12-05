@@ -27,7 +27,7 @@
 	@include('errors.list')
 
 
-    <form  method="post" action="{{route('projects.store')}}">
+    <form  method="post" action="{{route('projects.store')}}"  enctype="multipart/form-data">
     
 	@include('projects.partials.form', ['submit_btn' => trans('projects.labels.create_submit'), 'create' => true])
         

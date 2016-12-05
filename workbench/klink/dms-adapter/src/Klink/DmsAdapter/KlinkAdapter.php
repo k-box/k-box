@@ -137,7 +137,7 @@ class KlinkAdapter
 
 				\Log::error('Error get Institution from K-Link', array('context' => 'KlinkAdapter::getInstitution', 'param' => $klink_id, 'exception' => $e));
 
-				return null;
+				return $klink_id;
 			}
 		}
 

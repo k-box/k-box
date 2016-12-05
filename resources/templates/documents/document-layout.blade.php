@@ -14,11 +14,11 @@
 			
 			@else 
 				
-				<span class="parent">{{trans('groups.collections.private_title')}}</span>
+				<a href="{{route('documents.projects.index')}}" class="parent">{{trans('groups.collections.private_title')}}</a>
 			
 			@endif
-		
-		@else
+
+		@elseif($context!=='projectspage')
 		
 			<a href="{{route('documents.index')}}" class="parent">{{trans('documents.page_title')}}</a>
 		
@@ -181,11 +181,7 @@
 	{{trans('documents.messages.drag_hint')}}
 </div>
 
-@if(isset($info_message) && !is_null($info_message))
-<div class="alert info">
-	{{$info_message}}
-</div>
-@endif
+
 
 	<div class="list {{$list_style_current}}" >
 
@@ -268,7 +264,7 @@
 			var actions = subHeader.find(".actions");
 			var parentNavigation = subHeader.find(".parent-navigation");
 
-			parentNavigation.width(subHeader.width() - actions.width() - 10);
+			parentNavigation.width(subHeader.width() - actions.width() - 50 /*scrollbar width*/);
 		}
 
 	})();
@@ -284,7 +280,8 @@
 				@if(isset($current_visibility)) visibility: '{{$current_visibility}}', @endif
 				search: @if(isset($search_terms)) '{{$search_terms}}' @else '' @endif,
 				@if(isset($facets)) facets: {!!json_encode($facets)!!}, @endif
-				@if(isset($filters)) filters: {!!json_encode($filters)!!} @endif
+				@if(isset($filters)) filters: {!!json_encode($filters)!!}, @endif
+				isSearchRequest: {{ isset($is_search_requested) && $is_search_requested ? 'true' : 'false' }}
 			});
 			Documents.groups.ensureCurrentVisibility();
 		@endif

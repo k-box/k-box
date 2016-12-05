@@ -1,4 +1,4 @@
-define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/star", "sweetalert", "modules/panels", "combokeys", "modules/selection", "modules/minimalbind", "context", "lodash", 'elasticlist', 'language' ], function (_require, _modernizr, $, DMS, Star, _alert, Panels, _combokeys, _Selection, _rivets, _context, _, Elastic, Lang) {
+define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/star", "sweetalert", "modules/panels", "combokeys", "modules/selection", "modules/minimalbind", "context", "lodash", 'language' ], function (_require, _modernizr, $, DMS, Star, _alert, Panels, _combokeys, _Selection, _rivets, _context, _, Lang) {
     
 	console.log('loading documents-page module...');
 
@@ -524,6 +524,29 @@ debugger;
 
 
 
+		openProject: function(evt, vm){
+
+            var link = $(this).find('.link');
+                
+            if(link){
+                DMS.navigate(link.attr('href'), null, true);
+            }
+        },
+        getProjectDetails:function(evt, vm){
+            evt.preventDefault();
+            evt.stopPropagation();
+    
+            if(_Selection.selectionCount() > 1){
+
+                DMS.MessageBox.error('Multiple Selection', 'The details view currently don\'t support multiple selection');
+                return false;
+            }
+
+            var $this = $(this).parents('.item--project');
+
+            module.select.call($this[0], evt, $this[0]);
+            // console.log($this);
+        },
 		select: function(evt, vm){
 
 
@@ -554,25 +577,49 @@ debugger;
             else if(evt.target.nodeName !== 'INPUT') {
 
                 var url_path = id ? id : $this.data('inst')+ '/' + $this.data('doc');
+                var panelUrl = (model && model==='project' ? DMS.Paths.PROJECTS : DMS.Paths.DOCUMENTS) + '/' + url_path;
+
+                // TODO: change URL if we are on projectspage and type==='project'
+                // DMS.Paths.PROJECTS
                 
-                var pnl = Panels.openAjax(selection_id, this, DMS.Paths.DOCUMENTS + '/' + url_path, {}, {
+                var pnl = Panels.openAjax(selection_id, this, panelUrl, {}, {
                     callbacks: {
                         click: _panelClickEventHandler
                     }
                 }).on('dms:panel-loaded', function(panel_evt, panel){
-                    
-                    var clipboard = new Clipboard('.clipboard-btn');
 
-                    clipboard.on('success', function(e) {                        
-                        DMS.MessageBox.success( Lang.trans('actions.clipboard.copied_title'), Lang.trans('actions.clipboard.copied_link_text'));
-                        
-                        e.clearSelection();
-                    });
+                    if(model==='project'){
 
-                    clipboard.on('error', function(e) {
-                        DMS.MessageBox.error(Lang.trans('actions.clipboard.not_copied_title'), Lang.trans('actions.clipboard.not_copied_link_text'));
-                    });
+                        var h = new holmes({
+                            input: '.js-search-user',
+                            find: '.userlist .userlist__user',
+                            placeholder: Lang.trans('projects.labels.search_member_not_found'),
+                            mark: true,
+                            class: {
+                                visible: 'visible',
+                                hidden: 'hidden'
+                            }
+                        });
+
+                        h.start();
+
+                    }
+                    else {
+
                     
+                        var clipboard = new Clipboard('.clipboard-btn');
+
+                        clipboard.on('success', function(e) {                        
+                            DMS.MessageBox.success( Lang.trans('actions.clipboard.copied_title'), Lang.trans('actions.clipboard.copied_link_text'));
+                            
+                            e.clearSelection();
+                        });
+
+                        clipboard.on('error', function(e) {
+                            DMS.MessageBox.error(Lang.trans('actions.clipboard.not_copied_title'), Lang.trans('actions.clipboard.not_copied_link_text'));
+                        });
+                    
+                    }
                 });
                 
                    
@@ -593,7 +640,8 @@ debugger;
 			percentage: 0,
 			isUploading: false,
 			totalFiles: 0,
-			status: "ready"
+			status: "ready",
+            targetGroup: null
 		},
 
 		context: {
@@ -601,6 +649,7 @@ debugger;
             filter: undefined,
 			group: undefined,
             search: undefined,
+            isSearchRequest: false,
             filters: [],
             facets: [],
             maxUploadSize: 202800,
@@ -1580,9 +1629,33 @@ debugger;
 
         var _menu_items = [];
 
+        if(module.context.filter ==='projectspage' && !module.context.isSearchRequest){
+            _menu_items.push(
+            {
+                text: Lang.trans('actions.open'),
+                action: function(e){
+                    e.preventDefault();
+
+
+                    var link = $(this).find('.link');
+                    
+                    if(link){
+                        DMS.navigate(link.attr('href'), null, true);
+                    }
+    
+    
+                }
+            });
+
+            _menu_items.push({
+                divider: true,
+            });
+        }
+
         _menu_items.push(
             {
                 text: Lang.trans('actions.details'),
+                icon: 'icon-action-black icon-action-black-ic_info_outline_black_24dp',
                 action: function(e){
                     e.preventDefault();
     
@@ -1598,7 +1671,8 @@ debugger;
                 }
             });
 
-        if(module.context.filter !== 'trash'){
+        if(module.context.filter !== 'trash' && (module.context.filter !== 'projectspage' || 
+            (module.context.filter ==='projectspage' && module.context.isSearchRequest)) ){
             _menu_items.push({
                 text: Lang.trans('share.share_btn'),
                 action: function(e){
@@ -1621,9 +1695,12 @@ debugger;
             });
         }
 
-        _menu_items.push({
-            divider: true,
-        });
+        if(module.context.filter !=='projectspage' || 
+            (module.context.filter ==='projectspage' && module.context.isSearchRequest)){
+            _menu_items.push({
+                divider: true,
+            });
+        }
 
             if(module.context.filter === 'trash'){
                 _menu_items.push({
@@ -1636,7 +1713,9 @@ debugger;
                     }
                 });
             }
-            else {
+            
+            else if(module.context.filter !=='projectspage' || 
+            (module.context.filter ==='projectspage' && module.context.isSearchRequest)){
 
                 _menu_items.push({
                     text: Lang.trans('actions.edit'),
@@ -1735,13 +1814,13 @@ debugger;
 
                 _dropzone.autoDiscover = false;
                 
-            	var dropzone = new _dropzone('#documents-list', { // Make the whole body a dropzone
+            	var dropzone = new _dropzone( '#documents-list', { // Make the whole body a dropzone
             	    url: DMS.Paths.fullUrl(DMS.Paths.DOCUMENTS), // Set the url
             	    paramName: "document",
                     createImageThumbnails: false,
                     filesizeBase:1024,
             	    previewsContainer: "#previews", // Define the container to display the previews
-            	    clickable: "#upload_trigger", // Define the element that should be used as click trigger to select files.
+            	    clickable: module.context.filter==='projectspage' ? null : "#upload_trigger", // Define the element that should be used as click trigger to select files.
                     // acceptedFiles: 'image/*,application/pdf,application/msword,application/vnd.ms-excel,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.openxmlformats-officedocument.presentationml.presentation,application/vnd.openxmlformats-officedocument.wordprocessingml.document',
 
                     addRemoveLinks:true,
@@ -1771,27 +1850,17 @@ debugger;
                     
                    accept: function(file, done) {
                        
-                    //    DMS.MessageBox.question('Authorize', 'Authorize', 'I Agree to the policy', 'No, I don\'t agree', function(isConfirmed){
-                          
-                    //       DMS.MessageBox.close();
-                          
-                    //       if(isConfirmed){
-                              
-                            if( !file.type && file.size%4096 == 0){
-                                // Firefox way is so different than the others that I don't support it
-                                done( Lang.trans('documents.upload.folders_dragdrop_not_supported'));
-                            }
-                            else {
-                                done();
-                            }
-                        //   } 
-                        //   else {
-                        //       done( "No confirmation");
-                        //   }
-                          
-                    //    });
-                       
-                    
+                        if( !file.type && file.size%4096 == 0){
+                            // Firefox way is so different than the others that I don't support it
+                            done( {error: Lang.trans('documents.upload.folders_dragdrop_not_supported')});
+                        }
+                        else if(this.uploadContext && this.uploadContext==='projectspage' && !this.targetGroup){
+                            done({error: Lang.trans('documents.upload.outside_project_target_area')});
+                        }
+                        else {
+                            done();
+                        }
+
                    },
 
                     error: function(file, message) {
@@ -1818,6 +1887,9 @@ debugger;
                       },
 
             	    init: function () {
+
+                        this.uploadContext = module.context.filter;
+
                             this.on("error", function (file, response, xhr) {
 
                                 console.error("File upload error", file, response, xhr);
@@ -1852,7 +1924,6 @@ debugger;
 
                             this.on('drop', function(evt){
                                 // debugger;
-// console.info('drop called', evt, this);
                                 if(evt.target){
                                     
                                     var target = $(evt.target);
@@ -1862,19 +1933,22 @@ debugger;
                                     // attached the data that I need 
 
                                     if(!targetInfo.groupId){
-
-                                        targetInfo = target.parents('.tree-item-inner').data();
-
+                                        targetInfo = target.parents('.item--project').data() || targetInfo;
                                     }
+                                    if(!targetInfo.groupId){
+                                        targetInfo = target.parents('.tree-item-inner').data() || targetInfo;
+                                    }
+
+                                    console.info(targetInfo);
 
                                     if(targetInfo){
                                         // storing the groupId for later
                                         module.uploads.targetGroup = targetInfo.groupId || null;  
-                                        // this.targetGroup = targetInfo.groupId || null;  
+                                        this.targetGroup = targetInfo.groupId || null;  
                                     }
                                     else {
                                         module.uploads.targetGroup = null;
-                                        // this.targetGroup = null;
+                                        this.targetGroup = null;
                                     }
 
                                 }
@@ -1913,6 +1987,9 @@ debugger;
 
                             this.on("queuecomplete", function(){
 
+                                module.uploads.targetGroup = null;
+                                this.targetGroup = null;
+
                                 if(module.uploads.status === 'error'){
                                 	module.uploads.isUploading = false;
                                 }
@@ -1938,10 +2015,10 @@ debugger;
             	  });
 
             	dropzone.on("sending", function(file, xhr, formData) {
-
+console.info('File sending', file, formData, module.uploads);
                     //file.name //contiene solo il nome del file
                     //file.fullPath //contiene il nome della cartella se disponibile
-
+// console.info(file);
                     var folder = file.fullPath ? file.fullPath.replace(file.name, '').trim() : '';
 
                     formData.append("document_fullpath", file.fullPath);
@@ -1962,8 +2039,6 @@ debugger;
                     if(!file.targetGroup && module.context.filter && module.context.filter === CONTEXT_GROUP ){
 
                         formData.append("group", module.context.group);
-
-
                     }
             	});
 

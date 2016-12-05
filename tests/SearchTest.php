@@ -83,6 +83,7 @@ class SearchTest extends TestCase {
 			// ->visibility('private') // visibility: public or private -> if no visibility is specified defaults to 'private'
 			->on(['0:10', '0:1', '0:15']) // limit the search to specific documents (by id)
 			->in([1,2,3,4,5]) // limit the search to specific collections (by id)
+			->inProject([8,9])
 			// 
 			// ->filters(array(
 			// 	'language' => ['en','ru'],
@@ -100,14 +101,6 @@ class SearchTest extends TestCase {
 
 		$this->assertInstanceOf('Klink\DmsSearch\SearchRequest', $req);
 		
-		// $this->assertEquals('X', $req->term);
-		// 
-		// $this->assertEquals(2, $req->page);
-		// 
-		// $this->assertEquals(12, $req->limit);
-		// 
-		// $this->assertEquals('private', $req->visibility);
-		// 
 		$this->assertNotNull($req->facets);
 		
 		$this->assertEquals(array('documentType','language','institutionId','documentGroups'), $req->facets);
@@ -117,6 +110,10 @@ class SearchTest extends TestCase {
 		$this->assertInstanceOf('Illuminate\Support\Collection', $req->in_documents);
 		
 		$this->assertEquals(5, $req->in_documents->count());
+		
+		$this->assertInstanceOf('Illuminate\Support\Collection', $req->in_projects);
+		
+		$this->assertEquals(2, $req->in_projects->count());
 		
 		$this->assertInstanceOf('Illuminate\Support\Collection', $req->on_collections);
 		
@@ -131,6 +128,10 @@ class SearchTest extends TestCase {
 		$document_groups = array_values(array_filter($facets_built, function($el){
 			return $el->getName() === 'documentGroups';
 		}));
+
+		$project_ids = array_values(array_filter($facets_built, function($el){
+			return $el->getName() === 'projectId';
+		}));
 		
 		
 		$this->assertNotEmpty($local_document_id);
@@ -144,6 +145,12 @@ class SearchTest extends TestCase {
 		$this->assertInstanceOf('\KlinkFacet', $document_groups[0]);
 		
 		$this->assertEquals('0:10,0:1,0:15', $document_groups[0]->getFilter());
+
+		$this->assertNotEmpty($project_ids);
+		
+		$this->assertInstanceOf('\KlinkFacet', $project_ids[0]);
+		
+		$this->assertEquals('8,9', $project_ids[0]->getFilter());
 
 		$this->assertNull($req->explicit_filters);
 		
@@ -162,6 +169,32 @@ class SearchTest extends TestCase {
 		// 3. perform the real search to get the results
 		// 4. return everything that must be returned
 
+		
+	}
+
+	public function testSearchRequestInProjects()
+	{
+		
+		$req = SearchRequest::create()
+			->search('X') // term to search, default *
+			->inProject([8,9]);
+
+		$this->assertInstanceOf('Klink\DmsSearch\SearchRequest', $req);
+		
+		$facets_built = $req->facets_and_filters->build();
+
+		$project_ids = array_values(array_filter($facets_built, function($el){
+			return $el->getName() === 'projectId';
+		}));
+		
+
+		$this->assertNotEmpty($project_ids);
+		
+		$this->assertInstanceOf('\KlinkFacet', $project_ids[0]);
+		
+		$this->assertEquals('8,9', $project_ids[0]->getFilter());
+
+		$this->assertNull($req->explicit_filters);
 		
 	}
 	
@@ -287,6 +320,8 @@ class SearchTest extends TestCase {
 
 
 	public function testSearchAction(){
+
+		//TODO: index a predefined amount of documents to make it deterministic
 		
 		$http_request = Request::createFromBase(
 			Symfony\Component\HttpFoundation\Request::create(
@@ -328,10 +363,10 @@ class SearchTest extends TestCase {
 		for($pg = $res->currentPage() + 1; $pg < $total_pages; $pg++){
 			
 			// var_dump(sprintf('Requesting page %s of %s', $pg, $total_pages));
-			
-			$req->page($pg);
+			$req = $req->page($pg);
 			
 			$res = $search_service->search($req);
+			
 			
 			$this->assertEquals($req->page, $res->currentPage(), 'Next pages - current page');
 			

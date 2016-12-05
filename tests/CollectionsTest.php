@@ -397,7 +397,7 @@ class CollectionsTest extends TestCase {
 			'destination_group' => $grp1->id,
 			'_token' => csrf_token()
 		])->seeJson([
-            'status' => 'ok',
+            'status' => 'partial',
             'message' => trans_choice('documents.bulk.copy_completed_some', 1, ['count' => 1, 'collection' => $grp1->name, 'remaining' => 1]),
         ]);
         

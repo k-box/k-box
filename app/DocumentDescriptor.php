@@ -96,6 +96,14 @@ class DocumentDescriptor extends Model {
     protected $hidden = [ 'last_error' ];
 
     /**
+     * Return the name of the pivot table that handles the relation
+     * document descriptors => groups
+     */
+    public function getDocumentGroupsPivotTable(){
+        return 'document_groups';
+    }
+
+    /**
      * The File that belongs to this document descriptor
      */
     public function file(){
@@ -131,6 +139,30 @@ class DocumentDescriptor extends Model {
     public function owner()
     {
         return $this->belongsTo('KlinkDMS\User', 'owner_id', 'id');
+    }
+
+    /**
+     * Get the Projects that contain this document descriptor
+     *
+     * @return Collection<Project> return a {@see Collection} of {@see Project}
+     */
+    public function projects(){
+
+        $projects = $this->groups()->public()->with('project')->get();
+
+        $projects = $projects->map(function($el){
+
+            if(!$el->project){
+
+                return $el->getAncestorsWhere('parent_id', '=', null)->first()->project;
+
+            }
+
+            return $el->project;
+        });
+
+        return $projects;
+
     }
 
 
@@ -420,13 +452,24 @@ class DocumentDescriptor extends Model {
 
         if(!$need_public && !$this->groups->isEmpty()){
 
+            // the document is in a project only if the root collection
+            // of the project (or one of its children) is attached to the document
+
             $each = $this->groups->map(function($el){
                 return $el->toKlinkGroup();
             });
 
             $descr->setDocumentGroups( array_filter( $each->toArray() ) );
+            
+            $projects = $this->projects()->map(function($el){
+
+                return !is_null($el) && is_a($el, 'KlinkDMS\Project') ? $el->id : null;
+            });
+            
+            $descr->setProjects(array_filter($projects->toArray()));
 
         }
+        
 
         return $descr;
     }
@@ -448,9 +491,6 @@ class DocumentDescriptor extends Model {
             $this->language = $instance->getLanguage();
             if(is_array($instance->getAuthors())){
                 $this->authors = implode(',', $instance->getAuthors());
-            }
-            else {
-                \Log::warning('Klink Document Descriptor merge, authors not an array', ['descriptor' => $instance, 'authors' => var_export($instance->getAuthors(), true)]);
             }
 
         }

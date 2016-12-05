@@ -127,6 +127,22 @@ class UserProfileController extends Controller {
 			$user->save();
 
 		}
+
+		if($request->has(User::OPTION_PERSONAL_IN_PROJECT_FILTERS)){
+
+			$user->setOption(User::OPTION_PERSONAL_IN_PROJECT_FILTERS, filter_var($request->get(User::OPTION_PERSONAL_IN_PROJECT_FILTERS), FILTER_VALIDATE_BOOLEAN));
+
+			$user->save();
+
+		}
+
+		if($request->has(User::OPTION_ITEMS_PER_PAGE)){
+
+			$user->setOptionItemsPerPage($request->get(User::OPTION_ITEMS_PER_PAGE));
+
+			$user->save();
+
+		}
 		
 		if($request->wantsJson()){
 			return new JsonResponse(['status' => 'ok'], 200);

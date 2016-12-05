@@ -7,7 +7,7 @@ return [
 	| K-Link DMS Version (aka Application version)
 	|--------------------------------------------------------------------------
 	 */
-	'version' => '0.12.5',
+	'version' => '0.13.0',
     
     'build' => 'BUILDCODE',
 	
@@ -137,7 +137,7 @@ return [
 	| @var integer
 	*/
 
-	'items_per_page' => getenv('DMS_ITEMS_PER_PAGE') ?: 16,
+	'items_per_page' => getenv('DMS_ITEMS_PER_PAGE') ?: 12,
 
 	/*
 	|--------------------------------------------------------------------------

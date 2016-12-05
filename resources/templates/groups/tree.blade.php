@@ -5,8 +5,11 @@
 	
 	<div class="tree-header">
 	
-		<strong><span class="icon icon-action-black icon-action-black-ic_group_work_black_24dp"></span>{{trans('projects.page_title')}}</strong>
-	
+		@if(flags()->isUnifiedSearchEnabled())
+		<a href="{{ route('documents.projects.index') }}" class="tree-view__header__link @if(\Request::is('*projects')) current @endif"><strong><span class="icon icon-action-black icon-action-black-ic_group_work_black_24dp"></span>{{trans('projects.page_title')}}</strong></a>
+		@else
+		<span class="tree-view__header"><strong><span class="icon icon-action-black icon-action-black-ic_group_work_black_24dp"></span>{{trans('projects.page_title')}}</strong></span>
+		@endif
 	</div>
 
 	<div class="tree-group">
@@ -38,7 +41,7 @@
 	
 		<div class="u-pull-right magic">
 			@if($user_can_edit_personal_groups || $user_can_see_private_groups)
-			<a href="#" rv-on-click="menu.createGroup" data-isprivate="true" title="{{trans('actions.create_collection_btn')}}">
+			<a href="#" rv-on-click="menu.createGroup" class="tree-header__button" data-isprivate="true" title="{{trans('actions.create_collection_btn')}}">
 				<span class="btn-icon icon-content-black icon-content-black-ic_add_circle_outline_black_24dp"></span>
 			</a>
 			@endif 

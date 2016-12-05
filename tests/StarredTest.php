@@ -11,6 +11,8 @@ use Illuminate\Support\Collection;
 
 class StarredTest extends TestCase {
 
+	use DatabaseTransactions;
+
 	public function user_provider(){
 		
 		return array( 

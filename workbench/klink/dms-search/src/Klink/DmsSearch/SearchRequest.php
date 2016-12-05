@@ -3,6 +3,9 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use BadMethodCallException;
+use KlinkFacet;
+use KlinkFacetsBuilder;
+use KlinkVisibilityType;
 
 /**
  * Search Request builder.
@@ -15,7 +18,7 @@ class SearchRequest {
 
 	protected $term = '*';
 	
-	protected $visibility = \KlinkVisibilityType::KLINK_PRIVATE;
+	protected $visibility = KlinkVisibilityType::KLINK_PRIVATE;
 	
 	protected $is_search_request = false;
 	
@@ -36,6 +39,8 @@ class SearchRequest {
 	protected $on_collections = null;
 	
 	protected $in_documents = null;
+	
+	protected $in_projects = null;
 	
 	protected $url = null;
 	protected $query = null;
@@ -81,9 +86,9 @@ class SearchRequest {
 
 			$instance->highlight(intval($request->input('highlight', null), 10));
 			
-			$instance->visibility($request->input('visibility', \KlinkVisibilityType::KLINK_PRIVATE));
+			$instance->visibility($request->input('visibility', KlinkVisibilityType::KLINK_PRIVATE));
 			
-			$available_facet_names = \KlinkFacetsBuilder::allNames();
+			$available_facet_names = KlinkFacetsBuilder::allNames();
 			
 			if($request->has('fs')){
 			
@@ -91,7 +96,6 @@ class SearchRequest {
 			
 			}
 			
-			$instance->setIsSearchRequest($request->has('fs') || $request->input('s'));
 			
 			$filters = array();
 		
@@ -102,6 +106,8 @@ class SearchRequest {
 				}
 				
 			}
+
+			$instance->setIsSearchRequest($request->has('fs') || $request->input('s') || !empty($filters));
 			
 			if(!empty($filters)){
 				$instance->filters($filters);
@@ -232,7 +238,7 @@ class SearchRequest {
 	 * @return SearchRequest
 	 */
 	function visibility($visibility){
-		$this->visibility = \KlinkVisibilityType::fromString($visibility);
+		$this->visibility = KlinkVisibilityType::fromString($visibility);
 		return $this;
 	}
 	
@@ -306,6 +312,26 @@ class SearchRequest {
 		
 		return $this;
 	}
+
+	/**
+	 * In Project: array of project id
+	 *
+	 * Filter the document based on their categorization in a project
+	 * this will have impact on facets and filters
+	 *
+	 * @param array $project_set the project ids to limit the search on
+	 * @return SearchRequest
+	 */
+	function inProject($project_set){
+		
+		if(is_array($project_set)){
+			$project_set = Collection::make($project_set);
+		}
+		
+		$this->in_projects = is_null($this->in_projects) ? $project_set : $this->in_projects->merge($project_set);
+		
+		return $this;
+	}
 	
 	/**
 	 * @return SearchRequest
@@ -329,16 +355,18 @@ class SearchRequest {
 	private function _toFacetsBuilder(){
 		$facets = array();
 
-		$default_facets_names = ['documentType', 'language'];
+		$default_facets_names = [KlinkFacet::DOCUMENT_TYPE, KlinkFacet::LANGUAGE];
 
 		$on_collection_used = false;
+		$in_project_used = false;
 		
 		if($this->visibility=='public'){
-			$default_facets_names[] = 'institutionId';
+			$default_facets_names[] = KlinkFacet::INSTITUTION_ID;
 		}
 		
 		if($this->visibility=='private'){
-			$default_facets_names[] = 'documentGroups';
+			$default_facets_names[] = KlinkFacet::DOCUMENT_GROUPS;
+			$default_facets_names[] = KlinkFacet::PROJECT_ID;
 		}
 		
 		if(!is_null($this->facets)){
@@ -346,16 +374,21 @@ class SearchRequest {
 		}
 		
 		if(!is_null($this->on_collections) && $this->on_collections->count() > 0){
-			$on_collection_used = empty($this->filters['documentGroups']); 
-            $this->filters['documentGroups'] = $on_collection_used ? $this->on_collections->all() : $this->filters['documentGroups'];
+			$on_collection_used = empty($this->filters[KlinkFacet::DOCUMENT_GROUPS]); 
+            $this->filters[KlinkFacet::DOCUMENT_GROUPS] = $on_collection_used ? $this->on_collections->all() : $this->filters[KlinkFacet::DOCUMENT_GROUPS];
 		}
 
-		$fs_builder = \KlinkFacetsBuilder::create();
+		if(!is_null($this->in_projects) && $this->in_projects->count() > 0){
+			$in_project_used = empty($this->filters[KlinkFacet::PROJECT_ID]); 
+            $this->filters[KlinkFacet::PROJECT_ID] = $in_project_used ? $this->in_projects->all() : $this->filters[KlinkFacet::PROJECT_ID];
+		}
+
+		$fs_builder = KlinkFacetsBuilder::create();
 		
 		// $current_filters = null;
 	
 		if(!empty($this->filters)){
-			$fs_names = \KlinkFacetsBuilder::allNames(); //check what we have in the parameters
+			$fs_names = KlinkFacetsBuilder::allNames(); //check what we have in the parameters
 
 			// also parameter validation
 

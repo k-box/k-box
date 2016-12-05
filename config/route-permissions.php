@@ -91,6 +91,15 @@ return array(
 			// 'status' => KlinkDMS\Capability::IMPORT_DOCUMENTS,
 
 		),
+
+		'projects' => array(
+
+			'index' => KlinkDMS\Capability::MANAGE_PROJECT_COLLECTIONS,
+			'show' => KlinkDMS\Capability::MANAGE_PROJECT_COLLECTIONS,
+
+
+
+		),
 	
 	),
 
@@ -125,6 +134,12 @@ return array(
 		'edit' => array('all' => KlinkDMS\Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH),
 		'update' => array('all' => KlinkDMS\Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH),
 		'destroy' => array('all' => KlinkDMS\Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH),
+
+		'avatar' => [
+			'index' => KlinkDMS\Capability::RECEIVE_AND_SEE_SHARE,
+			'store' => array('all' => KlinkDMS\Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH),
+			'destroy' => array('all' => KlinkDMS\Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH),
+		]
 	),
     
     'microsites' => array(

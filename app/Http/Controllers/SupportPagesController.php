@@ -2,6 +2,8 @@
 
 use Carbon\Carbon;
 
+use GuzzleHttp\Client as HttpClient;
+
 class SupportPagesController extends Controller {
 
 	/*
@@ -98,7 +100,7 @@ class SupportPagesController extends Controller {
 
 
 
-
+	// TODO: refactor - geoCodeCity method cannot live in a Controller 
 	private function geoCodeCity($city, $country)
 	{
 		//http://nominatim.openstreetmap.org/search?q=bishkek,kyrgyzstan&format=json
@@ -107,23 +109,18 @@ class SupportPagesController extends Controller {
 
 		$value = \Cache::rememberForever('geocode_' . $slug, function() use($city, $country)
 		{
+			try{
+				$headers = array(
+					'timeout' => 60
+				);
+				
+				$http = new HttpClient($headers);
 
-			$http = new \KlinkHttp();
+				
+				$result = $http->request( 'GET', 'http://nominatim.openstreetmap.org/search?q=' . $city. ',' . $country . '&format=json');
 
-			$headers = array(
-				'timeout' => 60,
-				'httpversion' => '1.1',
-				'compress' => 'true'
-			);
-			
-			$result = $http->get( 'http://nominatim.openstreetmap.org/search?q=' . $city. ',' . $country . '&format=json', $headers );
 
-			if(\KlinkHelpers::is_error($result)){
-				return array('lat' => "42.8766343", 'lon' => "74.6070116");
-			}
-			else {
-
-				$decoded = json_decode( $result['body'] );
+				$decoded = json_decode( $result->getBody() );
 
 				if(!empty($decoded)){
 					$decoded = $decoded[0];
@@ -134,6 +131,12 @@ class SupportPagesController extends Controller {
 					return array('lat' => "42.8766343", 'lon' => "74.6070116");
 				}
 
+				
+			}catch(Exception $ex){
+
+				\Log::error('geoCodeCity error', array('param' => compact('city', 'country'), 'exception' => $ex));
+
+				return array('lat' => "42.8766343", 'lon' => "74.6070116");
 			}
 
 		});

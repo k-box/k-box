@@ -67,6 +67,13 @@ class Group extends Entity implements GroupInterface
         return $this->belongsToMany('KlinkDMS\DocumentDescriptor', 'document_groups', 'group_id', 'document_id');
     }
 
+    /**
+     * Get this group plus all descendants query
+     */
+    public function scopeWithAllDescendants(){
+        return $this->joinClosureBy('descendant', true);
+    }
+
     public function shares()
     {
         return $this->morphMany('KlinkDMS\Shared', 'shareable');

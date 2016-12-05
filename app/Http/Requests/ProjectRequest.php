@@ -20,7 +20,7 @@ class ProjectRequest extends Request {
 			'description' => 'sometimes|string',
 			'users' => 'required|array|exists:users,id',
 			'manager' => 'required|exists:users,id',
-			
+			'avatar' => 'sometimes|required|image|max:200'
 		];
 
 		return $tests;

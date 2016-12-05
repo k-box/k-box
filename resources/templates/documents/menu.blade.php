@@ -1,60 +1,46 @@
 
-<div class="documents-menu">
-	<ul class="documents-navigation">
-		
-		
-		@if($can_see_private)
+<div class="sidemenu">
 
-		<li>
-			<a href="{{route('documents.index')}}/private" class="menu-el @if(\Request::is('*private') || \Request::is('*documents')) current @endif">
-				<span class="menu-icon icon-action-black icon-action-black-ic_account_balance_black_24dp"></span> {{trans('documents.menu.private')}}
-			</a>
-		</li>
+	@if($can_see_private)
 
-		@else 
+		<a href="{{route('documents.index')}}/private" class="sidemenu__item @if(\Request::is('*private') || \Request::is('*documents')) current @endif">
+			<span class="sidemenu__item__icon icon-action-black icon-action-black-ic_account_balance_black_24dp"></span> {{trans('documents.menu.private')}}
+		</a>		
 
-		<li>
-			<a href="{{route('documents.index')}}/personal" class="menu-el @if(\Request::is('*personal') || \Request::is('*documents')) current @endif">
-				<span class="menu-icon icon-action-black icon-action-black-ic_lock_black_24dp"></span> {{trans('documents.menu.personal')}}
-			</a>
-		</li>
+	@else 
 
-		@endif
+		<a href="{{route('documents.index')}}/personal" class="sidemenu__item @if(\Request::is('*personal') || \Request::is('*documents')) current @endif">
+			<span class="sidemenu__item__icon icon-action-black icon-action-black-ic_lock_black_24dp"></span> {{trans('documents.menu.personal')}}
+		</a>
+	
+	@endif
 
-        @if( isset($is_klink_public_enabled) && $is_klink_public_enabled)
-		<li>
-			<a href="{{ route('documents.index') }}/public" class="hint--bottom menu-el @if(\Request::is('*public')) current @endif" data-hint="{{trans('networks.menu_public_hint', ['network' => network_name() ])}}">
-				<span class="menu-icon icon-social-black icon-social-black-ic_public_black_24dp"></span> {{ network_name() }}
-			</a>
-		</li>
-        @endif
-		<li>
-			<a href="{{route('documents.recent')}}" class="hint--bottom menu-el @if(\Request::is('*recent')) current @endif" data-hint="{{trans('documents.menu.recent_hint')}}">
-				<span class="menu-icon icon-action-black icon-action-black-ic_schedule_black_24dp"></span> {{trans('documents.menu.recent')}}
-			</a>
-		</li>
-		<li>
-			<a href="{{route('documents.starred.index')}}" class="hint--bottom menu-el @if(\Request::is('*starred*')) current @endif" data-hint="{{trans('documents.menu.starred_hint')}}">
-				<span class="menu-icon icon-toggle-black icon-toggle-black-ic_star_black_24dp"></span> {{trans('documents.menu.starred')}}
-			</a>
-		</li>
-		<li>
-			<a href="{{route('documents.sharedwithme')}}" data-drop="true" data-drop-action="share" class="menu-el @if(\Request::is('*shared-with-me')) current @endif">
-				<span class="menu-icon icon-social-black icon-social-black-ic_people_black_24dp"></span> {{trans('documents.menu.shared')}}
-			</a>
-		</li>
-		<!-- <li>
-			<a href="{{route('documents.notindexed')}}" class="menu-el @if(\Request::is('*notindexed')) current @endif">
-				<span class="menu-icon icon-action-black icon-action-black-ic_thumb_down_black_24dp"></span> Not indexed
-			</a>
-		</li> -->
-		<li>
-			<a href="{{route('documents.trash')}}" data-drop="true" data-drop-action="del" class="menu-el @if(\Request::is('*trash')) current @endif">
-				<span class="menu-icon icon-action-black icon-action-black-ic_delete_black_24dp"></span> {{trans('documents.menu.trash')}}
-			</a>
-		</li>
+	@if( isset($is_klink_public_enabled) && $is_klink_public_enabled)
+	
+		<a href="{{ route('documents.index') }}/public" class="hint--bottom sidemenu__item @if(\Request::is('*public')) current @endif" data-hint="{{trans('networks.menu_public_hint', ['network' => network_name() ])}}">
+			<span class="sidemenu__item__icon icon-social-black icon-social-black-ic_public_black_24dp"></span> {{ network_name() }}
+		</a>
+	
+	@endif
+	
+	<a href="{{route('documents.recent')}}" class="hint--bottom sidemenu__item @if(\Request::is('*recent*')) current @endif" data-hint="{{trans('documents.menu.recent_hint')}}">
+		<span class="sidemenu__item__icon icon-action-black icon-action-black-ic_schedule_black_24dp"></span> {{trans('documents.menu.recent')}}
+	</a>
 
-	</ul>
+	<a href="{{route('documents.starred.index')}}" class="hint--bottom sidemenu__item @if(\Request::is('*starred*')) current @endif" data-hint="{{trans('documents.menu.starred_hint')}}">
+		<span class="sidemenu__item__icon icon-toggle-black icon-toggle-black-ic_star_black_24dp"></span> {{trans('documents.menu.starred')}}
+	</a>
+
+
+	<a href="{{route('documents.sharedwithme')}}" data-drop="true" data-drop-action="share" class="sidemenu__item @if(\Request::is('*shared-with-me')) current @endif">
+		<span class="sidemenu__item__icon icon-social-black icon-social-black-ic_people_black_24dp"></span> {{trans('documents.menu.shared')}}
+	</a>
+	
+	<a href="{{route('documents.trash')}}" data-drop="true" data-drop-action="del" class="sidemenu__item @if(\Request::is('*trash')) current @endif">
+		<span class="sidemenu__item__icon icon-action-black icon-action-black-ic_delete_black_24dp"></span> {{trans('documents.menu.trash')}}
+	</a>
+
+	<div class="sidemenu__separator"></div>
 
 	@include('groups.tree')
 	

@@ -51,6 +51,8 @@ class DmsReindexCommand extends Command {
 
 		$only_public = $this->option('only-public');
 		
+		$only_private = $this->option('only-private');
+		
 		$force = $this->option('force');
 		
 		$interpret_as_klink_id = $this->option('klink-id');
@@ -148,6 +150,8 @@ class DmsReindexCommand extends Command {
 		$last_modified_on = null;
 
 		$reindexed_documents_count = 0;
+
+		$bar = $this->output->createProgressBar($count_docs);
 		
 		for($i = 0; $i < $count_docs; $i++){
 		
@@ -174,7 +178,7 @@ class DmsReindexCommand extends Command {
 						\KlinkVisibilityType::KLINK_PRIVATE,
 						$force);
 
-					if( $doc->isPublic() ){
+					if( $doc->isPublic() && !$only_private ){
 
 						$this->service->reindexDocument(
 							$doc,
@@ -214,8 +218,12 @@ class DmsReindexCommand extends Command {
 
 			$doc->save();
 
+			$bar->advance();
+
 		}
 
+		$bar->finish();
+		$this->line("");
 		$this->line("<comment>". $reindexed_documents_count ." documents reindexed</comment>.");
 		
 		return 0;
@@ -243,6 +251,7 @@ class DmsReindexCommand extends Command {
 	{
 		return [
 			['only-public', null, InputOption::VALUE_NONE, 'Consider only the documents that have been published on the network and update only the public version.', null],
+			['only-private', null, InputOption::VALUE_NONE, 'Consider only the private documents and do not reindex the public version.', null],
 			['force', 'f', InputOption::VALUE_NONE, 'Force the rebuild of the document and thumbnail URL.', null],
 
 			['klink-id', null, InputOption::VALUE_NONE, 'Interpret the documents argument as local document id', null],

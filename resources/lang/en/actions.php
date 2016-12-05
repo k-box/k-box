@@ -17,6 +17,7 @@ return [
 	'collapse'     => 'Collapse',
 	'expand_all'     => 'Expand All',
 	'collapse_all'     => 'Collapse All',
+	'open' => 'Open',
 
 	'restore' => 'Restore',
 	'disable' => 'Disable',
@@ -141,4 +142,9 @@ return [
 
 	'remove' => 'Remove',
 
+	'sort_by' => [
+		'label' => 'Sort by',
+		'oldest_first' => 'Oldest',
+		'newest_first' => 'Latest',
+	],
 ];

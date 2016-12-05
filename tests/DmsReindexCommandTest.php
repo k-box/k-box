@@ -200,6 +200,7 @@ class DmsReindexCommandTest extends TestCase {
         $take = 3;
 
         $docs = $this->createDocuments( $document_count );
+        $all_docs = $docs->pluck('id')->toArray();
 
         $expected_docs = $docs->splice($skip, $take);
 
@@ -208,6 +209,7 @@ class DmsReindexCommandTest extends TestCase {
         $command = new DmsReindexCommand( app('Klink\DmsDocuments\DocumentsService') );
         
         $res = $this->runArtisanCommand($command, [
+            'documents' => $all_docs, 
             '--skip' => $skip,
             '--take' =>  $take 
         ]);
@@ -240,6 +242,7 @@ class DmsReindexCommandTest extends TestCase {
         $take = 3;
 
         $docs = $this->createDocuments( $document_count );
+        $all_docs = $docs->pluck('id')->toArray();
 
         $expected_docs = $docs->splice($skip, $take);
 
@@ -248,6 +251,7 @@ class DmsReindexCommandTest extends TestCase {
         $command = new DmsReindexCommand( app('Klink\DmsDocuments\DocumentsService') );
         
         $res = $this->runArtisanCommand($command, [
+            'documents' => $all_docs, 
             '--skip' => "" . $skip,
             '--take' =>  "" . $take 
         ]);
@@ -256,7 +260,7 @@ class DmsReindexCommandTest extends TestCase {
             $item = $item->fresh();
 
             $this->assertContains($item->id, $expected_docs_ids);
-            $this->assertEquals($item->status, DocumentDescriptor::STATUS_INDEXED);
+            $this->assertEquals(DocumentDescriptor::STATUS_INDEXED, $item->status);
             // Check if the status attribute has been populated for the expected updated documents
         });
 

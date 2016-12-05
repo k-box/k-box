@@ -50,6 +50,7 @@ return [
         'actions.edit',
         'actions.details',
         'actions.forcedelete_btn_alt',
+        'actions.open',
         
         'actions.dialogs.cancel_btn',
         'actions.dialogs.cancel_btn_alt',

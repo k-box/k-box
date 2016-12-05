@@ -12,15 +12,21 @@ use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\JsonResponse;
 use KlinkDMS\Pagination\LengthAwarePaginator as Paginator;
 use Klink\DmsDocuments\DocumentsService;
+use KlinkDMS\Traits\AvatarUpload;
 
+/**
+ * Controller for the Project Management
+ */
 class ProjectsController extends Controller {
+
+	use AvatarUpload;
 
 	/**
 	 * Create a new controller instance.
 	 *
 	 * @return void
 	 */
-	public function __construct(/*\Klink\DmsAdapter\KlinkAdapter $adapterService, \Klink\DmsDocuments\DocumentsService $documentsService, \Klink\DmsSearch\SearchService $searchService*/)
+	public function __construct()
 	{
 
 		$this->middleware('auth');
@@ -144,9 +150,11 @@ class ProjectsController extends Controller {
 
 			$user = $auth->user();
 			
-			$manager = $request->has('manager') ? User::findOrFail($request->get('manager')) : $user; 
+			$manager = $request->has('manager') ? User::findOrFail($request->get('manager')) : $user;
 
-			$project = \DB::transaction(function() use($manager, $request, $service) {
+			$avatar = $this->avatarStore($request, $manager->id);
+
+			$project = \DB::transaction(function() use($manager, $request, $service, $avatar) {
 				
 				$name = $request->input('name');
 				
@@ -154,9 +162,10 @@ class ProjectsController extends Controller {
 				
 				$newProject = Project::create(array(
 					'user_id' => $manager->id,
-					'name' => $name,
-					'description' => $request->input('description', ''),
-					'collection_id' => $projectcollection->id
+					'name' => e(trim($name)),
+					'description' => e($request->input('description', '')),
+					'collection_id' => $projectcollection->id,
+					'avatar' => $avatar
 					));
 					
 				return $newProject;
@@ -214,14 +223,16 @@ class ProjectsController extends Controller {
 
 			$user = $auth->user();
 			
-			$manager = $request->has('manager') ? User::findOrFail($request->get('manager')) : $user; 
+			$manager = $request->has('manager') ? User::findOrFail($request->get('manager')) : $user;
 
-			$project = \DB::transaction(function() use($manager, $request, $service, $project) {
+			$avatar = $this->avatarStore($request, $project->id);
+
+			$project = \DB::transaction(function() use($manager, $request, $service, $project, $avatar) {
 			
 				if($request->has('name') && $project->name !== $request->input('name')){
 					//rename project and collection
 					
-					$project->name = $request->input('name');
+					$project->name = e(trim($request->input('name')));
 					
 					$projectcollection = $service->updateGroup($manager, $project->collection, array('name' => $project->name));
 					
@@ -230,11 +241,16 @@ class ProjectsController extends Controller {
 				
 				if($request->has('description') && $project->description !== $request->input('description')){
 					
-					$project->description = $request->input('description');
+					$project->description = e($request->input('description'));
 					$project->save();
 				}
 				else if(!$request->has('description') && !empty($project->description)){
 					$project->description = '';
+					$project->save();
+				}
+
+				if(!is_null($avatar)){
+					$project->avatar = $avatar;
 					$project->save();
 				}
 				

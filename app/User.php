@@ -20,6 +20,12 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
   const OPTION_LANGUAGE = "language";
   
   const OPTION_TERMS_ACCEPTED = "terms_accepted";
+  
+  const OPTION_PERSONAL_IN_PROJECT_FILTERS = "show_personal_in_project_filters";
+  
+  const OPTION_ITEMS_PER_PAGE = "items_per_page";
+  
+  const OPTION_RECENT_RANGE = "recent_range";
 
 
   /*
@@ -183,6 +189,49 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
   
   public function optionTermsAccepted(){
     $opt = $this->getOption(self::OPTION_TERMS_ACCEPTED, null);
+
+
+    return  (!is_null($opt)) ? $opt->value : false;
+  }
+
+  /**
+   * Retrieves the number of items to show per page for the pagination
+   */
+  public function optionItemsPerPage(){
+    $opt = $this->getOption(self::OPTION_ITEMS_PER_PAGE, null);
+
+
+    return  (!is_null($opt)) ? $opt->value : config('dms.items_per_page');
+  }
+
+  public function optionRecentRange(){
+    $opt = $this->getOption(self::OPTION_RECENT_RANGE, null);
+
+
+    return  (!is_null($opt)) ? $opt->value : 
+              (flags()->isUnifiedSearchEnabled() ? 'currentweek' : 'currentmonth');
+  }
+
+  /**
+   * Set the number of items to show per page (for the pagination)
+   *
+   * @param int $itemsPerPage the number of items that defines a page
+   */
+  public function setOptionItemsPerPage($itemsPerPage){
+
+    $value = filter_var($itemsPerPage, FILTER_VALIDATE_INT);
+
+    if($value < 1 || $value > 100){
+        throw new \InvalidArgumentException(trans('validation.between.numeric', ['min' => 1, 'max' => 100]));        
+    }
+
+    $opt = $this->setOption(self::OPTION_ITEMS_PER_PAGE, $value);
+
+    return $this;
+  }
+
+  public function optionPersonalInProjectFilters(){
+    $opt = $this->getOption(self::OPTION_PERSONAL_IN_PROJECT_FILTERS, null);
 
 
     return  (!is_null($opt)) ? $opt->value : false;

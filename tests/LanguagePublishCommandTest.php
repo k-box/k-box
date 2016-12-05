@@ -8,6 +8,9 @@ use KlinkDMS\Console\Commands\DmsLanguagePublishCommand;
 
 class LanguagePublishCommandTest extends TestCase
 {
+    
+    use DatabaseTransactions;
+
     /**
      * A basic test example.
      *

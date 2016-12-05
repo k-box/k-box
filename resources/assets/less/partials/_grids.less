@@ -218,9 +218,12 @@
 
 		&.klink-image {
 
-			background-color: @image-color-fallback;
 			background-color: @image-color;
 			
+		}
+
+		&.klink-project {
+			background-color: @project-collection-color;
 		}
 
 		img {
@@ -441,6 +444,10 @@
 		}
 	}
 
+	.item--project .icon {
+		display: none;
+	}
+
 }
 
 .cards {
@@ -634,6 +641,10 @@
 			box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.2);	
 		}
 	}
+
+	.item--project .icon {
+		display: none;
+	}
 }
 
 .details {
@@ -780,6 +791,10 @@
 		}
 
 
+	}
+
+	.item--project:hover .icon {
+		display: inline-block;
 	}
 
 }
@@ -1114,11 +1129,11 @@ ul.blocks {
 
 .tree-view {
 	
-	margin-bottom: 1em;
-	
+	margin: 0 0 1em 0;
+
 	.magic {
-		visibility: hidden;
-		opacity: 0;
+		/*visibility: hidden;*/
+		opacity: 0.4;
 		.transition(opacity 0.2s linear);
 	}
 	
@@ -1135,11 +1150,10 @@ ul.blocks {
 
 	.tree-chevron {
 		float: left;
-//		position: absolute;
+
 		display: inline-block;
 
 		cursor: pointer;
-//		opacity: 0;
 
 		.icon-navigation-black;
 
@@ -1164,9 +1178,6 @@ ul.blocks {
 			visibility: collapse;
 		}
 
-//		&:hover {
-//				background-color: darken(saturate(lighten(@accent-color, 10%), 15%), 20%);
-//			}
 	}
 	
 	
@@ -1182,22 +1193,15 @@ ul.blocks {
   			display: inline-block;
 		}
 		
-		a {
-			display: inline-block;
+		.tree-view__header__link, .tree-view__header {
+			display: block;
 			line-height: 24px;
 			vertical-align: middle;
 			
 			padding:4px;
-			margin-right:3px;
+			/*margin-right:3px;*/
 			
-			
-			
-			&:hover {
-				color: saturate(lighten(@accent-color, 10%), 15%);
-				background-color: #fff;
-			}
-			
-			span {
+			.icon {
 				float: left;
 				.clearfix();
 			}
@@ -1212,15 +1216,18 @@ ul.blocks {
 	
 	.tree-group {
 		
-		margin-top:6px;
+		padding-bottom: @base-padding/2;
 		
 		.title {
 			line-height: 24px;
 			font-weight: 300;
 			color: @black-70;
 		}
-		
-		
+
+	}
+
+	.tree-group--highlighted {
+		background: darken(@background-color, 3%);
 	}
 
 	.tree-item {
@@ -1241,7 +1248,7 @@ ul.blocks {
 			.text-truncate();
 
 			&:hover {
-				background-color: darken(saturate(lighten(@accent-color, 10%), 15%), 20%);
+				background-color: @accent-color;
 			}
 		}
 
@@ -1257,7 +1264,7 @@ ul.blocks {
   			padding: 0 6px;
 
 			&:hover {
-				background-color: darken(saturate(lighten(@accent-color, 10%), 15%), 20%);
+				background-color: @accent-color;
 			}
 		}
 		
@@ -1280,12 +1287,13 @@ ul.blocks {
 		&.current {
 			background-color: #fff;
 
-			& > .tree-link {font-weight: bold;}
+			font-weight: 700;
+
 		}
 
 		&:hover {
 			color: #fff;
-			background-color: saturate(lighten(@accent-color, 10%), 15%);
+			background-color: @accent-color;
 
 			.tree-link {
 				color: #fff;
@@ -1308,7 +1316,7 @@ ul.blocks {
 
 	.tree-childs {
 		.clean-ul;
-		margin-left: @base-padding/3;
+		margin-left: @base-padding/4;
 
 		font-size: 100%;
 
@@ -1321,6 +1329,31 @@ ul.blocks {
 		}
 	}
 }
+
+.tree-view__header__link {
+	transition: all 0.2s ease-in;
+}
+
+.tree-view__header__link:hover {
+	background-color: @accent-color;
+	color: #fff;
+}
+
+.tree-view__header__link.current {
+	background-color: #fff;
+
+	&:hover {
+		background-color: #fff;
+		color: @accent-color;
+	}
+
+}
+
+.tree-header__button {
+	display: inline-block;
+	padding: 6px 10px 6px 0;
+}
+
 
 .newly-created {
 	background: yellow;
@@ -1347,6 +1380,10 @@ ul.blocks {
 	&:last-of-type {
 		border-bottom: 0;
 	}
+}
+
+.userlist__email {
+	margin: 0 12px;
 }
 
 .userlist__checkbox {

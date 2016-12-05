@@ -31,9 +31,11 @@ trait Searchable
           
           $override_response = (!is_null($override) && $override) ? $override($request) : false;
           
-          if(!is_bool($override_response) && !is_a($override_response, 'Illuminate\Support\Collection')  && !is_a($override_response, 'Illuminate\Database\Eloquent\Builder')){
+          if(!is_bool($override_response) && !is_a($override_response, 'Illuminate\Support\Collection')  
+                && !is_a($override_response, 'Illuminate\Database\Eloquent\Builder')
+                && !is_a($override_response, 'Illuminate\Database\Eloquent\Relations\Relation')){
               
-              throw new BadMethodCallException(sprintf('Bad $override callback return value. Expected boolean===false || Eloquent\Builder || Collection, received "%s"', get_class($override_response)));
+              throw new BadMethodCallException(sprintf('Bad $override callback return value. Expected boolean===false || Eloquent\Builder || Collection || Illuminate\Database\Eloquent\Relations\Relation, received "%s (parent: %s)"', get_class($override_response), get_parent_class($override_response)));
               
           }
           
@@ -123,7 +125,7 @@ trait Searchable
             return $service->defaultFacets($request->visibility);
         }
         
-        // $request->limit(1); // TODO: if I set this to 1 or 0 the pagination is totally fucked up
+        // $request->limit(1); // TODO: if I set this to 1 or 0 the pagination is totally fucked up, therefore a deep clone is needed
         
         $ft_response = app('Klink\DmsSearch\SearchService')->search($request);
         

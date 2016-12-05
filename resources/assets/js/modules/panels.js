@@ -195,7 +195,9 @@ define("modules/panels", ["jquery", "DMS", "combokeys", "language"], function ($
 
 		updateContent: function(id, newContent){
 			_opened_panels.html(newContent);
-            _opened_panels.trigger('dms:panel-loaded', [_opened_panels]);
+			if(newContent.indexOf(Lang.trans('panels.loading_message')) === -1){
+            	_opened_panels.trigger('dms:panel-loaded', [_opened_panels]);
+			}
 		},
 
 		openAjax: function(id, vm, url, params, options){

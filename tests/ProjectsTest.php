@@ -6,6 +6,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use KlinkDMS\User;
 use KlinkDMS\File;
+use KlinkDMS\Project;
 use KlinkDMS\Capability;
 use KlinkDMS\Jobs\ImportCommand;
 use Klink\DmsMicrosites\Microsite;
@@ -221,6 +222,47 @@ class ProjectsTest extends TestCase {
         $this->assertEquals($expected_available_users->count(), $available_users->count());
         
     }
+
+
+    public function testProjectIsAccessibleBy(){
+
+        $user = $this->createUser(Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH);
+
+        // manages project1
+        $project1 = $this->createProject(['user_id' => $user->id]);
+        // is added to project2
+        $project2 = $this->createProject();
+        $project2->users()->attach($user->id);
+
+        $project3 = $this->createProject();
+
+        $this->assertTrue(Project::isAccessibleBy($project1, $user), 'project 1 not accessible');
+        $this->assertTrue(Project::isAccessibleBy($project2, $user), 'project 2 not accessible');
+        $this->assertFalse(Project::isAccessibleBy($project3, $user), 'project accessible');
+    }
     
+    public function testProjectDocumentsCount(){
+
+        $user = $this->createUser( Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH );
+        
+        $service = app('Klink\DmsDocuments\DocumentsService');
+
+        $document = $this->createDocument($user);
+        $document2 = $this->createDocument($user);
+        $document3 = $this->createDocument($user);
+
+        $project1 = $this->createProject(['user_id' => $user->id]);
+
+
+        $project1_child1 = $this->createProjectCollection($user, $project1);
+        $project1_child2 = $this->createProjectCollection($user, $project1_child1);
+        
+        $service->addDocumentToGroup($user, $document, $project1_child2);
+        $service->addDocumentToGroup($user, $document2, $project1_child1);
+        $service->addDocumentToGroup($user, $document3, $project1->collection);
+        $document = $document->fresh();
+
+        $this->assertEquals(3, $project1->getDocumentsCount());
+    }
     
 }

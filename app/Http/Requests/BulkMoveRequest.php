@@ -24,7 +24,7 @@ class BulkMoveRequest extends Request {
 		return [
 			'groups' => 'required_without:documents|exists:groups,id',
 			'documents' => 'required_without:groups|exists:document_descriptors,id',
-			'context' => 'sometimes|required|in:public,private,all,group,recent,starred,trash,shared',
+			'context' => 'sometimes|required|in:public,private,all,group,recent,starred,trash,shared,projectspage',
 			// 'current_group' => '',
 			'destination_group' => 'required|exists:groups,id',
 		];

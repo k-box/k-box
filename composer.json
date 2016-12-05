@@ -20,7 +20,7 @@
 		"franzose/closure-table": "~4.0.1",
 		"graham-campbell/markdown": "~6.0",
 		"phpoffice/phpword": "~0.12.0",
-        "klink/adapterboilerplate" : "~2.2.1",
+        "klink/adapterboilerplate" : "3.0.0-RC1",
 		"guzzlehttp/guzzle": "~6.2.0",
 		"doctrine/dbal": "^2.5",
         "league/csv": "^8.0",

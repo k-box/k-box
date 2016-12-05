@@ -28,8 +28,7 @@ search-statistics
 	<p class="time-required">
 
 		<span class="visibility" title="You are seing {{$current_visibility}} documents" >{{ trans('documents.visibility.'. $current_visibility)}}</span>
-
-		{{ trans('widgets.search_statistics.in', ['time' => $search_time, 'unit' => trans_choice('units.msec', $search_time)]) }}
+		
 	</p>
 
 @stop

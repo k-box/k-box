@@ -291,6 +291,10 @@ class DocumentsService {
 
 		$institution = $this->adapter->getInstitution( \Config::get('dms.institutionID') );
 		
+		if(is_null($owner)){
+			$owner = $file->user;
+		}
+
 		if(!is_null($owner->institution_id)){
 			$institution = $owner->institution;
 		}

@@ -57,6 +57,7 @@ elixir(function(mix) {
                 '../js/deps/modernizr.js',
                 '../js/deps/combokeys.js',
                 '../js/deps/contextmenu.js',
+                '../../../node_modules/holmes.js/js/holmes.js',
     			'requirejs/require.js',
     			'../js/dms/init.js',
     		],
@@ -73,12 +74,6 @@ elixir(function(mix) {
                 'dropzone/dist/min/dropzone-amd-module.min.js'
             ],
             elixir.config.jsOutput +'/modules/dropzone.js', //output dir
-            elixir.config.bowerDir //base dir
-        )
-        .scripts([
-                'klink-elastic-list/dist/elasticlist.js'
-            ],
-            elixir.config.jsOutput +'/modules/elasticlist.js', //output dir
             elixir.config.bowerDir //base dir
         )
         .scripts([

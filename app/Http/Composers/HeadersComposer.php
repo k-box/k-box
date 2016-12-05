@@ -67,8 +67,8 @@ class HeadersComposer {
         $show_search = (!$is_logged && \Config::get('dms.are_guest_public_search_enabled') && !starts_with($route_name, 'password') && !str_contains($route_name, 'help') && !starts_with($route_name, 'terms') && !str_contains($route_name, 'contact')) || 
                         ($is_logged && !is_null( $route_name ) && !starts_with($route_name, 'admin') &&  
                        !str_contains($route_name, 'contact') &&
-                       !str_contains($route_name, 'help') && !starts_with($route_name, 'terms') && !str_contains($route_name, 'import') && !str_contains($route_name, 'trash') &&  !str_contains($route_name, 'recent') && 
-                       !str_contains($route_name, 'projects')  && !str_contains($route_name, 'people.index') &&
+                       !str_contains($route_name, 'help') && !starts_with($route_name, 'terms') && !str_contains($route_name, 'import') && !str_contains($route_name, 'trash') && 
+                       !starts_with($route_name, 'projects')  && !str_contains($route_name, 'people.index') &&
                        !str_contains($route_name, 'profile.index') && !str_contains($route_name, 'people.show') && 
                        !starts_with($route_name, 'password') && !starts_with($route_name, 'microsite'));
 

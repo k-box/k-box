@@ -48,9 +48,9 @@ class SearchController extends Controller {
 
 		$req = $this->searchRequestCreate($request);
 		
-		if(!$auth->check() && $req->visibility == \KlinkVisibilityType::KLINK_PRIVATE){
-			$req->visibility( \KlinkVisibilityType::KLINK_PUBLIC );
-		}
+		
+		$req->visibility( \KlinkVisibilityType::KLINK_PUBLIC );
+		
 
 		$grand_total = $this->service->getTotalIndexedDocuments($req->visibility);
 
@@ -84,11 +84,11 @@ class SearchController extends Controller {
 			'search_terms' => $req->term,
 			'results' => $test->items(),
 			'total_results' => $test->total(),
-			'search_time' => 0, //is_null($test) ?: $test->getSearchTime(),
 			'pagination' => $test,
 			'klink_indexed_documents_count' => $grand_total,
 			'current_visibility' => $req->visibility,
 			'filters' => $test->filters(),
+			'filter' => network_name(),
 			'facets' => $result_facets,
 			'only_facets' => false,
 			]);

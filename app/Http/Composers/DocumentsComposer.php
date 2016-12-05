@@ -5,12 +5,15 @@ use KlinkDMS\Capability;
 use KlinkDMS\DocumentDescriptor;
 use KlinkDMS\File;
 use KlinkDMS\Group;
+use KlinkDMS\Project;
 
 use Illuminate\Contracts\View\View;
 
 use Illuminate\Contracts\Auth\Guard as AuthGuard;
 
 use Illuminate\Support\Collection;
+
+use KlinkFacet;
 
 class DocumentsComposer {
 
@@ -348,24 +351,29 @@ class DocumentsComposer {
             array_push($group_instance_descendants, $group_instance->id);
         }
 
+        $context = isset($view['context']) ? $view['context'] : false;
         $facets = isset($view['facets']) ? $view['facets'] : null;
         $filters = isset($view['filters']) ? $view['filters'] : null;
         $current_visibility = isset($view['current_visibility']) ? $view['current_visibility'] : 'private';
         $are_filters_empty = empty($filters);
 
-        
+        $show_personal_collections_in_filters = $auth_user->optionPersonalInProjectFilters();
+        $is_projectspage = $context && $context==='projectspage';
         
         if($current_visibility=='private'){
             $cols = array(              
-                'language' => array('label' => trans('search.facets.language')),
-                'documentType' => array('label' => trans('search.facets.documentType')),
-            );    
+                KlinkFacet::LANGUAGE => array('label' => trans('search.facets.language')),
+                KlinkFacet::DOCUMENT_TYPE => array('label' => trans('search.facets.documentType')),
+            );
+            if(flags()->isUnifiedSearchEnabled()){
+                $cols[KlinkFacet::PROJECT_ID] =array('label' => trans('search.facets.projectId')); 
+            }
         }
         else {
             $cols = array(
-                'institutionId' => array('label' => trans('search.facets.institutionId')),
-                'language' => array('label' => trans('search.facets.language')),
-                'documentType' => array('label' => trans('search.facets.documentType')),
+                KlinkFacet::INSTITUTION_ID => array('label' => trans('search.facets.institutionId')),
+                KlinkFacet::LANGUAGE => array('label' => trans('search.facets.language')),
+                KlinkFacet::DOCUMENT_TYPE => array('label' => trans('search.facets.documentType')),
             );
             
         }
@@ -375,7 +383,7 @@ class DocumentsComposer {
         if(!is_null($facets)){
             
             $group_facets = array_values(array_filter($facets, function($f){
-                return $f->name === 'documentGroups';
+                return $f->name === KlinkFacet::DOCUMENT_GROUPS;
             }));
 
             if(!empty($group_facets)){
@@ -396,9 +404,12 @@ class DocumentsComposer {
 
                             // boxing the collections to descendant of the collection 
                             // currently browsed by the user (if any)
-
-                            if( (is_null($group_instance) && $this->documents->isCollectionAccessible($auth_user, $grp)) || 
-                                (!is_null($group_instance) && in_array($grp_id, $group_instance_descendants)) ){
+                        
+if($is_projectspage && (!$grp->is_private && !$show_personal_collections_in_filters) || !$is_projectspage ){
+                            if( (is_null($group_instance) && 
+                                    $this->documents->isCollectionAccessible($auth_user, $grp)) || 
+                                (!is_null($group_instance) && 
+                                    in_array($grp_id, $group_instance_descendants)) ){
                                 
                                 // considering only really accessible collections
                                 
@@ -415,6 +426,7 @@ class DocumentsComposer {
                                 $group_facet->is_project = !$grp->is_private;
                                 $private[] = $group_facet;
                             }
+}
 
                         }
                     
@@ -426,7 +438,7 @@ class DocumentsComposer {
 
 
                 
-                $cols['documentGroups'] = array(
+                $cols[KlinkFacet::DOCUMENT_GROUPS] = array(
                     'label' => trans('search.facets.documentGroups'), 
                     'items' => $private
                 );
@@ -436,16 +448,25 @@ class DocumentsComposer {
             foreach($facets as $f){
                 if(array_key_exists($f->name, $cols)){
                     
-                    $cols[$f->name]['items'] = array_filter(array_map(function($f_items) use($f, $filters, $are_filters_empty, $adapter) {
+                    $cols[$f->name]['items'] = array_filter(array_map(function($f_items) use($f, $filters, $are_filters_empty, $adapter, $auth_user) {
                         
-                        if( $f->name == 'language' ){
+                        if( $f->name == KlinkFacet::LANGUAGE ){
                             $f_items->label =  trans('languages.' . $f_items->term );
                         }
-                        else if( $f->name == 'documentType' ){
+                        else if( $f->name == KlinkFacet::DOCUMENT_TYPE ){
                             $f_items->label =  trans_choice('documents.type.' . $f_items->term, 1 );
                         }
-                        else if( $f->name == 'institution' || $f->name == 'institutionId' ){
+                        else if( $f->name == 'institution' || $f->name == KlinkFacet::INSTITUTION_ID ){
                             $f_items->label =  $adapter->getInstitutionName($f_items->term);
+                        }
+                        else if( $f->name == KlinkFacet::PROJECT_ID ){
+
+                            $prj = Project::find($f_items->term);
+
+                            if(!is_null($prj) && Project::isAccessibleBy($prj, $auth_user)){
+
+                                $f_items->label = $prj->name;
+                            }
                         }
                         else {
                             $lang_group = $f_items->term;
@@ -472,7 +493,11 @@ class DocumentsComposer {
                             $f_items->collapsed = $f_items->count == 0;
                         }
 
-                        if($f->name==='documentGroups' && !property_exists($f_items, 'label')){
+                        if($f->name===KlinkFacet::DOCUMENT_GROUPS && !property_exists($f_items, 'label')){
+                            return false;
+                        }
+                        
+                        if($f->name===KlinkFacet::PROJECT_ID && !property_exists($f_items, 'label')){
                             return false;
                         }
 

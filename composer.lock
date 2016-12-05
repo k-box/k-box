@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "47dcfca355c954c925069fbe2931666a",
-    "content-hash": "290bddb9069f9b4ac645cdceb23182bb",
+    "hash": "48bd14db41f0eb163d54a65cd995a6ff",
+    "content-hash": "5394df19d9482c5b19c1adeecf2bb4ca",
     "packages": [
         {
             "name": "barryvdh/laravel-async-queue",
@@ -1164,17 +1164,17 @@
         },
         {
             "name": "klink/adapterboilerplate",
-            "version": "2.2.1",
+            "version": "3.0.0-RC1",
             "source": {
                 "type": "git",
                 "url": "https://git.klink.asia/kadapters/adapterboilerplate.git",
-                "reference": "c70df64746b68d9a835150acffdfffb06aaf6fb2"
+                "reference": "eb584937f37a4c6774ed711a0fbdc610a1e17c9d"
             },
             "dist": {
                 "type": "tar",
-                "url": "https://build.klink.asia/composer//dist/klink-adapterboilerplate-2.2.1-9bb4c7.tar",
-                "reference": "c70df64746b68d9a835150acffdfffb06aaf6fb2",
-                "shasum": "3c40d48134ac0ad2a5d738cdc32d9b9ee41bfc89"
+                "url": "https://build.klink.asia/composer//dist/klink-adapterboilerplate-3.0.0-RC1-f03f60.tar",
+                "reference": "eb584937f37a4c6774ed711a0fbdc610a1e17c9d",
+                "shasum": "baa6f1f0771b135a06bc30b2c7a8be2acdfd9f03"
             },
             "require": {
                 "ext-curl": "*",
@@ -1205,6 +1205,10 @@
                 {
                     "name": "Alessio Vertemati",
                     "email": "alessio@oneofftech.xyz"
+                },
+                {
+                    "name": "Emanuele Panzeri",
+                    "email": "emanuele.panzeri@gmail.com"
                 }
             ],
             "description": "The Library for interacting with the K-Link Core",
@@ -1214,7 +1218,7 @@
                 "wiki": "https://git.klink.asia/kadapters/adapterboilerplate/wikis/home",
                 "source": "https://git.klink.asia/kadapters/adapterboilerplate"
             },
-            "time": "2016-09-13 00:00:00"
+            "time": "2016-10-27 00:00:00"
         },
         {
             "name": "laravel/framework",
@@ -4531,7 +4535,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "klink/adapterboilerplate": 5
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

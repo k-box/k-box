@@ -25,6 +25,7 @@ cache:
     - cd ${DOCKER_LOCATION}
     - docker-compose -f klink-services.yml -p ${INSTANCE_PREFIX} build dmsproject
     - docker-compose -f docker-compose-kbox.yml -p ${INSTANCE_PREFIX} stop && docker-compose -f docker-compose-kbox.yml -p ${INSTANCE_PREFIX} rm -v -f && docker-compose -f docker-compose-kbox.yml -p ${INSTANCE_PREFIX} up -d frontend
+#    - docker exec ${INSTANCE_PREFIX}_dmsphp_1 sh -c "cd /var/www/dms && php artisan dms:flags --enable unifiedsearch"
 
 .build_and_tag: &build_and_tag
 # build and execute a docker image, use variables 

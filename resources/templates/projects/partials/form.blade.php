@@ -23,6 +23,34 @@
         @endif
         <textarea name="description">{{old('description', isset($project) ? $project->description : '')}}</textarea>
 
+        @if(flags()->isUnifiedSearchEnabled())
+            <div class="project-avatar-container row">
+                <label>{{trans('projects.labels.avatar')}}</label>
+            
+                <div class="columns project-avatar">
+                    @if(isset($project) && $project->avatar)
+
+                        <img class="project-avatar-image js-avatar-image" src="{{ route('projects.avatar.index', ['id' => $project->id]) }}" />
+                    @else
+
+                        <div class="project-avatar-placeholder"></div>
+
+                    @endif
+                </div>
+                <div class="ten columns">
+                    @if( $errors->has('avatar') )
+                        <span class="field-error">{{ implode(",", $errors->get('avatar'))  }}</span>
+                    @endif
+                    <input name="avatar" class="js-project-avatar-input" id="avatar" type="file">
+                    <br/><span class="description">{{trans('projects.labels.avatar_description')}}</span>
+
+                    @if(isset($project) && $project->avatar)
+                    <br/> <button class="button danger js-remove-avatar" data-id="{{ $project->id }}">{{ trans('projects.labels.avatar_remove_btn') }}</button>
+                    @endif
+                </div>
+            </div>
+        @endif
+        
 
         @if(isset($create))
         <div id="add-members">
@@ -90,6 +118,44 @@
         })
 
         @endif
+
+
+        $(".js-remove-avatar").on('click', function(evt){
+            evt.preventDefault();
+            evt.stopPropagation();
+
+            var $this = $(this); 
+            var id = $this.data('id');
+
+            DMS.MessageBox.question('{{ trans('projects.labels.avatar_remove_btn') }}', '{{ trans('projects.labels.avatar_remove_confirmation') }}', '{{ trans('actions.dialogs.yes_btn') }}', '{{ trans('actions.dialogs.no_btn') }}', function(choice){
+
+                if(choice){
+
+                    DMS.Services.ProjectAvatar.remove(id, function(){
+
+                        $this.hide();
+                        DMS.MessageBox.close();
+                        $('.js-avatar-image').hide();
+
+                    }, function(obj, err, errText){
+
+                        if(obj.responseJSON && obj.responseJSON.status === 'error'){
+                            DMS.MessageBox.error('{{ trans('projects.labels.avatar_remove_btn') }}', obj.responseJSON.message);
+                        }
+                        else if(obj.responseJSON && obj.responseJSON.error){
+                            DMS.MessageBox.error('{{ trans('projects.labels.avatar_remove_btn') }}', obj.responseJSON.error);
+                        }
+                        else {
+                            DMS.MessageBox.error('{{ trans('projects.labels.avatar_remove_btn') }}', '{{ trans('projects.labels.avatar_remove_error_generic') }}');
+                        }
+
+                    });
+                }
+                else {
+                    DMS.MessageBox.close();
+                }
+            });
+        });
 
     });
 </script>

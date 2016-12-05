@@ -69,7 +69,14 @@ class FileAlreadyExistsExceptionTest extends TestCase {
 	{
 
         $user = $this->createAdminUser();
-        $doc = $this->createDocument($user, 'public');
+
+        $doc = factory('KlinkDMS\DocumentDescriptor')->create([
+            'owner_id' => null,
+            'file_id' => null,
+            'hash' => 'hash',
+            'is_public' => true,
+            'visibility' => 'public',
+        ]);
 
         $ex = new FileAlreadyExistsException('A file name', $doc);
 

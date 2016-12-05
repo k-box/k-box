@@ -9,7 +9,6 @@
     "dropzone": "~4.0.1",
     "d3": "3.4.13",
     "jquery.serializeJSON": "~2.5.0",
-    "klink-elastic-list": "http://temp.klink.dyndns.ws/builds/klink-elastic-list-v0.1.1.tar.gz",
     "klink-map": "http://temp.klink.dyndns.ws/builds/klink-map-v0.1.1.tar.gz",
     "html5shiv": "~3.7.2",
     "object.observe": "~0.2.4",

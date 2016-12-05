@@ -236,6 +236,8 @@ window.DMS = (function(_$, _nprogress, _rivets, _alert){
 			SEARCH: 'search',
 			IMPORT: 'documents/import',
 			DOCUMENTS: 'documents',
+			PROJECTS: 'documents/projects',
+			PROJECTS_API: 'projects',
 			UPLOAD_FALLBACK: 'documents/create',
 			GROUPS: 'documents/groups',
 			GROUPS_CREATE: 'documents/groups/create',
@@ -635,6 +637,13 @@ window.DMS = (function(_$, _nprogress, _rivets, _alert){
 						callback();
 					});
 				}
+			},
+			ProjectAvatar: {
+				remove: function(id, success, error){
+					console.log('Calling ProjectAvatar.remove');
+
+					module.Ajax.del(module.Paths.PROJECTS_API + '/' + id + "/avatar", success, error);
+				},
 			}
 
 

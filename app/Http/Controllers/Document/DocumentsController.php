@@ -7,6 +7,7 @@ use KlinkDMS\Shared;
 use KlinkDMS\Group;
 use KlinkDMS\Capability;
 use KlinkDMS\Project;
+use KlinkDMS\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Contracts\Auth\Guard as AuthGuard;
 use KlinkDMS\Http\Requests\DocumentAddRequest;
@@ -155,76 +156,188 @@ class DocumentsController extends Controller {
             ]);
 	}
 	
-	public function recent(AuthGuard $auth, \Request $request)
+	public function recent(AuthGuard $auth, Request $request, $range = 'currentweek')
 	{
-		
 		$base_now = Carbon::now();
-		
+		$today = Carbon::today();
+		$yesterday = Carbon::yesterday();
+		$init_of_month = $base_now->copy()->startOfMonth();
+		$init_of_month_diff = $base_now->copy()->startOfMonth()->diffInDays($today);
+		$start_of_week = $today->copy()->previous(Carbon::MONDAY);
+		$last_7_days = $base_now->copy()->subDays(7);
+		$last_30_days = $today->copy()->subMonth();
+
 		$user = $auth->user();
 		
 		$user_is_dms_manager = $user->isDMSManager(); 
 		
-		$date_limit = $base_now->copy()->subWeeks( config('dms.recent.time_limit') );
+		$items_per_page = $user->optionItemsPerPage();
+
+		$requested_items_per_page = $request->input('n', $items_per_page);
 		
-		$limit = \Config::get('dms.items_per_page');
-		$page = $request::input('page', 1);
+		$order = $request->input('o', 'd') === 'a' ? 'ASC' : 'DESC';
+
+		try{
+
+			if($items_per_page !== $requested_items_per_page){
+				$user->setOptionItemsPerPage($requested_items_per_page);
+				$items_per_page = $requested_items_per_page;
+			}
+
+		} catch(\Exception $limit_ex){ }
+
+		// future proof for when this option will be saved in the user profile
+		$selected_range = $user->optionRecentRange();
+
+		if($selected_range !== $range && flags()->isUnifiedSearchEnabled()){
+			$selected_range = $range;
+			$user->setOption(User::OPTION_RECENT_RANGE, $range);
+		}
+
+		$req = $this->searchRequestCreate($request);
 		
 		
 		// Last Private Documents
 		
-		$doc_activities = DocumentDescriptor::local()->private();
+		$documents_query = DocumentDescriptor::local()->private()->take( config('dms.recent.limit') );
 		
 		if(!$user_is_dms_manager){
-			$doc_activities = $doc_activities->ofUser($user->id);
+			$documents_query = $documents_query->ofUser($user->id);
 		}
 		
-		$documents_query = $doc_activities->where('updated_at', '>=', $date_limit)->orderBy('updated_at', 'DESC')->get(['id'])->fetch('id')->toArray();
+		// last shared documents from other users
+		$shared_query = Shared::sharedWithMe($user)->take( config('dms.recent.limit') );
+
+		// documents that have been updated in a project that the user has access to
+		$all_projects_with_documents_query = $user->projects()->orWhere('projects.user_id', $user->id)->with('collection.documents');
+
+		$shared_table = with(new Shared)->getTable();
+		$descriptor_table = with(new DocumentDescriptor)->getTable();
+		$shared_updated_at_field = $shared_table . '.updated_at'; 
+
+		// limit all queries to the maximum number of documents take( config('dms.recent.limit') )
+
+		if($selected_range === 'today'){
+			
+			$documents_query = $documents_query->where('updated_at', '>=', $today);
+
+			$shared_query = $shared_query->where($shared_updated_at_field, '>=', $today);
+
+			$all_projects_with_documents_query = $all_projects_with_documents_query->whereHas('collection.documents', function ($query) use($today, $order) {
+						$query->where('document_descriptors.updated_at', '>=', $today)
+							  ->orderBy('updated_at', $order);
+				   });
+			
+		}
+		else if($selected_range === 'yesterday'){
+
+			$documents_query = $documents_query->where('updated_at', '>=', $yesterday);
+
+			$shared_query = $shared_query->where($shared_updated_at_field, '>=', $yesterday);
+
+			$all_projects_with_documents_query = $all_projects_with_documents_query->whereHas('collection.documents', function ($query) use($yesterday, $order) {
+						$query->where('document_descriptors.updated_at', '>=', $yesterday)
+							  ->orderBy('updated_at', $order);
+				   });
+
+		}
+		else if($selected_range === 'currentweek'){
+
+			$documents_query = $documents_query->where('updated_at', '>=', $last_7_days);
+
+			$shared_query = $shared_query->where($shared_updated_at_field, '>=', $last_7_days);
+
+			$all_projects_with_documents_query = $all_projects_with_documents_query->whereHas('collection.documents', function ($query) use($last_7_days, $order) {
+						$query->where('document_descriptors.updated_at', '>=', $last_7_days)
+							  ->orderBy('updated_at', $order);
+				   });
+
+		}
+		else if($selected_range === 'currentmonth'){
+
+			$documents_query = $documents_query->where('updated_at', '>=', $last_30_days);
+
+			$shared_query = $shared_query->where($shared_updated_at_field, '>=', $last_30_days);
+			
+			$all_projects_with_documents_query = $all_projects_with_documents_query->whereHas('collection.documents', function ($query) use($last_30_days, $order) {
+						$query->where('document_descriptors.updated_at', '>=', $last_30_days)
+							  ->orderBy('updated_at', $order);
+				   });
+		}
+
+		$documents_query = $documents_query->orderBy('updated_at', $order)->get(['id', 'local_document_id', 'updated_at']); 
+		// $documents_query = $documents_query->orderBy('updated_at', $order)->get(['id', 'local_document_id', 'updated_at']);
 		
-		// Last Starred
-		
-		$starred_query = $user->starred()->where('updated_at', '>=', $date_limit)->orderBy('updated_at', 'DESC')->get(['document_id'])->fetch('document_id')->toArray(); //->with('document')
-		
-		
-		// Last Shared docs
-		
-		$shared_query = Shared::by($user)->where('updated_at', '>=', $date_limit)->orderBy('updated_at', 'DESC')->where('shareable_type', '=', 'KlinkDMS\DocumentDescriptor')->get(['shareable_id'])->fetch('shareable_id')->toArray(); //->with('shareable')
-		
-		// let's make them together'
-		
-		$all_ids = array_unique(array_merge($documents_query, $starred_query, $shared_query));
-		
-		$list_of_doc_ids = Collection::make($all_ids)->take( config('dms.recent.limit') );
+		$shared_query = $shared_query->orderBy('updated_at', $order)->
+				where('shareable_type', '=', 'KlinkDMS\DocumentDescriptor')
+				->join('document_descriptors', 'shareable_id', '=', 'document_descriptors.id')
+				->get([$descriptor_table . '.id', // this for having the descriptor ID in the id field  
+					   $shared_updated_at_field,
+					   $descriptor_table . '.local_document_id']);
+
+		// let's make them together
+		$list_of_docs = $documents_query->merge($shared_query);
+
+		if(!$user_is_dms_manager && flags()->isUnifiedSearchEnabled()){
+			// add the projects only if is not a DMS admin, otherwise only duplicates will be added
+			$all_projects_with_documents = $all_projects_with_documents_query->get()->map(function($e){
+
+				return $e->collection->documents;
+			})->collapse()->map(function($e){
+
+				$internal = new DocumentDescriptor([
+					'id' => $e->id, 
+					'local_document_id' => $e->local_document_id, 
+					'updated_at' => $e->updated_at, 
+				]);
+				$internal->id = $e->id;
+
+				return $internal;
+			}); 
+			
+			$list_of_docs = $list_of_docs->merge($all_projects_with_documents);
+			
+		}
+
+		// sort all the ids, remove duplicates and take the maximum amount 
+		$list_of_docs = $list_of_docs->unique(function($u){
+			return $u->id;
+		});
+		if($list_of_docs->count() > config('dms.recent.limit')){
+			
+			$list_of_docs = $list_of_docs->take( config('dms.recent.limit') )
+				->sort(function($el){
+					return $el->updated_at->timestamp;
+				});
+			
+		}
+
 		
 		// get the id of the last (bla bla bla) and group them
 		
-		$all_query = DocumentDescriptor::whereIn('id', $list_of_doc_ids->all());
+		$req->visibility('private');
+        
+		$results = $this->search($req, function($_request) use($user, $list_of_docs, $order) {
 
-		
-		$all_query = $all_query->orderBy('updated_at', 'DESC');
-		
-		$total = $all_query->count();
-		
-		$documents = $all_query->forPage($page, $limit)->get();
-		
-		$pagination = new Paginator($documents, 
-			$total, 
-			$limit, $page, [
-            	'path'  => $request::url(),
-            	'query' => $request::query(),
-        	]);
-		
-		
-		$today = Carbon::today();
-		
-		
-		$init_of_month = $base_now->startOfMonth();
-		
-		$init_of_month_diff = $base_now->startOfMonth()->diffInDays($today);
-		
-		$start_of_week = $today->previous(Carbon::MONDAY);
+			
+			if($_request->isPageRequested() && !$_request->isSearchRequested()){
+				
+				$all_query = DocumentDescriptor::whereIn('id', $list_of_docs->fetch('id')->all());
+				
+				return $all_query->orderBy('updated_at', $order); //ASC or DESC
+			}
+			
+			$_request->in($list_of_docs->fetch('local_document_id')->all());
+			
+			return false; // force to execute a search on the core instead on the database
+		}, function($res_item){
+            $local = DocumentDescriptor::where('local_document_id', $res_item->getLocalDocumentID())->first();
+			return !is_null( $local ) ? $local : $res_item;
+		});
 		
 		
-		$grouped = $documents->groupBy(function($date) use($start_of_week, $init_of_month, $init_of_month_diff) {
+		
+		$grouped = $results->getCollection()->groupBy(function($date) use($start_of_week, $init_of_month, $init_of_month_diff) {
 			
 			if($date->updated_at->isToday()){
 				$group = trans('units.today');
@@ -247,12 +360,18 @@ class DocumentsController extends Controller {
 	    });
 
 		return view('documents.recent', [
-			'search_terms' => '',
-			'pagination' => $pagination,
+			'search_terms' => $req->term,
+			'is_search_requested' => $req->isSearchRequested(),
+			'search_replica_parameters' => $request->only('s'),
+			'pagination' => $results,
+			'range' => $selected_range,
+			'order' => $order,
 			'info_message' => $user_is_dms_manager ? trans('documents.messages.recent_hint_dms_manager') : null,
 			'list_style_current' => $user->optionListStyle(),
 			'pagetitle' => trans('documents.menu.recent') .' ' . trans('documents.page_title'), 
-			'documents' => $grouped, 'groupings' => array_keys($grouped->toArray()), /*'collections' => $groups,*/ 'context' => 'recent', 
+			'documents' => $grouped, 
+			'groupings' => array_keys($grouped->toArray()), 
+			'context' => 'recent', 
 			'filter' => trans('documents.menu.recent')]);
 	}
 
@@ -269,7 +388,7 @@ class DocumentsController extends Controller {
 			'documents' => $all,
 			'context' => 'trash', 
 			'filter' => trans('documents.menu.trash'), 
-			'empty_message' => 'Nothing is in trash'
+			'empty_message' => trans('documents.trash.empty_trash')
 		]);
 	}
 

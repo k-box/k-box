@@ -3,6 +3,8 @@
 use Laracasts\TestDummy\Factory;
 use KlinkDMS\User;
 use KlinkDMS\Capability;
+use KlinkDMS\Project;
+use KlinkDMS\Group;
 use Illuminate\Support\Facades\Artisan;
 
 class TestCase extends Illuminate\Foundation\Testing\TestCase {
@@ -18,6 +20,11 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
 		parent::setUp();
 
         $this->resetEvents();
+
+        ini_set('memory_limit', '-1'); // big file, heavy strings, 128M of RAM are not enough
+        ini_set('error_reporting', E_ALL); // or error_reporting(E_ALL);
+        ini_set('display_errors', '1');
+        ini_set('display_startup_errors', '1');
 
 		// $artisan->call('migrate',array('-n'=>true));
 
@@ -56,8 +63,6 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
         
         if( Capability::all()->isEmpty() ){
             $this->seedDatabase();
-            
-            var_dump( 'Database seeding completed' );
         }
         
         $admin_user = factory(\KlinkDMS\User::class)->create();
@@ -71,8 +76,6 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
         
         if( Capability::all()->isEmpty() ){
             $this->seedDatabase();
-            
-            var_dump( 'Database seeding completed' );
         }
 		
 		$user = factory(\KlinkDMS\User::class)->create( $user_params );
@@ -114,9 +117,11 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
         ]);
         
         $doc = factory('KlinkDMS\DocumentDescriptor')->create([
+            'institution_id' => $user->institution_id,
             'owner_id' => $user->id,
             'file_id' => $file->id,
             'hash' => $file->hash,
+            'language' => 'en',
             'is_public' => $visibility === 'private' ? false : true
         ]);
 
@@ -128,7 +133,9 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
 
         $service = app('Klink\DmsDocuments\DocumentsService');
 
-        $group = $service->createGroup($user, 'Collection of user ' . $user->id, null, null, $is_personal);
+        $faker = app('Faker\Generator');
+
+        $group = $service->createGroup($user, $faker->name . $user->id, null, null, $is_personal);
 
         if($childs > 0){
 
@@ -139,6 +146,30 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
         }
 
         return $group;
+
+    }
+
+    protected function createProject($params = []){
+        
+        return factory('KlinkDMS\Project')->create($params);
+
+    }
+
+    /**
+     * Create a project collection under a project collection or a project
+     * @param Project|Group $parent
+     */
+    protected function createProjectCollection(User $user, $parent){
+
+        $group = is_a($parent, 'KlinkDMS\Project') ? $parent->collection : $parent;
+
+        $service = app('Klink\DmsDocuments\DocumentsService');
+
+        $faker = app('Faker\Generator');
+
+        $project_group = $service->createGroup($user, $faker->name . $user->id, null, $group, false);
+
+        return $project_group;
 
     }
     

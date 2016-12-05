@@ -87,10 +87,11 @@ Route::resource('administration/settings', 'Administration\SettingsAdministratio
 
 Route::resource('documents/groups', 'Document\GroupsController');
 
-Route::get('documents/recent', [ 
+Route::get('documents/recent/{range?}', [ 
         'uses' => 'Document\DocumentsController@recent',
         'as' => 'documents.recent',
-    ]);
+    ])->where(['range' => 'today|yesterday|currentweek|currentmonth']);
+
 Route::get('documents/trash', [ 
         'uses' => 'Document\DocumentsController@trash',
         'as' => 'documents.trash',
@@ -111,6 +112,9 @@ Route::get('documents/shared-with-me', [
 
 Route::resource('documents/starred', 'Document\StarredDocumentsController', 
 	['only' => ['index', 'show', 'store', 'destroy']]);
+
+Route::resource('documents/projects', 'Projects\ProjectsPageController',
+    ['only' => ['index', 'show']]);
 
 Route::get('documents/{institution}/{local_id}', [ 
         'uses' => 'Document\DocumentsController@showByKlinkId',
@@ -188,6 +192,18 @@ Route::resource('people', 'People\PeopleGroupsController');
     'as' => 'projects.site',
 ])->where(['slug' => '(?!create)[a-z\\-]+', 'language' => '^[a-z]{2}$']); // slug cannot contain 'create' as generates a conflict with projects.create route
 
+Route::post('projects/{id}/avatar',[ 
+    'uses' => 'Projects\ProjectAvatarsController@store',
+    'as' => 'projects.avatar.store',
+]);
+Route::get('projects/{id}/avatar',[ 
+    'uses' => 'Projects\ProjectAvatarsController@index',
+    'as' => 'projects.avatar.index',
+]);
+Route::delete('projects/{id}/avatar',[ 
+    'uses' => 'Projects\ProjectAvatarsController@destroy',
+    'as' => 'projects.avatar.destroy',
+]);
 Route::resource('projects', 'Projects\ProjectsController');
 
 
@@ -258,7 +274,6 @@ Route::get('privacy', ['as' => 'privacy', 'uses' => 'SupportPagesController@priv
 
 Route::get('terms', ['as' => 'terms', 'uses' => 'SupportPagesController@terms']);
 
-// Route::get('help/import', ['as' => 'importhelp', 'uses' => 'SupportPagesController@importhelp']);
 Route::get('help', ['as' => 'help', 'uses' => 'SupportPagesController@help']);
 
 

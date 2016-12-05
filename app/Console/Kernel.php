@@ -30,6 +30,7 @@ class Kernel extends ConsoleKernel {
 		'KlinkDMS\Console\Commands\ImportJobPayloadFetcher',
 		'KlinkDMS\Console\Commands\DocumentsCheckInstitutionCommand',
 		'KlinkDMS\Console\Commands\DocumentsCheckDescriptorCommand',
+		'KlinkDMS\Console\Commands\DmsFlagsCommand',
 	];
 
 	/**
