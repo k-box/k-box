@@ -357,7 +357,7 @@ class DocumentsComposer {
         $current_visibility = isset($view['current_visibility']) ? $view['current_visibility'] : 'private';
         $are_filters_empty = empty($filters);
 
-        $show_personal_collections_in_filters = $auth_user->optionPersonalInProjectFilters();
+        $show_personal_collections_in_filters = !is_null($auth_user) ? $auth_user->optionPersonalInProjectFilters() : false;
         $is_projectspage = $context && $context==='projectspage';
         
         if($current_visibility=='private'){

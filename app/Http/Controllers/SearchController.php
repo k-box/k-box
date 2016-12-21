@@ -5,6 +5,7 @@ use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\Request;
 use KlinkDMS\Traits\Searchable;
 use KlinkDMS\Exceptions\ForbiddenException;
+use KlinkDMS\Option;
 
 class SearchController extends Controller {
 	
@@ -45,6 +46,13 @@ class SearchController extends Controller {
 	 */
 	public function index(Guard $auth, Request $request)
 	{
+
+		$is_klink_public_enabled = !!Option::option(Option::PUBLIC_CORE_ENABLED, false);
+
+		if(!$is_klink_public_enabled)
+		{
+			throw new ForbiddenException('Public search disabled');
+		}
 
 		$req = $this->searchRequestCreate($request);
 		

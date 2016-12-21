@@ -40,18 +40,39 @@ class KlinkApiController extends Controller {
 			\App::abort(404, trans('errors.document_not_found'));
 		}
         
+		$user = $request->user();
        
-        
+		if( !$doc->isPublic() && is_null( $user ) ){
+			return redirect()->guest('/auth/login');
+		}
+		else if( $doc->trashed() ){
+			\App::abort(404, trans('errors.document_not_found'));
+		}
 
+		$collections = $doc->groups;
+		$is_in_collection = false;
+
+		if(!is_null($collections) && !$collections->isEmpty())
+		{
+			$serv = $this->documentService;
+
+			$filtered = $collections->filter(function($c) use($serv, $user)
+			{
+				return $serv->isCollectionAccessible($user, $c); 
+			});
+			
+			$is_in_collection = !$filtered->isEmpty();
+
+		}
+
+		$is_shared = $doc->shares()->sharedWithMe($user)->count() > 0;
+
+		if(!($is_in_collection || $is_shared || $doc->isPublic()))
+		{
+			return view('errors.403', ['reason' => 'ForbiddenException']);
+		}
 
 		if($action==='document'){
-            
-            if( $doc->trashed() ){
-                \App::abort(404, trans('errors.document_not_found'));
-            }
-            else if( !$doc->isPublic() && is_null( $request->user() ) ){
-                return redirect()->guest('/auth/login');
-            }
 
 			return $this->getDocument($request, $doc);
 
@@ -62,7 +83,7 @@ class KlinkApiController extends Controller {
 
 		}
 
-		return response('Forbidden.', 403);
+		return view('errors.403', ['reason' => 'ForbiddenException']);
 	}
 
 

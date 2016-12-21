@@ -1031,12 +1031,12 @@ debugger;
                 console.warn('Move collection ', source, "under", target);
                 
                 if(!source.groupId && !target.groupId){
-                    DMS.MessageBox.error(Lang.trans('groups.move.error_title_generic'), Lang.trans('groups.move.error_not_collection'));
+                    DMS.MessageBox.error(Lang.trans('groups.move.error_title_alt'), Lang.trans('groups.move.error_not_collection'));
                     return false;
                 }
                 
                 if(source.groupId === target.groupId){
-                    DMS.MessageBox.error(Lang.trans('groups.move.error_title_generic'), Lang.trans('groups.move.error_same_collection'));
+                    DMS.MessageBox.error(Lang.trans('groups.move.error_title_alt'), Lang.trans('groups.move.error_same_collection'));
                     return false;
                 }
                 

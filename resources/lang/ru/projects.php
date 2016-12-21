@@ -13,6 +13,8 @@ return [
 	'page_title' => 'Проекты',
 	'page_title_with_name' => 'Проект :name',
 
+	'all_projects' => 'Все проекты',
+
 
 	'new_button' => 'Новый проект',
 	
@@ -40,6 +42,18 @@ return [
 		'cancel' => 'Отменить',
 
 		'users_in_project' => 'Добавленных пользователей (:count)',
+		
+		'managed_by' => 'Управляемый',
+		'created_on' => 'Создан в',
+		'user_count_label' => 'Члены',
+		'user_count' => ':count член|:count члена|:count членов',
+		'documents_count_label' => 'Документы',
+		'documents_count' => ':count документ|:count документа|:count докуметов',
+		'avatar' => 'Аватар проекта',
+		'avatar_description' => 'Максимальный размер файла 200KB. Наилучший вид при 300 x 160 пикселях.',
+		'avatar_remove_btn' => 'Удалить аватар',
+		'avatar_remove_confirmation' => 'Аватар проекта будет удален. Вы уверены?',
+		'avatar_remove_error_generic' => 'Аватар не может быть удален.',
 	),
 
 	'remove_user_hint' => 'Снять пользователя с Проекта',
@@ -67,5 +81,8 @@ return [
 	
 	'project_updated' => 'Проект :name обновлен',
 	
+	'no_projects' => 'В настоящее время нет проектов.',
+	
+	'show_documents' => 'Показывать документы',
 
 ];

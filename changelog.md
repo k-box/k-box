@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.13.1] - 2016-12-21
+
+### Added
+- Russian translation for the Unified Search feature
+
+### Fixed
+- Prevent document download, preview and thumbnail to bew viewable by users 
+  that do not have explicit access to the underlying document.
+- Russian localization of cancel actions in user management and 
+  institution management forms
+- Public Network search box not shown if Network is disabled.
+- Checking user preference on filters when invoked from the public search page
+- Now a proper title is shown when you drag a collection over itself
+
 ## [0.13.0] - 2016-12-05
 
 ### Added

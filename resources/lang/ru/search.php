@@ -31,6 +31,8 @@ return [
 
 	'no_results' => 'Извините, по запросу <strong>:term</strong> в <strong>:collection</strong> не было найдено документов.',
 	'no_results_no_markup' => 'Извините, по запросу :term в :collection не было найдено документов.',
+	'no_results_generic' => 'Нет документов, соответсвуйщих критерию поиска.',
+	'no_results_for_term' => 'Нет документов, соответсвуйщих поиску ":term".',
 
 	'try_message' => 'Попробуйте поискать слова, начинающиеся с :startwithlink',
 
@@ -40,6 +42,8 @@ return [
 		'language' => "Язык",
         'documentType' => "Тип документа",
         'documentGroups' => "Коллекции",
+        'projectId' => 'Проект'
+
 	),
 
 ];

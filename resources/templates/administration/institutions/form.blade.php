@@ -117,5 +117,5 @@
 
     <p>
         
-        <button type="submit">{{$submit_text}}</button> {{trans('actions.or_alt')}} <a href="{{route('administration.institutions.index')}}">Cancel</a>
+        <button type="submit">{{$submit_text}}</button> {{trans('actions.or_alt')}} <a href="{{route('administration.institutions.index')}}">{{trans('actions.cancel')}}</a>
     </p>

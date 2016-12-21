@@ -78,7 +78,7 @@
     
     <p>
         
-        <button type="submit">{{$submit_text}}</button> or <a href="{{route('administration.users.index')}}">Cancel</a>
+        <button type="submit">{{$submit_text}}</button> {{trans('actions.or_alt')}} <a href="{{route('administration.users.index')}}">{{trans('actions.cancel')}}</a>
     </p>
     
     

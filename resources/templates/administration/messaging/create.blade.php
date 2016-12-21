@@ -44,7 +44,7 @@
         
         <p>
         
-            <button type="submit">{{trans('messaging.labels.submit_btn')}}</button> or <a href="{{route('administration.users.index')}}">{{trans('actions.cancel')}}</a>
+            <button type="submit">{{trans('messaging.labels.submit_btn')}}</button> {{trans('actions.or_alt')}} <a href="{{route('administration.users.index')}}">{{trans('actions.cancel')}}</a>
         </p>
 
         

@@ -7,7 +7,7 @@ class HeadersComposer {
     /**
      * ...
      *
-     * @var 
+     * @var \Klink\DmsAdapter\KlinkAdapter
      */
     protected $adapter;
     
@@ -24,10 +24,10 @@ class HeadersComposer {
      * @param  UserRepository  $users
      * @return void
      */
-    public function __construct(/*\Klink\DmsAdapter\KlinkAdapter $adapter*/)
+    public function __construct(\Klink\DmsAdapter\KlinkAdapter $adapter)
     {
         
-        //$this->adapter = $adapter;
+        $this->adapter = $adapter;
     }
 
     /**
@@ -63,8 +63,9 @@ class HeadersComposer {
 
         $route_name = \Route::currentRouteName();
 
+        $is_klink_public_enabled = $this->adapter->isKlinkPublicEnabled();
 
-        $show_search = (!$is_logged && \Config::get('dms.are_guest_public_search_enabled') && !starts_with($route_name, 'password') && !str_contains($route_name, 'help') && !starts_with($route_name, 'terms') && !str_contains($route_name, 'contact')) || 
+        $show_search = (!$is_logged && $is_klink_public_enabled && !starts_with($route_name, 'password') && !str_contains($route_name, 'help') && !starts_with($route_name, 'terms') && !str_contains($route_name, 'contact')) || 
                         ($is_logged && !is_null( $route_name ) && !starts_with($route_name, 'admin') &&  
                        !str_contains($route_name, 'contact') &&
                        !str_contains($route_name, 'help') && !starts_with($route_name, 'terms') && !str_contains($route_name, 'import') && !str_contains($route_name, 'trash') && 
