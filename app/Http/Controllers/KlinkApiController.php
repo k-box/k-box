@@ -41,7 +41,7 @@ class KlinkApiController extends Controller {
 		}
         
 		$user = $request->user();
-       
+
 		if( !$doc->isPublic() && is_null( $user ) ){
 			return redirect()->guest('/auth/login');
 		}
@@ -52,7 +52,7 @@ class KlinkApiController extends Controller {
 		$collections = $doc->groups;
 		$is_in_collection = false;
 
-		if(!is_null($collections) && !$collections->isEmpty())
+		if(!is_null($collections) && !$collections->isEmpty() && !is_null($user))
 		{
 			$serv = $this->documentService;
 
@@ -65,11 +65,13 @@ class KlinkApiController extends Controller {
 
 		}
 
-		$is_shared = $doc->shares()->sharedWithMe($user)->count() > 0;
+		$is_shared = !is_null($user) ? $doc->shares()->sharedWithMe($user)->count() > 0 : false;
 
-		if(!($is_in_collection || $is_shared || $doc->isPublic()))
+		$owner = !is_null($user) ? $doc->owner->id === $user->id || $user->isContentManager() : false;
+
+		if(!($is_in_collection || $is_shared || $doc->isPublic() || $owner ))
 		{
-			return view('errors.403', ['reason' => 'ForbiddenException']);
+			return view('errors.403', ['reason' => 'ForbiddenException: not shared, not in collection, not public or private of the user']);
 		}
 
 		if($action==='document'){

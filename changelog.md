@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.13.2] - 2016-12-22
+
+### Fixed
+
+- Regression in handling un-authenticated users that asks for preview or 
+  download of public documents
+- Regression in authorizing thumbnails and document preview for private
+  documents
+
 ## [0.13.1] - 2016-12-21
 
 ### Added

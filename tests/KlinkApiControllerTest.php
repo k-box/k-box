@@ -94,6 +94,32 @@ class KlinkApiControllerTest extends TestCase {
 		$this->assertViewName('documents.preview');
 		
 	}
+
+	public function testDocumentShowForPublicDocumentWithNoLogin( )
+	{
+
+		$user = $this->createUser( Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH );
+		$user_accessing_the_document = $this->createUser( Capability::$PARTNER );
+
+		$service = app('Klink\DmsDocuments\DocumentsService');
+
+        $document = $this->createDocument($user, 'public');
+
+		$project1 = $this->createProject(['user_id' => $user->id]);
+		$project1->users()->attach($user_accessing_the_document->id);
+
+        $project1_child1 = $this->createProjectCollection($user, $project1);
+        $service->addDocumentToGroup($user, $document, $project1_child1);
+
+
+        
+        $url = route( 'klink_api', ['id' => $document->local_document_id, 'action' => 'document'] ) . '?preview=true';
+        
+        $this->visit( $url );
+
+		$this->assertViewName('documents.preview');
+		
+	}
 	
 	public function testDocumentShowForDocumentNotSharedNorInProject( )
 	{
@@ -102,6 +128,44 @@ class KlinkApiControllerTest extends TestCase {
 		$user_accessing_the_document = $this->createUser( Capability::$PARTNER );
 
         $document = $this->createDocument($user);
+
+        
+        $url = route( 'klink_api', ['id' => $document->local_document_id, 'action' => 'document'] ) . '?preview=true';
+
+		$this->actingAs($user_accessing_the_document);
+        
+        $this->visit( $url );
+
+		$this->assertViewName('errors.403');
+		
+	}
+
+	public function testDocumentShowForPrivateDocumentNotInCollectionOrShared( )
+	{
+
+		$user = $this->createUser( Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH );
+		$user_accessing_the_document = $this->createUser( Capability::$PARTNER );
+
+        $document = $this->createDocument($user, 'private');
+
+        
+        $url = route( 'klink_api', ['id' => $document->local_document_id, 'action' => 'document'] ) . '?preview=true';
+
+		$this->actingAs($user);
+        
+        $this->visit( $url );
+
+		$this->assertViewName('documents.preview');
+		
+	}
+
+	public function testDocumentShowForPrivateDocumentNotInCollectionOrSharedViaOtherUser( )
+	{
+
+		$user = $this->createUser( Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH );
+		$user_accessing_the_document = $this->createUser( Capability::$PARTNER );
+
+        $document = $this->createDocument($user, 'private');
 
         
         $url = route( 'klink_api', ['id' => $document->local_document_id, 'action' => 'document'] ) . '?preview=true';
