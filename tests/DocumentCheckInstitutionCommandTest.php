@@ -62,6 +62,8 @@ class DocumentsCheckInstitutionCommandTest extends TestCase {
     }
     
     public function testDocumentInstitutionCheckFixAndIndexing(){
+
+        $this->withKlinkAdapterFake();
         
         $values = $this->createDocuments(true);
         

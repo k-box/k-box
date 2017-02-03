@@ -5,26 +5,22 @@ use Validator;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 
-class AuthController extends Controller {
-
+/**
+ * Registration & Login Controller
+ *
+ * This controller handles the registration of new users, as well as the
+ * authentication of existing users.
+ */
+class AuthController extends Controller 
+{
 
 	/**
-		redirect to the search page after a simple login
-	*/
+	 * Base redirect after login
+	 */
 	public $redirectPath = '/search';
 
-	/*
-	|--------------------------------------------------------------------------
-	| Registration & Login Controller
-	|--------------------------------------------------------------------------
-	|
-	| This controller handles the registration of new users, as well as the
-	| authentication of existing users. By default, this controller uses
-	| a simple trait to add these behaviors. Why don't you explore it?
-	|
-	*/
-
-	use AuthenticatesAndRegistersUsers {
+	use AuthenticatesAndRegistersUsers 
+	{
 		
 		// I want to be able to set different redirections
 		redirectPath as _redirectPath;
@@ -55,6 +51,7 @@ class AuthController extends Controller {
             'password' => 'required|confirmed|min:6',
         ]);
     }
+
     /**
      * Create a new user instance after a valid registration.
      *
@@ -70,14 +67,16 @@ class AuthController extends Controller {
         ]);
     }
     
-	
-	public function redirectPath(){
+	/**
+	 * Decide to which url redirect the user after login
+	 */
+	public function redirectPath()
+	{
 		
 		$user = $this->auth->user();
 		
 		return $user->homeRoute();
-		
-//		return $this->_redirectPath();
+
 	}
 
 }

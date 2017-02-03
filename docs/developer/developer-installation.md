@@ -86,20 +86,19 @@ Here is the list of tools that will be used for managing the frontend dependenci
 
 For all Windows developers please configure your system with:
 
-- PHP version 5.5 or 5.6 (both Microsoft Web Platform IIS version or WAMP version will work)
+- PHP version 5.6 or 7.0 (both Microsoft Web Platform IIS version or WAMP version will work)
 - make sure you can run `php --version` and other `php [command]` from the Command Prompt or the PowerShell
 - Have MariaDB installed (at now also Mysql 5.6 that comes with WAMP should be fine)
 - Install composer using the Windows Executable Installer
 - Install NodeJS using the Windows Installer
 
-In general git executable is not needed in the global environment of the Command Prompt or the Power Shell given the fact that all the composer package installation are performed with `--prefer-dist` flag.
-
-When performing command line operations make sure to use the correct Command Prompt, for example NodeJS on windows comes with a link that opens a command prompt with the environment configured for running NodeJS commands (so all the commands related to the DMS frontend should be runned there)
-
 ---------
 
 
-To install all the prerequisites execute the following commands (considering Composer and Node's npm command already available, and your current working directory the folder in which the DMS repository has been cloned): 
+To install all the prerequisites execute the following commands (considering Composer and Node's 
+npm command already available, and your current working directory the folder in which the DMS 
+repository has been cloned): 
+
 ```bash
 # let composer download the required packages
 composer install --prefer-dist

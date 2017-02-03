@@ -2,6 +2,9 @@
 
 use Illuminate\Support\ServiceProvider;
 
+use Klink\DmsAdapter\Contracts\KlinkAdapter as KlinkAdapterContract;
+use Klink\DmsAdapter\KlinkAdapter;
+
 class DmsAdapterServiceProvider extends ServiceProvider {
 
 	/**
@@ -26,18 +29,19 @@ class DmsAdapterServiceProvider extends ServiceProvider {
 	}
 
 	/**
-	 * Register the service provider.
+	 * Register the services offered by the provider.
 	 *
 	 * @return void
 	 */
 	public function register()
 	{
-		// require_once __DIR__.'/../../../vendor/autoload.php';
 
 		$this->app->singleton('klinkadapter', function ($app) {
-
-			return new \Klink\DmsAdapter\KlinkAdapter;
+			return new KlinkAdapter;
 		});
+
+		$this->app->bind(KlinkAdapterContract::class, 'klinkadapter');
+
 	}
 
 	/**
@@ -47,7 +51,11 @@ class DmsAdapterServiceProvider extends ServiceProvider {
 	 */
 	public function provides()
 	{
-		return ['\Klink\DmsAdapter\KlinkAdapter'];
+		return [
+			KlinkAdapterContract::class, 
+            KlinkAdapter::class, 
+            'klinkadapter'
+		];
 	}
 
 }

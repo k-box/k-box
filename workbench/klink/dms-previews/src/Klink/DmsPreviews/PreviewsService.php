@@ -38,7 +38,7 @@ class PreviewsService {
 	 *
 	 * @return void
 	 */
-	public function __construct(\Klink\DmsAdapter\KlinkAdapter $adapter)
+	public function __construct(\Klink\DmsAdapter\Contracts\KlinkAdapter $adapter)
 	{
 		$this->adapter = $adapter;
 	}

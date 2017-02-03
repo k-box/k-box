@@ -47,9 +47,9 @@ class Shared extends Model {
 
     /**
      * Get shared by user
-     * @param  [type] $query [description]
-     * @param  [type] $user  [description]
-     * @return [type]        [description]
+     * 
+     * @param  string|User $user the user
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeBy($query, $user)
     {
@@ -62,9 +62,9 @@ class Shared extends Model {
 
     /**
      * Get shared with user
-     * @param  [type] $query [description]
-     * @param  [type] $user  [description]
-     * @return [type]        [description]
+     * 
+     * @param  string|User $user the user
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeSharedWithMe($query, $user)
     {
@@ -105,8 +105,8 @@ class Shared extends Model {
 
     /**
      * Get all the expired sharing
-     * @param  [type] $query [description]
-     * @return [type]        [description]
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeExpired($query)
     {
@@ -115,9 +115,9 @@ class Shared extends Model {
 
     /**
      * Filter from the share token
-     * @param  [type] $query [description]
-     * @param  [type] $token [description]
-     * @return [type]        [description]
+     * 
+     * @param  string $token
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeToken($query, $token)
     {

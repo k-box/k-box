@@ -46,6 +46,11 @@ class File extends Model {
 
     protected $dates = ['deleted_at'];
 
+    /**
+     * The user that uploaded the file.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function user(){
         
         // One to One
@@ -57,6 +62,8 @@ class File extends Model {
      * The DocumentDescriptor that links to this File.
      *
      * Can be null in case of File revision
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function document(){
         
@@ -65,8 +72,9 @@ class File extends Model {
     }
 
     /**
-     * Getting all the versions of the File
-     * @return [type] [description]
+     * Get all the versions of the File
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function revisionOf(){
 
@@ -102,7 +110,7 @@ class File extends Model {
      * Check if the file is a web page and has a remote URI
      */
     public function isRemoteWebPage(){
-        return $this->mime_type === 'text/html' && starts_with($this->original_uri, 'http');
+        return starts_with($this->mime_type, 'text/html') && starts_with($this->original_uri, 'http');
     }
 
 
@@ -117,11 +125,6 @@ class File extends Model {
 
     public function scopeFromHash($query, $hash){
         return $query->where('hash', $hash);
-    }
-
-    public function scopeVersionsOf($value='')
-    {
-        # code...
     }
     
     

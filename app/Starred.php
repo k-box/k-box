@@ -2,13 +2,17 @@
 
 use Illuminate\Database\Eloquent\Model;
 
-class Starred extends Model {
-    /*
-    id: bigIncrements
-    user_id: User
-    document_id: DocumentDescriptor
-    created_at: date
-    */
+/**
+ * Represents a starred {@see DocumentDescriptor}
+ *
+ * Fields:
+ * - id: bigIncrements
+ * - user_id: User
+ * - document_id: DocumentDescriptor
+ * - created_at: date
+ */
+class Starred extends Model
+{
 
     /**
      * The database table used by the model.
@@ -17,45 +21,79 @@ class Starred extends Model {
      */
     protected $table = 'starred';
 
+    /**
+     * The attributes that are mass assignable
+     *
+     * @var array
+     */
     protected $fillable = ['user_id', 'document_id'];
 
-
+    /**
+     * The user that added the star
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
     public function user(){
         
-        // One to One
         return $this->hasOne('User');
 
     }
 
     /**
-     * [documents description]
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany [description]
+     * The {@see DocumentDescriptor} that is starred
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function document()
     {
         return $this->belongsTo('KlinkDMS\DocumentDescriptor', 'document_id');
     }
 
+    /**
+     * Scope the query to contain only stars of a 
+     * specific user
+     * 
+     * @param string|int $user_id the user ID (primary key)
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
     public function scopeOfUser($query, $user_id)
     {
         return $query->where('user_id', $user_id);
     }
 
+    /**
+     * Scope the query to contain only a specific document
+     * 
+     * @param string|int $document_id the document ID (primary key)
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
     public function scopeByDocumentId($query, $document_id)
     {
         return $query->where('document_id', $document_id);
     }
 
-
+    /**
+     * Check if a star exists for a document and a user
+     * 
+     * @param string|int $document_id the document descriptor identifier
+     * @param string|int $user_id the user identifier
+     * @return bool
+     */
     public static function existsByDocumentAndUserId($document_id, $user_id)
     {
         return !is_null(self::ofUser($user_id)->byDocumentId($document_id)->first());
     }
 
+    /**
+     * Get the star by document and user
+     * 
+     * @param string|int $document_id the document descriptor identifier
+     * @param string|int $user_id the user identifier
+     * @return Starred|null
+     */
     public static function getByDocumentAndUserId($document_id, $user_id)
     {
         return self::ofUser($user_id)->byDocumentId($document_id)->first();
     }
-
 
 }

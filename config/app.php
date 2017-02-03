@@ -164,6 +164,8 @@ return [
 		'Klink\DmsDocuments\DmsDocumentsServiceProvider',
 		
 		'Klink\DmsPreviews\DmsPreviewsServiceProvider',
+		
+		'Klink\DmsPreviews\Thumbnails\ThumbnailsServiceProvider',
             
         /**
          * Async Queue

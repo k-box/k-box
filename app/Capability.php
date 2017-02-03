@@ -265,10 +265,10 @@ class Capability extends Model {
 
 
     /**
-     * Retrieve a capability from the associated label key
-     * @param  [type] $query [description]
-     * @param  [type] $key   [description]
-     * @return [type]        [description]
+     * Scope Query. Retrieve a capability from the associated label key
+     *
+     * @param  string $key   The capability key
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeFromKey($query, $key)
     {

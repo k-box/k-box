@@ -6,9 +6,11 @@ use KlinkDMS\Capability;
 use KlinkDMS\Project;
 use KlinkDMS\Group;
 use Illuminate\Support\Facades\Artisan;
+use Klink\DmsAdapter\Traits\MockKlinkAdapter;
 
 class TestCase extends Illuminate\Foundation\Testing\TestCase {
 
+    use MockKlinkAdapter;
 
 	protected $artisan = null;
     
@@ -245,5 +247,5 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
 	    $method->setAccessible(true);
 
 	    return $method->invokeArgs($object, $parameters);
-	}
+	}    
 }

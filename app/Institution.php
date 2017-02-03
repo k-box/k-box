@@ -31,13 +31,6 @@ class Institution extends Model {
 
 
 
-
-    public function scopeFromName($value)
-    {
-        # code...
-    }
-
-
     public function scopeFromKlinkID($query, $klink_id)
     {
         return $query->where('klink_id', $klink_id);
@@ -45,15 +38,19 @@ class Institution extends Model {
 
     /**
      * Get the institution that correspond to the given Klink Institution Identifier
-     * @param  [type] $id [description]
-     * @return [type]     [description]
+     * @param  string $id The K-Link Institution Identifier
+     * @return Institution|null     The Institution or null if cannot be found
      */
     public static function findByKlinkID($id)
     {
         return self::fromKlinkID( $id )->first();
     }
 
-
+    /**
+     * Get the configured institution for this DMS
+     *
+     * @return Institution|null     The Institution or null if cannot be found
+     */
     public static function current(){
         return self::findByKlinkID(\Config::get('dms.institutionID'));
     }

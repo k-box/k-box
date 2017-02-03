@@ -144,7 +144,7 @@ class DocumentDescriptor extends Model {
     /**
      * Get the Projects that contain this document descriptor
      *
-     * @return Collection<Project> return a {@see Collection} of {@see Project}
+     * @return Collection return a {@see Collection} of {@see Project}
      */
     public function projects(){
 
@@ -192,7 +192,7 @@ class DocumentDescriptor extends Model {
 
     /**
      * Select only the DocumentDescriptor that are physically local to the DMS
-     * @return [type] [description]
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeLocal($query)
     {
@@ -205,9 +205,9 @@ class DocumentDescriptor extends Model {
      *
      * The filter will return also the document that has both public and private visibility
      * 
-     * @param  [type] $query      [description]
-     * @param  [type] $visibility [description]
-     * @return [type]             [description]
+     * 
+     * @param  string $visibility The visibility of the document to retrieve. {@see \KlinkVisibilityType}
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeWithVisibility($query, $visibility)
     {
@@ -230,8 +230,8 @@ class DocumentDescriptor extends Model {
 
     /**
      * Select only the documents that has a status of {@see DocumentDescriptor::STATUS_INDEXED}
-     * @param  [type] $query [description]
-     * @return [type]        [description]
+     * 
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeIndexed($query)
     {
@@ -240,8 +240,8 @@ class DocumentDescriptor extends Model {
     
     /**
      * Select the documents that have the status {@see DocumentDescriptor::STATUS_NOT_INDEXED} or {@see DocumentDescriptor::STATUS_ERROR}
-     * @param  [type] $query [description]
-     * @return [type]        [description]
+     * 
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeNotIndexed($query)
     {
@@ -260,10 +260,10 @@ class DocumentDescriptor extends Model {
 
     /**
      * Filter by institution identifier and local document id.
-     * @param  [type] $query          [description]
+     * 
      * @param  integer $institution_id the ID of the institution as expressed by the id field of a cached Institution
      * @param  string $document_id    [description]
-     * @return [type]                 [description]
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeFromKlinkID($query, $institution_id, $document_id)
     {
@@ -283,9 +283,9 @@ class DocumentDescriptor extends Model {
     /**
      * Filter the DocumentDescriptor by owner
      * 
-     * @param  [type] $query    [description]
-     * @param  [type] $owner_id [description]
-     * @return [type]           [description]
+     * 
+     * @param  string $owner_id [description]
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeFromOwnerId($query, $owner_id)
     {
@@ -294,8 +294,8 @@ class DocumentDescriptor extends Model {
 
     /**
      * Get the documents that correspond to the given owner
-     * @param  [type] $id [description]
-     * @return [type]     [description]
+     * @param  string|integer $id [description]
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public static function findByOwnerId($owner_id)
     {
@@ -304,8 +304,8 @@ class DocumentDescriptor extends Model {
 
     /**
      * Get the institution that correspond to the given Klink Institution Identifier
-     * @param  [type] $id [description]
-     * @return [type]     [description]
+     * @param  string $id [description]
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public static function findByInstitutionAndDocumentId($institution_id, $id)
     {
@@ -400,8 +400,8 @@ class DocumentDescriptor extends Model {
 
     /**
      * Convert the current instance to a valid KlinkDocumentDescriptor
-     * @return [type] [description]
      * @param boolean $need_public if set to true the returned KlinkDocumentDescriptor will be for public indexing
+     * @return \KlinkDocumentDescriptor the conversion to the Klink Document Descriptor
      * @internal
      */
     public function toKlinkDocumentDescriptor($need_public = false)
@@ -478,8 +478,8 @@ class DocumentDescriptor extends Model {
      * Merge the current saved descriptor with the new information coming from a 
      * KlinkDocumentDescriptor
      * 
-     * @param  \KlinkDocumentDescriptor $instance [description]
-     * @return [type]                             [description]
+     * @param  \KlinkDocumentDescriptor $instance the K-Link document descriptor to get information from
+     * @return DocumentDescriptor the updated descriptor
      */
     public function mergeWithKlinkDocumentDescriptor( \KlinkDocumentDescriptor $instance ){
 

@@ -11,14 +11,6 @@ use Illuminate\Contracts\Auth\Guard as AuthGuard;
 class GroupsComposer {
 
     /**
-     * ...
-     *
-     * @var 
-     */
-    protected $adapter;
-
-    /**
-     * [$documents description]
      * @var \Klink\DmsDocuments\DocumentsService
      */
     private $documents = NULL;
@@ -31,9 +23,6 @@ class GroupsComposer {
      */
     public function __construct(DocumentsService $documentsService)
     {
-        //\Klink\DmsAdapter\KlinkAdapter $adapter, \Klink\DmsDocuments\
-//        $this->adapter = $adapter;
-//
        $this->documents = $documentsService;
     }
 

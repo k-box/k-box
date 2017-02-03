@@ -4,9 +4,14 @@
 
 # K-Link DMS
 
+The K-Link Document Managament System (K-DMS) is a web application designed 
+for document management inside an Organization or in the context of a 
+Project involving users of different organizations.
+
 The K-Link DMS is built on top of [Laravel](https://laravel.com/) 5.1 (LTS).
 
-This readme file is reserved for **developers**. For user oriented documentation please see the folder [`docs/user`](./docs/user/en) available in this repository.
+This readme file is reserved for **developers**. For user oriented documentation 
+please see the folder [`docs/user`](./docs/user/en) available in this repository.
 
 
 ## Setting up the development environment
@@ -136,48 +141,7 @@ Next you have to create the environment configuration for you DMS installation.
 
 ### 3. Environment configuration
 
-The environment configuration uses a `.env` file in the the DMS project root folder. The `.env` file contains all the sensible configuration (local url, tokens, password, etc.).
-
-The following table explains the configuration parameter that can (or must) be included in the `.env` file.
-
-| parameter                             | required     | type    | default value | description |
-|---------------------------------------|--------------| --------|---------------|-------------|
-| `APP_ENV`                             | **required** | string  |               | the environment (when developing is highly encoraged to use local) |
-| `APP_DEBUG`                           |              | boolean | false         | Set to true will enable debug, false will prevent debug information to show up |
-| `APP_KEY`                             | **required** | string  |               | Encryption Key. This key is used by the Illuminate encrypter service and should be set to a random, 32 character string, otherwise the encrypted strings will not be safe. **Please do this before deploying an application!** |
-| `APP_URL`                             | **required** | string  |               | The url of the public folder, if you use a virtual host insert the virtual host url here |
-| `DB_USERNAME`                         | **required** | string  |               | The database user that has only priviledge over the database specified by `DB_NAME` |
-| `DB_PASSWORD`                         | **required** | string  |               | The database user password |
-| `DB_HOST`                             |              | string  | localhost     | The database sever host |
-| `DB_NAME`                             | **required** | string  |               | The Database name |
-| `DB_TABLE_PREFIX`                     | **required** | string  |               | The table prefix for each database table |
-| `SESSION_DRIVER`                      |              | string  | file          | How the authentication session is maintaned. Supported: "file", "cookie", "database", "apc", "memcached", "redis", "array" |
-| `DMS_INSTITUTION_IDENTIFIER`          | **required** | string  |               | The institution identifier that is required for communicating with the K-Link Core |
-| `DMS_CORE_ADDRESS`                    | **required** | url     |               | The URL of the K-Link Core that will be used by the DMS. |
-| `DMS_CORE_USERNAME`                   | **required** | string  |               | The username for authenticating on the core. |
-| `DMS_CORE_PASSWORD`                   | **required** | string  |               | The password for authenticating on the core. |
-| `DMS_IDENTIFIER`                      |              | string  |               | The unique identifier for the DMS instance |
-| `DMS_ARE_GUEST_PUBLIC_SEARCH_ENABLED` |              | boolean |               | Tell if the DMS will allow guest user to perform public search over K-Link instance |
-| `DMS_USE_HTTPS`                       |              | boolean | false         | Force the use of HTTPS |
-
-The following block is a non exhaustive example of a `.env` file.
-
-```
-APP_ENV=local 
-APP_DEBUG=false
-APP_KEY=%RANDOM_STRING%
-APP_URL=http://localhost/dms/
-DB_USERNAME=dms
-DB_PASSWORD=&middot;&middot;&middot;&middot;
-DB_HOST=localhost
-DB_NAME=dms
-DB_TABLE_PREFIX=kdms
-```
-
-**Important: make sure that all the required parameters are inserted into the `.env` file.**
-
-**It's important that the parameter `DMS_INSTITUTION_IDENTIFIER`, `DMS_CORE_ADDRESS`, `DMS_CORE_USERNAME`, `DMS_CORE_PASSWORD`, `DMS_IDENTIFIER` are configured in the `.env` file before proceeding** 
-(contact your K-Link Development team referent to get the values for those parameters).
+For the configuration parameters please refer to [developers/configuration.md](./docs/developer/configuration.md)
 
 Just to verify that at least the PHP dependencies and the environment is configured correctly execute the following command
 
@@ -343,48 +307,6 @@ every function returns the jqXHR object, the `params` parameter is an object tha
 
 ---------------------
 
-## Setting up the production environment
-
-### Environment parameters
-
-The following table explain the configuration parameter that can (or must) be included in the `.env` file in the DMS project root folder.
-
-| parameter         |          | type    | recommended value | description |
-|-------------------|----------| --------|-------------------|-------------|
-| `APP_ENV`         | required | string  | production   | the environment (when developing is highly encoraged to use local) |
-| `APP_KEY`         | required | string  |         | Encryption Key. This key is used by the Illuminate encrypter service and should be set to a random, 32 character string, otherwise these encrypted strings will not be safe. Please do this before deploying an application! |
-| `APP_URL`         | required | string  |         | The url of the public folder, if you use a virtual host insert the virtual host url here |
-| `DB_USERNAME`     | required | string  |         | The database user that has only priviledge over the database specified by `DB_NAME` |
-| `DB_PASSWORD`     | required | string  |         | The database user password |
-| `DB_HOST`         |          | string  |         | The database sever host |
-| `DB_NAME`         | required | string  |         | The Database name |
-| `DB_TABLE_PREFIX` | required | string  |     | The table prefix for each database table |
-| `SESSION_DRIVER`  |     | string  |         | How the authentication session is maintaned. Supported: "file", "cookie", "database", "apc", "memcached", "redis", "array" |
-| `DMS_INSTITUTION_IDENTIFIER` | string |  | The institution identifier that is required for communicating with the K-Link Core |
-| `DMS_CORE_ADDRESS`  | required | url  |         | The URL of the K-Link Core that will be used by the DMS. |
-| `DMS_CORE_USERNAME` | required | string  |         | The username for authenticating on the core. |
-| `DMS_CORE_PASSWORD` | required | string  |         | The password for authenticating on the core. |
-| `DMS_IDENTIFIER`    | required | string  |         | The unique identifier for the DMS instance |
-| `DMS_ARE_GUEST_PUBLIC_SEARCH_ENABLED`    |  | boolean  |         | Tell if the DMS will allow guest user to perform public search over K-Link instance (default true) |
-
-The following block is an example of a `.env` file.
-
-```
-APP_ENV=local 
-APP_DEBUG=false
-APP_KEY=RANDOM_STRING
-APP_URL=http://localhost/dms/
-DB_USERNAME=dms
-DB_PASSWORD=&middot;&middot;&middot;&middot;
-DB_HOST=localhost
-DB_NAME=dms
-DB_TABLE_PREFIX=kdms
-```
-
-If an alias is used remember to update the `RewriteBase` rule in `.htaccess` file situated in the public folder.
-
-
-
 # Testing
 
 ## Unit Tests
@@ -395,141 +317,3 @@ See `./docs/developer/testing/unit-tests.md`
 ## Test Instance
 
 See `./docs/developer/testing/test-instance.md`
-
-# Frontend localization
-
-The javascript localization is handled with the help of the RequireJS [i18n plugin](https://github.com/requirejs/i18n).
-
-Language files are constructed at build time and copied in `/public/js/nls/` folder. Please do not edit that files.
-
-The system will load `/public/js/nls/lang.js` which contains the english fallback and then will try to load the specific locales if available (and specified in the `require-config.blade.php` file)
-
-Construction of the language files is performed on the basis of the Laravel language files and a custom made command that extracts specific strings from them in order to be inserted in the javascript language file. Configuration options resides in the `config/localization.php` file
-
-to generate the javascript language files launch
-
-```bash
-php artisan dms:lang-publish 
-```
-
-Localization files will be available through the `language` module (RequireJS module). The loaded language file will be the one for the specific locale of the page, i.e. if the page `lang` is `en` only the `en` strings will be available. 
-
-This code block shows how to reference the `language` module
-
-```js
-define(['language'], function(Lang) {
-    
-	// Use Lang.trans( ...) 
-
-});
-```
-
-## `language` module API
-
-### `trans`
-
-```
-trans ( messageKey : string, replacements : ReplacementObject ) : string
-```
-
-_Parameters:_
-
-- `messageKey`: the key of the translation string to retrieve
-- `replacements`: if the translation string contains placeholder, like `:attribute`, you could substitute them with something more useful, see [ReplacementObject](#replacementobject) 
-
-_Returns:_
-
-the localized string, with applied replacements or messageKey if the corresponding localized string cannot be found
-
-
-### `choice`
-
-```
-choice ( messageKey : string, count : number, replacements : ReplacementObject ) : boolean
-```
-_Parameters:_
-
-- `messageKey`: the key of the translation string to retrieve
-- `count`: the number of elements used for the selection of the proper translation string
-- `replacements`: if the translation string contains placeholder, like `:attribute`, you could substitute them with something more useful, see [ReplacementObject](#replacementobject)
-
-_Returns:_
-
-the localized string, with applied replacements or messageKey if the corresponding localized string cannot be found
-
-**Important Notice**: currently only english pluralization rules are supported.
-
-### `alternate`
-
-```
-trans ( messageKey : string, alternateMessageKey : string, basedOn : string, replacements : ReplacementObject ) : string
-```
-
-Choose the translation string from messageKey or alternateMessageKey based on the existence of basedOn key in replacements.
-
-_Parameters:_
-
-- `messageKey`: the key of the translation string to retrieve
-- `alternateMessageKey`: the key of the translation string to retrieve as a fallback
-- `basedOn`: the property name to check inside replacements to decide if use `messageKey` or `alternateMessageKey`
-- `replacements`: if the translation string contains placeholder, like `:attribute`, you could substitute them with something more useful, see [ReplacementObject](#replacementobject) 
-
-_Returns:_
-
-the localized string, with applied replacements, using messageKey if the property basedOn exists and not null in replacements, using alternateMessageKey otherwise
-
-
-### `has`
-
-```
-has ( messageKey : string ) : boolean
-```
-
-Tests if the given key is defined in the translation set.
-
-_Parameters:_
-
-- `messageKey`: the key of the translation string to retrieve
-
-_Returns:_
-
-`true` if the localized string exists, `false` otherwise.
-
-
-### ReplacementObject 
-
-The replacement object is a plain Javascript object in which keys must be named parameters contained in the translation string and values could be any string. Values will be substituted to placeholders in the translation string.
-
-For example, let's consider the following translation string
-
-```
-":page cannot be found"
-```
-
-the replacement object that can be used is
-
-```json
-{ "page": "value" }
-```
-
-## Date and time localization
-
-The trait `KlinkDMS\Traits\LocalizableDateFields` has been added to offer localized date and time output for Eloquent Models.
-
-If you want to offer date and time localization use `Jenssegers\Date\Date` as the datetime class instead of Carbon.
-
-You can convert a `Carbon` instance to `Jenssegers\Date\Date` by using `Jenssegers\Date\Date::instance( /* Carbon */ $carbon_date)`.
-
-the class `Jenssegers\Date\Date` is an extension of `Carbon`.
-
-For chaining there is also
-
-- `localized_date(DateTime $dt)` that takes a php `DateTime` instance (also a `Carbon` instance) and converts it to a localizable Date instance
-
-Other two commond shortcut methods are available
-
-- `localized_date_human_diff(DateTime $dt)` that ouputs a human diff between the current date and the specified date if the difference in days is less than 2
-- `localized_date_full(DateTime $dt)` outputs a localized long date/time (according to the translation `units.date_format_full`)
-- `localized_date_short(DateTime $dt)` outputs a localized short date (according to the translation `units.date_format`)
-
-

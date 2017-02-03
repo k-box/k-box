@@ -161,7 +161,7 @@ class StorageAdministrationController extends Controller {
 
   /**
    * Get the reindex all procedure status
-   * @return [type] [description]
+   * @return Response
    */
   public function getReindexAll()
   {
@@ -173,7 +173,7 @@ class StorageAdministrationController extends Controller {
 
   /**
    * Start the Reindex All procedure
-   * @return [type] [description]
+   * @return Response
    */
   public function postReindexAll()
   {

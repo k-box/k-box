@@ -36,7 +36,7 @@ class ImportDocumentsController extends Controller {
 	 *
 	 * @return void
 	 */
-	public function __construct(\Klink\DmsAdapter\KlinkAdapter $adapterService, \Klink\DmsDocuments\DocumentsService $documentsService)
+	public function __construct(\Klink\DmsAdapter\Contracts\KlinkAdapter $adapterService, \Klink\DmsDocuments\DocumentsService $documentsService)
 	{
 
 		$this->middleware('auth');

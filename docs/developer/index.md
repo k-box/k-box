@@ -7,6 +7,11 @@
 ...
 
 
+## Configuration
+
+See [Configuration.md](./configuration.md)
+
+
 ## Command Line
 
 The DMS exposes a set of commands through a command line interface in addition to 
@@ -30,7 +35,7 @@ From the perspective of the support different actions can be made. Here is the l
 - [Transfer Project ownership to another Project Administrator](./support/transfer-project-ownership.md)  (_requires physical access_)
 
 
-### First step of a techinical support request solving
+### First step of a technical support request solving
 
 The very first step of solving each support request is gather the largest amount of information from the user about the action he/she has performed. This includes: 
 

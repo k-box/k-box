@@ -37,7 +37,7 @@ class VisualizationApiController extends Controller {
 
 		$visibility = $request::input('visibility', 'public');
 
-		$res = $this->service->getConnection()->search( '*', $visibility, 0, 0 );
+		$res = $this->service->search( '*', $visibility, 0, 0 );
 
 		$grand_total = $res->getTotalResults();
 
@@ -90,7 +90,7 @@ class VisualizationApiController extends Controller {
 
 		$facets_to_apply = $fs_builder->build();
 
-		$results_from_the_core = $this->service->getConnection()->search( $search_terms, $visibility, $limit, 0, $facets_to_apply );
+		$results_from_the_core = $this->service->search( $search_terms, $visibility, $limit, 0, $facets_to_apply );
 		
 		$results_from_the_core->facets = $this->searchService->limitFacets($results_from_the_core->getFacets());
 

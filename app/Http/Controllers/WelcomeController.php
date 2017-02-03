@@ -2,18 +2,17 @@
 
 use KlinkDMS\User;
 
-class WelcomeController extends Controller {
-
-	/*
-	|--------------------------------------------------------------------------
-	| Welcome Controller
-	|--------------------------------------------------------------------------
-	|
-	| This controller renders the "marketing page" for the application and
-	| is configured to only allow guests. Like most of the other sample
-	| controllers, you are free to modify or remove it as you desire.
-	|
-	*/
+/**
+ * --------------------------------------------------------------------------
+ *  Welcome Controller
+ * --------------------------------------------------------------------------
+ * 
+ *  This controller renders the main login page.
+ *  Is configured to only allow guests.
+ * 
+ */
+class WelcomeController extends Controller 
+{
 
 	/**
 	 * Create a new controller instance.
@@ -35,7 +34,8 @@ class WelcomeController extends Controller {
 
 		$params = ['classes' => 'frontpage'];
 
-		if(\Config::get('dms.are_guest_public_search_enabled')){
+		if(\Config::get('dms.are_guest_public_search_enabled'))
+		{
 			$params['filter'] = network_name();
 		}
 

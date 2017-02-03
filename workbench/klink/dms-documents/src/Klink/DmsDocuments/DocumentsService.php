@@ -47,7 +47,7 @@ class DocumentsService {
 	 *
 	 * @return void
 	 */
-	public function __construct(\Klink\DmsAdapter\KlinkAdapter $adapter)
+	public function __construct(\Klink\DmsAdapter\Contracts\KlinkAdapter $adapter)
 	{
 		$this->adapter = $adapter;
 	}
@@ -68,7 +68,7 @@ class DocumentsService {
 		$inst_cached = Institution::find($institutionID);
 		
 
-		$inst = $inst_cached != null ? $inst_cached : $this->adapter->getInstitution( $institutionID );
+		$inst = $inst_cached != null ? $inst_cached : $this->adapter->institutions( $institutionID );
 
 		//so now I have a local id if not already existing
 
@@ -78,7 +78,7 @@ class DocumentsService {
 
 			try{
 
-				$klink_descriptor = $this->adapter->getConnection()->getDocument($institutionID, $documentID, $visibility);
+				$klink_descriptor = $this->adapter->getDocument($institutionID, $documentID, $visibility);
 
 				$cached = DocumentDescriptor::fromKlinkDocumentDescriptor($klink_descriptor);
 
@@ -144,7 +144,7 @@ class DocumentsService {
 	}
 
 	/**
-	 * Proxy to the adapter->getConnection()->addDocument call to catch indexing error and operating a fallback retry as partially supported file.
+	 * Proxy to the adapter->addDocument call to catch indexing error and operating a fallback retry as partially supported file.
 	 *
 	 * @return KlinkDocumentDescriptor the descriptor returned by the K-Link Core
 	 */
@@ -164,7 +164,7 @@ class DocumentsService {
 		
 		try{
 			
-			$returned_descriptor = $this->adapter->getConnection()->addDocument( $document );
+			$returned_descriptor = $this->adapter->addDocument( $document );
 
 			$returned_descriptor->hash = $original_hash;
 
@@ -186,7 +186,7 @@ class DocumentsService {
 				
 				$document = new \KlinkDocument($klink_descriptor, $alternate_content);
 				
-				$returned_descriptor = $this->adapter->getConnection()->addDocument( $document );
+				$returned_descriptor = $this->adapter->addDocument( $document );
 
 				$returned_descriptor->hash = $original_hash;
 
@@ -220,7 +220,7 @@ class DocumentsService {
 		
 		try{
 			
-			$returned_descriptor = $this->adapter->getConnection()->updateDocument( $document );
+			$returned_descriptor = $this->adapter->updateDocument( $document );
 
 			$returned_descriptor->hash = $original_hash;
 
@@ -242,7 +242,7 @@ class DocumentsService {
 				
 				$document = new \KlinkDocument($klink_descriptor, $alternate_content);
 
-				$returned_descriptor = $this->adapter->getConnection()->updateDocument( $document );
+				$returned_descriptor = $this->adapter->updateDocument( $document );
 
 				$returned_descriptor->hash = $original_hash;
 
@@ -289,7 +289,7 @@ class DocumentsService {
 			
 		}
 
-		$institution = $this->adapter->getInstitution( \Config::get('dms.institutionID') );
+		$institution = $this->adapter->institutions( \Config::get('dms.institutionID') );
 		
 		if(is_null($owner)){
 			$owner = $file->user;
@@ -418,7 +418,7 @@ class DocumentsService {
 	 * Note that not only the descriptor will be updated in the K-Link network, but also the file referenced by the descriptor will be controlled
 	 * 
 	 * @param  DocumentDescriptor $descriptor The descriptor of the document that needs to the updated on the K-Link Core
-	 * @param  [type]             $visibility [description]
+	 * @param  string             $visibility The descriptor visibility to reindex
 	 * @return KlinkDMS\DocumentDescriptor the document descriptor that has been stored on the database
 	 * @throws KlinkException If the file cannot be indexed or something happened on the K-Link Core side
 	 * @throws InvalidArgumentException If the file type could not be indexed, 
@@ -537,7 +537,7 @@ class DocumentsService {
 			
 			$klink_descriptor = $descriptor->toKlinkDocumentDescriptor(true); //shortcut for faking a public descriptor
 
-			$returned_descriptor = $this->adapter->getConnection()->removeDocument( $klink_descriptor );
+			$returned_descriptor = $this->adapter->removeDocument( $klink_descriptor );
 
 			\Log::info('Core deletePublicDocument', array('context' => 'DocumentsService', 'response' => $returned_descriptor));
 
@@ -591,7 +591,7 @@ class DocumentsService {
 			
 			$klink_descriptor = $descriptor->toKlinkDocumentDescriptor();
 
-			$returned_descriptor = $this->adapter->getConnection()->removeDocument( $klink_descriptor );
+			$returned_descriptor = $this->adapter->removeDocument( $klink_descriptor );
 			
 			\Log::info('Core deleteDocument (private)', array('context' => 'DocumentsService', 'response' => $returned_descriptor));
 			
@@ -599,7 +599,7 @@ class DocumentsService {
 				
 				$klink_descriptor = $descriptor->toKlinkDocumentDescriptor(true);
 				
-				$returned_descriptor = $this->adapter->getConnection()->removeDocument( $klink_descriptor );
+				$returned_descriptor = $this->adapter->removeDocument( $klink_descriptor );
 				
 				\Log::info('Core deleteDocument (public)', array('context' => 'DocumentsService', 'response' => $returned_descriptor));
 			}
@@ -995,7 +995,7 @@ class DocumentsService {
      *
      * @param User $user the user, of course 
      * @param Group $group the parent collection that contains all the child I want 
-     * @return Collection<Group> The collections that are accessible by the $user from the specified $group
+     * @return Group[] The collections that are accessible by the $user from the specified $group
      */
     public function getCollectionsAccessibleByUserFrom( User $user, Group $group ){
         
@@ -1048,7 +1048,7 @@ class DocumentsService {
 	 *
 	 * @param DocumentDescriptor $document the document to get the collections for
 	 * @param User $user the user, of course
-	 * @return Collection<Groups> the collection of groups in which the $document is categorized 
+	 * @return Groups[] the collection of groups in which the $document is categorized 
 	 */
 	public function getDocumentCollections(DocumentDescriptor $document, User $user){
 		
@@ -1612,7 +1612,7 @@ class DocumentsService {
      * This method don't check if documents are already added to the group
      *
      * @param User $user the user that is performing the operation
-     * @param Collection<DocumentDescriptor> $documents the document descriptors to be added to the $group
+     * @param DocumentDescriptor[] $documents the document descriptors to be added to the $group
      * @param Group $group the group to be added to the documents
      * @param bool $perform_reindex if the document reindex operation must be performed, default true
 	 */
@@ -2222,124 +2222,6 @@ class DocumentsService {
 		return /* the absolute path */ $abso_path;
 	}
 
-	// --- Thumbnails related ----------------------------------
-
-	/**
-	 * Generates the thumbnail of the given file.
-	 *
-	 * If the thumbnail cannot be generated a default thumbnail for the specific document type is
-	 * returned.
-	 *
-	 * If the File doesn't have a thumbnail a new one will be generated and saved.
-	 * 
-	 * @param  File   $file The file that to generated the thumbnail for
-	 * @param  string $size [description]
-	 * @return string       The thumbnail path
-	 */
-	public function generateThumbnail(File $file, $size = 'default', $force = false, $website = false){
-
-		if(!is_null($file->thumbnail_path) && is_file($file->thumbnail_path) && !$force){
-			return $file->thumbnail_path;
-		}
-
-		if(!$file->isIndexable() && !$website){
-			
-			$thumb_path = $this->getDefaultThumbnail($file->mime_type);
-			
-			$file->thumbnail_path = $thumb_path;
-
-			$file->save();
-			
-			return $thumb_path;
-		}
-
-		// ok let's generate a new thumbnail
-
-		try{
-
-			$dir = dirname($file->path) . '/thumbnails/';
-
-			$is_dir = is_dir($dir);
-
-			// \Log::info('Generating thumbnail', array('context' => 'DocumentsService', 'param' => compact('file', 'dir', 'is_dir')));
-
-			if(!$is_dir){
-				// create containing folder
-				$is_dir = mkdir($dir, 0755, true);
-
-				if(!$is_dir){
-					\Log::error('Cannot create folder ', array('context' => 'DocumentsService', 'param' => $dir));
-
-					$dir = dirname($file->path) . '/';
-				}
-
-			}
-
-			$image_save_path = $dir . substr($file->hash, 0, 40) . '.png';
-			
-			if($website){
-				$saved = $this->adapter->getConnection()->generateThumbnailOfWebSite($file->original_uri, $image_save_path);
-				$thumb_path = $image_save_path;
-			}
-			else {
-				$thumb_path = $this->adapter->getConnection()->generateThumbnail($file->path, $image_save_path);	
-			}
-
-		}catch(\KlinkException $kex){
-
-			\Log::error('Error generating thumbnail', array('context' => 'DocumentsService::generateThumbnail', 'param' => $file->toArray(), 'exception' => $kex));
-
-			$thumb_path = $this->getDefaultThumbnail($file->mime_type);
-
-		}catch(\Exception $kex){
-
-			\Log::error('Error generating thumbnail', array('context' => 'DocumentsService::generateThumbnail', 'param' => $file->toArray(), 'exception' => $kex));
-
-			$thumb_path = $this->getDefaultThumbnail($file->mime_type);
-
-		}catch(ErrorException $kex){
-
-			\Log::error('Error generating thumbnail', array('context' => 'DocumentsService::generateThumbnail', 'param' => $file->toArray(), 'exception' => $kex));
-
-			$thumb_path = $this->getDefaultThumbnail($file->mime_type);
-
-		}catch(FatalErrorException $kex){
-
-			\Log::error('Error generating thumbnail', array('context' => 'DocumentsService::generateThumbnail', 'param' => $file->toArray(), 'exception' => $kex));
-
-			$thumb_path = $this->getDefaultThumbnail($file->mime_type);
-
-		}
-
-		$file->thumbnail_path = $thumb_path;
-
-		$file->save();
-
-		return $thumb_path;
-	}
-
-	private function getDefaultThumbnail($mimeType){
-
-		if(strpos($mimeType, 'audio')!==false){
-			$doc_type = 'music';
-		}
-		else if($mimeType === 'text/uri-list'){
-			$doc_type = 'web-page';
-		}
-		else {
-			$doc_type = \KlinkDocumentUtils::documentTypeFromMimeType($mimeType);
-		}
-        
-        $path = public_path('images/' . $doc_type . '.png');
-        
-        if(@is_file($path)){
-            return $path;
-        }
-        
-		return public_path('images/unknown.png');
-
-	}
-
 	// --- Document Management facilities ----------------------
 	
 
@@ -2362,7 +2244,7 @@ class DocumentsService {
 
 	/**
 	 * Returns the information needed for rendering the Storage Status widget
-	 * @return [type] [description]
+	 * @return array
 	 */
 	public function getStorageStatus($raw = false)
 	{
@@ -2482,8 +2364,8 @@ class DocumentsService {
 
 	/**
 	 * Check if the file respects the naming policy
-	 * @param  [type] $filename [description]
-	 * @return [type]           [description]
+	 * @param  string $filename [description]
+	 * @return boolean           [description]
 	 */
 	public function verifyNamingPolicy($filename)
 	{

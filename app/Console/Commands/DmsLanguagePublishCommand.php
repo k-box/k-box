@@ -144,7 +144,7 @@ class DmsLanguagePublishCommand extends Command {
 
 	/**
 	 * The path where to save the newly created models
-	 * @return [type] [description]
+	 * @return string the path where to save the models
 	 */
 	public function getModelPath()
 	{
@@ -153,7 +153,7 @@ class DmsLanguagePublishCommand extends Command {
 
 	/**
 	 * The path to the JS stub folder
-	 * @return [type] [description]
+	 * @return string the path to the javascript stubs folder
 	 */
 	private function getStubsPath()
 	{
@@ -162,8 +162,8 @@ class DmsLanguagePublishCommand extends Command {
 
 	/**
 	 * Get the Model stub
-	 * @param  [type] $value [description]
-	 * @return [type]        [description]
+	 * @param  string $name the stub name
+	 * @return string        the content of the stub
 	 */
 	private function getStub( $name )
 	{

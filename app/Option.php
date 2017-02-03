@@ -2,12 +2,15 @@
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * The dynamic configuration options
+ *
+ * fields:
+ * - id: bigIncrements
+ * - key:
+ * - value:
+ */
 class Option extends Model {
-    /*
-    id: bigIncrements
-    key:
-    value:
-    */
     
     /**
      * The Map visualization setting field
@@ -48,17 +51,41 @@ class Option extends Model {
 
     protected $fillable = ['key', 'value'];
 
-
-    public function scopeFromKey($query, $key) {
+    /**
+     * Scope a query to include only options with the 
+     * specified key
+     *
+     * @param string $key the option key
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeFromKey($query, $key)
+    {
         return $query->where('key', $key);
     }
 
-    public static function findByKey($key) {
+    /**
+     * Find an option by its key
+     * 
+     * @param string $key the option key
+     * @return Option|null the {@see Option} instance if found, null otherwise
+     */
+    public static function findByKey($key)
+    {
 
         return self::fromKey($key)->first();
     }
 
-
+    /**
+     * Scope a query to include only options that 
+     * are within a section.
+     *
+     * Options in a section are prefixed with the 
+     * section name followed by a dot
+     * e.g. mail.something, the something option is in the mail section
+     *
+     * @param string $section_name the section name
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
     public function scopeSection($query, $section_name)
     {
         return $query->where('key', 'like', e($section_name) .'.%');
@@ -75,10 +102,10 @@ class Option extends Model {
     {
         $items = Option::section('dms.reindex')->get(array('key', 'value'));
 
-        if($items->isEmpty()){
+        if($items->isEmpty())
+        {
           return array();
         }
-
 
         $flat = $items->toArray();
 
@@ -86,7 +113,8 @@ class Option extends Model {
         $values = array_fetch($flat, 'value');
 
         $non_flat = array();
-        foreach (array_combine($keys, $values) as $key => $value) {
+        foreach (array_combine($keys, $values) as $key => $value)
+        {
           array_set($non_flat, $key, $value);
         }
 
@@ -101,7 +129,8 @@ class Option extends Model {
      * @param  mixed $default The default value to use if the option does not exists (default: null)
      * @return mixed          the option value
      */
-    public static function option($name, $default = null){
+    public static function option($name, $default = null)
+    {
 
         $first = Option::findByKey($name);
 
@@ -162,7 +191,8 @@ class Option extends Model {
      * 
      * @return boolean true in case the map visualization is enabled, false otherwise. The default value, if not configured explicetely, is enabled.
      */
-    public static function is_map_visualization_enabled(){
+    public static function is_map_visualization_enabled()
+    {
         
         return static::option(self::MAP_VISUALIZATION_SETTING, true);
         

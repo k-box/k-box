@@ -101,7 +101,7 @@ trait Searchable
               
               $core_results = app('Klink\DmsSearch\SearchService')->search($request);
               
-              if(!is_null($each_result_callback)){
+              if(!is_null($each_result_callback) && !is_null($core_results)){
                   // if the callback is defined, let's use it for mapping current search results to the instances that the developers prefer
                   $core_results->map($each_result_callback);
               }

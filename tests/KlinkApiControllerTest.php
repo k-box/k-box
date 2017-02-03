@@ -25,6 +25,8 @@ class KlinkApiControllerTest extends TestCase {
 	public function testDocumentShowForDocumentInProject( )
 	{
 
+		$this->withKlinkAdapterFake();
+
 		$user = $this->createUser( Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH );
 		$user_accessing_the_document = $this->createUser( Capability::$PARTNER );
         
@@ -38,7 +40,7 @@ class KlinkApiControllerTest extends TestCase {
         $project1_child1 = $this->createProjectCollection($user, $project1);
         $service->addDocumentToGroup($user, $document, $project1_child1);
         
-        $url = route( 'klink_api', ['id' => $document->local_document_id, 'action' => 'document'] ) . '?preview=true';
+        $url = route( 'klink_api', ['id' => $document->local_document_id, 'action' => 'document'] );
 
 		$this->actingAs($user_accessing_the_document);
         
@@ -66,7 +68,7 @@ class KlinkApiControllerTest extends TestCase {
 		));
 
         
-        $url = route( 'klink_api', ['id' => $document->local_document_id, 'action' => 'document'] ) . '?preview=true';
+        $url = route( 'klink_api', ['id' => $document->local_document_id, 'action' => 'document'] );
 
 		$this->actingAs($user_accessing_the_document);
         
@@ -85,7 +87,7 @@ class KlinkApiControllerTest extends TestCase {
         $document = $this->createDocument($user, 'public');
 
         
-        $url = route( 'klink_api', ['id' => $document->local_document_id, 'action' => 'document'] ) . '?preview=true';
+        $url = route( 'klink_api', ['id' => $document->local_document_id, 'action' => 'document'] );
 
 		$this->actingAs($user_accessing_the_document);
         
@@ -97,6 +99,8 @@ class KlinkApiControllerTest extends TestCase {
 
 	public function testDocumentShowForPublicDocumentWithNoLogin( )
 	{
+
+		$this->withKlinkAdapterFake();
 
 		$user = $this->createUser( Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH );
 		$user_accessing_the_document = $this->createUser( Capability::$PARTNER );
@@ -113,7 +117,7 @@ class KlinkApiControllerTest extends TestCase {
 
 
         
-        $url = route( 'klink_api', ['id' => $document->local_document_id, 'action' => 'document'] ) . '?preview=true';
+        $url = route( 'klink_api', ['id' => $document->local_document_id, 'action' => 'document'] );
         
         $this->visit( $url );
 
@@ -130,7 +134,7 @@ class KlinkApiControllerTest extends TestCase {
         $document = $this->createDocument($user);
 
         
-        $url = route( 'klink_api', ['id' => $document->local_document_id, 'action' => 'document'] ) . '?preview=true';
+        $url = route( 'klink_api', ['id' => $document->local_document_id, 'action' => 'document'] );
 
 		$this->actingAs($user_accessing_the_document);
         
@@ -149,7 +153,7 @@ class KlinkApiControllerTest extends TestCase {
         $document = $this->createDocument($user, 'private');
 
         
-        $url = route( 'klink_api', ['id' => $document->local_document_id, 'action' => 'document'] ) . '?preview=true';
+        $url = route( 'klink_api', ['id' => $document->local_document_id, 'action' => 'document'] );
 
 		$this->actingAs($user);
         
@@ -168,7 +172,7 @@ class KlinkApiControllerTest extends TestCase {
         $document = $this->createDocument($user, 'private');
 
         
-        $url = route( 'klink_api', ['id' => $document->local_document_id, 'action' => 'document'] ) . '?preview=true';
+        $url = route( 'klink_api', ['id' => $document->local_document_id, 'action' => 'document'] );
 
 		$this->actingAs($user_accessing_the_document);
         

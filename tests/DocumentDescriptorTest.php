@@ -80,9 +80,9 @@ class DocumentDescriptorTest extends TestCase
         
         $file = factory('KlinkDMS\File')->make();
         
-        $service = app('Klink\DmsDocuments\DocumentsService');
+        // $service = app('Klink\DmsDocuments\DocumentsService');
         
-        $res = $service->indexDocument($file, 'private', null, null, true);
+        // $res = $service->indexDocument($file, 'private', null, null, true);
         // expecting a "KlinkException: Bad Request" because owner is not specified
         
         $this->markTestSkipped(

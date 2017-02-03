@@ -7,7 +7,7 @@ use KlinkDMS\Http\Requests\UserRequest;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Hash;
 use KlinkDMS\User;
-use Klink\DmsAdapter\KlinkAdapter;
+use Klink\DmsAdapter\Contracts\KlinkAdapter;
 
 /**
  * Controller
@@ -54,8 +54,8 @@ class NetworkAdministrationController extends Controller {
 
 
 
-    $res = $this->adapter->testNetworkConnectivity();
-
+    $res = $this->adapter->test();
+// var_dump($res);
     $klink_test_message = $res['result'] === true ? 'success' : 'failed';
 
     return view('administration.network', ['pagetitle' => trans('administration.menu.network'), 'network_config' => $ipRes, 'network_cards' => $cards, 'klink_network_connection' => $klink_test_message, 'klink_network_connection_bool' => $res['result'], 'klink_network_connection_error' => $res['error']]);

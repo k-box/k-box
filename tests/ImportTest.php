@@ -38,8 +38,6 @@ class ImportTest extends TestCase {
             array( 'http://www.kg.undp.org/content/dam/kyrgyzstan/Publications/env-energy/KGZ_Insulating_Your_House_280114_KYR-small.pdf' ),
             array( 'http://www.conservation.org/Pages/default.aspx' ),
             array( 'http://www.conservation.org/publications/Documents/CI_Ecosystem-based-Adaptation-South-Africa-Vulnerability-Assessment-Brochure.pdf' ),
-            array( 'https://www.armeniatree.org/en/' ),
-            array( 'https://www.armeniatree.org/en/initiatives.asp' ),
             array( 'https://www.change.org/p/unfccc-united-nations-framework-convention-on-climate-change-ensure-that-the-impact-of-climate-change-on-mountain-peoples-and-ecosystems-is-fully-addressed-in-the-unfccc-cop21-new-climate-deal?source_location=petitions_share_skip' ),
             array( 'https://www.change.org/p/unfccc-united-nations-framework-convention-on-climate-change-ensure-that-the-impact-of-climate-change-on-mountain-peoples-and-ecosystems-is-fully-addressed-in-the-unfccc-cop21-new-climate-deal?source_location' ),
             array( 'http://klink.asia' ),
@@ -54,13 +52,10 @@ class ImportTest extends TestCase {
             array( 'http://www.kg.undp.org/content/dam/kyrgyzstan/Publications/env-energy/KGZ_Insulating_Your_House_280114_KYR-small.pdf', 'application/pdf' ),
             array( 'http://www.conservation.org/Pages/default.aspx', 'text/html' ),
             array( 'http://www.conservation.org/publications/Documents/CI_Ecosystem-based-Adaptation-South-Africa-Vulnerability-Assessment-Brochure.pdf', 'application/pdf' ),
-            array( 'https://www.armeniatree.org/en/', 'text/html' ),
-            array( 'https://www.armeniatree.org/en/initiatives.asp', 'text/html' ),
             array( 'https://www.change.org/p/unfccc-united-nations-framework-convention-on-climate-change-ensure-that-the-impact-of-climate-change-on-mountain-peoples-and-ecosystems-is-fully-addressed-in-the-unfccc-cop21-new-climate-deal?source_location=petitions_share_skip', 'text/html' ),
             array( 'https://www.change.org/p/unfccc-united-nations-framework-convention-on-climate-change-ensure-that-the-impact-of-climate-change-on-mountain-peoples-and-ecosystems-is-fully-addressed-in-the-unfccc-cop21-new-climate-deal?source_location', 'text/html' ),
             array( 'http://klink.asia', 'text/html' ),
             array( 'http://www.iisd.org/sites/default/files/publications/mainstreaming-climate-change-toolkit-guidebook.pdf', 'application/pdf' ),
-            array( 'http://www.vehi.net/dostoevsky/izpodpol.html', 'text/html' ),
             array( 'http://ian.umces.edu/pdfs/ian_report_392.pdf', 'application/pdf' ),
 		);
 	} 
@@ -133,6 +128,8 @@ class ImportTest extends TestCase {
      * @dataProvider url_provider
      */
     public function testImportControllerCreateWithFileAlreadyExistsException( $url ){
+
+        $this->withKlinkAdapterFake();
         
         $this->withoutMiddleware();
 
@@ -172,6 +169,7 @@ class ImportTest extends TestCase {
     public function testImportFromUrlJob($url, $mime_type){
         
         // create an ImportJob and run it
+        $this->withKlinkAdapterFake();
         
         $save_path = Config::get('dms.upload_folder') . DIRECTORY_SEPARATOR . md5($url);
         
@@ -295,6 +293,8 @@ class ImportTest extends TestCase {
     }
     
     public function testDestroyImportWithErrorStatus(){
+
+        $this->withKlinkAdapterFake();
         
         $url = 'https://klink.asia/fail.pdf';
         
@@ -545,6 +545,8 @@ class ImportTest extends TestCase {
      * This test attempt to index all the files
      */ 
     public function testImportFromSameFolderViaArtisanCommandWithProjectCreationAndLocalOption_Integration_WithConflictResolution(){
+
+        $this->withKlinkAdapterFake();
         
         $user = $this->createAdminUser();        
         

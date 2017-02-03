@@ -37,8 +37,9 @@ class MicrositeController extends Controller {
 
 
 	/**
-	 * Display a listing ...
+	 * returns ok, not used
 	 *
+     * @internal
 	 * @return Response
 	 */
 	public function index(AuthGuard $auth, Request $request)
@@ -99,6 +100,7 @@ class MicrositeController extends Controller {
 	/**
 	 * Store a newly created microsite.
 	 *
+     * @param MicrositeCreationRequest $request the request
 	 * @return Response
 	 */
 	public function store(AuthGuard $auth, MicrositeCreationRequest $request)
@@ -197,9 +199,12 @@ class MicrositeController extends Controller {
 	}
 
 	/**
-	 * Display the specified group.
+	 * Display a microsite by the slug.
+     *
+     * This method can be invoked by the route projects.site and from /microsites/{ID}
 	 *
-	 * @param  int  $id
+	 * @param  int|string  $id The id or the slug of the microsite
+	 * @param  string  $language The language to show the microsite. Two letters code.
 	 * @return Response
 	 */
 	public function show(AuthGuard $auth, Request $request, $id, $language = null)
@@ -293,6 +298,7 @@ class MicrositeController extends Controller {
 	 * Update the specified microsite.
 	 *
 	 * @param  int  $id
+	 * @param  MicrositeUpdateRequest  $request
 	 * @return Response
 	 */
 	public function update(AuthGuard $auth, MicrositeUpdateRequest $request, $id)
@@ -370,7 +376,7 @@ class MicrositeController extends Controller {
 	}
 
 	/**
-	 * Remove the specified microsite.
+	 * Remove the microsite.
 	 *
 	 * @param  int  $id
 	 * @return Response

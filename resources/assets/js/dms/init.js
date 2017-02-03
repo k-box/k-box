@@ -31,6 +31,14 @@
     }
 }());
 
+(function(){
+
+	// browser test and outdated message handling
+
+	
+
+}());
+
 window.DMS = (function(_$, _nprogress, _rivets, _alert){
 
 	var _token = null, _base = '';
@@ -214,6 +222,42 @@ window.DMS = (function(_$, _nprogress, _rivets, _alert){
 				
 				
 				
+			}
+
+
+			var message = $('.js-outdated'),
+				ie8Message = $('.js-outdated-ie8'),
+				isVisible = false,
+				isIE8 = false,
+				$body = $(document.body),
+				div = document.createElement('div');
+		
+			 if (!('borderSpacing' in div.style)){
+				 isVisible = true;
+				 isIE8 = true;
+			 } 
+
+			 if (!('boxShadow' in div.style)){
+				 isVisible = true;
+				 isIE8 = false;
+			 }
+
+			 if (!('transition' in div.style)){
+				 isVisible = true;
+				 isIE8 = false;
+			 } 
+
+				// borderSpacing IE8
+				// boxShadow IE8 and FF 3.6 
+
+			if(isVisible){
+				$body.addClass('outdated--shown');
+				if(isIE8){
+					ie8Message.addClass('outdated--visible');
+				}
+				else {
+					message.addClass('outdated--visible');
+				}
 			}
 		},
 

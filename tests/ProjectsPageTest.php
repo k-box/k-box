@@ -6,6 +6,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use KlinkDMS\User;
 use KlinkDMS\File;
+use KlinkDMS\Flags;
 use KlinkDMS\Capability;
 use KlinkDMS\Jobs\ImportCommand;
 use Klink\DmsMicrosites\Microsite;
@@ -66,6 +67,8 @@ class ProjectsPageTest extends TestCase {
 	 * @return void
 	 */
     public function testProjectPageAccess( $caps, $routes, $expected_return_code){
+
+        $this->withKlinkAdapterFake();
         
         $params = null;
         $user = null;
@@ -108,6 +111,9 @@ class ProjectsPageTest extends TestCase {
     }
 
     public function testProjectPageHasSearchBar(){
+
+        $this->withKlinkAdapterFake();
+
         $user = $this->createUser(Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH);
 
         $this->actingAs($user);
@@ -120,6 +126,11 @@ class ProjectsPageTest extends TestCase {
     }
 
     public function testProjectPageIsListingProjects(){
+
+        Flags::enable(Flags::UNIFIED_SEARCH);
+
+        $this->withKlinkAdapterFake();
+
         // Project listing, but links to collections
         $user = $this->createUser(Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH);
 
@@ -187,7 +198,7 @@ class ProjectsPageTest extends TestCase {
 
         $columns = $this->response->original->columns;
 
-        $this->assertEquals(
+        $this->assertArraySubset(
             ['language', 'documentType', 'projectId', 'documentGroups'], 
             array_keys($columns));
 
@@ -195,6 +206,11 @@ class ProjectsPageTest extends TestCase {
     }
 
     public function testProjectPageProjectFilterListing(){
+
+        Flags::enable(Flags::UNIFIED_SEARCH);
+
+        $this->withKlinkAdapterFake();
+
         // test projects are labeled in the elastic list and do not show projects not accessible by the user
         
         $user = $this->createUser( Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH );
@@ -234,7 +250,7 @@ class ProjectsPageTest extends TestCase {
 
         $columns = $this->response->original->columns;
         
-        $this->assertEquals(
+        $this->assertArraySubset(
             ['language', 'documentType', 'projectId', 'documentGroups'], 
             array_keys($columns));
 

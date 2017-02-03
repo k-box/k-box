@@ -5,19 +5,31 @@ use Illuminate\Support\Collection;
 use GuzzleHttp\Client;
 use Klink\DmsMicrosites\MicrositeContent;
 
+/**
+ * Parses the makdown content of the microsite and 
+ * convert it to HTML
+ */
 final class MicrositeContentParserService {
 
-
+    /**
+     * XML Feed to JSON API Endpoint
+     */
     const FEED_XML_TO_JSON_API_URL = 'http://rss2json.com/api.json?rss_url=';
 
+    /**
+     * Regular expression to extract the @rss tag
+     */
 	const RSS_CUSTOM_TAG_REGEXP = '/^@rss:([https:\/\/].*)$/m';
 
-
+    /**
+     * @var \Illuminate\Cache\CacheManager
+     */
     private $cache = null;
 
 	/**
 	 * Create a new instance.
 	 *
+     * @param \Illuminate\Cache\CacheManager $cache
 	 * @return void
 	 */
 	public function __construct(\Illuminate\Cache\CacheManager $cache)
@@ -27,7 +39,7 @@ final class MicrositeContentParserService {
 
 
     /**
-     * Transform the MicrositeContent in its corresponding HTML representation.$_COOKIE
+     * Transform the MicrositeContent in its corresponding HTML representation.
      *
      * support Markdown syntax
      * support custom @rss:https://domain rule to include directly a styled version of the RSS feed
@@ -57,19 +69,19 @@ final class MicrositeContentParserService {
     /**
      * Expands the custom @rss tag in order to embed the RSS content inside the page.
      *
+     * Extract every @rss: and pass to feed URL to a RSS to JSON converter api to retrieve the json
+     * 
+     * <code> 
+     * @rss:https://url-of-a-feed
+     * </code> 
+     *
      * @param string $entry the original text of the page (must not be elaborated by the markdown parser)
-     * @returns string the elaborated content with the expansion of the RSS tags in markdown format
+     * @return string the elaborated content with the expansion of the RSS tags in markdown format
      */
     private function expandRssTag($entry){
         
-        // @rss:https://url-of-a-feed
-        // Extract every @rss: and pass to a RSS to JSON converter api to retrieve the json
-        // ^@rss:([https:\/\/].*)$
     
-        
         preg_match_all( self::RSS_CUSTOM_TAG_REGEXP, $entry, $matches, PREG_SET_ORDER);
-        
-        // dd(compact('entry', 'matches'));
         
         if(!empty($matches)){
             

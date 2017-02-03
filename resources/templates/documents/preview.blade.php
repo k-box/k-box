@@ -24,7 +24,7 @@
 		<h4>{{trans('documents.preview.not_available')}}</h4>
 	
 	
-		<a class="button button-primary" href="{{DmsRouting::document($document)}}" target="_blank" download="{{ $document->title }}">
+		<a class="button button-primary" href="{{DmsRouting::download($document)}}" target="_blank" download="{{ $document->title }}">
 			{{trans('panels.download_btn')}}
 		</a>
 	
@@ -34,7 +34,7 @@
 
 	@if($type=='image')
 	
-		<img src="{{DmsRouting::document($document)}}" alt="{{$document->title}}">
+		<img src="{{DmsRouting::download($document)}}" alt="{{$document->title}}">
 	
 	@elseif($type=='document' && $extension === 'pdf')
 	
@@ -74,7 +74,7 @@
 			<h4>{{trans('documents.preview.error', ['document' => $document->title])}}</h4>
 		
 		
-			<a class="button button-primary" href="{{DmsRouting::document($document)}}" download="{{ $document->title }}">
+			<a class="button button-primary" href="{{DmsRouting::download($document)}}" download="{{ $document->title }}">
 				{{trans('panels.download_btn')}}
 			</a>
 		

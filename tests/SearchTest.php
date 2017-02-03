@@ -321,7 +321,7 @@ class SearchTest extends TestCase {
 
 	public function testSearchAction(){
 
-		//TODO: index a predefined amount of documents to make it deterministic
+		$this->withKlinkAdapterFake();
 		
 		$http_request = Request::createFromBase(
 			Symfony\Component\HttpFoundation\Request::create(
@@ -381,7 +381,9 @@ class SearchTest extends TestCase {
 	
 	
 	public function testSearchStarred_all_override(){
-        
+
+		$this->withKlinkAdapterFake();
+
         // add some documents and star them
         
         $user = $this->createAdminUser();
@@ -517,6 +519,8 @@ class SearchTest extends TestCase {
 	public function testSearchRequestWithHighlight($count, $expected_page, $expected_position_in_page)
 	{
 
+		$this->withKlinkAdapterFake();
+
 		$generated = factory('KlinkDMS\DocumentDescriptor', $count)->create();
 
 		$docs = $count === 1 ? collect([$generated]) : $generated ;
@@ -584,6 +588,8 @@ class SearchTest extends TestCase {
 	 */
 	public function testSearchRequestWithHighlightAndCustomOrderClause()
 	{
+
+		$this->withKlinkAdapterFake();
 
 		$document_names = ['a', 'z', 'b', 'c', 'm', 'k'];
 		$ordered_document_names = ['a', 'b', 'c', 'k', 'm', 'z' ];

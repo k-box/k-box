@@ -427,3 +427,101 @@
 		margin-bottom: 4px;
 	}
 }
+
+// Copy link button, text and error message
+
+.copy-links {
+	margin-top: 16px;
+}
+
+.copy-link__button {
+	text-transform: none;
+	transition: all 0.2s linear;
+	font-size: 12px;
+	word-spacing: normal;
+	min-width: 242px;
+	padding: 0 16px;
+
+
+	.btn-icon {
+		line-height: 38px;
+		vertical-align: middle;
+		margin-right: 6px;
+	}
+
+	&:hover + .copy-link__input {
+		opacity: 1;
+		border-color: #bbb;
+	}
+}
+
+.copy-link__button__normal {
+	display: inline-block;
+}
+.copy-link__button__success, .copy-link__button__error {
+	display: none;
+}
+
+.copy-link__input {
+	opacity: 0.8;
+
+	font-family: Courier New, Courier, monospace;
+	font-size: 12px;
+	min-width: 380px;
+
+	height: 36px;
+	padding: 0 8px;
+	margin: 0 0 10px 0;
+	border: 1px solid lighten(#bbb, 10%);
+
+	transition: all 0.2s linear;
+
+	float: left;
+
+	&:hover {
+		opacity: 1;
+		border-color: #888;
+	}
+}
+
+.copy-link__message {
+	height: 0;
+	opacity: 0;
+	pointer-events: none;
+	transition: height 0.2s linear, opacity 0.4s linear;
+}
+
+.copy-link__message--visible {
+	height: auto;
+	opacity: 1;
+}
+
+.copy-link__message--error {
+	color: #e03131;	
+}
+
+.copy-link__button--success {
+	border-color: darken(#A9E34B, 20%);
+	background-color: #A9E34B;
+
+	.copy-link__button__normal {
+		display: none;
+	}
+	.copy-link__button__success {
+		display: inline-block;
+	}
+}
+
+.copy-link__button--error {
+	border-color: darken(#e03131, 20%);
+	background-color: #e03131;
+	color: #fff;
+
+	.copy-link__button__normal {
+		display: none;
+	}
+	.copy-link__button__error {
+		display: inline-block;
+	}
+}
+

@@ -5,6 +5,7 @@ use KlinkDMS\User;
 use KlinkDMS\Group;
 use KlinkDMS\Capability;
 use KlinkDMS\Project;
+use KlinkDMS\Institution;
 use KlinkDMS\DocumentDescriptor;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Collection;
@@ -12,6 +13,8 @@ use Illuminate\Support\Collection;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+
+use Klink\DmsAdapter\Fakes\FakeKlinkAdapter;
 
 /*
  * Test related to the elastic list filters
@@ -29,11 +32,28 @@ class FiltersTest extends TestCase {
      */
     public function testFiltersInProjectDisplayOnlySubCollectionsOfTheParent(){
 
+        $mock = $this->withKlinkAdapterMock();
+
         $project_collection_names = ['Project Root', 'Project First Level', 'Second Level'];
 
         $user = $this->createUser( Capability::$PROJECT_MANAGER );
 
         $service = app('Klink\DmsDocuments\DocumentsService');
+
+        $mock->shouldReceive('isNetworkEnabled')->andReturn(false);
+
+        $mock->shouldReceive('addDocument', 'updateDocument')->andReturnUsing(function($doc) {
+            $descr = $doc->getDescriptor();
+
+            return $descr;
+        });
+
+        $mock->shouldReceive('institutions')->andReturnUsing(function($id = 'KLINK'){
+            $cached = Institution::where('klink_id', $id)->first();
+
+			return !is_null($cached) ? $cached : factory(Institution::class)->create(['klink_id' => $id]);
+        });
+
 
         $project = null;
 
@@ -94,7 +114,30 @@ class FiltersTest extends TestCase {
             return '0:' . $item->id;
         });
 
-        // var_dump($expected_collections);
+        $mock->shouldReceive('search')->andReturnUsing(function($terms, $type = KlinkVisibilityType::KLINK_PRIVATE, $resultsPerPage = 10, $offset = 0, $facets = null) use($expected_collections){
+
+            $partial = FakeKlinkAdapter::generateSearchResponse($terms, $type, $resultsPerPage, $offset, $facets);
+
+            $ft = array_filter($partial->getFacets(), function($a){
+                return $a->name === 'documentGroups';
+            });
+
+            $ft = $ft[0];
+
+            $newItems = [];
+            $ftItem = null;
+
+            foreach ($expected_collections as $col) {
+                $ftItem = new \KlinkFacetItem;
+                $ftItem->term = $col;
+                $ftItem->count = 1;
+                $newItems[] = $ftItem;
+            }
+
+            $ft->items = $newItems;
+
+            return $partial;
+        });
 
         $this->actingAs($user);
 

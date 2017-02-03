@@ -32,6 +32,8 @@ class StarredTest extends TestCase {
 	 */
 	public function testStarredPageView($caps, $expected_code)
 	{
+
+		$this->withKlinkAdapterFake();
 		
 		$user = $this->createUser($caps);
 		
@@ -57,6 +59,9 @@ class StarredTest extends TestCase {
 	
 	public function testStarIndex()
 	{
+
+		$fake = $this->withKlinkAdapterFake();
+
 		$starred_count = 3;
         
 		$user = $this->createAdminUser();
@@ -84,6 +89,8 @@ class StarredTest extends TestCase {
 	}
 	
 	public function testAddStar(){
+
+		$this->withKlinkAdapterFake();
 		
 		$user = $this->createUser(Capability::$CONTENT_MANAGER);
 		

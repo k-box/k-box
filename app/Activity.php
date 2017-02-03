@@ -2,6 +2,9 @@
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @deprecated
+ */
 class Activity extends Model {
     /*
     id: bigIncrements

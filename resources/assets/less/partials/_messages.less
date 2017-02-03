@@ -163,3 +163,69 @@
 
 	}
 }
+
+.outdated {
+	background: #FCC419;
+	padding: 0;
+	height: 0;
+	opacity: 0;
+	line-height: 48px-16;
+	vertical-align: middle;
+	
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+
+	transition: all 0.2s linear;
+}
+
+.outdated--visible {
+	padding: 8px;
+	opacity: 1;
+	height: 48px;
+}
+
+.outdated--nosupport {
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	z-index: 100;
+	padding: 100px 180px 360px;
+	margin-bottom: 360px;
+
+	overflow-y: auto;
+}
+
+.outdated--shown {
+	// to add the correct spacing for the body padding and the position:fixed elements
+	// apply to: body
+	padding-top: 92px+48px !important;
+
+	#documents-list .three {
+		padding-top: 92px+48px !important;
+	}
+}
+
+.outdated__link {
+
+	padding: 8px;
+	background: lighten(#FCC419, 40%);
+	text-decoration: underline;
+
+
+	&:hover {
+		background: #fff;
+	}
+
+}
+
+.outdated__browsers {
+
+	margin: 16px 0 24px
+}
+
+.outdated__browser {
+	display: inline-block;
+	width: 16%;
+	text-align: center
+}

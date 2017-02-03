@@ -117,4 +117,13 @@ return [
 
 	'generic_form_error' => 'You have some errors, please correct them before proceeding',
 
+	'oldbrowser' => [
+		'generic' => 'Your browser is out of date. For a better experience, keep your browser up to date.',
+		'ie8' => 'Your browser (Internet Explorer 8) is out of date. It has known security flaws and cannot display all features of K-Link. For a better experience, keep your browser up to date.',
+		'nosupport' => 'Your browser version is not supported by the K-Link DMS.',
+		
+		'more_info' => 'More information',
+		'dismiss' => 'Dismiss',
+	],
+
 ];

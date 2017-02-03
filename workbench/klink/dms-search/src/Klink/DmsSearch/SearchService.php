@@ -29,7 +29,7 @@ class SearchService {
 	 *
 	 * @return void
 	 */
-	public function __construct(Guard $auth, \Klink\DmsAdapter\KlinkAdapter $adapter)
+	public function __construct(Guard $auth, \Klink\DmsAdapter\Contracts\KlinkAdapter $adapter)
 	{
 		$this->auth = $auth;
 
@@ -76,7 +76,7 @@ class SearchService {
 
 			// save the query and the action performed
 
-			$results_from_the_core = $this->adapter->getConnection()->search( $terms, $visibility, $resultsPerPage, $offset, $facets );
+			$results_from_the_core = $this->adapter->search( $terms, $visibility, $resultsPerPage, $offset, $facets );
 
 			$is_starrable = $this->auth->check() && $this->auth->user()->can(Capability::MAKE_SEARCH);
 
@@ -94,7 +94,7 @@ class SearchService {
 
 				$res->isStarrable = $is_starrable;
 				
-				$institution = $this->adapter->getInstitution( $res->institutionID );
+				$institution = $this->adapter->institutions( $res->institutionID );
 
 				if($is_starrable && !is_string($institution)){
 
@@ -142,8 +142,7 @@ class SearchService {
 
 	/**
 	 * [autocomplete description]
-	 * @param  string $value [description]
-	 * @return [type]        [description]
+	 *
 	 */
 	public function autocomplete($value='')
 	{
@@ -154,7 +153,7 @@ class SearchService {
 
 	/**
 	 * [getRecentSearches description]
-	 * @return [type] [description]
+	 * @return Collection|null The collection of {@see RecentSearch} if user is authenticated, null otherwise
 	 */
 	public function getRecentSearches()
 	{
@@ -252,7 +251,7 @@ class SearchService {
 			
 			$default_array = \KlinkFacetsBuilder::all();
 			
-			return $this->limitFacets($this->adapter->getConnection()->facets($default_array, $visibility));
+			return $this->limitFacets($this->adapter->facets($default_array, $visibility));
 		});
 	}
 	
@@ -262,7 +261,7 @@ class SearchService {
 	public function limitFacets($facets){
 		$config = \Config::get('dms.limit_languages_to', false);
 		
-		if($config !== false && is_string($config)){
+		if($config !== false && is_string($config) && !is_null($facets)){
 			$langs = explode(',', $config);
 			
 			$lang_facet = $value = array_first($facets, function($key, $value)

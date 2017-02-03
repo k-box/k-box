@@ -131,7 +131,7 @@ class DmsModelCreation extends Command {
 
 	/**
 	 * The path where to save the newly created models
-	 * @return [type] [description]
+	 * @return string the path of the models
 	 */
 	public function getModelPath()
 	{
@@ -140,7 +140,7 @@ class DmsModelCreation extends Command {
 
 	/**
 	 * The path to the Model's stub folder
-	 * @return [type] [description]
+	 * @return string the stub directory
 	 */
 	private function getStubsPath()
 	{
@@ -160,8 +160,8 @@ class DmsModelCreation extends Command {
 
 	/**
 	 * Get the Model stub
-	 * @param  [type] $value [description]
-	 * @return [type]        [description]
+	 * @param  boolean $is_relation true if the model contains relations
+	 * @return string        the content of the stub
 	 */
 	private function getStub( $is_relation=false )
 	{

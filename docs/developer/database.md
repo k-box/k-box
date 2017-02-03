@@ -64,7 +64,7 @@ Under this condition the file versioning is possible enabling a single hierarchy
 
 ### Public and Private document descriptors
 
-In the K-Link network there is the concept of [Public and Private](../../klink_core/global-vs-local). By default all document descriptors are marked `private`.
+In the K-Link network there is the concept of Public and Private. By default all document descriptors are marked `private`.
 
 A public document descriptor, inside the DMS, is considered a flag of a private document descriptor. This means that a public document descriptor is still a private document of the institution, but has been opened for public viewing. In fact they both (public and private) shares the same meta data and, most of all, they have the same identifier, because it is the same document that will be showed for private and public requests.
 

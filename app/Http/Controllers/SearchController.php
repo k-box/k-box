@@ -104,7 +104,7 @@ class SearchController extends Controller {
 
 	/**
 	 * Ajax based route for getting the autocomplete for a search query while the user is typing
-	 * @return [type] [description]
+	 * @return Response
 	 */
 	public function autocomplete(Guard $auth)
 	{

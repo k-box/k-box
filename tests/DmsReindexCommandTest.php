@@ -51,6 +51,8 @@ class DmsReindexCommandTest extends TestCase {
      */
     public function testReindexButNotUpdatedAtUpdate(){
 
+        $this->withKlinkAdapterFake();
+
         $document_count = 1;
 
         $docs = $this->createDocuments( $document_count );
@@ -82,6 +84,8 @@ class DmsReindexCommandTest extends TestCase {
      */
     public function testReindexByID(){
 
+        $this->withKlinkAdapterFake();
+
         $document_count = 3;
 
         $docs = $this->createDocuments( $document_count );
@@ -104,6 +108,8 @@ class DmsReindexCommandTest extends TestCase {
      * Test the reindex with local document id as option
      */
     public function testReindexByLocalDocumentId(){
+
+        $this->withKlinkAdapterFake();
 
         $document_count = 3;
 
@@ -160,6 +166,8 @@ class DmsReindexCommandTest extends TestCase {
      */
     public function testReindexByUser(){
 
+        $this->withKlinkAdapterFake();
+
         $document_count = 3;
 
         $docs = $this->createDocuments( $document_count );
@@ -190,6 +198,8 @@ class DmsReindexCommandTest extends TestCase {
      * Test the reindex of a sub-set of the whole documents
      */
     public function testReindexWithTakeAndSkip(){
+
+        $this->withKlinkAdapterFake();
 
         $document_count = 6;
         
@@ -232,6 +242,8 @@ class DmsReindexCommandTest extends TestCase {
     }
 
     public function testReindexWithTakeAndSkipWithStrings(){
+
+        $this->withKlinkAdapterFake();
 
         $document_count = 6;
         
@@ -278,6 +290,8 @@ class DmsReindexCommandTest extends TestCase {
      * @expectedException InvalidArgumentException
      */
     public function testReindexWithTakeAndSkipWithArrays(){
+
+        $this->withKlinkAdapterFake();
 
         $document_count = 6;
         
@@ -351,6 +365,8 @@ class DmsReindexCommandTest extends TestCase {
      * Test the reindex of the documents passed as argument with the offset/limit combination
      */
     public function testReindexByIdWithTake(){
+
+        $this->withKlinkAdapterFake();
 
         $document_count = 6;
         

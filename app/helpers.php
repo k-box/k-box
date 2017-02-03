@@ -92,7 +92,7 @@ if (! function_exists('localized_date_human_diff')) {
      * @uses Jenssegers\Date\Date
      *
      * @param  DateTime $dt a DateTime instance to be localized
-     * @return Jenssegers\Date\Date the localizable date class instance
+     * @return string the localized formatted date
      */
     function localized_date_human_diff(\DateTime $dt)
     {
@@ -116,7 +116,7 @@ if (! function_exists('localized_date_full')) {
      * @uses Jenssegers\Date\Date
      *
      * @param  DateTime $dt a DateTime instance to be localized
-     * @return Jenssegers\Date\Date the localizable date class instance
+     * @return string the localized formatted date
      */
     function localized_date_full(\DateTime $dt)
     {
@@ -134,7 +134,7 @@ if (! function_exists('localized_date_short')) {
      * @uses Jenssegers\Date\Date
      *
      * @param  DateTime $dt a DateTime instance to be localized
-     * @return Jenssegers\Date\Date the localizable date class instance
+     * @return string the localized formatted date
      */
     function localized_date_short(\DateTime $dt)
     {
@@ -151,7 +151,6 @@ if (! function_exists('localized_date_short')) {
 if (! function_exists('network_name')) {
     /**
      * Get the configured network name
-     *
      *
      * @return string the configured network name localized according to the current application locale
      */
@@ -198,8 +197,7 @@ if (! function_exists('analytics_token')) {
 
 if (! function_exists('flags')) {
     /**
-     * Shortcut for accessing the KlinkDMS\Flags class  
-     *
+     * Shortcut for accessing the KlinkDMS\Flags class
      *
      * @return KlinkDMS\Flags 
      */

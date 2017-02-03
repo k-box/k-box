@@ -327,7 +327,7 @@ class BulkController extends Controller {
 	 * Bulk copy to Collection
 	 * @param  AuthGuard         $auth    [description]
 	 * @param  BulkDeleteRequest $request [description]
-	 * @return [type]                     [description]
+	 * @return Response
 	 */
 	public function copyTo(AuthGuard $auth, BulkMoveRequest $request)
 	{

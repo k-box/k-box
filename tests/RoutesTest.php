@@ -21,13 +21,13 @@ class RoutesTest extends TestCase {
 		
 		return array( 
 			array( 'frontpage' ),
-			array( 'search' ),
 			array( 'auth.login' ),
 			array( 'password.reset' ),
 			array( 'contact' ),
 			array( 'privacy' ),
 			array( 'terms' ),
 			array( 'help' ),
+			array( 'browserupdate' ),
 		);
         
 	}
@@ -85,6 +85,8 @@ class RoutesTest extends TestCase {
 	 */
 	public function testFreeRoutes( $name )
 	{
+
+		$this->withKlinkAdapterFake();
         
         $url = route( $name );
         

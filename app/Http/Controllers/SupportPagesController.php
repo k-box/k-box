@@ -28,7 +28,7 @@ class SupportPagesController extends Controller {
 	 *
 	 * @return void
 	 */
-	public function __construct(\Klink\DmsAdapter\KlinkAdapter $adapterService)
+	public function __construct(\Klink\DmsAdapter\Contracts\KlinkAdapter $adapterService)
 	{
 		$this->adapter = $adapterService;
 	}
@@ -85,8 +85,7 @@ class SupportPagesController extends Controller {
 
 	public function contact()
 	{
-
-		$inst = $this->adapter->getInstitution(\Config::get('dms.institutionID'));
+		$inst = $this->adapter->institutions(\Config::get('dms.institutionID'));
 
 		$since = localized_date_human_diff($inst->created_at);
 
@@ -95,6 +94,13 @@ class SupportPagesController extends Controller {
 		$page_title = trans('pages.contact');
         
 		return view('static.contact', compact('inst', 'since', 'geocode', 'page_title'));
+	}
+
+	public function browserupdate()
+	{
+
+		return view('static.browserupdate');
+
 	}
 
 

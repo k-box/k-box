@@ -5,7 +5,7 @@
 
 		<div class="u-pull-right">
 
-			<a class="button button-primary" href="{{$document->document_uri}}" download="{{ $document->title }}">
+			<a class="button button-primary" href="{{DmsRouting::download($document)}}" download="{{ $document->title }}">
 				{{trans('panels.download_btn')}}
 			</a>
 

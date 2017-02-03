@@ -253,7 +253,7 @@ return [
 		'delete_forbidden' => 'You don\'t have the rights to delete documents, please contact a Project Manager or an Administrator.',
 		'delete_public_forbidden' => 'You cannot delete a Public Document, please contact a K-Linker or an Administrator.',
 		'delete_force_forbidden' => 'You cannot permanently delete a Document. Please contact a Project Manager or an Administrator.',
-		'drag_hint' => 'Drop here the file to start the upload.',
+		'drag_hint' => 'Drop the file to start the upload.',
 		'recent_hint_dms_manager' => 'You are viewing all the document updates made by each user of the DMS.',
 		'no_documents' => 'No Documents, you can upload new documents here using the "Create or Add" button above or by dragging and dropping them here.',
 	),

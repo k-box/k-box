@@ -13,7 +13,7 @@ class DmsMicrositesServiceProvider extends ServiceProvider {
 	protected $defer = false;
 
 	/**
-	 * Bootstrap the application events.
+	 * Register the sites views.
 	 *
 	 * @return void
 	 */

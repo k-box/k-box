@@ -9,14 +9,11 @@ use Carbon\Carbon;
 class WidgetsComposer {
 
     /**
-     * ...
-     *
-     * @var 
+     * @var \Klink\DmsAdapter\KlinkAdapter
      */
     protected $adapter;
 
     /**
-     * [$documents description]
      * @var \Klink\DmsDocuments\DocumentsService
      */
     private $documents = NULL;
@@ -27,7 +24,7 @@ class WidgetsComposer {
      * @param  UserRepository  $users
      * @return void
      */
-    public function __construct(\Klink\DmsAdapter\KlinkAdapter $adapter, \Klink\DmsDocuments\DocumentsService $documentsService)
+    public function __construct(\Klink\DmsAdapter\Contracts\KlinkAdapter $adapter, \Klink\DmsDocuments\DocumentsService $documentsService)
     {
         
         $this->adapter = $adapter;
@@ -61,7 +58,7 @@ class WidgetsComposer {
     /**
      * Hero counter widget
      * @param  View   $view [description]
-     * @return [type]       [description]
+     * @return void
      */
     public function widgetHeroCounter(View $view)
     {

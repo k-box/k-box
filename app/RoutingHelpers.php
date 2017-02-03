@@ -30,7 +30,7 @@ final class RoutingHelpers {
 	public static function preview(DocumentDescriptor $doc){
 		
 		if($doc->isMine()){
-			return route('klink_api', ['id' => $doc->local_document_id, 'action' => 'document']) . '?preview=true';	
+			return route('klink_api', ['id' => $doc->local_document_id, 'action' => 'preview']);
 		}
 		
 		return $doc->document_uri;
@@ -40,7 +40,7 @@ final class RoutingHelpers {
 	public static function embed(DocumentDescriptor $doc){
 		
 		if($doc->isMine()){
-			return route('klink_api', ['id' => $doc->local_document_id, 'action' => 'document']) . '?embed=true';	
+			return route('klink_api', ['id' => $doc->local_document_id, 'action' => 'download']) . '?embed=true';	
 		}
 		
 		return $doc->document_uri;
@@ -50,7 +50,7 @@ final class RoutingHelpers {
 	public static function download(DocumentDescriptor $doc){
 		
 		if($doc->isMine()){
-			return route('klink_api', ['id' => $doc->local_document_id, 'action' => 'document']);	
+			return route('klink_api', ['id' => $doc->local_document_id, 'action' => 'download']);	
 		}
 		
 		return $doc->document_uri;

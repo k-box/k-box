@@ -89,6 +89,8 @@ class DocumentsServiceTest extends TestCase {
      */
     public function testFallbackDocumentReIndexingAfterForceHashCheckOnKCore(){
 
+        $this->withKlinkAdapterFake();
+
         // todo test add and reindex
         $user = $this->createAdminUser();
 
@@ -116,6 +118,8 @@ class DocumentsServiceTest extends TestCase {
      * issue https://git.klink.asia/klinkdms/dms/issues/690
      */
     public function testFallbackDocumentIndexingAfterForceHashCheckOnKCore(){
+
+        $this->withKlinkAdapterFake();
 
         // todo test add and reindex
         $user = $this->createAdminUser();

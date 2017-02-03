@@ -22,6 +22,8 @@ class TrashContentResponse {
 	
 	
 	/**
+	 * Return both documents and collections
+	 *
 	 * @return Collection
 	 */
 	public function all(){
@@ -29,6 +31,8 @@ class TrashContentResponse {
 	}
 	
 	/**
+	 * Return all documents
+	 *
 	 * @return Collection
 	 */
 	public function documents(){
@@ -36,6 +40,8 @@ class TrashContentResponse {
 	}
 	
 	/**
+	 * Return all collections
+	 *
 	 * @return Collection
 	 */
 	public function collections(){

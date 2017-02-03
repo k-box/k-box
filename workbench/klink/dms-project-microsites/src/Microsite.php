@@ -6,28 +6,28 @@ use KlinkDMS\Project;
 use KlinkDMS\User;
 
 /**
-  The Microsite model.
-*/
+ * The Microsite model.
+ *
+ * Fields:
+ * - id,
+ * - project_id
+ * - title
+ * - slug
+ * - description
+ * - logo
+ * - hero_image
+ * - default_language
+ * - user_id
+ * - institution_id
+ * - created_at
+ * - updated_at
+ * - deleted_at
+ * @uses SoftDeletes   
+ */
 class Microsite extends Model {
 
     use SoftDeletes;
     
-    /*
-      id,
-      project_id
-      title
-      slug
-      description
-      logo
-      hero_image
-      default_language
-      user_id
-      institution_id
-      created_at
-      updated_at
-      deleted_at
-    */
-
     /**
      * The database table used by the model.
      *
@@ -45,6 +45,7 @@ class Microsite extends Model {
 
     /**
      * The user that has created the microsite
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function project() {
         return $this->belongsTo('KlinkDMS\Project', 'project_id', 'id');
@@ -52,6 +53,7 @@ class Microsite extends Model {
     
     /**
      * The user that has created the microsite
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function institution() {
         return $this->belongsTo('KlinkDMS\Institution', 'institution_id', 'id');
@@ -59,6 +61,7 @@ class Microsite extends Model {
        
     /**
      * The user that has created the microsite
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function user() {
         return $this->belongsTo('KlinkDMS\User', 'user_id', 'id');
@@ -66,6 +69,7 @@ class Microsite extends Model {
     
     /**
      * relation with the MicrositeContent model
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function contents() {
         return $this->hasMany('Klink\DmsMicrosites\MicrositeContent', 'microsite_id', 'id');
@@ -91,7 +95,7 @@ class Microsite extends Model {
 
 
     /**
-     * Scope for getting microsite by slug
+     * Scope for get microsite by slug
      *
      * @param string $slug the slug to search for
      *

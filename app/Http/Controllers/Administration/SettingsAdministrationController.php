@@ -114,7 +114,7 @@ class SettingsAdministrationController extends Controller {
                     $username = $request->input(Option::PUBLIC_CORE_USERNAME, null);
                     $password = $request->input(Option::PUBLIC_CORE_PASSWORD, null);
                     
-                    $test_result = app('Klink\DmsAdapter\KlinkAdapter')->testExplicitNetworkConnectivity($url, $username, $password);
+                    $test_result = app('klinkadapter')->test(new \KlinkAuthentication($url, $username, $password, \KlinkVisibilityType::KLINK_PUBLIC));
                     
                     if(!$test_result['result']){
                         // failure

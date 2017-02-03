@@ -53,7 +53,7 @@
 		@include('analytics')
 
 	</head>
-	<body class="{{$body_classes}}">
+	<body class="{{$body_classes}}" id="js-drop-area">
 
 		<div class="long-running-message" id="long-running-message">
 			{!! trans('notices.long_running_msg') !!}

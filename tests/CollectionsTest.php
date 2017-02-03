@@ -65,6 +65,8 @@ class CollectionsTest extends TestCase {
     public function testSeePersonalCollectionAccessGranted( )
 	{
         // create a document
+
+        $this->withKlinkAdapterFake();
         
         $user = $this->createAdminUser();
         

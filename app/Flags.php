@@ -10,6 +10,8 @@ use InvalidArgumentException;
  * flags.
  *
  * Feature flags are persisted as {@see Option} with the "flag_" prefix.
+ *
+ * @uses KlinkDMS\Traits\HasEnums
  */
 final class Flags {
 
@@ -23,6 +25,7 @@ final class Flags {
 
 	/**
 	 * Check if a flag is enabled
+	 *
 	 * @param string $flag the flag name
 	 * @return boolean true if the flag is enabled, false otherwise 
 	 */
@@ -46,6 +49,7 @@ final class Flags {
 	
 	/**
 	 * Check if a flag is disabled
+	 *
 	 * @param string $flag the flag name
 	 * @return boolean true if the flag is disabled, false otherwise 
 	 */
@@ -69,6 +73,7 @@ final class Flags {
 
 	/**
 	 * Enable a flag
+	 *
 	 * @param string $flag the flag name
 	 * @return boolean true if the flag was enabled succesfully, false otherwise 
 	 */
@@ -91,6 +96,7 @@ final class Flags {
 	
 	/**
 	 * Disable a flag
+	 *
 	 * @param string $flag the flag name
 	 * @return boolean true if the flag was disabled succesfully, false otherwise 
 	 */
@@ -144,6 +150,11 @@ final class Flags {
 	}
 
 
+	/**
+	 * Get the enable/disable state of the Unified Search feature
+	 *
+	 * @return bool unified search enable status
+	 */
 	public function isUnifiedSearchEnabled(){
 		return self::isEnabled(self::UNIFIED_SEARCH);
 	}

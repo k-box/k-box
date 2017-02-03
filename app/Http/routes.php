@@ -1,34 +1,52 @@
 <?php
 
-// Project Pokedex
-
-
 /*
 |--------------------------------------------------------------------------
 | Application Routes
 |--------------------------------------------------------------------------
 |
-| Here is where you can register all of the routes for an application.
-| It's a breeze. Simply tell Laravel the URIs it should respond to
-| and give it the controller to call when that URI is requested.
 |
 */
 
+/*
+|--------------------------------------------------------------------------
+| Main Access page
+|--------------------------------------------------------------------------
+*/
 Route::get('/', ['as' => 'frontpage', 'uses' => 'WelcomeController@index']);
 
+/** 
+ * @internal
+ */
 Route::get('home', ['as' => 'dashboard', 'uses' => 'HomeController@index']);
 
+/*
+|--------------------------------------------------------------------------
+| Related to the map visualization
+|--------------------------------------------------------------------------
+*/
 Route::get('visualizationdata', ['as' => 'visualization', 'uses' => 'VisualizationApiController@index']);
 
-/**
- * Search route
- */
+/*
+|--------------------------------------------------------------------------
+| Public/Network search
+|--------------------------------------------------------------------------
+|
+| ...
+|
+*/
 Route::get('search/autocomplete', ['as' => 'search-autocomplete', 'uses' => 'SearchController@autocomplete']);
 Route::get('search', ['as' => 'search', 'uses' => 'SearchController@index']);
-// TODO: search will have more methods on the controller
 
 
-
+/*
+|--------------------------------------------------------------------------
+| Administration
+|--------------------------------------------------------------------------
+|
+| ...
+|
+*/
 
 Route::get('administration', [
 	'as' => 'administration.index',
@@ -84,6 +102,14 @@ Route::controller('administration/mail', 'Administration\MailAdministrationContr
 
 Route::resource('administration/settings', 'Administration\SettingsAdministrationController', ['only' => ['index', 'store']]);
 
+/*
+|--------------------------------------------------------------------------
+| Documents and collections
+|--------------------------------------------------------------------------
+|
+| ...
+|
+*/
 
 Route::resource('documents/groups', 'Document\GroupsController');
 
@@ -159,6 +185,15 @@ Route::resource('documents/import', 'Document\ImportDocumentsController',
 
 Route::resource('documents', 'Document\DocumentsController');
 
+/*
+|--------------------------------------------------------------------------
+| Sharing
+|--------------------------------------------------------------------------
+|
+| ...
+|
+*/
+
 Route::put('shares/deletemultiple',[ 
     'uses' => 'SharingController@deleteMultiple',
     'as' => 'shares.deletemultiple',
@@ -169,28 +204,56 @@ Route::get('shares/group/{id}', [
         'as' => 'shares.group',
     ]);
 
-
-
 Route::resource('shares', 'SharingController');
 
 
-/**
- * User profile controller
- */
+/*
+|--------------------------------------------------------------------------
+| User Profile
+|--------------------------------------------------------------------------
+|
+| Handle the user profile
+|
+*/
+
+// used to store document layout and other options via async requests
 Route::post('profile/options',[ 
       'uses' => 'UserProfileController@update',
       'as' => 'profile.update',
-  ]);
+]);
+
+// the profile page
 Route::resource('profile', 'UserProfileController', ['only' => ['index', 'store']]);
 
 
+/*
+|--------------------------------------------------------------------------
+| User/People groups
+|--------------------------------------------------------------------------
+|
+| Handle the (people) groups functionality
+|
+*/
+
 Route::resource('people', 'People\PeopleGroupsController');
 
+/*
+|--------------------------------------------------------------------------
+| Projects
+|--------------------------------------------------------------------------
+|
+| Handle the microsites visualization and edit
+|
+*/
 
 \Route::get('projects/{slug}/{language?}', [ 
     'uses' => '\Klink\DmsMicrosites\Controllers\MicrositeController@show',
     'as' => 'projects.site',
-])->where(['slug' => '(?!create)[a-z\\-]+', 'language' => '^[a-z]{2}$']); // slug cannot contain 'create' as generates a conflict with projects.create route
+])->where([
+    'slug' => '(?!create)[a-z\\-]+',
+    // slug cannot contain 'create' as generates a conflict with projects.create route
+     'language' => '^[a-z]{2}$'
+]); 
 
 Route::post('projects/{id}/avatar',[ 
     'uses' => 'Projects\ProjectAvatarsController@store',
@@ -220,7 +283,7 @@ Route::resource('projects', 'Projects\ProjectsController');
 Route::get('klink/{id}/{action}',[ 
         'uses' => 'KlinkApiController@show',
         'as' => 'klink_api',
-    ])->where(['id' => '[0-9A-Za-z]+', 'action' => '(thumbnail|document)']);
+    ])->where(['id' => '[0-9A-Za-z]+', 'action' => '(thumbnail|document|preview|download)']);
 
 /*
 |--------------------------------------------------------------------------
@@ -276,8 +339,17 @@ Route::get('terms', ['as' => 'terms', 'uses' => 'SupportPagesController@terms'])
 
 Route::get('help', ['as' => 'help', 'uses' => 'SupportPagesController@help']);
 
+Route::get('help/browserupdate', ['as' => 'browserupdate', 'uses' => 'SupportPagesController@browserupdate']);
 
-// Microsites routes
+
+/*
+|--------------------------------------------------------------------------
+| Microsites
+|--------------------------------------------------------------------------
+|
+| Handle the microsites visualization and edit
+|
+*/
 
 Route::get('site/{slug}', [ 
     'uses' => '\Klink\DmsMicrosites\Controllers\MicrositeController@show',

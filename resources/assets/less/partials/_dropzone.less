@@ -82,29 +82,18 @@
     pointer-events: none;
     
     width: 100%;
-    height: 400px;
+    height: 100%;
 
-    display: none;
+    display: block;
 
     z-index: 1000;
 
-    padding: 120px 0 2rem;
+    position: fixed;
 
-    background-color: #fff;
-
-    background-color: rgba(255,255,255,0.9);
-    
-    position: absolute;
-
-    top: -50px;
-
-    // -webkit-transform: translateY(-50%);
-    // -ms-transform: translateY(-50%);
-    // transform: translateY(-50%);
-
+    top: 0;
     left: 0;
 
-    box-shadow: 0px 0px 10px #444;
+    border: 6px solid #A9E34B;
 
     .box-sizing(border-box);
 
@@ -113,6 +102,10 @@
     
     p {
       
+      line-height: @top-header-height + @sub-header-height;
+      vertical-align: middle;
+      background-color: #A9E34B;
+      // background-color:fade(lighten(#A9E34B, 10%), 80%);
       text-align: center;
     
       position: relative;
@@ -127,7 +120,7 @@
     
 
     .dz-message {
-      opacity: 1;
+      opacity: 0.6;
       display: block;
     }
   }

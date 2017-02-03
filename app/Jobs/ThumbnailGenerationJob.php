@@ -10,7 +10,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 
 use KlinkDMS\File;
 
-use Klink\DmsDocuments\DocumentsService;
+use Klink\DmsPreviews\Thumbnails\ThumbnailsService;
 
 use Exception;
 
@@ -38,7 +38,7 @@ class ThumbnailGenerationJob extends Job implements SelfHandling, ShouldQueue
      *
      * @param File $file the file you want to generate the thumbnail
      * @param boolean $force if the thumbnail generation should be forced (useful when the file already have a thumbnail)
-     * @return void
+     * @return ThumbnailGenerationJob
      */
     public function __construct(File $file, $force = false)
     {
@@ -51,17 +51,21 @@ class ThumbnailGenerationJob extends Job implements SelfHandling, ShouldQueue
      *
      * @return void
      */
-    public function handle(DocumentsService $service)
+    public function handle(ThumbnailsService $service)
     {
-        try{
+        try
+        {
+
+            $t_path = $service->generate($this->file, $this->force);
         
-            $is_webpage = $this->file->isRemoteWebPage();
+        }
+        catch(Exception $ex)
+        {
             
-            $t_path = $service->generateThumbnail($this->file, 'default', $this->force, $is_webpage);
-        
-        }catch(Exception $ex){
-            
-            \Log::error('Thumbnail generation Job error', array('file' => $this->file->toArray(), 'force' => $this->force, 'error' => $ex));
+            \Log::error('Thumbnail generation Job error', array(
+                'file' => $this->file->toArray(), 
+                'force' => $this->force, 
+                'error' => $ex));
             
         }
     }

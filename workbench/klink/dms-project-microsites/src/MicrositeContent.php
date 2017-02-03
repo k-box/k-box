@@ -6,8 +6,23 @@ use KlinkDMS\Project;
 use KlinkDMS\User;
 
 /**
-  The Microsite Content model.
-*/
+ * The Microsite Content model.
+ *
+ * Fields:
+ * - id,
+ * - microsite_id
+ * - language
+ * - title
+ * - slug
+ * - content
+ * - type
+ * - user_id
+ * - created_at
+ * - updated_at
+ * - deleted_at
+ *
+ * @uses SoftDeletes
+ */
 class MicrositeContent extends Model {
 
     use SoftDeletes;
@@ -22,19 +37,6 @@ class MicrositeContent extends Model {
      */
     const TYPE_MENU = 2;
 
-  /*
-      id,
-      microsite_id
-      language
-      title
-      slug
-      content
-      type
-      user_id
-      created_at
-      updated_at
-      deleted_at
-   */
 
     /**
      * The database table used by the model.

@@ -6,6 +6,9 @@ use Symfony\Component\Console\Input\InputArgument;
 use KlinkDMS\User;
 use KlinkDMS\Capability;
 
+/**
+ * Creates admin user accounts
+ */
 final class DmsCreateAdminUserCommand extends Command {
 
 	/**
@@ -63,8 +66,6 @@ final class DmsCreateAdminUserCommand extends Command {
 		}
 		else {
 
-			// $the_password = str_random(8);
-
 			$et_offset = strpos($the_username, '@');
 			$nice_name = $et_offset !== false ? substr($the_username, 0, $et_offset) : $the_username;
 
@@ -80,7 +81,6 @@ final class DmsCreateAdminUserCommand extends Command {
 			$this->line('The DMS Administration user has been created.');
 
 			$this->line("  username: <comment>$the_username</comment>");
-			// $this->line("  password: <info>$the_password</info>");
 			$this->line("  password: <info>The chosen password</info>");
 			$this->line('');
 
@@ -112,7 +112,6 @@ final class DmsCreateAdminUserCommand extends Command {
 	protected function getOptions()
 	{
 		return [
-			// ['name', null, InputOption::VALUE_REQUIRED, 'The username, must be a valid email address.', 'admin@klink.local'],
 		];
 	}
 

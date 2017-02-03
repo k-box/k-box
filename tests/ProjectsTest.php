@@ -243,6 +243,8 @@ class ProjectsTest extends TestCase {
     
     public function testProjectDocumentsCount(){
 
+        $this->withKlinkAdapterFake();
+
         $user = $this->createUser( Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH );
         
         $service = app('Klink\DmsDocuments\DocumentsService');

@@ -18,14 +18,11 @@ use KlinkFacet;
 class DocumentsComposer {
 
     /**
-     * ...
-     *
-     * @var 
+     * @var \Klink\DmsAdapter\KlinkAdapter
      */
     protected $adapter;
 
     /**
-     * [$documents description]
      * @var \Klink\DmsDocuments\DocumentsService
      */
     private $documents = NULL;
@@ -38,7 +35,7 @@ class DocumentsComposer {
      * @param  UserRepository  $users
      * @return void
      */
-    public function __construct(\Klink\DmsAdapter\KlinkAdapter $adapter, \Klink\DmsDocuments\DocumentsService $documentsService)
+    public function __construct(\Klink\DmsAdapter\Contracts\KlinkAdapter $adapter, \Klink\DmsDocuments\DocumentsService $documentsService)
     {
         
         $this->adapter = $adapter;
@@ -79,11 +76,11 @@ class DocumentsComposer {
             $view->with('list_style_current', 'tiles');
         }
         
-        $view->with('is_klink_public_enabled', $this->adapter->isKlinkPublicEnabled());
+        $view->with('is_klink_public_enabled', $this->adapter->isNetworkEnabled());
     }
     
     public function menu(View $view){
-        $view->with('is_klink_public_enabled', $this->adapter->isKlinkPublicEnabled());
+        $view->with('is_klink_public_enabled', $this->adapter->isNetworkEnabled());
     }
 
     /**

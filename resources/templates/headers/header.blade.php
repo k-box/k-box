@@ -1,6 +1,44 @@
 
 <header class=" header" role="header">
 
+	<!--[if lt IE 8]>
+	<div class="outdated outdated--visible outdated--nosupport js-outdated-ie7">
+
+		<div>
+			<img src="{{ url('/') }}/android-chrome-72x72.png" alt="K-Link logo">
+		</div>
+
+		<h1>
+			{{ trans('errors.oldbrowser.nosupport') }}
+		</h1>
+		
+		@include('static.partials.browserupdate')
+	
+	</div>
+	<![endif]-->
+
+	<!--[if IE 8]>
+	<div class="outdated outdated--visible js-outdated-ie8">
+
+		<span class="outdated__message">
+			{{ trans('errors.oldbrowser.ie8') }}
+		</span>
+		
+		<a href="{{route('browserupdate')}}" class="outdated__link">{{ trans('errors.oldbrowser.more_info') }}</a>
+	
+	</div>
+	<![endif]-->
+
+	<div class="outdated js-outdated">
+	
+		<span class="outdated__message">
+			{{ trans('errors.oldbrowser.generic') }}
+		</span>
+		
+		<a href="{{route('browserupdate')}}" class="outdated__link">{{ trans('errors.oldbrowser.more_info') }}</a>
+
+	</div>
+
 	<div class="top-header">
 
 

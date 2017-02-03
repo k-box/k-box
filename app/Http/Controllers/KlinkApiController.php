@@ -6,19 +6,35 @@ use KlinkDMS\DocumentDescriptor;
 use KlinkDMS\Institution;
 use KlinkDMS\File;
 use Illuminate\Http\Request;
+use Klink\DmsPreviews\Thumbnails\ThumbnailsService;
 
 /**
- * Controller for Klink API (/klink/*) pages
+ * Controller for Klink API (/klink/{ID}/{Action}) pages
+ * 
+ * Handles the following actions:
+ * - preview: shows the document preview
+ * - thumbnail: return the document thumbnail
+ * - document: now behave like the preview action
+ * - download: trigger the file download
  */
 class KlinkApiController extends Controller {
 
-	private $documentService = null;
+	private $thumbnails = null;
 	
 	private $previewService = null;
+	
+	private $documentsService = null;
 
-	function __construct(\Klink\DmsDocuments\DocumentsService $adapterService, \Klink\DmsPreviews\PreviewsService $preview) {
-		$this->documentService = $adapterService;
+	/**
+	 * Initialize the controller instance
+	 */
+	function __construct(
+			ThumbnailsService $thumbService, 
+			\Klink\DmsPreviews\PreviewsService $preview,
+			\Klink\DmsDocuments\DocumentsService $documentsService) {
+		$this->thumbnails = $thumbService;
 		$this->previewService = $preview;
+		$this->documentsService = $documentsService;
 	}
 
 
@@ -54,7 +70,7 @@ class KlinkApiController extends Controller {
 
 		if(!is_null($collections) && !$collections->isEmpty() && !is_null($user))
 		{
-			$serv = $this->documentService;
+			$serv = $this->documentsService;
 
 			$filtered = $collections->filter(function($c) use($serv, $user)
 			{
@@ -74,22 +90,37 @@ class KlinkApiController extends Controller {
 			return view('errors.403', ['reason' => 'ForbiddenException: not shared, not in collection, not public or private of the user']);
 		}
 
-		if($action==='document'){
+		if($action==='document' || $action==='preview')
+		{
+
+			return $this->getPreview($request, $doc);
+
+		}
+		else if($action==='download')
+		{
 
 			return $this->getDocument($request, $doc);
 
 		}
-		else if($action==='thumbnail'){
+		else if($action==='thumbnail')
+		{
 
 			return $this->getThumbnail($request, $doc);
 
 		}
 
-		return view('errors.403', ['reason' => 'ForbiddenException']);
+		return view('errors.403', ['reason' => 'WrongAction']);
 	}
 
 
 
+	/**
+	 * Get (or build) the thumbnail of a Document Descriptor
+	 *
+	 * @param Request $request the original HTTP request
+	 * @param DocumentDescriptor $doc the descriptor to build the thumbnail for
+	 * @return \Symfony\Component\HttpFoundation\Response
+	 */
 	private function getThumbnail(Request $request, DocumentDescriptor $doc){
 	
 		/* File */ $file = $doc->file;
@@ -126,10 +157,8 @@ class KlinkApiController extends Controller {
         else {
 
             if(empty($file->thumbnail_path)){
-
-                $is_webpage = $doc->isRemoteWebPage();
                 
-                $t_path = $this->documentService->generateThumbnail($file, 'default', true, $is_webpage);
+                $t_path = $this->thumbnails->generate($file);
 
                 $response->setContent( file_get_contents( $t_path ) );
                 
@@ -149,6 +178,13 @@ class KlinkApiController extends Controller {
 	}
 
 
+	/**
+	 * Get the Document Descriptor file download
+	 *
+	 * @param Request $request the original HTTP request
+	 * @param DocumentDescriptor $doc the descriptor whose file needs to be downloaded
+	 * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+	 */
 	private function getDocument(Request $request, DocumentDescriptor $doc)
 	{
 		
@@ -158,29 +194,11 @@ class KlinkApiController extends Controller {
 
 		/* File */ $file = $doc->file;
 
-		if($request->has('preview')){
-			
-			$extension = \KlinkDocumentUtils::getExtensionFromMimeType($file->mime_type);
-
-			$render = $this->previewService->render($file);
-			
-			return view('documents.preview', [
-				'document' => $doc, 
-				'file' => $file,
-				'type' =>  $doc->document_type,
-				'render' => $render,
-				'extension' => $extension,
-				'body_classes' => 'preview ' . $doc->document_type,
-				'pagetitle' => trans('documents.preview.page_title', ['document' => $doc->title]),
-			]);
-		}
-
         $embed = $request->input('embed', false);
 		
         $headers = array(
             'Content-Type' => $file->mime_type
         );
-
 
         $response = new \Symfony\Component\HttpFoundation\BinaryFileResponse($file->path, 200, $headers, true, null);
         $name = $file->name;
@@ -190,8 +208,37 @@ class KlinkApiController extends Controller {
 
         return $response;
 
+	}
+	
+	/**
+	 * The preview of a Document Descriptor
+	 *
+	 * @param Request $request the original HTTP request
+	 * @param DocumentDescriptor $doc the descriptor to build the preview for
+	 * @return Illuminate\View\View the documents.preview view
+	 */
+	private function getPreview(Request $request, DocumentDescriptor $doc)
+	{
+		
+		if($doc->trashed()){
+			\App::abort(404, trans('errors.document_not_found'));
+		}
 
-        // return response()->download( $file->path, mb_convert_encoding( $file->name, 'ASCII', 'auto'), $headers, ( !$embed ? 'attachment' : 'inline' ) );
+		/* File */ $file = $doc->file;
+			
+		$extension = \KlinkDocumentUtils::getExtensionFromMimeType($file->mime_type);
+
+		$render = $this->previewService->render($file);
+		
+		return view('documents.preview', [
+			'document' => $doc, 
+			'file' => $file,
+			'type' =>  $doc->document_type,
+			'render' => $render,
+			'extension' => $extension,
+			'body_classes' => 'preview ' . $doc->document_type,
+			'pagetitle' => trans('documents.preview.page_title', ['document' => $doc->title]),
+		]);
 
 	}
 

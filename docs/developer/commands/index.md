@@ -31,7 +31,9 @@ Here are only listed the specific commands added by the K-DMS:
   the latest version details of a Document are correctly reported in a document descriptor
 - `collections:clean-duplicates`: Clean the duplicated documents contained in a collection
 - `collections:list`: Performs actions on collections
-
+- [`lang:check`](./lang-check.md) Get the status of the localization in different languages
+- [`files:orphans`](./files-orphans.md): Find and remove orphan files, i.e. the one not linked
+  to a document descriptor
 
 For a complete list of available commands execute
 

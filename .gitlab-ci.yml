@@ -77,6 +77,43 @@ build_dev:7.0:
   tags:
     - docker
 
+language_check:
+  # Execute the check over the translation to find untranslated strings
+  stage: test
+  script:
+    - mv env.ci .env
+    - php artisan lang:check --report=translations.txt
+    - mv .env env.ci
+  image: "docker.klink.asia:5043/klink/php-ci-docker:7.0-alpine"
+  allow_failure: false
+  tags:
+    - docker
+  only:
+   - master
+  artifacts:
+    paths:
+    - translations.txt
+
+unit_test:
+  # Tries to execute unit tests
+  stage: test
+  services:
+    - mariadb:10.0
+  variables:
+    MYSQL_DATABASE: dms_test
+    MYSQL_USER: dms
+    MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+    MYSQL_PASSWORD: dms
+  script:
+    - mv env.ci testing.env
+    - php artisan migrate --env=testing --force
+    - php artisan db:seed --env=testing --force
+    - vendor/bin/phpunit
+    - mv testing.env env.ci
+  image: "docker.klink.asia:5043/klink/php-ci-docker:7.0-alpine"
+  allow_failure: true
+  tags:
+    - docker
 
 # Build production
 # - Build PHP dependencies without dev related packages

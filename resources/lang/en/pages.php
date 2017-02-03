@@ -18,5 +18,6 @@ return [
 	'privacy' => 'Privacy',
 	'contact' => 'Contact',
 	'service_policy' => 'Service Policy',
+	'browserupdate' => 'Browser Update Help',
 
 ];

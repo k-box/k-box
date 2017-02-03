@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 use KlinkDMS\DocumentDescriptor;
 use KlinkDMS\Institution;
-use Klink\DmsAdapter\KlinkAdapter;
+use Klink\DmsAdapter\Contracts\KlinkAdapter;
 use Klink\DmsDocuments\DocumentsService;
 
 use KlinkDMS\Console\Traits\DebugOutput;
@@ -48,7 +48,7 @@ class DocumentsCheckInstitutionCommand extends Command
     {
         parent::__construct();
         
-        $this->adapter = $adapter->getConnection();
+        $this->adapter = $adapter;
         $this->doc_service = $service;
     }
 

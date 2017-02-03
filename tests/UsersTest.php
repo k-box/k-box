@@ -188,6 +188,8 @@ class UsersTest extends TestCase {
      * @dataProvider capabilities
      */
     function testTermsMessageShow($cap){
+
+        $this->withKlinkAdapterFake();
         
         $user = $this->createUser($cap);
         

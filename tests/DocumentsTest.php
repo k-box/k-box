@@ -222,6 +222,8 @@ class DocumentsTest extends TestCase {
 	 */
     public function testDocumentUpdate( $caps, $ignored )
 	{
+
+        $this->withKlinkAdapterFake();
         
         $user = $this->createUser( $caps );
         
@@ -259,6 +261,8 @@ class DocumentsTest extends TestCase {
      * @dataProvider user_provider_that_can_make_public
      */
     public function testDocumentUpdateMakePublicFromEditPage($caps){
+
+        $this->withKlinkAdapterFake();
         
         $user = $this->createUser( $caps );
 
@@ -311,6 +315,9 @@ class DocumentsTest extends TestCase {
      * @dataProvider user_provider_that_can_make_public
      */
     public function testDocumentUpdateRemoveCollectionFromPublicDocument($caps){
+
+        $this->withKlinkAdapterFake();
+
         $user = $this->createUser( $caps );
         
         $file = factory('KlinkDMS\File')->create([
@@ -353,6 +360,9 @@ class DocumentsTest extends TestCase {
      * @dataProvider user_provider_that_can_make_public
      */
     public function testDocumentUpdateAddCollectionToPublicDocument($caps){
+
+        $this->withKlinkAdapterFake();
+
         $user = $this->createUser( $caps );
         
         $file = factory('KlinkDMS\File')->create([
@@ -395,6 +405,8 @@ class DocumentsTest extends TestCase {
      * @dataProvider user_provider_document_link_test
      */
     public function testDocumentLinkLoginRedirect_NotLoggedIn($cap, $ignored){
+
+        $this->withKlinkAdapterFake();
         
         // create a document
         
@@ -445,6 +457,8 @@ class DocumentsTest extends TestCase {
      * @dataProvider user_provider_document_link_test
      */
     public function testDocumentLinkLoginRedirect_LoggedIn($cap, $ignored){
+
+        $this->withKlinkAdapterFake();
         
         // create a document
         
@@ -484,6 +498,8 @@ class DocumentsTest extends TestCase {
      * @dataProvider user_provider_document_link_test
      */
     public function testDocumentLinkLoginRedirect_LoginThen($cap, $ignored){
+
+        $this->withKlinkAdapterFake();
         
         // create a document
         
@@ -531,6 +547,8 @@ class DocumentsTest extends TestCase {
      * @dataProvider user_provider_document_link_login_with_second_user_test
      */
     public function testDocumentLinkLoginRedirect_LoginWithSecondUser($cap, $second_user_cap){
+
+        $this->withKlinkAdapterFake();
         
         // create a document
         
@@ -584,6 +602,8 @@ class DocumentsTest extends TestCase {
      * @dataProvider vibility_provider
      */
     public function testDocumentDescriptorToKlinkDocumentDescriptor($visibility){
+
+        $this->withKlinkAdapterFake();
         
         $institution = factory('KlinkDMS\Institution')->create(); 
         
@@ -639,6 +659,8 @@ class DocumentsTest extends TestCase {
      * @dataProvider vibility_provider
      */
     public function testDocumentDescriptorToKlinkDocumentDescriptorWhenUserChangeAffiliation($visibility){
+
+        $this->withKlinkAdapterFake();
         
         $institution = factory('KlinkDMS\Institution')->create(); 
         $institution2 = factory('KlinkDMS\Institution')->create(); 
@@ -695,6 +717,8 @@ class DocumentsTest extends TestCase {
     
     
     public function testDocumentReindexingStartedByAUserThatIsNotTheOwner(){
+
+        $this->withKlinkAdapterFake();
         
         $institution = factory('KlinkDMS\Institution')->create(); 
         $institution2 = factory('KlinkDMS\Institution')->create(); 
@@ -720,7 +744,7 @@ class DocumentsTest extends TestCase {
         
         $service = app('Klink\DmsDocuments\DocumentsService');
         
-        $core = app('Klink\DmsAdapter\KlinkAdapter')->getConnection();
+        $core = app('Klink\DmsAdapter\KlinkAdapter');
         
         // first indexing, like the one after the upload
         $service->reindexDocument($doc, 'private');
@@ -809,6 +833,8 @@ class DocumentsTest extends TestCase {
 
     public function testDocumentService_deleteDocument(){
 
+        $this->withKlinkAdapterFake();
+
         $user = $this->createUser( Capability::$PARTNER );
 
         $doc = $this->createDocument($user);
@@ -848,6 +874,8 @@ class DocumentsTest extends TestCase {
 
     public function testDocumentDelete(){
 
+        $this->withKlinkAdapterFake();
+
         $user = $this->createUser( Capability::$PARTNER);
 
         $doc = $this->createDocument($user);
@@ -874,6 +902,8 @@ class DocumentsTest extends TestCase {
     
     
     public function testDocumentService_permanentlyDeleteDocument(){
+
+        $this->withKlinkAdapterFake();
 
         $user = $this->createUser( Capability::$PROJECT_MANAGER );
 
@@ -903,6 +933,8 @@ class DocumentsTest extends TestCase {
      */
     public function testDocumentService_permanentlyDeleteDocument_forbidden(){
 
+        $this->withKlinkAdapterFake();
+
         $user = $this->createUser( Capability::$PARTNER );
 
         $doc = $this->createDocument($user);
@@ -920,6 +952,8 @@ class DocumentsTest extends TestCase {
      * @expectedException Illuminate\Database\Eloquent\ModelNotFoundException
      */
     public function testDocumentForceDelete(){
+
+        $this->withKlinkAdapterFake();
 
         $user = $this->createUser( Capability::$PROJECT_MANAGER);
 
@@ -956,6 +990,8 @@ class DocumentsTest extends TestCase {
 
 
     public function testNewDocumentVersionUpload(){
+
+        $this->withKlinkAdapterFake();
 
         // upload a document (faked by already existing entry in the database)
 
@@ -1063,6 +1099,8 @@ class DocumentsTest extends TestCase {
      */
     public function testParentCollectionsOnFilters(){
 
+        $this->withKlinkAdapterFake();
+
         $project_collection_names = ['Project Root', 'Project First Level', 'Second Level'];
 
         $user = $this->createUser( Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH );
@@ -1147,6 +1185,8 @@ class DocumentsTest extends TestCase {
      */
     public function testFacetsViewComposerUrlConstruction($search_parameters, $expected_url){
 
+        $this->withKlinkAdapterFake();
+
         $project_collection_names = ['Project Root', 'Project First Level', 'Second Level'];
 
         $user = $this->createUser( Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH );
@@ -1221,6 +1261,8 @@ class DocumentsTest extends TestCase {
      */
     public function testRecentPageRangeSelection($range){
 
+        $this->withKlinkAdapterFake();
+
         $user = $this->createUser( Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH );
         $this->actingAs($user);
         
@@ -1243,6 +1285,8 @@ class DocumentsTest extends TestCase {
      * @dataProvider recent_items_per_page_provider 
      */
     public function testRecentPageItemsPerPageSelection($items_per_page){
+
+        $this->withKlinkAdapterFake();
 
         $user = $this->createUser( Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH );
         $this->actingAs($user);
@@ -1269,6 +1313,8 @@ class DocumentsTest extends TestCase {
      */
     public function testRecentPageSortingSelection($option, $expected_value){
 
+        $this->withKlinkAdapterFake();
+
         $user = $this->createUser( Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH );
         $this->actingAs($user);
 
@@ -1291,6 +1337,8 @@ class DocumentsTest extends TestCase {
      * - last shared with me
      */
     public function testRecentPageContainsExpectedDocuments($range = 'today'){
+
+        $this->withKlinkAdapterFake();
 
         $user = $this->createUser( Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH );
         $user2 = $this->createUser( Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH );
@@ -1354,6 +1402,8 @@ class DocumentsTest extends TestCase {
     }
 
     public function testRecentPageSearchWithFilters(){
+
+        $this->withKlinkAdapterFake();
 
         $user = $this->createUser( Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH );
         $this->actingAs($user);

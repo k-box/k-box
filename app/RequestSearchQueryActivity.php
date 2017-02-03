@@ -2,6 +2,9 @@
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @deprecated
+ */
 class RequestSearchQueryActivity extends Model {
     /*
     id: bigIncrements

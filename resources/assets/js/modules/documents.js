@@ -606,17 +606,33 @@ debugger;
                     }
                     else {
 
-                    
-                        var clipboard = new Clipboard('.clipboard-btn');
+                        var clipboard = new Clipboard('.js-clipboard-btn');
 
-                        clipboard.on('success', function(e) {                        
-                            DMS.MessageBox.success( Lang.trans('actions.clipboard.copied_title'), Lang.trans('actions.clipboard.copied_link_text'));
+                        clipboard.on('success', function(e) {
+
+                            var trigger = $(e.trigger);
+                        
+                            trigger.addClass('copy-link__button--success');
+
+                            setTimeout(function(){
+                                trigger.removeClass('copy-link__button--success');
+                            }, 2500);
                             
                             e.clearSelection();
                         });
 
                         clipboard.on('error', function(e) {
-                            DMS.MessageBox.error(Lang.trans('actions.clipboard.not_copied_title'), Lang.trans('actions.clipboard.not_copied_link_text'));
+                            
+                            var trigger = $(e.trigger);
+
+                            trigger.addClass('copy-link__button--error');
+
+                            trigger.parent().find('.js-copy-message-error').addClass('copy-link__message--visible');
+
+                            setTimeout(function(){
+                                trigger.removeClass('copy-link__button--error');
+                            }, 2500);
+                            
                         });
                     
                     }
@@ -1814,7 +1830,7 @@ debugger;
 
                 _dropzone.autoDiscover = false;
                 
-            	var dropzone = new _dropzone( '#documents-list', { // Make the whole body a dropzone
+            	var dropzone = new _dropzone( '#js-drop-area', { // Make the whole body a dropzone
             	    url: DMS.Paths.fullUrl(DMS.Paths.DOCUMENTS), // Set the url
             	    paramName: "document",
                     createImageThumbnails: false,
@@ -1923,7 +1939,7 @@ debugger;
                             });
 
                             this.on('drop', function(evt){
-                                // debugger;
+                                
                                 if(evt.target){
                                     
                                     var target = $(evt.target);

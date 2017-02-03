@@ -180,49 +180,26 @@
 
                 <div class="copy-links">
                     <h6 class="title">{{ trans('share.share_link_section') }}</h6>
-                    
-                    @if( !is_null( $real_download_link ) )
-                    
-                        <p>
                         
-                            <input id="download_link" class="code" readonly value="{{ $real_download_link }}">
+					@if( !is_null( $real_preview_link ) )
+					
+						<div class="copy-link">
+							<button class="copy-link__button js-clipboard-btn" data-clipboard-target="#document_link">
+								<span class="copy-link__button__normal">
+									<span class="btn-icon icon-content-black icon-content-black-ic_content_copy_black_24dp"></span>
+									{{ trans('share.document_link_copy') }}
+								</span>
+								<span class="copy-link__button__success">{{ trans('actions.clipboard.copied_title') }}</span>
+								<span class="copy-link__button__error">{{ trans('actions.clipboard.not_copied_title') }}</span>
+							</button>
+						
+							<input id="document_link" class="copy-link__input" readonly value="{{ $real_preview_link }}">
+						
 
-                            <!-- Trigger -->
-                            <a href="#" class="clipboard-btn" data-clipboard-target="#download_link">
-                                {{ trans('share.download_link_copy') }}
-                            </a>
-                        
-                        </p>
-                        
-                        @if( !is_null( $real_preview_link ) )
-                        
-                            <p>
-                            
-                                <input id="document_link" class="code" readonly value="{{ $real_preview_link }}">
-
-                                <!-- Trigger -->
-                                <a href="#" class="clipboard-btn" data-clipboard-target="#document_link">
-                                    {{ trans('share.preview_link_copy') }}
-                                </a>
-                            
-                            </p>
-                        
-                        @endif
-                    
-                    @elseif( !is_null( $real_preview_link ) )
-                    
-                        <p>
-                        
-                            <input id="document_link" class="code" readonly value="{{ $real_preview_link }}">
-
-                            <!-- Trigger -->
-                            <a href="#" class="clipboard-btn" data-clipboard-target="#document_link">
-                                {{ trans('share.document_link_copy') }}
-                            </a>
-                        
-                        </p>
-                    
-                    @endif
+							<div class="copy-link__message copy-link__message--error js-copy-message-error">{{trans('actions.clipboard.not_copied_link_text')}}</div>
+						</div>
+					
+					@endif
                 
                 </div>
             
