@@ -9,13 +9,13 @@ use KlinkDMS\User;
 use KlinkDMS\File;
 use KlinkDMS\Group;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Foundation\Bus\DispatchesCommands;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 use KlinkDMS\Commands\ImportCommand;
 
 
 class DmsCollectionsCleanDuplicatesDocumentsCommand extends Command {
 	
-	use DispatchesCommands;
+	use DispatchesJobs;
 
 	/**
 	 * The console command name.
@@ -87,7 +87,7 @@ class DmsCollectionsCleanDuplicatesDocumentsCommand extends Command {
                 'document_groups.id as pivot_id',
                 'document_id', 
                 'group_id', 
-            ])->fetch('pivot.id')->take($d->copies-1)->toArray());
+            ])->pluck('pivot.id')->take($d->copies-1)->toArray());
             
             $duplicates[] = $t;
         }

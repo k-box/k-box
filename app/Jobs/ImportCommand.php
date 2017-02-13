@@ -3,13 +3,12 @@
 use Illuminate\Console\Command;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldBeQueued;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use KlinkDMS\Import;
 use KlinkDMS\User;
 use KlinkDMS\File;
 use KlinkDMS\Group;
 use KlinkDMS\DocumentDescriptor;
-use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Support\Facades\Log;
 use \Klink\DmsDocuments\DocumentsService;
 use Illuminate\Support\Facades\File as Storage;
@@ -21,7 +20,7 @@ use KlinkDMS\Exceptions\FileAlreadyExistsException;
 use Symfony\Component\Console\Output\OutputInterface; 
 use Exception;
 
-class ImportCommand extends Job implements ShouldBeQueued, SelfHandling {
+class ImportCommand extends Job implements ShouldQueue {
 
 	use InteractsWithQueue, SerializesModels;
         

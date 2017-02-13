@@ -28,4 +28,8 @@
 
 @section('document_script_initialization')
 
-@overwrite
+	@if(isset($can_upload) && $can_upload)
+		Documents.initUploadService();
+	@endif
+
+@stop

@@ -36,6 +36,8 @@
     </div>
 
     <div class="ten columns ">
+
+        @include('dashboard.notices')
         
         @include('errors.list')
 

@@ -9,13 +9,13 @@ use KlinkDMS\User;
 use KlinkDMS\File;
 use KlinkDMS\Group;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Foundation\Bus\DispatchesCommands;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 use KlinkDMS\Commands\ImportCommand;
 
 
 class DmsCollectionsCommand extends Command {
 	
-	use DispatchesCommands;
+	use DispatchesJobs;
 
 	/**
 	 * The console command name.

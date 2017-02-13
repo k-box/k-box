@@ -4,13 +4,12 @@ use Closure;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Contracts\Routing\Middleware;
 
 /**
  * Check if the user has the right permission to browse 
  * the route and if not shows a Forbidden page
  */
-class RedirectIfForbidden implements Middleware {
+class RedirectIfForbidden {
 
 	/**
 	 * The Guard implementation.
@@ -63,7 +62,6 @@ class RedirectIfForbidden implements Middleware {
 				'context' => 'RedirectIfForbidden middleware', 
 				'route_config' => $route_config, 'required_perm' => $required_perm, 'has_cap' => $has_cap));
 
-//			throw new \KlinKDMS\Exceptions\ForbiddenException();
 			if($request->wantsJson()){
 				return new JsonResponse(array('error' => trans('errors.forbidden_exception')), 403);
 			}

@@ -2,6 +2,7 @@ stages:
   - build
   - test
   - release
+  - tar_release
   - deploy
 
 cache:
@@ -57,12 +58,8 @@ cache:
 
 # PHP dependency build and syntax check
 
-build_dev:5.5:
-  <<: *composer_install
-  tags:
-    - php
-    - nodejs
-    - shell
+# Testing
+# performs a dev oriented build and execute unit tests and various checks
 
 build_dev:5.6:
   <<: *composer_install
@@ -76,6 +73,7 @@ build_dev:7.0:
   allow_failure: true
   tags:
     - docker
+
 
 language_check:
   # Execute the check over the translation to find untranslated strings
@@ -114,27 +112,57 @@ unit_test:
   allow_failure: true
   tags:
     - docker
+  artifacts:
+    expire_in: 1 week
+    paths:
+    - storage/logs/
 
 # Build production
 # - Build PHP dependencies without dev related packages
 # - Build the frontend
 # - Generate the tar.gz file for deploy
 
-build_prod:
+frontend:
+  image: node:4.5
   stage: release
+  tags:
+    - docker
+  script:
+    - npm install
+    - node_modules/.bin/bower install --allow-root
+    - node_modules/.bin/gulp --production
+  artifacts:
+    expire_in: 1 day
+    paths:
+    - public/
+
+
+laravel:
+  image: "docker.klink.asia:5043/klink/php-ci-docker:7.0-alpine"
+  tags:
+    - docker
+  stage: release
+  cache:
+    paths:
+    - vendor/
   script:
     - mv env.ci .env
-    - composer install --no-dev --prefer-dist
-    - npm install
-    - node_modules/.bin/bower install
-    - node_modules/.bin/gulp --production
+    - composer install --prefer-dist
     - php artisan dms:lang-publish
     - mv .env env.ci
+  artifacts:
+    expire_in: 1 day
+    paths:
+    - vendor/
+    - public/js/nls/
+
+tar:
+  stage: tar_release
+  script:
     - sed -i "s/BUILDCODE/${CI_BUILD_REF}/g" ./config/dms.php
+    - sed -i "s/BUILDVERSION/${CI_BUILD_REF_NAME}/g" ./config/dms.php
     - tar --transform 's,^.,dms,' -cz . $TAR_PARAMETERS > ${BUILD_FOLDER}/klink-dms-$CI_BUILD_REF_NAME.tar.gz
   tags:
-    - php
-    - nodejs
     - shell
 
 

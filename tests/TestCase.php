@@ -7,8 +7,9 @@ use KlinkDMS\Project;
 use KlinkDMS\Group;
 use Illuminate\Support\Facades\Artisan;
 use Klink\DmsAdapter\Traits\MockKlinkAdapter;
+use Log;
 
-class TestCase extends Illuminate\Foundation\Testing\TestCase {
+abstract class TestCase extends Illuminate\Foundation\Testing\TestCase {
 
     use MockKlinkAdapter;
 
@@ -28,12 +29,7 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
         ini_set('display_errors', '1');
         ini_set('display_startup_errors', '1');
 
-		// $artisan->call('migrate',array('-n'=>true));
-
-		// $artisan->call('db:seed',array('-n'=>true));
-		//dd(env('DB_NAME'));
-		
-		//let's create some users to simulate different kinds of users
+        Log::info('Starting test ' . get_class($this) . ' - ' . $this->getName());
 	}
 
 	/**
@@ -61,13 +57,13 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
     
 	
 	
-	protected function createAdminUser(){
+	protected function createAdminUser($params = []){
         
         if( Capability::all()->isEmpty() ){
             $this->seedDatabase();
         }
         
-        $admin_user = factory(\KlinkDMS\User::class)->create();
+        $admin_user = factory(\KlinkDMS\User::class)->create($params);
 		
 		$admin_user->addCapabilities( Capability::$ADMIN );
 		

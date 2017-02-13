@@ -109,8 +109,8 @@ class Option extends Model {
 
         $flat = $items->toArray();
 
-        $keys = array_fetch($flat, 'key');
-        $values = array_fetch($flat, 'value');
+        $keys = array_pluck($flat, 'key');
+        $values = array_pluck($flat, 'value');
 
         $non_flat = array();
         foreach (array_combine($keys, $values) as $key => $value)
@@ -229,6 +229,24 @@ class Option extends Model {
         $opt = static::option( static::ANALYTICS_TOKEN, false );
             
         return empty($opt) ? false : $opt;
+        
+    }
+
+    public static function isMailEnabled()
+    {
+            
+        $opt = static::option( 'mail.pretend', false );
+
+        if(is_string($opt) && $opt==='1')
+        {
+            return false;
+        }
+        else if(is_string($opt) && $opt==='0')
+        {
+            return true;
+        }
+            
+        return $opt;
         
     }
 

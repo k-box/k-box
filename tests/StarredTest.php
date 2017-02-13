@@ -72,9 +72,8 @@ class StarredTest extends TestCase {
         
         $this->visit( route('documents.starred.index') )->see('Starred');
         
-        $s = $this->getInputOrTextAreaValue('s');
-        
-        $this->assertEmpty($s);
+        $this->assertViewHas('search_terms', '*');
+        $this->dontSee('value="*"');
 		
         $this->assertResponseOk();
 

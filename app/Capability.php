@@ -310,7 +310,7 @@ class Capability extends Model {
         
         \Log::info('Sync Capabilities called');
     
-        $current_caps = self::all(array('key'))->fetch('key')->toArray();
+        $current_caps = self::all(array('key'))->pluck('key')->toArray();
     
         $constants = array_values(self::getConstants());
         
@@ -374,7 +374,7 @@ class Capability extends Model {
                 }
             }
             
-            $removed = array_values(Capability::whereIn('key', $old_keys)->get(array('id'))->fetch('id')->toArray());
+            $removed = array_values(Capability::whereIn('key', $old_keys)->get(array('id'))->pluck('id')->toArray());
             
             Capability::destroy($removed);
             

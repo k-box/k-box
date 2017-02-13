@@ -605,7 +605,8 @@ if($is_projectspage && (!$grp->is_private && !$show_personal_collections_in_filt
             $view->with('can_share_with_private', $auth_user->can_capability(Capability::SHARE_WITH_PRIVATE));
             
             $view->with('can_see_share', $auth_user->can_capability(Capability::RECEIVE_AND_SEE_SHARE));
-            
+
+            $view->with('can_upload', $auth_user->can_capability(Capability::UPLOAD_DOCUMENTS));
             
 
             $view->with('list_style_current', $auth_user->optionListStyle());

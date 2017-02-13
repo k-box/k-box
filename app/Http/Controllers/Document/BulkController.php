@@ -345,7 +345,7 @@ class BulkController extends Controller {
 
             $add_to_this_group = Group::findOrFail($add_to);
 
-            $already_added = $add_to_this_group->documents()->whereIn('document_descriptors.id', $docs)->get(['document_descriptors.*'])->fetch('id')->toArray();
+            $already_added = $add_to_this_group->documents()->whereIn('document_descriptors.id', $docs)->get(['document_descriptors.*'])->pluck('id')->toArray();
             
             $already_there_from_this_request = array_intersect($already_added, $docs); 
             

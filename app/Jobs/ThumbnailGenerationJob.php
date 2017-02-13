@@ -5,7 +5,6 @@ namespace KlinkDMS\Jobs;
 use KlinkDMS\Jobs\Job;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
 use KlinkDMS\File;
@@ -17,7 +16,7 @@ use Exception;
 /**
  * Job to generate a thumbnail for a File.
  */
-class ThumbnailGenerationJob extends Job implements SelfHandling, ShouldQueue
+class ThumbnailGenerationJob extends Job implements ShouldQueue
 {
     use InteractsWithQueue, SerializesModels;
     

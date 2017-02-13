@@ -198,7 +198,7 @@ class DmsQueueListen extends Command {
 
 		$res = $instance->run(new ArrayInput($arguments), $out);
 
-		$capture = $out->fetch();
+		$capture = $out->pluck();
 
 		return $res;
 	}

@@ -56,7 +56,7 @@ class ThumbnailGenerationCommand extends Command
         
         if( !empty($args) && count($args) > $total ){
             
-            $diff = array_diff($args, $documents->fetch('id')->toArray());
+            $diff = array_diff($args, $documents->pluck('id')->toArray());
             throw new ModelNotFoundException('One or more documents cannot be found: ' . implode(', ', $diff));
             
         }

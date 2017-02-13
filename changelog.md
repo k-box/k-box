@@ -15,6 +15,33 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Removed
 
+
+## [0.14.0] - 2017-02-13
+
+### Changed
+
+- Migration `2016_02_01_083232_update_import_error_handling.php` to use text column
+  instead of json column because Laravel 5.2 mysql grammar uses a `json` column type, 
+  which is not supported on MariaDB 10.1 and below. This should only affects newer
+  deployments because database created with Laravel 5.1 uses the `text` column type.
+- Migration `2016_04_06_083349_update_document_descriptors_with_last_error.php` to use text column
+  instead of json column because Laravel 5.2 mysql grammar uses a `json` column type, 
+  which is not supported on MariaDB 10.1 and below. This should only affects newer
+  deployments because database created with Laravel 5.1 uses the `text` column type.
+- Upgraded Laravel to version 5.2.*
+- Upgraded K-Link Adapter Boilerplate to version 3.0.1 that fixes a bug in the thumbnail generation.
+- Added information about invalid mail configuration to administrator dashboard and users
+  page.
+- Enabled drag and drop upload on recents, shared with me, trash and starred pages.
+
+### Fixed
+
+- Storage page loading error in case the reindex procedure is triggered 
+  with no documents in the DMS.
+- Enable document download if user is disabled, but document is in a project or shared.
+- Regression in handling errors on the login form
+- Regression in logout
+
 ## [0.13.3] - 2017-02-03
 
 ### Added 

@@ -77,60 +77,64 @@ class DocumentDescriptorTest extends TestCase
     
     public function testLastErrorSavedDuringIndexing(){
         
+        $mock = $this->withKlinkAdapterMock();
         
         $file = factory('KlinkDMS\File')->make();
+        $inst = factory('KlinkDMS\Institution')->make();
         
-        // $service = app('Klink\DmsDocuments\DocumentsService');
+        $service = app('Klink\DmsDocuments\DocumentsService');
+
+        $mock->shouldReceive('institutions')->andReturn($inst);
+        $mock->shouldReceive('addDocument')->andReturnUsing(function(){
+
+            throw new \KlinkException('Bad Request, hash not equals');
+
+        });
         
-        // $res = $service->indexDocument($file, 'private', null, null, true);
-        // expecting a "KlinkException: Bad Request" because owner is not specified
+        $res = $service->indexDocument($file, 'private', null, null, true);
         
-        $this->markTestSkipped(
-            'Is not possible anymore to obtain the same error. A mock of the service is needed'
-        );
+        $this->assertInstanceOf('KlinkDMS\DocumentDescriptor', $res);
+        $this->assertEquals(DocumentDescriptor::STATUS_ERROR, $res->status);
         
-        // $this->assertInstanceOf('KlinkDMS\DocumentDescriptor', $res);
-        // $this->assertEquals(DocumentDescriptor::STATUS_ERROR, $res->status);
+        $le = $res->last_error;
         
-        // $le = $res->last_error;
-        
-        // $this->assertNotNull($le);
-        // $this->assertEquals('KlinkException', $le->type);
-        // $this->assertEquals('Bad Request', $le->message);
+        $this->assertNotNull($le);
+        $this->assertEquals('KlinkException', $le->type);
+        $this->assertEquals('Bad Request, hash not equals', $le->message);
 
     }
     
     public function testLastErrorSavedDuringReIndexing(){
         
-        
+        $mock = $this->withKlinkAdapterMock();
+
         $doc = factory('KlinkDMS\DocumentDescriptor')->make();
         
         $service = app('Klink\DmsDocuments\DocumentsService');
-        
-        $doc->owner_id = null;
-        $doc->save();
 
-        $this->markTestSkipped(
-            'Is not possible anymore to obtain the same error. A mock of the service is needed'
-        );
-        
-        // try{
-        //     $res = $service->reindexDocument($doc, 'private');
-        //     // expecting a "KlinkException: Bad Request" because owner is not specified
-        // }catch(\Exception $ex){
-        //     $this->assertInstanceOf('InvalidArgumentException', $ex);
-        // }
-        
-        // $res = DocumentDescriptor::findOrFail($doc->id);
-        
-        // $this->assertInstanceOf('KlinkDMS\DocumentDescriptor', $res);
-        
-        // $le = $res->last_error;
-        
-        // $this->assertNotNull($le);
-        // $this->assertEquals('InvalidArgumentException', $le->type);
-        // $this->assertEquals('The User Uploader must be a non empty or null string', $le->message);
+        $mock->shouldReceive('institutions')->andReturn(factory('KlinkDMS\Institution')->make());
+        $mock->shouldReceive('updateDocument')->andReturnUsing(function($document){
 
+            throw new \KlinkException('Bad Request, hash not equals');
+
+        });
+        
+        try{
+            $res = $service->reindexDocument($doc, 'private');
+            // expecting a "KlinkException: Bad Request" because owner is not specified
+        }catch(\KlinkException $ex){
+            $this->assertEquals('Bad Request, hash not equals', $ex->getMessage());
+        }
+        
+        $res = DocumentDescriptor::findOrFail($doc->id);
+        
+        $this->assertInstanceOf('KlinkDMS\DocumentDescriptor', $res);
+        
+        $le = $res->last_error;
+        
+        $this->assertNotNull($le);
+        $this->assertEquals('KlinkException', $le->type);
+        $this->assertEquals('Bad Request, hash not equals', $le->message);
     }
 
     /**

@@ -10,7 +10,7 @@ use KlinkDMS\User;
 use KlinkDMS\Option;
 use Klink\DmsDocuments\DocumentsService;
 use KlinkDMS\Commands\ReindexAll;
-use Illuminate\Foundation\Bus\DispatchesCommands;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Contracts\Auth\Guard as AuthGuard;
 
 /**
@@ -18,7 +18,7 @@ use Illuminate\Contracts\Auth\Guard as AuthGuard;
  */
 class SettingsAdministrationController extends Controller {
 
-  use DispatchesCommands;
+  use DispatchesJobs;
 
   /*
   |--------------------------------------------------------------------------

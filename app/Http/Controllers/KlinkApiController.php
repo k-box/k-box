@@ -83,7 +83,7 @@ class KlinkApiController extends Controller {
 
 		$is_shared = !is_null($user) ? $doc->shares()->sharedWithMe($user)->count() > 0 : false;
 
-		$owner = !is_null($user) ? $doc->owner->id === $user->id || $user->isContentManager() : false;
+		$owner = !is_null($user) && !is_null($doc->owner) ? $doc->owner->id === $user->id || $user->isContentManager() : (is_null($doc->owner) ? true : false);
 
 		if(!($is_in_collection || $is_shared || $doc->isPublic() || $owner ))
 		{

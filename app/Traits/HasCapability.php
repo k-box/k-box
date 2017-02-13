@@ -47,7 +47,7 @@ trait HasCapability
             return false;
         }
 
-        $names = array_fetch($caps, 'key');
+        $names = array_pluck($caps, 'key');
 
         if(empty($names)){
             return false;
@@ -89,7 +89,7 @@ trait HasCapability
             return false;
         }
 
-        $names = array_fetch($caps, 'key');
+        $names = array_pluck($caps, 'key');
 
         $intersect = array_intersect($capabilities, $names);
 

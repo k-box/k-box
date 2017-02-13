@@ -6,6 +6,9 @@ use Illuminate\Contracts\Auth\Guard as AuthGuard;
 
 use Illuminate\Http\Request;
 
+/**
+ * @deprecated This feature is not used and will be removed in future versions
+ */
 class VisualizationApiController extends Controller {
 
 
@@ -97,9 +100,9 @@ class VisualizationApiController extends Controller {
 
 		foreach ($results_from_the_core->items as $res) {
 			
-			$institution = $this->service->getInstitution( $res->institutionID );
+			$institution = $this->service->institutions( $res->institutionID );
 
-			if(!is_null($institution)){
+			if(!is_null($institution) && is_object($institution)){
 				$res->document_descriptor->institutionName = $institution->name;
 			}
 

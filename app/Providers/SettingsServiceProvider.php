@@ -48,8 +48,8 @@ class SettingsServiceProvider extends ServiceProvider {
 
 
 
-			    $keys = array_fetch($flat, 'key');
-			    $values = array_fetch($flat, 'value');
+			    $keys = array_pluck($flat, 'key');
+			    $values = array_pluck($flat, 'value');
 
 			    $non_flat = array();
 			    foreach (array_combine($keys, $values) as $key => $value) {

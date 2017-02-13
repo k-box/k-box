@@ -18,14 +18,14 @@ class MicrositeUpdateRequest extends Request {
         $microsite_id = $this->route('microsites');
 
 		$tests = [
-            'title' => 'required|string|not_array',
-            'slug' => array('required','string', 'not_array','regex:/^(?!create)[a-z\\-]+/','unique:microsites,slug,' . $microsite_id),
-            'description' => 'sometimes|string|not_array',
-            'logo' => 'sometimes|string|not_array|url|regex:/^https/',
-            'hero_image' => 'sometimes|not_array|string|url|regex:/^https/',
-            'default_language' => 'sometimes|not_array|required|string|regex:/^[a-z]{2}$/',
-            'content' => 'required|array',
-            'menu' => 'sometimes|required|array'
+            'title' => 'bail|required|string|not_array',
+            'slug' => array('bail', 'required','string', 'not_array','regex:/^(?!create)[a-z\\-]+/','unique:microsites,slug,' . $microsite_id),
+            'description' => 'bail|sometimes|string|not_array',
+            'logo' => 'bail|sometimes|string|not_array|url|regex:/^https/',
+            'hero_image' => 'bail|sometimes|not_array|string|url|regex:/^https/',
+            'default_language' => 'bail|sometimes|not_array|required|string|regex:/^[a-z]{2}$/',
+            'content' => 'bail|required|array',
+            'menu' => 'bail|sometimes|required|array'
 		];
         
         /* 

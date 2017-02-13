@@ -7,7 +7,7 @@
 		@if( isset($badge_shared) && $badge_shared ) data-shared="true"  @endif 
 		data-isprivate="{{$group->is_private ? 'true':'false'}}">
 
-		<?php $has_children = isset($group->children) && !$group->children->isEmpty() ; ?>
+		<?php $has_children = $group->hasChildren() ; ?>
 		
 		<span class="group-color" @if($group->color) style="background-color:#{{$group->color}} " @endif></span>
 		
@@ -22,7 +22,7 @@
 
 		<ul class="tree-childs collapsed groups-sub">
 
-			@foreach($group->children as $child)
+			@foreach($group->getChildren() as $child)
 
 				@include('groups.tree-item', ['group' => $child])	
 

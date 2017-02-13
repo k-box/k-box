@@ -6,14 +6,13 @@ use KlinkDMS\Option;
 use KlinkDMS\DocumentDescriptor;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Bus\SelfHandling;
-use Illuminate\Contracts\Queue\ShouldBeQueued;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Klink\DmsDocuments\DocumentsService;
 
 /**
  * Command that perform the global reindex of all the documents saved in the DMS
  */
-class ReindexAll extends Job implements SelfHandling, ShouldBeQueued {
+class ReindexAll extends Job implements ShouldQueue {
 
 	use InteractsWithQueue, SerializesModels;
 

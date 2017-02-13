@@ -18,7 +18,7 @@ class UpdateImportErrorHandling extends Migration
             $table->mediumText('message')->nullable();
             
             // Stores the detailed error or information payload if available
-            $table->json('payload')->nullable();
+            $table->text('payload')->nullable();
             
         });
     }

@@ -21,6 +21,7 @@ use KlinkFacetsBuilder;
 use KlinkFacetItem;
 
 use Faker\Factory as FakerFactory;
+use PHPUnit_Framework_Assert as PHPUnit;
 
 /**
  * FakeKlinkAdapter. Simulates a KlinkAdapter that always return positive responses. 
@@ -160,11 +161,19 @@ class FakeKlinkAdapter implements AdapterContract
 	 */
 	public function getDocumentsStatistics()
 	{
-		$fs = KlinkFacetsBuilder::create()->documentType()->build();
-
-		$facets_response = $this->facets( $fs, 'private' );
+		$all = [
+			'document' => [
+				'public' => 5
+			],
+			'document' => [
+				'private' => 5
+			],
+			'document' => [
+				'total' => 10
+			],
+		];
 		
-		return $facets_response;
+		return $all;
 	}
 
 
@@ -187,6 +196,8 @@ class FakeKlinkAdapter implements AdapterContract
 
 	public function updateDocument( KlinkDocument $document )
 	{
+		$this->countIndexing($document->getDescriptor()->getLocalDocumentID());
+
 		return $document->getDescriptor();
 	}
 
@@ -203,7 +214,8 @@ class FakeKlinkAdapter implements AdapterContract
 
 	public function addDocument( KlinkDocument $document )
 	{
-		
+		$this->countIndexing($document->getDescriptor()->getLocalDocumentID());
+
 		return $document->getDescriptor();
 	}
 
@@ -283,6 +295,44 @@ class FakeKlinkAdapter implements AdapterContract
 		}
 
 		return $facets;
+	}
+
+
+	/**
+	 * @param string $doc
+	 */
+	private function countIndexing($doc)
+	{
+		$indexing = isset($this->calls['indexing']) ? $this->calls['indexing'] : [];
+
+		$indexing[] = $doc;
+
+		$this->calls['indexing'] = $indexing;
+	}
+
+	/**
+	 * Assert that a document identified by a K-Link ID has been added or updated
+	 *
+	 * @param string $documentId the descriptors' Local Document Id
+	 * @param int $times if more than 1 assert that the same document has been subject to add or update $times times
+	 */
+	public function assertDocumentIndexed($documentId, $times = 1)
+	{
+
+		PHPUnit::assertNotEmpty($this->calls['indexing'], "KlinkAdapter addDocument or updateDocument not called");
+
+		$filtered = array_filter($this->calls['indexing'], function($el) use($documentId){
+			return $el === $documentId;
+		});
+
+		PHPUnit::assertCount($times,
+
+            $filtered,
+
+            "The expected [{$documentId}] document was not indexed $times times."
+
+        );
+
 	}
 
 }

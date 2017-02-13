@@ -38,10 +38,10 @@ class Microsites_IntegrationTest extends TestCase {
 			array( 'visit', 'microsites.index', [], 200, 'auth.login' ),
 			array( 'visit', 'microsites.show', ['id' => 1], 200, 'microsites.show' ),
 			array( 'visit', 'microsites.create', [], 200, 'auth.login' ),
-			array( 'post', 'microsites.store', [], 401, 'auth.login' ),
+			array( 'post', 'microsites.store', [], 302, 'auth.login' ),
 			array( 'visit', 'microsites.edit', ['id' => 1], 200, 'auth.login' ),
-			array( 'put', 'microsites.update', ['id' => 1], 401, 'auth.login' ),
-			array( 'delete', 'microsites.destroy', ['id' => 1], 401, 'auth.login' )
+			array( 'put', 'microsites.update', ['id' => 1], 302, 'auth.login' ),
+			array( 'delete', 'microsites.destroy', ['id' => 1], 302, 'auth.login' )
 		);
 	}
     
@@ -81,7 +81,6 @@ class Microsites_IntegrationTest extends TestCase {
 			array(array('logo' => 'helpme'), 'logo', 'validation'),
 			array(array('logo' => 'http://helpme.com/'), 'logo', 'validation'),
 			array(array('logo' => array('a')), 'logo', 'validation'),
-			// array(array('logo' => array()), 'logo', 'validation'), // skipped because sometimes sees that is empty
 			array(array('default_language' => array()), 'default_language', 'validation'),
 			array(array('default_language' => ''), 'default_language', 'validation'),
 			array(array('default_language' => null), 'default_language', 'validation'),
@@ -285,11 +284,9 @@ class Microsites_IntegrationTest extends TestCase {
         
         $project = factory('KlinkDMS\Project')->create(['user_id' => $user->id]);
         
-        $project_manager = $user;
-        
         \Session::start();
         
-        $this->actingAs( $project_manager );
+        $this->actingAs( $user );
         
         $this->visit( route('projects.show', ['id' => $project->id ]) );
         
@@ -356,8 +353,6 @@ class Microsites_IntegrationTest extends TestCase {
         
         $this->actingAs( $project_manager );
         
-        $microsite_request['_token'] = csrf_token();
-        
         $this->post( route('microsites.store'), $microsite_request);
         
         $microsite = Microsite::where('slug', $microsite_request['slug'])->first();
@@ -411,8 +406,6 @@ class Microsites_IntegrationTest extends TestCase {
         \Session::start();
         
         $this->actingAs( $project_manager );
-        
-        $microsite_request['_token'] = csrf_token();
         
         $this->post( route('microsites.store'), $microsite_request);
         
@@ -541,8 +534,6 @@ class Microsites_IntegrationTest extends TestCase {
         
         $this->actingAs( $project_manager );
         
-        $microsite_request['_token'] = csrf_token();
-        
         $this->post( route('microsites.store'), $microsite_request);
         
         $microsite = Microsite::where('slug', $microsite_request['slug'])->first();
@@ -599,8 +590,6 @@ class Microsites_IntegrationTest extends TestCase {
         \Session::start();
         
         $this->actingAs( $project_manager );
-        
-        $microsite_request['_token'] = csrf_token();
         
         $this->post( route('microsites.store'), $microsite_request);
         
@@ -675,8 +664,6 @@ class Microsites_IntegrationTest extends TestCase {
         
         $this->actingAs( $project_manager );
         
-        $microsite_request['_token'] = csrf_token();
-        
         $this->post( route('microsites.store'), $microsite_request);
         
         $microsite = Microsite::where('slug', $microsite_request['slug'])->first();
@@ -689,7 +676,6 @@ class Microsites_IntegrationTest extends TestCase {
         // now let's update every field and check if the microsite is saved
         
         $microsite_update_request = [
-            '_token' => csrf_token(),
             'title' => 'Changed title of the microsite',
             'slug' => $microsite_request['slug'] . '-updated',
             'description' => 'New description of the microsite',

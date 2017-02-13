@@ -10,7 +10,7 @@ use KlinkDMS\File;
 use KlinkDMS\Group;
 use KlinkDMS\Project;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Foundation\Bus\DispatchesCommands;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 use KlinkDMS\Jobs\ImportCommand;
 
 use KlinkDMS\Console\Traits\Login;
@@ -21,7 +21,7 @@ use KlinkDMS\Exceptions\ForbiddenException;
 
 class DmsImportCommand extends Command {
 	
-	use DispatchesCommands, Login, DebugOutput;
+	use DispatchesJobs, Login, DebugOutput;
 
 	/**
 	 * The console command name.

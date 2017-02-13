@@ -166,7 +166,7 @@ class KlinkAdapter implements AdapterContract
 	public function getInstitutionName( $klink_id )
 	{
 
-		$cached = $this->institution( $klink_id, $klink_id );
+		$cached = $this->getInstitution( $klink_id, $klink_id );
 
 		return is_string($cached) ? $cached : $cached->name;
 	}
@@ -365,11 +365,11 @@ class KlinkAdapter implements AdapterContract
 	private function compactFacetResponse($public_response, $private_response)
 	{
 
-		$public = $this->getL2Keys(array_map( array($this, 'mapFacetItemToKeyValue'), array_flatten(array_fetch($public_response, 'items'))));
+		$public = $this->getL2Keys(array_map( array($this, 'mapFacetItemToKeyValue'), array_flatten(array_pluck($public_response, 'items'))));
 
 		// the idea is document => count
 
-		$private = $this->getL2Keys(array_map( array($this, 'mapFacetItemToKeyValue'), array_flatten(array_fetch($private_response, 'items'))));
+		$private = $this->getL2Keys(array_map( array($this, 'mapFacetItemToKeyValue'), array_flatten(array_pluck($private_response, 'items'))));
 
 		$all = array();
 
@@ -437,7 +437,7 @@ class KlinkAdapter implements AdapterContract
 
 	public function generateThumbnailOfWebSite($url, $image_file = null)
 	{
-		return $this->connection->generateThumbnailOfWebSite($url, $image_file = null);
+		return $this->connection->generateThumbnailOfWebSite($url, $image_file);
 	}
 
 	public function generateThumbnailFromContent( $mimeType, $data )

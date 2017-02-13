@@ -260,7 +260,7 @@ class ProjectsController extends Controller {
 					$users = $request->get('users');
 					// users are ID
 				
-					$prj_users = $project->users->fetch('id')->all();
+					$prj_users = $project->users->pluck('id')->all();
 				
 					$users_to_add = array_diff($users, $prj_users);
 					$users_to_remove = array_diff($prj_users, $users);
@@ -334,7 +334,7 @@ class ProjectsController extends Controller {
 			$skip[] = $users->id;
 		}
 		else if(class_basename(get_class($users)) === 'Collection'){
-			$skip = $users->fetch('id')->all();
+			$skip = $users->pluck('id')->all();
 		}
 		else if(is_array($users)){
 			$skip = array_merge($skip, $users);

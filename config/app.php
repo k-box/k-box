@@ -2,6 +2,19 @@
 
 return [
 
+    /*
+    |--------------------------------------------------------------------------
+    | Application Environment
+    |--------------------------------------------------------------------------
+    |
+    | This value determines the "environment" your application is currently
+    | running in. This may determine how you prefer to configure various
+    | services your application utilizes. Set this in your ".env" file.
+    |
+    */
+
+    'env' => env('APP_ENV', 'production'),
+
 	/*
 	|--------------------------------------------------------------------------
 	| Application Debug Mode
@@ -13,7 +26,7 @@ return [
 	|
 	*/
 
-	'debug' => (bool) getenv('APP_DEBUG') ?: false,
+	'debug' => (bool) env('APP_DEBUG') ?: false,
 
 	/*
 	|--------------------------------------------------------------------------
@@ -26,7 +39,7 @@ return [
 	|
 	*/
 
-	'url' => getenv('APP_URL') ?: 'http://localhost/dms/',
+	'url' => env('APP_URL') ?: 'http://localhost/dms/',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -78,9 +91,9 @@ return [
 	|
 	*/
 
-	'key' => getenv('APP_KEY') ?: '0CjGv0c4KF00D62T', //B10r3tJQdKM6cE0s
+	'key' => env('APP_KEY') ?: '0CjGv0c4KF00D62T', //B10r3tJQdKM6cE0s
 
-	'cipher' => \Illuminate\Support\Str::length( getenv('APP_KEY') ) === 32 ? 'AES-256-CBC' : 'AES-128-CBC', //AES-256-CBC
+	'cipher' => \Illuminate\Support\Str::length( env('APP_KEY') ) === 32 ? 'AES-256-CBC' : 'AES-128-CBC', //AES-256-CBC
 
 	/*
 	|--------------------------------------------------------------------------
@@ -96,6 +109,8 @@ return [
 	*/
 
 	'log' => env('APP_LOG', 'daily'),
+
+	'log_level' => env('APP_LOG_LEVEL', 'debug'), 
 
 	/*
 	|--------------------------------------------------------------------------
@@ -113,96 +128,72 @@ return [
 		/*
 		 * Application Service Providers...
 		 */
-		'KlinkDMS\Providers\AppServiceProvider',
-		
-		'KlinkDMS\Providers\ConfigServiceProvider',
-		'KlinkDMS\Providers\EventServiceProvider',
-		'KlinkDMS\Providers\RouteServiceProvider',
+		KlinkDMS\Providers\AppServiceProvider::class,
+		KlinkDMS\Providers\ConfigServiceProvider::class,
+		KlinkDMS\Providers\EventServiceProvider::class,
+		KlinkDMS\Providers\RouteServiceProvider::class,
 
 		/*
 		 * Laravel Framework Service Providers...
 		 */
-		Illuminate\Foundation\Providers\ArtisanServiceProvider::class,
 		Illuminate\Auth\AuthServiceProvider::class,
         Illuminate\Broadcasting\BroadcastServiceProvider::class,
 		Illuminate\Bus\BusServiceProvider::class,
 		Illuminate\Cache\CacheServiceProvider::class,
 		Illuminate\Foundation\Providers\ConsoleSupportServiceProvider::class,
-		'Illuminate\Routing\ControllerServiceProvider',
-		'Illuminate\Cookie\CookieServiceProvider',
-		'Illuminate\Database\DatabaseServiceProvider',
-		'Illuminate\Encryption\EncryptionServiceProvider',
-		'Illuminate\Filesystem\FilesystemServiceProvider',
-		'Illuminate\Foundation\Providers\FoundationServiceProvider',
-		'Illuminate\Hashing\HashServiceProvider',
+		Illuminate\Cookie\CookieServiceProvider::class,
+		Illuminate\Database\DatabaseServiceProvider::class,
+		Illuminate\Encryption\EncryptionServiceProvider::class,
+		Illuminate\Filesystem\FilesystemServiceProvider::class,
+		Illuminate\Foundation\Providers\FoundationServiceProvider::class,
+		Illuminate\Hashing\HashServiceProvider::class,
         
-		'KlinkDMS\Providers\SettingsServiceProvider', //so the service provider will have access to what is needed, but before the mail provider (we want to override the mail config!!)
+		KlinkDMS\Providers\SettingsServiceProvider::class, //so the service provider will have access to what is needed, but before the mail provider (we want to override the mail config!!)
 		
-        'Illuminate\Mail\MailServiceProvider',
-		'Illuminate\Pagination\PaginationServiceProvider',
-		'Illuminate\Queue\QueueServiceProvider',
-		'Illuminate\Redis\RedisServiceProvider',
-		'Illuminate\Auth\Passwords\PasswordResetServiceProvider',
-		'Illuminate\Session\SessionServiceProvider',
-		'Illuminate\Translation\TranslationServiceProvider',
-		'Illuminate\Validation\ValidationServiceProvider',
-		'Illuminate\View\ViewServiceProvider',
-
-		// 'KlinkDMS\Providers\BusServiceProvider',
+        Illuminate\Mail\MailServiceProvider::class,
+		Illuminate\Pagination\PaginationServiceProvider::class,
+		Illuminate\Queue\QueueServiceProvider::class,
+		Illuminate\Redis\RedisServiceProvider::class,
+		Illuminate\Auth\Passwords\PasswordResetServiceProvider::class,
+		Illuminate\Session\SessionServiceProvider::class,
+		Illuminate\Translation\TranslationServiceProvider::class,
+		Illuminate\Validation\ValidationServiceProvider::class,
+		Illuminate\View\ViewServiceProvider::class,
         
-		'KlinkDMS\Providers\AuthServiceProvider',
-
-		'Jenssegers\Date\DateServiceProvider',
+		KlinkDMS\Providers\AuthServiceProvider::class,
+		Jenssegers\Date\DateServiceProvider::class,
 
 		/**
 		 * Klink Related
 		 */
-		'Klink\DmsAdapter\DmsAdapterServiceProvider',
-
-		'Klink\DmsSearch\DmsSearchServiceProvider',
-
-		'Klink\DmsDocuments\DmsDocumentsServiceProvider',
-		
-		'Klink\DmsPreviews\DmsPreviewsServiceProvider',
-		
-		'Klink\DmsPreviews\Thumbnails\ThumbnailsServiceProvider',
+		Klink\DmsAdapter\DmsAdapterServiceProvider::class,
+		Klink\DmsSearch\DmsSearchServiceProvider::class,
+		Klink\DmsDocuments\DmsDocumentsServiceProvider::class,
+		Klink\DmsPreviews\DmsPreviewsServiceProvider::class,
+		Klink\DmsPreviews\Thumbnails\ThumbnailsServiceProvider::class,
             
         /**
          * Async Queue
          */
-        'Barryvdh\Queue\AsyncServiceProvider',
+        Barryvdh\Queue\AsyncServiceProvider::class,
 
         /**
          * For closure table implementation
          */
-        'Franzose\ClosureTable\ClosureTableServiceProvider',
+        Franzose\ClosureTable\ClosureTableServiceProvider::class,
 		
         /**
          * Markdown service provider
          */
-		'GrahamCampbell\Markdown\MarkdownServiceProvider',
+		GrahamCampbell\Markdown\MarkdownServiceProvider::class,
 
 		/**
 		 * For rendering subviews and partial in a more clean way
 		 */
-		'KlinkDMS\Providers\ViewComposerServiceProvider',
-        
-        'Klink\DmsMicrosites\Providers\DmsMicrositesServiceProvider',
+		KlinkDMS\Providers\ViewComposerServiceProvider::class,
+        Klink\DmsMicrosites\Providers\DmsMicrositesServiceProvider::class,
 
 	],
-
-	/*
-	|--------------------------------------------------------------------------
-	| Service Provider Manifest
-	|--------------------------------------------------------------------------
-	|
-	| The service provider manifest is used by Laravel to lazy load service
-	| providers which are not needed for each request, as well to keep a
-	| list of all of the services. Here, you may set its storage spot.
-	|
-	*/
-
-	//'manifest' => storage_path().'/framework',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -217,43 +208,42 @@ return [
 
 	'aliases' => [
 
-		'App'       => 'Illuminate\Support\Facades\App',
-		'Artisan'   => 'Illuminate\Support\Facades\Artisan',
-		'Auth'      => 'Illuminate\Support\Facades\Auth',
-		'Blade'     => 'Illuminate\Support\Facades\Blade',
-		'Cache'     => 'Illuminate\Support\Facades\Cache',
-		'Config'    => 'Illuminate\Support\Facades\Config',
-		'Cookie'    => 'Illuminate\Support\Facades\Cookie',
-		'Crypt'     => 'Illuminate\Support\Facades\Crypt',
-		'DB'        => 'Illuminate\Support\Facades\DB',
-		'Event'     => 'Illuminate\Support\Facades\Event',
-		'File'      => 'Illuminate\Support\Facades\File',
-		'Hash'      => 'Illuminate\Support\Facades\Hash',
-		'Input'     => 'Illuminate\Support\Facades\Input',
-		'Inspiring' => 'Illuminate\Foundation\Inspiring',
-		'Lang'      => 'Illuminate\Support\Facades\Lang',
-		'Log'       => 'Illuminate\Support\Facades\Log',
-		'Mail'      => 'Illuminate\Support\Facades\Mail',
-		'Paginator' => 'Illuminate\Support\Facades\Paginator',
-		'Password'  => 'Illuminate\Support\Facades\Password',
-		'Queue'     => 'Illuminate\Support\Facades\Queue',
-		'Redirect'  => 'Illuminate\Support\Facades\Redirect',
-		'Redis'     => 'Illuminate\Support\Facades\Redis',
-		'Request'   => 'Illuminate\Support\Facades\Request',
-		'Response'  => 'Illuminate\Support\Facades\Response',
-		'Route'     => 'Illuminate\Support\Facades\Route',
-		'Schema'    => 'Illuminate\Support\Facades\Schema',
-		'Session'   => 'Illuminate\Support\Facades\Session',
-		'URL'       => 'Illuminate\Support\Facades\URL',
-		'Validator' => 'Illuminate\Support\Facades\Validator',
-		'View'      => 'Illuminate\Support\Facades\View',
-        'Gate' => Illuminate\Support\Facades\Gate::class,
+		'App'       => Illuminate\Support\Facades\App::class,
+		'Artisan'   => Illuminate\Support\Facades\Artisan::class,
+		'Auth'      => Illuminate\Support\Facades\Auth::class,
+		'Blade'     => Illuminate\Support\Facades\Blade::class,
+		'Cache'     => Illuminate\Support\Facades\Cache::class,
+		'Config'    => Illuminate\Support\Facades\Config::class,
+		'Cookie'    => Illuminate\Support\Facades\Cookie::class,
+		'Crypt'     => Illuminate\Support\Facades\Crypt::class,
+		'DB'        => Illuminate\Support\Facades\DB::class,
+		'Event'     => Illuminate\Support\Facades\Event::class,
+		'File'      => Illuminate\Support\Facades\File::class,
+		'Hash'      => Illuminate\Support\Facades\Hash::class,
+		'Input'     => Illuminate\Support\Facades\Input::class,
+		'Lang'      => Illuminate\Support\Facades\Lang::class,
+		'Log'       => Illuminate\Support\Facades\Log::class,
+		'Mail'      => Illuminate\Support\Facades\Mail::class,
+		'Paginator' => Illuminate\Support\Facades\Paginator::class,
+		'Password'  => Illuminate\Support\Facades\Password::class,
+		'Queue'     => Illuminate\Support\Facades\Queue::class,
+		'Redirect'  => Illuminate\Support\Facades\Redirect::class,
+		'Redis'     => Illuminate\Support\Facades\Redis::class,
+		'Request'   => Illuminate\Support\Facades\Request::class,
+		'Response'  => Illuminate\Support\Facades\Response::class,
+		'Route'     => Illuminate\Support\Facades\Route::class,
+		'Schema'    => Illuminate\Support\Facades\Schema::class,
+		'Session'   => Illuminate\Support\Facades\Session::class,
+		'URL'       => Illuminate\Support\Facades\URL::class,
+		'Validator' => Illuminate\Support\Facades\Validator::class,
+		'View'      => Illuminate\Support\Facades\View::class,
+        'Gate'		=> Illuminate\Support\Facades\Gate::class,
 
-        'ImportCommand' => 'KlinkDMS\Commands\ImportCommand',
+        'ImportCommand' => KlinkDMS\Commands\ImportCommand::class,
 
-        'Markdown' => 'GrahamCampbell\Markdown\Facades\Markdown',
+        'Markdown' => GrahamCampbell\Markdown\Facades\Markdown::class,
 		
-		'DmsRouting' => 'KlinkDMS\RoutingHelpers',
+		'DmsRouting' => KlinkDMS\RoutingHelpers::class,
 
 		'LocalizedDate' => Jenssegers\Date\Date::class,
 

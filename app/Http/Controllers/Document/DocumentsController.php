@@ -96,7 +96,7 @@ class DocumentsController extends Controller {
 			
 			if($is_personal) {
 				
-				$personal_doc_id = DocumentDescriptor::local()->private()->ofUser($user->id)->get(array('local_document_id'))->fetch('local_document_id')->all();
+				$personal_doc_id = DocumentDescriptor::local()->private()->ofUser($user->id)->get(array('local_document_id'))->pluck('local_document_id')->all();
                 
 				$_request->in($personal_doc_id);
 
@@ -173,7 +173,7 @@ class DocumentsController extends Controller {
 		
 		$items_per_page = $user->optionItemsPerPage();
 
-		$requested_items_per_page = $request->input('n', $items_per_page);
+		$requested_items_per_page = (int)$request->input('n', $items_per_page);
 		
 		$order = $request->input('o', 'd') === 'a' ? 'ASC' : 'DESC';
 
@@ -184,7 +184,7 @@ class DocumentsController extends Controller {
 				$items_per_page = $requested_items_per_page;
 			}
 
-		} catch(\Exception $limit_ex){ }
+		} catch(\Exception $limit_ex){}
 
 		// future proof for when this option will be saved in the user profile
 		$selected_range = $user->optionRecentRange();
@@ -196,6 +196,7 @@ class DocumentsController extends Controller {
 
 		$req = $this->searchRequestCreate($request);
 		
+		$req->limit($items_per_page);
 		
 		// Last Private Documents
 		
@@ -322,12 +323,12 @@ class DocumentsController extends Controller {
 			
 			if($_request->isPageRequested() && !$_request->isSearchRequested()){
 				
-				$all_query = DocumentDescriptor::whereIn('id', $list_of_docs->fetch('id')->all());
+				$all_query = DocumentDescriptor::whereIn('id', $list_of_docs->pluck('id')->all());
 				
 				return $all_query->orderBy('updated_at', $order); //ASC or DESC
 			}
 			
-			$_request->in($list_of_docs->fetch('local_document_id')->all());
+			$_request->in($list_of_docs->pluck('local_document_id')->all());
 			
 			return false; // force to execute a search on the core instead on the database
 		}, function($res_item){
@@ -432,7 +433,7 @@ class DocumentsController extends Controller {
 			
 			
 			
-			$group_ids = $auth_user->involvedingroups()->get(array('peoplegroup_id'))->fetch('peoplegroup_id')->toArray();
+			$group_ids = $auth_user->involvedingroups()->get(array('peoplegroup_id'))->pluck('peoplegroup_id')->toArray();
 					
 			$all_in_groups = Shared::sharedWithGroups($group_ids)->get();
 				
@@ -440,7 +441,7 @@ class DocumentsController extends Controller {
 			
 			$all_shared = $all_single->merge($all_in_groups)->unique();
 			
-			$shared_docs = $all_shared->fetch('shareable.local_document_id')->all();
+			$shared_docs = $all_shared->pluck('shareable.local_document_id')->all();
 			
 			$_request->in($shared_docs);
 			

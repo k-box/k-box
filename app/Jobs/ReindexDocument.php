@@ -9,13 +9,12 @@ use Klink\DmsDocuments\DocumentsService;
 
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Bus\SelfHandling;
-use Illuminate\Contracts\Queue\ShouldBeQueued;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
 /**
  * Command for executing a Document Reindexing
  */
-class ReindexDocument extends Job implements SelfHandling, ShouldBeQueued {
+class ReindexDocument extends Job implements ShouldQueue {
 
 	use InteractsWithQueue, SerializesModels;
 

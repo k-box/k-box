@@ -162,6 +162,38 @@ class KlinkApiControllerTest extends TestCase {
 		$this->assertViewName('documents.preview');
 		
 	}
+	
+	public function testDocumentShowForDocumentInProjectWithOwnerDisabled( )
+	{
+
+		$this->withKlinkAdapterFake();
+
+		$user = $this->createUser( Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH );
+		$user_accessing_the_document = $this->createUser( Capability::$PARTNER );
+        
+        $service = app('Klink\DmsDocuments\DocumentsService');
+
+        $document = $this->createDocument($user);
+
+        $project1 = $this->createProject(['user_id' => $user->id]);
+		$project1->users()->attach($user_accessing_the_document->id);
+
+        $project1_child1 = $this->createProjectCollection($user, $project1);
+        $service->addDocumentToGroup($user, $document, $project1_child1);
+        
+        $url = route( 'klink_api', ['id' => $document->local_document_id, 'action' => 'document'] );
+
+		$user->delete();
+
+		$this->actingAs($user_accessing_the_document);
+        
+        $this->visit( $url );
+  		
+        $this->assertResponseOk();
+
+		$this->assertViewName('documents.preview');
+		
+	}
 
 	public function testDocumentShowForPrivateDocumentNotInCollectionOrSharedViaOtherUser( )
 	{

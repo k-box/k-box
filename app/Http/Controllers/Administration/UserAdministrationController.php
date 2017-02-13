@@ -8,6 +8,7 @@ use KlinkDMS\Http\Requests\UserRequest;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Hash;
 use KlinkDMS\User;
+use KlinkDMS\Option;
 use Illuminate\Contracts\Auth\Guard;
 use Klink\DmsAdapter\KlinkAdapter;
 use Illuminate\Contracts\Auth\PasswordBroker as PasswordBrokerContract;
@@ -50,10 +51,12 @@ class UserAdministrationController extends Controller {
   public function index(Guard $auth) {
 
     $users = User::withTrashed()->get();
-
-    //TODO: with softdeleted at the bottom
-    //
     $data = ['users' => $users, 'pagetitle' => trans('administration.menu.accounts')];
+
+    if(!Option::isMailEnabled())
+    {
+        $data['notices'] = [trans('notices.mail_testing_mode_msg', ['url' => route('administration.mail.index')])];
+    }
 
     if($auth->check()){
       $data['current_user'] = $auth->user()->id;
@@ -101,10 +104,6 @@ class UserAdministrationController extends Controller {
         
       }
       
-      // dd(array_keys($type_resolutor));
-      
-      // dd($type_resolutor);
-      
       // make the caps in order from the basic account type to the best account type
       $perms = array_flip(array_unique(array_merge(Capability::$GUEST, Capability::$PARTNER, Capability::$CONTENT_MANAGER, Capability::$QUALITY_CONTENT_MANAGER, Capability::$ADMIN)));
       
@@ -122,7 +121,7 @@ class UserAdministrationController extends Controller {
         'mode' => 'create',
         'institutions' => $institutions,
         'user_types' => $user_types,
-         'pagetitle' => trans('administration.accounts.create.title'),
+        'pagetitle' => trans('administration.accounts.create.title'),
         'capabilities' => array_values($perms),
         'type_resolutor' => $type_resolutor,
       ];
@@ -138,6 +137,13 @@ class UserAdministrationController extends Controller {
    */
   public function store(UserRequest $request)
   {
+
+      if(!Option::isMailEnabled())
+      {
+          return redirect()->back()->withInput()->withErrors([
+               'email' => trans('notices.mail_not_configured', ['url' => route('administration.mail.index')])
+          ]);
+      }
 
       $password = User::generatePassword();
 
@@ -180,7 +186,7 @@ class UserAdministrationController extends Controller {
       // $viewBag = [
       //     'user' => $user,
       //     'capabilities' => Capability::all(),
-      //     'caps' => array_fetch($user->capabilities()->get()->toArray(), 'key')
+      //     'caps' => array_pluck($user->capabilities()->get()->toArray(), 'key')
       //   ];
       
 
@@ -258,7 +264,7 @@ class UserAdministrationController extends Controller {
         'capabilities' => array_values($perms),
         'type_resolutor' => $type_resolutor,
         'edit_enabled' => $auth->user()->id != $user->id,
-        'caps' => array_fetch($user->capabilities()->get()->toArray(), 'key')
+        'caps' => array_pluck($user->capabilities()->get()->toArray(), 'key')
       ];
       
       return view('administration.users.edit', $viewBag);
@@ -311,7 +317,7 @@ class UserAdministrationController extends Controller {
       if($request->has('capabilities')){
 
         $current_submitted = $request->get('capabilities');
-        $current_saved = array_fetch($user->capabilities()->get()->toArray(), 'key');
+        $current_saved = array_pluck($user->capabilities()->get()->toArray(), 'key');
         
         \DB::transaction(function() use($current_saved, $current_submitted, $user) {
             

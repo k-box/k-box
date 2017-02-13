@@ -4,7 +4,7 @@ use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 
-use Illuminate\Foundation\Bus\DispatchesCommands;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 use KlinkDMS\Console\Traits\DebugOutput;
 use Carbon\Carbon;
 
@@ -15,7 +15,7 @@ use Illuminate\Filesystem\Filesystem;
  */
 class LanguageCheckCommand extends Command {
 
-	use DispatchesCommands, DebugOutput;
+	use DispatchesJobs, DebugOutput;
 	
 	/**
      * The name and signature of the console command.

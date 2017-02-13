@@ -153,11 +153,11 @@ class FiltersTest extends TestCase {
 
         $collection_filters = collect($view->columns['documentGroups']['items']);
         
-        $this->assertEquals($expected_collections, $collection_filters->fetch('term'), 'Filter do not contain the expected project collections');
+        $this->assertEquals($expected_collections, $collection_filters->pluck('term'), 'Filter do not contain the expected project collections');
 
-        $this->assertFalse(in_array(true, $collection_filters->fetch('locked')->all()), 'Locked collections found');
+        $this->assertFalse(in_array(true, $collection_filters->pluck('locked')->all()), 'Locked collections found');
         
-        $this->assertFalse(in_array(true, $collection_filters->fetch('selected')->all()), 'Selected collections found, expecting none, because user didn\'t select them');
+        $this->assertFalse(in_array(true, $collection_filters->pluck('selected')->all()), 'Selected collections found, expecting none, because user didn\'t select them');
 
     }
 }

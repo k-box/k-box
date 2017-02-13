@@ -3,12 +3,18 @@
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Session\TokenMismatchException;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\Debug\Exception\FatalErrorException;
 use KlinkException;
 use ErrorException;
 use GuzzleHttp\Exception\TransferException;
+use Illuminate\Http\Exception\HttpResponseException;
+use Illuminate\Http\RedirectResponse;
+
+use Illuminate\Validation\ValidationException;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class Handler extends ExceptionHandler {
 
@@ -18,7 +24,11 @@ class Handler extends ExceptionHandler {
 	 * @var array
 	 */
 	protected $dontReport = [
-		'Symfony\Component\HttpKernel\Exception\HttpException'
+		AuthorizationException::class,
+		HttpException::class,
+		ModelNotFoundException::class,
+		ValidationException::class,
+		TokenMismatchException::class,
 	];
 
 	/**
@@ -31,7 +41,7 @@ class Handler extends ExceptionHandler {
 	 */
 	public function report(Exception $e)
 	{
-		return parent::report($e);
+		parent::report($e);
 	}
 
 	/**
@@ -44,6 +54,15 @@ class Handler extends ExceptionHandler {
 	public function render($request, Exception $e)
 	{
 		
+		// dump(get_class($e));
+		// dump(get_class($e->getResponse()));
+		// dump(parent::render($request, $e));
+
+		if($e instanceof HttpResponseException)
+		{
+			return parent::render($request, $e);
+		}
+
 		if(app()->environment('local')){
 		
 			if ($this->isHttpException($e))
@@ -77,7 +96,8 @@ class Handler extends ExceptionHandler {
 		}
 		else {
 			\Log::error('Exception Handler render', ['e' => $e]);
-			if ($this->isHttpException($e))
+
+			if ($this->isHttpException($e) )
 			{
 				
 				if($e instanceof \Symfony\Component\HttpKernel\Exception\NotFoundHttpException){
@@ -103,7 +123,7 @@ class Handler extends ExceptionHandler {
 				}
 				
 				
-				return $this->renderHttpException($e);
+				return parent::render($request, $e);
 			}
 			else if($e instanceof ModelNotFoundException)
 	        {
@@ -189,7 +209,6 @@ class Handler extends ExceptionHandler {
 	        	}
 	
                 return response()->make(view('errors.500', ['reason' => $e->getMessage()]), 500);
-				// return parent::render($request, $e);
 			}
 	
 		}

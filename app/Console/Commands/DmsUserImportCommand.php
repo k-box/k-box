@@ -10,7 +10,7 @@ use KlinkDMS\Capability;
 use KlinkDMS\Project;
 use KlinkDMS\Group;
 
-use Illuminate\Foundation\Bus\DispatchesCommands;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 
 
 use KlinkDMS\Console\Traits\Login;
@@ -24,7 +24,7 @@ use Validator;
  */
 class DmsUserImportCommand extends Command {
 	
-	use DispatchesCommands, Login, DebugOutput;
+	use DispatchesJobs, Login, DebugOutput;
 
 	/**
 	 * The console command name.

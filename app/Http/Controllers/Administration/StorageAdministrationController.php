@@ -10,14 +10,14 @@ use KlinkDMS\User;
 use KlinkDMS\Option;
 use Klink\DmsDocuments\DocumentsService;
 use KlinkDMS\Jobs\ReindexAll;
-use Illuminate\Foundation\Bus\DispatchesCommands;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
  * Controller
  */
 class StorageAdministrationController extends Controller {
 
-  use DispatchesCommands;
+  use DispatchesJobs;
 
   /*
   |--------------------------------------------------------------------------
@@ -42,6 +42,11 @@ class StorageAdministrationController extends Controller {
 
   }
 
+  /**
+   * Serve the administration/storage page
+   *
+   * @return \Illuminate\View\View
+   */
   public function getIndex(DocumentsService $service)
   {
 
@@ -51,11 +56,6 @@ class StorageAdministrationController extends Controller {
 
     $raw = $status['raw_data'];
 
-    // specific doc folder size
-    // 
-    // if app and doc folder are on different disks show two or more disks
-
-    // dd($status);
 
     $app_dirname = dirname($status['app_folder']);
     $docs_dirname = dirname(dirname($status['docs_folder']));
@@ -117,7 +117,6 @@ class StorageAdministrationController extends Controller {
 
     $reindex = $this->getReindexExecutionStatus();
 
-
     if(isset($reindex['executing']) && ($reindex['executing'] == 'false' || !$reindex['executing'])){
 
       $reindex = null;
@@ -142,19 +141,20 @@ class StorageAdministrationController extends Controller {
       $items = $items['dms']['reindex'];
     }
 
+    $total = isset($items['total']) && !empty($items['total']) ? (int)$items['total'] : 0;
+    $completed = isset($items['completed']) && !empty($items['completed']) ? (int)$items['completed'] : 0;
+
     $defaults = array(
         'status' => trans('administration.storage.reindexing_status', ['number' => (isset($items['total'])) ? $items['total'] : 0]),
         'pending' => 0,
         'completed' => 0,
         'total' => 0,
-        'progress_percentage' => (isset($items['total']) && isset($items['completed'])) ? round(((int)$items['completed']/(int)$items['total'])*100) : 0,
+        'progress_percentage' => $total > 0 ? round(($completed/$total)*100) : 0,
       );
 
     if($defaults['progress_percentage'] == 100){
       $items['status'] = trans('administration.storage.reindexing_status_completed');
     }
-
-    // dd(compact('items', 'defaults'));
 
     return array_merge($defaults, $items);
   }

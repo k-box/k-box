@@ -13,6 +13,8 @@ use Klink\DmsSearch\SearchRequest;
 use Illuminate\Http\Request;
 use KlinkDMS\Traits\Searchable;
 
+use Klink\DmsAdapter\Fakes\FakeKlinkAdapter;
+
 class SearchTest extends TestCase {
 
 	use Searchable;
@@ -396,7 +398,7 @@ class SearchTest extends TestCase {
         
 		$expected_total_results = Starred::with('document')->ofUser($user->id)->count();
 		
-		$starred_docs_ids = Starred::with('document')->ofUser($user->id)->get()->fetch('document.local_document_id')->all();
+		$starred_docs_ids = Starred::with('document')->ofUser($user->id)->get()->pluck('document.local_document_id')->all();
 		
 		$req = SearchRequest::create()->page(1)->limit(1);
 		
@@ -446,7 +448,7 @@ class SearchTest extends TestCase {
         
 		$expected_total_results = Starred::with('document')->ofUser($user->id)->count();
 		
-		$starred_docs_ids = Starred::with('document')->ofUser($user->id)->get()->fetch('document.local_document_id')->all();
+		$starred_docs_ids = Starred::with('document')->ofUser($user->id)->get()->pluck('document.local_document_id')->all();
 		
 		$req = SearchRequest::create()->page(1)->limit($expected_total_results);
 		
@@ -501,8 +503,6 @@ class SearchTest extends TestCase {
 			array( 13, 2, 0 ),
 			array( 24, 2, 11 ),
 			array( 25, 3, 0 ),
-			// array( 50,  ),
-			// array( 100 ),
 		);
         
 	}
@@ -519,11 +519,45 @@ class SearchTest extends TestCase {
 	public function testSearchRequestWithHighlight($count, $expected_page, $expected_position_in_page)
 	{
 
-		$this->withKlinkAdapterFake();
+		$mock = $this->withKlinkAdapterMock();
+
+		$mock->shouldReceive('institutions')->andReturn(factory('KlinkDMS\Institution')->make());
+        
+        $mock->shouldReceive('isNetworkEnabled')->andReturn(false);
+
+		$mock->shouldReceive('facets')->andReturnUsing(function($facets, $visibility, $term = '*'){
+			
+            return FakeKlinkAdapter::generateFacetsResponse($facets, $visibility, $term);
+
+        });
+
 
 		$generated = factory('KlinkDMS\DocumentDescriptor', $count)->create();
 
 		$docs = $count === 1 ? collect([$generated]) : $generated ;
+        
+		// $mock->shouldReceive('search')->andReturnUsing(function($terms, $type, $resultsPerPage, $offset, $facets) use($docs, $count){
+		// 	dump(func_get_args());
+        //     $res = FakeKlinkAdapter::generateSearchResponse($terms, $type, $resultsPerPage, $offset, $facets);
+
+
+		// 	if($count === 1)
+		// 	{
+		// 		$res->items = [$docs->toKlinkDocumentDescriptor()];
+
+		// 	}
+		// 	else 
+		// 	{
+		// 		$res->items = $docs->map(function($i){
+		// 			return $i->toKlinkDocumentDescriptor();
+		// 		})->toArray();
+
+		// 	}
+
+
+        //     return $res;
+
+        // });
 
 		$interested_in = $docs->last();
 		
@@ -553,7 +587,7 @@ class SearchTest extends TestCase {
 		$this->assertFalse($results->hasMorePages());
 
 		$first = $results[$expected_position_in_page];
-
+		
 		$this->assertEquals($interested_in->id, $first->id);
 
 		

@@ -4,14 +4,14 @@ use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 
-use Illuminate\Foundation\Bus\DispatchesCommands;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 use KlinkDMS\Console\Traits\DebugOutput;
 
 use Illuminate\Filesystem\Filesystem;
 
 class DmsLanguagePublishCommand extends Command {
 
-	use DispatchesCommands, DebugOutput;
+	use DispatchesJobs, DebugOutput;
 
 	/**
 	 * The filesystem instance.

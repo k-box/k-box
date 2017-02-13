@@ -11,6 +11,7 @@ use KlinkDMS\Capability;
 use KlinkDMS\Jobs\ImportCommand;
 use Klink\DmsMicrosites\Microsite;
 use KlinkDMS\Traits\Searchable;
+use Klink\DmsAdapter\Fakes\FakeKlinkAdapter;
 
 /**
  * Test the Projects page for the Unified Search (routes documents.projects.*)
@@ -170,7 +171,7 @@ class ProjectsPageTest extends TestCase {
 
         $this->assertEquals(
             array_values($expected_projects->toArray()), 
-            array_values($projects->fetch('id')->toArray()));
+            array_values($projects->pluck('id')->toArray()));
         
 
         // Test: projectspage shows for each project: 
@@ -209,7 +210,24 @@ class ProjectsPageTest extends TestCase {
 
         Flags::enable(Flags::UNIFIED_SEARCH);
 
-        $this->withKlinkAdapterFake();
+        $mock = $this->withKlinkAdapterMock();
+
+		$mock->shouldReceive('institutions')->andReturn(factory('KlinkDMS\Institution')->make());
+        
+        $mock->shouldReceive('isNetworkEnabled')->andReturn(false);
+
+        $mock->shouldReceive('updateDocument')->andReturnUsing(function($document){
+
+            return $document->getDescriptor();
+
+        });
+
+
+		// $mock->shouldReceive('facets')->andReturnUsing(function($facets, $visibility, $term = '*'){
+
+        //     return FakeKlinkAdapter::generateFacetsResponse($facets, $visibility, $term);
+
+        // });
 
         // test projects are labeled in the elastic list and do not show projects not accessible by the user
         
@@ -232,6 +250,49 @@ class ProjectsPageTest extends TestCase {
         $service->addDocumentToGroup($user, $document, $personal);
         $document = $document->fresh();
 
+        $mock->shouldReceive('search')->andReturnUsing(function($terms, $type, $resultsPerPage, $offset, $facets) use($project1, $personal){
+            // dump(func_get_args());
+            $res = FakeKlinkAdapter::generateSearchResponse($terms, $type, $resultsPerPage, $offset, $facets);
+
+            $docFt = array_first(array_filter($res->getFacets(), function($i){
+                return $i->name === 'documentGroups';
+            }));
+            
+            $prjFt = array_first(array_filter($res->getFacets(), function($i){
+                return $i->name === 'projectId';
+            }));
+
+            $fts = [$project1->collection->toKlinkGroup(), $personal->toKlinkGroup()];
+            
+
+            $facetItems = [];
+            $facetItem = null;
+
+            foreach ($fts as $term) {
+                $facetItem = new \KlinkFacetItem();
+                $facetItem->term = $term;
+                $facetItem->count = 1;
+                $facetItems[] = $facetItem;
+            }
+            $docFt->items = $facetItems;
+
+            $facetItems = [];
+            $facetItem = null;
+
+            $prjFts = [$project1->id];
+
+            foreach ($prjFts as $term) {
+                $facetItem = new \KlinkFacetItem();
+                $facetItem->term = $term;
+                $facetItem->count = 1;
+                $facetItems[] = $facetItem;
+            }
+
+            $prjFt->items = $facetItems;
+            
+            return $res;
+
+        });
 
         $this->actingAs($user);
 

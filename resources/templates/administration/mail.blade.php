@@ -52,7 +52,7 @@
                 @if( $errors->has('pretend') )
                     <span class="field-error">{{ implode(",", $errors->get('pretend'))  }}</span>
                 @endif
-                <input type="checkbox" name="pretend" id="pretend" value="1" @if(!$config['pretend']) checked="true" @endif /><label for="pretend">{{trans('administration.mail.enable_chk')}}</label>
+                <input type="checkbox" name="pretend" id="pretend" value="1" @if(isset($config['pretend']) && !$config['pretend']) checked="true" @endif /><label for="pretend">{{trans('administration.mail.enable_chk')}}</label>
             </div>
         
 

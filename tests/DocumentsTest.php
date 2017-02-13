@@ -10,10 +10,13 @@ use KlinkDMS\Project;
 use Illuminate\Support\Facades\Artisan;
 use KlinkDMS\Exceptions\ForbiddenException;
 use Carbon\Carbon;
+use KlinkDMS\Flags;
 
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+
+use Klink\DmsAdapter\Fakes\FakeKlinkAdapter;
 
 /*
  * Test something related to document descriptors management
@@ -88,9 +91,11 @@ class DocumentsTest extends TestCase {
 
     public function recent_items_per_page_provider() {
         return array( 
-			array('5'),
-			array('10'),
-			array('15'),
+			array(5),
+			array(10),
+			array(15),
+			array(25),
+			array(50),
         );
     }
 
@@ -718,7 +723,7 @@ class DocumentsTest extends TestCase {
     
     public function testDocumentReindexingStartedByAUserThatIsNotTheOwner(){
 
-        $this->withKlinkAdapterFake();
+        $fake = $this->withKlinkAdapterFake();
         
         $institution = factory('KlinkDMS\Institution')->create(); 
         $institution2 = factory('KlinkDMS\Institution')->create(); 
@@ -727,8 +732,6 @@ class DocumentsTest extends TestCase {
             'institution_id' => $institution->id
         ] );
                 
-        
-        
         $file = factory('KlinkDMS\File')->create([
             'user_id' => $user->id,
             'original_uri' => ''
@@ -744,8 +747,6 @@ class DocumentsTest extends TestCase {
         
         $service = app('Klink\DmsDocuments\DocumentsService');
         
-        $core = app('Klink\DmsAdapter\KlinkAdapter');
-        
         // first indexing, like the one after the upload
         $service->reindexDocument($doc, 'private');
         
@@ -753,10 +754,7 @@ class DocumentsTest extends TestCase {
         
         // Search for it, must only be indexed once
         
-        $search_results = $core->search('*', 'private', 10, 0, $facets);
-        
-        $this->assertEquals(1, $search_results->getTotalResults());
-        
+        $fake->assertDocumentIndexed($doc->local_document_id);
         
         // Pick another user
         
@@ -786,10 +784,7 @@ class DocumentsTest extends TestCase {
         
         $this->assertEquals($institution->id, $doc->institution_id);
         
-        $search_results = $core->search('*', 'private', 10, 0, $facets);
-        
-        $this->assertEquals(1, $search_results->getTotalResults(), 'not only one result');
-        
+        $fake->assertDocumentIndexed($doc->local_document_id, 2);
         
     }
     
@@ -1099,6 +1094,8 @@ class DocumentsTest extends TestCase {
      */
     public function testParentCollectionsOnFilters(){
 
+        $this->markTestIncomplete('Change the test implementation to use the Mock instead of the Fake KlinkAdapter');
+
         $this->withKlinkAdapterFake();
 
         $project_collection_names = ['Project Root', 'Project First Level', 'Second Level'];
@@ -1261,6 +1258,8 @@ class DocumentsTest extends TestCase {
      */
     public function testRecentPageRangeSelection($range){
 
+        Flags::enable(Flags::UNIFIED_SEARCH);
+
         $this->withKlinkAdapterFake();
 
         $user = $this->createUser( Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH );
@@ -1285,6 +1284,8 @@ class DocumentsTest extends TestCase {
      * @dataProvider recent_items_per_page_provider 
      */
     public function testRecentPageItemsPerPageSelection($items_per_page){
+
+        Flags::enable(Flags::UNIFIED_SEARCH);
 
         $this->withKlinkAdapterFake();
 
@@ -1403,7 +1404,27 @@ class DocumentsTest extends TestCase {
 
     public function testRecentPageSearchWithFilters(){
 
-        $this->withKlinkAdapterFake();
+        Flags::enable(Flags::UNIFIED_SEARCH);
+
+        $docs = factory('KlinkDMS\DocumentDescriptor', 10)->create();
+
+        $mock = $this->withKlinkAdapterMock();
+
+        $mock->shouldReceive('institutions')->andReturn(factory('KlinkDMS\Institution')->make());
+        
+        $mock->shouldReceive('isNetworkEnabled')->andReturn(false);
+
+        $mock->shouldReceive('search')->andReturnUsing(function($terms, $type, $resultsPerPage, $offset, $facets) use($docs){
+
+            $res = FakeKlinkAdapter::generateSearchResponse($terms, $type, $resultsPerPage, $offset, $facets);
+
+            $res->items = $docs->map(function($i){
+                return $i->toKlinkDocumentDescriptor();
+            })->toArray();
+
+            return $res;
+
+        });
 
         $user = $this->createUser( Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH );
         $this->actingAs($user);

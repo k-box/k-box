@@ -91,5 +91,9 @@
 
 @section('document_script_initialization')
 
+	@if(isset($can_upload) && $can_upload)
+		Documents.initUploadService();
+	@endif
+
 @stop
 

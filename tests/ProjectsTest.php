@@ -145,8 +145,9 @@ class ProjectsTest extends TestCase {
 
         $available_users = $this->response->original->available_users;
 
-        $this->assertEquals($expected_available_users->count(), $available_users->count());
+        $intersect = array_intersect($expected_available_users->pluck('id')->toArray(), $available_users->pluck('id')->toArray());
 
+        $this->assertEquals($expected_available_users->pluck('id')->toArray(), $intersect);
 
         // Compile the form (according to the data parameters) and submit it
 
@@ -219,7 +220,9 @@ class ProjectsTest extends TestCase {
 
         $available_users = $this->response->original->available_users;
 
-        $this->assertEquals($expected_available_users->count(), $available_users->count());
+        $intersect = array_intersect($expected_available_users->pluck('id')->toArray(), $available_users->pluck('id')->toArray());
+
+        $this->assertEquals($expected_available_users->pluck('id')->toArray(), $intersect);
         
     }
 

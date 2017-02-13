@@ -10,7 +10,7 @@ use KlinkDMS\Project;
 use KlinkDMS\Capability;
 use KlinkDMS\Jobs\ImportCommand;
 use Klink\DmsMicrosites\Microsite;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Illuminate\Http\UploadedFile;
 
 
 class ProjectAvatarsTest extends TestCase {
@@ -32,13 +32,13 @@ class ProjectAvatarsTest extends TestCase {
 		
 		return array( 
 			array( Capability::$ADMIN, 'projects.avatar.index', 200 ),
-			array( Capability::$ADMIN, 'projects.avatar.store', 302 ),
+			array( Capability::$ADMIN, 'projects.avatar.store', 403 ),
 			array( Capability::$ADMIN, 'projects.avatar.destroy', 403 ),
 			array( Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH, 'projects.avatar.index', 200 ),
-			array( Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH, 'projects.avatar.store', 302 ),
+			array( Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH, 'projects.avatar.store', 403 ),
 			array( Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH, 'projects.avatar.destroy', 403 ),
 			array( Capability::$PROJECT_MANAGER, 'projects.avatar.index', 200 ),
-			array( Capability::$PROJECT_MANAGER, 'projects.avatar.store', 302 ),
+			array( Capability::$PROJECT_MANAGER, 'projects.avatar.store', 403 ),
 			array( Capability::$PROJECT_MANAGER, 'projects.avatar.destroy', 403 ),
 			array( Capability::$DMS_MASTER, 'projects.avatar.index',  403 ),
 			array( Capability::$DMS_MASTER, 'projects.avatar.store',  403 ),
@@ -94,12 +94,13 @@ class ProjectAvatarsTest extends TestCase {
     public function testProjectAvatarIndex( $caps, $route, $expected_return_code){
         
         $params = null;
-        $user = null;
+        
+        $user = $this->createUser($caps);
+        
         $project = factory('KlinkDMS\Project')->create([
             'avatar' => base_path('tests/data/project-avatar.png')
         ]);
 
-        $user = $this->createUser($caps);
         
         $this->actingAs($user);
 
@@ -113,7 +114,14 @@ class ProjectAvatarsTest extends TestCase {
             $params['_token'] = csrf_token();
         }
 
-        $this->{$method}( route($route, $params ) );
+        $content = [];
+
+        if(ends_with($route, 'store'))
+        {
+            $content = ['avatar' => $this->getFileForUpload()];
+        }
+
+        $this->{$method}( route($route, $params ), $content );
             
 
         if($expected_return_code !== 302 && $expected_return_code !== 200) {
@@ -152,7 +160,8 @@ class ProjectAvatarsTest extends TestCase {
             route('projects.avatar.store', $params ),
             [],
             [],
-            ['avatar' => $file], ['Accept' => 'application/json']
+            ['avatar' => $file], 
+            ['HTTP_ACCEPT' => 'application/json']
         );
 
         $this->seeJson(['status' => 'ok']);
@@ -182,7 +191,7 @@ class ProjectAvatarsTest extends TestCase {
             route('projects.avatar.store', $params ),
             [],
             [],
-            ['avatar' => $file], ['Accept' => 'application/json']
+            ['avatar' => $file], ['HTTP_ACCEPT' => 'application/json']
         );
 
         $this->seeJson(['status' => 'error']);

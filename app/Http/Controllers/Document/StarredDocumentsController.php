@@ -59,7 +59,7 @@ class StarredDocumentsController extends Controller {
 			
 			$all_starred = Starred::with('document')->ofUser($user->id);
 			
-			$personal_doc_id = $all_starred->get()->fetch('document.local_document_id')->all();
+			$personal_doc_id = $all_starred->get()->pluck('document.local_document_id')->all();
 				
 			$_request->in($personal_doc_id);
 			

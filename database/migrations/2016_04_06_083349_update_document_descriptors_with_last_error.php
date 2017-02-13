@@ -14,7 +14,7 @@ class UpdateDocumentDescriptorsWithLastError extends Migration
     {
         Schema::table('document_descriptors', function (Blueprint $table) {
             
-            $table->json('last_error')->nullable();
+            $table->text('last_error')->nullable();
 
         });
     }

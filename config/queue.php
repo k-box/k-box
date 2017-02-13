@@ -15,7 +15,7 @@ return [
 	|
 	*/
 
-	'default' => getenv('QUEUE_DRIVER') ?: 'async',
+	'default' => env('QUEUE_DRIVER') ?: 'async',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -35,7 +35,7 @@ return [
             'driver' => 'async',
             'table'  => 'jobs',
             'queue'  => 'default',
-            'expire' => 60,
+            'expire' => 90,
         ),
             
             
@@ -43,34 +43,35 @@ return [
 			'driver' => 'sync',
 		],
 
-		'beanstalkd' => [
-			'driver' => 'beanstalkd',
-			'host'   => 'localhost',
-			'queue'  => 'default',
-			'ttr'    => 60,
-		],
+		'database' => [
+            'driver' => 'database',
+            'table' => 'jobs',
+            'queue' => 'default',
+            'expire' => 90,
+        ],
 
-		'sqs' => [
-			'driver' => 'sqs',
-			'key'    => 'your-public-key',
-			'secret' => 'your-secret-key',
-			'queue'  => 'your-queue-url',
-			'region' => 'us-east-1',
-		],
+        'beanstalkd' => [
+            'driver' => 'beanstalkd',
+            'host' => 'localhost',
+            'queue' => 'default',
+            'ttr' => 90,
+        ],
 
-		'iron' => [
-			'driver'  => 'iron',
-			'host'    => 'mq-aws-us-east-1.iron.io',
-			'token'   => 'your-token',
-			'project' => 'your-project-id',
-			'queue'   => 'your-queue-name',
-			'encrypt' => true,
-		],
+        'sqs' => [
+            'driver' => 'sqs',
+            'key' => 'your-public-key',
+            'secret' => 'your-secret-key',
+            'prefix' => 'https://sqs.us-east-1.amazonaws.com/your-account-id',
+            'queue' => 'your-queue-name',
+            'region' => 'us-east-1',
+        ],
 
-		'redis' => [
-			'driver' => 'redis',
-			'queue'  => 'default',
-		],
+        'redis' => [
+            'driver' => 'redis',
+            'connection' => 'default',
+            'queue' => 'default',
+            'expire' => 90,
+        ],
 
 	],
 

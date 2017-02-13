@@ -54,7 +54,7 @@ class SharingController extends Controller {
 		
 		$user = $auth->user();
 		
-// 		$group_ids = $user->involvedingroups()->get(array('peoplegroup_id'))->fetch('peoplegroup_id')->toArray();
+// 		$group_ids = $user->involvedingroups()->get(array('peoplegroup_id'))->pluck('peoplegroup_id')->toArray();
 // 		
 // 		$all_in_groups = Shared::sharedWithGroups($group_ids)->get();
 // 		
@@ -69,7 +69,7 @@ class SharingController extends Controller {
 		
 		$all = $this->search($req, function($_request) use($user) {
 			
-			$group_ids = $user->involvedingroups()->get(array('peoplegroup_id'))->fetch('peoplegroup_id')->toArray();
+			$group_ids = $user->involvedingroups()->get(array('peoplegroup_id'))->pluck('peoplegroup_id')->toArray();
 					
 			$all_in_groups = Shared::sharedWithGroups($group_ids)->get();
 			
@@ -78,10 +78,10 @@ class SharingController extends Controller {
 			
 			$all_shared = $all_single->merge($all_in_groups)->unique();
 			
-			$shared_docs = $all_shared->fetch('shareable.local_document_id')->all();
+			$shared_docs = $all_shared->pluck('shareable.local_document_id')->all();
 			$shared_files_in_groups = array_flatten(array_filter($all_shared->map(function($g){
 				if($g->shareable_type === 'KlinkDMS\Group'){
-					return $g->shareable->documents->fetch('local_document_id')->all();
+					return $g->shareable->documents->pluck('local_document_id')->all();
 				} 
 				return null;
 				})->all()));

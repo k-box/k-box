@@ -11,7 +11,6 @@ class Kernel extends ConsoleKernel {
 	 * @var array
 	 */
 	protected $commands = [
-		'KlinkDMS\Console\Commands\InspireCommand',
 		'KlinkDMS\Console\Commands\DmsModelCreation',
 		'KlinkDMS\Console\Commands\DmsCreateAdminUserCommand',
 		'KlinkDMS\Console\Commands\DmsTestConfiguration',

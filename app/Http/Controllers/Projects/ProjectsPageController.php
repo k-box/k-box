@@ -55,7 +55,7 @@ class ProjectsPageController extends Controller
 
 			$added_to = $user->projects()->get(['projects.id']);
 
-			$all_projects = $managed->merge($added_to)->fetch('id')->toArray();
+			$all_projects = $managed->merge($added_to)->pluck('id')->toArray();
 
 			$_request->inProject($all_projects);
 			

@@ -83,7 +83,7 @@ trait Searchable
                   $request->page( intval($new_page, 10) );
               }
 
-              $paginated = $total === 0 ? new Collection() : (is_a($override_response, 'Illuminate\Support\Collection') ? $override_response->forPage($request->page, $request->limit) : $override_response->forPage($request->page, $request->limit)->get());
+              $paginated = $total === 0 ? new Collection() : (is_a($override_response, 'Illuminate\Support\Collection') ? $override_response->forPage($request->page, $request->limit)->values() : $override_response->forPage($request->page, $request->limit)->get());
 
               return new SearchResultsPaginator(
                 	$request->term === '*' ? '' : $request->term,

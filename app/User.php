@@ -1,15 +1,10 @@
 <?php namespace KlinkDMS;
 
-use Illuminate\Auth\Authenticatable;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Auth\Passwords\CanResetPassword;
-use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
-use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+use Illuminate\Foundation\Auth\User as Authenticatable; 
+
 use KlinkDMS\Traits\HasCapability;
 use KlinkDMS\Traits\UserOptionsAccessor;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Foundation\Auth\Access\Authorizable;
-use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 
 /**
  * The User model
@@ -23,10 +18,10 @@ use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
  * - $table->rememberToken();
  * - $table->timestamps();
  */
-class User extends Model implements AuthenticatableContract, AuthorizableContract, CanResetPasswordContract
+class User extends Authenticatable
 {
 
-    use Authenticatable, Authorizable, CanResetPassword, HasCapability, SoftDeletes, UserOptionsAccessor;
+    use HasCapability, SoftDeletes, UserOptionsAccessor;
 
     const OPTION_LIST_TYPE = "list_style";
   

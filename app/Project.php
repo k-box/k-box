@@ -105,9 +105,9 @@ class Project extends Model {
 
       // TODO: this can be optimized
 
-      $managed = $user->managedProjects()->get(['projects.id'])->fetch('id')->toArray();
+      $managed = $user->managedProjects()->get(['projects.id'])->pluck('id')->toArray();
 
-      $added_to = $user->projects()->get(['projects.id'])->fetch('id')->toArray();
+      $added_to = $user->projects()->get(['projects.id'])->pluck('id')->toArray();
 
 			return in_array($project->id, $managed) || in_array($project->id, $added_to);
 

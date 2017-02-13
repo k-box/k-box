@@ -54,9 +54,9 @@ class DmsSyncCommand extends Command {
 
 		$this->line("Searching for out of sync documents...");
 		
-		$local_private_id_set = DocumentDescriptor::local()->private()->get()->fetch('local_document_id')->all();
-		$local_private_hash_set = DocumentDescriptor::local()->private()->get()->fetch('hash')->all();
-		$local_public_id_set = DocumentDescriptor::local()->public()->get()->fetch('local_document_id')->all();
+		$local_private_id_set = DocumentDescriptor::local()->private()->get()->pluck('local_document_id')->all();
+		$local_private_hash_set = DocumentDescriptor::local()->private()->get()->pluck('hash')->all();
+		$local_public_id_set = DocumentDescriptor::local()->public()->get()->pluck('local_document_id')->all();
 		
 		$count_local_private_id_set = count($local_private_id_set);
 		$count_local_public_id_set = count($local_public_id_set);
@@ -217,7 +217,7 @@ class DmsSyncCommand extends Command {
 
 		$res = $instance->run(new ArrayInput($arguments), $out);
 
-		$capture = $out->fetch();
+		$capture = $out->pluck();
 
 		return $res;
 	}

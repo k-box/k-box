@@ -6,6 +6,7 @@ use KlinkDMS\Http\Controllers\Controller;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Hash;
 use KlinkDMS\User;
+use KlinkDMS\Option;
 
 class AdministrationDashboardController extends Controller {
 
@@ -47,8 +48,18 @@ class AdministrationDashboardController extends Controller {
 
     $storage = $this->documents->getStorageStatus();
 
+    $notices = [];
+
+    if(!Option::isMailEnabled())
+    {
+        $notices[] = trans('notices.mail_not_configured', ['url' => route('administration.mail.index')]);
+    }
+
+    
+
     return view('administration.administration', [
-        'storage_status' => $storage
+        'storage_status' => $storage,
+        'notices' => $notices,
       ]);
   }
 

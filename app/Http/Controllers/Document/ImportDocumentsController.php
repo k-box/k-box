@@ -8,7 +8,7 @@ use Illuminate\Validation\Validator;
 use KlinkDMS\File;
 use Request;
 use Illuminate\Support\Facades\Queue;
-use Illuminate\Foundation\Bus\DispatchesCommands;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 use KlinkDMS\Commands\ImportCommand;
 use Illuminate\Support\Facades\Log;
 use KlinkDMS\Exceptions\FileAlreadyExistsException;
@@ -20,7 +20,7 @@ use Exception;
 class ImportDocumentsController extends Controller {
 
 	// USER + DESCR ID (INST + LOCAL DOC ID)
-	use DispatchesCommands;
+	use DispatchesJobs;
 	/**
 	 * [$adapter description]
 	 * @var \Klink\DmsAdapter\KlinkAdapter
@@ -288,7 +288,7 @@ class ImportDocumentsController extends Controller {
                 
             }
             
-            $done = !$import->exists; // get the status of the model, because delete methods can return null
+            $done = is_null($done) ? true : $done; // get the status of the model, because delete methods can return null
             
             
             if($request->wantsJson()){

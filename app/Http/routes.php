@@ -304,7 +304,7 @@ Route::get('auth/login', [
     ]);
 
 Route::post('auth/login', 'Auth\AuthController@postLogin');
-Route::get('auth/logout', 'Auth\AuthController@getLogout');
+Route::get('auth/logout', 'Auth\AuthController@logout');
 
 // Password reset link request routes...
 Route::get('password/email', [ 

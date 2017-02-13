@@ -1836,7 +1836,7 @@ debugger;
                     createImageThumbnails: false,
                     filesizeBase:1024,
             	    previewsContainer: "#previews", // Define the container to display the previews
-            	    clickable: module.context.filter==='projectspage' ? null : "#upload_trigger", // Define the element that should be used as click trigger to select files.
+            	    clickable: module.context.filter==='projectspage' || module.context.filter==='starred' || module.context.filter==='trash' || module.context.filter==='shared' ? null : "#upload_trigger", // Define the element that should be used as click trigger to select files.
                     // acceptedFiles: 'image/*,application/pdf,application/msword,application/vnd.ms-excel,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.openxmlformats-officedocument.presentationml.presentation,application/vnd.openxmlformats-officedocument.wordprocessingml.document',
 
                     addRemoveLinks:true,

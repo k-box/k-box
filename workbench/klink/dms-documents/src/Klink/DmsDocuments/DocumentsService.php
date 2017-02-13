@@ -843,14 +843,14 @@ class DocumentsService {
 				
 				$closure_table = Group::getClosureTable();
 				
-				$project_collections_ids = $projects->fetch('collection.id')->toArray();
+				$project_collections_ids = $projects->pluck('collection.id')->toArray();
 				
 				// get the collection descendants that has the project collection as ancestor
 				$descendants = \DB::table($closure_table->getTable())->
 					whereIn($closure_table->getAncestorColumn(), $project_collections_ids)->
 					whereNotIn($closure_table->getDescendantColumn(), $project_collections_ids)->get(array($closure_table->getDescendantColumn()));
 				
-				$descendants_array = array_fetch($descendants, $closure_table->getDescendantColumn()); 
+				$descendants_array = array_pluck($descendants, $closure_table->getDescendantColumn()); 
 				
 				$project_trashed_collections = Group::onlyTrashed()->public()->whereIn('id', $descendants_array)->get();
 				
@@ -899,7 +899,7 @@ class DocumentsService {
                         
                         if($user->isProjectManager()){    
                         
-                            $roots_project_of_user = $user->managedProjects()->with('collection')->get()->fetch('collection.id')->all();
+                            $roots_project_of_user = $user->managedProjects()->with('collection')->get()->pluck('collection.id')->all();
                         
                             $managed_private_groups = Group::getProjectsTree()->filter(function($item) use($roots_project_of_user) {
                                 
@@ -907,7 +907,7 @@ class DocumentsService {
                             });
                         }
                         
-                        $roots_project_of_user = $user->projects()->with('collection')->get()->fetch('collection.id')->all();
+                        $roots_project_of_user = $user->projects()->with('collection')->get()->pluck('collection.id')->all();
                     
                         $private_groups = Group::getProjectsTree()->filter(function($item) use($roots_project_of_user) {
                             
@@ -959,10 +959,10 @@ class DocumentsService {
         // check if is in a project accessible by the user
         
         if($user->can_capability(Capability::MANAGE_PROJECT_COLLECTIONS)){
-            $project_collections_ids = $user->projects()->with('collection')->get()->merge($user->managedProjects()->with('collection')->get())->fetch('collection.id')->all();
+            $project_collections_ids = $user->projects()->with('collection')->get()->merge($user->managedProjects()->with('collection')->get())->pluck('collection.id')->all();
         }
         else {
-            $project_collections_ids = $user->projects()->with('collection')->get()->fetch('collection.id')->all();
+            $project_collections_ids = $user->projects()->with('collection')->get()->pluck('collection.id')->all();
         }
         
         $project = !$group->is_private;
@@ -971,7 +971,7 @@ class DocumentsService {
             $project = $project && in_array($group->id, $project_collections_ids);
         }
         else {
-            $ancestors = $group->getAncestors()->fetch('id')->all();
+            $ancestors = $group->getAncestors()->pluck('id')->all();
             
             if(is_array($ancestors)){
                 $project = $project && !empty(array_intersect($ancestors, $project_collections_ids));
@@ -1016,7 +1016,7 @@ class DocumentsService {
                                 whereIn($closure_table->getAncestorColumn(), $collection_ids)->
                                 whereNotIn($closure_table->getDescendantColumn(), $collection_ids)->get(array($closure_table->getDescendantColumn()));
                                 
-                $descendants_array = array_fetch($descendants, $closure_table->getDescendantColumn());
+                $descendants_array = array_pluck($descendants, $closure_table->getDescendantColumn());
                     
                 $collection_ids = array_merge($collection_ids, $descendants_array); 
 
@@ -1060,7 +1060,7 @@ class DocumentsService {
 		
 		if( !$user->isDMSManager() ){
 
-			$project_collections_ids_method1 = $user->projects()->with('collection')->get()->merge($user->managedProjects()->with('collection')->get())->fetch('collection.id')->all();
+			$project_collections_ids_method1 = $user->projects()->with('collection')->get()->merge($user->managedProjects()->with('collection')->get())->pluck('collection.id')->all();
 		
 			// all descendants of $projects
 			$closure_table = Group::getClosureTable();
@@ -1068,7 +1068,7 @@ class DocumentsService {
 						whereIn($closure_table->getAncestorColumn(), $project_collections_ids_method1)->
 						whereNotIn($closure_table->getDescendantColumn(), $project_collections_ids_method1)->get(array($closure_table->getDescendantColumn()));
 						
-			$descendants_array = array_fetch($descendants, $closure_table->getDescendantColumn());
+			$descendants_array = array_pluck($descendants, $closure_table->getDescendantColumn());
 			
 			$project_collections_ids = array_merge($project_collections_ids_method1, $descendants_array);
 
@@ -1663,7 +1663,7 @@ class DocumentsService {
 
 		// $documents is integer, is DocumentDescriptor, is array of ints, is Collection and contains DocumentDescriptor
 
-		$collection_of_ids = $group->documents->fetch('id')->toArray();
+		$collection_of_ids = $group->documents->pluck('id')->toArray();
 
 		//get the docs, detach, reindex the docs
 

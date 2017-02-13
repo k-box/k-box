@@ -254,20 +254,20 @@ class CollectionsTest extends TestCase {
 
         $personals = $collections->personal; 
 
-        $this->assertEquals($expected_collection_names, $personals->fetch('name')->toArray());
+        $this->assertEquals($expected_collection_names, $personals->pluck('name')->toArray());
 
         foreach ($personals as $sub_collection) {
-            $this->assertEquals($expected_collection_names, $sub_collection->children->fetch('name')->toArray());
+            $this->assertEquals($expected_collection_names, $sub_collection->children->pluck('name')->toArray());
         }
 
         // testing the project collection tree
 
         $projects = $collections->projects;
 
-        $this->assertEquals($project_expected_collection_names, $projects->fetch('name')->toArray());
+        $this->assertEquals($project_expected_collection_names, $projects->pluck('name')->toArray());
 
         foreach ($projects as $sub_collection) {
-            $this->assertEquals($project_expected_collection_names, $sub_collection->children->fetch('name')->toArray());
+            $this->assertEquals($project_expected_collection_names, $sub_collection->children->pluck('name')->toArray());
         }
         
     }
@@ -453,7 +453,7 @@ class CollectionsTest extends TestCase {
         // get childs
         $children = $group->getChildren();
 
-        $children_ids = $children->fetch('id')->toArray();
+        $children_ids = $children->pluck('id')->toArray();
 
         $this->assertEquals(3, $children->count(), 'Children count pre-condition');
 
@@ -530,7 +530,7 @@ class CollectionsTest extends TestCase {
         // get childs
         $children = $group->getChildren();
 
-        $children_ids = $children->fetch('id')->toArray();
+        $children_ids = $children->pluck('id')->toArray();
 
         $this->assertEquals(3, $children->count(), 'Children count pre-condition');
 
@@ -643,7 +643,7 @@ class CollectionsTest extends TestCase {
         $this->assertFalse($collection_under->is_private);
         $this->assertNotNull($collection->parent_id);
 
-        $this->assertEquals([false, false, false], $project->collection->getDescendants()->fetch('is_private')->toArray());
+        $this->assertEquals([false, false, false], $project->collection->getDescendants()->pluck('is_private')->toArray());
 
     }
 
@@ -672,7 +672,7 @@ class CollectionsTest extends TestCase {
         $this->assertNotNull($collection->parent_id);
         $this->assertEquals(0, $project->collection->getDescendants()->count());
 
-        $this->assertEquals([true, true, true], $collection_container->getDescendants()->fetch('is_private')->toArray());
+        $this->assertEquals([true, true, true], $collection_container->getDescendants()->pluck('is_private')->toArray());
 
     }
        

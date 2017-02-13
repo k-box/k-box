@@ -93,6 +93,9 @@ class ViewComposerServiceProvider extends ServiceProvider {
 		view()->composer('documents.projects.layout', 'KlinkDMS\Http\Composers\DocumentsComposer@layout');
 		
 		view()->composer('documents.documents', 'KlinkDMS\Http\Composers\DocumentsComposer@layout');
+		view()->composer('documents.recent', 'KlinkDMS\Http\Composers\DocumentsComposer@layout');
+		view()->composer('documents.trash', 'KlinkDMS\Http\Composers\DocumentsComposer@layout');
+		view()->composer('documents.starred', 'KlinkDMS\Http\Composers\DocumentsComposer@layout');
 		view()->composer('documents.sharedwithme', 'KlinkDMS\Http\Composers\DocumentsComposer@shared');
 		view()->composer('documents.menu', 'KlinkDMS\Http\Composers\DocumentsComposer@menu');
 		
