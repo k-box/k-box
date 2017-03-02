@@ -1,8 +1,11 @@
 <?php namespace KlinkDMS;
 
 use Illuminate\Database\Eloquent\Model;
+use KlinkDMS\Traits\LocalizableDateFields;
 
 class Shared extends Model {
+
+    use LocalizableDateFields;
     /*
     id: bigIncrements
     created_at: date
@@ -58,6 +61,30 @@ class Shared extends Model {
         }
 
         return $query->where('user_id', $user);
+    }
+    
+    /**
+     * Get shared by user, with who and what
+     * 
+     * @param  User $user the user
+     * @param  User|PeopleGroup $with the target of the share
+     * @param  DocumentDescriptor|Group $what what has been shared
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeByWithWhat($query, $user, $with, $what)
+    {
+        if(class_basename(get_class($user)) === 'User'){
+            $user = $user->id;
+        }
+
+        $with_class = get_class($with);
+        $what_class = get_class($what);
+
+        return $query->where('user_id', $user)
+                     ->where('sharedwith_id', $with->id)
+                     ->where('sharedwith_type', $with_class)
+                     ->where('shareable_id', $what->id)
+                     ->where('shareable_type', $what_class);
     }
 
     /**

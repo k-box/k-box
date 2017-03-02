@@ -20,7 +20,7 @@ if (! function_exists('css_asset')) {
         $excluded_env = ['testing', 'local', 'dev', 'development'];
         
         if( in_array( app()->environment(), $excluded_env) ){
-            return url( $asset_path );
+            return url( $asset_path ) . '?bust=' . \Carbon\Carbon::now()->format('U');
         } 
         
         return url(elixir( is_null($production_asset_path) ? $asset_path : $production_asset_path ));

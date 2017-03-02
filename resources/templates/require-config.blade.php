@@ -14,7 +14,7 @@ require.config({
           exports: 'd3'
         }
     },
-    urlArgs: "bust={{ Config::get('dms.build') }}",
+    urlArgs: "bust={{ app()->environment() === 'production' ? Config::get('dms.build') : \Carbon\Carbon::now()->format('U') }}",
     skipDataMain:true,
     config: {
         //Set the config for the i18n

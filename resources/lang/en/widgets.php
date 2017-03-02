@@ -20,13 +20,6 @@ return [
 
 	),
 
-	'recent_docs' => array(
-
-		'title'=>'Recent Documents',
-		'empty' => 'No recently uploaded documents',
-
-	),
-
 	'starred' => array(
 
 		'title'=>'Last Starred',
@@ -36,16 +29,18 @@ return [
 
 	'storage' => array(
 
-		'title'=>'Storage status',
+		'title'=>'Storage',
 		'free' => '<span class="free">:free</span> of :total free',
+		'used' => ':used of :total used',
+		'used_alt' => ':used of :total',
+		'used_percentage' => ':used% used',
 
-	),
-
-
-	'user_activity' => array(
-
-		'title'=>'User\'s last activity',
-		'empty' => 'User\'s last activity'
+		'graph_labels' => [
+			'documents' => 'Documents',
+			'images' => 'Images',
+			'videos' => 'Videos',
+			'other' => 'Other'
+		],
 
 	),
 	
@@ -53,13 +48,6 @@ return [
 
 		'title'=>'Active Users',
 		'empty' => 'No user activity in the last 20 minutes'
-
-	),
-
-	'hero_counter' => array(
-
-		'total' => 'document|documents',
-		'public' => 'publicly available'
 
 	),
 

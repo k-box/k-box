@@ -39,54 +39,80 @@ class MailAdministrationController extends Controller {
 
     $flat = $sections->toArray();
 
-    return view('administration.mail', ['pagetitle' => trans('administration.menu.mail'), 'config' => $mail_config]);
+    return view('administration.mail', [
+      'pagetitle' => trans('administration.menu.mail'), 
+      'config' => $mail_config,
+      'is_server_configurable' => $mail_config['driver'] !== 'log'
+    ]);
   }
 
 
 
   public function postStore(MailSettingsRequest $request){
 
-    $fields = [
+    $server_fields = [
       'pretend' => 'mail.pretend',
       'host' => 'mail.host',
       'port' => 'mail.port',
       'encryption' => 'mail.encryption',
       'smtp_u' => 'mail.username',
       'smtp_p' => 'mail.password',
+    ];
+    
+    $from_fields = [
       'from_address' => 'mail.from.address',
       'from_name' => 'mail.from.name',
     ];
 
-    $res = \DB::transaction(function() use($request, $fields){
+    $mail_config = Config::get('mail');
+    $is_log_driver = $mail_config['driver'] === 'log';
+
+    $res = \DB::transaction(function() use($request, $from_fields, $server_fields, $is_log_driver){
 
       $att = null;
-      foreach ($fields as $field => $setting) {
+      foreach ($from_fields as $field => $setting) {
       
           if($request->has($field)){
 
             $value = $request->get($field);
 
-            if($field === 'smtp_p'){
-              $value = base64_encode($value);
-            }
-            else if($field === 'pretend'){
-              $value = "0";
-            }
-
             $att = Option::firstOrNew(array('key' => $setting));
             $att->value = $value;
             $att->save();
 
-          }
-          else if($field=='pretend' && !$request->has($field)){
-            $value = "1";
-
-            $att = Option::firstOrNew(array('key' => $setting));
-            $att->value = $value;
-            $att->save();
           }
       }
 
+
+      if(!$is_log_driver){
+
+          foreach ($server_fields as $field => $setting) {
+          
+              if($request->has($field)){
+
+                $value = $request->get($field);
+
+                if($field === 'smtp_p'){
+                  $value = base64_encode($value);
+                }
+                else if($field === 'pretend'){
+                  $value = "0";
+                }
+
+                $att = Option::firstOrNew(array('key' => $setting));
+                $att->value = $value;
+                $att->save();
+
+              }
+              else if($field=='pretend' && !$request->has($field)){
+                $value = "1";
+
+                $att = Option::firstOrNew(array('key' => $setting));
+                $att->value = $value;
+                $att->save();
+              }
+          }
+      }
 
       return true;
     });

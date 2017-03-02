@@ -7,6 +7,7 @@ use KlinkDMS\Http\Requests\CreateMessageRequest;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Hash;
 use KlinkDMS\User;
+use KlinkDMS\Option;
 use Illuminate\Contracts\Auth\Guard as AuthGuard;
 use Illuminate\Contracts\Auth\PasswordBroker as PasswordBrokerContract;
 
@@ -110,7 +111,7 @@ class MessagingController extends Controller {
         $from_name = \Config::get('mail.from.name');
         
         if(!ends_with($me->email, 'klink.local')){
-            $from_mail = $me->email;
+            $from_mail = Option::fromAddress();
             $from_name = $me->name;
         }
         

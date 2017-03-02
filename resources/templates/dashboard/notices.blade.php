@@ -6,7 +6,7 @@
 	
 	@foreach($notices as $notice)
 
-		<div class="alert info">
+		<div class="c-message">
 			{!!$notice!!}
 		</div>
 

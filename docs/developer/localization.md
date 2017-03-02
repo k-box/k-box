@@ -24,7 +24,7 @@ If you feel uncomfortable with this decision [let us know](http://klink.uservoic
 
 ## Language files
 
-Language files an localization rules follows the [Laravel 5.1 Localization](http://laravel.com/docs/5.1/localization). 
+Language files an localization rules follows the [Laravel Localization](http://laravel.com/docs/5.2/localization). 
 All the files are in the `resources/lang` folder. Each language has its own sub folder represented by the two-letter 
 language code (ISO 639-1).
 
@@ -33,8 +33,8 @@ language code (ISO 639-1).
 
 Laravel offer some helper methods to write localized strings in the PHP source code and in blade templates.
 
-- [`trans`](https://laravel.com/docs/5.1/helpers#method-trans)
-- [`trans_choice`](https://laravel.com/docs/5.1/helpers#method-trans-choice)
+- [`trans`](https://laravel.com/docs/5.2/helpers#method-trans)
+- [`trans_choice`](https://laravel.com/docs/5.2/helpers#method-trans-choice)
 
 
 ### Date and time localization

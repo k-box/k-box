@@ -1,40 +1,18 @@
-@extends('widgets.widget-layout')
 
-
-<!-- Expecting storage_status variable -->
-
-@section('widget_class')
-storage-statistics
-@overwrite
-
-@section('widget_title')
-<span class="widget-icon icon-action-black icon-action-black-ic_dns_black_24dp"></span> {{trans('widgets.storage.title')}}
-@overwrite
-
-@section('widget_content')
-
-<div class="document">
+<div class="c-widget widget--storage">
 	
-@foreach($storage_status['document_categories'] as $key => $values)
+	<h5 class="widget__title">
+		{{trans('widgets.storage.title')}}
+	</h5>
 
-	@if($values['total'] > 0)
-		<p><strong>{{$values['total']}}</strong> {{trans_choice('documents.type.' . $key, $values['total'])}}</p>
+	@if(isset($storage_status))
+
+		<span>{{ trans('widgets.storage.used', ['used' => $storage_status['used'], 'total' => $storage_status['total']]) }}</span>
+
+		<div class="widget--storage__meter">
+			<div class="bar" style="width:{{$storage_status['percentage'] }}%"></div>
+		</div>
+
 	@endif
 
-@endforeach
-
 </div>
-
-<div class="storage">
-
-	<h4>{{$storage_status['full_percentage']}}%</h4>
-
-	<span>{!!trans('widgets.storage.free', ['free' => $storage_status['free_space_on_docs_folder'], 'total' => $storage_status['total_space_on_docs_folder']])!!}</span>
-
-</div>
-
-
-
-
-
-@overwrite

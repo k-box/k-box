@@ -46,8 +46,6 @@ class AdministrationDashboardController extends Controller {
    */
   public function index() {
 
-    $storage = $this->documents->getStorageStatus();
-
     $notices = [];
 
     if(!Option::isMailEnabled())
@@ -58,7 +56,6 @@ class AdministrationDashboardController extends Controller {
     
 
     return view('administration.administration', [
-        'storage_status' => $storage,
         'notices' => $notices,
       ]);
   }

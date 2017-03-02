@@ -121,14 +121,22 @@
 			@endif
 		</span>
 		
-
+		@if(isset($share_created_at) && isset($share_created_at_timestamp))
+		<span class="meta-info modified-date" title="{{trans('share.shared_on')}} {{$share_created_at_timestamp}}">
+			<span class="meta-label">{{trans('share.shared_on')}}&nbsp;</span>{{$share_created_at}}
+		</span>
+		@else
 		<span class="meta-info creation-date" title="{{trans('documents.descriptor.added_on')}} {{$item->getCreatedAt(true)}}">
 			<span class="meta-label">{{trans('documents.descriptor.added_on')}}&nbsp;</span>{{$item->getCreatedAt()}}
 		</span>
+
+		@endif
 		
+		@unless(isset($share_created_at) && isset($share_created_at_timestamp))
 		<span class="meta-info modified-date" title="{{trans('documents.descriptor.last_modified')}} {{$item->getUpdatedAt(true)}}">
 			<span class="meta-label">{{trans('documents.descriptor.last_modified')}}&nbsp;</span>{{ $item->getUpdatedAtHumanDiff() }}
 		</span>
+		@endif
 
 		<span class="meta-info visibility">
 			{{$item->visibility}}

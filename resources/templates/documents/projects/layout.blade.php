@@ -262,7 +262,7 @@
 
 	})();
 
-	require(['modules/list-switcher', 'modules/documents', 'modules/panels'], function(Switcher, Documents, Panels){
+	require(['modules/documents', 'modules/list-switcher'], function(Documents){
 
 		@if(isset($context))
 			Documents.setContext({

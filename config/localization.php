@@ -240,6 +240,8 @@ return [
         'networks.make_public_empty_selection',
         'networks.make_public_dialog_text',
         'networks.make_public_dialog_text_count',
+
+        'projects.labels.search_member_not_found',
     ],
 
 

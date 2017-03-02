@@ -22,8 +22,7 @@ class StorageControllerTest extends TestCase
 
         $this->visit(route('administration.storage.index'));
         $this->assertViewHas('reindex');
-        $this->assertViewHas('status');
-        $this->assertViewHas('disks');
+        $this->assertViewHas('storage');
     }
     
     public function testReindexWithEmptyStorage()

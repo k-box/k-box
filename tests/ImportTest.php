@@ -59,6 +59,15 @@ class ImportTest extends TestCase {
 		);
 	} 
     
+    public function url_to_clean_provider(){
+		
+		return array( 
+			array( '  http://www.kg.undp.org/content/dam/kyrgyzstan/Publications/env-energy/KGZ_Insulating_Your_House_280114_RUS.pdf#aiudhsuds ', 'http://www.kg.undp.org/content/dam/kyrgyzstan/Publications/env-energy/KGZ_Insulating_Your_House_280114_RUS.pdf' ),
+            array( 'http://www.kg.undp.org/content/dam/kyrgyzstan/Publications/env-energy/KGZ_Insulating_Your_House_280114_KYR-small.pdf#help-me', 'http://www.kg.undp.org/content/dam/kyrgyzstan/Publications/env-energy/KGZ_Insulating_Your_House_280114_KYR-small.pdf' ),
+            array( 'http://www.conservation.org/Pages/default.aspx ', 'http://www.conservation.org/Pages/default.aspx' ),
+		);
+	} 
+    
     /**
 	 * Test the import page loading based on user capabilities
 	 *
@@ -674,6 +683,36 @@ class ImportTest extends TestCase {
             'folder' => './non-existing-folder/',
             '--local' => null,
         ]);
+    }
+
+    /**
+     * @dataProvider url_to_clean_provider
+     */
+    public function testImportUrlIsCleaned($url, $expected_url)
+    {
+        $preexisting_import = Import::all()->pluck('id');
+
+        Queue::shouldReceive('push')->once()->with(\Mockery::type('KlinkDMS\Jobs\ImportCommand'));
+
+        $user = $this->createAdminUser();
+
+        $this->withKlinkAdapterFake();
+        
+        $save_path = Config::get('dms.upload_folder') . DIRECTORY_SEPARATOR . md5($url);
+        
+        $service = app('Klink\DmsDocuments\DocumentsService');
+
+        $service->importFromUrl($url, $user);
+
+        $after_import = Import::all()->pluck('id');
+
+        $diff = $after_import->diff($preexisting_import);
+
+        $this->assertTrue($diff->count() === 1, 'Multiple imports generated');
+
+        $import = Import::findOrFail($diff->first());
+
+        $this->assertEquals($expected_url, $import->file->original_uri);   
     }
     
     

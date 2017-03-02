@@ -15,6 +15,55 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Removed
 
+## [0.15.0] - 2017-03-02
+
+### Added 
+
+- `StorageService` for getting information on the storage status
+- E-Mail driver specification in env file using `MAIL_DRIVER`. This enable to test email
+  message sending without configuring a SMTP server. By default if the `log` driver is 
+  configured the DMS let you create users and send emails. With the `log` driver all 
+  email messages are written in the log files, accessible from Administration > Maintenance
+- Share Email notification. An email is sent to the user who should receive the share.
+- Share route. Now you can link to a share with id or token (shares/{token}) and the system
+  redirects you to the collection or the document.
+- Shared with me page: 
+ - Possibility to order the list of shares according to the share creation date
+ - The share creation date is now shown instead of the document/collection creation date
+ - Empty state message
+- Ability to set email configuration with environment variables in the `.env` file, see 
+  `config/mail.php` for all the options.
+
+### Changed
+
+- Download button on details panel don't force the file download anymore (regression after)
+  changing the behavior of the document URL to preview.
+- Storage widget 
+ - now do not require connection to a running K-Core
+ - new UI
+- User Session widget. Updated layout
+- deprecated `DocumentsService::getStorageStatus` in favor of `StorageService`
+- New admin menu layout, bigger icons, better icons and color response
+- E-Mail configuration is now valid if all of the following settings are configured: `mail.host`, 
+  `mail.port`, `mail.from.address`, `mail.from.name`. Therefore `Option::isMailEnabled` return false 
+  if one of the previous setting (both from environment file or database) is not set. If the driver is
+  set to `log` the mail configuration is considered valid and the SMTP server cannot be edited from the 
+  UI.
+- E-Mail configuration UI.
+- Projects Page: clicking on a project now opens the project
+
+### Fixed
+
+- Javascript error in Projects page loading
+- Localization `project.label.search_user_not_found` not available on Projects details panel
+- URL cleaning from whitespace and anchor section before starting an import
+- sharing a Document twice with the same user only creates one share record in the database.
+
+### Removed
+
+- Unused ViewComposers and views
+- Usage of `mail.pretend` option to identify if the email configuration is valid
+
 
 ## [0.14.0] - 2017-02-13
 

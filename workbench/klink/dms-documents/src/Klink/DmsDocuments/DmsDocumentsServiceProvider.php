@@ -29,8 +29,11 @@ class DmsDocumentsServiceProvider extends ServiceProvider {
 	public function register()
 	{
 		$this->app->singleton('documentsservice', function ($app) {
-
 			return new \Klink\DmsDocuments\DocumentsService;
+		});
+		
+		$this->app->singleton(StorageService::class, function ($app) {
+			return new StorageService();
 		});
 		
 		$this->app->singleton('Klink\DmsDocuments\FileContentExtractor', function($app)
@@ -46,7 +49,7 @@ class DmsDocumentsServiceProvider extends ServiceProvider {
 	 */
 	public function provides()
 	{
-		return ['\Klink\DmsDocuments\DocumentsService', '\Klink\DmsDocuments\FileContentExtractor', '\Klink\DmsDocuments\TrashContentResponse'];
+		return ['\Klink\DmsDocuments\DocumentsService', '\Klink\DmsDocuments\StorageService', '\Klink\DmsDocuments\FileContentExtractor', '\Klink\DmsDocuments\TrashContentResponse'];
 	}
 
 }

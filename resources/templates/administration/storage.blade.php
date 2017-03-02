@@ -24,7 +24,7 @@
 
     <div class="two columns">
 
-        @include('administration.adminmenu', ['small' => true, 'compact' => true])
+        @include('administration.adminmenu')
 
     </div>
 
@@ -83,7 +83,6 @@
                     <input type="hidden" value="0" name="activate">
 
                     <button type="submit" class="button">
-{{--                         {{trans('administration.storage.naming_policy_btn_save')}} --}}
                         {{trans('administration.storage.naming_policy_btn_deactivate')}}
                     </button>
 
@@ -103,56 +102,35 @@
 
         </div>
 
-
-        <div class="widget">
-
-            <h3>{{trans('administration.storage.disk_status_title')}}</h3>
-
-            @foreach($disks as $disk)
-
-                <div class="card">
-
-                    <strong><span class="card-icon icon-device-black icon-device-black-ic_sd_storage_black_24dp"></span> {{$disk['name']}} {{$disk['type']}}</strong>
-
-                    <p>
-
-                        {!! trans('administration.storage.disk_space', ['free' => $disk['free'], 'used' => $disk['used'], 'total' => $disk['total']]) !!}
-
-                    </p>
-
-
-                    <div class="meter">
-                        <div class="bar {{$disk['level']}}" style="width:{{$disk['used_percentage'] }}% "></div>
-                    </div>
-
-                </div>
-
-            @endforeach
-
-        </div>
-
-
     </div>
 
-    <div class="four columns">
+    <div class="four columns widgets">
 
-        <div class="widget storage-statistics">
-        
-            <h5 class="widget-title"><span class="widget-icon icon-action-black icon-action-black-ic_description_black_24dp"></span> {{trans('administration.storage.documents_report_title')}}</h5>
+        @if(isset($storage))
 
-            <div class="document">
-        
-            @foreach($status['document_categories'] as $key => $values)
+        <div class="c-widget widget--storage">
 
-                @if($values['total'] > 0)
-                    <p><strong>{{$values['total']}}</strong> {{trans_choice('documents.type.' . $key, $values['total'])}}</p>
-                @endif
+            <span class="widget--storage__percentage">{{ trans('widgets.storage.used_percentage', ['used' => $storage['percentage']]) }}</span>
 
-            @endforeach
+            <span class="widget--storage__space">{{ trans('widgets.storage.used_alt', ['used' => $storage['used'], 'total' => $storage['total']]) }}</span>
 
+            <div class="widget--storage__multimeter">
+                @foreach($storage['graph'] as $key => $graph)
+                    <div class="bar force-bar-normal-state" title="{{$graph['label']}}" data-series="{{$key}}" style="width:{{$graph['value'] }}%;background-color:#{{$graph['color']}}"></div>
+                @endforeach
+            </div>
+
+            <div class="widget--storage__legend">
+                @foreach($storage['graph'] as $key => $graph)
+                    <div class="legend-entry">
+                        <span class="legend-sign" data-series="{{$key}}" style="background-color:#{{$graph['color']}}"></span> {{$graph['label']}}
+                    </div>
+                @endforeach
             </div>
 
         </div>
+
+        @endif
 
     </div>
 
@@ -170,6 +148,8 @@
             Storage.startUiUpdate('{{ $reindex['status'] }}', {{$reindex['progress_percentage']}});
 
         @endif
+
+        $('.force-bar-normal-state').removeClass('force-bar-normal-state');
         
     });
     </script>

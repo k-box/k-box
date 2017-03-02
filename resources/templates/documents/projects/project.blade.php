@@ -1,5 +1,5 @@
 @if(!is_null($item->collection))
-<div class="item item--project" data-id="{{$item->id}}"  rv-on-click="select" data-class="project" data-group-id="{{$item->collection->id}}" data-drop="true">
+<div class="item item--project" data-id="{{$item->id}}"  rv-on-click="openProject" data-class="project" data-group-id="{{$item->collection->id}}" data-drop="true">
 
 	<span class="selection-area"></span>
 	

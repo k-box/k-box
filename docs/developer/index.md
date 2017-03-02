@@ -18,7 +18,7 @@ The DMS exposes a set of commands through a command line interface in addition t
 the ones available from the framework used for developing the DMS itself.
 
 The command line tool set is exposed using 
-[Laravel's Artisan](https://laravel.com/docs/5.1/artisan) command line.
+[Laravel's Artisan](https://laravel.com/docs/5.2/artisan) command line.
 
 See the section [Commands](./commands/index.md) for more information. 
 

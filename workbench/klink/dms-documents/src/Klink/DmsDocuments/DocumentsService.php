@@ -1750,7 +1750,19 @@ class DocumentsService {
 
 		$urls = preg_split( "/[;\n\r]+/", $urls );
 
-		$urls = array_map(function($el){ return str_replace(' ', '%20', $el); }, $urls);
+		$urls = array_map(function($el)
+		{
+			// cleaning required: strip whitespaces and anchor
+
+			$pos = strpos($el, '#');
+
+			if($pos !== false)
+			{
+				$el = substr($el, 0, $pos);
+			}
+
+			return str_replace(' ', '%20', trim($el));
+		}, $urls);
 
 		foreach ($urls as $url) {
 			if($this->fileExistsFromOriginalUrl($url)){
@@ -2245,6 +2257,7 @@ class DocumentsService {
 	/**
 	 * Returns the information needed for rendering the Storage Status widget
 	 * @return array
+	 * @deprecated use StorageService instead
 	 */
 	public function getStorageStatus($raw = false)
 	{

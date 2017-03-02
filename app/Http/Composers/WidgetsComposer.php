@@ -5,6 +5,8 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Contracts\Auth\Guard as AuthGuard;
 use KlinkDMS\User;
 use Carbon\Carbon;
+use Klink\DmsDocuments\StorageService;
+use Auth;
 
 class WidgetsComposer {
 
@@ -35,66 +37,23 @@ class WidgetsComposer {
     /**
      * Storage Widget
      *
+     * Grab the data to render the storage widget UI
+     *
      * @param  View  $view
      * @return void
      */
     public function widgetStorage(View $view)
     {
-        if(\Auth::check()){
+        if(Auth::check()){
+            $storage = app(StorageService::class);
 
-            $auth_user = \Auth::user();
+            $data = [
+                'used' => $storage->used(),
+                'total' => $storage->total(),
+                'percentage' => $storage->usedPercentage(),
+            ];
 
-            if($auth_user->isDMSAdmin() || $auth_user->isContentManager()){
-
-                $storage = $this->documents->getStorageStatus();
-
-                $view->with('storage_status', $storage);
-
-            }
-        }
-    }
-
-
-    /**
-     * Hero counter widget
-     * @param  View   $view [description]
-     * @return void
-     */
-    public function widgetHeroCounter(View $view)
-    {
-        $public = $this->adapter->getDocumentsCount('public');
-        $private = $this->adapter->getDocumentsCount('private');
-
-        $view->with('document_total', $public+$private);
-        $view->with('document_public', $public);
-    }
-
-
-    public function widgetRecentDocuments(View $view)
-    {
-
-        if(\Auth::check()){
-
-            $auth_user = \Auth::user();
-
-            if($auth_user->isDMSAdmin() || $auth_user->isContentManager()){
-
-                $recent_documents = $this->documents->getRecentDocuments();
-
-                $view->with('recent_documents', $recent_documents);
-                
-            }
-            else {
-
-                $recent_documents = $this->documents->getRecentDocuments(7, $auth_user);
-                
-                $view->with('recent_documents', $recent_documents);
-
-            }
-
-        }
-        else {
-            $view->with('recent_documents', []);
+            $view->with('storage_status', $data);
         }
     }
 
@@ -146,54 +105,41 @@ class WidgetsComposer {
             
     		if($sessions_driver_db || ($sessions_driver_db && $table_exists)){
     		
-        		$sessions = \DB::table($sessions_table_name)->where('last_activity', '>=', time() - (20*60))->get();
+        		$sessions = \DB::table($sessions_table_name)->where('last_activity', '>=', time() - (20*60))->distinct()->get();
         
         		foreach ($sessions as $session)
         		{
         			
-        			$payload = @unserialize(base64_decode($session->payload));
-        			
-        			$login_user = array_first($payload, function($key, $value){
-        				return starts_with($key, 'login_');
-        			});
-        			
-        			try{
-        			
-        				if(!is_null($login_user)){
-                            
-                            $u = User::findOrFail($login_user);
-                            
-                            $active_users[] = array(
+        			try{           
+                        $u = User::findOrFail($session->user_id);
+                        
+                        if(!isset($active_users[$session->user_id]))
+                        {
+                            $active_users[$session->user_id] = array(
                                 'time' => Carbon::createFromTimeStamp($session->last_activity)->diffForHumans(),
                                 'user' => $u->name,
                                 'is_me' => $u->id === $auth_user->id
                             );
-        				}
-        			
-        			}catch(\Exception $ex){
-        				
-        				// $this->line( date(trans('units.date_format'), $session->last_activity) . ' ' . $session->id);
-        				
-        				// $this->log( ' > User not found: ' . $login_user);
+                        }
         			}
-                    
-                    if(empty($active_users)){
-                        $active_users[] = array(
-                                'time' => Carbon::now()->diffForHumans(),
-                                'user' => $auth_user->name,
-                                'is_me' => true
-                            );
-                    }
-        			
+                    catch(\Exception $ex){ }
+
         		}
+
+                if(empty($active_users)){
+                    $active_users[$auth_user->id] = array(
+                            'time' => Carbon::now()->diffForHumans(),
+                            'user' => $auth_user->name,
+                            'is_me' => true
+                        );
+                }
             
             }
 
         }
         
-        $view->with('active_users', $active_users);
+        $view->with('active_users', array_values($active_users));
         
-
     }
 
 }

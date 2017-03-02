@@ -24,11 +24,13 @@
 
     <div class="two columns">
 
-        @include('administration.adminmenu', ['small' => true, 'compact' => true])
+        @include('administration.adminmenu')
 
     </div>
 
-    <div class="ten columns ">
+    <div class="ten columns c-page">
+
+        @include('dashboard.notices')
 
         @if( $errors->has('mail_send') )
             <div class="alert error">
@@ -43,73 +45,91 @@
         @endif
 
 
-        <form method="post" action="{{route('administration.mail.store')}}">
+        <form method="post" class="c-form" action="{{route('administration.mail.store')}}">
 
             <input type="hidden" name="_token" value="{{{ csrf_token() }}}"> 
 
-            <div class="row">
-                
-                @if( $errors->has('pretend') )
-                    <span class="field-error">{{ implode(",", $errors->get('pretend'))  }}</span>
-                @endif
-                <input type="checkbox" name="pretend" id="pretend" value="1" @if(isset($config['pretend']) && !$config['pretend']) checked="true" @endif /><label for="pretend">{{trans('administration.mail.enable_chk')}}</label>
-            </div>
-        
+            <div class="c-section">
+                <h4 class="c-section__title">{{trans('administration.mail.from_label')}}</h4>
+                <p class="c-section__description">{{trans('administration.mail.from_description')}}</p>
 
-            <div class="row">
-                <label>{{trans('administration.mail.from_label')}}</label>
-                <p class="description">{{trans('administration.mail.from_description')}}</p>
-                @if( $errors->has('from_address') )
-                    <span class="field-error">{{ implode(",", $errors->get('from_address'))  }}</span>
-                @endif
-                
-                <input type="email" name="from_address" value="@if(isset($config['from']['address'])){{$config['from']['address']}}@endif" placeholder="{{trans('administration.mail.from_address_placeholder')}}" />
-                @if( $errors->has('from_name') )
-                    <span class="field-error">{{ implode(",", $errors->get('from_name'))  }}</span>
-                @endif
-                <input type="text" name="from_name" value="@if(isset($config['from']['name'])){{$config['from']['name']}}@endif" placeholder="{{trans('administration.mail.from_name_placeholder')}}" />
-            </div>
+                <div class="c-form__field">
 
-            <div class="row">
-                <label>{{trans('administration.mail.host_label')}}</label>
-                @if( $errors->has('host') )
-                    <span class="field-error">{{ implode(",", $errors->get('host'))  }}</span>
-                @endif
-                <input type="text" name="host" required value="{{$config['host']}}" />
-            </div>
-            <div class="row">
-                <label>{{trans('administration.mail.port_label')}}</label>
-                @if( $errors->has('port') )
-                    <span class="field-error">{{ implode(",", $errors->get('port'))  }}</span>
-                @endif
-                <input type="number" name="port" required value="{{$config['port']}}" />
+                    <label for="from_address">{{ trans('administration.mail.from_address') }}</label>
+
+                    @if( $errors->has('from_address') )
+                        <span class="field-error">{{ implode(",", $errors->get('from_address'))  }}</span>
+                    @endif
+                    
+                    <input type="email" name="from_address" id="from_address" required value="@if(isset($config['from']['address'])){{$config['from']['address']}}@endif" placeholder="{{trans('administration.mail.from_address_placeholder')}}" />
+                
+                </div>
+
+
+
+                <div class="c-form__field">
+
+                    <label for="from_name">{{ trans('administration.mail.from_name') }}</label>
+                    @if( $errors->has('from_name') )
+                        <span class="field-error">{{ implode(",", $errors->get('from_name'))  }}</span>
+                    @endif
+                    <input type="text" name="from_name" id="from_name" value="@if(isset($config['from']['name'])){{$config['from']['name']}}@endif" placeholder="{{trans('administration.mail.from_name_placeholder')}}" />
+
+                </div>
             </div>
             
-            <div class="row">
-                <label>{{trans('administration.mail.encryption_label')}}</label>
-                @if( $errors->has('encryption') )
-                    <span class="field-error">{{ implode(",", $errors->get('encryption'))  }}</span>
+            <div class="c-section">
+                <h4 class="c-section__title">{{trans('administration.mail.server_configuration_label')}}</h4>
+                <p class="c-section__description">{{trans('administration.mail.server_configuration_description')}}. <strong>{{trans('administration.mail.encryption_label')}}</strong></p>
+
+                @if(!$is_server_configurable)
+                
+                    <div class="c-form__blocked-reason c-message">
+                        {{ trans('administration.mail.log_driver_used') }}<br/>
+                        {!! trans('administration.mail.log_driver_go_to_log', ['link' => route('administration.maintenance.index')]) !!}
+                    </div>
+                
                 @endif
-                <input type="text" disabled name="encryption" value="{{$config['encryption']}}"  />
+
+                <div class="c-form__field  @if(!$is_server_configurable) c-form--blocked @endif">
+                    <label>{{trans('administration.mail.host_label')}}</label>
+                    @if( $errors->has('host') )
+                        <span class="field-error">{{ implode(",", $errors->get('host'))  }}</span>
+                    @endif
+                    <input type="text" name="host" @if($is_server_configurable) required @endif value="{{$config['host']}}" />
+                </div>
+                
+                <div class="c-form__field  @if(!$is_server_configurable) c-form--blocked @endif">
+                    <label>{{trans('administration.mail.port_label')}}</label>
+                    @if( $errors->has('port') )
+                        <span class="field-error">{{ implode(",", $errors->get('port'))  }}</span>
+                    @endif
+                    <input type="number" class="c-input--number" name="port" @if($is_server_configurable) required @endif value="{{$config['port']}}" />
+                </div>
+                
+                <div class="c-form__field  @if(!$is_server_configurable) c-form--blocked @endif">
+                    <label>{{trans('administration.mail.username_label')}}</label>
+                    @if( $errors->has('smtp_u') )
+                        <span class="field-error">{{ implode(",", $errors->get('smtp_u'))  }}</span>
+                    @endif
+                    <input type="text" name="smtp_u" value="{{$config['username']}}"  />
+                </div>
+
+                <div class="c-form__field  @if(!$is_server_configurable) c-form--blocked @endif">
+                    <label>{{trans('administration.mail.password_label')}}</label>
+                    @if( $errors->has('smtp_p') )
+                        <span class="field-error">{{ implode(",", $errors->get('smtp_p'))  }}</span>
+                    @endif
+                    <input type="password" name="smtp_p" value="{{$config['password']}}"  />
+                </div>
+
             </div>
 
-            <div class="row">
-                <label>{{trans('administration.mail.username_label')}}</label>
-                @if( $errors->has('smtp_u') )
-                    <span class="field-error">{{ implode(",", $errors->get('smtp_u'))  }}</span>
-                @endif
-                <input type="text" name="smtp_u" value="{{$config['username']}}"  />
-            </div>
 
-            <div class="row">
-                <label>{{trans('administration.mail.password_label')}}</label>
-                @if( $errors->has('smtp_p') )
-                    <span class="field-error">{{ implode(",", $errors->get('smtp_p'))  }}</span>
-                @endif
-                <input type="password" name="smtp_p" value="{{$config['password']}}"  />
-            </div>
+            
 
-            <div class="row">
+
+            <div class="c-form__buttons">
 
                 <button class="button button-primary" type="submit">{{trans('administration.mail.save_btn')}}</button>
 

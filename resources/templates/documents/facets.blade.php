@@ -38,7 +38,7 @@
 	<div class="filter-buttons">
 
 
-        <div>
+        <div class="filter-buttons-line">
 
 			<!--@ i f(isset($context) && $context === 'projectspage')
 				<span class="sort-widget">
@@ -52,7 +52,11 @@
             @if(isset($filters) && !empty($filters))
             <a href="{{$clear_filter_url}}" class="button"><span class="btn-icon icon-content-black icon-content-black-ic_clear_black_24dp"></span>{{trans('actions.filters.clear_filters')}}</a>
             @endif
+
+			@yield('additional_filter_buttons')
+
         </div>
+
 	</div>
 @endif
 

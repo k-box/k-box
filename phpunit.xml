@@ -27,5 +27,6 @@
         <env name="CACHE_DRIVER" value="array"/>
         <env name="SESSION_DRIVER" value="array"/>
         <env name="DB_NAME" value="dms_test" />
+        <env name="MAIL_DRIVER" value="log" />
     </php>
 </phpunit>

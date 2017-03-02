@@ -4,7 +4,7 @@
 > K-DMS instance.
 
 
-The DMS command line suite of commands rely on the [Laravel Artisan CLI](https://laravel.com/docs/5.1/artisan).
+The DMS command line suite of commands rely on the [Laravel Artisan CLI](https://laravel.com/docs/5.2/artisan).
 
 Here are only listed the specific commands added by the K-DMS:
 

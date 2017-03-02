@@ -15,19 +15,17 @@
 
 @section('content')
 
-
-@include('dashboard.notices')
-
 <div class="row">
 
 	<div class="eight columns">
 
-		@include('administration.adminmenu')
+		@include('administration.adminmenu', ['block' => true])
 
 	</div>
 
+	<div class="four columns widgets">
 
-	<div class="four columns">
+		@include('dashboard.notices')
 
 		@include('widgets.storage')
 

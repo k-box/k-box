@@ -64,11 +64,7 @@ class ViewComposerServiceProvider extends ServiceProvider {
 
 		view()->composer('widgets.starred-documents', 'KlinkDMS\Http\Composers\WidgetsComposer@widgetStarred');
 
-		view()->composer('widgets.hero-counter', 'KlinkDMS\Http\Composers\WidgetsComposer@widgetHeroCounter');
-
 		view()->composer('widgets.storage', 'KlinkDMS\Http\Composers\WidgetsComposer@widgetStorage');
-
-		view()->composer('widgets.recent-documents', 'KlinkDMS\Http\Composers\WidgetsComposer@widgetRecentDocuments');
 
 		view()->composer('widgets.recent-searches', 'KlinkDMS\Http\Composers\WidgetsComposer@widgetRecentSearches');	
 		

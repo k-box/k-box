@@ -38,11 +38,13 @@ return [
 	'bulk_destroy' => 'Shares deleted|Some shares cannot be deleted<br/>:errors',
 	
     'share_link_section' => 'Share link',
-    'download_link_copy' => 'Copy document download link to the clipboard',
-    'document_link_copy' => 'Copy document link',
-    'preview_link_copy' => 'Copy document preview link to the clipboard',
+    'download_link_copy' => 'Copy download link to the clipboard',
+    'document_link_copy' => 'Copy link',
+    'preview_link_copy' => 'Copy preview link to the clipboard',
     
     'link_copied_to_clipboard' => 'The link has been copied to your clipboard, you can use CTRL+V to paste the link somewhere else.',
+
+	'shared_on' => 'shared on',
 	
     'dialog' => [
         'share_created' => 'Share Created',

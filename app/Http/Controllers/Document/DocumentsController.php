@@ -419,13 +419,15 @@ class DocumentsController extends Controller {
         $can_share_with_private = $auth_user->can_capability(Capability::SHARE_WITH_PRIVATE);
             
         $can_see_share = $auth_user->can_capability(Capability::RECEIVE_AND_SEE_SHARE);
+
+		$order = $request->input('o', 'd') === 'a' ? 'ASC' : 'DESC';
 		
 		
 		$req = $this->searchRequestCreate($request);
 		
 		$req->visibility('private');
 		
-		$with_me = $this->search($req, function($_request) use($auth_user, $can_share_with_personal, $can_share_with_private, $can_see_share) {
+		$with_me = $this->search($req, function($_request) use($auth_user, $can_share_with_personal, $can_share_with_private, $can_see_share, $order) {
 			
 			if(!$can_see_share){
 				return new Collection();
@@ -435,9 +437,9 @@ class DocumentsController extends Controller {
 			
 			$group_ids = $auth_user->involvedingroups()->get(array('peoplegroup_id'))->pluck('peoplegroup_id')->toArray();
 					
-			$all_in_groups = Shared::sharedWithGroups($group_ids)->get();
+			$all_in_groups = Shared::sharedWithGroups($group_ids)->orderBy('created_at', $order)->get();
 				
-			$all_single = Shared::sharedWithMe($auth_user)->with(array('shareable', 'sharedwith'))->get();
+			$all_single = Shared::sharedWithMe($auth_user)->with(array('shareable', 'sharedwith'))->orderBy('created_at', $order)->get();
 			
 			$all_shared = $all_single->merge($all_in_groups)->unique();
 			
@@ -470,6 +472,7 @@ class DocumentsController extends Controller {
 			'context' => 'shared',
 			'filter' => trans('documents.menu.shared'), 
 			'pagination' => $with_me,
+			'order' => $order,
 			'search_terms' => $req->term,
 			'facets' => $with_me->facets(),
 			'filters' => $with_me->filters(),

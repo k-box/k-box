@@ -14,6 +14,7 @@ use Illuminate\Contracts\Auth\Guard as AuthGuard;
 use Illuminate\Database\Eloquent;
 use Illuminate\Support\Collection;
 use KlinkDMS\Traits\Searchable;
+use KlinkDMS\Events\ShareCreated;
 
 /**
  * Manage you personal shares
@@ -62,19 +63,20 @@ class SharingController extends Controller {
 // 
 // 		$all = $all_single->merge($all_in_groups)->unique();
 		
+		$order = $request->input('o', 'd') === 'a' ? 'ASC' : 'DESC';
 		
 		$req = $this->searchRequestCreate($request);
 		
 		$req->visibility('private');
 		
-		$all = $this->search($req, function($_request) use($user) {
+		$all = $this->search($req, function($_request) use($user, $order) {
 			
 			$group_ids = $user->involvedingroups()->get(array('peoplegroup_id'))->pluck('peoplegroup_id')->toArray();
 					
-			$all_in_groups = Shared::sharedWithGroups($group_ids)->get();
+			$all_in_groups = Shared::sharedWithGroups($group_ids)->orderBy('created_at', $order)->get();
 			
 				
-			$all_single = Shared::sharedWithMe($user)->with(array('shareable', 'sharedwith'))->get();
+			$all_single = Shared::sharedWithMe($user)->orderBy('created_at', $order)->with(array('shareable', 'sharedwith'))->get();
 			
 			$all_shared = $all_single->merge($all_in_groups)->unique();
 			
@@ -112,6 +114,7 @@ class SharingController extends Controller {
 			'context' => 'sharing',
 			'current_visibility' => 'private',
 			'pagination' => $all,
+			'order' => $order,
 			'search_terms' => $req->term,
 			'facets' => $all->facets(),
 			'filters' => $all->filters(),
@@ -228,7 +231,7 @@ class SharingController extends Controller {
 		});
 
 		if ($request->wantsJson()) {
-			return new JsonResponse($status, 204);
+			return new JsonResponse($status, 201);
 		}
 
 		return view('panels.share_done', $status);
@@ -268,9 +271,15 @@ class SharingController extends Controller {
 			return new JsonResponse($share->toArray(), 200);
 		}
 
-		// dd($share);
+		$see_share = $auth->user()->can_capability(Capability::RECEIVE_AND_SEE_SHARE);
+        $partner = $auth->user()->can_all_capabilities(Capability::$PARTNER);
 
-		return view('share.view', ['share' => $share]);
+		if(is_a($share->shareable, 'KlinkDMS\Group'))
+		{
+			return redirect()->route($partner ? 'documents.groups.show' : 'shares.group', ['id' => $share->shareable->id]);
+		}
+
+		return redirect()->route($partner ? 'documents.sharedwithme' : 'shares.index', ['highlight' => $share->shareable->id]);
 	}
 
 
@@ -375,24 +384,33 @@ class SharingController extends Controller {
 		$token_content = '.';
 		
 			$shares_list = new Collection;
+			$single_share = null;
 
 			foreach ($with as $target) {
 				
 				foreach($what as $object){
 					
 					$token_content = $by->id . $target->id . get_class($target) . time() . $object->id . get_class($object);
+
+					if(!Shared::byWithWhat($by, $target, $object)->exists())
+					{
+						$single_share = $object->shares()->create(array(
+							'user_id' => $by->id,
+							'sharedwith_id' => $target->id, //the id 
+							'sharedwith_type' => get_class($target), //the class
+							'token' => hash( 'sha512', $token_content ),
+						));
+
+						event(new ShareCreated($single_share));
+						
+						$shares_list->push($single_share);
+					}
 					
-					$shares_list->push($object->shares()->create(array(
-						'user_id' => $by->id,
-						'sharedwith_id' => $target->id, //the id 
-						'sharedwith_type' => get_class($target), //the class
-						'token' => hash( 'sha512', $token_content ),
-					)));
 				}
 
 			}
 			
-		
+
 		return $shares_list;
 			// TODO: now send a notification/mail to every user about their new shares
 	}

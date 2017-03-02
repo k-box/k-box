@@ -232,22 +232,43 @@ class Option extends Model {
         
     }
 
+    /**
+     *
+     * @return bool true if mail service is usable, false otherwise
+     */
     public static function isMailEnabled()
     {
-            
-        $opt = static::option( 'mail.pretend', false );
 
-        if(is_string($opt) && $opt==='1')
-        {
-            return false;
-        }
-        else if(is_string($opt) && $opt==='0')
+        $driver = config('mail.driver');
+
+        if($driver === 'log')
         {
             return true;
         }
-            
-        return $opt;
+
+        $host = static::option( 'mail.host', config('mail.host', false) );
+        $port = static::option( 'mail.port', config('mail.port', false) );
+        $address = static::option( 'mail.from.address', config('mail.from.address', false) );
+        $name = static::option( 'mail.from.name', config('mail.from.name', false) );
+
+        if(empty($host) || empty($port) || empty($address) || empty($name))
+        {
+            return false;
+        }
         
+        return true;
+    }
+    
+    /**
+     * Get the email address from which the DMS sends email messages
+     *
+     * @return string the email from address. can be an empty string if not configured
+     */
+    public static function mailFrom()
+    {
+
+        return static::option( 'mail.from.address', config('mail.from.address', '') );
+
     }
 
 

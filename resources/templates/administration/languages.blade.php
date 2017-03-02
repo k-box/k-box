@@ -22,7 +22,7 @@
 
     <div class="two columns">
 
-        @include('administration.adminmenu', ['small' => true, 'compact' => true])
+        @include('administration.adminmenu')
 
     </div>
 

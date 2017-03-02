@@ -95,10 +95,15 @@
         @endif
 		
 		
-		
+		@if(isset($share_created_at) && isset($share_created_at_timestamp))
+			<span class="meta-info modified-date" title="{{trans('share.shared_on')}} {{$share_created_at_timestamp}}">
+				<span class="meta-label">{{trans('share.shared_on')}}&nbsp;</span>{{$share_created_at}}
+			</span>
+		@else		
 		<span class="meta-info creation-date" title="{{trans('groups.created_on')}} {{$item->getCreatedAt(true)}}">
 			<span class="meta-label">{{trans('groups.created_on')}} </span>{{$item->getCreatedAt()}}
 		</span>
+		@endif
 		
 	</div>
 

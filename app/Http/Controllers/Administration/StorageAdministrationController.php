@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use KlinkDMS\User;
 use KlinkDMS\Option;
 use Klink\DmsDocuments\DocumentsService;
+use Klink\DmsDocuments\StorageService;
 use KlinkDMS\Jobs\ReindexAll;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
@@ -47,88 +48,28 @@ class StorageAdministrationController extends Controller {
    *
    * @return \Illuminate\View\View
    */
-  public function getIndex(DocumentsService $service)
+  public function getIndex(StorageService $storage)
   {
 
+    $data = [
+        'used' => $storage->used(),
+        'total' => $storage->total(),
+        'percentage' => $storage->usedPercentage(),
+        'graph' => $storage->usageGraph()
+    ];
 
-    $status = $service->getStorageStatus(true);
-
-
-    $raw = $status['raw_data'];
-
-
-    $app_dirname = dirname($status['app_folder']);
-    $docs_dirname = dirname(dirname($status['docs_folder']));
-
-    $disks = array();
-
-    if($raw['total_app'] !== $raw['total_docs']){
-      // we have two disks
-
-      $used_perc = round($raw['used_docs']/$raw['total_docs']*100);
-      $used_app_perc = round($raw['used_app']/$raw['total_app']*100);
-
-
-      $disks[] = array('name' => trans('administration.storage.disk_number', ['number' => 1]), 'type' => trans('administration.storage.disk_type_docs'),
-
-          'free' => DocumentsService::human_filesize($raw['free_docs']),
-          'used' => DocumentsService::human_filesize($raw['used_docs']),
-          'total' => DocumentsService::human_filesize($raw['total_docs']),
-
-          'free_percentage' => round($raw['free_docs']/$raw['total_docs']*100),
-          'used_percentage' => $used_perc,
-          'level' => ($used_perc > 50) ? ($used_perc > 80 ? 'critical' : 'medium') : 'ok',
-          // 'total' => DocumentsService::human_filesize($raw['total_docs']),
-        );
-
-      $disks[] = array('name' => trans('administration.storage.disk_number', ['number' => 2]), 'type' => trans('administration.storage.disk_type_main'),
-
-          'free' => DocumentsService::human_filesize($raw['free_app']),
-          'used' => DocumentsService::human_filesize($raw['used_app']),
-          'total' => DocumentsService::human_filesize($raw['total_app']),
-
-          'free_percentage' => round($raw['free_app']/$raw['total_app']*100),
-          'used_percentage' => $used_perc,
-          'level' => ($used_app_perc > 50) ? ($used_app_perc > 80 ? 'critical' : 'medium') : 'ok',
-        );
-
-    }
-    else {
-      // Disk 1 - document + app
-      // 
-      $used_perc = round($raw['used_docs']/$raw['total_docs']*100);
-      $disks[] = array('name' => trans('administration.storage.disk_number', ['number' => 1]), 'type' => trans('administration.storage.disk_type_all'), 
-
-          'free' => DocumentsService::human_filesize($raw['free_docs']),
-          'used' => DocumentsService::human_filesize($raw['used_docs']),
-          'total' => DocumentsService::human_filesize($raw['total_docs']),
-
-          'free_percentage' => round($raw['free_docs']/$raw['total_docs']*100),
-          'used_percentage' => $used_perc,
-          'level' => ($used_perc > 50) ? ($used_perc > 80 ? 'critical' : 'medium') : 'ok',
-        );
-    }
-
-
-    
-    // Option::put('dms.reindex.pending', $count);
-    // Option::put('dms.reindex.completed', 0);
-    // Option::put('dms.reindex.total', $count);
 
     $reindex = $this->getReindexExecutionStatus();
 
     if(isset($reindex['executing']) && ($reindex['executing'] == 'false' || !$reindex['executing'])){
-
       $reindex = null;
     }
 
     return view('administration.storage', [
-        'pagetitle' => trans('administration.menu.storage'), 
-        'status' => $status,
-        'disks' => $disks,
+        'pagetitle' => trans('administration.menu.storage'),
+        'storage' => $data,
         'reindex' => $reindex,
         'is_naming_policy_active' => Option::option('dms.namingpolicy.active', false)
-
       ]);
   }
 

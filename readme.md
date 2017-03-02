@@ -1,6 +1,6 @@
 
 
-[![build status](https://git.klink.asia/klinkdms/dms/badges/master/build.svg)](https://git.klink.asia/klinkdms/dms/commits/master) ![latest version](https://img.shields.io/badge/version-0.13.1-blue.svg)
+[![build status](https://git.klink.asia/klinkdms/dms/badges/master/build.svg)](https://git.klink.asia/klinkdms/dms/commits/master) ![latest version](https://img.shields.io/badge/version-0.15.0-blue.svg)
 
 # K-Link DMS
 
@@ -8,7 +8,7 @@ The K-Link Document Managament System (K-DMS) is a web application designed
 for document management inside an Organization or in the context of a 
 Project involving users of different organizations.
 
-The K-Link DMS is built on top of [Laravel](https://laravel.com/) 5.1 (LTS).
+The K-Link DMS is built on top of [Laravel](https://laravel.com/) 5.2.
 
 This readme file is reserved for **developers**. For user oriented documentation 
 please see the folder [`docs/user`](./docs/user/en) available in this repository.

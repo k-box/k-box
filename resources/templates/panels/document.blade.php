@@ -73,7 +73,7 @@
 	       
            <?php $real_download_link = DmsRouting::download($item); ?>
            
-			<a href="{{DmsRouting::download($item)}}" target="_blank" download="{{ $item->title }}" class="button">
+			<a href="{{DmsRouting::download($item)}}" target="_blank" class="button">
 				{{trans('panels.download_btn')}} 
 	
 				@if(!is_null($item->file))
