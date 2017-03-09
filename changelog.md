@@ -15,6 +15,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Removed
 
+## [0.15.1] - 2017-03-09
+
+### Changed
+
+- Russian translation for starred and other menus
+
 ## [0.15.0] - 2017-03-02
 
 ### Added 

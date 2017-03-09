@@ -11,20 +11,20 @@ return [
 	| to the starred feature.
 	|
 	*/
-	'add' => 'Добавить в Со звездочкой',
-	'remove' => 'Убрать из Со звездочкой',
+	'add' => 'Добавить в Отмеченные',
+	'remove' => 'Убрать из Отмеченных',
 	'empty_message' => 'Здесь показаны важные или интересные вам документы. Начните ставить звездочки.',
 
-	'page_title' => 'Со звездочкой',
+	'page_title' => 'Отмеченные',
 
-	'starred_count' => ':number документ со звездочкой|:number документа со звездочкой|:number документов со звездочкой',
-	'starred_count_alt' => ':number звездочка|:number звездочки|:number звездочек',
+	'starred_count' => ':number отмеченный документ|:number отмеченного документа|:number отмеченных документов',
+	'starred_count_alt' => ':number отмеченный|:number отмеченные|:number отмечанных',
 
-	'already_exists' => 'Этот документ уже добавлен в Со звездочкой',
+	'already_exists' => 'Этот документ уже добавлен в Отмеченные',
 
 	'errors' => array(
 
-		'invalidargumentexception' => 'Извините, я не могу добавить в Со звездочкой. (:exception)',
+		'invalidargumentexception' => 'Извините, я не могу добавить в Отмеченные. (:exception)',
 
 	),
 
