@@ -15,6 +15,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Removed
 
+## [0.15.2] - 2017-03-14
+
+### Fixed
+
+- Backport of Option::mailFrom() method fix for ShareCreatedHandler
+
 ## [0.15.1] - 2017-03-09
 
 ### Changed

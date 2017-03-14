@@ -57,7 +57,7 @@ class ShareCreatedHandler implements ShouldQueue
 
             $message->subject($subject);
 
-            $message->from(Option::fromAddress(), $from->name);
+            $message->from(Option::mailFrom(), $from->name);
             $message->replyTo($from->email, $from->name);
 
             if(is_a($to, 'KlinkDMS\PeopleGroup'))
