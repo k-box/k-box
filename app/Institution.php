@@ -100,7 +100,7 @@ class Institution extends Model {
         }
         elseif(is_a($instance, 'KlinkDMS\Institution')){
             
-            return $this->klink_id == $instance->id &&
+            return $this->klink_id == $instance->klink_id &&
                 $this->name == $instance->name &&
                 $this->email == $instance->email &&
                 $this->phone == $instance->phone &&

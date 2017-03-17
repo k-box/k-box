@@ -218,7 +218,7 @@ class KlinkAdapter implements AdapterContract
 		
 		$connection = $this->connection;
 		
-		$insts = \Cache::remember('dms_institutions', 1, function() use($connection, $cached, $columns)
+		$insts = \Cache::remember('dms_institutions', 60, function() use($connection, $cached, $columns)
 		{
 			
 			try

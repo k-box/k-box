@@ -114,7 +114,7 @@ class UserAdministrationController extends Controller {
       }
     
     
-      $institutions = $this->adapter->institutions();
+      $institutions = Institution::all();
     
 
       $viewBag = [
@@ -253,7 +253,7 @@ class UserAdministrationController extends Controller {
         $perms[$cap->key] = $cap;
       }
       
-      $institutions = $this->adapter->institutions();
+      $institutions = Institution::all();
 
 
       $viewBag = [

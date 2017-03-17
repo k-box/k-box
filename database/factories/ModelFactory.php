@@ -69,8 +69,8 @@ $factory->define(KlinkDMS\Institution::class, function (Faker\Generator $faker) 
     return [
         'klink_id' => str_random(4),
         'email' => $faker->email,
-        'type' => $faker->url,
-        'url' => 'Organization',
+        'url' => $faker->url,
+        'type' => 'Organization',
         'thumbnail_uri' => $faker->imageUrl,
         'phone' => $faker->sentence,
         'address_street' => $faker->sentence,

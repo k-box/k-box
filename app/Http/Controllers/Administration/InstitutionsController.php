@@ -53,7 +53,7 @@ class InstitutionsController extends Controller {
    */
   public function index(AuthGuard $auth) {
 
-    $institutions = $this->adapter->institutions();
+    $institutions = Institution::all();
 
     $data = ['institutions' => $institutions, 'pagetitle' => trans('administration.menu.institutions')];
     
