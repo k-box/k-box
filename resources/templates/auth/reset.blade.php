@@ -25,7 +25,7 @@
 	   <p>
 			<label for="email">{{trans('login.form.email_label')}}</label>
 			@if( isset($errors) && $errors->has('email') )
-				<span class="field-error">{{ implode(",", isset($errors) && $errors->get('email'))  }}</span>
+				<span class="field-error">{{ implode(",", isset($errors) && $errors->get('email') ? $errors->get('email') : [])  }}</span>
 			@endif
 			<input type="email" required id="email" name="email" placeholder="{{trans('login.form.email_placeholder')}}" value="{{old('email')}}" />
 		</p>
@@ -36,7 +36,7 @@
 				        
 	        <label>{{trans('profile.labels.password')}}</label>
 	        @if( $errors->has('password') )
-	            <span class="field-error">{{ implode(",", $errors->get('password'))  }}</span>
+	            <span class="field-error">{{ implode(",", $errors->get('password') ? $errors->get('password') : [])  }}</span>
 	        @endif
 	        <input type="password" name="password" />
 	        <p class="description">{{trans('profile.labels.password_description')}}</p>

@@ -6,7 +6,7 @@
 
     <p>{{ trans('messaging.mail.intro', ['name' => $user['name']]) }}</p>
 
-    <p>{{ $text }}</p>
+    {!! $text !!}
 
     <p>
         {!! trans('messaging.mail.signature', ['name' => $sender]) !!}

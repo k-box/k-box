@@ -92,8 +92,7 @@ class MessagingController extends Controller {
         
         $to_users = User::whereIn('id', $request->get('to'))->get();
         
-        $text = $request->get('text');
-        
+        $text = \Markdown::convertToHtml(e($request->get('text')));
         
         if($to_users->isEmpty()){
             return redirect()->back()->withInput()->withErrors([

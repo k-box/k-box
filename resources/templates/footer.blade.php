@@ -3,7 +3,7 @@
 	<p>
 		
 	&copy; 2014-{{date('Y')}} K-Link.
-	<span class="version hint--top" data-hint="{{\App::environment()}} {{ Config::get('dms.build') }}">DMS v{{ Config::get('dms.version') }}</span>.
+	<span class="version hint--top" data-hint="{{\App::environment()}} {{ Config::get('dms.build') }}">DMS {{ Config::get('dms.version') }}</span>.
 
 	@if(!isset($not_show_links))
 

@@ -11,7 +11,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
+- User messages now supports Markdown
+
 ### Fixed
+
+- Showing error on password reset page if email is not valid
+- Newlines support in User Messages
 
 ### Removed
 

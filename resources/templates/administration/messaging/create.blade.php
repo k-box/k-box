@@ -39,7 +39,7 @@
             @if( $errors->has('text') )
                 <span class="field-error">{{ implode(",", $errors->get('text'))  }}</span>
             @endif
-            <textarea name="text" >{{old('text', '')}}</textarea>
+            <textarea name="text" class="textarea--big">{{old('text', '')}}</textarea>
         </p>
         
         <p>

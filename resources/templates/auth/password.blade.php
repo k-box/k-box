@@ -32,7 +32,7 @@
 		   <p>
 				<label for="email">{{trans('login.form.email_label')}}</label>
 				@if( isset($errors) && $errors->has('email') )
-					<span class="field-error">{{ implode(",", isset($errors) && $errors->get('email'))  }}</span>
+					<span class="field-error">{{ implode(",", isset($errors) && $errors->get('email') ? $errors->get('email') : [])  }}</span>
 				@endif
 				<input type="email" required id="email" name="email" placeholder="{{trans('login.form.email_placeholder')}}" value="" />
 			</p>
