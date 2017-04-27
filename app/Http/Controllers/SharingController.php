@@ -82,7 +82,7 @@ class SharingController extends Controller {
 			
 			$shared_docs = $all_shared->pluck('shareable.local_document_id')->all();
 			$shared_files_in_groups = array_flatten(array_filter($all_shared->map(function($g){
-				if($g->shareable_type === 'KlinkDMS\Group'){
+				if($g->shareable_type === 'KlinkDMS\Group' && !is_null($g->shareable)){
 					return $g->shareable->documents->pluck('local_document_id')->all();
 				} 
 				return null;

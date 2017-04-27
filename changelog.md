@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 - Showing error on password reset page if email is not valid
 - Newlines support in User Messages
+- Sharing list failure in case a shared document is in the trash
 
 ### Removed
 
