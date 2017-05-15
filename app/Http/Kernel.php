@@ -12,6 +12,7 @@ class Kernel extends HttpKernel {
 	protected $middleware = [
 		\KlinkDMS\Http\Middleware\PortRedirectMiddleware::class,
 		\Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode::class,
+		\KlinkDMS\Http\Middleware\TrustedProxyMiddleware::class,
 	];
 
 	/**

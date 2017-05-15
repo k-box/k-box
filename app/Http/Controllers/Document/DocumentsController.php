@@ -608,11 +608,62 @@ class DocumentsController extends Controller {
 	}
 
 
-	private function _showPanel(DocumentDescriptor $document){
+	private function _showPanel(DocumentDescriptor $document, $auth_user = null){
 
-		$view_params = array('item' => $document);
 
-		return view('panels.document', $view_params);
+		// building up the information on who has access to this document
+
+		$access = [];
+
+		if(!is_null($auth_user))
+		{
+			if($document->isMine()){
+
+				$existing_shares = $document->shares()->sharedByMe($auth_user)->where('sharedwith_type', 'KlinkDMS\User')->count();
+				$public_link_shares = $document->shares()->where('sharedwith_type', 'KlinkDMS\PublicLink')->count();
+				
+				$users_from_projects = $this->service->getUsersWithAccess($document, $auth_user);
+				$users_from_projects_count = $users_from_projects->count();
+
+				$access_count_total = $existing_shares+$users_from_projects_count;
+
+				$project_names = implode(', ', Project::whereIn('id', $users_from_projects->pluck('pivot.project_id')->unique())->get(['name'])->pluck('name')->toArray());
+
+				if($access_count_total === 0){
+					$access[] = trans('panels.access.only_you');
+				}
+				else if($existing_shares > 0 && $users_from_projects_count === 0) {
+					$access[] = trans_choice('panels.access.you_and_direct', $existing_shares, ['num' => $existing_shares]);
+				}
+				else if($existing_shares === 0 && $users_from_projects_count > 0) {
+					$access[] = trans('panels.access.only_project_members', ['projects' => $project_names]);
+				}
+				else {
+					$access[] = trans_choice('panels.access.project_members_and_shares', $existing_shares, ['projects' => $project_names, 'num' => $existing_shares]);
+				}
+			
+				if($document->isPublic())
+				{
+					$access[] = trans('panels.access.network', ['network' => network_name()]);
+				}
+				else if($public_link_shares > 0) {
+					$access[] = trans('panels.access.public');
+				}
+				else {
+					$access[] = trans('panels.access.internal');
+				}
+			}
+			else {
+				$access[] = trans('panels.access.network', ['network' => network_name()]);
+			}
+		}
+
+
+		return view('panels.document', [
+			'item' => $document,
+			'access' => $access,
+			'access_by_count' => isset($access_count_total) ? $access_count_total : 0
+		]);
 
 	}
 
@@ -626,14 +677,16 @@ class DocumentsController extends Controller {
 	{
 		try{
 
+			$document = DocumentDescriptor::withTrashed()->findOrFail($id);
+
 			if (\Request::ajax())
 			{
-				$document = DocumentDescriptor::withTrashed()->findOrFail($id);
-
-				return $this->_showPanel($document);
+				return $this->_showPanel($document, $auth->user());
 			}
 
-			return $this->edit($id, $auth);
+			$url = \KlinkDMS\RoutingHelpers::preview($document);
+
+			return redirect($url);
 
 		}catch(ModelNotFoundException $kex){
 			\Log::warning('Document Descriptor not found', ['error' => $kex, 'id' => $id]);
@@ -651,13 +704,13 @@ class DocumentsController extends Controller {
 
 
 
-	public function showByKlinkId($institution, $local_id)
+	public function showByKlinkId($institution, $local_id, AuthGuard $auth)
 	{
 		try{
 
 			$document = $this->service->getDocument($institution, $local_id);
 
-			return $this->_showPanel($document);
+			return $this->_showPanel($document, $auth()->user());
 
 		}catch(\KlinkException $kex){
 			\Log::error('Document Descriptor showByKlinkId error', ['error' => $kex, 'institution' => $institution, 'local_id' => $local_id]);

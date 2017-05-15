@@ -287,6 +287,7 @@ window.DMS = (function(_$, _nprogress, _rivets, _alert){
 			GROUPS_CREATE: 'documents/groups/create',
 			GROUPS_EDIT: 'documents/groups/{ID}/edit',
 			SHARES: 'shares',
+			PUBLICLINK: 'links',
 			SHARE_CREATE: 'shares/create',
 			STORAGE_REINDEX_ALL: 'administration/storage/reindex-all',
 			USER_PROFILE_OPTIONS: 'profile/options',
@@ -540,9 +541,15 @@ window.DMS = (function(_$, _nprogress, _rivets, _alert){
 				},
 				
 				makePublic: function(data, success, error){
-					console.log('Calling Documents.remove', data);
+					console.log('Calling Bulk.makePublic', data);
 
 					module.Ajax.post(module.Paths.DOCUMENTS + '/makepublic', data, success, error);
+				},
+				
+				makePrivate: function(data, success, error){
+					console.log('Calling Bulk.makePrivate', data);
+
+					module.Ajax.post(module.Paths.DOCUMENTS + '/makeprivate', data, success, error);
 				},
 
 			},
@@ -632,6 +639,10 @@ window.DMS = (function(_$, _nprogress, _rivets, _alert){
 				openGroup: function(id){
 					module.navigate(module.Paths.SHARES + '/group/' + id);
 				},
+
+				create: function(parameters, success, error){
+					module.Ajax.post(module.Paths.SHARES, parameters, success, error);
+				},
 				
 				remove: function(id, success, error){
 					if($.isArray(id) && id.length > 1){
@@ -640,7 +651,18 @@ window.DMS = (function(_$, _nprogress, _rivets, _alert){
 					else {
 						return module.Ajax.del(module.Paths.SHARES + '/' + ($.isArray(id) ? id[0] : id), success, error);
 					}
-				}
+				},
+
+				createPublicLink: function(document, success, error){
+					return module.Ajax.post(module.Paths.PUBLICLINK, {
+						to_id: document,
+						to_type: 'document'
+					}, success, error);
+				},
+				
+				deletePublicLink: function(id, success, error){
+					return module.Ajax.del(module.Paths.PUBLICLINK + '/' + id, success, error);
+				},
 				
 				
 			},

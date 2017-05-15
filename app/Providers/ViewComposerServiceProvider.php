@@ -51,6 +51,7 @@ class ViewComposerServiceProvider extends ServiceProvider {
 
 	public function registerHeadersComposer(){
 		view()->composer('headers.header', 'KlinkDMS\Http\Composers\HeadersComposer');
+		view()->composer('headers.external', 'KlinkDMS\Http\Composers\HeadersComposer');
 		view()->composer('login-layout', 'KlinkDMS\Http\Composers\HeadersComposer');
 		view()->composer('share.create', 'KlinkDMS\Http\Composers\HeadersComposer');
 	}

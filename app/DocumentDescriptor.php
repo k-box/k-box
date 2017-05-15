@@ -154,12 +154,14 @@ class DocumentDescriptor extends Model {
 
             if(!$el->project){
 
-                return $el->getAncestorsWhere('parent_id', '=', null)->first()->project;
+                $root = $el->getAncestorsWhere('parent_id', '=', null)->first();
+
+                return !is_null($root) ? $root->project : false;
 
             }
 
             return $el->project;
-        });
+        })->filter();
 
         return $projects;
 
@@ -170,7 +172,18 @@ class DocumentDescriptor extends Model {
     {
         return $this->shares()->count() > 0;
     }
-
+    
+    /** 
+     * Check if the document is accessible via a public link
+     *
+     * @return bool
+     */
+    public function hasPublicLink()
+    {
+        
+        return $this->shares()->where('sharedwith_type', 'KlinkDMS\PublicLink')->count() > 0;
+    }
+    
     public function isStarred($user_id = null)
     {
         if(is_null($user_id)){

@@ -178,11 +178,23 @@ return [
         'groups.people.rename_generic_error_text',
         
         
+        'share.with_label',
         'share.dialog.share_created',
         'share.dialog.collection_shared',
         'share.dialog.collection_shared_text',
         'share.dialog.document_shared',
         'share.dialog.document_shared_text',
+        'share.dialog.publishing',
+        'share.dialog.unpublishing',
+        'share.dialog.published',
+        'share.dialog.not_published',
+        'share.unshare',
+        'share.unsharing',
+        'share.remove',
+        'share.removing',
+        'share.removed',
+        'share.remove_error',
+        'share.dialog.select_users',
         
         
         'errors.dragdrop.not_permitted_title',

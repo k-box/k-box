@@ -38,7 +38,7 @@ return [
 	'version_btn_title' => 'Manage and Add Document Versions',
 
 	'info_section_title' => 'Information',
-	'share_section_title' => 'Shared by you with',
+	'share_section_title' => 'Access',
 	'groups_section_title' => 'Collections',
 	'version_section_title' => 'Document Versions',
 	'abstract_section_title' => 'Abstract',
@@ -55,4 +55,17 @@ return [
 		'there_is' => 'The document has a previous version',
 		'no_version' => 'No previous version of the document found.',
 	),
+
+	'access' => [
+
+		'only_you' => 'Only you',
+		'you_and_direct' => 'You and :num other user (via direct share)|You and :num other users (via direct share)',
+		'only_project_members' => 'All members of :projects',
+		'only_shares' => ':num user|:num users',
+		'project_members_and_shares' => 'All members of :projects and :num more user|All members of :projects and :num more users',
+		
+		'internal' => 'The document is accessible only by authenticated users.',
+		'network' => 'Anyone on the Internet can find and access. (Published to :network)',
+		'public' => 'Anyone with the link can access.',
+	],
 ];

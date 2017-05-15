@@ -179,19 +179,6 @@ Please go to “Shared with me” section in the left-hand navigation menu to vi
 
 Please see the animated image [https://eba.klink.asia/dms/klink/0936b9/document?preview=true](https://eba.klink.asia/dms/klink/0936b9/document?preview=true) 
 
-**8. When in filters, what does the “pax culture” symbol stand for in search results?**
-
-The circle with three dots indicates that collections displayed in filters belong to a Project. If that symbol does not appear, your Personal collection is being listed. 
-
-**9. When in filters, why some collections are highlighted blue and others are grey?**
-
-Blue collections are coming from the Project you are searching.
-Grey collections refer to additional collections from other Projects you were added to, or your Personal collections.
-
-**10. When in filters, how can I choose a specific collection from highlighted blue ones?**
-
-Unfortunately, you cannot filter further among blue collections today. This feature might arrive in the stable version of the K-DMS.  
-
 
 ### <a id="questions"></a>Questions/Suggestions
 

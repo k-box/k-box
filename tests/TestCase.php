@@ -178,7 +178,7 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase {
         
             if( isset( $this->response ) && !is_string($this->response->original) && !empty( $this->response->original->name() ) ){
                 
-                $this->assertEquals($expected, $this->response->original->name() );
+                $this->assertEquals($expected, $this->response->original->name(), 'View: ' . $this->response->original->name() );
                 
                 return;
             }

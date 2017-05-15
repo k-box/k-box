@@ -100,7 +100,7 @@ class Option extends Model {
      */
     public static function sectionAsArray($section_name)
     {
-        $items = Option::section('dms.reindex')->get(array('key', 'value'));
+        $items = Option::section($section_name)->get(array('key', 'value'));
 
         if($items->isEmpty())
         {
@@ -270,6 +270,26 @@ class Option extends Model {
         return static::option( 'mail.from.address', config('mail.from.address', '') );
 
     }
+    
+    /**
+     * Get the email name from which the DMS sends email messages
+     *
+     * @return string the name to show as sender of the emails
+     */
+    public static function mailFromName()
+    {
 
+        return static::option( 'mail.from.name', config('mail.from.name', '') );
+
+    }
+
+    /**
+     *
+     * @return bool true if contact information are configured, false otherwise
+     */
+    public static function areContactsConfigured()
+    {
+        return !empty(static::sectionAsArray('contact'));
+    }
 
 }

@@ -4,13 +4,15 @@ define("modules/panels", ["jquery", "DMS", "combokeys", "language"], function ($
 
 	var _available_panels = undefined, _visible = false;
 
-	var _opened_panels = undefined, _opened_dialog = undefined, _opened_panel_id = undefined, _opened_dialog_id = undefined, _panel_cache = undefined;
+	var _opened_panels = undefined, _opened_dialog = undefined, _opened_panel_id = undefined, _opened_dialog_id = undefined, _panel_cache = undefined, _dialog_cache = undefined;
 
 	var keyb = new _combokeys(document); //TODO: optimize this
 
+	var _dialogClosingCallback = undefined;
+
 
 	var panel_template = '<div class="panel"><a href="#close" title="' + Lang.trans('panels.close_btn') + '" class="close icon-navigation-black icon-navigation-black-ic_close_black_24dp"></a><div id="inner">' + Lang.trans('panels.loading_message') + '</div></div>',
-		dialog_template = '<div class="dialog"><div id="inner">' + Lang.trans('panels.loading_message') + '</div></div>',
+		dialog_template = '<div class="dialog js-dialog"><a href="#close" title="'+ Lang.trans('panels.close_btn') +'" class="js-cancel dialog__close close icon-navigation-black icon-navigation-black-ic_close_black_24dp"></a><div class="dialog__content js-dialog-content">' + Lang.trans('panels.loading_message') + '</div></div>',
 		panel_error_content = '<a href="#close" title="' + Lang.trans('panels.close_btn') + '" class="close icon-navigation-white icon-navigation-white-ic_close_white_24dp"></a><div class="header"><h4 class="title">%title%</h4></div><p>%message%</p>';
 
 
@@ -29,7 +31,7 @@ define("modules/panels", ["jquery", "DMS", "combokeys", "language"], function ($
 		}
 
 		if(!_panel_cache){
-			_panel_cache = $('.panel-cache');
+			_panel_cache = $('.js-panel-cache');
 		}
 
 		return $modal;
@@ -38,11 +40,15 @@ define("modules/panels", ["jquery", "DMS", "combokeys", "language"], function ($
 
 	function _getDialog(){
 
-		var $modal = $('.dialog');
+		var $modal = $('.js-dialog');
 
 		if (!$modal) {
 			_initialize(dialog_template);
 			$modal = _getDialog();
+		}
+
+		if(!_dialog_cache){
+			_dialog_cache = $('.js-dialog-cache');
 		}
 
 		return $modal;
@@ -59,8 +65,16 @@ define("modules/panels", ["jquery", "DMS", "combokeys", "language"], function ($
 	}
 
 	function _closeDialogBtnCallback(){
-		
-		module.dialogClose();
+
+		var goahead = true;
+
+		if(_dialogClosingCallback){
+			goahead = _dialogClosingCallback();
+		}
+
+		if(goahead){
+			module.dialogClose();
+		}
 		
 		return false;
 
@@ -339,9 +353,10 @@ define("modules/panels", ["jquery", "DMS", "combokeys", "language"], function ($
 
 		/**
 		 * Open a dialog and show the page specified by url 
-		 * @param  {[type]}   url      [description]
-		 * @param  {Function} callback [description]
-		 * @return {[type]}            [description]
+		 * @param  string   url      The address of the page to load inside the dialog
+		 * @param  Object 	params	 the key/value parameters to the server while loading the url
+		 * @param  Object 	options  The dialog options
+		 * @return void
 		 */
 		dialogOpen: function(url, params, options){
 
@@ -350,21 +365,28 @@ define("modules/panels", ["jquery", "DMS", "combokeys", "language"], function ($
 					form_submit_success: $.noop(),
 					form_submit_error: $.noop(),
 					click: $.noop(),
+					closing: undefined,
 				}
 			};
 
 			options = $.extend(default_options, options);
 
+			_dialogClosingCallback = options.callbacks.closing;
 
 			_opened_dialog = _getDialog();
 
+			if(_dialog_cache){
+				_dialog_cache.addClass('visible');
+				_dialog_cache.on('click', _closeDialogBtnCallback);
+			}
+
+			keyb.bind('esc', module.dialogClose);
+
 			console.log('Opening dialog', _opened_dialog);
 
-			_opened_dialog.addClass('visible');
+			_opened_dialog.addClass('dialog--visible');
 
-			_opened_dialog.on('click', '.cancel', _closeDialogBtnCallback);
-
-			// _opened_dialog.on('click', ':not(.cancel)', options.callbacks.click);
+			_opened_dialog.on('click', '.js-cancel', _closeDialogBtnCallback);
 
 			_opened_dialog.on('submit', 'form', _formDialogPostCallback);
 
@@ -374,20 +396,28 @@ define("modules/panels", ["jquery", "DMS", "combokeys", "language"], function ($
 				params = {};
 			}
 
-			if(!_opened_dialog_id || (_opened_dialog_id && _opened_dialog_id !== url)){
+			var dialogContent = _opened_dialog.find('.js-dialog-content');
 
-				_opened_dialog.html( Lang.trans('panels.loading_message') );
+			if(!_opened_dialog_id || (_opened_dialog_id && _opened_dialog_id !== url) || options.force){
+
+				dialogContent.html( Lang.trans('panels.loading_message') );
 
 				DMS.Ajax.getHtml(url, params, function(ok){
+
 					_opened_dialog_id = url;
-					_opened_dialog.html(ok);
+					dialogContent.html(ok);
+
+					_opened_dialog.trigger('dms:panel-loaded', [_opened_dialog]);
 
 				}, function(obj, err, text){
 
-					_opened_dialog.html( Lang.trans('panels.load_error', {error: text}));
+					dialogContent.html( Lang.trans('panels.load_error', {error: text}));
+
 				});
 
 			}
+
+			return _opened_dialog;
 
 		},
 
@@ -399,13 +429,19 @@ define("modules/panels", ["jquery", "DMS", "combokeys", "language"], function ($
 
 			_opened_dialog_id = undefined;
 
-			_opened_dialog.removeClass('visible');
+			_opened_dialog.removeClass('dialog--visible');
 
-			_opened_dialog.off('click', '.cancel', _closeDialogBtnCallback);
+			keyb.unbind('esc');
+			_dialog_cache.off('click', _closeDialogBtnCallback);
+			_dialog_cache.removeClass('visible');
+
+			_opened_dialog.off('click', '.js-cancel', _closeDialogBtnCallback);
 
 			_opened_dialog.off('submit', 'form', _formDialogPostCallback);
 
 			_opened_dialog.off('dms:dialog-submitted');
+			
+			_opened_dialog.off('dms:panel-loaded');
 		},
 
 	};

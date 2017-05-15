@@ -8,8 +8,10 @@ use KlinkDMS\PeopleGroup;
 use KlinkDMS\Capability;
 use KlinkDMS\Shared;
 use KlinkDMS\User;
+use KlinkDMS\Project;
 use Illuminate\Http\JsonResponse;
 use KlinkDMS\Http\Requests\CreateShareRequest;
+use KlinkDMS\Http\Requests\ShareDialogRequest;
 use Illuminate\Contracts\Auth\Guard as AuthGuard;
 use Illuminate\Database\Eloquent;
 use Illuminate\Support\Collection;
@@ -26,16 +28,22 @@ class SharingController extends Controller {
 
 	/**
 	 * [$adapter description]
-	 * @var \Klink\DmsAdapter\KlinkAdapter
+	 * @var Klink\DmsDocuments\DocumentsService
 	 */
 	private $service = null;
+	
+	/**
+	 * [$adapter description]
+	 * @var Klink\DmsAdapter\Contracts\KlinkAdapter
+	 */
+	private $adapter = null;
 
 	/**
 	 * Create a new controller instance.
 	 *
 	 * @return void
 	 */
-	public function __construct(\Klink\DmsDocuments\DocumentsService $adapterService)
+	public function __construct(\Klink\DmsDocuments\DocumentsService $adapterService, \Klink\DmsAdapter\Contracts\KlinkAdapter $adapter)
 	{
             
 		$this->middleware('auth');
@@ -43,6 +51,8 @@ class SharingController extends Controller {
 		$this->middleware('capabilities');
 
 		$this->service = $adapterService;
+		
+		$this->adapter = $adapter;
 	}
 
 	/**
@@ -122,74 +132,198 @@ class SharingController extends Controller {
 	}
 
 	/**
+	 * Display the specified resource.
+	 *
+	 * @param  int  $id -> TOKEN
+	 * @return Response
+	 */
+	public function show(AuthGuard $auth, Request $request, $id)
+	{
+		$share = null;
+
+		if(is_int($id)){
+
+			$share = Shared::findOrFail($id);
+
+		}
+		else {
+
+			$share = Shared::token($id)->first();
+
+		}
+
+		if(is_null($share)){
+
+			throw (new ModelNotFoundException)->setModel('KlinkDMS/Shared');
+		}
+
+		$share = $share->load('shareable');
+
+		if ($request->wantsJson()) {
+			return new JsonResponse($share->toArray(), 200);
+		}
+
+		$see_share = $auth->user()->can_capability(Capability::RECEIVE_AND_SEE_SHARE);
+        $partner = $auth->user()->can_all_capabilities(Capability::$PARTNER);
+
+		if(is_a($share->shareable, 'KlinkDMS\Group'))
+		{
+			return redirect()->route($partner ? 'documents.groups.show' : 'shares.group', ['id' => $share->shareable->id]);
+		}
+
+		return redirect()->route($partner ? 'documents.sharedwithme' : 'shares.index', ['highlight' => $share->shareable->id]);
+	}
+
+
+
+	/**
 	 * Show the form for creating a new resource.
 	 *
 	 * @return Response
 	 */
-	public function create(AuthGuard $auth, Request $request)
+	public function create(AuthGuard $auth, ShareDialogRequest $request)
 	{
 
 		$me = $auth->user();
 
-		$groups_input = $request->input('groups', array());
+		$groups_input = $request->input('collections', array());
 		$documents_input = $request->input('documents', array());
 
-		$groups_req = is_array($groups_input) ? $groups_input : array_filter(explode(',', $request->input('groups', '')));
+		$groups_req = is_array($groups_input) ? $groups_input : array_filter(explode(',', $request->input('collections', '')));
 
 		$documents_req = is_array($documents_input) ? $documents_input : array_filter(explode(',', $request->input('documents', '')));
-
-
-		// TODO: documents can be public, so we need to convert to local cached documents before can be used
-
 
 		$documents = DocumentDescriptor::whereIn('id', $documents_req)->get();
 
 		$groups = Group::whereIn('id', $groups_req)->get();
 
-
 		$all_in = $documents->merge($groups);
 		
 		$first = $all_in->first();
 
-		$elements_count = $all_in->count(); //count($groups_req) + count($documents_req);
-		
-		
-		$available_users = User::whereNotIn('id', array($me->id))->whereHas('capabilities', function($q)
+		$elements_count = $all_in->count();
+		$is_multiple_selection = $elements_count > 1;
+
+
+
+		// details for public/private
+		$is_public = false;
+
+		$existing_shares = null;
+
+		// users to exclude from the available for share
+		$users_to_exclude = [$me->id];
+
+		$public_link = null;
+
+		if(!is_null($first) && $first instanceof DocumentDescriptor && !$is_multiple_selection){
+			
+			$is_public = $first->isPublic();
+			
+			// grab the existing share made by the user, so we can remove it also from the available_users
+			// let's do it for $first only first
+
+			$existing_shares = $first->shares()->sharedByMe($me)->where('sharedwith_type', 'KlinkDMS\User')->get();
+			// dump($existing_shares);
+
+			$users_to_exclude = array_merge($users_to_exclude, $existing_shares->pluck('sharedwith_id')->unique()->toArray());
+
+			// is the document in a project? the current user has access to the project? if yes we can also remove the members of that project(s)
+			$users_from_projects = $this->service->getUsersWithAccess($first, $me);
+			//  $first->projects()->map(function($p) use($me){
+				
+			// 	if(!Project::isAccessibleBy($p, $me)){
+			// 		return false;
+			// 	}
+				
+			// 	$users =  $p->users()->get();
+
+			// 	if($p->manager->id != $me->id){
+			// 		$users = $users->merge([$p->manager]);
+			// 	}
+
+			// 	return $users;
+
+			// })->flatten();
+
+			$users_to_exclude = array_merge($users_to_exclude, $users_from_projects->pluck('id')->toArray());
+			$existing_shares = $existing_shares->merge($users_from_projects);
+
+			// is the document in a shared collection? if yes a user could still have access to the document because of that
+
+			if($first->hasPublicLink())
+			{
+				
+				$public_link_share = $first->shares()->where('sharedwith_type', 'KlinkDMS\PublicLink')->first();
+				$public_link = $public_link_share->sharedwith; //instance of PublicLink
+				$existing_shares = $existing_shares->merge([$public_link_share]);
+			}
+
+		}
+		else if(!is_null($first) && $first instanceof Group && !$is_multiple_selection){
+			
+			// grab the existing share made by the user, so we can remove it also from the available_users
+			// let's do it for $first only first
+
+			$existing_shares = $first->shares()->sharedByMe($me)->where('sharedwith_type', 'KlinkDMS\User')->get();
+
+			$users_to_exclude = array_merge($users_to_exclude, $existing_shares->pluck('sharedwith_id')->unique()->toArray());
+		}
+
+		$available_users = User::whereNotIn('id', $users_to_exclude)->whereHas('capabilities', function($q)
 		{
 		    $q->where('key', '=', Capability::RECEIVE_AND_SEE_SHARE);
-		
 		})->get();
 		
 		
-		$can_institutional = $me->can_capability(Capability::SHARE_WITH_PRIVATE);
-		
-		$can_personal = $me->can_capability(Capability::SHARE_WITH_PERSONAL);
-		
-		$people_query = PeopleGroup::with('people');
-		
-		$people = null;
-		
-		if($can_personal && $can_institutional){
-			$people = PeopleGroup::all()->load('people');
-		}
-		else {
-			if($can_institutional){
-				$people_query = $people_query->institutional();
-			}
-			else if($can_personal){
-				$people_query = $people_query->personal($me->id);
-			}
-			$people = $people_query->get(); 
-		}
-		
+		$can_share = $me->can_capability(Capability::SHARE_WITH_PRIVATE) || $me->can_capability(Capability::SHARE_WITH_PERSONAL);
+		$can_make_public = $me->can_capability(Capability::CHANGE_DOCUMENT_VISIBILITY);
+		$is_project_manager = $me->isProjectManager();
 
-		return view('panels.share_create', [
+		// TODO: check if the document is in a personal collection only, or in a project collection
+		$sharing_links = [];
+
+		$all_in->each(function($item) use(&$sharing_links){
+			
+			$real_preview_link = null;
+			
+			if(!is_null($item) && !$item instanceof Group){
+				$real_preview_link = \DmsRouting::preview($item);
+
+				if(!$item->isRemoteWebPage() && starts_with($item->document_uri, 'http://msri-hub.ucentralasia.org/') || starts_with($item->document_uri, 'http://staging-uca.cloudapp.net/')){
+					$real_preview_link = $item->document_uri;
+				}
+				else if($item->isRemoteWebPage() && !is_null($item->file)){
+					$real_preview_link = $item->file->original_uri;
+				}
+			}
+			else if(!is_null($item) && $item instanceof Group) {
+				$real_preview_link = route('documents.groups.show', $item->id);
+			}
+
+			$sharing_links[] = $real_preview_link;
+
+		});
+
+
+
+		return view('share.dialog', [
+			'is_network_enabled' => $this->adapter->isNetworkEnabled(),
+			'existing_shares' => $existing_shares,
+			'can_make_public' => $can_make_public,
 			'users' => $available_users, 
-			'people' => $people,
-			'documents' => $documents, 'has_documents' => count($documents_req) > 0, 
-			'has_groups' => count($groups_req) > 0, 'groups' => $groups,
-			'panel_title' => trans_choice('share.share_panel_title_alt', $elements_count, ['count' => $elements_count-1, 'what' => $first instanceof Group ? $first->name : $first->title]),
-			'elements_count' => $elements_count ]);
+			'sharing_links' => implode('&#13;&#10;', $sharing_links),
+			'public_link' => $public_link,
+			'documents' => $documents, 
+			'groups' => $groups,
+			'has_documents' => count($documents_req) > 0, 
+			'has_groups' => count($groups_req) > 0, 
+			'panel_title' => $elements_count == 1 ? trans('share.dialog.subtitle_single', ['what' => $first instanceof Group ? $first->name : $first->title]) : trans_choice('share.dialog.subtitle_multiple', $elements_count-1, ['count' => $elements_count-1, 'what' => $first instanceof Group ? $first->name : $first->title]),
+			'elements_count' => $elements_count,
+			'is_multiple_selection' => $is_multiple_selection,
+			'is_public' => $is_public,
+			'is_collection' => $first instanceof Group,
+		]);
 	}
 
 	/**
@@ -237,53 +371,6 @@ class SharingController extends Controller {
 		return view('panels.share_done', $status);
 	}
 
-
-
-	/**
-	 * Display the specified resource.
-	 *
-	 * @param  int  $id -> TOKEN
-	 * @return Response
-	 */
-	public function show(AuthGuard $auth, Request $request, $id)
-	{
-		$share = null;
-
-		if(is_int($id)){
-
-			$share = Shared::findOrFail($id);
-
-		}
-		else {
-
-			$share = Shared::token($id)->first();
-
-		}
-
-		if(is_null($share)){
-
-			throw (new ModelNotFoundException)->setModel('KlinkDMS/Shared');
-		}
-
-		$share = $share->load('shareable');
-
-		if ($request->wantsJson()) {
-			return new JsonResponse($share->toArray(), 200);
-		}
-
-		$see_share = $auth->user()->can_capability(Capability::RECEIVE_AND_SEE_SHARE);
-        $partner = $auth->user()->can_all_capabilities(Capability::$PARTNER);
-
-		if(is_a($share->shareable, 'KlinkDMS\Group'))
-		{
-			return redirect()->route($partner ? 'documents.groups.show' : 'shares.group', ['id' => $share->shareable->id]);
-		}
-
-		return redirect()->route($partner ? 'documents.sharedwithme' : 'shares.index', ['highlight' => $share->shareable->id]);
-	}
-
-
-
 	/**
 	 * Show the form for editing the specified resource.
 	 *
@@ -330,10 +417,9 @@ class SharingController extends Controller {
 	 */
 	public function destroy(AuthGuard $auth, Request $request, $id)
 	{
-		dd('here');
 		$executed = $this->_destroy($id);
 		
-		$status = ['status' => 'ok', 'message' => trans_choice('share.bulk_destroy', 1, ['error' => ''])];
+		$status = ['status' => 'ok', 'message' => trans('share.removed')];
 		
 		if ($request->wantsJson()) {
 			return new JsonResponse($status, 200);
@@ -374,12 +460,12 @@ class SharingController extends Controller {
 	}
 	
 	/**
-		@param $what Group and Descriptor
-		@param $with User and PeopleGroup
+	 * Really create a share
+	 *
+	 * @param $what Group||Descriptor
+	 * @param $with User||PeopleGroup
 	*/
 	private function createShare(Collection $what, Collection $with, User $by){
-		
-//		dd(compact('what', 'with', 'by'));
 		
 		$token_content = '.';
 		
@@ -398,7 +484,7 @@ class SharingController extends Controller {
 							'user_id' => $by->id,
 							'sharedwith_id' => $target->id, //the id 
 							'sharedwith_type' => get_class($target), //the class
-							'token' => hash( 'sha512', $token_content ),
+							'token' => hash( 'sha256', $token_content ),
 						));
 
 						event(new ShareCreated($single_share));

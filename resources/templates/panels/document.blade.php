@@ -155,28 +155,19 @@
 		<div class="meta share">
 			<h6 class="title">{{trans('panels.share_section_title')}}</h6>
 
-			@if(isset($badge_shared) && $badge_shared)
+			<p style="margin-bottom:8px">
+				<a href="#" data-id="{{$item->id}}" data-action="openShareDialogWithAccess">{{ trans('share.dialog.document_is_shared') }}</a>
+				
+				@foreach($access as $line)
+					<br/>- {{ $line }}
+				@endforeach
+				
+			</p>
 
-				@forelse($shared_by_me as $share)
-
-					@include('share.info', ['share' => $share])
-
-				@empty
-
-					<p>{{trans('panels.not_shared')}}</p>
-
-				@endforelse
-
-
-
-			@else
-
-				<p>{{trans('panels.not_shared')}}</p>
-
-			@endif
+			<a href="#" class="button js-open-share-dialog" data-id="{{$item->id}}" data-action="openShareDialog"><span class="btn-icon icon-social-black icon-social-black-ic_people_black_24dp"></span>Sharing settings</a>
             
 
-            @if( !is_null( $real_download_link ) || !is_null( $real_preview_link ) )
+            @if( false )
 
                 <div class="copy-links">
                     <h6 class="title">{{ trans('share.share_link_section') }}</h6>

@@ -81,4 +81,24 @@ class AuthController extends Controller
 
 	}
 
+
+    /**
+     * Manage user redirection after has been authenticated
+     *
+     * @param Request $request
+     * @param User $user
+     * @return Response
+     */
+    public function authenticated($request, $user)
+    {
+        $intended = session()->get('url.intended', null);
+        $dms_intended = session()->get('url.dms.intended', null);
+
+        if(is_null($intended) && !is_null($dms_intended)){
+            session()->put('url.intended', $dms_intended);
+        }
+
+        return redirect()->intended($user->homeRoute());
+    }
+
 }

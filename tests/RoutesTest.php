@@ -38,7 +38,6 @@ class RoutesTest extends TestCase {
 			array( 'administration.index' ),
 			array( 'administration.institutions.index' ),
 			array( 'administration.institutions.create' ),
-			array( 'administration.languages.index' ),
 			array( 'administration.mail.index' ),
 			array( 'administration.maintenance.index' ),
 			array( 'administration.messages.create' ),
@@ -107,7 +106,7 @@ class RoutesTest extends TestCase {
         
         $url = route( $name );
         
-        $this->visit( $url )->seePageIs( route('auth.login') );
+        $this->visit( $url )->seePageIs( route('frontpage') );
   		
         $this->assertResponseOk();
 		

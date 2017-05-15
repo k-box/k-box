@@ -24,6 +24,7 @@ return [
 		'maintenance'=>'Maintenance and Events',
 		'institutions'=>'Institutions',
 		'settings'=>'Settings',
+		'identity' => 'Identity',
 
 	),
 
@@ -265,5 +266,15 @@ return [
         'analytics_save_btn' => 'Save Analytics Settings',
         
 	),
+
+	'identity' => [
+		'page_title' => 'Identity',
+		'description' => 'Your organization information, so users can contact you from the "Contacts page".',
+		'not_complete' => 'Contact information are not complete.',
+		'suggestion_based_on_institution_hint' => 'We automatically populated the contact information based on the K-Link Institution information. Please review them and press save.',
+
+		'contact_info_updated' => 'Contact details saved.',
+		'update_error' => 'Contact details were not updated. :error',
+	],
 
 ];

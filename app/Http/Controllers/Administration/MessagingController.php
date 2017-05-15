@@ -106,11 +106,10 @@ class MessagingController extends Controller {
                 ]);
         }
         
-        $from_mail = \Config::get('mail.from.address');
-        $from_name = \Config::get('mail.from.name');
+        $from_mail = Option::mailFrom();
+        $from_name = Option::mailFromName();
         
         if(!ends_with($me->email, 'klink.local')){
-            $from_mail = Option::fromAddress();
             $from_name = $me->name;
         }
         

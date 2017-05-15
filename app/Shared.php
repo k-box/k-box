@@ -3,6 +3,8 @@
 use Illuminate\Database\Eloquent\Model;
 use KlinkDMS\Traits\LocalizableDateFields;
 
+use Carbon\Carbon;
+
 class Shared extends Model {
 
     use LocalizableDateFields;
@@ -29,6 +31,7 @@ class Shared extends Model {
 
     protected $fillable = ['user_id', 'sharable_id', 'sharable_type', 'token', 'sharedwith_id', 'sharedwith_type'];
 
+    protected $dates = ['created_at', 'updated_at', 'expiration'];
 
     public function user(){
         
@@ -139,6 +142,16 @@ class Shared extends Model {
     {
         return $query->where('expiration', '<=', Carbon::now());
     }
+    
+    /**
+     * Get all the valid sharing
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeNotExpired($query)
+    {
+        return $query->where('expiration', '>', Carbon::now());
+    }
 
     /**
      * Filter from the share token
@@ -149,6 +162,33 @@ class Shared extends Model {
     public function scopeToken($query, $token)
     {
         return $query->whereToken($token);
+    }
+
+
+    /**
+     * Check if the share is expired.
+     *
+     * The share expires if the current date is greater than the expiration date
+     *
+     * @return boolean
+     */
+    public function isExpired()
+    {
+        if(!is_null($this->expiration))
+        {
+            return Carbon::now()->gt($this->expiration);
+        }
+        return false;
+    }
+
+    /**
+     * Tell if the share is with a {@see PublicLink}
+     *
+     * @return bool
+     */
+    public function isPublicLink()
+    {
+        return $this->sharedwith_type === 'KlinkDMS\PublicLink';
     }
 
 }

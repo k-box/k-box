@@ -142,6 +142,43 @@ class DocumentsServiceTest extends TestCase {
 
         $this->assertInstanceOf(DocumentDescriptor::class, $ret);
     }
+
+
+    /**
+     * Test removing a private and public document from the public network
+     */
+    public function testDeletePublicDocument()
+    {
+        $fake = $this->withKlinkAdapterFake();
+        
+        $service = app('Klink\DmsDocuments\DocumentsService');
+
+        $user = $this->createAdminUser();
+
+        $descr = $this->createDocument($user);
+        $service->reindexDocument($descr);
+
+        $descr->is_public = true;
+        $descr->save();
+        $service->reindexDocument($descr, \KlinkVisibilityType::KLINK_PUBLIC);
+
+        $fake->assertDocumentIndexed($descr->local_document_id, 2);
+
+        $this->assertNotNull($fake->getDocument(null, $descr->local_document_id, 'public'), 'Null public get');
+        $this->assertNotNull($fake->getDocument(null, $descr->local_document_id, 'private'), 'Null private get');
+
+        $descr->is_public = false;
+        $descr->save();
+
+        $service->deletePublicDocument($descr);
+
+        $fake->assertDocumentRemoved($descr->local_document_id, 'public', 1);
+        $fake->assertDocumentRemoved($descr->local_document_id, 'private', 0);
+
+        $this->assertNull($fake->getDocument(null, $descr->local_document_id, 'public'), 'NOT Null public get');
+        $this->assertNotNull($fake->getDocument(null, $descr->local_document_id, 'private'), 'Null private get');
+
+    }
     
    
     

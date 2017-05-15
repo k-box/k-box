@@ -52,7 +52,11 @@ class AdministrationDashboardController extends Controller {
     {
         $notices[] = trans('notices.mail_not_configured', ['url' => route('administration.mail.index')]);
     }
-
+    
+    if(!Option::areContactsConfigured())
+    {
+        $notices[] = trans('notices.contacts_not_configured', ['url' => route('administration.identity.index')]);
+    }
     
 
     return view('administration.administration', [

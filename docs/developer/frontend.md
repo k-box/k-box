@@ -389,3 +389,11 @@ For grids, buttons, typography and so on refer to [Skeleton Documentation](http:
 **On the CSS/Less side there is an in-progress change to use BEM and the new K-Link Styleguide**. To make the transition happy the partials might contain new files prefixed 
 with `new`. The new files mark the work in progress to update the frontend styling to something more maintainable.
 
+
+## Modules
+
+### Panels
+
+Handle show/hide for details panels and dialog screen. Do not handle question, error, warning and info modal dialogs. Those are handled via SweetAlert and the 
+[DMS Javascript API main module](#dms-javascript-api)
+

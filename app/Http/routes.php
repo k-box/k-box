@@ -15,11 +15,6 @@
 */
 Route::get('/', ['as' => 'frontpage', 'uses' => 'WelcomeController@index']);
 
-/** 
- * @internal
- */
-Route::get('home', ['as' => 'dashboard', 'uses' => 'HomeController@index']);
-
 /*
 |--------------------------------------------------------------------------
 | Related to the map visualization
@@ -86,10 +81,6 @@ Route::controller('administration/storage', 'Administration\StorageAdministratio
     'postNaming' => 'administration.storage.naming',
 ]);
 
-Route::controller('administration/languages', 'Administration\LanguageAdministrationController', [
-    'getIndex' => 'administration.languages.index',
-]);
-
 Route::controller('administration/maintenance', 'Administration\MaintenanceAdministrationController', [
     'getIndex' => 'administration.maintenance.index',
 ]);
@@ -101,6 +92,8 @@ Route::controller('administration/mail', 'Administration\MailAdministrationContr
 ]);
 
 Route::resource('administration/settings', 'Administration\SettingsAdministrationController', ['only' => ['index', 'store']]);
+
+Route::resource('administration/identity', 'Administration\IdentityController', ['only' => ['index', 'store']]);
 
 /*
 |--------------------------------------------------------------------------
@@ -173,6 +166,11 @@ Route::post('documents/makepublic',[
       'as' => 'documents.bulk.makepublic',
   ]);
 
+Route::post('documents/makeprivate',[ 
+      'uses' => 'Document\BulkController@makePrivate',
+      'as' => 'documents.bulk.makeprivate',
+  ]);
+
 Route::post('documents/copy',[ 
       'uses' => 'Document\BulkController@copyTo',
       'as' => 'documents.bulk.copyto',
@@ -206,6 +204,19 @@ Route::get('shares/group/{id}', [
 
 Route::resource('shares', 'SharingController');
 
+// Public links creation and management
+// is an extension of sharing with a new target type
+
+Route::resource('links', 'PublicLinksController', [
+    'except' =>['index', 'create', 'edit']]);
+
+
+Route::get('s/{link}', [ 
+    'as' => 'publiclinks.show',
+    'uses' => 'PublicLinksShowController@show'
+    ])->where([
+        'link' => '[0-9a-zA-Z\\-]+'
+    ]);
 
 /*
 |--------------------------------------------------------------------------
@@ -326,12 +337,12 @@ Route::post('password/reset', 'Auth\PasswordController@postReset');
 | Support Pages Routes (and Controllers)
 |--------------------------------------------------------------------------
 |
-| These four ruotes on one controller handle the static pages that could
-| be showed, like the service terms of use, privacy and help.
+| These handle the static pages that could be showed, 
+| like the service terms of use, privacy and help.
 |
 */
 
-Route::get('contact', ['as' => 'contact', 'uses' => 'SupportPagesController@contact']);
+Route::get('contact', ['as' => 'contact', 'uses' => 'ContactPageController@index']);
 
 Route::get('privacy', ['as' => 'privacy', 'uses' => 'SupportPagesController@privacy']);
 

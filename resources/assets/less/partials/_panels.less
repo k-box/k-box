@@ -4,7 +4,7 @@
 
 @panel-header-height: 106px + @base-padding*10;
 
-.panel-cache {
+.panel-cache, .cache {
 	
 	display:block;
 	visibility: collapse;
@@ -20,13 +20,17 @@
 	
 	pointer-events:none;
 	
-	.transition(opacity 0.2s ease);
+	.transition(opacity 0.4s ease-in-out);
 	
-	&.visible {
+	&.visible, &.cache--visible {
 		visibility: visible;
 		pointer-events:auto;
 		opacity:0.6;
 	}
+}
+
+.cache--dialog {
+	z-index: 902;
 }
 
 .panel {
@@ -208,52 +212,239 @@
 
 
 .dialog {
-
-
 	display: none;
-
-
-	width: 100%;
+	min-width: 528px;
+	max-width: 648px;
 	
-	
-	
-	
-	
-	height: 100%;
-	
-	@media (min-height: 420px) {
-		height: 410px;
-	}
-	
-	overflow: auto;
+	min-height: 184px;
+	max-height: 648px;
 
 	.box-sizing(border-box);
 
 	position: fixed;
 
 	top: 50%;
-	-webkit-transform: translate(0,-50%);
-	-moz-transform: translate(0,-50%);
-	        transform: translate(0,-50%);
+	left:50%;
+	-webkit-transform: translate(-50%,-50%);
+	-moz-transform: translate(-50%,-50%);
+	transform: translate(-50%,-50%);
 	
-
 	background: #FFF;
 	z-index: 5000000;
 
-	box-shadow: -5px 0px 5px 0px rgba(0, 0, 0, 0.3), 0 0 0 9999999px rgba(0,0,0,0.5);
+	box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.3);
 
-	padding: @base-padding;
+	padding: 4px;
 
-	&.visible {
+	transition: height 0.4s ease-in-out;
+
+
+	&.visible, &.dialog--visible {
 		display: block;
 	}
 
-	input[type="email"], input[type="search"], input[type="number"], input[type="text"], input[type="tel"], input[type="url"], input[type="password"], textarea, select {
+	input[type="email"], input[type="search"], input[type="number"], input[type="text"], input[type="tel"], input[type="url"], input[type="password"] {
 		min-width: 460px;
 	}
 	
-	form {
-		margin-bottom: 0;
+	form, p {
+		margin: 0;
 	}
 
 }
+
+.dialog__content {
+
+}
+
+.dialog__inner {
+	margin-top: 16px;
+}
+
+.dialog__close {
+	position: absolute;
+	right: 8px;
+	top: 8px;
+}
+
+.dialog__title, .dialog__subtitle {
+	margin: 0;
+}
+
+.dialog__title {
+	font-weight: 700;
+	font-size: 20px;
+}
+
+.dialog__subtitle {
+	font-size: 20px;
+	font-weight: 400;
+}
+
+.dialog__buttons {
+	// margin-top: 24px;
+}
+
+.dialog--share .dialog__inner {
+	height: 472px;
+	overflow-y: auto;
+	margin-top: 16px;
+}
+
+.dialog__section{
+	padding-bottom: 8px;
+	margin-bottom: 8px;
+	border-bottom: 1px solid #868e96;
+
+	&:last-of-type, &.js-access-section {
+		border-bottom: 0
+	}
+}
+
+.copy-links {
+	border-bottom: 0;
+}
+
+.dialog__section__title{
+	margin: 0;
+	font-size: 16px;
+	font-weight: 700;
+}
+
+.dialog__section--access{
+	font-weight: normal;
+	padding-bottom: 0;
+	margin-bottom: 0;
+}
+
+.dialog__section--add {
+	display: flex;
+	flex-wrap: nowrap;
+	justify-content: space-between;
+}
+
+.dialog__section__title--access{
+	font-weight: normal;
+	padding-bottom: 0;
+	margin-bottom: 8px;
+	width: 100%;
+}
+
+.dialog__section__inner{
+
+}
+
+.dialog__section--collapsed .dialog__section__inner {
+	display: none
+}
+
+.dialog__section__inner--collapsed {
+	height: 0;
+	opacity: 0;
+}
+
+.dialog--share {
+
+	padding: 16px;
+
+	.error-container{
+		color: #e03131;
+		opacity: 0;
+		height: 0;
+		transition: all 0.2s ease-in-out;
+	}
+
+	.error-container--visible {
+		opacity: 1;
+		height: auto;
+		min-height: 24px;
+	}
+
+	.select2-container, .select2-selection__rendered li {
+		margin-bottom: 0;
+	}
+
+	.select {
+		max-width: 344px;
+	}
+
+	.select2-search__field {
+		height: 30px;
+	}
+
+	.shared-list {
+		padding: 8px 0;
+		max-height: 344px;
+		overflow: auto;
+
+		&.dialog__section__inner--collapsed {
+			min-height: 0;
+		}
+	}
+
+	.shared-list__item {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding-bottom: 4px;
+		margin-bottom: 4px;
+		border-bottom: 1px solid darken(#f8f9fa, 10%);
+		box-sizing: border-box;
+
+		.button, button {
+			height: auto;
+			line-height: 1;
+			padding: 8px;
+			margin: 0
+		}
+
+		&:last-of-type {
+			border-bottom: 0;
+		}
+	}
+
+	.shared-list__who {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.shared-list__mail {
+		color: #868e96;
+	}
+
+}
+
+.shared-list__user-container {
+	flex-basis: 50%;
+	min-width: 0;
+}
+
+.shared-list__user-container .shared-list__user,
+.shared-list__user-container .shared-list__mail {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.shared-list__type{
+	flex-basis: 20%;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.shared-list__actions{
+	flex-basis: 20%;
+}
+
+
+.shared-list__item--removing {
+	background: lighten(#e03131, 30%);
+}
+
+.select2-container {
+	z-index: 10000000;
+	flex-grow: 2
+}
+
+

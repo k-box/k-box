@@ -93,8 +93,6 @@ class InstitutionsController extends Controller {
             $fields['type'] = 'Organization';
             $inst = Institution::create($fields);
           
-            $this->adapter->saveInstitution($inst);
-          
             return $inst;
         });
         
@@ -173,8 +171,6 @@ class InstitutionsController extends Controller {
           
             $inst->save();
           
-            $this->adapter->saveInstitution($inst);
-          
         });
         
         return redirect()->route('administration.institutions.index')->with([
@@ -208,8 +204,6 @@ class InstitutionsController extends Controller {
         
         if($no_documents && $no_users){
           \DB::transaction(function() use($inst){
- 
-              $this->adapter->deleteInstitution($inst);
               
               $inst->delete();
             

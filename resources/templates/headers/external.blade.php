@@ -12,7 +12,7 @@
 		</div>
 
 		<div class="logo">
-			<a href="@if($is_user_logged){{route('dashboard')}}@else{{route('frontpage')}}/@endif">
+			<a href="@if(isset( $is_user_logged ) && $is_user_logged){{$current_user_home_route}}@else{{route('frontpage')}}/@endif">
 				&nbsp;
 			</a>
 		</div>

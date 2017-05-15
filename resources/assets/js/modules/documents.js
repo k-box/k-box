@@ -1,4 +1,5 @@
-define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/star", "sweetalert", "modules/panels", "combokeys", "modules/selection", "modules/minimalbind", "context", "lodash", 'language' ], function (_require, _modernizr, $, DMS, Star, _alert, Panels, _combokeys, _Selection, _rivets, _context, _, Lang) {
+define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/star", "sweetalert", "modules/panels", "combokeys", 
+"modules/selection", "modules/minimalbind", "context", "lodash", 'language', "modules/share" ], function (_require, _modernizr, $, DMS, Star, _alert, Panels, _combokeys, _Selection, _rivets, _context, _, Lang, Share) {
     
 	console.log('loading documents-page module...');
 
@@ -317,7 +318,22 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
         
         console.warn('_panelClickEventHandler', this, evt, data);
 
-        if(data.action && data.action === 'removeGroup'){
+        if(data.action && (data.action === 'openShareDialog' || data.action === 'openShareDialogWithAccess') ){
+            evt.preventDefault();
+
+            var dialogOptions = {};
+
+            if(data.action === 'openShareDialogWithAccess'){
+                dialogOptions.focus = 'access';
+            }
+
+            Share.open([{
+                id: data.id,
+                type: 'document',
+                title: data.title
+            }], dialogOptions);
+        }
+        else if(data.action && data.action === 'removeGroup'){
 
             DMS.Services.Documents.update(data.documentId, {remove_group: data.groupId}, function(data_back){
 
@@ -386,7 +402,7 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
                             if(resdata.status && resdata.status === 'ok'){
 
                                 DMS.MessageBox.success( Lang.trans('documents.restore.restore_success_title'), resdata.message);
-debugger;
+
                                 // Reload panel
                                 Panels.openAjax('document'+data.id, this, DMS.Paths.DOCUMENTS + '/' + data.id, {}, {
                                     callbacks: {
@@ -717,32 +733,34 @@ debugger;
 
                 if(_Selection.isAnySelected()){
 
-                    var groups = [],
-                        documents = [];
+                    Share.open(_Selection.selection());
 
-                        $.each(_Selection.selection(), function(index, sel){
+                    // var groups = [],
+                    //     documents = [];
 
-                            if(sel.type === 'group'){
+                    //     $.each(_Selection.selection(), function(index, sel){
 
-                                groups.push(sel.id);
-                            }
-                            else{
+                    //         if(sel.type === 'group'){
 
-                                documents.push(sel.id);
-                            }
+                    //             groups.push(sel.id);
+                    //         }
+                    //         else{
 
-                        });
+                    //             documents.push(sel.id);
+                    //         }
 
-                    Panels.dialogOpen(DMS.Paths.SHARE_CREATE, {groups:groups, documents:documents.join(',')}, {callbacks: { form_submit_success: function(evt, data){
+                    //     });
 
-                        console.log('Form submitted success', data);
+                    // Panels.dialogOpen(DMS.Paths.SHARE_CREATE, {collections:groups, documents:documents}, {callbacks: { form_submit_success: function(evt, data){
 
-                        // DMS.navigateReload();
-                        Panels.dialogClose();
+                    //     console.log('Form submitted success', data);
 
-                        DMS.MessageBox.success(Lang.trans('share.dialog.document_shared'), Lang.trans('share.dialog.document_shared_text'));
+                    //     // DMS.navigateReload();
+                    //     Panels.dialogClose();
 
-                    } }});
+                    //     DMS.MessageBox.success(Lang.trans('share.dialog.document_shared'), Lang.trans('share.dialog.document_shared_text'));
+
+                    // } }});
                 }
                 else{
                     _alert( Lang.trans('actions.selection.at_least_one') );
@@ -794,13 +812,15 @@ debugger;
 
             shareGroup: function(evt, groupId){
 
-                Panels.dialogOpen(DMS.Paths.SHARE_CREATE, {groups:groupId}, {callbacks: { form_submit_success: function(evt, data){
+                Share.open([{id: groupId, type: "group"}]);
 
-                    Panels.dialogClose();
+                // Panels.dialogOpen(DMS.Paths.SHARE_CREATE, {collections:[groupId], documents:[]}, {callbacks: { form_submit_success: function(evt, data){
 
-                    DMS.MessageBox.success( Lang.trans('share.dialog.collection_shared'), Lang.trans('share.dialog.collection_shared_text'));
+                //     Panels.dialogClose();
 
-                } }});
+                //     DMS.MessageBox.success( Lang.trans('share.dialog.collection_shared'), Lang.trans('share.dialog.collection_shared_text'));
+
+                // } }});
                 
                 
                 evt.preventDefault();

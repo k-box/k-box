@@ -72,7 +72,7 @@
 @section('scripts')
 
 	<script>
-	require(['modules/documents', 'modules/panels'], function(Documents, Panels){
+	require(['modules/documents'], function(Documents){
 
 		@if(isset($context))
 			Documents.setContext({

@@ -39,40 +39,42 @@ class ShareCreatedHandler implements ShouldQueue
         $from = $event->share->user;
         $to = $event->share->sharedwith;
         $what = $event->share->shareable;
-        $is_collection = is_a($what, 'KlinkDMS\Group') ? true : false;
-        $what_title = $is_collection ? $what->name : $what->title;
-        $language = is_a($to, 'KlinkDMS\PeopleGroup') ? config('app.locale') : $to->optionLanguage(config('app.locale'));
-        $subject = trans('mail.sharecreated.subject', ['user' => $from->name, 'title' => $what_title], '', $language);
 
-        $data = [
-            'name' => $from->name,
-            'title' => $what_title,
-            'share_link' => config('app.url') . route('shares.show', ['id' => $event->share->token], false),
-            'is_collection' => $is_collection,
-            'language' =>  $language,
-            'subject' => trans('mail.sharecreated.subject', ['user' => $from->name, 'title' => $what_title], '', $language),
-        ];
+        if(!is_a($to, 'KlinkDMS\PublicLink'))
+        {
+            $is_collection = is_a($what, 'KlinkDMS\Group') ? true : false;
+            $what_title = $is_collection ? $what->name : $what->title;
+            $language = is_a($to, 'KlinkDMS\PeopleGroup') ? config('app.locale') : $to->optionLanguage(config('app.locale'));
+            $subject = trans('mail.sharecreated.subject', ['user' => $from->name, 'title' => $what_title], '', $language);
 
-        Mail::send('emails.shares.created', $data, function ($message) use($from, $to, $what_title, $language, $subject) {
+            $data = [
+                'name' => $from->name,
+                'title' => $what_title,
+                'share_link' => config('app.url') . route('shares.show', ['id' => $event->share->token], false),
+                'is_collection' => $is_collection,
+                'language' =>  $language,
+                'subject' => trans('mail.sharecreated.subject', ['user' => $from->name, 'title' => $what_title], '', $language),
+            ];
 
-            $message->subject($subject);
+            Mail::send('emails.shares.created', $data, function ($message) use($from, $to, $what_title, $language, $subject) {
+                $message->subject($subject);
 
-            $message->from(Option::mailFrom(), $from->name);
-            $message->replyTo($from->email, $from->name);
+                $message->from(Option::mailFrom(), $from->name);
+                $message->replyTo($from->email, $from->name);
 
-            if(is_a($to, 'KlinkDMS\PeopleGroup'))
-            {
-                $recipients = $to->people;
+                if(is_a($to, 'KlinkDMS\PeopleGroup'))
+                {
+                    $recipients = $to->people;
 
-                foreach ($recipients as $recipient) {
-                    $message->to($recipient->email, $recipient->name);
+                    foreach ($recipients as $recipient) {
+                        $message->to($recipient->email, $recipient->name);
+                    }
                 }
-            }
-            else {
-                $message->to($to->email, $to->name);
-            }
+                else {
+                    $message->to($to->email, $to->name);
+                }
+            });
+        }
 
-
-        });
     }
 }

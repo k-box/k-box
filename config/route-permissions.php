@@ -57,6 +57,7 @@ return array(
 			'emptytrash' => KlinkDMS\Capability::CLEAN_TRASH,
 			'copyto' => KlinkDMS\Capability::$CONTENT_MANAGER,
 			'makepublic' => KlinkDMS\Capability::CHANGE_DOCUMENT_VISIBILITY,
+			'makeprivate' => KlinkDMS\Capability::CHANGE_DOCUMENT_VISIBILITY,
 
 		),
 
@@ -115,6 +116,13 @@ return array(
 		'deletemultiple' => array(KlinkDMS\Capability::SHARE_WITH_PERSONAL, KlinkDMS\Capability::SHARE_WITH_PRIVATE),
 	),
 	
+	'links' => array(
+		'store' => KlinkDMS\Capability::SHARE_WITH_PERSONAL,
+		'show' => KlinkDMS\Capability::RECEIVE_AND_SEE_SHARE,
+		'update' => array(KlinkDMS\Capability::SHARE_WITH_PERSONAL, KlinkDMS\Capability::SHARE_WITH_PRIVATE),
+		'destroy' => array(KlinkDMS\Capability::SHARE_WITH_PERSONAL, KlinkDMS\Capability::SHARE_WITH_PRIVATE),
+	),
+	
 	
 	'people' => array(
 		'index' => array(KlinkDMS\Capability::MANAGE_PEOPLE_GROUPS, KlinkDMS\Capability::MANAGE_PERSONAL_PEOPLE_GROUPS),
@@ -170,10 +178,6 @@ return array(
 			'naming' => KlinkDMS\Capability::MANAGE_DMS,
 		),
 
-		'languages' => array(
-			'index' => KlinkDMS\Capability::MANAGE_DMS,
-		),
-
 		'network' => array(
 			'index' => KlinkDMS\Capability::MANAGE_DMS,
 		),
@@ -186,6 +190,11 @@ return array(
 			'index' => KlinkDMS\Capability::MANAGE_DMS,
 			'store' => KlinkDMS\Capability::MANAGE_DMS,
 			'test' => KlinkDMS\Capability::MANAGE_DMS,
+		),
+		
+		'identity' => array(
+			'index' => KlinkDMS\Capability::MANAGE_DMS,
+			'store' => KlinkDMS\Capability::MANAGE_DMS,
 		),
 
 		'users' => array(

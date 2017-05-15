@@ -131,14 +131,14 @@ class DocumentsTest extends TestCase {
         
         $url = route( 'documents.show', $doc->id );
         
-        $this->visit( $url )->seePageIs( route('auth.login') );
+        $this->visit( $url )->seePageIs( route('frontpage') );
 
         
         // test with login with the owner user
 		
         $this->actingAs($user);
         
-        $this->visit( $url )->seePageIs( $url );
+        $this->visit( $url )->seePageIs( route('klink_api', ['id' => $doc->local_document_id, 'action' => 'preview']) );
         
         $this->assertResponseOk();
         
@@ -439,7 +439,7 @@ class DocumentsTest extends TestCase {
         $doc_link = \DmsRouting::preview($doc);
         
         // goto link, see login page
-        $this->visit( $doc_link )->seePageIs( route('auth.login') );
+        $this->visit( $doc_link )->seePageIs( route('frontpage') );
         
         // perform login
         $this->type($user->email, 'email');
@@ -532,7 +532,7 @@ class DocumentsTest extends TestCase {
         $doc_link = \DmsRouting::preview($doc);
         
         // goto link, see login page
-        $this->visit( route('auth.login') )->seePageIs( route('auth.login') );
+        $this->visit( route('frontpage') )->seePageIs( route('frontpage') );
         
         // perform login
         $this->type($user->email, 'email');
@@ -585,7 +585,7 @@ class DocumentsTest extends TestCase {
         $doc_link = \DmsRouting::preview($doc);
         
         // goto link, see login page
-        $this->visit( $doc_link )->seePageIs( route('auth.login') );
+        $this->visit( $doc_link )->seePageIs( route('frontpage') );
         
         // perform login
         $this->type($user->email, 'email');

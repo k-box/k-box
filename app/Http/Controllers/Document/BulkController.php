@@ -414,6 +414,9 @@ class BulkController extends Controller {
 		// for the dialog in case some documents needs a rename ?
 	}
 	
+	/**
+	 * Make documents and collections public on the network
+	 */
 	public function makePublic(AuthGuard $auth, BulkMakePublicRequest $request){
 		
 		
@@ -451,6 +454,71 @@ class BulkController extends Controller {
 				return array('status' => 'ok', 'message' =>  trans_choice('networks.made_public', $count, ['num' => $count, 'network' => network_name() ]));
 			});
 
+
+
+			if ($request->ajax() && $request->wantsJson())
+			{
+				return new JsonResponse($status, 200);
+			}
+
+			return response('ok');
+
+		}catch(\Exception $kex){
+
+			\Log::error('Bulk Make Public error', ['error' => $kex, 'request' => $request]);
+
+			$status = array('status' => 'error', 'message' =>  trans('networks.make_public_error', ['error' => $kex->getMessage()]));
+
+			if ($request->ajax() && $request->wantsJson())
+			{
+				return new JsonResponse($status, 422);
+			}
+
+			return response('error');
+			
+		}
+		
+	}
+
+	/**
+	 * Remove documents from the network by making them private
+	 */
+	public function makePrivate(AuthGuard $auth, BulkMakePublicRequest $request){
+		
+		
+		\Log::info('Bulk Make Private', ['params' => $request->all()]);
+
+		try{
+
+			$that = $this;
+
+			$status = \DB::transaction(function() use($request, $that, $auth){
+
+				$docs = $request->input('documents', array());
+				$grp = $request->input('group', null);
+				
+				$documents = new Collection;
+				
+				if(!empty($docs)){
+					$documents = DocumentDescriptor::whereIn('id', $docs)->get();
+				}
+				
+				if(!is_null($grp)){
+					$group_docs = Group::findOrFail($grp)->documents()->get();
+					$documents = $documents->merge($group_docs)->unique();
+				}
+				
+				foreach($documents as $descriptor){
+					if($descriptor->isPublic()){
+						$descriptor->is_public = false;
+						$descriptor->save();
+						$that->service->deletePublicDocument($descriptor);
+					}
+				}
+
+				$count = $documents->count();
+				return array('status' => 'ok', 'message' =>  trans_choice('networks.made_private', $count, ['num' => $count, 'network' => network_name() ]));
+			});
 
 
 

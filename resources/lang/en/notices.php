@@ -20,4 +20,6 @@ return [
 	'long_running_msg' => '<strong>Still Working!</strong> Seems that the action is taking a quite amout of time, sorry about that.',
 	
 	'terms_of_use' => 'By uploading or sharing a document you agree to the <a href=":policy_link">Service Policy</a>',
+
+	'contacts_not_configured' => 'The Contact information requires your attention. <a href=":url">Please review them</a> from the Identity section.',
 ];

@@ -192,13 +192,15 @@ class DocumentsComposer {
                 $view->with('user_can_edit_public_groups', $auth_user->can_capability(Capability::MANAGE_PROJECT_COLLECTIONS));
 
                 
-                if($document->isMine()){
-                // the document is shared by me
-                    $by_me = $document->shares()->by($auth_user)->with('sharedwith')->get();
+                // if($document->isMine()){
+                // // the document is shared by me
+
+                //     $existing_shares = $document->shares()->sharedByMe($auth_user)->where('sharedwith_type', 'KlinkDMS\User')->count();
+                //     $users_from_projects = $this->documents->getUsersWithAccess($document, $auth_user)->count();
     
-                    $view->with('shared_by_me', $by_me);
+                //     $view->with('access_by_count', $existing_shares+$users_from_projects);
                 
-                }
+                // }
                 
                 if($auth_user->can_capability(Capability::EDIT_DOCUMENT)){
                     $view->with('user_can_edit', true);

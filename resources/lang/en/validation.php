@@ -118,6 +118,9 @@ return [
         'hero_image' => [
 			'url' => 'The full screen image must be a valid URL to an image file',
 			'regex' => 'The full screen image must be a valid URL to an image file',
+		],
+		'with_users' => [
+			'required' => 'You need to select at least one user',
 		]
 
 	],

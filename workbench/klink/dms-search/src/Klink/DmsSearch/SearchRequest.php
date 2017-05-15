@@ -401,10 +401,13 @@ class SearchRequest {
 
 					$filter_value = implode(',',$this->filters[$fs]);  
 					
-					try{
+					try
+					{
+						if(!empty($filter_value))
+						{
+							$fs_builder->{$fs}($filter_value, 999999999, 0);
+						}
 
-						$fs_builder->{$fs}($filter_value, 999999999, 0);
-						
 					}catch(BadMethodCallException $bmcex){
 						throw new BadMethodCallException(sprintf('Bad Filter invocation for "%s": %s', $fs, var_export($filter_value, true)));
 					}

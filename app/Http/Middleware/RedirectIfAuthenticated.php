@@ -17,7 +17,16 @@ class RedirectIfAuthenticated {
 	{
 		if (Auth::guard($guard)->check())
 		{
-			return redirect('/home');
+			$auth_user = Auth::guard($guard)->user();
+
+			$intended = session()->get('url.intended', null);
+			$dms_intended = session()->get('url.dms.intended', null);
+
+			if(is_null($intended) && !is_null($dms_intended)){
+				session()->put('url.intended', $dms_intended);
+			}
+
+			return redirect()->intended($auth_user->homeRoute());
 		}
 
 		return $next($request);

@@ -58,8 +58,13 @@ class KlinkApiController extends Controller {
         
 		$user = $request->user();
 
-		if( !$doc->isPublic() && is_null( $user ) ){
-			return redirect()->guest('/auth/login');
+		if( !($doc->isPublic() || $doc->hasPublicLink()) && is_null( $user ) ){
+
+			\Log::warning('KlinkApiController, requested a document that is not public and user is not authenticated', ['url' => $request->url()]);
+
+			session()->put('url.dms.intended', $request->url());
+\Log::warning('KlinkApiController - session', ['all' => session()->all()]);
+			return redirect()->to(route('frontpage'));
 		}
 		else if( $doc->trashed() ){
 			\App::abort(404, trans('errors.document_not_found'));
@@ -81,7 +86,7 @@ class KlinkApiController extends Controller {
 
 		}
 
-		$is_shared = !is_null($user) ? $doc->shares()->sharedWithMe($user)->count() > 0 : false;
+		$is_shared = $doc->hasPublicLink() ? true : (!is_null($user) ? $doc->shares()->sharedWithMe($user)->count() > 0 : false);
 
 		$owner = !is_null($user) && !is_null($doc->owner) ? $doc->owner->id === $user->id || $user->isContentManager() : (is_null($doc->owner) ? true : false);
 

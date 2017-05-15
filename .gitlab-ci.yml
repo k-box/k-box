@@ -1,130 +1,42 @@
+## K-Box Continuous Integration script
+
 stages:
   - build
   - test
+  - build_release
   - release
-  - tar_release
   - deploy
 
 cache:
-  key: "$CI_BUILD_REF_NAME"
+  key: "kbox"
   paths:
-  - vendor/
-  - node_modules/
-  - resources/assets/vendor
+  - .composer-cache/
+  - node_modules/ # TODO: cache the NPM cache location
+  - resources/assets/vendor # TODO: cache the Bower cache location (or drop bower entirely)
 
-.standard_build_and_execution: &standard_build_and_execution
-# build and execute a docker image, use variables 
-# INSTANCE_PREFIX => the prefix of the docker container/image to be used
-# BUILD_LOCATION => the folder where the base tar.gz file is located
-# DOCKER_LOCATION => the folder where to run the docker-compose commands
-  when: manual
-  stage: deploy
-  tags:
-    - shell
-  script: 
-    - cp ${BUILD_LOCATION}/klink-dms-$CI_BUILD_REF_NAME.tar.gz ${DOCKER_LOCATION}/dms/downloads/dms.tar.gz
-    - cd ${DOCKER_LOCATION}
-    - docker-compose -f klink-services.yml -p ${INSTANCE_PREFIX} build dmsproject
-    - docker-compose -f docker-compose-kbox.yml -p ${INSTANCE_PREFIX} stop && docker-compose -f docker-compose-kbox.yml -p ${INSTANCE_PREFIX} rm -v -f && docker-compose -f docker-compose-kbox.yml -p ${INSTANCE_PREFIX} up -d frontend
-#    - docker exec ${INSTANCE_PREFIX}_dmsphp_1 sh -c "cd /var/www/dms && php artisan dms:flags --enable unifiedsearch"
+variables:
+    CONTAINER_RELEASE_IMAGE_BASE: $CI_REGISTRY/images/dms
 
-.build_and_tag: &build_and_tag
-# build and execute a docker image, use variables 
-# INSTANCE_PREFIX => the prefix of the docker container/image to be used
-# BUILD_LOCATION => the folder where the base tar.gz file is located
-# DOCKER_LOCATION => the folder where to run the docker-compose commands
-  stage: deploy
-  tags:
-    - shell
-  script: 
-    - cp ${BUILD_LOCATION}/klink-dms-$CI_BUILD_REF_NAME.tar.gz ${DOCKER_LOCATION}/dms/downloads/dms.tar.gz
-    - cd ${DOCKER_LOCATION}
-    - docker-compose -f klink-services.yml -p ${INSTANCE_PREFIX} build dmsproject
-    - docker tag -f ${INSTANCE_PREFIX}_dmsproject docker.klink.asia:5043/klinkdocker_dmsproject:${CI_BUILD_REF_NAME/v/}
-    - docker tag -f ${INSTANCE_PREFIX}_dmsproject docker.klink.asia:5043/klinkdocker_dmsproject:latest
-    - docker tag -f ${INSTANCE_PREFIX}_dmsproject klinkdocker_dmsproject:${CI_BUILD_REF_NAME/v/}
-    - docker push docker.klink.asia:5043/klinkdocker_dmsproject:latest
-    - docker push docker.klink.asia:5043/klinkdocker_dmsproject:${CI_BUILD_REF_NAME/v/}
+## Making sure that the composer cache folder is the one we have in the CI cache
+before_script:
+  - export COMPOSER_CACHE_DIR=`pwd`/.composer-cache
 
 
+## Composer Install script
+## performs composer install with dev dependencies and syntax check
 .composer_install: &composer_install
-# performs composer install with dev dependencies and syntax check
-  stage: build
+  stage: test
   script:
-    - mv env.ci .env
+    - cp env.ci .env
     - composer install --prefer-dist
     - ./vendor/bin/parallel-lint --exclude vendor .
-    - mv .env env.ci
-
-# PHP dependency build and syntax check
-
-# Testing
-# performs a dev oriented build and execute unit tests and various checks
-
-build_dev:5.6:
-  <<: *composer_install
-  image: "docker.klink.asia:5043/klink/php-ci-docker:5.6-alpine"
-  tags:
-    - docker
-
-build_dev:7.0:
-  <<: *composer_install
-  image: "docker.klink.asia:5043/klink/php-ci-docker:7.0-alpine"
-  allow_failure: true
-  tags:
-    - docker
 
 
-language_check:
-  # Execute the check over the translation to find untranslated strings
-  stage: test
-  script:
-    - mv env.ci .env
-    - php artisan lang:check --report=translations.txt
-    - mv .env env.ci
-  image: "docker.klink.asia:5043/klink/php-ci-docker:7.0-alpine"
-  allow_failure: false
-  tags:
-    - docker
-  only:
-   - master
-  artifacts:
-    paths:
-    - translations.txt
-
-unit_test:
-  # Tries to execute unit tests
-  stage: test
-  services:
-    - mariadb:10.0
-  variables:
-    MYSQL_DATABASE: dms_test
-    MYSQL_USER: dms
-    MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
-    MYSQL_PASSWORD: dms
-  script:
-    - mv env.ci testing.env
-    - php artisan migrate --env=testing --force
-    - php artisan db:seed --env=testing --force
-    - vendor/bin/phpunit
-    - mv testing.env env.ci
-  image: "docker.klink.asia:5043/klink/php-ci-docker:7.0-alpine"
-  allow_failure: true
-  tags:
-    - docker
-  artifacts:
-    expire_in: 1 week
-    paths:
-    - storage/logs/
-
-# Build production
-# - Build PHP dependencies without dev related packages
-# - Build the frontend
-# - Generate the tar.gz file for deploy
+## Building the artifacts for release
 
 frontend:
   image: node:4.5
-  stage: release
+  stage: build
   tags:
     - docker
   script:
@@ -136,68 +48,159 @@ frontend:
     paths:
     - public/
 
-
 laravel:
   image: "docker.klink.asia:5043/klink/php-ci-docker:7.0-alpine"
   tags:
     - docker
-  stage: release
-  cache:
-    paths:
-    - vendor/
+  stage: build
   script:
-    - mv env.ci .env
-    - composer install --prefer-dist
-    - php artisan dms:lang-publish
-    - mv .env env.ci
+    - cp env.ci .env
+    - composer install --no-dev --prefer-dist
   artifacts:
     expire_in: 1 day
     paths:
     - vendor/
     - public/js/nls/
 
-tar:
-  stage: tar_release
+## Testing
+
+test-syntax:5.6:
+  <<: *composer_install
+  image: "docker.klink.asia:5043/klink/php-ci-docker:5.6-alpine"
+  tags:
+    - docker
+
+test-syntax:7.0:
+  <<: *composer_install
+  image: "docker.klink.asia:5043/klink/php-ci-docker:7.0-alpine"
+  tags:
+    - docker
+
+language_check:
+  ## Execute the check over the translation to find untranslated strings
+  stage: test
   script:
-    - sed -i "s/BUILDCODE/${CI_BUILD_REF}/g" ./config/dms.php
+    - cp env.ci .env
+    - composer install --prefer-dist
+    - php artisan lang:check --report=translations.txt
+  image: "docker.klink.asia:5043/klink/php-ci-docker:7.0-alpine"
+  allow_failure: false
+  tags:
+    - docker
+  only:
+   - master
+  artifacts:
+    paths:
+    - translations.txt
+
+unit_test:
+  stage: test
+  image: "docker.klink.asia:5043/klink/php-ci-docker:7.0-alpine"
+  services:
+    - mariadb:10.0
+  variables:
+    MYSQL_DATABASE: dms_test
+    MYSQL_USER: dms
+    MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+    MYSQL_PASSWORD: dms
+  script:
+    - cp env.ci .env
+    - cp env.ci testing.env
+    - composer install --prefer-dist
+    - php artisan migrate --env=testing --force
+    - php artisan db:seed --env=testing --force
+    - vendor/bin/phpunit
+  allow_failure: true
+  tags:
+    - docker
+  artifacts:
+    expire_in: 1 week
+    paths:
+    - storage/logs/
+
+## Release the docker image
+
+## Normal branch release, we create local images for being used during tests
+branch_release:
+  stage: release
+  script:
     - sed -i "s/BUILDVERSION/${CI_BUILD_REF_NAME}/g" ./config/dms.php
-    - tar --transform 's,^.,dms,' -cz . $TAR_PARAMETERS > ${BUILD_FOLDER}/klink-dms-$CI_BUILD_REF_NAME.tar.gz
+    - sed -i "s/BUILDCODE/${CI_BUILD_REF}/g" ./config/dms.php
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN -e info@klink.asia $CI_REGISTRY
+    - docker build -t $CI_REGISTRY_IMAGE:${CI_BUILD_REF_NAME/v/} .
+    - docker push $CI_REGISTRY_IMAGE:${CI_BUILD_REF_NAME/v/}
   tags:
     - shell
+  except:
+    - tags
+  dependencies:
+  - frontend
+  - laravel
+
+## Tagged releases
+tagged_release:
+  stage: release
+  script:
+    - sed -i "s/BUILDVERSION/${CI_BUILD_REF_NAME}/g" ./config/dms.php
+    - sed -i "s/BUILDCODE/${CI_BUILD_REF}/g" ./config/dms.php
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN -e info@klink.asia $CI_REGISTRY
+    - docker build -t $CI_REGISTRY_IMAGE:${CI_BUILD_REF_NAME/v/} .
+    - docker push $CI_REGISTRY_IMAGE:${CI_BUILD_REF_NAME/v/}
+    - docker login -u $REGISTRY_RELEASE_USERNAME -p $REGISTRY_RELEASE_PASSWORD -e info@klink.asia $CI_REGISTRY
+    - docker tag -f $CI_REGISTRY_IMAGE:${CI_BUILD_REF_NAME/v/} "$CONTAINER_RELEASE_IMAGE_BASE:${CI_BUILD_REF_NAME/v/}"
+    - docker tag -f $CI_REGISTRY_IMAGE:${CI_BUILD_REF_NAME/v/} "$CONTAINER_RELEASE_IMAGE_BASE:latest"
+    - docker push "$CONTAINER_RELEASE_IMAGE_BASE:latest"
+    - docker push "$CONTAINER_RELEASE_IMAGE_BASE:${CI_BUILD_REF_NAME/v/}"
+  tags:
+    - shell
+  only:
+    - tags
+  dependencies:
+  - frontend
+  - laravel
 
 
-# Docker related deploy
+## Deploy on review environments
 
+## the test.klink.asia instance with the new image
 test_klink_asia_deploy:
-# creates the DMS docker image and restart the test instance with the new image
   environment: Review
-  <<: *standard_build_and_execution
   except:
     - release
+  when: manual
+  stage: deploy
+  tags:
+    - shell
   variables:
     INSTANCE_PREFIX: $TEST_INSTANCE_PREFIX
     BUILD_LOCATION: $BUILD_FOLDER 
     DOCKER_LOCATION: $TEST_DOCKER_FOLDER 
+  script: 
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN -e info@klink.asia $CI_REGISTRY
+    - docker pull $CI_REGISTRY_IMAGE:${CI_BUILD_REF_NAME/v/}
+    - cd ${DOCKER_LOCATION}
+    - docker tag -f $CI_REGISTRY_IMAGE:${CI_BUILD_REF_NAME/v/} dms-testing-environment
+    - docker-compose -f docker-compose-kbox.yml -p ${INSTANCE_PREFIX} stop && docker-compose -f docker-compose-kbox.yml -p ${INSTANCE_PREFIX} rm -v -f && docker-compose -f docker-compose-kbox.yml -p ${INSTANCE_PREFIX} up -d frontend
 
 
+## the dms.klink.asia instance with the new image
 dms_klink_asia_deploy:
-# creates the DMS docker image and restart the DMS.klink.asia instance with the new image
   environment: Staging
-  <<: *standard_build_and_execution
+  when: manual
+  stage: deploy
+  tags:
+    - shell
   variables:
     INSTANCE_PREFIX: $DMS_INSTANCE_PREFIX
     BUILD_LOCATION: $BUILD_FOLDER 
     DOCKER_LOCATION: $PROD_DOCKER_FOLDER
+  script: 
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN -e info@klink.asia $CI_REGISTRY
+    - docker pull $CI_REGISTRY_IMAGE:${CI_BUILD_REF_NAME/v/}
+    - cd ${DOCKER_LOCATION}
+    - docker tag -f $CI_REGISTRY_IMAGE:${CI_BUILD_REF_NAME/v/} dms-staging-environment
+    - docker-compose -f docker-compose-kbox.yml -p ${INSTANCE_PREFIX} stop && docker-compose -f docker-compose-kbox.yml -p ${INSTANCE_PREFIX} rm -v -f && docker-compose -f docker-compose-kbox.yml -p ${INSTANCE_PREFIX} up -d frontend
   only:
     - master
     - release
 
-tag_docker_image:
-# creates the DMS docker image and push it to the registry
-  <<: *build_and_tag
-  variables:
-    INSTANCE_PREFIX: $DMS_INSTANCE_PREFIX
-    BUILD_LOCATION: $BUILD_FOLDER 
-    DOCKER_LOCATION: $PROD_DOCKER_FOLDER
-  only:
-    - tags

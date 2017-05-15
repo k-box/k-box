@@ -207,13 +207,46 @@ $factory->define(Klink\DmsMicrosites\Microsite::class, function (Faker\Generator
 //   'user_id' => 'factory:KlinkDMS\User'
 // ]);
 // 
-// $factory('KlinkDMS\Shared', function($faker) {
-// 
-//     return [
-//       'token' => $faker->md5,
-//       'shareable_id' => 'factory:KlinkDMS\DocumentDescriptor',
-//       'shareable_type' => 'KlinkDMS\DocumentDescriptor',
-//       'sharedwith_id' => 'factory:KlinkDMS\User',
-//       'sharedwith_type' => 'KlinkDMS\User'
-//     ];
-// });
+$factory->define(KlinkDMS\Shared::class, function (Faker\Generator $faker) {
+
+    return [
+      'user_id' => function () {
+            return factory(KlinkDMS\User::class)->create()->id;
+      },
+      'token' => $faker->md5,
+      'shareable_id' => function () {
+            return factory(KlinkDMS\DocumentDescriptor::class)->create()->id;
+      },
+      'shareable_type' => 'KlinkDMS\DocumentDescriptor',
+      'sharedwith_id' => function () {
+            return factory(KlinkDMS\User::class)->create()->id;
+      },
+      'sharedwith_type' => 'KlinkDMS\User'
+    ];
+});
+
+$factory->define(KlinkDMS\PublicLink::class, function (Faker\Generator $faker) {
+
+    return [
+      'user_id' => function () {
+            return factory(KlinkDMS\User::class)->create()->id;
+      },
+      'slug' => $faker->slug,
+    ];
+});
+
+$factory->defineAs(KlinkDMS\Shared::class, 'publiclink', function (Faker\Generator $faker) {
+
+    $link = factory(KlinkDMS\PublicLink::class)->create();
+
+    return [
+      'user_id' => $link->user_id,
+      'token' => $faker->md5,
+      'shareable_id' => function () {
+            return factory(KlinkDMS\DocumentDescriptor::class)->create()->id;
+      },
+      'shareable_type' => 'KlinkDMS\DocumentDescriptor',
+      'sharedwith_id' => $link->id,
+      'sharedwith_type' => 'KlinkDMS\PublicLink'
+    ];
+});

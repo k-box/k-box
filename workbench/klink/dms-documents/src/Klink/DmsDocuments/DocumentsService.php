@@ -211,7 +211,6 @@ class DocumentsService {
 
 		$original_hash = $klink_descriptor->hash; 
 
-
 		if(!is_file($content)){
 			$klink_descriptor->hash = \KlinkDocumentUtils::generateHash($content);
 		}
@@ -445,7 +444,7 @@ class DocumentsService {
 		}
 
 		try{
-			
+
 			$returned_descriptor = $this->updateDocumentProxy($descriptor, $descriptor->file, $visibility);
 
 			\Log::info('Core re-indexDocument', array('context' => 'DocumentsService', 'response' => $returned_descriptor));
@@ -2236,6 +2235,36 @@ class DocumentsService {
 
 	// --- Document Management facilities ----------------------
 	
+	/**
+	 * Get the users from who can access the document based on the project the document is in
+	 *
+	 * @param DocumentDescriptor $descriptor
+	 * @param User $me the user that is asking the question to filter the collections/projects
+	 * @return array
+	 */
+	public function getUsersWithAccess(DocumentDescriptor $descriptor, User $me){
+
+		// is the document in a project? the current user has access to the project? if yes we can also remove the members of that project(s)
+		return $descriptor->projects()->map(function($p) use($me){
+			
+			if(!Project::isAccessibleBy($p, $me)){
+				return false;
+			}
+			
+			$users =  $p->users()->get();
+
+			if($p->manager->id != $me->id){
+
+				$manager = $p->manager;
+				$manager->project_id = $p->id;
+
+				$users = $users->merge([$manager]);
+			}
+
+			return $users;
+
+		})->flatten()->filter();
+	}
 
 	/**
 	 * Returns the number of indexed documents with the respect to the visibility.

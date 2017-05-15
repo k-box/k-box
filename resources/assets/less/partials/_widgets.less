@@ -243,8 +243,12 @@
 
 // contact
 
-.contact-card {
-	.widget;
+.contact__container {
+	display: flex;
+	margin-top: @base-padding/2;
+}
+
+.contact__card {
 
 	cursor: default;
 
@@ -252,33 +256,16 @@
 
 	position: relative;
 
-	margin-top: @base-padding/2;
-	margin-bottom: @base-padding;
+	
+	margin: @base-padding/2 @base-padding;
 
 	width: 500px;
+	min-height: 400px;
 
-	position: absolute;
+	// position: absolute;
 
-	z-index: 15000;
+	// z-index: 15000;
 
-	.institution-image {
-		// width: 100%;
-        box-sizing: border-box;
-		height: 140px;
-
-		background-color: @black-10;
-
-
-		margin: -8px -12px 8px;
-
-		overflow:hidden;
-
-		img {
-            width: 100%;
-            box-sizing: border-box;
-            height: auto;
-        }
-	}
 
 
 	.phone, .mail, .website {
@@ -299,6 +286,17 @@
 			}
 		}
 	}
+}
+.contact__image {
+	
+	box-sizing: border-box;
+	
+	width: 480px;
+	height: 240px;
+	overflow: hidden;
+
+	background-size: cover;
+	background-repeat: no-repeat;
 }
 
 
@@ -434,14 +432,23 @@
 	margin-top: 16px;
 }
 
+.copy-link {
+	display: flex;
+	width: 100%;
+	max-width: 100%;
+	flex-direction: row;
+	justify-content: space-between;
+	flex-wrap: wrap
+}
+
 .copy-link__button {
 	text-transform: none;
 	transition: all 0.2s linear;
 	font-size: 12px;
 	word-spacing: normal;
-	min-width: 242px;
+	// min-width: 242px;
 	padding: 0 16px;
-
+	margin-left: 8px;
 
 	.btn-icon {
 		line-height: 38px;
@@ -465,9 +472,10 @@
 .copy-link__input {
 	opacity: 0.8;
 
-	font-family: Courier New, Courier, monospace;
-	font-size: 12px;
-	min-width: 380px;
+	// font-family: Courier New, Courier, monospace;
+	font-size: 14px;
+	min-width: auto !important;
+	flex-grow: 2;
 
 	height: 36px;
 	padding: 0 8px;
@@ -489,6 +497,7 @@
 	opacity: 0;
 	pointer-events: none;
 	transition: height 0.2s linear, opacity 0.4s linear;
+	flex-basis: 100%;
 }
 
 .copy-link__message--visible {
@@ -525,3 +534,6 @@
 	}
 }
 
+.copy-link__button--mail .btn-icon {
+	margin-right: 0;
+}

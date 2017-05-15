@@ -37,6 +37,14 @@
     min-width: 200px;
 }
 
+.c-form__input--full-width {
+    width: 100%;
+}
+
+.c-form__textarea--compact {
+    max-height: 40px;
+    min-height: 40px;
+}
 
 // a configuration section
 
@@ -56,6 +64,103 @@
 
 .c-input--number {
     max-width: 80px;
+}
+
+
+// Switch control
+
+.c-switch {
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+.c-switch__label, .c-switch__buttons {
+    display: inline-block;
+}
+.c-switch__label {
+
+}
+
+.c-switch__buttons {
+
+    border: 1px solid #bbb;
+
+    border-radius: 3px;
+
+    padding: 4px;
+
+}
+
+.c-switch__button {
+
+    // a bit of reset of previously applied styles
+    border: 0;
+    margin: 0;
+    padding: 4px;
+    text-transform: none;
+    line-height: initial;
+    height: auto;
+    font-size: inherit;
+    font-weight: 400;
+    letter-spacing: normal;
+    
+    border-radius: 3px;
+    min-width: 48px;
+    fill:currentColor;
+
+    transition: background 0.2s linear, opacity 0.3s ease-in-out, color 0.2s linear;
+
+    &:hover {
+        background: lighten(#228AE6, 40%);
+    }
+
+    &:active {
+        background: darken(#228AE6, 20%);
+        color: #fff;    
+    }
+
+    &:disabled {
+        background: transparent    
+    }
+
+}
+
+.c-switch__button--selected {
+    background: #228AE6;
+    color: #fff;
+
+    &:disabled {
+        background: #228AE6;
+        color: #fff;
+        opacity: 0.8
+    }
+}
+
+.c-switch--processing {
+    .c-switch__button {
+        pointer-events: none;
+    }
+}
+
+.c-switch--error {
+
+    .c-switch__button--selected {
+        background: #e03131;
+        color: #fff;
+    }
+    
+}
+
+.c-switch--success {
+
+    .c-switch__button--selected {
+        background: #A9E34B;
+        color: @text-color;
+    }
+
 }
 
 .textarea--big {

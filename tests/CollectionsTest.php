@@ -58,7 +58,7 @@ class CollectionsTest extends TestCase {
 
         $url = route( 'documents.groups.show', $collection->id );
         
-        $this->visit( $url )->seePageIs( route('auth.login') );
+        $this->visit( $url )->seePageIs( route('frontpage') );
         
 	}
     

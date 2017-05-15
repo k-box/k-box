@@ -35,6 +35,11 @@ class FakeKlinkAdapter implements AdapterContract
 	 * @var array
 	 */
 	private $calls;
+	
+	/**
+	 * @var array
+	 */
+	private $documents;
 
 	/**
 	 * @var Faker\Generator
@@ -47,6 +52,7 @@ class FakeKlinkAdapter implements AdapterContract
 	function __construct( )
 	{
 		$this->calls = [];
+		$this->documents = [];
 		self::$faker = FakerFactory::create();
 	}
     
@@ -190,6 +196,11 @@ class FakeKlinkAdapter implements AdapterContract
 
 	public function getDocument( $institutionId, $documentId, $visibility = KlinkVisibilityType::KLINK_PRIVATE )
 	{
+
+		if(isset($this->documents[$documentId.'-'.$visibility])){
+			return $this->documents[$documentId.'-'.$visibility];
+		}
+
 		//TODO: return a Document Descriptor
 		return null; // $this->connection->getDocument( $institutionId, $documentId, $visibility );
 	}
@@ -198,11 +209,16 @@ class FakeKlinkAdapter implements AdapterContract
 	{
 		$this->countIndexing($document->getDescriptor()->getLocalDocumentID());
 
+		$this->documents[$document->getDescriptor()->getLocalDocumentID().'-'.$document->getDescriptor()->getVisibility()] = $document->getDescriptor();
+
 		return $document->getDescriptor();
 	}
 
 	public function removeDocumentById( $institution, $document, $visibility = KlinkVisibilityType::KLINK_PRIVATE )
 	{
+		$this->countRemoval($document, $visibility);
+
+		unset($this->documents[$document.'-'.$visibility]);
 		
 		return true;
 	}
@@ -215,6 +231,8 @@ class FakeKlinkAdapter implements AdapterContract
 	public function addDocument( KlinkDocument $document )
 	{
 		$this->countIndexing($document->getDescriptor()->getLocalDocumentID());
+
+		$this->documents[$document->getDescriptor()->getLocalDocumentID().'-'.$document->getDescriptor()->getVisibility()] = $document->getDescriptor();
 
 		return $document->getDescriptor();
 	}
@@ -309,6 +327,19 @@ class FakeKlinkAdapter implements AdapterContract
 
 		$this->calls['indexing'] = $indexing;
 	}
+	
+	/**
+	 * @param string $doc
+	 * @param string $visibility
+	 */
+	private function countRemoval($doc, $visibility)
+	{
+		$removing = isset($this->calls['removal']) ? $this->calls['removal'] : [];
+
+		$removing[] = ['doc' => $doc, 'visibility' => $visibility];
+
+		$this->calls['removal'] = $removing;
+	}
 
 	/**
 	 * Assert that a document identified by a K-Link ID has been added or updated
@@ -330,6 +361,36 @@ class FakeKlinkAdapter implements AdapterContract
             $filtered,
 
             "The expected [{$documentId}] document was not indexed $times times."
+
+        );
+
+	}
+	
+	/**
+	 * Assert that a document identified by a K-Link ID and a visibility has been removed
+	 *
+	 * @param string $documentId the descriptors' Local Document Id
+	 * @param string $visibility the descriptors' visibility
+	 * @param int $times if more than 1 assert that the same document has been subject to add or update $times times
+	 */
+	public function assertDocumentRemoved($documentId, $visibility, $times = 1)
+	{
+		if($times == 0 && !isset($this->calls['removal']))
+		{
+			return;
+		}
+
+		PHPUnit::assertNotEmpty($this->calls['removal'], "KlinkAdapter removeDocumentById or removeDocument not called");
+
+		$filtered = array_filter($this->calls['removal'], function($el) use($documentId, $visibility){
+			return $el['doc'] === $documentId && $el['visibility'] === $visibility;
+		});
+
+		PHPUnit::assertCount($times,
+
+            $filtered,
+
+            "The expected [{$documentId}, {$visibility}] document was not removed $times times."
 
         );
 

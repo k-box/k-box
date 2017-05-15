@@ -385,7 +385,7 @@ class User extends Authenticatable
         if ($this->isDMSManager()) 
         {
             // full manager redirect to the dashboard
-            return route('administration.index'); // '/home';
+            return route('administration.index');
         }
         elseif ($this->isContentManager() ||
                 $this->can_capability(Capability::UPLOAD_DOCUMENTS) ||

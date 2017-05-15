@@ -1,0 +1,78 @@
+mariadb:
+  image: mariadb:10
+  environment:
+    MYSQL_DATABASE: dms
+    MYSQL_USER: dms
+    MYSQL_ROOT_PASSWORD: "2381aa6a99bee6ff61c2209ef4373887"
+    MYSQL_PASSWORD: "b2510859c83414e0cbefd26284b9171d"
+  # volumes:
+  # - "./docker/mariadb:/var/lib/mysql" # this is a fixed volume, to ensure that you can access data after a total reset
+
+dmsphp:
+  image: "dms"
+  environment:
+    KLINK_DMS_DB_NAME: dms # must be the same as MYSQL_DATABASE
+    KLINK_DMS_DB_USERNAME: dms # must be the same as MYSQL_USER
+    KLINK_DMS_DB_HOST: mariadb # Host where the database is listening on
+    KLINK_DMS_DB_TABLE_PREFIX: "dms_"
+    KLINK_DMS_DB_PASSWORD: "b2510859c83414e0cbefd26284b9171d"  # must be the same as MYSQL_PASSWORD
+    KLINK_CORE_ID: "KLINK"
+    KLINK_DMS_CORE_USERNAME: "<K-Search Authentication Username>"
+    KLINK_DMS_CORE_PASSWORD: "<K-Search Authentication Password>"
+    KLINK_DMS_APP_URL: "http://localhost:8080/dms/"
+    KLINK_DMS_CORE_ADDRESS: "https://kcore.local/kcore/"
+    KLINK_DMS_APP_KEY: "2ffa8bc059abc54b9"
+    KLINK_DMS_ADMIN_USERNAME: "admin@klink.local"
+    KLINK_DMS_ADMIN_PASSWORD: "123456789"
+    KLINK_PHP_POST_MAX_SIZE: "120M"
+    KLINK_PHP_UPLOAD_MAX_FILESIZE: "500M"
+    KLINK_DMS_MAX_UPLOAD_SIZE: "1572864"
+    KLINK_PHP_MEMORY_LIMIT: "500M"
+    DMS_USE_HTTPS: "false" # only if the internal DMS will not be available via HTTPS
+  links:
+    - mariadb:mariadb
+  volumes:
+    - "/var/www/dms"
+    - "./storage:/var/www/dms/storage"
+    - "/var/run"
+  hostname: "dmsphp.standard.klink.asia"
+  command: php
+
+dms: # this is the DMS apache container
+  image: "dms"
+  links:
+    - mariadb:mariadb
+  volumes_from:
+    - dmsphp
+  # volumes:
+  #   - "./ssl-cert-klink.crt:/etc/klink/certs/ssl-cert-klink.crt"
+  #   - "./ssl-cert-klink.key:/etc/klink/certs/ssl-cert-klink.key"
+  hostname: "dms.standard.klink.asia"
+  command: apache
+  ports:
+    - "8080:80"
+    - "8081:443"
+
+dmsqueue:
+  image: "dms"
+  links:
+    - mariadb:mariadb
+  volumes_from:
+    - dmsphp
+  hostname: "dmsqueue.standard.klink.asia"
+  working_dir: /var/www/dms
+  command: queue
+
+
+  # http:
+  #   image: nginx
+  #   links:
+  #     - "php:movingbicocca"
+  #   volumes:
+  #     - "./docker/nginx:/etc/nginx/conf.d"
+  #   volumes_from:
+  #     - php
+  #   ports:
+  #     - "80:80"
+  #   depends_on:
+  #     - php

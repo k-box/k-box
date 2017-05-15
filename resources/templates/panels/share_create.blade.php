@@ -1,8 +1,4 @@
 
-
-
-
-
 @if(isset($panel_title))
 <h4 class="title">{{$panel_title}}</h4>
 @else

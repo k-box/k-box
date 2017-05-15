@@ -1,5 +1,4 @@
 
-
 <form method="POST" action="{{route('shares.store')}}" class="share-form">
 
 
@@ -9,19 +8,11 @@
 		
 		<div class="scrollable scrollable-medium">
 
-		@foreach($people as $person)
-			
-			<div class="user-grab">				
-				<input type="checkbox" name="with_people[]" value="{{$person->id}}" id="people-{{$person->id}}"><label for="people-{{$person->id}}"><span class="btn-icon icon-social-black icon-social-black-ic_group_black_24dp"></span>{{$person->name}}</label>
-			</div>
-
-		@endforeach
-		<div></div>
-		@foreach($users as $user)
-			<div class="user-grab">				
-				<input type="checkbox" name="with_users[]" value="{{$user->id}}" id="user-{{$user->id}}"><label for="user-{{$user->id}}"><span class="btn-icon icon-social-black icon-social-black-ic_person_black_24dp"></span>{{$user->name}}</label>
-			</div>
-		@endforeach
+			@foreach($users as $user)
+				<div class="user-grab">				
+					<input type="checkbox" name="with_users[]" value="{{$user->id}}" id="user-{{$user->id}}"><label for="user-{{$user->id}}"><span class="btn-icon icon-social-black icon-social-black-ic_person_black_24dp"></span>{{$user->name}}</label>
+				</div>
+			@endforeach
 
 		</div>
 

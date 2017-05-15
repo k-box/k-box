@@ -22,7 +22,7 @@ class Authenticate {
 				return response('Unauthorized.', 401);
 			}
 
-			return redirect()->guest('auth/login');
+			return redirect()->guest('/');
 		}
 
 		return $next($request);

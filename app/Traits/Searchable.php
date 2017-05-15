@@ -125,10 +125,14 @@ trait Searchable
             return $service->defaultFacets($request->visibility);
         }
         
-        // $request->limit(1); // TODO: if I set this to 1 or 0 the pagination is totally fucked up, therefore a deep clone is needed
-        
         $ft_response = app('Klink\DmsSearch\SearchService')->search($request);
         
+        if(is_null($ft_response))
+        {
+            \Log::error('Unexpected NULL Searchable@facets() response.', ['request' => $request]);
+            return [];
+        }
+
         // dd(compact('request', 'ft_response'));
         
         return $ft_response->facets();

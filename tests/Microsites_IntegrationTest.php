@@ -35,13 +35,13 @@ class Microsites_IntegrationTest extends TestCase {
 		
 		return array( 
 			array( 'visit', 'microsites.slug', ['slug' => 'test'], 200, 'microsites.slug' ),
-			array( 'visit', 'microsites.index', [], 200, 'auth.login' ),
+			array( 'visit', 'microsites.index', [], 200, 'frontpage' ),
 			array( 'visit', 'microsites.show', ['id' => 1], 200, 'microsites.show' ),
-			array( 'visit', 'microsites.create', [], 200, 'auth.login' ),
-			array( 'post', 'microsites.store', [], 302, 'auth.login' ),
-			array( 'visit', 'microsites.edit', ['id' => 1], 200, 'auth.login' ),
-			array( 'put', 'microsites.update', ['id' => 1], 302, 'auth.login' ),
-			array( 'delete', 'microsites.destroy', ['id' => 1], 302, 'auth.login' )
+			array( 'visit', 'microsites.create', [], 200, 'frontpage' ),
+			array( 'post', 'microsites.store', [], 302, 'frontpage' ),
+			array( 'visit', 'microsites.edit', ['id' => 1], 200, 'frontpage' ),
+			array( 'put', 'microsites.update', ['id' => 1], 302, 'frontpage' ),
+			array( 'delete', 'microsites.destroy', ['id' => 1], 302, 'frontpage' )
 		);
 	}
     
@@ -145,7 +145,7 @@ class Microsites_IntegrationTest extends TestCase {
         $this->assertResponseStatus($return_code);
         
         if($return_code === 200){
-            $this->seePageIs( route( $expected_route, $expected_route === 'auth.login' ? [] : $parameters ) );
+            $this->seePageIs( route( $expected_route, $expected_route === 'frontpage' ? [] : $parameters ) );
         }
         
     }

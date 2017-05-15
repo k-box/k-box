@@ -23,6 +23,7 @@ return [
 	'disable' => 'Disable',
 
 	'cancel' => 'Cancel',
+	'done' => 'Done',
 
 	'or_alt' => 'or',
 	'or' => 'or :action',

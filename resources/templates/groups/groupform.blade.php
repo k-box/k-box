@@ -43,7 +43,7 @@
 	
 		@if(isset($show_cancel) && $show_cancel)
 	
-		{!!trans('actions.or', ['action' => '<a href="#"  class="cancel">'.trans('actions.cancel').'</a>'])!!} 
+		{!!trans('actions.or', ['action' => '<a href="#"  class="cancel js-cancel">'.trans('actions.cancel').'</a>'])!!} 
 	
 		@endif
 	</p>

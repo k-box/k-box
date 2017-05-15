@@ -11,15 +11,74 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
+### Fixed
+
+### Removed
+
+## [0.16.0] - 2017-05-15
+
+### Added 
+
+- New sharing dialog with unshare option
+- `/s/{publiclink}` to make a document with a public link previewable
+- Showing document access information on the details panel
+- Docker image building
+ - image build from the content of the repository
+ - configured apache to listen on port 80 instead of 443 with certificates
+ - container exposes port 80
+ - removed connection check to the K-Core. If the K-Core is not started the documents 
+   section of the K-DMS will throw error
+ - removed dependency on [empty-page](https://git.klink.asia/klinkdocumentation/empty-page)
+- K-Box Contact details editing without requiring a connection to the K-Link Network
+
+### Changed
+
+- Preview page header logo now links to user's homeRoute (defined by `User::homeRoute()`)
+- Now all the routes that requires to perform a login redirect to `/` instead of `/auth/login`
+- KlinkApiController to support shared via public link
+- DocumentsController@show redirects to preview (via KlinkApiController)
+- Now dialogs can be opened if a panel is already visible
 - User messages now supports Markdown
+- Changed share token to use a SHA-256 hash instead of SHA-512
 
 ### Fixed
 
+- Admin menu overlapping with page content
+- Showing error on password reset page if email is not valid
+- Redirect back to preview page after login in case login was required to view the preview. On
+  IE or Edge this problem could arise again on development builds. If the problem persists execute 
+  `php artisan config:cache`, this seems related to race conditions in the session handler 
+  and some weird IE/Edge request processing, more info in Laravel issues [2962](https://github.com/laravel/framework/issues/2962),
+  [8172](https://github.com/laravel/framework/issues/8172), [5416](https://github.com/laravel/framework/issues/5416) and [14385](https://github.com/laravel/framework/issues/14385)
+- Added failure prevention in case a collection is a root, but it is not 
+  connected to a project
 - Showing error on password reset page if email is not valid
 - Newlines support in User Messages
 - Sharing list failure in case a shared document is in the trash
+- Empty filter values are not considered while performing a search
+- Fixed error handling when facet response is null
+- Incorrect Email from address when sending messages directly to users using the Send Message feature
 
 ### Removed
+
+- Language section. It was showing the language folders for UI localization. Totally 
+  useless at this time
+- Removed network card information from Network administration section
+- `/home` route definition and deprecated the `HomeController`
+- Removed copy document links from the details panel as now it is in the
+  sharing dialog
+- Map from contact page
+
+## [0.15.4] - 2017-04-10
+
+### Fixed
+
+- (backport) Showing error on password reset page if email is not valid
+- (backport) Newlines support in User Messages
+
+### Changed
+
+- (backport) User messages now supports Markdown
 
 ## [0.15.2] - 2017-03-14
 

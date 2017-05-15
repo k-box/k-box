@@ -9,83 +9,64 @@
 
 @section('content')
 
-	<div class="big-map" id="bigmap">
+	<div class="contact__container">
 
-    
+        @if($is_configured)
+            @if(!empty($contact['image']))
+                <div class="contact__image" style="background-image:url('{{$contact['image']}}')"></div>
+            @endif
 
-      <div class="contact-card" itemscope itemtype="http://schema.org/{{$inst->type}}">
-
-        <div class="institution-image">
-
-            <img src="{{$inst->thumbnail_uri}}">
-
-        </div>
-
-        <h3 itemprop="name">{{$inst->name}}</h3>
+            <div class="contact__card" itemscope itemtype="http://schema.org/Organization">
 
 
-        <div class="address" itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
-          
-            <span itemprop="streetAddress">{{$inst->address_street}}</span>
-            <span itemprop="postalCode">{{$inst->address_zip}}</span>
-            <span itemprop="addressLocality">{{$inst->address_locality}}</span>
-            <span itemprop="addressCountry">{{$inst->address_country}}</span>
-          
-        </div>
+            <h3 itemprop="name">{{$contact['name']}}</h3>
 
-        <div class="phone">
-          <span class="icon-action-black icon-action-black-ic_settings_phone_black_24dp"></span> <span itemprop="telephone">{{$inst->phone}}</span>
-        </div>
-        <div class="mail">
-          <span class="icon-content-black icon-content-black-ic_mail_black_24dp"></span> <span itemprop="email">{{$inst->email}}</span>
-        </div>
+            <div class="address" itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
+                
+                <span itemprop="streetAddress">{{$contact['address_street']}}</span>
+                <span itemprop="postalCode">{{$contact['address_zip']}}</span>
+                <span itemprop="addressLocality">{{$contact['address_locality']}}</span>
+                <span itemprop="addressCountry">{{$contact['address_country']}}</span>
+                
+            </div>
 
-        <div class="website">
-          <span class="icon-action-black icon-action-black-ic_language_black_24dp"></span> <a href="{{$inst->url}}">{{$inst->url}}</a>
-        </div>
+            @if(!empty($contact['phone']))
+            <div class="phone">
+                <span class="icon-action-black icon-action-black-ic_settings_phone_black_24dp"></span> <span itemprop="telephone">{{$contact['phone']}}</span>
+            </div>
+            @endif
 
-        
+            @if(!empty($contact['email']))
+            <div class="mail">
+                <span class="icon-content-black icon-content-black-ic_mail_black_24dp"></span> <span itemprop="email">{{$contact['email']}}</span>
+            </div>
+            @endif
 
+            @if(!empty($contact['website']))
+            <div class="website">
+                <span class="icon-action-black icon-action-black-ic_language_black_24dp"></span> <a href="{{$contact['website']}}">{{$contact['website']}}</a>
+            </div>
+            @endif
 
-        <p>{{trans('units.klink_since', ['date' => $since])}}</p>
+            </div>
 
-      </div>
+        @else 
+            <div class="contact__image" style="background-image:url('https://build.klink.asia/klink_logo_slide_alternate.png')"></div>
 
-      
+            <div class="contact__card">
+                <h3>K-Link</h3>
 
-    
+                <div class="mail">
+                    <span class="icon-content-black icon-content-black-ic_mail_black_24dp"></span> <span itemprop="email">info@klink.asia</span>
+                </div>
+
+                <div class="website">
+                    <span class="icon-action-black icon-action-black-ic_language_black_24dp"></span> <a href="https://klink.asia">https://klink.asia</a>
+                </div>
+            </div>
+
+        @endif
 
   </div>
-
-
-@stop
-
-@section('scripts')
-
-    @if(isset($geocode) && !empty($geocode))
-
-        <script>
-                    
-        require(['leaflet'], function(Leaflet){
-
-            var map = Leaflet.noConflict().map('bigmap', {
-                center: [{{$geocode['lat']}},{{$geocode['lon']}}],
-                zoom: 10,
-                touchZoom:false,
-                scrollWheelZoom:false,
-                doubleClickZoom:false,
-                boxZoom:false,
-                zoomControl:false
-            });
-
-            Leaflet.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-                attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-            }).addTo(map);
-
-        });
-        
-        </script>
-    
-    @endif
 
 @stop

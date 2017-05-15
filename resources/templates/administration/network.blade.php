@@ -40,52 +40,6 @@
                 {{$klink_network_connection_error->getMessage()}}
             @endif
         </div>
-        
-        <p></p>
-
-        <div class="network">
-
-            <h5>{{trans('administration.network.net_cards_title')}}</h5>
-
-            @forelse($network_cards as $card)
-
-                @if(isset($card['interface']))
-
-                    <div class="card">
-
-                        <strong><span class="network-icon {{strtolower($card['type'])}}"></span> {{$card['interface']}}</strong>
-
-                        <span class="type">{{$card['type']}}</span>
-
-                        @if(isset($card['ip_address']) && !empty($card['ip_address']))
-
-                            <span class="address">{{trans('administration.network.current_ip', ['ip' => $card['ip_address']])}}</span>
-
-                        @endif
-
-                    </div>
-
-                @endif
-
-            @empty
-
-                @if(isset($network_config) && !is_null($network_config))
-
-                    <p>{{trans('administration.network.cards_problem')}}</p>
-
-                    <pre>{{$network_config}}</pre>
-
-                @else
-
-                    <p>{{trans('administration.network.no_cards')}}</p>
-
-                @endif
-
-            @endforelse
-
-        </div>
-
-        
 
     </div>
 
