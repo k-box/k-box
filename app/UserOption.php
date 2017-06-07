@@ -4,12 +4,24 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * The User attached preferences
- *
+ * 
  * Fields:
  * - id: bigIncrements
  * - user_id: User,
  * - key
  * - value
+ *
+ * @property int $id
+ * @property string $key
+ * @property string $value
+ * @property int $user_id
+ * @property-read \KlinkDMS\User $user
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\UserOption option($key)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\UserOption whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\UserOption whereKey($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\UserOption whereUserId($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\UserOption whereValue($value)
+ * @mixin \Eloquent
  */
 class UserOption extends Model {
 
@@ -35,7 +47,7 @@ class UserOption extends Model {
      */
     public function user()
     {    
-        return $this->hasOne('User');
+        return $this->hasOne('KlinkDMS\User');
     }
 
     /**

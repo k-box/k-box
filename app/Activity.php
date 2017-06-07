@@ -3,7 +3,23 @@
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * @deprecated
+ * KlinkDMS\Activity
+ *
+ * @deprecated 
+ * @property int $id
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ * @property int $instance_id
+ * @property string $instance_type
+ * @property int $user_id
+ * @property-read \KlinkDMS\User $user
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Activity whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Activity whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Activity whereInstanceId($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Activity whereInstanceType($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Activity whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Activity whereUserId($value)
+ * @mixin \Eloquent
  */
 class Activity extends Model {
     /*
@@ -24,16 +40,7 @@ class Activity extends Model {
 
     public function user(){
         
-        // One to One
-        return $this->hasOne('User');
-
-        // One to Many
-        // return $this->hasMany('User');
-        // return $this->hasMany('User', 'user_id', 'id');
-	    
-        // Many to Many
-        // return $this->belongsToMany('User');
-        // return $this->belongsToMany('User', 'PIVOT_TABLE'); //last is pivot table name
+        return $this->hasOne('KlinkDMS\User');
 
     }
 

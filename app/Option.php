@@ -4,11 +4,21 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * The dynamic configuration options
- *
+ * 
  * fields:
  * - id: bigIncrements
  * - key:
  * - value:
+ *
+ * @property int $id
+ * @property string $key
+ * @property string $value
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Option fromKey($key)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Option section($section_name)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Option whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Option whereKey($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Option whereValue($value)
+ * @mixin \Eloquent
  */
 class Option extends Model {
     

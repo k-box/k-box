@@ -9,12 +9,16 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 
 use KlinkDMS\File;
 
-use Klink\DmsPreviews\Thumbnails\ThumbnailsService;
+use Content\Services\ThumbnailsService;
 
 use Exception;
 
 /**
- * Job to generate a thumbnail for a File.
+ * Job for generating the thumbnail of a {@see KlinkDMS\File}.
+ *
+ * It runs on the queue.
+ *
+ * @uses \Content\Services\ThumbnailsService
  */
 class ThumbnailGenerationJob extends Job implements ShouldQueue
 {

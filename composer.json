@@ -19,12 +19,13 @@
 		"barryvdh/laravel-async-queue": "0.4.*",
 		"franzose/closure-table": "~4.1.0",
 		"graham-campbell/markdown": "~6.0",
-		"phpoffice/phpword": "~0.12.0",
         "klink/adapterboilerplate" : "3.0.2",
 		"guzzlehttp/guzzle": "~6.2.0",
 		"doctrine/dbal": "^2.5",
         "league/csv": "^8.0",
-		"phpoffice/phppresentation": "^0.6.0",
+		"phpoffice/phpword": "~0.13.0",
+		"phpoffice/phppresentation": "^0.8.0",
+        "phpoffice/phpspreadsheet": "dev-master",
 		"jenssegers/date": "^3.2"
 	},
 	"require-dev": {
@@ -34,7 +35,8 @@
         "phpspec/phpspec": "~2.1",
 		"jakub-onderka/php-parallel-lint": "^0.9.2",
 		"symfony/dom-crawler": "~3.0",
-		"symfony/css-selector": "~3.0"
+		"symfony/css-selector": "~3.0",
+		"barryvdh/laravel-ide-helper": "^2.3"
 	},
 	"autoload": {
 		"classmap": [
@@ -42,13 +44,13 @@
 		],
 		"psr-4": {
 			"KlinkDMS\\": "app/",
-            "Klink\\DmsMicrosites\\": "workbench/klink/dms-project-microsites/src/"
+            "Klink\\DmsMicrosites\\": "workbench/klink/dms-project-microsites/src/",
+			"Content\\": "packages/contentprocessing/src/"
 		},
 		"psr-0": {
             "Klink\\DmsAdapter\\": "workbench/klink/dms-adapter/src/",
             "Klink\\DmsSearch\\": "workbench/klink/dms-search/src/",
-            "Klink\\DmsDocuments\\": "workbench/klink/dms-documents/src/",
-			"Klink\\DmsPreviews\\": "workbench/klink/dms-previews/src/"
+            "Klink\\DmsDocuments\\": "workbench/klink/dms-documents/src/"
         },
         "files" : [ "app/helpers.php" ]
 	},

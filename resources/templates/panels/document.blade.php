@@ -164,7 +164,7 @@
 				
 			</p>
 
-			<a href="#" class="button js-open-share-dialog" data-id="{{$item->id}}" data-action="openShareDialog"><span class="btn-icon icon-social-black icon-social-black-ic_people_black_24dp"></span>Sharing settings</a>
+			<a href="#" class="button js-open-share-dialog" data-id="{{$item->id}}" data-action="openShareDialog"><span class="btn-icon icon-social-black icon-social-black-ic_people_black_24dp"></span>{{ trans('panels.sharing_settings_btn') }}</a>
             
 
             @if( false )

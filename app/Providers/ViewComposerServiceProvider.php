@@ -106,7 +106,7 @@ class ViewComposerServiceProvider extends ServiceProvider {
 
 		view()->composer('documents.partials.versioninfo', 'KlinkDMS\Http\Composers\DocumentsComposer@versionInfo');
 		
-		view()->composer('documents.preview', 'KlinkDMS\Http\Composers\DocumentsComposer@preview');
+		view()->composer('documents.preview', 'KlinkDMS\Http\Composers\DocumentsComposer@descriptorPanel');
 		
 		view()->composer('documents.facets', 'KlinkDMS\Http\Composers\DocumentsComposer@facets');
 		view()->composer('documents.group-facets', 'KlinkDMS\Http\Composers\DocumentsComposer@groupFacets');

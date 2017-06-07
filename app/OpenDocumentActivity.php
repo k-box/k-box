@@ -3,7 +3,17 @@
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * @deprecated
+ * KlinkDMS\OpenDocumentActivity
+ *
+ * @deprecated 
+ * @property int $id
+ * @property int $document_id
+ * @property int $originating_activity
+ * @property-read \KlinkDMS\DocumentDescriptor $documentDescriptor
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\OpenDocumentActivity whereDocumentId($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\OpenDocumentActivity whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\OpenDocumentActivity whereOriginatingActivity($value)
+ * @mixin \Eloquent
  */
 class OpenDocumentActivity extends Model {
     /*
@@ -26,7 +36,7 @@ class OpenDocumentActivity extends Model {
     public function documentDescriptor(){
         
         // One to One
-        return $this->hasOne('DocumentDescriptor');
+        return $this->hasOne('KlinkDMS\DocumentDescriptor');
 
         // One to Many
         // return $this->hasMany('DocumentDescriptor');

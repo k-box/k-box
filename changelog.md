@@ -15,6 +15,34 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Removed
 
+## [0.17.0] - 2017-06-07
+
+### Added 
+
+- New extensible `PreviewService` under `packages/contentprocessing`
+- Experimental support for Spreadsheet preview
+- Added PHPSpreadsheet dependency to version `dev-develop`
+
+### Changed
+
+- Moved `ThumbnailsService` from `workbench/dms-preview` to `packages/contentprocessing`
+- Upgraded PHPWord dependency to version 0.13.0
+- Upgraded PHPPresentation dependency to version 0.8.0
+- Docker image now set the full `KLINK_DMS_APP_KEY` value instead the characters from 1 to 32.
+  This is likely to break your builds as deployments usually have an application key that is 
+  one character longer than needed. To fix this please upgrade your configured application 
+  key to a 32 character string.
+
+### Fixed
+
+- Improved PowerPoint Presentation conversion to html
+- "Publish" action from context menu do not appear if the user doesn't have the 
+  capability for publishing documents
+
+### Removed
+
+- `workbench/dms-preview` package
+
 ## [0.16.0] - 2017-05-15
 
 ### Added 

@@ -4,12 +4,29 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Represent a recent search of a user
- *
+ * 
  * Fields:
  * - id: bigIncrements
  * - terms: string
  * - times: bigInteger
  * - user_id: User
+ *
+ * @property int $id
+ * @property string $terms
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ * @property int $times
+ * @property int $user_id
+ * @property-read \KlinkDMS\User $user
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\RecentSearch ofUser($user_id)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\RecentSearch thatContains($term)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\RecentSearch whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\RecentSearch whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\RecentSearch whereTerms($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\RecentSearch whereTimes($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\RecentSearch whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\RecentSearch whereUserId($value)
+ * @mixin \Eloquent
  */
 class RecentSearch extends Model {
 
@@ -34,7 +51,7 @@ class RecentSearch extends Model {
      */
     public function user()
     {
-        return $this->belongsTo('User');
+        return $this->belongsTo('KlinkDMS\User');
     }
 
     /**

@@ -6,7 +6,11 @@ use KlinkDMS\DocumentDescriptor;
 use KlinkDMS\Institution;
 use KlinkDMS\File;
 use Illuminate\Http\Request;
-use Klink\DmsPreviews\Thumbnails\ThumbnailsService;
+use Content\Services\ThumbnailsService;
+use Content\Services\PreviewService;
+use Klink\DmsDocuments\DocumentsService;
+use Content\Preview\Exception\UnsupportedFileException;
+use Content\Preview\Exception\PreviewGenerationException;
 
 /**
  * Controller for Klink API (/klink/{ID}/{Action}) pages
@@ -30,8 +34,8 @@ class KlinkApiController extends Controller {
 	 */
 	function __construct(
 			ThumbnailsService $thumbService, 
-			\Klink\DmsPreviews\PreviewsService $preview,
-			\Klink\DmsDocuments\DocumentsService $documentsService) {
+			PreviewService $preview,
+			DocumentsService $documentsService) {
 		$this->thumbnails = $thumbService;
 		$this->previewService = $preview;
 		$this->documentsService = $documentsService;
@@ -63,7 +67,7 @@ class KlinkApiController extends Controller {
 			\Log::warning('KlinkApiController, requested a document that is not public and user is not authenticated', ['url' => $request->url()]);
 
 			session()->put('url.dms.intended', $request->url());
-\Log::warning('KlinkApiController - session', ['all' => session()->all()]);
+
 			return redirect()->to(route('frontpage'));
 		}
 		else if( $doc->trashed() ){
@@ -233,7 +237,30 @@ class KlinkApiController extends Controller {
 			
 		$extension = \KlinkDocumentUtils::getExtensionFromMimeType($file->mime_type);
 
-		$render = $this->previewService->render($file);
+		// $render = $this->previewService->render($file);
+
+		$render = null;
+		$preview = null;
+
+		try
+		{
+			$preview = $this->previewService->load( $file->path, $extension );
+
+			$properties = $preview->properties();
+
+			$render = $preview->html();
+		}
+		catch(UnsupportedFileException $pex)
+		{
+			
+		}
+		catch(PreviewGenerationException $pex)
+		{
+			\Log::error('KlinkApiController - Preview Generation, using PreviewService, failure', ['error' => $pex, 'file' => $file]);
+		}
+
+
+        // return view('preview::preview-full', compact('properties', 'render', 'documentTitle'));
 		
 		return view('documents.preview', [
 			'document' => $doc, 

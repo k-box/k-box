@@ -1,0 +1,18 @@
+﻿Event,Date-Time,Reason,Duration,"Duration (in mins.)"
+Up,"2016-08-31 01:46:10",OK,"175 hrs, 37 mins",10537
+Down,"2016-08-31 01:45:10","Service Unavailable","0 hrs, 1 mins",1
+Up,"2016-08-24 01:44:57",OK,"168 hrs, 0 mins",10080
+Down,"2016-08-24 01:39:35","Service Unavailable","0 hrs, 5 mins",5
+Up,"2016-08-22 05:27:34",OK,"44 hrs, 12 mins",2652
+Down,"2016-08-22 05:26:32","Connection Timeout","0 hrs, 1 mins",1
+Up,"2016-08-18 01:44:46",OK,"99 hrs, 41 mins",5982
+Down,"2016-08-18 01:43:24","Service Unavailable","0 hrs, 1 mins",1
+Up,"2016-08-16 01:46:09",OK,"47 hrs, 57 mins",2877
+Down,"2016-08-16 01:40:48","Service Unavailable","0 hrs, 5 mins",5
+Up,"2016-07-26 01:44:44",OK,"503 hrs, 56 mins",30236
+Down,"2016-07-26 01:37:22","Service Unavailable","0 hrs, 7 mins",7
+Up,"2016-07-19 01:44:24",OK,"167 hrs, 52 mins",10073
+Down,"2016-07-19 01:38:02","Service Unavailable","0 hrs, 6 mins",6
+Up,"2016-07-10 01:43:41",OK,"215 hrs, 54 mins",12954
+Down,"2016-07-10 01:39:21","Service Unavailable","0 hrs, 4 mins",4
+Up,"2016-07-09 07:45:26",OK,"17 hrs, 53 mins",1074

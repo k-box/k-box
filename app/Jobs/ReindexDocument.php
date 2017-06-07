@@ -1,7 +1,5 @@
 <?php namespace KlinkDMS\Jobs;
 
-use KlinkDMS\Commands\Job;
-
 use KlinkDMS\User;
 use KlinkDMS\Option;
 use KlinkDMS\DocumentDescriptor;
@@ -12,7 +10,11 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
 /**
- * Command for executing a Document Reindexing
+ * Reindex a single document
+ *
+ * It runs on the queue.
+ *
+ * @uses \Klink\DmsDocuments\DocumentsService
  */
 class ReindexDocument extends Job implements ShouldQueue {
 
@@ -25,11 +27,11 @@ class ReindexDocument extends Job implements ShouldQueue {
 	private $visibility = null;
 
 	/**
-	 * Create a new command instance.
+	 * Create a new reindex document job.
 	 * 
 	 * @param User               $user       The user that have perfomed the action
 	 * @param DocumentDescriptor $document   The document
-	 * @param string             $visibility The visibility of the documented that needs to be updated
+	 * @param string             $visibility The visibility of the document that needs to be updated. Can be "public" or "private"
 	 */
 	public function __construct(User $user, DocumentDescriptor $document, $visibility)
 	{

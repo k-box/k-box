@@ -65,9 +65,11 @@ class AppServiceProvider extends ServiceProvider {
 
 		// Loading workbench service provider only if running in console (aka Artisan) and the environment is set to 'development'
 
-		if ($this->app->runningInConsole() && $this->app->environment('development')) {
+		if ($this->app->runningInConsole() && $this->app->environment('development')) 
+        {
 
             $this->app->register('Illuminate\Workbench\WorkbenchServiceProvider');
+            $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
 
         }
 	}

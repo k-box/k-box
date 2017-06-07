@@ -12,6 +12,29 @@ use KlinkDMS\Traits\LocalizableDateFields;
 
 /**
  * The project concept.
+ *
+ * @property int $id
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ * @property string $name
+ * @property string $description
+ * @property string $avatar
+ * @property int $user_id
+ * @property int $collection_id
+ * @property-read \KlinkDMS\Group $collection
+ * @property-read \KlinkDMS\User $manager
+ * @property-read \Klink\DmsMicrosites\Microsite $microsite
+ * @property-read \Illuminate\Database\Eloquent\Collection|\KlinkDMS\User[] $users
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Project managedBy($user)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Project whereAvatar($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Project whereCollectionId($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Project whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Project whereDescription($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Project whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Project whereName($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Project whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Project whereUserId($value)
+ * @mixin \Eloquent
  */
 class Project extends Model {
 

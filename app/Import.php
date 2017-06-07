@@ -4,6 +4,53 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 
+/**
+ * KlinkDMS\Import
+ *
+ * @property int $id
+ * @property int $bytes_expected
+ * @property int $bytes_received
+ * @property int $user_id
+ * @property int $file_id
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ * @property int $status
+ * @property string $status_message
+ * @property int $parent_id
+ * @property bool $is_remote
+ * @property string $message
+ * @property array $payload
+ * @property string $job_payload
+ * @property-read \KlinkDMS\Import $father
+ * @property-read \KlinkDMS\File $file
+ * @property-read mixed $is_completed
+ * @property-read mixed $is_error
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Import allCompleted()
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Import allRoots()
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Import allZombies()
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Import completed($user_id)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Import fromFile($file_id)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Import fromUser($user_id)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Import myChildren($parent_id)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Import myDownloads($user_id)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Import notCompleted($user_id)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Import whereBytesExpected($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Import whereBytesReceived($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Import whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Import whereFileId($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Import whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Import whereIsRemote($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Import whereJobPayload($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Import whereMessage($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Import whereParentId($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Import wherePayload($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Import whereStatus($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Import whereStatusMessage($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Import whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Import whereUserId($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Import withError($user_id)
+ * @mixin \Eloquent
+ */
 class Import extends Model {
 
     /**

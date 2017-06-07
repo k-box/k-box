@@ -1,0 +1,294 @@
+
+.preview-page {
+    margin: 0;
+    padding: 0;
+
+    height: 100%;
+}
+
+.preview {
+
+    width: 100%;
+    height: 100vh;
+
+    background-color: #1e1e1e;
+    color: #fff;
+
+    box-sizing: border-box;
+
+    overflow: hidden;
+
+}
+
+
+.preview__header {
+
+    height: 48px;
+
+    background-color: rgba(0,0,0,0.4);
+
+    font-size: 16px;
+
+    padding: 0 8px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.preview__actions {
+
+}
+
+.preview__body {
+    display: flex;
+    width: 100%;
+    height: calc(100vh -  48px);
+    align-items: stretch;
+}
+
+.preview__navigation {
+    width:280px;
+}
+
+.preview__sidebar {
+    height: calc(100vh -  48px);
+    width: 344px;
+    padding: 8px;
+    background: #323232;
+
+    box-sizing: border-box;
+
+    position: fixed;
+    right: -100px;
+    z-index: 2;
+
+    opacity: 0;
+    pointer-events: none;
+
+    transition: opacity 0.2s ease-in-out;
+
+    overflow-y: auto;
+
+    transition: opacity 0.2s ease-in-out, right 0.3s ease-in-out;
+}
+
+.preview__sidebar--visible {
+    opacity: 1;
+    pointer-events: initial;
+    right: 0;
+}
+
+.preview__area {
+
+    height: 100%;
+    width: 100%;
+    overflow: auto;
+
+    padding: 8px;
+
+    box-sizing: border-box;
+
+    transition: width 0.2s ease-in-out;
+
+}
+
+.preview__content {
+
+    display: flex;
+    align-items: center;
+}
+
+/** buttons **/
+
+.preview__button {
+    border: 0;
+    background: transparent;
+    color: #fff;
+    font-size: inherit;
+    font-family: inherit;
+    line-height: inherit;
+    letter-spacing: inherit;
+    text-transform: none;
+    font-weight: normal;
+
+    padding: 8px;
+    display: inline-block;
+
+    box-sizing: border-box;
+
+    margin: 0 0 0 8px;
+
+    transition: all 0.2s ease-in-out;
+
+    cursor: pointer;
+}
+
+.preview__button:first-of-type {
+    margin-left: 0
+}
+
+.preview__button:hover {
+    color: #fff;
+    background: rgba(255,255,255, 0.25);
+}
+
+.preview__button:focus {
+    color: #fff;
+    background: rgba(255,255,255, 0.25);
+    outline: none;
+}
+
+.preview__header .preview__button {
+    
+}
+
+.preview__button--selected {
+    background: rgba(255,255,255,0.7);
+}
+
+.preview__button--expandable {
+
+
+}
+
+.preview__button--expandable .preview__button-close {
+    display: none;
+    float: right
+}
+
+.preview__button--expanded {
+    width: 344px;
+    text-align: left;
+    padding-left: 8px;
+    background: #323232;
+    margin-right: -8px;
+    height: 48px;
+    font-size: 18px;
+}
+
+.preview__button--expanded .preview__button-close {
+    display: inline-block;
+}
+
+
+
+/* title */
+
+.preview__title {
+    margin-left: 8px;
+}
+
+
+/* file properties */
+
+.file-properties{
+
+}
+
+.file-properties__section {
+    
+    margin: 24px 0 8px;
+}
+
+.file-properties__section:first-of-type {
+    margin-top: 0;
+}
+
+.file-properties__section-label{
+    font-weight: 700;
+    display: block;
+}
+
+.file-properties__section-hint{
+    display: block;
+    opacity: 0.57
+}
+
+.file-properties__property {
+    margin: 8px 0;
+}
+
+.file-properties__label{
+    display: block;
+    opacity: 0.57;
+}
+
+.file-properties__value{
+    display: block;
+}
+
+
+
+/* Presentation Slide styles */
+
+.presentation {
+    margin: 0 auto;
+}
+
+.navigation {
+
+}
+
+.navigation__slide {
+
+}
+
+.navigation__slide-hidden {
+    opacity:0.5;
+}
+
+.slide {
+    border: 1px solid #000;
+    color: #000;
+    background:#fff;
+    margin-bottom:16px;
+    min-height:400px;
+    position:relative;
+    overflow:hidden;
+    max-width:100%;
+    min-width: 940px;
+}
+
+.slide__info {
+    background:rgba(0,0,0,0.2);
+}
+
+.slide__infoitem {
+    display:inline-block;
+    margin-right:8px;
+}
+
+.shape {
+    border: 0;
+    max-width:100%;
+}
+
+.shape-title, .shape-ctrTitle {
+    font-size: 48px;
+    font-weight:bold;
+}
+
+.shape-subtitle {
+    font-size: 24px;
+}
+
+.slide-title {
+    border-color: green;
+}
+
+.slide-title .shape-title {
+    text-align:center;
+}
+
+.slide__number {
+    position:absolute;
+    bottom:16px;
+    right:16px;
+    z-index:10;
+}
+
+.slide__paragraph {
+    margin:0;
+}
+

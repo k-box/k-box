@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * The User model
- *
+ * 
  * fields:
  * - $table->bigIncrements('id');
  * - $table->string('name');
@@ -17,6 +17,42 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * - $table->string('avatar')->nullable();
  * - $table->rememberToken();
  * - $table->timestamps();
+ *
+ * @property int $id
+ * @property string $name
+ * @property string $email
+ * @property string $password
+ * @property string $avatar
+ * @property string $remember_token
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ * @property string $deleted_at
+ * @property int $institution_id
+ * @property-read \Illuminate\Database\Eloquent\Collection|\KlinkDMS\Capability[] $capabilities
+ * @property-read \Illuminate\Database\Eloquent\Collection|\KlinkDMS\DocumentDescriptor[] $documents
+ * @property-read \Franzose\ClosureTable\Extensions\Collection|\KlinkDMS\Group[] $groups
+ * @property-read \KlinkDMS\Institution $institution
+ * @property-read \Illuminate\Database\Eloquent\Collection|\KlinkDMS\PeopleGroup[] $involvedingroups
+ * @property-read \Illuminate\Database\Eloquent\Collection|\KlinkDMS\Project[] $managedProjects
+ * @property-read \Illuminate\Database\Eloquent\Collection|\KlinkDMS\UserOption[] $options
+ * @property-read \Illuminate\Database\Eloquent\Collection|\KlinkDMS\PeopleGroup[] $peoplegroups
+ * @property-read \Illuminate\Database\Eloquent\Collection|\KlinkDMS\Project[] $projects
+ * @property-read \Illuminate\Database\Eloquent\Collection|\KlinkDMS\RecentSearch[] $searches
+ * @property-read \Illuminate\Database\Eloquent\Collection|\KlinkDMS\Shared[] $shares
+ * @property-read \Illuminate\Database\Eloquent\Collection|\KlinkDMS\Starred[] $starred
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\User fromEmail($mail)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\User fromName($name)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\User whereAvatar($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\User whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\User whereDeletedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\User whereEmail($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\User whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\User whereInstitutionId($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\User whereName($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\User wherePassword($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\User whereRememberToken($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\User whereUpdatedAt($value)
+ * @mixin \Eloquent
  */
 class User extends Authenticatable
 {

@@ -5,6 +5,47 @@ use Franzose\ClosureTable\Models\Entity;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use KlinkDMS\Traits\LocalizableDateFields;
 
+/**
+ * A collection of document descriptors
+ *
+ * @property int $id
+ * @property int $user_id
+ * @property string $name
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ * @property string $deleted_at
+ * @property string $color
+ * @property string $is_private
+ * @property int $group_type_id
+ * @property int $parent_id
+ * @property int $position
+ * @property int $real_depth
+ * @property-read \Illuminate\Database\Eloquent\Collection|\KlinkDMS\DocumentDescriptor[] $documents
+ * @property-read \KlinkDMS\Project $project
+ * @property-read \Illuminate\Database\Eloquent\Collection|\KlinkDMS\Shared[] $shares
+ * @property-read \KlinkDMS\User $user
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Group byName($name)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Group ofType($type)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Group orPrivate($user_id)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Group orPublic()
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Group private($user_id)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Group public()
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Group roots()
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Group whereColor($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Group whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Group whereDeletedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Group whereGroupTypeId($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Group whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Group whereIsPrivate($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Group whereName($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Group whereParentId($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Group wherePosition($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Group whereRealDepth($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Group whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Group whereUserId($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Group withAllDescendants()
+ * @mixin \Eloquent
+ */
 class Group extends Entity implements GroupInterface
 {
 

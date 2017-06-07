@@ -682,6 +682,7 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
 			group: undefined,
             search: undefined,
             isSearchRequest: false,
+            canPublish: false,
             filters: [],
             facets: [],
             maxUploadSize: 202800,
@@ -1718,17 +1719,20 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
                     module.menu.share(e, this);
                 },
                 icon: 'icon-action-black icon-action-black-ic_exit_to_app_black_24dp'
-            },
-            {
-                text: Lang.trans('networks.publish_to_short'),
-                action: function(e){ 
-                    if(!_Selection.isSelect(this, true)){
-                        _Selection.select(this, true);
-                    }
-                    module.menu.makePublic(e, this);
-                },
-                icon: 'icon-social-black icon-social-black-ic_public_black_24dp'
             });
+            if(module.context.canPublish){
+
+                _menu_items.push({
+                    text: Lang.trans('networks.publish_to_short'),
+                    action: function(e){ 
+                        if(!_Selection.isSelect(this, true)){
+                            _Selection.select(this, true);
+                        }
+                        module.menu.makePublic(e, this);
+                    },
+                    icon: 'icon-social-black icon-social-black-ic_public_black_24dp'
+                });
+            }
         }
 
         if(module.context.filter !=='projectspage' || 
@@ -1787,9 +1791,8 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
 
         _context.attach(_documentArea, '.item', _menu_items);
     
-    
-    
-        _context.attach(_treeView, '.groups-menu', [
+
+        var _groupsMenuItems = [
             {
                 text: Lang.trans('actions.edit'),
                 action: module.groups.showEdit,
@@ -1826,8 +1829,11 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
                     module.menu.shareGroup(e, id);
                 },
                 icon: 'icon-action-black icon-action-black-ic_exit_to_app_black_24dp'
-            },
-            {
+            }
+        ];
+
+        if(module.context.canPublish){
+            _groupsMenuItems.push({
                 text: Lang.trans('actions.publish_documents'),
                 action: function(e){ 
                     var id = this.data('groupId'),
@@ -1836,8 +1842,10 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
                     module.menu.makePublic(e, {group: id, name: name});
                 },
                 icon: 'icon-social-black icon-social-black-ic_public_black_24dp'
-            }
-        ]);
+            });
+        }
+    
+        _context.attach(_treeView, '.groups-menu', _groupsMenuItems);
 
     }
     

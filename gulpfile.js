@@ -15,6 +15,17 @@ elixir.extend('copyJsModules', function() {
 
 });
 
+elixir.extend('previewJsModules', function() {
+
+    var that = this;
+    
+    new Task('copyPreviewModule', function() {
+            return gulp.src("packages/contentprocessing/assets/js/**/*").pipe(gulp.dest( that.config.jsOutput + "/modules/" ));
+        })
+        .watch('packages/contentprocessing/assets/js/modules/*.*');
+
+});
+
 elixir.config.bowerDir = elixir.config.assetsPath + "/vendor/";
 elixir.config.npmDir = "./node_modules/";
 elixir.config.cssOutput = "public/css/";
@@ -93,7 +104,8 @@ elixir(function(mix) {
         )
         .copy(elixir.config.bowerDir + 'd3/d3.min.js', elixir.config.jsOutput +'/modules/d3.js')
     	// Copy pure JS modules to public folder
-    	.copyJsModules(); //'resources/assets/js/modules/', 'public/js/modules/')
+    	.copyJsModules() //'resources/assets/js/modules/', 'public/js/modules/')
+    	.previewJsModules();
 	    
 	    // make versionable to resolve caching problems
         if (elixir.config.production) {

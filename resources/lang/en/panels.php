@@ -10,6 +10,7 @@ return [
 
 	'close_btn' => 'Close',
 
+	'sharing_settings_btn' => 'Sharing settings',
 
 	'meta' => array(
 

@@ -5,6 +5,43 @@ use KlinkDMS\Traits\LocalizableDateFields;
 
 use Carbon\Carbon;
 
+/**
+ * KlinkDMS\Shared
+ *
+ * @property int $id
+ * @property int $user_id
+ * @property string $token
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ * @property int $shareable_id
+ * @property string $shareable_type
+ * @property \Carbon\Carbon $expiration
+ * @property int $sharedwith_id
+ * @property string $sharedwith_type
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $shareable
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $sharedwith
+ * @property-read \KlinkDMS\User $user
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Shared by($user)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Shared byWithWhat($user, $with, $what)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Shared expired()
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Shared notExpired()
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Shared sharedByMe($user)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Shared sharedWithGroup($user)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Shared sharedWithGroups($group_ids)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Shared sharedWithMe($user)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Shared token($token)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Shared whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Shared whereExpiration($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Shared whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Shared whereShareableId($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Shared whereShareableType($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Shared whereSharedwithId($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Shared whereSharedwithType($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Shared whereToken($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Shared whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Shared whereUserId($value)
+ * @mixin \Eloquent
+ */
 class Shared extends Model {
 
     use LocalizableDateFields;

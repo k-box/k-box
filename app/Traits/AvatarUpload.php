@@ -5,14 +5,16 @@ use Carbon\Carbon;
 
 /**
  * Add utility methods to handle avatars in a consistent 
- * way accross all the DMS
+ * way accross all the K-Box
  */
 trait AvatarUpload
 {
     /**
-     * Store the avatar contained in the request avatar field and 
+     * Store the avatar contained in the avatar field of the request and 
      * returns the storage path
      *
+     * @param \KlinkDMS\Http\Requests\Request $request The request to extract the file from
+     * @param string $prefix (optional). The prefix used for generating the stored file name
      * @return string|null the absolute path to the stored avatar file. Null if no avatar field is available
      */
     protected function avatarStore(Request $request, $prefix = '')

@@ -103,6 +103,6 @@ return [
 		'public_link' => 'Public Link',
 		'already_exist' => 'A public link for :name already exists.',
 		'delete_forbidden_not_your' => 'You cannot delete a link you didn\'t create.',
-		'edit_forbidden_not_your' => 'You modify a link you didn\'t create.',
+		'edit_forbidden_not_your' => 'You cannot modify a link you didn\'t create.',
 	],
 ];

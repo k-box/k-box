@@ -18,7 +18,7 @@ return [
 	'page_title' => 'Отмеченные',
 
 	'starred_count' => ':number отмеченный документ|:number отмеченного документа|:number отмеченных документов',
-	'starred_count_alt' => ':number отмеченный|:number отмеченные|:number отмечанных',
+	'starred_count_alt' => ':number отмеченный|:number отмеченных|:number отмеченных',
 
 	'already_exists' => 'Этот документ уже добавлен в Отмеченные',
 

@@ -4,12 +4,28 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Represents a starred {@see DocumentDescriptor}
- *
+ * 
  * Fields:
  * - id: bigIncrements
  * - user_id: User
  * - document_id: DocumentDescriptor
  * - created_at: date
+ *
+ * @property int $id
+ * @property int $user_id
+ * @property int $document_id
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ * @property-read \KlinkDMS\DocumentDescriptor $document
+ * @property-read \KlinkDMS\User $user
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Starred byDocumentId($document_id)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Starred ofUser($user_id)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Starred whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Starred whereDocumentId($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Starred whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Starred whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Starred whereUserId($value)
+ * @mixin \Eloquent
  */
 class Starred extends Model
 {
@@ -35,7 +51,7 @@ class Starred extends Model
      */
     public function user(){
         
-        return $this->hasOne('User');
+        return $this->hasOne('KlinkDMS\User');
 
     }
 

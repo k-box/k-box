@@ -10,18 +10,26 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Klink\DmsDocuments\DocumentsService;
 
 /**
- * Command that perform the global reindex of all the documents saved in the DMS
+ * Perform the global reindex of all the documents saved in the K-Box.
+ *
+ * It runs on the queue.
  */
 class ReindexAll extends Job implements ShouldQueue {
 
 	use InteractsWithQueue, SerializesModels;
 
+	/**
+	 * The IDs of the document descriptors to be reindexed
+	 * @var array the array of document descriptor ID to be reindexed
+	 */
 	private $ids = null;
 
 	/**
-	 * Create a new command instance.
+	 * Create a new ReindexAll job instance.
 	 *
-	 * @return void
+	 * @param \KlinkDMS\User $user the User that is triggering the reindex
+	 * @param array|string[] $docIds the array of document descriptor ID to be reindexed
+	 * @return ReindexAll
 	 */
 	public function __construct(User $user, array $docIds)
 	{
@@ -45,8 +53,6 @@ class ReindexAll extends Job implements ShouldQueue {
 
 		try{
 
-			// $service->reindexAll($docs, true);
-
 			$pending = $total;
 			$completed = 0;
 
@@ -54,8 +60,6 @@ class ReindexAll extends Job implements ShouldQueue {
 				try{
 					//if is both private and public reindex on every visibility
 					$service->reindexDocument($doc, 'private', true);
-
-					
 
 				}catch(\KlinkException $kex){
 					$errors[$doc->id] = $kex;
@@ -65,16 +69,14 @@ class ReindexAll extends Job implements ShouldQueue {
 				$completed = $completed +1;
 
 				\DB::transaction(function() use($pending, $completed){
-
+					// update the status of the reindexing
 					Option::put('dms.reindex.pending', $pending);
 	    			Option::put('dms.reindex.completed', $completed);
 
 				});
 			}
 
-			//reindexDocument(DocumentDescriptor $descriptor, $visibility = null, $force = false)
-
-			Option::put('dms.reindex.executing', false);
+			Option::put('dms.reindex.executing', false); // save the execution status
 
 			if(empty($errors)){
 				\Log::info('Reindex All procedure completed.');

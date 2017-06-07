@@ -1,0 +1,2 @@
+TXT file
+with a new line

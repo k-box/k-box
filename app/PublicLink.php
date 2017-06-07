@@ -7,16 +7,27 @@ use KlinkDMS\Traits\LocalizableDateFields;
 
 /**
  * PublicLink. A type target of a share.
- *
+ * 
  * This represents a share with a public URL that do not
  * require to be an authenticated user to see.
- * 
+ *
  * @property integer $id The unique identifier of this link
  * @property string $slug The human friendly identifier. Default null.
- * @property string $url The computed URL to be used by users to open the 
+ * @property string $url The computed URL to be used by users to open the
  *                       resource pointed by the PublicLink
  * @property Carbon\Carbon created_at when the link was created
  * @property Carbon\Carbon updated_at when the link was lastly updated
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ * @property int $user_id
+ * @property-read \KlinkDMS\Shared $share
+ * @property-read \KlinkDMS\User $user
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\PublicLink whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\PublicLink whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\PublicLink whereSlug($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\PublicLink whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\PublicLink whereUserId($value)
+ * @mixin \Eloquent
  */
 class PublicLink extends Model
 {

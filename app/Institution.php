@@ -2,6 +2,40 @@
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * KlinkDMS\Institution
+ *
+ * @property int $id
+ * @property string $klink_id
+ * @property string $name
+ * @property string $email
+ * @property string $phone
+ * @property string $type
+ * @property string $address_street
+ * @property string $address_country
+ * @property string $address_locality
+ * @property string $address_zip
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ * @property string $thumbnail_uri
+ * @property string $url
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Institution fromKlinkID($klink_id)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Institution whereAddressCountry($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Institution whereAddressLocality($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Institution whereAddressStreet($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Institution whereAddressZip($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Institution whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Institution whereEmail($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Institution whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Institution whereKlinkId($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Institution whereName($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Institution wherePhone($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Institution whereThumbnailUri($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Institution whereType($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Institution whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Institution whereUrl($value)
+ * @mixin \Eloquent
+ */
 class Institution extends Model {
     /*
     id: bigIncrements

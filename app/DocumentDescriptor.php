@@ -7,7 +7,78 @@ use Carbon\Carbon;
 use LocalizedDate;
 use KlinkDMS\Traits\LocalizableDateFields;
 
+/**
+ * A Document Descriptor
+ *
+ * @property int $id the autoincrement identifier of the descriptor
+ * @property int $institution_id the institution reference identifier of the User at the time of the descriptor creation
+ * @property string $local_document_id the K-Link Local Document Identifier
+ * @property string $hash the SHA-512 hash of the last version of the underlying File
+ * @property string $title the title
+ * @property string $document_uri the URL at which this descriptor can be reached
+ * @property string $thumbnail_uri the URL at which the thumbnail of the File's latest version can be reached
+ * @property string $mime_type the mime type of the underlying File
+ * @property string $visibility the visibility
+ * @property string $document_type the document type according to the K-Link conversion table
+ * @property string $user_owner The user that created the descriptor, in the format `User <email>`
+ * @property string $user_uploader The user that uploaded the file attached to this descriptor, in the format `User <email>`
+ * @property string $abstract the abstract of the document
+ * @property string $language the language of the document
+ * @property string $authors the authors of the document
+ * @property \Carbon\Carbon $deleted_at when the document was trashed
+ * @property \Carbon\Carbon $created_at when the document was created
+ * @property \Carbon\Carbon $updated_at when the document was last updated
+ * @property int $file_id the reference to the File
+ * @property int $owner_id the reference to the User that created the descriptor
+ * @property int $status the status of the descriptor in the K-Box
+ * @property bool $is_public 
+ * @property string $last_error
+ * @property-read \KlinkDMS\File $file The last version of the document, described by this document descriptor
+ * @property-read \Franzose\ClosureTable\Extensions\Collection|\KlinkDMS\Group[] $groups the collections in which this document is categorized
+ * @property-read \KlinkDMS\Institution $institution the institution to which this document pertain
+ * @property-read \KlinkDMS\User $owner the user that is owning the document in the K-Box
+ * @property-read \Illuminate\Database\Eloquent\Collection|\KlinkDMS\Shared[] $shares the shares of the document
+ * @property-read \Illuminate\Database\Eloquent\Collection|\KlinkDMS\Starred[] $stars the star applied to this document by the users
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\DocumentDescriptor fromKlinkID($institution_id, $document_id) {@see KlinkDMS\DocumentDescriptor::scopeFromKlinkID()}
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\DocumentDescriptor fromOwnerId($owner_id) {@see \KlinkDMS\DocumentDescriptor::scopeFromOwnerId()}
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\DocumentDescriptor fromUser($user_id) {@see \KlinkDMS\DocumentDescriptor::scopeFromUser()}
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\DocumentDescriptor indexed() {@see \KlinkDMS\DocumentDescriptor::scopeIndexed()}
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\DocumentDescriptor local() {@see \KlinkDMS\DocumentDescriptor::scopeLocal()}
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\DocumentDescriptor notIndexed() {@see \KlinkDMS\DocumentDescriptor::scopeNotIndexed()}
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\DocumentDescriptor ofUser($user_id) {@see \KlinkDMS\DocumentDescriptor::scopeOfUser()}
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\DocumentDescriptor pending() {@see \KlinkDMS\DocumentDescriptor::scopePending()}
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\DocumentDescriptor private() {@see \KlinkDMS\DocumentDescriptor::scopePrivate()}
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\DocumentDescriptor public() {@see \KlinkDMS\DocumentDescriptor::scopePublic()}
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\DocumentDescriptor whereAbstract($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\DocumentDescriptor whereAuthors($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\DocumentDescriptor whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\DocumentDescriptor whereDeletedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\DocumentDescriptor whereDocumentType($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\DocumentDescriptor whereDocumentUri($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\DocumentDescriptor whereFileId($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\DocumentDescriptor whereHash($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\DocumentDescriptor whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\DocumentDescriptor whereInstitutionId($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\DocumentDescriptor whereIsPublic($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\DocumentDescriptor whereLanguage($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\DocumentDescriptor whereLastError($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\DocumentDescriptor whereLocalDocumentId($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\DocumentDescriptor whereMimeType($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\DocumentDescriptor whereOwnerId($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\DocumentDescriptor whereStatus($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\DocumentDescriptor whereThumbnailUri($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\DocumentDescriptor whereTitle($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\DocumentDescriptor whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\DocumentDescriptor whereUserOwner($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\DocumentDescriptor whereUserUploader($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\DocumentDescriptor whereVisibility($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\DocumentDescriptor withIndexingError() {@see \KlinkDMS\DocumentDescriptor::withIndexingError()}
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\DocumentDescriptor withVisibility($visibility) {@see \KlinkDMS\DocumentDescriptor::withVisibility()}
+ * @mixin \Eloquent
+ */
 class DocumentDescriptor extends Model {
+
+    use SoftDeletes, LocalizableDateFields;
 
     /**
      * Indicate that the document, reference by a DocumentDescriptor, has not yet been indexed
@@ -36,46 +107,10 @@ class DocumentDescriptor extends Model {
      */
     const STATUS_REMOVING = 4;
 
-
     /**
      * Define the content of the visibiliy attribute if the document is visible in both public and private searches
      */
     const VISIBILITY_ALL = 'all';
-
-
-    // const VISIBILITY_PUBLIC = 'public';
-
-    // const VISIBILITY_PRIVATE = 'private';
-
-    // const VISIBILITY_ALL = 'all';
-
-    /*
-    id: bigIncrements
-    institution_id: Institution
-    local_document_id: string
-    title: string
-    hash: string
-    document_uri: string
-    thumbnail_uri: string
-    mime_type: string
-    visibility: string
-    document_type: string
-    user_owner: string
-    user_uploader: string
-    abstract: string
-    language: string
-    authors: string (serialized)
-    file_id: File
-    owner_id: User
-    created_at
-    updated_at
-    status
-    is_public: boolean
-    last_error: json 
-    
-    */
-
-    use SoftDeletes, LocalizableDateFields;
 
 
     /**
@@ -370,29 +405,6 @@ class DocumentDescriptor extends Model {
     // --- setten and getter for Visibility
 
 
-    // public function setVisibilityAttribute($value)
-    // {
-
-    //     // se non avevo visibility, la setto
-    //     // se era public e chiedo public no problem (idem per private)
-    //     // 
-    //     // se era private e chiedo public => both
-    //     if(empty($this->attributes['visibility'])){
-    //         //TODO: check if the $value is valid
-    //         $this->attributes['visibility'] = $value;
-    //     }
-    //     else if(($this->attributes['visibility'] === \KlinkVisibilityType::KLINK_PUBLIC && $value === \KlinkVisibilityType::KLINK_PRIVATE) ||
-    //             ($this->attributes['visibility'] === \KlinkVisibilityType::KLINK_PRIVATE && $value === \KlinkVisibilityType::KLINK_PUBLIC)){
-    //         $this->attributes['visibility'] = self::VISIBILITY_ALL;
-    //     }
-
-        
-        
-
-         
-    // }
-
-
     public function isPublic()
     {
         return $this->visibility === \KlinkVisibilityType::KLINK_PUBLIC || $this->is_public;
@@ -409,7 +421,7 @@ class DocumentDescriptor extends Model {
     }
 
 
-    // --- convertion to/from KlinkDocumentDescriptor
+    // --- convert to/from KlinkDocumentDescriptor
 
     /**
      * Convert the current instance to a valid KlinkDocumentDescriptor
@@ -565,26 +577,10 @@ class DocumentDescriptor extends Model {
     }
     
     
-    // public function ago(){
-    //     $diff = $this->updated_at->diffInDays();
-        
-    //     if($diff < 7){
-    //         return $this->updated_at->diffForHumans();
-    //     }
-        
-    //     return utf8_encode($this->updated_at->formatLocalized(trans('units.date_format')));
-    // }
-    
     public function isIndexed(){
         return $this->status !== self::STATUS_NOT_INDEXED && $this->status !== self::STATUS_ERROR;
     }
     
-    // public function getCreatedAt(){
-
-    //     dd(LocalizedDate::now()->format('l j F Y H:i:s'));
-
-    //     return $this->created_at->formatLocalized(trans('units.date_format'));
-    // }
     
     public function setLastErrorAttribute($value){
         

@@ -169,8 +169,12 @@ return [
 		Klink\DmsAdapter\DmsAdapterServiceProvider::class,
 		Klink\DmsSearch\DmsSearchServiceProvider::class,
 		Klink\DmsDocuments\DmsDocumentsServiceProvider::class,
-		Klink\DmsPreviews\DmsPreviewsServiceProvider::class,
-		Klink\DmsPreviews\Thumbnails\ThumbnailsServiceProvider::class,
+
+		/**
+		 * Content previewing, reading and thumbnail related
+		 */
+		Content\Providers\ThumbnailsServiceProvider::class,
+		Content\Providers\PreviewServiceProvider::class,
             
         /**
          * Async Queue

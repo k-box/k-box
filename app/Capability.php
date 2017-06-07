@@ -2,18 +2,22 @@
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Define a capability/permission that can be added to a User
+ *
+ * @property int $id the autoincrement id of the capability
+ * @property string $key the capability name
+ * @property string $description the capability description (in English)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Capability fromKey($key) retrieve a capability by a given name
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Capability fromKeys($keys) retrieve the capabilities from the given names
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Capability whereDescription($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Capability whereId($value) add a where clause for the capability $id
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Capability whereKey($value) add a where clause for the capability $key
+ * @mixin \Eloquent
+ */
 class Capability extends Model {
-    /*
-    id: increments
-    key: string
-    description: string
-    */
 
-
-
-    ////////////////////////////////////////////////////////////////////////
-    // The magic collection of contants for the names of the capabilities //
-    ////////////////////////////////////////////////////////////////////////
+    // Collection of contants for the names of the capabilities
 
     /**
      * Enable the access to the administration dashboard
@@ -31,7 +35,7 @@ class Capability extends Model {
     const MANAGE_LOG = 'manage_dms_log';
 
     /**
-     * Access and Manage DMS backups
+     * Access and Manage DMS backups (reserved for future use)
      */
     const MANAGE_BACKUP = 'manage_dms_backup';
 
@@ -42,7 +46,7 @@ class Capability extends Model {
     const EDIT_DOCUMENT = 'edit_document';
     
     /**
-     * The user can delete a document (put in trash)
+     * The user can trash a document
      */
     const DELETE_DOCUMENT = 'delete_document';
     
@@ -114,10 +118,12 @@ class Capability extends Model {
     const MANAGE_PERSONAL_PEOPLE_GROUPS = 'manage_personal_people';
 
 
-    ////////////////////////////////////
-    // Predefined set of capabilities //
-    ////////////////////////////////////
+    // Default roles based on Capability aggregation
     
+    /**
+     *
+     * @var array
+     */
     static $ADMIN = array( 
         self::MAKE_SEARCH, 
         self::UPLOAD_DOCUMENTS, 
@@ -138,12 +144,20 @@ class Capability extends Model {
         self::SHARE_WITH_PERSONAL,
         self::SHARE_WITH_PRIVATE );
 
+    /**
+     *
+     * @var array
+     */
     static $DMS_MASTER = array( 
         self::MANAGE_DMS,
         self::MANAGE_USERS,
         self::MANAGE_LOG,
         self::MANAGE_BACKUP );
 
+    /**
+     *
+     * @var array
+     */
     static $CONTENT_MANAGER = array( 
         self::MAKE_SEARCH,
         self::RECEIVE_AND_SEE_SHARE,
@@ -155,7 +169,11 @@ class Capability extends Model {
         self::CHANGE_DOCUMENT_VISIBILITY,
         self::EDIT_DOCUMENT, );
         
-    // is the project manager for the Project edition
+    /**
+     * 
+     * @deprecated Corresponds to the Project Manager in the Project Edition
+     * @var array
+     */
     static $QUALITY_CONTENT_MANAGER = array( 
         self::MAKE_SEARCH, 
         self::UPLOAD_DOCUMENTS, 
@@ -172,6 +190,10 @@ class Capability extends Model {
         self::SHARE_WITH_PERSONAL,
         self::SHARE_WITH_PRIVATE );
         
+    /**
+     *
+     * @var array
+     */
     static $PROJECT_MANAGER = array( 
         self::MAKE_SEARCH, 
         self::UPLOAD_DOCUMENTS, 
@@ -188,6 +210,10 @@ class Capability extends Model {
         self::SHARE_WITH_PERSONAL,
         self::SHARE_WITH_PRIVATE );
         
+    /**
+     *
+     * @var array
+     */
     static $PROJECT_MANAGER_NO_CLEAN_TRASH = array( 
         self::MAKE_SEARCH, 
         self::UPLOAD_DOCUMENTS, 
@@ -203,6 +229,10 @@ class Capability extends Model {
         self::SHARE_WITH_PERSONAL,
         self::SHARE_WITH_PRIVATE );
 
+    /**
+     *
+     * @var array
+     */
     static $UPLOADER = array( 
         self::UPLOAD_DOCUMENTS,
         self::MANAGE_OWN_GROUPS,
@@ -211,6 +241,10 @@ class Capability extends Model {
         self::RECEIVE_AND_SEE_SHARE,
         self::SHARE_WITH_PERSONAL );
 
+    /**
+     *
+     * @var array
+     */
     static $PARTNER = array( 
         self::MAKE_SEARCH,
         self::RECEIVE_AND_SEE_SHARE,
@@ -221,10 +255,19 @@ class Capability extends Model {
         self::MANAGE_PROJECT_COLLECTIONS,
         self::EDIT_DOCUMENT, );
 
+    /**
+     *
+     * @var array
+     */
     static $GUEST = array( 
         self::RECEIVE_AND_SEE_SHARE );
         
-        
+    /**
+     * Mappings from Standard Edition to Project edition
+     *
+     * @deprecated
+     * @var array
+     */
     static $OLD_NEW_MAPPING = array(
           'manage_institution_documents' => array(
               self::CHANGE_DOCUMENT_VISIBILITY, 
@@ -241,11 +284,6 @@ class Capability extends Model {
               self::MANAGE_PROJECT_COLLECTIONS),
     );
 
-
-    ////////////////////////////////////
-    // The rest of the Eloquent Model //
-    ////////////////////////////////////
-
     /**
      * The database table used by the model.
      *
@@ -253,6 +291,9 @@ class Capability extends Model {
      */
     protected $table = 'capabilities';
 
+    /**
+     * Do not handle updated_at and created_at timestamps
+     */
     public $timestamps = false;
 
 
@@ -278,20 +319,21 @@ class Capability extends Model {
     public function scopeFromKeys($query, array $keys)
     {
         return $query->whereIn('key', $keys);
-        // Product::whereIn('parent_id', $array)->get();
     }
 
     private static function getConstants(){
         $oClass = new \ReflectionClass('KlinkDMS\Capability');
 
-        return array_filter($oClass->getConstants(), function($el){
-            
+        return array_filter($oClass->getConstants(), function($el)
+        {
             return $el !== self::CREATED_AT && $el !== self::UPDATED_AT; 
         });
     }
 
     /**
      * Get all known capabilities
+     *
+     * @return \Illuminate\Database\Eloquent\Collection|\KlinkDMS\Capability[]
      */
     public static function known(){
         
@@ -305,6 +347,8 @@ class Capability extends Model {
     /**
      * check if the Capabilities table is in sync with new 
      * capabilities and, if not, add them to the database (old unused capabilities are not removed)
+     *
+     * @return void
      */
     public static function syncCapabilities(){
         

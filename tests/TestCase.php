@@ -7,7 +7,6 @@ use KlinkDMS\Project;
 use KlinkDMS\Group;
 use Illuminate\Support\Facades\Artisan;
 use Klink\DmsAdapter\Traits\MockKlinkAdapter;
-use Log;
 
 abstract class TestCase extends Illuminate\Foundation\Testing\TestCase {
 

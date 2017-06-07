@@ -3,7 +3,23 @@
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * @deprecated
+ * KlinkDMS\NavigationMemory
+ *
+ * @deprecated 
+ * @property int $id
+ * @property string $name
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ * @property int $parent
+ * @property int $user_id
+ * @property-read \KlinkDMS\NavigationMemory $navigationMemory
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\NavigationMemory whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\NavigationMemory whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\NavigationMemory whereName($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\NavigationMemory whereParent($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\NavigationMemory whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\NavigationMemory whereUserId($value)
+ * @mixin \Eloquent
  */
 class NavigationMemory extends Model {
     /*
@@ -26,7 +42,7 @@ class NavigationMemory extends Model {
     public function navigationMemory(){
         
         // One to One
-        return $this->hasOne('NavigationMemory');
+        return $this->hasOne('KlinkDMS\NavigationMemory');
 
         // One to Many
         // return $this->hasMany('NavigationMemory');

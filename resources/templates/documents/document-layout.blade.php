@@ -281,7 +281,8 @@
 				search: @if(isset($search_terms)) '{{$search_terms}}' @else '' @endif,
 				@if(isset($facets)) facets: {!!json_encode($facets)!!}, @endif
 				@if(isset($filters)) filters: {!!json_encode($filters)!!}, @endif
-				isSearchRequest: {{ isset($is_search_requested) && $is_search_requested ? 'true' : 'false' }}
+				isSearchRequest: {{ isset($is_search_requested) && $is_search_requested ? 'true' : 'false' }},
+				canPublish: {{ isset($can_make_public) && isset($is_klink_public_enabled) && $is_klink_public_enabled && $can_make_public ? 'true' : 'false' }}
 			});
 			Documents.groups.ensureCurrentVisibility();
 		@endif

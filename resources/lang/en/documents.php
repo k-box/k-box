@@ -224,6 +224,7 @@ return [
 		'error' => 'Sorry, but we were unable to load the preview of ":document".',
 		'not_available' => 'The Document preview cannot be showed for this document.',
 		'google_file_disclaimer' => ':document is a Google Drive file, we cannot show the preview here so you have to open it in Google Drive.',
+		'google_file_disclaimer_alt' => 'This is a Google Drive file, we cannot show the preview here.',
 		'open_in_google_drive_btn' => 'Open in Google Drive',
 	),
 

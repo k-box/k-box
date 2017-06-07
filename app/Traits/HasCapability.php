@@ -109,6 +109,13 @@ trait HasCapability
         return $this->can_all_capabilities(Capability::$CONTENT_MANAGER);
     }
 
+    /**
+     * Check if the user has the partner role.
+     * 
+     * Test if the user has all the @see \KlinkDMS\Capability::$PARTNER capabilities
+     * 
+     * @return boolean true if is a partner, false otherwise
+     */
     public function isPartner()
     {
         return $this->can_all_capabilities(Capability::$PARTNER) && !$this->can_capability(Capability::MANAGE_PEOPLE_GROUPS);
@@ -154,14 +161,17 @@ trait HasCapability
 
     // Adding and removing capabilities ---------------------------------------
 
-
+    /**
+     * Add a capability to the model
+     *
+     * @param string|\KlinkDMS\Capability $cap the capability to add. It can be a string (corresponding to the Capability key) or the Capability instance
+     * @return void
+     */
     public function addCapability( $cap )
     {
-
         if( is_string($cap) ){
             $cap = Capability::fromKey($cap)->first();
         }
-
 
         if( is_object($cap)){
             $cap = $cap->getKey();
@@ -176,8 +186,10 @@ trait HasCapability
     }
 
     /**
-     * Adds multiple capabilities to the user
-     * @param array $caps array of capability names or capability ids
+     * Add multiple capabilities to the user
+     *
+     * @param array $caps array of capability names, ids or Capability instances
+     * @return int the number of capabilities succesfully added
      */
     public function addCapabilities(array $capabilities )
     {
@@ -217,7 +229,12 @@ trait HasCapability
 
     }
 
-
+    /**
+     * Remove a capability from the model
+     *
+     * @param string|\KlinkDMS\Capability $cap the capability to remove. It can be a string (corresponding to the Capability key) or the Capability instance
+     * @return void
+     */
     public function removeCapability( $cap )
     {
         if (is_object($cap)) {

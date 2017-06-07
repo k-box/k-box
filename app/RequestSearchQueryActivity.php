@@ -3,7 +3,16 @@
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * @deprecated
+ * KlinkDMS\RequestSearchQueryActivity
+ *
+ * @deprecated 
+ * @property int $id
+ * @property string $terms
+ * @property string $visibility
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\RequestSearchQueryActivity whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\RequestSearchQueryActivity whereTerms($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\RequestSearchQueryActivity whereVisibility($value)
+ * @mixin \Eloquent
  */
 class RequestSearchQueryActivity extends Model {
     /*

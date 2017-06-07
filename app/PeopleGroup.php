@@ -2,6 +2,27 @@
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * KlinkDMS\PeopleGroup
+ *
+ * @property int $id
+ * @property int $user_id
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ * @property string $name
+ * @property bool $is_institution_group
+ * @property-read \Illuminate\Database\Eloquent\Collection|\KlinkDMS\User[] $people
+ * @property-read \KlinkDMS\User $user
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\PeopleGroup institutional()
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\PeopleGroup personal($user_id)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\PeopleGroup whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\PeopleGroup whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\PeopleGroup whereIsInstitutionGroup($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\PeopleGroup whereName($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\PeopleGroup whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\PeopleGroup whereUserId($value)
+ * @mixin \Eloquent
+ */
 class PeopleGroup extends Model {
     /*
     id: bigIncrements

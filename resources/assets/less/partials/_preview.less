@@ -1,6 +1,9 @@
+
+@import (less) "../../../../packages/contentprocessing/assets/css/preview.css";
+
+
+
 .preview {
-	
-	background-color: darken(@background-color, 8%);
 	
 	padding-top:0;
 	
@@ -16,8 +19,9 @@
 	}
 	
 	iframe {
-		width: 100%;
-		height: 100%;
+		width: calc(~"100% + 16px");
+		height: calc(~"100vh -  48px");
+		margin: -8px;
 	}
 	
 	.container {
@@ -27,7 +31,6 @@
 	.page-content {
 		height: 100%;
 		.box-sizing(border-box);
-		padding-top: 52px;
 	}
 	
 	
@@ -70,112 +73,53 @@
 }
 
 
-// Presentation preview styles
-
-@slide-max-width: 960px;
-
-.slide {
-	border: 1px solid black;
-	background-color: #fff;
-
-	display: block;
-	
-	position: relative;
-
-	margin: 0 auto 24px;
-
-	width: @slide-max-width;
-	
+.preview__body {
+	// Just a fix for LESS doing math, that we want the browser to do
+    height: calc(~"100vh -  48px");
 }
 
-.slide__meta {
-	position: absolute;
-	top: 0;
-	right: 0;
+.preview__sidebar {
+	// Just a fix for LESS doing math, that we want the browser to do
+    height: calc(~"100vh -  48px");
 }
 
-.slide__content {
-	width:100%;
-	height:100%;
-	position:relative;
-	font-size: 18px;
-	// padding: 10px;
+.preview__error {
+	width: 60%;
+	min-height: 400px;
+	background: @background-color;
+	color: #000;
 }
 
-.slide__layout-screen4x3 {
-	height: @slide-max-width / (4/3);
+.preview__render {
+	margin: 0 auto;
+	width: 960px;
+	padding: 8px;
+	background: @background-color;
+	color: #000;
 }
 
-.slide__layout-screen16x10 {
-	height: @slide-max-width / (16/10);
+.preview__render--text, .preview__render--document {
+	min-height: calc(~"100vh - 88px");
 }
 
-.slide__layout-screen16x9 {
-	height: @slide-max-width / (16/9);
+.preview__render--googledrive {
+	text-align: center
 }
 
-.slide__layout-35mm {
-	height: @slide-max-width / (10287000/6858000);
-}
-.slide__layout-A3 {
-	height: @slide-max-width / (15120000/10692000);
-}
-.slide__layout-A4 {
-	height: @slide-max-width / (10692000/7560000);
-}
-.slide__layout-B4ISO {
-	height: @slide-max-width / (10826750/8120063);
-}
-.slide__layout-B5ISO {
-	height: @slide-max-width / (7169150/5376863);
-}
-.slide__layout-banner {
-	height: @slide-max-width / (7315200/914400);
-}
-.slide__layout-letter {
-	height: @slide-max-width / (9144000/6858000);
-}
-.slide__layout-overhead {
-	height: @slide-max-width / (9144000/6858000);
+.preview__render--spreadsheet {
+	width: 100%;
 }
 
-.slide__master-title-slide {
+.preview__navigation {}
 
-	height: 100%;
-
-	font-size: 24px;
-
-	text-align: center;
-
-	position: relative;
-
-	p:first-child {
-		font-size: 32px;
-		font-weight: bold;
-
-position: relative;
-		
-		height: 50%;
-		
-
-		span {
-			display: block;
-			position: absolute;
-			bottom: 0;
-			text-align: center;
-			width: 100%;
-		}
-	}
-
+.preview__navigation--spreadsheet {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 42px;
+    background: #000;
 }
 
-.slide__master-title-and-content {
 
-	padding: 10px;
 
-	p:first-child {
-		font-size: 24px;
-		font-weight: bold;
-	}
 
-}
