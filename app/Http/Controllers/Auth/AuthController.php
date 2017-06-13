@@ -92,7 +92,7 @@ class AuthController extends Controller
     public function authenticated($request, $user)
     {
         $intended = session()->get('url.intended', null);
-        $dms_intended = session()->get('url.dms.intended', null);
+        $dms_intended = session()->pull('url.dms.intended', null);
 
         if(is_null($intended) && !is_null($dms_intended)){
             session()->put('url.intended', $dms_intended);

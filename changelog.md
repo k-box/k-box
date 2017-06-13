@@ -15,6 +15,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Removed
 
+## [0.17.1] - 2017-06-13
+
+### Fixed
+
+- A case that make the user continuously redirecting to the page that was asked before login
+- Title and footer might overlap in Power Point presentation preview
+- Error during Power Point preview generation when elements uses a placeholder that is not absolutely positioned
+
 ## [0.17.0] - 2017-06-07
 
 ### Added 

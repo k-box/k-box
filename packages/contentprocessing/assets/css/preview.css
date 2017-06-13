@@ -267,6 +267,8 @@
 .shape-title, .shape-ctrTitle {
     font-size: 48px;
     font-weight:bold;
+    position: relative;
+    z-index: 1;
 }
 
 .shape-subtitle {
@@ -292,3 +294,8 @@
     margin:0;
 }
 
+
+.shape-ftr, .shape-dt {
+    position: absolute;
+    bottom: 0;
+}

@@ -3,6 +3,7 @@
 
 use SplFileInfo;
 use Exception;
+use Symfony\Component\Debug\Exception\FatalErrorException;
 use Content\Preview\Exception\UnsupportedFileException;
 use Content\Preview\Exception\PreviewGenerationException;
 
@@ -62,6 +63,11 @@ class PreviewFactory
             catch (Exception $ex)
             {
                 throw new PreviewGenerationException(trans('preview::errors.unsupported_file'));
+            }
+            catch (FatalErrorException $ex)
+            {
+                \Log::error('Fatal error while generating the preview of ' . $path, ['ex' => $ex]);
+                throw new PreviewGenerationException(trans('preview::errors.preview_generation'));
             }
         }
 

@@ -93,17 +93,6 @@ class SlideRenderer
         }
 
         $html = '<div class="slide '.$slide_layout_class.'" id="slide'. $this->slideIndex .'" style="'.$style.'">' . PHP_EOL;
-            // $html .= '<div class="slide__info">';
-            // $html .= '<span class="slide__infoitem">Slide '.$this->slideIndex.'</span>';
-            // // il layout nei file creati con Power point in Italiano è scritto in italiano
-            // // quindi va normalizzato alla versione inglese per avere una corretta rappresentazione
-            // $html .= '<span class="slide__infoitem">Layout '.$slide->getSlideLayout()->getLayoutName().' <code>'. $slide_layout_class.'</code></span>';
-            // $html .= '<span class="slide__infoitem">Offset X '.$slide->getOffsetX().'</span>';
-            // $html .= '<span class="slide__infoitem">Offset Y '.$slide->getOffsetY().'</span>';
-            // $html .= '<span class="slide__infoitem">Extent X '.$slide->getExtentX().'</span>';
-            // $html .= '<span class="slide__infoitem">Extent Y '.$slide->getExtentY().'</span>';
-            // $html .= '<span class="slide__infoitem">Background '.$backgroundDetail.'</span>';
-            // $html .= '</div>';
 
         $layoutShapeCollection = $this->slide->getSlideLayout()->getShapeCollection();
 
@@ -140,38 +129,16 @@ class SlideRenderer
 
     // ------------
 
-    private function getMasterLayout()
-    {
-        // $slideMasterId = $this->slide->getSlideMasterId();
-
-        $master = $this->slide->getParent()->getAllMasterSlides()[0];
-
-        // $textStyles = $master->getTextStyles();
-        // $colorScheme = $master->getAllSchemeColors();
-
-        // $layouts =  $master->getAllSlideLayouts();
-
-        // TODO: find the same layout of the current slide
-
-
-
-        // var_dump($master->getBackground());
-        // var_dump($this->slide->getSlideLayout()->getShapeCollection());
-
-    }
-
     private function getPlaceholder($type)
     {
         $layoutShapeCollection = $this->slide->getSlideLayout()->getShapeCollection();
-
-
 
         $filtered = array_values(array_filter((array) $layoutShapeCollection, function($shp) use ($type)
         {
             return $shp->isPlaceholder() && $shp->getPlaceholder()->getType() == $type;
         }));
 
-        if(count($filtered) >= 1)
+        if(count($filtered) > 0)
         {
             return $filtered[0];
         }
@@ -181,8 +148,6 @@ class SlideRenderer
 
     private function getBackground()
     {
-        // TODO: check the master slide of the layout for additional background info
-
         $oBkg = $this->slide->getBackground();
         $backgroundDetail = '';
         if ($oBkg instanceof Slide\AbstractBackground) {
@@ -229,7 +194,7 @@ class SlideRenderer
             $return .= $this->renderTable($oShape);
         } else {
             // Add another shape
-            $return .= '<span>Unknown shape '. get_class($oShape) .'</span>';
+            // $return .= '<span>Unknown shape '. get_class($oShape) .'</span>';
         }
 
         return $return;
@@ -299,6 +264,7 @@ class SlideRenderer
         $class = 'shape';
         $placeholder_info='';
         $placeholder = null;
+        
         if($shape->isPlaceholder())
         {
             $class .= ' shape-'.$this->toClassName($shape->getPlaceholder()->getType());
@@ -307,12 +273,12 @@ class SlideRenderer
 
             $style = '';
 
-            if($placeholder->getOffsetX() > 0 || $placeholder->getOffsetY() > 0)
+            if(!is_null($placeholder) && ($placeholder->getOffsetX() > 0 || $placeholder->getOffsetY() > 0))
             {
                 $style .= 'position:absolute;z-index:1;left:' . $placeholder->getOffsetX() .'px;top:'.$placeholder->getOffsetY().'px;';
             }
 
-            if($placeholder->getWidth() > 0 && $placeholder->getHeight() > 0)
+            if(!is_null($placeholder) && $placeholder->getWidth() > 0 && $placeholder->getHeight() > 0)
             {
                 $style .= 'width:' . $placeholder->getWidth().'px;height:'.$placeholder->getHeight().'px';
             }
@@ -326,11 +292,10 @@ class SlideRenderer
             }
 
             // the rich text element has paragraphs and so they need to be explored
+            
             // $placeholder_info = '<span>Alignment Horizontal  Alignment::'.$this->getConstantName('\PhpOffice\PhpPresentation\Style\Alignment', $placeholder->getAlignment()->getHorizontal()).'</span>';
             // $placeholder_info .= '<span>Alignment Vertical  Alignment::'.$this->getConstantName('\PhpOffice\PhpPresentation\Style\Alignment', $placeholder->getAlignment()->getVertical()).'</span>';
         }
-
-        // var_dump($shape->getFill());
 
         $padding = 'padding:' .$shape->getInsetTop().'px '.$shape->getInsetRight().'px '.$shape->getInsetBottom().'px '.$shape->getInsetLeft().'px;';
         
@@ -365,117 +330,82 @@ class SlideRenderer
     {
 
         $class = 'slide__paragraph';
-        $style = [];
-
+        $paragraph_style = [];
         $return = '';
-                // $return .= '<abbr title="Alignment Horizontal">'.$this->getConstantName('\PhpOffice\PhpPresentation\Style\Alignment', $paragraph->getAlignment()->getHorizontal()).'</abbr>';
-                // $return .= '<abbr title="Alignment Vertical">'.$this->getConstantName('\PhpOffice\PhpPresentation\Style\Alignment', $paragraph->getAlignment()->getVertical()).'</abbr>';
-                // if(!is_null($placeholder))
-                // {
-                //     $return .= '<abbr title="Alignment Horizontal">'.$this->getConstantName('\PhpOffice\PhpPresentation\Style\Alignment', $placeholder->getAlignment()->getHorizontal()).'</abbr>';
-                //     $return .= '<abbr title="Alignment Vertical">'.$this->getConstantName('\PhpOffice\PhpPresentation\Style\Alignment', $placeholder->getAlignment()->getVertical()).'</abbr>';
-                // }
-                // // $return .= $placeholder_info;
-                // $return .= '<span>Alignment Margin (L / R) '.$oParagraph->getAlignment()->getMarginLeft().' px / '.$oParagraph->getAlignment()->getMarginRight().'px</span>';
-                // $return .= '<abbr title="Indent">'.$paragraph->getAlignment()->getIndent().' px</abbr>';
-                // $return .= '<abbr title="Alignment level">'.$paragraph->getAlignment()->getLevel().'</abbr>';
-                // $return .= '<abbr title="Bullet Style">'.$this->getConstantName('\PhpOffice\PhpPresentation\Style\Bullet', $paragraph->getBulletStyle()->getBulletType()).'</abbr>';
-                // if(!is_null($placeholder))
-                // {
-                //     $return .= '<abbr title="Bullet Style">'.$this->getConstantName('\PhpOffice\PhpPresentation\Style\Bullet', $placeholder->getBulletStyle()->getBulletType()).'</abbr>';
-                // }
-                // if ($paragraph->getBulletStyle()->getBulletType() != Bullet::TYPE_NONE) {
-                //     $return .= $paragraph->getBulletStyle()->getBulletType() == Bullet::TYPE_NUMERIC ? '<ol>' : '<ul>';
-                // }
-                foreach ($paragraph->getRichTextElements() as $oRichText) {
 
-                    $style = [];
-                    
-                    if($oRichText instanceof BreakElement) {
-                        $return .= '<br/>';
-                    } else {
+        if(method_exists($paragraph, 'getAlignment') && $paragraph->getAlignment()->getHorizontal() === 'ctr'){
+            $paragraph_style[] = 'text-align:center';
+        }
+        
+        foreach ($paragraph->getRichTextElements() as $oRichText) {
 
-                        // if ($paragraph->getBulletStyle()->getBulletType() != Bullet::TYPE_NONE)
-                        // {
-                        //     $return .= '<li>';
-                        // }
+            $style = [];
+            
+            if($oRichText instanceof BreakElement) {
+                $return .= '<br/>';
+            } else {
+                
+                $sub = $oRichText->getFont()->isSubScript();
+                $sup = $oRichText->getFont()->isSuperScript();
 
-                        $sub = $oRichText->getFont()->isSubScript();
-                        $sup = $oRichText->getFont()->isSuperScript();
+                $prefix_tag = $sub ? 'sub' : ($sup ? 'sup' : null);
 
-                        $prefix_tag = $sub ? 'sub' : ($sup ? 'sup' : null);
-
-                        
-                        if($oRichText->getFont()->getSize() > 10)
-                        {
-                            $style[] = 'font-size:' . $oRichText->getFont()->getSize() .'px';
-                        }
-                        if($oRichText->getFont()->isBold())
-                        {
-                            $style[] = 'font-weight:bold';
-                        }
-                        if($oRichText->getFont()->isItalic())
-                        {
-                            $style[] = 'font-style:italic';
-                        }
-                        if($oRichText->getFont()->getColor()->getRGB() != '000000')
-                        {
-                            $style[] = 'color:#' . $oRichText->getFont()->getColor()->getRGB();
-                        }
-
-                        $underline = $oRichText->getFont()->getUnderline();
-                        if($underline != Font::UNDERLINE_NONE)
-                        {
-                            $style[] = 'text-decoration:underline';
-                            $style[] = 'text-decoration-style:' . $this->underline_styles[$underline];
-
-                        }
-                        if($oRichText->getFont()->isStrikethrough())
-                        {
-                            $style[] = 'text-decoration:line-through';
-                        }
-
-                        // if ($paragraph->getBulletStyle()->getBulletType() != Bullet::TYPE_NONE)
-                        // {
-                        //     $return .= $paragraph->getBulletStyle()->getBulletChar();
-                        // }
-
-                        $innerText = '';
-
-                        if(empty($style) && !($sub || !$sup))
-                        {
-
-                            $return .= $oRichText->getText();
-                        }
-                        else 
-                        {
-
-                            $tag = $sub ? 'sub' : ($sup ? 'sup' : 'span');
-
-                            $anchor='';
-                            if($oRichText instanceof TextElement && $oRichText->hasHyperlink())
-                            {
-                                $tag = 'a';
-                                $anchor = 'href="'.$oRichText->getHyperlink()->getUrl().'" title="'.$oRichText->getHyperlink()->getTooltip().'"';
-                            }
-
-                            $return .= '<'.$tag.' '.$anchor.' style="' . implode(';', $style) . '">' . $oRichText->getText() . '</'.$tag.'>';
-                        }
-
-                        // Sub, Sup and anchor output
-
-                        
-                        // if ($paragraph->getBulletStyle()->getBulletType() != Bullet::TYPE_NONE)
-                        // {
-                        //     $return .= '</li>';
-                        // }
-                    }
+                
+                if($oRichText->getFont()->getSize() > 10)
+                {
+                    $style[] = 'font-size:' . $oRichText->getFont()->getSize() .'px';
                 }
-                // if ($paragraph->getBulletStyle()->getBulletType() != Bullet::TYPE_NONE)
-                // {
-                //     $return .= $paragraph->getBulletStyle()->getBulletType() == Bullet::TYPE_NUMERIC ? '</ol>' : '</ul>';
-                // }
-        return sprintf('<p style="%1$s" class="%2$s">%3$s</p>', implode(';', $style), $class, $return);
+                if($oRichText->getFont()->isBold())
+                {
+                    $style[] = 'font-weight:bold';
+                }
+                if($oRichText->getFont()->isItalic())
+                {
+                    $style[] = 'font-style:italic';
+                }
+                if($oRichText->getFont()->getColor()->getRGB() != '000000')
+                {
+                    $style[] = 'color:#' . $oRichText->getFont()->getColor()->getRGB();
+                }
+
+                $underline = $oRichText->getFont()->getUnderline();
+                if($underline != Font::UNDERLINE_NONE)
+                {
+                    $style[] = 'text-decoration:underline';
+                    $style[] = 'text-decoration-style:' . $this->underline_styles[$underline];
+
+                }
+                if($oRichText->getFont()->isStrikethrough())
+                {
+                    $style[] = 'text-decoration:line-through';
+                }
+
+                $innerText = '';
+
+                if(empty($style) && !($sub || !$sup))
+                {
+
+                    $return .= $oRichText->getText();
+                }
+                else 
+                {
+
+                    $tag = $sub ? 'sub' : ($sup ? 'sup' : 'span');
+
+                    $anchor='';
+                    if($oRichText instanceof TextElement && $oRichText->hasHyperlink())
+                    {
+                        $tag = 'a';
+                        $anchor = 'href="'.$oRichText->getHyperlink()->getUrl().'" title="'.$oRichText->getHyperlink()->getTooltip().'"';
+                    }
+
+                    $return .= '<'.$tag.' '.$anchor.' style="' . implode(';', $style) . '">' . $oRichText->getText() . '</'.$tag.'>';
+                }
+
+            }
+        }
+
+        return sprintf('<p style="%1$s" class="%2$s">%3$s</p>', implode(';', $paragraph_style), $class, $return);
     }
 
     protected function renderTable(Table $table)
@@ -489,7 +419,6 @@ class SlideRenderer
         $td = null;
 
         foreach ($rows as $row) {
-            # code...
             $cells = $row->getCells();
             $td = [];
 
