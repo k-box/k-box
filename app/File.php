@@ -69,6 +69,7 @@ class File extends Model
         'application/vnd.google-apps.spreadsheet',
         'application/vnd.openxmlformats-officedocument.presentationml.presentation',
         'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        'video/mp4',
         ];
 
     /**

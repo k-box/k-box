@@ -158,6 +158,13 @@
 	@if($type=='image')
 	
 		<img src="{{DmsRouting::download($document)}}" alt="{{$document->title}}">
+	@elseif($type=='video')
+	
+		<video controls>
+			<source src="{{DmsRouting::download($document)}}" type="{{ $document->mime_type }}">
+		</video>
+
+		<script>plyr.setup();</script>  
 	
 	@elseif($type=='document' && $extension === 'pdf')
 	

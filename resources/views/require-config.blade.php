@@ -56,6 +56,10 @@ define('context', [], function() {
     return window.context;
 });
 
+define('plyr', [], function() {
+    return window.plyr;
+});
+
 // -- Global initializations
 
 @if(app()->environment() === 'production')

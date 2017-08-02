@@ -109,6 +109,12 @@
     align-items: center;
 }
 
+.preview__content video {
+    
+    width: 100%;
+    max-width: 100%;
+}
+
 /** buttons **/
 
 .preview__button {

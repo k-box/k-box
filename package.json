@@ -31,6 +31,7 @@
     "lodash": "~4.17.4",
     "nprogress": "~0.2.0",
     "object.observe": "~0.2.6",
+    "plyr": "^2.0.13",
     "promise-polyfill": "^6.0.2",
     "requirejs": "~2.3.3",
     "select2": "~4.0.3",

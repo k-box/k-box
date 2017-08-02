@@ -39,7 +39,8 @@ elixir(function(mix) {
             "/nprogress/nprogress.css",
             "/sweetalert2/dist/sweetalert2.css",
             "/hint.css/hint.base.css",
-            "/select2/dist/css/select2.css"
+            "/select2/dist/css/select2.css",
+            "/plyr/dist/plyr.css"
         ], elixir.config.cssOutput + "/vendor.css", elixir.config.npmDir)
     	.scripts([
                 'lodash/lodash.min.js',
@@ -55,6 +56,7 @@ elixir(function(mix) {
                 '../resources/assets/js/deps/combokeys.js',
                 '../resources/assets/js/deps/contextmenu.js',
                 'holmes.js/js/holmes.js',
+                'plyr/dist/plyr.js',
     			'requirejs/require.js',
     			'../resources/assets/js/dms/init.js',
     		],
