@@ -5,7 +5,7 @@ if (! function_exists('css_asset')) {
     /**
      * Output the URL of a CSS asset.
      *
-     * When not in production mode the asset will be taken from the public path, 
+     * When not in production mode the asset will be taken from the public path,
      * while on production will use the elixir helper function.
      *
      * @param  string     $asset_path asset file with relative path to the public folder
@@ -16,14 +16,13 @@ if (! function_exists('css_asset')) {
      */
     function css_asset($asset_path, $production_asset_path = null)
     {
-        
         $excluded_env = ['testing', 'local', 'dev', 'development'];
         
-        if( in_array( app()->environment(), $excluded_env) ){
-            return url( $asset_path ) . '?bust=' . \Carbon\Carbon::now()->format('U');
-        } 
+        if (in_array(app()->environment(), $excluded_env)) {
+            return url($asset_path).'?bust='.\Carbon\Carbon::now()->format('U');
+        }
         
-        return url(elixir( is_null($production_asset_path) ? $asset_path : $production_asset_path ));
+        return url(elixir(is_null($production_asset_path) ? $asset_path : $production_asset_path));
     }
 }
 
@@ -31,7 +30,7 @@ if (! function_exists('js_asset')) {
     /**
      * Output the URL of a JS asset.
      *
-     * When not in production mode the asset will be taken from the public path, 
+     * When not in production mode the asset will be taken from the public path,
      * while on production will use the elixir helper function.
      *
      * @param  string     $asset_path asset file with relative path to the public folder
@@ -41,17 +40,15 @@ if (! function_exists('js_asset')) {
      */
     function js_asset($asset_path)
     {
-        
         $excluded_env = ['testing', 'local', 'dev', 'development'];
         
-        if( in_array( app()->environment(), $excluded_env) ){
-            return url( $asset_path );
-        } 
+        if (in_array(app()->environment(), $excluded_env)) {
+            return url($asset_path);
+        }
         
-        return url(elixir( $asset_path ));
+        return url(elixir($asset_path));
     }
 }
-
 
 if (! function_exists('support_token')) {
     /**
@@ -63,11 +60,9 @@ if (! function_exists('support_token')) {
      */
     function support_token()
     {
-        
-        return \KlinkDMS\Option::support_token(); 
+        return \KlinkDMS\Option::support_token();
     }
 }
-
 
 if (! function_exists('localized_date')) {
     /**
@@ -80,8 +75,7 @@ if (! function_exists('localized_date')) {
      */
     function localized_date(\DateTime $dt)
     {
-        
-        return Jenssegers\Date\Date::instance($dt); 
+        return Jenssegers\Date\Date::instance($dt);
     }
 }
 
@@ -96,16 +90,15 @@ if (! function_exists('localized_date_human_diff')) {
      */
     function localized_date_human_diff(\DateTime $dt)
     {
-
         $dt = localized_date($dt);
 
         $diff = $dt->diffInDays();
         
-        if($diff < 2){
+        if ($diff < 2) {
             return $dt->diffForHumans();
         }
 
-        return $dt->format( trans('units.date_format') ); 
+        return $dt->format(trans('units.date_format'));
     }
 }
 
@@ -120,10 +113,9 @@ if (! function_exists('localized_date_full')) {
      */
     function localized_date_full(\DateTime $dt)
     {
-
         $dt = localized_date($dt);
 
-        return $dt->format( trans('units.date_format_full') ); 
+        return $dt->format(trans('units.date_format_full'));
     }
 }
 
@@ -138,15 +130,11 @@ if (! function_exists('localized_date_short')) {
      */
     function localized_date_short(\DateTime $dt)
     {
-
         $dt = localized_date($dt);
 
-        return $dt->format( trans('units.date_format') ); 
-
+        return $dt->format(trans('units.date_format'));
     }
-
 }
-
 
 if (! function_exists('network_name')) {
     /**
@@ -156,27 +144,38 @@ if (! function_exists('network_name')) {
      */
     function network_name()
     {
-
-        $opt_en = \Cache::rememberForever('network-name-en', function() {
+        $opt_en = \Cache::rememberForever('network-name-en', function () {
             return \KlinkDMS\Option::option(\KlinkDMS\Option::PUBLIC_CORE_NETWORK_NAME_EN, '');
         });
-        $opt_ru = \Cache::rememberForever('network-name-ru', function() {
+        $opt_ru = \Cache::rememberForever('network-name-ru', function () {
             return \KlinkDMS\Option::option(\KlinkDMS\Option::PUBLIC_CORE_NETWORK_NAME_RU, '');
         });
 
         $locale = \App::getLocale();
 
-        if($locale === 'en' && !empty($opt_en)){
+        if ($locale === 'en' && ! empty($opt_en)) {
             return $opt_en;
-        }
-        else if($locale === 'ru' && !empty($opt_en) && empty($opt_ru)){
+        } elseif ($locale === 'ru' && ! empty($opt_en) && empty($opt_ru)) {
             return $opt_en;
-        }
-        else if($locale === 'ru' && !empty($opt_ru)){
+        } elseif ($locale === 'ru' && ! empty($opt_ru)) {
             return $opt_ru;
         }
 
-        return empty($opt_en) ? trans('networks.klink_network_name') : $opt_en; 
+        return empty($opt_en) ? trans('networks.klink_network_name') : $opt_en;
+    }
+}
+
+if (! function_exists('network_enabled')) {
+    /**
+     * Check if the network connection is enabled
+     *
+     * @return bool
+     */
+    function network_enabled()
+    {
+        $adapter = app(\Klink\DmsAdapter\Contracts\KlinkAdapter::class);
+
+        return $adapter->isNetworkEnabled();
     }
 }
 
@@ -190,8 +189,7 @@ if (! function_exists('analytics_token')) {
      */
     function analytics_token()
     {
-        
-        return \KlinkDMS\Option::analytics_token(); 
+        return \KlinkDMS\Option::analytics_token();
     }
 }
 
@@ -199,11 +197,25 @@ if (! function_exists('flags')) {
     /**
      * Shortcut for accessing the KlinkDMS\Flags class
      *
-     * @return KlinkDMS\Flags 
+     * @return KlinkDMS\Flags
      */
     function flags()
     {
-        return new \KlinkDMS\Flags(); 
+        return new \KlinkDMS\Flags();
     }
 }
 
+if (! function_exists('debugger') && env('APP_ENV') !== 'production') {
+    /**
+     * Create a PsySh shell (@link http://psysh.org/) in the context of the application.
+     *
+     * As seen on https://blog.tighten.co/supercharge-your-laravel-tinker-workflow
+     *
+     * @example debugger(get_defined_vars()) to have the current context variables in the shell environment
+     * @return void
+     */
+    function debugger($mixed = null)
+    {
+        eval('\Psy\Shell::debug(isset($mixed) && !is_null($mixed) ? $mixed : get_defined_vars());');
+    }
+}

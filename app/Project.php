@@ -1,13 +1,8 @@
-<?php namespace KlinkDMS;
+<?php
 
-use Illuminate\Auth\Authenticatable;
+namespace KlinkDMS;
+
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Auth\Passwords\CanResetPassword;
-use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
-use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
-use KlinkDMS\Traits\HasCapability;
-use KlinkDMS\Traits\UserOptionsAccessor;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use KlinkDMS\Traits\LocalizableDateFields;
 
 /**
@@ -36,8 +31,8 @@ use KlinkDMS\Traits\LocalizableDateFields;
  * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Project whereUserId($value)
  * @mixin \Eloquent
  */
-class Project extends Model {
-
+class Project extends Model
+{
     use LocalizableDateFields;
   /*
 
@@ -45,10 +40,10 @@ class Project extends Model {
       $table->string('name');
       $table->text('description')->nullable();
       $table->string('avatar')->nullable();
-      
+
       $table->bigInteger('user_id')->unsigned(); --> project manager
       $table->bigInteger('collection_id')->unsigned(); --> root project collection
-      
+
       $table->timestamps();
 
    */
@@ -71,46 +66,47 @@ class Project extends Model {
     /**
      * The root collection that stores the hierarchy of the project
      */
-    public function collection() {
-      
-      return $this->hasOne('KlinkDMS\Group', 'id', 'collection_id');
-    
+    public function collection()
+    {
+        return $this->hasOne('KlinkDMS\Group', 'id', 'collection_id');
     }
     
     /**
      * The relation with the user tha manages the project
      */
-    public function manager(){
-      return $this->belongsTo('KlinkDMS\User', 'user_id', 'id');
+    public function manager()
+    {
+        return $this->belongsTo('KlinkDMS\User', 'user_id', 'id');
     }
     
     /**
      * The users that partecipates into the Project
      */
-    public function users() {
-      return $this->belongsToMany('KlinkDMS\User', 'userprojects', 'project_id', 'user_id');
+    public function users()
+    {
+        return $this->belongsToMany('KlinkDMS\User', 'userprojects', 'project_id', 'user_id');
     }
 
-    public function scopeManagedBy($query, $user){
-      return $query->where('user_id', $user);
-    }    
+    public function scopeManagedBy($query, $user)
+    {
+        return $query->where('user_id', $user);
+    }
     
     /**
      * The associated microsite
      */
-    public function microsite(){
+    public function microsite()
+    {
         return $this->hasOne('\Klink\DmsMicrosites\Microsite');
     }
     
-    public function getDocumentsCount(){
-
-        if(!$this->collection->hasChildren()){
-          return $this->collection->documents()->count();
+    public function getDocumentsCount()
+    {
+        if (! $this->collection->hasChildren()) {
+            return $this->collection->documents()->count();
         }
 
         return $this->collection->getDescendants()->load('documents')->pluck('documents')->collapse()->count() + $this->collection->documents()->count();
-        
-
     }
     
     /**
@@ -120,39 +116,35 @@ class Project extends Model {
      * @param User $user the user to use for the testing
      * @return boolean true if the project can be accessed by $user
      */
-    public static function isAccessibleBy(Project $project, User $user){
-
-      if($user->isDMSManager()){
-        return true;
-      }
+    public static function isAccessibleBy(Project $project, User $user)
+    {
+        if ($user->isDMSManager()) {
+            return true;
+        }
 
       // TODO: this can be optimized
 
       $managed = $user->managedProjects()->get(['projects.id'])->pluck('id')->toArray();
 
-      $added_to = $user->projects()->get(['projects.id'])->pluck('id')->toArray();
+        $added_to = $user->projects()->get(['projects.id'])->pluck('id')->toArray();
 
-			return in_array($project->id, $managed) || in_array($project->id, $added_to);
-
+        return in_array($project->id, $managed) || in_array($project->id, $added_to);
     }
 
-    static function boot()
+    public static function boot()
     {
         parent::boot();
 
-        static::saved(function ($project)
-        {
-            
-            \Cache::forget('dms_project_collections-' . $project->user_id);
+        static::saved(function ($project) {
+            \Cache::forget('dms_project_collections-'.$project->user_id);
             
             $affected_users = $project->users()->get();
             
             foreach ($affected_users as $u) {
-                \Cache::forget('dms_project_collections-' . $u->id);
+                \Cache::forget('dms_project_collections-'.$u->id);
             }
             
             return $project;
-
         });
     }
 }

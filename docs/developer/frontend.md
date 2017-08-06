@@ -89,10 +89,7 @@ Javascript files are minified and concatenated by Gulp.
 - combokeys: [mightyiam/combokeys#2.3.0](https://github.com/PolicyStat/combokeys);
 - sweetalert: 0.5.0 (recent version have dropped IE8 support);
 - dropzone: ~4.0.1;
-- d3: 3.4.13;
 - jquery.serializeJSON: ~2.5.0;
-- klink-elastic-list: https://gitlab.klink.dyndns.ws:3000/data-vis/elastic-list.git#~0.1.1;
-- klink-map: https://gitlab.klink.dyndns.ws:3000/data-vis/map.git#~0.1.1;
 - html5shiv: ~3.7.2;
 - object.observe: ~0.2.4;
 - es5-shim: ~4.1.0;
@@ -226,17 +223,17 @@ Returns the absolute URL for the given path according to the current DMS instanc
 
 ##### DMS.MessageBox
 
-- `DMS.MessageBox.success: function(title:string, text:string)`: shows a succesfull message
-- `DMS.MessageBox.error: function(title:string, text:string)`: shows an error message
-- `DMS.MessageBox.warning: function(title:string, text:string)`: shows a warning message
-- `DMS.MessageBox.show: function(title:string, text:string)`: shows a generic modal window
-- `DMS.MessageBox.close: function()`: close the current opened modal window
-- `DMS.MessageBox.wait: function(title, text)`: shows a modal windows that cannot be closed from the UI as a wait/loading indicator
-- `DMS.MessageBox.deleteQuestion: function(title, text, callback, close_on_cancel, close_on_confirm)`: 
-- `DMS.MessageBox.question: function(title, text, cofirmBtnText, cancelBtnText, callback)`: 
-- `DMS.MessageBox.prompt: function(title, text, placeholder, callback)`: 
+- `DMS.MessageBox.success: function(title:string, text:string) : Promise`: shows a succesfull message
+- `DMS.MessageBox.error: function(title:string, text:string) : Promise`: shows an error message
+- `DMS.MessageBox.warning: function(title:string, text:string) : Promise`: shows a warning message
+- `DMS.MessageBox.show: function(title:string, text:string) : Promise`: shows a generic modal window
+- `DMS.MessageBox.close: function() : Promise`: close the current opened modal window
+- `DMS.MessageBox.wait: function(title, text) : Promise`: shows a modal windows that cannot be closed from the UI as a wait/loading indicator
+- `DMS.MessageBox.deleteQuestion: function(title, text, options) : Promise`: 
+- `DMS.MessageBox.question: function(title, text, cofirmBtnText, cancelBtnText, callback) : Promise`: 
+- `DMS.MessageBox.prompt: function(title, text, placeholder, callback) : Promise`: 
 
-See SweetAlert for a the specific documentation of the callback function accepted
+See SweetAlert2 for a the specific documentation of the options parameter and the returned Promise
 
 
 ##### DMS.Progress

@@ -19,7 +19,6 @@ class UpdateImportErrorHandling extends Migration
             
             // Stores the detailed error or information payload if available
             $table->text('payload')->nullable();
-            
         });
     }
 
@@ -31,10 +30,8 @@ class UpdateImportErrorHandling extends Migration
     public function down()
     {
         Schema::table('import', function (Blueprint $table) {
-            
             $table->dropColumn('message');
             $table->dropColumn('payload');
-            
         });
     }
 }

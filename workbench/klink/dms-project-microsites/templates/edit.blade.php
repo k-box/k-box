@@ -1,4 +1,4 @@
-@extends('management-layout')
+@extends('global')
 
 
 @section('action-menu')
@@ -7,11 +7,11 @@
 @stop
 
 
-@section('sub-header')
+@section('breadcrumbs')
 		
-    <a href="{{route('projects.show', ['id' => $project->id])}}" class="parent">{{ $project->name }}</a>
+    <a href="{{route('documents.projects.index')}}" class="breadcrumb__item">{{trans('projects.page_title')}}</a>
 
-    <span >{{ trans('microsites.actions.edit') }}</span>
+    <span class="breadcrumb__item--current">{{ $project->name }} - {{ trans('microsites.actions.edit') }}</span>
 
 @stop
 
@@ -33,10 +33,6 @@
     <div  class="eight columns">
         @include('sites::partials.content_form')
     </div>
-    
-    <!--<div class="widget four columns">
-            @include('sites::partials.menu_builder')
-        </div>-->
 
 </form>
 

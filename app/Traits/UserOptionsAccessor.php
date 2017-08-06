@@ -1,9 +1,6 @@
-<?php namespace KlinkDMS\Traits;
+<?php
 
-
-use Illuminate\Support\Facades\Config;
-use Symfony\Component\Process\Exception\InvalidArgumentException;
-use KlinkDMS\UserOption;
+namespace KlinkDMS\Traits;
 
 /**
  * Add support for faster accessing of the user's saved options
@@ -22,11 +19,10 @@ trait UserOptionsAccessor
     {
         $value = $this->options()->option(self::OPTION_LANGUAGE)->first();
 
-        if(is_null($value)){
+        if (is_null($value)) {
             return $default;
         }
 
-        return $value->value;   
+        return $value->value;
     }
-
 }

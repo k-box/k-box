@@ -1,16 +1,13 @@
 <?php
 
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\BrowserKitTestCase;
 use Content\Preview\TextPreview;
 
-class TextPreviewTest extends TestCase
+class TextPreviewTest extends BrowserKitTestCase
 {
-    
     public function testConvertToHtml()
     {
-        $path = __DIR__ . '/data/text.txt';
+        $path = __DIR__.'/data/text.txt';
 
         $preview = (new TextPreview())->load($path);
         $html = $preview->html();
@@ -24,5 +21,4 @@ class TextPreviewTest extends TestCase
         $this->assertContains('<br/>with a new line', $html);
         $this->assertContains('preview__render preview__render--text', $html);
     }
-    
 }

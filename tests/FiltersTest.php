@@ -2,16 +2,12 @@
 
 use Laracasts\TestDummy\Factory;
 use KlinkDMS\User;
-use KlinkDMS\Group;
 use KlinkDMS\Capability;
 use KlinkDMS\Project;
 use KlinkDMS\Institution;
-use KlinkDMS\DocumentDescriptor;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Collection;
 
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Tests\BrowserKitTestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 use Klink\DmsAdapter\Fakes\FakeKlinkAdapter;
@@ -19,8 +15,8 @@ use Klink\DmsAdapter\Fakes\FakeKlinkAdapter;
 /*
  * Test related to the elastic list filters
 */
-class FiltersTest extends TestCase {
-    
+class FiltersTest extends BrowserKitTestCase
+{
     use DatabaseTransactions;
     
     
@@ -30,30 +26,29 @@ class FiltersTest extends TestCase {
      * Test that the collection column in filters is boxed to sub-collections
      * of the currently opened collection
      */
-    public function testFiltersInProjectDisplayOnlySubCollectionsOfTheParent(){
-
+    public function testFiltersInProjectDisplayOnlySubCollectionsOfTheParent()
+    {
         $mock = $this->withKlinkAdapterMock();
 
         $project_collection_names = ['Project Root', 'Project First Level', 'Second Level'];
 
-        $user = $this->createUser( Capability::$PROJECT_MANAGER );
+        $user = $this->createUser(Capability::$PROJECT_MANAGER);
 
         $service = app('Klink\DmsDocuments\DocumentsService');
 
         $mock->shouldReceive('isNetworkEnabled')->andReturn(false);
 
-        $mock->shouldReceive('addDocument', 'updateDocument')->andReturnUsing(function($doc) {
+        $mock->shouldReceive('addDocument', 'updateDocument')->andReturnUsing(function ($doc) {
             $descr = $doc->getDescriptor();
 
             return $descr;
         });
 
-        $mock->shouldReceive('institutions')->andReturnUsing(function($id = 'KLINK'){
+        $mock->shouldReceive('institutions')->andReturnUsing(function ($id = 'KLINK') {
             $cached = Institution::where('klink_id', $id)->first();
 
-			return !is_null($cached) ? $cached : factory(Institution::class)->create(['klink_id' => $id]);
+            return ! is_null($cached) ? $cached : factory(Institution::class)->create(['klink_id' => $id]);
         });
-
 
         $project = null;
 
@@ -68,13 +63,10 @@ class FiltersTest extends TestCase {
 
         $descriptor = null;
 
-
         foreach ($project_collection_names as $index => $name) {
-
-
             $project_group = $service->createGroup($user, $name, null, $project_group, false);
 
-            if($index === 0){
+            if ($index === 0) {
                 $project = Project::create([
                     'name' => $name,
                     'user_id' => $user->id,
@@ -89,7 +81,6 @@ class FiltersTest extends TestCase {
 
             $documents->push($descriptor->fresh());
             $collections->push($project_group->fresh());
-            
         }
 
         $prj_grp = $service->createGroup($user, 'Another different project', null, null, false);
@@ -107,18 +98,14 @@ class FiltersTest extends TestCase {
             $item = $item->fresh();
         });
 
-
-        // var_dump($documents->first()->toKlinkDocumentDescriptor());
-
         $expected_collections = $collections->map(function ($item, $key) {
-            return '0:' . $item->id;
+            return '0:'.$item->id;
         });
 
-        $mock->shouldReceive('search')->andReturnUsing(function($terms, $type = KlinkVisibilityType::KLINK_PRIVATE, $resultsPerPage = 10, $offset = 0, $facets = null) use($expected_collections){
-
+        $mock->shouldReceive('search')->andReturnUsing(function ($terms, $type = KlinkVisibilityType::KLINK_PRIVATE, $resultsPerPage = 10, $offset = 0, $facets = null) use ($expected_collections) {
             $partial = FakeKlinkAdapter::generateSearchResponse($terms, $type, $resultsPerPage, $offset, $facets);
 
-            $ft = array_filter($partial->getFacets(), function($a){
+            $ft = array_filter($partial->getFacets(), function ($a) {
                 return $a->name === 'documentGroups';
             });
 
@@ -141,8 +128,8 @@ class FiltersTest extends TestCase {
 
         $this->actingAs($user);
 
-        $url = route( 'documents.groups.show', ['id' => $collections->first()->id, 's' => '*'] );
-        $this->visit( $url )->seePageIs( $url );
+        $url = route('documents.groups.show', ['id' => $collections->first()->id, 's' => '*']);
+        $this->visit($url)->seePageIs($url);
         $view = $this->response->original; // is a view
         $composer = app('KlinkDMS\Http\Composers\DocumentsComposer');
         $composer->facets($view);
@@ -158,6 +145,5 @@ class FiltersTest extends TestCase {
         $this->assertFalse(in_array(true, $collection_filters->pluck('locked')->all()), 'Locked collections found');
         
         $this->assertFalse(in_array(true, $collection_filters->pluck('selected')->all()), 'Selected collections found, expecting none, because user didn\'t select them');
-
     }
 }

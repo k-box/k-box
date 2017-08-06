@@ -2,268 +2,266 @@
 
 return [
 
-	/*
-	|--------------------------------------------------------------------------
-	| K-Link DMS Version (aka Application version)
-	|--------------------------------------------------------------------------
-	 */
-	'version' => 'BUILDVERSION',
+    /*
+    |--------------------------------------------------------------------------
+    | K-Link DMS Version (aka Application version)
+    |--------------------------------------------------------------------------
+     */
+    'version' => 'BUILDVERSION',
     
     'build' => 'BUILDCODE',
-	
-	/*
-	|--------------------------------------------------------------------------
-	| K-Link DMS Edition. Used when upgrading for a version to a new version
-	|--------------------------------------------------------------------------
-	 */
-	'edition' => 'project',
+    
+    /*
+    |--------------------------------------------------------------------------
+    | K-Link DMS Edition. Used when upgrading for a version to a new version
+    |--------------------------------------------------------------------------
+     */
+    'edition' => 'project',
 
+    /*
+    |--------------------------------------------------------------------------
+    | DMS Identifier
+    |--------------------------------------------------------------------------
+    |
+    | The unique identifier for the DMS instance
+    |
+    | @var string
+    */
 
-	/*
-	|--------------------------------------------------------------------------
-	| DMS Identifier
-	|--------------------------------------------------------------------------
-	|
-	| The unique identifier for the DMS instance
-	|
-	| @var string
-	*/
+    'identifier' => getenv('DMS_IDENTIFIER') ?: '4815162342',
 
-	'identifier' => getenv('DMS_IDENTIFIER') ?: '4815162342',
+    /*
+    |--------------------------------------------------------------------------
+    | Institution Identifier
+    |--------------------------------------------------------------------------
+    |
+    | The institution identifier that is required for communicating with the
+    | K-Link Core
+    |
+    | @var string
+    */
 
-	/*
-	|--------------------------------------------------------------------------
-	| Institution Identifier
-	|--------------------------------------------------------------------------
-	|
-	| The institution identifier that is required for communicating with the 
-	| K-Link Core
-	|
-	| @var string
-	*/
+    'institutionID' => getenv('DMS_INSTITUTION_IDENTIFIER') ?: 'DMS',
 
-	'institutionID' => getenv('DMS_INSTITUTION_IDENTIFIER') ?: 'DMS',
+    /*
+    |--------------------------------------------------------------------------
+    | Guest public searches
+    |--------------------------------------------------------------------------
+    |
+    | Tell if the DMS will allow guest user to perform public search over K-Link
+    |
+    | @var boolean
+    */
+    'are_guest_public_search_enabled' => getenv('DMS_ARE_GUEST_PUBLIC_SEARCH_ENABLED') ?: true,
 
-	/*
-	|--------------------------------------------------------------------------
-	| Guest public searches
-	|--------------------------------------------------------------------------
-	|
-	| Tell if the DMS will allow guest user to perform public search over K-Link
-	|
-	| @var boolean
-	*/
-	'are_guest_public_search_enabled' => getenv('DMS_ARE_GUEST_PUBLIC_SEARCH_ENABLED') ?: true,
+    'core' => [
 
+        /*
+        |--------------------------------------------------------------------------
+        | K-Link Core URL
+        |--------------------------------------------------------------------------
+        |
+        | The url of the Private K-Link Core
+        |
+        | @var string
+        */
 
-	'core' => array(
+        'address' => getenv('DMS_CORE_ADDRESS') ?: null,
 
-		/*
-		|--------------------------------------------------------------------------
-		| K-Link Core URL
-		|--------------------------------------------------------------------------
-		|
-		| The url of the Private K-Link Core
-		|
-		| @var string
-		*/
+        /*
+        |--------------------------------------------------------------------------
+        | K-Link Core username
+        |--------------------------------------------------------------------------
+        |
+        | The username for authenticating on the Private K-Link Core
+        |
+        | @var string
+        */
 
-		'address' => getenv('DMS_CORE_ADDRESS') ?: null,
+        'username' => getenv('DMS_CORE_USERNAME') ?: null,
 
-		/*
-		|--------------------------------------------------------------------------
-		| K-Link Core username
-		|--------------------------------------------------------------------------
-		|
-		| The username for authenticating on the Private K-Link Core
-		|
-		| @var string
-		*/
+        /*
+        |--------------------------------------------------------------------------
+        | K-Link Core password
+        |--------------------------------------------------------------------------
+        |
+        | The password for authenticating on the Private K-Link Core
+        |
+        | @var string
+        */
 
-		'username' => getenv('DMS_CORE_USERNAME') ?: null,
+        'password' => getenv('DMS_CORE_PASSWORD') ?: null,
 
-		/*
-		|--------------------------------------------------------------------------
-		| K-Link Core password
-		|--------------------------------------------------------------------------
-		|
-		| The password for authenticating on the Private K-Link Core
-		|
-		| @var string
-		*/
+    ],
 
-		'password' => getenv('DMS_CORE_PASSWORD') ?: null,
+    /*
+    |--------------------------------------------------------------------------
+    | Default Document Visibility
+    |--------------------------------------------------------------------------
+    |
+    | The document visibility (private or public) that will be used as default
+    | for the newly added documents that needs to be indexed in the K-Link Core
+    |
+    | default: private
+    | @var string public or private
+    |
+    */
 
-	),
+    'default_document_visibility' => getenv('DMS_DEFAULT_DOCUMENT_VISIBILITY') ?: 'private',
 
-	/*
-	|--------------------------------------------------------------------------
-	| Default Document Visibility
-	|--------------------------------------------------------------------------
-	|
-	| The document visibility (private or public) that will be used as default
-	| for the newly added documents that needs to be indexed in the K-Link Core
-	| 
-	| default: private
-	| @var string public or private
-	|
-	*/
+    /*
+    |--------------------------------------------------------------------------
+    | Enable user activity tracking
+    |--------------------------------------------------------------------------
+    |
+    | Enable or Disable the user activity tracking
+    | K-Link Core
+    |
+    | default: true
+    |
+    | @var boolean
+    */
 
-	'default_document_visibility' => getenv('DMS_DEFAULT_DOCUMENT_VISIBILITY') ?: 'private',
+    'enable_activity_tracking' => ! ! getenv('DMS_ENABLE_ACTIVITY_TRACKING') ?: true,
 
-	/*
-	|--------------------------------------------------------------------------
-	| Enable user activity tracking
-	|--------------------------------------------------------------------------
-	|
-	| Enable or Disable the user activity tracking
-	| K-Link Core
-	|
-	| default: true
-	|
-	| @var boolean
-	*/
+    /*
+    |--------------------------------------------------------------------------
+    | Number of items to display per page
+    |--------------------------------------------------------------------------
+    |
+    |
+    | default: 12
+    |
+    | @var integer
+    */
 
-	'enable_activity_tracking' => !!getenv('DMS_ENABLE_ACTIVITY_TRACKING') ?: true,
+    'items_per_page' => getenv('DMS_ITEMS_PER_PAGE') ?: 12,
 
-	/*
-	|--------------------------------------------------------------------------
-	| Number of items to display per page
-	|--------------------------------------------------------------------------
-	|
-	|
-	| default: 12
-	|
-	| @var integer
-	*/
+    /*
+    |--------------------------------------------------------------------------
+    | Upload folder
+    |--------------------------------------------------------------------------
+    |
+    | Where the files will be uploaded
+    |
+    | default: /storage/uploads
+    |
+    | @var string
+    */
 
-	'items_per_page' => getenv('DMS_ITEMS_PER_PAGE') ?: 12,
+    'upload_folder' => getenv('DMS_UPLOAD_FOLDER') ?: storage_path('documents/'),
 
-	/*
-	|--------------------------------------------------------------------------
-	| Upload folder
-	|--------------------------------------------------------------------------
-	| 
-	| Where the files will be uploaded
-	|
-	| default: /storage/uploads
-	|
-	| @var string
-	*/
+    /*
+    |--------------------------------------------------------------------------
+    | File Upload Maximum size (in KB)
+    |--------------------------------------------------------------------------
+    |
+    | The maximum size of the file allowed for upload in kilobytes
+    |
+    | default: 30000
+    |
+    | @var integer
+    */
 
-	'upload_folder' => getenv('DMS_UPLOAD_FOLDER') ?: storage_path('documents/'),
+    'max_upload_size' => getenv('DMS_MAX_UPLOAD_SIZE') ?: 204800,
 
-	/*
-	|--------------------------------------------------------------------------
-	| File Upload Maximum size (in KB)
-	|--------------------------------------------------------------------------
-	| 
-	| The maximum size of the file allowed for upload in kilobytes
-	|
-	| default: 30000
-	|
-	| @var integer
-	*/
+    /*
+    |--------------------------------------------------------------------------
+    | Allowed File Upload types
+    |--------------------------------------------------------------------------
+    |
+    | A comma separated list of allowed file types to be uploaded
+    |
+    | default: docx,doc,xlsx,xls,pptx,ppt,pdf,txt,jpg,gif,png,odt,odp,ods
+    |
+    | @var string
+    */
 
-	'max_upload_size' => getenv('DMS_MAX_UPLOAD_SIZE') ?: 204800,
+    'allowed_file_types' => getenv('DMS_ALLOWED_FILE_TYPES') ?: 'docx,doc,xlsx,xls,pptx,ppt,pdf,txt,jpg,gif,png,odt,odp,ods,md,txt,rtf,kmz,kml,gdoc,gslides,gsheet',
 
-	/*
-	|--------------------------------------------------------------------------
-	| Allowed File Upload types
-	|--------------------------------------------------------------------------
-	| 
-	| A comma separated list of allowed file types to be uploaded
-	|
-	| default: docx,doc,xlsx,xls,pptx,ppt,pdf,txt,jpg,gif,png,odt,odp,ods
-	|
-	| @var string
-	*/
+    /*
+    |--------------------------------------------------------------------------
+    | Use HTTPS as default url schema
+    |--------------------------------------------------------------------------
+    |
+    | Use HTTPS for serving the pages
+    |
+    | default: true
+    |
+    | @var boolean
+    */
 
-	'allowed_file_types' => getenv('DMS_ALLOWED_FILE_TYPES') ?: 'docx,doc,xlsx,xls,pptx,ppt,pdf,txt,jpg,gif,png,odt,odp,ods,md,txt,rtf,kmz,kml,gdoc,gslides,gsheet',
+    'use_https' => getenv('DMS_USE_HTTPS') ?: true,
+    
+    /*
+    |--------------------------------------------------------------------------
+    | Support Widget Token
+    |--------------------------------------------------------------------------
+    |
+    | The UserVoice support key
+    |
+    | default: null, support is not configured and not enabled
+    |
+    | @var string
+    */
+    
+    'support_token' => getenv('SUPPORT_TOKEN') ?: null,
+    
+    
+    /*
+    |--------------------------------------------------------------------------
+    | Limit languages filters to
+    |--------------------------------------------------------------------------
+    |
+    | Use this option to limit the usable language filters
+    |
+    | default: false
+    | acceptable value: array of comma separated language codes e.g. en,ru,de
+    |
+    | @var boolean|string
+    */
+    
+    'limit_languages_to' => getenv('DMS_LIMIT_LANGUAGES_TO') ?: 'en,de,it,fr,ky,ru',
+    
+    /*
+    |--------------------------------------------------------------------------
+    | Recent section personalization
+    |--------------------------------------------------------------------------
+    */
 
-	/*
-	|--------------------------------------------------------------------------
-	| Use HTTPS as default url schema
-	|--------------------------------------------------------------------------
-	| 
-	| Use HTTPS for serving the pages
-	|
-	| default: true
-	|
-	| @var boolean
-	*/
+    'recent' => [
 
-	'use_https' => getenv('DMS_USE_HTTPS') ?: true,
-	
-	/*
-	|--------------------------------------------------------------------------
-	| Support Widget Token
-	|--------------------------------------------------------------------------
-	| 
-	| The UserVoice support key 
-	|
-	| default: null, support is not configured and not enabled
-	|
-	| @var string
-	*/
-	
-	'support_token' => getenv('SUPPORT_TOKEN') ?: null,
-	
-	
-	/*
-	|--------------------------------------------------------------------------
-	| Limit languages filters to
-	|--------------------------------------------------------------------------
-	| 
-	| Use this option to limit the usable language filters
-	|
-	| default: false
-	| acceptable value: array of comma separated language codes e.g. en,ru,de
-	|
-	| @var boolean|string
-	*/
-	
-	'limit_languages_to' => getenv('DMS_LIMIT_LANGUAGES_TO') ?: 'en,de,it,fr,ky,ru',
-	
-	/*
-	|--------------------------------------------------------------------------
-	| Recent section personalization
-	|--------------------------------------------------------------------------
-	*/
+        /*
+        |--------------------------------------------------------------------------
+        | The maximum number of elements in the recent list
+        |--------------------------------------------------------------------------
+        |
+        | Use this option to limit the number of documents that can be showed
+        | in the recent documents
+        |
+        | default: 1000
+        |
+        | @var int
+        */
 
-	'recent' => [
+        'limit' => getenv('DMS_RECENT_LIMIT') ?: 1000,
 
-		/*
-		|--------------------------------------------------------------------------
-		| The maximum number of elements in the recent list
-		|--------------------------------------------------------------------------
-		| 
-		| Use this option to limit the number of documents that can be showed
-		| in the recent documents
-		|
-		| default: 1000
-		|
-		| @var int
-		*/
+        /*
+        |--------------------------------------------------------------------------
+        | The maximum number of weeks to consider a document recent
+        |--------------------------------------------------------------------------
+        |
+        | Use this option to limit how old a document could be in order to be
+        | considered a recent document.
+        | Unit: weeks. A document updated more than 3 weeks before the current date
+        | will not be considered recent
+        |
+        | default: 3 weeks
+        |
+        | @var int
+        */
 
-		'limit' => getenv('DMS_RECENT_LIMIT') ?: 1000,
+        'time_limit' => getenv('DMS_RECENT_TIMELIMIT') ?: 3,
 
-		/*
-		|--------------------------------------------------------------------------
-		| The maximum number of weeks to consider a document recent
-		|--------------------------------------------------------------------------
-		| 
-		| Use this option to limit how old a document could be in order to be
-		| considered a recent document.
-		| Unit: weeks. A document updated more than 3 weeks before the current date 
-		| will not be considered recent
-		|
-		| default: 3 weeks
-		|
-		| @var int
-		*/
-
-		'time_limit' => getenv('DMS_RECENT_TIMELIMIT') ?: 3,
-
-	],
+    ],
 ];

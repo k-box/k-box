@@ -2,7 +2,6 @@
 
 namespace KlinkDMS\Jobs;
 
-use KlinkDMS\Jobs\Job;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -56,20 +55,13 @@ class ThumbnailGenerationJob extends Job implements ShouldQueue
      */
     public function handle(ThumbnailsService $service)
     {
-        try
-        {
-
+        try {
             $t_path = $service->generate($this->file, $this->force);
-        
-        }
-        catch(Exception $ex)
-        {
-            
-            \Log::error('Thumbnail generation Job error', array(
-                'file' => $this->file->toArray(), 
-                'force' => $this->force, 
-                'error' => $ex));
-            
+        } catch (Exception $ex) {
+            \Log::error('Thumbnail generation Job error', [
+                'file' => $this->file->toArray(),
+                'force' => $this->force,
+                'error' => $ex]);
         }
     }
 }

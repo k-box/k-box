@@ -3,43 +3,39 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateActivitiesTable extends Migration {
+class CreateActivitiesTable extends Migration
+{
 
-	/**
-	 * Run the migrations.
-	 *
-	 * @return void
-	 */
-	public function up()
-	{
-		Schema::create('activities', function(Blueprint $table)
-		{
-			$table->bigIncrements('id');
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('activities', function (Blueprint $table) {
+            $table->bigIncrements('id');
 
-			$table->timestamps();
+            $table->timestamps();
 
-			/**
-			 * The real type of activity
-			 */
-			$table->morphs('instance');
+            /**
+             * The real type of activity
+             */
+            $table->morphs('instance');
 
+            $table->bigInteger('user_id')->unsigned();
+            
+            $table->foreign('user_id')->references('id')->on('users');
+        });
+    }
 
-
-			$table->bigInteger('user_id')->unsigned();
-			
-			$table->foreign('user_id')->references('id')->on('users');
-
-		});
-	}
-
-	/**
-	 * Reverse the migrations.
-	 *
-	 * @return void
-	 */
-	public function down()
-	{
-		Schema::drop('activities');
-	}
-
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('activities');
+    }
 }

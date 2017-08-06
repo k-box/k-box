@@ -1,14 +1,16 @@
-<?php namespace KlinkDMS\Http\Composers;
+<?php
+
+namespace KlinkDMS\Http\Composers;
 
 use Illuminate\Contracts\View\View;
 
-use Illuminate\Contracts\Auth\Guard as AuthGuard;
 use KlinkDMS\User;
 use Carbon\Carbon;
 use Klink\DmsDocuments\StorageService;
 use Auth;
 
-class WidgetsComposer {
+class WidgetsComposer
+{
 
     /**
      * @var \Klink\DmsAdapter\KlinkAdapter
@@ -18,7 +20,7 @@ class WidgetsComposer {
     /**
      * @var \Klink\DmsDocuments\DocumentsService
      */
-    private $documents = NULL;
+    private $documents = null;
 
     /**
      * Create a new profile composer.
@@ -28,7 +30,6 @@ class WidgetsComposer {
      */
     public function __construct(\Klink\DmsAdapter\Contracts\KlinkAdapter $adapter, \Klink\DmsDocuments\DocumentsService $documentsService)
     {
-        
         $this->adapter = $adapter;
 
         $this->documents = $documentsService;
@@ -44,7 +45,7 @@ class WidgetsComposer {
      */
     public function widgetStorage(View $view)
     {
-        if(Auth::check()){
+        if (Auth::check()) {
             $storage = app(StorageService::class);
 
             $data = [
@@ -59,87 +60,69 @@ class WidgetsComposer {
 
     public function widgetStarred(View $view)
     {
-
-        if(\Auth::check()){
-
+        if (\Auth::check()) {
             $auth_user = \Auth::user();
 
             $stars = $auth_user->starred()->with('document')->take(5)->orderBy('created_at', 'DESC')->get();
 
             $view->with('starred', $stars);
         }
-
     }
 
     public function widgetRecentSearches(View $view)
     {
-
-        if(\Auth::check()){
-
+        if (\Auth::check()) {
             $auth_user = \Auth::user();
 
             $recent = $auth_user->searches()->take(5)->orderBy('updated_at', 'desc')->get();
 
             $view->with('recent_searches', $recent);
-        }
-        else {
+        } else {
             $view->with('recent_searches', []);
         }
-
     }
     
     public function widgetUserSessions(View $view)
     {
-        
-        $active_users = array();
+        $active_users = [];
 
-        if(\Auth::check()){
-
+        if (\Auth::check()) {
             $auth_user = \Auth::user();
 
             $sessions_table_name = app()->config['session.table'];
-		
-    		$sessions_driver_db = app()->config['session.driver'] === 'database';
-    		
-    		$table_exists = \Schema::hasTable($sessions_table_name);
-            
-    		if($sessions_driver_db || ($sessions_driver_db && $table_exists)){
-    		
-        		$sessions = \DB::table($sessions_table_name)->where('last_activity', '>=', time() - (20*60))->distinct()->get();
         
-        		foreach ($sessions as $session)
-        		{
-        			
-        			try{           
+            $sessions_driver_db = app()->config['session.driver'] === 'database';
+            
+            $table_exists = \Schema::hasTable($sessions_table_name);
+            
+            if ($sessions_driver_db || ($sessions_driver_db && $table_exists)) {
+                $sessions = \DB::table($sessions_table_name)->where('last_activity', '>=', time() - (20*60))->distinct()->get()->all();
+        
+                foreach ($sessions as $session) {
+                    try {
                         $u = User::findOrFail($session->user_id);
                         
-                        if(!isset($active_users[$session->user_id]))
-                        {
-                            $active_users[$session->user_id] = array(
+                        if (! isset($active_users[$session->user_id])) {
+                            $active_users[$session->user_id] = [
                                 'time' => Carbon::createFromTimeStamp($session->last_activity)->diffForHumans(),
                                 'user' => $u->name,
                                 'is_me' => $u->id === $auth_user->id
-                            );
+                            ];
                         }
-        			}
-                    catch(\Exception $ex){ }
+                    } catch (\Exception $ex) {
+                    }
+                }
 
-        		}
-
-                if(empty($active_users)){
-                    $active_users[$auth_user->id] = array(
+                if (empty($active_users)) {
+                    $active_users[$auth_user->id] = [
                             'time' => Carbon::now()->diffForHumans(),
                             'user' => $auth_user->name,
                             'is_me' => true
-                        );
+                        ];
                 }
-            
             }
-
         }
         
         $view->with('active_users', array_values($active_users));
-        
     }
-
 }

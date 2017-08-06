@@ -1,4 +1,6 @@
-<?php namespace KlinkDMS;
+<?php
+
+namespace KlinkDMS;
 
 use KlinkDMS\Traits\HasEnums;
 use InvalidArgumentException;
@@ -13,150 +15,135 @@ use InvalidArgumentException;
  *
  * @uses KlinkDMS\Traits\HasEnums
  */
-final class Flags {
+final class Flags
+{
+    use HasEnums;
 
-	use HasEnums;
+    /**
+     * The Unified Search flag
+     */
+    const UNIFIED_SEARCH = 'unifiedsearch';
+    
 
-	/**
-	 * The Unified Search flag
-	 */	
-	const UNIFIED_SEARCH = 'unifiedsearch';
-	
-
-	/**
-	 * Check if a flag is enabled
-	 *
-	 * @param string $flag the flag name
-	 * @return boolean true if the flag is enabled, false otherwise 
-	 */
-	public static function isEnabled($flag){
-
-		if(!is_string($flag))
-		{
+    /**
+     * Check if a flag is enabled
+     *
+     * @param string $flag the flag name
+     * @return boolean true if the flag is enabled, false otherwise
+     */
+    public static function isEnabled($flag)
+    {
+        if (! is_string($flag)) {
             throw new InvalidArgumentException("Flag name must be a string.");
         }
 
-        if(!self::isValidEnumValue($flag))
-		{
+        if (! self::isValidEnumValue($flag)) {
             throw new InvalidArgumentException("Flag name $flag is invalid.");
         }
 
-		$val = Option::option('flag_' . $flag, false);
+        $val = Option::option('flag_'.$flag, false);
 
-		return filter_var($val, FILTER_VALIDATE_BOOLEAN);
-
-	}
-	
-	/**
-	 * Check if a flag is disabled
-	 *
-	 * @param string $flag the flag name
-	 * @return boolean true if the flag is disabled, false otherwise 
-	 */
-	public static function isDisabled($flag){
-
-		if(!is_string($flag))
-		{
+        return filter_var($val, FILTER_VALIDATE_BOOLEAN);
+    }
+    
+    /**
+     * Check if a flag is disabled
+     *
+     * @param string $flag the flag name
+     * @return boolean true if the flag is disabled, false otherwise
+     */
+    public static function isDisabled($flag)
+    {
+        if (! is_string($flag)) {
             throw new InvalidArgumentException("Flag name must be a string.");
         }
 
-        if(!self::isValidEnumValue($flag))
-		{
+        if (! self::isValidEnumValue($flag)) {
             throw new InvalidArgumentException("Flag name $flag is invalid.");
         }
 
-		$val = Option::option('flag_' . $flag, false);
+        $val = Option::option('flag_'.$flag, false);
 
-		return !filter_var($val, FILTER_VALIDATE_BOOLEAN);
+        return ! filter_var($val, FILTER_VALIDATE_BOOLEAN);
+    }
 
-	}
-
-	/**
-	 * Enable a flag
-	 *
-	 * @param string $flag the flag name
-	 * @return boolean true if the flag was enabled succesfully, false otherwise 
-	 */
-	public static function enable($flag)
-	{
-		if(!is_string($flag))
-		{
+    /**
+     * Enable a flag
+     *
+     * @param string $flag the flag name
+     * @return boolean true if the flag was enabled succesfully, false otherwise
+     */
+    public static function enable($flag)
+    {
+        if (! is_string($flag)) {
             throw new InvalidArgumentException("Flag name must be a string.");
         }
 
-        if(!self::isValidEnumValue($flag))
-		{
+        if (! self::isValidEnumValue($flag)) {
             throw new InvalidArgumentException("Flag name $flag is invalid.");
         }
-	
-		Option::put('flag_' . $flag, true);
+    
+        Option::put('flag_'.$flag, true);
 
-		return true;
-	}
-	
-	/**
-	 * Disable a flag
-	 *
-	 * @param string $flag the flag name
-	 * @return boolean true if the flag was disabled succesfully, false otherwise 
-	 */
-	public static function disable($flag)
-	{
-		if(!is_string($flag))
-		{
+        return true;
+    }
+    
+    /**
+     * Disable a flag
+     *
+     * @param string $flag the flag name
+     * @return boolean true if the flag was disabled succesfully, false otherwise
+     */
+    public static function disable($flag)
+    {
+        if (! is_string($flag)) {
             throw new InvalidArgumentException("Flag name must be a string.");
         }
 
-        if(!self::isValidEnumValue($flag))
-		{
+        if (! self::isValidEnumValue($flag)) {
             throw new InvalidArgumentException("Flag name $flag is invalid.");
         }
-	
-		Option::put('flag_' . $flag, false);
+    
+        Option::put('flag_'.$flag, false);
 
-		return true;
-	}
+        return true;
+    }
 
-	/**
-	 * Toggle a flag.
-	 * If is enabled, it will be disabled. 
-	 * If is disabled, it will be enabled.
-	 *
-	 * @param string $flag the flag name
-	 * @return boolean the current enable status. True if is enabled after the toggle, 
-	 * false if disabled 
-	 */
-	public static function toggle($flag)
-	{
-		if(!is_string($flag))
-		{
+    /**
+     * Toggle a flag.
+     * If is enabled, it will be disabled.
+     * If is disabled, it will be enabled.
+     *
+     * @param string $flag the flag name
+     * @return boolean the current enable status. True if is enabled after the toggle,
+     * false if disabled
+     */
+    public static function toggle($flag)
+    {
+        if (! is_string($flag)) {
             throw new InvalidArgumentException("Flag name must be a string.");
         }
 
-        if(!self::isValidEnumValue($flag))
-		{
+        if (! self::isValidEnumValue($flag)) {
             throw new InvalidArgumentException("Flag name $flag is invalid.");
         }
-	
-		if(self::isEnabled($flag))
-		{
-			self::disable($flag);
-			return false;
-		}
-		
-		self::enable($flag);
-		return true;
+    
+        if (self::isEnabled($flag)) {
+            self::disable($flag);
+            return false;
+        }
+        
+        self::enable($flag);
+        return true;
+    }
 
-	}
-
-
-	/**
-	 * Get the enable/disable state of the Unified Search feature
-	 *
-	 * @return bool unified search enable status
-	 */
-	public function isUnifiedSearchEnabled(){
-		return self::isEnabled(self::UNIFIED_SEARCH);
-	}
-
+    /**
+     * Get the enable/disable state of the Unified Search feature
+     *
+     * @return bool unified search enable status
+     */
+    public function isUnifiedSearchEnabled()
+    {
+        return true; //self::isEnabled(self::UNIFIED_SEARCH);
+    }
 }

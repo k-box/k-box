@@ -1,22 +1,10 @@
 <?php
 
 use Laracasts\TestDummy\Factory;
-use KlinkDMS\User;
-use KlinkDMS\Group;
-use KlinkDMS\GroupType;
-use KlinkDMS\Project;
-use KlinkDMS\Capability;
-use KlinkDMS\DocumentDescriptor;
-use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Collection;
 
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Tests\BrowserKitTestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-use Symfony\Component\Console\Tester\CommandTester;
-
-use Illuminate\Foundation\Application;
 use KlinkDMS\Console\Commands\DocumentsCheckDescriptorCommand;
 
 use KlinkDMS\Traits\RunCommand;
@@ -24,30 +12,27 @@ use KlinkDMS\Traits\RunCommand;
 /*
  * Test the DocumentsCheckDescriptorCommand
 */
-class DocumentsCheckDescriptorCommandTest extends TestCase {
-    
+class DocumentsCheckDescriptorCommandTest extends BrowserKitTestCase
+{
     use DatabaseTransactions, RunCommand;
 
     // function that might be useful
 
-    private function createWrongDocument( $options = [] ){
-
-        $docs = factory('KlinkDMS\DocumentDescriptor')->create( $options );
+    private function createWrongDocument($options = [])
+    {
+        $docs = factory('KlinkDMS\DocumentDescriptor')->create($options);
         
         
         return $docs;
     }
-
-
 
     // real test methods
 
     /**
      * Test the check descriptor command with a set of wrongly saved documents
      */
-    public function testCheckDescriptorOnNonUpdatedDocuments(){
-
-
+    public function testCheckDescriptorOnNonUpdatedDocuments()
+    {
         $doc = $this->createWrongDocument([
             'is_public' => false,
             'language' => 'en',
@@ -59,14 +44,12 @@ class DocumentsCheckDescriptorCommandTest extends TestCase {
 
         
         $new_mime_type = $file->mime_type;
-        $new_document_type = \KlinkDocumentUtils::documentTypeFromMimeType( $file->mime_type );
+        $new_document_type = \KlinkDocumentUtils::documentTypeFromMimeType($file->mime_type);
         $new_hash = $file->hash;
 
-        $command = new DocumentsCheckDescriptorCommand( app('Klink\DmsDocuments\DocumentsService') );
+        $command = new DocumentsCheckDescriptorCommand(app('Klink\DmsDocuments\DocumentsService'));
 
         $res = $this->runArtisanCommand($command, []);
-
-        // var_dump($res);
 
         $updated_descriptor = $doc->fresh();
 
@@ -74,28 +57,23 @@ class DocumentsCheckDescriptorCommandTest extends TestCase {
         $this->assertEquals($updated_descriptor->document_type, $new_document_type, 'Document type not matching');
         $this->assertEquals($updated_descriptor->hash, $new_hash, 'Hash not matching');
         $this->assertEquals($updated_descriptor->local_document_id, $doc->local_document_id, 'Local document ID not matching');
-
     }
-
 
     /**
      * Test the check descriptor command with a non existing document
      * @expectedException     Illuminate\Database\Eloquent\ModelNotFoundException
-     * @expectedExceptionMessage No query results for model [KlinkDMS\DocumentDescriptor].
+     * @expectedExceptionMessage No query results for model [KlinkDMS\DocumentDescriptor]
      */
-    public function testCheckDescriptorOnNonExistingDocument(){
-
+    public function testCheckDescriptorOnNonExistingDocument()
+    {
         $doc = $this->createWrongDocument();
 
         $doc->forceDelete();
 
-        $command = new DocumentsCheckDescriptorCommand( app('Klink\DmsDocuments\DocumentsService') );
+        $command = new DocumentsCheckDescriptorCommand(app('Klink\DmsDocuments\DocumentsService'));
         
         $res = $this->runArtisanCommand($command, [
             'document' => $doc->id
         ]);
-
     }
-
-    
 }

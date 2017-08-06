@@ -1,4 +1,6 @@
-<?php namespace KlinkDMS;
+<?php
+
+namespace KlinkDMS;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -12,13 +14,12 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\GroupType whereType($value)
  * @mixin \Eloquent
  */
-class GroupType extends Model {
+class GroupType extends Model
+{
     /*
     id: increments
     type: string
     */
-
-
 
     /**
      * The database table used by the model.
@@ -28,8 +29,6 @@ class GroupType extends Model {
     protected $table = 'group_types';
 
     public $timestamps = false;
-
-
 
     /**
      * Generic group label
@@ -41,12 +40,10 @@ class GroupType extends Model {
      */
     const FOLDER = 'folder';
 
-
     public function scopeType($query, $type)
     {
         return $query->whereType($type);
     }
-
 
     public static function getGenericType()
     {
@@ -57,5 +54,4 @@ class GroupType extends Model {
     {
         return GroupType::type(GroupType::FOLDER)->first();
     }
-
 }

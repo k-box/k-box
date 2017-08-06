@@ -13,9 +13,7 @@ class UpdateDocumentDescriptorsWithLastError extends Migration
     public function up()
     {
         Schema::table('document_descriptors', function (Blueprint $table) {
-            
             $table->text('last_error')->nullable();
-
         });
     }
 
@@ -27,9 +25,7 @@ class UpdateDocumentDescriptorsWithLastError extends Migration
     public function down()
     {
         Schema::table('document_descriptors', function (Blueprint $table) {
-            
             $table->dropColumn('last_error');
-            
         });
     }
 }

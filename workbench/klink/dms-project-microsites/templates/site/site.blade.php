@@ -5,12 +5,12 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title>
         	@if( isset($title) ) {{ $title }} &ndash; @endif 
-        	K&middot;Link DMS
+        	{{ config('app.name') }}
         </title>
-        <meta name="description" content="@if( isset($description) ) {{ $description }} &ndash; @endif The K-Link Document Management System">
+        <meta name="description" content="@if( isset($description) ) {{ $description }} &ndash; @endif {{ config('app.name') }}">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-		<link rel="stylesheet" href="{{ url( /*elixir( */ "css/microsite.css" /*)*/ ) }}">
+		<link rel="stylesheet" href="{{ url( "css/microsite.css" ) }}">
                 
 		<meta name="token" content="{{{ csrf_token() }}}">
 

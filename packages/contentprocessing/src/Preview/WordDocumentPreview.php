@@ -23,12 +23,12 @@ class WordDocumentPreview implements PreviewContract
      */
     private $document = null;
     
-    function __construct()
+    public function __construct()
     {
     }
 
-    function load($path){
-
+    public function load($path)
+    {
         $this->path = $path;
 
         $this->document = IOFactory::load($this->path);
@@ -45,13 +45,12 @@ class WordDocumentPreview implements PreviewContract
 
     public function html()
     {
-
         $content = $this->writer->getWriterPart('Body')->write();
         
         $content = str_replace('<body>', '', $content);
         $content = str_replace('</body>', '', $content);
 
-        return sprintf('<div class="preview__render preview__render--document">%1$s</div>', 
+        return sprintf('<div class="preview__render preview__render--document">%1$s</div>',
                 $content);
     }
 
@@ -72,9 +71,7 @@ class WordDocumentPreview implements PreviewContract
              ->setCompany(e($properties->getCompany()));
         
         return $prop;
-
     }
-
 
     public function supportedMimeTypes()
     {

@@ -1,26 +1,20 @@
 <?php
 
-use KlinkDMS\User;
-use KlinkDMS\Capability;
 use KlinkDMS\Institution;
-use Illuminate\Support\Facades\Artisan;
 
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Tests\BrowserKitTestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 /**
  * Tests the Institution class
 */
-class InstitutionTest extends TestCase {
-    
+class InstitutionTest extends BrowserKitTestCase
+{
     use DatabaseTransactions;
     
 
-
-
-    public function testInstitutionEquality(){
-
+    public function testInstitutionEquality()
+    {
         $inst = new Institution([
             'klink_id' => str_random(4),
             'email' => 'email@email.com',
@@ -41,5 +35,4 @@ class InstitutionTest extends TestCase {
 
         $this->assertTrue($inst->equal($klinkInst), 'Institution not equal to itself after conversion to KlinkInstitutionDetails');
     }
-
 }

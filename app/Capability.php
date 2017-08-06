@@ -1,4 +1,6 @@
-<?php namespace KlinkDMS;
+<?php
+
+namespace KlinkDMS;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -15,7 +17,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Capability whereKey($value) add a where clause for the capability $key
  * @mixin \Eloquent
  */
-class Capability extends Model {
+class Capability extends Model
+{
 
     // Collection of contants for the names of the capabilities
 
@@ -78,7 +81,7 @@ class Capability extends Model {
     /**
      * The user can create, edit or remove document groups that are
      * visible to all the users of the institution
-     * @deprecated use MANAGE_PROJECT_COLLECTIONS instead 
+     * @deprecated use MANAGE_PROJECT_COLLECTIONS instead
      */
     const MANAGE_INSTITUTION_GROUPS = 'manage_institution_groups';
     
@@ -117,17 +120,16 @@ class Capability extends Model {
      */
     const MANAGE_PERSONAL_PEOPLE_GROUPS = 'manage_personal_people';
 
-
     // Default roles based on Capability aggregation
     
     /**
      *
      * @var array
      */
-    static $ADMIN = array( 
-        self::MAKE_SEARCH, 
-        self::UPLOAD_DOCUMENTS, 
-        self::IMPORT_DOCUMENTS, 
+    public static $ADMIN = [
+        self::MAKE_SEARCH,
+        self::UPLOAD_DOCUMENTS,
+        self::IMPORT_DOCUMENTS,
         self::EDIT_DOCUMENT,
         self::CHANGE_DOCUMENT_VISIBILITY,
         self::DELETE_DOCUMENT,
@@ -142,23 +144,23 @@ class Capability extends Model {
         self::MANAGE_PEOPLE_GROUPS,
         self::MANAGE_PERSONAL_PEOPLE_GROUPS,
         self::SHARE_WITH_PERSONAL,
-        self::SHARE_WITH_PRIVATE );
+        self::SHARE_WITH_PRIVATE ];
 
     /**
      *
      * @var array
      */
-    static $DMS_MASTER = array( 
+    public static $DMS_MASTER = [
         self::MANAGE_DMS,
         self::MANAGE_USERS,
         self::MANAGE_LOG,
-        self::MANAGE_BACKUP );
+        self::MANAGE_BACKUP ];
 
     /**
      *
      * @var array
      */
-    static $CONTENT_MANAGER = array( 
+    public static $CONTENT_MANAGER = [
         self::MAKE_SEARCH,
         self::RECEIVE_AND_SEE_SHARE,
         self::UPLOAD_DOCUMENTS,
@@ -167,85 +169,85 @@ class Capability extends Model {
         self::SHARE_WITH_PERSONAL,
         self::MANAGE_PROJECT_COLLECTIONS,
         self::CHANGE_DOCUMENT_VISIBILITY,
-        self::EDIT_DOCUMENT, );
+        self::EDIT_DOCUMENT, ];
         
     /**
-     * 
+     *
      * @deprecated Corresponds to the Project Manager in the Project Edition
      * @var array
      */
-    static $QUALITY_CONTENT_MANAGER = array( 
-        self::MAKE_SEARCH, 
-        self::UPLOAD_DOCUMENTS, 
+    public static $QUALITY_CONTENT_MANAGER = [
+        self::MAKE_SEARCH,
+        self::UPLOAD_DOCUMENTS,
         self::IMPORT_DOCUMENTS,
         self::MANAGE_OWN_GROUPS,
         self::MANAGE_PROJECT_COLLECTIONS,
         self::DELETE_DOCUMENT,
-        self::EDIT_DOCUMENT, 
+        self::EDIT_DOCUMENT,
         self::CHANGE_DOCUMENT_VISIBILITY,
         self::MANAGE_PEOPLE_GROUPS,
         self::MANAGE_PERSONAL_PEOPLE_GROUPS,
         self::RECEIVE_AND_SEE_SHARE,
         self::CLEAN_TRASH,
         self::SHARE_WITH_PERSONAL,
-        self::SHARE_WITH_PRIVATE );
+        self::SHARE_WITH_PRIVATE ];
         
     /**
      *
      * @var array
      */
-    static $PROJECT_MANAGER = array( 
-        self::MAKE_SEARCH, 
-        self::UPLOAD_DOCUMENTS, 
+    public static $PROJECT_MANAGER = [
+        self::MAKE_SEARCH,
+        self::UPLOAD_DOCUMENTS,
         self::IMPORT_DOCUMENTS,
         self::MANAGE_OWN_GROUPS,
         self::MANAGE_PROJECT_COLLECTIONS,
         self::DELETE_DOCUMENT,
-        self::EDIT_DOCUMENT, 
+        self::EDIT_DOCUMENT,
         self::CHANGE_DOCUMENT_VISIBILITY,
         self::MANAGE_PEOPLE_GROUPS,
         self::MANAGE_PERSONAL_PEOPLE_GROUPS,
         self::RECEIVE_AND_SEE_SHARE,
         self::CLEAN_TRASH,
         self::SHARE_WITH_PERSONAL,
-        self::SHARE_WITH_PRIVATE );
+        self::SHARE_WITH_PRIVATE ];
         
     /**
      *
      * @var array
      */
-    static $PROJECT_MANAGER_NO_CLEAN_TRASH = array( 
-        self::MAKE_SEARCH, 
-        self::UPLOAD_DOCUMENTS, 
+    public static $PROJECT_MANAGER_NO_CLEAN_TRASH = [
+        self::MAKE_SEARCH,
+        self::UPLOAD_DOCUMENTS,
         self::IMPORT_DOCUMENTS,
         self::MANAGE_OWN_GROUPS,
         self::MANAGE_PROJECT_COLLECTIONS,
         self::DELETE_DOCUMENT,
-        self::EDIT_DOCUMENT, 
+        self::EDIT_DOCUMENT,
         self::CHANGE_DOCUMENT_VISIBILITY,
         self::MANAGE_PEOPLE_GROUPS,
         self::MANAGE_PERSONAL_PEOPLE_GROUPS,
         self::RECEIVE_AND_SEE_SHARE,
         self::SHARE_WITH_PERSONAL,
-        self::SHARE_WITH_PRIVATE );
+        self::SHARE_WITH_PRIVATE ];
 
     /**
      *
      * @var array
      */
-    static $UPLOADER = array( 
+    public static $UPLOADER = [
         self::UPLOAD_DOCUMENTS,
         self::MANAGE_OWN_GROUPS,
         self::EDIT_DOCUMENT,
         self::DELETE_DOCUMENT,
         self::RECEIVE_AND_SEE_SHARE,
-        self::SHARE_WITH_PERSONAL );
+        self::SHARE_WITH_PERSONAL ];
 
     /**
      *
      * @var array
      */
-    static $PARTNER = array( 
+    public static $PARTNER = [
         self::MAKE_SEARCH,
         self::RECEIVE_AND_SEE_SHARE,
         self::UPLOAD_DOCUMENTS,
@@ -253,14 +255,14 @@ class Capability extends Model {
         self::MANAGE_OWN_GROUPS,
         self::SHARE_WITH_PERSONAL,
         self::MANAGE_PROJECT_COLLECTIONS,
-        self::EDIT_DOCUMENT, );
+        self::EDIT_DOCUMENT, ];
 
     /**
      *
      * @var array
      */
-    static $GUEST = array( 
-        self::RECEIVE_AND_SEE_SHARE );
+    public static $GUEST = [
+        self::RECEIVE_AND_SEE_SHARE ];
         
     /**
      * Mappings from Standard Edition to Project edition
@@ -268,21 +270,21 @@ class Capability extends Model {
      * @deprecated
      * @var array
      */
-    static $OLD_NEW_MAPPING = array(
-          'manage_institution_documents' => array(
-              self::CHANGE_DOCUMENT_VISIBILITY, 
-              self::EDIT_DOCUMENT, 
-              self::DELETE_DOCUMENT),
-          'manage_institution_documents_visibility' => array(
-              self::CHANGE_DOCUMENT_VISIBILITY),
-          'manage_own_documents' => array(
-              self::EDIT_DOCUMENT, 
-              self::DELETE_DOCUMENT),
-          'manage_own_documents_visibility' => array(
-              self::CHANGE_DOCUMENT_VISIBILITY),
-          'manage_institution_groups' => array(
-              self::MANAGE_PROJECT_COLLECTIONS),
-    );
+    public static $OLD_NEW_MAPPING = [
+          'manage_institution_documents' => [
+              self::CHANGE_DOCUMENT_VISIBILITY,
+              self::EDIT_DOCUMENT,
+              self::DELETE_DOCUMENT],
+          'manage_institution_documents_visibility' => [
+              self::CHANGE_DOCUMENT_VISIBILITY],
+          'manage_own_documents' => [
+              self::EDIT_DOCUMENT,
+              self::DELETE_DOCUMENT],
+          'manage_own_documents_visibility' => [
+              self::CHANGE_DOCUMENT_VISIBILITY],
+          'manage_institution_groups' => [
+              self::MANAGE_PROJECT_COLLECTIONS],
+    ];
 
     /**
      * The database table used by the model.
@@ -296,14 +298,12 @@ class Capability extends Model {
      */
     public $timestamps = false;
 
-
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = ['key', 'description'];
-
 
     /**
      * Scope Query. Retrieve a capability from the associated label key
@@ -313,7 +313,7 @@ class Capability extends Model {
      */
     public function scopeFromKey($query, $key)
     {
-        return $query->whereKey($key);
+        return $query->where('key', $key);
     }
 
     public function scopeFromKeys($query, array $keys)
@@ -321,12 +321,12 @@ class Capability extends Model {
         return $query->whereIn('key', $keys);
     }
 
-    private static function getConstants(){
+    private static function getConstants()
+    {
         $oClass = new \ReflectionClass('KlinkDMS\Capability');
 
-        return array_filter($oClass->getConstants(), function($el)
-        {
-            return $el !== self::CREATED_AT && $el !== self::UPDATED_AT; 
+        return array_filter($oClass->getConstants(), function ($el) {
+            return $el !== self::CREATED_AT && $el !== self::UPDATED_AT;
         });
     }
 
@@ -335,26 +335,25 @@ class Capability extends Model {
      *
      * @return \Illuminate\Database\Eloquent\Collection|\KlinkDMS\Capability[]
      */
-    public static function known(){
-        
+    public static function known()
+    {
         $known_constants = self::getConstants();
         
         return Capability::fromKeys(array_values($known_constants))->get();
-        
     }
     
     
     /**
-     * check if the Capabilities table is in sync with new 
+     * check if the Capabilities table is in sync with new
      * capabilities and, if not, add them to the database (old unused capabilities are not removed)
      *
      * @return void
      */
-    public static function syncCapabilities(){
-        
+    public static function syncCapabilities()
+    {
         \Log::info('Sync Capabilities called');
     
-        $current_caps = self::all(array('key'))->pluck('key')->toArray();
+        $current_caps = self::all(['key'])->pluck('key')->toArray();
     
         $constants = array_values(self::getConstants());
         
@@ -364,26 +363,26 @@ class Capability extends Model {
         
         $new = array_diff($constants, $current_caps);
     
-        $needed = !empty($new); // check if upgrade is needed
+        $needed = ! empty($new); // check if upgrade is needed
         
-        if(!$needed){
+        if (! $needed) {
             \Log::info('Capability upgrade not needed, constants and capabilities table are in sync');
             return false;
         }
         
             
-        $executed = \DB::transaction(function() use($current_caps, $constants, $difference, $new) {
+        $executed = \DB::transaction(function () use ($current_caps, $constants, $difference, $new) {
             
             // if yes create the new capabilities
             
-            $new_caps_ids = array();
+            $new_caps_ids = [];
             
-            foreach($new as $to_add){
-               $n_cap = Capability::create(array('key' => $to_add)); 
+            foreach ($new as $to_add) {
+                $n_cap = Capability::create(['key' => $to_add]);
                
-               \Log::info('Added new capability', array('cap' => $n_cap));
+                \Log::info('Added new capability', ['cap' => $n_cap]);
                
-               $new_caps_ids[$n_cap->key] = $n_cap->id;
+                $new_caps_ids[$n_cap->key] = $n_cap->id;
             }
             
 
@@ -399,17 +398,14 @@ class Capability extends Model {
             
             $users = User::all();
             
-            foreach($users as $user){
-                
-                foreach($old_keys as $o_key){
-                
-                    if($user->can_capability($o_key)){
-                        
+            foreach ($users as $user) {
+                foreach ($old_keys as $o_key) {
+                    if ($user->can_capability($o_key)) {
                         $new_caps_to_add = Capability::fromKeys($mappings[$o_key])->get();
                         
-                        \Log::info('Upgrading capabilities to user ' . $user->id, array('old' => $o_key, 'new' => $new_caps_to_add));
+                        \Log::info('Upgrading capabilities to user '.$user->id, ['old' => $o_key, 'new' => $new_caps_to_add]);
                         
-                        foreach($new_caps_to_add as $new_cap){
+                        foreach ($new_caps_to_add as $new_cap) {
                             $user->addCapability($new_cap);
                         }
 
@@ -418,7 +414,7 @@ class Capability extends Model {
                 }
             }
             
-            $removed = array_values(Capability::whereIn('key', $old_keys)->get(array('id'))->pluck('id')->toArray());
+            $removed = array_values(Capability::whereIn('key', $old_keys)->get(['id'])->pluck('id')->toArray());
             
             Capability::destroy($removed);
             
@@ -428,6 +424,4 @@ class Capability extends Model {
     
         return $executed;
     }
-    
-
 }

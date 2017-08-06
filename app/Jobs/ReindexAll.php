@@ -1,6 +1,7 @@
-<?php namespace KlinkDMS\Jobs;
+<?php
 
-use KlinkDMS\Jobs\Job;
+namespace KlinkDMS\Jobs;
+
 use KlinkDMS\User;
 use KlinkDMS\Option;
 use KlinkDMS\DocumentDescriptor;
@@ -14,89 +15,81 @@ use Klink\DmsDocuments\DocumentsService;
  *
  * It runs on the queue.
  */
-class ReindexAll extends Job implements ShouldQueue {
+class ReindexAll extends Job implements ShouldQueue
+{
+    use InteractsWithQueue, SerializesModels;
 
-	use InteractsWithQueue, SerializesModels;
+    /**
+     * The IDs of the document descriptors to be reindexed
+     * @var array the array of document descriptor ID to be reindexed
+     */
+    private $ids = null;
 
-	/**
-	 * The IDs of the document descriptors to be reindexed
-	 * @var array the array of document descriptor ID to be reindexed
-	 */
-	private $ids = null;
+    /**
+     * Create a new ReindexAll job instance.
+     *
+     * @param \KlinkDMS\User $user the User that is triggering the reindex
+     * @param array|string[] $docIds the array of document descriptor ID to be reindexed
+     * @return ReindexAll
+     */
+    public function __construct(User $user, array $docIds)
+    {
+        $this->ids = $docIds;
+    }
 
-	/**
-	 * Create a new ReindexAll job instance.
-	 *
-	 * @param \KlinkDMS\User $user the User that is triggering the reindex
-	 * @param array|string[] $docIds the array of document descriptor ID to be reindexed
-	 * @return ReindexAll
-	 */
-	public function __construct(User $user, array $docIds)
-	{
-		$this->ids = $docIds;
-	}
+    /**
+     * Execute the command.
+     *
+     * @return void
+     */
+    public function handle(DocumentsService $service)
+    {
+        \Log::info('Reindex All procedure started...');
 
-	/**
-	 * Execute the command.
-	 *
-	 * @return void
-	 */
-	public function handle(DocumentsService $service)
-	{
-		\Log::info('Reindex All procedure started...');
+        $docs = DocumentDescriptor::whereIn('id', $this->ids)->get();
 
-		$docs = DocumentDescriptor::whereIn('id', $this->ids)->get();
+        $total = count($docs);
 
-		$total = count($docs);
+        $errors = [];
 
-		$errors = array();
+        try {
+            $pending = $total;
+            $completed = 0;
 
-		try{
+            foreach ($docs as $doc) {
+                try {
+                    //if is both private and public reindex on every visibility
+                    $service->reindexDocument($doc, 'private', true);
+                } catch (\KlinkException $kex) {
+                    $errors[$doc->id] = $kex;
+                }
 
-			$pending = $total;
-			$completed = 0;
+                $pending =  $pending -1;
+                $completed = $completed +1;
 
-			foreach ($docs as $doc) {
-				try{
-					//if is both private and public reindex on every visibility
-					$service->reindexDocument($doc, 'private', true);
+                \DB::transaction(function () use ($pending, $completed) {
+                    // update the status of the reindexing
+                    Option::put('dms.reindex.pending', $pending);
+                    Option::put('dms.reindex.completed', $completed);
+                });
+            }
 
-				}catch(\KlinkException $kex){
-					$errors[$doc->id] = $kex;
-				}
+            Option::put('dms.reindex.executing', false); // save the execution status
 
-				$pending =  $pending -1;
-				$completed = $completed +1;
+            if (empty($errors)) {
+                \Log::info('Reindex All procedure completed.');
+            } else {
+                \Log::warning('Reindex All completed with errors', ['errors' => $errors]);
+            }
 
-				\DB::transaction(function() use($pending, $completed){
-					// update the status of the reindexing
-					Option::put('dms.reindex.pending', $pending);
-	    			Option::put('dms.reindex.completed', $completed);
+            return true;
+        } catch (\Exception $ex) {
+            Option::put('dms.reindex.executing', false);
+            Option::put('dms.reindex.error', trans('errors.reindex_all'));
 
-				});
-			}
+            \Log::error('Exception during reindex all', ['error' => $ex]);
 
-			Option::put('dms.reindex.executing', false); // save the execution status
-
-			if(empty($errors)){
-				\Log::info('Reindex All procedure completed.');
-			}
-			else {
-				\Log::warning('Reindex All completed with errors', ['errors' => $errors]);
-			}
-
-			return true;
-
-		}catch(\Exception $ex){
-
-			Option::put('dms.reindex.executing', false);
-			Option::put('dms.reindex.error', trans('errors.reindex_all'));
-
-			\Log::error('Exception during reindex all', ['error' => $ex]);
-
-
-			return false;
-		}
-	}
-
+            return false;
+        }
+    }
 }

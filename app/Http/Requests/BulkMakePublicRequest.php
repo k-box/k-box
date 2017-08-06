@@ -1,32 +1,34 @@
-<?php namespace KlinkDMS\Http\Requests;
+<?php
 
-use KlinkDMS\Http\Requests\Request;
+namespace KlinkDMS\Http\Requests;
 
-class BulkMakePublicRequest extends Request {
+use Illuminate\Foundation\Http\FormRequest as Request;
 
-	/**
-	 * Determine if the user is authorized to make this request.
-	 *
-	 * @return bool
-	 */
-	public function authorize()
-	{
-		return true;
-	}
+class BulkMakePublicRequest extends Request
+{
 
-	/**
-	 * Get the validation rules that apply to the request.
-	 *
-	 * @return array
-	 */
-	public function rules()
-	{
-		return [
-			'group' => 'required_without_all:documents|exists:groups,id',
-			'documents' => 'required_without_all:group|exists:document_descriptors,id',
-			'context' => 'sometimes|required|in:public,private,all,group,starred,trash,shared',
+    /**
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
+    public function authorize()
+    {
+        return true;
+    }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
+     */
+    public function rules()
+    {
+        return [
+            'group' => 'required_without_all:documents|exists:groups,id',
+            'documents' => 'required_without_all:group|exists:document_descriptors,id',
+            'context' => 'sometimes|required|in:public,private,all,group,starred,trash,shared',
 //			'force' => 'sometimes|required|boolean'
-		];
-	}
-
+        ];
+    }
 }

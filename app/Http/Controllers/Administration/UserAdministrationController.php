@@ -1,22 +1,24 @@
-<?php namespace KlinkDMS\Http\Controllers\Administration;
+<?php
+
+namespace KlinkDMS\Http\Controllers\Administration;
 
 use KlinkDMS\Capability;
-use KlinkDMS\DocumentDescriptor;
 use KlinkDMS\Institution;
 use KlinkDMS\Http\Controllers\Controller;
 use KlinkDMS\Http\Requests\UserRequest;
-use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Hash;
 use KlinkDMS\User;
 use KlinkDMS\Option;
 use Illuminate\Contracts\Auth\Guard;
 use Klink\DmsAdapter\KlinkAdapter;
 use Illuminate\Contracts\Auth\PasswordBroker as PasswordBrokerContract;
+use KlinkDMS\Notifications\UserCreatedNotification;
 
 /**
  * User Resource Controller
  */
-class UserAdministrationController extends Controller {
+class UserAdministrationController extends Controller
+{
 
   /*
   |--------------------------------------------------------------------------
@@ -34,13 +36,13 @@ class UserAdministrationController extends Controller {
    *
    * @return void
    */
-  public function __construct(KlinkAdapter $adapter) {
+  public function __construct(KlinkAdapter $adapter)
+  {
+      $this->middleware('auth');
 
-    $this->middleware('auth');
+      $this->middleware('capabilities');
 
-    $this->middleware('capabilities');
-
-    $this->adapter = $adapter;
+      $this->adapter = $adapter;
   }
 
   /**
@@ -48,23 +50,21 @@ class UserAdministrationController extends Controller {
    *
    * @return Response
    */
-  public function index(Guard $auth) {
+  public function index(Guard $auth)
+  {
+      $users = User::withTrashed()->get();
+      $data = ['users' => $users, 'pagetitle' => trans('administration.menu.accounts')];
 
-    $users = User::withTrashed()->get();
-    $data = ['users' => $users, 'pagetitle' => trans('administration.menu.accounts')];
+      if (! Option::isMailEnabled()) {
+          $data['notices'] = [trans('notices.mail_testing_mode_msg', ['url' => route('administration.mail.index')])];
+      }
 
-    if(!Option::isMailEnabled())
-    {
-        $data['notices'] = [trans('notices.mail_testing_mode_msg', ['url' => route('administration.mail.index')])];
-    }
+      if ($auth->check()) {
+          $data['current_user'] = $auth->user()->id;
+      }
 
-    if($auth->check()){
-      $data['current_user'] = $auth->user()->id;
-    }
-
-    return view('administration.users', $data);
+      return view('administration.users', $data);
   }
-
 
   /**
    * Show the form for creating a new user.
@@ -73,35 +73,27 @@ class UserAdministrationController extends Controller {
    */
   public function create()
   {
-    
-    $user_types = array(
+      $user_types = [
         'guest' => Capability::$GUEST,
         'partner' => Capability::$PARTNER,
         'project_admin' => Capability::$QUALITY_CONTENT_MANAGER,
         'klinker' => Capability::$QUALITY_CONTENT_MANAGER,
         'admin' => Capability::$ADMIN,
-      );
+      ];
       
       
-      $type_resolutor = array();
+      $type_resolutor = [];
       
-      foreach($user_types as $type_key => $type_caps){
+      foreach ($user_types as $type_key => $type_caps) {
+          $smandrupped = array_combine($type_caps, array_fill(0, count($type_caps), $type_key));
         
-        $smandrupped = array_combine($type_caps, array_fill(0, count($type_caps), $type_key));
-        
-        foreach($smandrupped as $elab_key => $elab_value){
-          
-          if(isset($type_resolutor[$elab_key])){
-            $type_resolutor[$elab_key][] = $elab_value;
+          foreach ($smandrupped as $elab_key => $elab_value) {
+              if (isset($type_resolutor[$elab_key])) {
+                  $type_resolutor[$elab_key][] = $elab_value;
+              } else {
+                  $type_resolutor[$elab_key]= [$elab_value];
+              }
           }
-          else {
-            $type_resolutor[$elab_key]= array($elab_value);
-          }
-        }
-        
-        
-        
-        
       }
       
       // make the caps in order from the basic account type to the best account type
@@ -109,8 +101,8 @@ class UserAdministrationController extends Controller {
       
       $caps = Capability::all();
       
-      foreach($caps as $cap){
-        $perms[$cap->key] = $cap;
+      foreach ($caps as $cap) {
+          $perms[$cap->key] = $cap;
       }
     
     
@@ -137,9 +129,7 @@ class UserAdministrationController extends Controller {
    */
   public function store(UserRequest $request)
   {
-
-      if(!Option::isMailEnabled())
-      {
+      if (! Option::isMailEnabled()) {
           return redirect()->back()->withInput()->withErrors([
                'email' => trans('notices.mail_not_configured', ['url' => route('administration.mail.index')])
           ]);
@@ -147,8 +137,7 @@ class UserAdministrationController extends Controller {
 
       $password = User::generatePassword();
 
-      $user = \DB::transaction(function() use($request, $password){
-      
+      $user = \DB::transaction(function () use ($request, $password) {
           $user = User::create([
               'name' => $request->get('name'),
               'email' => trim($request->get('email')),
@@ -162,11 +151,7 @@ class UserAdministrationController extends Controller {
           return $user;
       });
 
-      \Mail::queue('emails.welcome-html',
-        array('user' => $user, 'password' => $password),
-        function ($message) use ($user) {
-          $message->to($user->email, $user->name)->subject(trans('administration.accounts.mail_subject'));
-        });
+      $user->notify(new UserCreatedNotification($user, $password));
 
       return redirect()->route('administration.users.index')->with([
             'flash_message' => trans('administration.accounts.created_msg')
@@ -190,11 +175,8 @@ class UserAdministrationController extends Controller {
       //   ];
       
 
-
-
       return $this->edit($auth, $id); //view('administration.users.edit', $viewBag);
   }
-
 
   /**
    * Show the form for editing the specified user.
@@ -204,10 +186,9 @@ class UserAdministrationController extends Controller {
    */
   public function edit(Guard $auth, $id)
   {
-
       $user = User::findOrFail($id);
       
-      $user_types = array(
+      $user_types = [
         'guest' => Capability::$GUEST,
         'partner' => Capability::$PARTNER,
         // 'content_manager' => Capability::$CONTENT_MANAGER,
@@ -216,45 +197,33 @@ class UserAdministrationController extends Controller {
         'project_admin' => Capability::$PROJECT_MANAGER,
         'klinker' => Capability::$PROJECT_MANAGER,
         'admin' => Capability::$ADMIN,
-      );
+      ];
       
       
-      $type_resolutor = array();
+      $type_resolutor = [];
       
-      foreach($user_types as $type_key => $type_caps){
+      foreach ($user_types as $type_key => $type_caps) {
+          $smandrupped = array_combine($type_caps, array_fill(0, count($type_caps), $type_key));
         
-        $smandrupped = array_combine($type_caps, array_fill(0, count($type_caps), $type_key));
-        
-        foreach($smandrupped as $elab_key => $elab_value){
-          
-          if(isset($type_resolutor[$elab_key])){
-            $type_resolutor[$elab_key][] = $elab_value;
+          foreach ($smandrupped as $elab_key => $elab_value) {
+              if (isset($type_resolutor[$elab_key])) {
+                  $type_resolutor[$elab_key][] = $elab_value;
+              } else {
+                  $type_resolutor[$elab_key]= [$elab_value];
+              }
           }
-          else {
-            $type_resolutor[$elab_key]= array($elab_value);
-          }
-        }
-        
-        
-        
-        
       }
-      
-      // dd(array_keys($type_resolutor));
-      
-      // dd($type_resolutor);
       
       // make the caps in order from the basic account type to the best account type
       $perms = array_flip(array_unique(array_merge(Capability::$GUEST, Capability::$PARTNER, Capability::$CONTENT_MANAGER, Capability::$QUALITY_CONTENT_MANAGER, Capability::$ADMIN)));
       
       $caps = Capability::all();
       
-      foreach($caps as $cap){
-        $perms[$cap->key] = $cap;
+      foreach ($caps as $cap) {
+          $perms[$cap->key] = $cap;
       }
       
       $institutions = Institution::all();
-
 
       $viewBag = [
         'pagetitle' => trans('administration.accounts.edit_account_title', ['name' => $user->name]),
@@ -279,63 +248,54 @@ class UserAdministrationController extends Controller {
    */
   public function update($id, UserRequest $request)
   {
-
       $user = User::findOrFail($id);
       
-      if($request->has('email')){
-          
+      if ($request->has('email')) {
           $change_mail = $request->get('email');
           $current_mail = $user->email;
           
           $already_exists = User::withTrashed()->fromEmail($change_mail)->first();
           
-          if($current_mail != $change_mail && is_null($already_exists)){
+          if ($current_mail != $change_mail && is_null($already_exists)) {
               $user->email = $request->get('email');
-          }
-          else if($current_mail != $change_mail && !is_null($already_exists)){
+          } elseif ($current_mail != $change_mail && ! is_null($already_exists)) {
               return redirect()->back()->withInput()->withErrors([
                     'email' => 'The Email is already in use, please specifiy a different email address'
                 ]);
           }
-          
-          
       }
 
-      if($user->name != $request->get('name')){
+      if ($user->name != $request->get('name')) {
           $user->name = $request->get('name');
       }
       
-      if($user->getInstitution() != $request->get('institution')){
+      if ($user->getInstitution() != $request->get('institution')) {
           $user->institution_id = $request->get('institution');
       }
       
       
 
-
       $user->save();
 
-      if($request->has('capabilities')){
-
-        $current_submitted = $request->get('capabilities');
-        $current_saved = array_pluck($user->capabilities()->get()->toArray(), 'key');
+      if ($request->has('capabilities')) {
+          $current_submitted = $request->get('capabilities');
+          $current_saved = array_pluck($user->capabilities()->get()->toArray(), 'key');
         
-        \DB::transaction(function() use($current_saved, $current_submitted, $user) {
+          \DB::transaction(function () use ($current_saved, $current_submitted, $user) {
+              $to_be_removed = array_diff($current_saved, $current_submitted);
+    
+              $to_be_added = array_diff($current_submitted, $current_saved);
             
-            $to_be_removed = array_diff($current_saved, $current_submitted);
+              foreach ($to_be_added as $add) {
+                  $user->addCapability($add);
+              }
     
-            $to_be_added = array_diff($current_submitted, $current_saved);
-            
-            foreach ($to_be_added as $add) {
-            $user->addCapability($add);
-            }
+              foreach ($to_be_removed as $rem) {
+                  $user->removeCapability($rem);
+              }
     
-            foreach ($to_be_removed as $rem) {
-            $user->removeCapability($rem);
-            }
-    
-            return true;
-        });
-        
+              return true;
+          });
       }
 
       return redirect()->route('administration.users.show', [$user->id])->with([
@@ -360,14 +320,10 @@ class UserAdministrationController extends Controller {
         ]);
   }
 
-
-
-
     public function remove($id)
     {
         return $this->destroy($id);
     }
-
 
     public function restore($id)
     {
@@ -385,39 +341,32 @@ class UserAdministrationController extends Controller {
     */
     public function resetPassword($id)
     {
-      
-      try{
-        $user = User::findOrFail($id);
+        try {
+            $user = User::findOrFail($id);
 
-        $view = \Password::sendResetLink(array('email' => $user->email, 'id' => $user->id), function($m, $user, $token){
-            $m->subject(trans('mail.password_reset_subject'));
-        });
+            $view = \Password::sendResetLink(['email' => $user->email, 'id' => $user->id], function ($m, $user, $token) {
+                $m->subject(trans('mail.password_reset_subject'));
+            });
         
-        if($view == PasswordBrokerContract::INVALID_USER){
-          return redirect()->back()->withErrors([
-	            'error' => trans('administration.accounts.reset_not_sent_invalid_user', ['email' => $user->email])
-	        ]);
-        }
-        else if($view == PasswordBrokerContract::RESET_LINK_SENT){
-          return redirect()->back()->with([
+            if ($view == PasswordBrokerContract::INVALID_USER) {
+                return redirect()->back()->withErrors([
+                'error' => trans('administration.accounts.reset_not_sent_invalid_user', ['email' => $user->email])
+            ]);
+            } elseif ($view == PasswordBrokerContract::RESET_LINK_SENT) {
+                return redirect()->back()->with([
               'flash_message' => trans('administration.accounts.reset_sent', ['name' => $user->name, 'email' => $user->email])
           ]);
-        }
-        else {
-          return redirect()->back()->withErrors([
-	            'error' => trans('administration.accounts.reset_not_sent', ['email' => $user->email, 'error' => ''])
-	        ]);
-        }
-
-        
-      }catch(\Exception $ex){
+            } else {
+                return redirect()->back()->withErrors([
+                'error' => trans('administration.accounts.reset_not_sent', ['email' => $user->email, 'error' => ''])
+            ]);
+            }
+        } catch (\Exception $ex) {
+            \Log::error('Password reset from admin interface error', ['error' => $ex]);
           
-          \Log::error('Password reset from admin interface error', ['error' => $ex]);
-          
-        return redirect()->back()->withErrors([
-	            'error' => trans('administration.accounts.reset_not_sent', ['email' => $id, 'error' => $ex->getMessage()])
-	        ]);
-      }
+            return redirect()->back()->withErrors([
+                'error' => trans('administration.accounts.reset_not_sent', ['email' => $id, 'error' => $ex->getMessage()])
+            ]);
+        }
     }
-
 }

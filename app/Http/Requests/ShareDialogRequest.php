@@ -2,7 +2,7 @@
 
 namespace KlinkDMS\Http\Requests;
 
-use KlinkDMS\Http\Requests\Request;
+use Illuminate\Foundation\Http\FormRequest as Request;
 use KlinkDMS\Capability;
 
 class ShareDialogRequest extends Request
@@ -26,8 +26,8 @@ class ShareDialogRequest extends Request
     public function rules()
     {
         return [
-			'collections' => 'exists:groups,id',
-			'documents' => 'exists:document_descriptors,id'
+            'collections' => 'exists:groups,id',
+            'documents' => 'exists:document_descriptors,id'
         ];
     }
 }

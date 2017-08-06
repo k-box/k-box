@@ -2,40 +2,38 @@
 
 use Laracasts\TestDummy\Factory;
 use KlinkDMS\User;
-use KlinkDMS\Institution;
 use KlinkDMS\Group;
 use KlinkDMS\Capability;
 use KlinkDMS\DocumentDescriptor;
-use Illuminate\Support\Facades\Artisan;
 
-
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Tests\BrowserKitTestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 /*
  * Test something related to document descriptors management
 */
-class DocumentsServiceTest extends TestCase {
-    
+class DocumentsServiceTest extends BrowserKitTestCase
+{
     use DatabaseTransactions;
     
     
-    public function user_provider_with_guest() {
-        return array( 
-			array(Capability::$ADMIN, 'admin'),
-			array(Capability::$PROJECT_MANAGER, 'project_manager'),
-			array(Capability::$PARTNER, 'partner'),
-			array(Capability::$GUEST, 'guest'),
-		);
+    public function user_provider_with_guest()
+    {
+        return [
+            [Capability::$ADMIN, 'admin'],
+            [Capability::$PROJECT_MANAGER, 'project_manager'],
+            [Capability::$PARTNER, 'partner'],
+            [Capability::$GUEST, 'guest'],
+        ];
     }
 
-    public function user_provider_no_guest() {
-        return array( 
-			array(Capability::$ADMIN, 'admin'),
-			array(Capability::$PROJECT_MANAGER, 'project_manager'),
-			array(Capability::$PARTNER, 'partner'),
-		);
+    public function user_provider_no_guest()
+    {
+        return [
+            [Capability::$ADMIN, 'admin'],
+            [Capability::$PROJECT_MANAGER, 'project_manager'],
+            [Capability::$PARTNER, 'partner'],
+        ];
     }
 
     
@@ -44,11 +42,11 @@ class DocumentsServiceTest extends TestCase {
      * cover issue https://git.klink.asia/klinkdms/dms/issues/569
      * @dataProvider user_provider_no_guest
      */
-    public function testGetDocumentCollections($caps){
-
+    public function testGetDocumentCollections($caps)
+    {
         $service = app('Klink\DmsDocuments\DocumentsService');
 
-        $user = $this->createUser( $caps );
+        $user = $this->createUser($caps);
         
         $doc = factory('KlinkDMS\DocumentDescriptor')->create([
             'owner_id' => $user->id
@@ -64,7 +62,7 @@ class DocumentsServiceTest extends TestCase {
 
         $secondary_project->users()->save($user);
         
-        $group = $service->createGroup($user, 'Personal collection of user ' . $user->id);
+        $group = $service->createGroup($user, 'Personal collection of user '.$user->id);
         
         $group->documents()->save($doc);
 
@@ -72,7 +70,7 @@ class DocumentsServiceTest extends TestCase {
 
         Group::findOrFail($secondary_project->collection_id)->documents()->save($doc);
 
-        // simulate another user, who has access to both projects, that 
+        // simulate another user, who has access to both projects, that
         // is adding the document to the second project
         Group::findOrFail($other_project->collection_id)->documents()->save($doc);
         
@@ -80,15 +78,13 @@ class DocumentsServiceTest extends TestCase {
         $collections = $service->getDocumentCollections($doc, $user);
 
         $this->assertEquals($user->isDMSManager() ? 4 : 3, $collections->count());
-        
     }
-
 
     /**
      * issue https://git.klink.asia/klinkdms/dms/issues/690
      */
-    public function testFallbackDocumentReIndexingAfterForceHashCheckOnKCore(){
-
+    public function testFallbackDocumentReIndexingAfterForceHashCheckOnKCore()
+    {
         $this->withKlinkAdapterFake();
 
         // todo test add and reindex
@@ -98,7 +94,7 @@ class DocumentsServiceTest extends TestCase {
         
         $file = $descr->file;
 
-        // change the document to a complete non-sense mime-type to 
+        // change the document to a complete non-sense mime-type to
         // force a fallback text extraction
         $descr->mime_type = 'text/basiliscus';
         $file->mime_type = 'text/basiliscus';
@@ -117,8 +113,8 @@ class DocumentsServiceTest extends TestCase {
     /**
      * issue https://git.klink.asia/klinkdms/dms/issues/690
      */
-    public function testFallbackDocumentIndexingAfterForceHashCheckOnKCore(){
-
+    public function testFallbackDocumentIndexingAfterForceHashCheckOnKCore()
+    {
         $this->withKlinkAdapterFake();
 
         // todo test add and reindex
@@ -127,9 +123,10 @@ class DocumentsServiceTest extends TestCase {
         $file = factory('KlinkDMS\File')->create([
             'user_id' => $user->id,
             'original_uri' => ''
-        ]);;
+        ]);
+        ;
 
-        // change the document to a complete non-sense mime-type to 
+        // change the document to a complete non-sense mime-type to
         // force a fallback text extraction
 
         $file->mime_type = 'text/basiliscus';
@@ -142,7 +139,6 @@ class DocumentsServiceTest extends TestCase {
 
         $this->assertInstanceOf(DocumentDescriptor::class, $ret);
     }
-
 
     /**
      * Test removing a private and public document from the public network
@@ -177,9 +173,5 @@ class DocumentsServiceTest extends TestCase {
 
         $this->assertNull($fake->getDocument(null, $descr->local_document_id, 'public'), 'NOT Null public get');
         $this->assertNotNull($fake->getDocument(null, $descr->local_document_id, 'private'), 'Null private get');
-
     }
-    
-   
-    
 }

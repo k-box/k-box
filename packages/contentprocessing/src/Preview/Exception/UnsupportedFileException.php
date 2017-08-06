@@ -1,4 +1,6 @@
-<?php namespace Content\Preview\Exception;
+<?php
+
+namespace Content\Preview\Exception;
 
 use Exception;
 
@@ -19,5 +21,4 @@ class UnsupportedFileException extends Exception
     {
         parent::__construct($message, 40001, $previous);
     }
-    
 }

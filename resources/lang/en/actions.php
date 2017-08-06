@@ -2,45 +2,44 @@
 
 return [
 
-	/*
-	|--------------------------------------------------------------------------
-	| Actions Language Lines
-	|--------------------------------------------------------------------------
-	|
-	| The following language lines are used primarly for buttons and switcher
-	|
-	*/
+    /*
+    |--------------------------------------------------------------------------
+    | Actions Language Lines
+    |--------------------------------------------------------------------------
+    |
+    | The following language lines are used primarly for buttons and switcher
+    |
+    */
 
-	'edit' => 'Edit',
-	'details' => 'Details',
-	'expand'     => 'Expand',
-	'collapse'     => 'Collapse',
-	'expand_all'     => 'Expand All',
-	'collapse_all'     => 'Collapse All',
-	'open' => 'Open',
+    'edit' => 'Edit',
+    'details' => 'Details',
+    'expand'     => 'Expand',
+    'collapse'     => 'Collapse',
+    'expand_all'     => 'Expand All',
+    'collapse_all'     => 'Collapse All',
+    'open' => 'Open',
 
-	'restore' => 'Restore',
-	'disable' => 'Disable',
+    'restore' => 'Restore',
+    'disable' => 'Disable',
 
-	'cancel' => 'Cancel',
-	'done' => 'Done',
+    'cancel' => 'Cancel',
+    'done' => 'Done',
 
-	'or_alt' => 'or',
-	'or' => 'or :action',
+    'or_alt' => 'or',
+    'or' => 'or :action',
 
+    'selection' => [
 
-	'selection' => array(
-
-		'dropdown' => 'Selection',
-		'all' => 'All',
-		'clear' => 'Clear',
-		'invert' => 'Invert',
+        'dropdown' => 'Selection',
+        'all' => 'All',
+        'clear' => 'Clear',
+        'invert' => 'Invert',
         'hint' => 'Select All/Clear selection',
 
         'at_least_one_document' => 'Select at least 1 document',
         'at_least_one' => 'Please select at least 1 document or collection',
         'only_one' => 'Please select only 1 document or collection',
-	),
+    ],
     
     'clipboard' => [
         'copied_title' => 'Copied!',
@@ -50,68 +49,67 @@ return [
         'not_copied_link_text' => 'The link cannot be copied to the clipboard, you can copy it manually by pressing Ctrl+C on the keyboard.',
     ],
 
+    'switcher' => [
 
-	'switcher' => array(
+        'details' => 'Details View',
+        'tiles' => 'Tiles View',
+        'grid' => 'Grid View',
+        'map' => 'Map View',
 
-		'details' => 'Details View',
-		'tiles' => 'Tiles View',
-		'grid' => 'Grid View',
-		'map' => 'Map View',
+    ],
 
-	),
+    'versions' => [
 
-	'versions' => array(
+        'manage' => 'Manage versions',
+        'add_new' => 'Add a new version',
 
-		'manage' => 'Manage versions',
-		'add_new' => 'Add a new version',
+    ],
 
-	),
+    'import' => 'Import',
+    'upload' => 'File',
+    'upload_alt' => 'Upload',
 
-	'import' => 'Import',
-	'upload' => 'File',
-	'upload_alt' => 'Upload',
+    'save' => 'Save',
+    'saving' => 'Saving...',
+    'deleting' => 'Deleting...',
+    'restoring' => 'Restoring...',
+    'cleaning_trash' => 'Cleaning the trash...',
+    'cleaning_trash_wait' => 'Please wait while the trash is being cleaned...',
 
-	'save' => 'Save',
-	'saving' => 'Saving...',
-	'deleting' => 'Deleting...',
-	'restoring' => 'Restoring...',
-	'cleaning_trash' => 'Cleaning the trash...',
-	'cleaning_trash_wait' => 'Please wait while the trash is being cleaned...',
+    'add_to' => 'Add to',
+    'move_to' => 'Move to',
 
-	'add_to' => 'Add to',
-	'move_to' => 'Move to',
+    'add_or_move_to' => 'Collections',
 
-	'add_or_move_to' => 'Collections',
+    'publish_documents' => 'Publish Documents',
+    'make_private' => 'Keep Private',
 
-	'publish_documents' => 'Publish Documents',
-	'make_private' => 'Keep Private',
+    'create_add_dropdown' => 'Create or Add',
 
-	'create_add_dropdown' => 'Create or Add',
+    'trash_btn' => 'Delete',
+    'trash_btn_alt' => 'Move to Trash',
+    'forcedelete_btn_alt' => 'Permanently Delete',
+    'restore_btn' => 'Restore',
+    'empty_trash' => 'Empty Trash',
 
-	'trash_btn' => 'Delete',
-	'trash_btn_alt' => 'Move to Trash',
-	'forcedelete_btn_alt' => 'Permanently Delete',
-	'restore_btn' => 'Restore',
-	'empty_trash' => 'Empty Trash',
+    'create_btn' => 'Create',
 
-	'create_btn' => 'Create',
-
-	'create_collection_btn' => 'Create Collection',
-	
-	'create_people_group' => 'New Group',
-	
-	'rename_people_group' => 'Change Group Name',
-	
-	'delete_people_group' => 'Delete group',
-	
-	'make_institutional_people_group' => 'Make Institutional',	
-	'make_personal_people_group' => 'Keep Personal',
+    'create_collection_btn' => 'Create Collection',
     
-    'filters' => array(
+    'create_people_group' => 'New Group',
+    
+    'rename_people_group' => 'Change Group Name',
+    
+    'delete_people_group' => 'Delete group',
+    
+    'make_institutional_people_group' => 'Make Institutional',
+    'make_personal_people_group' => 'Keep Personal',
+    
+    'filters' => [
         'filter' => 'Filters',
         'clear_filters' => 'Clear Filters',
         'collection_locked' => 'This is the collection you are browsing and cannot be removed.'
-    ),
+    ],
     
     // 'hints' => [
     //     'make_public' => 'Select some documents before making them available in the K-Link Network',
@@ -138,14 +136,14 @@ return [
         
         
     ],
-	
-	'got_it' => 'Got it!',
+    
+    'got_it' => 'Got it!',
 
-	'remove' => 'Remove',
+    'remove' => 'Remove',
 
-	'sort_by' => [
-		'label' => 'Sort by',
-		'oldest_first' => 'Oldest',
-		'newest_first' => 'Latest',
-	],
+    'sort_by' => [
+        'label' => 'Sort by',
+        'oldest_first' => 'Oldest',
+        'newest_first' => 'Latest',
+    ],
 ];

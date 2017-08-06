@@ -1,18 +1,15 @@
 <?php
 
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\BrowserKitTestCase;
 use Content\Preview\PresentationPreview;
 use Content\FileProperties;
 use Content\Presentation\PresentationProperties;
 
-class PresentationPreviewTest extends TestCase
+class PresentationPreviewTest extends BrowserKitTestCase
 {
-    
     public function testConvertPptxToHtml()
     {
-        $path = __DIR__ . '/data/presentation.pptx';
+        $path = __DIR__.'/data/presentation.pptx';
 
         $preview = (new PresentationPreview())->load($path);
         $html = $preview->html();
@@ -27,5 +24,4 @@ class PresentationPreviewTest extends TestCase
         $this->assertNotEmpty($html);
         $this->assertContains('slides', $html);
     }
-    
 }

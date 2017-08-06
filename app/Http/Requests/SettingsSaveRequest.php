@@ -1,37 +1,38 @@
-<?php namespace KlinkDMS\Http\Requests;
+<?php
 
-use KlinkDMS\Http\Requests\Request;
+namespace KlinkDMS\Http\Requests;
 
-class SettingsSaveRequest extends Request {
+use Illuminate\Foundation\Http\FormRequest as Request;
 
-	/**
-	 * Determine if the user is authorized to make this request.
-	 *
-	 * @return bool
-	 */
-	public function authorize()
-	{
-		return true;
-	}
+class SettingsSaveRequest extends Request
+{
 
-	/**
-	 * Get the validation rules that apply to the request.
-	 *
-	 * @return array
-	 */
-	public function rules()
-	{
-		return [
-			'map_visualization' => 'sometimes|required|in:true',
-			'public_core_enabled' => 'sometimes|required|in:true',
-			'public_core_url' => 'sometimes|required|url',
-			'public_core_username' => 'sometimes|required_with:public_core_url|string',
-			'public_core_password' => 'sometimes|required_with:public_core_url|string',
-			'public_core_debug' => 'sometimes|required|in:true',
-			'public_core_network_name_en' => 'sometimes|string',
-			'public_core_network_name_ru' => 'sometimes|string',
-			'support_token' => 'sometimes|string',
-		];
-	}
+    /**
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
+    public function authorize()
+    {
+        return true;
+    }
 
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
+     */
+    public function rules()
+    {
+        return [
+            'public_core_enabled' => 'nullable|sometimes|required|in:true',
+            'public_core_url' => 'nullable|sometimes|required|url',
+            'public_core_username' => 'nullable|sometimes|required_with:public_core_url|string',
+            'public_core_password' => 'nullable|sometimes|required_with:public_core_url|string',
+            'public_core_debug' => 'nullable|sometimes|required|in:true',
+            'public_core_network_name_en' => 'nullable|sometimes|string',
+            'public_core_network_name_ru' => 'nullable|sometimes|string',
+            'support_token' => 'nullable|sometimes|string',
+        ];
+    }
 }

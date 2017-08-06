@@ -1,10 +1,12 @@
-<?php namespace KlinkDMS;
+<?php
+
+namespace KlinkDMS;
 
 use Illuminate\Database\Eloquent\Model;
 
 /**
  * Represents a starred {@see DocumentDescriptor}
- * 
+ *
  * Fields:
  * - id: bigIncrements
  * - user_id: User
@@ -46,13 +48,12 @@ class Starred extends Model
 
     /**
      * The user that added the star
-     * 
+     *
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function user(){
-        
+    public function user()
+    {
         return $this->hasOne('KlinkDMS\User');
-
     }
 
     /**
@@ -66,9 +67,9 @@ class Starred extends Model
     }
 
     /**
-     * Scope the query to contain only stars of a 
+     * Scope the query to contain only stars of a
      * specific user
-     * 
+     *
      * @param string|int $user_id the user ID (primary key)
      * @return \Illuminate\Database\Eloquent\Builder
      */
@@ -79,7 +80,7 @@ class Starred extends Model
 
     /**
      * Scope the query to contain only a specific document
-     * 
+     *
      * @param string|int $document_id the document ID (primary key)
      * @return \Illuminate\Database\Eloquent\Builder
      */
@@ -90,19 +91,19 @@ class Starred extends Model
 
     /**
      * Check if a star exists for a document and a user
-     * 
+     *
      * @param string|int $document_id the document descriptor identifier
      * @param string|int $user_id the user identifier
      * @return bool
      */
     public static function existsByDocumentAndUserId($document_id, $user_id)
     {
-        return !is_null(self::ofUser($user_id)->byDocumentId($document_id)->first());
+        return ! is_null(self::ofUser($user_id)->byDocumentId($document_id)->first());
     }
 
     /**
      * Get the star by document and user
-     * 
+     *
      * @param string|int $document_id the document descriptor identifier
      * @param string|int $user_id the user identifier
      * @return Starred|null
@@ -111,5 +112,4 @@ class Starred extends Model
     {
         return self::ofUser($user_id)->byDocumentId($document_id)->first();
     }
-
 }

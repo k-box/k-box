@@ -1,32 +1,33 @@
-<?php namespace KlinkDMS\Http\Requests;
+<?php
 
-use KlinkDMS\Http\Requests\Request;
-use Illuminate\Contracts\Auth\Guard;
+namespace KlinkDMS\Http\Requests;
 
-class StarredRequest extends Request {
+use Illuminate\Foundation\Http\FormRequest as Request;
 
-	/**
-	 * Get the validation rules that apply to the request.
-	 *
-	 * @return array
-	 */
-	public function rules()
-	{
-		return [
-			'institution' => 'required|alpha_num',
-			'descriptor' => 'required|alpha_num',
-			'visibility' => 'required|in:public,private',
-		];
-	}
+class StarredRequest extends Request
+{
 
-	/**
-	 * Determine if the user is authorized to make this request.
-	 *
-	 * @return bool
-	 */
-	public function authorize()
-	{
-		return true;
-	}
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
+     */
+    public function rules()
+    {
+        return [
+            'institution' => 'required|alpha_num',
+            'descriptor' => 'required|alpha_num',
+            'visibility' => 'required|in:public,private',
+        ];
+    }
 
+    /**
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
+    public function authorize()
+    {
+        return true;
+    }
 }

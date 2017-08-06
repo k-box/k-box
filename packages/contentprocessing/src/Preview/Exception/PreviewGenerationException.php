@@ -1,9 +1,11 @@
-<?php namespace Content\Preview\Exception;
+<?php
+
+namespace Content\Preview\Exception;
 
 use Exception;
 
 /**
- * The file preview cannot be show due to an error 
+ * The file preview cannot be show due to an error
  * while processing the file
  */
 class PreviewGenerationException extends Exception
@@ -19,5 +21,4 @@ class PreviewGenerationException extends Exception
     {
         parent::__construct($message, 40002, $previous);
     }
-    
 }

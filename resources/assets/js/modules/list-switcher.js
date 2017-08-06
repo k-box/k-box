@@ -8,23 +8,10 @@ define("modules/list-switcher", ["jquery", "DMS"], function ($, DMS) {
 
 
 	function _save(){
-		// if(window.localStorage && window.localStorage['dms_list_style']){
-		// 	window.localStorage.setItem('dms_list_style', _current);
-		// }
-
 		DMS.Services.Options.saveListStyle(_current);
 	}
 
-
-	// if(window.localStorage && window.localStorage['dms_list_style']){
-	// 	_current = window.localStorage['dms_list_style'];
-	// 	_destination_list.attr('class', 'list');
-	// 	_destination_list.addClass(_current);
-	// }
-	// else {
 		_current = _switcher_container.data('current').trim();
-	// 	_save();
-	// }
 
 	// Tiles, cards, details
 
@@ -36,12 +23,8 @@ define("modules/list-switcher", ["jquery", "DMS"], function ($, DMS) {
 
 		tiles: function(element, evt){
 			
-			if(_current=='map'){
-				_destination_list.parent().trigger('dms:unloadmap');
-			}
-			
 			if(_current=='details'){
-				$('#document-area .thumbnail img').trigger('unveil');
+				$('#document-area .item__thumbnail img').trigger('unveil');
 			}
 
 			_destination_list.removeClass(_current);
@@ -60,12 +43,8 @@ define("modules/list-switcher", ["jquery", "DMS"], function ($, DMS) {
 
 		cards: function(element, evt){
 			
-			if(_current=='map'){
-				_destination_list.parent().trigger('dms:unloadmap');
-			}
-			
 			if(_current=='details'){
-				$('#document-area .thumbnail img').trigger('unveil');
+				$('#document-area .item__thumbnail img').trigger('unveil');
 			}
 
 			_destination_list.removeClass(_current);
@@ -86,10 +65,6 @@ define("modules/list-switcher", ["jquery", "DMS"], function ($, DMS) {
 
 		details: function(element, evt){
 
-			if(_current=='map'){
-				_destination_list.parent().trigger('dms:unloadmap');
-			}
-
 			_destination_list.removeClass(_current);
 			_current = 'details';
 			_destination_list.addClass(_current);
@@ -102,29 +77,11 @@ define("modules/list-switcher", ["jquery", "DMS"], function ($, DMS) {
 
 			evt.preventDefault();
 			return false;
-		},
-		
-		map: function(element, evt) {
-			
-			_destination_list.removeClass(_current);
-			_current = 'map';
-			_destination_list.addClass(_current);
-			
-			_current_btn.removeClass('current');
-			_current_btn = element;
-			_current_btn.addClass('current');
-			
-			_destination_list.parent().trigger('dms:loadmap');
-
-			//_save();
-
-			evt.preventDefault();
-			return false;
 		}
 
 	};
 
-	_switcher_container.on('click', '.switch', function(evt){
+	_switcher_container.on('click', '.action__button', function(evt){
 
 		var that = $(this);
 

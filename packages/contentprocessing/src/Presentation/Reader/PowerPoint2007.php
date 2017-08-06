@@ -1,4 +1,5 @@
-<?php 
+<?php
+
 
 namespace Content\Presentation\Reader;
 
@@ -7,16 +8,12 @@ use PhpOffice\PhpPresentation\Reader\PowerPoint2007 as OriginalPowerPoint2007Rea
 use PhpOffice\Common\XMLReader;
 use PhpOffice\PhpPresentation\Style\Color;
 use PhpOffice\PhpPresentation\Slide\AbstractSlide;
-use PhpOffice\Common\Drawing as CommonDrawing;
 
 /**
  * Power point XML file reader
  */
 class PowerPoint2007 extends OriginalPowerPoint2007Reader
 {
-
-    
-    
     protected function loadSlide($sPart, $baseFile)
     {
         $xmlReader = new XMLReader();
@@ -24,7 +21,7 @@ class PowerPoint2007 extends OriginalPowerPoint2007Reader
             // Core
             $oSlide = $this->oPhpPresentation->createSlide();
             $this->oPhpPresentation->setActiveSlideIndex($this->oPhpPresentation->getSlideCount() - 1);
-            $oSlide->setRelsIndex('ppt/slides/_rels/' . $baseFile . '.rels');
+            $oSlide->setRelsIndex('ppt/slides/_rels/'.$baseFile.'.rels');
 
             // Background
             $oElement = $xmlReader->getElement('/p:sld/p:cSld/p:bg/p:bgPr');
@@ -43,10 +40,10 @@ class PowerPoint2007 extends OriginalPowerPoint2007Reader
                 }
                 $oElementImage = $xmlReader->getElement('a:blipFill/a:blip', $oElement);
                 if ($oElementImage) {
-                    $relImg = $this->arrayRels['ppt/slides/_rels/' . $baseFile . '.rels'][$oElementImage->getAttribute('r:embed')];
+                    $relImg = $this->arrayRels['ppt/slides/_rels/'.$baseFile.'.rels'][$oElementImage->getAttribute('r:embed')];
                     if (is_array($relImg)) {
                         // File
-                        $pathImage = 'ppt/slides/' . $relImg['Target'];
+                        $pathImage = 'ppt/slides/'.$relImg['Target'];
                         $pathImage = explode('/', $pathImage);
                         foreach ($pathImage as $key => $partPath) {
                             if ($partPath == '..') {
@@ -87,7 +84,7 @@ class PowerPoint2007 extends OriginalPowerPoint2007Reader
             }
             // Layout
             $oSlide = $this->oPhpPresentation->getActiveSlide();
-            foreach ($this->arrayRels['ppt/slides/_rels/' . $baseFile . '.rels'] as $valueRel) {
+            foreach ($this->arrayRels['ppt/slides/_rels/'.$baseFile.'.rels'] as $valueRel) {
                 if ($valueRel['Type'] == 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/slideLayout') {
                     $layoutBasename = basename($valueRel['Target']);
                     if (array_key_exists($layoutBasename, $this->arraySlideLayouts)) {
@@ -99,22 +96,17 @@ class PowerPoint2007 extends OriginalPowerPoint2007Reader
         }
     }
 
-
     protected function loadGraphicFrame(XMLReader $document, \DOMElement $node, AbstractSlide $oSlide)
     {
-
         $oElement = null;
 
         $childs = $node->getElementsByTagName('graphicData');
         
-        if($childs->length > 0)
-        {
+        if ($childs->length > 0) {
             $oElement = $childs->item(0);
         }
 
-        if(!is_null($oElement) && $oElement->hasChildNodes())
-        {
-
+        if (! is_null($oElement) && $oElement->hasChildNodes()) {
             $child = $oElement->firstChild;
 
             switch ($child->tagName) {
@@ -124,18 +116,11 @@ class PowerPoint2007 extends OriginalPowerPoint2007Reader
                 default:
                     
             }
-
         }
-
     }
-
 
     protected function loadTable(XMLReader $document, \DOMElement $node, AbstractSlide $oSlide)
     {
-
-        // var_dump('table found');
-        // var_dump($node);
-
         $gridColumns = $node->getElementsByTagName('gridCol');
         $gridRows = $node->getElementsByTagName('tr');
 
@@ -155,7 +140,6 @@ class PowerPoint2007 extends OriginalPowerPoint2007Reader
         $paragraph = null;
 
         foreach ($gridRows as $row) {
-
             $slideRow = $table->createRow();
 
             $height = $row->getAttribute('h');
@@ -167,27 +151,23 @@ class PowerPoint2007 extends OriginalPowerPoint2007Reader
             $hMerge = $row->getAttribute('hMerge');
             $vMerge = $row->getAttribute('vMerge');
 
-            if(!empty($height))
-            {
+            if (! empty($height)) {
                 $slideRow->setHeight($height);
             }
 
-            if(!empty($width))
-            {
+            if (! empty($width)) {
                 $slideRow->setWidth($width);
             }
 
             $tcs = $row->getElementsByTagName('tc');
 
-            for ($cellIndex=0; $cellIndex < $tcs->length; $cellIndex++) 
-            { 
-
+            for ($cellIndex=0; $cellIndex < $tcs->length; $cellIndex++) {
                 $tc = $tcs[$cellIndex];
 
                 $paragraphs = $tc->getElementsByTagName('p');
 
                 foreach ($paragraphs as $par) {
-                    // var_dump(compact('par'));
+
                     // get all a:p and then from inside each paragraph the a:t
                     $paragraph = $slideRow->getCell($cellIndex)->createParagraph();
 
@@ -197,15 +177,9 @@ class PowerPoint2007 extends OriginalPowerPoint2007Reader
                         $textual .= $text->textContent;
                     }
 
-                    $paragraph->createText( $textual );
-
+                    $paragraph->createText($textual);
                 }
-
             }
-
-
         }
-
     }
-
 }

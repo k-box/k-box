@@ -1,4 +1,6 @@
-<?php namespace KlinkDMS\Console\Traits;
+<?php
+
+namespace KlinkDMS\Console\Traits;
 
 /**
  * Add the debugLine method that print the text only if verbosity level is greater than 1
@@ -7,15 +9,10 @@
  */
 trait DebugOutput
 {
-    
-    
-    function debugLine($text)
+    public function debugLine($text)
     {
-        
-        if( $this->getOutput()->getVerbosity() > 1 ){
+        if ($this->getOutput()->getVerbosity() > 1) {
             $this->line($text);
         }
-        
     }
-    
 }

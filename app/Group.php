@@ -1,4 +1,5 @@
 <?php
+
 namespace KlinkDMS;
 
 use Franzose\ClosureTable\Models\Entity;
@@ -81,21 +82,19 @@ class Group extends Entity implements GroupInterface
     protected $closure = 'KlinkDMS\GroupClosure';
 
     
-
     protected $fillable = ['name','color', 'user_id','parent_id', 'group_type_id', 'is_private'];
 
     public $timestamps = true;
 
-
-    public function user(){
+    public function user()
+    {
         
         // One to One
         return $this->belongsTo('KlinkDMS\User');
-
     }
     
-    public function project(){
-
+    public function project()
+    {
         return $this->belongsTo('KlinkDMS\Project', 'id', 'collection_id');
     }
 
@@ -111,7 +110,8 @@ class Group extends Entity implements GroupInterface
     /**
      * Get this group plus all descendants query
      */
-    public function scopeWithAllDescendants(){
+    public function scopeWithAllDescendants()
+    {
         return $this->joinClosureBy('descendant', true);
     }
 
@@ -120,12 +120,10 @@ class Group extends Entity implements GroupInterface
         return $this->morphMany('KlinkDMS\Shared', 'shareable');
     }
 
-
     public function scopeOfType($query, $type)
     {
         return $query->whereType($type);
     }
-
 
     public function scopeByName($query, $name)
     {
@@ -144,21 +142,18 @@ class Group extends Entity implements GroupInterface
 
     public function scopePrivate($query, $user_id)
     {
-        return $query->where(function($query) use($user_id)
-            {
-                $query->where('is_private', true)
+        return $query->where(function ($query) use ($user_id) {
+            $query->where('is_private', true)
                       ->where('user_id', $user_id);
-            });
+        });
     }
     
     public function scopeOrPrivate($query, $user_id)
     {
-
-        return $query->orWhere(function($query) use($user_id)
-            {
-                $query->where('is_private', true)
+        return $query->orWhere(function ($query) use ($user_id) {
+            $query->where('is_private', true)
                       ->where('user_id', $user_id);
-            });
+        });
     }
 
     public function scopeRoots($query)
@@ -176,7 +171,6 @@ class Group extends Entity implements GroupInterface
         $columns = $instance->prepareTreeQueryColumns($columns);
 
         
-
         return $instance
             ->where('is_private', '=', true)
             ->where('user_id', '=', $user_id)
@@ -193,14 +187,11 @@ class Group extends Entity implements GroupInterface
         $columns = $instance->prepareTreeQueryColumns($columns);
 
         
-
         return $instance
             ->where('is_private', '=', false)
             ->orderBy('name', 'asc')
             ->get($columns)->toTree();
     }
-
-
 
     /**
      * Convert the group to the Klink representation used in the KlinkDocumentDescriptor
@@ -209,12 +200,12 @@ class Group extends Entity implements GroupInterface
      */
     public function toKlinkGroup()
     {
-        if($this->trashed()){
+        if ($this->trashed()) {
             return false;
         }
         $uid = $this->is_private ? $this->user_id : 0 ;
 
-        return $uid . ':' . $this->id;
+        return $uid.':'.$this->id;
     }
     
     /**
@@ -225,47 +216,42 @@ class Group extends Entity implements GroupInterface
         return filter_var($value, FILTER_VALIDATE_BOOLEAN);
     }
 
-    public function getNameAttribute($value){
+    public function getNameAttribute($value)
+    {
 
         // some values can be escaped, like the single quote char ' to #039; and needs to be escaped
         return htmlspecialchars_decode($value, ENT_QUOTES);
-
     }
     
     
-    public static function getClosureTable(){
+    public static function getClosureTable()
+    {
         $instance = new static;
         return $instance->closure;
     }
     
-    static function boot()
+    public static function boot()
     {
         parent::boot();
 
-        static::created(function ($group)
-        {
-            if($group->is_private){
-                \Cache::forget('dms_personal_collections'. $group->user_id);
-            }
-            else {
-                \Cache::forget('dms_project_collections-' . $group->user_id);
+        static::created(function ($group) {
+            if ($group->is_private) {
+                \Cache::forget('dms_personal_collections'.$group->user_id);
+            } else {
+                \Cache::forget('dms_project_collections-'.$group->user_id);
             }
             
             return $group;
-
         });
         
-        static::updated(function ($group)
-        {
-            if($group->is_private){
-                \Cache::forget('dms_personal_collections'. $group->user_id);
-            }
-            else {
-                \Cache::forget('dms_project_collections-' . $group->user_id);
+        static::updated(function ($group) {
+            if ($group->is_private) {
+                \Cache::forget('dms_personal_collections'.$group->user_id);
+            } else {
+                \Cache::forget('dms_project_collections-'.$group->user_id);
             }
             
             return $group;
-
         });
     }
 }

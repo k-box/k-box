@@ -1,46 +1,41 @@
 <?php
 
-use KlinkDMS\Import;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Tests\BrowserKitTestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use KlinkDMS\User;
-use KlinkDMS\File;
 use KlinkDMS\Flags;
 use KlinkDMS\Capability;
-use KlinkDMS\Jobs\ImportCommand;
-use Klink\DmsMicrosites\Microsite;
 use KlinkDMS\Traits\Searchable;
 use Klink\DmsAdapter\Fakes\FakeKlinkAdapter;
 
 /**
  * Test the Projects page for the Unified Search (routes documents.projects.*)
  */
-class ProjectsPageTest extends TestCase {
-    
+class ProjectsPageTest extends BrowserKitTestCase
+{
     use Searchable;
     use DatabaseTransactions;
     
-    public function expected_routes_provider(){
-		
-		return array( 
-			array( 'documents.projects.index', [] ),
-			array( 'documents.projects.show', ['id' => 1] ),
-		);
-	}
+    public function expected_routes_provider()
+    {
+        return [
+            [ 'documents.projects.index', [] ],
+            [ 'documents.projects.show', ['id' => 1] ],
+        ];
+    }
     
     
-    public function routes_and_capabilities_provider(){
-		
-		return array( 
-			array( Capability::$ADMIN, array('documents.projects.index' => 'documents.projects.projectspage', 'documents.projects.show' => 'documents.projects.detail'), 200 ),
-			array( Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH, array('documents.projects.index' => 'documents.projects.projectspage', 'documents.projects.show' => 'documents.projects.detail'), 200 ),
-			array( Capability::$PROJECT_MANAGER, array('documents.projects.index' => 'documents.projects.projectspage', 'documents.projects.show' => 'documents.projects.detail'), 200 ),
-			array( Capability::$DMS_MASTER, array('documents.projects.index' => 'documents.projects.projectspage', 'documents.projects.show' => 'documents.projects.detail'), 403 ),
-			array( Capability::$PARTNER, array('documents.projects.index' => 'documents.projects.projectspage', 'documents.projects.show' => 'documents.projects.detail'), 200 ),
-			array( Capability::$GUEST, array('documents.projects.index' => 'documents.projects.projectspage', 'documents.projects.show' => 'documents.projects.detail'), 403 ),
-		);
-	}
+    public function routes_and_capabilities_provider()
+    {
+        return [
+            [ Capability::$ADMIN, ['documents.projects.index' => 'documents.projects.projectspage', 'documents.projects.show' => 'documents.projects.detail'], 200 ],
+            [ Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH, ['documents.projects.index' => 'documents.projects.projectspage', 'documents.projects.show' => 'documents.projects.detail'], 200 ],
+            [ Capability::$PROJECT_MANAGER, ['documents.projects.index' => 'documents.projects.projectspage', 'documents.projects.show' => 'documents.projects.detail'], 200 ],
+            [ Capability::$DMS_MASTER, ['documents.projects.index' => 'documents.projects.projectspage', 'documents.projects.show' => 'documents.projects.detail'], 403 ],
+            [ Capability::$PARTNER, ['documents.projects.index' => 'documents.projects.projectspage', 'documents.projects.show' => 'documents.projects.detail'], 200 ],
+            [ Capability::$GUEST, ['documents.projects.index' => 'documents.projects.projectspage', 'documents.projects.show' => 'documents.projects.detail'], 403 ],
+        ];
+    }
 
     
     
@@ -48,43 +43,40 @@ class ProjectsPageTest extends TestCase {
      
     
     /**
-	 * Test the expected project routes are available
-	 *
-	 * @dataProvider expected_routes_provider
-	 * @return void
-	 */
-    public function testProjectPageRoutesExistence($route_name, $parameters){
+     * Test the expected project routes are available
+     *
+     * @dataProvider expected_routes_provider
+     * @return void
+     */
+    public function testProjectPageRoutesExistence($route_name, $parameters)
+    {
         
         // you will see InvalidArgumentException if the route is not defined
         
-        route( $route_name, $parameters );
-        
+        route($route_name, $parameters);
     }
     
     /**
-	 * Test if some routes browsed after login are viewable or not and shows the expected page and error code
-	 *
-	 * @dataProvider routes_and_capabilities_provider
-	 * @return void
-	 */
-    public function testProjectPageAccess( $caps, $routes, $expected_return_code){
-
+     * Test if some routes browsed after login are viewable or not and shows the expected page and error code
+     *
+     * @dataProvider routes_and_capabilities_provider
+     * @return void
+     */
+    public function testProjectPageAccess($caps, $routes, $expected_return_code)
+    {
         $this->withKlinkAdapterFake();
         
         $params = null;
         $user = null;
         
         foreach ($routes as $route => $viewname) {
-            
             $user = $this->createUser($caps);
             
-            if( strpos($route, 'show') !== false ){
-                
+            if (strpos($route, 'show') !== false) {
                 $project = factory('KlinkDMS\Project')->create(['user_id' => $user->id]);
                 
                 $params = ['projects' => $project->id];
-            }
-            else {
+            } else {
                 $params = [];
             }
             
@@ -94,25 +86,20 @@ class ProjectsPageTest extends TestCase {
 
             $this->visit($generated_url);
             
-            if($expected_return_code === 200){
-                
+            if ($expected_return_code === 200) {
                 $this->assertResponseOk();
-                $this->seePageIs( $generated_url );
-                $this->assertViewName( $viewname );
-                
-            }
-            else {
+                $this->seePageIs($generated_url);
+                $this->assertViewName($viewname);
+            } else {
                 $view = $this->response->original;
                 
-                $this->assertViewName('errors.' . $expected_return_code);
+                $this->assertViewName('errors.'.$expected_return_code);
             }
-            
         }
-        
     }
 
-    public function testProjectPageHasSearchBar(){
-
+    public function testProjectPageHasSearchBar()
+    {
         $this->withKlinkAdapterFake();
 
         $user = $this->createUser(Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH);
@@ -126,8 +113,8 @@ class ProjectsPageTest extends TestCase {
         $this->see('search-form');
     }
 
-    public function testProjectPageIsListingProjects(){
-
+    public function testProjectPageIsListingProjects()
+    {
         Flags::enable(Flags::UNIFIED_SEARCH);
 
         $this->withKlinkAdapterFake();
@@ -147,8 +134,8 @@ class ProjectsPageTest extends TestCase {
         $service->addDocumentToGroup($user, $document, $project1->collection);
         $document = $document->fresh();
 
-        $expected_projects = collect([$project1, $project2])->sortBy('name')->map(function($el){
-            return $el->id;              
+        $expected_projects = collect([$project1, $project2])->sortBy('name')->map(function ($el) {
+            return $el->id;
         });
 
         $this->actingAs($user);
@@ -170,11 +157,11 @@ class ProjectsPageTest extends TestCase {
         $this->assertCount(2, $projects, 'project count');
 
         $this->assertEquals(
-            array_values($expected_projects->toArray()), 
+            array_values($expected_projects->toArray()),
             array_values($projects->pluck('id')->toArray()));
         
 
-        // Test: projectspage shows for each project: 
+        // Test: projectspage shows for each project:
             // - The project manager, in the form of username
             // - The number of members in the project
             // - The total amount of files available in the project
@@ -200,30 +187,25 @@ class ProjectsPageTest extends TestCase {
         $columns = $this->response->original->columns;
 
         $this->assertArraySubset(
-            ['language', 'documentType', 'projectId', 'documentGroups'], 
+            ['language', 'documentType', 'projectId', 'documentGroups'],
             array_keys($columns));
-
-
     }
 
-    public function testProjectPageProjectFilterListing(){
-
+    public function testProjectPageProjectFilterListing()
+    {
         Flags::enable(Flags::UNIFIED_SEARCH);
 
         $mock = $this->withKlinkAdapterMock();
 
-		$mock->shouldReceive('institutions')->andReturn(factory('KlinkDMS\Institution')->make());
+        $mock->shouldReceive('institutions')->andReturn(factory('KlinkDMS\Institution')->make());
         
         $mock->shouldReceive('isNetworkEnabled')->andReturn(false);
 
-        $mock->shouldReceive('updateDocument')->andReturnUsing(function($document){
-
+        $mock->shouldReceive('updateDocument')->andReturnUsing(function ($document) {
             return $document->getDescriptor();
-
         });
 
-
-		// $mock->shouldReceive('facets')->andReturnUsing(function($facets, $visibility, $term = '*'){
+        // $mock->shouldReceive('facets')->andReturnUsing(function($facets, $visibility, $term = '*'){
 
         //     return FakeKlinkAdapter::generateFacetsResponse($facets, $visibility, $term);
 
@@ -231,7 +213,7 @@ class ProjectsPageTest extends TestCase {
 
         // test projects are labeled in the elastic list and do not show projects not accessible by the user
         
-        $user = $this->createUser( Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH );
+        $user = $this->createUser(Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH);
         
         $service = app('Klink\DmsDocuments\DocumentsService');
 
@@ -250,15 +232,15 @@ class ProjectsPageTest extends TestCase {
         $service->addDocumentToGroup($user, $document, $personal);
         $document = $document->fresh();
 
-        $mock->shouldReceive('search')->andReturnUsing(function($terms, $type, $resultsPerPage, $offset, $facets) use($project1, $personal){
+        $mock->shouldReceive('search')->andReturnUsing(function ($terms, $type, $resultsPerPage, $offset, $facets) use ($project1, $personal) {
             // dump(func_get_args());
             $res = FakeKlinkAdapter::generateSearchResponse($terms, $type, $resultsPerPage, $offset, $facets);
 
-            $docFt = array_first(array_filter($res->getFacets(), function($i){
+            $docFt = array_first(array_filter($res->getFacets(), function ($i) {
                 return $i->name === 'documentGroups';
             }));
             
-            $prjFt = array_first(array_filter($res->getFacets(), function($i){
+            $prjFt = array_first(array_filter($res->getFacets(), function ($i) {
                 return $i->name === 'projectId';
             }));
 
@@ -291,7 +273,6 @@ class ProjectsPageTest extends TestCase {
             $prjFt->items = $facetItems;
             
             return $res;
-
         });
 
         $this->actingAs($user);
@@ -299,7 +280,6 @@ class ProjectsPageTest extends TestCase {
         $generated_url = route('documents.projects.index');
 
         $this->visit($generated_url);
-
 
         // Trick get the facets view to test which columns are available in the elastic list
         $view = $this->response->original; // is a view
@@ -312,18 +292,18 @@ class ProjectsPageTest extends TestCase {
         $columns = $this->response->original->columns;
         
         $this->assertArraySubset(
-            ['language', 'documentType', 'projectId', 'documentGroups'], 
+            ['language', 'documentType', 'projectId', 'documentGroups'],
             array_keys($columns));
 
-        $project_filters = collect($columns['projectId']['items'])->map(function($el){
+        $project_filters = collect($columns['projectId']['items'])->map(function ($el) {
             return $el->term;
         });
-        $collection_filters = collect($columns['documentGroups']['items'])->map(function($el){
+        $collection_filters = collect($columns['documentGroups']['items'])->map(function ($el) {
             return $el->term;
         });
 
         $this->assertArraySubset([$project1->id], $project_filters->toArray());
-        $this->assertArraySubset(['0:' . $project1->collection->id], $collection_filters->toArray());
+        $this->assertArraySubset(['0:'.$project1->collection->id], $collection_filters->toArray());
         $this->assertFalse(in_array($personal->toKlinkGroup(), $collection_filters->toArray()));
     }
 
@@ -331,8 +311,8 @@ class ProjectsPageTest extends TestCase {
     // Test: projectspage has project column in filters
     // Test: projectspage has action bar if search is performed
     
-    // Test: the project-documents-count cache of a project is cleared when a document is added to the project 
-    // Test: details page 
+    // Test: the project-documents-count cache of a project is cleared when a document is added to the project
+    // Test: details page
 
     // Projects: test avatar upload from project edit/create page
 }

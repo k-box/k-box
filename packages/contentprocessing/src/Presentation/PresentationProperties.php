@@ -1,4 +1,6 @@
-<?php namespace Content\Presentation;
+<?php
+
+namespace Content\Presentation;
 
 use Content\FileProperties;
 
@@ -9,40 +11,45 @@ use Content\FileProperties;
  */
 class PresentationProperties extends FileProperties
 {
-    
     private $totalSlides;
     private $layout;
     private $height;
     private $width;
 
-    public function totalSlides(){
+    public function totalSlides()
+    {
         return $this->totalSlides;
     }
 
-    public function layout(){
+    public function layout()
+    {
         return $this->layout;
     }
 
     /**
     * The presentation height in millimeters
     */
-    public function height(){
+    public function height()
+    {
         return $this->height;
     }
 
     /**
     * The presentation width in millimeters
     */
-    public function width(){
+    public function width()
+    {
         return $this->width;
     }
 
-    public function setTotalSlides($value){
+    public function setTotalSlides($value)
+    {
         $this->totalSlides = $value;
         return $this;
     }
 
-    public function setLayout($value){
+    public function setLayout($value)
+    {
         $this->layout = $value;
         return $this;
     }
@@ -50,7 +57,8 @@ class PresentationProperties extends FileProperties
     /**
     * The presentation height in millimeters
     */
-    public function setHeight($value){
+    public function setHeight($value)
+    {
         $this->height = $value;
         return $this;
     }
@@ -58,10 +66,9 @@ class PresentationProperties extends FileProperties
     /**
     * The presentation width in millimeters
     */
-    public function setWidth($value){
+    public function setWidth($value)
+    {
         $this->width = $value;
         return $this;
     }
-
-
 }

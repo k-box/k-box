@@ -1,5 +1,5 @@
 
-@hero-background-color: #8c9288;
+@hero-background-color: @accent-color;
 
 .hero {
 
@@ -41,15 +41,10 @@
 			width: 56.6666666667%;
 		}
 
-
-		background: @hero-background-color url('@{assets_base_path}images/hero_720x281.jpg') no-repeat center center;
-		background-size: cover;
 	}
 
 	/* Larger than desktop */
 	@media (min-width: 1000px) {
-		background: @hero-background-color url('@{assets_base_path}images/hero_1000x500.jpg') no-repeat center center;
-		background-size: cover;
 
 		p {
 			max-width: 70%;
@@ -58,8 +53,6 @@
 
 	/* Larger than Desktop HD */
 	@media (min-width: 1200px) {
-		background: @hero-background-color url('@{assets_base_path}images/hero_1280x500.jpg') no-repeat center center;
-		background-size: cover;
 
 		.five { 
 			padding-right: 5%;
@@ -83,8 +76,6 @@
 
 	@media (min-width: 720px) {
 
-		// background-color: rgba(0,0,0,0.4);
-	
 		font-size: 4.0rem;
 	
 	}

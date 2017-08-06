@@ -6,7 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use Content\Services\PreviewService;
 
 /**
- * Exposes the services related to the file preview 
+ * Exposes the services related to the file preview
  * and content extraction
  */
 class PreviewServiceProvider extends ServiceProvider

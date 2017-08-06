@@ -7,16 +7,8 @@ define("modules/selection", ["jquery", "DMS", "combokeys", "lodash"], function (
 
 	console.log('loading selection module...');
 
-
-	// data-action = selectable
-	// vaery top parent has .selectable class
-
-
 	var _area = undefined, // the selection area, as inserted into the options
 		_keys = undefined,
-//		_selectables = undefined, //_$(':checkbox[data-action="selectable"]'),
-		// _button = undefined, //_$('[data-action="selection-button"]'),
-		// _dropdown = undefined; //_button.find('a');
 		_selected = [], // the currently selected elements
 		_selectedCount = 0, // the number of selected elements
 		_maxSelectable = 12,
@@ -27,14 +19,14 @@ define("modules/selection", ["jquery", "DMS", "combokeys", "lodash"], function (
 
 	function _showSelectableElements(type){
 
-		if(type){
+		// if(type){
 
-			_area.find('.selectable[data-class="'+type+'"]').addClass('any-selected');
+		// 	_area.find('.js-selectable[data-class="'+type+'"]');
 
-		}
-		else {
-			_area.find('.selectable').addClass('any-selected');
-		}
+		// }
+		// else {
+		// 	_area.find('.js-selectable');
+		// }
 
         
 
@@ -42,13 +34,13 @@ define("modules/selection", ["jquery", "DMS", "combokeys", "lodash"], function (
 
     function _clearSelectableElements(){
 
-        _area.find('.selectable').removeClass('any-selected');
+        // _area.find('.js-selectable');
 
     }
 
     function _clearSelection(){
 
-        var currently_selected = _area.find('.selectable').removeClass('any-selected').removeClass('is-selected');
+        var currently_selected = _area.find('.js-selectable').removeClass('item--selected');
 
         _lastSelectedItem = undefined;
 
@@ -70,7 +62,7 @@ define("modules/selection", ["jquery", "DMS", "combokeys", "lodash"], function (
 
     function _clearAndDestroySelection(){
 
-    	var really_selected = _area.find('.selectable.is-selected');
+    	var really_selected = _area.find('.js-selectable.item--selected');
 
         _clearSelection();
 
@@ -82,13 +74,13 @@ define("modules/selection", ["jquery", "DMS", "combokeys", "lodash"], function (
 
     function _invertSelection(){
 
-    	var currently_not_selected = _area.find('.selectable:not(.is-selected)');
+    	var currently_not_selected = _area.find('.js-selectable:not(.item--selected)');
 
-    	var currently_selected = _area.find('.is-selected');
+    	var currently_selected = _area.find('.item--selected');
 
-		currently_not_selected.addClass('any-selected').addClass('is-selected');
+		currently_not_selected.addClass('item--selected');
 
-    	currently_selected.removeClass('any-selected').removeClass('is-selected');
+    	currently_selected.removeClass('item--selected');
 
     	currently_selected.find(_options.selectionCheckbox).attr('checked', false);
     	currently_not_selected.find(_options.selectionCheckbox).attr('checked', true);
@@ -112,7 +104,7 @@ define("modules/selection", ["jquery", "DMS", "combokeys", "lodash"], function (
 
     function _allSelection(){
 
-        var selectable = _area.find('.selectable:not(.is-selected)').addClass('any-selected').addClass('is-selected');
+        var selectable = _area.find('.js-selectable:not(.item--selected)').addClass('item--selected');
 
         if(selectable.length > 0){
 
@@ -135,7 +127,7 @@ define("modules/selection", ["jquery", "DMS", "combokeys", "lodash"], function (
 
     function _shiftSelectTo(elem){
 
-        var selectable = _area.find('.selectable');
+        var selectable = _area.find('.js-selectable');
 
         var start = selectable.index(_lastSelectedItem),
             end = selectable.index(elem.parent());
@@ -185,17 +177,28 @@ define("modules/selection", ["jquery", "DMS", "combokeys", "lodash"], function (
     function _updateTristateStatus(){
 
     	if(_options.tristateButton){
+			
 			var chk = _options.tristateButton.find(':checkbox')[0];
 
 			if(_selectedCount === 0){
 				chk.indeterminate = false;
 				chk.checked = false;
+				_options.tristateButton.removeClass('tristate-button--partial');
+				_options.tristateButton.removeClass('tristate-button--all');
+				_options.tristateButton.addClass('tristate-button--none');
 			}
 			else if(_selectedCount === _maxSelectable){
+				
 				chk.checked = true;
+				_options.tristateButton.removeClass('tristate-button--partial');
+				_options.tristateButton.addClass('tristate-button--all');
+				_options.tristateButton.removeClass('tristate-button--none');
 			}
 			else {
 				chk.indeterminate = true;
+				_options.tristateButton.addClass('tristate-button--partial');
+				_options.tristateButton.removeClass('tristate-button--all');
+				_options.tristateButton.removeClass('tristate-button--none');
 			}
 
 		}
@@ -220,7 +223,7 @@ define("modules/selection", ["jquery", "DMS", "combokeys", "lodash"], function (
 
     /**
      * Construct a selection object for saving the selected element
-     * @param {jQuery} el the .selectable element to store
+     * @param {jQuery} el the .js-selectable element to store
      */
     function SelectionObject(el){
 
@@ -229,7 +232,7 @@ define("modules/selection", ["jquery", "DMS", "combokeys", "lodash"], function (
     	this.id = el.data('id');
     	this.type = el.data('type') !== 'group' ? 'document' : 'group';
     	this.raw = el.data();
-    	this.title = el.find('.link').attr('title');
+    	this.title = el.find('.item__link').attr('title');
 		this.share = el.data('shareid');
 		this.isShareWith = !!el.data('sharewith');
 
@@ -237,7 +240,7 @@ define("modules/selection", ["jquery", "DMS", "combokeys", "lodash"], function (
     }
 
     /**
-     * Save a selected element or a list of selected elements (must be .selectable)
+     * Save a selected element or a list of selected elements (must be .js-selectable)
      * @param  {[type]} selection [description]
      * @return {[type]}           [description]
      */
@@ -258,8 +261,6 @@ define("modules/selection", ["jquery", "DMS", "combokeys", "lodash"], function (
 			_selected = _.uniq(_selected);
 			_lastSelectedItem = selection;
 		}
-
-		// TODO: maybe save on localStorage if available ?!
 
 	}
 
@@ -304,8 +305,8 @@ define("modules/selection", ["jquery", "DMS", "combokeys", "lodash"], function (
 			var defaults = {
 				// tristateButton: undefined, // the button that have a tristate checkbox for control the selection
 				// selectionBoundingElement, // the elements the will trigger the check and will serve as an error area
-				selectionCheckbox: ':checkbox', //the selector of the checkbox
-				containerBoundingElement: '.selectable'
+				selectionCheckbox: '.js-selection-checkbox', //the selector of the checkbox
+				containerBoundingElement: '.js-selectable'
 			};
 
 			_options = options = $.extend(defaults, options);
@@ -313,7 +314,7 @@ define("modules/selection", ["jquery", "DMS", "combokeys", "lodash"], function (
 			//bind on the selectionArea for click inside the selectionBoundingElement
 			selectionArea.on('click', _options.selectionBoundingElement, _selectionHandler);
 
-			// selectionArea.on('mouseover', '.selectable', function(evt){
+			// selectionArea.on('mouseover', '.js-selectable', function(evt){
 
 			// 	_lastKnownMousePosition = {x: evt.pageX, y:evt.pageY};
 
@@ -322,22 +323,14 @@ define("modules/selection", ["jquery", "DMS", "combokeys", "lodash"], function (
 
 
 			if(_options.tristateButton){
+
+				_maxSelectable = $(_options.selectionBoundingElement).length;
+
 				_options.tristateButton.on('click', _tristateHandler);
 				selectionArea.on('dms:selection-changed', _updateTristateStatus);
 			}
 
 			// -- Keyboard shortcut
-
-			// _keys.bind('space', function(evt){
-			// 	console.warn('Pressed spacebar', _lastKnownMousePosition);
-
-   //  			var elementMouseIsOver = document.elementFromPoint(_lastKnownMousePosition.x, _lastKnownMousePosition.y);
-
-   //  			module.select($(elementMouseIsOver));
-
-   //  			evt.preventDefault();
-   //  			evt.stopPropagation();
-			// });
 
 			_keys.bind('s a', function(evt){
 				module.all();
@@ -351,23 +344,9 @@ define("modules/selection", ["jquery", "DMS", "combokeys", "lodash"], function (
 				module.inverse();
 			});
 
-			// selectionArea.on('dms:selection-changed', function(evt){
-
-			// 	console.warn(_selectedCount);
-
-			// });
-
 			_area = selectionArea;
 
 			return module;
-		},
-
-		/**
-		 * Remove the selection capability from the area
-		 * @return {[type]} [description]
-		 */
-		release:function(){
-
 		},
 
 		/**
@@ -377,15 +356,17 @@ define("modules/selection", ["jquery", "DMS", "combokeys", "lodash"], function (
 		 */
 		select: function(element, short){
 
-			var parent = short ? element : element.parent(_options.containerBoundingElement);
-			
-			parent.addClass('is-selected');
+			var parent = short ? element : element.parents(_options.containerBoundingElement);
+
+			// var checkbox = element.is(_options.selectionCheckbox) ? element : parent.find(_options.selectionCheckbox);
+
+			parent.addClass('item--selected');
 
 			// parent.data('selected', true);
 			parent.data('selected', true);
 
 			
-			parent.find(_options.selectionCheckbox).first()[0].checked = true;
+			// checkbox[0].checked = true;
 
 			_selectedCount++;
 			
@@ -405,7 +386,7 @@ define("modules/selection", ["jquery", "DMS", "combokeys", "lodash"], function (
 
 			// console.log('Is selected', element, "?", element.data('selected'));
 
-			element = short ? element : element.parent(_options.containerBoundingElement);
+			element = element.is(_options.containerBoundingElement) ? element : element.parents(_options.containerBoundingElement);
 
 			return element.data('selected') && element.data('selected') == true;
 		},
@@ -417,14 +398,14 @@ define("modules/selection", ["jquery", "DMS", "combokeys", "lodash"], function (
 		 */
 		deselect: function(element, short){
 
-			var parent = short ? element : element.parent(_options.containerBoundingElement);
+			var parent = element.is(_options.containerBoundingElement) ? element : element.parents(_options.containerBoundingElement);
 			
-			parent.removeClass('is-selected');
+			parent.removeClass('item--selected');
 
 			// parent.data('selected', true);
 			parent.removeData('selected');
 
-			parent.find(_options.selectionCheckbox).first()[0].checked = false;
+			// parent.find(_options.selectionCheckbox).first()[0].checked = false;
 
 			_selectedCount--;
 
@@ -469,7 +450,7 @@ define("modules/selection", ["jquery", "DMS", "combokeys", "lodash"], function (
 		 */
 		selectionByType: function(selectedType, property){
 			debugger;
-			var filtered = _.where(_selected, {'type' : selectedType});
+			var filtered = _.filter(_selected, {'type' : selectedType});
 			
 			if(property){
 				return _.pluck(filtered, property);

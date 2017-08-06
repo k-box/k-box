@@ -2,14 +2,14 @@
 
 return [
 
-	/*
-	|--------------------------------------------------------------------------
-	| Microsites related Language Lines
-	|--------------------------------------------------------------------------
-	*/
+    /*
+    |--------------------------------------------------------------------------
+    | Microsites related Language Lines
+    |--------------------------------------------------------------------------
+    */
 
-	'page_title' => 'Project Microsites',
-	'page_title_with_name' => 'Project Microsite for :project',
+    'page_title' => 'Project Microsites',
+    'page_title_with_name' => 'Project Microsite for :project',
     
     'pages' => [
         'create' => 'Create Microsite for project ":project"',
@@ -65,7 +65,7 @@ return [
         'forbidden' => 'You need to be a Project Administrator to interact with the microsites.',
         'user_not_affiliated_to_an_institution' => 'You are not affiliated with an Institution, please ask to change your profile before creating a Microsite.',
     ],
-	
+    
     'labels' => [
         'microsite' => 'Microsite<sup>beta</sup>',
         'site_title' => 'Site name',

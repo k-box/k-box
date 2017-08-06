@@ -1,24 +1,19 @@
-<?php namespace KlinkDMS\Http\Controllers\Administration;
+<?php
 
-use KlinkDMS\Capability;
-use KlinkDMS\DocumentDescriptor;
+namespace KlinkDMS\Http\Controllers\Administration;
+
 use KlinkDMS\Http\Controllers\Controller;
 use KlinkDMS\Http\Requests\SettingsSaveRequest;
-use Illuminate\Pagination\Paginator;
-use Illuminate\Support\Facades\Hash;
-use KlinkDMS\User;
 use KlinkDMS\Option;
-use Klink\DmsDocuments\DocumentsService;
-use KlinkDMS\Commands\ReindexAll;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Contracts\Auth\Guard as AuthGuard;
 
 /**
  * Controller
  */
-class SettingsAdministrationController extends Controller {
-
-  use DispatchesJobs;
+class SettingsAdministrationController extends Controller
+{
+    use DispatchesJobs;
 
   /*
   |--------------------------------------------------------------------------
@@ -29,28 +24,25 @@ class SettingsAdministrationController extends Controller {
   |
   */
 
-
   /**
    * Create a new controller instance.
    *
    * @return void
    */
-  public function __construct() {
+  public function __construct()
+  {
+      $this->middleware('auth');
 
-    $this->middleware('auth');
-
-    $this->middleware('capabilities');
-
+      $this->middleware('capabilities');
   }
   
   
-  public function index(AuthGuard $auth) {
-      
-    $data = array(
+    public function index(AuthGuard $auth)
+    {
+        $data = [
       'pagetitle' => trans('administration.menu.settings'),
-      'map_visualization' => Option::is_map_visualization_enabled(),
-      Option::PUBLIC_CORE_ENABLED => !!Option::option(Option::PUBLIC_CORE_ENABLED, false),
-      Option::PUBLIC_CORE_DEBUG => !!Option::option(Option::PUBLIC_CORE_DEBUG, false),
+      Option::PUBLIC_CORE_ENABLED => ! ! Option::option(Option::PUBLIC_CORE_ENABLED, false),
+      Option::PUBLIC_CORE_DEBUG => ! ! Option::option(Option::PUBLIC_CORE_DEBUG, false),
       Option::PUBLIC_CORE_URL => Option::option(Option::PUBLIC_CORE_URL, ''),
       Option::PUBLIC_CORE_USERNAME => Option::option(Option::PUBLIC_CORE_USERNAME, ''),
       Option::PUBLIC_CORE_PASSWORD => @base64_decode(Option::option(Option::PUBLIC_CORE_PASSWORD, '')),
@@ -58,89 +50,66 @@ class SettingsAdministrationController extends Controller {
       Option::PUBLIC_CORE_NETWORK_NAME_RU => Option::option(Option::PUBLIC_CORE_NETWORK_NAME_RU, ''),
       Option::SUPPORT_TOKEN => support_token(),
       Option::ANALYTICS_TOKEN => Option::analytics_token(),
-    );
+    ];
 
-    return view('administration.settings.index', $data);
-  }
+        return view('administration.settings.index', $data);
+    }
   
   
-  public function store(AuthGuard $auth, SettingsSaveRequest $request)
-  {
-    
-      try{
-          
-            if($request->input('map-settings-save-btn', false) === ''){
-          
-                if($request->has(Option::MAP_VISUALIZATION_SETTING)){
-                    // if !active => activate it
-                    Option::put(Option::MAP_VISUALIZATION_SETTING, true);
-                }
-                else {
-                    // disable it
-                    Option::put(Option::MAP_VISUALIZATION_SETTING, false);
-                }
-          
-            }
-          
-            if($request->input('support-settings-save-btn', false) === ''){
-          
-                if($request->has(Option::SUPPORT_TOKEN) && !empty($request->input(Option::SUPPORT_TOKEN, null))){
+    public function store(AuthGuard $auth, SettingsSaveRequest $request)
+    {
+        try {
+            if ($request->input('support-settings-save-btn', false) !== false) {
+                if ($request->has(Option::SUPPORT_TOKEN) && ! empty($request->input(Option::SUPPORT_TOKEN, null))) {
                     Option::put(Option::SUPPORT_TOKEN, $request->input(Option::SUPPORT_TOKEN, null));
-                }
-                else {
+                } else {
                     // disable it
                     Option::put(Option::SUPPORT_TOKEN, '');
                 }
             }
 
-            if($request->input('analytics-settings-save-btn', false) === ''){
-          
-                if($request->has(Option::ANALYTICS_TOKEN) && !empty($request->input(Option::ANALYTICS_TOKEN, null))){
+            if ($request->input('analytics-settings-save-btn', false) !== false) {
+                if ($request->has(Option::ANALYTICS_TOKEN) && ! empty($request->input(Option::ANALYTICS_TOKEN, null))) {
                     Option::put(Option::ANALYTICS_TOKEN, $request->input(Option::ANALYTICS_TOKEN, null));
-                }
-                else {
+                } else {
                     // disable it
                     Option::put(Option::ANALYTICS_TOKEN, '');
                 }
             }
 
-            if($request->input('public-settings-save-btn', false) === ''){
-
-                if($request->has(Option::PUBLIC_CORE_URL) &&
+            if ($request->input('public-settings-save-btn', false) !== false) {
+                if ($request->has(Option::PUBLIC_CORE_URL) &&
                     $request->input(Option::PUBLIC_CORE_USERNAME) &&
-                    $request->input(Option::PUBLIC_CORE_PASSWORD)){
-                        
+                    $request->input(Option::PUBLIC_CORE_PASSWORD)) {
                     $url = $request->input(Option::PUBLIC_CORE_URL, null);
                     $username = $request->input(Option::PUBLIC_CORE_USERNAME, null);
                     $password = $request->input(Option::PUBLIC_CORE_PASSWORD, null);
                     
                     $test_result = app('klinkadapter')->test(new \KlinkAuthentication($url, $username, $password, \KlinkVisibilityType::KLINK_PUBLIC));
                     
-                    if(!$test_result['result']){
+                    if (! $test_result['result']) {
                         // failure
                         
                         $ex_message = $test_result['error']->getMessage();
                         
-                        if(!is_null($test_result['error']->getPrevious())){
-                            $ex_message .= ' ' . $test_result['error']->getPrevious()->getMessage();
+                        if (! is_null($test_result['error']->getPrevious())) {
+                            $ex_message .= ' '.$test_result['error']->getPrevious()->getMessage();
                         }
                     
                         return redirect()->back()->withInput()->withErrors([
                             'error' => trans('administration.settings.save_error', ['error' => $ex_message])
                         ]);
-                        
                     }
                     
                     Option::put(Option::PUBLIC_CORE_URL, $url);
                     Option::put(Option::PUBLIC_CORE_USERNAME, $username);
-                    Option::put(Option::PUBLIC_CORE_PASSWORD, base64_encode($password));   
+                    Option::put(Option::PUBLIC_CORE_PASSWORD, base64_encode($password));
                     Option::put(Option::PUBLIC_CORE_CORRECT_CONFIG, true);
                     
-                    \Log::info('Changed Network configuration', array(
+                    \Log::info('Changed Network configuration', [
                         'by_user' => $auth->user()->id,
-                        'new_config' => array('url' => $url, 'username' => $username)
-                        ));   
-                        
+                        'new_config' => ['url' => $url, 'username' => $username]
+                        ]);
                 }
 
                 Option::put(Option::PUBLIC_CORE_NETWORK_NAME_EN, $request->input(Option::PUBLIC_CORE_NETWORK_NAME_EN, ''));
@@ -150,38 +119,30 @@ class SettingsAdministrationController extends Controller {
                 \Cache::forget('network-name-ru');
 
             
-                if($request->has(Option::PUBLIC_CORE_ENABLED)){
+                if ($request->has(Option::PUBLIC_CORE_ENABLED)) {
                     // if !active => activate it
                     Option::put(Option::PUBLIC_CORE_ENABLED, true);
-
-                }
-                else {
+                } else {
                     // disable it
                     Option::put(Option::PUBLIC_CORE_ENABLED, false);
                 }
                 
-                if($request->has(Option::PUBLIC_CORE_DEBUG)){
+                if ($request->has(Option::PUBLIC_CORE_DEBUG)) {
                     Option::put(Option::PUBLIC_CORE_DEBUG, true);
-                }
-                else {
+                } else {
                     Option::put(Option::PUBLIC_CORE_DEBUG, false);
                 }
-                
-           }
+            }
       
-          return redirect()->route('administration.settings.index')->with([
+            return redirect()->route('administration.settings.index')->with([
               'flash_message' => trans('administration.settings.saved')
           ]);
-      
-      }catch(\Exception $ex){
+        } catch (\Exception $ex) {
+            \Log::error('Settings saving error', ['error' => $ex, 'request' => $request->all()]);
         
-        \Log::error('Settings saving error', ['error' => $ex, 'request' => $request->all()]);
-        
-        return redirect()->back()->withInput()->withErrors([
+            return redirect()->back()->withInput()->withErrors([
               'error' => trans('administration.settings.save_error', ['error' => $ex->getMessage()])
           ]);
-      }
-  }
-
-
+        }
+    }
 }

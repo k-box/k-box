@@ -70,7 +70,7 @@ define("modules/share", ["jquery", "DMS","lodash", "combokeys", "language", "swe
 		_switch.find('.c-switch__button--selected').removeClass('c-switch__button--selected');
 		el.addClass('c-switch__button--selected');
 		_actionIsRunning = true;
-		var filtered = _.pluck(_.where(_items, {'type' : 'document'}), 'id');
+		var filtered = _.pluck(_.filter(_items, {'type' : 'document'}), 'id');
 
 		var params = {documents:filtered};
 
@@ -201,7 +201,6 @@ define("modules/share", ["jquery", "DMS","lodash", "combokeys", "language", "swe
 	function _sectionTitleClick(evt){
 		if(_collapsed){
 			_panel.find('.js-access-list').addClass('dialog__section__inner--collapsed');
-			// _panel.find('.dialog__section--collapsed').removeClass('dialog__section--collapsed');
 			_collapsed = false;
 		}
 
@@ -218,7 +217,7 @@ define("modules/share", ["jquery", "DMS","lodash", "combokeys", "language", "swe
 		_actionIsRunning = true;
 
 		
-		var filtered = _.pluck(_.where(_items, {'type' : 'document'}), 'id');
+		var filtered = _.pluck(_.filter(_items, {'type' : 'document'}), 'id');
 
 		var params = {documents:filtered};
 
@@ -461,10 +460,10 @@ define("modules/share", ["jquery", "DMS","lodash", "combokeys", "language", "swe
 
 					var trigger = $(e.trigger);
 				
-					trigger.addClass('copy-link__button--success');
+					trigger.addClass('button--success');
 
 					setTimeout(function(){
-						trigger.removeClass('copy-link__button--success');
+						trigger.removeClass('button--success');
 					}, 2500);
 					
 					e.clearSelection();
@@ -474,12 +473,12 @@ define("modules/share", ["jquery", "DMS","lodash", "combokeys", "language", "swe
 					
 					var trigger = $(e.trigger);
 
-					trigger.addClass('copy-link__button--error');
+					trigger.addClass('button--error');
 
 					trigger.parent().find('.js-copy-message-error').addClass('copy-link__message--visible');
 
 					setTimeout(function(){
-						trigger.removeClass('copy-link__button--error');
+						trigger.removeClass('button--error');
 					}, 2500);
 					
 				});

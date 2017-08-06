@@ -195,35 +195,13 @@
 	
 }
 
-.filter-buttons {
-	text-align: right;
-    
-    .clearfix();
-    
-    .button {
-        border: 0;
-    }
-    
-    .filter-buttons-line {
-        width: 100%;
-        float: right;
-        
-        border-bottom-left-radius: 10px;
-        border-bottom-right-radius: 10px;
-        
-        .transition(background 0.2s linear); 
-        
-        
-    }
-}
-
 .institution_collection_mark {
 	float: right;
 	margin-left: 6px;
     opacity: 0.8;
 }
 
-.doc-filters .elastic-list-container {
+.filters .elastic-list-container {
 	display: none;
     
     background: darken(@background-color, 4%);
@@ -231,21 +209,32 @@
 	&.visible {
 		display: block;
         
-        & + .filter-buttons .filter-buttons-line {
-            background: darken(@background-color, 4%);
+        // & + .filter__buttons .filter__buttons-line {
+        //     background: darken(@background-color, 4%);
 			
-			.page-actions--shared-page {
-				opacity: 0;
-				pointer-events: none;
-			}
-        }
+		// 	.page-actions--shared-page {
+		// 		opacity: 0;
+		// 		pointer-events: none;
+		// 	}
+        // }
 
 	}
     
     
 }
 
-.doc-filters + .list {
+.filters + .list {
 	margin-top: @base-padding/2;
 }
 
+.filter__buttons {
+	box-sizing: border-box;
+	padding: 0 0 @base-padding;
+
+	display: flex;
+	justify-content: space-between;
+}
+
+.filter__loader {
+	
+}

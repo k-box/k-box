@@ -1,10 +1,12 @@
-<?php namespace KlinkDMS;
+<?php
+
+namespace KlinkDMS;
 
 use Illuminate\Database\Eloquent\Model;
 
 /**
  * Represent a recent search of a user
- * 
+ *
  * Fields:
  * - id: bigIncrements
  * - terms: string
@@ -28,7 +30,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\RecentSearch whereUserId($value)
  * @mixin \Eloquent
  */
-class RecentSearch extends Model {
+class RecentSearch extends Model
+{
 
     /**
      * The attributes that are mass assignable
@@ -46,7 +49,7 @@ class RecentSearch extends Model {
 
     /**
      * The user that performed the search
-     * 
+     *
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function user()
@@ -55,9 +58,9 @@ class RecentSearch extends Model {
     }
 
     /**
-     * Scope the query to contain only searches of a 
+     * Scope the query to contain only searches of a
      * specific user
-     * 
+     *
      * @param string|int $user_id the user ID (primary key)
      * @return \Illuminate\Database\Eloquent\Builder
      */
@@ -67,19 +70,17 @@ class RecentSearch extends Model {
     }
 
     /**
-     * Scope the query to contain only searches that 
+     * Scope the query to contain only searches that
      * contains a search term.
      *
-     * The comparison is done searching the term inside the all 
+     * The comparison is done searching the term inside the all
      * terms string for the search.
-     * 
+     *
      * @param string $term the terms to retrieve the searches for
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeThatContains($query, $term)
     {
-        return $query->where('terms', 'like', '%'. $term .'%');
+        return $query->where('terms', 'like', '%'.$term.'%');
     }
-    
-
 }

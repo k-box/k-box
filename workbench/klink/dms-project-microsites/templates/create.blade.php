@@ -1,4 +1,4 @@
-@extends('management-layout')
+@extends('global')
 
 
 @section('action-menu')
@@ -7,11 +7,11 @@
 @stop
 
 
-@section('sub-header')
+@section('breadcrumbs')
 		
-    <a href="{{route('projects.show', ['id' => $project->id])}}" class="parent">{{ $project->name }}</a>
+    <a href="{{route('documents.projects.index')}}" class="breadcrumb__item">{{trans('projects.page_title')}}</a>
 
-    <span >{{ trans('microsites.actions.create') }}</span>
+    <span class="breadcrumb__item--current">{{ $project->name }} - {{ trans('microsites.actions.create') }}</span>
 
 @stop
 
@@ -20,22 +20,17 @@
 
 <h3>{{ $pagetitle }}</h3>
 
-<form action="{{ route('microsites.store') }}" class="microsites-form" method="POST">
+<form action="{{ route('microsites.store') }}" class="c-form" method="POST">
 
     @include('sites::form')
     
-    <div class="clearfix"></div>
     
-    <h4>{{ trans('microsites.labels.content') }}</h4>
-    <span class="description">{{ trans('microsites.hints.content') }}</span>
+    <h4 class="c-section__title">{{ trans('microsites.labels.content') }}</h4>
+    <span class="c-section__description">{{ trans('microsites.hints.content') }}</span>
     
-    <div class="eight columns">
+    <div class="c-form__field">
         @include('sites::partials.content_form')
     </div>
-    
-    <!--<div class="widget four columns">
-            @include('sites::partials.menu_builder')
-    </div>-->
 
 </form>
 
@@ -57,9 +52,6 @@
 @section('scripts')
 
 	<script>
-	// require(['modules/people'], function(People){
-	
-	// });
 	</script>
 
 @stop

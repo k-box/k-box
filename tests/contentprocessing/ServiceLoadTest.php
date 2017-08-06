@@ -1,17 +1,13 @@
 <?php
 
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\BrowserKitTestCase;
 
-class ServiceLoadTest extends TestCase
+class ServiceLoadTest extends BrowserKitTestCase
 {
-    
     public function testBasicExample()
     {
         $service = app(Content\Services\PreviewService::class);
 
         $this->assertInstanceOf(Content\Services\PreviewService::class, $service);
     }
-    
 }

@@ -44,14 +44,10 @@ dms: # this is the DMS apache container
     - mariadb:mariadb
   volumes_from:
     - dmsphp
-  # volumes:
-  #   - "./ssl-cert-klink.crt:/etc/klink/certs/ssl-cert-klink.crt"
-  #   - "./ssl-cert-klink.key:/etc/klink/certs/ssl-cert-klink.key"
   hostname: "dms.standard.klink.asia"
   command: apache
   ports:
     - "8080:80"
-    - "8081:443"
 
 dmsqueue:
   image: "dms"
@@ -67,7 +63,7 @@ dmsqueue:
   # http:
   #   image: nginx
   #   links:
-  #     - "php:movingbicocca"
+  #     - "php:kbox"
   #   volumes:
   #     - "./docker/nginx:/etc/nginx/conf.d"
   #   volumes_from:

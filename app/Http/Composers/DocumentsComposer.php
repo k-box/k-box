@@ -1,5 +1,6 @@
-<?php namespace KlinkDMS\Http\Composers;
+<?php
 
+namespace KlinkDMS\Http\Composers;
 
 use KlinkDMS\Capability;
 use KlinkDMS\DocumentDescriptor;
@@ -9,13 +10,12 @@ use KlinkDMS\Project;
 
 use Illuminate\Contracts\View\View;
 
-use Illuminate\Contracts\Auth\Guard as AuthGuard;
-
 use Illuminate\Support\Collection;
 
 use KlinkFacet;
 
-class DocumentsComposer {
+class DocumentsComposer
+{
 
     /**
      * @var \Klink\DmsAdapter\KlinkAdapter
@@ -25,7 +25,7 @@ class DocumentsComposer {
     /**
      * @var \Klink\DmsDocuments\DocumentsService
      */
-    private $documents = NULL;
+    private $documents = null;
     
     
 
@@ -37,17 +37,14 @@ class DocumentsComposer {
      */
     public function __construct(\Klink\DmsAdapter\Contracts\KlinkAdapter $adapter, \Klink\DmsDocuments\DocumentsService $documentsService)
     {
-        
         $this->adapter = $adapter;
 
         $this->documents = $documentsService;
     }
 
-
     public function layout(View $view)
     {
-        if(\Auth::check()){
-
+        if (\Auth::check()) {
             $auth_user = \Auth::user();
 
             $view->with('can_import', $auth_user->can_capability(Capability::IMPORT_DOCUMENTS));
@@ -60,7 +57,7 @@ class DocumentsComposer {
             
             $view->with('can_clean_trash', $auth_user->can_capability(Capability::CLEAN_TRASH));
             
-            $view->with('can_share', $auth_user->can_capability(array(Capability::SHARE_WITH_PERSONAL, Capability::SHARE_WITH_PRIVATE)));
+            $view->with('can_share', $auth_user->can_capability([Capability::SHARE_WITH_PERSONAL, Capability::SHARE_WITH_PRIVATE]));
 
             $view->with('can_manage_documents', $auth_user->isContentManager());
             
@@ -71,15 +68,15 @@ class DocumentsComposer {
             $view->with('can_see_private', $auth_user->isDMSManager());
 
             $view->with('list_style_current', $auth_user->optionListStyle());
-        }
-        else {
+        } else {
             $view->with('list_style_current', 'tiles');
         }
         
         $view->with('is_klink_public_enabled', $this->adapter->isNetworkEnabled());
     }
     
-    public function menu(View $view){
+    public function menu(View $view)
+    {
         $view->with('is_klink_public_enabled', $this->adapter->isNetworkEnabled());
     }
 
@@ -91,68 +88,51 @@ class DocumentsComposer {
      */
     public function descriptor(View $view)
     {
-
-        // dd($view['document']);
-
         $docOrItem = isset($view['item']) ? $view['item'] : (isset($view['document']) ? $view['document'] : null);
 
-        if(is_array($docOrItem) && isset($docOrItem['descriptor'])){
+        if (is_array($docOrItem) && isset($docOrItem['descriptor'])) {
             $docOrItem = $docOrItem['descriptor'];
-            if(isset($view['item'])) {
+            if (isset($view['item'])) {
                 $view->with('item', $docOrItem);
-            }
-            else if(isset($view['document'])) {
-                 $view->with('document', $docOrItem);
+            } elseif (isset($view['document'])) {
+                $view->with('document', $docOrItem);
             }
         }
 
-        if(\Auth::check() && !is_null($docOrItem)){
-
-            if(class_basename(get_class($docOrItem)) === 'DocumentDescriptor'){
-
+        if (\Auth::check() && ! is_null($docOrItem)) {
+            if (class_basename(get_class($docOrItem)) === 'DocumentDescriptor') {
                 $document = $docOrItem;
 
                 $auth_user = \Auth::user();
-
 
                 $view->with('badge_private', $document->isPrivate());
                 $view->with('badge_public', $document->isPublic());
 
                 $view->with('is_starrable', true);
 
-                if($document->isStarred($auth_user->id)){
-
+                if ($document->isStarred($auth_user->id)) {
                     $view->with('is_starred', true);
 
                     $star = $document->getStar($auth_user->id);
 
                     $view->with('star_id', $star->id);
-
-                }
-                else {
+                } else {
                     $view->with('is_starred', false);
                 }
 
                 $view->with('badge_shared', $document->isShared());
 
-                if($auth_user->can_capability(Capability::EDIT_DOCUMENT)){
-
+                if ($auth_user->can_capability(Capability::EDIT_DOCUMENT)) {
                     $view->with('badge_error', $document->status === DocumentDescriptor::STATUS_ERROR);
-
-                }
-                else {
+                } else {
                     $view->with('badge_error', false);
                 }
-
             }
-
         }
-
     }
 
-
-    public function descriptorPanel(View $view){
-
+    public function descriptorPanel(View $view)
+    {
         $docOrItem = isset($view['item']) ? $view['item'] : (isset($view['document']) ? $view['document'] : null);
 
         $this->descriptor($view);
@@ -162,20 +142,17 @@ class DocumentsComposer {
         
         $view->with('is_user_logged', $auth_check);
         
-        if(!is_null($docOrItem) && is_array($docOrItem) && isset($docOrItem['descriptor'])){
+        if (! is_null($docOrItem) && is_array($docOrItem) && isset($docOrItem['descriptor'])) {
             $docOrItem = $docOrItem['descriptor'];
-            if(isset($view['item'])) {
+            if (isset($view['item'])) {
                 $view->with('item', $docOrItem);
-            }
-            else if(isset($view['document'])) {
-                 $view->with('document', $docOrItem);
+            } elseif (isset($view['document'])) {
+                $view->with('document', $docOrItem);
             }
         }
 
-        if($auth_check && !is_null($docOrItem)){
-
-            if(class_basename(get_class($docOrItem)) === 'DocumentDescriptor'){
-
+        if ($auth_check && ! is_null($docOrItem)) {
+            if (class_basename(get_class($docOrItem)) === 'DocumentDescriptor') {
                 $document = $docOrItem;
 
                 $auth_user = \Auth::user();
@@ -184,7 +161,7 @@ class DocumentsComposer {
 
                 $collections = $this->documents->getDocumentCollections($document, $auth_user);
                 
-                $view->with('is_in_collection', !$collections->isEmpty());
+                $view->with('is_in_collection', ! $collections->isEmpty());
 
                 $view->with('groups', $collections);
 
@@ -202,140 +179,82 @@ class DocumentsComposer {
                 
                 // }
                 
-                if($auth_user->can_capability(Capability::EDIT_DOCUMENT)){
+                if ($auth_user->can_capability(Capability::EDIT_DOCUMENT)) {
                     $view->with('user_can_edit', true);
-                }
-                else {
+                } else {
                     $view->with('user_can_edit', false);
                 }
                 
                 
                 $view->with('use_groups_page', $auth_user->can_capability(Capability::MANAGE_OWN_GROUPS));
 
-
-                if($auth_user->can_capability(Capability::UPLOAD_DOCUMENTS) && !is_null($document->file)){
+                if ($auth_user->can_capability(Capability::UPLOAD_DOCUMENTS) && ! is_null($document->file)) {
                     $view->with('show_versions', true);
 
-                    $view->with('has_versions', !is_null($document->file->revision_of));
-
-
-                    // dd(['file' => $document->file()->first(), 
-                    //     'revision_of' => $document->file->revisionOf()->get(),
-                    //     'versions' => $document->file->revisionOfRecursive()->get()->toArray(),
-                    //     // 'from' => $document->file()->revision_of
-                    //    ]);
-
-
-                }
-                else {
+                    $view->with('has_versions', ! is_null($document->file->revision_of));
+                } else {
                     $view->with('show_versions', false);
                 }
-
             }
-
-            
-            // 
-            // get info about sharing
-
-            // if($auth->check()){
-
-
-        //  $view_params['is_shareable'] = true;
-
-
-
-        //  $view_params['share_info'] = 'shared_with or shared_by';
-
-        //  // shared with
-        //  // shared by
-        //  // insert also details about the sharing
-
-        //  $view_params['share_info'] = ''
-        // }
-            // 
-            // get info about groups
-
         }
-
     }
 
-
-
-    public static function _flatten_revisions(File $file, &$revisions = array()){
-
+    public static function _flatten_revisions(File $file, &$revisions = [])
+    {
         $revisions[] = $file;
 
-        if(is_null($file->revision_of)){
+        if (is_null($file->revision_of)) {
             return $revisions;
-        }
-        else {
+        } else {
             return self::_flatten_revisions($file->revisionOf()->first(), $revisions);
         }
     }
-
 
     public function versionInfo(View $view)
     {
         $docOrItem = isset($view['item']) ? $view['item'] : isset($view['document']) ? $view['document'] : null;
 
-        if(is_array($docOrItem) && isset($docOrItem['descriptor'])){
+        if (is_array($docOrItem) && isset($docOrItem['descriptor'])) {
             $docOrItem = $docOrItem['descriptor'];
-            if(isset($view['item'])) {
+            if (isset($view['item'])) {
                 $view->with('item', $docOrItem);
-            }
-            else if(isset($view['document'])) {
-                 $view->with('document', $docOrItem);
+            } elseif (isset($view['document'])) {
+                $view->with('document', $docOrItem);
             }
         }
 
-        if(\Auth::check() && !is_null($docOrItem)){
-
-            if(class_basename(get_class($docOrItem)) === 'DocumentDescriptor'){
-
+        if (\Auth::check() && ! is_null($docOrItem)) {
+            if (class_basename(get_class($docOrItem)) === 'DocumentDescriptor') {
                 $document = $docOrItem;
 
                 $auth_user = \Auth::user();
 
-
-
-                if($auth_user->can_capability(Capability::UPLOAD_DOCUMENTS) && !is_null($document->file)){
+                if ($auth_user->can_capability(Capability::UPLOAD_DOCUMENTS) && ! is_null($document->file)) {
                     
                     // $view->with('show_versions', true);
 
-                    $view->with('has_versions', !is_null($document->file->revision_of));
+                    $view->with('has_versions', ! is_null($document->file->revision_of));
 
                     $alls = self::_flatten_revisions($document->file);
 
                     $view->with('versions_count', count($alls));
                     $view->with('versions', $alls);
-
-
-                }
-                else {
+                } else {
                     $view->with('versions_count', 0);
-                    $view->with('versions', array());
+                    $view->with('versions', []);
                 }
-
             }
-
         }
     }
     
     
-    public function preview(View $view){
-//        $body_classes = isset($view['body_classes']) ? $view['body_classes'] : array();
-        
-        //dd($body_classes);
-        
-//        $view->with('body_classes', implode(' ', $body_classes));
-
+    public function preview(View $view)
+    {
         $view->with('is_user_logged', \Auth::check());
     }
 
-
-    public function facets(View $view){
-
-
+    public function facets(View $view)
+    {
         $auth_user = \Auth::user();
         
         
@@ -343,10 +262,10 @@ class DocumentsComposer {
 
         $group_instance_descendants = [];
 
-        if(!is_null($group_instance)){
-            $group_instance_descendants = $group_instance->getDescendants()->map(function($grp){
-                    return $grp->id;
-                })->all();
+        if (! is_null($group_instance)) {
+            $group_instance_descendants = $group_instance->getDescendants()->map(function ($grp) {
+                return $grp->id;
+            })->all();
             array_push($group_instance_descendants, $group_instance->id);
         }
 
@@ -356,157 +275,126 @@ class DocumentsComposer {
         $current_visibility = isset($view['current_visibility']) ? $view['current_visibility'] : 'private';
         $are_filters_empty = empty($filters);
 
-        $show_personal_collections_in_filters = !is_null($auth_user) ? $auth_user->optionPersonalInProjectFilters() : false;
+        $show_personal_collections_in_filters = ! is_null($auth_user) ? $auth_user->optionPersonalInProjectFilters() : false;
         $is_projectspage = $context && $context==='projectspage';
         
-        if($current_visibility=='private'){
-            $cols = array(              
-                KlinkFacet::LANGUAGE => array('label' => trans('search.facets.language')),
-                KlinkFacet::DOCUMENT_TYPE => array('label' => trans('search.facets.documentType')),
-            );
-            if(flags()->isUnifiedSearchEnabled()){
-                $cols[KlinkFacet::PROJECT_ID] =array('label' => trans('search.facets.projectId')); 
-            }
-        }
-        else {
-            $cols = array(
-                KlinkFacet::INSTITUTION_ID => array('label' => trans('search.facets.institutionId')),
-                KlinkFacet::LANGUAGE => array('label' => trans('search.facets.language')),
-                KlinkFacet::DOCUMENT_TYPE => array('label' => trans('search.facets.documentType')),
-            );
-            
+        if ($current_visibility=='private') {
+            $cols = [
+                KlinkFacet::LANGUAGE => ['label' => trans('search.facets.language')],
+                KlinkFacet::DOCUMENT_TYPE => ['label' => trans('search.facets.documentType')],
+                KlinkFacet::PROJECT_ID => ['label' => trans('search.facets.projectId')],
+            ];
+        } else {
+            $cols = [
+                KlinkFacet::INSTITUTION_ID => ['label' => trans('search.facets.institutionId')],
+                KlinkFacet::LANGUAGE => ['label' => trans('search.facets.language')],
+                KlinkFacet::DOCUMENT_TYPE => ['label' => trans('search.facets.documentType')],
+            ];
         }
         
         $adapter = app()->make('klinkadapter');
         
-        if(!is_null($facets)){
-            
-            $group_facets = array_values(array_filter($facets, function($f){
+        if (! is_null($facets)) {
+            $group_facets = array_values(array_filter($facets, function ($f) {
                 return $f->name === KlinkFacet::DOCUMENT_GROUPS;
             }));
 
-            if(!empty($group_facets)){
-                $private = array();
+            if (! empty($group_facets)) {
+                $private = [];
                 
                 $items = $group_facets[0]->items;
                 
                 
-                foreach($items as $group_facet){
-                    
-                    try{
-                    
-                        if($group_facet->count > 0){
-
+                foreach ($items as $group_facet) {
+                    try {
+                        if ($group_facet->count > 0) {
                             $grp_id = substr($group_facet->term, 2);
                             
-                            $grp = Group::findOrFail( $grp_id );
+                            $grp = Group::findOrFail($grp_id);
 
-                            // boxing the collections to descendant of the collection 
+                            // boxing the collections to descendant of the collection
                             // currently browsed by the user (if any)
                         
-if($is_projectspage && (!$grp->is_private && !$show_personal_collections_in_filters) || !$is_projectspage ){
-                            if( (is_null($group_instance) && 
-                                    $this->documents->isCollectionAccessible($auth_user, $grp)) || 
-                                (!is_null($group_instance) && 
-                                    in_array($grp_id, $group_instance_descendants)) ){
+if ($is_projectspage && (! $grp->is_private && ! $show_personal_collections_in_filters) || ! $is_projectspage) {
+    if ((is_null($group_instance) &&
+                                    $this->documents->isCollectionAccessible($auth_user, $grp)) ||
+                                (! is_null($group_instance) &&
+                                    in_array($grp_id, $group_instance_descendants))) {
                                 
                                 // considering only really accessible collections
                                 
                                 $group_facet->label = $grp->name;
-                                $group_facet->selected = false;                             
+        $group_facet->selected = false;
                                 
 
-                                if($grp->countAncestors() > 0){
-                                    $group_facet->parents = $grp->getAncestors()->sortByDesc('depth')->implode('name', ' > ');
-                                }
+        if ($grp->countAncestors() > 0) {
+            $group_facet->parents = $grp->getAncestors()->sortByDesc('depth')->implode('name', ' > ');
+        }
                                 
-                                $group_facet->collapsed = $group_facet->count == 0;
-                                $group_facet->institution = !$grp->is_private;
-                                $group_facet->is_project = !$grp->is_private;
-                                $private[] = $group_facet;
-                            }
+        $group_facet->collapsed = $group_facet->count == 0;
+        $group_facet->institution = ! $grp->is_private;
+        $group_facet->is_project = ! $grp->is_private;
+        $private[] = $group_facet;
+    }
 }
-
                         }
-                    
-                    }catch(\Exception $exc){
-
+                    } catch (\Exception $exc) {
                     }
-                    
                 }
 
-
-                
-                $cols[KlinkFacet::DOCUMENT_GROUPS] = array(
-                    'label' => trans('search.facets.documentGroups'), 
+                $cols[KlinkFacet::DOCUMENT_GROUPS] = [
+                    'label' => trans('search.facets.documentGroups'),
                     'items' => $private
-                );
-                
+                ];
             }
             
-            foreach($facets as $f){
-                if(array_key_exists($f->name, $cols)){
-                    
-                    $cols[$f->name]['items'] = array_filter(array_map(function($f_items) use($f, $filters, $are_filters_empty, $adapter, $auth_user) {
-                        
-                        if( $f->name == KlinkFacet::LANGUAGE ){
-                            $f_items->label =  trans('languages.' . $f_items->term );
-                        }
-                        else if( $f->name == KlinkFacet::DOCUMENT_TYPE ){
-                            $f_items->label =  trans_choice('documents.type.' . $f_items->term, 1 );
-                        }
-                        else if( $f->name == 'institution' || $f->name == KlinkFacet::INSTITUTION_ID ){
+            foreach ($facets as $f) {
+                if (array_key_exists($f->name, $cols)) {
+                    $cols[$f->name]['items'] = array_filter(array_map(function ($f_items) use ($f, $filters, $are_filters_empty, $adapter, $auth_user) {
+                        if ($f->name == KlinkFacet::LANGUAGE) {
+                            $f_items->label =  trans('languages.'.$f_items->term);
+                        } elseif ($f->name == KlinkFacet::DOCUMENT_TYPE) {
+                            $f_items->label =  trans_choice('documents.type.'.$f_items->term, 1);
+                        } elseif ($f->name == 'institution' || $f->name == KlinkFacet::INSTITUTION_ID) {
                             $f_items->label =  $adapter->getInstitutionName($f_items->term);
-                        }
-                        else if( $f->name == KlinkFacet::PROJECT_ID ){
-
+                        } elseif ($f->name == KlinkFacet::PROJECT_ID) {
                             $prj = Project::find($f_items->term);
 
-                            if(!is_null($prj) && Project::isAccessibleBy($prj, $auth_user)){
-
+                            if (! is_null($prj) && Project::isAccessibleBy($prj, $auth_user)) {
                                 $f_items->label = $prj->name;
                             }
-                        }
-                        else {
+                        } else {
                             $lang_group = $f_items->term;
                         }
                         
-                        if(!$are_filters_empty){
-                                            
-                            if(array_key_exists($f->name, $filters) && in_array($f_items->term, $filters[$f->name])){
+                        if (! $are_filters_empty) {
+                            if (array_key_exists($f->name, $filters) && in_array($f_items->term, $filters[$f->name])) {
                                 $f_items->selected = true;
                                 $f_items->collapsed = $f_items->count == 0;
-                            }
-                            else if(array_key_exists($f->name, $filters)){
+                            } elseif (array_key_exists($f->name, $filters)) {
+                                $f_items->selected = false;
+                                $f_items->collapsed = $f_items->count == 0;
+                            } else {
                                 $f_items->selected = false;
                                 $f_items->collapsed = $f_items->count == 0;
                             }
-                            else {
-                                $f_items->selected = false;
-                                $f_items->collapsed = $f_items->count == 0;
-                            }
-                            
-                        }
-                        else {
+                        } else {
                             $f_items->selected = false;
                             $f_items->collapsed = $f_items->count == 0;
                         }
 
-                        if($f->name===KlinkFacet::DOCUMENT_GROUPS && !property_exists($f_items, 'label')){
+                        if ($f->name===KlinkFacet::DOCUMENT_GROUPS && ! property_exists($f_items, 'label')) {
                             return false;
                         }
                         
-                        if($f->name===KlinkFacet::PROJECT_ID && !property_exists($f_items, 'label')){
+                        if ($f->name===KlinkFacet::PROJECT_ID && ! property_exists($f_items, 'label')) {
                             return false;
                         }
 
                         return $f_items;
-                        
                     }, $f->items));
                 }
             }
-            
-            
         }
 
         $view->with('columns', $cols);
@@ -516,90 +404,68 @@ if($is_projectspage && (!$grp->is_private && !$show_personal_collections_in_filt
         
         $current_visibility = isset($view['current_visibility']) ? $view['current_visibility'] : 'private';
         
-        $search_terms =  isset($view['search_terms']) && !empty($view['search_terms']) ? $view['search_terms'] : '*';
+        $search_terms =  isset($view['search_terms']) && ! empty($view['search_terms']) ? $view['search_terms'] : '*';
         
         //include active facets/filters
         
         $url_components = [];
 
-        if($search_terms !=='*'){
-            $url_components[] = 's=' . $search_terms;
+        if ($search_terms !=='*') {
+            $url_components[] = 's='.$search_terms;
         }
 
-        if($current_visibility !== \KlinkVisibilityType::KLINK_PRIVATE){
-            $url_components[] = 'visibility=' . $current_visibility;
+        if ($current_visibility !== \KlinkVisibilityType::KLINK_PRIVATE) {
+            $url_components[] = 'visibility='.$current_visibility;
         }
 
-        $b_url = (!empty($url_components) ? '?' : '') . implode('&', $url_components);
+        $b_url = (! empty($url_components) ? '?' : '').implode('&', $url_components);
         
         $view->with('facet_filters_url', $b_url);
         
         $view->with('current_active_filters', $filters);
 
-        $view->with('clear_filter_url', \URL::current() . $b_url);
-
+        $view->with('clear_filter_url', \URL::current().$b_url);
     }
     
-    public function groupFacets(View $view){
-        
+    public function groupFacets(View $view)
+    {
         $auth_user = \Auth::user();
         
         $facets = isset($view['facets']) ? $view['facets'] : null;
         
         
-        if(!is_null($facets)){
-            
-            $group_facets = array_values(array_filter($facets, function($f){
+        if (! is_null($facets)) {
+            $group_facets = array_values(array_filter($facets, function ($f) {
                 return $f->name === 'documentGroups';
             }));
             
-            $private = array();
-            $personal = array();
+            $private = [];
+            $personal = [];
             
             $items = $group_facets[0]->items;
             
-            foreach($items as $group_facet){
-                
-                if($group_facet->count > 0){
-                    if(starts_with($group_facet->term, '0:')){
+            foreach ($items as $group_facet) {
+                if ($group_facet->count > 0) {
+                    if (starts_with($group_facet->term, '0:')) {
                         // private
                         $private[] = \KlinkDMS\Group::findOrFail(str_replace('0:', '', $group_facet->term));
-                        
-                    }
-                    else if(starts_with($group_facet->term, $auth_user->id . ':')){
+                    } elseif (starts_with($group_facet->term, $auth_user->id.':')) {
                         //personal
                         $personal[] = $group_facet;
                     }
                 }
-                
-                
             }
-            
-//            dd(compact('private', 'personal'));
-            
-//            foreach($facets as $f){
-//                if(array_key_exists($f->name, $cols)){
-//                    $cols[$f->name]['items'] = $f->items;
-//                }
-//            }
             
             $view->with('facets_groups_personal', $personal);
         
             $view->with('facets_groups_private', $private);
-            
         }
-
-//        $view->with('faceted_groups', $cols);
-        
-//        $view->with('width', 100/4);
-
     }
     
     
-     public function shared(View $view)
+    public function shared(View $view)
     {
-        if(\Auth::check()){
-
+        if (\Auth::check()) {
             $auth_user = \Auth::user();
 
             $view->with('can_share_with_personal', $auth_user->can_capability(Capability::SHARE_WITH_PERSONAL));
@@ -612,10 +478,8 @@ if($is_projectspage && (!$grp->is_private && !$show_personal_collections_in_filt
             
 
             $view->with('list_style_current', $auth_user->optionListStyle());
-        }
-        else {
+        } else {
             $view->with('list_style_current', 'tiles');
         }
     }
-    
 }

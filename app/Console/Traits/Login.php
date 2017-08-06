@@ -1,4 +1,6 @@
-<?php namespace KlinkDMS\Console\Traits;
+<?php
+
+namespace KlinkDMS\Console\Traits;
 
 use KlinkDMS\Exceptions\ForbiddenException;
 use Auth;
@@ -18,34 +20,30 @@ trait Login
     private $user = null;
     
     
-    function askLogin()
+    public function askLogin()
     {
-        
-        if( App::environment() === 'testing' ){
+        if (App::environment() === 'testing') {
             return;
-        } 
+        }
         
         $this->info('To run this command you need to specify an administrator account');
         
         $email = $this->ask('User Email?');
-        $password = $this->secret( $email . ' password?');
+        $password = $this->secret($email.' password?');
         
         if (Auth::attempt(['email' => $email, 'password' => $password])) {
-            
             $this->user = Auth::getUser();
-            
+        } else {
+            throw new ForbiddenException('Invalid credentials (or user not found/active) for '.$email);
         }
-        else {
-            throw new ForbiddenException('Invalid credentials (or user not found/active) for ' . $email);
-        }
-        
     }
     
     /** Get the logged in user
      *
      * @return KlinkDMS\User
      */
-    function user(){
+    public function user()
+    {
         return $this->user;
     }
 }

@@ -1,17 +1,14 @@
 <?php
 
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\BrowserKitTestCase;
 use Content\Preview\WordDocumentPreview;
 use Content\FileProperties;
 
-class WordDocumentPreviewTest extends TestCase
+class WordDocumentPreviewTest extends BrowserKitTestCase
 {
-    
     public function testConvertDocxToHtml()
     {
-        $path = __DIR__ . '/data/example.docx';
+        $path = __DIR__.'/data/example.docx';
 
         $preview = (new WordDocumentPreview())->load($path);
         $html = $preview->html();
@@ -25,5 +22,4 @@ class WordDocumentPreviewTest extends TestCase
         $this->assertContains('<p>Example document for unit tests</p>', $html);
         $this->assertContains('preview__render preview__render--document', $html);
     }
-    
 }

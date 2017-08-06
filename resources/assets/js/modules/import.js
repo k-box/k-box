@@ -43,7 +43,7 @@ define("modules/import", ["jquery", "DMS", "modules/minimalbind", "sweetalert", 
         _DMS.Ajax.post(_DMS.Paths.IMPORT, {
             from: from,
             remote_import: form.remote_import.value,
-            folder_import: form.folder_import.value,
+            folder_import: '',
         }, function(data){
             
             //ok the server got the correct request

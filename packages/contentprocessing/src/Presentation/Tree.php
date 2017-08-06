@@ -3,9 +3,6 @@
 namespace Content\Presentation;
 
 use ReflectionClass;
-use PhpOffice\PhpPresentation\Autoloader;
-use PhpOffice\PhpPresentation\Settings;
-use PhpOffice\PhpPresentation\IOFactory;
 use PhpOffice\PhpPresentation\Slide;
 use PhpOffice\PhpPresentation\PhpPresentation;
 use PhpOffice\PhpPresentation\AbstractShape;
@@ -19,11 +16,10 @@ use PhpOffice\PhpPresentation\Style\Bullet;
 use PhpOffice\PhpPresentation\Style\Color;
 
 /**
- * 
+ *
  */
 class Tree
 {
-
     protected $oPhpPresentation;
     protected $htmlOutput;
 
@@ -63,7 +59,7 @@ class Tree
             $this->append('<ul>');
             $this->append('<li><span class="shape" id="div'.$oSlide->getHashCode().'"><i class="fa fa-info-circle"></i> Info "Slide"</span></li>');
             foreach ($oSlide->getShapeCollection() as $oShape) {
-                if($oShape instanceof Group) {
+                if ($oShape instanceof Group) {
                     $this->append('<li><span><i class="fa fa-minus-square"></i> Shape "Group"</span>');
                     $this->append('<ul>');
                     // $this->append('<li><span class="shape" id="div'.$oShape->getHashCode().'"><i class="fa fa-info-circle"></i> Info "Group"</span></li>');
@@ -85,15 +81,15 @@ class Tree
 
     protected function displayShape(AbstractShape $shape)
     {
-        if($shape instanceof Drawing\Gd) {
+        if ($shape instanceof Drawing\Gd) {
             $this->append('<li><span class="shape" id="div'.$shape->getHashCode().'">Shape "Drawing\Gd"</span></li>');
-        } elseif($shape instanceof Drawing\File) {
+        } elseif ($shape instanceof Drawing\File) {
             $this->append('<li><span class="shape" id="div'.$shape->getHashCode().'">Shape "Drawing\File"</span></li>');
-        } elseif($shape instanceof Drawing\Base64) {
+        } elseif ($shape instanceof Drawing\Base64) {
             $this->append('<li><span class="shape" id="div'.$shape->getHashCode().'">Shape "Drawing\Base64"</span></li>');
-        } elseif($shape instanceof Drawing\Zip) {
+        } elseif ($shape instanceof Drawing\Zip) {
             $this->append('<li><span class="shape" id="div'.$shape->getHashCode().'">Shape "Drawing\Zip"</span></li>');
-        } elseif($shape instanceof RichText) {
+        } elseif ($shape instanceof RichText) {
             $this->append('<li><span class="shape" id="div'.$shape->getHashCode().'">Shape "RichText"</span></li>');
         } else {
             var_dump($shape);
@@ -145,7 +141,7 @@ class Tree
             $this->append('</div>');
 
             foreach ($oSlide->getShapeCollection() as $oShape) {
-                if($oShape instanceof Group) {
+                if ($oShape instanceof Group) {
                     foreach ($oShape->getShapeCollection() as $oShapeChild) {
                         $this->displayShapeInfo($oShapeChild);
                     }
@@ -169,8 +165,8 @@ class Tree
         $this->append('<dt>Hyperlink</dt><dd>'.ucfirst(var_export($oShape->hasHyperlink(), true)).'</dd>');
         $this->append('<dt>Fill</dt><dd>@Todo</dd>');
         $this->append('<dt>Border</dt><dd>@Todo</dd>');
-        $this->append('<dt>IsPlaceholder</dt><dd>' . ($oShape->isPlaceholder() ? 'true' : 'false') . '</dd>');
-        if($oShape instanceof Drawing\Gd) {
+        $this->append('<dt>IsPlaceholder</dt><dd>'.($oShape->isPlaceholder() ? 'true' : 'false').'</dd>');
+        if ($oShape instanceof Drawing\Gd) {
             $this->append('<dt>Name</dt><dd>'.$oShape->getName().'</dd>');
             $this->append('<dt>Description</dt><dd>'.$oShape->getDescription().'</dd>');
             ob_start();
@@ -179,10 +175,10 @@ class Tree
             ob_end_clean();
             $this->append('<dt>Mime-Type</dt><dd>'.$oShape->getMimeType().'</dd>');
             $this->append('<dt>Image</dt><dd><img src="data:'.$oShape->getMimeType().';base64,'.base64_encode($sShapeImgContents).'"></dd>');
-        } elseif($oShape instanceof Drawing) {
+        } elseif ($oShape instanceof Drawing) {
             $this->append('<dt>Name</dt><dd>'.$oShape->getName().'</dd>');
             $this->append('<dt>Description</dt><dd>'.$oShape->getDescription().'</dd>');
-        } elseif($oShape instanceof RichText) {
+        } elseif ($oShape instanceof RichText) {
             $this->append('<dt># of paragraphs</dt><dd>'.count($oShape->getParagraphs()).'</dd>');
             $this->append('<dt>Inset (T / R / B / L)</dt><dd>'.$oShape->getInsetTop().'px / '.$oShape->getInsetRight().'px / '.$oShape->getInsetBottom().'px / '.$oShape->getInsetLeft().'px</dd>');
             $this->append('<dt>Text</dt>');
@@ -196,8 +192,8 @@ class Tree
                 $this->append('<dt>Alignment Level</dt><dd>'.$oParagraph->getAlignment()->getLevel().'</dd>');
                 $this->append('<dt>Bullet Style</dt><dd> Bullet::'.$this->getConstantName('\PhpOffice\PhpPresentation\Style\Bullet', $oParagraph->getBulletStyle()->getBulletType()).'</dd>');
                 if ($oParagraph->getBulletStyle()->getBulletType() != Bullet::TYPE_NONE) {
-                    $this->append('<dt>Bullet Font</dt><dd>' . $oParagraph->getBulletStyle()->getBulletFont() . '</dd>');
-                    $this->append('<dt>Bullet Color</dt><dd>' . $oParagraph->getBulletStyle()->getBulletColor()->getARGB() . '</dd>');
+                    $this->append('<dt>Bullet Font</dt><dd>'.$oParagraph->getBulletStyle()->getBulletFont().'</dd>');
+                    $this->append('<dt>Bullet Color</dt><dd>'.$oParagraph->getBulletStyle()->getBulletColor()->getARGB().'</dd>');
                 }
                 if ($oParagraph->getBulletStyle()->getBulletType() == Bullet::TYPE_BULLET) {
                     $this->append('<dt>Bullet Char</dt><dd>'.$oParagraph->getBulletStyle()->getBulletChar().'</dd>');
@@ -209,13 +205,13 @@ class Tree
                 $this->append('<dt>Line Spacing</dt><dd>'.$oParagraph->getLineSpacing().'</dd>');
                 $this->append('<dt>RichText</dt><dd><dl>');
                 foreach ($oParagraph->getRichTextElements() as $oRichText) {
-                    if($oRichText instanceof BreakElement) {
+                    if ($oRichText instanceof BreakElement) {
                         $this->append('<dt><i>Break</i></dt>');
                     } else {
                         if ($oRichText instanceof TextElement) {
-                           $this->append('<dt><i>TextElement</i></dt>');
+                            $this->append('<dt><i>TextElement</i></dt>');
                         } else {
-                           $this->append('<dt><i>Run</i></dt>');
+                            $this->append('<dt><i>Run</i></dt>');
                         }
                         $this->append('<dd>'.$oRichText->getText());
                         $this->append('<dl>');
@@ -223,12 +219,12 @@ class Tree
                         $this->append('<dt>Font Size</dt><dd>'.$oRichText->getFont()->getSize().'</dd>');
                         $this->append('<dt>Font Color</dt><dd>#'.$oRichText->getFont()->getColor()->getARGB().'</dd>');
                         $this->append('<dt>Font Transform</dt><dd>');
-                            $this->append('<abbr title="Bold">Bold</abbr> : '.($oRichText->getFont()->isBold() ? 'Y' : 'N').' - ');
-                            $this->append('<abbr title="Italic">Italic</abbr> : '.($oRichText->getFont()->isItalic() ? 'Y' : 'N').' - ');
-                            $this->append('<abbr title="Underline">Underline</abbr> : Underline::'.$this->getConstantName('\PhpOffice\PhpPresentation\Style\Font', $oRichText->getFont()->getUnderline()).' - ');
-                            $this->append('<abbr title="Strikethrough">Strikethrough</abbr> : '.($oRichText->getFont()->isStrikethrough() ? 'Y' : 'N').' - ');
-                            $this->append('<abbr title="SubScript">SubScript</abbr> : '.($oRichText->getFont()->isSubScript() ? 'Y' : 'N').' - ');
-                            $this->append('<abbr title="SuperScript">SuperScript</abbr> : '.($oRichText->getFont()->isSuperScript() ? 'Y' : 'N'));
+                        $this->append('<abbr title="Bold">Bold</abbr> : '.($oRichText->getFont()->isBold() ? 'Y' : 'N').' - ');
+                        $this->append('<abbr title="Italic">Italic</abbr> : '.($oRichText->getFont()->isItalic() ? 'Y' : 'N').' - ');
+                        $this->append('<abbr title="Underline">Underline</abbr> : Underline::'.$this->getConstantName('\PhpOffice\PhpPresentation\Style\Font', $oRichText->getFont()->getUnderline()).' - ');
+                        $this->append('<abbr title="Strikethrough">Strikethrough</abbr> : '.($oRichText->getFont()->isStrikethrough() ? 'Y' : 'N').' - ');
+                        $this->append('<abbr title="SubScript">SubScript</abbr> : '.($oRichText->getFont()->isSubScript() ? 'Y' : 'N').' - ');
+                        $this->append('<abbr title="SuperScript">SuperScript</abbr> : '.($oRichText->getFont()->isSuperScript() ? 'Y' : 'N'));
                         $this->append('</dd>');
                         if ($oRichText instanceof TextElement) {
                             if ($oRichText->hasHyperlink()) {
@@ -250,13 +246,14 @@ class Tree
         $this->append('</div>');
     }
     
-    protected function getConstantName($class, $search, $startWith = '') {
+    protected function getConstantName($class, $search, $startWith = '')
+    {
         $fooClass = new ReflectionClass($class);
         $constants = $fooClass->getConstants();
         $constName = null;
-        foreach ($constants as $key => $value ) {
+        foreach ($constants as $key => $value) {
             if ($value == $search) {
-                if (empty($startWith) || (!empty($startWith) && strpos($key, $startWith) === 0)) {
+                if (empty($startWith) || (! empty($startWith) && strpos($key, $startWith) === 0)) {
                     $constName = $key;
                 }
                 break;
@@ -264,5 +261,4 @@ class Tree
         }
         return $constName;
     }
-
 }

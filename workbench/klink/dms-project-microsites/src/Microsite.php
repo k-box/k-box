@@ -1,4 +1,6 @@
-<?php namespace Klink\DmsMicrosites;
+<?php
+
+namespace Klink\DmsMicrosites;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -22,10 +24,10 @@ use KlinkDMS\User;
  * - created_at
  * - updated_at
  * - deleted_at
- * @uses SoftDeletes   
+ * @uses SoftDeletes
  */
-class Microsite extends Model {
-
+class Microsite extends Model
+{
     use SoftDeletes;
     
     /**
@@ -47,7 +49,8 @@ class Microsite extends Model {
      * The user that has created the microsite
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function project() {
+    public function project()
+    {
         return $this->belongsTo('KlinkDMS\Project', 'project_id', 'id');
     }
     
@@ -55,7 +58,8 @@ class Microsite extends Model {
      * The user that has created the microsite
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function institution() {
+    public function institution()
+    {
         return $this->belongsTo('KlinkDMS\Institution', 'institution_id', 'id');
     }
        
@@ -63,7 +67,8 @@ class Microsite extends Model {
      * The user that has created the microsite
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function user() {
+    public function user()
+    {
         return $this->belongsTo('KlinkDMS\User', 'user_id', 'id');
     }
     
@@ -71,7 +76,8 @@ class Microsite extends Model {
      * relation with the MicrositeContent model
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function contents() {
+    public function contents()
+    {
         return $this->hasMany('Klink\DmsMicrosites\MicrositeContent', 'microsite_id', 'id');
     }
     
@@ -80,7 +86,8 @@ class Microsite extends Model {
      *
      * @return Collection of MicrositeContent with type MicrositeContent::TYPE_PAGE
      */
-    public function pages(){
+    public function pages()
+    {
         return $this->contents()->type(MicrositeContent::TYPE_PAGE)->get();
     }
     
@@ -89,10 +96,10 @@ class Microsite extends Model {
      *
      * @return Collection of MicrositeContent with type MicrositeContent::TYPE_MENU
      */
-    public function menus(){
+    public function menus()
+    {
         return $this->contents()->type(MicrositeContent::TYPE_MENU)->get();
     }
-
 
     /**
      * Scope for get microsite by slug
@@ -101,9 +108,8 @@ class Microsite extends Model {
      *
      * @return QueryBuilder
      */
-    public function scopeSlug($query, $slug){
-      return $query->where('slug', $slug);
+    public function scopeSlug($query, $slug)
+    {
+        return $query->where('slug', $slug);
     }
-    
-    
 }

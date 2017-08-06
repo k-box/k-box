@@ -50,49 +50,41 @@ class ThumbnailGenerationCommand extends Command
         
         $this->comment('Generating thumbnails...');
         
-        $documents = empty($args) || !is_array($args) ? DocumentDescriptor::all() : DocumentDescriptor::whereIn('id', $args)->get();
+        $documents = empty($args) || ! is_array($args) ? DocumentDescriptor::all() : DocumentDescriptor::whereIn('id', $args)->get();
         
         $total = $documents->count();
         
-        if( !empty($args) && count($args) > $total ){
-            
+        if (! empty($args) && count($args) > $total) {
             $diff = array_diff($args, $documents->pluck('id')->toArray());
-            throw new ModelNotFoundException('One or more documents cannot be found: ' . implode(', ', $diff));
-            
+            throw new ModelNotFoundException('One or more documents cannot be found: '.implode(', ', $diff));
         }
         
-        $bar = $this->output->createProgressBar( $total );
+        $bar = $this->output->createProgressBar($total);
         
-        $this->comment('  ' . $total . ' document(s)');
+        $this->comment('  '.$total.' document(s)');
         
         $bar->start();
         
         $errors = [];
         
         foreach ($documents as $document) {
-            
-            try{
-            
+            try {
                 dispatch(new ThumbnailGenerationJob($document->file, $force));
-            
-            }catch(Exception $ex){
-                
-                Log::error('Console Thumbnail generation error for DocumentDescriptor ' . $document->id, ['error' => $ex]);
+            } catch (Exception $ex) {
+                Log::error('Console Thumbnail generation error for DocumentDescriptor '.$document->id, ['error' => $ex]);
                 
                 $errors[] = ['document' => $document->id, 'error' => $ex->getMessage()];
-                
             }
             
             $bar->advance();
-            
         }
         
         $bar->finish();
         
-        if(!empty($errors)){
+        if (! empty($errors)) {
             $headers = ['Document', 'Error'];
             
-            $this->error( 'The thumbnail generation for '. count($errors) . ' raised error.');
+            $this->error('The thumbnail generation for '.count($errors).' raised error.');
             
             $this->table($headers, $errors);
         }

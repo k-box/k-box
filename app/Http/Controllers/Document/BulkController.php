@@ -1,4 +1,6 @@
-<?php namespace KlinkDMS\Http\Controllers\Document;
+<?php
+
+namespace KlinkDMS\Http\Controllers\Document;
 
 use Illuminate\Http\Request;
 use KlinkDMS\Http\Controllers\Controller;
@@ -14,77 +16,71 @@ use KlinkDMS\Http\Requests\BulkMakePublicRequest;
 use KlinkDMS\Exceptions\ForbiddenException;
 use Illuminate\Support\Collection;
 
-class BulkController extends Controller {
+class BulkController extends Controller
+{
 
-	/*
-	|--------------------------------------------------------------------------
-	| Bulk Operation on Documents and Groups Controller
-	|--------------------------------------------------------------------------
-	|
-	| handle the operation when something is performed on a multiple selection.
-	| To simply JS stuff
-	|
-	*/
+    /*
+    |--------------------------------------------------------------------------
+    | Bulk Operation on Documents and Groups Controller
+    |--------------------------------------------------------------------------
+    |
+    | handle the operation when something is performed on a multiple selection.
+    | To simply JS stuff
+    |
+    */
 
-	/**
-	 * [$service description]
-	 * @var \Klink\DmsDocuments\DocumentsService
-	 */
-	private $service = null;
+    /**
+     * [$service description]
+     * @var \Klink\DmsDocuments\DocumentsService
+     */
+    private $service = null;
 
-	/**
-	 * Create a new controller instance.
-	 *
-	 * @return void
-	 */
-	public function __construct(\Klink\DmsDocuments\DocumentsService $adapterService)
-	{
-            
-		$this->middleware('auth');
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct(\Klink\DmsDocuments\DocumentsService $adapterService)
+    {
+        $this->middleware('auth');
 
-		$this->middleware('capabilities');
+        $this->middleware('capabilities');
 
-		$this->service = $adapterService;
-	}
+        $this->service = $adapterService;
+    }
 
-
-	/**
-	 * Bulk delete over documents and groups.
-	 * If a single operation fails all the delete is aborted
-	 *
-	 * @return Response
-	 */
-	public function destroy(AuthGuard $auth, BulkDeleteRequest $request)
-	{
-
-		try{
-			
-			$user = $auth->user();
+    /**
+     * Bulk delete over documents and groups.
+     * If a single operation fails all the delete is aborted
+     *
+     * @return Response
+     */
+    public function destroy(AuthGuard $auth, BulkDeleteRequest $request)
+    {
+        try {
+            $user = $auth->user();
             
             \Log::info('Bulk Deleting', ['triggered_by' => $user->id, 'params' => $request->all()]);
-			
-			$force = $request->input('force', false);
-			
-			// if($force && !$user->can_capability(Capability::CLEAN_TRASH)){
-			// 	throw new ForbiddenException(trans('documents.messages.delete_force_forbidden'));
-			// }
-
-			$that = $this;
-			
-			$all_that_can_be_deleted = $this->service->getUserTrash($user);
-
-
-				
-
-            // document delete
             
-            $docs = $request->input('documents', array());
+            $force = $request->input('force', false);
             
-            if(!is_array($docs)){
-                $docs = array($docs);
+            // if($force && !$user->can_capability(Capability::CLEAN_TRASH)){
+            // 	throw new ForbiddenException(trans('documents.messages.delete_force_forbidden'));
+            // }
+
+            $that = $this;
+            
+            $all_that_can_be_deleted = $this->service->getUserTrash($user);
+
+                            // document delete
+            
+            $docs = $request->input('documents', []);
+            
+            if (! is_array($docs)) {
+                $docs = [$docs];
             }
             
-            if(empty($docs) && $force){
+            if (empty($docs) && $force) {
                 $docs =  $all_that_can_be_deleted->documents();
             }
             
@@ -94,15 +90,15 @@ class BulkController extends Controller {
 
             $document_delete_count = count($docs);
             
-            // group delete 
+            // group delete
 
-            $grps = $request->input('groups', array());
+            $grps = $request->input('groups', []);
 
-            if(!is_array($grps)){
-                $grps = array($grps);
+            if (! is_array($grps)) {
+                $grps = [$grps];
             }
             
-            if(empty($grps) && $force){
+            if (empty($grps) && $force) {
                 $grps = $all_that_can_be_deleted->collections();
             }
             
@@ -111,59 +107,48 @@ class BulkController extends Controller {
             }
 
             $group_delete_count = count($grps);
-			
+            
             
             // TODO: now it's time to submit to the queue the reindex job for each DocumentDescriptor
-            // submit: 
+            // submit:
             // - documents affected by direct removal
             // - documents affected by group deletetion
 
-			$count = ($document_delete_count + $group_delete_count);
-			$message = $force ? trans_choice('documents.bulk.permanently_removed', $count, ['num' => $count]) : trans_choice('documents.bulk.removed', $count, ['num' => $count]);
-			$status = array('status' => 'ok', 'message' =>  $message);
+            $count = ($document_delete_count + $group_delete_count);
+            $message = $force ? trans_choice('documents.bulk.permanently_removed', $count, ['num' => $count]) : trans_choice('documents.bulk.removed', $count, ['num' => $count]);
+            $status = ['status' => 'ok', 'message' =>  $message];
 
+            \Cache::flush();
 
-			\Cache::flush();
+            if ($request->ajax() && $request->wantsJson()) {
+                return new JsonResponse($status, 200);
+            }
 
+            return response('ok');
+        } catch (\Exception $kex) {
+            \Log::error('Bulk Deleting error', ['error' => $kex, 'user' => $auth->user(), 'request' => $request->all()]);
 
-			if ($request->ajax() && $request->wantsJson())
-			{
-				return new JsonResponse($status, 200);
-			}
+            $status = ['status' => 'error', 'message' =>  trans('documents.bulk.remove_error', ['error' => $kex->getMessage()])];
 
-			return response('ok');
+            if ($request->ajax() && $request->wantsJson()) {
+                return new JsonResponse($status, 422);
+            }
 
-		}catch(\Exception $kex){
+            return response('error');
+        }
+    }
 
-			\Log::error('Bulk Deleting error', ['error' => $kex, 'user' => $auth->user(), 'request' => $request->all()]);
-
-			$status = array('status' => 'error', 'message' =>  trans('documents.bulk.remove_error', ['error' => $kex->getMessage()]));
-
-			if ($request->ajax() && $request->wantsJson())
-			{
-				return new JsonResponse($status, 422);
-			}
-
-			return response('error');
-			
-		}
-
-	}
-
-	public function emptytrash(AuthGuard $auth, Request $request)
-	{
-
-		try{
-			
-			$user = $auth->user();
+    public function emptytrash(AuthGuard $auth, Request $request)
+    {
+        try {
+            $user = $auth->user();
             
             \Log::info('Cleaning trash', ['triggered_by' => $user->id]);
-			
-			
+            
+            
 
-			
-			$all_that_can_be_deleted = $this->service->getUserTrash($user);
-
+            
+            $all_that_can_be_deleted = $this->service->getUserTrash($user);
 
             // document delete
             
@@ -173,8 +158,6 @@ class BulkController extends Controller {
                 $this->service->permanentlyDeleteDocument($user, $document);
             }
 
-
-            
             $grps = $all_that_can_be_deleted->collections();
             
             
@@ -183,163 +166,139 @@ class BulkController extends Controller {
             }
 
             
+            $count = ($docs->count() + $grps->count());
+            $message = trans_choice('documents.bulk.permanently_removed', $count, ['num' => $count]);
+            $status = ['status' => 'ok', 'message' =>  $message];
 
-			$count = ($docs->count() + $grps->count());
-			$message = trans_choice('documents.bulk.permanently_removed', $count, ['num' => $count]);
-			$status = array('status' => 'ok', 'message' =>  $message);
+            \Cache::flush();
 
+            if ($request->ajax() && $request->wantsJson()) {
+                return new JsonResponse($status, 200);
+            }
 
-			\Cache::flush();
+            return response('ok');
+        } catch (\Exception $kex) {
+            \Log::error('Trash Empty action error', ['error' => $kex, 'user' => $auth->user()]);
 
+            $status = ['status' => 'error', 'message' =>  trans('documents.bulk.remove_error', ['error' => $kex->getMessage()])];
 
-			if ($request->ajax() && $request->wantsJson())
-			{
-				return new JsonResponse($status, 200);
-			}
+            if ($request->wantsJson()) {
+                return new JsonResponse($status, 422);
+            }
 
-			return response('ok');
-
-		}catch(\Exception $kex){
-
-			\Log::error('Trash Empty action error', ['error' => $kex, 'user' => $auth->user()]);
-
-			$status = array('status' => 'error', 'message' =>  trans('documents.bulk.remove_error', ['error' => $kex->getMessage()]));
-
-			if ($request->wantsJson())
-			{
-				return new JsonResponse($status, 422);
-			}
-
-			return response('error');
-			
-		}
-
-	}
-	
-	private function deleteSingle($user, $id, $force = false){
-		
-		$descriptor = ($id instanceof DocumentDescriptor) ? $id : DocumentDescriptor::withTrashed()->findOrFail($id);
-			
-		if($descriptor->isPublic() && !$user->can_capability(Capability::CHANGE_DOCUMENT_VISIBILITY)){
-			\Log::warning('User tried to delete a public document without permission', ['user' => $user->id, 'document' => $id]);
-			throw new ForbiddenException(trans('documents.messages.delete_public_forbidden'), 2);
-		}
-		
-		// if($force && !$user->can_capability(Capability::CLEAN_TRASH)){
-		// 	\Log::warning('User tried to force delete a document without permission', ['user' => $user->id, 'document' => $id]);
-		// 	throw new ForbiddenException(trans('documents.messages.delete_force_forbidden'), 2);
-		// }
-		
-		\Log::info('Deleting Document', ['params' => $id]);
-	
-		if(!$force){
-			return $this->service->deleteDocument($user, $descriptor);
-		}
-		else {
-			return $this->service->permanentlyDeleteDocument($user, $descriptor);
-		}
-	}
-	
-	private function deleteSingleGroup($user, $id, $force = false){
-		
-		$group = ($id instanceof Group) ? $id : Group::withTrashed()->findOrFail($id);
-		
-		if($force && !$user->can_capability(Capability::CLEAN_TRASH)){
-			\Log::warning('User tried to force delete a group without permission', ['user' => $user->id, 'document' => $id]);
-			throw new ForbiddenException(trans('documents.messages.delete_force_forbidden'), 2);
-		}
-			
-		if(!is_null($group->project)){
-			
-			throw new ForbiddenException(trans('projects.errors.prevent_delete_description'));
-			
-		}
-		
-		\Log::info('Deleting group', ['params' => $id]);
-	
-		if(!$force){
-			$this->service->deleteGroup($user, $group);
-		}
-		else {
-			return $this->service->permanentlyDeleteGroup($group, $user);
-		}
-	}
-	
-	public function restore(AuthGuard $auth, BulkRestoreRequest $request){
-		
-		try{
-			
-			\Log::info('Bulk Restoring', ['params' => $request]);
-		
+            return response('error');
+        }
+    }
+    
+    private function deleteSingle($user, $id, $force = false)
+    {
+        $descriptor = ($id instanceof DocumentDescriptor) ? $id : DocumentDescriptor::withTrashed()->findOrFail($id);
+            
+        if ($descriptor->isPublic() && ! $user->can_capability(Capability::CHANGE_DOCUMENT_VISIBILITY)) {
+            \Log::warning('User tried to delete a public document without permission', ['user' => $user->id, 'document' => $id]);
+            throw new ForbiddenException(trans('documents.messages.delete_public_forbidden'), 2);
+        }
+        
+        // if($force && !$user->can_capability(Capability::CLEAN_TRASH)){
+        // 	\Log::warning('User tried to force delete a document without permission', ['user' => $user->id, 'document' => $id]);
+        // 	throw new ForbiddenException(trans('documents.messages.delete_force_forbidden'), 2);
+        // }
+        
+        \Log::info('Deleting Document', ['params' => $id]);
+    
+        if (! $force) {
+            return $this->service->deleteDocument($user, $descriptor);
+        } else {
+            return $this->service->permanentlyDeleteDocument($user, $descriptor);
+        }
+    }
+    
+    private function deleteSingleGroup($user, $id, $force = false)
+    {
+        $group = ($id instanceof Group) ? $id : Group::withTrashed()->findOrFail($id);
+        
+        if ($force && ! $user->can_capability(Capability::CLEAN_TRASH)) {
+            \Log::warning('User tried to force delete a group without permission', ['user' => $user->id, 'document' => $id]);
+            throw new ForbiddenException(trans('documents.messages.delete_force_forbidden'), 2);
+        }
+            
+        if (! is_null($group->project)) {
+            throw new ForbiddenException(trans('projects.errors.prevent_delete_description'));
+        }
+        
+        \Log::info('Deleting group', ['params' => $id]);
+    
+        if (! $force) {
+            $this->service->deleteGroup($user, $group);
+        } else {
+            return $this->service->permanentlyDeleteGroup($group, $user);
+        }
+    }
+    
+    public function restore(AuthGuard $auth, BulkRestoreRequest $request)
+    {
+        try {
+            \Log::info('Bulk Restoring', ['params' => $request]);
+        
 //			$user = $auth->user();
-				
-			$that = $this;
+                
+            $that = $this;
 
-			$status = \DB::transaction(function() use($request, $that, $auth){
+            $status = \DB::transaction(function () use ($request, $that, $auth) {
+                $docs = $request->input('documents', []);
+                $grps = $request->input('groups', []);
 
-				$docs = $request->input('documents', array());
-				$grps = $request->input('groups', array());
+                foreach ($docs as $document) {
+                    $that->service->restoreDocument(DocumentDescriptor::onlyTrashed()->findOrFail($document));
+                }
 
-				foreach ($docs as $document) {
-					$that->service->restoreDocument(DocumentDescriptor::onlyTrashed()->findOrFail($document));
-				}
+                if (! empty($grps)) {
+                    foreach ($grps as $grp) {
+                        $g = Group::withTrashed()->findOrFail($grp);
+                        $g->restore();
+                    }
+                }
 
-				if(!empty($grps)){
-					foreach ($grps as $grp) {
-						$g = Group::withTrashed()->findOrFail($grp);
-						$g->restore();
-					}
-				}
+                $count = (count($docs) + count($grps));
+                return ['status' => 'ok', 'message' =>  trans_choice('documents.bulk.restored', $count, ['num' => $count])];
+            });
+            
 
-				$count = (count($docs) + count($grps));
-				return array('status' => 'ok', 'message' =>  trans_choice('documents.bulk.restored', $count, ['num' => $count]));
-			});
-			
+            
+            if ($request->ajax() && $request->wantsJson()) {
+                return new JsonResponse($status, 200);
+            }
 
-			
+            return response('ok', 202);
+        } catch (\Exception $kex) {
+            \Log::error('Document restoring error', ['error' => $kex, 'request' => $request]);
 
-			if ($request->ajax() && $request->wantsJson())
-			{
-				return new JsonResponse($status, 200);
-			}
+            $status = ['status' => 'error', 'message' =>  trans('documents.bulk.restore_error', ['error' => $kex->getMessage()])];
 
-			return response('ok', 202);
-			
-		
-		}catch(\Exception $kex){
+            if ($request->ajax() && $request->wantsJson()) {
+                return new JsonResponse($status, 422);
+            }
 
-			\Log::error('Document restoring error', ['error' => $kex, 'request' => $request]);
+            return response('error');
+        }
+    }
 
-			$status = array('status' => 'error', 'message' =>  trans('documents.bulk.restore_error', ['error' => $kex->getMessage()]));
+    /**
+     * Bulk copy to Collection
+     * @param  AuthGuard         $auth    [description]
+     * @param  BulkDeleteRequest $request [description]
+     * @return Response
+     */
+    public function copyTo(AuthGuard $auth, BulkMoveRequest $request)
+    {
 
-			if ($request->ajax() && $request->wantsJson())
-			{
-				return new JsonResponse($status, 422);
-			}
+        // ids might be comma separated, single transaction
 
-			return response('error');
-			
-		}
-		
-	}
+        \Log::info('Bulk CopyTo', ['params' => $request->all()]);
 
-	/**
-	 * Bulk copy to Collection
-	 * @param  AuthGuard         $auth    [description]
-	 * @param  BulkDeleteRequest $request [description]
-	 * @return Response
-	 */
-	public function copyTo(AuthGuard $auth, BulkMoveRequest $request)
-	{
-
-		// ids might be comma separated, single transaction
-
-		\Log::info('Bulk CopyTo', ['params' => $request->all()]);
-
-		try{
-
-            $docs = $request->input('documents', array());
-            $grps = $request->input('groups', array());
+        try {
+            $docs = $request->input('documents', []);
+            $grps = $request->input('groups', []);
 
             $add_to = $request->input('destination_group', 0);
 
@@ -347,203 +306,170 @@ class BulkController extends Controller {
 
             $already_added = $add_to_this_group->documents()->whereIn('document_descriptors.id', $docs)->get(['document_descriptors.*'])->pluck('id')->toArray();
             
-            $already_there_from_this_request = array_intersect($already_added, $docs); 
+            $already_there_from_this_request = array_intersect($already_added, $docs);
             
             $count_docs_original = count($docs);
-            $docs = array_diff($docs, $already_added ); //removes already added docs from the list
+            $docs = array_diff($docs, $already_added); //removes already added docs from the list
             
             $documents = DocumentDescriptor::whereIn('id', $docs)->get();
 
             $this->service->addDocumentsToGroup($auth->user(), $documents, $add_to_this_group, false);
             
             $reindex_went_ok = true;
-            try{
-            
+            try {
                 $this->service->reindexDocuments($documents); //documents must be a collection of DocumentDescriptors
-            
-            }catch(\Exception $ke){
+            } catch (\Exception $ke) {
                 // reindex exception while bulk copy to
                 \Log::warning('Reindex exception while Bulk COPY TO', ['documents_subject_to_reindex' => $docs, 'error' => $ke]);
                 $reindex_went_ok = false;
             }
  
 
-            $status = array(
-                'status' => !empty($already_there_from_this_request) ? 'partial' : 'ok', 
-                'title' =>  !empty($already_there_from_this_request) ? 
-                    trans_choice('documents.bulk.some_added_to_collection', count($docs), []) : 
+            $status = [
+                'status' => ! empty($already_there_from_this_request) ? 'partial' : 'ok',
+                'title' =>  ! empty($already_there_from_this_request) ?
+                    trans_choice('documents.bulk.some_added_to_collection', count($docs), []) :
                     trans('documents.bulk.added_to_collection'),
-				'message' =>  !empty($already_there_from_this_request) ? 
-                    trans_choice('documents.bulk.copy_completed_some', count($docs), ['count' => count($docs), 'collection' => $add_to_this_group->name, 'remaining' => $count_docs_original - count($docs)]) : 
+                'message' =>  ! empty($already_there_from_this_request) ?
+                    trans_choice('documents.bulk.copy_completed_some', count($docs), ['count' => count($docs), 'collection' => $add_to_this_group->name, 'remaining' => $count_docs_original - count($docs)]) :
                     trans('documents.bulk.copy_completed_all', ['collection' => $add_to_this_group->name])
-            );
+            ];
             
-            if(!$reindex_went_ok){
+            if (! $reindex_went_ok) {
                 $status['reindex'] = trans('errors.reindex_failed');
             }
 
+            if ($request->wantsJson()) {
+                return new JsonResponse($status, 200);
+            }
 
+            return response('ok');
+        } catch (\Exception $kex) {
+            \Log::error('Bulk Copy to error', ['error' => $kex, 'request' => $request->all()]);
 
+            $status = ['status' => 'error', 'message' =>  trans('documents.bulk.copy_error', ['error' => $kex->getMessage()])];
 
-			if ($request->wantsJson())
-			{
-				return new JsonResponse($status, 200);
-			}
+            if ($request->wantsJson()) {
+                return new JsonResponse($status, 422);
+            }
 
-			return response('ok');
+            return response('error');
+        }
+    }
+    
+    
+    public function makePublicDialog(AuthGuard $auth, BulkDeleteRequest $request)
+    {
+        // for the dialog in case some documents needs a rename ?
+    }
+    
+    /**
+     * Make documents and collections public on the network
+     */
+    public function makePublic(AuthGuard $auth, BulkMakePublicRequest $request)
+    {
+        \Log::info('Bulk Make Public', ['params' => $request->all()]);
 
-		}catch(\Exception $kex){
+        try {
+            $that = $this;
 
-			\Log::error('Bulk Copy to error', ['error' => $kex, 'request' => $request->all()]);
+            $status = \DB::transaction(function () use ($request, $that, $auth) {
+                $docs = $request->input('documents', []);
+                $grp = $request->input('group', null);
+                
+                $documents = new Collection;
+                
+                if (! empty($docs)) {
+                    $documents = DocumentDescriptor::whereIn('id', $docs)->get();
+                }
+                
+                if (! is_null($grp)) {
+                    $group_docs = Group::findOrFail($grp)->documents()->get();
+                    $documents = $documents->merge($group_docs)->unique();
+                }
+                
+                foreach ($documents as $descriptor) {
+                    if (! $descriptor->isPublic()) {
+                        $descriptor->is_public = true;
+                        $descriptor->save();
+                        $that->service->reindexDocument($descriptor, \KlinkVisibilityType::KLINK_PUBLIC);
+                    }
+                }
 
-			$status = array('status' => 'error', 'message' =>  trans('documents.bulk.copy_error', ['error' => $kex->getMessage()]));
+                $count = $documents->count();
+                return ['status' => 'ok', 'message' =>  trans_choice('networks.made_public', $count, ['num' => $count, 'network' => network_name() ])];
+            });
 
-			if ($request->wantsJson())
-			{
-				return new JsonResponse($status, 422);
-			}
+            if ($request->ajax() && $request->wantsJson()) {
+                return new JsonResponse($status, 200);
+            }
 
-			return response('error');
-			
-		}
+            return response('ok');
+        } catch (\Exception $kex) {
+            \Log::error('Bulk Make Public error', ['error' => $kex, 'request' => $request]);
 
-	}
-	
-	
-	public function makePublicDialog(AuthGuard $auth, BulkDeleteRequest $request){
-		// for the dialog in case some documents needs a rename ?
-	}
-	
-	/**
-	 * Make documents and collections public on the network
-	 */
-	public function makePublic(AuthGuard $auth, BulkMakePublicRequest $request){
-		
-		
-		\Log::info('Bulk Make Public', ['params' => $request->all()]);
+            $status = ['status' => 'error', 'message' =>  trans('networks.make_public_error', ['error' => $kex->getMessage()])];
 
-		try{
+            if ($request->ajax() && $request->wantsJson()) {
+                return new JsonResponse($status, 422);
+            }
 
-			$that = $this;
+            return response('error');
+        }
+    }
 
-			$status = \DB::transaction(function() use($request, $that, $auth){
+    /**
+     * Remove documents from the network by making them private
+     */
+    public function makePrivate(AuthGuard $auth, BulkMakePublicRequest $request)
+    {
+        \Log::info('Bulk Make Private', ['params' => $request->all()]);
 
-				$docs = $request->input('documents', array());
-				$grp = $request->input('group', null);
-				
-				$documents = new Collection;
-				
-				if(!empty($docs)){
-					$documents = DocumentDescriptor::whereIn('id', $docs)->get();
-				}
-				
-				if(!is_null($grp)){
-					$group_docs = Group::findOrFail($grp)->documents()->get();
-					$documents = $documents->merge($group_docs)->unique();
-				}
-				
-				foreach($documents as $descriptor){
-					if(!$descriptor->isPublic()){
-						$descriptor->is_public = true;
-						$descriptor->save();
-						$that->service->reindexDocument($descriptor, \KlinkVisibilityType::KLINK_PUBLIC);
-					}
-				}
+        try {
+            $that = $this;
 
-				$count = $documents->count();
-				return array('status' => 'ok', 'message' =>  trans_choice('networks.made_public', $count, ['num' => $count, 'network' => network_name() ]));
-			});
+            $status = \DB::transaction(function () use ($request, $that, $auth) {
+                $docs = $request->input('documents', []);
+                $grp = $request->input('group', null);
+                
+                $documents = new Collection;
+                
+                if (! empty($docs)) {
+                    $documents = DocumentDescriptor::whereIn('id', $docs)->get();
+                }
+                
+                if (! is_null($grp)) {
+                    $group_docs = Group::findOrFail($grp)->documents()->get();
+                    $documents = $documents->merge($group_docs)->unique();
+                }
+                
+                foreach ($documents as $descriptor) {
+                    if ($descriptor->isPublic()) {
+                        $descriptor->is_public = false;
+                        $descriptor->save();
+                        $that->service->deletePublicDocument($descriptor);
+                    }
+                }
 
+                $count = $documents->count();
+                return ['status' => 'ok', 'message' =>  trans_choice('networks.made_private', $count, ['num' => $count, 'network' => network_name() ])];
+            });
 
+            if ($request->ajax() && $request->wantsJson()) {
+                return new JsonResponse($status, 200);
+            }
 
-			if ($request->ajax() && $request->wantsJson())
-			{
-				return new JsonResponse($status, 200);
-			}
+            return response('ok');
+        } catch (\Exception $kex) {
+            \Log::error('Bulk Make Public error', ['error' => $kex, 'request' => $request]);
 
-			return response('ok');
+            $status = ['status' => 'error', 'message' =>  trans('networks.make_public_error', ['error' => $kex->getMessage()])];
 
-		}catch(\Exception $kex){
+            if ($request->ajax() && $request->wantsJson()) {
+                return new JsonResponse($status, 422);
+            }
 
-			\Log::error('Bulk Make Public error', ['error' => $kex, 'request' => $request]);
-
-			$status = array('status' => 'error', 'message' =>  trans('networks.make_public_error', ['error' => $kex->getMessage()]));
-
-			if ($request->ajax() && $request->wantsJson())
-			{
-				return new JsonResponse($status, 422);
-			}
-
-			return response('error');
-			
-		}
-		
-	}
-
-	/**
-	 * Remove documents from the network by making them private
-	 */
-	public function makePrivate(AuthGuard $auth, BulkMakePublicRequest $request){
-		
-		
-		\Log::info('Bulk Make Private', ['params' => $request->all()]);
-
-		try{
-
-			$that = $this;
-
-			$status = \DB::transaction(function() use($request, $that, $auth){
-
-				$docs = $request->input('documents', array());
-				$grp = $request->input('group', null);
-				
-				$documents = new Collection;
-				
-				if(!empty($docs)){
-					$documents = DocumentDescriptor::whereIn('id', $docs)->get();
-				}
-				
-				if(!is_null($grp)){
-					$group_docs = Group::findOrFail($grp)->documents()->get();
-					$documents = $documents->merge($group_docs)->unique();
-				}
-				
-				foreach($documents as $descriptor){
-					if($descriptor->isPublic()){
-						$descriptor->is_public = false;
-						$descriptor->save();
-						$that->service->deletePublicDocument($descriptor);
-					}
-				}
-
-				$count = $documents->count();
-				return array('status' => 'ok', 'message' =>  trans_choice('networks.made_private', $count, ['num' => $count, 'network' => network_name() ]));
-			});
-
-
-
-			if ($request->ajax() && $request->wantsJson())
-			{
-				return new JsonResponse($status, 200);
-			}
-
-			return response('ok');
-
-		}catch(\Exception $kex){
-
-			\Log::error('Bulk Make Public error', ['error' => $kex, 'request' => $request]);
-
-			$status = array('status' => 'error', 'message' =>  trans('networks.make_public_error', ['error' => $kex->getMessage()]));
-
-			if ($request->ajax() && $request->wantsJson())
-			{
-				return new JsonResponse($status, 422);
-			}
-
-			return response('error');
-			
-		}
-		
-	}
-
+            return response('error');
+        }
+    }
 }

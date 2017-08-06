@@ -50,20 +50,19 @@ class ImportJobPayloadFetcher extends Command
         
         $failed_jobs = app('queue.failer')->all();
         
-        $mapped = array_map(function($j){
-            
+        $mapped = array_map(function ($j) {
             $import_id = $this->get_import_from($j->payload);
             
             return [
-                'id' => $j->id, 
+                'id' => $j->id,
                 'failed_at' => $j->failed_at,
                 'payload' =>  $j->payload,
-                'import' => $import_id]; 
+                'import' => $import_id];
         }, $failed_jobs);
         
         
-        $filtered = array_values(array_filter($mapped, function($j) use($import) {
-            if(!is_null($j['import'])){
+        $filtered = array_values(array_filter($mapped, function ($j) use ($import) {
+            if (! is_null($j['import'])) {
                 return $j['import'] === $import->id;
             }
             return false;
@@ -71,41 +70,38 @@ class ImportJobPayloadFetcher extends Command
         
         $payload = null;
         
-        if(count($filtered) == 1){
+        if (count($filtered) == 1) {
             $payload = $filtered[0];
-        }
-        else if(count($filtered) > 1){
+        } elseif (count($filtered) > 1) {
+            $this->comment('Found '.count($filtered).' possible payloads');
             
-            $this->comment('Found ' . count($filtered) . ' possible payloads');
-            
-            $this->table(['id', 'failed_at'], array_map(function($j){
-                    return [
-                        'id' => $j['id'],  
+            $this->table(['id', 'failed_at'], array_map(function ($j) {
+                return [
+                        'id' => $j['id'],
                         'failed_at' => $j['failed_at']];
-                }, $filtered));
+            }, $filtered));
             
             $selected_id = $this->choice('Select the Job ID?', array_pluck($filtered, 'id'), false);
             
             
-            $element = array_first($filtered, function($k, $j) use($selected_id){
-                return $j['id'] == $selected_id;
+            $element = array_first($filtered, function ($value, $k) use ($selected_id) {
+                return $value['id'] == $selected_id;
             });
             
-            if(empty($element)){
+            if (empty($element)) {
                 throw new Exception('Empty job');
             }
             
             $payload = $element['payload'];
-        }
-        else {
+        } else {
             throw new Exception("No payload found for import [$id].");
         }
         
-        if( !empty($import->job_payload) && !$replace ){
+        if (! empty($import->job_payload) && ! $replace) {
             throw new Exception('Import already has a payload. Option "--replace" not used');
         }
         
-        if( empty($payload) ){
+        if (empty($payload)) {
             throw new Exception('Empty payload');
         }
         
@@ -117,42 +113,43 @@ class ImportJobPayloadFetcher extends Command
     }
     
     /**
-	 * Get the console command arguments.
-	 *
-	 * @return array
-	 */
-	protected function getArguments()
-	{
-		return [
-			['import', InputArgument::REQUIRED, 'The ID of the import without a job_payload.'],
-		];
-	}
+     * Get the console command arguments.
+     *
+     * @return array
+     */
+    protected function getArguments()
+    {
+        return [
+            ['import', InputArgument::REQUIRED, 'The ID of the import without a job_payload.'],
+        ];
+    }
     
     /**
-	 * Get the console command options.
-	 *
-	 * @return array
-	 */
-	protected function getOptions()
-	{
-		return [
-			['replace', null, InputOption::VALUE_NONE, 'Replace the already existing job_payload of the import'],
-		];
-	}
+     * Get the console command options.
+     *
+     * @return array
+     */
+    protected function getOptions()
+    {
+        return [
+            ['replace', null, InputOption::VALUE_NONE, 'Replace the already existing job_payload of the import'],
+        ];
+    }
     
     
     
-    protected function get_import_from($payload){
-         $decoded = json_decode($payload, true);
+    protected function get_import_from($payload)
+    {
+        $decoded = json_decode($payload, true);
          
-         $command = array_get($decoded, 'data.command');
+        $command = array_get($decoded, 'data.command');
          
-         preg_match('/Import.*id.*:([\d]+);}/', $command, $matches);
+        preg_match('/Import.*id.*:([\d]+);}/', $command, $matches);
          
-         if(count($matches) == 2){
-             return (int)$matches[1];
-         }
+        if (count($matches) == 2) {
+            return (int)$matches[1];
+        }
                   
-         return null;
+        return null;
     }
 }

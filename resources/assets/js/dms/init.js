@@ -48,6 +48,8 @@ window.DMS = (function(_$, _nprogress, _rivets, _alert){
     var Lang = undefined;
     
 	var $document = _$(document);
+
+	_nprogress.configure({ showSpinner: false });
 	
 	_$.ajaxSetup({ cache: false });
 
@@ -186,7 +188,7 @@ window.DMS = (function(_$, _nprogress, _rivets, _alert){
 
 
 	var module = { 
-		VERSION: '0.1',
+		VERSION: '0.2',
 
 		initialize: function(lang){
 			_token = _$("meta[name='token']").attr('content');
@@ -224,41 +226,31 @@ window.DMS = (function(_$, _nprogress, _rivets, _alert){
 				
 			}
 
+			var drawer = $('.js-drawer'), drawerOpened = false;
 
-			var message = $('.js-outdated'),
-				ie8Message = $('.js-outdated-ie8'),
-				isVisible = false,
-				isIE8 = false,
-				$body = $(document.body),
-				div = document.createElement('div');
-		
-			 if (!('borderSpacing' in div.style)){
-				 isVisible = true;
-				 isIE8 = true;
-			 } 
+			if(drawer && drawer.length === 1){
+				 var trigger = $(".js-drawer-trigger");
 
-			 if (!('boxShadow' in div.style)){
-				 isVisible = true;
-				 isIE8 = false;
-			 }
+				trigger.on('click', function(evt){
 
-			 if (!('transition' in div.style)){
-				 isVisible = true;
-				 isIE8 = false;
-			 } 
+					if(!drawerOpened){
 
-				// borderSpacing IE8
-				// boxShadow IE8 and FF 3.6 
+						drawer.addClass('sidebar--opened');
+						evt.stopPropagation();
+						evt.preventDefault();
+						drawerOpened = true;
+					}
+					else {
+						drawer.removeClass('sidebar--opened');
+						evt.stopPropagation();
+						evt.preventDefault();
+						drawerOpened = false;
+					}
 
-			if(isVisible){
-				$body.addClass('outdated--shown');
-				if(isIE8){
-					ie8Message.addClass('outdated--visible');
-				}
-				else {
-					message.addClass('outdated--visible');
-				}
+				});
+
 			}
+
 		},
 
 		/**
@@ -281,6 +273,7 @@ window.DMS = (function(_$, _nprogress, _rivets, _alert){
 			IMPORT: 'documents/import',
 			DOCUMENTS: 'documents',
 			PROJECTS: 'documents/projects',
+			PROJECTS_EDIT: 'projects/{ID}/edit',
 			PROJECTS_API: 'projects',
 			UPLOAD_FALLBACK: 'documents/create',
 			GROUPS: 'documents/groups',
@@ -289,9 +282,9 @@ window.DMS = (function(_$, _nprogress, _rivets, _alert){
 			SHARES: 'shares',
 			PUBLICLINK: 'links',
 			SHARE_CREATE: 'shares/create',
-			STORAGE_REINDEX_ALL: 'administration/storage/reindex-all',
+			STORAGE_REINDEX_ALL: 'administration/storage/reindexall',
 			USER_PROFILE_OPTIONS: 'profile/options',
-			MAP_SEARCH: 'visualizationdata',
+			MICROSITE: "microsites/{ID}",
 			
 			PEOPLE: 'people',
 
@@ -329,46 +322,42 @@ window.DMS = (function(_$, _nprogress, _rivets, _alert){
 			 * @return {[type]}       [description]
 			 */
 			success: function(title, text){
-                _alert({
+                return _alert({
 					title: title,
 					text: text,
                     type: "success",
                     confirmButtonText: Lang.trans('actions.dialogs.ok_btn'),
 					showCancelButton: false,
-					showConfirmButton: true,
-					closeOnConfirm: true });
+					showConfirmButton: true });
 			},
 
 			error: function(title, text){
-                _alert({
+                return _alert({
 					title: title,
 					text: text,
                     type: "error",
                     confirmButtonText: Lang.trans('actions.dialogs.ok_btn'),
 					showCancelButton: false,
-					showConfirmButton: true,
-					closeOnConfirm: true });
+					showConfirmButton: true });
 			},
 			
 			warning: function(title, text){
-				_alert({
+				return _alert({
 					title: title,
 					text: text,
                     type: "warning",
                     confirmButtonText: Lang.trans('actions.dialogs.ok_btn'),
 					showCancelButton: false,
-					showConfirmButton: true,
-					closeOnConfirm: true });
+					showConfirmButton: true });
 			},
 
 			show: function(title, text){
-				_alert({
+				return _alert({
 					title: title,
 					text: text,
                     confirmButtonText: Lang.trans('actions.dialogs.ok_btn'),
 					showCancelButton: false,
-					showConfirmButton: true,
-					closeOnConfirm: true });
+					showConfirmButton: true });
 			},
 
 			/**
@@ -380,18 +369,16 @@ window.DMS = (function(_$, _nprogress, _rivets, _alert){
 			},
 
 			wait: function(title, text){
-				_alert({
+				return _alert({
 					title: title,
 					text: text,
 					showCancelButton: false,
-					showConfirmButton: false,
-					closeOnConfirm: false,
-					closeOnCancel: false });
+					showConfirmButton: false });
 			},
 
-			deleteQuestion: function(title, text, callback, close_on_cancel, close_on_confirm){
+			deleteQuestion: function(title, text, options){
 
-				_alert({
+				var _options = _$.extend({
 					title: title,
 					text: text,
 					type: "warning",
@@ -399,10 +386,9 @@ window.DMS = (function(_$, _nprogress, _rivets, _alert){
 					confirmButtonColor: "#DD6B55",
 					confirmButtonText: Lang.trans('actions.dialogs.remove_btn'),
 					cancelButtonText: Lang.trans('actions.dialogs.cancel_btn'),
-					closeOnConfirm: close_on_confirm ? close_on_confirm : false,
-					closeOnCancel: close_on_cancel ? close_on_cancel : false }, 
-					callback
-					);
+				    showLoaderOnConfirm: true }, options || {});
+
+				return _alert(_options);
 
 			},
 
@@ -414,8 +400,7 @@ window.DMS = (function(_$, _nprogress, _rivets, _alert){
 			 * @return {[type]}            [description]
 			 */
 			question: function(title, text, cofirmBtnText, cancelBtnText, callback){
-
-				_alert({
+				return _alert({
 					title: title,
 					text: text,
 					type: "warning",
@@ -423,34 +408,33 @@ window.DMS = (function(_$, _nprogress, _rivets, _alert){
 					confirmButtonColor: "#6BB9F0",
 					confirmButtonText: cofirmBtnText,
 					cancelButtonText: cancelBtnText,
-					allowOutsideClick:true,
-					closeOnConfirm: false,
-					closeOnCancel: false }, 
-
-					callback
-					);
+					allowOutsideClick:true }
+					).then(callback, function(){});
 
 			},
 
-			prompt: function(title, text, placeholder, callback){
-				_alert({
+			prompt: function(title, text, placeholder, options){
+
+				var _options = _$.extend({
 					title: title,
 					text: text,
-					type: "input",
+					input: "text",
 					showCancelButton: true,
-					closeOnConfirm: false,
 					confirmButtonText: Lang.trans('actions.dialogs.ok_btn'),
 					cancelButtonText: Lang.trans('actions.dialogs.cancel_btn'),
-//					animation: "slide-from-top",
-					inputPlaceholder: placeholder }, 
-					function(inputValue){
-						if (inputValue === false) return false;
-						if (inputValue === "") {
-							swal.showInputError( Lang.trans('actions.dialogs.input_required'));
-							return false;
-						}
-						callback(inputValue); 
-					});
+					inputPlaceholder: placeholder,
+				    showLoaderOnConfirm: true,
+					preConfirm: function (inputValue) {
+						return new Promise(function (resolve, reject) {
+							if (inputValue === false || inputValue === "") {
+								reject( Lang.trans('actions.dialogs.input_required') );
+							} else {
+								resolve()
+							}
+					    })
+				   } }, options || {});
+
+				return _alert(_options);
 			}
 
 		},
@@ -581,10 +565,6 @@ window.DMS = (function(_$, _nprogress, _rivets, _alert){
 					module.Progress.start();
 
 					module.navigate(module.Paths.DOCUMENTS + '/' + id + '/edit');
-				},
-				
-				visualizationSearch: function(arg_obj, success, error){
-					module.Ajax.get(module.Paths.MAP_SEARCH, arg_obj, success, error);
 				}
 
 			},
@@ -710,6 +690,12 @@ window.DMS = (function(_$, _nprogress, _rivets, _alert){
 
 					module.Ajax.del(module.Paths.PROJECTS_API + '/' + id + "/avatar", success, error);
 				},
+			},
+
+			Microsite: {
+				delete :  function(id, success, error){
+					return module.Ajax.del(module.Paths.MICROSITE.replace('{ID}', id), success, error);
+				}
 			}
 
 

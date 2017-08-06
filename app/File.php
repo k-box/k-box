@@ -1,4 +1,6 @@
-<?php namespace KlinkDMS;
+<?php
+
+namespace KlinkDMS;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -42,20 +44,20 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\File whereUserId($value)
  * @mixin \Eloquent
  */
-class File extends Model {
-
+class File extends Model
+{
     use SoftDeletes;
 
     /**
      * The mime types for which a preview is supported
-     * 
+     *
      * @var array
      */
-    private $previewSupportedMime = array(
-        'application/pdf', 
-        'image/png', 
-        'image/gif', 
-        'image/jpg', 
+    private $previewSupportedMime = [
+        'application/pdf',
+        'image/png',
+        'image/gif',
+        'image/jpg',
         'image/jpeg',
         'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
         'text/plain',
@@ -63,11 +65,11 @@ class File extends Model {
         'text/x-markdown',
         'text/csv',
         'application/vnd.google-apps.document',
-		'application/vnd.google-apps.presentation',
-		'application/vnd.google-apps.spreadsheet',
+        'application/vnd.google-apps.presentation',
+        'application/vnd.google-apps.spreadsheet',
         'application/vnd.openxmlformats-officedocument.presentationml.presentation',
         'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-        );
+        ];
 
     /**
      * The database table used by the model.
@@ -83,11 +85,11 @@ class File extends Model {
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function user(){
+    public function user()
+    {
         
         // One to One
         return $this->belongsTo('\KlinkDMS\User');
-
     }
 
     /**
@@ -97,10 +99,9 @@ class File extends Model {
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function document(){
-        
+    public function document()
+    {
         return $this->belongsTo('\KlinkDMS\DocumentDescriptor', 'id', 'file_id');
-
     }
 
     /**
@@ -108,10 +109,9 @@ class File extends Model {
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function revisionOf(){
-
+    public function revisionOf()
+    {
         return $this->belongsTo('\KlinkDMS\File', 'revision_of', 'id');
-
     }
 
     /**
@@ -121,7 +121,7 @@ class File extends Model {
      */
     public function revisionOfRecursive()
     {
-       return $this->revisionOf()->with('revisionOfRecursive');
+        return $this->revisionOf()->with('revisionOfRecursive');
     }
 
     /**
@@ -131,7 +131,7 @@ class File extends Model {
      */
     public function isKlinkSupported()
     {
-        return \KlinkDocumentUtils::isMimeTypeSupported( $this->mime_type );
+        return \KlinkDocumentUtils::isMimeTypeSupported($this->mime_type);
     }
     
     /**
@@ -141,7 +141,7 @@ class File extends Model {
      */
     public function isIndexable()
     {
-        return \KlinkDocumentUtils::isMimeTypeIndexable( $this->mime_type );
+        return \KlinkDocumentUtils::isMimeTypeIndexable($this->mime_type);
     }
     
     /**
@@ -149,7 +149,8 @@ class File extends Model {
      *
      * @return boolean if the File is a web page and was imported via url import
      */
-    public function isRemoteWebPage(){
+    public function isRemoteWebPage()
+    {
         return starts_with($this->mime_type, 'text/html') && starts_with($this->original_uri, 'http');
     }
 
@@ -183,7 +184,8 @@ class File extends Model {
      * @param string $hash the hash to filter for
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeFromHash($query, $hash){
+    public function scopeFromHash($query, $hash)
+    {
         return $query->where('hash', $hash);
     }
     
@@ -192,8 +194,8 @@ class File extends Model {
      * Delete the file from the database and from the file system
      * Deletes also the thumbnail, if exists.
      */
-    public function physicalDelete(){
-        
+    public function physicalDelete()
+    {
         $is_folder = $this->is_folder;
         
         $file_path  = $this->path;
@@ -201,34 +203,34 @@ class File extends Model {
         
         $done = false;
         
-        if($is_folder){
+        if ($is_folder) {
             $done = $this->forceDelete();
-        }
-        else {
+        } else {
         
             // real deletion
             $done = true;
             
-            if(@is_file($file_path)){
+            if (@is_file($file_path)) {
                 $done = @unlink($file_path);
             }
             
-            if($done){
+            if ($done) {
                 @unlink($thumb_path);
                 
                 $done = $this->forceDelete();
             }
         }
         
-        return !$this->exists;
+        return ! $this->exists;
     }
 
     /**
-     * 
+     *
      *
      * @return boolean
      */
-    public function canBePreviewed(){
+    public function canBePreviewed()
+    {
         return in_array($this->attributes['mime_type'], $this->previewSupportedMime);
     }
 
@@ -238,8 +240,9 @@ class File extends Model {
      * @param string $hash
      * @return boolean
      */
-    public static function existsByHash($hash){
-        return !is_null(File::fromHash($hash)->first());
+    public static function existsByHash($hash)
+    {
+        return ! is_null(File::fromHash($hash)->first());
     }
 
     /**
@@ -249,7 +252,8 @@ class File extends Model {
      * @return \KlinkDMS\File
      * @throws ModelNotFoundException if a file with a given hash do not exists
      */
-    public static function findByHash($hash){
+    public static function findByHash($hash)
+    {
         return File::fromHash($hash)->firstOrFail();
     }
 
@@ -260,45 +264,41 @@ class File extends Model {
      * @param string $source_folder the file original source
      * @return boolean
      */
-    public static function existsByHashAndSourceFolder($hash, $source_folder){
-        return !is_null(File::fromHash($hash)->fromOriginalUri($source_folder)->first());
+    public static function existsByHashAndSourceFolder($hash, $source_folder)
+    {
+        return ! is_null(File::fromHash($hash)->fromOriginalUri($source_folder)->first());
     }
 
-    private function flatten_revisions(File $file, &$revisions = array()){
-
+    private function flatten_revisions(File $file, &$revisions = [])
+    {
         $revisions[] = $file;
 
-        if(is_null($file->revision_of)){
+        if (is_null($file->revision_of)) {
             return $revisions;
-        }
-        else {
+        } else {
             return $this->flatten_revisions($file->revisionOf()->first(), $revisions);
         }
-
     }
 
-    private function last_version_recursive(File $file){
-
+    private function last_version_recursive(File $file)
+    {
         $belongsTo = $file->belongsTo('\KlinkDMS\File', 'id', 'revision_of')->first();
 
-        if(!is_null($belongsTo)){
-
+        if (! is_null($belongsTo)) {
             return $this->last_version_recursive($belongsTo);
         }
 
         return $file;
-
     }
 
     /**
      * Return all the document versions that are older than the current file
      */
-    public function getVersions(){
-
+    public function getVersions()
+    {
         $all = $this->flatten_revisions($this);
 
         return collect($all);
-
     }
 
     /**
@@ -308,9 +308,6 @@ class File extends Model {
      */
     public function getLastVersion()
     {
-
         return $this->last_version_recursive($this);
-
     }
-
 }

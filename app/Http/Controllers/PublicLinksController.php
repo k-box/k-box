@@ -2,7 +2,6 @@
 
 namespace KlinkDMS\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 
 use KlinkDMS\DocumentDescriptor;
@@ -19,12 +18,11 @@ use KlinkDMS\Events\ShareCreated;
 
 class PublicLinksController extends Controller
 {
-
     public function __construct()
     {
         $this->middleware('auth');
 
-		$this->middleware('capabilities');
+        $this->middleware('capabilities');
     }
 
     /**
@@ -59,8 +57,6 @@ class PublicLinksController extends Controller
         $slug = $request->input('slug', null);
         $expiration = $request->input('expiration', null);
 
-
-
         $target = $to_type === 'document' ? DocumentDescriptor::findOrFail($to_id) : Group::findOrFail($to_id);
 
         // check if user already has a link for that resource
@@ -72,21 +68,17 @@ class PublicLinksController extends Controller
               ->where('sharedwith_type', PublicLink::class)
               ->exists();
 
-
-        if($already_shared)
-        {
+        if ($already_shared) {
             throw new ForbiddenException(
                 trans('share.publiclinks.already_exist', [
                     'name' => ($to_type === 'document' ? $target->title : $target->name)
                 ]));
         }
 
-        $token = $user->id . $target->id . get_class($target) . time() . PublicLink::class;
+        $token = $user->id.$target->id.get_class($target).time().PublicLink::class;
 
         
-
-        $res = DB::transaction(function()use($target, $user, $slug, $expiration, $token)
-        {
+        $res = DB::transaction(function () use ($target, $user, $slug, $expiration, $token) {
             $link_params = [
                 'user_id' => $user->id,
                 'slug' => $slug,
@@ -96,9 +88,9 @@ class PublicLinksController extends Controller
 
             $share_params = [
                 'user_id' => $user->id,
-                'sharedwith_id' => $link->id, //the id 
+                'sharedwith_id' => $link->id, //the id
                 'sharedwith_type' => get_class($link), //the class
-                'token' => hash( 'sha256', $token ),
+                'token' => hash('sha256', $token),
                 'expiration' => $expiration
             ];
 
@@ -110,7 +102,6 @@ class PublicLinksController extends Controller
         });
 
         return new JsonResponse($res, 201);
-
     }
 
     /**
@@ -126,8 +117,7 @@ class PublicLinksController extends Controller
 
         $link = PublicLink::findOrFail($id);
         
-        if($user->id !== $link->user_id)
-        {
+        if ($user->id !== $link->user_id) {
             throw new ForbiddenException(
                 trans('share.publiclinks.edit_forbidden_not_your'));
         }
@@ -135,17 +125,14 @@ class PublicLinksController extends Controller
         $slug = $request->input('slug', null);
         $expiration = $request->input('expiration', null);
 
-        $res = DB::transaction(function()use($link, $slug, $expiration)
-        {
-            if(!is_null($expiration))
-            {
+        $res = DB::transaction(function () use ($link, $slug, $expiration) {
+            if (! is_null($expiration)) {
                 $share = $link->share;
                 $share->expiration = $expiration;
                 $share->save();
             }
 
-            if(!is_null($slug))
-            {
+            if (! is_null($slug)) {
                 $link->slug = $slug;
                 $link->save();
             }
@@ -168,14 +155,12 @@ class PublicLinksController extends Controller
 
         $link = PublicLink::findOrFail($id);
         
-        if($user->id !== $link->user_id)
-        {
+        if ($user->id !== $link->user_id) {
             throw new ForbiddenException(
                 trans('share.publiclinks.delete_forbidden_not_your'));
         }
 
-        $res = DB::transaction(function()use($link)
-        {
+        $res = DB::transaction(function () use ($link) {
             // destroy both the link and the associated share
             $link->share->delete();
             $link->delete();

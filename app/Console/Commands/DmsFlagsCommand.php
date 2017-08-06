@@ -8,7 +8,7 @@ use KlinkDMS\Flags;
 
 /**
  * Command for enabling or disabling feature flags.
- * Feature flags protects the work in progress of a feature we want 
+ * Feature flags protects the work in progress of a feature we want
  * to apply only to specific instance
  */
 class DmsFlagsCommand extends Command
@@ -44,38 +44,28 @@ class DmsFlagsCommand extends Command
      */
     public function handle()
     {
-        
         $flag = $this->argument('flag');
 
         $enable = $this->option('enable');
 
         $disable = $this->option('disable');
 
-
-        if($enable && $disable){
+        if ($enable && $disable) {
             throw new InvalidArgumentException('Option --enable and --disable cannot be used together.');
         }
 
-        if(!$enable && !$disable)
-        {
-
+        if (! $enable && ! $disable) {
             $is_now_enabled = Flags::toggle($flag);
 
-            $this->line("Flag <comment>$flag</comment> is now <info>". ($is_now_enabled ? 'enabled' : 'disabled') ."</info>.");
-            
-        }
-        elseif($enable) 
-        {   
+            $this->line("Flag <comment>$flag</comment> is now <info>".($is_now_enabled ? 'enabled' : 'disabled')."</info>.");
+        } elseif ($enable) {
             Flags::enable($flag);
             $this->line("Flag <comment>$flag</comment> is now <info>enabled</info>.");
-        }
-        elseif($disable) 
-        {            
+        } elseif ($disable) {
             Flags::disable($flag);
             $this->line("Flag <comment>$flag</comment> is now <info>disabled</info>.");
         }
 
         return 0;
-
     }
 }

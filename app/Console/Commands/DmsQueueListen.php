@@ -1,207 +1,174 @@
-<?php namespace KlinkDMS\Console\Commands;
+<?php
+
+namespace KlinkDMS\Console\Commands;
 
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 
 use KlinkDMS\Option;
-  
 
 declare(ticks = 1); // http://php.net/manual/it/function.pcntl-signal.php
 
-class DmsQueueListen extends Command {
+class DmsQueueListen extends Command
+{
 
-	/**
-	 * The console command name.
-	 *
-	 * @var string
-	 */
-	protected $name = 'dms:queuelisten';
+    /**
+     * The console command name.
+     *
+     * @var string
+     */
+    protected $name = 'dms:queuelisten';
 
-	/**
-	 * The console command description.
-	 *
-	 * @var string
-	 */
-	protected $description = 'Start listening for jobs on the queue and report the status to the admin interface.';
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Start listening for jobs on the queue and report the status to the admin interface.';
 
-	/**
-	 * Create a new command instance.
-	 *
-	 * @return void
-	 */
-	public function __construct()
-	{
-		parent::__construct();
-	}
+    /**
+     * Create a new command instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        parent::__construct();
+    }
 
-	/**
-	 * Execute the console command.
-	 *
-	 * @return mixed
-	 */
-	public function fire()
-	{
-		// set_exception_handler(array($this, "default_exception_handler"));
-		
-		register_shutdown_function(array($this, 'shutdownCallback'));
+    /**
+     * Execute the console command.
+     *
+     * @return mixed
+     */
+    public function fire()
+    {
+        // set_exception_handler(array($this, "default_exception_handler"));
+        
+        register_shutdown_function([$this, 'shutdownCallback']);
 
-		if(function_exists('pcntl_signal')){
+        if (function_exists('pcntl_signal')) {
+            pcntl_signal(SIGTERM, [$this, 'sigintShutdown']);
+            pcntl_signal(SIGINT, [$this, 'sigintShutdown']);
+        }
 
-			pcntl_signal(SIGTERM, array($this, 'sigintShutdown'));  
-			pcntl_signal(SIGINT, array($this, 'sigintShutdown'));
+        try {
+            $this->line("Starting DMS queue listener for <info>".$this->getLaravel()->environment()."</info>...");
+        
+            Option::put('dms.queuelistener.active', true);
+            Option::put('dms.queuelistener.errorState', false);
 
-		}
+        
+                        // throw new \Exception("Error Processing Request", 1);
+            
+        
+            $queue_listen_result = $this->call('queue:listen', ['--tries' => 3]);
+        } catch (\Exception $ex) {
+            $this->error($ex->getMessage());
 
-		try{
+            \Log::error('Queue Listener Error', ['error' => $ex->getMessage()]);
+        }
 
-			$this->line("Starting DMS queue listener for <info>". $this->getLaravel()->environment() ."</info>...");
-		
-			Option::put('dms.queuelistener.active', true);
-			Option::put('dms.queuelistener.errorState', false);
+        return 0;
+    }
 
-		
-
-			
-			// throw new \Exception("Error Processing Request", 1);
-			
-		
-			$queue_listen_result = $this->call('queue:listen', ['--tries' => 3]);
-
-		
-		}catch(\Exception $ex){
-
-			$this->error($ex->getMessage());
-
-			\Log::error('Queue Listener Error', ['error' => $ex->getMessage()]);
-
-
-
-		}
-
-		return 0;
-	}
-
-	public function default_exception_handler(Exception $e){
-          
- 	}
+    public function default_exception_handler(Exception $e)
+    {
+    }
  
- 	public function sigintShutdown($signal)  
-	{  
-		// echo 'Killing or something received', PHP_EOL;
+    public function sigintShutdown($signal)
+    {
+        if ($signal === SIGINT || $signal === SIGTERM) {
+            $this->shutdownCallback();
+        }
+    }
 
-	    // var_dump($signal);
+    public function shutdownCallback()
+    {
 
-	    if ($signal === SIGINT || $signal === SIGTERM) {  
-	        $this->shutdownCallback();  
-	    }  
-	} 
+        // Will be called also after fatal errors
 
+        $lastError = error_get_last();
 
-	public function shutdownCallback(){
+        Option::put('dms.queuelistener.active', false);
 
-		// Will be called also after fatal errors
+        if (! is_null($lastError)) {
+            var_dump($lastError);
 
-		$lastError = error_get_last();
+            Option::put('dms.queuelistener.errorState', true);
+        }
 
-		Option::put('dms.queuelistener.active', false);
+        $this->comment('Shutdown... :(');
+    }
 
-		if(!is_null($lastError)){
+    /**
+     * Get the console command arguments.
+     *
+     * @return array
+     */
+    protected function getArguments()
+    {
+        return [
+            // ['example', InputArgument::REQUIRED, 'An example argument.'],
+        ];
+    }
 
-			var_dump($lastError);
+    /**
+     * Get the console command options.
+     *
+     * @return array
+     */
+    protected function getOptions()
+    {
+        return [
+            // ['example', null, InputOption::VALUE_OPTIONAL, 'An example option.', null],
+        ];
+    }
 
-			Option::put('dms.queuelistener.errorState', true);
+    private function log($text)
+    {
+        $verbosity = $this->getOutput()->getVerbosity();
 
-		}
+        if ($verbosity > 1) {
+            $this->line($text);
+        }
+    }
 
-		
+    private function write($text)
+    {
+        $verbosity = $this->getOutput()->getVerbosity();
 
-		// echo 'Terminating....', PHP_EOL;
+        if ($verbosity > 1) {
+            $this->line($text);
+        } else {
+            $this->getOutput()->write($text);
+        }
+    }
 
-		$this->comment('Shutdown... :(');
+    private function launch($command, array $arguments = [])
+    {
+        $verbosity = $this->getOutput()->getVerbosity();
 
-	}
+        if ($verbosity > 1) {
+            return $this->call($command, $arguments);
+        }
 
-	/**
-	 * Get the console command arguments.
-	 *
-	 * @return array
-	 */
-	protected function getArguments()
-	{
-		return [
-			// ['example', InputArgument::REQUIRED, 'An example argument.'],
-		];
-	}
+        return $this->callSilent($command, $arguments);
+    }
 
-	/**
-	 * Get the console command options.
-	 *
-	 * @return array
-	 */
-	protected function getOptions()
-	{
-		return [
-			// ['example', null, InputOption::VALUE_OPTIONAL, 'An example option.', null],
-		];
-	}
+    public function launchAndCapture($command, &$capture, array $arguments = [])
+    {
+        $instance = $this->getApplication()->find($command);
 
+        $arguments['command'] = $command;
 
+        $out = new BufferedOutput;
 
-	private function log($text){
+        $res = $instance->run(new ArrayInput($arguments), $out);
 
-		$verbosity = $this->getOutput()->getVerbosity();
+        $capture = $out->pluck();
 
-		if($verbosity > 1){
-
-			$this->line($text);
-
-		}
-
-	}
-
-	private function write($text){
-
-		$verbosity = $this->getOutput()->getVerbosity();
-
-		if($verbosity > 1){
-
-			$this->line($text);
-
-		}
-		else {
-			$this->getOutput()->write($text);
-		}
-	}
-
-
-
-	private function launch($command, array $arguments = array()){
-		$verbosity = $this->getOutput()->getVerbosity();
-
-		if($verbosity > 1){
-
-			return $this->call($command, $arguments);
-			
-		}
-
-		return $this->callSilent($command, $arguments);
-	}
-
-	public function launchAndCapture($command, &$capture, array $arguments = array())
-	{
-		$instance = $this->getApplication()->find($command);
-
-		$arguments['command'] = $command;
-
-		$out = new BufferedOutput;
-
-		$res = $instance->run(new ArrayInput($arguments), $out);
-
-		$capture = $out->pluck();
-
-		return $res;
-	}
-
-
+        return $res;
+    }
 }

@@ -1,0 +1,90 @@
+.sidebar {
+
+    width: 80%;
+    top:@top-header-height*2;
+    height: calc(~"100vh - 96px");
+    position: fixed;
+    z-index: 2;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+    -webkit-overflow-scrolling: touch;
+
+    background-color: rgba(255,255,255,0.9);
+
+    display: none;
+    
+    @media(min-width:780px){
+        width: 260px;
+        background-color: transparent;
+        display: initial
+    }
+
+    &::-webkit-scrollbar {
+        width: 2px;
+        height: 6px;
+    }
+    &::-webkit-scrollbar-button {
+        width: 0px;
+        height: 0px;
+    }
+    &::-webkit-scrollbar-thumb {
+        background: #e1e1e1;
+        border: 0;
+    }
+    &::-webkit-scrollbar-thumb:hover {
+        background: #ffffff;
+    }
+    &::-webkit-scrollbar-thumb:active {
+        background: @darken-accent-color;
+    }
+    &::-webkit-scrollbar-track {
+        background: lighten(@sub-header-background-color, 12%);
+        border: 0;
+    }
+    &::-webkit-scrollbar-track:hover {
+        background: lighten(@sub-header-background-color, 20%);
+    }
+    &::-webkit-scrollbar-track:active {
+        background: lighten(@sub-header-background-color, 20%);
+    }
+    &::-webkit-scrollbar-corner {
+        background: transparent;
+    }
+}
+
+.sidebar__rest, .sidebar__spaced {
+    // the area on the side of the sidebar, that should be visible
+    width: 100%;
+    padding: @base-padding;
+    box-sizing: border-box;
+
+    @media(min-width:780px){
+        padding: @base-padding @base-padding 0 276px; 
+    }
+
+}
+
+
+.sidebar--drawer {
+
+}
+
+.sidebar--opened {
+    display: inherit;
+}
+
+.drawer__button {
+    display: none;
+    flex-shrink: 0;
+    flex-basis: 40px;
+    margin: 0 @base-padding 0 0;
+    color: #fff;
+    fill: #fff;
+
+    @media(max-width:780px){
+        display: initial
+    }
+}

@@ -1,3 +1,0 @@
-Register user
-
-(not available)

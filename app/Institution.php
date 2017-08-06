@@ -1,4 +1,6 @@
-<?php namespace KlinkDMS;
+<?php
+
+namespace KlinkDMS;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -36,7 +38,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Institution whereUrl($value)
  * @mixin \Eloquent
  */
-class Institution extends Model {
+class Institution extends Model
+{
     /*
     id: bigIncrements
     klink_id: string
@@ -52,8 +55,6 @@ class Institution extends Model {
     address_zip: string
     */
 
-
-
     /**
      * The database table used by the model.
      *
@@ -62,8 +63,6 @@ class Institution extends Model {
     protected $table = 'institutions';
 
     protected $fillable = ['klink_id', 'name', 'email','phone','thumbnail_uri','type','url','address_street','address_country','address_locality','address_zip'];
-
-
 
     public function scopeFromKlinkID($query, $klink_id)
     {
@@ -77,7 +76,7 @@ class Institution extends Model {
      */
     public static function findByKlinkID($id)
     {
-        return self::fromKlinkID( $id )->first();
+        return self::fromKlinkID($id)->first();
     }
 
     /**
@@ -85,10 +84,10 @@ class Institution extends Model {
      *
      * @return Institution|null     The Institution or null if cannot be found
      */
-    public static function current(){
+    public static function current()
+    {
         return self::findByKlinkID(\Config::get('dms.institutionID'));
     }
-
 
     /**
      * [toKlinkInstitutionDetails description]
@@ -96,7 +95,7 @@ class Institution extends Model {
      */
     public function toKlinkInstitutionDetails()
     {
-        $instance = \KlinkInstitutionDetails::create($this->klink_id, $this->name,  $this->type);
+        $instance = \KlinkInstitutionDetails::create($this->klink_id, $this->name, $this->type);
         
         $instance->setUrl($this->url);
         
@@ -114,11 +113,11 @@ class Institution extends Model {
     /**
      * Check if two institutions are equal.
      *
-     * @param object $instance The instance to check against. $instance must be of type \KlinkInstitutionDetails or Institution. Any other types automatically cause the equality check to return false. 
+     * @param object $instance The instance to check against. $instance must be of type \KlinkInstitutionDetails or Institution. Any other types automatically cause the equality check to return false.
      */
-    public function equal($instance){
-        if(is_a($instance, '\KlinkInstitutionDetails')){
-            
+    public function equal($instance)
+    {
+        if (is_a($instance, '\KlinkInstitutionDetails')) {
             return $this->klink_id == $instance->id &&
                 $this->name == $instance->name &&
                 $this->email == $instance->email &&
@@ -130,10 +129,7 @@ class Institution extends Model {
                 $this->address_country == $instance->addressCountry &&
                 $this->address_locality == $instance->addressLocality &&
                 $this->address_zip == $instance->addressZip;
-            
-        }
-        elseif(is_a($instance, 'KlinkDMS\Institution')){
-            
+        } elseif (is_a($instance, 'KlinkDMS\Institution')) {
             return $this->klink_id == $instance->klink_id &&
                 $this->name == $instance->name &&
                 $this->email == $instance->email &&
@@ -150,15 +146,13 @@ class Institution extends Model {
         return false;
     }
 
-
-    public static function fromKlinkInstitutionDetails( \KlinkInstitutionDetails $instance )
+    public static function fromKlinkInstitutionDetails(\KlinkInstitutionDetails $instance)
     {
-
         $exists = self::findByKlinkID($instance->id);
         
-        if(is_null($exists)){
+        if (is_null($exists)) {
             // not exists
-            $cached = self::create(array(
+            $cached = self::create([
                 'klink_id' => $instance->id,
                 'name' => $instance->name,
                 'email' => $instance->email,
@@ -170,11 +164,10 @@ class Institution extends Model {
                 'address_country' => $instance->addressCountry,
                 'address_locality' => $instance->addressLocality,
                 'address_zip' => $instance->addressZip,
-            ));
+            ]);
             
             return $cached;
-        }
-        else if(!is_null($exists) && !$exists->equal($instance)){
+        } elseif (! is_null($exists) && ! $exists->equal($instance)) {
             // exists and needs an update
             
             $exists->klink_id = $instance->id;
@@ -193,8 +186,6 @@ class Institution extends Model {
         }
 
         // exists and it's fine
-        return $exists;        
-
+        return $exists;
     }
-
 }

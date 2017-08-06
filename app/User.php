@@ -1,22 +1,17 @@
-<?php namespace KlinkDMS;
+<?php
 
-use Illuminate\Foundation\Auth\User as Authenticatable; 
+namespace KlinkDMS;
+
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
 use KlinkDMS\Traits\HasCapability;
 use KlinkDMS\Traits\UserOptionsAccessor;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Notifications\Notifiable;
+use KlinkDMS\Notifications\ResetPasswordNotification;
 
 /**
  * The User model
- * 
- * fields:
- * - $table->bigIncrements('id');
- * - $table->string('name');
- * - $table->string('email')->unique();
- * - $table->string('password', 60);
- * - $table->string('avatar')->nullable();
- * - $table->rememberToken();
- * - $table->timestamps();
  *
  * @property int $id
  * @property string $name
@@ -56,8 +51,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class User extends Authenticatable
 {
-
-    use HasCapability, SoftDeletes, UserOptionsAccessor;
+    use Notifiable, HasCapability, SoftDeletes, UserOptionsAccessor;
 
     const OPTION_LIST_TYPE = "list_style";
   
@@ -93,7 +87,7 @@ class User extends Authenticatable
     protected $hidden = ['password', 'remember_token'];
 
     /**
-     * Scope a query to include only users with the 
+     * Scope a query to include only users with the
      * specified name
      *
      * @param string $name the user name
@@ -105,7 +99,7 @@ class User extends Authenticatable
     }
 
     /**
-     * Scope a query to include only users with the 
+     * Scope a query to include only users with the
      * specified email
      *
      * @param string $mail the user email
@@ -115,7 +109,6 @@ class User extends Authenticatable
     {
         return $query->where('email', $mail);
     }
-
 
     /**
      * Search a user by name
@@ -139,7 +132,6 @@ class User extends Authenticatable
         return self::fromEmail($email)->first();
     }
 
-
    /**
     * The searches performed by the user
     *
@@ -147,7 +139,6 @@ class User extends Authenticatable
     */
     public function searches()
     {
-
         return $this->hasMany('KlinkDMS\RecentSearch');
     }
 
@@ -158,7 +149,6 @@ class User extends Authenticatable
     */
     public function groups()
     {
-    
         return $this->hasMany('KlinkDMS\Group');
     }
   
@@ -269,7 +259,7 @@ class User extends Authenticatable
      */
     public function getInstitution()
     {
-        return !is_null($this->institution) ? $this->institution->id : null;
+        return ! is_null($this->institution) ? $this->institution->id : null;
     }
     
     /**
@@ -279,9 +269,8 @@ class User extends Authenticatable
      */
     public function getInstitutionName()
     {
-        return !is_null($this->institution) ? $this->institution->name : '';
+        return ! is_null($this->institution) ? $this->institution->name : '';
     }
-
 
     /**
      * Get the user preference for the style of the documents list
@@ -292,8 +281,7 @@ class User extends Authenticatable
     {
         $opt = $this->getOption(self::OPTION_LIST_TYPE, null);
 
-
-        return  (!is_null($opt)) ? $opt->value : 'cards';
+        return  (! is_null($opt)) ? $opt->value : 'cards';
     }
   
     /**
@@ -305,22 +293,20 @@ class User extends Authenticatable
     {
         $opt = $this->getOption(self::OPTION_TERMS_ACCEPTED, null);
 
-
-        return  (!is_null($opt)) ? $opt->value : false;
+        return  (! is_null($opt)) ? $opt->value : false;
     }
 
     /**
      * Retrieves the number of items to show per page for the pagination
      *
-     * @return int the number of elements to show per page. 
+     * @return int the number of elements to show per page.
      *             Default value is retrieved from static configuration `dms.items_per_page`
      */
     public function optionItemsPerPage()
     {
         $opt = $this->getOption(self::OPTION_ITEMS_PER_PAGE, null);
 
-
-        return  (!is_null($opt)) ? $opt->value : config('dms.items_per_page');
+        return  (! is_null($opt)) ? $opt->value : config('dms.items_per_page');
     }
 
     /**
@@ -332,9 +318,7 @@ class User extends Authenticatable
     {
         $opt = $this->getOption(self::OPTION_RECENT_RANGE, null);
 
-
-        return  (!is_null($opt)) ? $opt->value :
-              (flags()->isUnifiedSearchEnabled() ? 'currentweek' : 'currentmonth');
+        return  (! is_null($opt)) ? $opt->value : 'currentweek';
     }
 
     /**
@@ -344,7 +328,6 @@ class User extends Authenticatable
      */
     public function setOptionItemsPerPage($itemsPerPage)
     {
-
         $value = filter_var($itemsPerPage, FILTER_VALIDATE_INT);
 
         if ($value < 1 || $value > 100) {
@@ -365,8 +348,7 @@ class User extends Authenticatable
     {
         $opt = $this->getOption(self::OPTION_PERSONAL_IN_PROJECT_FILTERS, null);
 
-
-        return  (!is_null($opt)) ? $opt->value : false;
+        return  (! is_null($opt)) ? $opt->value : false;
     }
 
     /**
@@ -380,7 +362,7 @@ class User extends Authenticatable
     {
         $first = $this->options()->option($name)->first();
 
-        return  (!is_null($first)) ? $first : $default;
+        return  (! is_null($first)) ? $first : $default;
     }
 
     /**
@@ -391,16 +373,13 @@ class User extends Authenticatable
      */
     public function setOption($name, $value = '')
     {
-
         \Log::info('Calling User::setOption ', ['key' => $name, 'value' => $value]);
 
         $first = $this->getOption($name, null);
 
-        if (is_null($first)) 
-        {
+        if (is_null($first)) {
             $this->options()->save(new UserOption(['key' => $name, 'value' => $value]));
-        } else 
-        {
+        } else {
             $first->value = $value;
             $first->save();
         }
@@ -413,55 +392,52 @@ class User extends Authenticatable
      */
     public function homeRoute()
     {
-    
         $search = $this->can_capability(Capability::MAKE_SEARCH);
         $see_share = $this->can_capability(Capability::RECEIVE_AND_SEE_SHARE);
         $partner = $this->can_all_capabilities(Capability::$PARTNER);
     
-        if ($this->isDMSManager()) 
-        {
-            // full manager redirect to the dashboard
-            return route('administration.index');
-        }
-        elseif ($this->isContentManager() ||
+        if ($this->isDMSManager()) {
+            return route('documents.index');
+        } elseif ($this->isContentManager() ||
                 $this->can_capability(Capability::UPLOAD_DOCUMENTS) ||
-                $this->can_capability(Capability::EDIT_DOCUMENT))
-        {
+                $this->can_capability(Capability::EDIT_DOCUMENT)) {
             //documents manager redirect to documents
             return route('documents.index');
-        }
-        elseif ($search && !$see_share)
-        {
+        } elseif ($search && ! $see_share) {
             return route('search');
-        }
-        elseif (!$search && $see_share)
-        {
+        } elseif (! $search && $see_share) {
             return route('shares.index');
-        }
-        else
-        {
+        } else {
             //poor child redirect to search
             return route('search');
         }
     }
     
     
+    /**
+     * Send the password reset notification.
+     *
+     * @param  string  $token
+     * @return void
+     */
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new ResetPasswordNotification($token));
+    }
     
     
     
     
     
-    
-    static function boot()
+    public static function boot()
     {
         parent::boot();
 
         /**
          * Event when the user model is saved
          */
-        static::saved(function ($user) 
-        {
-            \Cache::forget('dms_project_collections-' . $user->id);
+        static::saved(function ($user) {
+            \Cache::forget('dms_project_collections-'.$user->id);
             \Cache::forget('dms_personal_collections'.$user->id);
             return $user;
         });

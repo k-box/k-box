@@ -2,7 +2,7 @@
 
 namespace KlinkDMS\Http\Requests;
 
-use KlinkDMS\Http\Requests\Request;
+use Illuminate\Foundation\Http\FormRequest as Request;
 
 class ContactsSaveRequest extends Request
 {
@@ -26,13 +26,13 @@ class ContactsSaveRequest extends Request
         return [
             'name' => 'required|string',
             'email' => 'required|email',
-            'phone' => 'present|sometimes|string',
-            'website' => 'present|sometimes|string|url',
-            'image' => 'present|sometimes|string|url',
-			'address_street' => 'present|sometimes|string',
-			'address_locality' => 'present|sometimes|string',
-			'address_country' => 'present|sometimes|string',
-			'address_zip' => 'present|sometimes|string',
+            'phone' => 'nullable|present|sometimes|string',
+            'website' => 'nullable|present|sometimes|string|url',
+            'image' => 'nullable|present|sometimes|string|url',
+            'address_street' => 'nullable|present|sometimes|string',
+            'address_locality' => 'nullable|present|sometimes|string',
+            'address_country' => 'nullable|present|sometimes|string',
+            'address_zip' => 'nullable|present|sometimes|string',
         ];
     }
 }

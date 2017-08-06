@@ -1,8 +1,7 @@
-<?php namespace KlinkDMS\Traits;
+<?php
 
+namespace KlinkDMS\Traits;
 
-use Illuminate\Support\Facades\Config;
-use Symfony\Component\Process\Exception\InvalidArgumentException;
 use Jenssegers\Date\Date as LocalizedDate;
 use DateTime;
 
@@ -14,14 +13,13 @@ use DateTime;
  */
 trait LocalizableDateFields
 {
-
     protected function getLocalizedDateInstance(DateTime $dt)
     {
         return LocalizedDate::instance($dt);
     }
 
     /**
-     * Generate the time difference output string. 
+     * Generate the time difference output string.
      * If the difference in days is major or equal to 2 the normal date string is used
      *
      * @param Jenssegers\Date\Date $dt the date
@@ -30,16 +28,13 @@ trait LocalizableDateFields
      */
     protected function generateHumanDiffOutput(LocalizedDate $dt, $full = false)
     {
-
         $diff = $dt->diffInDays();
         
-        if($diff < 2)
-        {
+        if ($diff < 2) {
             return $dt->diffForHumans();
         }
         
-        return $dt->format( trans( $full ? 'units.date_format_full' : 'units.date_format') );
-
+        return $dt->format(trans($full ? 'units.date_format_full' : 'units.date_format'));
     }
     
     /**
@@ -50,13 +45,11 @@ trait LocalizableDateFields
      */
     public function getCreatedAt($full = false)
     {
-
-        if(is_null($this->created_at))
-        {
+        if (is_null($this->created_at)) {
             return "";
         }
 
-        return $this->getLocalizedDateInstance($this->created_at)->format( trans( $full ? 'units.date_format_full' : 'units.date_format') );
+        return $this->getLocalizedDateInstance($this->created_at)->format(trans($full ? 'units.date_format_full' : 'units.date_format'));
     }
 
     /**
@@ -67,13 +60,11 @@ trait LocalizableDateFields
      */
     public function getUpdatedAt($full = false)
     {
-
-        if(is_null($this->updated_at))
-        {
+        if (is_null($this->updated_at)) {
             return "";
         }
 
-        return $this->getLocalizedDateInstance($this->updated_at)->format( trans( $full ? 'units.date_format_full' : 'units.date_format') );
+        return $this->getLocalizedDateInstance($this->updated_at)->format(trans($full ? 'units.date_format_full' : 'units.date_format'));
     }
 
     /**
@@ -84,10 +75,8 @@ trait LocalizableDateFields
      */
     public function getDeletedAt($full = false)
     {
-
-        if(!is_null($this->deleted_at))
-        {
-            return $this->getLocalizedDateInstance($this->deleted_at)->format( trans( $full ? 'units.date_format_full' : 'units.date_format') );
+        if (! is_null($this->deleted_at)) {
+            return $this->getLocalizedDateInstance($this->deleted_at)->format(trans($full ? 'units.date_format_full' : 'units.date_format'));
         }
 
         return "";
@@ -101,9 +90,7 @@ trait LocalizableDateFields
      */
     public function getCreatedAtHumanDiff($full = false)
     {
-        
-        if(is_null($this->created_at))
-        {
+        if (is_null($this->created_at)) {
             return "";
         }
 
@@ -120,9 +107,7 @@ trait LocalizableDateFields
      */
     public function getUpdatedAtHumanDiff($full = false)
     {
-
-        if(is_null($this->updated_at))
-        {
+        if (is_null($this->updated_at)) {
             return "";
         }
 
@@ -139,9 +124,7 @@ trait LocalizableDateFields
      */
     public function getDeletedAtHumanDiff($full = false)
     {
-
-        if(is_null($this->deleted_at))
-        {
+        if (is_null($this->deleted_at)) {
             return "";
         }
 
@@ -149,5 +132,4 @@ trait LocalizableDateFields
 
         return $this->generateHumanDiffOutput($dt, $full);
     }
-
 }

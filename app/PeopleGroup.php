@@ -1,4 +1,6 @@
-<?php namespace KlinkDMS;
+<?php
+
+namespace KlinkDMS;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -23,7 +25,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\PeopleGroup whereUserId($value)
  * @mixin \Eloquent
  */
-class PeopleGroup extends Model {
+class PeopleGroup extends Model
+{
     /*
     id: bigIncrements
     user_id: User
@@ -42,8 +45,8 @@ class PeopleGroup extends Model {
 
     protected $fillable = ['user_id', 'name', 'is_institution_group'];
 
-
-    public function user(){
+    public function user()
+    {
         return $this->belongsTo('KlinkDMS\User', 'user_id');
     }
 
@@ -57,15 +60,15 @@ class PeopleGroup extends Model {
         return $this->belongsToMany('KlinkDMS\User', 'peoplegroup_to_user', 'peoplegroup_id', 'user_id');
     }
     
-   public function scopeInstitutional($query)
-   {
-       return $query->where('is_institution_group', true);
-   }
+    public function scopeInstitutional($query)
+    {
+        return $query->where('is_institution_group', true);
+    }
    
-   public function scopePersonal($query, $user_id)
-   {
-       return $query->where('is_institution_group', false)->where('user_id', $user_id);
-   }
+    public function scopePersonal($query, $user_id)
+    {
+        return $query->where('is_institution_group', false)->where('user_id', $user_id);
+    }
 //
 //    public function scopeByDocumentId($query, $document_id)
 //    {
@@ -82,6 +85,4 @@ class PeopleGroup extends Model {
 //    {
 //        return self::ofUser($user_id)->byDocumentId($document_id)->first();
 //    }
-
-
 }

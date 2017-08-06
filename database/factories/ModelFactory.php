@@ -14,10 +14,9 @@
 $factory->define(KlinkDMS\User::class, function (Faker\Generator $faker) {
     $institution_count = \KlinkDMS\Institution::count();
     
-    if($institution_count == 0){
+    if ($institution_count == 0) {
         $institution = factory(KlinkDMS\Institution::class)->create()->id;
-    }
-    else {
+    } else {
         $institution = \KlinkDMS\Institution::all()->random()->id;
     }
 
@@ -30,13 +29,11 @@ $factory->define(KlinkDMS\User::class, function (Faker\Generator $faker) {
 });
 
 $factory->defineAs(KlinkDMS\User::class, 'admin', function (Faker\Generator $faker) {
-
     $institution_count = \KlinkDMS\Institution::count();
     
-    if($institution_count == 0){
+    if ($institution_count == 0) {
         $institution = factory(KlinkDMS\Institution::class)->create()->id;
-    }
-    else {
+    } else {
         $institution = \KlinkDMS\Institution::all()->random()->id;
     }
     
@@ -48,24 +45,24 @@ $factory->defineAs(KlinkDMS\User::class, 'admin', function (Faker\Generator $fak
     ];
 });
 
-
 $factory->define(KlinkDMS\File::class, function (Faker\Generator $faker) {
-    
-    $hash = $faker->sha256 . '' . $faker->sha256;
+    $hash = $faker->sha256.''.$faker->sha256;
+
+    copy(base_path('tests/data/example.pdf'), storage_path('documents/example.pdf'));
+    $path = storage_path('documents/example.pdf');
     
     return [
         'name' => $faker->sentence,
-        'hash' => hash_file('sha512', base_path('tests/data/example.pdf')),
-        'path' => base_path('tests/data/example.pdf'),
+        'hash' => hash_file('sha512', $path),
+        'path' => $path,
         'mime_type' => 'application/pdf',
-        'user_id' => factory(KlinkDMS\User::class)->create()->id, 
+        'user_id' => factory(KlinkDMS\User::class)->create()->id,
         'size' => $faker->randomNumber(2),
         'original_uri' => ''
-    ]; 
+    ];
 });
 
 $factory->define(KlinkDMS\Institution::class, function (Faker\Generator $faker) {
-    
     return [
         'klink_id' => str_random(4),
         'email' => $faker->email,
@@ -78,12 +75,11 @@ $factory->define(KlinkDMS\Institution::class, function (Faker\Generator $faker) 
         'address_locality' => $faker->sentence,
         'address_zip' => $faker->sentence,
         'name' => $faker->sentence
-    ]; 
+    ];
 });
 
 $factory->define(KlinkDMS\DocumentDescriptor::class, function (Faker\Generator $faker) {
-    
-    $hash = $faker->sha256 . '' . $faker->sha256;
+    $hash = $faker->sha256.''.$faker->sha256;
     
     $user = factory(KlinkDMS\User::class)->create();
     
@@ -94,10 +90,9 @@ $factory->define(KlinkDMS\DocumentDescriptor::class, function (Faker\Generator $
     
     $institution_count = \KlinkDMS\Institution::count();
     
-    if($institution_count == 0){
+    if ($institution_count == 0) {
         $institution = factory(KlinkDMS\Institution::class)->create()->id;
-    }
-    else {
+    } else {
         $institution = \KlinkDMS\Institution::all()->random()->id;
     }
     
@@ -117,21 +112,17 @@ $factory->define(KlinkDMS\DocumentDescriptor::class, function (Faker\Generator $
         'language' => $faker->languageCode,
         'file_id' => $file->id,
         'owner_id' => $user->id,
-    ]; 
+    ];
 });
 
 $factory->define(KlinkDMS\Starred::class, function (Faker\Generator $faker) {
-
     return [
       'user_id' => factory(KlinkDMS\User::class)->create()->id,
       'document_id' => factory(KlinkDMS\DocumentDescriptor::class)->create()->id
     ];
 });
 
-
 $factory->define(KlinkDMS\Import::class, function (Faker\Generator $faker) {
-    
-    
     return [
         'bytes_expected' => 0,
         'bytes_received' => 0,
@@ -141,17 +132,15 @@ $factory->define(KlinkDMS\Import::class, function (Faker\Generator $faker) {
         'user_id' => 'factory:KlinkDMS\User',
         'parent_id' => null,
         'status_message' => KlinkDMS\Import::MESSAGE_QUEUED
-    ]; 
+    ];
 });
 
 $factory->define(KlinkDMS\Project::class, function (Faker\Generator $faker) {
-    
     $institution_count = \KlinkDMS\Institution::count();
     
-    if($institution_count == 0){
+    if ($institution_count == 0) {
         $institution = factory(KlinkDMS\Institution::class)->create()->id;
-    }
-    else {
+    } else {
         $institution = \KlinkDMS\Institution::all()->random()->id;
     }
     
@@ -159,24 +148,22 @@ $factory->define(KlinkDMS\Project::class, function (Faker\Generator $faker) {
         'institution_id' => $institution
     ]);
     
-    $user->addCapabilities( KlinkDMS\Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH );
+    $user->addCapabilities(KlinkDMS\Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH);
     
-    $project_title = $faker->sentence; 
+    $project_title = $faker->sentence;
         
-    $service = app('Klink\DmsDocuments\DocumentsService');        
+    $service = app('Klink\DmsDocuments\DocumentsService');
         
-    $collection = $service->createGroup( $user, $project_title, null, null, false );
+    $collection = $service->createGroup($user, $project_title, null, null, false);
     
     return [
         'name' => $project_title,
         'user_id' => $user->id,
         'collection_id' => $collection->id,
-    ]; 
+    ];
 });
 
-
 $factory->define(Klink\DmsMicrosites\Microsite::class, function (Faker\Generator $faker) {
-    
     $project = factory(KlinkDMS\Project::class)->create();
     
     $project_manager = $project->manager()->first();
@@ -191,59 +178,56 @@ $factory->define(Klink\DmsMicrosites\Microsite::class, function (Faker\Generator
         'default_language' => 'en',
         'user_id' => $project_manager->id,
         'institution_id' => $project_manager->institution_id,
-    ]; 
+    ];
 });
 
-// 
+//
 // $factory('KlinkDMS\RecentSearch', [
 //   'terms' => $faker->word,
 //   'times' => $faker->numberBetween(1, 10),
 //   'user_id' => 'factory:KlinkDMS\User'
 // ]);
-// 
+//
 // $factory('KlinkDMS\PeopleGroup', [
 //   'name' => $faker->word,
 //   'is_institution_group' => $faker->randomElement(array(true, false)),
 //   'user_id' => 'factory:KlinkDMS\User'
 // ]);
-// 
+//
 $factory->define(KlinkDMS\Shared::class, function (Faker\Generator $faker) {
-
     return [
       'user_id' => function () {
-            return factory(KlinkDMS\User::class)->create()->id;
+          return factory(KlinkDMS\User::class)->create()->id;
       },
       'token' => $faker->md5,
       'shareable_id' => function () {
-            return factory(KlinkDMS\DocumentDescriptor::class)->create()->id;
+          return factory(KlinkDMS\DocumentDescriptor::class)->create()->id;
       },
       'shareable_type' => 'KlinkDMS\DocumentDescriptor',
       'sharedwith_id' => function () {
-            return factory(KlinkDMS\User::class)->create()->id;
+          return factory(KlinkDMS\User::class)->create()->id;
       },
       'sharedwith_type' => 'KlinkDMS\User'
     ];
 });
 
 $factory->define(KlinkDMS\PublicLink::class, function (Faker\Generator $faker) {
-
     return [
       'user_id' => function () {
-            return factory(KlinkDMS\User::class)->create()->id;
+          return factory(KlinkDMS\User::class)->create()->id;
       },
       'slug' => $faker->slug,
     ];
 });
 
 $factory->defineAs(KlinkDMS\Shared::class, 'publiclink', function (Faker\Generator $faker) {
-
     $link = factory(KlinkDMS\PublicLink::class)->create();
 
     return [
       'user_id' => $link->user_id,
       'token' => $faker->md5,
       'shareable_id' => function () {
-            return factory(KlinkDMS\DocumentDescriptor::class)->create()->id;
+          return factory(KlinkDMS\DocumentDescriptor::class)->create()->id;
       },
       'shareable_type' => 'KlinkDMS\DocumentDescriptor',
       'sharedwith_id' => $link->id,

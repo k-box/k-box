@@ -12,17 +12,16 @@ class CreateMicrositesTable extends Migration
      */
     public function up()
     {
-        Schema::create('microsites', function(Blueprint $table)
-		{
-			$table->bigIncrements('id');
+        Schema::create('microsites', function (Blueprint $table) {
+            $table->bigIncrements('id');
             
             $table->bigInteger('project_id')->unsigned();
             
-			$table->string('title', 255);
-			$table->string('slug', 255)->unique();
+            $table->string('title', 255);
+            $table->string('slug', 255)->unique();
             
-			$table->text('description')->nullable();
-			
+            $table->text('description')->nullable();
+            
             $table->string('logo', 255)->nullable(); // url or path to the file
             $table->string('hero_image', 255)->nullable(); // url or path to the file
             
@@ -31,7 +30,7 @@ class CreateMicrositesTable extends Migration
             $table->bigInteger('user_id')->unsigned();
             $table->bigInteger('institution_id')->unsigned();
             
-			$table->timestamps();
+            $table->timestamps();
             $table->softDeletes();
             
             
@@ -40,8 +39,7 @@ class CreateMicrositesTable extends Migration
             $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
 
             $table->foreign('institution_id')->references('id')->on('institutions');
-            
-		});
+        });
     }
 
     /**
@@ -51,6 +49,6 @@ class CreateMicrositesTable extends Migration
      */
     public function down()
     {
-        Schema::drop('microsites');
+        Schema::dropIfExists('microsites');
     }
 }

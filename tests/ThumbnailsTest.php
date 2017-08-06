@@ -1,13 +1,9 @@
 <?php
 
-use KlinkDMS\Import;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Tests\BrowserKitTestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use KlinkDMS\User;
-use KlinkDMS\File;
-use KlinkDMS\Capability;
-use KlinkDMS\DocumentDescriptor;
+
+use KlinkDMS\Import;
 use KlinkDMS\Project;
 use KlinkDMS\Jobs\ThumbnailGenerationJob;
 use GuzzleHttp\Client;
@@ -15,112 +11,108 @@ use GuzzleHttp\Client;
 use Illuminate\Foundation\Application;
 use KlinkDMS\Console\Commands\ThumbnailGenerationCommand;
 
-class ThumbnailsTest extends TestCase {
-    
+class ThumbnailsTest extends BrowserKitTestCase
+{
     use DatabaseTransactions;
     
     
-    public function test_document_provider(){
-		
-		return array( 
+    public function test_document_provider()
+    {
+        return [
             // true: if the thumbnail path is a default thumbnail
             // false: if the thumbnail path must not be a default thumbnail
-			array( 'tests/data/example.docx', true ),
-            array( 'tests/data/example.pdf', false ),
-            array( 'tests/data/example-presentation.pptx', false ),
-            array( 'tests/data/project-avatar.png', false ),
-            array( 'tests/data/folder_for_import/folder1/in-folder-1.md', true ),
-            array( 'tests/data/users.csv', true ),
-		);
-	}
+            [ 'tests/data/example.docx', true ],
+            [ 'tests/data/example.pdf', false ],
+            [ 'tests/data/example-presentation.pptx', false ],
+            [ 'tests/data/project-avatar.png', false ],
+            [ 'tests/data/folder_for_import/folder1/in-folder-1.md', true ],
+            [ 'tests/data/users.csv', true ],
+        ];
+    }
 
-    public function test_url_import_provider(){
-		
-		return array( 
+    public function test_url_import_provider()
+    {
+        return [
             // true: if the thumbnail path is a default thumbnail
             // false: if the thumbnail path must not be a default thumbnail
-            array( 'https://klink.asia/', 'text/html; charset=utf-8', false ),
-            array( 'https://s3.amazonaws.com/lowres.cartoonstock.com/dating-attachment-jpeg-pdf-files-computer_files-mfln7218_low.jpg', 'image/jpg', false ),
-            array( 'https://hectorucsar.files.wordpress.com/2014/08/mafalda-03.pdf', 'application/pdf', false ),
-            array( 'http://imgs.xkcd.com/comics/xkcde.png', 'image/png', false ),
-		);
-	}
+            [ 'https://klink.asia/', 'text/html; charset=utf-8', false ],
+            [ 'https://s3.amazonaws.com/lowres.cartoonstock.com/dating-attachment-jpeg-pdf-files-computer_files-mfln7218_low.jpg', 'image/jpg', false ],
+            [ 'https://hectorucsar.files.wordpress.com/2014/08/mafalda-03.pdf', 'application/pdf', false ],
+            [ 'http://imgs.xkcd.com/comics/xkcde.png', 'image/png', false ],
+        ];
+    }
     
-    public function mime_type_provider(){
-        
-        
-        return array(
+    public function mime_type_provider()
+    {
+        return [
 
-            array('post', 'images/web-page.png'),
-            array('page', 'images/web-page.png'),
-            array('node', 'images/web-page.png'),
-            array('text/html', 'images/web-page.png'),
-            array('application/msword', 'images/document.png'),
-            array('application/vnd.ms-excel', 'images/spreadsheet.png'),
-            array('application/vnd.ms-powerpoint', 'images/presentation.png'),
-            array('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'images/spreadsheet.png'),
-            array('application/vnd.openxmlformats-officedocument.presentationml.presentation', 'images/presentation.png'),
-            array('application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'images/document.png'),
-            array('application/pdf', 'images/document.png'),
-            array('text/uri-list', 'images/web-page.png'),
-            array('image/jpg', 'images/image.png'),
-            array('image/jpeg', 'images/image.png'),
-            array('image/gif', 'images/image.png'),
-            array('image/png', 'images/image.png'),
-            array('image/tiff', 'images/image.png'),
-            array('text/plain', 'images/text-document.png'),
-            array('application/rtf', 'images/text-document.png'),
-            array('text/x-markdown', 'images/text-document.png'),
-            array('application/vnd.google-apps.document', 'images/document.png'),
-            array('application/vnd.google-apps.drawing', 'images/image.png'),
-            array('application/vnd.google-apps.form', 'images/form.png'),
-            array('application/vnd.google-apps.fusiontable', 'images/spreadsheet.png'),
-            array('application/vnd.google-apps.presentation', 'images/presentation.png'),
-            array('application/vnd.google-apps.spreadsheet', 'images/spreadsheet.png'),
-            array('application/vnd.google-earth.kml+xml', 'images/geodata.png'),
-            array('application/vnd.google-earth.kmz', 'images/geodata.png'),
-            array('application/rar', 'images/archive.png'),
-            array('application/zip', 'images/archive.png'),
-            array('application/x-mimearchive', 'images/web-page.png'),
-            array('video/x-ms-vob', 'images/dvd.png'),
-            array('content/DVD', 'images/dvd.png'),
-            array('video/x-ms-wmv', 'images/video.png'),
-            array('video/x-ms-wmx', 'images/video.png'),
-            array('video/x-ms-wm', 'images/video.png'),
-            array('video/avi', 'images/video.png'),
-            array('video/divx', 'images/video.png'),
-            array('video/x-flv', 'images/video.png'),
-            array('video/quicktime', 'images/video.png'),
-            array('video/mpeg', 'images/video.png'),
-            array('video/mp4', 'images/video.png'),
-            array('video/ogg', 'images/video.png'),
-            array('video/webm', 'images/video.png'),
-            array('video/x-matroska', 'images/video.png'),
-            array('video/3gpp', 'images/video.png'),
-            array('video/3gpp2', 'images/video.png'),
-            array('text/csv', 'images/spreadsheet.png'),
-            array('message/rfc822', 'images/email.png'),
-            array('application/vnd.ms-outlook', 'images/email.png'),
-            array('application/octet-stream', 'images/document.png'),
+            ['post', 'images/web-page.png'],
+            ['page', 'images/web-page.png'],
+            ['node', 'images/web-page.png'],
+            ['text/html', 'images/web-page.png'],
+            ['application/msword', 'images/document.png'],
+            ['application/vnd.ms-excel', 'images/spreadsheet.png'],
+            ['application/vnd.ms-powerpoint', 'images/presentation.png'],
+            ['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'images/spreadsheet.png'],
+            ['application/vnd.openxmlformats-officedocument.presentationml.presentation', 'images/presentation.png'],
+            ['application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'images/document.png'],
+            ['application/pdf', 'images/document.png'],
+            ['text/uri-list', 'images/web-page.png'],
+            ['image/jpg', 'images/image.png'],
+            ['image/jpeg', 'images/image.png'],
+            ['image/gif', 'images/image.png'],
+            ['image/png', 'images/image.png'],
+            ['image/tiff', 'images/image.png'],
+            ['text/plain', 'images/text-document.png'],
+            ['application/rtf', 'images/text-document.png'],
+            ['text/x-markdown', 'images/text-document.png'],
+            ['application/vnd.google-apps.document', 'images/document.png'],
+            ['application/vnd.google-apps.drawing', 'images/image.png'],
+            ['application/vnd.google-apps.form', 'images/form.png'],
+            ['application/vnd.google-apps.fusiontable', 'images/spreadsheet.png'],
+            ['application/vnd.google-apps.presentation', 'images/presentation.png'],
+            ['application/vnd.google-apps.spreadsheet', 'images/spreadsheet.png'],
+            ['application/vnd.google-earth.kml+xml', 'images/geodata.png'],
+            ['application/vnd.google-earth.kmz', 'images/geodata.png'],
+            ['application/rar', 'images/archive.png'],
+            ['application/zip', 'images/archive.png'],
+            ['application/x-mimearchive', 'images/web-page.png'],
+            ['video/x-ms-vob', 'images/dvd.png'],
+            ['content/DVD', 'images/dvd.png'],
+            ['video/x-ms-wmv', 'images/video.png'],
+            ['video/x-ms-wmx', 'images/video.png'],
+            ['video/x-ms-wm', 'images/video.png'],
+            ['video/avi', 'images/video.png'],
+            ['video/divx', 'images/video.png'],
+            ['video/x-flv', 'images/video.png'],
+            ['video/quicktime', 'images/video.png'],
+            ['video/mpeg', 'images/video.png'],
+            ['video/mp4', 'images/video.png'],
+            ['video/ogg', 'images/video.png'],
+            ['video/webm', 'images/video.png'],
+            ['video/x-matroska', 'images/video.png'],
+            ['video/3gpp', 'images/video.png'],
+            ['video/3gpp2', 'images/video.png'],
+            ['text/csv', 'images/spreadsheet.png'],
+            ['message/rfc822', 'images/email.png'],
+            ['application/vnd.ms-outlook', 'images/email.png'],
+            ['application/octet-stream', 'images/document.png'],
 
-		);
-        
-	}
+        ];
+    }
     
     
     /**
      * @dataProvider test_document_provider
      */
-    public function testThumbnailGenerationJob( $path, $expectedDefault ){
-
+    public function testThumbnailGenerationJob($path, $expectedDefault)
+    {
         $mock = $this->withKlinkAdapterMock();
 
         $service = app('thumbnails');
 
-        $mock->shouldReceive('generateThumbnailOfWebSite', 'generateThumbnailFromContent')->andReturnUsing( function($uri, $save_path) use($expectedDefault)
-        {
-            if($expectedDefault)
-            {
+        $mock->shouldReceive('generateThumbnailOfWebSite', 'generateThumbnailFromContent')->andReturnUsing(function ($uri, $save_path) use ($expectedDefault) {
+            if ($expectedDefault) {
                 throw new Exception('An exception to test default handling');
             }
 
@@ -128,13 +120,13 @@ class ThumbnailsTest extends TestCase {
         });
         
         
-        $real_path = base_path( $path );
+        $real_path = base_path($path);
         
         $file = factory('KlinkDMS\File')->create([
             'name' => basename($real_path),
             'hash' => \KlinkDocumentUtils::generateDocumentHash($real_path),
             'path' => $real_path,
-            'mime_type' => \KlinkDocumentUtils::get_mime($real_path), 
+            'mime_type' => \KlinkDocumentUtils::get_mime($real_path),
             'size' => filesize($real_path),
         ]);
         
@@ -148,36 +140,30 @@ class ThumbnailsTest extends TestCase {
         
         $this->assertNotEmpty($file->thumbnail_path);
 
-        if($expectedDefault)
-        {
+        if ($expectedDefault) {
             $this->assertEquals($default_thumb, $file->thumbnail_path);
-        }
-        else
-        {
+        } else {
             $this->assertNotEquals($file->thumbnail_path, $default_thumb);
         }
-        
     }
     
     /**
      * Simulates an import from URL and build the thumbnail for that imports
      * @dataProvider test_url_import_provider
      */
-    public function testThumbnailGenerationFromUrlImport( $url, $mimeType, $expectedDefault ){
-
+    public function testThumbnailGenerationFromUrlImport($url, $mimeType, $expectedDefault)
+    {
         $mock = $this->withKlinkAdapterMock();
 
         $service = app('thumbnails');
         $documentsService = app('Klink\DmsDocuments\DocumentsService');
 
-        $mock->shouldReceive('generateThumbnailOfWebSite', 'generateThumbnailFromContent')->andReturnUsing( function($uri, $save_path, $variant_save_path = null) use($expectedDefault)
-        {
-            if($expectedDefault)
-            {
+        $mock->shouldReceive('generateThumbnailOfWebSite', 'generateThumbnailFromContent')->andReturnUsing(function ($uri, $save_path, $variant_save_path = null) use ($expectedDefault) {
+            if ($expectedDefault) {
                 throw new Exception('An exception to test default handling');
             }
 
-            return file_put_contents(isset($variant_save_path) && !is_null($variant_save_path) ? $variant_save_path : $save_path, 'A_simulated_file_content');
+            return file_put_contents(isset($variant_save_path) && ! is_null($variant_save_path) ? $variant_save_path : $save_path, 'A_simulated_file_content');
         });
         
         $filename = $documentsService->extractFileNameFromUrl($url);
@@ -190,8 +176,7 @@ class ThumbnailsTest extends TestCase {
             'timeout'  => 60.0,
         ]);
         
-        if(@!is_file($real_path))
-        {
+        if (@! is_file($real_path)) {
             $response = $client->request('GET', $url, ['sink' => $real_path]);
             
             $response_headers = $response->getHeaders();
@@ -206,7 +191,7 @@ class ThumbnailsTest extends TestCase {
             'hash' => \KlinkDocumentUtils::generateDocumentHash($real_path),
             'path' => $real_path,
             'original_uri' => $url,
-            'mime_type' => $mimeType, 
+            'mime_type' => $mimeType,
             'size' => filesize($real_path),
         ]);
         
@@ -220,22 +205,18 @@ class ThumbnailsTest extends TestCase {
         
         $this->assertNotEmpty($file->thumbnail_path);
 
-        if($expectedDefault)
-        {
+        if ($expectedDefault) {
             $this->assertEquals($default_thumb, $file->thumbnail_path);
-        }
-        else
-        {
+        } else {
             $this->assertNotEquals($file->thumbnail_path, $default_thumb);
         }
-        
     }
     
     /**
      * @dataProvider mime_type_provider
      */
-    public function testDefaultThumbnailsForMimeType($mimeType, $expected_thumb){
-        
+    public function testDefaultThumbnailsForMimeType($mimeType, $expected_thumb)
+    {
         $service = app('thumbnails');
         
         $path = $this->invokePrivateMethod($service, 'getDefaultThumbnail', [$mimeType]);
@@ -247,23 +228,22 @@ class ThumbnailsTest extends TestCase {
         $this->assertTrue(@is_file($path));
         
         $this->assertTrue(@is_file($full_expected_path));
-        
     }
     
     /**
      * @dataProvider test_document_provider
      */
-    public function testThumbnailGenerationConsole( $path, $unused ){
-
+    public function testThumbnailGenerationConsole($path, $unused)
+    {
         $command = new ThumbnailGenerationCommand();
         
-        $real_path = base_path( $path );
+        $real_path = base_path($path);
         
         $file = factory('KlinkDMS\File')->create([
             'name' => basename($real_path),
             'hash' => \KlinkDocumentUtils::generateDocumentHash($real_path),
             'path' => $real_path,
-            'mime_type' => \KlinkDocumentUtils::get_mime($real_path), 
+            'mime_type' => \KlinkDocumentUtils::get_mime($real_path),
             'size' => filesize($real_path),
         ]);
         
@@ -280,26 +260,24 @@ class ThumbnailsTest extends TestCase {
         $this->assertRegExp('/Generating thumbnails/', $res);
         $this->assertRegExp('/1 document/', $res);
         $this->assertRegExp('/100/', $res);
-        
     }
     
     
     /**
      * @expectedException Illuminate\Database\Eloquent\ModelNotFoundException
      */
-    public function testThumbnailGenerationConsoleWithNonExistingDocuments(){
-
+    public function testThumbnailGenerationConsoleWithNonExistingDocuments()
+    {
         $command = new ThumbnailGenerationCommand();
         
         $res = $this->runArtisanCommand($command, [
             'documents' => ['89999999']
         ]);
-        
     }
     
     
-    public function testThumbnailGenerationFromFileUpload(){
-
+    public function testThumbnailGenerationFromFileUpload()
+    {
         $this->withKlinkAdapterFake();
         
         $real_path = base_path('tests/data/example.pdf');
@@ -308,8 +286,8 @@ class ThumbnailsTest extends TestCase {
         
         $real_path = base_path('tests/data/example2.pdf');
         
-        $uploadFile = new Symfony\Component\HttpFoundation\File\UploadedFile( 
-            $real_path, 
+        $uploadFile = new Symfony\Component\HttpFoundation\File\UploadedFile(
+            $real_path,
             'example.pdf',
             'application/pdf',
             filesize($real_path),
@@ -324,7 +302,6 @@ class ThumbnailsTest extends TestCase {
         $descriptor = $service->importFile($uploadFile, $this->createAdminUser());
         
         $this->assertNotNull($descriptor);
-        
     }
     
     
@@ -332,8 +309,8 @@ class ThumbnailsTest extends TestCase {
     
     protected function runCommand($command, $input = [], $output = null)
     {
-        if(is_null($output)){
-             $output = new Symfony\Component\Console\Output\NullOutput;
+        if (is_null($output)) {
+            $output = new Symfony\Component\Console\Output\NullOutput;
         }
         
         return $command->run(new Symfony\Component\Console\Input\ArrayInput($input), $output);

@@ -1,42 +1,41 @@
-<?php namespace KlinkDMS\Http\Requests;
+<?php
 
-use KlinkDMS\Http\Requests\Request;
+namespace KlinkDMS\Http\Requests;
 
-class PeopleGroupUpdateRequest extends Request {
+use Illuminate\Foundation\Http\FormRequest as Request;
 
-	/**
-	 * Determine if the user is authorized to make this request.
-	 *
-	 * @return bool
-	 */
-	public function authorize()
-	{
-		return true;
-	}
+class PeopleGroupUpdateRequest extends Request
+{
 
-	/**
-	 * Get the validation rules that apply to the request.
-	 *
-	 * @return array
-	 */
-	public function rules()
-	{
-		
-		$action = $this->route()->getAction();
+    /**
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
+    public function authorize()
+    {
+        return true;
+    }
 
-		if($action['as'] == 'people.store'){
-			return ['name' => 'required'];
-		}
-		else {
-			return [
-				'name' => 'sometimes|required',
-				'user' => 'sometimes|required|exists:users,id',
-				'action' => 'required_with:user|in:add,remove',
-				'make_institutional' => 'sometimes|required|boolean',
-				'make_personal' => 'sometimes|required|boolean',
-			];	
-		}
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
+     */
+    public function rules()
+    {
+        $action = $this->route()->getAction();
 
-	}
-
+        if ($action['as'] == 'people.store') {
+            return ['name' => 'required'];
+        } else {
+            return [
+                'name' => 'sometimes|required',
+                'user' => 'sometimes|required|exists:users,id',
+                'action' => 'required_with:user|in:add,remove',
+                'make_institutional' => 'sometimes|required|boolean',
+                'make_personal' => 'sometimes|required|boolean',
+            ];
+        }
+    }
 }

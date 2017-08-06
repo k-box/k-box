@@ -107,7 +107,7 @@ define("modules/people", ["require", "modernizr", "jquery", "DMS", "modules/mini
             return false;
         }
         
-        var already_there = _.where(group.people, user);
+        var already_there = _.filter(group.people, user);
         
         if(already_there && already_there.length > 0){
             DMS.MessageBox.warning( Lang.trans('groups.people.user_already_exists', {name: user.name}), '');
@@ -131,7 +131,6 @@ define("modules/people", ["require", "modernizr", "jquery", "DMS", "modules/mini
             _updateBinds();
         }, function(obj, err, errText){
            // real error 
-//           group.name = old;
            group.saving = false;
            _updateBinds();
            _outputError(Lang.trans('groups.people.cannot_add_user_dialog_title'), obj);
@@ -172,9 +171,9 @@ define("modules/people", ["require", "modernizr", "jquery", "DMS", "modules/mini
    function _getGroupById(id){
        var int_id = parseInt(id,10); 
        
-       var by_int = _.where(module.details.groups, { 'id': int_id });
+       var by_int = _.filter(module.details.groups, { 'id': int_id });
         
-        var by_string = _.where(module.details.groups, { 'id': ""+id });
+        var by_string = _.filter(module.details.groups, { 'id': ""+id });
        
         var found = _.union(by_int, by_string);
         return _.first(found);
@@ -182,7 +181,7 @@ define("modules/people", ["require", "modernizr", "jquery", "DMS", "modules/mini
    
    function _groupAlreadyExixtsByName(name){ 
        
-       var found = _.first(_.where(module.details.groups, { 'name': name }));
+       var found = _.first(_.filter(module.details.groups, { 'name': name }));
        
        return found && found.id > -1;
    }
@@ -193,9 +192,9 @@ define("modules/people", ["require", "modernizr", "jquery", "DMS", "modules/mini
         
         var int_id = parseInt(id,10); 
    
-        var by_int = _.where(module.details.users, { 'id': int_id });
+        var by_int = _.filter(module.details.users, { 'id': int_id });
         
-        var by_string = _.where(module.details.users, { 'id': ""+id });
+        var by_string = _.filter(module.details.users, { 'id': ""+id });
        
         var found = _.union(by_int, by_string);
        
@@ -222,6 +221,24 @@ define("modules/people", ["require", "modernizr", "jquery", "DMS", "modules/mini
        
    }
 
+   function _extractError(title, obj){
+       var message = 'There was a problem fullfilling your request';
+       
+       if(obj.responseJSON && obj.responseJSON.status){
+           message = obj.responseJSON.status;
+       }
+       else {
+           if(obj.status==403){
+                message = 'You don\'t have permission to create the group';
+           }
+           else if(obj.status==422){
+               message = 'Some parameters have a wrong value';
+           }
+       }
+       
+       return message;
+   }
+
 	var module = {
         details: {
             groups: [],
@@ -241,52 +258,59 @@ define("modules/people", ["require", "modernizr", "jquery", "DMS", "modules/mini
         
         createGroup: function(evt, vm){
             
-            DMS.MessageBox.prompt(Lang.trans('groups.people.create_group_dialog_title'), Lang.trans('groups.people.create_group_dialog_text'), Lang.trans('groups.people.create_group_dialog_placeholder'), function(inputValue){
-                
-                console.info(inputValue);
-                
-                if(_groupAlreadyExixtsByName(inputValue)){
-                    _alert.showInputError( Lang.trans('groups.people.group_name_already_exists'));
-                    return false;   
-                }
-                
-                var group = {
-                    name: inputValue,
-                    id:0,
-                    people:[],
-                    is_institution_group:false,
-                    saving:true,
-                }
-                
-                
-                    
-                module.details.groups.push(group); 
-                    
-                _updateBinds();
-                
-                DMS.MessageBox.close();
-                    
-                DMS.Services.PeopleGroup.addGroup(group.name, function(res){
-                    if(res.status && res.status==='ok'){
-                        //good
-                        group.id = res.group.id;
-                        group.saving = false;
+            DMS.MessageBox.prompt(
+                Lang.trans('groups.people.create_group_dialog_title'), 
+                Lang.trans('groups.people.create_group_dialog_text'),
+                Lang.trans('groups.people.create_group_dialog_placeholder'),
+                {
+                    // handle all the check on the string and the saving, if positive validation, 
+                    // so on the UI there will be a loader on the dialog and in case of errors 
+                    // they will be displayed in the same dialog, no more new dialogs
+                    preConfirm: function(inputValue){
+                        return new Promise(function (resolve, reject) {
+							if (inputValue === false || inputValue === "") {
+								reject( Lang.trans('actions.dialogs.input_required') );
+                                return false;
+                            } else if(_groupAlreadyExixtsByName(inputValue)){
+                                reject( Lang.trans('groups.people.group_name_already_exists'));
+                                return false;
+							}
+
+                            var group = {
+                                name: inputValue,
+                                id:0,
+                                people:[],
+                                is_institution_group:false,
+                                saving:true,
+                            }
+                                
+                            module.details.groups.push(group);
+                                
+                            DMS.Services.PeopleGroup.addGroup(group.name, function(res){
+                                if(res.status && res.status==='ok'){
+                                    //good
+                                    group.id = res.group.id;
+                                    group.saving = false;
+                                    _updateBinds();
+                                    resolve();
+                                }
+                                else {
+                                    module.details.groups = _.filter(module.details.groups, function(i){ return i.id !== 0; });
+                                    _updateBinds();
+                                    reject( res.status ? res.status : Lang.trans('groups.people.create_group_generic_error_text'));
+                                }
+                                
+                            }, function(obj, err, errText){
+                                // real error 
+                                module.details.groups = _.filter(module.details.groups, function(i){ return i.id !== 0; });
+                                _updateBinds();
+                                
+                                reject(_extractError(Lang.trans('groups.people.create_group_error_title'), obj));
+                            });
+
+					    });
                     }
-                    else {
-                        DMS.MessageBox.error( Lang.trans('groups.people.create_group_error_title'), res.status ? res.status : Lang.trans('groups.people.create_group_generic_error_text'));
-                        module.details.groups = _.filter(module.details.groups, function(i){ return i.id !== 0; });
-                    }
-                    
-                    _updateBinds();
-                }, function(obj, err, errText){
-                   // real error 
-                   module.details.groups = _.filter(module.details.groups, function(i){ return i.id !== 0; });
-                   _updateBinds();
-                   
-                   _outputError(Lang.trans('groups.people.create_group_error_title'), obj);
-                });
-                
-            });
+                }).catch(function(){});
             
             evt.preventDefault();
         },
@@ -295,127 +319,53 @@ define("modules/people", ["require", "modernizr", "jquery", "DMS", "modules/mini
             var that = $(this),
                 group = _getGroup(that);
                 
-            DMS.MessageBox.prompt(Lang.trans('groups.people.rename_dialog_title', {name: group.name}), Lang.trans('groups.people.rename_dialog_text'), group.name, function(inputValue){
+            DMS.MessageBox.prompt(
+                Lang.trans('groups.people.rename_dialog_title', {name: group.name}), 
+                Lang.trans('groups.people.rename_dialog_text'), group.name, 
+                {
+                    // handle all the check on the string and the saving, if positive validation, 
+                    // so on the UI there will be a loader on the dialog and in case of errors 
+                    // they will be displayed in the same dialog, no more new dialogs
+                    preConfirm: function(inputValue){
+                        return new Promise(function (resolve, reject) {
                 
-                // console.info(inputValue);
+                            if (inputValue === false || inputValue === "") {
+								reject( Lang.trans('actions.dialogs.input_required') );
+                                return false;
+                            } else if(_groupAlreadyExixtsByName(inputValue)){
+                                reject( Lang.trans('groups.people.group_name_already_exists'));
+                                return false;
+							}
                 
-                if(_groupAlreadyExixtsByName(inputValue)){
-                    _alert.showInputError(Lang.trans('groups.people.group_name_already_exists'));
-                    return false;   
-                }
-                
-                var old = group.name; 
-                
-                group.name = inputValue;
-                group.saving = true;
-                
-                DMS.MessageBox.close();
-//                    module.details.groups = _.filter(module.details.groups, function(i){ return i.id !== group.id; }); 
+                            var old = group.name; 
+                            
+                            group.name = inputValue;
+                            group.saving = true;
                     
-                    _updateBinds();
-                    
-                    DMS.Services.PeopleGroup.renameGroup(group.id, group.name, function(res){
-                        if(res.status && res.status==='ok'){
-                            //good
-                        }
-                        else {
-                            group.name = old;
-                            DMS.MessageBox.error(Lang.trans('groups.people.rename_error_title'), res.status ? res.status : Lang.trans('groups.people.rename_generic_error_text'));
-                        }
-                        group.saving = false;
-                        _updateBinds();
-                    }, function(obj, err, errText){
-                       // real error 
-                       group.name = old;
-                       group.saving = false;
-                       _updateBinds();
-                       
-                       _outputError(Lang.trans('groups.people.rename_error_title'), obj);
-                    });
+                            DMS.Services.PeopleGroup.renameGroup(group.id, group.name, function(res){
+                                group.saving = false;
+                                if(res.status && res.status==='ok'){
+                                    //good
+                                    _updateBinds();
+                                    resolve();
+                                }
+                                else {
+                                    group.name = old;
+                                    _updateBinds();
+                                    reject(res.status ? res.status : Lang.trans('groups.people.rename_generic_error_text'));
+                                }
+                            }, function(obj, err, errText){
+                                // real error 
+                                group.name = old;
+                                group.saving = false;
+                                _updateBinds();
+                                
+                                reject(_extractError(Lang.trans('groups.people.create_group_error_title'), obj));
+                            });
+                        });
+                    }
                 
             });
-            evt.preventDefault();
-        },
-        
-        makeInstitutional: function(evt, vm){
-            var that = $(this),
-                group = _getGroup(that);
-                
-            DMS.MessageBox.question('Make "' + group.name +'" Institutional?', 'The group ' + group.name +' will be visible to other content managers inside the institution.',  'Continue', 'Cancel', function(selection){
-                if(selection){
-                    
-                    // module.details.groups = _.filter(module.details.groups, function(i){ return i.id !== group.id; }); 
-                    group.is_institution_group = true;
-                    group.saving = true;
-                    _updateBinds();
-                    
-                    DMS.Services.PeopleGroup.makeInstitutional(group.id, function(res){
-                        if(res.status && res.status==='ok'){
-                            DMS.MessageBox.close();
-                        }
-                        else {
-                            group.is_institution_group = false;
-                            DMS.MessageBox.error('The group cannot be converted to institutional', res.status ? res.status : 'The group cannot be converted to an institutional group.');
-                        }
-                        
-                       group.saving = false;
-                        _updateBinds();
-                    }, function(obj, err, errText){
-                       // real error 
-                       
-                       
-                       group.is_institution_group = false;
-                       group.saving = false;
-                       _updateBinds();
-                       
-                       _outputError('Make Institutional', obj);
-                    });
-                }
-                else {
-                    DMS.MessageBox.close();
-                }
-            }, true, true);
-            evt.preventDefault();
-        },
-        
-        makePersonal: function(evt, vm){
-            var that = $(this),
-                group = _getGroup(that);
-                
-            DMS.MessageBox.question('Make "' + group.name +'" Personal?', 'The group ' + group.name +' will be visible only to you, previous share will be removed.', 'Continue', 'Cancel', function(selection){
-                if(selection){
-                    
-                    // module.details.groups = _.filter(module.details.groups, function(i){ return i.id !== group.id; }); 
-                    group.is_institution_group = false;
-                    group.saving = true;
-                    _updateBinds();
-                    
-                    DMS.Services.PeopleGroup.makePersonal(group.id, function(res){
-                        if(res.status && res.status==='ok'){
-                            DMS.MessageBox.close();
-                        }
-                        else {
-                            group.is_institution_group = true;
-                            DMS.MessageBox.error('The group cannot be make personal', res.status ? res.status : 'The group cannot be make personal.');
-                        }
-                        
-                       group.saving = false;
-                        _updateBinds();
-                    }, function(obj, err, errText){
-                       // real error 
-                       
-                       
-                       group.is_institution_group = true;
-                       group.saving = false;
-                       _updateBinds();
-                       
-                       _outputError('Make Institutional', obj);
-                    });
-                }
-                else {
-                    DMS.MessageBox.close();
-                }
-            }, true, true);
             evt.preventDefault();
         },
         
@@ -423,9 +373,10 @@ define("modules/people", ["require", "modernizr", "jquery", "DMS", "modules/mini
             var that = $(this),
                 group = _getGroup(that);
                 
-            DMS.MessageBox.deleteQuestion( Lang.trans('groups.people.delete_dialog_title', {name: group.name}), Lang.trans('groups.people.delete_dialog_text', {name: group.name}), function(selection){
-                if(selection){
-                    
+            DMS.MessageBox.deleteQuestion( 
+                Lang.trans('groups.people.delete_dialog_title', {name: group.name}), 
+                Lang.trans('groups.people.delete_dialog_text', {name: group.name})).then(function(){
+                    // ok selected
                     module.details.groups = _.filter(module.details.groups, function(i){ return i.id !== group.id; }); 
 
                     _updateBinds();
@@ -439,19 +390,19 @@ define("modules/people", ["require", "modernizr", "jquery", "DMS", "modules/mini
                             DMS.MessageBox.error( Lang.trans('groups.people.delete_error_title'), res.status ? res.status : Lang.trans('groups.people.delete_generic_error_text'));
                         }
                         
-//                        group.saving = false;
                         _updateBinds();
                     }, function(obj, err, errText){
                        // real error 
-                       
                        
                        module.details.groups.push(group);
                        _updateBinds();
                        
                        _outputError(Lang.trans('groups.people.delete_error_title'), obj);
                     });
-                }
-            }, true, true);
+
+                }, function(dismiss){
+                    // cancel selected
+                });
             evt.preventDefault();
         },
         
@@ -463,8 +414,9 @@ define("modules/people", ["require", "modernizr", "jquery", "DMS", "modules/mini
                 user = _getUser(uid),
                 group = _getGroup(that);
                 
-            DMS.MessageBox.deleteQuestion(Lang.trans('groups.people.remove_user_dialog_title', {name: uname}), Lang.trans('groups.people.remove_user_dialog_text', {name: uname, group: group.name}), function(selection){
-                if(selection){
+            DMS.MessageBox.deleteQuestion(
+                Lang.trans('groups.people.remove_user_dialog_title', {name: uname}), 
+                Lang.trans('groups.people.remove_user_dialog_text', {name: uname, group: group.name})).then(function(){
                     
                     group.people = _.filter(group.people, function(i){ return i.id !== uid; }); 
                     group.saving = true;
@@ -488,8 +440,10 @@ define("modules/people", ["require", "modernizr", "jquery", "DMS", "modules/mini
                        _updateBinds();
                        _outputError(Lang.trans('groups.people.remove_user_error_title'), obj);
                     });
-                }
-            }, true, true);
+                
+            }, function(dismiss){
+                
+            });
               
             evt.preventDefault();
         }

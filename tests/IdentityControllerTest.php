@@ -1,33 +1,30 @@
 <?php
 
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Tests\BrowserKitTestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 use KlinkDMS\Option;
 use KlinkDMS\Capability;
 
-class IdentityControllerTest extends TestCase
+class IdentityControllerTest extends BrowserKitTestCase
 {
-
     use DatabaseTransactions;
 
-    public function protected_routes_provider(){
-		
-		return array( 
-            array(Capability::$ADMIN, 'administration.identity.index', 'get', 200),
-            array(Capability::$DMS_MASTER, 'administration.identity.index', 'get', 200),
-            array(Capability::$PROJECT_MANAGER, 'administration.identity.index', 'get', 403),
-            array(Capability::$PARTNER, 'administration.identity.index', 'get', 403),
-            array(Capability::$GUEST, 'administration.identity.index', 'get', 403),
-            array(Capability::$ADMIN, 'administration.identity.store', 'post', 302),
-            array(Capability::$DMS_MASTER, 'administration.identity.store', 'post', 302),
-            array(Capability::$PROJECT_MANAGER, 'administration.identity.store', 'post', 403),
-            array(Capability::$PARTNER, 'administration.identity.store', 'post', 403),
-            array(Capability::$GUEST, 'administration.identity.store', 'post', 403),
-		);
-        
-	}
+    public function protected_routes_provider()
+    {
+        return [
+            [Capability::$ADMIN, 'administration.identity.index', 'get', 200],
+            [Capability::$DMS_MASTER, 'administration.identity.index', 'get', 200],
+            [Capability::$PROJECT_MANAGER, 'administration.identity.index', 'get', 403],
+            [Capability::$PARTNER, 'administration.identity.index', 'get', 403],
+            [Capability::$GUEST, 'administration.identity.index', 'get', 403],
+            [Capability::$ADMIN, 'administration.identity.store', 'post', 302],
+            [Capability::$DMS_MASTER, 'administration.identity.store', 'post', 302],
+            [Capability::$PROJECT_MANAGER, 'administration.identity.store', 'post', 403],
+            [Capability::$PARTNER, 'administration.identity.store', 'post', 403],
+            [Capability::$GUEST, 'administration.identity.store', 'post', 403],
+        ];
+    }
 
     /**
      * @dataProvider protected_routes_provider
@@ -38,18 +35,14 @@ class IdentityControllerTest extends TestCase
         
         $this->actingAs($user);
         
-        $this->{$method}( route($route) );
+        $this->{$method}(route($route));
 
-        if($expected_status_code === 403)
-        {
+        if ($expected_status_code === 403) {
             $this->assertResponseStatus(200);
             $this->assertViewName('errors.403');
-        }
-        else 
-        {
+        } else {
             $this->assertResponseStatus($expected_status_code);
         }
-        
     }
 
     public function testContactsSuggestionBasedOnInstitution()
@@ -81,7 +74,6 @@ class IdentityControllerTest extends TestCase
         $this->see($institution->address_zip);
     }
 
-
     public function testAdminDashboardNoticeShown()
     {
         // make sure contact information are not set
@@ -94,12 +86,10 @@ class IdentityControllerTest extends TestCase
         $this->visit(route('administration.index'));
 
         $this->see(trans('notices.contacts_not_configured', ['url' => route('administration.identity.index')]));
-
     }
     
     public function testContactsAreSaved()
     {
-
         $institution = factory('KlinkDMS\Institution')->create([
             'klink_id' => \Config::get('dms.institutionID')
         ]);
@@ -159,7 +149,6 @@ class IdentityControllerTest extends TestCase
 
     public function testContactsAreSavedWithOnlyRequired()
     {
-
         $institution = factory('KlinkDMS\Institution')->create([
             'klink_id' => \Config::get('dms.institutionID')
         ]);
@@ -205,11 +194,9 @@ class IdentityControllerTest extends TestCase
                 "address_zip" => "",
             ]
         ], $contacts);
-
     }
     public function testContactsRequiredValidation()
     {
-
         $institution = factory('KlinkDMS\Institution')->create([
             'klink_id' => \Config::get('dms.institutionID')
         ]);
@@ -231,6 +218,5 @@ class IdentityControllerTest extends TestCase
         $this->seePageIs(route('administration.identity.index'));
         $this->see('The name field is required');
         $this->see('The email field is required');
-
     }
 }

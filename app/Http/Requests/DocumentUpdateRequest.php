@@ -1,45 +1,47 @@
-<?php namespace KlinkDMS\Http\Requests;
+<?php
 
-use KlinkDMS\Http\Requests\Request;
+namespace KlinkDMS\Http\Requests;
 
-class DocumentUpdateRequest extends Request {
+use Illuminate\Foundation\Http\FormRequest as Request;
 
-	/**
-	 * Determine if the user is authorized to make this request.
-	 *
-	 * @return bool
-	 */
-	public function authorize()
-	{
-		return true;
-	}
+class DocumentUpdateRequest extends Request
+{
 
-	/**
-	 * Get the validation rules that apply to the request.
-	 *
-	 * @return array
-	 */
-	public function rules()
-	{
-		// $action = $this->route()->getAction();
-		
-		$max_size = \Config::get('dms.max_upload_size');
+    /**
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
+    public function authorize()
+    {
+        return true;
+    }
 
-		$tests = [
-			'remove_group' => 'sometimes|required|exists:groups,id',
-			'add_group' => 'sometimes|required|exists:groups,id',
-			'title' => 'sometimes|required|string|regex:/^[\w\d\s\.\-_\(\)]*/',
-			'abstract' => 'sometimes|string|regex:/^[\w\d\s\.\-_\(\)]*/',
-			'language' => 'sometimes|string|min:2|',
-			'authors' => 'sometimes|string|regex:/^[\w\d\s\.\-_\(\)]*/',
-			'visibility' => 'sometimes|required|string|in:public,private',
-		    
-		    // if this is present a new file version will be created and will inherit the 
-			'document' => 'sometimes|required|between:0,' . $max_size, //new document version
-			
-		];
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
+     */
+    public function rules()
+    {
+        // $action = $this->route()->getAction();
+        
+        $max_size = \Config::get('dms.max_upload_size');
 
-		return $tests;
-	}
+        $tests = [
+            'remove_group' => 'sometimes|required|exists:groups,id',
+            'add_group' => 'sometimes|required|exists:groups,id',
+            'title' => 'sometimes|required|string|regex:/^[\w\d\s\.\-_\(\)]*/',
+            'abstract' => 'nullable|sometimes|string|regex:/^[\w\d\s\.\-_\(\)]*/',
+            'language' => 'nullable|sometimes|string|min:2|',
+            'authors' => 'nullable|sometimes|string|regex:/^[\w\d\s\.\-_\(\)]*/',
+            'visibility' => 'nullable|sometimes|required|string|in:public,private',
+            
+            // if this is present a new file version will be created and will inherit the
+            'document' => 'nullable|sometimes|required|between:0,'.$max_size, //new document version
+            
+        ];
 
+        return $tests;
+    }
 }

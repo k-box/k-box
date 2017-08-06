@@ -63,18 +63,51 @@ input[type='text'], textarea {
 }
 
 
+.search-submit {
+	background: none;
+	color: @text-color;
+
+	border: 0;
+	
+	position: absolute;
+	right: 0;
+	top: 0;
+	
+    padding: 6px 10px;
+	
+
+
+  	&:hover svg, &:active svg {
+  		fill: @accent-color;
+  	}
+
+  	&:focus{
+  		outline: none;
+  	}
+
+  	&::-moz-focus-inner { 
+		border: 0; 
+		outline: none;
+		padding: 0; 
+		margin-top:-2px; 
+		margin-bottom: -2px; 
+	}
+
+}
 
 .search-field {
 	color: @text-color;
+	border: 1px solid @brand-gray;
 
 	min-width: 100px;
 	width: 100px;
+	padding: @base-padding/2 @base-padding;
 
-	.box-sizing(border-box);
+	box-sizing: border-box;
 
 
-	&:focus + .input-group-addon {
-		border-color: #33C3F0;
+	&:focus, &:hover {
+		border-color: @accent-color;
 	}
 	
 	
@@ -136,23 +169,23 @@ input[type='text'], textarea {
 	}
 }
 
-.two-state-button {
+// .two-state-button {
 
-	.loading-state {
-		display: none;
-	}
+// 	.loading-state {
+// 		display: none;
+// 	}
 
-	&.loading {
-		.loading-state {
-			display: inline-block;
-		}
+// 	&.loading {
+// 		.loading-state {
+// 			display: inline-block;
+// 		}
 
-		.base-state {
-			display: none;
-		}
-	}
+// 		.base-state {
+// 			display: none;
+// 		}
+// 	}
 
-}
+// }
 
 
 .radio-tab {
@@ -448,20 +481,6 @@ input[type="checkbox"] + label {
 
 	}
 
-	.version-list li {
-
-		span {
-			color: @black-50;
-			margin-right: 12px;
-		}
-
-		span:first-child {
-			display: block;
-			color: @text-color
-		}
-
-		
-	}
 }
 
 .form-actions {

@@ -1,47 +1,45 @@
 <?php
 
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Tests\BrowserKitTestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 use KlinkDMS\Exceptions\FileNamingException;
-use KlinkDMS\Exceptions\FileAlreadyExistsException;
 use KlinkDMS\DocumentDescriptor;
 use KlinkDMS\Capability;
 
-class DocumentDescriptorTest extends TestCase
+class DocumentDescriptorTest extends BrowserKitTestCase
 {
-    
     use DatabaseTransactions;
     
-    public function visibility_provider(){
-        return array(
-            array(\KlinkVisibilityType::KLINK_PRIVATE),
-            array(\KlinkVisibilityType::KLINK_PUBLIC),
-        );
+    public function visibility_provider()
+    {
+        return [
+            [\KlinkVisibilityType::KLINK_PRIVATE],
+            [\KlinkVisibilityType::KLINK_PUBLIC],
+        ];
     }
     
-    public function objects_to_store_as_last_error(){
-
+    public function objects_to_store_as_last_error()
+    {
         $ex1 = new FileNamingException('Exception test');
         
         
         $obj = new \stdClass;
         $obj->internal = 'hello';
         
-		return array( 
-			array( $ex1, ['message', 'type', 'payload'], 'KlinkDMS\Exceptions\FileNamingException' ),
-			array( $obj, ['payload', 'type'], 'stdClass' ),
-			array( ['1', '2'], ['payload', 'type'], 'array' ),
-			array( ['key' => 'value'], ['payload', 'type'], 'array' ),
-			array( 'a string', ['payload', 'type'], 'string' ),
-			array( 1, ['payload', 'type'], 'number' ),
-			array( -1, ['payload', 'type'], 'number' ),
-			array( true, ['payload', 'type'], 'boolean' ),
-			array( false, ['payload', 'type'], 'boolean' ),
-			array( [[1,2]], ['payload', 'type'], 'array' ),
-		);
-	}
+        return [
+            [ $ex1, ['message', 'type', 'payload'], 'KlinkDMS\Exceptions\FileNamingException' ],
+            [ $obj, ['payload', 'type'], 'stdClass' ],
+            [ ['1', '2'], ['payload', 'type'], 'array' ],
+            [ ['key' => 'value'], ['payload', 'type'], 'array' ],
+            [ 'a string', ['payload', 'type'], 'string' ],
+            [ 1, ['payload', 'type'], 'number' ],
+            [ -1, ['payload', 'type'], 'number' ],
+            [ true, ['payload', 'type'], 'boolean' ],
+            [ false, ['payload', 'type'], 'boolean' ],
+            [ [[1,2]], ['payload', 'type'], 'array' ],
+        ];
+    }
     
     
     /**
@@ -52,7 +50,6 @@ class DocumentDescriptorTest extends TestCase
      */
     public function testLastErrorStoreAndRetrieve($obj, $expected_property_in_deserialized_object, $expected_value_for_type)
     {
-        
         $descr = factory('KlinkDMS\DocumentDescriptor')->make();
         $descr->last_error = $obj;
         $saved = $descr->save();
@@ -68,15 +65,14 @@ class DocumentDescriptorTest extends TestCase
         $this->assertNotNull($le);
         
         foreach ($expected_property_in_deserialized_object as $prop) {
-            $this->assertTrue(property_exists($le, $prop), 'Property ' . $prop . ' do not exists');
+            $this->assertTrue(property_exists($le, $prop), 'Property '.$prop.' do not exists');
         }
         
         $this->assertEquals($expected_value_for_type, $le->type);
-        
     }
     
-    public function testLastErrorSavedDuringIndexing(){
-        
+    public function testLastErrorSavedDuringIndexing()
+    {
         $mock = $this->withKlinkAdapterMock();
         
         $file = factory('KlinkDMS\File')->make();
@@ -85,10 +81,8 @@ class DocumentDescriptorTest extends TestCase
         $service = app('Klink\DmsDocuments\DocumentsService');
 
         $mock->shouldReceive('institutions')->andReturn($inst);
-        $mock->shouldReceive('addDocument')->andReturnUsing(function(){
-
+        $mock->shouldReceive('addDocument')->andReturnUsing(function () {
             throw new \KlinkException('Bad Request, hash not equals');
-
         });
         
         $res = $service->indexDocument($file, 'private', null, null, true);
@@ -101,11 +95,10 @@ class DocumentDescriptorTest extends TestCase
         $this->assertNotNull($le);
         $this->assertEquals('KlinkException', $le->type);
         $this->assertEquals('Bad Request, hash not equals', $le->message);
-
     }
     
-    public function testLastErrorSavedDuringReIndexing(){
-        
+    public function testLastErrorSavedDuringReIndexing()
+    {
         $mock = $this->withKlinkAdapterMock();
 
         $doc = factory('KlinkDMS\DocumentDescriptor')->make();
@@ -113,16 +106,14 @@ class DocumentDescriptorTest extends TestCase
         $service = app('Klink\DmsDocuments\DocumentsService');
 
         $mock->shouldReceive('institutions')->andReturn(factory('KlinkDMS\Institution')->make());
-        $mock->shouldReceive('updateDocument')->andReturnUsing(function($document){
-
+        $mock->shouldReceive('updateDocument')->andReturnUsing(function ($document) {
             throw new \KlinkException('Bad Request, hash not equals');
-
         });
         
-        try{
+        try {
             $res = $service->reindexDocument($doc, 'private');
             // expecting a "KlinkException: Bad Request" because owner is not specified
-        }catch(\KlinkException $ex){
+        } catch (\KlinkException $ex) {
             $this->assertEquals('Bad Request, hash not equals', $ex->getMessage());
         }
         
@@ -140,8 +131,8 @@ class DocumentDescriptorTest extends TestCase
     /**
      * @dataProvider visibility_provider
      */
-    public function testConversionToPrivateKlinkDocumentDescriptor($visibility){
-
+    public function testConversionToPrivateKlinkDocumentDescriptor($visibility)
+    {
         $user = $this->createUser(Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH);
 
         $document = $this->createDocument($user);
@@ -165,7 +156,6 @@ class DocumentDescriptorTest extends TestCase
         $project1->collection->documents()->save($document); // first level
         $project_collection->documents()->save($document); // second level
 
-
         $document = $document->fresh();
         $document2 = $document2->fresh();
 
@@ -188,8 +178,7 @@ class DocumentDescriptorTest extends TestCase
         $this->assertTrue(is_array($descriptor->getAuthors()));
         $this->assertTrue(is_array($descriptor->getTitleAliases()));
 
-        if($visibility === \KlinkVisibilityType::KLINK_PRIVATE){
-
+        if ($visibility === \KlinkVisibilityType::KLINK_PRIVATE) {
             $groups = $descriptor->getDocumentGroups();
 
             $this->assertTrue(is_array($groups));
@@ -215,13 +204,21 @@ class DocumentDescriptorTest extends TestCase
 
             $this->assertCount(1, $descriptor2->getDocumentGroups(), 'descriptor2 collection count');
             $this->assertEmpty($descriptor2->getProjects());
-
-        }
-        else {
+        } else {
             $this->assertEmpty($descriptor->getDocumentGroups(), 'collection not empty');
             $this->assertEmpty($descriptor->getProjects(), 'projects not empty');
         }
-        
     }
 
+    public function testUUIDCreation()
+    {
+
+        // Test UUID creation happens
+
+        $user = $this->createAdminUser();
+
+        $document = $this->createDocument($user);
+
+        $this->assertNotNull($document->uuid);
+    }
 }

@@ -1,12 +1,10 @@
 <?php
 
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\BrowserKitTestCase;
 
 use KlinkDMS\Option;
 
-class StorageControllerTest extends TestCase
+class StorageControllerTest extends BrowserKitTestCase
 {
     /**
      * A basic test example.
@@ -47,7 +45,6 @@ class StorageControllerTest extends TestCase
 
         $reindex = $this->response->original->reindex;
 
-        $this->assertTrue(!!$reindex['executing']);
+        $this->assertTrue(! ! $reindex['executing']);
     }
-
 }

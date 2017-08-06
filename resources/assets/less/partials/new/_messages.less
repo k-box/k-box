@@ -1,10 +1,11 @@
 
 .c-message {
 	background: #228AE6;
-	padding: 16px 0 16px 16px;
-	margin-bottom: 8px;
-	
+	padding: @base-padding*2 0 @base-padding*2 @base-padding*2;
+	margin-bottom: @base-padding;
+
 	color: #fff;
+	fill: #fff;
 	border-radius: 3px;
 	position: relative;
 
@@ -20,21 +21,67 @@
 	&.c-message--success {
 	  background: #A9E34B;
 	  color: #212529;
+	  fill: #212529;
 	}
 
 	&.c-message--error {
 	  background: #e03131;
 	  color: #fff;
+	  fill: #fff;
 	}
-	
+
 	&.c-message--warning {
 	  background: #FCC419;
 	  color: #212529;
+	  fill: #212529;
 	}
 
 	&.c-message--success a, &.c-message--warning a {
 	  	color: #212529;
 	}
 
+}
+
+.c-message__dismiss {
+	float: right;
+}
+
+.c-message--topmost {
+	position: relative;
+	z-index: 10000;
+}
+
+.outdated {
+	opacity: 0;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+
+	transition: all 0.2s linear;
+	position: fixed;
+	width: 100%;
+	margin: 0 auto;
+	top: 48px/2;
+	z-index: 10000;
+	visibility: collapse;
+	pointer-events: none;
+}
+
+.outdated--visible {
+	opacity: 1;
+	visibility: visible;
+	pointer-events: auto;
+}
+
+
+.outdated__browsers {
+
+	margin: 16px 0 24px
+}
+
+.outdated__browser {
+	display: inline-block;
+	width: 16%;
+	text-align: center
 }
 

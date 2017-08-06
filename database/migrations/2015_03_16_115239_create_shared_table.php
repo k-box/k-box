@@ -3,63 +3,59 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSharedTable extends Migration {
+class CreateSharedTable extends Migration
+{
 
-	/**
-	 * Run the migrations.
-	 *
-	 * @return void
-	 */
-	public function up()
-	{
-		Schema::create('shared', function(Blueprint $table)
-		{
-			$table->bigIncrements('id');
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('shared', function (Blueprint $table) {
+            $table->bigIncrements('id');
 
-			/**
-			 * The user that has put a star on the document
-			 */
-			$table->bigInteger('user_id')->unsigned();
+            /**
+             * The user that has put a star on the document
+             */
+            $table->bigInteger('user_id')->unsigned();
 
-			/**
-			 * Shared with (user_id)
-			 */
-			$table->bigInteger('shared_with')->unsigned();
+            /**
+             * Shared with (user_id)
+             */
+            $table->bigInteger('shared_with')->unsigned();
 
-			$table->string('token', 128)->unique();
+            $table->string('token', 128)->unique();
 
-			$table->timestamps();
+            $table->timestamps();
 
-			$table->bigInteger('shareable_id')->unsigned();
-			$table->string('shareable_type');
+            $table->bigInteger('shareable_id')->unsigned();
+            $table->string('shareable_type');
 
-			$table->dateTime('expiration')->nullable();
-			
-			$table->unique(array('token', 'shared_with', 'shareable_id', 'shareable_type'));
+            $table->dateTime('expiration')->nullable();
+            
+            $table->unique(['token', 'shared_with', 'shareable_id', 'shareable_type']);
 
+            $table->foreign('user_id')->references('id')->on('users');
 
-			$table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('shared_with')->references('id')->on('users');
 
-			$table->foreign('shared_with')->references('id')->on('users');
+            $table->index(['shareable_id', 'shareable_type']);
 
-			$table->index(array('shareable_id', 'shareable_type'));
+            $table->index('user_id');
 
-			$table->index('user_id');
+            $table->index('shared_with');
+        });
+    }
 
-			$table->index('shared_with');
-
-		});
-
-	}
-
-	/**
-	 * Reverse the migrations.
-	 *
-	 * @return void
-	 */
-	public function down()
-	{
-		Schema::drop('shared');
-	}
-
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('shared');
+    }
 }

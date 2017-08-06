@@ -1,11 +1,13 @@
-<?php namespace KlinkDMS;
+<?php
+
+namespace KlinkDMS;
 
 use Illuminate\Database\Eloquent\Model;
 
 /**
  * KlinkDMS\Activity
  *
- * @deprecated 
+ * @deprecated
  * @property int $id
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
@@ -21,14 +23,13 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Activity whereUserId($value)
  * @mixin \Eloquent
  */
-class Activity extends Model {
+class Activity extends Model
+{
     /*
     id: bigIncrements
     instance: morphs
     users: User
     */
-
-
 
     /**
      * The database table used by the model.
@@ -37,12 +38,8 @@ class Activity extends Model {
      */
     protected $table = 'activities';
 
-
-    public function user(){
-        
+    public function user()
+    {
         return $this->hasOne('KlinkDMS\User');
-
     }
-
-
 }

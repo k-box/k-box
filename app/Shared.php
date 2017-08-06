@@ -1,4 +1,6 @@
-<?php namespace KlinkDMS;
+<?php
+
+namespace KlinkDMS;
 
 use Illuminate\Database\Eloquent\Model;
 use KlinkDMS\Traits\LocalizableDateFields;
@@ -42,8 +44,8 @@ use Carbon\Carbon;
  * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Shared whereUserId($value)
  * @mixin \Eloquent
  */
-class Shared extends Model {
-
+class Shared extends Model
+{
     use LocalizableDateFields;
     /*
     id: bigIncrements
@@ -57,8 +59,6 @@ class Shared extends Model {
     shared_with: User
     */
 
-
-
     /**
      * The database table used by the model.
      *
@@ -70,13 +70,12 @@ class Shared extends Model {
 
     protected $dates = ['created_at', 'updated_at', 'expiration'];
 
-    public function user(){
+    public function user()
+    {
         
         // One to One
         return $this->belongsTo('KlinkDMS\User', 'user_id');
-
     }
-
 
     public function shareable()
     {
@@ -90,13 +89,13 @@ class Shared extends Model {
 
     /**
      * Get shared by user
-     * 
+     *
      * @param  string|User $user the user
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeBy($query, $user)
     {
-        if(class_basename(get_class($user)) === 'User'){
+        if (class_basename(get_class($user)) === 'User') {
             $user = $user->id;
         }
 
@@ -105,7 +104,7 @@ class Shared extends Model {
     
     /**
      * Get shared by user, with who and what
-     * 
+     *
      * @param  User $user the user
      * @param  User|PeopleGroup $with the target of the share
      * @param  DocumentDescriptor|Group $what what has been shared
@@ -113,7 +112,7 @@ class Shared extends Model {
      */
     public function scopeByWithWhat($query, $user, $with, $what)
     {
-        if(class_basename(get_class($user)) === 'User'){
+        if (class_basename(get_class($user)) === 'User') {
             $user = $user->id;
         }
 
@@ -129,14 +128,13 @@ class Shared extends Model {
 
     /**
      * Get shared with user
-     * 
+     *
      * @param  string|User $user the user
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeSharedWithMe($query, $user)
     {
-
-        if(class_basename(get_class($user)) === 'User'){
+        if (class_basename(get_class($user)) === 'User') {
             $user = $user->id;
         }
 
@@ -145,8 +143,7 @@ class Shared extends Model {
 
     public function scopeSharedByMe($query, $user)
     {
-
-        if(class_basename(get_class($user)) === 'User'){
+        if (class_basename(get_class($user)) === 'User') {
             $user = $user->id;
         }
 
@@ -156,8 +153,7 @@ class Shared extends Model {
     
     public function scopeSharedWithGroup($query, $user)
     {
-
-        if(class_basename(get_class($user)) === 'PeopleGroup'){
+        if (class_basename(get_class($user)) === 'PeopleGroup') {
             $user = $user->id;
         }
 
@@ -166,7 +162,6 @@ class Shared extends Model {
     
     public function scopeSharedWithGroups($query, $group_ids)
     {
-
         return $query->whereIn('sharedwith_id', $group_ids)->where('sharedwith_type', 'KlinkDMS\PeopleGroup');
     }
 
@@ -192,7 +187,7 @@ class Shared extends Model {
 
     /**
      * Filter from the share token
-     * 
+     *
      * @param  string $token
      * @return \Illuminate\Database\Eloquent\Builder
      */
@@ -200,7 +195,6 @@ class Shared extends Model {
     {
         return $query->whereToken($token);
     }
-
 
     /**
      * Check if the share is expired.
@@ -211,8 +205,7 @@ class Shared extends Model {
      */
     public function isExpired()
     {
-        if(!is_null($this->expiration))
-        {
+        if (! is_null($this->expiration)) {
             return Carbon::now()->gt($this->expiration);
         }
         return false;
@@ -227,5 +220,4 @@ class Shared extends Model {
     {
         return $this->sharedwith_type === 'KlinkDMS\PublicLink';
     }
-
 }

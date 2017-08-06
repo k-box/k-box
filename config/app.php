@@ -4,6 +4,18 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Application Name
+    |--------------------------------------------------------------------------
+    |
+    | This value is the name of your application. This value is used when the
+    | framework needs to place the application's name in a notification or
+    | any other location as required by the application or its packages.
+    */
+
+    'name' => env('APP_NAME', 'K-Box'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Application Environment
     |--------------------------------------------------------------------------
     |
@@ -15,166 +27,162 @@ return [
 
     'env' => env('APP_ENV', 'production'),
 
-	/*
-	|--------------------------------------------------------------------------
-	| Application Debug Mode
-	|--------------------------------------------------------------------------
-	|
-	| When your application is in debug mode, detailed error messages with
-	| stack traces will be shown on every error that occurs within your
-	| application. If disabled, a simple generic error page is shown.
-	|
-	*/
+    /*
+    |--------------------------------------------------------------------------
+    | Application Debug Mode
+    |--------------------------------------------------------------------------
+    |
+    | When your application is in debug mode, detailed error messages with
+    | stack traces will be shown on every error that occurs within your
+    | application. If disabled, a simple generic error page is shown.
+    |
+    */
 
-	'debug' => (bool) env('APP_DEBUG') ?: false,
+    'debug' => (bool) env('APP_DEBUG') ?: false,
 
-	/*
-	|--------------------------------------------------------------------------
-	| Application URL
-	|--------------------------------------------------------------------------
-	|
-	| This URL is used by the console to properly generate URLs when using
-	| the Artisan command line tool. You should set this to the root of
-	| your application so that it is used when running Artisan tasks.
-	|
-	*/
+    /*
+    |--------------------------------------------------------------------------
+    | Application URL
+    |--------------------------------------------------------------------------
+    |
+    | This URL is used by the console to properly generate URLs when using
+    | the Artisan command line tool. You should set this to the root of
+    | your application so that it is used when running Artisan tasks.
+    |
+    */
 
-	'url' => env('APP_URL') ?: 'http://localhost/dms/',
+    'url' => env('APP_URL') ?: 'http://localhost/dms/',
 
-	/*
-	|--------------------------------------------------------------------------
-	| Application Timezone
-	|--------------------------------------------------------------------------
-	|
-	| Here you may specify the default timezone for your application, which
-	| will be used by the PHP date and date-time functions. We have gone
-	| ahead and set this to a sensible default for you out of the box.
-	|
-	*/
+    /*
+    |--------------------------------------------------------------------------
+    | Application Timezone
+    |--------------------------------------------------------------------------
+    |
+    | Here you may specify the default timezone for your application, which
+    | will be used by the PHP date and date-time functions. We have gone
+    | ahead and set this to a sensible default for you out of the box.
+    |
+    */
 
-	'timezone' => 'UTC',
+    'timezone' => 'UTC',
 
-	/*
-	|--------------------------------------------------------------------------
-	| Application Locale Configuration
-	|--------------------------------------------------------------------------
-	|
-	| The application locale determines the default locale that will be used
-	| by the translation service provider. You are free to set this value
-	| to any of the locales which will be supported by the application.
-	|
-	*/
+    /*
+    |--------------------------------------------------------------------------
+    | Application Locale Configuration
+    |--------------------------------------------------------------------------
+    |
+    | The application locale determines the default locale that will be used
+    | by the translation service provider. You are free to set this value
+    | to any of the locales which will be supported by the application.
+    |
+    */
 
-	'locale' => 'en',
+    'locale' => 'en',
 
-	/*
-	|--------------------------------------------------------------------------
-	| Application Fallback Locale
-	|--------------------------------------------------------------------------
-	|
-	| The fallback locale determines the locale to use when the current one
-	| is not available. You may change the value to correspond to any of
-	| the language folders that are provided through your application.
-	|
-	*/
+    /*
+    |--------------------------------------------------------------------------
+    | Application Fallback Locale
+    |--------------------------------------------------------------------------
+    |
+    | The fallback locale determines the locale to use when the current one
+    | is not available. You may change the value to correspond to any of
+    | the language folders that are provided through your application.
+    |
+    */
 
-	'fallback_locale' => 'en',
+    'fallback_locale' => 'en',
 
-	/*
-	|--------------------------------------------------------------------------
-	| Encryption Key
-	|--------------------------------------------------------------------------
-	|
-	| This key is used by the Illuminate encrypter service and should be set
-	| to a random, 32 character string, otherwise these encrypted strings
-	| will not be safe. Please do this before deploying an application!
-	|
-	*/
+    /*
+    |--------------------------------------------------------------------------
+    | Encryption Key
+    |--------------------------------------------------------------------------
+    |
+    | This key is used by the Illuminate encrypter service and should be set
+    | to a random, 32 character string, otherwise these encrypted strings
+    | will not be safe. Please do this before deploying an application!
+    |
+    */
 
-	'key' => env('APP_KEY') ?: '0CjGv0c4KF00D62T', //B10r3tJQdKM6cE0s
+    'key' => env('APP_KEY') ?: '0CjGv0c4KF00D62T', //B10r3tJQdKM6cE0s
 
-	'cipher' => \Illuminate\Support\Str::length( env('APP_KEY') ) === 32 ? 'AES-256-CBC' : 'AES-128-CBC', //AES-256-CBC
+    'cipher' => \Illuminate\Support\Str::length(env('APP_KEY')) === 32 ? 'AES-256-CBC' : 'AES-128-CBC', //AES-256-CBC
 
-	/*
-	|--------------------------------------------------------------------------
-	| Logging Configuration
-	|--------------------------------------------------------------------------
-	|
-	| Here you may configure the log settings for your application. Out of
-	| the box, Laravel uses the Monolog PHP logging library. This gives
-	| you a variety of powerful log handlers / formatters to utilize.
-	|
-	| Available Settings: "single", "daily", "syslog"
-	|
-	*/
+    /*
+    |--------------------------------------------------------------------------
+    | Logging Configuration
+    |--------------------------------------------------------------------------
+    |
+    | Here you may configure the log settings for your application. Out of
+    | the box, Laravel uses the Monolog PHP logging library. This gives
+    | you a variety of powerful log handlers / formatters to utilize.
+    |
+    | Available Settings: "single", "daily", "syslog"
+    |
+    */
 
-	'log' => env('APP_LOG', 'daily'),
+    'log' => env('APP_LOG', 'daily'),
 
-	'log_level' => env('APP_LOG_LEVEL', 'debug'), 
+    'log_level' => env('APP_LOG_LEVEL', 'debug'),
 
-	/*
-	|--------------------------------------------------------------------------
-	| Autoloaded Service Providers
-	|--------------------------------------------------------------------------
-	|
-	| The service providers listed here will be automatically loaded on the
-	| request to your application. Feel free to add your own services to
-	| this array to grant expanded functionality to your applications.
-	|
-	*/
+    /*
+    |--------------------------------------------------------------------------
+    | Autoloaded Service Providers
+    |--------------------------------------------------------------------------
+    |
+    | The service providers listed here will be automatically loaded on the
+    | request to your application. Feel free to add your own services to
+    | this array to grant expanded functionality to your applications.
+    |
+    */
 
-	'providers' => [
+    'providers' => [
 
-		/*
-		 * Application Service Providers...
-		 */
-		KlinkDMS\Providers\AppServiceProvider::class,
-		KlinkDMS\Providers\ConfigServiceProvider::class,
-		KlinkDMS\Providers\EventServiceProvider::class,
-		KlinkDMS\Providers\RouteServiceProvider::class,
-
-		/*
-		 * Laravel Framework Service Providers...
-		 */
-		Illuminate\Auth\AuthServiceProvider::class,
+        /*
+         * Laravel Framework Service Providers...
+         */
+        Illuminate\Auth\AuthServiceProvider::class,
         Illuminate\Broadcasting\BroadcastServiceProvider::class,
-		Illuminate\Bus\BusServiceProvider::class,
-		Illuminate\Cache\CacheServiceProvider::class,
-		Illuminate\Foundation\Providers\ConsoleSupportServiceProvider::class,
-		Illuminate\Cookie\CookieServiceProvider::class,
-		Illuminate\Database\DatabaseServiceProvider::class,
-		Illuminate\Encryption\EncryptionServiceProvider::class,
-		Illuminate\Filesystem\FilesystemServiceProvider::class,
-		Illuminate\Foundation\Providers\FoundationServiceProvider::class,
-		Illuminate\Hashing\HashServiceProvider::class,
+        Illuminate\Bus\BusServiceProvider::class,
+        Illuminate\Cache\CacheServiceProvider::class,
+        Illuminate\Foundation\Providers\ConsoleSupportServiceProvider::class,
+        Illuminate\Cookie\CookieServiceProvider::class,
+        Illuminate\Database\DatabaseServiceProvider::class,
+        Illuminate\Encryption\EncryptionServiceProvider::class,
+        Illuminate\Filesystem\FilesystemServiceProvider::class,
+        Illuminate\Foundation\Providers\FoundationServiceProvider::class,
+        Illuminate\Hashing\HashServiceProvider::class,
         
-		KlinkDMS\Providers\SettingsServiceProvider::class, //so the service provider will have access to what is needed, but before the mail provider (we want to override the mail config!!)
-		
+        KlinkDMS\Providers\SettingsServiceProvider::class, //so the service provider will have access to what is needed, but before the mail provider (we want to override the mail config!!)
+        
         Illuminate\Mail\MailServiceProvider::class,
-		Illuminate\Pagination\PaginationServiceProvider::class,
-		Illuminate\Queue\QueueServiceProvider::class,
-		Illuminate\Redis\RedisServiceProvider::class,
-		Illuminate\Auth\Passwords\PasswordResetServiceProvider::class,
-		Illuminate\Session\SessionServiceProvider::class,
-		Illuminate\Translation\TranslationServiceProvider::class,
-		Illuminate\Validation\ValidationServiceProvider::class,
-		Illuminate\View\ViewServiceProvider::class,
+        Illuminate\Notifications\NotificationServiceProvider::class,
+        Illuminate\Pagination\PaginationServiceProvider::class,
+        Illuminate\Queue\QueueServiceProvider::class,
+        Illuminate\Redis\RedisServiceProvider::class,
+        Illuminate\Auth\Passwords\PasswordResetServiceProvider::class,
+        Illuminate\Session\SessionServiceProvider::class,
+        Illuminate\Translation\TranslationServiceProvider::class,
+        Illuminate\Validation\ValidationServiceProvider::class,
+        Illuminate\View\ViewServiceProvider::class,
+
+        /*
+         * Package Service Providers...
+         */
         
-		KlinkDMS\Providers\AuthServiceProvider::class,
-		Jenssegers\Date\DateServiceProvider::class,
+        Jenssegers\Date\DateServiceProvider::class,
 
-		/**
-		 * Klink Related
-		 */
-		Klink\DmsAdapter\DmsAdapterServiceProvider::class,
-		Klink\DmsSearch\DmsSearchServiceProvider::class,
-		Klink\DmsDocuments\DmsDocumentsServiceProvider::class,
+        /**
+         * Klink Related
+         */
+        Klink\DmsAdapter\DmsAdapterServiceProvider::class,
+        Klink\DmsSearch\DmsSearchServiceProvider::class,
+        Klink\DmsDocuments\DmsDocumentsServiceProvider::class,
 
-		/**
-		 * Content previewing, reading and thumbnail related
-		 */
-		Content\Providers\ThumbnailsServiceProvider::class,
-		Content\Providers\PreviewServiceProvider::class,
+        /**
+         * Content previewing, reading and thumbnail related
+         */
+        Content\Providers\ThumbnailsServiceProvider::class,
+        Content\Providers\PreviewServiceProvider::class,
             
         /**
          * Async Queue
@@ -185,72 +193,97 @@ return [
          * For closure table implementation
          */
         Franzose\ClosureTable\ClosureTableServiceProvider::class,
-		
+        
         /**
          * Markdown service provider
          */
-		GrahamCampbell\Markdown\MarkdownServiceProvider::class,
+        GrahamCampbell\Markdown\MarkdownServiceProvider::class,
 
-		/**
-		 * For rendering subviews and partial in a more clean way
-		 */
-		KlinkDMS\Providers\ViewComposerServiceProvider::class,
+        /**
+         * For rendering subviews and partial in a more clean way
+         */
         Klink\DmsMicrosites\Providers\DmsMicrositesServiceProvider::class,
 
-	],
+        Laravel\Tinker\TinkerServiceProvider::class,
 
-	/*
-	|--------------------------------------------------------------------------
-	| Class Aliases
-	|--------------------------------------------------------------------------
-	|
-	| This array of class aliases will be registered when this application
-	| is started. However, feel free to register as many as you wish as
-	| the aliases are "lazy" loaded so they don't hinder performance.
-	|
-	*/
+        /*
+         * Application Service Providers...
+         */
+        KlinkDMS\Providers\AppServiceProvider::class,
+        KlinkDMS\Providers\AuthServiceProvider::class,
+        // App\Providers\BroadcastServiceProvider::class,
+        KlinkDMS\Providers\EventServiceProvider::class,
+        KlinkDMS\Providers\RouteServiceProvider::class,
+        KlinkDMS\Providers\ViewComposerServiceProvider::class,
 
-	'aliases' => [
+        MaterialIcons\MaterialIconsBridgeServiceProvider::class,
 
-		'App'       => Illuminate\Support\Facades\App::class,
-		'Artisan'   => Illuminate\Support\Facades\Artisan::class,
-		'Auth'      => Illuminate\Support\Facades\Auth::class,
-		'Blade'     => Illuminate\Support\Facades\Blade::class,
-		'Cache'     => Illuminate\Support\Facades\Cache::class,
-		'Config'    => Illuminate\Support\Facades\Config::class,
-		'Cookie'    => Illuminate\Support\Facades\Cookie::class,
-		'Crypt'     => Illuminate\Support\Facades\Crypt::class,
-		'DB'        => Illuminate\Support\Facades\DB::class,
-		'Event'     => Illuminate\Support\Facades\Event::class,
-		'File'      => Illuminate\Support\Facades\File::class,
-		'Hash'      => Illuminate\Support\Facades\Hash::class,
-		'Input'     => Illuminate\Support\Facades\Input::class,
-		'Lang'      => Illuminate\Support\Facades\Lang::class,
-		'Log'       => Illuminate\Support\Facades\Log::class,
-		'Mail'      => Illuminate\Support\Facades\Mail::class,
-		'Paginator' => Illuminate\Support\Facades\Paginator::class,
-		'Password'  => Illuminate\Support\Facades\Password::class,
-		'Queue'     => Illuminate\Support\Facades\Queue::class,
-		'Redirect'  => Illuminate\Support\Facades\Redirect::class,
-		'Redis'     => Illuminate\Support\Facades\Redis::class,
-		'Request'   => Illuminate\Support\Facades\Request::class,
-		'Response'  => Illuminate\Support\Facades\Response::class,
-		'Route'     => Illuminate\Support\Facades\Route::class,
-		'Schema'    => Illuminate\Support\Facades\Schema::class,
-		'Session'   => Illuminate\Support\Facades\Session::class,
-		'URL'       => Illuminate\Support\Facades\URL::class,
-		'Validator' => Illuminate\Support\Facades\Validator::class,
-		'View'      => Illuminate\Support\Facades\View::class,
-        'Gate'		=> Illuminate\Support\Facades\Gate::class,
+        Jenssegers\Agent\AgentServiceProvider::class,
+
+        /**
+         * For storing uuid in an efficient way
+         * see https://github.com/michaeldyrynda/laravel-efficient-uuid
+         * and https://www.percona.com/blog/2014/12/19/store-uuid-optimized-way/
+         */
+        Dyrynda\Database\LaravelEfficientUuidServiceProvider::class,
+
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Class Aliases
+    |--------------------------------------------------------------------------
+    |
+    | This array of class aliases will be registered when this application
+    | is started. However, feel free to register as many as you wish as
+    | the aliases are "lazy" loaded so they don't hinder performance.
+    |
+    */
+
+    'aliases' => [
+
+        'App' => Illuminate\Support\Facades\App::class,
+        'Artisan' => Illuminate\Support\Facades\Artisan::class,
+        'Auth' => Illuminate\Support\Facades\Auth::class,
+        'Blade' => Illuminate\Support\Facades\Blade::class,
+        'Broadcast' => Illuminate\Support\Facades\Broadcast::class,
+        'Bus' => Illuminate\Support\Facades\Bus::class,
+        'Cache' => Illuminate\Support\Facades\Cache::class,
+        'Config' => Illuminate\Support\Facades\Config::class,
+        'Cookie' => Illuminate\Support\Facades\Cookie::class,
+        'Crypt' => Illuminate\Support\Facades\Crypt::class,
+        'DB' => Illuminate\Support\Facades\DB::class,
+        'Eloquent' => Illuminate\Database\Eloquent\Model::class,
+        'Event' => Illuminate\Support\Facades\Event::class,
+        'File' => Illuminate\Support\Facades\File::class,
+        'Gate' => Illuminate\Support\Facades\Gate::class,
+        'Hash' => Illuminate\Support\Facades\Hash::class,
+        'Lang' => Illuminate\Support\Facades\Lang::class,
+        'Log' => Illuminate\Support\Facades\Log::class,
+        'Mail' => Illuminate\Support\Facades\Mail::class,
+        'Notification' => Illuminate\Support\Facades\Notification::class,
+        'Password' => Illuminate\Support\Facades\Password::class,
+        'Queue' => Illuminate\Support\Facades\Queue::class,
+        'Redirect' => Illuminate\Support\Facades\Redirect::class,
+        'Redis' => Illuminate\Support\Facades\Redis::class,
+        'Request' => Illuminate\Support\Facades\Request::class,
+        'Response' => Illuminate\Support\Facades\Response::class,
+        'Route' => Illuminate\Support\Facades\Route::class,
+        'Schema' => Illuminate\Support\Facades\Schema::class,
+        'Session' => Illuminate\Support\Facades\Session::class,
+        'Storage' => Illuminate\Support\Facades\Storage::class,
+        'URL' => Illuminate\Support\Facades\URL::class,
+        'Validator' => Illuminate\Support\Facades\Validator::class,
+        'View' => Illuminate\Support\Facades\View::class,
 
         'ImportCommand' => KlinkDMS\Commands\ImportCommand::class,
 
         'Markdown' => GrahamCampbell\Markdown\Facades\Markdown::class,
-		
-		'DmsRouting' => KlinkDMS\RoutingHelpers::class,
+        
+        'DmsRouting' => KlinkDMS\RoutingHelpers::class,
 
-		'LocalizedDate' => Jenssegers\Date\Date::class,
+        'LocalizedDate' => Jenssegers\Date\Date::class,
 
-	],
+    ],
 
 ];

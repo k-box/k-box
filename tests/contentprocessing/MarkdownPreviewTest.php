@@ -1,16 +1,13 @@
 <?php
 
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\BrowserKitTestCase;
 use Content\Preview\MarkdownPreview;
 
-class MarkdownPreviewTest extends TestCase
+class MarkdownPreviewTest extends BrowserKitTestCase
 {
-    
     public function testConvertToHtml()
     {
-        $path = __DIR__ . '/data/markdown.md';
+        $path = __DIR__.'/data/markdown.md';
 
         $preview = (new MarkdownPreview())->load($path);
         $html = $preview->html();
@@ -24,5 +21,4 @@ class MarkdownPreviewTest extends TestCase
         $this->assertContains('a <strong>Markdown</strong> file', $html);
         $this->assertContains('preview__render preview__render--text', $html);
     }
-    
 }

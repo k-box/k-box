@@ -1,37 +1,38 @@
-<?php namespace KlinkDMS\Http\Requests;
+<?php
 
-use KlinkDMS\Http\Requests\Request;
-use Illuminate\Contracts\Auth\Guard;
+namespace KlinkDMS\Http\Requests;
 
-class ImportRequest extends Request {
+use Illuminate\Foundation\Http\FormRequest as Request;
 
-	/**
-	 * Get the validation rules that apply to the request.
-	 *
-	 * @return array
-	 */
-	public function rules()
-	{
+class ImportRequest extends Request
+{
 
-		// $action = $this->route()->getAction();
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
+     */
+    public function rules()
+    {
 
-		$tests = [
-			'from' => 'required|in:folder,remote',
-			'folder_import' => 'required_if:from,folder', //TODO: check for alpha chars plus backslash
-			'remote_import' => 'required_if:from,remote',
-		];
+        // $action = $this->route()->getAction();
 
-		return $tests;
-	}
+        $tests = [
+            'from' => 'required|in:folder,remote',
+            'folder_import' => 'required_if:from,folder', //TODO: check for alpha chars plus backslash
+            'remote_import' => 'required_if:from,remote',
+        ];
 
-	/**
-	 * Determine if the user is authorized to make this request.
-	 *
-	 * @return bool
-	 */
-	public function authorize()
-	{
-		return true; // would be great to handle user check here :)
-	}
+        return $tests;
+    }
 
+    /**
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
+    public function authorize()
+    {
+        return true; // would be great to handle user check here :)
+    }
 }

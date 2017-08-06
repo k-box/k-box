@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 
 return [
@@ -25,5 +25,4 @@ return [
     'company' => 'Company',
 
     
-
 ];

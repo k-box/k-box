@@ -2,30 +2,30 @@
 
 return [
 
-	/*
-	|--------------------------------------------------------------------------
-	| Starred Language Lines
-	|--------------------------------------------------------------------------
-	|
-	| The following language lines are used for localizing messages that pertain
-	| to the starred feature.
-	|
-	*/
+    /*
+    |--------------------------------------------------------------------------
+    | Starred Language Lines
+    |--------------------------------------------------------------------------
+    |
+    | The following language lines are used for localizing messages that pertain
+    | to the starred feature.
+    |
+    */
 
-	'add' => 'Add to starred',
-	'remove' => 'Remove from starred',
-	'empty_message' => 'Your starred documents will appear here. Start to put stars.',
+    'add' => 'Add to starred',
+    'remove' => 'Remove from starred',
+    'empty_message' => 'Your starred documents will appear here. Start to put stars.',
 
-	'page_title' => 'Starred',
+    'page_title' => 'Starred',
 
-	'starred_count' => ':number starred document|:number starred documents',
-	'starred_count_alt' => ':number star|:number stars',
+    'starred_count' => ':number starred document|:number starred documents',
+    'starred_count_alt' => ':number star|:number stars',
 
-	'already_exists' => 'You have already starred the document',
+    'already_exists' => 'You have already starred the document',
 
-	'errors' => array(
+    'errors' => [
 
-		'invalidargumentexception' => 'Sorry, I cannot add the star. (:exception)',
-	),
+        'invalidargumentexception' => 'Sorry, I cannot add the star. (:exception)',
+    ],
 
 ];

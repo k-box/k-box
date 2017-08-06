@@ -3,7 +3,6 @@
 namespace KlinkDMS\Console\Commands;
 
 use Illuminate\Console\Command;
-use Klink\DmsDocuments\DocumentsService;
 use KlinkDMS\File;
 
 /**
@@ -53,15 +52,12 @@ class OrphanFilesCommand extends Command
         $is_force = $this->option('force');
         $is_path_output = $this->option('file-paths');
 
-        if(!$is_path_output)
-        {
+        if (! $is_path_output) {
             $this->comment('Searching for orphan files...');
         }
 
-        if($is_force && app()->environment() !== 'testing' )
-        {
-            if(!$this->confirm('Orphan files will be permanently deleted. This action cannot be undone. Would you like to continue?'))
-            {
+        if ($is_force && app()->environment() !== 'testing') {
+            if (! $this->confirm('Orphan files will be permanently deleted. This action cannot be undone. Would you like to continue?')) {
                 return 1;
             }
         }
@@ -70,9 +66,7 @@ class OrphanFilesCommand extends Command
 
         $preliminary_orphans = File::doesntHave('document')->doesntHave('revisionOf')->get();
         
-        $not_trashed_orphans = $preliminary_orphans->filter(function($el)
-        {
-
+        $not_trashed_orphans = $preliminary_orphans->filter(function ($el) {
             $revisions_count = File::where('revision_of', $el->id)->count();
 
             return $revisions_count == 0;
@@ -81,13 +75,11 @@ class OrphanFilesCommand extends Command
         
         // next manage orphan files that are already in trash
 
-        $preliminary_trashed_orphans = File::onlyTrashed()->with(array('document' => function($query) {
+        $preliminary_trashed_orphans = File::onlyTrashed()->with(['document' => function ($query) {
             $query->withTrashed();
-        }))->get();
+        }])->get();
 
-        $trashed_orphans = $preliminary_trashed_orphans->filter(function($el)
-        {
-
+        $trashed_orphans = $preliminary_trashed_orphans->filter(function ($el) {
             $revisions_count = File::withTrashed()->where('revision_of', $el->id)->count();
             $documents_count = $el->document()->withTrashed()->count();
 
@@ -98,8 +90,7 @@ class OrphanFilesCommand extends Command
         // add all orphans to a single Collection
         $orphans = collect($not_trashed_orphans->all())->merge($trashed_orphans);
 
-        if(!$is_path_output)
-        {
+        if (! $is_path_output) {
             $this->comment(sprintf('%1$s orphan%2$s found', $orphans->count(), $orphans->count() == 1 ? '': 's'));
         }
 
@@ -108,43 +99,34 @@ class OrphanFilesCommand extends Command
         $thumb = null;
 
         foreach ($orphans as $orphan) {
-
             $trashed_string = $orphan->trashed() ? '(already trashed)' : '';
 
-            if($is_delete && !$orphan->trashed())
-            {
+            if ($is_delete && ! $orphan->trashed()) {
                 $orphan->delete();
 
                 $trashed_string = 'trashed';
             }
 
-            if($is_force)
-            {
-                
+            if ($is_force) {
                 $file = $orphan->path;
                 $thumb = $orphan->thumnbail_path;
                 
                 $orphan->forceDelete();
 
-                if(!is_null($file) && is_file($file))
-                {
+                if (! is_null($file) && is_file($file)) {
                     unlink($file);
                 }
 
-                if(!is_null($thumb) && is_file($thumb))
-                {
+                if (! is_null($thumb) && is_file($thumb)) {
                     unlink($thumb);
                 }
 
                 $trashed_string = 'deleted';
             }
 
-            if(!$is_path_output)
-            {
+            if (! $is_path_output) {
                 $this->line(sprintf('%3$s (file_id: %1$s) %2$s', $orphan->id, $trashed_string, $orphan->name));
-            }
-            else
-            {
+            } else {
                 $this->line(sprintf('%1$s', $orphan->path));
             }
         }

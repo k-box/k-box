@@ -71,6 +71,16 @@
     overflow-y: auto;
 
     transition: opacity 0.2s ease-in-out, right 0.3s ease-in-out;
+    fill: currentColor
+}
+
+.preview__sidebar .icon {
+    vertical-align: text-bottom;
+    margin-right: 4px;
+}
+
+.preview .c-page-container {
+    padding: 0;
 }
 
 .preview__sidebar--visible {

@@ -1,35 +1,33 @@
-<?php namespace KlinkDMS\Http\Requests;
+<?php
 
-use KlinkDMS\Http\Requests\Request;
-use Illuminate\Contracts\Auth\Guard;
+namespace KlinkDMS\Http\Requests;
 
-class AvatarRequest extends Request {
+use Illuminate\Foundation\Http\FormRequest as Request;
 
-	/**
-	 * Get the validation rules that apply to the request.
-	 *
-	 * @return array
-	 */
-	public function rules()
-	{
+class AvatarRequest extends Request
+{
 
-		// $action = $this->route()->getAction();
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
+     */
+    public function rules()
+    {
+        $tests = [
+            'avatar' => 'required|image|max:200'
+        ];
 
-		$tests = [
-			'avatar' => 'required|image|max:200'
-		];
+        return $tests;
+    }
 
-		return $tests;
-	}
-
-	/**
-	 * Determine if the user is authorized to make this request.
-	 *
-	 * @return bool
-	 */
-	public function authorize()
-	{
-		return true; //auth()->check() && auth()->user()->isProjectManager();
-	}
-
+    /**
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
+    public function authorize()
+    {
+        return true; //auth()->check() && auth()->user()->isProjectManager();
+    }
 }

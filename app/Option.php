@@ -1,10 +1,12 @@
-<?php namespace KlinkDMS;
+<?php
+
+namespace KlinkDMS;
 
 use Illuminate\Database\Eloquent\Model;
 
 /**
  * The dynamic configuration options
- * 
+ *
  * fields:
  * - id: bigIncrements
  * - key:
@@ -20,12 +22,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Option whereValue($value)
  * @mixin \Eloquent
  */
-class Option extends Model {
-    
-    /**
-     * The Map visualization setting field
-     */
-    const MAP_VISUALIZATION_SETTING = 'map_visualization';
+class Option extends Model
+{
     
     /**
      * K-Link Public Core settings field
@@ -49,7 +47,6 @@ class Option extends Model {
      */
     const ANALYTICS_TOKEN = 'analytics_token';
 
-
     /**
      * The database table used by the model.
      *
@@ -62,7 +59,7 @@ class Option extends Model {
     protected $fillable = ['key', 'value'];
 
     /**
-     * Scope a query to include only options with the 
+     * Scope a query to include only options with the
      * specified key
      *
      * @param string $key the option key
@@ -75,21 +72,20 @@ class Option extends Model {
 
     /**
      * Find an option by its key
-     * 
+     *
      * @param string $key the option key
      * @return Option|null the {@see Option} instance if found, null otherwise
      */
     public static function findByKey($key)
     {
-
         return self::fromKey($key)->first();
     }
 
     /**
-     * Scope a query to include only options that 
+     * Scope a query to include only options that
      * are within a section.
      *
-     * Options in a section are prefixed with the 
+     * Options in a section are prefixed with the
      * section name followed by a dot
      * e.g. mail.something, the something option is in the mail section
      *
@@ -98,23 +94,21 @@ class Option extends Model {
      */
     public function scopeSection($query, $section_name)
     {
-        return $query->where('key', 'like', e($section_name) .'.%');
+        return $query->where('key', 'like', e($section_name).'.%');
     }
-
 
     /**
      * Get an entire option section as nested array
-     * 
+     *
      * @param  string $section_name the name of the spection (e.g. dms or mail) Everything that is before a dot separator
      * @return array               The nested array in which the keys are the option names and the values are the option value
      */
     public static function sectionAsArray($section_name)
     {
-        $items = Option::section($section_name)->get(array('key', 'value'));
+        $items = Option::section($section_name)->get(['key', 'value']);
 
-        if($items->isEmpty())
-        {
-          return array();
+        if ($items->isEmpty()) {
+            return [];
         }
 
         $flat = $items->toArray();
@@ -122,42 +116,37 @@ class Option extends Model {
         $keys = array_pluck($flat, 'key');
         $values = array_pluck($flat, 'value');
 
-        $non_flat = array();
-        foreach (array_combine($keys, $values) as $key => $value)
-        {
-          array_set($non_flat, $key, $value);
+        $non_flat = [];
+        foreach (array_combine($keys, $values) as $key => $value) {
+            array_set($non_flat, $key, $value);
         }
 
         return $non_flat;
-
     }
 
     /**
      * Get the option value if any, or the default value if specified
-     * 
+     *
      * @param  string $name   the option name
      * @param  mixed $default The default value to use if the option does not exists (default: null)
      * @return mixed          the option value
      */
     public static function option($name, $default = null)
     {
-
         $first = Option::findByKey($name);
 
-        if(is_null($first)){
+        if (is_null($first)) {
             return $default;
         }
 
         return $first->value;
-
     }
-
 
     /**
      * Save an option.
      *
      * If the option with the same name exists only the value will be updated.
-     * 
+     *
      * @param  string $name  the option name (supports dot notation for sections)
      * @param  string $value the new value for the option
      * @return Option        The saved Option instance
@@ -166,8 +155,8 @@ class Option extends Model {
     {
         $first = Option::findByKey($name);
 
-        if(is_null($first)){
-            return Option::create(array('key' => $name, 'value' => $value));
+        if (is_null($first)) {
+            return Option::create(['key' => $name, 'value' => $value]);
         }
 
         $first->value = $value;
@@ -177,7 +166,7 @@ class Option extends Model {
 
     /**
      * Removes an existing option
-     * 
+     *
      * @param  string $name The option name
      * @return boolean       true in case of success, false otherwise
      */
@@ -185,7 +174,7 @@ class Option extends Model {
     {
         $first = Option::findByKey($name);
 
-        if(!is_null($first)){
+        if (! is_null($first)) {
             return $first->delete();
         }
 
@@ -197,30 +186,18 @@ class Option extends Model {
     // convenience methods for known options
     
     /**
-     * Check if the map visualization is enabled
-     * 
-     * @return boolean true in case the map visualization is enabled, false otherwise. The default value, if not configured explicetely, is enabled.
-     */
-    public static function is_map_visualization_enabled()
-    {
-        
-        return static::option(self::MAP_VISUALIZATION_SETTING, true);
-        
-    }
-    
-    /**
      * Get the support service access token.
      *
      * First the static configuration is checked, then the stored options will be checked
      *
      * @return string|boolean the support ticket integration token if configured, false if not configured
      */
-    public static function support_token(){
+    public static function support_token()
+    {
         $conf = config("dms.support_token");
         
-        if(is_null($conf)){
-            
-            $opt = static::option( static::SUPPORT_TOKEN, false );
+        if (is_null($conf)) {
+            $opt = static::option(static::SUPPORT_TOKEN, false);
             
             return empty($opt) ? false : $opt;
         }
@@ -234,12 +211,11 @@ class Option extends Model {
      *
      * @return string|boolean the anlytics site id to be used in the Piwik analytics code
      */
-    public static function analytics_token(){
-            
-        $opt = static::option( static::ANALYTICS_TOKEN, false );
+    public static function analytics_token()
+    {
+        $opt = static::option(static::ANALYTICS_TOKEN, false);
             
         return empty($opt) ? false : $opt;
-        
     }
 
     /**
@@ -248,21 +224,18 @@ class Option extends Model {
      */
     public static function isMailEnabled()
     {
-
         $driver = config('mail.driver');
 
-        if($driver === 'log')
-        {
+        if ($driver === 'log') {
             return true;
         }
 
-        $host = static::option( 'mail.host', config('mail.host', false) );
-        $port = static::option( 'mail.port', config('mail.port', false) );
-        $address = static::option( 'mail.from.address', config('mail.from.address', false) );
-        $name = static::option( 'mail.from.name', config('mail.from.name', false) );
+        $host = static::option('mail.host', config('mail.host', false));
+        $port = static::option('mail.port', config('mail.port', false));
+        $address = static::option('mail.from.address', config('mail.from.address', false));
+        $name = static::option('mail.from.name', config('mail.from.name', false));
 
-        if(empty($host) || empty($port) || empty($address) || empty($name))
-        {
+        if (empty($host) || empty($port) || empty($address) || empty($name)) {
             return false;
         }
         
@@ -276,9 +249,7 @@ class Option extends Model {
      */
     public static function mailFrom()
     {
-
-        return static::option( 'mail.from.address', config('mail.from.address', '') );
-
+        return static::option('mail.from.address', config('mail.from.address', ''));
     }
     
     /**
@@ -288,9 +259,7 @@ class Option extends Model {
      */
     public static function mailFromName()
     {
-
-        return static::option( 'mail.from.name', config('mail.from.name', '') );
-
+        return static::option('mail.from.name', config('mail.from.name', ''));
     }
 
     /**
@@ -299,7 +268,6 @@ class Option extends Model {
      */
     public static function areContactsConfigured()
     {
-        return !empty(static::sectionAsArray('contact'));
+        return ! empty(static::sectionAsArray('contact'));
     }
-
 }

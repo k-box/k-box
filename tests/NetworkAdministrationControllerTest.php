@@ -1,17 +1,14 @@
 <?php
 
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\BrowserKitTestCase;
 
-class NetworkAdministrationControllerTest extends TestCase
+class NetworkAdministrationControllerTest extends BrowserKitTestCase
 {
-    
     public function testNetworkPositiveConnection()
     {
         $adapter = $this->withKlinkAdapterMock();
 
-        $adapter->shouldReceive('isNetworkEnabled')->andReturn(false);
+        $adapter->shouldReceive('isNetworkEnabled')->andReturn(true);
         $adapter->shouldReceive('test')->andReturn(['result' => true, 'error' => null]);
 
         $user = $this->createAdminUser();

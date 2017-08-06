@@ -1,9 +1,9 @@
-<?php namespace Klink\DmsMicrosites;
+<?php
+
+namespace Klink\DmsMicrosites;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use KlinkDMS\Project;
-use KlinkDMS\User;
 
 /**
  * The Microsite Content model.
@@ -23,8 +23,8 @@ use KlinkDMS\User;
  *
  * @uses SoftDeletes
  */
-class MicrositeContent extends Model {
-
+class MicrositeContent extends Model
+{
     use SoftDeletes;
     
     /**
@@ -36,7 +36,6 @@ class MicrositeContent extends Model {
      * The type of the content for a menu
      */
     const TYPE_MENU = 2;
-
 
     /**
      * The database table used by the model.
@@ -52,7 +51,6 @@ class MicrositeContent extends Model {
      */
     protected $fillable = ['microsite_id', 'language', 'content', 'user_id', 'title', 'slug', 'type'];
 
-
     /**
      * Type Scope.
      *
@@ -60,8 +58,9 @@ class MicrositeContent extends Model {
      *
      * @param integer $type the content type (e.g. MicrositeContent::TYPE_PAGE)
      */
-    public function scopeType($query, $type){
-      return $query->where('type', $type);
+    public function scopeType($query, $type)
+    {
+        return $query->where('type', $type);
     }
     
     /**
@@ -71,8 +70,8 @@ class MicrositeContent extends Model {
      *
      * @param string $language the content language code (e.g. en)
      */
-    public function scopeLanguage($query, $language){
-      return $query->where('language', $language);
+    public function scopeLanguage($query, $language)
+    {
+        return $query->where('language', $language);
     }
-    
 }

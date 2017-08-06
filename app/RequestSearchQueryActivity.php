@@ -1,11 +1,13 @@
-<?php namespace KlinkDMS;
+<?php
+
+namespace KlinkDMS;
 
 use Illuminate\Database\Eloquent\Model;
 
 /**
  * KlinkDMS\RequestSearchQueryActivity
  *
- * @deprecated 
+ * @deprecated
  * @property int $id
  * @property string $terms
  * @property string $visibility
@@ -14,14 +16,13 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\RequestSearchQueryActivity whereVisibility($value)
  * @mixin \Eloquent
  */
-class RequestSearchQueryActivity extends Model {
+class RequestSearchQueryActivity extends Model
+{
     /*
     id: bigIncrements
     terms: string
     visibility: string
     */
-
-
 
     /**
      * The database table used by the model.
@@ -31,7 +32,4 @@ class RequestSearchQueryActivity extends Model {
     protected $table = 'request_search_query_activities';
 
     public $timestamps = false;
-
-
-
 }

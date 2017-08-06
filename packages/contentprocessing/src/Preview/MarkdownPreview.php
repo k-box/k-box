@@ -3,7 +3,6 @@
 namespace Content\Preview;
 
 use Content\Contracts\Preview as PreviewContract;
-use Content\FileProperties;
 use Markdown;
 
 /**
@@ -16,12 +15,12 @@ class MarkdownPreview implements PreviewContract
 
     private $reader = null;
     
-    function __construct()
+    public function __construct()
     {
     }
 
-    function load($path){
-
+    public function load($path)
+    {
         $this->path = $path;
 
         $this->reader = app()->make('Klink\DmsDocuments\FileContentExtractor');
@@ -36,9 +35,8 @@ class MarkdownPreview implements PreviewContract
 
     public function html()
     {
-
         $content = $this->reader->extract('text/x-markdown', $this->path);
-				 
+                 
         $content = Markdown::convertToHtml($content);
 
         return sprintf('<div class="preview__render preview__render--text">%1$s</div>', $content);
@@ -48,7 +46,6 @@ class MarkdownPreview implements PreviewContract
     {
         return null;
     }
-
 
     public function supportedMimeTypes()
     {

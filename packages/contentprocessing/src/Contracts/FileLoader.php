@@ -4,8 +4,8 @@ namespace Content\Contracts;
 
 /**
  * FileLoader interface.
- * 
- * Define what methods must be exposed by class that is able to 
+ *
+ * Define what methods must be exposed by class that is able to
  * load a file from the filesystem.
  */
 interface FileLoader
@@ -32,5 +32,4 @@ interface FileLoader
      * @return array
      */
     public function supportedMimeTypes();
-
 }

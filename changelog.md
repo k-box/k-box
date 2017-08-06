@@ -15,6 +15,56 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Removed
 
+## [0.18.0-RC1] 2017-08-04
+
+### Added 
+
+- header layout component
+- list item layout component
+- SVG Material icons with the https://github.com/avvertix/materialicons-laravel-bridge package
+- Sharing icons, accross all visualization types, on documents that are shared
+- UUID field to Document Descriptor as it will be used in the next 
+  version of the K-Search API.
+- `UserCreatedNotification` for handling the sending of the welcome message to the newly created user
+- User name of the user that uploaded a file version
+- An empty document upload is now blocked with the message (key: `documents.upload.empty_file_error`)
+
+### Changed
+
+- Upgraded to Laravel 5.4 (see the Laravel website for the changes)
+- Applied the K-Link style guide
+- Sharing email notification now uses the Laravel notification provider with the default template
+- Password reset notification now uses the Laravel notification provider with the default template
+- Started to move the CSS towards a BEM approach and the usage of Flebox
+- Moved from SweetAlert to SweetAlert2 as the original library is not maintained anymore
+ - the `DMS.MessageBox` javascript calls now follows a Promise based approach.
+- Details and card layouts. Now the details view has nicer columns
+- Starred icons behavior change: now the icons are only two, one for starred and one for unstarred. The starred variant is colored in yellow
+- The UI now uses the available system fonts
+- Base font size has been increased to 16px
+- New hero image on the login page
+- Login page and welcome page are now the same, no more difference in layout and content
+- the selection checkboxes are now SVG elements that have the same look and feel no matter of the browser default styles
+- Document layouts (grid, details, tiles) to use flexbox and a new list-item component
+- K-Box administrators are now redirected to the document section after logging-in
+- Collection removed message is not showed anymore when a collection is removed from the document details panel
+
+### Fixed
+
+- Wrong redirect after password reset complete, now points to the root page
+- Wrong filters in personal section, now only the local document id is used to filter the searchable documents
+- Handling of documents without language in the documents listing
+- Avatar, with username initials, for Cyrillic written usernames
+
+### Removed
+
+- `management-layout.blade.php` as the differences with `global.blade.php` were manageable in the global layout
+- Removed difference between `app_dev.less` and `app.less`, now the main style is generated from `app.less`
+- Usage of Material Design PNG icons
+- Bower package manager, now all frontend dependencies are managed through NPM
+- Ability to navigate to the Projects and Groups section from the UI. The code for both pages is still available.
+- Skeleton CSS framework dependency
+
 ## [0.17.1] - 2017-06-13
 
 ### Fixed
@@ -50,6 +100,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Removed
 
 - `workbench/dms-preview` package
+- Map Visualization and the `VisualizationApiController`
 
 ## [0.16.0] - 2017-05-15
 

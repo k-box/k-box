@@ -1,8 +1,8 @@
-<?php namespace KlinkDMS;
+<?php
+
+namespace KlinkDMS;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
-
 
 /**
  * KlinkDMS\Import
@@ -51,7 +51,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Import withError($user_id)
  * @mixin \Eloquent
  */
-class Import extends Model {
+class Import extends Model
+{
 
     /**
      * SATUSES_*
@@ -60,7 +61,7 @@ class Import extends Model {
     const STATUS_QUEUED = 0;
     
     /**
-     * Indicates that the import has been paused. This status can only be reached from the queued status before 
+     * Indicates that the import has been paused. This status can only be reached from the queued status before
      * the import will be processed. A running import cannot be put in a paused state
      */
     const STATUS_PAUSED = 6;
@@ -110,12 +111,12 @@ class Import extends Model {
     parent_id: Import => parent_id===0 ? root
     created_at
     updated_at
-    
+
     message: text
-    
+
     payload: json
     job_payload: Laravel serialized payload of the Job in the queue, not empty only in case of failures
-    
+
     */
 
     /**
@@ -135,16 +136,13 @@ class Import extends Model {
     
     protected $appends = ['is_error', 'is_completed'];
 
-
-
     public function file()
     {
         return $this->belongsTo('\KlinkDMS\File');
     }
 
-
-
-    public function father(){
+    public function father()
+    {
         return $this->hasOne('\KlinkDMS\Import');
     }
     /*
@@ -152,17 +150,17 @@ class Import extends Model {
      */
     public function scopeAllZombies($query)
     {
-        return $query->where('status', self::STATUS_STARTED)->where('updated_at','>=',strtotime("-30 minutes"));
+        return $query->where('status', self::STATUS_STARTED)->where('updated_at', '>=', strtotime("-30 minutes"));
     }
 
-    public function scopeCompleted($query,$user_id)
+    public function scopeCompleted($query, $user_id)
     {
-        return $query->where('status', self::STATUS_COMPLETED)->where('user_id',$user_id);
+        return $query->where('status', self::STATUS_COMPLETED)->where('user_id', $user_id);
     }
 
-    public function scopeNotCompleted($query,$user_id)
+    public function scopeNotCompleted($query, $user_id)
     {
-        return $query->where('status', '!=', self::STATUS_COMPLETED)->where('user_id',$user_id);
+        return $query->where('status', '!=', self::STATUS_COMPLETED)->where('user_id', $user_id);
     }
     
     public function scopeAllCompleted($query)
@@ -170,40 +168,43 @@ class Import extends Model {
         return $query->where('status', self::STATUS_COMPLETED);
     }
     
-    public function scopeMyDownloads($query,$user_id)
+    public function scopeMyDownloads($query, $user_id)
     {
         return $query->where('status', self::STATUS_DOWNLOADING)->where('user_id', $user_id);
     }
-    public function scopeMyChildren($query,$parent_id)
+    public function scopeMyChildren($query, $parent_id)
     {
         return $query->where('parent_id', $parent_id);
     }
-    public function scopeWithError($query,$user_id)
+    public function scopeWithError($query, $user_id)
     {
-        return $query->where('status', self::STATUS_ERROR)->where('user_id',$user_id);
+        return $query->where('status', self::STATUS_ERROR)->where('user_id', $user_id);
     }
     
-    public function scopeFromUser($query,$user_id)
+    public function scopeFromUser($query, $user_id)
     {
-    	return $query->where('user_id',$user_id);
+        return $query->where('user_id', $user_id);
     }
     
-    public function scopeFromFile($query,$file_id)
+    public function scopeFromFile($query, $file_id)
     {
-    	return $query->where('file_id',$file_id);
+        return $query->where('file_id', $file_id);
     }
 
-    public function scopeAllRoots($query){
+    public function scopeAllRoots($query)
+    {
         return $query->whereNull('parent_id');
     }
     
     
     
-    public function isError(){
+    public function isError()
+    {
         return $this->status === self::STATUS_ERROR || $this->status === self::STATUS_ERROR_ALREADY_EXISTS;
     }
     
-    public function isCompleted(){
+    public function isCompleted()
+    {
         return $this->status === self::STATUS_COMPLETED;
     }
     

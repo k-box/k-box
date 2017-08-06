@@ -1,11 +1,12 @@
-<?php namespace Content;
+<?php
+
+namespace Content;
 
 /**
- * 
+ *
  */
 class FileProperties
 {
-    
     private $title;
 
     private $creator;
@@ -25,7 +26,6 @@ class FileProperties
     private $category;
 
     private $company;
-
 
     public function title()
     {
@@ -76,7 +76,6 @@ class FileProperties
     {
         return $this->company;
     }
-
 
     public function setTitle($value)
     {
@@ -137,6 +136,4 @@ class FileProperties
         $this->company = $value;
         return $this;
     }
-
-
 }

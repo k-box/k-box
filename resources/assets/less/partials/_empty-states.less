@@ -6,7 +6,12 @@
     fill: currentColor;
 
     background-color: darken(@background-color, 1%);
-    padding: 16px;
+    padding: @base-padding*2;
+
+    flex-shrink: 0;
+    flex-basis: 100%;
+    box-sizing: border-box;
+
 }
 
 .empty__icon {
@@ -16,4 +21,18 @@
     padding: 32px;
     display: block;
     margin: 0 auto;
+}
+
+.empty--small {
+    padding: @base-padding;
+}
+
+.empty--small .empty__icon {
+    height: @base-padding*4;
+    width: @base-padding*4;
+    padding: 0px !important;
+}
+
+.empty--small .empty__description {
+    margin: @base-padding;
 }

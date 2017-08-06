@@ -2,33 +2,32 @@
 
 return [
 
-
-	/*
-	|--------------------------------------------------------------------------
-	| Supported Locales for JS based localization
-	|--------------------------------------------------------------------------
-	|
-	| This defines the languages that the JS environment should receive.
-	| Fallback language (app.fallback_locale) is always considered even if not 
+    /*
+    |--------------------------------------------------------------------------
+    | Supported Locales for JS based localization
+    |--------------------------------------------------------------------------
+    |
+    | This defines the languages that the JS environment should receive.
+    | Fallback language (app.fallback_locale) is always considered even if not
     | mentioned here
-	|
-	*/
+    |
+    */
 
-	'supported_locales' => ['ru'],
+    'supported_locales' => ['ru'],
     
     
     /*
-	|--------------------------------------------------------------------------
-	| What strings should be exported to JS localization
-	|--------------------------------------------------------------------------
-	|
-	| This defines what keys from lang files the Javascript environment will 
+    |--------------------------------------------------------------------------
+    | What strings should be exported to JS localization
+    |--------------------------------------------------------------------------
+    |
+    | This defines what keys from lang files the Javascript environment will
     | receive.
-    | The same strings will be exported for all the supported_locales and the 
+    | The same strings will be exported for all the supported_locales and the
     | fallback_locale
-	| Here use the dot notation like if you call the `trans` method.
-	|
-	*/
+    | Here use the dot notation like if you call the `trans` method.
+    |
+    */
     'exports' => [
         'actions.cancel',
         'actions.saving',
@@ -128,6 +127,7 @@ return [
         'documents.upload.remove_btn',
         'documents.upload.cancel_btn',
         'documents.upload.cancel_question',
+        'documents.upload.empty_file_error',
         'documents.messages.drag_hint',
         
         'groups.delete.dialog_title',
@@ -231,8 +231,7 @@ return [
         'import.retry.retry_error_dialog_title',
         'import.retry.retry_error',
 
-
-        // Network related 
+        // Network related
 
         'networks.make_public',
         'networks.publish_to_short',
@@ -255,6 +254,5 @@ return [
 
         'projects.labels.search_member_not_found',
     ],
-
 
 ];

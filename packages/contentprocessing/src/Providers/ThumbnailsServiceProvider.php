@@ -1,4 +1,6 @@
-<?php namespace Content\Providers;
+<?php
+
+namespace Content\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -7,46 +9,44 @@ use Content\Services\ThumbnailsService;
 /**
  * Register the {@see ThumbnailService}
  */
-class ThumbnailsServiceProvider extends ServiceProvider {
+class ThumbnailsServiceProvider extends ServiceProvider
+{
 
-	/**
-	 * Indicates if loading of the provider is deferred.
-	 *
-	 * @var bool
-	 */
-	protected $defer = true;
+    /**
+     * Indicates if loading of the provider is deferred.
+     *
+     * @var bool
+     */
+    protected $defer = true;
 
-	/**
-	 * Bootstrap the application events.
-	 *
-	 * @return void
-	 */
-	public function boot()
-	{
-		
-	}
+    /**
+     * Bootstrap the application events.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+    }
 
-	/**
-	 * Register the service provider.
-	 *
-	 * @return void
-	 */
-	public function register()
-	{
-		$this->app->singleton('thumbnails', function ($app) {
+    /**
+     * Register the service provider.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        $this->app->singleton('thumbnails', function ($app) {
+            return new ThumbnailsService(app('klinkadapter'));
+        });
+    }
 
-			return new ThumbnailsService(app('klinkadapter'));
-		});
-	}
-
-	/**
-	 * Get the services provided by the provider.
-	 *
-	 * @return array
-	 */
-	public function provides()
-	{
-		return ['Content\Services\ThumbnailsService', 'thumbnails'];
-	}
-
+    /**
+     * Get the services provided by the provider.
+     *
+     * @return array
+     */
+    public function provides()
+    {
+        return ['Content\Services\ThumbnailsService', 'thumbnails'];
+    }
 }

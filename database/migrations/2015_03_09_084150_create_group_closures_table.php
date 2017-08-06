@@ -7,8 +7,7 @@ class CreateGroupClosuresTable extends Migration
 {
     public function up()
     {
-        Schema::create('group_closure', function(Blueprint $table)
-        {
+        Schema::create('group_closure', function (Blueprint $table) {
             $table->increments('closure_id');
 
             $table->bigInteger('ancestor', false, true);
@@ -22,8 +21,7 @@ class CreateGroupClosuresTable extends Migration
 
     public function down()
     {
-        Schema::table('group_closure', function(Blueprint $table)
-        {
+        Schema::table('group_closure', function (Blueprint $table) {
             Schema::dropIfExists('group_closure');
         });
     }

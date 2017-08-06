@@ -1,17 +1,10 @@
 <?php
 
 use KlinkDMS\File;
-use KlinkDMS\DocumentDescriptor;
-use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Collection;
 
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Tests\BrowserKitTestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-use Symfony\Component\Console\Tester\CommandTester;
-
-use Illuminate\Foundation\Application;
 use KlinkDMS\Console\Commands\OrphanFilesCommand;
 
 use KlinkDMS\Traits\RunCommand;
@@ -19,15 +12,15 @@ use KlinkDMS\Traits\RunCommand;
 /**
  * Test the {@see OrphanFilesCommand}
  */
-class OrphanFilesCommandTest extends TestCase {
-    
+class OrphanFilesCommandTest extends BrowserKitTestCase
+{
     use DatabaseTransactions, RunCommand;
 
     /**
      * @return KlinkDMS\File the orphan to be identified
      */
-    private function createSomeDocumentsAndFiles(){
-
+    private function createSomeDocumentsAndFiles()
+    {
         $user = $this->createAdminUser();
 
         // generate 3 document descriptors with file
@@ -76,13 +69,11 @@ class OrphanFilesCommandTest extends TestCase {
         return [$orphan, $deleted_orphan];
     }
 
-
     /**
      * Test the orphan command finds the corrects files
      */
     public function testOrphanListing()
     {
-
         list($orphan, $deleted_orphan) = $this->createSomeDocumentsAndFiles();
 
         $command = new OrphanFilesCommand();
@@ -94,7 +85,6 @@ class OrphanFilesCommandTest extends TestCase {
         $this->assertRegExp('/2 orphans found/', $res);
         $this->assertRegExp('/'.$orphan->id.'/', $res);
         $this->assertRegExp('/'.$deleted_orphan->id.'.*\(already trashed\)/', $res);
-
     }
     
     /**
@@ -102,7 +92,6 @@ class OrphanFilesCommandTest extends TestCase {
      */
     public function testOrphanListingWithPathOutput()
     {
-
         list($orphan, $deleted_orphan) = $this->createSomeDocumentsAndFiles();
 
         $command = new OrphanFilesCommand();
@@ -114,9 +103,7 @@ class OrphanFilesCommandTest extends TestCase {
         $orphan = $orphan->fresh();
 
         $this->assertTrue(strpos($res, $orphan->path) !== false);
-
     }
-
 
     public function testOrphanDelete()
     {
@@ -151,7 +138,5 @@ class OrphanFilesCommandTest extends TestCase {
         $this->assertRegExp('/2 orphans found/', $res);
         $this->assertRegExp('/'.$orphan->id.'.*deleted/', $res);
         $this->assertRegExp('/'.$deleted_orphan->id.'.*deleted/', $res);
-
     }
-    
 }

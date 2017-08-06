@@ -12,7 +12,7 @@
 */
 
 $app = new Illuminate\Foundation\Application(
-	realpath(__DIR__.'/../')
+    realpath(__DIR__.'/../')
 );
 
 /*
@@ -27,30 +27,27 @@ $app = new Illuminate\Foundation\Application(
 */
 
 $app->singleton(
-	'Illuminate\Contracts\Http\Kernel',
-	'KlinkDMS\Http\Kernel'
+    'Illuminate\Contracts\Http\Kernel',
+    'KlinkDMS\Http\Kernel'
 );
 
 $app->singleton(
-	'Illuminate\Contracts\Console\Kernel',
-	'KlinkDMS\Console\Kernel'
+    'Illuminate\Contracts\Console\Kernel',
+    'KlinkDMS\Console\Kernel'
 );
 
 $app->singleton(
-	'Illuminate\Contracts\Debug\ExceptionHandler',
-	'KlinkDMS\Exceptions\Handler'
+    'Illuminate\Contracts\Debug\ExceptionHandler',
+    'KlinkDMS\Exceptions\Handler'
 );
-
 
 // >>> tricked configuration for having multiple environment (env) configuration on the same machine
-$env = $app->detectEnvironment(function() {
-
+$env = $app->detectEnvironment(function () {
     return getenv('APP_ENV') ?: ''; //empty default will led to load the standard .env file
-  
 });
 
-if(is_file($app->environment() . '.env')){
-	$app->loadEnvironmentFrom($app->environment() . '.env');
+if (is_file($app->environment().'.env')) {
+    $app->loadEnvironmentFrom($app->environment().'.env');
 }
 
 // <<<

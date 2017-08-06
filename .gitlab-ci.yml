@@ -1,6 +1,7 @@
 ## K-Box Continuous Integration script
 
 stages:
+  - lint
   - build
   - test
   - build_release
@@ -12,7 +13,6 @@ cache:
   paths:
   - .composer-cache/
   - node_modules/ # TODO: cache the NPM cache location
-  - resources/assets/vendor # TODO: cache the Bower cache location (or drop bower entirely)
 
 variables:
     CONTAINER_RELEASE_IMAGE_BASE: $CI_REGISTRY/images/dms
@@ -25,12 +25,27 @@ before_script:
 ## Composer Install script
 ## performs composer install with dev dependencies and syntax check
 .composer_install: &composer_install
-  stage: test
+  stage: lint
   script:
     - cp env.ci .env
     - composer install --prefer-dist
     - ./vendor/bin/parallel-lint --exclude vendor .
+    - php artisan view:clear
+    - ./vendor/bin/php-cs-fixer fix --dry-run
 
+## Linting
+
+test-syntax:5.6:
+  <<: *composer_install
+  image: "docker.klink.asia/open/docker-php:5.6-alpine"
+  tags:
+    - docker
+
+test-syntax:7.0:
+  <<: *composer_install
+  image: "docker.klink.asia/open/docker-php:7.0-alpine"
+  tags:
+    - docker
 
 ## Building the artifacts for release
 
@@ -41,7 +56,6 @@ frontend:
     - docker
   script:
     - npm install
-    - node_modules/.bin/bower install --allow-root
     - node_modules/.bin/gulp --production
   artifacts:
     expire_in: 1 day
@@ -49,7 +63,7 @@ frontend:
     - public/
 
 laravel:
-  image: "docker.klink.asia:5043/klink/php-ci-docker:7.0-alpine"
+  image: "docker.klink.asia/open/docker-php:7.0-alpine"
   tags:
     - docker
   stage: build
@@ -64,18 +78,6 @@ laravel:
 
 ## Testing
 
-test-syntax:5.6:
-  <<: *composer_install
-  image: "docker.klink.asia:5043/klink/php-ci-docker:5.6-alpine"
-  tags:
-    - docker
-
-test-syntax:7.0:
-  <<: *composer_install
-  image: "docker.klink.asia:5043/klink/php-ci-docker:7.0-alpine"
-  tags:
-    - docker
-
 language_check:
   ## Execute the check over the translation to find untranslated strings
   stage: test
@@ -83,8 +85,7 @@ language_check:
     - cp env.ci .env
     - composer install --prefer-dist
     - php artisan lang:check --report=translations.txt
-  image: "docker.klink.asia:5043/klink/php-ci-docker:7.0-alpine"
-  allow_failure: false
+  image: "docker.klink.asia/open/docker-php:7.0-alpine"
   tags:
     - docker
   only:
@@ -95,7 +96,7 @@ language_check:
 
 unit_test:
   stage: test
-  image: "docker.klink.asia:5043/klink/php-ci-docker:7.0-alpine"
+  image: "docker.klink.asia/open/docker-php:7.0-alpine"
   services:
     - mariadb:10.0
   variables:
@@ -110,7 +111,6 @@ unit_test:
     - php artisan migrate --env=testing --force
     - php artisan db:seed --env=testing --force
     - vendor/bin/phpunit
-  allow_failure: true
   tags:
     - docker
   artifacts:
@@ -130,7 +130,7 @@ branch_release:
     - docker build -t $CI_REGISTRY_IMAGE:${CI_BUILD_REF_NAME/v/} .
     - docker push $CI_REGISTRY_IMAGE:${CI_BUILD_REF_NAME/v/}
   tags:
-    - shell
+    - old-shell
   except:
     - tags
   dependencies:
@@ -152,7 +152,7 @@ tagged_release:
     - docker push "$CONTAINER_RELEASE_IMAGE_BASE:latest"
     - docker push "$CONTAINER_RELEASE_IMAGE_BASE:${CI_BUILD_REF_NAME/v/}"
   tags:
-    - shell
+    - old-shell
   only:
     - tags
   dependencies:
@@ -170,7 +170,7 @@ test_klink_asia_deploy:
   when: manual
   stage: deploy
   tags:
-    - shell
+    - old-shell
   variables:
     INSTANCE_PREFIX: $TEST_INSTANCE_PREFIX
     BUILD_LOCATION: $BUILD_FOLDER 
@@ -189,7 +189,7 @@ dms_klink_asia_deploy:
   when: manual
   stage: deploy
   tags:
-    - shell
+    - old-shell
   variables:
     INSTANCE_PREFIX: $DMS_INSTANCE_PREFIX
     BUILD_LOCATION: $BUILD_FOLDER 

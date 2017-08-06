@@ -15,7 +15,7 @@ class TrustedProxyMiddleware
      */
     public function handle($request, Closure $next)
     {
-        $request->setTrustedProxies(['*', '127.0.0.1', '172.17.2.136', '172.17.0.0/16']);
+        $request->setTrustedProxies(['*', '127.0.0.1', '172.17.2.136', '172.16.0.0/12']);
 
         return $next($request);
     }

@@ -1,17 +1,39 @@
 {
-  "name": "klink-dms",
-  "version": "0.17.1",
+  "version": "0.18.0",
+  "name": "k-box",
   "repository": {
     "type": "vcs",
     "url": "https://git.klink.asia/klinkdms/dms/"
   },
-  "license": "MIT",
+  "license": "GPL-3.0",
   "devDependencies": {
     "gulp": "^3.9.0",
-    "laravel-elixir": "~3.0.0",
-    "bower": "~1.7.9"
+    "laravel-elixir": "~3.0.0"
+  },
+  "scripts": {
+    "dev": "npm run development",
+    "development": "gulp",
+    "watch": "gulp watch",
+    "prod": "npm run production",
+    "production": "gulp --production"
   },
   "dependencies": {
-    "holmes.js": "^1.13.5"
+    "clipboard": "~1.7.1",
+    "combokeys": "~2.4.6",
+    "dropzone": "~4.3.0",
+    "es5-shim": "~4.5.9",
+    "hint.css": "~2.5.0",
+    "holmes.js": "^1.13.5",
+    "html5shiv": "~3.7.3",
+    "jquery": "~3.2.1",
+    "jquery-serializejson": "~2.8.1",
+    "jquery-unveil": "~1.3.2",
+    "lodash": "~4.17.4",
+    "nprogress": "~0.2.0",
+    "object.observe": "~0.2.6",
+    "promise-polyfill": "^6.0.2",
+    "requirejs": "~2.3.3",
+    "select2": "~4.0.3",
+    "sweetalert2": "~6.6.4"
   }
 }

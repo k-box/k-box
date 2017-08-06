@@ -1,32 +1,34 @@
-<?php namespace KlinkDMS\Http\Requests;
+<?php
 
-use KlinkDMS\Http\Requests\Request;
+namespace KlinkDMS\Http\Requests;
+
+use Illuminate\Foundation\Http\FormRequest as Request;
 use KlinkDMS\User;
 
-class UserOptionUpdateRequest extends Request {
+class UserOptionUpdateRequest extends Request
+{
 
-	/**
-	 * Determine if the user is authorized to make this request.
-	 *
-	 * @return bool
-	 */
-	public function authorize()
-	{
-		return true;
-	}
+    /**
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
+    public function authorize()
+    {
+        return true;
+    }
 
-	/**
-	 * Get the validation rules that apply to the request.
-	 *
-	 * @return array
-	 */
-	public function rules()
-	{
-		return [
-			User::OPTION_LIST_TYPE => 'sometimes|required|in:details,tiles,cards',
-			User::OPTION_LANGUAGE => 'sometimes|required|in:en,ru',
-			User::OPTION_TERMS_ACCEPTED => 'sometimes|required|boolean'
-		];
-	}
-
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
+     */
+    public function rules()
+    {
+        return [
+            User::OPTION_LIST_TYPE => 'sometimes|required|in:details,tiles,cards',
+            User::OPTION_LANGUAGE => 'sometimes|required|in:en,ru',
+            User::OPTION_TERMS_ACCEPTED => 'sometimes|required|boolean'
+        ];
+    }
 }

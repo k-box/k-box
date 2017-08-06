@@ -1,361 +1,308 @@
-<?php namespace KlinkDMS\Console\Commands;
+<?php
+
+namespace KlinkDMS\Console\Commands;
 
 use Illuminate\Console\Command;
-use Illuminate\Console\AppNamespaceDetectorTrait;
+use Illuminate\Console\DetectsApplicationNamespace;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 use Illuminate\Filesystem\Filesystem;
 
-class DmsModelCreation extends Command {
+class DmsModelCreation extends Command
+{
+    use DetectsApplicationNamespace;
+
+    /*
+
+    str_plural Convert a string to its plural form (English only).
+
+    str_singular Convert a string to its singular form (English only).
+
+    studly_case: foo_bar => FooBar
+
+    snake_case: fooBar => foo_bar
+
+    camel_case: foo_bar => fooBar
+
+     */
+
+    /**
+     * The filesystem instance.
+     *
+     * @var \Illuminate\Filesystem\Filesystem
+     */
+    protected $files;
+
+    /**
+     * The console command name.
+     *
+     * @var string
+     */
+    protected $name = 'dms:model';
+
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Generate an Eloquent model from a migration. If feeded with more than one migration generates more than one model.';
+
+    /**
+     * Create a new command instance.
+     *
+     * @return void
+     */
+    public function __construct(Filesystem $files)
+    {
+        parent::__construct();
+
+        $this->files = $files;
+    }
+
+    /**
+     * Execute the console command.
+     *
+     * @return mixed
+     */
+    public function fire()
+    {
+        $starts = $this->files->glob($this->getMigrationPath().'/2015_03_16_115239_create_shared_table.php');
+
+        foreach ($starts as $migration_to_use) {
+            $this->comment(PHP_EOL.$migration_to_use.PHP_EOL);
+
+            $d = $this->getMigrationDetails($migration_to_use);
+
+            $namespace = str_replace('\\', '', $this->getAppNamespace());
+
+            $populated_stub = $this->populateStub($d['table'], $namespace, $this->getStub(), $d['timestamps'], $d['softDelete'], $d['foreignKeys'], $d['fields']);
+
+            $file_name = $this->getClassName($d['table']).'.php';
+            $model_file = $this->getModelPath().$file_name;
+
+            if (! $this->files->isFile($model_file)) {
+                $this->files->put($model_file, $populated_stub);
+
+                $this->info(PHP_EOL.'model file: '.$model_file.PHP_EOL);
+            } else {
+                $this->error(PHP_EOL.'Skipped model '.$file_name.': already exists'.PHP_EOL);
+            }
+        }
+    }
+
+    /**
+     * Get the console command arguments.
+     *
+     * @return array
+     */
+    protected function getArguments()
+    {
+        return [
+            ['example', InputArgument::OPTIONAL, 'An example argument.'],
+        ];
+    }
+
+    /**
+     * Get the console command options.
+     *
+     * @return array
+     */
+    protected function getOptions()
+    {
+        return [
+            ['single', null, InputOption::VALUE_OPTIONAL, 'Generate a model for the given single migration file.', null],
+        ];
+    }
+
+    /**
+     * The path where to save the newly created models
+     * @return string the path of the models
+     */
+    public function getModelPath()
+    {
+        return $this->laravel['path'].'/';
+    }
+
+    /**
+     * The path to the Model's stub folder
+     * @return string the stub directory
+     */
+    private function getStubsPath()
+    {
+        return __DIR__.'/stubs';
+    }
+
+    /**
+     * Get the path to the migration directory.
+     *
+     * @return string
+     */
+    protected function getMigrationPath()
+    {
+        return $this->laravel['path.database'].'/migrations';
+    }
+
+    /**
+     * Get the Model stub
+     * @param  boolean $is_relation true if the model contains relations
+     * @return string        the content of the stub
+     */
+    private function getStub($is_relation=false)
+    {
+        if (! $is_relation) {
+            return $this->files->get($this->getStubsPath().'/blank.stub');
+        } else {
+            return $this->files->get($this->getStubsPath().'/relation.stub');
+        }
+    }
 
-	use AppNamespaceDetectorTrait;
+    /**
+     * Populate the place-holders in the migration stub.
+     *
+     * @param  string  $name
+     * @param  string  $stub
+     * @param  string  $table
+     * @return string
+     */
+    protected function populateStub($table, $namespace, $stub, $timestamps = false, $softDelete = false, $foreignKeys = null, $comments = [])
+    {
+        $uses = [ 'use Illuminate\Database\Eloquent\Model;' ];
 
-	/*
-	
-	str_plural Convert a string to its plural form (English only).
+        $attributes = [];
 
-	str_singular Convert a string to its singular form (English only).
+        $relations = [];
 
-	studly_case: foo_bar => FooBar
+        $declarations = [];
 
-	snake_case: fooBar => foo_bar
+        $stub = str_replace('{{class}}', $this->getClassName($table), $stub);
 
-	camel_case: foo_bar => fooBar
+        $stub = str_replace('{{table}}', $table, $stub);
 
-	 */
-
-	/**
-	 * The filesystem instance.
-	 *
-	 * @var \Illuminate\Filesystem\Filesystem
-	 */
-	protected $files;
-
-	/**
-	 * The console command name.
-	 *
-	 * @var string
-	 */
-	protected $name = 'dms:model';
-
-	/**
-	 * The console command description.
-	 *
-	 * @var string
-	 */
-	protected $description = 'Generate an Eloquent model from a migration. If feeded with more than one migration generates more than one model.';
-
-	/**
-	 * Create a new command instance.
-	 *
-	 * @return void
-	 */
-	public function __construct(Filesystem $files)
-	{
-		parent::__construct();
-
-		$this->files = $files;
-	}
-
-	/**
-	 * Execute the console command.
-	 *
-	 * @return mixed
-	 */
-	public function fire()
-	{
-
-		// 2015_01_13_105515_create_open_document_activities_table.php
-		
-
-		$starts = $this->files->glob( $this->getMigrationPath() . '/2015_03_16_115239_create_shared_table.php' );
-
-		// $starts = $this->files->files($this->getMigrationPath()); 
-
-
-		// dd($starts);
-		// 
-		foreach ($starts as $migration_to_use) {
-			
-
-			$this->comment(PHP_EOL.$migration_to_use.PHP_EOL);
-
-			$d = $this->getMigrationDetails( $migration_to_use );
-
-			$namespace = str_replace('\\', '', $this->getAppNamespace());
-
-			$populated_stub = $this->populateStub($d['table'], $namespace, $this->getStub(), $d['timestamps'], $d['softDelete'], $d['foreignKeys'], $d['fields']);
-
-			$file_name = $this->getClassName($d['table']) . '.php';
-			$model_file = $this->getModelPath() .  $file_name;
-
-			if(!$this->files->isFile($model_file)){
-
-				$this->files->put($model_file, $populated_stub);
-
-				$this->info(PHP_EOL.'model file: '.$model_file.PHP_EOL);
-			}
-			else {
-				$this->error(PHP_EOL.'Skipped model '.$file_name .': already exists'.PHP_EOL);
-			}
-
-		
-		}
-		// print_r( $populated_stub );
-		
-	}
-
-	/**
-	 * Get the console command arguments.
-	 *
-	 * @return array
-	 */
-	protected function getArguments()
-	{
-		return [
-			['example', InputArgument::OPTIONAL, 'An example argument.'],
-		];
-	}
-
-	/**
-	 * Get the console command options.
-	 *
-	 * @return array
-	 */
-	protected function getOptions()
-	{
-		return [
-			['single', null, InputOption::VALUE_OPTIONAL, 'Generate a model for the given single migration file.', null],
-		];
-	}
-
-	/**
-	 * The path where to save the newly created models
-	 * @return string the path of the models
-	 */
-	public function getModelPath()
-	{
-		return $this->laravel['path'] . '/';
-	}
+        $stub = str_replace('{{namespace}}', $namespace, $stub);
 
-	/**
-	 * The path to the Model's stub folder
-	 * @return string the stub directory
-	 */
-	private function getStubsPath()
-	{
-		return __DIR__.'/stubs';
-	}
+        if ($softDelete) {
+            $declarations[] = 'use SoftDeletes;';
 
+            $attributes[] = 'protected $dates = [\'deleted_at\'];';
+        }
 
-	/**
-	 * Get the path to the migration directory.
-	 *
-	 * @return string
-	 */
-	protected function getMigrationPath()
-	{
-		return $this->laravel['path.database'].'/migrations';
-	}
+        if (! $timestamps) {
+            $attributes[] = 'public $timestamps = false;';
+        }
 
-	/**
-	 * Get the Model stub
-	 * @param  boolean $is_relation true if the model contains relations
-	 * @return string        the content of the stub
-	 */
-	private function getStub( $is_relation=false )
-	{
-		if (!$is_relation)
-		{
-			return $this->files->get($this->getStubsPath().'/blank.stub');
-		}
-		else {
-			return $this->files->get($this->getStubsPath().'/relation.stub');	
-		}
-	}
+        if (! is_null($foreignKeys) && ! empty($foreignKeys)) {
+            $clean_stub = $this->getStub(true);
 
+            $populated_relation_stub ='';
+        
+            foreach ($foreignKeys as $key) {
+                $populated_relation_stub = str_replace('{{relation_method_name}}', camel_case($this->getClassName($key['table'])), $clean_stub);
 
-	/**
-	 * Populate the place-holders in the migration stub.
-	 *
-	 * @param  string  $name
-	 * @param  string  $stub
-	 * @param  string  $table
-	 * @return string
-	 */
-	protected function populateStub($table, $namespace, $stub, $timestamps = false, $softDelete = false, $foreignKeys = null, $comments = array())
-	{
+                $populated_relation_stub = str_replace('{{model}}', $this->getClassName($key['table']), $populated_relation_stub);
 
-		$uses = array( 'use Illuminate\Database\Eloquent\Model;' );
+                $populated_relation_stub = str_replace('{{foreign}}', $key['foreign_key'], $populated_relation_stub);
 
-		$attributes = array();
+                $populated_relation_stub = str_replace('{{reference}}', $key['references'], $populated_relation_stub);
 
-		$relations = array();
+                $relations[] = $populated_relation_stub;
+            }
+        }
 
-		$declarations = array();
+        $comments_text = '';
 
+        if (! empty($comments)) {
+            $comments_text = '    /*'.PHP_EOL.'    '.implode(PHP_EOL.'    ', $comments).PHP_EOL.'    */'.PHP_EOL;
+        }
 
-		$stub = str_replace('{{class}}', $this->getClassName($table), $stub);
+        $attributes_text = '';
 
-		$stub = str_replace('{{table}}', $table, $stub);
+        if (! empty($attributes)) {
+            $attributes_text = '    '.implode(PHP_EOL, $attributes).PHP_EOL;
+        }
 
-		$stub = str_replace('{{namespace}}', $namespace, $stub);
+        $declarations_text = '';
 
+        if (! empty($declarations)) {
+            $declarations_text = '    '.implode(PHP_EOL, $declarations).PHP_EOL;
+        }
 
+        $stub = str_replace('{{declare}}', $declarations_text, $stub);
 
-		if( $softDelete ){
+        $stub = str_replace('{{attributes}}', $attributes_text, $stub);
 
-			$declarations[] = 'use SoftDeletes;';
+        $stub = str_replace('{{relations}}', implode(PHP_EOL, $relations), $stub);
 
-			$attributes[] = 'protected $dates = [\'deleted_at\'];';
+        $stub = str_replace('{{comments}}', $comments_text, $stub);
 
-		}
+        $stub = str_replace('{{use}}', implode(PHP_EOL, $uses), $stub);
+        
+        return $stub;
+    }
 
-		if( !$timestamps ){
+    protected function getMigrationDetails($migration)
+    {
+        $content = $this->files->get($migration);
+        
+        preg_match_all("/Schema::(create|table)\(\'(.*)\'/", $content, $output_array);
 
-			$attributes[] = 'public $timestamps = false;';
-			
-		}
+        $table_name = $output_array[2][0];
 
-		if(!is_null( $foreignKeys ) && !empty($foreignKeys)){
+        preg_match_all("/->(timestamps)\(\)/", $content, $timestamps_array);
 
-			$clean_stub = $this->getStub(true);
+        preg_match_all("/->(softDeletes)\(\)/", $content, $softdeletes_array);
 
-			$populated_relation_stub ='';
-		
-			foreach ($foreignKeys as $key) {
+        preg_match_all("/->(foreign)\(\'(\w*)\'\)->references\(\'(\w*)\'\)->on\(\'(\w*)\'\)/", $content, $foreign_keys_array);
 
-				$populated_relation_stub = str_replace('{{relation_method_name}}', camel_case( $this->getClassName( $key['table'] ) ), $clean_stub);
+        $foreign_keys_filtered = [];
 
-				$populated_relation_stub = str_replace('{{model}}', $this->getClassName( $key['table'] ), $populated_relation_stub);
+        if (isset($foreign_keys_array[1]) && ! empty($foreign_keys_array[1]) && count($foreign_keys_array) == 5) {
+            array_push($foreign_keys_filtered, [
 
-				$populated_relation_stub = str_replace('{{foreign}}', $key['foreign_key'], $populated_relation_stub);
+                'table' => $foreign_keys_array[count($foreign_keys_array)-1][0],
 
-				$populated_relation_stub = str_replace('{{reference}}', $key['references'], $populated_relation_stub);
+                'foreign_key' => $foreign_keys_array[2][0],
 
-				$relations[] = $populated_relation_stub;
+                'references' => $foreign_keys_array[3][0]
 
-			}
+            ]);
+        }
 
-		}
+        $fields = [];
 
-		$comments_text = '';
+        preg_match_all("/->(\w+)\(\'(\w+)\'\);/", $content, $fields_array);
 
-		if( !empty( $comments )){
-			
-			$comments_text = '    /*' . PHP_EOL.'    ' . implode(PHP_EOL . '    ', $comments) . PHP_EOL . '    */' . PHP_EOL;
-		}
+        
+        if (! empty($fields_array) && (! empty($fields_array[0]))) {
+            $fields_array_count = count($fields_array[0]);
 
-		$attributes_text = '';
+            for ($i=0; $i < $fields_array_count; $i++) {
+                $var_type = $fields_array[1][$i];
+                $var_name = $fields_array[2][$i];
 
-		if(!empty($attributes)){
-			$attributes_text = '    ' . implode(PHP_EOL, $attributes) . PHP_EOL;
-		}
+                
+                $fields[] = $var_name.': '.($var_type !='on' ? $var_type : $this->getClassName($var_name));
+            }
+        }
 
+        $details = [
+            'table' => $table_name,
+            'timestamps' => isset($timestamps_array[1]) && ! empty($timestamps_array[1]),
+            'softDelete' => isset($softdeletes_array[1]) && ! empty($softdeletes_array[1]),
+            'foreignKeys' => $foreign_keys_filtered,
+            'fields' => $fields
+        ];
 
-		$declarations_text = '';
+        return $details;
+    }
 
-		if(!empty($declarations)){
-			$declarations_text = '    ' . implode(PHP_EOL, $declarations) . PHP_EOL;
-		}
-
-
-		$stub = str_replace('{{declare}}', $declarations_text, $stub);
-
-		$stub = str_replace('{{attributes}}', $attributes_text, $stub);
-
-		$stub = str_replace('{{relations}}', implode(PHP_EOL, $relations), $stub);
-
-		$stub = str_replace('{{comments}}', $comments_text, $stub);
-
-		$stub = str_replace('{{use}}', implode(PHP_EOL, $uses), $stub);
-		
-		return $stub;
-	}
-
-
-	protected function getMigrationDetails( $migration ){
-
-		$content = $this->files->get( $migration );
-		
-		preg_match_all("/Schema::(create|table)\(\'(.*)\'/", $content, $output_array);
-
-		$table_name = $output_array[2][0];
-
-		preg_match_all("/->(timestamps)\(\)/", $content, $timestamps_array);
-
-
-		preg_match_all("/->(softDeletes)\(\)/", $content, $softdeletes_array);
-
-
-		preg_match_all("/->(foreign)\(\'(\w*)\'\)->references\(\'(\w*)\'\)->on\(\'(\w*)\'\)/", $content, $foreign_keys_array);
-
-
-		$foreign_keys_filtered = array();
-
-		if( isset( $foreign_keys_array[1] ) && !empty( $foreign_keys_array[1] ) && count( $foreign_keys_array) == 5){
-			
-			array_push( $foreign_keys_filtered, array(
-
-				'table' => $foreign_keys_array[count( $foreign_keys_array)-1][0],
-
-				'foreign_key' => $foreign_keys_array[2][0],
-
-				'references' => $foreign_keys_array[3][0]
-
-			));
-
-		}
-
-
-		$fields = array();
-
-		preg_match_all("/->(\w+)\(\'(\w+)\'\);/", $content, $fields_array);
-
-		
-
-		if( !empty( $fields_array ) && ( !empty( $fields_array[0] )) ){
-
-			$fields_array_count = count( $fields_array[0] );
-
-			for ($i=0; $i < $fields_array_count; $i++) { 
-				
-				$var_type = $fields_array[1][$i];
-				$var_name = $fields_array[2][$i];
-
-				
-				$fields[] = $var_name .': ' . ($var_type !='on' ? $var_type : $this->getClassName($var_name));
-				
-			}
-
-		}
-
-
-		$details = array(
-			'table' => $table_name,
-			'timestamps' => isset( $timestamps_array[1] ) && !empty( $timestamps_array[1] ),
-			'softDelete' => isset( $softdeletes_array[1] ) && !empty( $softdeletes_array[1] ),
-			'foreignKeys' => $foreign_keys_filtered,
-			'fields' => $fields
-		);
-
-		// print_r( $details );
-
-		// var_dump( $details );
-
-		return $details;
-
-	}
-
-	/**
-	 * Get the class name of a table name.
-	 *
-	 * @param  string $name
-	 * @return string
-	 */
-	protected function getClassName($table)
-	{
-		return str_singular(studly_case($table));
-	}
-
+    /**
+     * Get the class name of a table name.
+     *
+     * @param  string $name
+     * @return string
+     */
+    protected function getClassName($table)
+    {
+        return str_singular(studly_case($table));
+    }
 }

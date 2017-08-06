@@ -33,6 +33,6 @@ class CreatePublicLinksTable extends Migration
      */
     public function down()
     {
-        Schema::drop('publiclinks');
+        Schema::dropIfExists('publiclinks');
     }
 }

@@ -5,115 +5,110 @@ use KlinkDMS\User;
 use KlinkDMS\Group;
 use KlinkDMS\Project;
 use KlinkDMS\Capability;
-use KlinkDMS\DocumentDescriptor;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Collection;
 
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Tests\BrowserKitTestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 /*
  * Test something related to document descriptors management
 */
-class CollectionsTest extends TestCase {
-    
+class CollectionsTest extends BrowserKitTestCase
+{
     use DatabaseTransactions;
     
     
-    public function user_provider_admin_project() {
-        return array( 
-			array(Capability::$ADMIN),
-			array(Capability::$PROJECT_MANAGER),
-			array(Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH),
-		);
+    public function user_provider_admin_project()
+    {
+        return [
+            [Capability::$ADMIN],
+            [Capability::$PROJECT_MANAGER],
+            [Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH],
+        ];
     }
 
-    public function user_provider_for_editpage_public_checkbox_test() {
-        return array( 
-			array(Capability::$ADMIN, true),
-			array(Capability::$DMS_MASTER, false),
-			array(Capability::$PROJECT_MANAGER, true),
-			array(Capability::$PARTNER, false),
-			array(Capability::$GUEST, false),
-		);
+    public function user_provider_for_editpage_public_checkbox_test()
+    {
+        return [
+            [Capability::$ADMIN, true],
+            [Capability::$DMS_MASTER, false],
+            [Capability::$PROJECT_MANAGER, true],
+            [Capability::$PARTNER, false],
+            [Capability::$GUEST, false],
+        ];
     }
 
-	/**
-	 * Test that the route for documents.show is not leaking private documents to anyone
-	 *
-	 * @return void
-	 */
-	public function testSeePersonalCollectionLoginRequired( )
-	{
+    /**
+     * Test that the route for documents.show is not leaking private documents to anyone
+     *
+     * @return void
+     */
+    public function testSeePersonalCollectionLoginRequired()
+    {
         // create a document
         
         $user = $this->createAdminUser();
         
         // $user_not_owner = $this->createAdminUser();
         
-        $service = app('Klink\DmsDocuments\DocumentsService');        
+        $service = app('Klink\DmsDocuments\DocumentsService');
         
         $collection = $service->createGroup($user, 'Personal Collection Name');
 
-        $url = route( 'documents.groups.show', $collection->id );
+        $url = route('documents.groups.show', $collection->id);
         
-        $this->visit( $url )->seePageIs( route('frontpage') );
-        
-	}
+        $this->visit($url)->seePageIs(route('frontpage'));
+    }
     
-    public function testSeePersonalCollectionAccessGranted( )
-	{
+    public function testSeePersonalCollectionAccessGranted()
+    {
         // create a document
 
         $this->withKlinkAdapterFake();
         
         $user = $this->createAdminUser();
         
-        $service = app('Klink\DmsDocuments\DocumentsService');        
+        $service = app('Klink\DmsDocuments\DocumentsService');
         
         $collection = $service->createGroup($user, 'Personal Collection Name');
 
-        $url = route( 'documents.groups.show', $collection->id );
+        $url = route('documents.groups.show', $collection->id);
         
         // test with login with the owner user
-		
+        
         $this->actingAs($user);
         
-        $this->visit( $url )->seePageIs( $url );
+        $this->visit($url)->seePageIs($url);
         
         $this->assertResponseOk();
-        
-        
-	}
+    }
     
-    public function testSeePersonalCollectionAccessDenieded( )
-	{
+    public function testSeePersonalCollectionAccessDenieded()
+    {
         // create a document
         
         $user = $this->createAdminUser();
         
         $user_not_owner = $this->createUser(Capability::$PARTNER);
         
-        $service = app('Klink\DmsDocuments\DocumentsService');        
+        $service = app('Klink\DmsDocuments\DocumentsService');
         
         $collection = $service->createGroup($user, 'Personal Collection Name');
 
-        $url = route( 'documents.groups.show', $collection->id );
+        $url = route('documents.groups.show', $collection->id);
         
         // test with login with another user
         
         $this->actingAs($user_not_owner);
         
-        $this->call( 'GET', $url );
+        $this->call('GET', $url);
         
         $this->assertResponseStatus(403);
-        
-	}
+    }
     
     
-    public function testCollectionListing(){
-        
+    public function testCollectionListing()
+    {
         $user1 = $this->createUser(Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH);
         
         $user2 = $this->createUser(Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH);
@@ -128,8 +123,8 @@ class CollectionsTest extends TestCase {
         
         $service = app('Klink\DmsDocuments\DocumentsService');
         
-        $grp1 = $service->createGroup($user1, 'Personal collection of user ' . $user1->id);
-        $grp2 = $service->createGroup($user2, 'Personal collection of user ' . $user2->id);
+        $grp1 = $service->createGroup($user1, 'Personal collection of user '.$user1->id);
+        $grp2 = $service->createGroup($user2, 'Personal collection of user '.$user2->id);
         
         // current expected status:
         // $user1 => $projectA + $projectB and $grp1
@@ -181,7 +176,7 @@ class CollectionsTest extends TestCase {
         $this->assertEquals(0, $collections_user_admin->personal->count());
         
         
-        $grp3 = $service->createGroup($user2, 'Another Personal collection of user ' . $user2->id);
+        $grp3 = $service->createGroup($user2, 'Another Personal collection of user '.$user2->id);
         
         $collections_user2 = $service->getCollectionsAccessibleByUser($user2);
         $this->assertNotNull($collections_user2);
@@ -189,24 +184,23 @@ class CollectionsTest extends TestCase {
         $this->assertNotNull($collections_user2->projects);
         $this->assertEquals(2, $collections_user2->projects->count(), 'Projects collection count after user2 has been added to ProjectA');
         $this->assertEquals(2, $collections_user2->personal->count(), 'Personal collection final count');
-        
     }
 
     /**
-     * Test that the accessible collections by a user are returned 
+     * Test that the accessible collections by a user are returned
      * in alphabetical order, based on Group->$name
      *
      * @dataProvider user_provider_admin_project
      */
-    public function testCollectionListingInAlphabeticalOrder( $caps ){
-        
+    public function testCollectionListingInAlphabeticalOrder($caps)
+    {
         $collection_names = ['z', 'a', 'd', 'b', 'cc', 'ca', 'k'];
         $expected_collection_names = ['a', 'b', 'ca', 'cc', 'd', 'k', 'z'];
 
         $project_collection_names = ['pz', 'pa', 'pd', 'pb', 'pcc', 'pca', 'pk'];
         $project_expected_collection_names = ['pa', 'pb', 'pca', 'pcc', 'pd', 'pk', 'pz'];
 
-        $user = $this->createUser( $caps );
+        $user = $this->createUser($caps);
         
 
         $service = app('Klink\DmsDocuments\DocumentsService');
@@ -224,10 +218,9 @@ class CollectionsTest extends TestCase {
                 'collection_id' => $project_group->id,
             ]);
 
-            for ($i=0; $i < $project_childs; $i++) { 
+            for ($i=0; $i < $project_childs; $i++) {
                 $service->createGroup($user, $project_collection_names[$i], null, $project_group, false);
             }
-            
         }
         
 
@@ -237,22 +230,20 @@ class CollectionsTest extends TestCase {
         foreach ($collection_names as $name) {
             $group = $service->createGroup($user, $name, null, null, true);
 
-            for ($i=0; $i < $childs; $i++) { 
+            for ($i=0; $i < $childs; $i++) {
                 $service->createGroup($user, $collection_names[$i], null, $group, true);
             }
-            
         }
 
         // make sure no cached elements are returned
         \Cache::forget('dms_project_collections');
-        \Cache::forget('dms_project_collections-' . $user->id);
+        \Cache::forget('dms_project_collections-'.$user->id);
 
         $collections = $service->getCollectionsAccessibleByUser($user);
 
-
         // Testing the personal collection tree
 
-        $personals = $collections->personal; 
+        $personals = $collections->personal;
 
         $this->assertEquals($expected_collection_names, $personals->pluck('name')->toArray());
 
@@ -269,11 +260,10 @@ class CollectionsTest extends TestCase {
         foreach ($projects as $sub_collection) {
             $this->assertEquals($project_expected_collection_names, $sub_collection->children->pluck('name')->toArray());
         }
-        
     }
     
-    public function testIsCollectionAccessible(){
-        
+    public function testIsCollectionAccessible()
+    {
         $service = app('Klink\DmsDocuments\DocumentsService');
         
         // create a project
@@ -285,7 +275,7 @@ class CollectionsTest extends TestCase {
         $project_collection = $project->collection()->first();
         
         // add a collection to it
-        $collection = $service->createGroup( $user, 'sub-collection name', null, $project_collection, false );
+        $collection = $service->createGroup($user, 'sub-collection name', null, $project_collection, false);
         
         // test if sub-collection is accessible by the project admin
         
@@ -298,7 +288,7 @@ class CollectionsTest extends TestCase {
         $projectB = factory('KlinkDMS\Project')->create(['user_id' => $user->id]);
         $projectC = factory('KlinkDMS\Project')->create(['user_id' => $user->id]);
         
-        $collection2 = $service->createGroup( $user, 'sub-sub-collection name', null, $collection, false );
+        $collection2 = $service->createGroup($user, 'sub-sub-collection name', null, $collection, false);
         
         $accessible = $service->isCollectionAccessible($user, $collection2);
         
@@ -307,7 +297,7 @@ class CollectionsTest extends TestCase {
         $user_admin = $this->createAdminUser();
         
         
-        $collection3 = $service->createGroup( $user, 'by admin', null, $project_collection, false );
+        $collection3 = $service->createGroup($user, 'by admin', null, $project_collection, false);
         
         $accessible = $service->isCollectionAccessible($user, $collection3);
         
@@ -332,12 +322,10 @@ class CollectionsTest extends TestCase {
         $this->assertTrue($accessible, 'Collection 2 is not accessible by Partner user not added to the project');
         $accessible = $service->isCollectionAccessible($partner, $collection3);
         $this->assertTrue($accessible, 'Collection 3 is not accessible by Partner user not added to the project');
-        
     }
     
-    public function testCollectionCacheForUserUpdate(){
-        
-        
+    public function testCollectionCacheForUserUpdate()
+    {
         $user = $this->createAdminUser();
         
         $service = app('Klink\DmsDocuments\DocumentsService');
@@ -345,18 +333,15 @@ class CollectionsTest extends TestCase {
         
         \Cache::shouldReceive('forget')
                     ->once()
-                    ->with('dms_personal_collections'. $user->id)
+                    ->with('dms_personal_collections'.$user->id)
                     ->andReturn(true);
         
-        $grp1 = $service->createGroup($user, 'Personal collection of user ' . $user->id);
-        
-        
-        
+        $grp1 = $service->createGroup($user, 'Personal collection of user '.$user->id);
     }
     
     
-    public function testBulkCopyToCollection(){
-        
+    public function testBulkCopyToCollection()
+    {
         $user = $this->createAdminUser();
         
         $service = app('Klink\DmsDocuments\DocumentsService');
@@ -371,44 +356,44 @@ class CollectionsTest extends TestCase {
         ]);
         
         // create one collection
-        $grp1 = $service->createGroup($user, 'Personal collection of user ' . $user->id);
+        $grp1 = $service->createGroup($user, 'Personal collection of user '.$user->id);
         
         // Add doc to collection using the BulkController@copyTo method
         // This also tests if the bulk controller handles correctly the duplicates
         
         \Session::start();
         
-        $this->actingAs( $user );
+        $this->actingAs($user);
         
-        $this->json( 'POST', route('documents.bulk.copyto'), [
-			'documents' => [ $doc->id ],
-			'destination_group' => $grp1->id,
-			'_token' => csrf_token()
-		])->seeJson([
+        $this->json('POST', route('documents.bulk.copyto'), [
+            'documents' => [ $doc->id ],
+            'destination_group' => $grp1->id,
+            '_token' => csrf_token()
+        ])->seeJson([
             'status' => 'ok',
             'message' => trans('documents.bulk.copy_completed_all', ['collection' => $grp1->name]),
         ]);
         
-		$this->assertEquals(1, $grp1->documents()->count());
+        $this->assertEquals(1, $grp1->documents()->count());
         
         
         // try to add a second document and again the first document
         
-        $this->json( 'POST', route('documents.bulk.copyto'), [
-			'documents' => [ $doc->id, $doc2->id ],
-			'destination_group' => $grp1->id,
-			'_token' => csrf_token()
-		])->seeJson([
+        $this->json('POST', route('documents.bulk.copyto'), [
+            'documents' => [ $doc->id, $doc2->id ],
+            'destination_group' => $grp1->id,
+            '_token' => csrf_token()
+        ])->seeJson([
             'status' => 'partial',
             'message' => trans_choice('documents.bulk.copy_completed_some', 1, ['count' => 1, 'collection' => $grp1->name, 'remaining' => 1]),
         ]);
         
-		$this->assertEquals(2, $grp1->documents()->count());
+        $this->assertEquals(2, $grp1->documents()->count());
     }
     
     
-    public function testDmsCollectionsCleanDuplicatesCommand(){
-        
+    public function testDmsCollectionsCleanDuplicatesCommand()
+    {
         $user = $this->createAdminUser();
         
         $service = app('Klink\DmsDocuments\DocumentsService');
@@ -419,8 +404,8 @@ class CollectionsTest extends TestCase {
         ]);
         
         // create one collection
-        $grp1 = $service->createGroup($user, 'Personal collection of user ' . $user->id);
-        $grp2 = $service->createGroup($user, 'Another collection of user ' . $user->id);
+        $grp1 = $service->createGroup($user, 'Personal collection of user '.$user->id);
+        $grp2 = $service->createGroup($user, 'Another collection of user '.$user->id);
         
         
         $service->addDocumentsToGroup($user, Collection::make([$doc]), $grp1, false);
@@ -441,12 +426,11 @@ class CollectionsTest extends TestCase {
         
         $this->assertEquals(1, $grp1->documents()->count());
         $this->assertEquals(0, $grp2->documents()->count());
-        
     }
 
-    public function testDocumentService_deleteGroup(){
-
-        $user = $this->createUser( Capability::$PARTNER );
+    public function testDocumentService_deleteGroup()
+    {
+        $user = $this->createUser(Capability::$PARTNER);
 
         $group = $this->createCollection($user, true, 3);
 
@@ -475,55 +459,52 @@ class CollectionsTest extends TestCase {
 
         $this->assertEquals(0, $after_delete_children->count());
         $this->assertEquals(3, $trashed_children->count());
-
     }
 
     /**
      * @expectedException KlinkDMS\Exceptions\ForbiddenException
      */
-    public function testDocumentService_deleteGroup_forbidden(){
-
-        $user = $this->createUser( Capability::$PARTNER );
-        $user2 = $this->createUser( Capability::$PARTNER );
+    public function testDocumentService_deleteGroup_forbidden()
+    {
+        $user = $this->createUser(Capability::$PARTNER);
+        $user2 = $this->createUser(Capability::$PARTNER);
 
         $doc = $this->createCollection($user);
 
         $service = app('Klink\DmsDocuments\DocumentsService');
 
         $service->deleteGroup($user2, $doc);
-
     }
 
-    public function testCollectionDelete(){
-
-        $user = $this->createUser( Capability::$PARTNER);
+    public function testCollectionDelete()
+    {
+        $user = $this->createUser(Capability::$PARTNER);
 
         $doc = $this->createCollection($user);
 
         \Session::start();
 
-        $url = route( 'documents.groups.destroy', ['id' => $doc->id, 
-                '_token' => csrf_token()] );
+        $url = route('documents.groups.destroy', ['id' => $doc->id,
+                '_token' => csrf_token()]);
         
         $this->actingAs($user);
 
-        $this->delete( $url );
+        $this->delete($url);
 
         $this->see('ok');
-		
-		$this->assertResponseStatus(202);
+        
+        $this->assertResponseStatus(202);
 
         $doc = Group::withTrashed()->findOrFail($doc->id);
 
         $this->assertTrue($doc->trashed());
-
     }
 
     
     
-    public function testDocumentService_permanentlyDeleteGroup(){
-
-        $user = $this->createUser( Capability::$PROJECT_MANAGER );
+    public function testDocumentService_permanentlyDeleteGroup()
+    {
+        $user = $this->createUser(Capability::$PROJECT_MANAGER);
 
         $group = $this->createCollection($user, true, 3);
 
@@ -533,8 +514,6 @@ class CollectionsTest extends TestCase {
         $children_ids = $children->pluck('id')->toArray();
 
         $this->assertEquals(3, $children->count(), 'Children count pre-condition');
-
-
 
         $service = app('Klink\DmsDocuments\DocumentsService');
 
@@ -549,7 +528,6 @@ class CollectionsTest extends TestCase {
         $exists_doc = Group::withTrashed()->find($group->id);
 
         
-
         $this->assertNull($exists_doc);
 
         $after_delete_children = $group->getChildren();
@@ -558,16 +536,15 @@ class CollectionsTest extends TestCase {
 
         // assert all childs are trashed
         $this->assertEquals(0, $after_delete_children->count());
-        
     }
 
     /**
      * @expectedException KlinkDMS\Exceptions\ForbiddenException
      */
-    public function testDocumentService_permanentlyDeleteGroup_forbidden(){
-
-        $user = $this->createUser( Capability::$PROJECT_MANAGER );
-        $user2 = $this->createUser( Capability::$PARTNER );
+    public function testDocumentService_permanentlyDeleteGroup_forbidden()
+    {
+        $user = $this->createUser(Capability::$PROJECT_MANAGER);
+        $user2 = $this->createUser(Capability::$PARTNER);
 
         $group = $this->createCollection($user, false);
 
@@ -576,60 +553,55 @@ class CollectionsTest extends TestCase {
         $service->deleteGroup($user, $group); // put doc in trash
 
         $is_deleted = $service->permanentlyDeleteDocument($group, $user2);
-        
     }
-
 
     /**
      * @expectedException Illuminate\Database\Eloquent\ModelNotFoundException
      */
-    public function testGroupForceDelete(){
-
-        $user = $this->createUser( Capability::$PROJECT_MANAGER);
+    public function testGroupForceDelete()
+    {
+        $user = $this->createUser(Capability::$PROJECT_MANAGER);
 
         $doc = $this->createCollection($user);
 
         \Session::start();
 
-        $url = route( 'documents.groups.destroy', ['id' => $doc->id, 
-                '_token' => csrf_token()] );
+        $url = route('documents.groups.destroy', ['id' => $doc->id,
+                '_token' => csrf_token()]);
         
         $this->actingAs($user);
 
-        $this->delete( $url );
+        $this->delete($url);
 
         $this->see('ok');
-		
-		$this->assertResponseStatus(202);
+        
+        $this->assertResponseStatus(202);
 
-        $url = route( 'documents.groups.destroy', [
-                'id' => $doc->id, 
-                'force' => true, 
-                '_token' => csrf_token()] );
+        $url = route('documents.groups.destroy', [
+                'id' => $doc->id,
+                'force' => true,
+                '_token' => csrf_token()]);
 
-        $this->delete( $url );
+        $this->delete($url);
 
         $this->see('ok');
-		
-		$this->assertResponseStatus(202);
+        
+        $this->assertResponseStatus(202);
 
         $doc = Group::withTrashed()->findOrFail($doc->id);
-
-
     }
 
-
-    public function testMoveFromPersonalToProject(){
-
+    public function testMoveFromPersonalToProject()
+    {
         $service = app('Klink\DmsDocuments\DocumentsService');
 
         $project = factory('KlinkDMS\Project')->create();
 
         $user = $this->createUser(Capability::$PROJECT_MANAGER);
         
-        $collection = $service->createGroup( $user, 'personal' );
-        $collection_under = $service->createGroup( $user, 'personal-sub-collection', null, $collection );
-        $collection_under2 = $service->createGroup( $user, 'personal-sub-sub-collection', null, $collection_under );
+        $collection = $service->createGroup($user, 'personal');
+        $collection_under = $service->createGroup($user, 'personal-sub-collection', null, $collection);
+        $collection_under2 = $service->createGroup($user, 'personal-sub-sub-collection', null, $collection_under);
 
         // move $collection under $project->collection()
 
@@ -638,34 +610,30 @@ class CollectionsTest extends TestCase {
 
         $collection_under = $collection_under->fresh();
 
-
         $this->assertFalse($collection->is_private);
         $this->assertFalse($collection_under->is_private);
         $this->assertNotNull($collection->parent_id);
 
         $this->assertEquals([false, false, false], $project->collection->getDescendants()->pluck('is_private')->toArray());
-
     }
 
-
-    public function testMoveFromProjectToPersonal(){
-
+    public function testMoveFromProjectToPersonal()
+    {
         $service = app('Klink\DmsDocuments\DocumentsService');
 
         $project = factory('KlinkDMS\Project')->create();
 
         $user = $this->createUser(Capability::$PROJECT_MANAGER);
         
-        $collection = $service->createGroup( $user, 'personal', null, $project->collection, false );
-        $collection_container = $service->createGroup( $user, 'personal-container', null );
-        $collection_under = $service->createGroup( $user, 'personal-sub-collection', null, $collection, false );
-        $collection_under2 = $service->createGroup( $user, 'personal-sub-sub-collection', null, $collection_under, false );
+        $collection = $service->createGroup($user, 'personal', null, $project->collection, false);
+        $collection_container = $service->createGroup($user, 'personal-container', null);
+        $collection_under = $service->createGroup($user, 'personal-sub-collection', null, $collection, false);
+        $collection_under2 = $service->createGroup($user, 'personal-sub-sub-collection', null, $collection_under, false);
 
         $service->makeGroupPrivate($user, $collection);
         $service->moveGroup($user, $collection, $collection_container);
 
         $collection_under = $collection_under->fresh();
-
 
         $this->assertTrue($collection->is_private);
         $this->assertTrue($collection_under->is_private);
@@ -673,7 +641,5 @@ class CollectionsTest extends TestCase {
         $this->assertEquals(0, $project->collection->getDescendants()->count());
 
         $this->assertEquals([true, true, true], $collection_container->getDescendants()->pluck('is_private')->toArray());
-
     }
-       
 }

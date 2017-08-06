@@ -3,40 +3,36 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateUserOptionsTable extends Migration {
+class CreateUserOptionsTable extends Migration
+{
 
-	/**
-	 * Run the migrations.
-	 *
-	 * @return void
-	 */
-	public function up()
-	{
-		Schema::create('user_options', function(Blueprint $table)
-		{
-			$table->bigIncrements('id');
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('user_options', function (Blueprint $table) {
+            $table->bigIncrements('id');
 
-			$table->string('key')->unique();
+            $table->string('key')->unique();
 
-			$table->string('value')->nullable();
+            $table->string('value')->nullable();
 
+            $table->bigInteger('user_id')->unsigned();
 
+            $table->foreign('user_id')->references('id')->on('users');
+        });
+    }
 
-			$table->bigInteger('user_id')->unsigned();
-
-			$table->foreign('user_id')->references('id')->on('users');
-
-		});
-	}
-
-	/**
-	 * Reverse the migrations.
-	 *
-	 * @return void
-	 */
-	public function down()
-	{
-		Schema::drop('user_options');
-	}
-
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('user_options');
+    }
 }

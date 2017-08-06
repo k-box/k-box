@@ -1,46 +1,5 @@
 
-.profile {
-	// display: inline-block;
-}
-
-.profile-pic {
-
-	border-radius: 48px;
-	.square(48px);
-	overflow: hidden;
-
-	background-color: #222;
-
-	display: inline-block;
-
-	img {
-		.square(48px);
-	}
-
-	&.inline {
-		display: inline-block;
-		float: left;
-		margin-right: 6px;
-	}
-
-	.initials {
-		.h4-typography;
-		color: #fff;
-		.square(48px);
-		text-align: center;
-		line-height: 48px;
-		vertical-align: middle;
-		display: inline-block;
-	}
-
-}
-
-.top-header {
-	.profile-pic {
-		border-radius: 0;
-	}
-}
-
+// User avatar -----------------------
 
 .avatar {
 	
@@ -48,61 +7,87 @@
 
 	display: inline-block;
 
-	.user-type, .user-name {
-		margin-right: 12px;
-	}
+	border-radius: 40px;
 
-	.user-type {
-		font-weight: 400;
-		max-width: 200px;
-		.text-truncate();
+	.square(40px);
 
-	}
+	overflow: hidden;
 
-	.user-name {
-		font-weight: 600;
-		// display: block;
-	}
+	background-color: @brand-dark-gray;
 
-	.profile {
-		display: none;
-		
-		position: absolute;
-		width: 200px;
-		height: 48px;
+	flex-basis: 40px;
+	flex-shrink: 0;
 
-		// padding: 6px;
-
-		left:-200px;
-
-		text-align: right;
-
-		background-color: darken(@darken-accent-color, 5%);
-		
-		color: #fff;
-		
-		.box-sizing(border-box);
-
-		cursor: default;
-	}
-
-
-	&:hover {
-
-		background-color: darken(@darken-accent-color, 5%);
-
-		.profile {
-
-			display: inline-block;
-		}
-
-		.profile-pic {
-			// padding: 5px;
-			// position: absolute;
-		}
-
-	}
 }
+
+.avatar--inline {
+	display: inline;
+}
+
+.avatar--small {
+	.square(24px);
+	border-radius: 24px;
+}
+
+.avatar--large {
+	.square(80px);
+	border-radius: 80px;
+}
+
+.avatar__image {
+
+	.square(100%);
+
+	display: inline-block;
+}
+
+.avatar__icon {
+
+	fill: @brand-light-gray;
+
+	.square(80%);
+
+	padding: 10%;
+	
+
+}
+
+.avatar__initials {
+	font-size:24px;
+	color: #fff;
+	.square(100%);
+	text-align: center;
+	line-height: 1.5;
+	vertical-align: middle;
+	display: inline-block;
+}
+
+.avatar--small .avatar__initials {
+	font-size: 12px;
+}
+
+.avatar--large .avatar__initials {
+	font-size: 40px;
+}
+
+.avatar__label {
+	margin-left: 16px;
+}
+
+.avatar-container {
+	display: flex;
+	align-items: center
+}
+
+.ie .avatar-container {
+	display: block;
+}
+
+.ie .avatar__label {
+	display: inline-block;
+}
+
+// Project avatar -----------------------
 
 .project-avatar-container {
 	.columns {

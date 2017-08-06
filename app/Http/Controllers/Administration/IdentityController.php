@@ -18,23 +18,21 @@ class IdentityController extends Controller
     | Contacts Controller
     |--------------------------------------------------------------------------
     |
-    | Handle the configuration for the K-Box identity to be 
+    | Handle the configuration for the K-Box identity to be
     | used on the contacts page.
     |
     */
-
 
     /**
     * Create a new controller instance.
     *
     * @return void
     */
-    public function __construct() {
-
+    public function __construct()
+    {
         $this->middleware('auth');
 
         $this->middleware('capabilities');
-
     }
 
     /**
@@ -47,7 +45,7 @@ class IdentityController extends Controller
         $contacts = Option::sectionAsArray('contact');
 
         $are_contacts_configured = Option::areContactsConfigured();
-		
+        
 
         // if the institution is configured and the contacts not, then grab the info from the local institution cache to suggest a possible autocomplete for the information
         // check only the local institutions table, do not attempt to connect to the K-Link Public Network
@@ -55,12 +53,10 @@ class IdentityController extends Controller
         $institution_id = \Config::get('dms.institutionID');
         $inst = null;
 
-        if(!is_null($institution_id) && !empty($institution_id) && !$are_contacts_configured)
-        {
-		    $inst = Institution::findByKlinkID($institution_id);
+        if (! is_null($institution_id) && ! empty($institution_id) && ! $are_contacts_configured) {
+            $inst = Institution::findByKlinkID($institution_id);
 
-            if(!is_null($inst))
-            {
+            if (! is_null($inst)) {
                 $contacts = [
                     'contact' => [
                         "name" => $inst->name,
@@ -91,29 +87,22 @@ class IdentityController extends Controller
     */
     public function store(ContactsSaveRequest $request)
     {
+        try {
+            $done = \DB::transaction(function () use ($request) {
+                $fields = $request->only(['name','email','phone','website','image','address_street','address_locality','address_country','address_zip']);
 
-        try{
-
-            $done = \DB::transaction(function() use($request)
-            {
-                $fields = $request->only(array('name','email','phone','website','image','address_street','address_locality','address_country','address_zip'));
-
-                foreach($fields as $field => $value)
-                {
-                    Option::put('contact.' . $field, e($value));
+                foreach ($fields as $field => $value) {
+                    Option::put('contact.'.$field, e($value));
                 }
 
                 return true;
             });
 
             
-
             return redirect()->route('administration.identity.index')->with([
                 'flash_message' => trans('administration.identity.contact_info_updated')
             ]);
-
-        }catch(\Exception $ex){
-
+        } catch (\Exception $ex) {
             \Log::error('Identity store error', ['error' => $ex, 'request' => $request->all()]);
 
             return redirect()->back()->withInput()->withErrors([
@@ -121,5 +110,4 @@ class IdentityController extends Controller
             ]);
         }
     }
-
 }

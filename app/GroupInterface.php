@@ -1,4 +1,5 @@
 <?php
+
 namespace KlinkDMS;
 
 use Franzose\ClosureTable\Contracts\EntityInterface;

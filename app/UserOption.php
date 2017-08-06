@@ -1,10 +1,12 @@
-<?php namespace KlinkDMS;
+<?php
+
+namespace KlinkDMS;
 
 use Illuminate\Database\Eloquent\Model;
 
 /**
  * The User attached preferences
- * 
+ *
  * Fields:
  * - id: bigIncrements
  * - user_id: User,
@@ -23,8 +25,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\UserOption whereValue($value)
  * @mixin \Eloquent
  */
-class UserOption extends Model {
-
+class UserOption extends Model
+{
 
     /**
      * The database table used by the model.
@@ -46,7 +48,7 @@ class UserOption extends Model {
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function user()
-    {    
+    {
         return $this->hasOne('KlinkDMS\User');
     }
 
@@ -59,7 +61,6 @@ class UserOption extends Model {
      */
     public function scopeOption($query, $key)
     {
-        return $query->whereKey($key);
+        return $query->where('key', $key);
     }
-
 }

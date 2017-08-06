@@ -24,12 +24,12 @@ class SpreadsheetPreview implements PreviewContract
      */
     private $spreadsheet = null;
     
-    function __construct()
+    public function __construct()
     {
     }
 
-    function load($path){
-
+    public function load($path)
+    {
         $this->path = $path;
 
         $this->spreadsheet = IOFactory::load($this->path);
@@ -41,21 +41,19 @@ class SpreadsheetPreview implements PreviewContract
 
     public function css()
     {
-
         return $this->writer->generateStyles(true);
     }
 
     public function html()
     {
-        return sprintf('<div class="preview__render preview__render--spreadsheet">%1$s</div>', 
+        return sprintf('<div class="preview__render preview__render--spreadsheet">%1$s</div>',
                 $this->writer->generateSheetData());
     }
-
 
     /**
      * Build the sheet list for navigation purposes
      */
-    function getNavigation()
+    public function getNavigation()
     {
 
         // Fetch sheets
@@ -70,7 +68,7 @@ class SpreadsheetPreview implements PreviewContract
             $sheetId = 0;
 
             foreach ($sheets as $sheet) {
-                $html .= '<a href="#sheet' . $sheetId . '">' . $sheet->getTitle() . '</a>' . PHP_EOL;
+                $html .= '<a href="#sheet'.$sheetId.'">'.$sheet->getTitle().'</a>'.PHP_EOL;
                 ++$sheetId;
             }
         }
@@ -82,7 +80,6 @@ class SpreadsheetPreview implements PreviewContract
 
     public function properties()
     {
-
         $properties = $this->spreadsheet->getProperties();
 
         $prop = new FileProperties();
@@ -98,9 +95,7 @@ class SpreadsheetPreview implements PreviewContract
              ->setCompany(e($properties->getCompany()));
         
         return $prop;
-
     }
-
 
     public function supportedMimeTypes()
     {

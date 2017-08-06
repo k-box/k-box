@@ -1,8 +1,175 @@
 
+
+.navigation {
+
+    .hint--bottom:after {
+        width: 180px;
+        white-space: normal;
+        text-align: center;
+    }
+
+}
+
+.navigation__item {
+    // margin: 0 0 8px;
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    padding: @base-padding;
+    min-height: 24px;
+    box-sizing: border-box;
+}
+
+.navigation--primary .navigation__item {
+    display: inline-block;
+    width: auto;
+}
+
+
+
+.navigation__item--link {
+    display: block;
+    position: relative;
+
+    color: @text-color;
+    fill: currentColor;
+
+    transition: color 0.2s cubic-bezier(0.19, 1, 0.22, 1), background 0.4s cubic-bezier(0.19, 1, 0.22, 1), fill 0.2s cubic-bezier(0.19, 1, 0.22, 1);
+
+    &:hover {
+        color: @accent-color;
+        background: darken(@background-color, 6%);
+    }
+
+    &:active, &:focus {
+        background: @accent-color;
+        color: #fff;
+    }
+}
+
+.navigation__item--current {
+    font-weight: 700;
+    border-bottom: 1px solid @accent-color;
+    color: @accent-color;
+}
+
+.navigation--primary .navigation__item--current {
+    border: 0;
+}
+
+.navigation__item__icon {
+    vertical-align: text-bottom;
+    margin-right: 8px;
+}
+
+
+
+.navigation--tree {
+
+}
+
+.navigation__expander {
+    display: inline-block;
+    cursor: pointer;
+    width:22px;
+    height:24px;
+    padding: 0;
+    position: relative;
+    vertical-align: text-bottom;
+    margin-left: -(@base-padding/2);
+
+    // reset to remove button styles
+    background: none;
+    border: 0;
+
+    &:hover, &:focus {
+        background: @accent-color;
+        fill: #fff;
+    }
+    
+    &:active {
+        background: @brand-orange;
+        fill: #fff;
+    }
+}
+
+.navigation__expand, .navigation__collapse {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.navigation__collapse {
+    opacity: 0;
+}
+
+.navigation__expander--expanded {
+    .navigation__expand {
+        opacity: 0;
+    }
+    
+    .navigation__collapse {
+        opacity: 1;
+    }
+}
+
+.navigation__expander--hidden {
+    display: none;
+}
+
+.navigation__expander--collapsed {
+
+    .navigation__expand {
+        opacity: 1;
+    }
+    
+    .navigation__collapse {
+        opacity: 0;
+    }
+
+}
+
+.navigation__expandable .navigation__spacer {
+    padding-left: @base-padding;
+    box-sizing: border-box;
+}
+
+.navigation__expandable--expanded {
+    display: initial
+}
+
+.navigation__expandable--collapsed {
+    display: none
+}
+
+.navigation__color-badge {
+    height: 24px;
+    padding: 4px 0;
+    box-sizing: border-box;
+    width: 4px;
+    display: inline-block;
+    vertical-align: text-bottom;
+    margin-right: @base-padding/2;
+}
+
+.navigation__actions {
+    float: right
+}
+
+.navigation__action {
+    border: 0;
+    background: none;
+
+    &:hover, &:focus {
+        fill: @accent-color;
+    }
+}
+
+
 .navigation-admin {
 
     margin: 16px 0 0;
-    padding: 0;
+    padding: 0 8px;
 
     list-style: none
 

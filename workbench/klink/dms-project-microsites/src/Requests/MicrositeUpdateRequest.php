@@ -1,34 +1,35 @@
-<?php namespace Klink\DmsMicrosites\Requests;
+<?php
 
-use KlinkDMS\Http\Requests\Request;
-use Illuminate\Contracts\Auth\Guard;
+namespace Klink\DmsMicrosites\Requests;
+
+use Illuminate\Foundation\Http\FormRequest as Request;
 use KlinkDMS\Capability;
 use Klink\DmsMicrosites\Microsite;
 
-class MicrositeUpdateRequest extends Request {
+class MicrositeUpdateRequest extends Request
+{
 
-	/**
-	 * Get the validation rules that apply to the request.
-	 *
-	 * @return array
-	 */
-	public function rules()
-	{
-        
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
+     */
+    public function rules()
+    {
         $microsite_id = $this->route('microsites');
 
-		$tests = [
+        $tests = [
             'title' => 'bail|required|string|not_array',
-            'slug' => array('bail', 'required','string', 'not_array','regex:/^(?!create)[a-z\\-]+/','unique:microsites,slug,' . $microsite_id),
+            'slug' => ['bail', 'required','string', 'not_array','regex:/^(?!create)[a-z\\-]+/','unique:microsites,slug,'.$microsite_id],
             'description' => 'bail|sometimes|string|not_array',
-            'logo' => 'bail|sometimes|string|not_array|url|regex:/^https/',
-            'hero_image' => 'bail|sometimes|not_array|string|url|regex:/^https/',
+            'logo' => 'bail|nullable|sometimes|string|not_array|url|regex:/^https/',
+            'hero_image' => 'bail|nullable|sometimes|not_array|string|url|regex:/^https/',
             'default_language' => 'bail|sometimes|not_array|required|string|regex:/^[a-z]{2}$/',
             'content' => 'bail|required|array',
             'menu' => 'bail|sometimes|required|array'
-		];
+        ];
         
-        /* 
+        /*
             content is a key-value array: key = language code, value MicrositeContent details
             $example = [
                 'en' => [
@@ -42,38 +43,35 @@ class MicrositeUpdateRequest extends Request {
         
         
 
-		return $tests;
-	}
+        return $tests;
+    }
 
-	/**
-	 * Determine if the user is authorized to make this request.
-	 *
-	 * @return bool
-	 */
-	public function authorize()
-	{
+    /**
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
+    public function authorize()
+    {
         // user must be a project admin
         // user must be the same as the project owner
       
         $user = $this->user();
         
-        if( !$user->can_capability(Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH) ){
+        if (! $user->can_capability(Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH)) {
             return false;
         }
         
-        $microsite_id = $this->route('microsites');
+        $microsite_id = $this->route('microsite');
         
-        try{
-            
+        try {
             $prj = Microsite::findOrFail($microsite_id);
             
             return $prj->user_id === $user->id;
-            
-        }catch(\Exception $e){
+        } catch (\Exception $e) {
             return false;
         }
         
-		return false;
-	}
-
+        return false;
+    }
 }

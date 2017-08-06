@@ -1,16 +1,13 @@
 <?php
 
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\BrowserKitTestCase;
 use Content\Preview\GoogleDrivePreview;
 
-class GoogleDrivePreviewTest extends TestCase
+class GoogleDrivePreviewTest extends BrowserKitTestCase
 {
-    
     public function testConvertGDocToHtml()
     {
-        $path = __DIR__ . '/data/example-file.gdoc';
+        $path = __DIR__.'/data/example-file.gdoc';
 
         $preview = (new GoogleDrivePreview())->load($path);
         $html = $preview->html();
@@ -28,7 +25,7 @@ class GoogleDrivePreviewTest extends TestCase
     
     public function testConvertGSlidesToHtml()
     {
-        $path = __DIR__ . '/data/example-presentation.gslides';
+        $path = __DIR__.'/data/example-presentation.gslides';
 
         $preview = (new GoogleDrivePreview())->load($path);
         $html = $preview->html();
@@ -46,7 +43,7 @@ class GoogleDrivePreviewTest extends TestCase
     
     public function testConvertGSheetToHtml()
     {
-        $path = __DIR__ . '/data/example-spreadsheet.gsheet';
+        $path = __DIR__.'/data/example-spreadsheet.gsheet';
 
         $preview = (new GoogleDrivePreview())->load($path);
         $html = $preview->html();
@@ -61,5 +58,4 @@ class GoogleDrivePreviewTest extends TestCase
         $this->assertContains(trans('documents.preview.google_file_disclaimer_alt'), $html);
         $this->assertContains('preview__render preview__render--googledrive', $html);
     }
-    
 }

@@ -1,4 +1,6 @@
-<?php namespace Content\Services;
+<?php
+
+namespace Content\Services;
 
 use Content\Preview\PreviewFactory;
 
@@ -14,7 +16,7 @@ class PreviewService
      * Load a file and return the correspondent preview renderer
      *
      * @param string $path the path of the file
-     * @param string $extesion (optional) The file extension, if cannot be deducted from the $path. 
+     * @param string $extesion (optional) The file extension, if cannot be deducted from the $path.
      *                         If specified will be used to find the correct preview renderer
      * @return Content\Contract\Preview
      * @throws PreviewGenerationException if an error occurred during the preview generation
@@ -24,7 +26,6 @@ class PreviewService
     {
         return PreviewFactory::load($path, $extension);
     }
-
 
     /**
      * Check if a file is supported by the preview system
@@ -36,5 +37,4 @@ class PreviewService
     {
         return PreviewFactory::isFileSupported($path);
     }
-
 }

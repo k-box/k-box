@@ -1,39 +1,39 @@
-<?php namespace KlinkDMS\Http\Requests;
+<?php
 
-use KlinkDMS\Http\Requests\Request;
-use Illuminate\Contracts\Auth\Guard;
+namespace KlinkDMS\Http\Requests;
 
-class ProjectRequest extends Request {
+use Illuminate\Foundation\Http\FormRequest as Request;
 
-	/**
-	 * Get the validation rules that apply to the request.
-	 *
-	 * @return array
-	 */
-	public function rules()
-	{
+class ProjectRequest extends Request
+{
 
-		$action = $this->route()->getAction();
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
+     */
+    public function rules()
+    {
+        $action = $this->route()->getAction();
 
-		$tests = [
-			'name' => 'required|string',
-			'description' => 'sometimes|string',
-			'users' => 'required|array|exists:users,id',
-			'manager' => 'required|exists:users,id',
-			'avatar' => 'sometimes|required|image|max:200'
-		];
+        $tests = [
+            'name' => 'required|string',
+            'description' => 'nullable|sometimes|string',
+            'users' => 'required|array|exists:users,id',
+            'manager' => 'required|exists:users,id',
+            'avatar' => 'nullable|sometimes|required|image|max:200'
+        ];
 
-		return $tests;
-	}
+        return $tests;
+    }
 
-	/**
-	 * Determine if the user is authorized to make this request.
-	 *
-	 * @return bool
-	 */
-	public function authorize()
-	{
-		return true;
-	}
-
+    /**
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
+    public function authorize()
+    {
+        return true;
+    }
 }

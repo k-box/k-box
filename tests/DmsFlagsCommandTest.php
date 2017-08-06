@@ -1,16 +1,11 @@
 <?php
 
-use Laracasts\TestDummy\Factory;
-use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Collection;
 
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Support\Facades\Artisan;
+
+use Tests\BrowserKitTestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-use Symfony\Component\Console\Tester\CommandTester;
-
-use Illuminate\Foundation\Application;
 use KlinkDMS\Console\Commands\DmsFlagsCommand;
 
 use KlinkDMS\Traits\RunCommand;
@@ -20,14 +15,15 @@ use KlinkDMS\Flags;
 /*
  * Test the KlinkDMS\Console\Commands\DmsFlagsCommand artisan console command
 */
-class DmsFlagsCommandTest extends TestCase {
-    
+class DmsFlagsCommandTest extends BrowserKitTestCase
+{
     use DatabaseTransactions, RunCommand;
 
     /**
      * Data provider with valid Flag names
      */
-    public function valid_flags_provider(){
+    public function valid_flags_provider()
+    {
         return [
             ['unifiedsearch']
         ];
@@ -36,7 +32,8 @@ class DmsFlagsCommandTest extends TestCase {
     /**
      * Data provider for the flag constant names
      */
-    public function valid_constant_flags_provider(){
+    public function valid_constant_flags_provider()
+    {
         return [
             ['UNIFIED_SEARCH']
         ];
@@ -45,7 +42,8 @@ class DmsFlagsCommandTest extends TestCase {
     /**
      * Data provider with unacceptable Flag names
      */
-    public function invalid_flags_provider(){
+    public function invalid_flags_provider()
+    {
         return [
             [''],
             ['string'],
@@ -62,8 +60,8 @@ class DmsFlagsCommandTest extends TestCase {
      * @expectedException     InvalidArgumentException
      * @expectedExceptionMessage Option --enable and --disable cannot be used together.
      */
-    public function testExecutionWithEnableAndDisable(){
-
+    public function testExecutionWithEnableAndDisable()
+    {
         $command = new DmsFlagsCommand();
         
         $res = $this->runArtisanCommand($command, [
@@ -71,28 +69,26 @@ class DmsFlagsCommandTest extends TestCase {
             '--disable' => true,
             'flag' => 'unifiedsearch',
         ]);
-
     }
     
     /**
      * @dataProvider invalid_flags_provider
      * @expectedException     InvalidArgumentException
      */
-    public function testExecutionWithInvalidFlagNames($flag){
-
+    public function testExecutionWithInvalidFlagNames($flag)
+    {
         $command = new DmsFlagsCommand();
         
         $res = $this->runArtisanCommand($command, [
             'flag' => $flag,
         ]);
-
     }
 
     /**
      * @dataProvider valid_flags_provider
      */
-    public function testExecutionWithoutOptions($flag){
-
+    public function testExecutionWithoutOptions($flag)
+    {
         $command = new DmsFlagsCommand();
         
         // assume disabled, after first run must be enabled
@@ -117,8 +113,8 @@ class DmsFlagsCommandTest extends TestCase {
     /**
      * @dataProvider valid_flags_provider
      */
-    public function testExecutionWithEnableOption($flag){
-
+    public function testExecutionWithEnableOption($flag)
+    {
         $command = new DmsFlagsCommand();
 
         $res = $this->runArtisanCommand($command, [
@@ -128,14 +124,13 @@ class DmsFlagsCommandTest extends TestCase {
 
         $this->assertTrue(Flags::isEnabled($flag));
         $this->assertFalse(Flags::isDisabled($flag));
-
     }
     
     /**
      * @dataProvider valid_flags_provider
      */
-    public function testExecutionWithDisableOption($flag){
-
+    public function testExecutionWithDisableOption($flag)
+    {
         $command = new DmsFlagsCommand();
 
         $res = $this->runArtisanCommand($command, [
@@ -145,30 +140,26 @@ class DmsFlagsCommandTest extends TestCase {
 
         $this->assertFalse(Flags::isEnabled($flag));
         $this->assertTrue(Flags::isDisabled($flag));
-
     }
 
-    public function testFlagsHelperReturnValue(){
-
+    public function testFlagsHelperReturnValue()
+    {
         $this->assertTrue(function_exists('flags'));
 
         $ret = flags();
 
         $this->assertInstanceOf(Flags::class, $ret);
-
     }
 
     /**
      * @dataProvider valid_constant_flags_provider
      */
-    public function testFlagsHelperMagicIsEnabled($flag_constant_name){
-
-        $function_name = 'is' . studly_case($flag_constant_name) . 'Enabled'; 
+    public function testFlagsHelperMagicIsEnabled($flag_constant_name)
+    {
+        $function_name = 'is'.studly_case($flag_constant_name).'Enabled';
 
         $ret = flags()->{$function_name}();
 
-        $this->assertFalse($ret);
-
+        $this->assertTrue($ret);
     }
-
 }

@@ -2,14 +2,10 @@
 
 namespace KlinkDMS\Http\Controllers;
 
-
-
 use KlinkDMS\PublicLink;
 use KlinkDMS\Shared;
 use KlinkDMS\DocumentDescriptor;
 use KlinkDMS\RoutingHelpers;
-
-use KlinkDMS\Http\Requests;
 
 class PublicLinksShowController extends Controller
 {
@@ -17,7 +13,6 @@ class PublicLinksShowController extends Controller
     {
         $this->middleware('guest');
     }
-
 
     public function show($link)
     {
@@ -27,27 +22,20 @@ class PublicLinksShowController extends Controller
 
         $public_link = null;
 
-        if(is_integer($link))
-        {
+        if (is_integer($link)) {
             $public_link = PublicLink::findOrFail($link);
-        }
-        else {
+        } else {
             $public_link = PublicLink::where('slug', $link)->first();
 
-            if(is_null($public_link)){
-
+            if (is_null($public_link)) {
                 $by_token = Shared::token($link)->first();
-                $public_link = !is_null($by_token) ? $by_token->sharedwith : null;
-
+                $public_link = ! is_null($by_token) ? $by_token->sharedwith : null;
             }
         }
-        if(!is_null($public_link) && !is_null($public_link->share) && !$public_link->isExpired())
-        {
-
+        if (! is_null($public_link) && ! is_null($public_link->share) && ! $public_link->isExpired()) {
             $share = $public_link->share->shareable;
 
-            if($share instanceof DocumentDescriptor)
-            {
+            if ($share instanceof DocumentDescriptor) {
                 $url = RoutingHelpers::preview($share);
 
                 return redirect($url);
@@ -55,7 +43,6 @@ class PublicLinksShowController extends Controller
 
             \App::abort(404, 'Collections are not yet supported.');
         }
-
 
         \App::abort(404, trans('errors.document_not_found'));
     }

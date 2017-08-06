@@ -4,16 +4,18 @@ define("modules/panels", ["jquery", "DMS", "combokeys", "language"], function ($
 
 	var _available_panels = undefined, _visible = false;
 
-	var _opened_panels = undefined, _opened_dialog = undefined, _opened_panel_id = undefined, _opened_dialog_id = undefined, _panel_cache = undefined, _dialog_cache = undefined;
+	var _opened_panels = undefined, 
+		_opened_dialog = undefined, 
+		_opened_panel_id = undefined, 
+		_opened_dialog_id = undefined,
+		_panelContent = null;
 
 	var keyb = new _combokeys(document); //TODO: optimize this
 
 	var _dialogClosingCallback = undefined;
 
 
-	var panel_template = '<div class="panel"><a href="#close" title="' + Lang.trans('panels.close_btn') + '" class="close icon-navigation-black icon-navigation-black-ic_close_black_24dp"></a><div id="inner">' + Lang.trans('panels.loading_message') + '</div></div>',
-		dialog_template = '<div class="dialog js-dialog"><a href="#close" title="'+ Lang.trans('panels.close_btn') +'" class="js-cancel dialog__close close icon-navigation-black icon-navigation-black-ic_close_black_24dp"></a><div class="dialog__content js-dialog-content">' + Lang.trans('panels.loading_message') + '</div></div>',
-		panel_error_content = '<a href="#close" title="' + Lang.trans('panels.close_btn') + '" class="close icon-navigation-white icon-navigation-white-ic_close_white_24dp"></a><div class="header"><h4 class="title">%title%</h4></div><p>%message%</p>';
+	var panel_error_content = '<a href="#close" title="' + Lang.trans('panels.close_btn') + '" class="close icon-navigation-white icon-navigation-white-ic_close_white_24dp"></a><div class="header"><h4 class="title">%title%</h4></div><p>%message%</p>';
 
 
 	function _initialize(template){
@@ -23,16 +25,20 @@ define("modules/panels", ["jquery", "DMS", "combokeys", "language"], function ($
 
 	function _getPanel(){
 
-		var $modal = $('.panel');
+		var $modal = $('.js-panel');
 
-		if (!$modal) {
-			_initialize(panel_template);
-			$modal = _getPanel();
+		if($modal){
+			_panelContent = $modal.find('.js-panel-content');
 		}
 
-		if(!_panel_cache){
-			_panel_cache = $('.js-panel-cache');
-		}
+		// if (!$modal) {
+		// 	_initialize(panel_template);
+		// 	$modal = _getPanel();
+		// }
+
+		// // if(!_panel_cache){
+		// // 	_panel_cache = $('.js-panel-cache');
+		// }
 
 		return $modal;
 
@@ -42,14 +48,10 @@ define("modules/panels", ["jquery", "DMS", "combokeys", "language"], function ($
 
 		var $modal = $('.js-dialog');
 
-		if (!$modal) {
-			_initialize(dialog_template);
-			$modal = _getDialog();
-		}
-
-		if(!_dialog_cache){
-			_dialog_cache = $('.js-dialog-cache');
-		}
+		// if (!$modal) {
+		// 	_initialize(dialog_template);
+		// 	$modal = _getDialog();
+		// }
 
 		return $modal;
 
@@ -82,10 +84,6 @@ define("modules/panels", ["jquery", "DMS", "combokeys", "language"], function ($
 
 
 	function _formPostCallback(evt){
-		
-		//TODO: identify the panel
-
-		// console.log("Form submit", this, evt);
 
 		var $form = $(this);
 
@@ -111,7 +109,7 @@ define("modules/panels", ["jquery", "DMS", "combokeys", "language"], function ($
 		console.log("Click callback", this, evt);
 
 		var that = $(this),
-			panel = that.parents('.panel').find('h4.title'),
+			panel = that.parents('.js-panel').find('h4.title'),
 			data = that.data();
 		
 		if(panel.length > 0){
@@ -126,7 +124,6 @@ define("modules/panels", ["jquery", "DMS", "combokeys", "language"], function ($
 
 	function _formDialogPostCallback(evt){
 		
-		// console.log("Form submit", this, evt);
 
 		var $form = $(this);
 
@@ -147,7 +144,7 @@ define("modules/panels", ["jquery", "DMS", "combokeys", "language"], function ($
 
 				console.log(obj.responseJSON);
 
- 				var html = '<div class="alert error">';
+ 				var html = '<div class="c-message c-message--error">';
 
  				$.each(obj.responseJSON, function(index, el){
 
@@ -164,7 +161,7 @@ define("modules/panels", ["jquery", "DMS", "combokeys", "language"], function ($
             else {
             	console.log('Error', err, text);
 				
-            	var html = '<div class="alert error">';
+            	var html = '<div class="c-message c-message--error">';
 
             	if(obj.responseJSON && obj.responseJSON.error){
 
@@ -200,15 +197,15 @@ define("modules/panels", ["jquery", "DMS", "combokeys", "language"], function ($
 	var module = {
 
 		showProgress: function(id){
-			_opened_panels.html( Lang.trans('panels.loading_message') );
+			_panelContent.html( Lang.trans('panels.loading_message') );
 		},
 
 		showError: function(id){
-			_opened_panels.html(newContent);
+			_panelContent.html(newContent);
 		},
 
 		updateContent: function(id, newContent){
-			_opened_panels.html(newContent);
+			_panelContent.html(newContent);
 			if(newContent.indexOf(Lang.trans('panels.loading_message')) === -1){
             	_opened_panels.trigger('dms:panel-loaded', [_opened_panels]);
 			}
@@ -277,23 +274,18 @@ define("modules/panels", ["jquery", "DMS", "combokeys", "language"], function ($
 
 			options = $.extend(default_options, options);
 
-			// console.log(options);
-
 			_opened_panels = _getPanel();
 				
-			_opened_panels.addClass('visible');
-			_panel_cache.addClass('visible');
+			_opened_panels.addClass('c-panel--visible');
 			
 			keyb.bind('esc', module.closeAll);
 
-			_opened_panels.on('click', 'a.close', _closeBtnCallback);
+			_opened_panels.on('click', '.js-panel-close', _closeBtnCallback);
 			_opened_panels.on('submit', 'form', _formPostCallback);
 
 			_opened_panels.on('click', '[data-action]', _clickCallback);
 
 			_opened_panels.on('dms:panel-click', options.callbacks.click);
-
-			_panel_cache.on('click', _closeBtnCallback);
             
             _opened_panels.trigger('dms:panel-open', [_opened_panels]);
 
@@ -308,47 +300,34 @@ define("modules/panels", ["jquery", "DMS", "combokeys", "language"], function ($
 		close: function(id){
 
 			if(module.isOpened(id)){
-				_opened_panels.removeClass('visible');
-				_opened_panels.off('click', 'a.close', _closeBtnCallback);
+				_opened_panels.removeClass('c-panel--visible');
+				_opened_panels.off('click', '.js-panel-close', _closeBtnCallback);
 				_opened_panels.off('submit', 'form', _formPostCallback);
 				_opened_panels.off('click', '[data-action]', _clickCallback);
 				_opened_panels.off('dms:panel-click');
 				_opened_panels = undefined;
+				_panelContent = null;
 				keyb.unbind('esc');
-				_panel_cache.off('click', _closeBtnCallback);
 
 				_opened_panel_id = undefined;
-				_panel_cache.removeClass('visible');
 			}
 
 		},
 
 		closeAll: function(){
 
-			_opened_panels.removeClass('visible');
-			_opened_panels.off('click', 'a.close', _closeBtnCallback);
+			_opened_panels.removeClass('c-panel--visible');
+			_opened_panels.off('click', '.js-panel-close', _closeBtnCallback);
 			_opened_panels.off('submit', 'form', _formPostCallback);
 			_opened_panels.off('click', '[data-action]', _clickCallback);
 			_opened_panels.off('dms:panel-click');
 			_opened_panels = undefined;
-			_panel_cache.removeClass('visible');
-			_panel_cache.off('click', _closeBtnCallback);
+			_panelContent = null;
 
 			keyb.unbind('esc');
 
 			_opened_panel_id = undefined;
 
-			// $.each(_opened_panels, function(index, el){
-			// 	el.removeClass('visible');
-			// 	el.off('click', 'a.close', _closeBtnCallback);
-			// 	el.off('submit', 'form', _formPostCallback);
-			// 	el.off('click', '[data-action]', _clickCallback);
-			// 	// el.off('dms:panel:click');
-			// 	delete _opened_panels[index];
-			// });
-
-			
-			
 		},
 
 		/**
@@ -375,16 +354,11 @@ define("modules/panels", ["jquery", "DMS", "combokeys", "language"], function ($
 
 			_opened_dialog = _getDialog();
 
-			if(_dialog_cache){
-				_dialog_cache.addClass('visible');
-				_dialog_cache.on('click', _closeDialogBtnCallback);
-			}
-
 			keyb.bind('esc', module.dialogClose);
 
 			console.log('Opening dialog', _opened_dialog);
 
-			_opened_dialog.addClass('dialog--visible');
+			_opened_dialog.addClass('c-dialog--visible');
 
 			_opened_dialog.on('click', '.js-cancel', _closeDialogBtnCallback);
 
@@ -432,8 +406,7 @@ define("modules/panels", ["jquery", "DMS", "combokeys", "language"], function ($
 			_opened_dialog.removeClass('dialog--visible');
 
 			keyb.unbind('esc');
-			_dialog_cache.off('click', _closeDialogBtnCallback);
-			_dialog_cache.removeClass('visible');
+			_opened_dialog.removeClass('c-dialog--visible');
 
 			_opened_dialog.off('click', '.js-cancel', _closeDialogBtnCallback);
 

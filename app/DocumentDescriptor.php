@@ -1,11 +1,12 @@
-<?php namespace KlinkDMS;
+<?php
+
+namespace KlinkDMS;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use KlinkDMS\Starred;
 use Carbon\Carbon;
-use LocalizedDate;
 use KlinkDMS\Traits\LocalizableDateFields;
+use Dyrynda\Database\Support\GeneratesUuid;
 
 /**
  * A Document Descriptor
@@ -31,7 +32,7 @@ use KlinkDMS\Traits\LocalizableDateFields;
  * @property int $file_id the reference to the File
  * @property int $owner_id the reference to the User that created the descriptor
  * @property int $status the status of the descriptor in the K-Box
- * @property bool $is_public 
+ * @property bool $is_public
  * @property string $last_error
  * @property-read \KlinkDMS\File $file The last version of the document, described by this document descriptor
  * @property-read \Franzose\ClosureTable\Extensions\Collection|\KlinkDMS\Group[] $groups the collections in which this document is categorized
@@ -76,9 +77,9 @@ use KlinkDMS\Traits\LocalizableDateFields;
  * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\DocumentDescriptor withVisibility($visibility) {@see \KlinkDMS\DocumentDescriptor::withVisibility()}
  * @mixin \Eloquent
  */
-class DocumentDescriptor extends Model {
-
-    use SoftDeletes, LocalizableDateFields;
+class DocumentDescriptor extends Model
+{
+    use SoftDeletes, LocalizableDateFields, GeneratesUuid;
 
     /**
      * Indicate that the document, reference by a DocumentDescriptor, has not yet been indexed
@@ -112,7 +113,6 @@ class DocumentDescriptor extends Model {
      */
     const VISIBILITY_ALL = 'all';
 
-
     /**
      * The database table used by the model.
      *
@@ -125,7 +125,10 @@ class DocumentDescriptor extends Model {
     protected $fillable = ['owner_id','institution_id', 'file_id','local_document_id','title','hash','document_uri','thumbnail_uri','mime_type','visibility','document_type','user_owner','user_uploader','abstract','language','authors'];
     
     protected $casts = [
-        // 'last_error' => 'array',
+        // Cast the UUID field to UUID, which is a binary field
+        // instead of a varchar, see https://www.percona.com/blog/2014/12/19/store-uuid-optimized-way/
+        // and https://github.com/michaeldyrynda/laravel-efficient-uuid
+        'uuid' => 'uuid'
     ];
     
     protected $hidden = [ 'last_error' ];
@@ -134,37 +137,33 @@ class DocumentDescriptor extends Model {
      * Return the name of the pivot table that handles the relation
      * document descriptors => groups
      */
-    public function getDocumentGroupsPivotTable(){
+    public function getDocumentGroupsPivotTable()
+    {
         return 'document_groups';
     }
 
     /**
      * The File that belongs to this document descriptor
      */
-    public function file(){
-        
+    public function file()
+    {
         return $this->hasOne('\KlinkDMS\File', 'id', 'file_id');
-
     }
 
-
-    public function stars(){
-        
+    public function stars()
+    {
         return $this->hasMany('\KlinkDMS\Starred', 'document_id');
-
     }
 
-    public function institution(){
-        
+    public function institution()
+    {
         return $this->belongsTo('\KlinkDMS\Institution');
-
     }
 
     public function groups()
     {
         return $this->belongsToMany('\KlinkDMS\Group', 'document_groups', 'document_id');
     }
-
 
     public function shares()
     {
@@ -181,47 +180,41 @@ class DocumentDescriptor extends Model {
      *
      * @return Collection return a {@see Collection} of {@see Project}
      */
-    public function projects(){
-
+    public function projects()
+    {
         $projects = $this->groups()->public()->with('project')->get();
 
-        $projects = $projects->map(function($el){
-
-            if(!$el->project){
-
+        $projects = $projects->map(function ($el) {
+            if (! $el->project) {
                 $root = $el->getAncestorsWhere('parent_id', '=', null)->first();
 
-                return !is_null($root) ? $root->project : false;
-
+                return ! is_null($root) ? $root->project : false;
             }
 
             return $el->project;
         })->filter();
 
         return $projects;
-
     }
-
 
     public function isShared()
     {
         return $this->shares()->count() > 0;
     }
     
-    /** 
+    /**
      * Check if the document is accessible via a public link
      *
      * @return bool
      */
     public function hasPublicLink()
     {
-        
         return $this->shares()->where('sharedwith_type', 'KlinkDMS\PublicLink')->count() > 0;
     }
     
     public function isStarred($user_id = null)
     {
-        if(is_null($user_id)){
+        if (is_null($user_id)) {
             $user_id = $this->owner_id;
         }
 
@@ -230,13 +223,12 @@ class DocumentDescriptor extends Model {
 
     public function getStar($user_id = null)
     {
-        if(is_null($user_id)){
+        if (is_null($user_id)) {
             $user_id = $this->onwer_id;
         }
 
         return $this->stars()->ofUser($user_id)->first();
     }
-
 
     /**
      * Select only the DocumentDescriptor that are physically local to the DMS
@@ -247,13 +239,12 @@ class DocumentDescriptor extends Model {
         return $query->where('file_id', '!=', 'null');
     }
 
-
     /**
      * Filters the Document description based on the document visibility.
      *
      * The filter will return also the document that has both public and private visibility
-     * 
-     * 
+     *
+     *
      * @param  string $visibility The visibility of the document to retrieve. {@see \KlinkVisibilityType}
      * @return \Illuminate\Database\Eloquent\Builder
      */
@@ -261,7 +252,6 @@ class DocumentDescriptor extends Model {
     {
         return $query->whereVisibility($visibility);
     }
-
 
     public function scopePublic($query)
     {
@@ -273,12 +263,23 @@ class DocumentDescriptor extends Model {
         return $query->whereVisibility(\KlinkVisibilityType::KLINK_PRIVATE);
     }
 
-
-
+    /**
+     * Scope queries to find by empty UUID.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeWithNullUuid($query)
+    {
+        return $query->withTrashed()
+                    //  ->whereUuid("00000000-0000-0000-0000-000000000000")
+                     ->where('uuid', 0);
+    }
 
     /**
      * Select only the documents that has a status of {@see DocumentDescriptor::STATUS_INDEXED}
-     * 
+     *
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeIndexed($query)
@@ -288,7 +289,7 @@ class DocumentDescriptor extends Model {
     
     /**
      * Select the documents that have the status {@see DocumentDescriptor::STATUS_NOT_INDEXED} or {@see DocumentDescriptor::STATUS_ERROR}
-     * 
+     *
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeNotIndexed($query)
@@ -308,7 +309,7 @@ class DocumentDescriptor extends Model {
 
     /**
      * Filter by institution identifier and local document id.
-     * 
+     *
      * @param  integer $institution_id the ID of the institution as expressed by the id field of a cached Institution
      * @param  string $document_id    [description]
      * @return \Illuminate\Database\Eloquent\Builder
@@ -318,20 +319,20 @@ class DocumentDescriptor extends Model {
         return $query->where('institution_id', $institution_id)->where('local_document_id', $document_id);
     }
     
-    public function scopeFromUser($query,$user_id)
+    public function scopeFromUser($query, $user_id)
     {
-    	return $query->where('owner_id',$user_id);
+        return $query->where('owner_id', $user_id);
     }
 
-    public function scopeOfUser($query,$user_id)
+    public function scopeOfUser($query, $user_id)
     {
-        return $query->where('owner_id',$user_id);
+        return $query->where('owner_id', $user_id);
     }
 
     /**
      * Filter the DocumentDescriptor by owner
-     * 
-     * 
+     *
+     *
      * @param  string $owner_id [description]
      * @return \Illuminate\Database\Eloquent\Builder
      */
@@ -347,7 +348,7 @@ class DocumentDescriptor extends Model {
      */
     public static function findByOwnerId($owner_id)
     {
-        return self::fromOwnerId( $owner_id )->get();
+        return self::fromOwnerId($owner_id)->get();
     }
 
     /**
@@ -357,7 +358,7 @@ class DocumentDescriptor extends Model {
      */
     public static function findByInstitutionAndDocumentId($institution_id, $id)
     {
-        return self::fromKlinkID( $institution_id, $id )->first();
+        return self::fromKlinkID($institution_id, $id)->first();
     }
 
     /**
@@ -368,22 +369,22 @@ class DocumentDescriptor extends Model {
      */
     public static function existsByInstitutionAndDocumentId($institution_id, $local_document_id)
     {
-        return !is_null(self::findByInstitutionAndDocumentId($institution_id, $local_document_id));
+        return ! is_null(self::findByInstitutionAndDocumentId($institution_id, $local_document_id));
     }
 
     /**
-     * Check if a descriptor exists given the hash. The descriptor is considered "existing" also if has been 
+     * Check if a descriptor exists given the hash. The descriptor is considered "existing" also if has been
      * soft deleted.
      *
-     * The hash is considered unique in the table, otherwise the first descriptor with the 
+     * The hash is considered unique in the table, otherwise the first descriptor with the
      * same hash will be considered
-     * 
+     *
      * @param  string $hash The hash
      * @return true if a descriptor exists, false otherwise.
      */
     public static function existsByHash($hash)
     {
-        return !is_null(self::withTrashed()->where('hash', $hash)->first());
+        return ! is_null(self::withTrashed()->where('hash', $hash)->first());
     }
 
     /**
@@ -395,15 +396,12 @@ class DocumentDescriptor extends Model {
      */
     public static function findByHash($hash)
     {
-
         $model = self::withTrashed()->where('hash', $hash)->firstOrFail();
 
         return $model;
     }
 
-
     // --- setten and getter for Visibility
-
 
     public function isPublic()
     {
@@ -420,7 +418,6 @@ class DocumentDescriptor extends Model {
         return $this->visibility === \KlinkVisibilityType::KLINK_PRIVATE && $this->is_public;
     }
 
-
     // --- convert to/from KlinkDocumentDescriptor
 
     /**
@@ -431,11 +428,10 @@ class DocumentDescriptor extends Model {
      */
     public function toKlinkDocumentDescriptor($need_public = false)
     {
-
         $inst = $this->institution;
         
         $institution = config('dms.institutionID'); //fallback if institution is null
-        if(!is_null($inst)){
+        if (! is_null($inst)) {
             $institution = $this->institution->klink_id;
         }
 
@@ -450,49 +446,47 @@ class DocumentDescriptor extends Model {
             $this->user_uploader,
             $this->user_owner,
             $need_public ? \KlinkVisibilityType::KLINK_PUBLIC : $this->visibility,
-            !is_null($this->created_at) ? $this->created_at->toRfc3339String() : \KlinkHelpers::now()
+            ! is_null($this->created_at) ? $this->created_at->toRfc3339String() : \KlinkHelpers::now()
         );
 
-        if(!is_null($this->abstract)){
+        if (! is_null($this->abstract)) {
             $descr->setAbstract($this->abstract);
         }
 
-        if(!is_null($this->language) && $this->language !== 'unknown'){
+        if (! is_null($this->language) && $this->language !== 'unknown') {
             $descr->setLanguage($this->language);
         }
 
-        if(!is_null($this->authors)){
-            $descr->setAuthors( explode(',', $this->authors) );
+        if (! is_null($this->authors)) {
+            $descr->setAuthors(explode(',', $this->authors));
         }
         
-        if($this->isMine()){
-            $names = array($this->file->name);
+        if ($this->isMine()) {
+            $names = [$this->file->name];
             
-            $parts = preg_split( '/(\-|_|,|\.)/', $this->file->name );
+            $parts = preg_split('/(\-|_|,|\.)/', $this->file->name);
             
             $names = array_merge($names, $parts);
             
             $descr->setTitleAliases(array_filter($names));
         }
 
-        if(!$need_public && !$this->groups->isEmpty()){
+        if (! $need_public && ! $this->groups->isEmpty()) {
 
             // the document is in a project only if the root collection
             // of the project (or one of its children) is attached to the document
 
-            $each = $this->groups->map(function($el){
+            $each = $this->groups->map(function ($el) {
                 return $el->toKlinkGroup();
             });
 
-            $descr->setDocumentGroups( array_filter( $each->toArray() ) );
+            $descr->setDocumentGroups(array_filter($each->toArray()));
             
-            $projects = $this->projects()->map(function($el){
-
-                return !is_null($el) && is_a($el, 'KlinkDMS\Project') ? $el->id : null;
+            $projects = $this->projects()->map(function ($el) {
+                return ! is_null($el) && is_a($el, 'KlinkDMS\Project') ? $el->id : null;
             });
             
             $descr->setProjects(array_filter($projects->toArray()));
-
         }
         
 
@@ -500,30 +494,25 @@ class DocumentDescriptor extends Model {
     }
 
     /**
-     * Merge the current saved descriptor with the new information coming from a 
+     * Merge the current saved descriptor with the new information coming from a
      * KlinkDocumentDescriptor
-     * 
+     *
      * @param  \KlinkDocumentDescriptor $instance the K-Link document descriptor to get information from
      * @return DocumentDescriptor the updated descriptor
      */
-    public function mergeWithKlinkDocumentDescriptor( \KlinkDocumentDescriptor $instance ){
-
-        if( $this->hash === $instance->getHash() && 
+    public function mergeWithKlinkDocumentDescriptor(\KlinkDocumentDescriptor $instance)
+    {
+        if ($this->hash === $instance->getHash() &&
             // $this->institution_id === $instance->getInstitutionID() &&
-            $this->local_document_id === $instance->getLocalDocumentID()){
-
+            $this->local_document_id === $instance->getLocalDocumentID()) {
             $this->abstract = $instance->getAbstract();
             $this->language = $instance->getLanguage();
-            if(is_array($instance->getAuthors())){
+            if (is_array($instance->getAuthors())) {
                 $this->authors = implode(',', $instance->getAuthors());
             }
-
-        }
-        else {
+        } else {
             throw new \InvalidArgumentException("Trying to merge two descriptors of different documents", 108);
-            
         }
-
 
         return $this;
     }
@@ -534,17 +523,16 @@ class DocumentDescriptor extends Model {
      * @return DocumentDescriptor the local cached DocumentDescriptor
      * @internal
      */
-    public static function fromKlinkDocumentDescriptor( \KlinkDocumentDescriptor $instance )
+    public static function fromKlinkDocumentDescriptor(\KlinkDocumentDescriptor $instance)
     {
-    
         $local_inst = Institution::findByKlinkID($instance->getInstitutionID());
 
-        $cached = self::create(array(
+        $cached = self::create([
             'institution_id' => $local_inst->id,
             'local_document_id' => $instance->getLocalDocumentID(),
             'title' => $instance->getTitle(),
             'hash' => $instance->getHash(),
-            'created_at' => Carbon::createFromFormat( \DateTime::RFC3339, $instance->creationDate ),
+            'created_at' => Carbon::createFromFormat(\DateTime::RFC3339, $instance->creationDate),
             'document_uri' => $instance->getDocumentUri(),
             'thumbnail_uri' => $instance->getThumbnailURI(),
             'mime_type' => $instance->getMimeType(),
@@ -556,10 +544,9 @@ class DocumentDescriptor extends Model {
             'language' => $instance->getLanguage(),
             'is_public' => $instance->getVisibility() == \KlinkVisibilityType::KLINK_PUBLIC,
             'authors' => is_array($instance->getAuthors()) ? implode(',', $instance->getAuthors()) : $instance->getAuthors(), //is Array so there is something that might be done
-        ));
+        ]);
         
         return $cached;
-
     }
 
     public function getIsPublicAttribute($value)
@@ -572,46 +559,43 @@ class DocumentDescriptor extends Model {
         return $this->file_id != null;
     }
 
-    public function isRemoteWebPage(){
-        return ($this->document_type == 'web-page' || $this->document_type == 'document') && !is_null($this->file) && starts_with($this->file->original_uri, 'http');
+    public function isRemoteWebPage()
+    {
+        return ($this->document_type == 'web-page' || $this->document_type == 'document') && ! is_null($this->file) && starts_with($this->file->original_uri, 'http');
     }
     
     
-    public function isIndexed(){
+    public function isIndexed()
+    {
         return $this->status !== self::STATUS_NOT_INDEXED && $this->status !== self::STATUS_ERROR;
     }
     
     
-    public function setLastErrorAttribute($value){
-        
-        
-        if(is_a($value, '\Exception')){
+    public function setLastErrorAttribute($value)
+    {
+        if (is_a($value, '\Exception')) {
             $obj = new \stdClass;
             $obj->message = $value->getMessage();
             $obj->type = get_class($value);
             $obj->payload = $value;
             
             $value = $obj;
-        }
-        else if(is_object($value)){
+        } elseif (is_object($value)) {
             $obj = new \stdClass;
             $obj->payload = $value;
             $obj->type = get_class($value);
             $value = $obj;
-        }
-        else if(is_array($value)){
+        } elseif (is_array($value)) {
             $obj = new \stdClass;
             $obj->payload = $value;
             $obj->type = 'array';
             $value = $obj;
-        }
-        else if( is_string($value) || is_numeric($value)  || is_bool($value) ){
+        } elseif (is_string($value) || is_numeric($value)  || is_bool($value)) {
             $obj = new \stdClass;
             $obj->payload = $value;
             $obj->type = is_string($value) ? 'string' : (is_bool($value) ? 'boolean' : 'number');
             $value = $obj;
-        }
-        else if( !is_null($value) ){
+        } elseif (! is_null($value)) {
             $obj = new \stdClass;
             $obj->payload = $value;
             $obj->type = 'unknown';
@@ -638,10 +622,8 @@ class DocumentDescriptor extends Model {
      * - class name: in case the payload is an object or an exception
      *
      */
-    public function getLastErrorAttribute($value){
-        
+    public function getLastErrorAttribute($value)
+    {
         return is_null($value) ? null : json_decode($value);
-        
     }
-
 }

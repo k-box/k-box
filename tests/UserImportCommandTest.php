@@ -1,18 +1,12 @@
 <?php
 
-use Laracasts\TestDummy\Factory;
 use KlinkDMS\User;
 use KlinkDMS\Project;
 use KlinkDMS\Capability;
-use KlinkDMS\DocumentDescriptor;
 use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Collection;
 
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Tests\BrowserKitTestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-
-use Symfony\Component\Console\Tester\CommandTester;
 
 use Illuminate\Foundation\Application;
 use KlinkDMS\Console\Commands\DmsUserImportCommand;
@@ -20,55 +14,54 @@ use KlinkDMS\Console\Commands\DmsUserImportCommand;
 /*
  * Test the DmsUserImportCommand
 */
-class UserImportCommandTest extends TestCase {
-    
+class UserImportCommandTest extends BrowserKitTestCase
+{
     use DatabaseTransactions;
     
     
-    public function user_provider_for_editpage_public_checkbox_test() {
-        return array( 
-			array(Capability::$ADMIN, true),
-			array(Capability::$DMS_MASTER, false),
-			array(Capability::$PROJECT_MANAGER, true),
-			array(Capability::$PARTNER, false),
-			array(Capability::$GUEST, false),
-		);
+    public function user_provider_for_editpage_public_checkbox_test()
+    {
+        return [
+            [Capability::$ADMIN, true],
+            [Capability::$DMS_MASTER, false],
+            [Capability::$PROJECT_MANAGER, true],
+            [Capability::$PARTNER, false],
+            [Capability::$GUEST, false],
+        ];
     }
 
-	
+    
     
     /**
      * @expectedException \RuntimeException
      * @expectedExceptionMessage Not enough arguments (missing: "file").
      */
-    public function testDmsUserImportCommandWithNoFile(){
-        
+    public function testDmsUserImportCommandWithNoFile()
+    {
         $command = new DmsUserImportCommand();
         
         $app = new Application();
         $command->setLaravel($app);
         
         $this->runCommand($command, []);
-        
     }
     
     /**
      * @expectedException \Exception
      * @expectedExceptionMessage The file ./data/totally-non-existing-file.csv cannot be found or readed
      */
-    public function testDmsUserImportCommandWithNonExistingFile(){
-        
+    public function testDmsUserImportCommandWithNonExistingFile()
+    {
         $command = new DmsUserImportCommand();
         
         $app = new Application();
         $command->setLaravel($app);
         
         $this->runCommand($command, ['file' => './data/totally-non-existing-file.csv']);
-        
     }
     
-    public function testDmsUserImportCommandWithValidFile(){
-        
+    public function testDmsUserImportCommandWithValidFile()
+    {
         $user = $this->createAdminUser();
         
         \Mail::shouldReceive('queue')->times(4)->withAnyArgs();
@@ -88,7 +81,7 @@ class UserImportCommandTest extends TestCase {
         $output = new Symfony\Component\Console\Output\BufferedOutput;
         
         $this->runCommand($command, [
-            'file' => __DIR__ . '/data/users.csv',
+            'file' => __DIR__.'/data/users.csv',
             '--delimiter' => ';',
             '--value-delimiter' => ',',
             ], $output);
@@ -143,8 +136,8 @@ class UserImportCommandTest extends TestCase {
         // +----------+-------------------+----------+--------------------+-------------------+------+---------------------------------------------------------------------------------------------------------------------+
     }
     
-    public function testDmsUserImportCommandWithValidFileWithThreeColumns(){
-        
+    public function testDmsUserImportCommandWithValidFileWithThreeColumns()
+    {
         $user = $this->createAdminUser();
         
         \Mail::shouldReceive('queue')->times(7)->withAnyArgs();
@@ -157,14 +150,14 @@ class UserImportCommandTest extends TestCase {
         $output = new Symfony\Component\Console\Output\BufferedOutput;
         
         $this->runCommand($command, [
-            'file' => __DIR__ . '/data/users-less-columns.csv',
+            'file' => __DIR__.'/data/users-less-columns.csv',
             '--delimiter' => ';',
             '--value-delimiter' => ',',
             ], $output);
             // php artisan users:import --delimiter=; --value-delimiter=, ./tests/data/users.csv
         
         $res = $output->fetch();
-        
+
         $users = User::whereIn('email', [
             'user-11@klink.asia',
             'user-12@klink.asia',
@@ -176,15 +169,14 @@ class UserImportCommandTest extends TestCase {
         ])->get();
         
         $this->assertEquals(7, $users->count());
-        
     }
     
     /**
      * @expectedException \Exception
      * @expectedExceptionMessage Wrong column name, expecting manage project or manage or manage-projects or manage-project found k-linker at index 3
      */
-    public function testDmsUserImportCommandWithWrongColumnsInFile(){
-        
+    public function testDmsUserImportCommandWithWrongColumnsInFile()
+    {
         $user = $this->createAdminUser();
         
         
@@ -196,24 +188,22 @@ class UserImportCommandTest extends TestCase {
         $output = new Symfony\Component\Console\Output\BufferedOutput;
         
         $this->runCommand($command, [
-            'file' => __DIR__ . '/data/users-wrong-columns.csv',
+            'file' => __DIR__.'/data/users-wrong-columns.csv',
             '--delimiter' => ';',
             '--value-delimiter' => ',',
             ], $output);
         
         // $res = $output->fetch();
-        
     }
     
     
     
     protected function runCommand($command, $input = [], $output = null)
     {
-        if(is_null($output)){
-             $output = new Symfony\Component\Console\Output\NullOutput;
+        if (is_null($output)) {
+            $output = new Symfony\Component\Console\Output\NullOutput;
         }
         
         return $command->run(new Symfony\Component\Console\Input\ArrayInput($input), $output);
     }
-       
 }

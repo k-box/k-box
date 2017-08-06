@@ -7,7 +7,7 @@ use KlinkDMS\Traits\LocalizableDateFields;
 
 /**
  * PublicLink. A type target of a share.
- * 
+ *
  * This represents a share with a public URL that do not
  * require to be an authenticated user to see.
  *
@@ -44,7 +44,6 @@ class PublicLink extends Model
      */
     protected $appends = ['url'];
 
-
     /**
      * The user that created the public link
      *
@@ -55,7 +54,6 @@ class PublicLink extends Model
         return $this->belongsTo('KlinkDMS\User', 'user_id', 'id');
     }
 
-
     /**
      * The share to which this link refers to.
      *
@@ -65,7 +63,6 @@ class PublicLink extends Model
     {
         return $this->morphOne('KlinkDMS\Shared', 'sharedwith');
     }
-
 
     /**
      * Check if the link is expired
@@ -88,7 +85,7 @@ class PublicLink extends Model
     public function getUrlAttribute()
     {
         return route('publiclinks.show', [
-            'link' => !is_null($this->slug) ? $this->slug : $this->share->token
+            'link' => ! is_null($this->slug) ? $this->slug : $this->share->token
         ]);
     }
 }

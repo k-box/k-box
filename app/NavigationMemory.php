@@ -1,11 +1,13 @@
-<?php namespace KlinkDMS;
+<?php
+
+namespace KlinkDMS;
 
 use Illuminate\Database\Eloquent\Model;
 
 /**
  * KlinkDMS\NavigationMemory
  *
- * @deprecated 
+ * @deprecated
  * @property int $id
  * @property string $name
  * @property \Carbon\Carbon $created_at
@@ -21,15 +23,14 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\NavigationMemory whereUserId($value)
  * @mixin \Eloquent
  */
-class NavigationMemory extends Model {
+class NavigationMemory extends Model
+{
     /*
     id: bigIncrements
     name: string
     navigation_memories: NavigationMemory
     users: User
     */
-
-
 
     /**
      * The database table used by the model.
@@ -38,8 +39,8 @@ class NavigationMemory extends Model {
      */
     protected $table = 'navigation_memories';
 
-
-    public function navigationMemory(){
+    public function navigationMemory()
+    {
         
         // One to One
         return $this->hasOne('KlinkDMS\NavigationMemory');
@@ -47,12 +48,9 @@ class NavigationMemory extends Model {
         // One to Many
         // return $this->hasMany('NavigationMemory');
         // return $this->hasMany('NavigationMemory', 'parent', 'id');
-	    
+        
         // Many to Many
         // return $this->belongsToMany('NavigationMemory');
         // return $this->belongsToMany('NavigationMemory', 'PIVOT_TABLE'); //last is pivot table name
-
     }
-
-
 }

@@ -1,11 +1,13 @@
-<?php namespace KlinkDMS\Http\Composers;
+<?php
+
+namespace KlinkDMS\Http\Composers;
 
 use Illuminate\Contracts\View\View;
 
-class AllComposer {
+class AllComposer
+{
 
     
-
     /**
      * Create a new profile composer.
      *
@@ -24,86 +26,56 @@ class AllComposer {
      */
     public function compose(View $view)
     {
-
-
-
-//        $is_logged = \Auth::check();
-//
-//        $view->with('is_user_logged', $is_logged);
-//
-//        if($is_logged){
-//
-//            $logged_in_user = \Auth::user();
-//            $view->with('current_user', $logged_in_user->id);
-//            $view->with('current_user_name', $logged_in_user->name);
-//            $view->with('current_user_avatar', $logged_in_user->avatar);
-//
-//        }
-
-
-        
-    }
-    
-    public function globalView(View $view)
-    {
-
         $body_classes = [];
 
         $is_logged = \Auth::check();
 
-        if(!\Request::has('visibility')){
-
+        if (! \Request::has('visibility')) {
             $view->with('current_visibility', $is_logged ? 'private' : 'public');
-
         }
         
-        if($is_logged){
-
+        if ($is_logged) {
             $logged_in_user = \Auth::user();
             
-            if(!ends_with($logged_in_user->email, 'klink.local')){
+            if (! ends_with($logged_in_user->email, 'klink.local')) {
                 $view->with('feedback_loggedin', $is_logged);
-				$view->with('feedback_user_name', $logged_in_user->name);
+                $view->with('feedback_user_name', $logged_in_user->name);
                 $view->with('feedback_user_mail', $logged_in_user->email);
-			}
-
+            }
         }
 
-        $route_name = \Route::currentRouteName();        
+        $route_name = \Route::currentRouteName();
 
-        if( !is_null( $route_name )  && $route_name != 'auth.login'){
+        if (! is_null($route_name)  && $route_name != 'login') {
             $body_classes[] = $route_name;
-        }
-        else if( !is_null( $route_name )  && $route_name === 'auth.login'){
-            $body_classes[] = 'login';
+        } elseif (! is_null($route_name)  && $route_name === 'login') {
+            $body_classes[] = 'frontpage';
         }
 
-        if( !is_null( $route_name ) && starts_with($route_name, 'documents')){
+        if (! is_null($route_name) && starts_with($route_name, 'documents')) {
             $body_classes[] = 'dropzone-container';
         }
 
-        if( is_null( $route_name ) && !is_null(\Route::getCurrentRoute()) ){
+        if (is_null($route_name) && ! is_null(\Route::getCurrentRoute())) {
             $path = \Route::getCurrentRoute()->getPath();
 
-            $exploded = array_slice( explode('/', $path), 0, 2);
+            $exploded = array_slice(explode('/', $path), 0, 2);
 
-            $body_classes[] =  implode(' ', $exploded);   
+            $body_classes[] =  implode(' ', $exploded);
         }
 
-        $is_frontpage = $route_name === 'dashboard' || $route_name === 'frontpage';
+        $is_frontpage = $route_name === 'dashboard' || $route_name === 'frontpage' || $route_name === 'login';
 
-        $view->with('is_frontpage', $is_frontpage );
+        $view->with('is_frontpage', $is_frontpage);
 
         $already_added_classes = isset($view['body_classes']) ? $view['body_classes'] : null;
 
-        if(!is_null($already_added_classes)){
+        if (! is_null($already_added_classes)) {
             $body_classes[] = $already_added_classes;
             
             $body_classes = array_unique($body_classes);
         }
 
         $view->with('body_classes', implode(' ', $body_classes));
-        
     }
-
 }

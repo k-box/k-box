@@ -1,11 +1,10 @@
 <?php
 
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Tests\BrowserKitTestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use KlinkDMS\Option;
 
-class ContactPageControllerTest extends TestCase
+class ContactPageControllerTest extends BrowserKitTestCase
 {
     use DatabaseTransactions;
     
@@ -21,7 +20,6 @@ class ContactPageControllerTest extends TestCase
         $this->see('K-Link');
         $this->see('info@klink.asia');
         $this->see('https://klink.asia');
-
     }
     
     public function testContactPageShowsSavedContactInfo()
@@ -49,7 +47,5 @@ class ContactPageControllerTest extends TestCase
         $this->see("Locality");
         $this->see("Country");
         $this->see("123456");
-        
     }
-
 }

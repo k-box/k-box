@@ -2,7 +2,7 @@
 
 namespace KlinkDMS\Http\Requests;
 
-use KlinkDMS\Http\Requests\Request;
+use Illuminate\Foundation\Http\FormRequest as Request;
 
 class ImportUpdateRequest extends Request
 {
@@ -25,7 +25,7 @@ class ImportUpdateRequest extends Request
     {
         return [
             
-			'retry' => 'required|boolean'
+            'retry' => 'required|boolean'
         ];
     }
 }

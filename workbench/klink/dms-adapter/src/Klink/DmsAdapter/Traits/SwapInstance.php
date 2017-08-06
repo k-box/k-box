@@ -1,4 +1,6 @@
-<?php namespace Klink\DmsAdapter\Traits;
+<?php
+
+namespace Klink\DmsAdapter\Traits;
 
 /**
  * Add a swap method to hotswap an underlying instance of a contract/class
@@ -12,7 +14,7 @@ trait SwapInstance
      *
      * <code>
      * $this->swap(
-     *     'Klink\DmsAdapter\Contracts\KlinkAdapter', 
+     *     'Klink\DmsAdapter\Contracts\KlinkAdapter',
      *     Mockery::mock(Klink\DmsAdapter\Contracts\KlinkAdapter::class)
      * );
      * </code>
@@ -26,7 +28,7 @@ trait SwapInstance
     public function swap($contract, $instance)
     {
         $this->app->instance(
-            $contract, 
+            $contract,
             $instance
         );
     }

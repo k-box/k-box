@@ -1,7 +1,8 @@
-<?php namespace KlinkDMS\Console\Commands;
+<?php
+
+namespace KlinkDMS\Console\Commands;
 
 use Illuminate\Console\Command;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 use KlinkDMS\User;
 use KlinkDMS\Capability;
@@ -9,110 +10,104 @@ use KlinkDMS\Capability;
 /**
  * Creates admin user accounts
  */
-final class DmsCreateAdminUserCommand extends Command {
+final class DmsCreateAdminUserCommand extends Command
+{
 
-	/**
-	 * The console command name.
-	 *
-	 * @var string
-	 */
-	protected $name = 'dms:create-admin';
+    /**
+     * The console command name.
+     *
+     * @var string
+     */
+    protected $name = 'dms:create-admin';
 
-	/**
-	 * The console command description.
-	 *
-	 * @var string
-	 */
-	protected $description = 'This command will create the administration user of the DMS and will show the assigned password.';
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'This command will create the administration user of the DMS and will show the assigned password.';
 
-	/**
-	 * Create a new command instance.
-	 *
-	 * @return void
-	 */
-	public function __construct()
-	{
-		parent::__construct();
-	}
+    /**
+     * Create a new command instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        parent::__construct();
+    }
 
-	/**
-	 * Execute the console command.
-	 *
-	 * @return mixed
-	 */
-	public function fire()
-	{
+    /**
+     * Execute the console command.
+     *
+     * @return mixed
+     */
+    public function fire()
+    {
+        $the_username = $this->argument('email');
+        $the_name = $this->argument('name');
+        $the_password = $this->argument('password');
 
-		$the_username = $this->argument('email');
-		$the_name = $this->argument('name');
-		$the_password = $this->argument('password');
+        $validator = \Validator::make(
+            ['name' => $the_username],
+            ['name' => 'email']
+        );
 
+        if ($validator->fails()) {
+            $this->error("The specified username ($the_username) is not a valid mail address.");
+            return 1;
+        }
 
-		$validator = \Validator::make(
-		    array('name' => $the_username),
-		    array('name' => 'email')
-		);
+        $exists = ! is_null(User::findByEmail($the_username));
 
-		if($validator->fails()){
-			$this->error("The specified username ($the_username) is not a valid mail address.");
-			return 1;
-		}
+        if ($exists) {
+            $this->error("The user ($the_username) already exists.");
+            return 2;
+        } else {
+            $et_offset = strpos($the_username, '@');
+            $nice_name = $et_offset !== false ? substr($the_username, 0, $et_offset) : $the_username;
 
-		$exists = !is_null(User::findByEmail($the_username));
+            $the_user = User::create([
+                'name' => ! is_null($the_name) ? $the_name : $nice_name,
+                'email' => $the_username,
+                'password' => \Hash::make($the_password)
+            ]);
 
-		if($exists){
-			$this->error("The user ($the_username) already exists.");
-			return 2;
-		}
-		else {
+            $the_user->addCapabilities(Capability::$ADMIN);
 
-			$et_offset = strpos($the_username, '@');
-			$nice_name = $et_offset !== false ? substr($the_username, 0, $et_offset) : $the_username;
+            $this->line('');
+            $this->line('The DMS Administration user has been created.');
 
-			$the_user = User::create(array( 
-				'name' => !is_null($the_name) ? $the_name : $nice_name,
-				'email' => $the_username,
-				'password' => \Hash::make($the_password)
-			));
+            $this->line("  username: <comment>$the_username</comment>");
+            $this->line("  password: <info>The chosen password</info>");
+            $this->line('');
 
-			$the_user->addCapabilities( Capability::$ADMIN );
+            return 0;
+        }
+    }
 
-			$this->line('');
-			$this->line('The DMS Administration user has been created.');
+    /**
+     * Get the console command arguments.
+     *
+     * @return array
+     */
+    protected function getArguments()
+    {
+        return [
+            ['email', InputArgument::REQUIRED, 'User email.'],
+            ['password', InputArgument::REQUIRED, 'User password.'],
+            ['name', InputArgument::OPTIONAL, 'User nicename.']
+        ];
+    }
 
-			$this->line("  username: <comment>$the_username</comment>");
-			$this->line("  password: <info>The chosen password</info>");
-			$this->line('');
-
-			return 0;
-
-		}
-
-	}
-
-	/**
-	 * Get the console command arguments.
-	 *
-	 * @return array
-	 */
-	protected function getArguments()
-	{
-		return [
-			['email', InputArgument::REQUIRED, 'User email.'],
-			['password', InputArgument::REQUIRED, 'User password.'],
-			['name', InputArgument::OPTIONAL, 'User nicename.']
-		];
-	}
-
-	/**
-	 * Get the console command options.
-	 *
-	 * @return array
-	 */
-	protected function getOptions()
-	{
-		return [
-		];
-	}
-
+    /**
+     * Get the console command options.
+     *
+     * @return array
+     */
+    protected function getOptions()
+    {
+        return [
+        ];
+    }
 }

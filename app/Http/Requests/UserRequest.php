@@ -1,45 +1,44 @@
-<?php namespace KlinkDMS\Http\Requests;
+<?php
 
-use KlinkDMS\Http\Requests\Request;
-use Illuminate\Contracts\Auth\Guard;
+namespace KlinkDMS\Http\Requests;
 
-class UserRequest extends Request {
+use Illuminate\Foundation\Http\FormRequest as Request;
 
-	/**
-	 * Get the validation rules that apply to the request.
-	 *
-	 * @return array
-	 */
-	public function rules()
-	{
+class UserRequest extends Request
+{
 
-		$action = $this->route()->getAction();
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
+     */
+    public function rules()
+    {
+        $action = $this->route()->getAction();
 
-		$tests = [
-			'name' => 'required|string',
-			'institution' => 'sometimes|required|exists:institutions,id',
-		];
+        $tests = [
+            'name' => 'required|string',
+            'institution' => 'sometimes|required|exists:institutions,id',
+        ];
 
-		if($action['as'] == 'administration.users.store'){
-			$tests['email'] = 'required|email|unique:users,email';
-			$tests['capabilities'] = 'required|array|exists:capabilities,key';
-		}
-		else {
-			$tests['capabilities'] = 'sometimes|required|array|exists:capabilities,key';
-			$tests['email'] = 'required|email';
-		}
+        if ($action['as'] == 'administration.users.store') {
+            $tests['email'] = 'required|email|unique:users,email';
+            $tests['capabilities'] = 'required|array|exists:capabilities,key';
+        } else {
+            $tests['capabilities'] = 'sometimes|required|array|exists:capabilities,key';
+            $tests['email'] = 'required|email';
+        }
 
-		return $tests;
-	}
+        return $tests;
+    }
 
-	/**
-	 * Determine if the user is authorized to make this request.
-	 *
-	 * @return bool
-	 */
-	public function authorize()
-	{
-		return true;
-	}
-
+    /**
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
+    public function authorize()
+    {
+        return true;
+    }
 }

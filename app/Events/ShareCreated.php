@@ -3,17 +3,19 @@
 namespace KlinkDMS\Events;
 
 use KlinkDMS\Shared;
-use KlinkDMS\Events\Event;
+use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Broadcasting\PrivateChannel;
+use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Broadcasting\InteractsWithSockets;
 
 /**
  * Event that states that a Share of a document to a User has been
  * created
  */
-class ShareCreated extends Event
+class ShareCreated
 {
-    use SerializesModels;
+    use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $share = null;
 
@@ -29,12 +31,12 @@ class ShareCreated extends Event
     }
 
     /**
-     * Get the channels the event should be broadcast on.
+     * Get the channels the event should broadcast on.
      *
-     * @return array
+     * @return Channel|array
      */
     public function broadcastOn()
     {
-        return [];
+        return new PrivateChannel('channel-name');
     }
 }

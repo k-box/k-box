@@ -1,23 +1,20 @@
-<?php namespace KlinkDMS\Http\Controllers\Administration;
+<?php
 
-use KlinkDMS\Capability;
+namespace KlinkDMS\Http\Controllers\Administration;
+
 use KlinkDMS\DocumentDescriptor;
 use KlinkDMS\User;
 use KlinkDMS\Http\Controllers\Controller;
-use KlinkDMS\Http\Requests\CreateMessageRequest;
-use Illuminate\Pagination\Paginator;
-use Illuminate\Support\Facades\Hash;
 use KlinkDMS\Institution;
 use Klink\DmsAdapter\KlinkAdapter;
 use Illuminate\Contracts\Auth\Guard as AuthGuard;
-use Illuminate\Contracts\Auth\PasswordBroker as PasswordBrokerContract;
 use KlinkDMS\Http\Requests\InstitutionRequest;
-
 
 /**
  * Check and create the institutions reference
  */
-class InstitutionsController extends Controller {
+class InstitutionsController extends Controller
+{
 
   /*
   |--------------------------------------------------------------------------
@@ -28,7 +25,6 @@ class InstitutionsController extends Controller {
   |
   */
 
-
   private $adapter = null;
 
   /**
@@ -36,14 +32,13 @@ class InstitutionsController extends Controller {
    *
    * @return void
    */
-  public function __construct(KlinkAdapter $adapter) {
+  public function __construct(KlinkAdapter $adapter)
+  {
+      $this->middleware('auth');
 
-    $this->middleware('auth');
-
-    $this->middleware('capabilities');
+      $this->middleware('capabilities');
     
-    $this->adapter = $adapter;
-
+      $this->adapter = $adapter;
   }
 
   /**
@@ -51,17 +46,16 @@ class InstitutionsController extends Controller {
    *
    * @return Response
    */
-  public function index(AuthGuard $auth) {
+  public function index(AuthGuard $auth)
+  {
+      $institutions = Institution::all();
 
-    $institutions = Institution::all();
-
-    $data = ['institutions' => $institutions, 'pagetitle' => trans('administration.menu.institutions')];
+      $data = ['institutions' => $institutions, 'pagetitle' => trans('administration.menu.institutions')];
     
-    $data['current_institution'] = \Config::get('dms.institutionID');
+      $data['current_institution'] = \Config::get('dms.institutionID');
 
-    return view('administration.institutions.index', $data);
+      return view('administration.institutions.index', $data);
   }
-
 
   /**
    * Show the form for creating a new user.
@@ -70,10 +64,9 @@ class InstitutionsController extends Controller {
    */
   public function create(AuthGuard $auth)
   {
-  
-      return view('administration.institutions.create', array( 
+      return view('administration.institutions.create', [
         'pagetitle' => trans('administration.institutions.create_title'),
-      ));
+      ]);
   }
 
   /**
@@ -83,32 +76,27 @@ class InstitutionsController extends Controller {
    */
   public function store(AuthGuard $auth, InstitutionRequest $request)
   {
-      try{
-        
-        $inst = \DB::transaction(function() use($request){
-          
+      try {
+          $inst = \DB::transaction(function () use ($request) {
+              $fields = $request->except(['_token', '_method']);
             
-            $fields = $request->except(array('_token', '_method'));
-            
-            $fields['type'] = 'Organization';
-            $inst = Institution::create($fields);
+              $fields['type'] = 'Organization';
+              $inst = Institution::create($fields);
           
-            return $inst;
-        });
+              return $inst;
+          });
         
-        \Cache::forget('dms_institutions');
+          \Cache::forget('dms_institutions');
         
-        return redirect()->route('administration.institutions.index')->with([
+          return redirect()->route('administration.institutions.index')->with([
             'flash_message' => trans('administration.institutions.saved', ['name' => $inst->name])
         ]);
-    
-      }catch(\Exception $ex){
+      } catch (\Exception $ex) {
+          \Log::error('Institution create error', ['error' => $ex, 'request' => $request->all()]);
         
-        \Log::error('Institution create error', ['error' => $ex, 'request' => $request->all()]);
-        
-        return redirect()->back()->withInput()->withErrors([
-	            'error' => trans('administration.institutions.create_error', ['error' => $ex->getMessage()])
-	        ]);
+          return redirect()->back()->withInput()->withErrors([
+                'error' => trans('administration.institutions.create_error', ['error' => $ex->getMessage()])
+            ]);
       }
   }
 
@@ -120,7 +108,6 @@ class InstitutionsController extends Controller {
    */
   public function show($id)
   {
-    
       $inst = Institution::findOrFail($id);
     
       return view('administration.institutions.show', [
@@ -128,7 +115,6 @@ class InstitutionsController extends Controller {
         'institution' => $inst,
         ]);
   }
-
 
   /**
    * Show the form for editing the specified user.
@@ -138,7 +124,6 @@ class InstitutionsController extends Controller {
    */
   public function edit($id)
   {
-    
       $inst = Institution::findOrFail($id);
 
       return view('administration.institutions.edit', [
@@ -156,34 +141,28 @@ class InstitutionsController extends Controller {
    */
   public function update(InstitutionRequest $request, $id)
   {
-    
-      try{
-        $inst = Institution::findOrFail($id);
+      try {
+          $inst = Institution::findOrFail($id);
         
-        \DB::transaction(function() use($request, $inst){
-          
-            
-            $fields = $request->except(array('_token', '_method', 'klink_id'));
+          \DB::transaction(function () use ($request, $inst) {
+              $fields = $request->except(['_token', '_method', 'klink_id']);
               
-            foreach($fields as $field_key => $field_value){
-              $inst->{$field_key} = $field_value;
-            }
+              foreach ($fields as $field_key => $field_value) {
+                  $inst->{$field_key} = $field_value;
+              }
           
-            $inst->save();
-          
-        });
+              $inst->save();
+          });
         
-        return redirect()->route('administration.institutions.index')->with([
+          return redirect()->route('administration.institutions.index')->with([
             'flash_message' => trans('administration.institutions.saved', ['name' => $inst->name])
         ]);
-    
-      }catch(\Exception $ex){
+      } catch (\Exception $ex) {
+          \Log::error('Institution update error', ['error' => $ex, 'institution' => $id]);
         
-        \Log::error('Institution update error', ['error' => $ex, 'institution' => $id]);
-        
-        return redirect()->back()->withInput()->withErrors([
-	            'error' => trans('administration.institutions.update_error', ['error' => $ex->getMessage()])
-	        ]);
+          return redirect()->back()->withInput()->withErrors([
+                'error' => trans('administration.institutions.update_error', ['error' => $ex->getMessage()])
+            ]);
       }
   }
 
@@ -197,39 +176,31 @@ class InstitutionsController extends Controller {
   {
       $inst = Institution::findOrFail($id);
     
-      try{
+      try {
+          $no_documents = DocumentDescriptor::where('institution_id', $inst->id)->count() > 0 ? false : true;
+          $no_users = User::where('institution_id', $inst->id)->count() > 0 ? false : true;
         
-        $no_documents = DocumentDescriptor::where('institution_id', $inst->id)->count() > 0 ? false : true;
-        $no_users = User::where('institution_id', $inst->id)->count() > 0 ? false : true;
+          if ($no_documents && $no_users) {
+              \DB::transaction(function () use ($inst) {
+                  $inst->delete();
+              });
+          
+              \Cache::forget('dms_institutions');
+          
+              return redirect()->back()->withInput()->with([
+                'flash_message' => trans('administration.institutions.deleted', ['name' => $inst->name])
+            ]);
+          } else {
+              return redirect()->back()->withInput()->withErrors([
+                'error' => trans('administration.institutions.delete_not_possible', ['name' => $inst->name])
+            ]);
+          }
+      } catch (\Exception $ex) {
+          \Log::error('Institution delete error', ['error' => $ex, 'institution' => $id]);
         
-        if($no_documents && $no_users){
-          \DB::transaction(function() use($inst){
-              
-              $inst->delete();
-            
-          });
-          
-          \Cache::forget('dms_institutions');
-          
-          return redirect()->back()->withInput()->with([
-	            'flash_message' => trans('administration.institutions.deleted', ['name' => $inst->name])
-	        ]);
-
-        }
-        else {
           return redirect()->back()->withInput()->withErrors([
-	            'error' => trans('administration.institutions.delete_not_possible', ['name' => $inst->name])
-	        ]);
-        }
-    
-      }catch(\Exception $ex){
-        
-        \Log::error('Institution delete error', ['error' => $ex, 'institution' => $id]);
-        
-        return redirect()->back()->withInput()->withErrors([
-	            'error' => trans('administration.institutions.delete_error', ['error' => $ex->getMessage(), 'name' => $inst->name])
-	        ]);
+                'error' => trans('administration.institutions.delete_error', ['error' => $ex->getMessage(), 'name' => $inst->name])
+            ]);
       }
   }
-
 }

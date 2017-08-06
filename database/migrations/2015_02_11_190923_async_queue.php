@@ -3,7 +3,8 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AsyncQueue extends Migration {
+class AsyncQueue extends Migration
+{
 
         //migration needed for the async queue
         /**
@@ -30,7 +31,6 @@ class AsyncQueue extends Migration {
          */
         public function down()
         {
-            Schema::drop('laq_async_queue');
+            Schema::dropIfExists('laq_async_queue');
         }
-
 }
