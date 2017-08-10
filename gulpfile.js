@@ -27,6 +27,7 @@ elixir.extend('previewJsModules', function() {
 });
 
 elixir.config.npmDir = "./node_modules/";
+elixir.config.vendorDir = "./vendor/";
 elixir.config.cssOutput = "public/css/";
 elixir.config.jsOutput = "public/js/";
 elixir.config.sourcemaps = false;
@@ -57,6 +58,8 @@ elixir(function(mix) {
                 '../resources/assets/js/deps/contextmenu.js',
                 'holmes.js/js/holmes.js',
                 'plyr/dist/plyr.js',
+                'handlebars/dist/handlebars.js',
+                "../vendor/avvertix/laravel-tus-upload/public/js/tusuploader.js",
     			'requirejs/require.js',
     			'../resources/assets/js/dms/init.js',
     		],
@@ -73,6 +76,12 @@ elixir(function(mix) {
                 'dropzone/dist/min/dropzone-amd-module.min.js'
             ],
             elixir.config.jsOutput +'/modules/dropzone.js', //output dir
+            elixir.config.npmDir //base dir
+        )
+        .scripts([
+                "/axios/dist/axios.min.js"
+            ],
+            elixir.config.jsOutput +'/modules/axios.js', //output dir
             elixir.config.npmDir //base dir
         )
         // .scripts([

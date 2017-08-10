@@ -9,7 +9,11 @@
         {
             "type": "vcs",
             "url": "https://git.klink.asia/open/k-search-client-php.git"
-		}
+		},
+		{
+            "type": "vcs",
+			"url": "https://git.klink.asia/alessio.vertemati/laravel-tus-upload"
+        }
         
     ],
 
@@ -31,7 +35,8 @@
 		"league/csv": "^8.0",
 		"phpoffice/phppresentation": "^0.8.0",
 		"phpoffice/phpspreadsheet": "dev-master",
-		"phpoffice/phpword": "~0.13.0"
+		"phpoffice/phpword": "~0.13.0",
+		"avvertix/laravel-tus-upload": "dev-master"
 	},
 	"require-dev": {
 		"barryvdh/laravel-ide-helper": "^2.3",

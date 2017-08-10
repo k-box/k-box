@@ -348,3 +348,32 @@ Route::get('site/{slug}', [
 ]);
 
 Route::resource('microsites', '\Klink\DmsMicrosites\Controllers\MicrositeController');
+
+/*
+|--------------------------------------------------------------------------
+| Upload related routes
+|--------------------------------------------------------------------------
+|
+| The new upload mechanism
+|
+*/
+
+Route::get('/uploads', [
+    'uses' => 'UploadPageController@index',
+    'as' => 'uploads.index',
+]);
+
+/*
+|--------------------------------------------------------------------------
+| Old /dms routes redirect
+|--------------------------------------------------------------------------
+|
+| Redirect the get requests to the old /dms path to the root
+|
+*/
+
+Route::prefix('dms')->middleware('guest')->group(function () {
+    Route::get('/', 'DmsRoutesController@index');
+
+    Route::get('/{route}', 'DmsRoutesController@show')->where('route', '[A-Za-z0-9\-\_\/]+');
+});

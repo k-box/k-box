@@ -840,22 +840,24 @@ class DocumentsController extends Controller
                 if ($document->isDirty() || $group_dirty) {
                     $document->save();
 
-                    $this->service->reindexDocument($document, \KlinkVisibilityType::KLINK_PRIVATE);
-                    
-                    if ($user->can_capability(Capability::CHANGE_DOCUMENT_VISIBILITY)) {
-                        if (! $was_document_public && $document->is_public) {
-                            \Log::info('Applying visibility change', ['descriptor' => $document->id, 'old' => $was_document_public, 'new' => $document->is_public]);
-                            $this->service->reindexDocument($document, \KlinkVisibilityType::KLINK_PUBLIC);
-                        } elseif ($was_document_public && ! $document->is_public) {
-                            \Log::info('Applying visibility change', ['descriptor' => $document->id, 'old' => $was_document_public, 'new' => $document->is_public]);
-                            $this->service->deletePublicDocument($document);
+                    if ($document->isFileUploadComplete()) {
+                        $this->service->reindexDocument($document, \KlinkVisibilityType::KLINK_PRIVATE);
+                        
+                        if ($user->can_capability(Capability::CHANGE_DOCUMENT_VISIBILITY)) {
+                            if (! $was_document_public && $document->is_public) {
+                                \Log::info('Applying visibility change', ['descriptor' => $document->id, 'old' => $was_document_public, 'new' => $document->is_public]);
+                                $this->service->reindexDocument($document, \KlinkVisibilityType::KLINK_PUBLIC);
+                            } elseif ($was_document_public && ! $document->is_public) {
+                                \Log::info('Applying visibility change', ['descriptor' => $document->id, 'old' => $was_document_public, 'new' => $document->is_public]);
+                                $this->service->deletePublicDocument($document);
+                            } elseif ($was_document_public && $document->is_public) {
+                                \Log::info('Reindexing also Public Document because Doc is dirty', ['descriptor' => $document->id]);
+                                $this->service->reindexDocument($document, \KlinkVisibilityType::KLINK_PUBLIC);
+                            }
                         } elseif ($was_document_public && $document->is_public) {
                             \Log::info('Reindexing also Public Document because Doc is dirty', ['descriptor' => $document->id]);
                             $this->service->reindexDocument($document, \KlinkVisibilityType::KLINK_PUBLIC);
                         }
-                    } elseif ($was_document_public && $document->is_public) {
-                        \Log::info('Reindexing also Public Document because Doc is dirty', ['descriptor' => $document->id]);
-                        $this->service->reindexDocument($document, \KlinkVisibilityType::KLINK_PUBLIC);
                     }
                 } else {
                     $document->touch();

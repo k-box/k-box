@@ -31,13 +31,6 @@
     }
 }());
 
-(function(){
-
-	// browser test and outdated message handling
-
-	
-
-}());
 
 window.DMS = (function(_$, _nprogress, _rivets, _alert){
 
@@ -196,6 +189,20 @@ window.DMS = (function(_$, _nprogress, _rivets, _alert){
 			longRunningMsg = _$('#long-running-message');
             Lang = lang;
 			
+			window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+
+			/**
+			 * Next we will register the CSRF Token as a common header with Axios so that
+			 * all outgoing HTTP requests automatically have it attached. This is just
+			 * a simple convenience so we don't have to attach every token manually.
+			 */
+			if (_token) {
+				window.axios.defaults.headers.common['X-CSRF-TOKEN'] = _token;
+			} else {
+				console.error('CSRF token not found in page.');
+			}
+
+
 			var accept_terms = _$('.js-terms-accept-dialog');
 			
 			if(accept_terms.length === 1){

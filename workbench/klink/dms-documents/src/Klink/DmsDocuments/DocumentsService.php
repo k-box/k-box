@@ -312,7 +312,7 @@ class DocumentsService
 
             $descr = $descr->mergeWithKlinkDocumentDescriptor($returned_descriptor);
 
-            $descr->status = DocumentDescriptor::STATUS_INDEXED;
+            $descr->status = DocumentDescriptor::STATUS_COMPLETED;
             
             $descr->last_error = null;
 
@@ -370,6 +370,92 @@ class DocumentsService
         }
     }
 
+
+    /**
+     * Creates a File entry in the database
+     *
+     * @param string|int|\KlinkDMS\User $user the user that is adding the file
+     * @param string $name the filename
+     * @param string $type the file mimetype
+     * @param string $path the file path on disk
+     * @param string $hash the file sha-512 hash
+     * @param string $size the file size in bytes
+     * @param boolean $is_folder If the file actually refers to a folder. Default false
+     * @param string $original_uri The original uri of the file location. Used in case of import from http. Default empty string
+     * @param string $thumbnail_path The path of the thumbnail for the file. Default null 
+     * @return \KlinkDMS\File
+     */
+    public function createFile($user, $name, $type, $path, $hash, $size, $is_folder = false, $original_uri = '', $thumbnail_path = null)
+    {
+        return  File::forceCreate([
+         'name' => $name,
+         'hash' => $hash,
+         'mime_type' => $type,
+         'size' => $size,
+         'thumbnail_path' => $thumbnail_path,
+         'path' => $path,
+         'user_id' => $user instanceof User ? $user->id : $user,
+         'original_uri' => $original_uri,
+         'is_folder' => $is_folder,
+        ]);
+    }
+    
+    /**
+     * 
+     * 
+     * @param \KlinkDMS\File $file
+     * @param string $visibility
+     * @param \KlinkDMS\Group|null $collection
+     * @return 
+     */
+    public function createDocumentDescriptor($file, $visibility = 'private', $collection = null)
+    {
+        $local_document_id = substr($file->hash, 0, 10);
+        
+        $owner = $file->user;
+
+        $institution = $this->adapter->institutions(\Config::get('dms.institutionID'));
+        
+        if (! is_null($owner->institution_id)) {
+            $institution = $owner->institution;
+        }
+
+        $institution = $this->adapter->institutions(\Config::get('dms.institutionID'));
+        
+        $document_url_path = $this->constructUrl($local_document_id, 'document');
+        $thumbnail_url_path = $this->constructUrl($local_document_id, 'thumbnail');
+
+        $document_type = \KlinkDocumentUtils::documentTypeFromMimeType($file->mime_type);
+
+        $attrs = [
+            'institution_id' => $institution->id,
+            'local_document_id' => $local_document_id,
+            'title' => $file->name,
+            'hash' => $file->hash,
+            'document_uri' => $document_url_path,
+            'thumbnail_uri' => $thumbnail_url_path,
+            'mime_type' => $file->mime_type,
+            'visibility' => $visibility,
+            'document_type' => $document_type,
+            'user_owner' => $owner->name.' <'.$owner->email.'>',
+            'user_uploader' => $owner->name.' <'.$owner->email.'>',
+            'owner_id' => $owner->id,
+            'file_id' => $file->id,
+            'created_at' => $file->created_at,
+            'status' => DocumentDescriptor::STATUS_UPLOADING
+        ];
+
+        $descr = DocumentDescriptor::forceCreate($attrs);
+
+        // Add the descriptor to the given group
+
+        if (! is_null($collection)) {
+            $descr->groups()->save($collection);
+        }
+
+        return  $descr;
+    }
+
     /**
      * Reindex e previously indexed document from it's descriptor.
      *
@@ -406,7 +492,7 @@ class DocumentsService
 
             $descriptor = $descriptor->mergeWithKlinkDocumentDescriptor($returned_descriptor);
 
-            $descriptor->status = DocumentDescriptor::STATUS_INDEXED;
+            $descriptor->status = DocumentDescriptor::STATUS_COMPLETED;
             
             $descriptor->last_error = null;
 
@@ -419,6 +505,7 @@ class DocumentsService
             $descriptor->status = DocumentDescriptor::STATUS_ERROR;
             
             $descriptor->last_error = $kex;
+            $descriptor->failed_at = \Carbon\Carbon::now();
 
             $descriptor->save();
 
@@ -429,6 +516,7 @@ class DocumentsService
             $descriptor->status = DocumentDescriptor::STATUS_ERROR;
             
             $descriptor->last_error = $kex;
+            $descriptor->failed_at = \Carbon\Carbon::now();
 
             $descriptor->save();
 
@@ -439,6 +527,7 @@ class DocumentsService
             $descriptor->status = DocumentDescriptor::STATUS_ERROR;
             
             $descriptor->last_error = $kex;
+            $descriptor->failed_at = \Carbon\Carbon::now();
 
             $descriptor->save();
 
@@ -1771,6 +1860,8 @@ class DocumentsService
             $file_model->user_id = $uploader->id;
             $file_model->original_uri = $file;
             $file_model->is_folder = false;
+            $file_model->upload_started_at = \Carbon\Carbon::now();
+            $file_model->upload_completed_at = \Carbon\Carbon::now();
             
             if ($file_m_time) {
                 $file_model->created_at = \Carbon\Carbon::createFromFormat('U', $file_m_time);
@@ -1892,12 +1983,13 @@ class DocumentsService
      * Performs:
      * - file name sanitation
      * - create the containing folder if not already there
+     * - if a file with the same name already exists, appends an hash to differentiate the file
      * - return the absolute path
      *
      * The folder will be constructed according to the YEAR/MONTH policy
      *
      * @param string $original_filename The name of the file that will be saved on disk and needs a folder
-     * @return string the absolute path reserved on disk for the filename
+     * @return string the unique absolute path reserved on disk for the filename
      */
     public function constructLocalPathForImport($original_filename, $seed = null)
     {

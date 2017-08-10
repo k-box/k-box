@@ -4,8 +4,61 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "0eed66cca3eef115a3f532c017b25f3b",
+    "content-hash": "43f339f4b946bca274273f1e28343fa5",
     "packages": [
+        {
+            "name": "avvertix/laravel-tus-upload",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://git.klink.asia/alessio.vertemati/laravel-tus-upload",
+                "reference": "f2f1cc0960f7a04853084d6e8bc7dc21a42eacf7"
+            },
+            "require": {
+                "illuminate/auth": "5.4.*",
+                "illuminate/console": "5.4.*",
+                "illuminate/contracts": "5.4.*",
+                "illuminate/database": "5.4.*",
+                "illuminate/events": "5.4.*",
+                "illuminate/support": "5.4.*",
+                "illuminate/view": "5.4.*",
+                "php": ">=5.6.4"
+            },
+            "require-dev": {
+                "fzaninotto/faker": "~1.4",
+                "mockery/mockery": "0.9.*",
+                "orchestra/testbench": "~3.4",
+                "phpunit/phpunit": "~5.7"
+            },
+            "type": "project",
+            "autoload": {
+                "classmap": [
+                    "database"
+                ],
+                "psr-4": {
+                    "Avvertix\\TusUpload\\": "src/"
+                },
+                "files": [
+                    "src/helpers.php"
+                ]
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "Tests\\": "tests/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "Upload files to your Laravel application with the tus.io resumable upload protocol.",
+            "keywords": [
+                "laravel",
+                "package",
+                "tus",
+                "upload"
+            ],
+            "time": "2017-08-01 12:27:28"
+        },
         {
             "name": "avvertix/materialicons-laravel-bridge",
             "version": "v0.1.0",
@@ -1291,12 +1344,12 @@
             "source": {
                 "type": "git",
                 "url": "https://git.klink.asia/open/k-search-client-php.git",
-                "reference": "62b85e1973f9d8685ada7c27c93f6840086753d6"
+                "reference": "333ec5da618778c072553b01840b242a304e6784"
             },
             "dist": {
                 "type": "tar",
                 "url": "https://build.klink.asia/composer//dist/klink-adapterboilerplate-v3.0.2-53489e.tar",
-                "reference": "62b85e1973f9d8685ada7c27c93f6840086753d6",
+                "reference": "333ec5da618778c072553b01840b242a304e6784",
                 "shasum": "f0645406bfb620b12100b1ee3c1896110d0bd5ee"
             },
             "require": {
@@ -6127,7 +6180,8 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "phpoffice/phpspreadsheet": 20
+        "phpoffice/phpspreadsheet": 20,
+        "avvertix/laravel-tus-upload": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

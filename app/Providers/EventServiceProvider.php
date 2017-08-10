@@ -4,8 +4,14 @@ namespace KlinkDMS\Providers;
 
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
+use Avvertix\TusUpload\Events\TusUploadStarted;
+use Avvertix\TusUpload\Events\TusUploadCompleted;
+use Avvertix\TusUpload\Events\TusUploadCancelled;
 use KlinkDMS\Events\ShareCreated;
 use KlinkDMS\Listeners\ShareCreatedHandler;
+use KlinkDMS\Listeners\TusUploadStartedHandler;
+use KlinkDMS\Listeners\TusUploadCompletedHandler;
+use KlinkDMS\Listeners\TusUploadCancelledHandler;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -18,6 +24,15 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         ShareCreated::class => [
             ShareCreatedHandler::class,
+        ],
+        TusUploadStarted::class => [
+            TusUploadStartedHandler::class,
+        ],
+        TusUploadCompleted::class => [
+            TusUploadCompletedHandler::class,
+        ],
+        TusUploadCancelled::class => [
+            TusUploadCancelledHandler::class,
         ],
     ];
 

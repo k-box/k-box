@@ -10,6 +10,7 @@ use KlinkDMS\Option;
 use KlinkDMS\User;
 use KlinkDMS\Capability;
 use KlinkDMS\DocumentDescriptor;
+use KlinkDMS\File;
 use Ramsey\Uuid\Uuid;
 
 class DmsUpdateCommand extends Command
@@ -346,11 +347,20 @@ class DmsUpdateCommand extends Command
         
 
         // generate the UUID for the private DocumentDescriptor that don't have it
-        $this->write('  <comment>Generating UUIDs for existing Document Descriptors.</comment>');
+        $this->write('  <comment>Generating UUIDs for existing Document Descriptors...</comment>');
         $count_generated = $this->generateDocumentsUuid();
         if ($count_generated > 0) {
             $this->write("  - <comment>Generated {$count_generated} UUIDs.</comment>");
         }
+        
+        
+        $this->write('  <comment>Filling upload_completed_at File attribute for existing files...</comment>');
+        $count_generated = $this->fillFileUploadCompletedAtForExistingFiles();
+        if ($count_generated > 0) {
+            $this->write("  - <comment>Updated {$count_generated} Files.</comment>");
+        }
+
+        
         
         // check the installed db branch
         
@@ -395,6 +405,30 @@ class DmsUpdateCommand extends Command
                 $doc->save();
                 $counter++;
             }
+        });
+        
+        return $counter;
+    }
+
+    private function fillFileUploadCompletedAtForExistingFiles()
+    {
+        $docs = File::whereNull('upload_completed_at')->get();
+
+        $count = $docs->count();
+
+        if ($count === 0) {
+            return 0;
+        }
+
+        $counter = 0;
+
+        $docs->each(function ($doc) use (&$counter) {
+            $doc->upload_completed_at = $doc->created_at;
+            //temporarly disable the automatic upgrade of the updated_at field
+            $doc->timestamps = false;
+
+            $doc->save();
+            $counter++;
         });
         
         return $counter;

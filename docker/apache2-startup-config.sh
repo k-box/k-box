@@ -1,1 +1,0 @@
-echo "Nothing to configure"

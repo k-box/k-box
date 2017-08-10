@@ -97,6 +97,9 @@
 							<li><a href="#{{route('documents.create')}}" class="dropdown-el" id="upload_trigger">
 								@materialicon('action', 'description'){{trans('actions.upload')}}
 							</a></li>
+							<li><a href="{{route('uploads.index')}}" class="dropdown-el">
+								@materialicon('file', 'file_upload')New Uploader (preview)
+							</a></li>
 
 						@endif
 
@@ -199,7 +202,7 @@
 
 		@include('errors.list')
 		
-		@if(isset($context) && $context!=='recent')
+		@if(isset($context) && ($context!=='recent' && $context!=='uploads'))
 			@include('documents.facets')
 		@endif
 

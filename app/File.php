@@ -4,6 +4,8 @@ namespace KlinkDMS;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Avvertix\TusUpload\TusUpload;
+use Carbon\Carbon;
 
 /**
  * The representation of a File on disk
@@ -25,6 +27,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property-read \KlinkDMS\DocumentDescriptor $document the related Document Descriptor
  * @property-read \KlinkDMS\File $revisionOf the previous version of the File
  * @property-read \KlinkDMS\User $user The User that uploaded the file.
+ * @property \Carbon\Carbon $upload_completed_at when the upload finished
+ * @property \Carbon\Carbon $upload_cancelled_at when the upload was cancelled by the user
+ * @property \Carbon\Carbon $upload_started_at when the upload started, might be the same as the creation date
+ * @property-read bool $upload_completed true if the upload completed
+ * @property-read bool $upload_cancelled true if the upload was cancelled by the user
  * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\File folders() {@see KlinkDMS\File::scopeFolders()}
  * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\File fromHash($hash) {@see KlinkDMS\File::scopeFromHash()}
  * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\File fromOriginalUri($uri) {@see KlinkDMS\File::scopeFromOriginalUri()}
@@ -190,6 +197,66 @@ class File extends Model
         return $query->where('hash', $hash);
     }
     
+    /**
+     * Get the upload job, if still stored, that made possible to
+     * have this file in the system.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function upload()
+    {
+        return $this->hasOne(TusUpload::class, 'request_id', 'request_id');
+    }
+
+    /**
+     * Get if the upload is complete.
+     *
+     * @param  mixed  $value not taken into account
+     * @return bool
+     */
+    public function getUploadCompletedAttribute($value = null)
+    {
+        return isset($this->attributes['upload_completed_at']) && ! is_null($this->attributes['upload_completed_at']);
+    }
+
+    /**
+     * Get if the upload was cancelled.
+     *
+     * @param  mixed  $value not taken into account
+     * @return bool
+     */
+    public function getUploadCancelledAttribute($value = null)
+    {
+        return isset($this->attributes['upload_cancelled_at']) && ! is_null($this->attributes['upload_cancelled_at']);
+    }
+
+    /**
+     * Set the upload_started attribute
+     *
+     * @param  bool  $started
+     * @return void
+     */
+    public function setUploadStartedAttribute($started)
+    {
+        if ($started && ! $this->upload_started_at) {
+            $this->attributes['upload_started_at'] = Carbon::now();
+        }
+
+        if (! $started && $this->upload_started_at) {
+            $this->attributes['upload_started_at'] = null;
+        }
+    }
+
+    /**
+     * Get if the upload is started.
+     *
+     * @param  mixed  $value not taken into account
+     * @return bool
+     */
+    public function getUploadStartedAttribute($value = null)
+    {
+        return isset($this->attributes['upload_started_at']) && ! is_null($this->attributes['upload_started_at']);
+    }
     
     /**
      * Delete the file from the database and from the file system

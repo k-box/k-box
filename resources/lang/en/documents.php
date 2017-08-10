@@ -161,6 +161,8 @@ return [
         
         
         'not_index_message' => 'The document has not yet been succesfully added to K-Link. Please try to <button type="submit">Reindex it</button> now or contact your administrator.',
+        'not_fully_uploaded' => 'The upload of this document is still in progress.',
+        'preview_available_when_upload_completes' => 'The preview will be available once the upload completes.',
     ],
 
     'update' => [
@@ -288,6 +290,7 @@ return [
         'all_uploaded' => 'All the files have been successfully uploaded.',
         
         'upload_dialog_title' => 'Upload',
+        'page_title' => 'Upload',
         'dragdrop_not_supported' => 'Your browser does not support drag and drop file uploads.',
         'dragdrop_not_supported_text' => 'Please upload your files using file selector in "Create or Add".',
         'remove_btn' => "Remove file", //this is the little link that is showed after the file upload has been processed

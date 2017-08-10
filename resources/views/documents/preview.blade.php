@@ -81,7 +81,7 @@
 			</div>
 		@endif
 
-		@if(!is_null($document->file))
+		@if($document->isFileUploadComplete())
 			<div class="file-properties__property">
 				<span class="file-properties__label">{{trans('panels.meta.size')}}</span>
 				<span class="file-properties__value">{{ isset($document) ? Klink\DmsDocuments\DocumentsService::human_filesize($document->file->size) : '' }}</span>
@@ -153,7 +153,7 @@
 	
 	</div>
 
-@else
+@elseif($document->isFileUploadComplete())
 
 	@if($type=='image')
 	
@@ -188,6 +188,13 @@
 		</div>
 	
 	@endif
+
+@else
+
+	<div class="c-message c-message--warning">
+		<p>{{ trans('documents.edit.not_fully_uploaded') }}</p>
+		<p>{{ trans('documents.edit.preview_available_when_upload_completes') }}</p>
+	</div>
 
 @endif
 

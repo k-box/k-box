@@ -58,7 +58,8 @@ $factory->define(KlinkDMS\File::class, function (Faker\Generator $faker) {
         'mime_type' => 'application/pdf',
         'user_id' => factory(KlinkDMS\User::class)->create()->id,
         'size' => $faker->randomNumber(2),
-        'original_uri' => ''
+        'original_uri' => '',
+        'upload_completed_at' => \Carbon\Carbon::now()
     ];
 });
 
@@ -85,7 +86,8 @@ $factory->define(KlinkDMS\DocumentDescriptor::class, function (Faker\Generator $
     
     $file = factory(KlinkDMS\File::class)->create([
         'user_id' => $user->id,
-        'original_uri' => ''
+        'original_uri' => '',
+        'upload_completed_at' => \Carbon\Carbon::now()
     ]);
     
     $institution_count = \KlinkDMS\Institution::count();
@@ -112,6 +114,7 @@ $factory->define(KlinkDMS\DocumentDescriptor::class, function (Faker\Generator $
         'language' => $faker->languageCode,
         'file_id' => $file->id,
         'owner_id' => $user->id,
+        'status' => KlinkDMS\DocumentDescriptor::STATUS_COMPLETED,
     ];
 });
 

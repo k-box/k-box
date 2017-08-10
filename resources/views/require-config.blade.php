@@ -60,6 +60,10 @@ define('plyr', [], function() {
     return window.plyr;
 });
 
+define('Handlebars', [], function() {
+    return window.Handlebars;
+});
+
 // -- Global initializations
 
 @if(app()->environment() === 'production')
@@ -72,9 +76,11 @@ define('plyr', [], function() {
 @endif
 
 
-require(['jquery', 'DMS', 'language'], function($, DMS, Lang){
+require(['jquery', 'DMS', 'language', 'modules/axios'], function($, DMS, Lang, axios){
 
-  DMS.initialize(Lang);
+    window.axios = axios;
+
+    DMS.initialize(Lang);
 
     $(document).ready(function() {
       $('#document-area .item__thumbnail img').unveil(undefined, function() {});

@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added 
 
+- redirect from `/dms/something` to `/something` as the `/dms` alias is deprecated. 
+  This is only for supporting old GET urls that have been added to reports
+
 ### Changed
 
 ### Fixed
@@ -28,6 +31,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - `UserCreatedNotification` for handling the sending of the welcome message to the newly created user
 - User name of the user that uploaded a file version
 - An empty document upload is now blocked with the message (key: `documents.upload.empty_file_error`)
+- Tusd package for resumable file upload
+- Page at `/uploads` for testing uploads via tus protocol
+- [docker] `/tus-uploads` in nginx alias configuration to proxy the calls to the tus server
+- Added `failed_at` attribute to DocumentDescriptor
+- Added `request_id`, `upload_started_at`, `upload_cancelled_at`, `upload_completed_at` to a File to link to the tus upload and to monitor the upload status
 
 ### Changed
 
@@ -48,6 +56,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Document layouts (grid, details, tiles) to use flexbox and a new list-item component
 - K-Box administrators are now redirected to the document section after logging-in
 - Collection removed message is not showed anymore when a collection is removed from the document details panel
+- [docker image] moved to NGINX as integrated webserver
+- [docker image] changed base image to the official PHP 7 fpm
+- [docker image] by default the code is served from the root, 
+  no need to specify `/dms` anymore
+- Composer private repository is gone, now referencing directly the 
+  packages from the git repository
+- upload with tus resumable protocol is not subject to File Already Exists check
+- changed DocumentDescriptors statuses:
+ - `STATUS_PENDING` is now `STATUS_PROCESSING` to better state that the file is being processed by some asynchronous actions
+ - `STATUS_INDEXED` is now `STATUS_COMPLETED` to reflect that all operations on the file have been concluded
+
 
 ### Fixed
 

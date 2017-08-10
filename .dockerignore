@@ -5,6 +5,7 @@ gulpfile.js
 package.json
 bower.json
 phpspec.yml
+.php_cs
 phpunit.xml
 tests/*
 node_modules
@@ -22,10 +23,6 @@ contributing.md
 .vscode
 .dockerignore
 Dockerfile
-storage/app/*
-storage/documents/*
-storage/framework/cache/*
-storage/framework/sessions/*
-storage/framework/views/*
-storage/logs/*.log
-storage/resources
+storage/
+php-cs-fixer.phar
+server.php

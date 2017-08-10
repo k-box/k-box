@@ -112,7 +112,17 @@ class KlinkApiController extends Controller
      */
     private function getThumbnail(Request $request, DocumentDescriptor $doc)
     {
-    
+        if (! $doc->isFileUploadComplete()) {
+            $response = response()->make();
+            $response->setLastModified(\Carbon\Carbon::now());
+            
+            $response->setContent('<svg xmlns="http://www.w3.org/2000/svg" id="svg" width="300" height="300" viewport="0 0 100 100" version="1.1"><path d="M18 32h12V20h8L24 6 10 20h8zm-8 4h28v4H10z"/></svg>');
+
+            $response->header('Content-Type', 'image/svg+xml');
+
+            return $response;
+        }
+
         /* File */ $file = $doc->file;
         
         if (is_null($file)) {
@@ -206,17 +216,17 @@ class KlinkApiController extends Controller
             
         $extension = \KlinkDocumentUtils::getExtensionFromMimeType($file->mime_type);
 
-        // $render = $this->previewService->render($file);
-
         $render = null;
         $preview = null;
 
         try {
-            $preview = $this->previewService->load($file->path, $extension);
+            if ($doc->isFileUploadComplete()) {
+                $preview = $this->previewService->load($file->path, $extension);
 
-            $properties = $preview->properties();
+                $properties = $preview->properties();
 
-            $render = $preview->html();
+                $render = $preview->html();
+            }
         } catch (UnsupportedFileException $pex) {
         } catch (PreviewGenerationException $pex) {
             \Log::error('KlinkApiController - Preview Generation, using PreviewService, failure', ['error' => $pex, 'file' => $file]);

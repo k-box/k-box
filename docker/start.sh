@@ -12,10 +12,13 @@ case "${COMMAND}" in
     'apache')
         exec /usr/local/bin/apache2-foreground.sh
     ;;
+    'all')
+        /usr/local/bin/configure.sh && exec /usr/bin/supervisord
+    ;;
     'queue')
-        exec bash -c "until [ -S /var/run/php5-fpm.sock ]; do echo Waiting php; sleep 1; done; exec php artisan dms:queuelisten -v"
+        exec bash -c "until [ -S /var/run/php-fpm.sock ]; do echo Waiting php; sleep 1; done; exec su -c 'php artisan dms:queuelisten -v 2>&1' -s /bin/sh www-data"
     ;;
     *)
-        echo "K-Box start.sh script: Command ${COMMAND} invalid, expected one of (php|apache|queue)"
+        /usr/local/bin/configure.sh && exec /usr/bin/supervisord
    ;;
 esac

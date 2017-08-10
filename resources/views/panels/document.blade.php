@@ -40,7 +40,9 @@
 	</div>
 
 </div>
+@if($item->isFileUploadComplete())
 <div class="c-panel__actions">
+
     
     <?php $real_download_link = null; ?>
     <?php $real_preview_link = null; ?>
@@ -99,8 +101,14 @@
 	
 	@endif
 
-	
 </div>
+@else 
+
+<div class="c-message c-message--warning">
+	{{ trans('documents.edit.not_fully_uploaded') }}
+</div>
+
+@endif
 
 <div class="c-panel__data">
 

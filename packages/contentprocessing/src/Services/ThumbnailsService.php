@@ -8,6 +8,7 @@ use Klink\DmsAdapter\Contracts\KlinkAdapter;
 use \KlinkDocumentUtils;
 use Log;
 use Exception;
+use Symfony\Component\Debug\Exception\FatalThrowableError;
 
 /**
  * The service responsible for the generation of the {@see File}
@@ -119,6 +120,10 @@ class ThumbnailsService
 
             $thumb_save_path = $this->getDefaultThumbnail($mime);
         } catch (ErrorException $kex) {
+            Log::error('Error generating thumbnail', ['param' => $file->toArray(), 'exception' => $kex]);
+
+            $thumb_save_path = $this->getDefaultThumbnail($mime);
+        } catch (FatalThrowableError $kex) {
             Log::error('Error generating thumbnail', ['param' => $file->toArray(), 'exception' => $kex]);
 
             $thumb_save_path = $this->getDefaultThumbnail($mime);

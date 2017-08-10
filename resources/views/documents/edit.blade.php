@@ -42,10 +42,16 @@
 
 <form action="{{route('documents.update', $document->id)}}" class="c-form edit-view" enctype="multipart/form-data" method="post" class="document-form" id="edit-form">
 
-	@if(!$document->trashed() && $document->isMine() && !$document->isIndexed())
+	@if(!$document->trashed() && $document->isMine() && $document->isFileUploadComplete() && !$document->isIndexed())
 	
-	<div class="alert info">
+	<div class="c-message">
 		{!!trans('documents.edit.not_index_message')!!}
+	</div>
+
+	@elseif(!$document->trashed() && $document->isMine() && !$document->isFileUploadComplete())
+	
+	<div class="c-message c-message--warning">
+		{!!trans('documents.edit.not_fully_uploaded')!!}
 	</div>
 	
 	@endif
@@ -159,7 +165,7 @@
 				</button>
 			@endif
 
-			@if($document->isMine() && $can_make_public && network_enabled())
+			@if($document->isMine() && $document->isIndexed() && $can_make_public && network_enabled())
 
 			<div class="c-form__field">
 				<input type="checkbox" name="visibility" id="visibility" value="public" @if($document->isPublic()) checked @endif>
@@ -178,8 +184,8 @@
 				<div>
 				<span data-hint="{{ $document->getCreatedAt(true) }}" class="hint--bottom">{!! trans('documents.edit.created_on', ['time' => $document->getCreatedAt()]) !!}</span>
 				</div>
-
-				@if(!is_null($document->file))
+				
+				@if($document->isFileUploadComplete())
 					<div>
 					<span>{!! trans('documents.edit.uploaded_by', ['name' => !is_null($document->file->user) ? $document->file->user->name : e($document->user_uploader) ]) !!}</span>
 					</div>
@@ -191,27 +197,22 @@
 				
 				@if(!$document->isRemoteWebPage())
 
-					@if(!is_null($document->file))
+					@if($document->isFileUploadComplete())
 
 						<a href="{{DmsRouting::preview($document)}}" class="button">{!!trans('panels.open_btn')!!} </a>
 
 					@endif
 
-					<a href="{{DmsRouting::download($document)}}" target="_blank" download="{{ $document->title }}" class="button">
-						{{trans('panels.download_btn')}} 
-
-						@if(!is_null($document->file))
+					@if($document->isFileUploadComplete())
+						<a href="{{DmsRouting::download($document)}}" target="_blank" download="{{ $document->title }}" class="button">
+							{{trans('panels.download_btn')}} 
 							({{Klink\DmsDocuments\DocumentsService::extension_from_file($document->file)}}, {{Klink\DmsDocuments\DocumentsService::human_filesize($document->file->size)}})
-						@endif
-					</a>
-
-				@else 
-
-					@if(!is_null($document->file))
-
-						<a href="{{$document->file->original_uri}}" class="button" tarrget="_blank">{!!trans('panels.open_site_btn')!!} </a>
-
+						</a>
 					@endif
+
+				@elseif(!is_null($document->file))
+
+					<a href="{{$document->file->original_uri}}" class="button" tarrget="_blank">{!!trans('panels.open_site_btn')!!} </a>
 
 				@endif
 			</div>
@@ -227,11 +228,9 @@
 
 
 	<div class="edit-view__versions">
-
-		@if(!is_null($document->file))
-		@include('documents.partials.versioninfo')
-		@endif
-
+			@if($document->isFileUploadComplete())
+			@include('documents.partials.versioninfo')
+			@endif
 	</div>
 
 

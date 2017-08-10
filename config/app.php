@@ -227,6 +227,11 @@ return [
          */
         Dyrynda\Database\LaravelEfficientUuidServiceProvider::class,
 
+        /*
+         * For the tus based resumable upload handling
+         */
+        Avvertix\TusUpload\Providers\TusUploadServiceProvider::class,
+
     ],
 
     /*

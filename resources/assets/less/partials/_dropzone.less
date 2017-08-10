@@ -225,3 +225,52 @@
       }
     }
 }
+
+
+
+// new uploads page/form
+
+.upload-trigger {
+  background: @brand-gray;
+  padding: 32px 16px;
+  color: #fff;
+  text-align: center;
+  cursor: pointer;
+  // @brand-light-gray: #f8f9fa;
+  // @brand-dark-gray: #212529;
+  
+  label {
+    cursor: pointer;
+  }
+}
+
+.upload-field {
+  position: absolute;
+  opacity: 0;
+  z-index: -1;
+}
+
+.upload-trigger__button {
+  background: @brand-dark-gray;
+  pointer-events: none;
+  border: 0;
+  padding: 8px;
+}
+
+
+.upload-trigger:hover .upload-trigger__button {
+  background: @brand-blue;
+}
+
+.upload-trigger--dragover {
+  background: @brand-blue;
+}
+
+.uploads-list {
+  margin-top: 16px;
+}
+
+.upload {
+  
+  margin-bottom: 16px;
+}

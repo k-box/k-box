@@ -29,6 +29,7 @@ use Dyrynda\Database\Support\GeneratesUuid;
  * @property \Carbon\Carbon $deleted_at when the document was trashed
  * @property \Carbon\Carbon $created_at when the document was created
  * @property \Carbon\Carbon $updated_at when the document was last updated
+ * @property \Carbon\Carbon $failed_at when the last error occurred
  * @property int $file_id the reference to the File
  * @property int $owner_id the reference to the User that created the descriptor
  * @property int $status the status of the descriptor in the K-Box
@@ -85,18 +86,46 @@ class DocumentDescriptor extends Model
      * Indicate that the document, reference by a DocumentDescriptor, has not yet been indexed
      *
      * @var int
+     * @deprecated
      */
     const STATUS_NOT_INDEXED = 0;
 
     /**
      * Indicate that the document, reference by a DocumentDescriptor, is currently in indexing
+     * @deprecated see self::STATUS_PROCESSING
      */
     const STATUS_PENDING = 1;
 
     /**
+     * Indicate that the document is being processed (indexing, metadata extraction,...)
+     */
+    const STATUS_PROCESSING = 1;
+    
+    /**
+     * Indicate that the document is being uploaded
+     */
+    const STATUS_UPLOADING = 5;
+
+    /**
+     * Indicate that the document upload is complete
+     */
+    const STATUS_UPLOAD_COMPLETED = 6;
+
+    /**
+     * Indicate that the document upload was cancelled
+     */
+    const STATUS_UPLOAD_CANCELLED = 7;
+
+    /**
      * Indicate that the document, reference by a DocumentDescriptor, has been indexed
+     * @deprecated see self::STATUS_COMPLETED
      */
     const STATUS_INDEXED = 2;
+    
+    /**
+     * Indicate that all the processing to the DocumentDescriptor was done succesfully
+     */
+    const STATUS_COMPLETED = 2;
 
     /**
      * Indicate that the document, reference by a DocumentDescriptor, cannot be indexed due to one or more errors
@@ -564,10 +593,33 @@ class DocumentDescriptor extends Model
         return ($this->document_type == 'web-page' || $this->document_type == 'document') && ! is_null($this->file) && starts_with($this->file->original_uri, 'http');
     }
     
-    
+    /**
+     * Tells if the descriptor (and the file content) is searchable
+     *
+     * @uses isFileUploadComplete()
+     * @return bool
+     */
     public function isIndexed()
     {
-        return $this->status !== self::STATUS_NOT_INDEXED && $this->status !== self::STATUS_ERROR;
+        return $this->isFileUploadComplete() &&
+               $this->status !== self::STATUS_NOT_INDEXED &&
+               $this->status !== self::STATUS_PROCESSING &&
+               $this->status !== self::STATUS_ERROR;
+    }
+    
+    /**
+     * Tell if the file was uploaded completely or if is still pending
+     *
+     * @uses isMine()
+     * @return bool true if the file has been uploaded completely
+     */
+    public function isFileUploadComplete()
+    {
+        if (! $this->isMine()) {
+            return false;
+        }
+
+        return $this->file->upload_completed;
     }
     
     

@@ -9,3 +9,5 @@
 *.js text eol=lf
 *.css text eol=lf
 *.less text eol=lf
+
+*.sh text eol=lf
