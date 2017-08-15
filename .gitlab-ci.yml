@@ -128,11 +128,11 @@ branch_release:
   script:
     - sed -i "s/BUILDVERSION/${CI_BUILD_REF_NAME}/g" ./config/dms.php
     - sed -i "s/BUILDCODE/${CI_BUILD_REF}/g" ./config/dms.php
-    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN -e info@klink.asia $CI_REGISTRY
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
     - docker build -t $CI_REGISTRY_IMAGE:${CI_BUILD_REF_NAME/v/} .
     - docker push $CI_REGISTRY_IMAGE:${CI_BUILD_REF_NAME/v/}
   tags:
-    - old-shell
+    - dind
   except:
     - tags
   dependencies:
@@ -145,16 +145,16 @@ tagged_release:
   script:
     - sed -i "s/BUILDVERSION/${CI_BUILD_REF_NAME}/g" ./config/dms.php
     - sed -i "s/BUILDCODE/${CI_BUILD_REF}/g" ./config/dms.php
-    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN -e info@klink.asia $CI_REGISTRY
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
     - docker build -t $CI_REGISTRY_IMAGE:${CI_BUILD_REF_NAME/v/} .
     - docker push $CI_REGISTRY_IMAGE:${CI_BUILD_REF_NAME/v/}
-    - docker login -u $REGISTRY_RELEASE_USERNAME -p $REGISTRY_RELEASE_PASSWORD -e info@klink.asia $CI_REGISTRY
+    - docker login -u $REGISTRY_RELEASE_USERNAME -p $REGISTRY_RELEASE_PASSWORD $CI_REGISTRY
     - docker tag -f $CI_REGISTRY_IMAGE:${CI_BUILD_REF_NAME/v/} "$CONTAINER_RELEASE_IMAGE_BASE:${CI_BUILD_REF_NAME/v/}"
     - docker tag -f $CI_REGISTRY_IMAGE:${CI_BUILD_REF_NAME/v/} "$CONTAINER_RELEASE_IMAGE_BASE:latest"
     - docker push "$CONTAINER_RELEASE_IMAGE_BASE:latest"
     - docker push "$CONTAINER_RELEASE_IMAGE_BASE:${CI_BUILD_REF_NAME/v/}"
   tags:
-    - old-shell
+    - dind
   only:
     - tags
   dependencies:
@@ -172,16 +172,17 @@ test_klink_asia_deploy:
   when: manual
   stage: deploy
   tags:
-    - old-shell
+    - shell
+    - deploy
   variables:
     INSTANCE_PREFIX: $TEST_INSTANCE_PREFIX
     BUILD_LOCATION: $BUILD_FOLDER 
     DOCKER_LOCATION: $TEST_DOCKER_FOLDER 
   script: 
-    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN -e info@klink.asia $CI_REGISTRY
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
     - docker pull $CI_REGISTRY_IMAGE:${CI_BUILD_REF_NAME/v/}
     - cd ${DOCKER_LOCATION}
-    - docker tag -f $CI_REGISTRY_IMAGE:${CI_BUILD_REF_NAME/v/} dms-testing-environment
+    - docker tag $CI_REGISTRY_IMAGE:${CI_BUILD_REF_NAME/v/} dms-testing-environment
     - docker-compose -f docker-compose-kbox.yml -p ${INSTANCE_PREFIX} stop && docker-compose -f docker-compose-kbox.yml -p ${INSTANCE_PREFIX} rm -v -f && docker-compose -f docker-compose-kbox.yml -p ${INSTANCE_PREFIX} up -d frontend
 
 
@@ -191,16 +192,17 @@ dms_klink_asia_deploy:
   when: manual
   stage: deploy
   tags:
-    - old-shell
+    - shell
+    - deploy
   variables:
     INSTANCE_PREFIX: $DMS_INSTANCE_PREFIX
     BUILD_LOCATION: $BUILD_FOLDER 
     DOCKER_LOCATION: $PROD_DOCKER_FOLDER
   script: 
-    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN -e info@klink.asia $CI_REGISTRY
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
     - docker pull $CI_REGISTRY_IMAGE:${CI_BUILD_REF_NAME/v/}
     - cd ${DOCKER_LOCATION}
-    - docker tag -f $CI_REGISTRY_IMAGE:${CI_BUILD_REF_NAME/v/} dms-staging-environment
+    - docker tag $CI_REGISTRY_IMAGE:${CI_BUILD_REF_NAME/v/} dms-staging-environment
     - docker-compose -f docker-compose-kbox.yml -p ${INSTANCE_PREFIX} stop && docker-compose -f docker-compose-kbox.yml -p ${INSTANCE_PREFIX} rm -v -f && docker-compose -f docker-compose-kbox.yml -p ${INSTANCE_PREFIX} up -d frontend
   only:
     - master
