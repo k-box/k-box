@@ -108,6 +108,7 @@ unit_test:
   script:
     - cp env.ci .env
     - cp env.ci testing.env
+    - mkdir ./storage/documents
     - composer install --prefer-dist
     - php artisan config:clear
     - php artisan migrate --env=testing --force

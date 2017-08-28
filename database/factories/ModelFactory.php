@@ -48,6 +48,10 @@ $factory->defineAs(KlinkDMS\User::class, 'admin', function (Faker\Generator $fak
 $factory->define(KlinkDMS\File::class, function (Faker\Generator $faker) {
     $hash = $faker->sha256.''.$faker->sha256;
 
+    if(!is_dir(storage_path('documents'))){
+        mkdir(storage_path('documents'));
+    }
+
     copy(base_path('tests/data/example.pdf'), storage_path('documents/example.pdf'));
     $path = storage_path('documents/example.pdf');
     
