@@ -34,9 +34,7 @@
         <div class="c-section">
             <h4 class="c-section__title">{{trans('administration.maintenance.logs_widget_title')}}</h4>
 
-            <div class="log">
-                {{$log_entries}}
-            </div>
+            <div class="log">{{$log_entries}}</div>
         
         </div>
 
