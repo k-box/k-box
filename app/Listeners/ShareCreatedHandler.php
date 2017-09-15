@@ -43,28 +43,9 @@ class ShareCreatedHandler implements ShouldQueue
 
         if (is_a($to, 'KlinkDMS\User')) {
             Log::info('share created', compact('event'));
-            // Log::info('share to user, creating ShareCreatedNotification', compact('from', 'to', 'what'));
 
             $to->notify(new ShareCreatedNotification($event->share));
 
-            // Mail::send('emails.shares.created', $data, function ($message) use($from, $to, $what_title, $language, $subject) {
-            //     $message->subject($subject);
-
-            //     $message->from(Option::mailFrom(), $from->name);
-            //     $message->replyTo($from->email, $from->name);
-
-            //     if(is_a($to, 'KlinkDMS\PeopleGroup'))
-            //     {
-            //         $recipients = $to->people;
-
-            //         foreach ($recipients as $recipient) {
-            //             $message->to($recipient->email, $recipient->name);
-            //         }
-            //     }
-            //     else {
-            //         $message->to($to->email, $to->name);
-            //     }
-            // });
         }
     }
 }
