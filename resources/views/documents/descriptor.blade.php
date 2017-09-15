@@ -25,7 +25,7 @@
 			'thumbnail' => DmsRouting::thumbnail($item),
 			'name' => $item->title,
 			'url' => route('documents.show', $item->id),
-			'added_by' => (!is_null($item->owner) ? $item->owner->name .' ' : '') . $item->institution->name,
+			'added_by' => (!is_null($item->owner) ? $item->owner->name .' ' : ''),
 			'modified_at' => $item->getUpdatedAt(true),
 			'created_at' => $item->getCreatedAt(true),
 			'modified_at_diff' => $item->getUpdatedAtHumanDiff(),

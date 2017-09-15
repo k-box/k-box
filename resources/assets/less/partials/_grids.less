@@ -276,6 +276,13 @@
 	flex-grow: 2;
 }
 
+.list__column--fixed {
+	min-width: 0;
+	flex-grow: 0;
+	display: block;
+	.text-truncate();
+}
+
 .list.details {
 	.detail__label {
 		display: none;

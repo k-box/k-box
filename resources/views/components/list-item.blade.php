@@ -117,13 +117,13 @@
 	
 
     @if(!isset($share) || isset($share) && !$share)
-		<span class="item__detail list__column list__column--hideable" title="{{trans('documents.descriptor.added_by')}} {{$added_by}}">
+		<span class="item__detail list__column list__column--fixed list__column--hideable" title="{{trans('documents.descriptor.added_by')}} {{$added_by}}">
             {{$added_by}}
 		</span>
     @endif
 		
     @if(isset($share) && isset($shared_by) && $shared_by !== false)
-        <span class="item__detail list__column shared-by" title="{{trans('share.shared_by_label')}}">
+        <span class="item__detail list__column list__column--fixed shared-by" title="{{trans('share.shared_by_label')}}">
             @include('share.with', ['with_who' => $shared_by])
         </span>			
     @endif
