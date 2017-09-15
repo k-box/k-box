@@ -36,15 +36,9 @@ before_script:
 
 ## Linting
 
-test-syntax:5.6:
-  <<: *composer_install
-  image: "docker.klink.asia/open/docker-php:5.6-alpine"
-  tags:
-    - docker
-
 test-syntax:7.0:
   <<: *composer_install
-  image: "docker.klink.asia/open/docker-php:7.0-alpine"
+  image: "docker.klink.asia/main/docker-php:7.0-alpine"
   tags:
     - docker
 
@@ -64,7 +58,7 @@ frontend:
     - public/
 
 laravel:
-  image: "docker.klink.asia/open/docker-php:7.0-alpine"
+  image: "docker.klink.asia/main/docker-php:7.0-alpine"
   tags:
     - docker
   stage: build_laravel
@@ -86,7 +80,7 @@ language_check:
     - cp env.ci .env
     - composer install --prefer-dist
     - php artisan lang:check --report=translations.txt
-  image: "docker.klink.asia/open/docker-php:7.0-alpine"
+  image: "docker.klink.asia/main/docker-php:7.0-alpine"
   tags:
     - docker
   only:
@@ -97,7 +91,7 @@ language_check:
 
 unit_test:
   stage: test
-  image: "docker.klink.asia/open/docker-php:7.0-alpine"
+  image: "docker.klink.asia/main/docker-php:7.0-alpine"
   services:
     - mariadb:10.0
   variables:

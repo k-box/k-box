@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "43f339f4b946bca274273f1e28343fa5",
+    "content-hash": "004cd8a3a244efe8cbbb618e0014e302",
     "packages": [
         {
             "name": "avvertix/laravel-tus-upload",
@@ -1343,7 +1343,7 @@
             "version": "v3.0.2",
             "source": {
                 "type": "git",
-                "url": "https://git.klink.asia/open/k-search-client-php.git",
+                "url": "https://git.klink.asia/main/k-search-client-php.git",
                 "reference": "333ec5da618778c072553b01840b242a304e6784"
             },
             "dist": {

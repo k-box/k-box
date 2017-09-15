@@ -1,6 +1,6 @@
 [![build status](https://git.klink.asia/main/k-box/badges/master/build.svg)](https://git.klink.asia/main/k-box/commits/master) ![latest version](https://img.shields.io/badge/version-0.18.0-blue.svg)
 
-## K-Box
+# K-Box
 
 The K-Box is a web application designed for handling document management inside an Organization or on a Project basis.
 

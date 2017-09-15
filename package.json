@@ -1,11 +1,12 @@
 {
   "version": "0.18.0",
+  "private": true,
   "name": "k-box",
   "repository": {
     "type": "vcs",
-    "url": "https://git.klink.asia/klinkdms/dms/"
+    "url": "https://git.klink.asia/main/k-box"
   },
-  "license": "GPL-3.0",
+  "license": "AGPL-3.0",
   "devDependencies": {
     "gulp": "^3.9.0",
     "laravel-elixir": "~3.0.0"

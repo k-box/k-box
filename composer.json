@@ -2,13 +2,13 @@
 	"name": "klink/kbox",
 	"description": "The K-Link K-Box.",
 	"keywords": ["K-Link", "document", "management", "K-Box"],
-	"license": "GPLv3",
+	"license": "AGPL-3.0",
 	"type": "project",	
 	
 	"repositories": [
         {
             "type": "vcs",
-            "url": "https://git.klink.asia/open/k-search-client-php.git"
+            "url": "https://git.klink.asia/main/k-search-client-php.git"
 		},
 		{
             "type": "vcs",
