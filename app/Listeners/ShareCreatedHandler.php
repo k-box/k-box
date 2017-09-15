@@ -3,7 +3,6 @@
 namespace KlinkDMS\Listeners;
 
 use KlinkDMS\Events\ShareCreated;
-use KlinkDMS\Option;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Log;
@@ -45,7 +44,6 @@ class ShareCreatedHandler implements ShouldQueue
             Log::info('share created', compact('event'));
 
             $to->notify(new ShareCreatedNotification($event->share));
-
         }
     }
 }
