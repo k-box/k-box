@@ -12,6 +12,8 @@
 			<a href="{{ route('help') }}">{{trans('pages.help')}}</a>
 			
 			<a href="{{ route('terms') }}">{{trans('pages.service_policy')}}</a>
+			
+			<a href="{{ route('privacy') }}">{{trans('pages.privacy')}}</a>
 
 			<a href="{{ route('contact') }}">{{trans('pages.contact')}}</a>
 

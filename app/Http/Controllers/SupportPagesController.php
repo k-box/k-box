@@ -34,9 +34,12 @@ class SupportPagesController extends Controller
      */
     public function privacy()
     {
-        $help_file_content = file_get_contents(base_path('resources/assets/pages/privacy.md'));
+        $fallback = base_path('resources/assets/pages/en/privacy-policy.md');
+        $path = base_path('resources/assets/pages/'.app()->getLocale().'/privacy-policy.md');
+        
+        $file_content = file_get_contents(@is_file($path) ? $path : $fallback);
 
-        $page_text = \Markdown::convertToHtml($help_file_content);
+        $page_text = \Markdown::convertToHtml($file_content);
 
         return view('static.page', ['page_title' => trans('pages.privacy'), 'page_content' => $page_text]);
     }
