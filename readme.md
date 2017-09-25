@@ -6,37 +6,35 @@ The K-Box is a web application designed for handling document management inside 
 
 The K-Box is built on top of [Laravel](https://laravel.com/) and distributed via Docker image.
 
-## Usage
+## Getting started
 
 _to be written_
 
+## Development
 
----------------------
+Developer oriented material is stored in [`docs/developer/`](./docs/developer/)
 
-## DMS Command Line
+## API
 
-The DMS offers various commands that can be executed in Command Line. 
+### Command Line
+
+The K-Box offer various commands that can be executed in Command Line. 
 See [`docs/developer/commands`](./docs/developer/commands/index.md) for the full list.
 
-
----------------------
-
-## Asynchronous Jobs and Queue Runner
-
-The DMS will use the Laravel Queue capability for handling long running jobs, like sending email, perform document import and others.
-
-To start the asynchronous job lister execute
-
-	php artisan dms:queuelisten
-
-from the command line (inside the K-Box root folder).
-
-This command will stay alive until is terminated (Ctrl+C or an unhandled exception occur).
-
----------------------
 
 ## Testing
 
 The K-Box code is covered by unit tests.
 
 For more information see [Executing Unit Tests](./docs/developer/testing/unit-tests.md) and [Using the test instance](./docs/developer/testing/test-instance.md)
+
+## Contributing
+
+Thank you for considering contributing to the K-Box! The [contribution guide](./contributing.md) is currently under heavy rewrite, but in the meantime you can still submit Pull Requests.
+
+When submitting pull/merge requests always consider the `master` branch as your target.
+
+## License
+
+This project is licensed under the AGPL v3 license, see [LICENSE.txt](./LICENSE.txt).
+

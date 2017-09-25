@@ -9,6 +9,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added 
 
+### Changed
+
+### Fixed
+
+### Removed
+
+## [0.18.0] 2017-09-25
+
+### Added 
+
 - redirect from `/dms/something` to `/something` as the `/dms` alias is deprecated. 
   This is only for supporting old GET urls that have been added to reports
 - Tusd package for resumable file upload and tus server inside the Docker image
@@ -18,6 +28,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Added `request_id`, `upload_started_at`, `upload_cancelled_at`, `upload_completed_at` to 
   linking the tus upload status to the File.
 - Document elaboration pipeline for processing uploaded files
+- Privacy policy
 
 ### Changed
 
@@ -29,10 +40,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - changed DocumentDescriptors statuses:
  - `STATUS_PENDING` is now `STATUS_PROCESSING` to better state that the file is being processed by some asynchronous actions
  - `STATUS_INDEXED` is now `STATUS_COMPLETED` to reflect that all operations on the file have been concluded
-
-### Fixed
-
-### Removed
 
 ## [0.18.0-RC1] 2017-08-06
 
