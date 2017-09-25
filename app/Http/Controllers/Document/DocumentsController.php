@@ -22,6 +22,7 @@ use Carbon\Carbon;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use KlinkDMS\Traits\Searchable;
+use KlinkDMS\Events\UploadCompleted;
 
 class DocumentsController extends Controller
 {
@@ -481,10 +482,12 @@ class DocumentsController extends Controller
 
                 //test and report exceptions
                 $descr = $this->service->importFile($request->file('document'), $auth->user(), 'private', $parent);
+
+                event(new UploadCompleted($descr, $auth->user()));
                 
                 if ($request->wantsJson()) {
                     if (! is_array($descr)) {
-                        $descr = ['descriptor' => $descr];
+                        $descr = ['descriptor' => $descr->fresh()];
                     }
                     
                     return response()->json($descr);

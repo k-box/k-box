@@ -4,12 +4,14 @@ namespace KlinkDMS\Providers;
 
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
+use KlinkDMS\Events\ShareCreated;
+use KlinkDMS\Events\UploadCompleted;
+use KlinkDMS\Listeners\ShareCreatedHandler;
+use KlinkDMS\Listeners\UploadCompletedHandler;
+use KlinkDMS\Listeners\TusUploadStartedHandler;
 use Avvertix\TusUpload\Events\TusUploadStarted;
 use Avvertix\TusUpload\Events\TusUploadCompleted;
 use Avvertix\TusUpload\Events\TusUploadCancelled;
-use KlinkDMS\Events\ShareCreated;
-use KlinkDMS\Listeners\ShareCreatedHandler;
-use KlinkDMS\Listeners\TusUploadStartedHandler;
 use KlinkDMS\Listeners\TusUploadCompletedHandler;
 use KlinkDMS\Listeners\TusUploadCancelledHandler;
 
@@ -33,6 +35,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         TusUploadCancelled::class => [
             TusUploadCancelledHandler::class,
+        ],
+        UploadCompleted::class => [
+            UploadCompletedHandler::class,
         ],
     ];
 

@@ -9,6 +9,7 @@ public/js/*
 public/js /*
 public/css/*
 storage/documents/*
+storage/framework/testing
 tests/data/**/thumbnails
 .idea
 .vagrant

@@ -1,11 +1,13 @@
 <?php
 
 use Tests\BrowserKitTestCase;
-
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use KlinkDMS\Option;
 
 class StorageControllerTest extends BrowserKitTestCase
 {
+    use DatabaseTransactions;
+    
     /**
      * A basic test example.
      *

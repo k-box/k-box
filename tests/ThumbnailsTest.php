@@ -2,7 +2,6 @@
 
 use Tests\BrowserKitTestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-
 use KlinkDMS\Import;
 use KlinkDMS\Project;
 use KlinkDMS\Jobs\ThumbnailGenerationJob;
@@ -274,38 +273,6 @@ class ThumbnailsTest extends BrowserKitTestCase
             'documents' => ['89999999']
         ]);
     }
-    
-    
-    public function testThumbnailGenerationFromFileUpload()
-    {
-        $this->withKlinkAdapterFake();
-        
-        $real_path = base_path('tests/data/example.pdf');
-        
-        copy($real_path, str_replace('example.pdf', 'example2.pdf', $real_path));
-        
-        $real_path = base_path('tests/data/example2.pdf');
-        
-        $uploadFile = new Symfony\Component\HttpFoundation\File\UploadedFile(
-            $real_path,
-            'example.pdf',
-            'application/pdf',
-            filesize($real_path),
-            null,
-            true //Test
-            );
-        
-        $this->expectsJobs(ThumbnailGenerationJob::class);
-        
-        $service = app('Klink\DmsDocuments\DocumentsService');
-        
-        $descriptor = $service->importFile($uploadFile, $this->createAdminUser());
-        
-        $this->assertNotNull($descriptor);
-    }
-    
-    
-    
     
     protected function runCommand($command, $input = [], $output = null)
     {

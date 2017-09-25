@@ -414,13 +414,7 @@ class DocumentsService
         
         $owner = $file->user;
 
-        $institution = $this->adapter->institutions(\Config::get('dms.institutionID'));
-        
-        if (! is_null($owner->institution_id)) {
-            $institution = $owner->institution;
-        }
-
-        $institution = $this->adapter->institutions(\Config::get('dms.institutionID'));
+        $institution = !is_null($owner->institution_id) ? $owner->institution : $this->adapter->institutions(\Config::get('dms.institutionID'));
         
         $document_url_path = $this->constructUrl($local_document_id, 'document');
         $thumbnail_url_path = $this->constructUrl($local_document_id, 'thumbnail');
@@ -442,7 +436,7 @@ class DocumentsService
             'owner_id' => $owner->id,
             'file_id' => $file->id,
             'created_at' => $file->created_at,
-            'status' => DocumentDescriptor::STATUS_UPLOADING
+            'status' => $file->upload_completed ? DocumentDescriptor::STATUS_UPLOAD_COMPLETED : DocumentDescriptor::STATUS_UPLOADING
         ];
 
         $descr = DocumentDescriptor::forceCreate($attrs);
@@ -474,7 +468,7 @@ class DocumentsService
             return $descriptor;
         }
 
-        $descriptor->status = DocumentDescriptor::STATUS_PENDING;
+        $descriptor->status = DocumentDescriptor::STATUS_PROCESSING;
 
         $descriptor->save();
 
@@ -1804,91 +1798,18 @@ class DocumentsService
      * Handle the "import" operation needed for and uploaded file using a form based approach
      *
      *
-     * @return DocumentDescriptor|array a DocumentDescriptor instance in case of full success, an array with keys 'descriptor' and 'error' in case of an indexing error, but the DocumentDescriptor has been saved correctly
+     * @return \KlinkDMS\DocumentDescriptor a DocumentDescriptor instance in case of full success, an array with keys 'descriptor' and 'error' in case of an indexing error, but the DocumentDescriptor has been saved correctly
      */
     public function importFile(UploadedFile $upload, User $uploader, $visibility = 'private', Group $group = null)
     {
         try {
-            $file = $this->constructLocalPathForImport($upload->getClientOriginalName());
 
-            $filename = basename($file);
+            $file_model = $this->createFileFromUpload($upload, $uploader);
 
-            $destination_dir = dirname($file);
+            $descriptor = $this->createDocumentDescriptor($file_model, $visibility, $group);
 
-            $file_from_storage_path = str_replace(Config::get('dms.upload_folder'), '', $file);
+            return $descriptor;
 
-                 
-            $file_m_time = false; //$upload->getMTime(); // will work?
-
-            // move the file from the temp upload dir to the final position
-            $new_file = $upload->move($destination_dir, $filename);
-
-            $hash = \KlinkDocumentUtils::generateDocumentHash($file);
-
-            if (DocumentDescriptor::existsByHash($hash)) {
-                unlink($file);
-                
-                throw new FileAlreadyExistsException($upload->getClientOriginalName(), DocumentDescriptor::findByHash($hash));
-            }
-            
-            if (File::existsByHash($hash)) {
-                unlink($file);
-
-                // get the document from the file
-                $file_model = File::findByHash($hash);
-                $existing_descriptor = $file_model->getLastVersion()->document;
-                
-                throw new FileAlreadyExistsException($upload->getClientOriginalName(), $existing_descriptor, $file_model);
-            }
-
-            if (! $this->verifyNamingPolicy($filename)) {
-                unlink($file);
-                
-                throw new FileNamingException(trans('errors.upload.filenamepolicy', ['filename' => $upload->getClientOriginalName()]), 2);
-            }
-
-            
-            $mime = \KlinkDocumentUtils::get_mime($file);
-
-            $file_model = new File();
-            $file_model->name= $filename;
-            $file_model->hash=$hash;
-            $file_model->mime_type=$mime;
-            $file_model->size= Storage::size($file_from_storage_path);
-            $file_model->thumbnail_path=null;
-            $file_model->path = $file;
-            $file_model->user_id = $uploader->id;
-            $file_model->original_uri = $file;
-            $file_model->is_folder = false;
-            $file_model->upload_started_at = \Carbon\Carbon::now();
-            $file_model->upload_completed_at = \Carbon\Carbon::now();
-            
-            if ($file_m_time) {
-                $file_model->created_at = \Carbon\Carbon::createFromFormat('U', $file_m_time);
-            }
-            $file_model->save();
-
-            $file_model = $file_model->fresh();
-
-            try {
-                $descriptor = $this->indexDocument($file_model, $visibility, $uploader, $group, true); //TODO: pass also the group info to the indexDocument function
-                
-                dispatch(new ThumbnailGenerationJob($file_model));
-
-                // if(is_array($descriptor)){
-                    //something bad happened during indexing, but the descriptor is saved on the db
-                // }
-
-                return $descriptor;
-            } catch (\KlinkException $kex) {
-                // if cannot be indexed is not a real problem here thanks to the status of the DocumentDescriptor everyhting can be solved
-                // at a later time
-                \Log::error('Indexing during import exception', ['context' => 'DocumentsService@importFile', 'exception' => $kex, 'file' => $file_model->toArray() ]);
-            } catch (\Exception $kex) {
-                // if cannot be indexed is not a real problem here thanks to the status of the DocumentDescriptor everyhting can be solved
-                // at a later time
-                \Log::error('Indexing during import exception', ['context' => 'DocumentsService@importFile', 'exception' => $kex, 'file' => $file_model->toArray() ]);
-            }
         } catch (\Exception $ex) {
             \Log::error('File copy error', ['context' => 'DocumentsService@importFile', 'upload' => $upload->getClientOriginalName(), 'owner' => $uploader->id, 'error' => $ex]);
 
@@ -1904,24 +1825,38 @@ class DocumentsService
     public function createFileFromUpload(UploadedFile $upload, User $uploader, File $revision_of = null)
     {
         try {
+
+            $storage = Storage::disk('local');
+
+            // TODO: simplify this call as the abstracted filesystem only needs the path inside the filesystem and not the absolute path
             $file = $this->constructLocalPathForImport($upload->getClientOriginalName());
 
             $filename = basename($file);
 
             $destination_dir = dirname($file);
+            $path_in_storage_disk = str_replace(Config::get('dms.upload_folder'), '', $destination_dir);
 
-            $file_from_storage_path = str_replace(Config::get('dms.upload_folder'), '', $file);
+            // $file_from_storage_path = str_replace(Config::get('dms.upload_folder'), '', $file);
 
-                 
             $file_m_time = false; //$upload->getMTime(); // will work?
 
             // move the file from the temp upload dir to the final position
-            $new_file = $upload->move($destination_dir, $filename);
+            $new_file = $upload->storeAs($path_in_storage_disk, $filename, 'local');
 
-            $hash = \KlinkDocumentUtils::generateDocumentHash($file);
+            // Get the absolute path of the file to use the hash_file function as Storage drivers don't support getting the hash of a file content
+            // not using configuration value for local disk as during tests may vary if Storage::fake() is used
+            $absolute_path = Storage::disk('local')->path($new_file);
+
+            $hash = \KlinkDocumentUtils::generateDocumentHash($absolute_path);
+
+            if (DocumentDescriptor::existsByHash($hash)) {
+                $storage->delete($new_file);
+                
+                throw new FileAlreadyExistsException($upload->getClientOriginalName(), DocumentDescriptor::findByHash($hash));
+            }
 
             if (File::existsByHash($hash)) {
-                unlink($file);
+                $storage->delete($new_file);
 
                 $f = File::findByHash($hash);
 
@@ -1931,24 +1866,26 @@ class DocumentsService
             }
 
             if (! $this->verifyNamingPolicy($filename)) {
-                unlink($file);
+                $storage->delete($new_file);
                 
                 throw new FileNamingException(trans('errors.upload.filenamepolicy', ['filename' => $upload->getClientOriginalName()]), 2);
             }
 
             
-            $mime = \KlinkDocumentUtils::get_mime($file);
+            $mime = \KlinkDocumentUtils::get_mime($absolute_path);
 
             $file_model = new File();
-            $file_model->name= $filename;
-            $file_model->hash=$hash;
+            $file_model->name = $filename;
+            $file_model->hash = $hash;
             $file_model->mime_type=$mime;
-            $file_model->size= Storage::size($file_from_storage_path);
+            $file_model->size = $storage->size($new_file);
             $file_model->thumbnail_path=null;
-            $file_model->path = $file;
+            $file_model->path = $absolute_path;
             $file_model->user_id = $uploader->id;
             $file_model->original_uri = $file;
             $file_model->is_folder = false;
+            $file_model->upload_started_at = \Carbon\Carbon::now();
+            $file_model->upload_completed_at = \Carbon\Carbon::now();
             
             if ($file_m_time) {
                 $file_model->created_at = \Carbon\Carbon::createFromFormat('U', $file_m_time);
@@ -1960,9 +1897,10 @@ class DocumentsService
 
             $file_model->save();
 
-            return $file_model;
+            return $file_model->fresh();
+
         } catch (\Exception $ex) {
-            \Log::error('File copy error', ['context' => 'DocumentsService@createFileFromUpload', 'upload' => $upload->getClientOriginalName(), 'owner' => $uploader->id, 'error' => $ex]);
+            \Log::error('Create File from UploadFile failed', ['context' => 'DocumentsService@createFileFromUpload', 'upload' => $upload->getClientOriginalName(), 'owner' => $uploader->id, 'error' => $ex]);
 
             throw $ex;
         }

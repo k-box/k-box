@@ -1,9 +1,12 @@
 <?php
 
 use Tests\BrowserKitTestCase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class NetworkAdministrationControllerTest extends BrowserKitTestCase
 {
+    use DatabaseTransactions;
+
     public function testNetworkPositiveConnection()
     {
         $adapter = $this->withKlinkAdapterMock();

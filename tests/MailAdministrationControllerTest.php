@@ -4,9 +4,12 @@ use Tests\BrowserKitTestCase;
 use Illuminate\Support\Facades\Mail;
 use KlinkDMS\Option;
 use KlinkDMS\Mail\TestingMail;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class MailAdministrationControllerTest extends BrowserKitTestCase
 {
+    use DatabaseTransactions;
+
     public function testMailIsEnabledWithLogDriver()
     {
         Option::remove('mail.host');

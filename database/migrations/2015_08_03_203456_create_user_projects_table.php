@@ -31,8 +31,8 @@ class CreateUserProjectsTable extends Migration
      */
     public function down()
     {
-        $table->dropForeign('userprojects_user_id_foreign');
-        $table->dropForeign('userprojects_project_id_foreign');
+        Schema::dropForeign('userprojects_user_id_foreign');
+        Schema::dropForeign('userprojects_project_id_foreign');
         
         Schema::dropIfExists('userprojects');
     }

@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Added `failed_at` attribute to DocumentDescriptor
 - Added `request_id`, `upload_started_at`, `upload_cancelled_at`, `upload_completed_at` to 
   linking the tus upload status to the File.
+- Document elaboration pipeline for processing uploaded files
 
 ### Changed
 
@@ -26,10 +27,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
   no need to specify `/dms` anymore
 - upload with tus resumable protocol is not subject to File Already Exists check
 - changed DocumentDescriptors statuses:
- - `STATUS_PENDING` is now `STATUS_PROCESSING` to better state that the file is being 
-   processed by some asynchronous actions
- - `STATUS_INDEXED` is now `STATUS_COMPLETED` to reflect that all operations on the file 
-   have been concluded
+ - `STATUS_PENDING` is now `STATUS_PROCESSING` to better state that the file is being processed by some asynchronous actions
+ - `STATUS_INDEXED` is now `STATUS_COMPLETED` to reflect that all operations on the file have been concluded
 
 ### Fixed
 

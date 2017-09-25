@@ -2,18 +2,16 @@
 
 namespace KlinkDMS\Listeners;
 
-use Avvertix\TusUpload\Events\TusUploadCompleted;
-use Klink\DmsDocuments\DocumentsService;
+use Log;
 use KlinkDMS\File;
 use KlinkDMS\DocumentDescriptor;
-use KlinkDMS\Jobs\ThumbnailGenerationJob;
-use Log;
+use KlinkDMS\Events\UploadCompleted;
+use Klink\DmsDocuments\DocumentsService;
+use Avvertix\TusUpload\Events\TusUploadCompleted;
 
 class TusUploadCompletedHandler
 {
     /**
-     *
-     *
      * @var \Klink\DmsDocuments\DocumentsService
      */
     private $documentsService = null;
@@ -39,8 +37,6 @@ class TusUploadCompletedHandler
         Log::info("Upload {$event->upload->request_id} completed.");
 
         try {
-
-            //todo: do changes in transaction, if one fails, the other should not be updated
             $file = File::where('request_id', $event->upload->request_id)->first();
 
             if (is_null($file)) {
@@ -48,8 +44,10 @@ class TusUploadCompletedHandler
             }
 
             $descriptor = $this->updateDescriptor($file, $event);
+
+            $descriptor = $descriptor->fresh();
             
-            $this->triggerDescriptorIndexing($descriptor->fresh());
+            event(new UploadCompleted($descriptor, $descriptor->owner));
         } catch (\Exception $ex) {
             Log::error('File move or descriptor update error while handling the TusUploadCompleted event.', ['upload' => $event->upload,'error' => $ex]);
         }
@@ -88,7 +86,7 @@ class TusUploadCompletedHandler
 
             $descriptor->hash = $file->hash;
             
-            $descriptor->status = DocumentDescriptor::STATUS_PROCESSING;
+            $descriptor->status = DocumentDescriptor::STATUS_UPLOAD_COMPLETED;
             
             $descriptor->save();
             
@@ -98,19 +96,6 @@ class TusUploadCompletedHandler
             $descriptor->status = DocumentDescriptor::STATUS_ERROR;
             $descriptor->last_error = $ex;
             $descriptor->save();
-        }
-    }
-
-    private function triggerDescriptorIndexing($descriptor)
-    {
-        try {
-            // here we use reindexDocument as currently there is no index function that
-            // takes an existing DocumentDescriptor
-            $this->documentsService->reindexDocument($descriptor, 'private', true);
-            
-            dispatch(new ThumbnailGenerationJob($descriptor->file));
-        } catch (\Exception $kex) {
-            Log::error('Upload completed handler, document indexing error', ['exception' => $kex, 'descriptor' => $descriptor->toArray() ]);
         }
     }
 }

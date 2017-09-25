@@ -2,15 +2,15 @@
 
 Unit test is done with PHPUnit and the Laravel testing framework. 
 
-To perform the unit tests you must have done a full `composer install` with also the development dependencies.
+To perform the unit tests do a full `composer install` with also the development dependencies.
 
-## environment: `testing`
-
-testing environment configuration is in the `testing.env` file and in the `phpunit.xml` file.
+Now create a `testing.env` file. This file contains the environment configuration under which uni tests are executed. By default Laravel will set the environment to `testing` (i.e. `APP_ENV=testing`)
 
 Prior to the execution of the unit tests you must migrate and seed the database
 
 ```bash
+$ php artisan config:clear
+
 $ php artisan migrate --env=testing
 
 $ php artisan db:seed --env=testing
@@ -22,9 +22,11 @@ After that you can run
 $ ./vendor/bin/phpunit
 ```
 
+> Please consider that the documentation might be out-dated as Laravel 5.4 deprecated the core support for BrowserKit tests. Currently most of the unit tests in the K-Box code are BrowserKit based. **Newly created tests should follow the Laravel 5.4 (and above) approach.**
+
 ## Helper methods
 
-To speed up the creation of unit tests, the base `TestCase` classes offers some helper methods.
+To speed up the creation of unit tests, the base `TestCase` class offers some helper methods.
 
 ### Swapping an instance in the service container
 

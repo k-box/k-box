@@ -37,4 +37,6 @@ This command will stay alive until is terminated (Ctrl+C or an unhandled excepti
 
 ## Testing
 
-See `./docs/developer/testing/unit-tests.md` and `./docs/developer/testing/test-instance.md`
+The K-Box code is covered by unit tests.
+
+For more information see [Executing Unit Tests](./docs/developer/testing/unit-tests.md) and [Using the test instance](./docs/developer/testing/test-instance.md)

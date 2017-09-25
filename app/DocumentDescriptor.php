@@ -12,6 +12,7 @@ use Dyrynda\Database\Support\GeneratesUuid;
  * A Document Descriptor
  *
  * @property int $id the autoincrement identifier of the descriptor
+ * @property uuid $uuid the UUID used to identify the document
  * @property int $institution_id the institution reference identifier of the User at the time of the descriptor creation
  * @property string $local_document_id the K-Link Local Document Identifier
  * @property string $hash the SHA-512 hash of the last version of the underlying File

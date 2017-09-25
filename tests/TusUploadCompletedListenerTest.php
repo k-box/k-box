@@ -8,6 +8,8 @@ use KlinkDMS\Listeners\TusUploadCompletedHandler;
 use Carbon\Carbon;
 use KlinkDMS\DocumentDescriptor;
 use KlinkDMS\File;
+use Illuminate\Support\Facades\Event;
+use KlinkDMS\Events\UploadCompleted;
 
 class TusUploadCompletedListenerTest extends BrowserKitTestCase
 {
@@ -79,9 +81,11 @@ class TusUploadCompletedListenerTest extends BrowserKitTestCase
         return new TusUploadCompleted($upload->fresh());
     }
 
-    public function test_document_descriptor_is_updated_and_indexed()
+    public function test_document_descriptor_status_changed_and_upload_complete_event_is_raised()
     {
         $this->withKlinkAdapterFake();
+
+        Event::fake();
 
         $user = $this->createAdminUser();
 
@@ -103,6 +107,10 @@ class TusUploadCompletedListenerTest extends BrowserKitTestCase
         $this->assertNotNull($file->document);
         
         $document = $file->document;
-        $this->assertEquals(DocumentDescriptor::STATUS_COMPLETED, $document->status);
+        $this->assertEquals(DocumentDescriptor::STATUS_UPLOAD_COMPLETED, $document->status);
+
+        Event::assertDispatched(UploadCompleted::class, function ($e) use ($document) {
+            return $e->descriptor->id === $document->id;
+        });
     }
 }
