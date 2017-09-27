@@ -24,15 +24,21 @@ The `UploadCompleted` event listener will make sure the status of the `DocumentD
 
 Uploaded files are stored in a private space under `./storage/documents`.
 
-Each upload is stored in a sub-folder structure based on year and month of upload. This is done mainly to prevent cases in which command iterating over the document list may hang the system. Also on older filesystems it tries to prevent reaching the limits of files per folder.
+Each upload is stored in a sub-folder structure based on year and month of upload and the file UUID. This is done mainly to prevent cases in which command iterating over the document list may hang the system, and to reduce the chance to reach the limits of files per folder.
 
 The final path of a file will be 
 
 ```
-./storage/documents/{year}/{month}/
+./storage/documents/{year}/{month}/{file_uuid}/
 ```
 
-e.g. `./storage/documents/2017/07/`
+e.g. `./storage/documents/2017/07/110ec58a-a0f2-4ac4-8393-c866d813b8d1`
+
+> The filename is generated randomly and is not anymore connected to the original filename. This is done to reduce the chance that Unicode file names could not be stored on disk.
+
+**File already existing**
+
+For already existing files, the storage structure is not touched. The files are still located in `./storage/documents/{year}/{month}/` with the respective original filename
 
 
 ### File names

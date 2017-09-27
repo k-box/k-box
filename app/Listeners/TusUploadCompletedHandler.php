@@ -6,6 +6,7 @@ use Log;
 use KlinkDMS\File;
 use KlinkDMS\DocumentDescriptor;
 use KlinkDMS\Events\UploadCompleted;
+use Illuminate\Support\Facades\Storage;
 use Klink\DmsDocuments\DocumentsService;
 use Avvertix\TusUpload\Events\TusUploadCompleted;
 
@@ -58,25 +59,29 @@ class TusUploadCompletedHandler
         $descriptor = $file->document;
         
         try {
-
-            // the base filename on disk is based on the UUID of the Descriptor
-            // then the call to  $this->documentsService->constructLocalPathForImport will give us
-
             $extension = pathinfo($file->name, PATHINFO_EXTENSION);
 
             if (empty($extension)) {
                 $extension = \KlinkDocumentUtils::getExtensionFromMimeType($file->mime_type);
             }
 
-            $filename = $descriptor->uuid.'.'.$extension;
+            $storage = Storage::disk('local');
 
-            $destination = $this->documentsService->constructLocalPathForImport($filename);
+            $filename = $file->uuid.'.'.$extension;
+
+            $destination_path = date('Y').'/'.date('m').'/'.$file->uuid.'/';
+
+            $file_path = $destination_path.$filename;
+            
+            $storage->makeDirectory($destination_path);
+
+            $destination = $storage->path($file_path);
 
             // move the file to the new location
-            Log::info("Moving from {$event->upload->path()} to {$destination}");
+            
             rename($event->upload->path(), $destination);
 
-            $file->path = $destination;
+            $file->path = $file_path;
 
             $file->hash = \KlinkDocumentUtils::generateDocumentHash($destination);
             
@@ -96,6 +101,7 @@ class TusUploadCompletedHandler
             $descriptor->status = DocumentDescriptor::STATUS_ERROR;
             $descriptor->last_error = $ex;
             $descriptor->save();
+            return $descriptor;
         }
     }
 }

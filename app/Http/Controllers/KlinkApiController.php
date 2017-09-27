@@ -153,12 +153,12 @@ class KlinkApiController extends Controller
         if (! $doc->isPublic() && is_null($request->user())) {
             $response->setContent(file_get_contents(public_path('images/document.png')));
         } else {
-            if (empty($file->thumbnail_path)) {
+            if (empty($file->absolute_thumbnail_path)) {
                 $t_path = $this->thumbnails->generate($file);
 
                 $response->setContent(file_get_contents($t_path));
-            } elseif (@is_file($file->thumbnail_path)) {
-                $response->setContent(file_get_contents($file->thumbnail_path));
+            } elseif (@is_file($file->absolute_thumbnail_path)) {
+                $response->setContent(file_get_contents($file->absolute_thumbnail_path));
             } else {
                 $response->setContent(file_get_contents(public_path('images/document.png')));
             }
@@ -190,7 +190,7 @@ class KlinkApiController extends Controller
             'Content-Type' => $file->mime_type
         ];
 
-        $response = new \Symfony\Component\HttpFoundation\BinaryFileResponse($file->path, 200, $headers, true, null);
+        $response = new \Symfony\Component\HttpFoundation\BinaryFileResponse($file->absolute_path, 200, $headers, true, null);
         $name = $file->name;
         if (! is_null($name)) {
             return $response->setContentDisposition((! $embed ? 'attachment' : 'inline'), $name, str_replace('%', '', \Illuminate\Support\Str::ascii($name)));
@@ -221,7 +221,7 @@ class KlinkApiController extends Controller
 
         try {
             if ($doc->isFileUploadComplete()) {
-                $preview = $this->previewService->load($file->path, $extension);
+                $preview = $this->previewService->load($file->absolute_path, $extension);
 
                 $properties = $preview->properties();
 

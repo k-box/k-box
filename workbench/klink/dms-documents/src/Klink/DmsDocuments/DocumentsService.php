@@ -114,12 +114,12 @@ class DocumentsService
     {
         try {
             if ($file->isIndexable() && $file->size < 209715200) {
-                return $file->path;
+                return $file->absolute_path;
             }
             
             $instance = app()->make('Klink\DmsDocuments\FileContentExtractor');
             
-            return $instance->extract($file->mime_type, $file->path, $file->name);
+            return $instance->extract($file->mime_type, $file->absolute_path, $file->name);
         } catch (\Exception $ex) {
             \Log::error('Error getting file content', ['context' => 'DocumentsService', 'param' => $file->toArray(), 'exception' => $ex]);
             
@@ -694,10 +694,6 @@ class DocumentsService
             $is_deleted = $descriptor->forceDelete();
             
             $is_deleted = $file->forceDelete();
-            
-            // if evertyhing on the DB is deleted  remove the File from disk (this action is very risky to perform before cleaning the DB, if error occurs we are in a bad situation)
-            
-            unlink($file_path);
             
             
             return true;
@@ -1660,14 +1656,17 @@ class DocumentsService
             $filename = $this->extractFileNameFromUrl($url);
 
             $file = new File();
+
+            $uuid = $file->resolveUuid()->toString();
+
             $file->name= $filename; // could be edited during the async process
             $file->hash=$temp_hash; // edited during the async process
             $file->mime_type=''; // edited during the async process
             $file->size= 0; // edited during the async process
             $file->revision_of=null;
             $file->thumbnail_path=null;
-
-            $file->path = $this->constructLocalPathForImport($filename, $temp_hash);
+            $file->uuid = $uuid;
+            $file->path = date('Y').'/'.date('m').'/'.$uuid.'/' . $temp_hash . '.html';
             
             $file->user_id = $uploader->id;
             $file->original_uri = $url;
@@ -1781,7 +1780,7 @@ class DocumentsService
 
             // create the corresponding group
 
-            $group = $this->createGroupsFromFolderPath($uploader, str_replace(realpath(Config::get('dms.upload_folder')), '', $file->path), true);
+            $group = $this->createGroupsFromFolderPath($uploader, str_replace(realpath(Config::get('dms.upload_folder')), '', $file->absolute_path), true);
             
             Queue::push(new ImportCommand($uploader, $import, $group, $copy));
         }
@@ -1826,78 +1825,7 @@ class DocumentsService
     {
         try {
 
-            $storage = Storage::disk('local');
-
-            // TODO: simplify this call as the abstracted filesystem only needs the path inside the filesystem and not the absolute path
-            $file = $this->constructLocalPathForImport($upload->getClientOriginalName());
-
-            $filename = basename($file);
-
-            $destination_dir = dirname($file);
-            $path_in_storage_disk = str_replace(Config::get('dms.upload_folder'), '', $destination_dir);
-
-            // $file_from_storage_path = str_replace(Config::get('dms.upload_folder'), '', $file);
-
-            $file_m_time = false; //$upload->getMTime(); // will work?
-
-            // move the file from the temp upload dir to the final position
-            $new_file = $upload->storeAs($path_in_storage_disk, $filename, 'local');
-
-            // Get the absolute path of the file to use the hash_file function as Storage drivers don't support getting the hash of a file content
-            // not using configuration value for local disk as during tests may vary if Storage::fake() is used
-            $absolute_path = Storage::disk('local')->path($new_file);
-
-            $hash = \KlinkDocumentUtils::generateDocumentHash($absolute_path);
-
-            if (DocumentDescriptor::existsByHash($hash)) {
-                $storage->delete($new_file);
-                
-                throw new FileAlreadyExistsException($upload->getClientOriginalName(), DocumentDescriptor::findByHash($hash));
-            }
-
-            if (File::existsByHash($hash)) {
-                $storage->delete($new_file);
-
-                $f = File::findByHash($hash);
-
-                $descr = $f->getLastVersion()->document;
-                
-                throw new FileAlreadyExistsException($filename, $descr, $f);
-            }
-
-            if (! $this->verifyNamingPolicy($filename)) {
-                $storage->delete($new_file);
-                
-                throw new FileNamingException(trans('errors.upload.filenamepolicy', ['filename' => $upload->getClientOriginalName()]), 2);
-            }
-
-            
-            $mime = \KlinkDocumentUtils::get_mime($absolute_path);
-
-            $file_model = new File();
-            $file_model->name = $filename;
-            $file_model->hash = $hash;
-            $file_model->mime_type=$mime;
-            $file_model->size = $storage->size($new_file);
-            $file_model->thumbnail_path=null;
-            $file_model->path = $absolute_path;
-            $file_model->user_id = $uploader->id;
-            $file_model->original_uri = $file;
-            $file_model->is_folder = false;
-            $file_model->upload_started_at = \Carbon\Carbon::now();
-            $file_model->upload_completed_at = \Carbon\Carbon::now();
-            
-            if ($file_m_time) {
-                $file_model->created_at = \Carbon\Carbon::createFromFormat('U', $file_m_time);
-            }
-
-            if (! is_null($revision_of)) {
-                $file_model->revision_of = $revision_of->id;
-            }
-
-            $file_model->save();
-
-            return $file_model->fresh();
+            return File::createFromUploadedFile($upload, $uploader, $revision_of);
 
         } catch (\Exception $ex) {
             \Log::error('Create File from UploadFile failed', ['context' => 'DocumentsService@createFileFromUpload', 'upload' => $upload->getClientOriginalName(), 'owner' => $uploader->id, 'error' => $ex]);
@@ -1913,68 +1841,6 @@ class DocumentsService
         }
 
         return app('Illuminate\Contracts\Routing\UrlGenerator')->to('klink', [$id, $type], \Config::get('dms.use_https', false));
-    }
-
-    /**
-     * Return the path where the file that will be imported will be saved.
-     *
-     * Performs:
-     * - file name sanitation
-     * - create the containing folder if not already there
-     * - if a file with the same name already exists, appends an hash to differentiate the file
-     * - return the absolute path
-     *
-     * The folder will be constructed according to the YEAR/MONTH policy
-     *
-     * @param string $original_filename The name of the file that will be saved on disk and needs a folder
-     * @return string the unique absolute path reserved on disk for the filename
-     */
-    public function constructLocalPathForImport($original_filename, $seed = null)
-    {
-        // sanitize filename
-
-        $filename = $this->sanitize_file_name($original_filename);
-        
-        if (! is_null($seed) && ! empty($seed)) {
-            $filename = substr($filename, 0, 50).'-'.$seed;
-        }
-
-        // folder based on YEAR/MONTH
-
-        $year_folder = date('Y');
-
-        $month_folder = date('m');
-
-        $dir = $year_folder.DIRECTORY_SEPARATOR.$month_folder;
-
-        $is_dir = Storage::exists($dir);
-
-        if (! $is_dir) {
-            // create containing folder
-            $is_dir = Storage::makeDirectory($dir, 0755, true);
-
-            if (! $is_dir) {
-                \Log::error('Cannot create folder ', ['context' => 'DocumentsService', 'param' => $dir]);
-            }
-        }
-
-        if ($is_dir) {
-            $filename = $dir.DIRECTORY_SEPARATOR.$filename;
-        }
-
-        if (Storage::exists($filename)) {
-            // edit with a one or other
-
-            $extension = pathinfo($filename, PATHINFO_EXTENSION); // Storage::extension($filename);
-
-            $filename = str_replace('.'.$extension, '', $filename);
-
-            $filename .= '-'.substr(md5(microtime()), 0, 6).'.'.$extension;
-        }
-        
-        $abso_path = Config::get('dms.upload_folder').$filename;
-
-        return /* the absolute path */ $abso_path;
     }
 
     public function constructLocalPathForFolderImport($folder_name)
@@ -2257,7 +2123,7 @@ class DocumentsService
     public function guessTitleFromFile(File $file)
     {
         if ($file->mime_type === 'text/html') {
-            $content = file_get_contents($file->path);
+            $content = file_get_contents($file->absolute_path);
             
             if (strlen($content)>0) {
                 $str = trim(preg_replace('/\s+/', ' ', $content)); // supports line breaks inside <title>

@@ -79,8 +79,8 @@ class ThumbnailsService
      */
     public function generate(File $file, $force = false)
     {
-        if (! is_null($file->thumbnail_path) && is_file($file->thumbnail_path) && ! $force) {
-            return $file->thumbnail_path;
+        if (! is_null($file->thumbnail_path) && ! $force) {
+            return $file->absolute_thumbnail_path;
         }
         
         // get file mime type
@@ -113,7 +113,7 @@ class ThumbnailsService
             if ($is_webpage) {
                 $thumb_save_path = $this->generateThumbnailForWebsite($file->original_uri, $thumb_save_path);
             } else {
-                $thumb_save_path = $this->generateThumbnailUsingRemoteService($mime, $file->path, $thumb_save_path);
+                $thumb_save_path = $this->generateThumbnailUsingRemoteService($mime, $file->absolute_path, $thumb_save_path);
             }
         } catch (Exception $kex) {
             Log::error('Error generating thumbnail', ['param' => $file->toArray(), 'exception' => $kex]);
@@ -132,13 +132,6 @@ class ThumbnailsService
         if (! is_file($thumb_save_path)) {
             Log::error("Thumbnail file $thumb_save_path is not a valid file.", ['param' => $file->toArray()]);
             throw new Exception('Thumbnail not saved');
-        }
-
-        // if force is applied, delete the old thumbnail file from disk
-
-        if ($force && ! is_null($file->thumbnail_path) &&
-           is_file($file->thumbnail_path) && strpos($file->thumbnail_path, 'public') === false) {
-            unlink($file->thumbnail_path);
         }
 
         // saving back everything
@@ -194,7 +187,7 @@ class ThumbnailsService
      */
     private function getSavePath(File $file)
     {
-        $dir = dirname($file->path).'/'.self::THUMBNAILS_FOLDER_NAME.'/';
+        $dir = dirname($file->absolute_path).'/'.self::THUMBNAILS_FOLDER_NAME.'/';
 
         $is_dir = is_dir($dir);
 
@@ -205,7 +198,7 @@ class ThumbnailsService
             if (! $is_dir) {
                 Log::error("Cannot create thumbnail folder $dir");
 
-                $dir = dirname($file->path).'/';
+                $dir = dirname($file->absolute_path).'/';
             }
         }
 

@@ -31,9 +31,7 @@ class DocumentsControllerTest extends TestCase
 
         $response->assertStatus(200);
 
-        $folder = date('Y').'/'.date('m');
-        Storage::disk('local')->assertExists("{$folder}/document.pdf");
-
+        
         $response->assertJsonStructure([
             'descriptor' => [
                 'title',
@@ -52,5 +50,11 @@ class DocumentsControllerTest extends TestCase
         $this->assertNotNull($descriptor->uuid);
         $this->assertEquals('application/pdf', $descriptor->mime_type);
         $this->assertEquals(DocumentDescriptor::STATUS_COMPLETED, $descriptor->status, 'Document status not COMPLETED');
+
+        $file = $descriptor->file;
+
+        $folder = date('Y').'/'.date('m');
+        Storage::disk('local')->assertExists("{$folder}/{$file->uuid}/");
+        Storage::disk('local')->assertExists($file->path);
     }
 }

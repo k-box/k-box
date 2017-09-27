@@ -166,7 +166,7 @@ class ThumbnailsTest extends BrowserKitTestCase
         });
         
         $filename = $documentsService->extractFileNameFromUrl($url);
-        $real_path = $documentsService->constructLocalPathForImport($filename, md5($url));
+        $real_path = config('dms.upload_folder').'2017/09/'.md5($url).'.html';
 
         $client = new Client([
             // Base URI is used with relative requests

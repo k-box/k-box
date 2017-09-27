@@ -17,6 +17,7 @@ use Symfony\Component\Finder\Finder;
 use GuzzleHttp\Client;
 use KlinkDMS\Exceptions\FileDownloadException;
 use Symfony\Component\Console\Output\OutputInterface;
+use Illuminate\Support\Facades\Storage as DiskStorage;
 use Exception;
 
 class ImportCommand extends Job implements ShouldQueue
@@ -152,7 +153,10 @@ class ImportCommand extends Job implements ShouldQueue
             'timeout'  => 60.0,
         ]);
         
-        $response = $client->request('GET', $this->url, ['sink' => $file->path]);
+
+        DiskStorage::disk('local')->makeDirectory(dirname($file->path));
+
+        $response = $client->request('GET', $this->url, ['sink' => $file->absolute_path]);
         
         $response_headers = $response->getHeaders();
         
@@ -166,9 +170,9 @@ class ImportCommand extends Job implements ShouldQueue
             // update the File entry in the DB with mimetype, size, and stuff like that
             
             $file->mime_type = $content_type_header;
-            $file->size = Storage::size($file->path);
+            $file->size = DiskStorage::disk('local')->size($file->path);
             
-            $file->hash = \KlinkDocumentUtils::generateDocumentHash($file->path);
+            $file->hash = \KlinkDocumentUtils::generateDocumentHash($file->absolute_path);
             
             $this->import->bytes_expected = $file->size;
             $this->import->bytes_received = $file->size;
@@ -197,6 +201,8 @@ class ImportCommand extends Job implements ShouldQueue
 
             try {
                 $descriptor = $this->service->indexDocument($file, \KlinkVisibilityType::KLINK_PRIVATE, $this->user);
+                $descriptor->status = \KlinkDMS\DocumentDescriptor::STATUS_COMPLETED;
+                $descriptor->save();
             } catch (\KlinkException $kex) {
                 Log::error('ImportCommand Indexing error: KlinkException', ['exception' => $kex, 'import' => $this->import->toArray(), 'import_file' => $file, 'is_remote' => true]);
             } catch (\InvalidArgumentException $kex) {
@@ -241,14 +247,14 @@ class ImportCommand extends Job implements ShouldQueue
             $this->line('  Importing '.$original_file);
             
             if ($this->copy) {
-                $file = $folder->path.DIRECTORY_SEPARATOR.basename($original_file);
+                $file = $folder->path.'/'.basename($original_file);
                 
                 $copied = @copy($original_file, $file);
                 
                 if (! $copied) {
                     $errors= error_get_last();
                     
-                    Log::error('File cannot be copied', ['folder' => $folder, 'file' => $file, 'original_file' => $original_file, 'constructed_path' => $folder->path.DIRECTORY_SEPARATOR.basename($original_file)]);
+                    Log::error('File cannot be copied', ['folder' => $folder, 'file' => $file, 'original_file' => $original_file, 'constructed_path' => $folder->path.'/'.basename($original_file)]);
 
                     throw new \Exception('Document '.basename($original_file).' cannot be copied ('.$original_file.' '.(isset($errors['message'])?$errors['message']:'').')');
                 }

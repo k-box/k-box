@@ -112,8 +112,9 @@ unit_test:
     - docker
   artifacts:
     expire_in: 1 week
+    when: on_failure
     paths:
-    - storage/logs/
+    - storage/
 
 ## Release the docker image
 

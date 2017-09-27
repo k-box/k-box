@@ -224,7 +224,7 @@ class ImportDocumentsController extends Controller
             $done = false;
             
             if ($import->isError() && ! is_null($import->file)) {
-                $done = $import->file->physicalDelete();
+                $done = $import->file->forceDelete();
                 
                 if ($done) {
                     $done = $import->delete();

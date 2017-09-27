@@ -5,7 +5,11 @@ namespace KlinkDMS;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Avvertix\TusUpload\TusUpload;
+use Illuminate\Http\UploadedFile;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
+use Dyrynda\Database\Support\GeneratesUuid;
+use KlinkDMS\Exceptions\FileAlreadyExistsException;
 
 /**
  * The representation of a File on disk
@@ -18,8 +22,10 @@ use Carbon\Carbon;
  * @property \Carbon\Carbon $created_at when the file was created
  * @property \Carbon\Carbon $updated_at when the file was last updated
  * @property \Carbon\Carbon $deleted_at when the file was trashed
- * @property string $thumbnail_path the path of the thumbnail
- * @property string $path the file location on disk
+ * @property string $thumbnail_path the path of the thumbnail relative to the storage disk
+ * @property string $path the file location inside the storage disk
+ * @property-read string $absolute_path the file absolute path on disk
+ * @property-read string $absolute_thumbnail_path the thumbnail file absolute path on disk
  * @property string $original_uri the file original location, used only if the file was downloaded from a web server
  * @property int $revision_of the id of the previous version of the file
  * @property string $mime_type the file mime type
@@ -53,7 +59,7 @@ use Carbon\Carbon;
  */
 class File extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, GeneratesUuid;
 
     /**
      * The mime types for which a preview is supported
@@ -86,7 +92,11 @@ class File extends Model
      */
     protected $table = 'files';
 
-    protected $dates = ['deleted_at'];
+    protected $dates = ['deleted_at', 'upload_started_at', 'upload_completed_at'];
+
+    protected $casts = [
+        'uuid' => 'uuid'
+    ];
 
     /**
      * The user that uploaded the file.
@@ -257,39 +267,147 @@ class File extends Model
     {
         return isset($this->attributes['upload_started_at']) && ! is_null($this->attributes['upload_started_at']);
     }
+
+    /**
+     * Get absolute_path attribute value.
+     *
+     * @param  mixed  $value not taken into account
+     * @return string
+     */
+    public function getAbsolutePathAttribute($value = null)
+    {
+        return Storage::disk('local')->path($this->path);
+    }
+
+    /**
+     * Get path attribute value.
+     *
+     * The path is relative to the storage disk
+     *
+     * @param  mixed  $value the path saved in the database
+     * @return string the relative path of the file in the storage disk
+     */
+    public function getPathAttribute($value)
+    {
+        $disk_path = rtrim(Storage::disk('local')->path('/'), '/');
+
+        if (starts_with($value, $disk_path)) {
+            return ltrim(str_replace($disk_path, '', $value), '/');
+        }
+
+        return $value;
+    }
     
+    /**
+     * Get thumbnail path attribute value.
+     *
+     * The path is relative to the storage disk
+     *
+     * @param  mixed  $value the thumbnail_path saved in the database
+     * @return string the relative path of the thumbnail file in the storage disk
+     */
+    public function getThumbnailPathAttribute($value)
+    {
+        $disk_path = rtrim(Storage::disk('local')->path('/'), '/');
+
+        if (starts_with($value, $disk_path)) {
+            return ltrim(str_replace($disk_path, '', $value), '/');
+        }
+
+        return $value;
+    }
+    
+    /**
+     * Set thumbnail path attribute value.
+     *
+     * Set the path to null causes the thumbnail to be deleted.
+     * Set the path to a different value than the current one causes the old thumbnail file to be deleted
+     *
+     * @param  mixed  $value the thumbnail_path saved in the database
+     * @return void
+     */
+    public function setThumbnailPathAttribute($value)
+    {
+        if (! isset($this->attributes['thumbnail_path'])) {
+            $this->attributes['thumbnail_path'] = $value;
+        } elseif (! is_null($this->attributes['thumbnail_path'])) {
+            $storage = Storage::disk('local');
+
+            if (is_null($value)) {
+                // delete thumbnail
+    
+                if (! starts_with($this->attributes['thumbnail_path'], rtrim(public_path('/'), '/'))) {
+                    @$storage->delete($this->thumbnail_path);
+                }
+    
+                $this->attributes['thumbnail_path'] = $value;
+            } elseif ($this->attributes['thumbnail_path'] !== $value) {
+                if (! starts_with($this->attributes['thumbnail_path'], rtrim(public_path('/'), '/'))) {
+                    @$storage->delete($this->thumbnail_path);
+                }
+    
+                $this->attributes['thumbnail_path'] = $value;
+            }
+        }
+    }
+
+    /**
+     * Get absolute_thumbnail_path attribute value.
+     *
+     * @param  mixed  $value not taken into account
+     * @return string
+     */
+    public function getAbsoluteThumbnailPathAttribute($value = null)
+    {
+        $disk_path = rtrim(public_path('/'), '/');
+        $path = $this->thumbnail_path;
+
+        if (is_null($path)) {
+            return null;
+        }
+        
+        if (starts_with($path, $disk_path)) {
+            return $path;
+        }
+        return Storage::disk('local')->path($path);
+    }
+    
+    /**
+     * Force a hard delete on a soft deleted model.
+     * Deleted also the physical file from the disk
+     *
+     * @return bool|null
+     */
+     public function forceDelete()
+     {
+         $this->forceDeleting = true;
+        
+         $deleted = $this->delete();
+
+         $this->forceDeleting = false;
+         
+         if ($deleted) {
+             $this->physicalDelete();
+         }
+ 
+         return $deleted;
+     }
+
     /**
      * Delete the file from the database and from the file system
      * Deletes also the thumbnail, if exists.
      */
-    public function physicalDelete()
+    protected function physicalDelete()
     {
-        $is_folder = $this->is_folder;
+        $storage = Storage::disk('local');
         
-        $file_path  = $this->path;
-        $thumb_path = $this->thumbnail_path;
-        
-        $done = false;
-        
-        if ($is_folder) {
-            $done = $this->forceDelete();
+        $this->thumbnail_path = null;
+
+        if ($this->uuid && basename(dirname($this->path)) === $this->uuid) {
+            @$storage->deleteDirectory(dirname($this->path));
         } else {
-        
-            // real deletion
-            $done = true;
-            
-            if (@is_file($file_path)) {
-                $done = @unlink($file_path);
-            }
-            
-            if ($done) {
-                @unlink($thumb_path);
-                
-                $done = $this->forceDelete();
-            }
+            @$storage->delete($this->path);
         }
-        
-        return ! $this->exists;
     }
 
     /**
@@ -377,5 +495,81 @@ class File extends Model
     public function getLastVersion()
     {
         return $this->last_version_recursive($this);
+    }
+
+    /**
+     * Create a file given an upload
+     *
+     * @param \Illuminate\Http\UploadedFile $upload the file uploaded
+     * @param \KlinkDMS\User $uploader The user that perfomed the upload
+     * @param \KlinkDMS\File $revision_of The file that will be replaced with this new uploaded version
+     * @return \KlinkDMS\File
+     * @throws \KlinkDMS\Exceptions\FileAlreadyExistsException if a file with the same hash already exists in the system
+     */
+    public static function createFromUploadedFile(UploadedFile $upload, User $uploader, File $revision_of = null)
+    {
+        try {
+            $storage = Storage::disk('local');
+            
+            $file_model = new File();
+
+            $uuid = $file_model->resolveUuid()->toString();
+
+            $destination_path = date('Y').'/'.date('m').'/'.$uuid;
+
+            $filename = $upload->getClientOriginalName();
+
+            $file_m_time = false; //$upload->getMTime(); // will work?
+
+            // move the file from the temp upload dir to the local storage
+            $file_path = $upload->store($destination_path, 'local');
+
+            // Get the absolute path of the file to use the hash_file function as Storage drivers don't support getting the hash of a file content
+            // not using configuration value for local disk as during tests may vary if Storage::fake() is used
+            $file_absolute_path = $storage->path($file_path);
+
+            $hash = \KlinkDocumentUtils::generateDocumentHash($file_absolute_path);
+
+            if (static::existsByHash($hash)) {
+                $storage->deleteDirectory($destination_path);
+
+                $f = static::findByHash($hash);
+
+                $descr = $f->getLastVersion()->document;
+                
+                throw new FileAlreadyExistsException($filename, $descr, $f);
+            }
+
+            $mime = $upload->getMimeType();
+
+            $file_model->name = $filename;
+            $file_model->uuid = $uuid;
+            $file_model->hash = $hash;
+            $file_model->mime_type=$mime;
+            $file_model->size = $storage->size($file_path);
+            $file_model->thumbnail_path = null;
+            $file_model->path = $file_path;
+            $file_model->user_id = $uploader->id;
+            $file_model->original_uri = $file_path;
+            $file_model->is_folder = false;
+            $file_model->upload_started_at = \Carbon\Carbon::now();
+            $file_model->upload_completed_at = \Carbon\Carbon::now();
+            
+            if ($file_m_time) {
+                $file_model->created_at = \Carbon\Carbon::createFromFormat('U', $file_m_time);
+            }
+
+            if (! is_null($revision_of)) {
+                $file_model->revision_of = $revision_of->id;
+            }
+
+            $file_model->save();
+
+            return $file_model->fresh();
+        } catch (\Exception $ex) {
+            \Log::error('Create File from UploadFile failed', ['context' => 'DocumentsService@createFileFromUpload', 'upload' => $upload->getClientOriginalName(), 'owner' => $uploader->id, 'error' => $ex]);
+
+            throw $ex;
+        }
     }
 }

@@ -126,47 +126,7 @@ class ImportTest extends BrowserKitTestCase
         $this->assertTrue(! ! $stored_import->is_remote, "Stored import not marked as remote");
         $this->assertEquals($url, $stored_import->file->original_uri);
     }
-    
-    /**
-     * Test if the Import job is raised when creating an import
-     *
-     * @dataProvider url_provider
-     */
-    public function testImportControllerCreateWithFileAlreadyExistsException($url)
-    {
-        $this->withKlinkAdapterFake();
         
-        $this->withoutMiddleware();
-
-        // $title = app('Klink\DmsDocuments\DocumentsService')->extractFileNameFromUrl($url);
-        
-        $user = $this->createAdminUser();
-        
-        $this->actingAs($user);
-        
-        $this->json('POST', route('documents.import'), [
-            'from' => 'remote',
-            'remote_import' => $url
-        ])->seeJson();
-
-        $res = json_decode($this->response->getContent());
-
-        $title = collect($res->imports)->first()->file->name;
-        
-        $this->assertResponseOk();
-
-        $this->json('POST', route('documents.import'), [
-            'from' => 'remote',
-            'remote_import' => $url
-        ])->seeJson([
-            'remote_import' => trans('errors.filealreadyexists.revision_of_your_document', ['title' => $title])
-        ]);
-        
-        $this->assertResponseStatus(422);
-    }
-    
-    
-    
     /**
      * @dataProvider url_import_provider
      */
@@ -175,8 +135,10 @@ class ImportTest extends BrowserKitTestCase
         
         // create an ImportJob and run it
         $this->withKlinkAdapterFake();
+
+        $uuid = (new \KlinkDMS\File)->resolveUuid()->toString();
         
-        $save_path = Config::get('dms.upload_folder').DIRECTORY_SEPARATOR.md5($url);
+        $save_path = date('Y').'/'.date('m').'/'.$uuid.'/'.md5($url).'.html';
         
         if (file_exists($save_path)) {
             unlink($save_path);
@@ -188,6 +150,7 @@ class ImportTest extends BrowserKitTestCase
         $file = factory('KlinkDMS\File')->create([
             'mime_type' => '',
             'size' => 0,
+            'uuid' => $uuid,
             'path' => $save_path,
             'user_id' => $user->id,
             'original_uri' => $url
@@ -209,7 +172,7 @@ class ImportTest extends BrowserKitTestCase
         
         $this->assertEquals(KlinkDMS\Import::MESSAGE_COMPLETED, $saved_import->status_message);
         
-        $this->assertTrue(file_exists($saved_import->file->path), "File do not exists");
+        $this->assertTrue(file_exists($saved_import->file->absolute_path), "File do not exists");
         
         $this->assertEquals($saved_import->bytes_expected, $saved_import->bytes_received, "Bytes expected and received are not equals");
         

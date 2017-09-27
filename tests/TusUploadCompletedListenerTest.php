@@ -54,6 +54,7 @@ class TusUploadCompletedListenerTest extends BrowserKitTestCase
             'size' => $upload->size,
             'thumbnail_path' => null,
             'path' => '',
+            'uuid' => (new File)->resolveUuid()->toString(),
             'user_id' => $user->id,
             'original_uri' => '',
             'is_folder' => false,
@@ -102,8 +103,8 @@ class TusUploadCompletedListenerTest extends BrowserKitTestCase
         $this->assertNotNull($file);
         $this->assertNotNull($file->upload_completed_at);
         $this->assertTrue($file->upload_completed);
-        $this->assertTrue(file_exists($file->path));
-        unlink($file->path);
+        $this->assertTrue(file_exists($file->absolute_path));
+        unlink($file->absolute_path);
         $this->assertNotNull($file->document);
         
         $document = $file->document;

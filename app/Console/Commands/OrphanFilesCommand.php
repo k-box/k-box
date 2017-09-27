@@ -113,14 +113,6 @@ class OrphanFilesCommand extends Command
                 
                 $orphan->forceDelete();
 
-                if (! is_null($file) && is_file($file)) {
-                    unlink($file);
-                }
-
-                if (! is_null($thumb) && is_file($thumb)) {
-                    unlink($thumb);
-                }
-
                 $trashed_string = 'deleted';
             }
 

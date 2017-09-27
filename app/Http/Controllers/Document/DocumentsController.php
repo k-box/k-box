@@ -830,7 +830,7 @@ class DocumentsController extends Controller
                         $document->file_id = $file_model->id;
                         $document->mime_type = $file_model->mime_type;
                         $document->document_type = \KlinkDocumentUtils::documentTypeFromMimeType($file_model->mime_type);
-                        $document->hash = \KlinkDocumentUtils::generateDocumentHash($file_model->path);
+                        $document->hash = $file_model->hash;
                     } elseif ($request->hasFile('document')) {
                         throw new Exception(trans('errors.upload.simple', ['description' => $request->file('document')->getErrorMessage()]), 400);
                     }
