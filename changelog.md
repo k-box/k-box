@@ -9,11 +9,24 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added 
 
+- UUID field to File model and database table
+- `File::createFromUploadedFile()` for generating and persisting a File instance based on a file upload
+- `File::$absolute_path` to retrieve the absolute path of the file
+
 ### Changed
+
+- Files are now stored in a folder based on `YEAR/MONTH/FILE_UUID`. Already added files are not affected by the change
+- Stored filename is not reflecting anymore the original filename. The original filename is only available in the database using `File::$name`. This change should prevent filenames collision and duplication. In addition it should made possible to use the system on filesystem that don't support UTF-8 filenames. The change don't affect files already in the system
+- `File::$path` now returns the relative path based on the `local` filesystem configured for storage
+- `File::forceDelete()` now deletes also the files saved on disk
+- `File::physicalDelete()` is now a `protected` method
+
 
 ### Fixed
 
 ### Removed
+
+- `DocumentsService::constructLocalPathForImport` has been removed
 
 ## [0.18.0] 2017-09-25
 
