@@ -219,7 +219,7 @@
 
 		</div>
 
-		<div class="thumbnail c-form__field">
+		<div class="c-form__field c-form__field--thumbnail">
 
 			<img src="{{DmsRouting::thumbnail($document)}}" />
 		</div>

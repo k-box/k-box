@@ -9,6 +9,7 @@ use \KlinkDocumentUtils;
 use Log;
 use Exception;
 use Symfony\Component\Debug\Exception\FatalThrowableError;
+use OneOffTech\VideoProcessing\VideoProcessorFactory;
 
 /**
  * The service responsible for the generation of the {@see File}
@@ -40,7 +41,8 @@ class ThumbnailsService
         // 'text/plain',
         // 'application/rtf',
         // 'text/x-markdown',
-        'application/vnd.openxmlformats-officedocument.presentationml.presentation'
+        'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+        'video/mp4'
         ];
 
     /**
@@ -112,6 +114,12 @@ class ThumbnailsService
         try {
             if ($is_webpage) {
                 $thumb_save_path = $this->generateThumbnailForWebsite($file->original_uri, $thumb_save_path);
+            } elseif ($mime === 'video/mp4') {
+                $videoProcessor = app()->make(VideoProcessorFactory::class)->make();
+                
+                $out = $videoProcessor->thumbnail($file->absolute_path);
+
+                $thumb_save_path = dirname($file->absolute_path).'/'.str_replace('.mp4', '.png', basename($file->absolute_path));
             } else {
                 $thumb_save_path = $this->generateThumbnailUsingRemoteService($mime, $file->absolute_path, $thumb_save_path);
             }

@@ -16,6 +16,7 @@ class Kernel
     protected $actions = [
         \KlinkDMS\DocumentsElaboration\Actions\AddToSearch::class,
         \KlinkDMS\DocumentsElaboration\Actions\GenerateThumbnail::class,
+        \KlinkDMS\DocumentsElaboration\Actions\ElaborateVideo::class,
     ];
 
     /**

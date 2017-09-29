@@ -73,25 +73,9 @@ laravel:
 
 ## Testing
 
-language_check:
-  ## Execute the check over the translation to find untranslated strings
-  stage: test
-  script:
-    - cp env.ci .env
-    - composer install --prefer-dist
-    - php artisan lang:check --report=translations.txt
-  image: "docker.klink.asia/main/docker-php:7.0-alpine"
-  tags:
-    - docker
-  only:
-   - master
-  artifacts:
-    paths:
-    - translations.txt
-
 unit_test:
   stage: test
-  image: "docker.klink.asia/main/docker-php:7.0-alpine"
+  image: "docker.klink.asia/main/docker-php:7.0"
   services:
     - mariadb:10.0
   variables:
@@ -104,10 +88,13 @@ unit_test:
     - cp env.ci testing.env
     - mkdir ./storage/documents
     - composer install --prefer-dist
+    - composer run install-video-cli
+    - chmod +x ./bin/bin/packager-linux
     - php artisan config:clear
     - php artisan migrate --env=testing --force
     - php artisan db:seed --env=testing --force
     - vendor/bin/phpunit
+    - php artisan lang:check --report=translations.txt
   tags:
     - docker
   artifacts:
@@ -115,6 +102,7 @@ unit_test:
     when: on_failure
     paths:
     - storage/
+    - translations.txt
 
 ## Release the docker image
 
@@ -128,7 +116,7 @@ branch_release:
     - docker build -t $CI_REGISTRY_IMAGE:${CI_BUILD_REF_NAME/v/} .
     - docker push $CI_REGISTRY_IMAGE:${CI_BUILD_REF_NAME/v/}
   tags:
-    - dind
+    - shell
   except:
     - tags
   dependencies:
@@ -150,7 +138,7 @@ tagged_release:
     - docker push "$CONTAINER_RELEASE_IMAGE_BASE:latest"
     - docker push "$CONTAINER_RELEASE_IMAGE_BASE:${CI_BUILD_REF_NAME/v/}"
   tags:
-    - dind
+    - shell
   only:
     - tags
   dependencies:

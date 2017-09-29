@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "004cd8a3a244efe8cbbb618e0014e302",
+    "content-hash": "d7888154034a7984b02626cc56d47b31",
     "packages": [
         {
             "name": "avvertix/laravel-tus-upload",

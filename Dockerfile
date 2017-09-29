@@ -1,3 +1,7 @@
+## Grabbing required binaries for the video processing part
+FROM docker.klink.asia/images/video-processing-cli:0.2.0
+
+## Generating the real K-Box image
 FROM php:7.0.21-fpm
 
 ## Environment variables to define the version of the packages to pull
@@ -81,6 +85,8 @@ COPY deploy-screens/index.html /var/www/html/index.html
 
 ## Copy the application code
 COPY . /var/www/dms/
+
+COPY --from=0 /video-processing-cli/ "/var/www/dms/bin/"
 
 ENV KBOX_STORAGE "/var/www/dms/storage"
 

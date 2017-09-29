@@ -12,6 +12,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - UUID field to File model and database table
 - `File::createFromUploadedFile()` for generating and persisting a File instance based on a file upload
 - `File::$absolute_path` to retrieve the absolute path of the file
+- Video Processing Package to enable the usage of the [Video Processing CLI](https://git.klink.asia/main/video-processing-cli)
+- `ElaborateVideo` action to the upload elaboration pipeline
+- Thumbnail generation for mp4 video files
 
 ### Changed
 

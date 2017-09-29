@@ -57,7 +57,8 @@
 		"psr-4": {
 			"KlinkDMS\\": "app/",
             "Klink\\DmsMicrosites\\": "workbench/klink/dms-project-microsites/src/",
-			"Content\\": "packages/contentprocessing/src/"
+			"Content\\": "packages/contentprocessing/src/",
+			"OneOffTech\\VideoProcessing\\": "packages/video-processing/src/"
 		},
 		"psr-0": {
             "Klink\\DmsAdapter\\": "workbench/klink/dms-adapter/src/",
@@ -90,11 +91,15 @@
 		],
 		"post-create-project-cmd": [
 			"php artisan key:generate"
-		]
+		],
+        "install-video-cli": [
+            "OneOffTech\\VideoProcessing\\ComposerScripts::postInstall"
+        ]
 	},
 	"config": {
 		"preferred-install": "dist",
 		"sort-packages": true, 
-        "optimize-autoloader": true 
+		"optimize-autoloader": true,
+		"video-cli-download-url": "https://git.klink.asia/main/video-processing-cli/builds/artifacts/v0.2.0/browse?job=package"
 	}
 }

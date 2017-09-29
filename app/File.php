@@ -276,6 +276,9 @@ class File extends Model
      */
     public function getAbsolutePathAttribute($value = null)
     {
+        if (@is_file($this->path)) {
+            return $this->path;
+        }
         return Storage::disk('local')->path($this->path);
     }
 
