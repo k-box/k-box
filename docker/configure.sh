@@ -93,7 +93,7 @@ function wait_mariadb () {
 }
 
 function mariadb_test () {
-   php -f /usr/local/bin/db-connect-test.php -- -d $KLINK_DMS_DB_NAME -H ${KLINK_DMS_DB_HOST} -u ${KLINK_DMS_DB_USERNAME} -p ${KLINK_DMS_DB_PASSWORD}
+   php -f /usr/local/bin/db-connect-test.php -- -d "${KLINK_DMS_DB_NAME}" -H "${KLINK_DMS_DB_HOST}" -u "${KLINK_DMS_DB_USERNAME}" -p "${KLINK_DMS_DB_PASSWORD}"
 }
 
 function wait_command () {
@@ -125,7 +125,7 @@ function normalize_line_endings() {
 }
 
 function create_admin () {
-    su -s /bin/sh -c "php artisan dms:create-admin $KLINK_DMS_ADMIN_USERNAME $KLINK_DMS_ADMIN_PASSWORD" $KLINK_SETUP_WWWUSER
+    su -s /bin/sh -c "php artisan dms:create-admin '$KLINK_DMS_ADMIN_USERNAME' '$KLINK_DMS_ADMIN_PASSWORD'" $KLINK_SETUP_WWWUSER
 
     local ret=$?
     echo "Returned $ret"
