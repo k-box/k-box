@@ -1,5 +1,15 @@
 [![build status](https://git.klink.asia/main/k-box/badges/master/build.svg)](https://git.klink.asia/main/k-box/commits/master) ![latest version](https://img.shields.io/badge/version-0.18.0-blue.svg)
 
+
+> **You are on a branch that overhauls the Institution handling and the supported K-Search**
+>
+> - [This branch will deprecate and partially remove support for Institutions](https://git.klink.asia/coordination/development/issues/348)
+>
+> - [This branch will target the whole search functions to the K-Search v3](https://git.klink.asia/coordination/development/issues/284)
+> 
+> This means that this branch cannot talk to K-Search (or K-Core) with API v2.x and require an empty search index to work. Upgrading a production K-Box to this branch is highly discouraged.
+
+
 # K-Box
 
 The K-Box is a web application designed for handling document management inside an Organization or on a Project basis.
