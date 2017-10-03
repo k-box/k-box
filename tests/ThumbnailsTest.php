@@ -166,7 +166,11 @@ class ThumbnailsTest extends BrowserKitTestCase
         });
         
         $filename = $documentsService->extractFileNameFromUrl($url);
-        $real_path = config('dms.upload_folder').'2017/09/'.md5($url).'.html';
+        $folder = config('dms.upload_folder').'2017/09/';
+        if (! is_dir($folder)) {
+            mkdir($folder, 0777, true);
+        }
+        $real_path = $folder.md5($url).'.html';
 
         $client = new Client([
             // Base URI is used with relative requests
