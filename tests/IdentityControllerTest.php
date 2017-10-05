@@ -45,35 +45,6 @@ class IdentityControllerTest extends BrowserKitTestCase
         }
     }
 
-    public function testContactsSuggestionBasedOnInstitution()
-    {
-        $institution = factory('KlinkDMS\Institution')->create([
-            'klink_id' => \Config::get('dms.institutionID')
-        ]);
-
-        // make sure contact information are not set
-        Option::where('key', 'LIKE', 'contact.%')->delete();
-
-        $user = $this->createAdminUser();
-
-        $this->actingAs($user);
-
-        $this->visit(route('administration.identity.index'));
-
-        $this->assertFalse(Option::areContactsConfigured());
-
-        $this->see(trans('administration.identity.suggestion_based_on_institution_hint'));
-        $this->see($institution->name);
-        $this->see($institution->email);
-        $this->see($institution->thumbnail_uri);
-        $this->see($institution->url);
-        $this->see($institution->phone);
-        $this->see($institution->address_street);
-        $this->see($institution->address_country);
-        $this->see($institution->address_locality);
-        $this->see($institution->address_zip);
-    }
-
     public function testAdminDashboardNoticeShown()
     {
         // make sure contact information are not set

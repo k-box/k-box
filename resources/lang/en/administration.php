@@ -229,6 +229,7 @@ return [
         'delete_error' => 'The institution :name cannot be deleted: :error',
         'deleted' => 'The institution :name has been removed.',
         'delete_confirm' => 'Deleting institution :name from the network?',
+        'deprecated' => 'Institutions management is going to change. To prepare your K-Box to support the next changes we are disabling adding, editing and removing Institutions.',
         
         'labels' => [
             'klink_id' => 'Institution Identifier (in the K-Link Network)',

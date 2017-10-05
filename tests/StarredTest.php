@@ -95,7 +95,7 @@ class StarredTest extends BrowserKitTestCase
         $this->actingAs($user);
         
         $this->post(route('documents.starred.store'), [
-            'institution' => $doc->institution->klink_id,
+            'institution' => config('dms.institutionID'),
             'descriptor' => $doc->local_document_id,
             'visibility' => $doc->visibility,
             '_token' => csrf_token()

@@ -106,7 +106,7 @@ class StarredDocumentsController extends Controller
     public function store(Guard $auth, StarredRequest $starredRequest)
     {
         try {
-            $doc = $this->documentsService->getDocument($starredRequest->institution, $starredRequest->descriptor, $starredRequest->visibility);
+            $doc = $this->documentsService->getDocument($starredRequest->descriptor, $starredRequest->visibility);
 
             $user_id = $auth->user()->id;
 

@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use KlinkDMS\Http\Controllers\Controller;
 use KlinkDMS\Http\Requests\ContactsSaveRequest;
 use KlinkDMS\Option;
-use KlinkDMS\Institution;
 
 /**
  * Manage the K-Box Identity configuration
@@ -46,33 +45,6 @@ class IdentityController extends Controller
 
         $are_contacts_configured = Option::areContactsConfigured();
         
-
-        // if the institution is configured and the contacts not, then grab the info from the local institution cache to suggest a possible autocomplete for the information
-        // check only the local institutions table, do not attempt to connect to the K-Link Public Network
-
-        $institution_id = \Config::get('dms.institutionID');
-        $inst = null;
-
-        if (! is_null($institution_id) && ! empty($institution_id) && ! $are_contacts_configured) {
-            $inst = Institution::findByKlinkID($institution_id);
-
-            if (! is_null($inst)) {
-                $contacts = [
-                    'contact' => [
-                        "name" => $inst->name,
-                        "email" => $inst->email,
-                        "phone" => $inst->phone,
-                        "website" => $inst->url,
-                        "image" => $inst->thumbnail_uri,
-                        "address_street" => $inst->address_street,
-                        "address_locality" => $inst->address_locality,
-                        "address_country" => $inst->address_country,
-                        "address_zip" => $inst->address_zip,
-                    ]
-                ];
-            }
-        }
-
         return view('administration.identity.index', [
             'pagetitle' => trans('administration.identity.page_title'),
             'contacts' => isset($contacts['contact']) ? $contacts['contact'] : $contacts,

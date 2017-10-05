@@ -162,7 +162,7 @@ class DocumentDescriptorTest extends BrowserKitTestCase
         $descriptor = $document->toKlinkDocumentDescriptor($visibility === \KlinkVisibilityType::KLINK_PUBLIC);
         $descriptor2 = $document2->toKlinkDocumentDescriptor($visibility === \KlinkVisibilityType::KLINK_PUBLIC);
 
-        $this->assertEquals($document->institution()->first()->klink_id, $descriptor->getInstitutionID());
+        $this->assertEquals(config('dms.institutionID'), $descriptor->getInstitutionID());
         $this->assertEquals($document->local_document_id, $descriptor->getLocalDocumentID());
         $this->assertEquals($document->hash, $descriptor->getHash());
         $this->assertEquals($document->title, $descriptor->getTitle());

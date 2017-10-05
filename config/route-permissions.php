@@ -217,12 +217,7 @@ return [
         
         'institutions' => [
             'index' => KlinkDMS\Capability::MANAGE_DMS,
-            'create' => KlinkDMS\Capability::MANAGE_DMS,
-            'store' => KlinkDMS\Capability::MANAGE_DMS,
             'show' => KlinkDMS\Capability::MANAGE_DMS,
-            'edit' => KlinkDMS\Capability::MANAGE_DMS,
-            'update' => KlinkDMS\Capability::MANAGE_DMS,
-            'destroy' => KlinkDMS\Capability::MANAGE_DMS,
         ],
         
         'settings' => [

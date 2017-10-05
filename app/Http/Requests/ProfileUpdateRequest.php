@@ -30,6 +30,8 @@ class ProfileUpdateRequest extends Request
             'email' => 'sometimes|required|email|unique:users,email',
             'password' => 'sometimes|required|min:8|regex:[\S]',
             'password_confirm' => 'required_with:password|same:password',
+            'organization_name' => 'sometimes|nullable|string',
+            'organization_website' => 'sometimes|nullable|url',
             '_change' => 'required|in:pass,mail,info,language',
             User::OPTION_LANGUAGE => 'sometimes|required|in:en,ru'
         ];

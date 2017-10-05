@@ -53,9 +53,7 @@ class MicrositeCreationRequest extends Request
     {
         // user must be a project admin
         // user must be the same as the project owner
-        
         $user = $this->user();
-        
         if (! $user->can_capability(Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH)) {
             return false;
         }
@@ -65,7 +63,7 @@ class MicrositeCreationRequest extends Request
         try {
             $prj = Project::findOrFail($project_id);
             
-            return $prj->user_id === $user->id;
+            return (int)$prj->user_id === (int)$user->id;
         } catch (\Exception $e) {
             return false;
         }

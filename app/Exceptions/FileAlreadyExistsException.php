@@ -149,7 +149,7 @@ class FileAlreadyExistsException extends Exception
             return trans('errors.filealreadyexists.in_the_network', [
                 'network' => e(network_name()),
                 'title' => e($this->existing_descriptor->title),
-                'institution' => e($this->existing_descriptor->institution->name)
+                'institution' => config('dms.institutionID')
             ]);
         }
     }

@@ -2,10 +2,10 @@
 
 namespace KlinkDMS\Http\Controllers;
 
-use Illuminate\Contracts\Auth\Guard as Auth;
 use KlinkDMS\User;
-use KlinkDMS\Http\Requests\ProfileUpdateRequest;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Contracts\Auth\Guard as Auth;
+use KlinkDMS\Http\Requests\ProfileUpdateRequest;
 use KlinkDMS\Http\Requests\UserOptionUpdateRequest;
 
 class UserProfileController extends Controller
@@ -19,8 +19,6 @@ class UserProfileController extends Controller
       public function __construct()
       {
           $this->middleware('auth');
-
-//	      $this->middleware('capabilities');
       }
 
     /**
@@ -31,8 +29,6 @@ class UserProfileController extends Controller
     public function index(Auth $auth)
     {
         $user = $auth->user();
-
-        // $user = User::findOrFail($user_id);
 
         $stars_count = $user->starred()->count();
         $shares_count = $user->shares()->count();
@@ -54,6 +50,7 @@ class UserProfileController extends Controller
      */
     public function store(Auth $auth, ProfileUpdateRequest $request)
     {
+        // TODO: this should not be a store(), but an update() as the user is already created
         $user = $auth->user();
 
         if ($request->get('_change') === 'mail') {
@@ -64,7 +61,9 @@ class UserProfileController extends Controller
             $message = trans('profile.messages.password_changed');
         } elseif ($request->get('_change') === 'info') {
             $user->name = $request->get('name');
-            $message = trans('profile.messages.name_changed');
+            $user->organization_name = e($request->get('organization_name', ''));
+            $user->organization_website = e($request->get('organization_website', ''));
+            $message = trans('profile.messages.info_changed');
         } elseif ($request->get('_change') === 'language') {
             $user->setOption(User::OPTION_LANGUAGE, $request->get(User::OPTION_LANGUAGE));
             
@@ -83,6 +82,7 @@ class UserProfileController extends Controller
      */
     public function update(Auth $auth, UserOptionUpdateRequest $request)
     {
+        // TODO: move this to /profile/options or me/options store()
         $user = $auth->user();
 
         \Log::info('Updating user options', ['params' =>$request->all()]);
@@ -141,7 +141,6 @@ class UserProfileController extends Controller
 
         $pagetitle = trans('profile.page_title', ['name' => $user->name]);
 
-        
         return view('profile.user', compact('pagetitle', 'user', 'stars_count', 'shares_count', 'documents_count', 'collections_count'));
     }
 }

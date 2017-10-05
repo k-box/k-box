@@ -3,7 +3,6 @@
 namespace KlinkDMS\Http\Controllers\Administration;
 
 use KlinkDMS\Capability;
-use KlinkDMS\Institution;
 use KlinkDMS\Http\Controllers\Controller;
 use KlinkDMS\Http\Requests\UserRequest;
 use Illuminate\Support\Facades\Hash;
@@ -105,13 +104,8 @@ class UserAdministrationController extends Controller
           $perms[$cap->key] = $cap;
       }
     
-    
-      $institutions = Institution::all();
-    
-
       $viewBag = [
         'mode' => 'create',
-        'institutions' => $institutions,
         'user_types' => $user_types,
         'pagetitle' => trans('administration.accounts.create.title'),
         'capabilities' => array_values($perms),
@@ -142,12 +136,11 @@ class UserAdministrationController extends Controller
               'name' => $request->get('name'),
               'email' => trim($request->get('email')),
               'password' => Hash::make($password),
-              'institution_id' => $request->get('institution', null)
+              'institution_id' => null
           ]);
     
           $user->addCapabilities($request->get('capabilities'));
-      
-      
+
           return $user;
       });
 
@@ -166,15 +159,6 @@ class UserAdministrationController extends Controller
    */
   public function show(Guard $auth, $id)
   {
-      // $user = User::findOrFail($id);
-
-      // $viewBag = [
-      //     'user' => $user,
-      //     'capabilities' => Capability::all(),
-      //     'caps' => array_pluck($user->capabilities()->get()->toArray(), 'key')
-      //   ];
-      
-
       return $this->edit($auth, $id); //view('administration.users.edit', $viewBag);
   }
 
@@ -222,14 +206,11 @@ class UserAdministrationController extends Controller
       foreach ($caps as $cap) {
           $perms[$cap->key] = $cap;
       }
-      
-      $institutions = Institution::all();
 
       $viewBag = [
         'pagetitle' => trans('administration.accounts.edit_account_title', ['name' => $user->name]),
         'user' => $user,
         'user_types' => $user_types,
-        'institutions' => $institutions,
         'capabilities' => array_values($perms),
         'type_resolutor' => $type_resolutor,
         'edit_enabled' => $auth->user()->id != $user->id,
@@ -268,11 +249,6 @@ class UserAdministrationController extends Controller
       if ($user->name != $request->get('name')) {
           $user->name = $request->get('name');
       }
-      
-      if ($user->getInstitution() != $request->get('institution')) {
-          $user->institution_id = $request->get('institution');
-      }
-      
       
 
       $user->save();

@@ -22,11 +22,11 @@ use KlinkDMS\Notifications\ResetPasswordNotification;
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @property string $deleted_at
- * @property int $institution_id
+ * @property string $organization_name
+ * @property string $organization_website
  * @property-read \Illuminate\Database\Eloquent\Collection|\KlinkDMS\Capability[] $capabilities
  * @property-read \Illuminate\Database\Eloquent\Collection|\KlinkDMS\DocumentDescriptor[] $documents
  * @property-read \Franzose\ClosureTable\Extensions\Collection|\KlinkDMS\Group[] $groups
- * @property-read \KlinkDMS\Institution $institution
  * @property-read \Illuminate\Database\Eloquent\Collection|\KlinkDMS\PeopleGroup[] $involvedingroups
  * @property-read \Illuminate\Database\Eloquent\Collection|\KlinkDMS\Project[] $managedProjects
  * @property-read \Illuminate\Database\Eloquent\Collection|\KlinkDMS\UserOption[] $options
@@ -186,6 +186,7 @@ class User extends Authenticatable
     * The institution of the user
     *
     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+    * @deprecated Institutions will be removed, use the origanization_* fields instead
     */
     public function institution()
     {
@@ -256,6 +257,7 @@ class User extends Authenticatable
      * Get the user institution identifier
      *
      * @return int|null the institution id, if configured, null otherwise
+     * @deprecated Institutions will be removed, use the origanization_* fields instead
      */
     public function getInstitution()
     {
@@ -266,6 +268,7 @@ class User extends Authenticatable
      * Get the user institution name
      *
      * @return string the institution name, if configured, otherwise an empty string is returned
+     * @deprecated Institutions will be removed, use the origanization_* fields instead
      */
     public function getInstitutionName()
     {

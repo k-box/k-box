@@ -30,7 +30,6 @@ class RoutesTest extends BrowserKitTestCase
         return [
             [ 'administration.index' ],
             [ 'administration.institutions.index' ],
-            [ 'administration.institutions.create' ],
             [ 'administration.mail.index' ],
             [ 'administration.maintenance.index' ],
             [ 'administration.messages.create' ],

@@ -592,9 +592,7 @@ class DocumentsTest extends BrowserKitTestCase
         
         $institution = factory('KlinkDMS\Institution')->create();
         
-        $user = $this->createUser(Capability::$PROJECT_MANAGER, [
-            'institution_id' => $institution->id
-        ]);
+        $user = $this->createUser(Capability::$PROJECT_MANAGER);
         
         $file = factory('KlinkDMS\File')->create([
             'user_id' => $user->id,
@@ -605,7 +603,6 @@ class DocumentsTest extends BrowserKitTestCase
             'owner_id' => $user->id,
             'file_id' => $file->id,
             'hash' => $file->hash,
-            'institution_id' => $institution->id,
             'is_public' => $visibility === 'private' ? false : true
         ]);
         
@@ -620,7 +617,7 @@ class DocumentsTest extends BrowserKitTestCase
         
         $this->assertNotNull($descriptor);
         
-        $this->assertEquals($institution->klink_id, $descriptor->institutionID);
+        $this->assertEquals(config('dms.institutionID'), $descriptor->institutionID);
         
         $this->assertEquals($visibility, $descriptor->visibility);
         
@@ -637,64 +634,6 @@ class DocumentsTest extends BrowserKitTestCase
         }
     }
     
-    /**
-     * Test the conversion from KlinkDMS\DocumentDescriptor to \KlinkDocumentDescriptor
-     * @dataProvider vibility_provider
-     */
-    public function testDocumentDescriptorToKlinkDocumentDescriptorWhenUserChangeAffiliation($visibility)
-    {
-        $this->withKlinkAdapterFake();
-        
-        $institution = factory('KlinkDMS\Institution')->create();
-        $institution2 = factory('KlinkDMS\Institution')->create();
-        
-        $user = $this->createUser(Capability::$PROJECT_MANAGER, [
-            'institution_id' => $institution->id
-        ]);
-        
-        $file = factory('KlinkDMS\File')->create([
-            'user_id' => $user->id,
-            'original_uri' => ''
-        ]);
-        
-        $doc = factory('KlinkDMS\DocumentDescriptor')->create([
-            'owner_id' => $user->id,
-            'institution_id' => $institution->id,
-            'file_id' => $file->id,
-            'hash' => $file->hash,
-            'is_public' => $visibility === 'private' ? false : true
-        ]);
-        
-        $service = app('Klink\DmsDocuments\DocumentsService');
-        
-        $group = $service->createGroup($user, 'Personal collection of user '.$user->id);
-        
-        $group->documents()->save($doc);
-        
-        $user->institution_id = $institution2->id;
-        $user->save();
-        
-        $descriptor = $doc->toKlinkDocumentDescriptor($visibility === 'private' ? false : true);
-        
-        $this->assertNotNull($descriptor);
-        
-        $this->assertNotEquals($user->institution->klink_id, $descriptor->institutionID);
-        $this->assertEquals($institution->klink_id, $descriptor->institutionID);
-        
-        $this->assertEquals($visibility, $descriptor->visibility);
-        
-        $this->assertEquals($doc->title, $descriptor->title);
-        
-        $this->assertEquals($doc->hash, $descriptor->hash, 'Descriptor hash not equal to DocumentDescriptor');
-        $this->assertEquals($doc->hash, $file->hash, 'File Hash not equal to DocumentDescriptor hash');
-        
-        if ($visibility === 'private') {
-            $this->assertNotEmpty($descriptor->documentGroups);
-            $this->assertEquals($group->toKlinkGroup(), $descriptor->documentGroups[0]);
-        } else {
-            $this->assertEmpty($descriptor->documentGroups);
-        }
-    }
     
     
     public function testDocumentReindexingStartedByAUserThatIsNotTheOwner()

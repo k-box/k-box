@@ -72,7 +72,7 @@ class FileAlreadyExistsExceptionTest extends BrowserKitTestCase
         $this->assertEquals(trans('errors.filealreadyexists.in_the_network', [
                 'network' => network_name(),
                 'title' => $doc->title,
-                'institution' => $doc->institution->name
+                'institution' => config('dms.institutionID')
             ]), $ex->render($user));
     }
 

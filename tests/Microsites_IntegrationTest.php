@@ -178,8 +178,7 @@ class Microsites_IntegrationTest extends BrowserKitTestCase
         
         $microsite = factory('Klink\DmsMicrosites\Microsite')->create([
             'project_id' => $project->id,
-            'user_id' => $project_manager->id,
-            'institution_id' => $project_manager->institution_id,
+            'user_id' => $project_manager->id
         ]);
         
         $this->actingAs($project_manager);
@@ -212,7 +211,7 @@ class Microsites_IntegrationTest extends BrowserKitTestCase
     
     public function testMicrositeCreateInvokedWithoutUserAffiliation()
     {
-        $user = $this->createAdminUser(['institution_id' => null]);
+        $user = $this->createAdminUser();
         
         $project = factory('KlinkDMS\Project')->create(['user_id' => $user->id]);
         
@@ -224,9 +223,9 @@ class Microsites_IntegrationTest extends BrowserKitTestCase
         
         $this->visit(route('microsites.create', ['project' => $project->id]));
         
-        $this->seePageIs(route('projects.show', ['id' => $project->id ]));
+        $this->seePageIs(route('microsites.create', ['project' => $project->id ]));
         
-        $this->see(trans('microsites.errors.user_not_affiliated_to_an_institution'));
+        $this->dontSee(trans('microsites.errors.user_not_affiliated_to_an_institution'));
     }
     
     
@@ -238,8 +237,7 @@ class Microsites_IntegrationTest extends BrowserKitTestCase
         
         $microsite = factory('Klink\DmsMicrosites\Microsite')->create([
             'project_id' => $project->id,
-            'user_id' => $project_manager->id,
-            'institution_id' => $project_manager->institution_id,
+            'user_id' => $project_manager->id
         ]);
         
         $this->actingAs($project_manager);
@@ -264,12 +262,10 @@ class Microsites_IntegrationTest extends BrowserKitTestCase
         $microsite_request = factory('Klink\DmsMicrosites\Microsite')->make([
             'project_id' => $project->id,
             'project' => $project->id,
-            'user_id' => $project_manager->id,
-            'institution_id' => $project_manager->institution_id,
+            'user_id' => $project_manager->id
         ])->toArray();
         
         unset($microsite_request['project_id']);
-        unset($microsite_request['institution_id']);
         unset($microsite_request['user_id']);
         
         $microsite_request['content'] = [
@@ -293,7 +289,6 @@ class Microsites_IntegrationTest extends BrowserKitTestCase
         $this->assertEquals($microsite_request['title'], $microsite->title);
         $this->assertEquals($microsite_request['project'], $microsite->project_id);
         $this->assertEquals($project_manager->id, $microsite->user_id);
-        $this->assertEquals($project_manager->institution_id, $microsite->institution_id);
         
         $page = $microsite->pages()->first();
         
@@ -317,11 +312,9 @@ class Microsites_IntegrationTest extends BrowserKitTestCase
             'project_id' => $project->id,
             'project' => $project->id,
             'user_id' => $project_manager->id,
-            'institution_id' => $project_manager->institution_id,
         ])->toArray();
         
         unset($microsite_request['project_id']);
-        unset($microsite_request['institution_id']);
         unset($microsite_request['user_id']);
         unset($microsite_request['logo']);
         
@@ -346,7 +339,6 @@ class Microsites_IntegrationTest extends BrowserKitTestCase
         $this->assertEquals($microsite_request['title'], $microsite->title);
         $this->assertEquals($microsite_request['project'], $microsite->project_id);
         $this->assertEquals($project_manager->id, $microsite->user_id);
-        $this->assertEquals($project_manager->institution_id, $microsite->institution_id);
         
         $page = $microsite->pages()->first();
         
@@ -378,12 +370,10 @@ class Microsites_IntegrationTest extends BrowserKitTestCase
         $microsite_request = factory('Klink\DmsMicrosites\Microsite')->make([
             'project_id' => $project->id,
             'project' => $project->id,
-            'user_id' => $project_manager->id,
-            'institution_id' => $project_manager->institution_id,
+            'user_id' => $project_manager->id
         ])->toArray();
         
         unset($microsite_request['project_id']);
-        unset($microsite_request['institution_id']);
         unset($microsite_request['user_id']);
         
         $microsite_request['content'] = [
@@ -427,12 +417,10 @@ class Microsites_IntegrationTest extends BrowserKitTestCase
             'project_id' => $project->id,
             'project' => $project->id,
             'user_id' => $project_manager->id,
-            'institution_id' => $project_manager->institution_id,
             'default_language' => $default_lang
         ])->toArray();
         
         unset($microsite_request['project_id']);
-        unset($microsite_request['institution_id']);
         unset($microsite_request['user_id']);
         unset($microsite_request['logo']);
         
@@ -462,7 +450,6 @@ class Microsites_IntegrationTest extends BrowserKitTestCase
         $this->assertEquals($microsite_request['title'], $microsite->title);
         $this->assertEquals($microsite_request['project'], $microsite->project_id);
         $this->assertEquals($project_manager->id, $microsite->user_id);
-        $this->assertEquals($project_manager->institution_id, $microsite->institution_id);
         
         $page_count = $microsite->pages()->count();
         
@@ -490,11 +477,9 @@ class Microsites_IntegrationTest extends BrowserKitTestCase
             'project_id' => $project->id,
             'project' => $project->id,
             'user_id' => $project_manager->id,
-            'institution_id' => $project_manager->institution_id,
         ])->toArray();
         
         unset($microsite_request['project_id']);
-        unset($microsite_request['institution_id']);
         unset($microsite_request['user_id']);
         
         $microsite_request['content'] = [
@@ -510,7 +495,7 @@ class Microsites_IntegrationTest extends BrowserKitTestCase
         $this->actingAs($project_manager);
         
         $this->post(route('microsites.store'), $microsite_request);
-        
+
         // double post the same things, expect an error
         $microsite_request['slug'] = 'another-slug';
         $this->post(route('microsites.store'), $microsite_request);
@@ -530,7 +515,6 @@ class Microsites_IntegrationTest extends BrowserKitTestCase
         $microsite = factory('Klink\DmsMicrosites\Microsite')->create([
             'project_id' => $project->id,
             'user_id' => $project_manager->id,
-            'institution_id' => $project_manager->institution_id,
         ]);
         
         \Session::start();
@@ -555,11 +539,9 @@ class Microsites_IntegrationTest extends BrowserKitTestCase
             'project_id' => $project->id,
             'project' => $project->id,
             'user_id' => $project_manager->id,
-            'institution_id' => $project_manager->institution_id,
         ])->toArray();
         
         unset($microsite_request['project_id']);
-        unset($microsite_request['institution_id']);
         unset($microsite_request['user_id']);
         unset($microsite_request['logo']);
         
@@ -581,7 +563,7 @@ class Microsites_IntegrationTest extends BrowserKitTestCase
         $this->actingAs($project_manager);
         
         $this->post(route('microsites.store'), $microsite_request);
-        
+
         $microsite = Microsite::where('slug', $microsite_request['slug'])->first();
         
         $this->assertNotNull($microsite, 'Cannot get stored microsite after create');
@@ -657,7 +639,6 @@ class Microsites_IntegrationTest extends BrowserKitTestCase
         $microsite = factory('Klink\DmsMicrosites\Microsite')->create([
             'project_id' => $project->id,
             'user_id' => $project_manager->id,
-            'institution_id' => $project_manager->institution_id,
         ]);
         
         \Session::start();
@@ -689,7 +670,6 @@ class Microsites_IntegrationTest extends BrowserKitTestCase
         $microsite = factory('Klink\DmsMicrosites\Microsite')->create([
             'project_id' => $project->id,
             'user_id' => $project_manager->id,
-            'institution_id' => $project_manager->institution_id,
         ]);
         
         \Session::start();

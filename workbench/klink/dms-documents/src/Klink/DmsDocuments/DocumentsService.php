@@ -12,7 +12,6 @@ use KlinkDMS\Capability;
 use KlinkDMS\Import;
 use KlinkDMS\Option;
 use KlinkDMS\Project;
-use KlinkDMS\Institution;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Config;
@@ -52,37 +51,18 @@ class DocumentsService
     
     /**
      * [getDocument description]
-     * @param  string $institutionID [description]
      * @param  string $documentID    [description]
      * @param  string $visibility    [description]
      * @return KlinkDMS\DocumentDescriptor                [description]
      */
-    public function getDocument($institutionID, $documentID, $visibility='public')
+    public function getDocument($documentID, $visibility='public')
     {
-        // if the document is already cached return that instance
-        // otherwise make remote call and coversion
-        
-        $inst_cached = Institution::find($institutionID);
-        
-
-        $inst = $inst_cached != null ? $inst_cached : $this->adapter->institutions($institutionID);
-
-        //so now I have a local id if not already existing
-
-        $cached = DocumentDescriptor::findByInstitutionAndDocumentId($inst->id, $documentID);
+        $cached = DocumentDescriptor::findByDocumentId($documentID);
 
         if (is_null($cached)) {
-            try {
-                $klink_descriptor = $this->adapter->getDocument($institutionID, $documentID, $visibility);
-
-                $cached = DocumentDescriptor::fromKlinkDocumentDescriptor($klink_descriptor);
-            } catch (\KlinkException $kex) {
-                $arr1 = compact('institutionID', 'documentID', 'visibility');
-
-                \Log::error('Get Document', ['context' => 'DocumentsService', 'params' => $arr1, 'exception' => $kex]);
-
-                throw new \InvalidArgumentException('The specified document is invalid', 2, $kex);
-            }
+            
+            throw new \InvalidArgumentException("The specified document {$documentID} is invalid", 2);
+            
         }
 
         return $cached;
@@ -244,24 +224,14 @@ class DocumentsService
      */
     public function indexDocument(File $file, $visibility = 'public', User $owner = null, Group $group = null, $return_also_if_indexing_error = false)
     {
-        
-        //TODO: if the same document will be indexed in both public and private what will happen
-        
-
         // if already saved as private and $visibility='public' keep only one record and change visibility to both
 
         if (DocumentDescriptor::existsByHash($file->hash)) {
             throw new FileAlreadyExistsException($file->name, DocumentDescriptor::findByHash($file->hash));
         }
-
-        $institution = $this->adapter->institutions(\Config::get('dms.institutionID'));
         
         if (is_null($owner)) {
             $owner = $file->user;
-        }
-
-        if (! is_null($owner->institution_id)) {
-            $institution = $owner->institution;
         }
 
         $document_type = \KlinkDocumentUtils::documentTypeFromMimeType($file->mime_type);
@@ -271,7 +241,7 @@ class DocumentsService
         $thumbnail_url_path = $this->constructUrl($local_document_id, 'thumbnail');
 
         $attrs = [
-            'institution_id' => $institution->id,
+            'institution_id' => null,
             'local_document_id' => $local_document_id,
             'title' => $file->name,
             'hash' => $file->hash,
@@ -413,8 +383,6 @@ class DocumentsService
         $local_document_id = substr($file->hash, 0, 10);
         
         $owner = $file->user;
-
-        $institution = !is_null($owner->institution_id) ? $owner->institution : $this->adapter->institutions(\Config::get('dms.institutionID'));
         
         $document_url_path = $this->constructUrl($local_document_id, 'document');
         $thumbnail_url_path = $this->constructUrl($local_document_id, 'thumbnail');
@@ -422,7 +390,7 @@ class DocumentsService
         $document_type = \KlinkDocumentUtils::documentTypeFromMimeType($file->mime_type);
 
         $attrs = [
-            'institution_id' => $institution->id,
+            'institution_id' => null,
             'local_document_id' => $local_document_id,
             'title' => $file->name,
             'hash' => $file->hash,
@@ -597,7 +565,7 @@ class DocumentsService
         }
 
         if (! $descriptor->isMine()) {
-            //no action required because is an institution document saved by the DMS
+            //no action required, the descriptor is a pointer to something hosted on the network
             return true;
         }
         

@@ -11,6 +11,7 @@ use KlinkDMS\User;
 use KlinkDMS\Capability;
 use KlinkDMS\DocumentDescriptor;
 use KlinkDMS\File;
+use KlinkDMS\Institution;
 use Ramsey\Uuid\Uuid;
 
 class DmsUpdateCommand extends Command
@@ -326,6 +327,12 @@ class DmsUpdateCommand extends Command
             // create the db entry with the edition tag
             Option::create(['key' => 'branch', 'value' => \Config::get('dms.edition')]);
 
+            $this->write('  <comment>Checking default institution...</comment>');
+            $count_generated = $this->createDefaultInstitution();
+            if ($count_generated > 0) {
+                $this->write("  - <comment>Added a default Institution.</comment>");
+            }
+
             return 0;
         });
 
@@ -358,6 +365,18 @@ class DmsUpdateCommand extends Command
         $count_generated = $this->fillFileUploadCompletedAtForExistingFiles();
         if ($count_generated > 0) {
             $this->write("  - <comment>Updated {$count_generated} Files.</comment>");
+        }
+        
+        $this->write('  <comment>Checking default institution...</comment>');
+        $count_generated = $this->createDefaultInstitution();
+        if ($count_generated > 0) {
+            $this->write("  - <comment>Added a default Institution.</comment>");
+        }
+        
+        $this->write('  <comment>Migrating institution to user profile...</comment>');
+        $count_generated = $this->updateUserOrganizationAttributes();
+        if ($count_generated > 0) {
+            $this->write("  - <comment>Updated {$count_generated} Users.</comment>");
         }
 
         
@@ -429,6 +448,50 @@ class DmsUpdateCommand extends Command
 
             $doc->save();
             $counter++;
+        });
+        
+        return $counter;
+    }
+
+    private function createDefaultInstitution()
+    {
+        $existing = Institution::current();
+
+        if (is_null($existing)) {
+            Institution::forceCreate([
+                'klink_id' => config('dms.institutionID'),
+                'name' => 'KLINK',
+                'email' => 'info@klink.asia',
+                'type' => 'Organization'
+            ]);
+
+            return 1;
+        }
+
+        return 0;
+    }
+
+    private function updateUserOrganizationAttributes()
+    {
+        $users = User::whereNotNull('institution_id')->with('institution')->get();
+        
+        $count = $users->count();
+
+        if ($count === 0) {
+            return 0;
+        }
+
+        $counter = 0;
+
+        $users->each(function ($user) use (&$counter) {
+            if ($user->institution) {
+                $user->organization_name = $user->institution->name;
+                $user->organization_website = $user->institution->url;
+                $user->institution_id = null;
+                $user->timestamps = false;
+                $user->save();
+                $counter++;
+            }
         });
         
         return $counter;

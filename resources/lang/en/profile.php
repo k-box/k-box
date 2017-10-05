@@ -18,16 +18,22 @@ return [
     'messages' => [
         'mail_changed' => 'The E-Mail address has been changed.',
         'name_changed' => 'The user nicename has been changed.',
+        'info_changed' => 'User information changed.',
         'password_changed' => 'The password has been changed.',
         'language_changed' => 'The Language has been updated.',
     ],
 
     'labels' => [
         'nicename' => 'User\'s Nicename',
+        'nicename_hint' => 'How would you like to be called?',
         'password' => 'Password',
         'password_description' => 'The password must be alphanumeric and have a minimum length of 8 characters',
         'password_confirm' => 'Confirm your password',
         'language' => 'Select your preferred language',
+        'organization_name' => 'Organization Name',
+        'organization_name_hint' => 'The organization your joined to, if any',
+        'organization_website' => 'Organization Website',
+        'organization_website_hint' => 'The organization website (e.g. https://klink.asia)',
     ],
 
     'change_password_btn' => 'Change password',

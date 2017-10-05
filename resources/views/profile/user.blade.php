@@ -63,6 +63,14 @@
 
 			@include('errors.list')
 
+			@if(Session::has('flash_message'))
+
+				<div class="c-message c-message--success">
+					{{session('flash_message')}}
+				</div>
+
+			@endif
+
 			
 			<form method="post" class="c-form" action="{{route('profile.store')}}">
 				
@@ -72,12 +80,30 @@
 				<h4>{{trans('profile.info_section')}}</h4>
 
 			    <div class="c-form__field">
-			        
 			        <label>{{trans('profile.labels.nicename')}}</label>
+					<span class="description">{{trans('profile.labels.nicename_hint')}}</span>
 			        @if( $errors->has('name') )
 			            <span class="field-error">{{ implode(",", $errors->get('name'))  }}</span>
 			        @endif
 			        <input type="text"  class="c-form__input" name="name" @if(isset($user)) value="{{$user->name}}" @endif />
+			    </div>
+			    
+				<div class="c-form__field">			        
+			        <label>{{trans('profile.labels.organization_name')}}</label>
+					<span class="description">{{trans('profile.labels.organization_name_hint')}}</span>
+			        @if( $errors->has('organization_name') )
+			            <span class="field-error">{{ implode(",", $errors->get('organization_name'))  }}</span>
+			        @endif
+			        <input type="text"  class="c-form__input" name="organization_name" value="{{ old('organization_name', $user->organization_name)}}" />
+			    </div>
+			    
+				<div class="c-form__field">			        
+			        <label>{{trans('profile.labels.organization_website')}}</label>
+					<span class="description">{{trans('profile.labels.organization_website_hint')}}</span>
+			        @if( $errors->has('organization_website') )
+			            <span class="field-error">{{ implode(",", $errors->get('organization_website'))  }}</span>
+			        @endif
+			        <input type="text" placeholder="http://" class="c-form__input" name="organization_website" value="{{ old('organization_website', $user->organization_website)}}" />
 			    </div>
 			    
 			    
@@ -131,7 +157,7 @@
 			        @if( $errors->has('email') )
 			            <span class="field-error">{{ implode(",", $errors->get('email'))  }}</span>
 			        @endif
-			        <input type="text"  class="c-form__input" name="email" @if(isset($user)) value="{{$user->email}}" @endif @if(isset($can_change_mail) && !$can_change_mail) disabled @endif />
+			        <input type="text"  class="c-form__input" name="email" value="{{ old('email', $user->email) }}" @if(isset($can_change_mail) && !$can_change_mail) disabled @endif />
 			    </div>
 			    
 			    

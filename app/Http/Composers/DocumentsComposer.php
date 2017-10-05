@@ -357,8 +357,6 @@ if ($is_projectspage && (! $grp->is_private && ! $show_personal_collections_in_f
                             $f_items->label =  trans('languages.'.$f_items->term);
                         } elseif ($f->name == KlinkFacet::DOCUMENT_TYPE) {
                             $f_items->label =  trans_choice('documents.type.'.$f_items->term, 1);
-                        } elseif ($f->name == 'institution' || $f->name == KlinkFacet::INSTITUTION_ID) {
-                            $f_items->label =  $adapter->getInstitutionName($f_items->term);
                         } elseif ($f->name == KlinkFacet::PROJECT_ID) {
                             $prj = Project::find($f_items->term);
 

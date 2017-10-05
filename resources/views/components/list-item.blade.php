@@ -7,7 +7,6 @@
     @if(isset($project) && $project) data-project="{{$project}}" @endif 
     @if($type ==='group') data-group-id="{{$id}}" @endif
     data-class="{{ $data_class }}" 
-    @if($type!=='group') data-institution="{{$institution}}" @endif
     @if($type!=='group') data-visibility="{{$visibility}}" @endif
     data-type="{{$type}}" 
     @if(isset($drop_action) && $drop_action) data-drop="true" data-drop-action="{{$drop_action}}" @endif
@@ -70,7 +69,6 @@
             <button data-action="star" 
                 class="item__star @if($is_public) item__star--public @endif @if( $starred ) item__star--starred @endif"
                 @if($star!== false) data-id="{{$star}}" @endif
-                data-inst="{{$institution_klink_id}}" 
                 data-doc="{{$local_document_id}}" 
                 data-visibility="{{$visibility}}">
                 @materialicon('toggle', 'star', 'star star--starred', ['alt' => trans('starred.remove')])
@@ -102,14 +100,6 @@
                 </div>
 
             @endif
-
-            {{-- @if( isset($badge_error) && $badge_error ) --}}
-
-                {{-- <div class="item__badge item__badge--error" title="{{trans('documents.descriptor.indexing_error')}}">
-                    @materialicon('action', 'report_problem')
-                </div> --}}
-
-            {{-- @endif --}}
         
         </div>
 

@@ -15,6 +15,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Video Processing Package to enable the usage of the [Video Processing CLI](https://git.klink.asia/main/video-processing-cli)
 - `ElaborateVideo` action to the upload elaboration pipeline
 - Thumbnail generation for mp4 video files
+- Deprecation notice on the Institution administration feature
+- Generation of the default deployment institution
+- `organization_name` and `organization_website` fields to the User class
+- Migration of the institution name and url to `organization_name` and `organization_website` for users that have an active affiliation
 
 ### Changed
 
@@ -25,7 +29,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - `File::physicalDelete()` is now a `protected` method
 - Updated Russian localization
 
-
 ### Fixed
 
 - Show the share item in the context menu only if the user can share, as well as on the details panel
@@ -34,6 +37,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Removed
 
 - `DocumentsService::constructLocalPathForImport` has been removed
+- Ability to edit, create and delete Institutions from the User Interface
+- Microsite strong relation with the Institution of the project manager
+- Ability to select user affiliation when creating a new user
+- Automatic assignement of the users institution to generated DocumentDescriptors after a file is uploaded
 
 ## [0.18.0] 2017-09-25
 

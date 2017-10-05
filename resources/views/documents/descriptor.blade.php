@@ -15,8 +15,6 @@
 			'draggable' => true,
 			'selectable' => true,
 			'trashed' => $item->trashed(),
-			'institution' => $item->institution_id,
-			'institution_klink_id' => $item->institution->klink_id,
 			'visibility' => $item->visibility,
 			'is_public' => $item->isPublic(),
 			'star' => isset($star_id) ? $star_id : false,
@@ -52,7 +50,6 @@
 			'data_class' => "document",
 			'draggable' => false,
 			'selectable' => false,
-			'institution' => $item->getInstitutionId(),
 			
 			'visibility' => $item->getVisibility(),
 			'is_public' => true,

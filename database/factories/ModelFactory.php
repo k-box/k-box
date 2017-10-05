@@ -12,36 +12,22 @@
 */
 
 $factory->define(KlinkDMS\User::class, function (Faker\Generator $faker) {
-    $institution_count = \KlinkDMS\Institution::count();
     
-    if ($institution_count == 0) {
-        $institution = factory(KlinkDMS\Institution::class)->create()->id;
-    } else {
-        $institution = \KlinkDMS\Institution::all()->random()->id;
-    }
-
     return [
         'name' => $faker->name,
         'email' => $faker->email,
         'password' => bcrypt(str_random(10)),
-        'institution_id' => $institution
+        'institution_id' => null
     ];
 });
 
 $factory->defineAs(KlinkDMS\User::class, 'admin', function (Faker\Generator $faker) {
-    $institution_count = \KlinkDMS\Institution::count();
-    
-    if ($institution_count == 0) {
-        $institution = factory(KlinkDMS\Institution::class)->create()->id;
-    } else {
-        $institution = \KlinkDMS\Institution::all()->random()->id;
-    }
     
     return [
         'name' => 'admin',
         'email' => 'admin@klink.local',
         'password' => bcrypt(str_random(10)),
-        'institution_id' => $institution
+        'institution_id' => null
     ];
 });
 
@@ -94,16 +80,8 @@ $factory->define(KlinkDMS\DocumentDescriptor::class, function (Faker\Generator $
         'upload_completed_at' => \Carbon\Carbon::now()
     ]);
     
-    $institution_count = \KlinkDMS\Institution::count();
-    
-    if ($institution_count == 0) {
-        $institution = factory(KlinkDMS\Institution::class)->create()->id;
-    } else {
-        $institution = \KlinkDMS\Institution::all()->random()->id;
-    }
-    
     return [
-        'institution_id' => $institution,
+        'institution_id' => null,
         'local_document_id' => substr($hash, 0, 6),
         'title' => $faker->sentence,
         'hash' => $hash,
@@ -143,17 +121,8 @@ $factory->define(KlinkDMS\Import::class, function (Faker\Generator $faker) {
 });
 
 $factory->define(KlinkDMS\Project::class, function (Faker\Generator $faker) {
-    $institution_count = \KlinkDMS\Institution::count();
     
-    if ($institution_count == 0) {
-        $institution = factory(KlinkDMS\Institution::class)->create()->id;
-    } else {
-        $institution = \KlinkDMS\Institution::all()->random()->id;
-    }
-    
-    $user = factory(KlinkDMS\User::class)->create([
-        'institution_id' => $institution
-    ]);
+    $user = factory(KlinkDMS\User::class)->create();
     
     $user->addCapabilities(KlinkDMS\Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH);
     
@@ -184,23 +153,9 @@ $factory->define(Klink\DmsMicrosites\Microsite::class, function (Faker\Generator
         'hero_image' => str_replace('http://', 'https://', $faker->imageUrl),
         'default_language' => 'en',
         'user_id' => $project_manager->id,
-        'institution_id' => $project_manager->institution_id,
     ];
 });
 
-//
-// $factory('KlinkDMS\RecentSearch', [
-//   'terms' => $faker->word,
-//   'times' => $faker->numberBetween(1, 10),
-//   'user_id' => 'factory:KlinkDMS\User'
-// ]);
-//
-// $factory('KlinkDMS\PeopleGroup', [
-//   'name' => $faker->word,
-//   'is_institution_group' => $faker->randomElement(array(true, false)),
-//   'user_id' => 'factory:KlinkDMS\User'
-// ]);
-//
 $factory->define(KlinkDMS\Shared::class, function (Faker\Generator $faker) {
     return [
       'user_id' => function () {

@@ -31,28 +31,6 @@
         @endif
         <input class="c-form__input" type="text" name="name" value="{{old('name', isset($user) ? $user->name : '')}}" />
     </div>
-
-
-    @if(isset($institutions))
-
-    <div class="c-form__field">
-        
-        <label>{{trans('administration.accounts.labels.institution')}}</label>
-        @if( $errors->has('institution') )
-            <span class="field-error">{{ implode(",", $errors->get('institution'))  }}</span>
-        @endif
-
-        <?php $old_institution = old('institution', isset($user) ? $user->getInstitution() : null) ?>
-        
-        <select class="c-form__input" name="institution">
-            <option style="color:#808080">{{trans('administration.accounts.labels.select_institution')}}</option>
-            @foreach($institutions as $inst)
-                <option value="{{$inst->id}}" @if(isset($user) && !is_null($old_institution) && $old_institution === $inst->id) selected @endif>{{$inst->name}}</option>
-            @endforeach
-        </select>
-        
-    </div>
-    @endif
     
     @if(!isset($edit_enabled) || (isset($edit_enabled) && $edit_enabled))
     

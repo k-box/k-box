@@ -10,6 +10,21 @@ abstract class TestCase extends BaseTestCase
     use CreatesApplication, MockKlinkAdapter;
 
     /**
+     * Set the previous visited URL.
+     *
+     * This is useful for testing redirect to previous location
+     * in form validation.
+     *
+     * @param string $url
+     * @return TestCase
+     */
+    public function from($url)
+    {
+        session()->setPreviousUrl(url($url));
+        return $this;
+    }
+
+    /**
      * Invokes a private method on an object
      *
      * @param object $object the object to invoke the method on

@@ -77,12 +77,6 @@ class MicrositeController extends Controller
               ));
         }
         
-        if (is_null($user->institution_id)) {
-            throw new HttpResponseException(redirect()->back()->withErrors(
-                ['error' => trans('microsites.errors.user_not_affiliated_to_an_institution')]
-              ));
-        }
-        
         
         return view('sites::create', [
             'pagetitle' => trans('microsites.pages.create', ['project' => $project->name]),
@@ -111,7 +105,6 @@ class MicrositeController extends Controller
             $site_request = array_merge([
                 'project_id' => $project->id,
                 'user_id' => $user->id,
-                'institution_id' => $user->institution_id,
             ], $request->except(['project', 'content', 'menu']));
             
             $site_content_request = $request->only(['content', 'menu']);

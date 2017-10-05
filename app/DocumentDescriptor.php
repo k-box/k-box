@@ -349,6 +349,11 @@ class DocumentDescriptor extends Model
         return $query->where('institution_id', $institution_id)->where('local_document_id', $document_id);
     }
     
+    public function scopeFromLocalDocumentId($query, $document_id)
+    {
+        return $query->where('local_document_id', $document_id);
+    }
+    
     public function scopeFromUser($query, $user_id)
     {
         return $query->where('owner_id', $user_id);
@@ -389,6 +394,11 @@ class DocumentDescriptor extends Model
     public static function findByInstitutionAndDocumentId($institution_id, $id)
     {
         return self::fromKlinkID($institution_id, $id)->first();
+    }
+    
+    public static function findByDocumentId($localDocumentId)
+    {
+        return self::fromLocalDocumentId($localDocumentId)->first();
     }
 
     /**
@@ -458,12 +468,9 @@ class DocumentDescriptor extends Model
      */
     public function toKlinkDocumentDescriptor($need_public = false)
     {
-        $inst = $this->institution;
-        
-        $institution = config('dms.institutionID'); //fallback if institution is null
-        if (! is_null($inst)) {
-            $institution = $this->institution->klink_id;
-        }
+        // For compatibility reason all documents will be attached
+        // to the default institution
+        $institution = config('dms.institutionID');
 
         $descr = \KlinkDocumentDescriptor::create(
             $institution,

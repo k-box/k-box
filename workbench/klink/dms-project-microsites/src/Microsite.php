@@ -20,7 +20,6 @@ use KlinkDMS\User;
  * - hero_image
  * - default_language
  * - user_id
- * - institution_id
  * - created_at
  * - updated_at
  * - deleted_at
@@ -52,15 +51,6 @@ class Microsite extends Model
     public function project()
     {
         return $this->belongsTo('KlinkDMS\Project', 'project_id', 'id');
-    }
-    
-    /**
-     * The user that has created the microsite
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function institution()
-    {
-        return $this->belongsTo('KlinkDMS\Institution', 'institution_id', 'id');
     }
        
     /**

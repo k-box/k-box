@@ -6,6 +6,7 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use KlinkDMS\DocumentDescriptor;
 use KlinkDMS\Option;
+use KlinkDMS\Institution;
 use KlinkDMS\Console\Commands\DmsUpdateCommand;
 
 class DmsUpdateCommandTest extends TestCase
@@ -45,5 +46,38 @@ class DmsUpdateCommandTest extends TestCase
         $updated = $this->invokePrivateMethod($command, 'generateDocumentsUuid');
 
         $this->assertEquals(0, $updated, 'Some UUID has been regenerated');
+    }
+
+    public function test_default_institution_is_created()
+    {
+        $this->withKlinkAdapterFake();
+        
+        $current = Institution::current();
+
+        if (! is_null($current)) {
+            $current->delete();
+        }
+
+        $command = new DmsUpdateCommand();
+
+        $updated = $this->invokePrivateMethod($command, 'createDefaultInstitution');
+
+        $this->assertNotNull(Institution::current());
+    }
+
+    public function test_user_affiliation_is_moved_to_organization()
+    {
+        $institution = factory('KlinkDMS\Institution')->create();
+        $users = factory('KlinkDMS\User', 3)->create([
+            'institution_id' => $institution->id
+        ]);
+
+        $user_ids = $users->pluck('id')->toArray();
+
+        $command = new DmsUpdateCommand();
+        
+        $updated = $this->invokePrivateMethod($command, 'updateUserOrganizationAttributes');
+
+        $this->assertEquals($users->count(), $updated);
     }
 }

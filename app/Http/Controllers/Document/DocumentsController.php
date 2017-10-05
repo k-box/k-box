@@ -628,7 +628,7 @@ class DocumentsController extends Controller
     public function showByKlinkId($institution, $local_id, AuthGuard $auth)
     {
         try {
-            $document = $this->service->getDocument($institution, $local_id);
+            $document = $this->service->getDocument($local_id);
 
             return $this->_showPanel($document, $auth()->user());
         } catch (\KlinkException $kex) {
