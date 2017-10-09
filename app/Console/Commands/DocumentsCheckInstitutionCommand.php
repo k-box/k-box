@@ -12,10 +12,13 @@ use Klink\DmsDocuments\DocumentsService;
 use KlinkDMS\Console\Traits\DebugOutput;
 
 use Exception;
-use KlinkException;
+use Klink\DmsAdapter\Exceptions\KlinkException;
 use Log;
 use DB;
 
+/**
+ * @deprecated
+ */
 class DocumentsCheckInstitutionCommand extends Command
 {
     use DebugOutput;

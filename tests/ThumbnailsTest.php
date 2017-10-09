@@ -6,7 +6,7 @@ use KlinkDMS\Import;
 use KlinkDMS\Project;
 use KlinkDMS\Jobs\ThumbnailGenerationJob;
 use GuzzleHttp\Client;
-
+use Klink\DmsAdapter\KlinkDocumentUtils;
 use Illuminate\Foundation\Application;
 use KlinkDMS\Console\Commands\ThumbnailGenerationCommand;
 
@@ -21,8 +21,8 @@ class ThumbnailsTest extends BrowserKitTestCase
             // true: if the thumbnail path is a default thumbnail
             // false: if the thumbnail path must not be a default thumbnail
             [ 'tests/data/example.docx', true ],
-            [ 'tests/data/example.pdf', false ],
-            [ 'tests/data/example-presentation.pptx', false ],
+            [ 'tests/data/example.pdf', true ],
+            [ 'tests/data/example-presentation.pptx', true ],
             [ 'tests/data/project-avatar.png', false ],
             [ 'tests/data/folder_for_import/folder1/in-folder-1.md', true ],
             [ 'tests/data/users.csv', true ],
@@ -34,9 +34,9 @@ class ThumbnailsTest extends BrowserKitTestCase
         return [
             // true: if the thumbnail path is a default thumbnail
             // false: if the thumbnail path must not be a default thumbnail
-            [ 'https://klink.asia/', 'text/html; charset=utf-8', false ],
+            [ 'https://klink.asia/', 'text/html; charset=utf-8', true ],
             [ 'https://s3.amazonaws.com/lowres.cartoonstock.com/dating-attachment-jpeg-pdf-files-computer_files-mfln7218_low.jpg', 'image/jpg', false ],
-            [ 'https://hectorucsar.files.wordpress.com/2014/08/mafalda-03.pdf', 'application/pdf', false ],
+            [ 'https://hectorucsar.files.wordpress.com/2014/08/mafalda-03.pdf', 'application/pdf', true ],
             [ 'http://imgs.xkcd.com/comics/xkcde.png', 'image/png', false ],
         ];
     }
@@ -123,9 +123,9 @@ class ThumbnailsTest extends BrowserKitTestCase
         
         $file = factory('KlinkDMS\File')->create([
             'name' => basename($real_path),
-            'hash' => \KlinkDocumentUtils::generateDocumentHash($real_path),
+            'hash' => KlinkDocumentUtils::generateDocumentHash($real_path),
             'path' => $real_path,
-            'mime_type' => \KlinkDocumentUtils::get_mime($real_path),
+            'mime_type' => KlinkDocumentUtils::get_mime($real_path),
             'size' => filesize($real_path),
         ]);
         
@@ -157,20 +157,14 @@ class ThumbnailsTest extends BrowserKitTestCase
         $service = app('thumbnails');
         $documentsService = app('Klink\DmsDocuments\DocumentsService');
 
-        $mock->shouldReceive('generateThumbnailOfWebSite', 'generateThumbnailFromContent')->andReturnUsing(function ($uri, $save_path, $variant_save_path = null) use ($expectedDefault) {
-            if ($expectedDefault) {
-                throw new Exception('An exception to test default handling');
-            }
-
-            return file_put_contents(isset($variant_save_path) && ! is_null($variant_save_path) ? $variant_save_path : $save_path, 'A_simulated_file_content');
-        });
+        $mock->shouldReceive('generateThumbnailOfWebSite', 'generateThumbnailFromContent')->never();
         
         $filename = $documentsService->extractFileNameFromUrl($url);
         $folder = config('dms.upload_folder').'2017/09/';
         if (! is_dir($folder)) {
             mkdir($folder, 0777, true);
         }
-        $real_path = $folder.md5($url).'.html';
+        $real_path = $folder.md5($url). '.' . pathinfo($filename, PATHINFO_EXTENSION);
 
         $client = new Client([
             // Base URI is used with relative requests
@@ -191,7 +185,7 @@ class ThumbnailsTest extends BrowserKitTestCase
         
         $file = factory('KlinkDMS\File')->create([
             'name' => basename($real_path),
-            'hash' => \KlinkDocumentUtils::generateDocumentHash($real_path),
+            'hash' => KlinkDocumentUtils::generateDocumentHash($real_path),
             'path' => $real_path,
             'original_uri' => $url,
             'mime_type' => $mimeType,
@@ -244,9 +238,9 @@ class ThumbnailsTest extends BrowserKitTestCase
         
         $file = factory('KlinkDMS\File')->create([
             'name' => basename($real_path),
-            'hash' => \KlinkDocumentUtils::generateDocumentHash($real_path),
+            'hash' => KlinkDocumentUtils::generateDocumentHash($real_path),
             'path' => $real_path,
-            'mime_type' => \KlinkDocumentUtils::get_mime($real_path),
+            'mime_type' => KlinkDocumentUtils::get_mime($real_path),
             'size' => filesize($real_path),
         ]);
         

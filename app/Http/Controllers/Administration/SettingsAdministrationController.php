@@ -7,6 +7,7 @@ use KlinkDMS\Http\Requests\SettingsSaveRequest;
 use KlinkDMS\Option;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Contracts\Auth\Guard as AuthGuard;
+use Klink\DmsAdapter\KlinkVisibilityType;
 
 /**
  * Controller
@@ -85,7 +86,7 @@ class SettingsAdministrationController extends Controller
                     $username = $request->input(Option::PUBLIC_CORE_USERNAME, null);
                     $password = $request->input(Option::PUBLIC_CORE_PASSWORD, null);
                     
-                    $test_result = app('klinkadapter')->test(new \KlinkAuthentication($url, $username, $password, \KlinkVisibilityType::KLINK_PUBLIC));
+                    $test_result = app('klinkadapter')->test($url, $username, $password);
                     
                     if (! $test_result['result']) {
                         // failure

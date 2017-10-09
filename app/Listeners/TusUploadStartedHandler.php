@@ -4,6 +4,7 @@ namespace KlinkDMS\Listeners;
 
 use Avvertix\TusUpload\Events\TusUploadStarted;
 use Klink\DmsDocuments\DocumentsService;
+use Klink\DmsAdapter\KlinkDocumentUtils;
 use Log;
 
 class TusUploadStartedHandler
@@ -36,7 +37,7 @@ class TusUploadStartedHandler
         Log::info("Upload {$event->upload->request_id} started.");
         
         try {
-            $mime = $event->upload->mimetype ? $event->upload->mimetype : \KlinkDocumentUtils::get_mime($event->upload->filename);
+            $mime = $event->upload->mimetype ? $event->upload->mimetype : KlinkDocumentUtils::get_mime($event->upload->filename);
 
             // creating the File entry
 

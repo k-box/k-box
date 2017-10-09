@@ -8,15 +8,14 @@ use Illuminate\Support\Collection;
 
 use Klink\DmsAdapter\Contracts\KlinkAdapter as AdapterContract;
 
-use KlinkAuthentication;
-use KlinkSearchResult;
-use KlinkSearchResultItem;
-use KlinkHelpers;
-use KlinkDocument;
-use KlinkDocumentDescriptor;
-use KlinkVisibilityType;
-use KlinkFacetsBuilder;
-use KlinkFacetItem;
+use Klink\DmsAdapter\KlinkSearchResult;
+use Klink\DmsAdapter\KlinkSearchResultItem;
+use Klink\DmsAdapter\KlinkDocument;
+use Klink\DmsAdapter\KlinkDocumentDescriptor;
+use Klink\DmsAdapter\KlinkVisibilityType;
+use KSearchClient\Http\Authentication;
+use Klink\DmsAdapter\KlinkFacetsBuilder;
+use Klink\DmsAdapter\KlinkFacetItem;
 
 use Faker\Factory as FakerFactory;
 use PHPUnit_Framework_Assert as PHPUnit;
@@ -54,31 +53,11 @@ class FakeKlinkAdapter implements AdapterContract
         self::$faker = FakerFactory::create();
     }
     
-    /**
-     * Check if the network configuration is enabled
-     *
-     * @return bool
-     * @uses Option::PUBLIC_CORE_ENABLED
-     */
-    public function isNetworkEnabled()
-    {
-        return ! ! Option::option(Option::PUBLIC_CORE_ENABLED, false);
-    }
 
-    /**
-     *
-     *
-     * @uses \KlinkCoreClient::test
-     * @return array containing a key result and error, the key result contains the return
-     *               value from {@see \KlinkCoreClient::test}, while the key error contains
-     *               the eventual exception if the test fails
-     */
-    public function test(KlinkAuthentication $core = null)
+    
+    public function test($url, $username = null, $password = null)
     {
-        $error = null;
-        $result = true;
-
-        return compact('result', 'error');
+        return false;
     }
 
     /**
@@ -90,13 +69,7 @@ class FakeKlinkAdapter implements AdapterContract
      */
     public function institutions($id = null, $default = null)
     {
-        if (! is_null($id) && is_null(KlinkHelpers::is_valid_id($id, 'id'))) {
-            $cached = Institution::where('klink_id', $id)->first();
-
-            return ! is_null($cached) ? $cached : factory(Institution::class)->create(['klink_id' => $id]);
-        } else {
-            return factory(Institution::class, 5)->create();
-        }
+        return Institution::where('klink_id', $id)->first();
     }
 
     /**
@@ -107,29 +80,6 @@ class FakeKlinkAdapter implements AdapterContract
     public function getInstitutionName($klink_id)
     {
         return $klink_id;
-    }
-
-    
-    /**
-     * Save the institution details on the K-Link Network
-     *
-     * @param Institution $institution the institution to save
-     */
-    public function saveInstitution(Institution $institution)
-    {
-        // $this->connection->saveInstitution($institution->toKlinkInstitutionDetails());
-    }
-    
-    /**
-     * Delete the institution details from the K-Link Network.
-     *
-     * The institution is deleted according to the klink_id field value
-     *
-     * @param Institution $institution the institution to save
-     */
-    public function deleteInstitution(Institution $institution)
-    {
-        // $this->connection->deleteInstitution($institution->klink_id);
     }
     
     /**
@@ -150,28 +100,6 @@ class FakeKlinkAdapter implements AdapterContract
         return 24;
     }
 
-    /**
-     * Returns some documents statistics, like document types, aggregated
-     * for public and private
-     *
-     * @return array
-     */
-    public function getDocumentsStatistics()
-    {
-        $all = [
-            'document' => [
-                'public' => 5
-            ],
-            'document' => [
-                'private' => 5
-            ],
-            'document' => [
-                'total' => 10
-            ],
-        ];
-        
-        return $all;
-    }
 
     public function search($terms, $type = KlinkVisibilityType::KLINK_PRIVATE, $resultsPerPage = 10, $offset = 0, $facets = null)
     {
@@ -183,56 +111,45 @@ class FakeKlinkAdapter implements AdapterContract
         return self::generateFacetsResponse($facets, $visibility, $term);
     }
 
-    public function getDocument($institutionId, $documentId, $visibility = KlinkVisibilityType::KLINK_PRIVATE)
+    public function getDocument($uuid, $visibility = KlinkVisibilityType::KLINK_PRIVATE)
     {
-        if (isset($this->documents[$documentId.'-'.$visibility])) {
-            return $this->documents[$documentId.'-'.$visibility];
+        if (isset($this->documents[$uuid.'-'.$visibility])) {
+            return $this->documents[$uuid.'-'.$visibility];
         }
 
-        //TODO: return a Document Descriptor
-        return null; // $this->connection->getDocument( $institutionId, $documentId, $visibility );
+        return null;
     }
 
     public function updateDocument(KlinkDocument $document)
     {
-        $this->countIndexing($document->getDescriptor()->getLocalDocumentID());
+        $this->countIndexing($document->getDescriptor()->uuid());
 
-        $this->documents[$document->getDescriptor()->getLocalDocumentID().'-'.$document->getDescriptor()->getVisibility()] = $document->getDescriptor();
+        $this->documents[$document->getDescriptor()->uuid().'-'.$document->getDescriptor()->getVisibility()] = $document->getDescriptor();
 
         return $document->getDescriptor();
     }
 
-    public function removeDocumentById($institution, $document, $visibility = KlinkVisibilityType::KLINK_PRIVATE)
+    public function removeDocumentById($uuid, $visibility = KlinkVisibilityType::KLINK_PRIVATE)
     {
-        $this->countRemoval($document, $visibility);
+        $this->countRemoval($uuid, $visibility);
 
-        unset($this->documents[$document.'-'.$visibility]);
+        unset($this->documents[$uuid.'-'.$visibility]);
         
         return true;
     }
 
     public function removeDocument(KlinkDocumentDescriptor $document)
     {
-        return $this->removeDocumentById($document->getInstitutionID(), $document->getLocalDocumentID(), $document->getVisibility());
+        return $this->removeDocumentById($document->uuid(), $document->getVisibility());
     }
 
     public function addDocument(KlinkDocument $document)
     {
-        $this->countIndexing($document->getDescriptor()->getLocalDocumentID());
+        $this->countIndexing($document->getDescriptor()->uuid());
 
-        $this->documents[$document->getDescriptor()->getLocalDocumentID().'-'.$document->getDescriptor()->getVisibility()] = $document->getDescriptor();
+        $this->documents[$document->getDescriptor()->uuid().'-'.$document->getDescriptor()->getVisibility()] = $document->getDescriptor();
 
         return $document->getDescriptor();
-    }
-
-    public function generateThumbnailOfWebSite($url, $image_file = null)
-    {
-        return $this->connection->generateThumbnailOfWebSite($url, $image_file = null);
-    }
-
-    public function generateThumbnailFromContent($mimeType, $data)
-    {
-        return $this->connection->generateThumbnailFromContent($mimeType, $data);
     }
 
     public static function generateSearchResponse($terms, $type = KlinkVisibilityType::KLINK_PRIVATE, $resultsPerPage = 10, $offset = 0, $facets = null)

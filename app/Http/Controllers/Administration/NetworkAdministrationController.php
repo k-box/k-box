@@ -31,7 +31,7 @@ class NetworkAdministrationController extends Controller
    */
   public function getIndex()
   {
-      $res = $this->adapter->test();
+      $res = $this->adapter->test(config('dms.core.address'));
       $klink_test_message = $res['result'] === true ? 'success' : 'failed';
 
       return view('administration.network', [

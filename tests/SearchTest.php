@@ -12,7 +12,8 @@ use Illuminate\Support\Collection;
 use Klink\DmsSearch\SearchRequest;
 use Illuminate\Http\Request;
 use KlinkDMS\Traits\Searchable;
-
+use Klink\DmsAdapter\KlinkFacetsBuilder;
+use Klink\DmsAdapter\KlinkFacet;
 use Klink\DmsAdapter\Fakes\FakeKlinkAdapter;
 
 class SearchTest extends BrowserKitTestCase
@@ -131,19 +132,19 @@ class SearchTest extends BrowserKitTestCase
         
         $this->assertNotEmpty($local_document_id);
         
-        $this->assertInstanceOf('\KlinkFacet', $local_document_id[0]);
+        $this->assertInstanceOf(KlinkFacet::class, $local_document_id[0]);
         
         $this->assertEquals('1,2,3,4,5', $local_document_id[0]->getFilter());
         
         $this->assertNotEmpty($document_groups);
         
-        $this->assertInstanceOf('\KlinkFacet', $document_groups[0]);
+        $this->assertInstanceOf(KlinkFacet::class, $document_groups[0]);
         
         $this->assertEquals('0:10,0:1,0:15', $document_groups[0]->getFilter());
 
         $this->assertNotEmpty($project_ids);
         
-        $this->assertInstanceOf('\KlinkFacet', $project_ids[0]);
+        $this->assertInstanceOf(KlinkFacet::class, $project_ids[0]);
         
         $this->assertEquals('8,9', $project_ids[0]->getFilter());
 
@@ -167,7 +168,7 @@ class SearchTest extends BrowserKitTestCase
 
         $this->assertNotEmpty($project_ids);
         
-        $this->assertInstanceOf('\KlinkFacet', $project_ids[0]);
+        $this->assertInstanceOf(KlinkFacet::class, $project_ids[0]);
         
         $this->assertEquals('8,9', $project_ids[0]->getFilter());
 
@@ -220,7 +221,7 @@ class SearchTest extends BrowserKitTestCase
 
         $fs_and_fs = $req->facets_and_filters;
         
-        $this->assertInstanceOf('\KlinkFacetsBuilder', $fs_and_fs);
+        $this->assertInstanceOf(KlinkFacetsBuilder::class, $fs_and_fs);
         
         $built = $fs_and_fs->build();
         
@@ -278,7 +279,7 @@ class SearchTest extends BrowserKitTestCase
         
         $fs_and_fs = $req->facets_and_filters;
         
-        $this->assertInstanceOf('\KlinkFacetsBuilder', $fs_and_fs);
+        $this->assertInstanceOf(KlinkFacetsBuilder::class, $fs_and_fs);
         
         $built = $fs_and_fs->build();
         
@@ -426,7 +427,7 @@ class SearchTest extends BrowserKitTestCase
 
         $mock->shouldReceive('institutions')->andReturn(factory('KlinkDMS\Institution')->make());
         
-        $mock->shouldReceive('isNetworkEnabled')->andReturn(false);
+        $mock->shouldReceive('isNetworkEnabled')->never();
 
         $mock->shouldReceive('facets')->andReturnUsing(function ($facets, $visibility, $term = '*') {
             return FakeKlinkAdapter::generateFacetsResponse($facets, $visibility, $term);

@@ -9,6 +9,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Klink\DmsDocuments\DocumentsService;
+use Klink\DmsAdapter\Exceptions\KlinkException;
 
 /**
  * Perform the global reindex of all the documents saved in the K-Box.
@@ -60,7 +61,7 @@ class ReindexAll extends Job implements ShouldQueue
                 try {
                     //if is both private and public reindex on every visibility
                     $service->reindexDocument($doc, 'private', true);
-                } catch (\KlinkException $kex) {
+                } catch (KlinkException $kex) {
                     $errors[$doc->id] = $kex;
                 }
 

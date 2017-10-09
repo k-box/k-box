@@ -7,14 +7,6 @@ use Illuminate\Contracts\View\View;
 class HeadersComposer
 {
 
-    /**
-     * ...
-     *
-     * @var \Klink\DmsAdapter\KlinkAdapter
-     */
-    protected $adapter;
-    
-    
     private static $search_target_for_routes = [
         'documents.show' => 'documents.index',
         'documents.edit' => 'documents.index',
@@ -27,9 +19,8 @@ class HeadersComposer
      * @param  UserRepository  $users
      * @return void
      */
-    public function __construct(\Klink\DmsAdapter\Contracts\KlinkAdapter $adapter)
+    public function __construct()
     {
-        $this->adapter = $adapter;
     }
 
     /**
@@ -60,7 +51,7 @@ class HeadersComposer
 
         $route_name = \Route::currentRouteName();
 
-        $is_klink_public_enabled = $this->adapter->isNetworkEnabled();
+        $is_klink_public_enabled = network_enabled();
 
         $show_search = (! $is_logged && $is_klink_public_enabled && ! starts_with($route_name, 'password') && ! str_contains($route_name, 'help') && ! starts_with($route_name, 'terms') && ! str_contains($route_name, 'contact')) ||
                         ($is_logged && ! is_null($route_name) && ! starts_with($route_name, 'admin') &&

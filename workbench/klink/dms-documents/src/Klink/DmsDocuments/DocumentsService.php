@@ -25,6 +25,10 @@ use Carbon\Carbon;
 use KlinkDMS\Exceptions\GroupAlreadyExistsException;
 use KlinkDMS\Jobs\ImportCommand;
 use KlinkDMS\Jobs\ThumbnailGenerationJob;
+use Klink\DmsAdapter\KlinkDocument;
+use Klink\DmsAdapter\KlinkDocumentUtils;
+use Klink\DmsAdapter\KlinkVisibilityType;
+use Klink\DmsAdapter\Exceptions\KlinkException;
 
 class DocumentsService
 {
@@ -116,25 +120,25 @@ class DocumentsService
     {
         $klink_descriptor = $descr->toKlinkDocumentDescriptor();
 
-        $original_hash = $klink_descriptor->hash;
+        $original_hash = $klink_descriptor->hash();
 
         $content = $this->getFileContentForIndexing($file);
 
         if (! is_file($content)) {
-            $klink_descriptor->hash = \KlinkDocumentUtils::generateHash($content);
+            $klink_descriptor->setHash(KlinkDocumentUtils::generateHash($content));
         }
         
-        $document = new \KlinkDocument($klink_descriptor, $content);
+        $document = new KlinkDocument($klink_descriptor, $content);
         
         try {
             $returned_descriptor = $this->adapter->addDocument($document);
 
-            $returned_descriptor->hash = $original_hash;
+            $returned_descriptor->setHash($original_hash);
 
             \Log::info('Core indexDocument returned descriptor for '.$descr->id, ['context' => 'DocumentsService', 'response' => $returned_descriptor]);
             
             return $returned_descriptor;
-        } catch (\KlinkException $kex) {
+        } catch (KlinkException $kex) {
 
             // try again, if fails again throw error
             
@@ -143,18 +147,18 @@ class DocumentsService
             try {
                 $alternate_content = ! is_null($descr->abstract) && ! is_null($descr->abstract) ? $descr->abstract : $descr->title;
                 
-                $klink_descriptor->hash = \KlinkDocumentUtils::generateHash($alternate_content);
+                $klink_descriptor->setHash(KlinkDocumentUtils::generateHash($alternate_content));
                 
-                $document = new \KlinkDocument($klink_descriptor, $alternate_content);
+                $document = new KlinkDocument($klink_descriptor, $alternate_content);
                 
                 $returned_descriptor = $this->adapter->addDocument($document);
 
-                $returned_descriptor->hash = $original_hash;
+                $returned_descriptor->setHash($original_hash);
 
                 \Log::info('Core indexDocument returned descriptor for '.$descr->id, ['context' => 'DocumentsService', 'response' => $returned_descriptor]);
                 
                 return $returned_descriptor;
-            } catch (\KlinkException $kex_internal) {
+            } catch (KlinkException $kex_internal) {
                 throw $kex_internal;
             }
         }
@@ -162,27 +166,27 @@ class DocumentsService
     
     private function updateDocumentProxy(DocumentDescriptor $descr, File $file, $visibility)
     {
-        $klink_descriptor = $descr->toKlinkDocumentDescriptor($visibility == \KlinkVisibilityType::KLINK_PUBLIC);
+        $klink_descriptor = $descr->toKlinkDocumentDescriptor($visibility == KlinkVisibilityType::KLINK_PUBLIC);
 
         $content = $this->getFileContentForIndexing($file);
 
-        $original_hash = $klink_descriptor->hash;
+        $original_hash = $klink_descriptor->hash();
 
         if (! is_file($content)) {
-            $klink_descriptor->hash = \KlinkDocumentUtils::generateHash($content);
+            $klink_descriptor->setHash(KlinkDocumentUtils::generateHash($content));
         }
         
-        $document = new \KlinkDocument($klink_descriptor, $content);
+        $document = new KlinkDocument($klink_descriptor, $content);
         
         try {
             $returned_descriptor = $this->adapter->updateDocument($document);
 
-            $returned_descriptor->hash = $original_hash;
+            $returned_descriptor->setHash($original_hash);
 
             \Log::info('Core indexDocument returned descriptor for '.$descr->id, ['context' => 'DocumentsService', 'response' => $returned_descriptor]);
             
             return $returned_descriptor;
-        } catch (\KlinkException $kex) {
+        } catch (KlinkException $kex) {
 
             // try again, if fails again throw error
             
@@ -191,18 +195,18 @@ class DocumentsService
             try {
                 $alternate_content = ! is_null($descr->abstract) && ! is_null($descr->abstract) ? $descr->abstract : $descr->title;
 
-                $klink_descriptor->hash = \KlinkDocumentUtils::generateHash($alternate_content);
+                $klink_descriptor->setHash(KlinkDocumentUtils::generateHash($alternate_content));
                 
-                $document = new \KlinkDocument($klink_descriptor, $alternate_content);
+                $document = new KlinkDocument($klink_descriptor, $alternate_content);
 
                 $returned_descriptor = $this->adapter->updateDocument($document);
 
-                $returned_descriptor->hash = $original_hash;
+                $returned_descriptor->setHash($original_hash);
 
                 \Log::info('Core indexDocument returned descriptor for '.$descr->id, ['context' => 'DocumentsService', 'response' => $returned_descriptor]);
                 
                 return $returned_descriptor;
-            } catch (\KlinkException $kex_internal) {
+            } catch (KlinkException $kex_internal) {
                 throw $kex_internal;
             }
         }
@@ -234,7 +238,7 @@ class DocumentsService
             $owner = $file->user;
         }
 
-        $document_type = \KlinkDocumentUtils::documentTypeFromMimeType($file->mime_type);
+        $document_type = KlinkDocumentUtils::documentTypeFromMimeType($file->mime_type);
         $local_document_id = substr($file->hash, 0, 6);
 
         $document_url_path = $this->constructUrl($local_document_id, 'document');
@@ -280,8 +284,6 @@ class DocumentsService
 
             \Log::info('Core indexDocument', ['context' => 'DocumentsService', 'response' => $returned_descriptor]);
 
-            $descr = $descr->mergeWithKlinkDocumentDescriptor($returned_descriptor);
-
             $descr->status = DocumentDescriptor::STATUS_COMPLETED;
             
             $descr->last_error = null;
@@ -307,7 +309,7 @@ class DocumentsService
             }
             
             throw $kex;
-        } catch (\KlinkException $kex) {
+        } catch (KlinkException $kex) {
             $descr->status = DocumentDescriptor::STATUS_ERROR;
             
             $descr->last_error = $kex;
@@ -387,7 +389,7 @@ class DocumentsService
         $document_url_path = $this->constructUrl($local_document_id, 'document');
         $thumbnail_url_path = $this->constructUrl($local_document_id, 'thumbnail');
 
-        $document_type = \KlinkDocumentUtils::documentTypeFromMimeType($file->mime_type);
+        $document_type = KlinkDocumentUtils::documentTypeFromMimeType($file->mime_type);
 
         $attrs = [
             'institution_id' => null,
@@ -452,8 +454,6 @@ class DocumentsService
 
             \Log::info('Core re-indexDocument', ['context' => 'DocumentsService', 'response' => $returned_descriptor]);
 
-            $descriptor = $descriptor->mergeWithKlinkDocumentDescriptor($returned_descriptor);
-
             $descriptor->status = DocumentDescriptor::STATUS_COMPLETED;
             
             $descriptor->last_error = null;
@@ -474,7 +474,7 @@ class DocumentsService
             \Log::error('Error re-indexing document into K-Link', ['context' => 'DocumentsService', 'param' => $descriptor->toArray(), 'exception' => $kex]);
             
             throw $kex;
-        } catch (\KlinkException $kex) {
+        } catch (KlinkException $kex) {
             $descriptor->status = DocumentDescriptor::STATUS_ERROR;
             
             $descriptor->last_error = $kex;
@@ -507,7 +507,7 @@ class DocumentsService
             try {
                 //if is both private and public reindex on every visibility
                 $this->reindexDocument($doc, $doc->visibility, $force);
-            } catch (\KlinkException $kex) {
+            } catch (KlinkException $kex) {
                 $errors[$doc->id] = $kex;
             }
         }
@@ -534,7 +534,7 @@ class DocumentsService
             \Log::info('Core deletePublicDocument', ['context' => 'DocumentsService', 'response' => $returned_descriptor]);
 
             \Cache::flush();
-        } catch (\KlinkException $kex) {
+        } catch (KlinkException $kex) {
             \Log::error('Error deleting public document from K-Link', ['context' => 'DocumentsService', 'param' => $descriptor, 'exception' => $kex]);
         }
     }
@@ -591,7 +591,7 @@ class DocumentsService
             }
 
             \Cache::flush();
-        } catch (\KlinkException $kex) {
+        } catch (KlinkException $kex) {
             if ($kex->getCode() != 404) {
                 $descriptor->status = DocumentDescriptor::STATUS_ERROR;
 
@@ -738,7 +738,7 @@ class DocumentsService
             \Log::info('Core restoreDocument', ['context' => 'DocumentsService', 'response' => $returned_descriptor]);
 
             \Cache::flush();
-        } catch (\KlinkException $kex) {
+        } catch (KlinkException $kex) {
             if ($kex->getCode() != 404) {
                 $descriptor->status = DocumentDescriptor::STATUS_ERROR;
 
@@ -1610,8 +1610,6 @@ class DocumentsService
 
                 throw new FileAlreadyExistsException($url, $descr, $f);
             }
-
-            \KlinkHelpers::is_valid_url($url);
         }
 
         //ok, now it's time to import (aka enqueue)
@@ -2072,7 +2070,6 @@ class DocumentsService
      */
     public function extractFileNameFromUrl($url)
     {
-        \KlinkHelpers::is_valid_url($url);
 
         $parts = parse_url($url);
 
@@ -2128,7 +2125,7 @@ class DocumentsService
     public static function extension_from_file(\KlinkDMS\File $file)
     {
         try {
-            return \KlinkDocumentUtils::getExtensionFromMimeType($file->mime_type);
+            return KlinkDocumentUtils::getExtensionFromMimeType($file->mime_type);
         } catch (\Exception $ex) {
             return '';
         }

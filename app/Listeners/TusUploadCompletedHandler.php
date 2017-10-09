@@ -9,6 +9,7 @@ use KlinkDMS\Events\UploadCompleted;
 use Illuminate\Support\Facades\Storage;
 use Klink\DmsDocuments\DocumentsService;
 use Avvertix\TusUpload\Events\TusUploadCompleted;
+use Klink\DmsAdapter\KlinkDocumentUtils;
 
 class TusUploadCompletedHandler
 {
@@ -62,7 +63,7 @@ class TusUploadCompletedHandler
             $extension = pathinfo($file->name, PATHINFO_EXTENSION);
 
             if (empty($extension)) {
-                $extension = \KlinkDocumentUtils::getExtensionFromMimeType($file->mime_type);
+                $extension = KlinkDocumentUtils::getExtensionFromMimeType($file->mime_type);
             }
 
             $storage = Storage::disk('local');
@@ -83,7 +84,7 @@ class TusUploadCompletedHandler
 
             $file->path = $file_path;
 
-            $file->hash = \KlinkDocumentUtils::generateDocumentHash($destination);
+            $file->hash = KlinkDocumentUtils::generateDocumentHash($destination);
             
             $file->upload_completed_at = \Carbon\Carbon::now();
             

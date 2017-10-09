@@ -21,7 +21,7 @@ class DocumentsControllerTest extends TestCase
     {
         Storage::fake('local');
 
-        $this->withKlinkAdapterFake();
+        $adapter = $this->withKlinkAdapterFake();
 
         $user = factory('KlinkDMS\User')->create();
 
@@ -31,7 +31,6 @@ class DocumentsControllerTest extends TestCase
 
         $response->assertStatus(200);
 
-        
         $response->assertJsonStructure([
             'descriptor' => [
                 'title',
@@ -50,6 +49,8 @@ class DocumentsControllerTest extends TestCase
         $this->assertNotNull($descriptor->uuid);
         $this->assertEquals('application/pdf', $descriptor->mime_type);
         $this->assertEquals(DocumentDescriptor::STATUS_COMPLETED, $descriptor->status, 'Document status not COMPLETED');
+
+        $adapter->assertDocumentIndexed($descriptor->uuid);
 
         $file = $descriptor->file;
 

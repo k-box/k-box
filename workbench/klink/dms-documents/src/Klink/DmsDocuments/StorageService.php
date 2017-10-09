@@ -6,6 +6,7 @@ use KlinkDMS\DocumentDescriptor;
 use KlinkDMS\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Config;
+use Klink\DmsAdapter\KlinkFacetsBuilder;
 
 class StorageService
 {
@@ -16,7 +17,7 @@ class StorageService
         $conn = $this->connection;
 
         if (! \Cache::has('dms_documents_statististics')) {
-            $fs = \KlinkFacetsBuilder::create()->documentType()->build();
+            $fs = KlinkFacetsBuilder::create()->documentType()->build();
 
             $public_facets_response = [];
 

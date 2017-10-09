@@ -8,8 +8,10 @@ use KlinkDMS\DocumentDescriptor;
 use KlinkDMS\Project;
 use Carbon\Carbon;
 use KlinkDMS\Flags;
-
+use Klink\DmsAdapter\KlinkDocumentUtils;
+use Klink\DmsAdapter\KlinkFacetsBuilder;
 use Tests\BrowserKitTestCase;
+use Klink\DmsAdapter\Exceptions\KlinkException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 use Klink\DmsAdapter\Fakes\FakeKlinkAdapter;
@@ -155,9 +157,7 @@ class DocumentsTest extends BrowserKitTestCase
      */
     public function testDocumentEditPageForKlinkPublicCheckBox($caps, $can_see)
     {
-        $adapter = $this->withKlinkAdapterMock();
-
-        $adapter->shouldReceive('isNetworkEnabled')->andReturn(true);
+        \KlinkDMS\Option::put(\KlinkDMS\Option::PUBLIC_CORE_ENABLED, true);
 
         $user = $this->createUser($caps);
         
@@ -583,14 +583,11 @@ class DocumentsTest extends BrowserKitTestCase
     }
     
     /**
-     * Test the conversion from KlinkDMS\DocumentDescriptor to \KlinkDocumentDescriptor
+     * Test the conversion from KlinkDMS\DocumentDescriptor to KlinkDocumentDescriptor
      * @dataProvider vibility_provider
      */
     public function testDocumentDescriptorToKlinkDocumentDescriptor($visibility)
     {
-        $this->withKlinkAdapterFake();
-        
-        $institution = factory('KlinkDMS\Institution')->create();
         
         $user = $this->createUser(Capability::$PROJECT_MANAGER);
         
@@ -616,21 +613,23 @@ class DocumentsTest extends BrowserKitTestCase
         $descriptor = $doc->toKlinkDocumentDescriptor($visibility === 'private' ? false : true);
         
         $this->assertNotNull($descriptor);
+
+        $data = $descriptor->toData();
         
-        $this->assertEquals(config('dms.institutionID'), $descriptor->institutionID);
+        $this->assertEquals($visibility, $descriptor->visibility());
         
-        $this->assertEquals($visibility, $descriptor->visibility);
+        $this->assertEquals($doc->title, $data->properties->title);
         
-        $this->assertEquals($doc->title, $descriptor->title);
-        
-        $this->assertEquals($doc->hash, $descriptor->hash, 'Descriptor hash not equal to DocumentDescriptor');
+        $this->assertEquals($doc->hash, $descriptor->hash(), 'Descriptor hash not equal to DocumentDescriptor');
         $this->assertEquals($doc->hash, $file->hash, 'File Hash not equal to DocumentDescriptor hash');
         
+        $collections = $descriptor->collections();
+
         if ($visibility === 'private') {
-            $this->assertNotEmpty($descriptor->documentGroups);
-            $this->assertEquals($group->toKlinkGroup(), $descriptor->documentGroups[0]);
+            $this->assertNotEmpty($collections);
+            $this->assertEquals($group->toKlinkGroup(), $collections[0]);
         } else {
-            $this->assertEmpty($descriptor->documentGroups);
+            $this->assertEmpty($collections);
         }
     }
     
@@ -640,12 +639,7 @@ class DocumentsTest extends BrowserKitTestCase
     {
         $fake = $this->withKlinkAdapterFake();
         
-        $institution = factory('KlinkDMS\Institution')->create();
-        $institution2 = factory('KlinkDMS\Institution')->create();
-        
-        $user = $this->createUser(Capability::$PROJECT_MANAGER, [
-            'institution_id' => $institution->id
-        ]);
+        $user = $this->createUser(Capability::$PROJECT_MANAGER);
                 
         $file = factory('KlinkDMS\File')->create([
             'user_id' => $user->id,
@@ -656,8 +650,7 @@ class DocumentsTest extends BrowserKitTestCase
             'owner_id' => $user->id,
             'file_id' => $file->id,
             'hash' => $file->hash,
-            'is_public' => false,
-            'institution_id' => $institution->id
+            'is_public' => false
         ]);
         
         $service = app('Klink\DmsDocuments\DocumentsService');
@@ -665,17 +658,15 @@ class DocumentsTest extends BrowserKitTestCase
         // first indexing, like the one after the upload
         $service->reindexDocument($doc, 'private');
         
-        $facets = \KlinkFacetsBuilder::i()->localDocumentID($doc->local_document_id)->build();
+        $facets = KlinkFacetsBuilder::i()->localDocumentID($doc->local_document_id)->build();
         
         // Search for it, must only be indexed once
         
-        $fake->assertDocumentIndexed($doc->local_document_id);
+        $fake->assertDocumentIndexed($doc->uuid);
         
         // Pick another user
         
-        $second_user = $this->createUser(Capability::$PARTNER, [
-            'institution_id' => $institution2->id
-        ]);
+        $second_user = $this->createUser(Capability::$PARTNER);
         
         // make an edit to the document, save it and then reindex
         
@@ -697,9 +688,7 @@ class DocumentsTest extends BrowserKitTestCase
         
         $doc = DocumentDescriptor::findOrFail($doc->id);
         
-        $this->assertEquals($institution->id, $doc->institution_id);
-        
-        $fake->assertDocumentIndexed($doc->local_document_id, 2);
+        $fake->assertDocumentIndexed($doc->uuid, 2);
     }
 
     public function testDocumentService_deleteDocument()
@@ -865,7 +854,7 @@ class DocumentsTest extends BrowserKitTestCase
         $new_path = base_path('tests/data/example-presentation.pptx');
         $new_mime_type = 'application/vnd.openxmlformats-officedocument.presentationml.presentation';
         $new_document_type = 'presentation';
-        $new_hash = \KlinkDocumentUtils::generateDocumentHash(base_path('tests/data/example-presentation.pptx'));
+        $new_hash = KlinkDocumentUtils::generateDocumentHash(base_path('tests/data/example-presentation.pptx'));
 
         $this->actingAs($user);
         
@@ -1220,7 +1209,7 @@ class DocumentsTest extends BrowserKitTestCase
         $mock->shouldReceive('search')->andReturnUsing(function ($terms, $type, $resultsPerPage, $offset, $facets) {
             $res = FakeKlinkAdapter::generateSearchResponse($terms, $type, $resultsPerPage, $offset, $facets);
 
-            throw new \KlinkException('raised error');
+            throw new KlinkException('raised error');
 
             return null;
         });

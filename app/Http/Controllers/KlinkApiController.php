@@ -10,6 +10,7 @@ use Content\Services\PreviewService;
 use Klink\DmsDocuments\DocumentsService;
 use Content\Preview\Exception\UnsupportedFileException;
 use Content\Preview\Exception\PreviewGenerationException;
+use Klink\DmsAdapter\KlinkDocumentUtils;
 
 /**
  * Controller for Klink API (/klink/{ID}/{Action}) pages
@@ -214,7 +215,7 @@ class KlinkApiController extends Controller
 
         /* File */ $file = $doc->file;
             
-        $extension = \KlinkDocumentUtils::getExtensionFromMimeType($file->mime_type);
+        $extension = KlinkDocumentUtils::getExtensionFromMimeType($file->mime_type);
 
         $render = null;
         $preview = null;

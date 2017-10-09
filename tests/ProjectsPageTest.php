@@ -251,7 +251,7 @@ class ProjectsPageTest extends BrowserKitTestCase
             $facetItem = null;
 
             foreach ($fts as $term) {
-                $facetItem = new \KlinkFacetItem();
+                $facetItem = new KlinkFacetItem();
                 $facetItem->term = $term;
                 $facetItem->count = 1;
                 $facetItems[] = $facetItem;
@@ -264,7 +264,7 @@ class ProjectsPageTest extends BrowserKitTestCase
             $prjFts = [$project1->id];
 
             foreach ($prjFts as $term) {
-                $facetItem = new \KlinkFacetItem();
+                $facetItem = new KlinkFacetItem();
                 $facetItem->term = $term;
                 $facetItem->count = 1;
                 $facetItems[] = $facetItem;

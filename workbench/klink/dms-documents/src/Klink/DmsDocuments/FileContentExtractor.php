@@ -3,7 +3,7 @@
 namespace Klink\DmsDocuments;
 
 use KlinkDMS\File;
-use \KlinkDocumentUtils;
+use Klink\DmsAdapter\KlinkDocumentUtils;
 
 /**
  * Basic Textual content extractor from files that are not indexable by the K-Link Core

@@ -11,7 +11,7 @@ class NetworkAdministrationControllerTest extends BrowserKitTestCase
     {
         $adapter = $this->withKlinkAdapterMock();
 
-        $adapter->shouldReceive('isNetworkEnabled')->andReturn(true);
+        $adapter->shouldReceive('isNetworkEnabled')->never();
         $adapter->shouldReceive('test')->andReturn(['result' => true, 'error' => null]);
 
         $user = $this->createAdminUser();
@@ -28,7 +28,7 @@ class NetworkAdministrationControllerTest extends BrowserKitTestCase
     {
         $adapter = $this->withKlinkAdapterMock();
 
-        $adapter->shouldReceive('isNetworkEnabled')->andReturn(false);
+        $adapter->shouldReceive('isNetworkEnabled')->never();
         $adapter->shouldReceive('test')->andReturn(['result' => false, 'error' => null]);
 
         $user = $this->createAdminUser();

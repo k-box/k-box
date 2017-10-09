@@ -6,7 +6,7 @@ use Tests\BrowserKitTestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 use KlinkDMS\Console\Commands\DocumentsCheckDescriptorCommand;
-
+use Klink\DmsAdapter\KlinkDocumentUtils;
 use KlinkDMS\Traits\RunCommand;
 
 /*
@@ -44,7 +44,7 @@ class DocumentsCheckDescriptorCommandTest extends BrowserKitTestCase
 
         
         $new_mime_type = $file->mime_type;
-        $new_document_type = \KlinkDocumentUtils::documentTypeFromMimeType($file->mime_type);
+        $new_document_type = KlinkDocumentUtils::documentTypeFromMimeType($file->mime_type);
         $new_hash = $file->hash;
 
         $command = new DocumentsCheckDescriptorCommand(app('Klink\DmsDocuments\DocumentsService'));

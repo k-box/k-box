@@ -23,6 +23,9 @@ use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use KlinkDMS\Traits\Searchable;
 use KlinkDMS\Events\UploadCompleted;
+use Klink\DmsAdapter\KlinkDocumentUtils;
+use Klink\DmsAdapter\KlinkVisibilityType;
+use Klink\DmsAdapter\Exceptions\KlinkException;
 
 class DocumentsController extends Controller
 {
@@ -88,7 +91,7 @@ class DocumentsController extends Controller
         $req->visibility($visibility);
         
         $results = $this->search($req, function ($_request) use ($is_personal, $user) {
-            if ($_request->visibility === \KlinkVisibilityType::KLINK_PUBLIC) {
+            if ($_request->visibility === KlinkVisibilityType::KLINK_PUBLIC) {
                 // if public => return direct search because we want them to see the public network
                 return false;
             }
@@ -104,7 +107,7 @@ class DocumentsController extends Controller
                 
                 $_request->setForceFacetsRequest();
             
-                if ($_request->visibility === \KlinkVisibilityType::KLINK_PRIVATE) {
+                if ($_request->visibility === KlinkVisibilityType::KLINK_PRIVATE) {
                     $all_query = $all_query->private();
                     if ($is_personal) {
                         $all_query = $all_query->ofUser($user->id);
@@ -631,7 +634,7 @@ class DocumentsController extends Controller
             $document = $this->service->getDocument($local_id);
 
             return $this->_showPanel($document, $auth()->user());
-        } catch (\KlinkException $kex) {
+        } catch (KlinkException $kex) {
             \Log::error('Document Descriptor showByKlinkId error', ['error' => $kex, 'institution' => $institution, 'local_id' => $local_id]);
             return view('panels.error', ['message' => $kex->getMessage()]);
         } catch (\Exception $kex) {
@@ -795,12 +798,12 @@ class DocumentsController extends Controller
                 $has_visibility =$request->has('visibility');
                  
                 if ($user->can_capability(Capability::CHANGE_DOCUMENT_VISIBILITY)) {
-                    if ($request->has('visibility') && $request->input('visibility') === \KlinkVisibilityType::KLINK_PUBLIC && ! $was_document_public) {
+                    if ($request->has('visibility') && $request->input('visibility') === KlinkVisibilityType::KLINK_PUBLIC && ! $was_document_public) {
                         // if was not public and is marked as public
                         $document->is_public = true;
                         
                         \Log::info('Document should be added to public', ['descriptor' => $document->id, 'triggered_by' => $user->id]);
-                    } elseif ($request->has('visibility') && $request->input('visibility') === \KlinkVisibilityType::KLINK_PRIVATE && $was_document_public) {
+                    } elseif ($request->has('visibility') && $request->input('visibility') === KlinkVisibilityType::KLINK_PRIVATE && $was_document_public) {
                         //was public and is no more marker as public
                         $document->is_public = false;
 
@@ -829,7 +832,7 @@ class DocumentsController extends Controller
 
                         $document->file_id = $file_model->id;
                         $document->mime_type = $file_model->mime_type;
-                        $document->document_type = \KlinkDocumentUtils::documentTypeFromMimeType($file_model->mime_type);
+                        $document->document_type = KlinkDocumentUtils::documentTypeFromMimeType($file_model->mime_type);
                         $document->hash = $file_model->hash;
                     } elseif ($request->hasFile('document')) {
                         throw new Exception(trans('errors.upload.simple', ['description' => $request->file('document')->getErrorMessage()]), 400);
@@ -844,22 +847,22 @@ class DocumentsController extends Controller
                     $document->save();
 
                     if ($document->isFileUploadComplete()) {
-                        $this->service->reindexDocument($document, \KlinkVisibilityType::KLINK_PRIVATE);
+                        $this->service->reindexDocument($document, KlinkVisibilityType::KLINK_PRIVATE);
                         
                         if ($user->can_capability(Capability::CHANGE_DOCUMENT_VISIBILITY)) {
                             if (! $was_document_public && $document->is_public) {
                                 \Log::info('Applying visibility change', ['descriptor' => $document->id, 'old' => $was_document_public, 'new' => $document->is_public]);
-                                $this->service->reindexDocument($document, \KlinkVisibilityType::KLINK_PUBLIC);
+                                $this->service->reindexDocument($document, KlinkVisibilityType::KLINK_PUBLIC);
                             } elseif ($was_document_public && ! $document->is_public) {
                                 \Log::info('Applying visibility change', ['descriptor' => $document->id, 'old' => $was_document_public, 'new' => $document->is_public]);
                                 $this->service->deletePublicDocument($document);
                             } elseif ($was_document_public && $document->is_public) {
                                 \Log::info('Reindexing also Public Document because Doc is dirty', ['descriptor' => $document->id]);
-                                $this->service->reindexDocument($document, \KlinkVisibilityType::KLINK_PUBLIC);
+                                $this->service->reindexDocument($document, KlinkVisibilityType::KLINK_PUBLIC);
                             }
                         } elseif ($was_document_public && $document->is_public) {
                             \Log::info('Reindexing also Public Document because Doc is dirty', ['descriptor' => $document->id]);
-                            $this->service->reindexDocument($document, \KlinkVisibilityType::KLINK_PUBLIC);
+                            $this->service->reindexDocument($document, KlinkVisibilityType::KLINK_PUBLIC);
                         }
                     }
                 } else {

@@ -8,6 +8,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use KlinkDMS\Option;
 use KlinkDMS\User;
 use KlinkDMS\DocumentDescriptor;
+use Klink\DmsAdapter\KlinkVisibilityType;
 
 class DmsReindexCommand extends Command
 {
@@ -152,18 +153,18 @@ class DmsReindexCommand extends Command
                 if ($doc->isPublic() && $only_public) {
                     $this->service->reindexDocument(
                         $doc,
-                        \KlinkVisibilityType::KLINK_PUBLIC,
+                        KlinkVisibilityType::KLINK_PUBLIC,
                         $force);
                 } else {
                     $this->service->reindexDocument(
                         $doc,
-                        \KlinkVisibilityType::KLINK_PRIVATE,
+                        KlinkVisibilityType::KLINK_PRIVATE,
                         $force);
 
                     if ($doc->isPublic() && ! $only_private) {
                         $this->service->reindexDocument(
                             $doc,
-                            \KlinkVisibilityType::KLINK_PUBLIC,
+                            KlinkVisibilityType::KLINK_PUBLIC,
                             $force);
                     }
                 }

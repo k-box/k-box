@@ -9,7 +9,7 @@ use Illuminate\Support\Collection;
 
 use Tests\BrowserKitTestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-
+use Klink\DmsAdapter\KlinkFacetItem;
 use Klink\DmsAdapter\Fakes\FakeKlinkAdapter;
 
 /*
@@ -115,7 +115,7 @@ class FiltersTest extends BrowserKitTestCase
             $ftItem = null;
 
             foreach ($expected_collections as $col) {
-                $ftItem = new \KlinkFacetItem;
+                $ftItem = new KlinkFacetItem;
                 $ftItem->term = $col;
                 $ftItem->count = 1;
                 $newItems[] = $ftItem;

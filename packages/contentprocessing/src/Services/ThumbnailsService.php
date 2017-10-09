@@ -5,11 +5,12 @@ namespace Content\Services;
 use KlinkDMS\File;
 
 use Klink\DmsAdapter\Contracts\KlinkAdapter;
-use \KlinkDocumentUtils;
+use Klink\DmsAdapter\KlinkDocumentUtils;
 use Log;
 use Exception;
 use Symfony\Component\Debug\Exception\FatalThrowableError;
 use OneOffTech\VideoProcessing\VideoProcessorFactory;
+use Klink\DmsAdapter\KlinkImageResize;
 
 /**
  * The service responsible for the generation of the {@see File}
@@ -106,14 +107,12 @@ class ThumbnailsService
         }
 
         $thumb_save_path = $this->getSavePath($file);
-
-        // check if html and remote website
-        // and let the other mime types proceed
-        $is_webpage = $file->isRemoteWebPage();
     
         try {
-            if ($is_webpage) {
-                $thumb_save_path = $this->generateThumbnailForWebsite($file->original_uri, $thumb_save_path);
+            if ($mime === 'image/jpg' || $mime === 'image/jpeg' || $mime === 'image/png') {
+
+                $thumb_save_path = $this->generateImageThumbnail($mime, $file->absolute_path, $thumb_save_path);
+
             } elseif ($mime === 'video/mp4') {
                 $videoProcessor = app()->make(VideoProcessorFactory::class)->make();
                 
@@ -121,7 +120,7 @@ class ThumbnailsService
 
                 $thumb_save_path = dirname($file->absolute_path).'/'.str_replace('.mp4', '.png', basename($file->absolute_path));
             } else {
-                $thumb_save_path = $this->generateThumbnailUsingRemoteService($mime, $file->absolute_path, $thumb_save_path);
+                $thumb_save_path = $this->getDefaultThumbnail($mime);
             }
         } catch (Exception $kex) {
             Log::error('Error generating thumbnail', ['param' => $file->toArray(), 'exception' => $kex]);
@@ -151,37 +150,14 @@ class ThumbnailsService
         return $thumb_save_path;
     }
 
-    /**
-     * Generates the thumbnail of a website url.
-     *
-     * @param  string $url the webpage url
-     * @param  string $savePath the absolute path, with filename, where to save the thumbnail
-     * @return string       The thumbnail path
-     */
-    private function generateThumbnailForWebsite($url, $savePath)
+    private function generateImageThumbnail($mime, $filePath, $savePath)
     {
-        $saved = $this->adapter->generateThumbnailOfWebSite($url, $savePath);
-
-        return $savePath;
-    }
-
-    /**
-     * Generates the thumbnail using the Kcore thumbnail service.
-     *
-     * @param  string $mime the file mimetype
-     * @param  string $filePath the file to generate the thumbnail for
-     * @param  string $savePath the absolute path, with filename, where to save the thumbnail
-     * @return string       The thumbnail path
-     */
-    private function generateThumbnailUsingRemoteService($mime, $filePath, $savePath)
-    {
-        if ($mime === 'image/jpg') {
-            $mime = 'image/jpeg';
-            // to overcome a problem in KlinkDocumentUtils::getExtensionFromMimeType that
-            // is only able to associate the jpg extention to image/jpeg and not to image/jpg
-        }
-
-        $fileContent = $this->adapter->generateThumbnailFromContent($mime, $filePath);
+        $image = new KlinkImageResize();
+        
+        $image->load($filePath);
+        $image->resizeToWidth(300);
+        $fileContent = $image->get(IMAGETYPE_PNG);
+        
         file_put_contents($savePath, $fileContent);
 
         return $savePath;

@@ -11,16 +11,11 @@ use KlinkDMS\Project;
 use Illuminate\Contracts\View\View;
 
 use Illuminate\Support\Collection;
-
-use KlinkFacet;
+use Klink\DmsAdapter\KlinkVisibilityType;
+use Klink\DmsAdapter\KlinkFacet;
 
 class DocumentsComposer
 {
-
-    /**
-     * @var \Klink\DmsAdapter\KlinkAdapter
-     */
-    protected $adapter;
 
     /**
      * @var \Klink\DmsDocuments\DocumentsService
@@ -35,10 +30,8 @@ class DocumentsComposer
      * @param  UserRepository  $users
      * @return void
      */
-    public function __construct(\Klink\DmsAdapter\Contracts\KlinkAdapter $adapter, \Klink\DmsDocuments\DocumentsService $documentsService)
+    public function __construct(\Klink\DmsDocuments\DocumentsService $documentsService)
     {
-        $this->adapter = $adapter;
-
         $this->documents = $documentsService;
     }
 
@@ -72,12 +65,12 @@ class DocumentsComposer
             $view->with('list_style_current', 'tiles');
         }
         
-        $view->with('is_klink_public_enabled', $this->adapter->isNetworkEnabled());
+        $view->with('is_klink_public_enabled', network_enabled());
     }
     
     public function menu(View $view)
     {
-        $view->with('is_klink_public_enabled', $this->adapter->isNetworkEnabled());
+        $view->with('is_klink_public_enabled', network_enabled());
     }
 
     /**
@@ -294,8 +287,6 @@ class DocumentsComposer
             ];
         }
         
-        $adapter = app()->make('klinkadapter');
-        
         if (! is_null($facets)) {
             $group_facets = array_values(array_filter($facets, function ($f) {
                 return $f->name === KlinkFacet::DOCUMENT_GROUPS;
@@ -352,7 +343,7 @@ if ($is_projectspage && (! $grp->is_private && ! $show_personal_collections_in_f
             
             foreach ($facets as $f) {
                 if (array_key_exists($f->name, $cols)) {
-                    $cols[$f->name]['items'] = array_filter(array_map(function ($f_items) use ($f, $filters, $are_filters_empty, $adapter, $auth_user) {
+                    $cols[$f->name]['items'] = array_filter(array_map(function ($f_items) use ($f, $filters, $are_filters_empty, $auth_user) {
                         if ($f->name == KlinkFacet::LANGUAGE) {
                             $f_items->label =  trans('languages.'.$f_items->term);
                         } elseif ($f->name == KlinkFacet::DOCUMENT_TYPE) {
@@ -414,7 +405,7 @@ if ($is_projectspage && (! $grp->is_private && ! $show_personal_collections_in_f
             $url_components[] = 's='.$search_terms;
         }
 
-        if ($current_visibility !== \KlinkVisibilityType::KLINK_PRIVATE) {
+        if ($current_visibility !== KlinkVisibilityType::KLINK_PRIVATE) {
             $url_components[] = 'visibility='.$current_visibility;
         }
 

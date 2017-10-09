@@ -10,6 +10,7 @@ use KlinkDMS\User;
 use KlinkDMS\Capability;
 use KlinkDMS\DocumentDescriptor;
 use KlinkDMS\Traits\Searchable;
+use Klink\DmsAdapter\KlinkFacetsBuilder;
 
 class DmsSyncCommand extends Command
 {
@@ -66,7 +67,7 @@ class DmsSyncCommand extends Command
             $this->line($count_local_private_id_set.' local private documents');
         }
         
-        $facets_private = \KlinkFacetsBuilder::create()
+        $facets_private = KlinkFacetsBuilder::create()
             // ->institution(\Config::get('dms.institutionID'))
             ->localDocumentId(implode(',', $local_private_id_set))->build();
         

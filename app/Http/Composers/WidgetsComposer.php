@@ -13,11 +13,6 @@ class WidgetsComposer
 {
 
     /**
-     * @var \Klink\DmsAdapter\KlinkAdapter
-     */
-    protected $adapter;
-
-    /**
      * @var \Klink\DmsDocuments\DocumentsService
      */
     private $documents = null;
@@ -28,9 +23,8 @@ class WidgetsComposer
      * @param  UserRepository  $users
      * @return void
      */
-    public function __construct(\Klink\DmsAdapter\Contracts\KlinkAdapter $adapter, \Klink\DmsDocuments\DocumentsService $documentsService)
+    public function __construct(\Klink\DmsDocuments\DocumentsService $documentsService)
     {
-        $this->adapter = $adapter;
 
         $this->documents = $documentsService;
     }

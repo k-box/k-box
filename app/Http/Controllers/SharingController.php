@@ -275,7 +275,7 @@ class SharingController extends Controller
         });
 
         return view('share.dialog', [
-            'is_network_enabled' => $this->adapter->isNetworkEnabled(),
+            'is_network_enabled' => network_enabled(),
             'existing_shares' => $existing_shares,
             'can_make_public' => $can_make_public,
             'users' => $available_users,

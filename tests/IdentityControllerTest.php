@@ -61,9 +61,6 @@ class IdentityControllerTest extends BrowserKitTestCase
     
     public function testContactsAreSaved()
     {
-        $institution = factory('KlinkDMS\Institution')->create([
-            'klink_id' => \Config::get('dms.institutionID')
-        ]);
 
         // make sure contact information are not set
         Option::where('key', 'LIKE', 'contact.%')->delete();
@@ -120,9 +117,6 @@ class IdentityControllerTest extends BrowserKitTestCase
 
     public function testContactsAreSavedWithOnlyRequired()
     {
-        $institution = factory('KlinkDMS\Institution')->create([
-            'klink_id' => \Config::get('dms.institutionID')
-        ]);
 
         // make sure contact information are not set
         Option::where('key', 'LIKE', 'contact.%')->delete();
@@ -168,9 +162,6 @@ class IdentityControllerTest extends BrowserKitTestCase
     }
     public function testContactsRequiredValidation()
     {
-        $institution = factory('KlinkDMS\Institution')->create([
-            'klink_id' => \Config::get('dms.institutionID')
-        ]);
 
         // make sure contact information are not set
         Option::where('key', 'LIKE', 'contact.%')->delete();

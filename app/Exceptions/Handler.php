@@ -7,7 +7,7 @@ use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Session\TokenMismatchException;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\Debug\Exception\FatalErrorException;
-use KlinkException;
+use Klink\DmsAdapter\Exceptions\KlinkException;
 use ErrorException;
 use GuzzleHttp\Exception\TransferException;
 use Illuminate\Http\Exceptions\HttpResponseException;

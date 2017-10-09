@@ -5,7 +5,6 @@ namespace KlinkDMS\Http\Controllers\Administration;
 use KlinkDMS\User;
 use KlinkDMS\Http\Controllers\Controller;
 use KlinkDMS\Institution;
-use Klink\DmsAdapter\KlinkAdapter;
 use Illuminate\Contracts\Auth\Guard as AuthGuard;
 
 /**
@@ -23,20 +22,16 @@ class InstitutionsController extends Controller
   |
   */
 
-  private $adapter = null;
-
   /**
    * Create a new controller instance.
    *
    * @return void
    */
-  public function __construct(KlinkAdapter $adapter)
+  public function __construct()
   {
       $this->middleware('auth');
 
       $this->middleware('capabilities');
-    
-      $this->adapter = $adapter;
   }
 
   /**

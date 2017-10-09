@@ -1,8 +1,11 @@
 <?php
 
-use Tests\BrowserKitTestCase;
+namespace Tests\Unit;
 
-class KlinkAdapterTest extends BrowserKitTestCase
+use Tests\TestCase;
+use Mockery;
+
+class KlinkAdapterInstanceRetrieveTest extends TestCase
 {
     /**
      * A basic functional test example.
@@ -13,8 +16,8 @@ class KlinkAdapterTest extends BrowserKitTestCase
     {
         $adapter = app('klinkadapter');
 
-        $this->assertInstanceOf(Klink\DmsAdapter\Contracts\KlinkAdapter::class, $adapter);
-        $this->assertInstanceOf(Klink\DmsAdapter\KlinkAdapter::class, $adapter);
+        $this->assertInstanceOf(\Klink\DmsAdapter\Contracts\KlinkAdapter::class, $adapter);
+        $this->assertInstanceOf(\Klink\DmsAdapter\KlinkAdapter::class, $adapter);
     }
 
     /**
@@ -32,7 +35,7 @@ class KlinkAdapterTest extends BrowserKitTestCase
         // implementation of the KlinkAdapter contract
         $this->swap(
             'Klink\DmsAdapter\Contracts\KlinkAdapter',
-            Mockery::mock(Klink\DmsAdapter\Contracts\KlinkAdapter::class)
+            Mockery::mock(\Klink\DmsAdapter\Contracts\KlinkAdapter::class)
         );
 
         $adapterFromMock = app('Klink\DmsAdapter\Contracts\KlinkAdapter');

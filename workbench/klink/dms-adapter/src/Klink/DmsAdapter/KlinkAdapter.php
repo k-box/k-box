@@ -2,39 +2,27 @@
 
 namespace Klink\DmsAdapter;
 
-use KlinkDMS\Institution;
+use Klink\DmsAdapter\KlinkDocument;
 use KlinkDMS\Option;
+use KlinkDMS\Institution;
+use KSearchClient\Client;
+use Klink\DmsAdapter\KlinkDocumentDescriptor;
 use Illuminate\Support\Collection;
-
+use KSearchClient\Http\Authentication;
+use Klink\DmsAdapter\KlinkVisibilityType;
 use Klink\DmsAdapter\Contracts\KlinkAdapter as AdapterContract;
+use Klink\DmsAdapter\KlinkFacetsBuilder;
+use Klink\DmsAdapter\KlinkFacetItem;
+use KSearchClient\Model\Data\Data;
 
-use KlinkCoreClient;
-use KlinkAuthentication;
-use KlinkConfiguration;
-use KlinkVisibilityType;
-use KlinkDocumentDescriptor;
-use KlinkDocument;
-
-/**
- * Class to adapt the KlinkCoreClient to the DMS classes
- */
 class KlinkAdapter implements AdapterContract
 {
-    
     /**
-     * The K-Link configuration
+     * Contains the currently configured K-Search clients
      *
-     * @var KlinkConfiguration
+     * @var array
      */
-    private $klink_config = null;
-
-    /**
-     * Client configured for connecting to the institution's K-Link Core
-     * and the K-Link network (if configured)
-     *
-     * @var \KlinkCoreClient
-     */
-    private $connection = null;
+    private $connections = null;
 
     /**
      * The document types for the statistics
@@ -46,78 +34,54 @@ class KlinkAdapter implements AdapterContract
     /**
      * Creates a new KlinkAdapter instance.
      * Reads the static environment configuration and the option for
-     * creating a KlinkCoreClient to connect both to the private
-     * K-Core and to the network
+     * creating a KSearchClient to connect both to the private
+     * K-Search and to the network
      */
     public function __construct()
     {
-        $cores = [
-            new \KlinkAuthentication(\Config::get('dms.core.address'), \Config::get('dms.core.username'), \Config::get('dms.core.password'), \KlinkVisibilityType::KLINK_PRIVATE)
+        $this->connections = [
+            KlinkVisibilityType::KLINK_PRIVATE => Client::build(config('dms.core.address'))
         ];
         
         try {
             $can_read_options = true;
-
+            
             if (Option::option(Option::PUBLIC_CORE_ENABLED, false) && Option::option(Option::PUBLIC_CORE_CORRECT_CONFIG, false)) {
-                try {
-                    $cores[] = new \KlinkAuthentication(Option::option(Option::PUBLIC_CORE_URL), Option::option(Option::PUBLIC_CORE_USERNAME), @base64_decode(Option::option(Option::PUBLIC_CORE_PASSWORD)), \KlinkVisibilityType::KLINK_PUBLIC);
-                } catch (\Exception $e) {
-                    //TODO: launch some kind of events so the admin can see what happened
-                    
-                    \Log::error('Public Core configuration error', ['exception' => $e]);
-                    Option::put(Option::PUBLIC_CORE_ENABLED, false);
-                }
+                
+                // TODO: USERNAME should be the ORIGIN, so in theory the URL of the K-Box
+                
+                $this->connection[KlinkVisibilityType::KLINK_PUBLIC] = Client::build(Option::option(Option::PUBLIC_CORE_URL), new Authentication(Option::option(Option::PUBLIC_CORE_USERNAME), @base64_decode(Option::option(Option::PUBLIC_CORE_PASSWORD))));
+                
             }
         } catch (\Exception $qe) {
             $can_read_options = false;
-            \Log::warning('Exception while reading K-Link Public core settings', ['exception' => $qe]);
+            \Log::warning('Exception while reading K-Link Network settings', ['exception' => $qe]);
         }
-
-        $this->klink_config = new KlinkConfiguration(\Config::get('dms.institutionID'), \Config::get('dms.identifier'), $cores);
-        
-        if ($can_read_options && Option::option(Option::PUBLIC_CORE_DEBUG, false)) {
-            $this->klink_config->enableDebug();
-        }
-
-        $this->connection = new KlinkCoreClient($this->klink_config, app('log'));
     }
-    
-    /**
-     * Check if the network configuration is enabled
-     *
-     * @return bool
-     * @uses Option::PUBLIC_CORE_ENABLED
-     */
-    public function isNetworkEnabled()
+
+    private function selectConnection($visibility)
     {
-        return ! ! Option::option(Option::PUBLIC_CORE_ENABLED, false);
+        if(isset($this->connections[$visibility])){
+            return $this->connections[$visibility];
+        }
+
+        throw new \Exception("No connection configured for visibility {$visibility}");
     }
 
     /**
-     *
-     *
-     * @uses \KlinkCoreClient::test
-     * @return array containing a key result and error, the key result contains the return
-     *               value from {@see \KlinkCoreClient::test}, while the key error contains
-     *               the eventual exception if the test fails
+     * {@inherits}
      */
-    public function test(KlinkAuthentication $core = null)
+    public function test($url, $username = null, $password = null)
     {
-        $configuration = $this->klink_config;
-        
-        if (! is_null($core)) {
-            $cores = [
-                $core
-            ];
+        $authentication = null;
 
-            $configuration = new KlinkConfiguration(\Config::get('dms.institutionID'), \Config::get('dms.identifier'), $cores);
+        if(!empty($username) || !empty($password)){
+            $authentication = new Authentication($password, $username);
         }
 
-        $error = null;
-        $health = null;
-        $result = KlinkCoreClient::test($configuration, $error, false, $health);
+        $client = Client::build($url, $authentication);
 
-        return compact('result', 'error');
+        return false;
     }
 
     /**
@@ -156,18 +120,6 @@ class KlinkAdapter implements AdapterContract
     private function getInstitution($klink_id, $default = null)
     {
         $cached = Institution::findByKlinkID($klink_id);
-        
-        if (is_null($cached)) {
-            try {
-                $core_inst = $this->connection->getInstitution($klink_id);
-
-                $cached = Institution::fromKlinkInstitutionDetails($core_inst);
-            } catch (\Exception $e) {
-                \Log::error('Error get Institution from K-Link', ['context' => 'KlinkAdapter::getInstitution', 'param' => $klink_id, 'exception' => $e]);
-
-                return $default;
-            }
-        }
 
         return $cached;
     }
@@ -184,52 +136,7 @@ class KlinkAdapter implements AdapterContract
     {
         $cached = Institution::all($columns);
         
-        $connection = $this->connection;
-        
-        $insts = \Cache::remember('dms_institutions', 60, function () use ($connection, $cached, $columns) {
-            try {
-                $core_insts = $connection->getInstitutions();
-
-                foreach ($core_insts as $inst) {
-                    Institution::fromKlinkInstitutionDetails($inst);
-                }
-
-                return Institution::all($columns);
-            } catch (Exception $e) {
-                \Log::error('Error get Institutions from K-Link', ['context' => 'KlinkAdapter::getInstitutions', 'exception' => $e]);
-
-                return $cached;
-            }
-        });
-        
-        
-        if (! is_null($insts) && ! $insts->isEmpty()) {
-            return $insts;
-        }
-        
         return $cached;
-    }
-    
-    /**
-     * Save the institution details on the K-Link Network
-     *
-     * @param Institution $institution the institution to save
-     */
-    public function saveInstitution(Institution $institution)
-    {
-        $this->connection->saveInstitution($institution->toKlinkInstitutionDetails());
-    }
-    
-    /**
-     * Delete the institution details from the K-Link Network.
-     *
-     * The institution is deleted according to the klink_id field value
-     *
-     * @param Institution $institution the institution to save
-     */
-    public function deleteInstitution(Institution $institution)
-    {
-        $this->connection->deleteInstitution($institution->klink_id);
     }
     
     /**
@@ -247,12 +154,12 @@ class KlinkAdapter implements AdapterContract
      */
     public function getDocumentsCount($visibility = 'public')
     {
-        if (! $this->isNetworkEnabled() && $visibility==='public') {
+        if (! network_enabled() && $visibility==='public') {
             return 0;
         }
 
         try {
-            $conn = $this->connection;
+            $conn = $this->selectConnection($visibility);
 
             $value = \Cache::remember($visibility.'_documents_count', 15, function () use ($conn, $visibility) {
                 \Log::info('Updating documents count cache for '.$visibility);
@@ -278,10 +185,10 @@ class KlinkAdapter implements AdapterContract
      */
     public function getDocumentsStatistics()
     {
-        $conn = $this->connection;
+        $conn = $this->selectConnection('private');
 
         if (! \Cache::has('dms_documents_statististics')) {
-            $fs = \KlinkFacetsBuilder::create()->documentType()->build();
+            $fs = KlinkFacetsBuilder::create()->documentType()->build();
 
             $public_facets_response = [];
 
@@ -295,7 +202,7 @@ class KlinkAdapter implements AdapterContract
         return \Cache::get('dms_documents_statististics');
     }
 
-    private function mapFacetItemToKeyValue(\KlinkFacetItem $item)
+    private function mapFacetItemToKeyValue(KlinkFacetItem $item)
     {
         return [ $item->getTerm() => $item->getOccurrenceCount() ];
     }
@@ -334,46 +241,48 @@ class KlinkAdapter implements AdapterContract
 
     public function search($terms, $type = KlinkVisibilityType::KLINK_PRIVATE, $resultsPerPage = 10, $offset = 0, $facets = null)
     {
-        return $this->connection->search($terms, $type, $resultsPerPage, $offset, $facets);
+        return $this->selectConnection($type)->search($terms, $type, $resultsPerPage, $offset, $facets);
     }
 
     public function facets($facets, $visibility = KlinkVisibilityType::KLINK_PRIVATE, $term = '*')
     {
-        return $this->connection->facets($facets, $visibility, $term);
+        return $this->selectConnection($visibility)->facets($facets, $visibility, $term);
     }
 
-    public function getDocument($institutionId, $documentId, $visibility = KlinkVisibilityType::KLINK_PRIVATE)
+    public function getDocument($uuid, $visibility = KlinkVisibilityType::KLINK_PRIVATE)
     {
-        return $this->connection->getDocument($institutionId, $documentId, $visibility);
+        return $this->selectConnection($visibility)->get($uuid);
     }
 
     public function updateDocument(KlinkDocument $document)
     {
-        return $this->connection->updateDocument($document);
+        return $this->addDocument($document);
     }
 
-    public function removeDocumentById($institution, $document, $visibility = KlinkVisibilityType::KLINK_PRIVATE)
+    public function removeDocumentById($uuid, $visibility = KlinkVisibilityType::KLINK_PRIVATE)
     {
-        return $this->connection->removeDocumentById($institution, $document, $visibility);
+        return $this->selectConnection($visibility)->delete($uuid);
     }
 
-    public function removeDocument(KlinkDocumentDescriptor $document)
+    public function removeDocument(KlinkDocumentDescriptor $descriptor)
     {
-        return $this->connection->removeDocument($document);
+        return $this->removeDocumentById($descriptor->uuid(), $descriptor->visibility());
     }
 
+    /**
+     * Add a KlinkDocument
+     * 
+     * @return KlinkDocumentDescriptor
+     */
     public function addDocument(KlinkDocument $document)
     {
-        return $this->connection->addDocument($document);
-    }
+        /**
+         * @var KSearchClient\Model\Data\Data
+         */
+        $added_data = $this->selectConnection($document->getDescriptor()->getVisibility())
+            ->add($document->getDescriptor()->toData(), 
+                  $document->getDocumentData());
 
-    public function generateThumbnailOfWebSite($url, $image_file = null)
-    {
-        return $this->connection->generateThumbnailOfWebSite($url, $image_file);
-    }
-
-    public function generateThumbnailFromContent($mimeType, $data)
-    {
-        return $this->connection->generateThumbnailFromContent($mimeType, $data);
+        return $document->getDescriptor();
     }
 }

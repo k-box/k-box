@@ -5,9 +5,9 @@ namespace Klink\DmsSearch;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use BadMethodCallException;
-use KlinkFacet;
-use KlinkFacetsBuilder;
-use KlinkVisibilityType;
+use Klink\DmsAdapter\KlinkFacet;
+use Klink\DmsAdapter\KlinkFacetsBuilder;
+use Klink\DmsAdapter\KlinkVisibilityType;
 
 /**
  * Search Request builder.
@@ -65,7 +65,7 @@ class SearchRequest
      * Request recognized parameters:
      * `s`: the search term
      * `page`: the search result page to show (default 1)
-     * `visibility`: if the search is for private or public documents (default \KlinkVisibilityType::KLINK_PRIVATE)
+     * `visibility`: if the search is for private or public documents (default \Klink\DmsAdapter\KlinkVisibilityType::KLINK_PRIVATE)
      * `fs`: active facets, comma separated
      *
      * @param \Request $request optional {@see Illuminate\Http\Request} to copy data from
@@ -232,7 +232,7 @@ class SearchRequest
     /**
      * Set the scope of the search to private or public documents
      *
-     * @param string $visibiliy The visibility for the search to be invoked on. {@see \KlinkVisibilityType}
+     * @param string $visibiliy The visibility for the search to be invoked on. {@see \Klink\DmsAdapter\KlinkVisibilityType}
      * @return SearchRequest
      */
     public function visibility($visibility)
@@ -416,8 +416,8 @@ class SearchRequest
             $default_facets_names = array_diff($default_facets_names, $current_names);
         }
     
-        //clean only filters from $default_facets_names \KlinkFacet::$ONLY_FILTER
-        $default_facets_names = array_diff($default_facets_names, \KlinkFacet::$ONLY_FILTER);
+        //clean only filters from $default_facets_names KlinkFacet::$ONLY_FILTER
+        $default_facets_names = array_diff($default_facets_names, KlinkFacet::$ONLY_FILTER);
     
         // what default facets are missing? we need to add it
         foreach ($default_facets_names as $fs) {

@@ -19,6 +19,9 @@ use KlinkDMS\Exceptions\FileDownloadException;
 use Symfony\Component\Console\Output\OutputInterface;
 use Illuminate\Support\Facades\Storage as DiskStorage;
 use Exception;
+use Klink\DmsAdapter\KlinkDocumentUtils;
+use Klink\DmsAdapter\KlinkVisibilityType;
+use Klink\DmsAdapter\Exceptions\KlinkException;
 
 class ImportCommand extends Job implements ShouldQueue
 {
@@ -172,16 +175,10 @@ class ImportCommand extends Job implements ShouldQueue
             $file->mime_type = $content_type_header;
             $file->size = DiskStorage::disk('local')->size($file->path);
             
-            $file->hash = \KlinkDocumentUtils::generateDocumentHash($file->absolute_path);
+            $file->hash = KlinkDocumentUtils::generateDocumentHash($file->absolute_path);
             
             $this->import->bytes_expected = $file->size;
             $this->import->bytes_received = $file->size;
-            
-            // $ext= $file->mime_type == "undefined" ?
-            //             explode('.',$file->original_uri)[count(explode('.',$file->original_uri)-1)] :
-            //             \KlinkDocumentUtils::isMimeTypeSupported($file->mime_type) ?
-            //                 \KlinkDocumentUtils::getExtensionFromMimeType($file->mime_type)
-            //                 : explode('.',$file->original_uri)[count(explode('.',$file->original_uri))-1]; //get the extension from the original url if ext not found
             
             $extracted_title = $this->service->guessTitleFromFile($file);
             
@@ -200,10 +197,10 @@ class ImportCommand extends Job implements ShouldQueue
             $this->import->save();
 
             try {
-                $descriptor = $this->service->indexDocument($file, \KlinkVisibilityType::KLINK_PRIVATE, $this->user);
+                $descriptor = $this->service->indexDocument($file, KlinkVisibilityType::KLINK_PRIVATE, $this->user);
                 $descriptor->status = \KlinkDMS\DocumentDescriptor::STATUS_COMPLETED;
                 $descriptor->save();
-            } catch (\KlinkException $kex) {
+            } catch (KlinkException $kex) {
                 Log::error('ImportCommand Indexing error: KlinkException', ['exception' => $kex, 'import' => $this->import->toArray(), 'import_file' => $file, 'is_remote' => true]);
             } catch (\InvalidArgumentException $kex) {
                 Log::error('ImportCommand Indexing error: InvalidArgumentException', ['exception' => $kex, 'import' => $this->import->toArray(), 'import_file' => $file, 'is_remote' => true]);
@@ -222,7 +219,7 @@ class ImportCommand extends Job implements ShouldQueue
     {
         $folder = $this->import->file;
             
-        $visibility = \KlinkVisibilityType::KLINK_PRIVATE;
+        $visibility = KlinkVisibilityType::KLINK_PRIVATE;
 
         $files = $this->files(realpath($folder->original_uri), $this->exclude);
 
@@ -260,7 +257,7 @@ class ImportCommand extends Job implements ShouldQueue
                 }
             }
                 
-            $hash = \KlinkDocumentUtils::generateDocumentHash($file);
+            $hash = KlinkDocumentUtils::generateDocumentHash($file);
     
             $file_found = File::where('hash', $hash)->first();
             $file_already_exists = ! is_null($file_found);
@@ -268,7 +265,7 @@ class ImportCommand extends Job implements ShouldQueue
             if (! $file_already_exists) {
                 $file_m_time = @filemtime($file);
 
-                $mime = \KlinkDocumentUtils::get_mime($file);
+                $mime = KlinkDocumentUtils::get_mime($file);
     
                 $file_model = new File();
                 $file_model->name = basename($file);
@@ -299,7 +296,7 @@ class ImportCommand extends Job implements ShouldQueue
                     // at a later time
                     Log::error('ImportCommand Indexing error: InvalidArgumentException', ['exception' => $kex, 'import' => $this->import->toArray(), 'import_file' => $file, 'is_remote' => false]);
                     $this->line('  Error:  '.$kex->getMessage());
-                } catch (\KlinkException $kex) {
+                } catch (KlinkException $kex) {
                     // if cannot be indexed is not a real problem here thanks to the status of the DocumentDescriptor everyhting can be solved
                     // at a later time
                     Log::error('ImportCommand Indexing error: KlinkException', ['exception' => $kex, 'import' => $this->import->toArray(), 'import_file' => $file, 'is_remote' => false]);

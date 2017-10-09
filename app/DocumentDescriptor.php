@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Carbon\Carbon;
 use KlinkDMS\Traits\LocalizableDateFields;
 use Dyrynda\Database\Support\GeneratesUuid;
+use Klink\DmsAdapter\KlinkVisibilityType;
+use Klink\DmsAdapter\KlinkDocumentDescriptor;
 
 /**
  * A Document Descriptor
@@ -275,7 +277,7 @@ class DocumentDescriptor extends Model
      * The filter will return also the document that has both public and private visibility
      *
      *
-     * @param  string $visibility The visibility of the document to retrieve. {@see \KlinkVisibilityType}
+     * @param  string $visibility The visibility of the document to retrieve. {@see \Klink\DmsAdapter\KlinkVisibilityType}
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeWithVisibility($query, $visibility)
@@ -290,7 +292,7 @@ class DocumentDescriptor extends Model
 
     public function scopePrivate($query)
     {
-        return $query->whereVisibility(\KlinkVisibilityType::KLINK_PRIVATE);
+        return $query->whereVisibility(KlinkVisibilityType::KLINK_PRIVATE);
     }
 
     /**
@@ -445,17 +447,17 @@ class DocumentDescriptor extends Model
 
     public function isPublic()
     {
-        return $this->visibility === \KlinkVisibilityType::KLINK_PUBLIC || $this->is_public;
+        return $this->visibility === KlinkVisibilityType::KLINK_PUBLIC || $this->is_public;
     }
 
     public function isPrivate()
     {
-        return $this->visibility === \KlinkVisibilityType::KLINK_PRIVATE;
+        return $this->visibility === KlinkVisibilityType::KLINK_PRIVATE;
     }
 
     public function isPublicAndPrivate()
     {
-        return $this->visibility === \KlinkVisibilityType::KLINK_PRIVATE && $this->is_public;
+        return $this->visibility === KlinkVisibilityType::KLINK_PRIVATE && $this->is_public;
     }
 
     // --- convert to/from KlinkDocumentDescriptor
@@ -463,50 +465,15 @@ class DocumentDescriptor extends Model
     /**
      * Convert the current instance to a valid KlinkDocumentDescriptor
      * @param boolean $need_public if set to true the returned KlinkDocumentDescriptor will be for public indexing
-     * @return \KlinkDocumentDescriptor the conversion to the Klink Document Descriptor
+     * @return KlinkDocumentDescriptor the conversion to the Klink Document Descriptor
      * @internal
      */
     public function toKlinkDocumentDescriptor($need_public = false)
     {
-        // For compatibility reason all documents will be attached
-        // to the default institution
-        $institution = config('dms.institutionID');
 
-        $descr = \KlinkDocumentDescriptor::create(
-            $institution,
-            $this->local_document_id,
-            $this->hash,
-            $this->title,
-            $this->mime_type,
-            $this->document_uri,
-            $this->thumbnail_uri,
-            $this->user_uploader,
-            $this->user_owner,
-            $need_public ? \KlinkVisibilityType::KLINK_PUBLIC : $this->visibility,
-            ! is_null($this->created_at) ? $this->created_at->toRfc3339String() : \KlinkHelpers::now()
-        );
-
-        if (! is_null($this->abstract)) {
-            $descr->setAbstract($this->abstract);
-        }
-
-        if (! is_null($this->language) && $this->language !== 'unknown') {
-            $descr->setLanguage($this->language);
-        }
-
-        if (! is_null($this->authors)) {
-            $descr->setAuthors(explode(',', $this->authors));
-        }
-        
-        if ($this->isMine()) {
-            $names = [$this->file->name];
-            
-            $parts = preg_split('/(\-|_|,|\.)/', $this->file->name);
-            
-            $names = array_merge($names, $parts);
-            
-            $descr->setTitleAliases(array_filter($names));
-        }
+        $descr = KlinkDocumentDescriptor::make(
+            $this,
+            $need_public ? KlinkVisibilityType::KLINK_PUBLIC : KlinkVisibilityType::KLINK_PRIVATE);
 
         if (! $need_public && ! $this->groups->isEmpty()) {
 
@@ -517,13 +484,12 @@ class DocumentDescriptor extends Model
                 return $el->toKlinkGroup();
             });
 
-            $descr->setDocumentGroups(array_filter($each->toArray()));
-            
             $projects = $this->projects()->map(function ($el) {
-                return ! is_null($el) && is_a($el, 'KlinkDMS\Project') ? $el->id : null;
+                return ! is_null($el) && is_a($el, 'KlinkDMS\Project') ? 'p'.$el->id : null;
             });
             
-            $descr->setProjects(array_filter($projects->toArray()));
+            // $descr->setProjects(array_filter($projects->toArray()));
+            $descr->setCollections(array_filter($each->merge($projects)->toArray()));
         }
         
 
@@ -531,59 +497,36 @@ class DocumentDescriptor extends Model
     }
 
     /**
-     * Merge the current saved descriptor with the new information coming from a
-     * KlinkDocumentDescriptor
-     *
-     * @param  \KlinkDocumentDescriptor $instance the K-Link document descriptor to get information from
-     * @return DocumentDescriptor the updated descriptor
-     */
-    public function mergeWithKlinkDocumentDescriptor(\KlinkDocumentDescriptor $instance)
-    {
-        if ($this->hash === $instance->getHash() &&
-            // $this->institution_id === $instance->getInstitutionID() &&
-            $this->local_document_id === $instance->getLocalDocumentID()) {
-            $this->abstract = $instance->getAbstract();
-            $this->language = $instance->getLanguage();
-            if (is_array($instance->getAuthors())) {
-                $this->authors = implode(',', $instance->getAuthors());
-            }
-        } else {
-            throw new \InvalidArgumentException("Trying to merge two descriptors of different documents", 108);
-        }
-
-        return $this;
-    }
-
-    /**
      * Transform a remote KlinkDocumentDescriptor into a local cached DocumentDescriptor
-     * @param  \KlinkDocumentDescriptor $instance the KlinkDocumentDescriptor to be imported
+     * @param  KlinkDocumentDescriptor $instance the KlinkDocumentDescriptor to be imported
      * @return DocumentDescriptor the local cached DocumentDescriptor
      * @internal
      */
-    public static function fromKlinkDocumentDescriptor(\KlinkDocumentDescriptor $instance)
+    public static function fromKlinkDocumentDescriptor(KlinkDocumentDescriptor $instance)
     {
-        $local_inst = Institution::findByKlinkID($instance->getInstitutionID());
+        throw new \Exception("Currently not supported");
+        // $local_inst = Institution::findByKlinkID($instance->getInstitutionID());
 
-        $cached = self::create([
-            'institution_id' => $local_inst->id,
-            'local_document_id' => $instance->getLocalDocumentID(),
-            'title' => $instance->getTitle(),
-            'hash' => $instance->getHash(),
-            'created_at' => Carbon::createFromFormat(\DateTime::RFC3339, $instance->creationDate),
-            'document_uri' => $instance->getDocumentUri(),
-            'thumbnail_uri' => $instance->getThumbnailURI(),
-            'mime_type' => $instance->getMimeType(),
-            'visibility' => $instance->getVisibility(),
-            'document_type' => $instance->getDocumentType(),
-            'user_owner' => $instance->getUserOwner(),
-            'user_uploader' => $instance->getUserUploader(),
-            'abstract' => $instance->getAbstract(),
-            'language' => $instance->getLanguage(),
-            'is_public' => $instance->getVisibility() == \KlinkVisibilityType::KLINK_PUBLIC,
-            'authors' => is_array($instance->getAuthors()) ? implode(',', $instance->getAuthors()) : $instance->getAuthors(), //is Array so there is something that might be done
-        ]);
+        // $cached = self::create([
+        //     'institution_id' => $local_inst->id,
+        //     'local_document_id' => $instance->getLocalDocumentID(),
+        //     'title' => $instance->getTitle(),
+        //     'hash' => $instance->getHash(),
+        //     'created_at' => Carbon::createFromFormat(\DateTime::RFC3339, $instance->creationDate),
+        //     'document_uri' => $instance->getDocumentUri(),
+        //     'thumbnail_uri' => $instance->getThumbnailURI(),
+        //     'mime_type' => $instance->getMimeType(),
+        //     'visibility' => $instance->getVisibility(),
+        //     'document_type' => $instance->getDocumentType(),
+        //     'user_owner' => $instance->getUserOwner(),
+        //     'user_uploader' => $instance->getUserUploader(),
+        //     'abstract' => $instance->getAbstract(),
+        //     'language' => $instance->getLanguage(),
+        //     'is_public' => $instance->getVisibility() == KlinkVisibilityType::KLINK_PUBLIC,
+        //     'authors' => is_array($instance->getAuthors()) ? implode(',', $instance->getAuthors()) : $instance->getAuthors(), //is Array so there is something that might be done
+        // ]);
         
-        return $cached;
+        // return $cached;
     }
 
     public function getIsPublicAttribute($value)

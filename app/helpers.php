@@ -173,9 +173,7 @@ if (! function_exists('network_enabled')) {
      */
     function network_enabled()
     {
-        $adapter = app(\Klink\DmsAdapter\Contracts\KlinkAdapter::class);
-
-        return $adapter->isNetworkEnabled();
+        return ! ! \KlinkDMS\Option::option(\KlinkDMS\Option::PUBLIC_CORE_ENABLED, false);
     }
 }
 

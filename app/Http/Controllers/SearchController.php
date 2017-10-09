@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use KlinkDMS\Traits\Searchable;
 use KlinkDMS\Exceptions\ForbiddenException;
 use KlinkDMS\Option;
+use Klink\DmsAdapter\KlinkVisibilityType;
 
 class SearchController extends Controller
 {
@@ -55,7 +56,7 @@ class SearchController extends Controller
         $req = $this->searchRequestCreate($request);
         
         
-        $req->visibility(\KlinkVisibilityType::KLINK_PUBLIC);
+        $req->visibility(KlinkVisibilityType::KLINK_PUBLIC);
         
 
         $grand_total = $this->service->getTotalIndexedDocuments($req->visibility);

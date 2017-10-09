@@ -1,0 +1,482 @@
+<?php
+
+namespace Klink\DmsAdapter;
+
+/**
+ * Handles Image Thumbnail generation (basic crop and resize)
+ *
+ * Supports GIF, JPG and PNG formats.
+ *
+ *
+ * $image = new KlinkImageResize('image.jpg');
+ * $image->scale(50);
+ * $image->save('image2.jpg')
+ *
+ * <code>
+ * $image = new KlinkImageResize('image.jpg');
+ * $image->resize(800, 600);
+ * $image->save('image2.jpg');
+ * 
+ * $image = new KlinkImageResize('image.jpg');
+ * $image->crop(200, 200);
+ * $image->save('image2.jpg');
+ * 
+ * $image = new KlinkImageResize('image.jpg');
+ * $image->resizeToHeight(500);
+ * $image->save('image2.jpg');
+ * 
+ * $image = new KlinkImageResize('image.jpg');
+ * $image->resizeToWidth(300);
+ * $image->save('image2.jpg');
+ * </code>
+ * 
+ */
+class KlinkImageResize {
+
+    const cropTOP = 1;
+    const cropCENTRE = 2;
+    const cropCENTER = 2;
+    const cropBOTTOM = 3;
+    const cropLEFT = 4;
+    const cropRIGHT = 5;
+    
+    public $quality_jpg = 75;
+    public $quality_png = 9;
+
+    public $source_type;
+
+    protected $source_image;
+
+    protected $original_w;
+    protected $original_h;
+
+    protected $dest_x = 0;
+    protected $dest_y = 0;
+
+    protected $source_x;
+    protected $source_y;
+
+    protected $dest_w;
+    protected $dest_h;
+
+    protected $source_w;
+    protected $source_h;
+
+    /**
+     * Create instance from a file
+     *
+     * @param string $filename
+     * @return KlinkImageResize
+     * @throws Exception
+     */
+    public static function createFromFile($filename){
+
+        if(is_null($filename)){
+            throw new Exception("Filename cannot be empty", 1);
+            
+        }
+
+        $s = new self();
+        $s->load($filename);
+        return $s;
+    }
+
+    /**
+     * Create instance from a strng
+     *
+     * @param string $imageData
+     * @return KlinkImageResize
+     * @throws Exception
+     */
+    public static function createFromString($imageData){
+        $s = new self();
+        $s->loadFromString($imageData);
+        return $s;
+    }
+    
+    /**
+     * Constructor
+     *
+     * @param string|null $filename
+     * @throws \Exception
+     */
+    public function __construct($filename=null)
+    {
+        if(!empty($filename)) {
+            $this->load($filename);
+        }
+    }
+
+    /**
+     * Get image size from string
+     *
+     * @param string $imagedata
+     * @return array
+     */
+    protected function getImagesizeFromString($imagedata){
+        return @getimagesize('data://application/octet-stream;base64,' . base64_encode($imagedata));
+    }
+
+    /**
+     * Load image from string
+     *
+     * @param string $imagedata
+     * @return KlinkImageResize
+     * @throws Exception
+     */
+    public function loadFromString($imagedata)
+    {
+        $image_info = $this->getImagesizeFromString($imagedata);
+        if(!$image_info) {
+            throw new \Exception('Could not load image from string');
+        }
+
+        list (
+            $this->original_w,
+            $this->original_h,
+            $this->source_type
+            ) = $image_info;
+
+        $this->source_image = imagecreatefromstring($imagedata);
+
+        return $this->resize($this->getSourceWidth(), $this->getSourceHeight());
+    }
+
+    /**
+     * Loads image source and its properties to the instanciated object
+     * @param string $filename
+     * @return \static
+     * @throws Exception
+     */
+    public function load($filename)
+    {
+        $image_info = getimagesize($filename);
+
+        if (!$image_info) {
+            throw new \Exception('Could not read ' . $filename);
+        }
+
+        list (
+            $this->original_w,
+            $this->original_h,
+            $this->source_type
+        ) = $image_info;
+
+        switch ($this->source_type) {
+            case IMAGETYPE_GIF:
+                $this->source_image = imagecreatefromgif($filename);
+            break;
+
+            case IMAGETYPE_JPEG:
+                $this->source_image = imagecreatefromjpeg($filename);
+            break;
+
+            case IMAGETYPE_PNG:
+                $this->source_image = imagecreatefrompng($filename);
+            break;
+
+            default:
+                throw new \Exception('Unsupported image type');
+        }
+
+        return $this->resize($this->getSourceWidth(), $this->getSourceHeight());
+    }
+    
+    /**
+     * Saves new image
+     * @param string $filename
+     * @param string $image_type
+     * @param integer $quality
+     * @param integer $permissions
+     * @return \static
+     */
+    public function save($filename, $image_type = null, $quality = null, $permissions = null)
+    {
+        $image_type = $image_type ?: $this->source_type;
+
+        $dest_image = imagecreatetruecolor($this->getDestWidth(), $this->getDestHeight());
+
+        switch ($image_type) {
+            case IMAGETYPE_GIF:
+                $background = imagecolorallocatealpha($dest_image, 255, 255, 255, 1);
+                imagecolortransparent($dest_image, $background);
+                imagefill($dest_image, 0, 0 , $background);
+                imagesavealpha($dest_image, true);
+            break;
+
+            case IMAGETYPE_JPEG:
+                $background = imagecolorallocate($dest_image, 255, 255, 255);
+                imagefilledrectangle($dest_image, 0, 0, $this->getDestWidth(), $this->getDestHeight(), $background);
+            break;
+
+            case IMAGETYPE_PNG:
+                imagealphablending($dest_image, false);
+                imagesavealpha($dest_image, true);
+            break;
+        }
+
+        imagecopyresampled(
+            $dest_image,
+            $this->source_image,
+            $this->dest_x,
+            $this->dest_y,
+            $this->source_x,
+            $this->source_y,
+            $this->getDestWidth(),
+            $this->getDestHeight(),
+            $this->source_w,
+            $this->source_h
+        );
+
+        switch ($image_type) {
+            case IMAGETYPE_GIF:
+                imagegif($dest_image, $filename);
+            break;
+
+            case IMAGETYPE_JPEG:
+                if ($quality === null) {
+                    $quality = $this->quality_jpg;
+                }
+
+                imagejpeg($dest_image, $filename, $quality);
+            break;
+
+            case IMAGETYPE_PNG:
+                if ($quality === null) {
+                    $quality = $this->quality_png;
+                }
+
+                imagepng($dest_image, $filename, $quality);
+            break;
+        }
+
+        if ($permissions && function_exists('chmod')) {
+            chmod($filename, $permissions);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Get image as string
+     *
+     * @param int $image_type
+     * @param int $quality
+     * @return string
+     */
+    public function get($image_type = null, $quality = null){
+        ob_start();
+        $this->save(null, $image_type, $quality);
+        return ob_get_clean();
+    }
+
+    /**
+    * Convert the image to string with the current settings
+    *
+    * @return string
+    */
+    public function __toString(){
+        return $this->get();
+    }
+
+    /**
+     * Outputs image source to browser
+     * @param string $image_type
+     * @param integer $quality
+     */
+    public function output($image_type = null, $quality = null)
+    {
+        $image_type = $image_type ?: $this->source_type;
+
+        header('Content-Type: ' . image_type_to_mime_type($image_type));
+
+        $this->save(null, $image_type, $quality);
+    }
+    
+    /**
+     * Resizes image according to the given height. Width is proportional.
+     * @param integer $height
+     * @param boolean $allow_enlarge
+     * @return \static
+     */
+    public function resizeToHeight($height, $allow_enlarge = false)
+    {
+        $ratio = $height / $this->getSourceHeight();
+        $width = $this->getSourceWidth() * $ratio;
+
+        $this->resize($width, $height, $allow_enlarge);
+
+        return $this;
+    }
+    
+    /**
+     * Resizes image according to the given width. Height is proportional.
+     * @param integer $width
+     * @param boolean $allow_enlarge
+     * @return \static
+     */
+    public function resizeToWidth($width, $allow_enlarge = false)
+    {
+        $ratio  = $width / $this->getSourceWidth();
+        $height = $this->getSourceHeight() * $ratio;
+
+        $this->resize($width, $height, $allow_enlarge);
+
+        return $this;
+    }
+
+    /**
+     * Resizes image according to given scale (proportionally)
+     * @param type $scale
+     * @return KlinkKlinkImageResize
+     */
+    public function scale($scale)
+    {
+        $width  = $this->getSourceWidth() * $scale / 100;
+        $height = $this->getSourceHeight() * $scale / 100;
+
+        $this->resize($width, $height, true);
+
+        return $this;
+    }
+
+    /**
+     * Resizes image according to the given width and height
+     * @param integer $width
+     * @param integer $height
+     * @param boolean $allow_enlarge
+     * @return \static
+     */
+    public function resize($width, $height, $allow_enlarge = false)
+    {
+        if (!$allow_enlarge) {
+            // if the user hasn't explicitly allowed enlarging,
+            // but either of the dimensions are larger then the original,
+            // then just use original dimensions - this logic may need rethinking
+
+            if ($width > $this->getSourceWidth() || $height > $this->getSourceHeight()) {
+                $width  = $this->getSourceWidth();
+                $height = $this->getSourceHeight();
+            }
+        }
+
+        $this->source_x = 0;
+        $this->source_y = 0;
+
+        $this->dest_w = $width;
+        $this->dest_h = $height;
+
+        $this->source_w = $this->getSourceWidth();
+        $this->source_h = $this->getSourceHeight();
+
+        return $this;
+    }
+    
+    /**
+     * Crops image according to the given width and height for the new saved
+     * image. Crop's position may be configured.
+     * @param integer $width
+     * @param integer $height
+     * @param boolean $allow_enlarge
+     * @param integer $position
+     * @return \static
+     */
+    public function crop($width, $height, $allow_enlarge = false, $position = self::cropCENTER)
+    {
+        if (!$allow_enlarge) {
+            // this logic is slightly different to resize(),
+            // it will only reset dimensions to the original
+            // if that particular dimenstion is larger
+
+            if ($width > $this->getSourceWidth()) {
+                $width  = $this->getSourceWidth();
+            }
+
+            if ($height > $this->getSourceHeight()) {
+                $height = $this->getSourceHeight();
+            }
+        }
+        
+        $ratio_source = $this->getSourceWidth() / $this->getSourceHeight();
+        $ratio_dest = $width / $height;
+        
+        if ($ratio_dest < $ratio_source) {
+            $this->resizeToHeight($height, $allow_enlarge);
+
+            $excess_width = ($this->getDestWidth() - $width) / $this->getDestWidth() * $this->getSourceWidth();
+
+            $this->source_w = $this->getSourceWidth() - $excess_width;
+            $this->source_x = $this->getCropPosition($excess_width, $position);
+
+            $this->dest_w = $width;
+        } else {
+            $this->resizeToWidth($width, $allow_enlarge);
+
+            $excess_height = ($this->getDestHeight() - $height) / $this->getDestHeight() * $this->getSourceHeight();
+
+            $this->source_h = $this->getSourceHeight() - $excess_height;
+            $this->source_y = $this->getCropPosition($excess_height, $position);
+
+            $this->dest_h = $height;
+        }
+
+        return $this;
+    }
+    
+    /**
+     * Gets source width
+     * @return integer
+     */
+    public function getSourceWidth()
+    {
+        return $this->original_w;
+    }
+    
+    /**
+     * Gets source height
+     * @return integer
+     */
+    public function getSourceHeight()
+    {
+        return $this->original_h;
+    }
+
+    /**
+     * Gets width of the destination image
+     * @return integer
+     */
+    public function getDestWidth()
+    {
+        return $this->dest_w;
+    }
+
+    /**
+     * Gets height of the destination image
+     * @return integer
+     */
+    public function getDestHeight()
+    {
+        return $this->dest_h;
+    }
+    
+    /**
+     * Gets crop position (X or Y) according to the given position.
+     * @param integer $expectedSize
+     * @param integer $position
+     * @return integer
+     */
+    protected function getCropPosition($expectedSize, $position = self::cropCENTER)
+    {
+        $size = 0;
+        switch ($position) {
+            case self::cropBOTTOM:
+            case self::cropRIGHT:
+                $size = $expectedSize;
+                break;
+            case self::cropCENTER:
+            case self::cropCENTRE:
+                $size = $expectedSize / 2;
+        }
+        return $size;
+    }
+}

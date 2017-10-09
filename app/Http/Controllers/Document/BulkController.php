@@ -15,6 +15,7 @@ use KlinkDMS\Http\Requests\BulkRestoreRequest;
 use KlinkDMS\Http\Requests\BulkMakePublicRequest;
 use KlinkDMS\Exceptions\ForbiddenException;
 use Illuminate\Support\Collection;
+use Klink\DmsAdapter\KlinkVisibilityType;
 
 class BulkController extends Controller
 {
@@ -392,7 +393,7 @@ class BulkController extends Controller
                     if (! $descriptor->isPublic()) {
                         $descriptor->is_public = true;
                         $descriptor->save();
-                        $that->service->reindexDocument($descriptor, \KlinkVisibilityType::KLINK_PUBLIC);
+                        $that->service->reindexDocument($descriptor, KlinkVisibilityType::KLINK_PUBLIC);
                     }
                 }
 

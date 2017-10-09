@@ -6,6 +6,8 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 use KlinkDMS\Exceptions\FileNamingException;
 use KlinkDMS\DocumentDescriptor;
 use KlinkDMS\Capability;
+use Klink\DmsAdapter\KlinkVisibilityType;
+use Klink\DmsAdapter\Exceptions\KlinkException;
 
 class DocumentDescriptorTest extends BrowserKitTestCase
 {
@@ -14,8 +16,8 @@ class DocumentDescriptorTest extends BrowserKitTestCase
     public function visibility_provider()
     {
         return [
-            [\KlinkVisibilityType::KLINK_PRIVATE],
-            [\KlinkVisibilityType::KLINK_PUBLIC],
+            [KlinkVisibilityType::KLINK_PRIVATE],
+            [KlinkVisibilityType::KLINK_PUBLIC],
         ];
     }
     
@@ -82,7 +84,7 @@ class DocumentDescriptorTest extends BrowserKitTestCase
 
         $mock->shouldReceive('institutions')->andReturn($inst);
         $mock->shouldReceive('addDocument')->andReturnUsing(function () {
-            throw new \KlinkException('Bad Request, hash not equals');
+            throw new KlinkException('Bad Request, hash not equals');
         });
         
         $res = $service->indexDocument($file, 'private', null, null, true);
@@ -93,7 +95,7 @@ class DocumentDescriptorTest extends BrowserKitTestCase
         $le = $res->last_error;
         
         $this->assertNotNull($le);
-        $this->assertEquals('KlinkException', $le->type);
+        $this->assertEquals(KlinkException::class, $le->type);
         $this->assertEquals('Bad Request, hash not equals', $le->message);
     }
     
@@ -107,13 +109,13 @@ class DocumentDescriptorTest extends BrowserKitTestCase
 
         $mock->shouldReceive('institutions')->andReturn(factory('KlinkDMS\Institution')->make());
         $mock->shouldReceive('updateDocument')->andReturnUsing(function ($document) {
-            throw new \KlinkException('Bad Request, hash not equals');
+            throw new KlinkException('Bad Request, hash not equals');
         });
         
         try {
             $res = $service->reindexDocument($doc, 'private');
             // expecting a "KlinkException: Bad Request" because owner is not specified
-        } catch (\KlinkException $ex) {
+        } catch (KlinkException $ex) {
             $this->assertEquals('Bad Request, hash not equals', $ex->getMessage());
         }
         
@@ -124,7 +126,7 @@ class DocumentDescriptorTest extends BrowserKitTestCase
         $le = $res->last_error;
         
         $this->assertNotNull($le);
-        $this->assertEquals('KlinkException', $le->type);
+        $this->assertEquals(KlinkException::class, $le->type);
         $this->assertEquals('Bad Request, hash not equals', $le->message);
     }
 
@@ -159,54 +161,44 @@ class DocumentDescriptorTest extends BrowserKitTestCase
         $document = $document->fresh();
         $document2 = $document2->fresh();
 
-        $descriptor = $document->toKlinkDocumentDescriptor($visibility === \KlinkVisibilityType::KLINK_PUBLIC);
-        $descriptor2 = $document2->toKlinkDocumentDescriptor($visibility === \KlinkVisibilityType::KLINK_PUBLIC);
+        $descriptor = $document->toKlinkDocumentDescriptor($visibility === KlinkVisibilityType::KLINK_PUBLIC);
+        $descriptor2 = $document2->toKlinkDocumentDescriptor($visibility === KlinkVisibilityType::KLINK_PUBLIC);
 
-        $this->assertEquals(config('dms.institutionID'), $descriptor->getInstitutionID());
-        $this->assertEquals($document->local_document_id, $descriptor->getLocalDocumentID());
-        $this->assertEquals($document->hash, $descriptor->getHash());
-        $this->assertEquals($document->title, $descriptor->getTitle());
-        $this->assertEquals($document->document_uri, $descriptor->getDocumentUri());
-        $this->assertEquals($document->thumbnail_uri, $descriptor->getThumbnailURI());
-        $this->assertEquals($document->user_uploader, $descriptor->getUserUploader());
-        $this->assertEquals($document->user_owner, $descriptor->getUserOwner());
-        $this->assertEquals($document->created_at->toRfc3339String(), $descriptor->getCreationDate());
+        $this->assertEquals($document->uuid, $descriptor->uuid());
         $this->assertEquals($visibility, $descriptor->getVisibility());
-        $this->assertEquals($document->language, $descriptor->getLanguage());
-        $this->assertEquals($document->abstract, $descriptor->getAbstract());
-        $this->assertEquals($document->mime_type, $descriptor->getMimeType());
-        $this->assertTrue(is_array($descriptor->getAuthors()));
-        $this->assertTrue(is_array($descriptor->getTitleAliases()));
+        $this->assertEquals($visibility, $descriptor->visibility());
 
-        if ($visibility === \KlinkVisibilityType::KLINK_PRIVATE) {
-            $groups = $descriptor->getDocumentGroups();
+        $data1 = $descriptor->toData();
+
+        $this->assertEquals($document->hash, $data1->hash);
+        $this->assertEquals($document->uuid, $data1->uuid);
+        $this->assertEquals('document', $data1->type);
+        $this->assertEquals($document->title, $data1->properties->title);
+        $this->assertEquals($document->document_uri, $data1->url);
+        $this->assertEquals($document->thumbnail_uri, $data1->properties->thumbnail);
+        $this->assertEquals($document->language, $data1->properties->language);
+        $this->assertEquals($document->abstract, $data1->properties->abstract);
+        $this->assertEquals($document->mime_type, $data1->properties->mime_type);
+        $this->assertTrue(is_array($data1->author));
+
+        if ($visibility === KlinkVisibilityType::KLINK_PRIVATE) {
+            $groups = $descriptor->collections();
 
             $this->assertTrue(is_array($groups));
+            $this->assertEquals($groups, $data1->properties->collection);
             $this->assertNotEmpty($groups, 'collection is empty');
-            $this->assertCount(4, $groups, 'collection count');
+            $this->assertCount(6, $groups, 'collection count');
 
             $this->assertEquals([
                 $personal1->toKlinkGroup(),
                 $personal2->toKlinkGroup(),
                 $project1->collection->toKlinkGroup(),
                 $project_collection->toKlinkGroup(),
+                'p'.$project1->id,
+                'p'.$project2->id,
             ], $groups);
-            
-            $projects = $descriptor->getProjects();
-
-            $this->assertTrue(is_array($projects));
-            $this->assertNotEmpty($projects, 'projects is empty');
-            $this->assertCount(2, $projects, 'projects count');
-            $this->assertEquals([
-                $project1->id,
-                $project2->id,
-            ], $projects);
-
-            $this->assertCount(1, $descriptor2->getDocumentGroups(), 'descriptor2 collection count');
-            $this->assertEmpty($descriptor2->getProjects());
         } else {
-            $this->assertEmpty($descriptor->getDocumentGroups(), 'collection not empty');
-            $this->assertEmpty($descriptor->getProjects(), 'projects not empty');
+            $this->assertEmpty($descriptor->collections(), 'collection not empty');
         }
     }
 

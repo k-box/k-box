@@ -9,6 +9,9 @@ use KlinkDMS\DocumentDescriptor;
 use KlinkDMS\Starred;
 use KlinkDMS\Pagination\SearchResultsPaginator as Paginator;
 use Illuminate\Support\Collection;
+use Klink\DmsAdapter\KlinkFacetsBuilder;
+use Klink\DmsAdapter\Exceptions\KlinkException;
+use Klink\DmsAdapter\KlinkFacet;
 
 class SearchService
 {
@@ -115,7 +118,7 @@ class SearchService
             }
             
             return $results_from_the_core;
-        } catch (\KlinkException $ex) {
+        } catch (KlinkException $ex) {
             \Log::error('KlinkException when searching on K-Link', ['context' => 'SearchService::search', 'param' => func_get_args(), 'exception' => $ex]);
 
             return null;
@@ -227,7 +230,7 @@ class SearchService
         // per risolvere il problema del fatto che non posso mettere facets se non c'è ricerca'
         
         return \Cache::remember('dms_default_facets_'.$visibility, 200, function () use ($visibility) {
-            $default_array = \KlinkFacetsBuilder::all();
+            $default_array = KlinkFacetsBuilder::all();
             
             return $this->limitFacets($this->adapter->facets($default_array, $visibility));
         });
@@ -244,7 +247,7 @@ class SearchService
             $langs = explode(',', $config);
             
             $lang_facet = $value = array_first($facets, function ($value, $key) {
-                return $value->name === \KlinkFacet::LANGUAGE;
+                return $value->name === KlinkFacet::LANGUAGE;
             }, null);
                 
             if (is_null($lang_facet)) {

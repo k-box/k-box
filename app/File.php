@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Dyrynda\Database\Support\GeneratesUuid;
 use KlinkDMS\Exceptions\FileAlreadyExistsException;
+use Klink\DmsAdapter\KlinkDocumentUtils;
 
 /**
  * The representation of a File on disk
@@ -149,7 +150,7 @@ class File extends Model
      */
     public function isKlinkSupported()
     {
-        return \KlinkDocumentUtils::isMimeTypeSupported($this->mime_type);
+        return KlinkDocumentUtils::isMimeTypeSupported($this->mime_type);
     }
     
     /**
@@ -159,7 +160,7 @@ class File extends Model
      */
     public function isIndexable()
     {
-        return \KlinkDocumentUtils::isMimeTypeIndexable($this->mime_type);
+        return KlinkDocumentUtils::isMimeTypeIndexable($this->mime_type);
     }
     
     /**
@@ -531,7 +532,7 @@ class File extends Model
             // not using configuration value for local disk as during tests may vary if Storage::fake() is used
             $file_absolute_path = $storage->path($file_path);
 
-            $hash = \KlinkDocumentUtils::generateDocumentHash($file_absolute_path);
+            $hash = KlinkDocumentUtils::generateDocumentHash($file_absolute_path);
 
             if (static::existsByHash($hash)) {
                 $storage->deleteDirectory($destination_path);

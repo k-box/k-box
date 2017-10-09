@@ -6,7 +6,7 @@ use Illuminate\Console\Command;
 
 use KlinkDMS\DocumentDescriptor;
 use Klink\DmsDocuments\DocumentsService;
-
+use Klink\DmsAdapter\KlinkDocumentUtils;
 use KlinkDMS\Console\Traits\DebugOutput;
 
 class DocumentsCheckDescriptorCommand extends Command
@@ -80,7 +80,7 @@ class DocumentsCheckDescriptorCommand extends Command
 
             
             $doc->mime_type = $file->mime_type;
-            $doc->document_type = \KlinkDocumentUtils::documentTypeFromMimeType($file->mime_type);
+            $doc->document_type = KlinkDocumentUtils::documentTypeFromMimeType($file->mime_type);
             $doc->hash = $file->hash;
 
             $doc->timestamps = false; //temporarly disable the automatic upgrade of the updated_at field

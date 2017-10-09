@@ -194,18 +194,17 @@ class Group extends Entity implements GroupInterface
     }
 
     /**
-     * Convert the group to the Klink representation used in the KlinkDocumentDescriptor
+     * Convert the group to the K-Search collection representation
      *
-     * @return string|boolean the id of the group in the form user_id:group_id, false if is trashed
+     * @return string|boolean the id of the group, false if is trashed
      */
     public function toKlinkGroup()
     {
         if ($this->trashed()) {
             return false;
         }
-        $uid = $this->is_private ? $this->user_id : 0 ;
 
-        return $uid.':'.$this->id;
+        return $this->id;
     }
     
     /**
