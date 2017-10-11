@@ -164,7 +164,7 @@ class ThumbnailsTest extends BrowserKitTestCase
         if (! is_dir($folder)) {
             mkdir($folder, 0777, true);
         }
-        $real_path = $folder.md5($url). '.' . pathinfo($filename, PATHINFO_EXTENSION);
+        $real_path = $folder.md5($url).'.'.pathinfo($filename, PATHINFO_EXTENSION);
 
         $client = new Client([
             // Base URI is used with relative requests

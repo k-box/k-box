@@ -12,25 +12,6 @@ class StorageService
 {
     private $storage_data = null;
 
-    public function getDocumentsStatistics()
-    {
-        $conn = $this->connection;
-
-        if (! \Cache::has('dms_documents_statististics')) {
-            $fs = KlinkFacetsBuilder::create()->documentType()->build();
-
-            $public_facets_response = [];
-
-            $private_facets_response = $conn->facets($fs, 'private');
-
-            $stats = $this->compactFacetResponse($public_facets_response, $private_facets_response);
-
-            \Cache::put('dms_documents_statististics', $stats, 60);
-        }
-        
-        return \Cache::get('dms_documents_statististics');
-    }
-
     /**
      *
      * @return string the used space on disk
@@ -38,8 +19,6 @@ class StorageService
     public function used()
     {
         return $this->getStorageData()['used_space_on_docs_folder'];
-
-        // return '10GB';
     }
     
     /**

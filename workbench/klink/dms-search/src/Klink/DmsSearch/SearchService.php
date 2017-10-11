@@ -11,7 +11,12 @@ use KlinkDMS\Pagination\SearchResultsPaginator as Paginator;
 use Illuminate\Support\Collection;
 use Klink\DmsAdapter\KlinkFacetsBuilder;
 use Klink\DmsAdapter\Exceptions\KlinkException;
-use Klink\DmsAdapter\KlinkFacet;
+use Klink\DmsAdapter\KlinkFacets;
+use Klink\DmsAdapter\KlinkVisibilityType;
+use Klink\DmsAdapter\KlinkSearchRequest;
+use Klink\DmsAdapter\KlinkSearchResults;
+use Exception;
+use Log;
 
 class SearchService
 {
@@ -29,6 +34,20 @@ class SearchService
      */
     private $adapter = null;
 
+    public static $defaultFacets = [
+        'public' => [
+            KlinkFacets::LANGUAGE,
+            KlinkFacets::MIME_TYPE,
+            KlinkFacets::UPLOADER,
+        ],
+        'private' => [
+            KlinkFacets::LANGUAGE,
+            KlinkFacets::MIME_TYPE,
+            KlinkFacets::COLLECTIONS,
+            KlinkFacets::PROJECTS,
+        ],
+    ];
+
     /**
      * Create a new SearchService instance.
      *
@@ -39,104 +58,6 @@ class SearchService
         $this->auth = $auth;
 
         $this->adapter = $adapter;
-    }
-
-    /**
-     * Make a K-Link Search
-     * @param  string  $terms the terms to search for
-     * @param  integer $offset the offset to start showing results from (for pagination)
-     * @param  integer $resultsPerPage the number of results per page
-     * @param  string  $visibility the visibility scoper of the search
-     * @param KlinkFacet[] $facets The facets that needs to be retrieved or what will be retrieved. Default null, no facets will be calculated or filtered.
-     * @return \KlinkSearchResult [description]
-     */
-    private function _search($terms, $offset = 0, $resultsPerPage = 10, $visibility = 'public', array $facets = null)
-    {
-        try {
-            if (! is_null($this->auth) && $this->auth->check() && ! empty($terms) && $terms !== '*') {
-                // TODO: make this an event -> raise event and handle event for saving
-                $rc = RecentSearch::firstOrNew(['terms' => trim($terms), 'user_id' => $this->auth->user()->id]);
-                
-                $saved = null;
-
-                if ($rc->exists) {
-                    $rc->times = $rc->times+1;
-
-                    $saved = $rc->save();
-                } else {
-                    $rc->times = 0;
-                    $saved = $this->auth->user()->searches()->save($rc);
-                }
-
-                if (! $saved) {
-                    \Log::warning('Recent search not saved', ['context' => 'SearchService::search', 'param' => func_get_args(), 'user' => $this->auth->user()]);
-                }
-            }
-
-            // save the query and the action performed
-
-            $results_from_the_core = $this->adapter->search($terms, $visibility, $resultsPerPage, $offset, $facets);
-
-            $is_starrable = $this->auth->check() && $this->auth->user()->can(Capability::MAKE_SEARCH);
-
-            $current_user = ! $this->auth->check() ? false : $this->auth->user();
-
-            
-            // TODO: when we will have faceting this part could be speed-up so we could have all the details of the instituions at once
-            // TODO: always enable institution facets to speedup the ID to name conversion for all the results in the response (and for the query)
-            
-            foreach ($results_from_the_core->items as $res) {
-                $res->isStarred = false; //default value
-
-                $res->isStarrable = $is_starrable;
-                
-                $institution = $this->adapter->institutions($res->institutionID);
-
-                if ($is_starrable && ! is_string($institution)) {
-                    $cachedDoc = DocumentDescriptor::findByInstitutionAndDocumentId($institution->id, $res->getLocalDocumentID());
-
-                    if (! is_null($cachedDoc)) {
-                        $exists = Starred::getByDocumentAndUserId($cachedDoc->id, $current_user->id);
-
-                        if (! is_null($exists)) {
-                            $res->isStarred = true;
-
-                            $res->starId = $exists->id;
-                        }
-                    }
-                }
-
-                if (! is_null($institution)) {
-                    $res->institutionName = ! is_string($institution) ? $institution->name : $institution;
-                } else {
-                    $res->institutionName = $res->institutionID;
-                }
-
-                $res->creationDate = localized_date_short(\Carbon\Carbon::createFromFormat(\DateTime::RFC3339, $res->creationDate));
-
-                $res->klink_id = $res->getKlinkId();
-            }
-            
-            return $results_from_the_core;
-        } catch (KlinkException $ex) {
-            \Log::error('KlinkException when searching on K-Link', ['context' => 'SearchService::search', 'param' => func_get_args(), 'exception' => $ex]);
-
-            return null;
-        } catch (\Exception $ex) {
-            \Log::error('Error searching on K-Link', ['context' => 'SearchService::search', 'param' => func_get_args(), 'exception' => $ex]);
-
-            return null;
-        }
-    }
-
-    /**
-     * [autocomplete description]
-     *
-     */
-    public function autocomplete($value='')
-    {
-        // TODO: autocomplete
-        // a mix of recent search and what?
     }
 
     /**
@@ -171,40 +92,98 @@ class SearchService
             return $this->adapter->getDocumentsCount($visibility);
         }
     }
+
+    private function trackSearch($terms)
+    {
+        try{
+
+            if (! is_null($this->auth) && $this->auth->check() && ! empty($terms) && $terms !== '*') {
+                
+                // todo: probably is more elegant to use an event and a listener
+                $rc = RecentSearch::firstOrNew(['terms' => trim($terms), 'user_id' => $this->auth->user()->id]);
+                
+                $saved = null;
+                
+                if ($rc->exists) {
+                    $rc->times = $rc->times+1;
+                    
+                    $saved = $rc->save();
+                } else {
+                    $rc->times = 0;
+                    $saved = $this->auth->user()->searches()->save($rc);
+                }
+                
+                if (! $saved) {
+                    Log::warning('Recent search not saved', ['context' => 'SearchService::search', 'param' => func_get_args(), 'user' => $this->auth->user()]);
+                }
+                
+            }
+        }catch(Exception $ex){
+            Log::error('Error saving recent search for user', ['error'=> $ex]);
+        }
+
+    }
     
     /**
      * Perform a search using the search engine
      */
     public function search(SearchRequest $request)
-    {
-        
-        // 1. get the parameters to invoke the adapter search
-        // 2. request a count search to get the total number of results (to be used in pagination)
-        // 3. perform the real search to get the results
-        // 4. return everything that must be returned
+    {   
+        Log::info('Search Request', ['request' => (string)$request]);
 
-        \Log::info('Search Request', ['request' => (string)$request]);
+        $this->trackSearch($request->term);
 
-        $results = $this->_search($request->term, $request->limit * ($request->page - 1), $request->limit, $request->visibility, $request->facets_and_filters->build());
-        
-        if ($results instanceof \KlinkSearchResult) {
-            $total = property_exists($results, 'total_results') ? $results->total_results : property_exists($results, 'numFound') ? $results->numFound : $this->getTotalIndexedDocuments($request->visibility) ;
+        /**
+         * @var KlinkSearchResults $results
+         */
+        $results = null;
+
+        $can_star_documents = $this->auth->check() && $this->auth->user()->can(Capability::MAKE_SEARCH);
+
+        $current_user = $this->auth->user();
+
+        try {
+
+            $results = $this->adapter->search(KlinkSearchRequest::from($request));
+            
+        } catch (KlinkException $ex) {
+            Log::error('KlinkException when searching on K-Link', ['context' => 'SearchService::search', 'param' => func_get_args(), 'exception' => $ex]);
+        } catch (\Exception $ex) {
+            Log::error('Error searching on K-Link', ['context' => 'SearchService::search', 'param' => func_get_args(), 'exception' => $ex]);
+        }
+
+        if ($results && $results instanceof KlinkSearchResults) {
+
+            $items = $results->getResults();
+
+            if($request->visibility === KlinkVisibilityType::KLINK_PRIVATE){
+                
+                // we are interested in DocumentDescriptor instances as we are serving private results
+                $items = $results->getResults()->map(function($result){
+    
+                    // TODO: preload the starred relation if this document is starred by the logged in user
+
+                    return DocumentDescriptor::whereUuid($result->uuid)->first();
+    
+                });
+
+            }
 
             $pagination = new Paginator(
-                $results->query === '*' ? '' : $results->query,
-                $results->items,
-                $this->removeFilters($this->overcomeCoreBuginFilters($results->filters), $request->explicit_filters),
-                $this->limitFacets($results->facets),
-                $total,
+                $results->getTerms() === '*' ? '' : $results->getTerms(),
+                $items,
+                $request->explicit_filters, // $results->getFilters()
+                $this->limitFacets($results->getFacets()),
+                $results->getTotalResults(),
                 $request->limit, $request->page, [
                     'path'  => $request->url,
                     'query' => $request->query,
                 ]);
             
             return $pagination;
-        } else {
-            \Log::error('Unexpected search results response', ['class' => get_class($results), 'results' => $results]);
         }
+        
+        \Log::error('Unexpected search results response', ['class' => get_class($results), 'results' => $results]);
 
         return null;
     }
@@ -227,13 +206,36 @@ class SearchService
     
     public function defaultFacets($visibility='private')
     {
-        // per risolvere il problema del fatto che non posso mettere facets se non c'è ricerca'
-        
         return \Cache::remember('dms_default_facets_'.$visibility, 200, function () use ($visibility) {
-            $default_array = KlinkFacetsBuilder::all();
-            
+            $default_array = static::$defaultFacets[$visibility];
+
             return $this->limitFacets($this->adapter->facets($default_array, $visibility));
         });
+    }
+
+    /**
+     * Retrieve aggregations (aka facets) for the specified request
+     */
+    public function aggregations(SearchRequest $request)
+    {
+        // TODO: this can be simplified by calling directly the KlinkAdapter::facets method
+        try {
+            if (! $request->is_facets_forced && ! $request->isSearchRequested() && $request->isPageRequested()) {
+                return $this->defaultFacets($request->visibility);
+            }
+            
+            $ft_response = $this->search($request);
+            
+            if (is_null($ft_response)) {
+                Log::error('Null search response for aggregations calculation.', ['request' => $request]);
+                return [];
+            }
+            
+            return $ft_response->facets();
+        } catch (Exception $ex) {
+            Log::error('Error while calculating aggregations.', ['request' => $request, 'error' => $ex]);
+            return [];
+        }
     }
     
     /**
@@ -247,7 +249,7 @@ class SearchService
             $langs = explode(',', $config);
             
             $lang_facet = $value = array_first($facets, function ($value, $key) {
-                return $value->name === KlinkFacet::LANGUAGE;
+                return $value->name === KlinkFacets::LANGUAGE;
             }, null);
                 
             if (is_null($lang_facet)) {
@@ -293,44 +295,5 @@ class SearchService
     }
     
     
-    private function overcomeCoreBuginFilters($filters)
-    {
-        if (is_null($filters)) {
-            return $filters;
-        }
-
-        //sometimes the filters array is populated with filters raw data and not processed data
-
-        $ints = array_filter(array_keys($filters), function ($i) {
-            return is_int($i);
-        });
-        
-        if (! empty($ints)) {
-            //let's apply the hack
-            $hacked=[];
-            foreach ($filters as $filter) {
-                $filter = is_object($filter) ? (array) $filter : $filter;
-                
-                if (isset($filter['options'])) {
-                    $key = is_object($filter['options']) ? $filter['options']->key : $filter['options']['key'];
-                    
-                    $vals = str_replace('\\', '', str_replace($filter['field'].':', '', $filter['query']));
-                    
-                    if (starts_with($vals, '(')) {
-                        $vals = str_replace('AND', '', str_replace('OR', '', str_replace('(', '', str_replace(')', '', $vals))));
-                        
-                        $vals = array_filter(explode(' ', $vals));
-                    } else {
-                        $vals = [$vals];
-                    }
-
-                    $hacked[$key] = $vals;
-                }
-            }
-
-            return $hacked;
-        }
-
-        return $filters;
-    }
+    
 }

@@ -6,7 +6,6 @@ use Illuminate\Contracts\View\View;
 
 class HeadersComposer
 {
-
     private static $search_target_for_routes = [
         'documents.show' => 'documents.index',
         'documents.edit' => 'documents.index',

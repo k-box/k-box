@@ -14,23 +14,19 @@ use Illuminate\Http\Request;
  */
 trait Searchable
 {
-
-    
     /**
      * Execute a search based on the given SearchRequest.
      * In case the SearchRequest->isPageRequested() is equal to true the $override closure will be called (if not null)
      *
      * @param SearchRequest $request the search request
      * @param \Closure $override the callback that will be called if SearchRequest->isPageRequested() in order to search for local available Models, to the callback the SearchRequest object in $request is passed as first argument
-     * @param callable $each_result_callback the callback that will be called for each search result after getting the search results from the K-Link Core and before returning them. Usefull for converting search results to local Model instances. To the callback the Collection of results will be passed.
      * @return SearchResultsPaginator the paginated results
      */
-    public function search(SearchRequest $request, \Closure $override = null, callable $each_result_callback = null)
+    public function search(SearchRequest $request, \Closure $override = null)
     {
+        // You can return false in $override to tell the system to use a normal search invocation
         
-          // You can return false in $override to tell the system to use a normal search invocation
-          
-          $override_response = (! is_null($override) && $override) ? $override($request) : false;
+        $override_response = (! is_null($override) && $override) ? $override($request) : false;
           
         if (! is_bool($override_response) && ! is_a($override_response, 'Illuminate\Support\Collection')
                 && ! is_a($override_response, 'Illuminate\Database\Eloquent\Builder')
@@ -93,11 +89,6 @@ trait Searchable
         } else {
             $core_results = app('Klink\DmsSearch\SearchService')->search($request);
               
-            if (! is_null($each_result_callback) && ! is_null($core_results)) {
-                // if the callback is defined, let's use it for mapping current search results to the instances that the developers prefer
-                  $core_results->map($each_result_callback);
-            }
-              
             return $core_results;
         }
     }
@@ -105,30 +96,10 @@ trait Searchable
 
     /**
      * Retrieve the facets for subsequent filtering
-     *
-     *
      */
     public function facets(SearchRequest $request)
     {
-        $service = app('Klink\DmsSearch\SearchService');
-
-        try {
-            if (! $request->is_facets_forced && ! $request->isSearchRequested() && $request->isPageRequested()) {
-                return $service->defaultFacets($request->visibility);
-            }
-            
-            $ft_response = app('Klink\DmsSearch\SearchService')->search($request);
-            
-            if (is_null($ft_response)) {
-                \Log::error('Unexpected NULL Searchable@facets() response.', ['request' => $request]);
-                return [];
-            }
-            
-            return $ft_response->facets();
-        } catch (Exception $ex) {
-            \Log::error('Unexpected error Searchable@facets().', ['request' => $request, 'error' => $ex]);
-            return [];
-        }
+        return app('Klink\DmsSearch\SearchService')->aggregations($request);
     }
     
     public function searchRequestCreate(Request $request = null)

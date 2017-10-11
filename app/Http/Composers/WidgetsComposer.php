@@ -25,7 +25,6 @@ class WidgetsComposer
      */
     public function __construct(\Klink\DmsDocuments\DocumentsService $documentsService)
     {
-
         $this->documents = $documentsService;
     }
 

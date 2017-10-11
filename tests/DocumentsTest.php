@@ -588,7 +588,6 @@ class DocumentsTest extends BrowserKitTestCase
      */
     public function testDocumentDescriptorToKlinkDocumentDescriptor($visibility)
     {
-        
         $user = $this->createUser(Capability::$PROJECT_MANAGER);
         
         $file = factory('KlinkDMS\File')->create([

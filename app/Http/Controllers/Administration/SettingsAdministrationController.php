@@ -7,7 +7,6 @@ use KlinkDMS\Http\Requests\SettingsSaveRequest;
 use KlinkDMS\Option;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Contracts\Auth\Guard as AuthGuard;
-use Klink\DmsAdapter\KlinkVisibilityType;
 
 /**
  * Controller

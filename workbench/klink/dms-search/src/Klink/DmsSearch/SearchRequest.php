@@ -5,7 +5,8 @@ namespace Klink\DmsSearch;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use BadMethodCallException;
-use Klink\DmsAdapter\KlinkFacet;
+use Klink\DmsAdapter\KlinkFacets;
+use Klink\DmsAdapter\KlinkFilters;
 use Klink\DmsAdapter\KlinkFacetsBuilder;
 use Klink\DmsAdapter\KlinkVisibilityType;
 
@@ -53,7 +54,7 @@ class SearchRequest
      */
     protected $highlight = null;
 
-    protected function __construct()
+    public function __construct()
     {
         // nothing to see here ;)
     }
@@ -87,7 +88,6 @@ class SearchRequest
             
             $instance->visibility($request->input('visibility', KlinkVisibilityType::KLINK_PRIVATE));
             
-            $available_facet_names = KlinkFacetsBuilder::allNames();
             
             if ($request->has('fs')) {
                 $instance->facets(explode(',', $request->input('fs', '')));
@@ -95,10 +95,14 @@ class SearchRequest
             
             
             $filters = [];
-        
-            foreach ($available_facet_names as $f) {
-                if ($request->has($f)) {
-                    $filters[$f] = explode(',', $request->input($f, ''));
+            $available_filter_names = KlinkFilters::enums();
+
+            foreach ($available_filter_names as $constant => $klinkValue) {
+
+                $constant = strtolower($constant);
+
+                if ($request->has($constant)) {
+                    $filters[$klinkValue] = explode(',', $request->input($constant, ''));
                 }
             }
 
@@ -266,7 +270,7 @@ class SearchRequest
     /**
      * Activates specific facets.
      *
-     * ['language','institutionId','documentGroups']
+     * ['properties.language','properties.collection','type']
      *
      * @param $fs array Facet names to activate
      * @return SearchRequest
@@ -275,6 +279,11 @@ class SearchRequest
     {
         $this->facets = is_null($this->facets) ? $fs : array_merge($this->facets, $fs);
         return $this;
+    }
+
+    public function withAggregations(array $aggregations)
+    {
+        return $this->facets($aggregations);
     }
     
     /**
@@ -356,82 +365,111 @@ class SearchRequest
      */
     private function _toFacetsBuilder()
     {
-        $facets = [];
 
-        $default_facets_names = [KlinkFacet::DOCUMENT_TYPE, KlinkFacet::LANGUAGE];
+        return KlinkFacetsBuilder::aggregate(array_unique($this->facets ?? []));
 
-        $on_collection_used = false;
-        $in_project_used = false;
+        // $facets = [];
+
+        // $default_facets_names = [KlinkFacets::MIME_TYPE, KlinkFacets::LANGUAGE];
+
+        // $on_collection_used = false;
+        // $in_project_used = false;
         
-        if ($this->visibility=='public') {
-            $default_facets_names[] = KlinkFacet::INSTITUTION_ID;
-        }
+        // if ($this->visibility=='public') {
+        //     $default_facets_names[] = KlinkFacets::UPLOADER;
+        // }
         
-        if ($this->visibility=='private') {
-            $default_facets_names[] = KlinkFacet::DOCUMENT_GROUPS;
-            $default_facets_names[] = KlinkFacet::PROJECT_ID;
-        }
+        // if ($this->visibility=='private') {
+        //     $default_facets_names[] = KlinkFacets::COLLECTIONS;
+        // }
         
-        if (! is_null($this->facets)) {
-            $default_facets_names = array_unique(array_merge($default_facets_names, $this->facets));
-        }
+        // if (! is_null($this->facets)) {
+        //     $default_facets_names = array_unique(array_merge($default_facets_names, $this->facets));
+        // }
         
+        // if (! is_null($this->on_collections) && $this->on_collections->count() > 0) {
+        //     $on_collection_used = empty($this->filters[KlinkFacets::COLLECTIONS]);
+        //     $this->filters[KlinkFacets::COLLECTIONS] = $on_collection_used ? $this->on_collections->all() : $this->filters[KlinkFacets::COLLECTIONS];
+        // }
+
+        // // if (! is_null($this->in_projects) && $this->in_projects->count() > 0) {
+        // //     $in_project_used = empty($this->filters[KlinkFacets::PROJECT_ID]);
+        // //     $this->filters[KlinkFacets::PROJECT_ID] = $in_project_used ? $this->in_projects->all() : $this->filters[KlinkFacets::PROJECT_ID];
+        // // }
+
+        // $fs_builder = KlinkFacetsBuilder::create();
+        
+        // // $current_filters = null;
+    
+        // if (! empty($this->filters)) {
+        //     $fs_names = KlinkFacetsBuilder::allNames(); //check what we have in the parameters
+
+        //     // also parameter validation
+
+        //     $current_names = [];
+
+        //     foreach ($fs_names as $fs) {
+        //         if (array_key_exists($fs, $this->filters)) {
+        //             $current_names[] = $fs;
+
+        //             $filter_value = implode(',', $this->filters[$fs]);
+                    
+        //             try {
+        //                 if (! empty($filter_value)) {
+        //                     $fs_builder->{$fs}($filter_value, 999999999, 0);
+        //                 }
+        //             } catch (BadMethodCallException $bmcex) {
+        //                 throw new BadMethodCallException(sprintf('Bad Filter invocation for "%s": %s', $fs, var_export($filter_value, true)));
+        //             }
+        //         }
+        //     }
+
+        //     $default_facets_names = array_diff($default_facets_names, $current_names);
+        // }
+    
+        // //clean only filters from $default_facets_names KlinkFacets::$ONLY_FILTER
+        // $default_facets_names = array_diff($default_facets_names, KlinkFacets::$ONLY_FILTER);
+    
+        // // what default facets are missing? we need to add it
+        // foreach ($default_facets_names as $fs) {
+        //     $fs_builder->{$fs}(0);
+        // }
+        
+        // // if there are a specific document set
+        // if (! is_null($this->in_documents) && $this->in_documents->count() > 0) {
+        //     $fs_builder->localDocumentId($this->in_documents->all());
+        // }
+
+        // return $fs_builder;
+    }
+    
+
+    public function buildAggregations()
+    {
+        return $this->_toFacetsBuilder()->buildAggregations();
+    }
+
+    public function buildFilters()
+    {
+        $filters = $this->filters ?? [];
+
+        // added filters will be merged with implicit filters from the usage of `on`, `in`, `inProjects`
+
         if (! is_null($this->on_collections) && $this->on_collections->count() > 0) {
-            $on_collection_used = empty($this->filters[KlinkFacet::DOCUMENT_GROUPS]);
-            $this->filters[KlinkFacet::DOCUMENT_GROUPS] = $on_collection_used ? $this->on_collections->all() : $this->filters[KlinkFacet::DOCUMENT_GROUPS];
+            $filters[KlinkFilters::COLLECTIONS] = array_merge($filters[KlinkFilters::COLLECTIONS] ?? [], $this->on_collections->all());
         }
 
         if (! is_null($this->in_projects) && $this->in_projects->count() > 0) {
-            $in_project_used = empty($this->filters[KlinkFacet::PROJECT_ID]);
-            $this->filters[KlinkFacet::PROJECT_ID] = $in_project_used ? $this->in_projects->all() : $this->filters[KlinkFacet::PROJECT_ID];
+            $filters[KlinkFilters::PROJECTS] = array_merge($filters[KlinkFilters::PROJECTS] ?? [], $this->in_projects->all());
         }
 
-        $fs_builder = KlinkFacetsBuilder::create();
-        
-        // $current_filters = null;
-    
-        if (! empty($this->filters)) {
-            $fs_names = KlinkFacetsBuilder::allNames(); //check what we have in the parameters
-
-            // also parameter validation
-
-            $current_names = [];
-
-            foreach ($fs_names as $fs) {
-                if (array_key_exists($fs, $this->filters)) {
-                    $current_names[] = $fs;
-
-                    $filter_value = implode(',', $this->filters[$fs]);
-                    
-                    try {
-                        if (! empty($filter_value)) {
-                            $fs_builder->{$fs}($filter_value, 999999999, 0);
-                        }
-                    } catch (BadMethodCallException $bmcex) {
-                        throw new BadMethodCallException(sprintf('Bad Filter invocation for "%s": %s', $fs, var_export($filter_value, true)));
-                    }
-                }
-            }
-
-            $default_facets_names = array_diff($default_facets_names, $current_names);
-        }
-    
-        //clean only filters from $default_facets_names KlinkFacet::$ONLY_FILTER
-        $default_facets_names = array_diff($default_facets_names, KlinkFacet::$ONLY_FILTER);
-    
-        // what default facets are missing? we need to add it
-        foreach ($default_facets_names as $fs) {
-            $fs_builder->{$fs}(0);
-        }
-        
-        // if there are a specific document set
         if (! is_null($this->in_documents) && $this->in_documents->count() > 0) {
-            $fs_builder->localDocumentId($this->in_documents->all());
+            $filters[KlinkFilters::UUID] = array_merge($filters[KlinkFilters::UUID] ?? [], $this->in_documents->all());
         }
 
-        return $fs_builder;
+        return $filters;
     }
-    
+
     
     // http://i.giphy.com/ujUdrdpX7Ok5W.gif
     

@@ -13,7 +13,11 @@ use Klink\DmsAdapter\KlinkVisibilityType;
 use Klink\DmsAdapter\Contracts\KlinkAdapter as AdapterContract;
 use Klink\DmsAdapter\KlinkFacetsBuilder;
 use Klink\DmsAdapter\KlinkFacetItem;
+use Klink\DmsAdapter\KlinkSearchResults;
+use Klink\DmsAdapter\KlinkSearchRequest;
 use KSearchClient\Model\Data\Data;
+use KSearchClient\Model\Data\SearchParams;
+use KSearchClient\Model\Data\Aggregation;
 
 class KlinkAdapter implements AdapterContract
 {
@@ -59,6 +63,12 @@ class KlinkAdapter implements AdapterContract
         }
     }
 
+    /**
+     * Select the client instance to use based on the visibility.
+     * 
+     * - private visibility means local client
+     * - public visibility means Network client
+     */
     private function selectConnection($visibility)
     {
         if(isset($this->connections[$visibility])){
@@ -69,76 +79,40 @@ class KlinkAdapter implements AdapterContract
     }
 
     /**
-     * {@inherits}
+     * @param KlinkSearchRequest $searchRequest
+     * @return KlinkSearchResults
      */
-    public function test($url, $username = null, $password = null)
+    public function search(KlinkSearchRequest $searchRequest)
     {
-        $authentication = null;
+        KlinkVisibilityType::fromString($searchRequest->visibility()); // check if a valid visibility is used
 
-        if(!empty($username) || !empty($password)){
-            $authentication = new Authentication($password, $username);
+        $results = KlinkSearchResults::make(
+            $this->selectConnection($searchRequest->visibility())->search($searchRequest->toSearchParams()), 
+            $searchRequest->visibility());
+
+        return $results;
+    }
+
+    /**
+     * Retrieve the available aggregated terms for the specified aggregations
+     * 
+     * @param array $facets the aggregations to activate, see KlinkFacets
+     * @return array the aggregation results
+     */
+    public function facets(array $facets, $visibility = KlinkVisibilityType::KLINK_PRIVATE, $terms = '*')
+    {
+        KlinkVisibilityType::fromString($visibility); // check if a valid visibility is used
+
+        if(empty($terms)){
+            // making sure in case a developer pass something is not null or empty string
+            $terms = '*';
         }
 
-        $client = Client::build($url, $authentication);
+        $aggregations = $this->search(KlinkSearchRequest::build($terms, $visibility, 1, 1, $facets));
 
-        return false;
+        return $aggregations->getFacets();
     }
 
-    /**
-     * Get the registered Institutions
-     *
-     * @param string $id The K-Link ID of the institution to find. Default null, all known institutions are returned
-     * @param mixed $default The default value to return in case the requested institution cannot be found. This parameter is ignored if $id is null
-     * @return Collection|Institution|null the known institutions. If the $id is passed the single institution is returned, if found
-     */
-    public function institutions($id = null, $default = null)
-    {
-        if (! is_null($id)) {
-            return $this->getInstitution($id, $default);
-        } else {
-            return $this->getInstitutions();
-        }
-    }
-
-    /**
-     * Get the institutions name given the K-Link Identifier
-     * @param  string $klink_id The K-Link institution identifier
-     * @return string           The name of the institution if exists, otherwise the passed id is returned
-     */
-    public function getInstitutionName($klink_id)
-    {
-        $cached = $this->getInstitution($klink_id, $klink_id);
-
-        return is_string($cached) ? $cached : $cached->name;
-    }
-
-    /**
-     * Retrieve an institution given its K-Link identifier
-     * @param  string $klink_id the K-Link Id
-     * @return \KlinkDMS\Institution|null the instance of Institution that corresponds to the given id or null if the institution is unknown or the id is not valid
-     */
-    private function getInstitution($klink_id, $default = null)
-    {
-        $cached = Institution::findByKlinkID($klink_id);
-
-        return $cached;
-    }
-
-    /**
-     * Get all the institutions currently available in the network.
-     *
-     * This method also synchronize the cache of the institutions with the current info coming from the network
-     *
-     * @param  array  $columns The field to return from the {@see Institution} model. Default all fields
-     * @return Collection Collection of {@see Institution}
-     */
-    private function getInstitutions($columns = ['*'], $forceSync = false)
-    {
-        $cached = Institution::all($columns);
-        
-        return $cached;
-    }
-    
     /**
      * Returns the number of indexed documents with the respect to the visibility.
      *
@@ -159,17 +133,11 @@ class KlinkAdapter implements AdapterContract
         }
 
         try {
-            $conn = $this->selectConnection($visibility);
 
-            $value = \Cache::remember($visibility.'_documents_count', 15, function () use ($conn, $visibility) {
-                \Log::info('Updating documents count cache for '.$visibility);
-                
-                $res = $conn->search('*', $visibility, 0, 0);
+            $results = $this->search(KlinkSearchRequest::build('*', $visibility, 1, 1));
 
-                return $res->getTotalResults();
-            });
+            return $results->getTotalResults();
             
-            return $value;
         } catch (\Exception $e) {
             \Log::error('Error getDocumentsCount', ['visibility' => $visibility, 'exception' => $e]);
 
@@ -177,80 +145,29 @@ class KlinkAdapter implements AdapterContract
         }
     }
 
+    
     /**
-     * Returns some documents statistics, like document types, aggregated
-     * for public and private
-     *
-     * @return array
+     * Add a KlinkDocument
+     * 
+     * @return KlinkDocumentDescriptor
      */
-    public function getDocumentsStatistics()
+    public function addDocument(KlinkDocument $document)
     {
-        $conn = $this->selectConnection('private');
+        KlinkVisibilityType::fromString($document->getDescriptor()->getVisibility()); // check if a valid visibility is used
+        /**
+         * @var KSearchClient\Model\Data\Data
+         */
+        $added_data = $this->selectConnection($document->getDescriptor()->getVisibility())
+            ->add($document->getDescriptor()->toData(), 
+                  $document->getDocumentData());
 
-        if (! \Cache::has('dms_documents_statististics')) {
-            $fs = KlinkFacetsBuilder::create()->documentType()->build();
-
-            $public_facets_response = [];
-
-            $private_facets_response = $conn->facets($fs, 'private');
-
-            $stats = $this->compactFacetResponse($public_facets_response, $private_facets_response);
-
-            \Cache::put('dms_documents_statististics', $stats, 60);
-        }
-        
-        return \Cache::get('dms_documents_statististics');
-    }
-
-    private function mapFacetItemToKeyValue(KlinkFacetItem $item)
-    {
-        return [ $item->getTerm() => $item->getOccurrenceCount() ];
-    }
-
-    private function compactFacetResponse($public_response, $private_response)
-    {
-        $public = $this->getL2Keys(array_map([$this, 'mapFacetItemToKeyValue'], array_flatten(array_pluck($public_response, 'items'))));
-
-        // the idea is document => count
-
-        $private = $this->getL2Keys(array_map([$this, 'mapFacetItemToKeyValue'], array_flatten(array_pluck($private_response, 'items'))));
-
-        $all = [];
-
-        foreach ($this->documentTypes as $type) {
-            $pu = isset($public[$type]) ? $public[$type] : 0;
-            $pr = isset($private[$type]) ? $private[$type] : 0;
-            $to = $pu + $pr;
-
-            $all[$type]['public'] = $pu;
-            $all[$type]['private'] = $pr;
-            $all[$type]['total'] = $to;
-        }
-
-        return $all;
-    }
-
-    private function getL2Keys($array)
-    {
-        $result = [];
-        foreach ($array as $sub) {
-            $result = array_merge($result, $sub);
-        }
-        return $result;
-    }
-
-    public function search($terms, $type = KlinkVisibilityType::KLINK_PRIVATE, $resultsPerPage = 10, $offset = 0, $facets = null)
-    {
-        return $this->selectConnection($type)->search($terms, $type, $resultsPerPage, $offset, $facets);
-    }
-
-    public function facets($facets, $visibility = KlinkVisibilityType::KLINK_PRIVATE, $term = '*')
-    {
-        return $this->selectConnection($visibility)->facets($facets, $visibility, $term);
+        return $document->getDescriptor();
     }
 
     public function getDocument($uuid, $visibility = KlinkVisibilityType::KLINK_PRIVATE)
     {
+        KlinkVisibilityType::fromString($visibility); // check if a valid visibility is used
+
         return $this->selectConnection($visibility)->get($uuid);
     }
 
@@ -261,6 +178,8 @@ class KlinkAdapter implements AdapterContract
 
     public function removeDocumentById($uuid, $visibility = KlinkVisibilityType::KLINK_PRIVATE)
     {
+        KlinkVisibilityType::fromString($visibility); // check if a valid visibility is used
+
         return $this->selectConnection($visibility)->delete($uuid);
     }
 
@@ -270,19 +189,18 @@ class KlinkAdapter implements AdapterContract
     }
 
     /**
-     * Add a KlinkDocument
-     * 
-     * @return KlinkDocumentDescriptor
+     * {@inherits}
      */
-    public function addDocument(KlinkDocument $document)
+    public function test($url, $username = null, $password = null)
     {
-        /**
-         * @var KSearchClient\Model\Data\Data
-         */
-        $added_data = $this->selectConnection($document->getDescriptor()->getVisibility())
-            ->add($document->getDescriptor()->toData(), 
-                  $document->getDocumentData());
+        $authentication = null;
 
-        return $document->getDescriptor();
+        if(!empty($username) || !empty($password)){
+            $authentication = new Authentication($password, $username);
+        }
+
+        $client = Client::build($url, $authentication);
+
+        return false;
     }
 }

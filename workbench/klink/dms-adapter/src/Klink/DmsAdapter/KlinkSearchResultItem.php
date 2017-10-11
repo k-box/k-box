@@ -2,43 +2,41 @@
 
 namespace Klink\DmsAdapter;
 
+use KSearchClient\Model\Data\Data;
+
 /**
- * Describe a single search result
- * 
- * @package Klink
- * @since 0.2
+ * Wrapper around Data
  */
 final class KlinkSearchResultItem
 {
 
 	/**
-	 * The result item score.
-	 * 
-	 * @var float
+	 * Tell if the result can be added to the starred documents
 	 */
-
-	public $score;
-
+	private $isStarrable = false;
+	
 	/**
-	 * The score of the result
-	 * @return float
+	 * 
 	 */
-	public function getScore() {
-		return $this->score;
-	}
+	private $starId = null;
 
+	public function __construct(Data $resultItem)
+	{
+		$this->document_descriptor = $resultItem;
+	}
 
 	/**
 	 * The document descriptor that describe the result
-	 * @var KlinkDocumentDescriptor
+	 * @var \KSearchClient\Model\Data\Data
 	 */
 	public $document_descriptor;
 
 	/**
 	 * The document descriptor that describe the result
-	 * @return KlinkDocumentDescriptor
+	 * @return \KSearchClient\Model\Data\Data
 	 */
-	public function getDescriptor() {
+	public function getDescriptor()
+	{
 		return $this->document_descriptor;
 	}
 
@@ -47,7 +45,8 @@ final class KlinkSearchResultItem
 	 * @param  [type] $property [description]
 	 * @return [type]           [description]
 	 */
-	public function __get($property) {
+	public function __get($property)
+	{
         if (property_exists($this->document_descriptor, $property)) {
             return $this->document_descriptor->$property;
         }
@@ -57,8 +56,8 @@ final class KlinkSearchResultItem
     }
 
 
-    public function __call($method, $parameters) {
-
+	public function __call($method, $parameters)
+	{
 
         if (method_exists($this->document_descriptor, $method))
 		{
@@ -68,20 +67,5 @@ final class KlinkSearchResultItem
 		return call_user_func_array(array($this, $method), $parameters);
 		// @codeCoverageIgnoreEnd
     }
-
-
-
-
-	/**
-	 * @internal
-	 */
-	function __construct()
-	{
-		$this->score = 0;
-		$this->document_descriptor = null;
-	}
-
-
-
 
 }

@@ -6,8 +6,6 @@ use Tests\TestCase;
 use KSearchClient\Model\Data\Data;
 use Klink\DmsAdapter\KlinkDocument;
 use Klink\DmsAdapter\KlinkDocumentDescriptor;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class KlinkAdapterPrivateDataManagementTest extends TestCase

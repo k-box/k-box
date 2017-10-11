@@ -6,8 +6,6 @@ use Tests\TestCase;
 use Klink\DmsAdapter\KlinkDocument;
 use Klink\DmsAdapter\Fakes\FakeKlinkAdapter;
 use Klink\DmsAdapter\KlinkDocumentDescriptor;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class FakeKlinkAdapterTest extends TestCase
 {

@@ -8,7 +8,7 @@ use Illuminate\Support\Collection;
 
 use Klink\DmsAdapter\Contracts\KlinkAdapter as AdapterContract;
 
-use Klink\DmsAdapter\KlinkSearchResult;
+use Klink\DmsAdapter\KlinkSearchResults;
 use Klink\DmsAdapter\KlinkSearchResultItem;
 use Klink\DmsAdapter\KlinkDocument;
 use Klink\DmsAdapter\KlinkDocumentDescriptor;
@@ -157,14 +157,6 @@ class FakeKlinkAdapter implements AdapterContract
         if (! static::$faker) {
             static::$faker = FakerFactory::create();
         }
-        
-        $res = new KlinkSearchResult($terms, 1, $resultsPerPage*2, $resultsPerPage);
-
-        $res->setVisibility($type);
-
-        $res->startResult = $offset;
-        $res->numResults = $resultsPerPage;
-        $res->facets = ! is_null($facets) ? self::generateFacetsResponse($facets) : self::generateFacetsResponse(KlinkFacetsBuilder::all()->build());
 
         $fakeResults = [];
         $fakeResultItem = null;
@@ -187,9 +179,21 @@ class FakeKlinkAdapter implements AdapterContract
             $fakeResults[] = $fakeResultItem;
         }
 
-        $res->items = $fakeResults;
+        
 
-        return $res;
+        $attributes = [
+            'query' => [
+                'search' => $terms,
+                'limit' => $resultsPerPage,
+                'offset' => $offset,
+                'filters' => '',
+                'aggregations' => ! is_null($facets) ? self::generateFacetsResponse($facets) : self::generateFacetsResponse(KlinkFacetsBuilder::all()->build())
+            ],
+            'items' => $fakeResults,
+
+        ];
+        
+        return KlinkSearchResults::fake($attributes, $type);
     }
 
     public static function generateFacetsResponse($facets, $visibility = KlinkVisibilityType::KLINK_PRIVATE, $term = '*')

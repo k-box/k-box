@@ -57,7 +57,7 @@
                 "tus",
                 "upload"
             ],
-            "time": "2017-08-01 12:27:28"
+            "time": "2017-08-01T12:27:28+00:00"
         },
         {
             "name": "avvertix/materialicons-laravel-bridge",
@@ -1619,7 +1619,7 @@
             "source": {
                 "type": "git",
                 "url": "https://git.klink.asia/main/k-search-client-php.git",
-                "reference": "617b920b837923495e139a4f9d4ae3d3754ce283"
+                "reference": "f753e264e344dc19ffacb120b15ad8715e0a09e8"
             },
             "require": {
                 "doctrine/annotations": "^1.4",
@@ -1671,7 +1671,7 @@
                 "wiki": "https://git.klink.asia/main/k-search-client-php/wikis/home",
                 "source": "https://git.klink.asia/main/k-search-client-php"
             },
-            "time": "2017-10-09 06:46:11"
+            "time": "2017-10-11T22:40:49+00:00"
         },
         {
             "name": "laravel/framework",

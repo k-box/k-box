@@ -113,18 +113,6 @@ class GroupsComposer
             $group = isset($view['item']) ? $view['item'] : $view['group'];
 
             $view->with('badge_shared', false);
-
-            //check if a group is shared
-            //
-            //check docs count for subgrid the thumbnail
-
-            // if($auth_user->isDMSAdmin() || $auth_user->isContentManager()){
-
-            //     $storage = $this->documents->getStorageStatus();
-
-            //     $view->with('storage_status', $storage);
-
-            // }
         }
     }
 

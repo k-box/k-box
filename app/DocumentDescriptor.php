@@ -470,7 +470,6 @@ class DocumentDescriptor extends Model
      */
     public function toKlinkDocumentDescriptor($need_public = false)
     {
-
         $descr = KlinkDocumentDescriptor::make(
             $this,
             $need_public ? KlinkVisibilityType::KLINK_PUBLIC : KlinkVisibilityType::KLINK_PRIVATE);

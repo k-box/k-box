@@ -110,9 +110,7 @@ class ThumbnailsService
     
         try {
             if ($mime === 'image/jpg' || $mime === 'image/jpeg' || $mime === 'image/png') {
-
                 $thumb_save_path = $this->generateImageThumbnail($mime, $file->absolute_path, $thumb_save_path);
-
             } elseif ($mime === 'video/mp4') {
                 $videoProcessor = app()->make(VideoProcessorFactory::class)->make();
                 
