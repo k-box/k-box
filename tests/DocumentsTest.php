@@ -9,7 +9,8 @@ use KlinkDMS\Project;
 use Carbon\Carbon;
 use KlinkDMS\Flags;
 use Klink\DmsAdapter\KlinkDocumentUtils;
-use Klink\DmsAdapter\KlinkFacetsBuilder;
+use Klink\DmsAdapter\KlinkSearchRequest;
+use Klink\DmsAdapter\KlinkSearchResults;
 use Tests\BrowserKitTestCase;
 use Klink\DmsAdapter\Exceptions\KlinkException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -657,8 +658,6 @@ class DocumentsTest extends BrowserKitTestCase
         // first indexing, like the one after the upload
         $service->reindexDocument($doc, 'private');
         
-        $facets = KlinkFacetsBuilder::i()->localDocumentID($doc->local_document_id)->build();
-        
         // Search for it, must only be indexed once
         
         $fake->assertDocumentIndexed($doc->uuid);
@@ -1153,21 +1152,13 @@ class DocumentsTest extends BrowserKitTestCase
 
         $docs = factory('KlinkDMS\DocumentDescriptor', 10)->create();
 
-        $mock = $this->withKlinkAdapterMock();
+        $adapter = $this->withKlinkAdapterFake();
 
-        $mock->shouldReceive('institutions')->andReturn(factory('KlinkDMS\Institution')->make());
+        // prepare the request
+        $searchRequest = KlinkSearchRequest::build('*', 'private', 1, 1, [], []);
         
-        $mock->shouldReceive('isNetworkEnabled')->andReturn(false);
-
-        $mock->shouldReceive('search')->andReturnUsing(function ($terms, $type, $resultsPerPage, $offset, $facets) use ($docs) {
-            $res = FakeKlinkAdapter::generateSearchResponse($terms, $type, $resultsPerPage, $offset, $facets);
-
-            $res->items = $docs->map(function ($i) {
-                return $i->toKlinkDocumentDescriptor();
-            })->toArray();
-
-            return $res;
-        });
+        // prepare some fake results
+        $adapter->setSearchResults('private', KlinkSearchResults::fake($searchRequest, []));
 
         $user = $this->createUser(Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH);
         $this->actingAs($user);

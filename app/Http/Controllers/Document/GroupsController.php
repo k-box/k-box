@@ -4,7 +4,6 @@ namespace KlinkDMS\Http\Controllers\Document;
 
 use KlinkDMS\Group;
 use KlinkDMS\Http\Controllers\Controller;
-use KlinkDMS\DocumentDescriptor;
 use KlinkDMS\Capability;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Contracts\Auth\Guard as AuthGuard;
@@ -238,8 +237,6 @@ class GroupsController extends Controller
             
             
             return false;
-        }, function ($res_item) use ($user) {
-            return DocumentDescriptor::where('local_document_id', $res_item->localDocumentID)->first();
         });
 
         $parents = $group->getAncestors()->reverse();
@@ -255,8 +252,8 @@ class GroupsController extends Controller
             'parents' => $parents,
             'pagination' => $results,
             'search_terms' => $req->term,
-            'facets' => $results->facets(),
-            'filters' => $results->filters(),
+            'facets' => $results ? $results->facets() : [],
+            'filters' => $results ? $results->filters() : [],
             'empty_message' => trans('documents.empty_msg', ['context' => $group->name]) ]);
     }
 

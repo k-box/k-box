@@ -4,9 +4,9 @@ namespace Tests\Feature;
 
 use Tests\TestCase;
 use Klink\DmsSearch\SearchRequest;
+use Klink\DmsAdapter\KlinkSearchResults;
+use Klink\DmsAdapter\KlinkSearchRequest;
 use Illuminate\Http\Request as HttpRequest;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Symfony\Component\HttpFoundation\Request as BaseRequest;
 
@@ -23,7 +23,13 @@ class SearchServiceTest extends TestCase
     
     public function testSearchServiceReturnsPaginatedDocumentDescriptors()
     {
-        // TODO: generate and index dummy Document Descriptors
+        $adapter = $this->withKlinkAdapterFake();
+
+        // prepare the request
+        $searchRequest = KlinkSearchRequest::build('*', 'private', 1, 1, [], []);
+        
+        // prepare some fake results
+        $adapter->setSearchResults('private', KlinkSearchResults::fake($searchRequest, $adapter::generateFakeResults(24)));
         
         $req = SearchRequest::create($this->createValidHttpRequest(
             [
@@ -46,7 +52,7 @@ class SearchServiceTest extends TestCase
         
         $this->assertNotNull($res->facets());
         
-        $this->assertEquals($req->limit, $res->count(), 'Document count == requested limit');
+        $this->assertTrue($res->count() >= $req->limit, 'Document count < requested limit');
         $this->assertEquals($req->limit, $res->perPage(), 'Limit count');
         
         $this->assertEquals($req->page, $res->currentPage());

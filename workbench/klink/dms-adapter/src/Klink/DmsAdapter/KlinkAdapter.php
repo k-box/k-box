@@ -4,7 +4,6 @@ namespace Klink\DmsAdapter;
 
 use Klink\DmsAdapter\KlinkDocument;
 use KlinkDMS\Option;
-use KlinkDMS\Institution;
 use KSearchClient\Client;
 use Klink\DmsAdapter\KlinkDocumentDescriptor;
 use Illuminate\Support\Collection;
@@ -18,15 +17,11 @@ use Klink\DmsAdapter\KlinkSearchRequest;
 use KSearchClient\Model\Data\Data;
 use KSearchClient\Model\Data\SearchParams;
 use KSearchClient\Model\Data\Aggregation;
+use Klink\DmsAdapter\Concerns\HasConnections;
 
 class KlinkAdapter implements AdapterContract
 {
-    /**
-     * Contains the currently configured K-Search clients
-     *
-     * @var array
-     */
-    private $connections = null;
+    use HasConnections;
 
     /**
      * The document types for the statistics
@@ -48,35 +43,23 @@ class KlinkAdapter implements AdapterContract
         ];
         
         try {
-            $can_read_options = true;
             
-            if (Option::option(Option::PUBLIC_CORE_ENABLED, false) && Option::option(Option::PUBLIC_CORE_CORRECT_CONFIG, false)) {
+            if (Option::option(Option::PUBLIC_CORE_ENABLED, false) 
+                && Option::option(Option::PUBLIC_CORE_CORRECT_CONFIG, false)) {
                 
-                // TODO: USERNAME should be the ORIGIN, so in theory the URL of the K-Box
-                
-                $this->connection[KlinkVisibilityType::KLINK_PUBLIC] = Client::build(Option::option(Option::PUBLIC_CORE_URL), new Authentication(Option::option(Option::PUBLIC_CORE_USERNAME), @base64_decode(Option::option(Option::PUBLIC_CORE_PASSWORD))));
+                $this->connections[KlinkVisibilityType::KLINK_PUBLIC] = Client::build(
+                    Option::option(Option::PUBLIC_CORE_URL), 
+                    new Authentication(
+                        @base64_decode(Option::option(Option::PUBLIC_CORE_PASSWORD)), 
+                        config('app.url')));
                 
             }
         } catch (\Exception $qe) {
-            $can_read_options = false;
             \Log::warning('Exception while reading K-Link Network settings', ['exception' => $qe]);
         }
     }
 
-    /**
-     * Select the client instance to use based on the visibility.
-     * 
-     * - private visibility means local client
-     * - public visibility means Network client
-     */
-    private function selectConnection($visibility)
-    {
-        if(isset($this->connections[$visibility])){
-            return $this->connections[$visibility];
-        }
-
-        throw new \Exception("No connection configured for visibility {$visibility}");
-    }
+    
 
     /**
      * @param KlinkSearchRequest $searchRequest
@@ -191,16 +174,44 @@ class KlinkAdapter implements AdapterContract
     /**
      * {@inherits}
      */
-    public function test($url, $username = null, $password = null)
+    public function canConnect($visibility = KlinkVisibilityType::KLINK_PRIVATE)
+    {
+        KlinkVisibilityType::fromString($visibility); // check if a valid visibility is used
+
+        try{
+            
+            $this->selectConnection($visibility)->search(KlinkSearchRequest::build('*', 'private', 1, 1)->toSearchParams());
+
+            return ['status' => 'ok'];
+
+        }catch(\Exception $ex){
+
+            return ['status' => 'error', 'error' => $ex->getMessage()];
+        }
+    }
+
+    /**
+     * {@inherits}
+     */
+    public static function test($url, $app_secret = null)
     {
         $authentication = null;
 
-        if(!empty($username) || !empty($password)){
-            $authentication = new Authentication($password, $username);
+        if(!empty($app_secret)){
+            $authentication = new Authentication($app_secret, config('app.url'));
         }
 
         $client = Client::build($url, $authentication);
 
-        return false;
+        try{
+            
+            $client->search(KlinkSearchRequest::build('*', 'private', 1, 1)->toSearchParams());
+
+            return ['status' => 'ok'];
+
+        }catch(\Exception $ex){
+
+            return ['status' => 'error', 'error' => $ex->getMessage()];
+        }
     }
 }

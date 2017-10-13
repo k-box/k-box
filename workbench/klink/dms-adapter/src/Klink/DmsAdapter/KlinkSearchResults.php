@@ -4,18 +4,13 @@ namespace Klink\DmsAdapter;
 
 use KSearchClient\Model\Data\SearchResults;
 use \Klink\DmsAdapter\KlinkSearchResultItem;
+use KSearchClient\Model\Data\AggregationResult;
 
 /**
  * Wrapper around SearchResults
  */
 final class KlinkSearchResults
 {
-
-	/**
-	 * @var \KSearchClient\Model\Data\SearchResults
-	 */
-	private $searchResults = null;
-
 
 	/**
 	 * The original query given at API invocation
@@ -200,20 +195,17 @@ final class KlinkSearchResults
 	/**
 	 * Creates a Fake KlinkSearchResults instance for testing purposes
 	 */
-	public static function fake($attributes, $visibility)
+	public static function fake(KlinkSearchRequest $request, $items, $aggregations = [], $filters = [])
 	{
-
-		$items = array_get($attributes, 'items', []);
-
-		return new self($visibility, 
-		array_get($attributes, 'query.search', '*'), 
-		array_get($attributes, 'query_search', 3), 
+		return new self($request->visibility(), 
+		$request->terms(), 
+		3, 
 		$items, 
-		array_get($attributes, 'query.limit', 10), 
-		array_get($attributes, 'query.offset', 0), 
-		array_get($attributes, 'total_matches', count($items)),
-		array_get($attributes, 'aggregations', []),
-		static::parseFilterString(array_get($attributes, 'query.filters', ''))
+		$request->limit(), 
+		$request->limit() * ($request->page() - 1), 
+		count($items),
+		$aggregations,
+		$filters
 	);
 	}
 }

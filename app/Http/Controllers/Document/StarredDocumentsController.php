@@ -5,7 +5,6 @@ namespace KlinkDMS\Http\Controllers\Document;
 use KlinkDMS\Http\Requests\StarredRequest;
 use KlinkDMS\Http\Controllers\Controller;
 use KlinkDMS\Starred;
-use KlinkDMS\DocumentDescriptor;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\JsonResponse;
 use KlinkDMS\Traits\Searchable;
@@ -70,8 +69,6 @@ class StarredDocumentsController extends Controller
             
             
             return false; // force to execute a search on the core instead on the database
-        }, function ($res_item) use ($user) {
-            return DocumentDescriptor::where('local_document_id', $res_item->localDocumentID)->first()->stars()->ofUser($user->id)->first();
         });
         
         if ($request->wantsJson()) {

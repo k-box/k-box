@@ -19,6 +19,7 @@
 
 	"require": {
 		"php": ">=5.6.4",
+		"ext-fileinfo": "*",
 		"avvertix/laravel-tus-upload": "dev-master",
 		"avvertix/materialicons-laravel-bridge": "^0.1.0",
 		"barryvdh/laravel-async-queue": "0.6.*",

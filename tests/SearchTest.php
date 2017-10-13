@@ -9,7 +9,6 @@ use KlinkDMS\DocumentDescriptor;
 use Laracasts\TestDummy\Factory;
 use Illuminate\Support\Collection;
 use Klink\DmsSearch\SearchRequest;
-use Illuminate\Http\Request;
 use KlinkDMS\Traits\Searchable;
 use Klink\DmsAdapter\Fakes\FakeKlinkAdapter;
 

@@ -123,9 +123,6 @@ class DocumentsController extends Controller
             
             
             return false; // force to execute a search on the core instead on the database
-        }, function ($res_item) {
-            $local = DocumentDescriptor::where('local_document_id', $res_item->getLocalDocumentID())->first();
-            return ! is_null($local) ? $local : $res_item;
         });
 
         // Adding user's root groups and institution level groups to the result
@@ -302,9 +299,6 @@ class DocumentsController extends Controller
             $_request->in($list_of_docs->pluck('local_document_id')->all());
             
             return false; // force to execute a search on the core instead on the database
-        }, function ($res_item) {
-            $local = DocumentDescriptor::where('local_document_id', $res_item->getLocalDocumentID())->first();
-            return ! is_null($local) ? $local : $res_item;
         });
         
         
@@ -418,9 +412,6 @@ class DocumentsController extends Controller
             
             
             return false; // force to execute a search on the core instead on the database
-        }, function ($res_item) {
-            // from KlinkSearchResultItem to Shared instance
-            return DocumentDescriptor::where('local_document_id', $res_item->localDocumentID)->first();
         });
 
         return view('documents.sharedwithme', [

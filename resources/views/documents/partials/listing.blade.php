@@ -1,5 +1,5 @@
 
-@if((isset($documents_count) && $documents_count > 0) || $documents->count() > 0)
+@if((isset($documents_count) && $documents_count > 0) || $documents && $documents->count() > 0)
 
 		@if(isset($collections))
 		@foreach ($collections as $result)

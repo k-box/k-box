@@ -25,6 +25,21 @@ class KlinkSearchRequest
 		return $this->request->visibility;
 	}
 
+	public function terms()
+	{
+		return $this->request->term;
+	}
+
+	public function limit()
+	{
+		return $this->request->limit;
+	}
+	
+	public function page()
+	{
+		return $this->request->page;
+	}
+
 	/**
 	 * @param array $filters
 	 * @return string
@@ -68,6 +83,31 @@ class KlinkSearchRequest
 		return $params;
 	}
 
+	public function __toString()
+	{
+		return "{$this->request->term} on {$this->request->visibility}";
+	}
+
+	/**
+	 * Check if two KlinkSearchRequest are equal.
+	 * 
+	 * Two instances are considered equal if have
+	 * - the same visibility
+	 * - the same terms
+	 * - the same page
+	 * - the same number of item per page
+	 * 
+	 * @param KlinkSearchRequest $instance
+	 * @return bool
+	 */
+	public function equals(KlinkSearchRequest $instance)
+	{
+		return $this->visibility() === $instance->visibility() &&
+			   $this->terms() === $instance->terms() &&
+			   $this->limit() === $instance->limit() &&
+			   $this->page() === $instance->page();
+			   
+	}
 
 	/**
 	 * Convert a SearchRequest into a KlinkSearchRequest

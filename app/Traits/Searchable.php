@@ -3,7 +3,6 @@
 namespace KlinkDMS\Traits;
 
 use BadMethodCallException;
-use Exception;
 use Klink\DmsSearch\SearchRequest;
 use KlinkDMS\Pagination\SearchResultsPaginator;
 use Illuminate\Support\Collection;

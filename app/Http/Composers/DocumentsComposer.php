@@ -12,7 +12,7 @@ use Illuminate\Contracts\View\View;
 
 use Illuminate\Support\Collection;
 use Klink\DmsAdapter\KlinkVisibilityType;
-use Klink\DmsAdapter\KlinkFacet;
+use Klink\DmsAdapter\KlinkFacets;
 
 class DocumentsComposer
 {
@@ -275,21 +275,22 @@ class DocumentsComposer
         
         if ($current_visibility=='private') {
             $cols = [
-                KlinkFacet::LANGUAGE => ['label' => trans('search.facets.language')],
-                KlinkFacet::DOCUMENT_TYPE => ['label' => trans('search.facets.documentType')],
-                KlinkFacet::PROJECT_ID => ['label' => trans('search.facets.projectId')],
+                KlinkFacets::LANGUAGE => ['label' => trans('search.facets.language')],
+                KlinkFacets::MIME_TYPE => ['label' => trans('search.facets.documentType')],
+                KlinkFacets::PROJECTS => ['label' => trans('search.facets.projectId')],
+                KlinkFacets::COLLECTIONS => ['label' => trans('search.facets.projectId')],
             ];
         } else {
             $cols = [
-                KlinkFacet::INSTITUTION_ID => ['label' => trans('search.facets.institutionId')],
-                KlinkFacet::LANGUAGE => ['label' => trans('search.facets.language')],
-                KlinkFacet::DOCUMENT_TYPE => ['label' => trans('search.facets.documentType')],
+                KlinkFacets::UPLOADER => ['label' => trans('search.facets.institutionId')],
+                KlinkFacets::LANGUAGE => ['label' => trans('search.facets.language')],
+                KlinkFacets::MIME_TYPE => ['label' => trans('search.facets.documentType')],
             ];
         }
         
         if (! is_null($facets)) {
             $group_facets = array_values(array_filter($facets, function ($f) {
-                return $f->name === KlinkFacet::DOCUMENT_GROUPS;
+                return $f->name === KlinkFacets::COLLECTIONS;
             }));
 
             if (! empty($group_facets)) {
@@ -335,7 +336,7 @@ if ($is_projectspage && (! $grp->is_private && ! $show_personal_collections_in_f
                     }
                 }
 
-                $cols[KlinkFacet::DOCUMENT_GROUPS] = [
+                $cols[KlinkFacets::COLLECTIONS] = [
                     'label' => trans('search.facets.documentGroups'),
                     'items' => $private
                 ];
@@ -344,11 +345,11 @@ if ($is_projectspage && (! $grp->is_private && ! $show_personal_collections_in_f
             foreach ($facets as $f) {
                 if (array_key_exists($f->name, $cols)) {
                     $cols[$f->name]['items'] = array_filter(array_map(function ($f_items) use ($f, $filters, $are_filters_empty, $auth_user) {
-                        if ($f->name == KlinkFacet::LANGUAGE) {
+                        if ($f->name == KlinkFacets::LANGUAGE) {
                             $f_items->label =  trans('languages.'.$f_items->term);
-                        } elseif ($f->name == KlinkFacet::DOCUMENT_TYPE) {
+                        } elseif ($f->name == KlinkFacets::MIME_TYPE) {
                             $f_items->label =  trans_choice('documents.type.'.$f_items->term, 1);
-                        } elseif ($f->name == KlinkFacet::PROJECT_ID) {
+                        } elseif ($f->name == KlinkFacets::PROJECTS) {
                             $prj = Project::find($f_items->term);
 
                             if (! is_null($prj) && Project::isAccessibleBy($prj, $auth_user)) {
@@ -374,11 +375,11 @@ if ($is_projectspage && (! $grp->is_private && ! $show_personal_collections_in_f
                             $f_items->collapsed = $f_items->count == 0;
                         }
 
-                        if ($f->name===KlinkFacet::DOCUMENT_GROUPS && ! property_exists($f_items, 'label')) {
+                        if ($f->name===KlinkFacets::COLLECTIONS && ! property_exists($f_items, 'label')) {
                             return false;
                         }
                         
-                        if ($f->name===KlinkFacet::PROJECT_ID && ! property_exists($f_items, 'label')) {
+                        if ($f->name===KlinkFacets::PROJECTS && ! property_exists($f_items, 'label')) {
                             return false;
                         }
 

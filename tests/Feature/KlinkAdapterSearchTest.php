@@ -10,6 +10,7 @@ use Klink\DmsAdapter\KlinkSearchRequest;
 use Klink\DmsAdapter\KlinkSearchResultItem;
 use Klink\DmsAdapter\KlinkFacets;
 use Klink\DmsAdapter\KlinkFilters;
+use KSearchClient\Model\Data\AggregationResult;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class KlinkAdapterSearchTest extends TestCase
@@ -23,6 +24,12 @@ class KlinkAdapterSearchTest extends TestCase
     protected function setUp()
     {
         parent::setUp();
+
+        if (empty(getenv('DMS_CORE_ADDRESS'))) {
+            $this->markTestSkipped(
+              'DMS_CORE_ADDRESS not configured for running integration tests.'
+            );
+        }
 
         // generate and index some data
         $this->adapter = app('klinkadapter');
@@ -77,11 +84,12 @@ class KlinkAdapterSearchTest extends TestCase
 
         $this->assertTrue(is_array($response));
         $this->assertArrayHasKey('properties.language', $response);
+        $this->assertNotEmpty($response['properties.language']);
+        $this->assertContainsOnlyInstancesOf(AggregationResult::class, $response['properties.language']);
     }
 
     public function test_search_retrieves_filtered_results()
     {
-
         $uuids = $this->indexedDataUUIDs->take(2);
 
         $klink_search_request = KlinkSearchRequest::build('*', 'private', 1, 10, [
