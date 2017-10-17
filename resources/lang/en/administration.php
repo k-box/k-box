@@ -162,18 +162,16 @@ return [
     'network' => [
 
         'klink_net_title' => 'K-Link Network Connection',
+        'ksearch' => 'K-Search engine Connection',
+        'ksearch_description' => 'Show the status of the connection between the K-Box and the search engine.',
 
-        'net_cards_title' => 'Network interfaces',
+        'network' => 'Connection to ":network"',
+        'network_description' => 'Show the status of the connection between the K-Box and the joined network.',
 
-        'no_cards' => 'No Network Connections found.',
-
-        'cards_problem' => 'There was a problem extracting network cards information. Here is the detailed developer response',
-
-        'current_ip' => 'Current IP Address :ip',
 
         'klink_status' => [
             'success' => 'Established and verified',
-            'failed' => 'Cannot connect to the K-Link Core',
+            'failed' => 'Cannot connect',
         ]
 
     ],

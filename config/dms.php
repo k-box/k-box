@@ -58,56 +58,17 @@ return [
 
         /*
         |--------------------------------------------------------------------------
-        | K-Link Core URL
+        | K-Link K-Search URL
         |--------------------------------------------------------------------------
         |
-        | The url of the Private K-Link Core
+        | The url of the Private K-Search
         |
         | @var string
         */
 
         'address' => getenv('DMS_CORE_ADDRESS') ?: null,
 
-        /*
-        |--------------------------------------------------------------------------
-        | K-Link Core username
-        |--------------------------------------------------------------------------
-        |
-        | The username for authenticating on the Private K-Link Core
-        |
-        | @var string
-        */
-
-        'username' => getenv('DMS_CORE_USERNAME') ?: null,
-
-        /*
-        |--------------------------------------------------------------------------
-        | K-Link Core password
-        |--------------------------------------------------------------------------
-        |
-        | The password for authenticating on the Private K-Link Core
-        |
-        | @var string
-        */
-
-        'password' => getenv('DMS_CORE_PASSWORD') ?: null,
-
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Default Document Visibility
-    |--------------------------------------------------------------------------
-    |
-    | The document visibility (private or public) that will be used as default
-    | for the newly added documents that needs to be indexed in the K-Link Core
-    |
-    | default: private
-    | @var string public or private
-    |
-    */
-
-    'default_document_visibility' => getenv('DMS_DEFAULT_DOCUMENT_VISIBILITY') ?: 'private',
 
     /*
     |--------------------------------------------------------------------------

@@ -75,14 +75,6 @@
                         </div>
 
                         <div class="c-form__field">
-                        <label for="public_core_username">{{trans('networks.settings.username')}}</label>
-                        @if( isset($errors) && $errors->has('public_core_username') )
-                            <span class="field-error">{{ implode(",", $errors->get('public_core_username'))  }}</span>
-                        @endif
-                        <input class="c-form__input" type="text" required name="public_core_username" id="public_core_username" value="{{old('public_core_username', isset($public_core_username) ? $public_core_username : '')}}">
-                        </div>
-
-                        <div class="c-form__field">
                         <label for="public_core_password">{{trans('networks.settings.password')}}</label>
                         @if( isset($errors) && $errors->has('public_core_password') )
                             <span class="field-error">{{ implode(",", $errors->get('public_core_password'))  }}</span>

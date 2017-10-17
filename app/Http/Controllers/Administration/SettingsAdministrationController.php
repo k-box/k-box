@@ -82,19 +82,15 @@ class SettingsAdministrationController extends Controller
                     $request->input(Option::PUBLIC_CORE_USERNAME) &&
                     $request->input(Option::PUBLIC_CORE_PASSWORD)) {
                     $url = $request->input(Option::PUBLIC_CORE_URL, null);
-                    $username = $request->input(Option::PUBLIC_CORE_USERNAME, null);
+                    // $username = $request->input(Option::PUBLIC_CORE_USERNAME, null);
                     $password = $request->input(Option::PUBLIC_CORE_PASSWORD, null);
                     
-                    $test_result = app('klinkadapter')->test($url, $username, $password);
+                    $test_result = app('klinkadapter')->test($url, $password);
                     
-                    if (! $test_result['result']) {
+                    if ($test_result['status'] === 'error') {
                         // failure
                         
-                        $ex_message = $test_result['error']->getMessage();
-                        
-                        if (! is_null($test_result['error']->getPrevious())) {
-                            $ex_message .= ' '.$test_result['error']->getPrevious()->getMessage();
-                        }
+                        $ex_message = $test_result['error'];
                     
                         return redirect()->back()->withInput()->withErrors([
                             'error' => trans('administration.settings.save_error', ['error' => $ex_message])
@@ -108,7 +104,7 @@ class SettingsAdministrationController extends Controller
                     
                     \Log::info('Changed Network configuration', [
                         'by_user' => $auth->user()->id,
-                        'new_config' => ['url' => $url, 'username' => $username]
+                        'new_config' => ['url' => $url]
                         ]);
                 }
 
@@ -125,12 +121,6 @@ class SettingsAdministrationController extends Controller
                 } else {
                     // disable it
                     Option::put(Option::PUBLIC_CORE_ENABLED, false);
-                }
-                
-                if ($request->has(Option::PUBLIC_CORE_DEBUG)) {
-                    Option::put(Option::PUBLIC_CORE_DEBUG, true);
-                } else {
-                    Option::put(Option::PUBLIC_CORE_DEBUG, false);
                 }
             }
       

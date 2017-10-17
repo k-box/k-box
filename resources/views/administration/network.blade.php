@@ -8,28 +8,40 @@
 
 @section('action-menu')
 
-
-<div class="action-group">
-    {{-- <a href="{{ route('administration.users.create') }}" class="button">
-        <span class="btn-icon icon-social-white icon-social-white-ic_person_add_white_24dp"></span>Create User
-    </a> --}}
-</div>
-
-
 @stop
 
 @section('page')
 
-        <div class="widget klink-network">
+    <div class="c-section">
+        <h4 class="c-section__title">{{trans('administration.network.ksearch')}}</h4>
+        <p class="c-section__description">{{trans('administration.network.ksearch_description')}}</p>
 
-            <h5>{{trans('administration.network.klink_net_title')}}</h5>
+        <div class="c-form__field">
 
-            <span class="badge {{$klink_network_connection}}">{{trans('administration.network.klink_status.' . $klink_network_connection)}}</span>
+            <span class="badge {{$local_connection}}">{{trans('administration.network.klink_status.' . $local_connection)}}</span>
 
-            @if($klink_network_connection_error)
-                {{$klink_network_connection_error->getMessage()}}
+            @if($local_connection_error)
+                {{$local_connection_error}}
             @endif
         </div>
+    </div>
 
+    @if(network_enabled())
+
+    <div class="c-section">
+        <h4 class="c-section__title">{{trans('administration.network.network', ['network' => network_name()])}}</h4>
+        <p class="c-section__description">{{trans('administration.network.network_description')}}</p>
+
+        <div class="c-form__field">
+
+            <span class="badge {{$remote_connection}}">{{trans('administration.network.klink_status.' . $remote_connection)}}</span>
+
+            @if($remote_connection_error)
+                {{$remote_connection_error}}
+            @endif
+        </div>
+    </div>
+
+    @endif
 
 @stop

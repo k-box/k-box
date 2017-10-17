@@ -1,6 +1,7 @@
 <?php
 
 use Tests\BrowserKitTestCase;
+use KlinkDMS\Option;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class NetworkAdministrationControllerTest extends BrowserKitTestCase
@@ -9,10 +10,12 @@ class NetworkAdministrationControllerTest extends BrowserKitTestCase
 
     public function testNetworkPositiveConnection()
     {
+        Option::put(Option::PUBLIC_CORE_ENABLED, true);
+
         $adapter = $this->withKlinkAdapterMock();
 
         $adapter->shouldReceive('isNetworkEnabled')->never();
-        $adapter->shouldReceive('test')->andReturn(['result' => true, 'error' => null]);
+        $adapter->shouldReceive('canConnect')->andReturn(['status' => 'ok']);
 
         $user = $this->createAdminUser();
 
@@ -20,16 +23,20 @@ class NetworkAdministrationControllerTest extends BrowserKitTestCase
 
         $this->visit(route('administration.network.index'));
 
-        $this->assertViewHas('klink_network_connection', 'success');
-        $this->assertViewHas('klink_network_connection_bool', true);
+        $this->assertViewHas('local_connection', 'success');
+        $this->assertViewHas('local_connection_bool', true);
+        $this->assertViewHas('remote_connection', 'success');
+        $this->assertViewHas('remote_connection_bool', true);
     }
     
     public function testNetworkNegativeConnection()
     {
+        Option::put(Option::PUBLIC_CORE_ENABLED, true);
+
         $adapter = $this->withKlinkAdapterMock();
 
         $adapter->shouldReceive('isNetworkEnabled')->never();
-        $adapter->shouldReceive('test')->andReturn(['result' => false, 'error' => null]);
+        $adapter->shouldReceive('canConnect')->andReturn(['status' => 'error', 'error' => 'An error message']);
 
         $user = $this->createAdminUser();
 
@@ -37,8 +44,12 @@ class NetworkAdministrationControllerTest extends BrowserKitTestCase
 
         $this->visit(route('administration.network.index'));
 
-        $this->assertViewHas('klink_network_connection', 'failed');
-        $this->assertViewHas('klink_network_connection_bool', false);
-        $this->assertViewHas('klink_network_connection_error', null);
+        $this->assertViewHas('local_connection', 'failed');
+        $this->assertViewHas('local_connection_bool', false);
+        $this->assertViewHas('local_connection_error', 'An error message');
+
+        $this->assertViewHas('remote_connection', 'failed');
+        $this->assertViewHas('remote_connection_bool', false);
+        $this->assertViewHas('remote_connection_error', 'An error message');
     }
 }

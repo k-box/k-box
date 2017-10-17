@@ -44,8 +44,7 @@ class KlinkAdapter implements AdapterContract
         
         try {
             
-            if (Option::option(Option::PUBLIC_CORE_ENABLED, false) 
-                && Option::option(Option::PUBLIC_CORE_CORRECT_CONFIG, false)) {
+            if (network_enabled()) {
                 
                 $this->connections[KlinkVisibilityType::KLINK_PUBLIC] = Client::build(
                     Option::option(Option::PUBLIC_CORE_URL), 
