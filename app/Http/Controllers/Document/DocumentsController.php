@@ -242,7 +242,7 @@ class DocumentsController extends Controller
             });
         }
 
-        $documents_query = $documents_query->orderBy('updated_at', $order)->get(['id', 'local_document_id', 'updated_at']);
+        $documents_query = $documents_query->orderBy('updated_at', $order)->get(['id', 'uuid', 'updated_at']);
         // $documents_query = $documents_query->orderBy('updated_at', $order)->get(['id', 'local_document_id', 'updated_at']);
         
         $shared_query = $shared_query->orderBy('updated_at', $order)->
@@ -250,7 +250,7 @@ class DocumentsController extends Controller
                 ->join('document_descriptors', 'shareable_id', '=', 'document_descriptors.id')
                 ->get([$descriptor_table.'.id', // this for having the descriptor ID in the id field
                        $shared_updated_at_field,
-                       $descriptor_table.'.local_document_id']);
+                       $descriptor_table.'.uuid']);
 
         // let's make them together
         $list_of_docs = $documents_query->merge($shared_query);
@@ -262,7 +262,7 @@ class DocumentsController extends Controller
             })->collapse()->map(function ($e) {
                 $internal = new DocumentDescriptor([
                     'id' => $e->id,
-                    'local_document_id' => $e->local_document_id,
+                    'uuid' => $e->uuid,
                     'updated_at' => $e->updated_at,
                 ]);
                 $internal->id = $e->id;
@@ -296,12 +296,12 @@ class DocumentsController extends Controller
                 return $all_query->orderBy('updated_at', $order); //ASC or DESC
             }
             
-            $_request->in($list_of_docs->pluck('local_document_id')->all());
+            $_request->in($list_of_docs->map->uuid->all());
             
             return false; // force to execute a search on the core instead on the database
         });
         
-        
+        dump($results);
         
         $grouped = $results->getCollection()->groupBy(function ($date) use ($start_of_week, $init_of_month, $init_of_month_diff) {
             if ($date->updated_at->isToday()) {
@@ -399,8 +399,8 @@ class DocumentsController extends Controller
             
             $all_shared = $all_single->merge($all_in_groups)->unique();
             
-            $shared_docs = $all_shared->pluck('shareable.local_document_id')->all();
-            
+            $shared_docs = $all_shared->pluck('shareable.uuid')->all();
+
             $_request->in($shared_docs);
             
             if ($_request->isPageRequested()) {

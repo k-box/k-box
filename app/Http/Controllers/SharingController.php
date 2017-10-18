@@ -86,10 +86,10 @@ class SharingController extends Controller
             
             $all_shared = $all_single->merge($all_in_groups)->unique();
             
-            $shared_docs = $all_shared->pluck('shareable.local_document_id')->all();
+            $shared_docs = $all_shared->pluck('shareable.uuid')->all();
             $shared_files_in_groups = array_flatten(array_filter($all_shared->map(function ($g) {
                 if ($g->shareable_type === 'KlinkDMS\Group' && ! is_null($g->shareable)) {
-                    return $g->shareable->documents->pluck('local_document_id')->all();
+                    return $g->shareable->documents->pluck('uuid')->all();
                 }
                 return null;
             })->all()));
@@ -103,9 +103,6 @@ class SharingController extends Controller
             }
             
             return false; // force to execute a search on the core instead on the database
-        }, function ($res_item) {
-            // from KlinkSearchResultItem to Shared instance
-            return DocumentDescriptor::where('local_document_id', $res_item->localDocumentID)->first();
         });
         
 

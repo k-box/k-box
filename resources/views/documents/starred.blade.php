@@ -8,9 +8,17 @@
 
 @section('document_area')
 			
-		@forelse ($starred as $star)
+		@forelse ($starred as $descriptor)
 
-			@include('documents.descriptor', ['item' => $star->document, 'star_id' => $star->id])
+			@if(class_basename(get_class($descriptor)) === 'Starred')
+
+				@include('documents.descriptor', ['item' => $descriptor->document, 'star_id' => $descriptor->id])
+
+			@else
+
+				@include('documents.descriptor', ['item' => $descriptor, 'star_id' => $descriptor->stars ? $descriptor->stars->first()->id : null])
+
+			@endif
 
 		@empty
 

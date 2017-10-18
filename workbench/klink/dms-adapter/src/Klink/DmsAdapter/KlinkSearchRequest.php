@@ -63,7 +63,7 @@ class KlinkSearchRequest
 				return "{$filter_name}:{$val}";
 			}, $filter_values));
 
-			return implode(' OR ', $mapped);
+			return '(' . implode(' OR ', $mapped) . ')';
 		});
 
 		$filter_string = implode(' AND ', $compacted_filters->values()->toArray());

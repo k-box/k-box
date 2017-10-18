@@ -91,7 +91,9 @@ class KlinkDocument {
 
 		if($this->isFile()){
 
-			return file_get_contents( $this->documentData );
+			\Log::warning('Using default string text instead file content for indexing');
+
+			return $this->documentData; // file_get_contents( $this->documentData );
 
 		}
 

@@ -80,7 +80,7 @@ final class RoutingHelpers
             }
             
             $active = [];
-            
+
             foreach ($current_active_filters as $key => $values) {
                 $values = array_unique($values);
                 

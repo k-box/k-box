@@ -262,6 +262,11 @@ class DocumentDescriptor extends Model
         return $this->stars()->ofUser($user_id)->first();
     }
 
+    public function getUuid()
+    {
+        return $this->uuid;
+    }
+
     /**
      * Select only the DocumentDescriptor that are physically local to the DMS
      * @return \Illuminate\Database\Eloquent\Builder

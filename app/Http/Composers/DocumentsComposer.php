@@ -276,9 +276,11 @@ class DocumentsComposer
         if ($current_visibility=='private') {
             $cols = [
                 KlinkFacets::LANGUAGE => ['label' => trans('search.facets.language')],
-                KlinkFacets::MIME_TYPE => ['label' => trans('search.facets.documentType')],
-                KlinkFacets::PROJECTS => ['label' => trans('search.facets.projectId')],
-                KlinkFacets::COLLECTIONS => ['label' => trans('search.facets.projectId')],
+                KlinkFacets::CREATED_AT => ['label' => trans('search.facets.creation')],
+                KlinkFacets::SIZE => ['label' => trans('search.facets.size')],
+                // KlinkFacets::MIME_TYPE => ['label' => trans('search.facets.documentType')],
+                // KlinkFacets::PROJECTS => ['label' => trans('search.facets.projects')],
+                // KlinkFacets::COLLECTIONS => ['label' => trans('search.facets.collections')],
             ];
         } else {
             $cols = [
@@ -289,81 +291,91 @@ class DocumentsComposer
         }
         
         if (! is_null($facets)) {
-            $group_facets = array_values(array_filter($facets, function ($f) {
-                return $f->name === KlinkFacets::COLLECTIONS;
-            }));
 
-            if (! empty($group_facets)) {
-                $private = [];
+        //   array:1 [▼
+        //     "properties.language" => array:1 [▼
+        //       0 => AggregationResult {#733 ▼
+        //         +value: "en"
+        //         +count: 1
+        //       }
+        //     ]
+        //   ]
+
+//             $group_facets = array_values(array_filter($facets, function ($f) {
+//                 return $f->name === KlinkFacets::COLLECTIONS;
+//             }));
+
+//             if (! empty($group_facets)) {
+//                 $private = [];
                 
-                $items = $group_facets[0]->items;
+//                 $items = $group_facets[0]->items;
                 
                 
-                foreach ($items as $group_facet) {
-                    try {
-                        if ($group_facet->count > 0) {
-                            $grp_id = substr($group_facet->term, 2);
+//                 foreach ($items as $group_facet) {
+//                     try {
+//                         if ($group_facet->count > 0) {
+//                             $grp_id = substr($group_facet->term, 2);
                             
-                            $grp = Group::findOrFail($grp_id);
+//                             $grp = Group::findOrFail($grp_id);
 
-                            // boxing the collections to descendant of the collection
-                            // currently browsed by the user (if any)
+//                             // boxing the collections to descendant of the collection
+//                             // currently browsed by the user (if any)
                         
-if ($is_projectspage && (! $grp->is_private && ! $show_personal_collections_in_filters) || ! $is_projectspage) {
-    if ((is_null($group_instance) &&
-                                    $this->documents->isCollectionAccessible($auth_user, $grp)) ||
-                                (! is_null($group_instance) &&
-                                    in_array($grp_id, $group_instance_descendants))) {
+// if ($is_projectspage && (! $grp->is_private && ! $show_personal_collections_in_filters) || ! $is_projectspage) {
+//     if ((is_null($group_instance) &&
+//                                     $this->documents->isCollectionAccessible($auth_user, $grp)) ||
+//                                 (! is_null($group_instance) &&
+//                                     in_array($grp_id, $group_instance_descendants))) {
                                 
-                                // considering only really accessible collections
+//                                 // considering only really accessible collections
                                 
-                                $group_facet->label = $grp->name;
-        $group_facet->selected = false;
+//                                 $group_facet->label = $grp->name;
+//         $group_facet->selected = false;
                                 
 
-        if ($grp->countAncestors() > 0) {
-            $group_facet->parents = $grp->getAncestors()->sortByDesc('depth')->implode('name', ' > ');
-        }
+//         if ($grp->countAncestors() > 0) {
+//             $group_facet->parents = $grp->getAncestors()->sortByDesc('depth')->implode('name', ' > ');
+//         }
                                 
-        $group_facet->collapsed = $group_facet->count == 0;
-        $group_facet->institution = ! $grp->is_private;
-        $group_facet->is_project = ! $grp->is_private;
-        $private[] = $group_facet;
-    }
-}
-                        }
-                    } catch (\Exception $exc) {
-                    }
-                }
+//         $group_facet->collapsed = $group_facet->count == 0;
+//         $group_facet->institution = ! $grp->is_private;
+//         $group_facet->is_project = ! $grp->is_private;
+//         $private[] = $group_facet;
+//     }
+// }
+//                         }
+//                     } catch (\Exception $exc) {
+//                     }
+//                 }
 
-                $cols[KlinkFacets::COLLECTIONS] = [
-                    'label' => trans('search.facets.documentGroups'),
-                    'items' => $private
-                ];
-            }
+//                 $cols[KlinkFacets::COLLECTIONS] = [
+//                     'label' => trans('search.facets.documentGroups'),
+//                     'items' => $private
+//                 ];
+//             }
             
-            foreach ($facets as $f) {
-                if (array_key_exists($f->name, $cols)) {
-                    $cols[$f->name]['items'] = array_filter(array_map(function ($f_items) use ($f, $filters, $are_filters_empty, $auth_user) {
-                        if ($f->name == KlinkFacets::LANGUAGE) {
-                            $f_items->label =  trans('languages.'.$f_items->term);
-                        } elseif ($f->name == KlinkFacets::MIME_TYPE) {
-                            $f_items->label =  trans_choice('documents.type.'.$f_items->term, 1);
-                        } elseif ($f->name == KlinkFacets::PROJECTS) {
-                            $prj = Project::find($f_items->term);
+            foreach ($facets as $name => $f) {
+                if (array_key_exists($name, $cols)) {
+                    $cols[$name]['items'] = array_filter(array_map(function ($f_items) use ($f, $filters, $are_filters_empty, $auth_user, $name) {
+                        if ($name == KlinkFacets::LANGUAGE) {
+                            $f_items->label =  trans('languages.'.$f_items->value);
+                        } elseif ($name == KlinkFacets::MIME_TYPE) {
+                            $f_items->label =  trans_choice('documents.type.'.$f_items->value, 1);
+                        } elseif ($name == KlinkFacets::PROJECTS) {
+                            $prj = Project::find($f_items->value);
 
                             if (! is_null($prj) && Project::isAccessibleBy($prj, $auth_user)) {
                                 $f_items->label = $prj->name;
                             }
                         } else {
-                            $lang_group = $f_items->term;
+                            $lang_group = $f_items->value;
                         }
                         
                         if (! $are_filters_empty) {
-                            if (array_key_exists($f->name, $filters) && in_array($f_items->term, $filters[$f->name])) {
+                            if (array_key_exists($name, $filters) && in_array($f_items->value, $filters[$name])) {
                                 $f_items->selected = true;
                                 $f_items->collapsed = $f_items->count == 0;
-                            } elseif (array_key_exists($f->name, $filters)) {
+                            } elseif (array_key_exists($name, $filters)) {
                                 $f_items->selected = false;
                                 $f_items->collapsed = $f_items->count == 0;
                             } else {
@@ -375,16 +387,16 @@ if ($is_projectspage && (! $grp->is_private && ! $show_personal_collections_in_f
                             $f_items->collapsed = $f_items->count == 0;
                         }
 
-                        if ($f->name===KlinkFacets::COLLECTIONS && ! property_exists($f_items, 'label')) {
+                        if ($name===KlinkFacets::COLLECTIONS && ! property_exists($f_items, 'label')) {
                             return false;
                         }
                         
-                        if ($f->name===KlinkFacets::PROJECTS && ! property_exists($f_items, 'label')) {
+                        if ($name===KlinkFacets::PROJECTS && ! property_exists($f_items, 'label')) {
                             return false;
                         }
 
                         return $f_items;
-                    }, $f->items));
+                    }, $f));
                 }
             }
         }

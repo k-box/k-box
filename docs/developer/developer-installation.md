@@ -1,5 +1,27 @@
 # Developer Oriented Installation
 
+FIRST RUN, tl;dr
+
+```bash
+npm install
+composer install --prefer-dist
+composer run install-video-cli
+chmod +x ./bin/bin/packager-linux
+
+php artisan clear-compiled
+
+create env file for configuration
+
+php artisan dms:update --no-test
+php artisan dms:create-admin admin@klink.local password
+
+npm run dev
+
+php artisan dms:lang-publish
+
+php artisan serve
+```
+
 ## Setup
 
 In order to start develop on the K-Link DMS you have to configure the environment and execute the frontend build tasks. 

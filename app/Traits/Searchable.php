@@ -3,10 +3,11 @@
 namespace KlinkDMS\Traits;
 
 use BadMethodCallException;
-use Klink\DmsSearch\SearchRequest;
-use KlinkDMS\Pagination\SearchResultsPaginator;
-use Illuminate\Support\Collection;
 use Illuminate\Http\Request;
+use Klink\DmsSearch\SearchRequest;
+use Illuminate\Support\Collection;
+use Klink\DmsSearch\SearchService;
+use KlinkDMS\Pagination\SearchResultsPaginator;
 
 /**
  * Add support for faster access to search features
@@ -75,6 +76,9 @@ trait Searchable
 
             $paginated = $total === 0 ? new Collection() : (is_a($override_response, 'Illuminate\Support\Collection') ? $override_response->forPage($request->page, $request->limit)->values() : $override_response->forPage($request->page, $request->limit)->get());
 
+            // merge th default facets with the current request
+            $request->facets(SearchService::$defaultFacets[$request->visibility]);
+
             return new SearchResultsPaginator(
                     $request->term === '*' ? '' : $request->term,
                     $paginated,
@@ -86,7 +90,7 @@ trait Searchable
                         'query' => collect($request->query)->except('highlight')->toArray(),
                     ]);
         } else {
-            $core_results = app('Klink\DmsSearch\SearchService')->search($request);
+            $core_results = app(SearchService::class)->search($request);
               
             return $core_results;
         }
@@ -98,7 +102,7 @@ trait Searchable
      */
     public function facets(SearchRequest $request)
     {
-        return app('Klink\DmsSearch\SearchService')->aggregations($request);
+        return app(SearchService::class)->aggregations($request);
     }
     
     public function searchRequestCreate(Request $request = null)

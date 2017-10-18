@@ -40,7 +40,9 @@ return [
         'language' => "Language",
         'documentType' => "Document Type",
         'documentGroups' => "Collections",
-        'projectId' => 'Project'
+        'projectId' => 'Project',
+        'collections' => "Collections",
+        'projects' => 'Project'
     ],
 
 ];

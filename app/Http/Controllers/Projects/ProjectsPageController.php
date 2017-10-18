@@ -4,7 +4,6 @@ namespace KlinkDMS\Http\Controllers\Projects;
 
 use Illuminate\Http\Request as IlluminateRequest;
 use KlinkDMS\Project;
-use KlinkDMS\DocumentDescriptor;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\JsonResponse;
 use KlinkDMS\Traits\Searchable;
@@ -34,7 +33,6 @@ class ProjectsPageController extends Controller
      * Shows the projects page as expected by the Unified Search.
      * i.e. the Project menu item on top of the projects collections
      *
-     * //TODO: (question for the future): is not the case that project management index and projects page are handled by the same controller?
      * @return \Illuminate\Http\Response
      */
     public function index(Guard $auth, IlluminateRequest $request)
@@ -64,9 +62,6 @@ class ProjectsPageController extends Controller
             }
             
             return false; // force to execute a search on the core instead on the database
-        }, function ($res_item) {
-            $local = DocumentDescriptor::where('local_document_id', $res_item->getLocalDocumentID())->first();
-            return ! is_null($local) ? $local : $res_item;
         });
 
         $view_parameters = [

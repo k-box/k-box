@@ -96,14 +96,26 @@ class SearchRequest
             
             $filters = [];
             $available_filter_names = KlinkFilters::enums();
-
+// dump($request->all());
             foreach ($available_filter_names as $constant => $klinkValue) {
 
                 $constant = strtolower($constant);
 
-                if ($request->has($constant)) {
+                $dashed_value = str_replace('.','_',$klinkValue);
+
+                $value = str_after('This is: a test', 'This is:');
+
+// dump($constant, $klinkValue);
+
+                if ($request->has($constant) ) {
                     $filters[$klinkValue] = explode(',', $request->input($constant, ''));
                 }
+
+                if ($request->has($dashed_value) ) {
+                    $filters[$klinkValue] = explode(',', $request->input($dashed_value, ''));
+                }
+
+                // isValidEnumKey
             }
 
             $instance->setIsSearchRequest($request->has('fs') || $request->input('s') || ! empty($filters));

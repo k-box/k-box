@@ -36,6 +36,17 @@ trait HasEnums
     }
 
     /**
+     * The names of the defined constants.
+     *
+     * @param null|string $group
+     * @return array
+     */
+    public static function constants($group = null)
+    {
+        return array_keys(static::enums($group));
+    }
+
+    /**
      * Check if the given value is valid within the given group.
      *
      * @param mixed $value
@@ -58,5 +69,18 @@ trait HasEnums
     public static function isValidEnumKey($key)
     {
         return array_key_exists($key, static::enums());
+    }
+
+    public static function convertToEnumKey($value, $group = null)
+    {
+        $constants = static::enums($group);
+
+        $constants_flipped = array_flip($constants);
+
+        if (array_key_exists($value, $constants_flipped)) {
+            return $constants_flipped[$value];
+        }
+
+        return null;
     }
 }

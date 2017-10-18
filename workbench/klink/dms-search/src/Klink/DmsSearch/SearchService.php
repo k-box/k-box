@@ -37,14 +37,16 @@ class SearchService
     public static $defaultFacets = [
         'public' => [
             KlinkFacets::LANGUAGE,
-            KlinkFacets::MIME_TYPE,
-            KlinkFacets::UPLOADER,
+            // KlinkFacets::MIME_TYPE,
+            // KlinkFacets::UPLOADER,
         ],
         'private' => [
             KlinkFacets::LANGUAGE,
-            KlinkFacets::MIME_TYPE,
-            KlinkFacets::COLLECTIONS,
-            KlinkFacets::PROJECTS,
+            KlinkFacets::CREATED_AT,
+            KlinkFacets::SIZE,
+            // KlinkFacets::MIME_TYPE,
+            // KlinkFacets::COLLECTIONS,
+            // KlinkFacets::PROJECTS,
         ],
     ];
 
@@ -133,6 +135,10 @@ class SearchService
 
         $this->trackSearch($request->term);
 
+        // merge the default facets for the visibility of the request
+
+        $request->facets(static::$defaultFacets[$request->visibility]);
+
         /**
          * @var KlinkSearchResults $results
          */
@@ -159,11 +165,11 @@ class SearchService
             if($request->visibility === KlinkVisibilityType::KLINK_PRIVATE){
                 
                 // we are interested in DocumentDescriptor instances as we are serving private results
-                $items = $results->getResults()->map(function($result){
-    
-                    // TODO: preload the starred relation if this document is starred by the logged in user
+                $items = $results->getResults()->map(function($result) use($current_user){
 
-                    return DocumentDescriptor::whereUuid($result->uuid)->first();
+                    return DocumentDescriptor::whereUuid($result->uuid)->with(['stars' => function ($query) use($current_user) {
+                        $query->where('user_id', $current_user->id);
+                    }])->first();
     
                 });
 
@@ -172,7 +178,7 @@ class SearchService
             $pagination = new Paginator(
                 $results->getTerms() === '*' ? '' : $results->getTerms(),
                 $items,
-                $request->explicit_filters, // $results->getFilters()
+                $request->filters,
                 $this->limitFacets($results->getFacets()),
                 $results->getTotalResults(),
                 $request->limit, $request->page, [
@@ -218,11 +224,17 @@ class SearchService
      */
     public function aggregations(SearchRequest $request)
     {
-        // TODO: this can be simplified by calling directly the KlinkAdapter::facets method
         try {
-            if (! $request->is_facets_forced && ! $request->isSearchRequested() && $request->isPageRequested()) {
-                return $this->defaultFacets($request->visibility);
-            }
+            // dump($request);
+
+            // TODO: in some cases I want the facets to be bound 
+            // to a filter to reduce the case that I see facets 
+            // for all documents, but I'm in the starred section 
+            // and no document is starred
+
+            // if (! $request->isSearchRequested() && $request->isPageRequested()) {
+            //     return $this->defaultFacets($request->visibility);
+            // }
             
             $ft_response = $this->search($request);
             
@@ -230,7 +242,7 @@ class SearchService
                 Log::error('Null search response for aggregations calculation.', ['request' => $request]);
                 return [];
             }
-            
+
             return $ft_response->facets();
         } catch (Exception $ex) {
             Log::error('Error while calculating aggregations.', ['request' => $request, 'error' => $ex]);
@@ -243,29 +255,31 @@ class SearchService
      */
     public function limitFacets($facets)
     {
-        $config = \Config::get('dms.limit_languages_to', false);
+//         $config = \Config::get('dms.limit_languages_to', false);
         
-        if ($config !== false && is_string($config) && ! is_null($facets)) {
-            $langs = explode(',', $config);
+// dump($facets);
+
+//         if ($config !== false && is_string($config) && ! is_null($facets)) {
+//             $langs = explode(',', $config);
             
-            $lang_facet = $value = array_first($facets, function ($value, $key) {
-                return $value->name === KlinkFacets::LANGUAGE;
-            }, null);
+//             $lang_facet = $value = array_first($facets, function ($value, $key) {
+//                 return $value->name === KlinkFacets::LANGUAGE;
+//             }, null);
                 
-            if (is_null($lang_facet)) {
-                return $facets;
-            }
+//             if (is_null($lang_facet)) {
+//                 return $facets;
+//             }
             
-            $items_to_keep = [];
+//             $items_to_keep = [];
             
-            foreach ($lang_facet->items as $item) {
-                if (in_array($item->term, $langs)) {
-                    $items_to_keep[] = $item;
-                }
-            }
+//             foreach ($lang_facet->items as $item) {
+//                 if (in_array($item->term, $langs)) {
+//                     $items_to_keep[] = $item;
+//                 }
+//             }
             
-            $lang_facet->items = $items_to_keep;
-        }
+//             $lang_facet->items = $items_to_keep;
+//         }
         
         return $facets;
     }

@@ -42,10 +42,10 @@ class ConvertVideo
     {
         try {
             $videoFile = $this->descriptor->file;
-
-            \Log::info('ConvertVideo', ['video' => $videoFile, 'mime' => $videoFile->mime_type, 'equal' => $videoFile->mime_type === 'video/mp4']);
-
+            
             if ($videoFile->mime_type === 'video/mp4') {
+                \Log::info("ConvertVideo called for descriptor: {$this->descriptor->id}, file: $videoFile->id");
+                
                 // prepare video for conversion only if is an mp4 file
                 \Log::info('About to call the VideoProcessorFactory');
 

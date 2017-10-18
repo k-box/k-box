@@ -55,9 +55,9 @@ class StarredDocumentsController extends Controller
         $results = $this->search($req, function ($_request) use ($user) {
             $all_starred = Starred::with('document')->ofUser($user->id);
             
-            $personal_doc_id = $all_starred->get()->pluck('document.local_document_id')->all();
-                
-            $_request->in($personal_doc_id);
+            $personal_doc_id = collect($all_starred->get()->map->document)->map->uuid;
+
+            $_request->in($personal_doc_id->toArray());
             
             if ($_request->isPageRequested() && ! $_request->isSearchRequested()) {
                 $_request->setForceFacetsRequest();
@@ -65,12 +65,9 @@ class StarredDocumentsController extends Controller
                 return $all_starred;
             }
             
-                
-            
-            
             return false; // force to execute a search on the core instead on the database
         });
-        
+    
         if ($request->wantsJson()) {
             return response()->json($results);
         }
