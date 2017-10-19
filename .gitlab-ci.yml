@@ -194,3 +194,19 @@ dms_klink_asia_deploy:
     - master
     - release
 
+## the instance on test.slmtj.net
+test_slmtj_net_deploy:
+  environment: Integration
+  when: manual
+  stage: deploy
+  tags:
+    - shell
+    - deploy
+  variables:
+    DOCKER_LOCATION: /opt/test-slmtj-net
+  script:
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
+    - docker pull $CI_REGISTRY_IMAGE:${CI_BUILD_REF_NAME/v/}
+    - cd ${DOCKER_LOCATION}
+    - docker tag $CI_REGISTRY_IMAGE:${CI_BUILD_REF_NAME/v/} dms-staging-environment
+    - docker-compose down && docker-compose up -d
