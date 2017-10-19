@@ -115,6 +115,10 @@ class ProjectsPageTest extends BrowserKitTestCase
 
     public function testProjectPageIsListingProjects()
     {
+        $this->markTestSkipped(
+            'Needs to be reimplemented.'
+          );
+
         Flags::enable(Flags::UNIFIED_SEARCH);
 
         $this->withKlinkAdapterFake();
@@ -296,7 +300,7 @@ class ProjectsPageTest extends BrowserKitTestCase
         $this->assertArraySubset(
             ['properties.language', 'properties.mime_type', 'properties.tag', 'properties.collection'],
             array_keys($columns));
-        dump($columns['properties.tag']);
+        
         $project_filters = collect($columns['properties.tag']['items'])->map(function ($el) {
             return $el->term;
         });

@@ -202,11 +202,9 @@ test_slmtj_net_deploy:
   tags:
     - shell
     - deploy
-  variables:
-    DOCKER_LOCATION: /opt/test-slmtj-net
   script:
-    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
-    - docker pull $CI_REGISTRY_IMAGE:${CI_BUILD_REF_NAME/v/}
-    - cd ${DOCKER_LOCATION}
-    - docker tag $CI_REGISTRY_IMAGE:${CI_BUILD_REF_NAME/v/} dms-staging-environment
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+    - docker pull $CI_REGISTRY_IMAGE:${CI_COMMIT_REF_NAME/v/}
+    - cd ${INTEGRATION_DOCKER_FOLDER}
+    - docker tag $CI_REGISTRY_IMAGE:${CI_COMMIT_REF_NAME/v/} $INTEGRATION_DOCKER_IMAGE
     - docker-compose down && docker-compose up -d
