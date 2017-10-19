@@ -242,15 +242,24 @@ class DocumentsController extends Controller
             });
         }
 
-        $documents_query = $documents_query->orderBy('updated_at', $order)->get(['id', 'uuid', 'updated_at']);
-        // $documents_query = $documents_query->orderBy('updated_at', $order)->get(['id', 'local_document_id', 'updated_at']);
+        $documents_query = $documents_query->orderBy('updated_at', $order)->get()->map(function ($descriptor) {
+            return [
+                'id' => $descriptor->id,
+                'uuid' => $descriptor->uuid,
+                'updated_at' => $descriptor->updated_at,
+            ];
+        });
         
         $shared_query = $shared_query->orderBy('updated_at', $order)->
                 where('shareable_type', '=', 'KlinkDMS\DocumentDescriptor')
-                ->join('document_descriptors', 'shareable_id', '=', 'document_descriptors.id')
-                ->get([$descriptor_table.'.id', // this for having the descriptor ID in the id field
-                       $shared_updated_at_field,
-                       $descriptor_table.'.uuid']);
+                ->with('shareable')
+                ->get()->map(function ($descriptor) {
+                    return [
+                            'id' => $descriptor->shareable->id,
+                            'uuid' => $descriptor->shareable->uuid,
+                            'updated_at' => $descriptor->updated_at,
+                        ];
+                });
 
         // let's make them together
         $list_of_docs = $documents_query->merge($shared_query);
@@ -260,32 +269,27 @@ class DocumentsController extends Controller
             $all_projects_with_documents = $all_projects_with_documents_query->get()->map(function ($e) {
                 return $e->collection->documents;
             })->collapse()->map(function ($e) {
-                $internal = new DocumentDescriptor([
+                return [
                     'id' => $e->id,
                     'uuid' => $e->uuid,
                     'updated_at' => $e->updated_at,
-                ]);
-                $internal->id = $e->id;
-
-                return $internal;
+                ];
             });
             
             $list_of_docs = $list_of_docs->merge($all_projects_with_documents);
         }
-
+        
         // sort all the ids, remove duplicates and take the maximum amount
         $list_of_docs = $list_of_docs->unique(function ($u) {
-            return $u->id;
+            return $u['id'];
         });
         if ($list_of_docs->count() > config('dms.recent.limit')) {
-            $list_of_docs = $list_of_docs->take(config('dms.recent.limit'))
+            $list_of_docs = $list_of_docs
                 ->sort(function ($el) {
                     return $el->updated_at->timestamp;
-                });
+                })->take(config('dms.recent.limit'));
         }
 
-        
-        // get the id of the last (bla bla bla) and group them
         
         $req->visibility('private');
         
@@ -296,13 +300,11 @@ class DocumentsController extends Controller
                 return $all_query->orderBy('updated_at', $order); //ASC or DESC
             }
             
-            $_request->in($list_of_docs->map->uuid->all());
+            $_request->in($list_of_docs->pluck('uuid')->all());
             
             return false; // force to execute a search on the core instead on the database
         });
-        
-        dump($results);
-        
+
         $grouped = $results->getCollection()->groupBy(function ($date) use ($start_of_week, $init_of_month, $init_of_month_diff) {
             if ($date->updated_at->isToday()) {
                 $group = trans('units.today');

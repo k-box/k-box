@@ -131,7 +131,7 @@ class SearchService
      */
     public function search(SearchRequest $request)
     {   
-        Log::info('Search Request', ['request' => (string)$request]);
+        Log::info('Search Request', ['request' => $request]);
 
         $this->trackSearch($request->term);
 

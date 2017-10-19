@@ -61,7 +61,6 @@ class SearchRequestTest extends TestCase
     
     public function testSearchRequestRespectFacetsAndFilters()
     {
-
         $this->markTestSkipped(
             'Needs to be reimplemented.'
           );
