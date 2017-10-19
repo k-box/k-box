@@ -244,6 +244,7 @@
 				@if(isset($filters)) filters: {!!json_encode($filters)!!}, @endif
 				isSearchRequest: {{ isset($is_search_requested) && $is_search_requested ? 'true' : 'false' }},
 				canPublish: {{ isset($can_make_public) && isset($is_klink_public_enabled) && $is_klink_public_enabled && $can_make_public ? 'true' : 'false' }},
+				canShare: {{ isset($can_share) && $can_share ? 'true' : 'false' }},
 				userIsProjectManager: {{ auth()->check() && auth()->user()->isProjectManager() ? 'true' : 'false' }}
 			});
 			Documents.groups.ensureCurrentVisibility();

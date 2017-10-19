@@ -27,6 +27,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+- Show the share item in the context menu only if the user can share
+
 ### Removed
 
 - `DocumentsService::constructLocalPathForImport` has been removed

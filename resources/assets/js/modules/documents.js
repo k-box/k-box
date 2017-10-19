@@ -1639,15 +1639,17 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
 
         if(module.context.filter !== 'trash' && (module.context.filter !== 'projectspage' || 
             (module.context.filter ==='projectspage' && module.context.isSearchRequest)) ){
-            _menu_items.push({
+            if(module.context.canShare){
+                _menu_items.push({
                 text: Lang.trans('share.share_btn'),
                 action: function(e){
                     if(!_Selection.isSelect(this, true)){
-                        _Selection.select(this, true);
+                            _Selection.select(this, true);
+                        }
+                        module.menu.share(e, this);
                     }
-                    module.menu.share(e, this);
-                }
-            });
+                });
+            }
             if(module.context.canPublish){
 
                 _menu_items.push({
