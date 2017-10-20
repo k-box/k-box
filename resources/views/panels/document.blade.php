@@ -146,7 +146,7 @@
 			<h4 class="c-panel__section">{{trans('panels.share_section_title')}}</h4>
 
 			<p style="margin-bottom:8px">
-				<a href="#" data-id="{{$item->id}}" data-action="openShareDialogWithAccess">{{ trans('share.dialog.document_is_shared') }}</a>
+				<a href="#" data-id="{{$item->id}}" @if($can_share) data-action="openShareDialogWithAccess" @endif>{{ trans('share.dialog.document_is_shared') }}</a>
 				
 				@foreach($access as $line)
 					<br/>- {{ $line }}
@@ -154,7 +154,9 @@
 				
 			</p>
 
+			@if($can_share)
 			<button class="button js-open-share-dialog" data-id="{{$item->id}}" data-action="openShareDialog">@materialicon('social','people', 'button__icon'){{ trans('panels.sharing_settings_btn') }}</button>
+			@endif
 
 		</div>
 
