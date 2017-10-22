@@ -45,6 +45,14 @@ final class KlinkDocumentDescriptor
 	public function uuid() {
         return $this->descriptor->uuid;
 	}
+	
+	public function mime_type() {
+        return $this->descriptor->mime_type;
+	}
+
+	public function file() {
+        return $this->descriptor->file;
+	}
 
 
 	/**
@@ -85,10 +93,15 @@ final class KlinkDocumentDescriptor
 
 	public function toData()
 	{
+
+		$url = $this->visibility === KlinkVisibilityType::KLINK_PRIVATE 
+					? url("/files/{$this->descriptor->file->uuid}?t={$this->descriptor->file->generateDownloadToken()}", [], false) 
+					: $this->descriptor->document_uri;
+
 		$data = new Data();
         $data->hash = $this->descriptor->hash;
         $data->type = $this->descriptor->mime_type === 'video/mp4' ? 'video' : 'document';
-        $data->url = $this->descriptor->document_uri;
+        $data->url = $url;
         $data->uuid = $this->descriptor->uuid;
 
 		$authors = empty($this->descriptor->authors) ? [$this->descriptor->user_owner] : explode(',', $this->descriptor->authors);

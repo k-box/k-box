@@ -38,14 +38,14 @@ $factory->define(KlinkDMS\File::class, function (Faker\Generator $faker) {
         mkdir(storage_path('documents'));
     }
 
-    copy(base_path('tests/data/example.pdf'), storage_path('documents/example.pdf'));
-    $path = storage_path('documents/example.pdf');
+    copy(base_path('tests/data/example.txt'), storage_path('documents/example.txt'));
+    $path = storage_path('documents/example.txt');
     
     return [
         'name' => $faker->sentence,
         'hash' => hash_file('sha512', $path),
         'path' => $path,
-        'mime_type' => 'application/pdf',
+        'mime_type' => 'text/plain',
         'user_id' => factory(KlinkDMS\User::class)->create()->id,
         'size' => $faker->randomNumber(2),
         'original_uri' => '',
@@ -87,7 +87,7 @@ $factory->define(KlinkDMS\DocumentDescriptor::class, function (Faker\Generator $
         'hash' => $hash,
         'document_uri' => $faker->url,
         'thumbnail_uri' => $faker->imageUrl,
-        'mime_type' => 'application/pdf',
+        'mime_type' => $file->mime_type,
         'visibility' => 'private',
         'document_type' => 'document',
         'user_owner' => 'some user <usr@user.com>',

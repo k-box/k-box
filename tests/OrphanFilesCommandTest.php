@@ -16,6 +16,15 @@ class OrphanFilesCommandTest extends BrowserKitTestCase
 {
     use DatabaseTransactions, RunCommand;
 
+    public function setUp()
+    {
+        parent::setUp();
+
+        \Schema::disableForeignKeyConstraints();
+        \DB::table('document_descriptors')->truncate();
+        \DB::table('files')->truncate();
+    }
+
     /**
      * @return KlinkDMS\File the orphan to be identified
      */

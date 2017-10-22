@@ -87,8 +87,8 @@ abstract class BrowserKitTestCase extends BaseTestCase
 
     protected function createDocument(User $user, $visibility = 'private')
     {
-        $template = base_path('tests/data/example.pdf');
-        $destination = storage_path('documents/example-document.pdf');
+        $template = base_path('tests/data/example.txt');
+        $destination = storage_path('documents/example-document.txt');
 
         copy($template, $destination);
 

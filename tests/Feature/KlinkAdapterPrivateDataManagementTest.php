@@ -14,13 +14,13 @@ class KlinkAdapterPrivateDataManagementTest extends TestCase
 
     protected function setUp()
     {
+        parent::setUp();
+        
         if (empty(getenv('DMS_CORE_ADDRESS'))) {
             $this->markTestSkipped(
               'DMS_CORE_ADDRESS not configured for running integration tests.'
             );
         }
-
-        parent::setUp();
     }
 
     public function test_document_descriptor_is_added()
@@ -50,7 +50,7 @@ class KlinkAdapterPrivateDataManagementTest extends TestCase
         $this->assertInstanceOf(Data::class, $response);
 
         $this->assertEquals($uuid, $response->uuid);
-        $this->assertEquals('application/pdf', $response->properties->mime_type);
+        $this->assertEquals('text/plain', $response->properties->mime_type);
 
         return $uuid;
     }

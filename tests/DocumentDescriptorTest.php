@@ -174,7 +174,11 @@ class DocumentDescriptorTest extends BrowserKitTestCase
         $this->assertEquals($document->uuid, $data1->uuid);
         $this->assertEquals('document', $data1->type);
         $this->assertEquals($document->title, $data1->properties->title);
-        $this->assertEquals($document->document_uri, $data1->url);
+        if ($visibility === KlinkVisibilityType::KLINK_PUBLIC) {
+            $this->assertEquals($document->document_uri, $data1->url);
+        } else {
+            $this->assertNotEquals($document->document_uri, $data1->url);
+        }
         $this->assertEquals($document->thumbnail_uri, $data1->properties->thumbnail);
         $this->assertEquals($document->language, $data1->properties->language);
         $this->assertEquals($document->abstract, $data1->properties->abstract);

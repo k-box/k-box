@@ -4,6 +4,8 @@ namespace Tests\Unit;
 
 use KlinkDMS\File;
 use Tests\TestCase;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Storage;
 
 class FileTest extends TestCase
@@ -155,5 +157,72 @@ class FileTest extends TestCase
 
         $this->assertNull($file->thumbnail_path);
         Storage::disk('local')->assertMissing('new_thumbnail.png');
+    }
+
+    public function test_download_token_is_generated()
+    {
+        $uuid = (new File)->resolveUuid();
+
+        $file = (new File)->forceFill([
+            'name' => 'something.txt',
+            'path' => '2017/09/something.txt',
+            'uuid' => $uuid->getBytes()
+        ]);
+
+        $token = $file->generateDownloadToken();
+
+        $plain_token = Crypt::decryptString($token);
+        
+        $components = explode('#', $plain_token);
+
+        $this->assertCount(4, $components);
+
+        $this->assertArraySubset([
+            $file->uuid,
+            $file->hash
+        ], $components);
+
+        $created_at = Carbon::createFromTimestamp($components[2]);
+        $expire_at = Carbon::createFromTimestamp($components[3]);
+
+        $this->assertTrue($created_at->isToday());
+        $this->assertTrue($expire_at->isToday());
+        $this->assertTrue($expire_at->gte($created_at));
+        $this->assertTrue($created_at->eq($expire_at->subMinutes(5)));
+        $this->assertTrue(Carbon::now()->between($created_at, $expire_at));
+    }
+
+    public function test_download_token_with_custom_duration_is_generated()
+    {
+        $uuid = (new File)->resolveUuid();
+
+        $file = (new File)->forceFill([
+            'name' => 'something.txt',
+            'hash' => 'abcdefgh',
+            'path' => '2017/09/something.txt',
+            'uuid' => $uuid->getBytes()
+        ]);
+
+        $token = $file->generateDownloadToken(10);
+
+        $plain_token = Crypt::decryptString($token);
+
+        $components = explode('#', $plain_token);
+
+        $this->assertCount(4, $components);
+
+        $this->assertArraySubset([
+            $file->uuid,
+            $file->hash
+        ], $components);
+
+        $created_at = Carbon::createFromTimestamp($components[2]);
+        $expire_at = Carbon::createFromTimestamp($components[3]);
+
+        $this->assertTrue($created_at->isToday());
+        $this->assertTrue($expire_at->isToday());
+        $this->assertTrue($expire_at->gte($created_at));
+        $this->assertTrue($created_at->eq($expire_at->subMinutes(10)));
+        $this->assertTrue(Carbon::now()->between($created_at, $expire_at));
     }
 }

@@ -8,7 +8,7 @@ use Klink\DmsAdapter\KlinkDocumentDescriptor;
 
 class KlinkDocumentDescriptorTest extends TestCase
 {
-    public function test_document_descriptor_can_be_converted_to_ksearch_data()
+    public function test_private_document_descriptor_can_be_converted_to_ksearch_data()
     {
         $descriptor = factory('KlinkDMS\DocumentDescriptor')->make([
             'authors' => 'Hello Author <hello@author.com>, Second Author <second@author.com>'
@@ -28,7 +28,8 @@ class KlinkDocumentDescriptorTest extends TestCase
         $this->assertEquals('document', $data->type);
         $this->assertEquals($descriptor->uuid, $data->uuid);
         $this->assertEquals($descriptor->hash, $data->hash);
-        $this->assertEquals($descriptor->document_uri, $data->url);
+        $this->assertRegExp('/http(.*)\/files\/(.*)\?t=(.*)/', $data->url);
+        $this->assertStringStartsWith('http:', $data->url);
         $this->assertEquals($descriptor->title, $data->properties->title);
         $this->assertEquals($descriptor->mime_type, $data->properties->mime_type);
         $this->assertEquals($descriptor->thumbnail_uri, $data->properties->thumbnail);

@@ -81,12 +81,6 @@ class KlinkDocumentUtils
 		'application/vnd.openxmlformats-officedocument.presentationml.presentation',
 		'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
 		'application/pdf',
-		'image/jpg',
-		'image/jpeg',
-		'image/gif',
-		'image/png',
-		'image/tiff',
-
 		);
 
 

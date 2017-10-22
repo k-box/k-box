@@ -13,6 +13,16 @@ class DmsUpdateCommandTest extends TestCase
 {
     use DatabaseTransactions;
 
+    public function setUp()
+    {
+        parent::setUp();
+
+        \Schema::disableForeignKeyConstraints();
+        \DB::table('document_descriptors')->truncate();
+        \DB::table('files')->truncate();
+        \DB::table('options')->truncate();
+    }
+
     /**
      * @test
      */

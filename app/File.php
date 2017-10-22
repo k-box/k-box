@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Storage;
 use Dyrynda\Database\Support\GeneratesUuid;
 use KlinkDMS\Exceptions\FileAlreadyExistsException;
 use Klink\DmsAdapter\KlinkDocumentUtils;
+use Illuminate\Support\Facades\Crypt;
 
 /**
  * The representation of a File on disk
@@ -499,6 +500,25 @@ class File extends Model
     public function getLastVersion()
     {
         return $this->last_version_recursive($this);
+    }
+
+    /**
+     * Generate a token to be used to direct download this file
+     *
+     * @param int $duration The number of minutes this token will be valid. Default 5 minutes
+     */
+    public function generateDownloadToken($duration = 5)
+    {
+        $now = Carbon::now();
+
+        $components = [
+            $this->uuid,
+            $this->hash,
+            $now->timestamp,
+            $now->addMinutes($duration ?? 5)->timestamp,
+        ];
+
+        return Crypt::encryptString(implode('#', $components));
     }
 
     /**

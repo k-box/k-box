@@ -276,6 +276,12 @@ Route::get('klink/{id}/{action}', [
         'as' => 'klink_api',
     ])->where(['id' => '[0-9A-Za-z]+', 'action' => '(thumbnail|document|preview|download)']);
 
+// Direct download of any file, given its uuid
+Route::get('files/{uuid}', [
+    'uses' => 'FileDownloadController@show',
+    'as' => 'files.download',
+]);
+
 /*
 |--------------------------------------------------------------------------
 | Authentication & Password Reset Controllers
