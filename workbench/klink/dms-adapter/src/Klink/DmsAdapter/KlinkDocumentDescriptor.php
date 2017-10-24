@@ -90,18 +90,25 @@ final class KlinkDocumentDescriptor
 		return $this;
 	}
 
+	private function buildDownloadUrl()
+	{
+		if($this->visibility === KlinkVisibilityType::KLINK_PUBLIC){
+			return $this->descriptor->document_uri;
+		}
+
+		if(config('app.url') !== config('app.internal_url')){
+			return rtrim(config('app.internal_url'), '/') . "/files/{$this->descriptor->file->uuid}?t={$this->descriptor->file->generateDownloadToken()}";
+		}
+
+		return url("/files/{$this->descriptor->file->uuid}?t={$this->descriptor->file->generateDownloadToken()}", [], false); 
+	}
 
 	public function toData()
 	{
-
-		$url = $this->visibility === KlinkVisibilityType::KLINK_PRIVATE 
-					? url("/files/{$this->descriptor->file->uuid}?t={$this->descriptor->file->generateDownloadToken()}", [], false) 
-					: $this->descriptor->document_uri;
-
 		$data = new Data();
         $data->hash = $this->descriptor->hash;
         $data->type = $this->descriptor->mime_type === 'video/mp4' ? 'video' : 'document';
-        $data->url = $url;
+        $data->url = $this->buildDownloadUrl();
         $data->uuid = $this->descriptor->uuid;
 
 		$authors = empty($this->descriptor->authors) ? [$this->descriptor->user_owner] : explode(',', $this->descriptor->authors);

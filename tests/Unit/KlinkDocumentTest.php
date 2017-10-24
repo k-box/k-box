@@ -24,6 +24,23 @@ class KlinkDocumentTest extends TestCase
         $this->assertStringStartsWith('http:', $data->url);
     }
     
+    public function test_url_to_private_file_uses_app_internal_url()
+    {
+        config([
+            'app.internal_url' => 'http://docker.for.win.localhost:8000/'
+        ]);
+
+        $descriptor = factory('KlinkDMS\DocumentDescriptor')->create();
+
+        $file = $descriptor->file;
+        $document = new KlinkDocument($descriptor->toKlinkDocumentDescriptor(), 'file content');
+
+        $data = $document->getDescriptor()->toData();
+
+        $this->assertRegExp('/http(.*)\/files\/(.*)\?t=(.*)/', $data->url);
+        $this->assertStringStartsWith('http://docker.for.win.localhost:8000/', $data->url);
+    }
+    
     public function test_url_to_public_file_is_generated()
     {
         $descriptor = factory('KlinkDMS\DocumentDescriptor')->create([

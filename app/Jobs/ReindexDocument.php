@@ -2,7 +2,6 @@
 
 namespace KlinkDMS\Jobs;
 
-use KlinkDMS\User;
 use KlinkDMS\DocumentDescriptor;
 use Klink\DmsDocuments\DocumentsService;
 
@@ -30,14 +29,12 @@ class ReindexDocument extends Job implements ShouldQueue
     /**
      * Create a new reindex document job.
      *
-     * @param User               $user       The user that have perfomed the action
      * @param DocumentDescriptor $document   The document
      * @param string             $visibility The visibility of the document that needs to be updated. Can be "public" or "private"
      */
-    public function __construct(User $user, DocumentDescriptor $document, $visibility)
+    public function __construct(DocumentDescriptor $document, $visibility)
     {
         $this->document = $document;
-        $this->user = $user;
         $this->visibility = $visibility;
     }
 
@@ -48,14 +45,16 @@ class ReindexDocument extends Job implements ShouldQueue
      */
     public function handle(DocumentsService $service)
     {
-        \Log::info('Reindex document', ['document' => $this->document, 'visibility' => $this->visibility, 'user' => $this->user]);
+        \Log::info('Reindex Job handling for '.$this->document->uuid, ['document' => $this->document, 'visibility' => $this->visibility]);
 
         try {
             $service->reindexDocument($this->document, $this->visibility, false);
 
+            // TODO: handle the check of data.status for effective completion of the operation
+
             return true;
         } catch (\Exception $ex) {
-            \Log::error('Exception during reindex document', ['document' => $this->document, 'visibility' => $this->visibility, 'user' => $this->user, 'error' => $ex]);
+            \Log::error('Exception during document reindex', ['document' => $this->document, 'visibility' => $this->visibility, 'error' => $ex]);
 
             return false;
         }

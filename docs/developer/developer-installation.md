@@ -1,6 +1,13 @@
-# Developer Oriented Installation
+# Developer Installation
 
 FIRST RUN, tl;dr
+
+requirements
+
+- a running mysql/mariadb
+- a running K-Search
+- PHP 7.0+
+- NodeJS 6.x+
 
 ```bash
 npm install
@@ -10,7 +17,9 @@ chmod +x ./bin/bin/packager-linux
 
 php artisan clear-compiled
 
-create env file for configuration
+## create env file for configuration
+
+## Make sure the storage folder has write permission
 
 php artisan dms:update --no-test
 php artisan dms:create-admin admin@klink.local password
@@ -19,10 +28,12 @@ npm run dev
 
 php artisan dms:lang-publish
 
-php artisan serve
+php artisan dms:queuelisten # for the queue runner, this is a blocking call
+
+php artisan serve # for starting the PHP integrated web server, this is a blocking call
 ```
 
-## Setup
+## Getting the code
 
 In order to start develop on the K-Link DMS you have to configure the environment and execute the frontend build tasks. 
 

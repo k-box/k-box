@@ -136,6 +136,9 @@ class KlinkAdapter implements AdapterContract
     public function addDocument(KlinkDocument $document)
     {
         KlinkVisibilityType::fromString($document->getDescriptor()->getVisibility()); // check if a valid visibility is used
+
+        \Log::info('Sending data.add request', ['data' => $document->getDescriptor()->toData(), 'dataTextualContent' => $document->getDocumentData()]);
+
         /**
          * @var KSearchClient\Model\Data\Data
          */

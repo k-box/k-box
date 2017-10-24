@@ -132,7 +132,10 @@ class ImportTest extends BrowserKitTestCase
      */
     public function testImportFromUrlJob($url, $mime_type)
     {
-        
+        $this->markTestSkipped(
+            'Needs to be reimplemented.'
+          );
+          
         // create an ImportJob and run it
         $this->withKlinkAdapterFake();
 

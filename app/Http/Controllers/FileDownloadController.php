@@ -44,7 +44,13 @@ class FileDownloadController extends Controller
             throw new ForbiddenException();
         }
 
+        \Log::info("requesting download for $uuid, with {$request->method()}", ['file' => $file]);
+
         $ascii_name = Str::ascii($file->name); // ascii name is required for the response as it is mandatory for the Symfony binary response
+
+        if (strtolower($request->method()) === 'head') {
+            return response('', 200, ['Content-Length' => 0, 'Content-Type' => 'application/pdf' ]);
+        }
 
         return response()->download($file->absolute_path, $ascii_name, [
             'Content-Type' => $file->mime_type

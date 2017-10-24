@@ -51,7 +51,20 @@ return [
     |
     */
 
-    'url' => env('APP_URL') ?: 'http://localhost/dms/',
+    'url' => env('APP_URL') ?: 'http://localhost/',
+    
+    /*
+    |--------------------------------------------------------------------------
+    | Application URL, as seen by the other containers in a Docker network
+    |--------------------------------------------------------------------------
+    |
+    | This URL is used to properly generate download URLs for a local
+    | K-Search service running in a Docker container on the host
+    | or inside a Docker network.
+    |
+    | By default is equal to app.url
+    */
+    'internal_url' => env('APP_INTERNAL_URL') ?: (env('APP_URL') ?: 'http://localhost/'),
 
     /*
     |--------------------------------------------------------------------------

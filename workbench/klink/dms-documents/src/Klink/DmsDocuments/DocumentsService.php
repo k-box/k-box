@@ -29,6 +29,7 @@ use Klink\DmsAdapter\KlinkDocument;
 use Klink\DmsAdapter\KlinkDocumentUtils;
 use Klink\DmsAdapter\KlinkVisibilityType;
 use Klink\DmsAdapter\Exceptions\KlinkException;
+use KlinkDMS\Jobs\ReindexDocument;
 
 class DocumentsService
 {
@@ -506,8 +507,9 @@ class DocumentsService
         foreach ($docs as $doc) {
             try {
                 //if is both private and public reindex on every visibility
-                $this->reindexDocument($doc, $doc->visibility, $force);
-            } catch (KlinkException $kex) {
+                dispatch(new ReindexDocument($doc, $doc->visibility));
+                
+            } catch (\Exception $kex) {
                 $errors[$doc->id] = $kex;
             }
         }
@@ -733,7 +735,7 @@ class DocumentsService
         $file->save();
 
         try {
-            $returned_descriptor = $this->reindexDocument($descriptor);
+            dispatch(new ReindexDocument($descriptor, KlinkVisibilityType::KLINK_PRIVATE));
 
             \Log::info('Core restoreDocument', ['context' => 'DocumentsService', 'response' => $returned_descriptor]);
 
@@ -1496,7 +1498,7 @@ class DocumentsService
         $group->documents()->save($document);
 
         if ($perform_reindex) {
-            $this->reindexDocument($document, 'private');
+            dispatch(new ReindexDocument($document, KlinkVisibilityType::KLINK_PRIVATE));
         }
     }
 
@@ -1531,7 +1533,7 @@ class DocumentsService
         $group->documents()->detach($document);
 
         if ($perform_reindex) {
-            $this->reindexDocument($document, 'private');
+            dispatch(new ReindexDocument($document, KlinkVisibilityType::KLINK_PRIVATE));
         }
     }
 

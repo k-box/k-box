@@ -16,6 +16,7 @@ use KlinkDMS\Http\Requests\BulkMakePublicRequest;
 use KlinkDMS\Exceptions\ForbiddenException;
 use Illuminate\Support\Collection;
 use Klink\DmsAdapter\KlinkVisibilityType;
+use KlinkDMS\Jobs\ReindexDocument;
 
 class BulkController extends Controller
 {
@@ -316,14 +317,9 @@ class BulkController extends Controller
 
             $this->service->addDocumentsToGroup($auth->user(), $documents, $add_to_this_group, false);
             
-            $reindex_went_ok = true;
-            try {
-                $this->service->reindexDocuments($documents); //documents must be a collection of DocumentDescriptors
-            } catch (\Exception $ke) {
-                // reindex exception while bulk copy to
-                \Log::warning('Reindex exception while Bulk COPY TO', ['documents_subject_to_reindex' => $docs, 'error' => $ke]);
-                $reindex_went_ok = false;
-            }
+            $documents->each(function ($document) {
+                dispatch(new ReindexDocument($document, KlinkVisibilityType::KLINK_PRIVATE));
+            });
  
 
             $status = [
@@ -336,10 +332,6 @@ class BulkController extends Controller
                     trans('documents.bulk.copy_completed_all', ['collection' => $add_to_this_group->name])
             ];
             
-            if (! $reindex_went_ok) {
-                $status['reindex'] = trans('errors.reindex_failed');
-            }
-
             if ($request->wantsJson()) {
                 return new JsonResponse($status, 200);
             }

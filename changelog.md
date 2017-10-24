@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - `organization_name` and `organization_website` fields to the User class
 - Migration of the institution name and url to `organization_name` and `organization_website` for users that have an active affiliation
 - Raw file endpoint to download file content based on file UUID. The endpoint is protected by a short lived token. This option has been added to support the full text indexing using K-Search API version 3, which requires to download the binary file as opposed to let applications send it.
+- `app.internal_url` configuration and `APP_INTERNAL_URL` environment variable for changing how the K-Search download URL for private files is built
 
 ### Changed
 
