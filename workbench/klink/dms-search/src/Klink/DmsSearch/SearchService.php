@@ -37,16 +37,14 @@ class SearchService
     public static $defaultFacets = [
         'public' => [
             KlinkFacets::LANGUAGE,
-            // KlinkFacets::MIME_TYPE,
+            KlinkFacets::MIME_TYPE,
             // KlinkFacets::UPLOADER,
         ],
         'private' => [
             KlinkFacets::LANGUAGE,
-            KlinkFacets::CREATED_AT,
-            KlinkFacets::SIZE,
-            // KlinkFacets::MIME_TYPE,
-            // KlinkFacets::COLLECTIONS,
-            // KlinkFacets::PROJECTS,
+            KlinkFacets::MIME_TYPE,
+            KlinkFacets::COLLECTIONS,
+            KlinkFacets::PROJECTS,
         ],
     ];
 

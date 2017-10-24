@@ -187,20 +187,27 @@ class DocumentDescriptorTest extends BrowserKitTestCase
 
         if ($visibility === KlinkVisibilityType::KLINK_PRIVATE) {
             $groups = $descriptor->collections();
+            $projects = $descriptor->projects();
 
             $this->assertTrue(is_array($groups));
-            $this->assertEquals($groups, $data1->properties->collection);
+            $this->assertEquals($groups, $data1->properties->collections);
+            $this->assertEquals($projects, $data1->properties->tags);
             $this->assertNotEmpty($groups, 'collection is empty');
-            $this->assertCount(6, $groups, 'collection count');
+            $this->assertNotEmpty($projects, 'projects is empty');
+            $this->assertCount(4, $groups, 'collection count');
+            $this->assertCount(2, $projects, 'projects count');
 
             $this->assertEquals([
                 $personal1->toKlinkGroup(),
                 $personal2->toKlinkGroup(),
                 $project1->collection->toKlinkGroup(),
                 $project_collection->toKlinkGroup(),
-                'p'.$project1->id,
-                'p'.$project2->id,
             ], $groups);
+            
+            $this->assertEquals([
+                $project1->id,
+                $project2->id,
+            ], $projects);
         } else {
             $this->assertEmpty($descriptor->collections(), 'collection not empty');
         }

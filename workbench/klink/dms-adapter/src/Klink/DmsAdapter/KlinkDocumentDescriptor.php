@@ -27,6 +27,8 @@ final class KlinkDocumentDescriptor
 	private $descriptor = null;
 	
 	private $collections = [];
+	
+	private $projects = [];
 
 	/**
 	 * The parameter-less constructor is used for deserialization 
@@ -90,6 +92,17 @@ final class KlinkDocumentDescriptor
 		return $this;
 	}
 
+	public function projects()
+	{
+		return $this->projects;
+	}
+	
+	public function setProjects($projects)
+	{
+		$this->projects = $projects;
+		return $this;
+	}
+
 	private function buildDownloadUrl()
 	{
 		if($this->visibility === KlinkVisibilityType::KLINK_PUBLIC){
@@ -146,7 +159,8 @@ final class KlinkDocumentDescriptor
 		$data->properties->mime_type = $this->descriptor->mime_type;
 		// TODO: setting language to en if not specified. This is due from a change in the K-Search API that do not extract language automatically
 		$data->properties->language = !is_null($this->descriptor->language) && $this->descriptor->language !== 'unknown' ? $this->descriptor->language : 'en';
-		$data->properties->collection = $this->collections;
+		$data->properties->collections = $this->collections;
+		$data->properties->tags = $this->projects;
 		
 		$created_at = $this->descriptor->created_at ? $this->descriptor->created_at : \Carbon\Carbon::now();
 		$updated_at = $this->descriptor->updated_at ? $this->descriptor->updated_at : \Carbon\Carbon::now();

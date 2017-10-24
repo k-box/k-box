@@ -18,9 +18,9 @@ class KlinkFacets
 
 	const UPLOADER = 'uploader.name';
 
-	const COLLECTIONS = 'properties.collection';
+	const COLLECTIONS = 'properties.collections';
 	
-	const PROJECTS = 'properties.tag'; // using tags as there are no dedicated fields for projects
+	const PROJECTS = 'properties.tags'; // using tags as there are no dedicated fields for projects
 
 	const CREATED_AT = 'properties.created_at';
 

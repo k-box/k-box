@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "36f322921cf52db4ca79db7f41a28809",
+    "content-hash": "68329e9814e3eece094524ba557f7c6c",
     "packages": [
         {
             "name": "avvertix/laravel-tus-upload",
@@ -1619,7 +1619,7 @@
             "source": {
                 "type": "git",
                 "url": "https://git.klink.asia/main/k-search-client-php.git",
-                "reference": "f753e264e344dc19ffacb120b15ad8715e0a09e8"
+                "reference": "b2662f24eee5003680dd43c8666794160f4ec358"
             },
             "require": {
                 "doctrine/annotations": "^1.4",
@@ -1654,6 +1654,9 @@
                     "tests/helpers.php"
                 ]
             },
+            "license": [
+                "AGPL-3.0"
+            ],
             "authors": [
                 {
                     "name": "Alessio Vertemati",
@@ -1662,6 +1665,10 @@
                 {
                     "name": "Emanuele Panzeri",
                     "email": "emanuele.panzeri@oneofftech.xyz"
+                },
+                {
+                    "name": "Carlos Reig",
+                    "email": "carlos.reig@oneofftech.xyz"
                 }
             ],
             "description": "The K-Link K-Search client",
@@ -1671,7 +1678,7 @@
                 "wiki": "https://git.klink.asia/main/k-search-client-php/wikis/home",
                 "source": "https://git.klink.asia/main/k-search-client-php"
             },
-            "time": "2017-10-11T22:40:49+00:00"
+            "time": "2017-10-24T12:10:23+00:00"
         },
         {
             "name": "laravel/framework",
@@ -6979,7 +6986,8 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=5.6.4"
+        "php": ">=5.6.4",
+        "ext-fileinfo": "*"
     },
     "platform-dev": []
 }

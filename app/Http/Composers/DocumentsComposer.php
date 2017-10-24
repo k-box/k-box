@@ -13,6 +13,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Collection;
 use Klink\DmsAdapter\KlinkVisibilityType;
 use Klink\DmsAdapter\KlinkFacets;
+use Klink\DmsAdapter\KlinkDocumentUtils;
 
 class DocumentsComposer
 {
@@ -276,15 +277,13 @@ class DocumentsComposer
         if ($current_visibility=='private') {
             $cols = [
                 KlinkFacets::LANGUAGE => ['label' => trans('search.facets.language')],
-                KlinkFacets::CREATED_AT => ['label' => trans('search.facets.creation')],
-                KlinkFacets::SIZE => ['label' => trans('search.facets.size')],
-                // KlinkFacets::MIME_TYPE => ['label' => trans('search.facets.documentType')],
-                // KlinkFacets::PROJECTS => ['label' => trans('search.facets.projects')],
-                // KlinkFacets::COLLECTIONS => ['label' => trans('search.facets.collections')],
+                KlinkFacets::MIME_TYPE => ['label' => trans('search.facets.documentType')],
+                KlinkFacets::PROJECTS => ['label' => trans('search.facets.projects')],
+                KlinkFacets::COLLECTIONS => ['label' => trans('search.facets.collections')],
             ];
         } else {
             $cols = [
-                KlinkFacets::UPLOADER => ['label' => trans('search.facets.institutionId')],
+                // KlinkFacets::UPLOADER => ['label' => trans('search.facets.institutionId')],
                 KlinkFacets::LANGUAGE => ['label' => trans('search.facets.language')],
                 KlinkFacets::MIME_TYPE => ['label' => trans('search.facets.documentType')],
             ];
@@ -301,58 +300,53 @@ class DocumentsComposer
         //     ]
         //   ]
 
-//             $group_facets = array_values(array_filter($facets, function ($f) {
-//                 return $f->name === KlinkFacets::COLLECTIONS;
-//             }));
+            $group_facets = array_key_exists(KlinkFacets::COLLECTIONS, $facets) ?  $facets[KlinkFacets::COLLECTIONS] : [];
 
-//             if (! empty($group_facets)) {
-//                 $private = [];
+            if (! empty($group_facets)) {
+                $private = [];
                 
-//                 $items = $group_facets[0]->items;
-                
-                
-//                 foreach ($items as $group_facet) {
-//                     try {
-//                         if ($group_facet->count > 0) {
-//                             $grp_id = substr($group_facet->term, 2);
+                foreach ($group_facets as $group_facet) {
+                    try {
+                        if ($group_facet->count > 0) {
+                            $grp_id = $group_facet->value;
                             
-//                             $grp = Group::findOrFail($grp_id);
+                            $grp = Group::findOrFail($grp_id);
 
-//                             // boxing the collections to descendant of the collection
-//                             // currently browsed by the user (if any)
+                            // boxing the collections to descendant of the collection
+                            // currently browsed by the user (if any)
                         
-// if ($is_projectspage && (! $grp->is_private && ! $show_personal_collections_in_filters) || ! $is_projectspage) {
-//     if ((is_null($group_instance) &&
-//                                     $this->documents->isCollectionAccessible($auth_user, $grp)) ||
-//                                 (! is_null($group_instance) &&
-//                                     in_array($grp_id, $group_instance_descendants))) {
+if ($is_projectspage && (! $grp->is_private && ! $show_personal_collections_in_filters) || ! $is_projectspage) {
+    if ((is_null($group_instance) &&
+                                    $this->documents->isCollectionAccessible($auth_user, $grp)) ||
+                                (! is_null($group_instance) &&
+                                    in_array($grp_id, $group_instance_descendants))) {
                                 
-//                                 // considering only really accessible collections
+                                // considering only really accessible collections
                                 
-//                                 $group_facet->label = $grp->name;
-//         $group_facet->selected = false;
+                                $group_facet->label = $grp->name;
+        $group_facet->selected = false;
                                 
 
-//         if ($grp->countAncestors() > 0) {
-//             $group_facet->parents = $grp->getAncestors()->sortByDesc('depth')->implode('name', ' > ');
-//         }
+        if ($grp->countAncestors() > 0) {
+            $group_facet->parents = $grp->getAncestors()->sortByDesc('depth')->implode('name', ' > ');
+        }
                                 
-//         $group_facet->collapsed = $group_facet->count == 0;
-//         $group_facet->institution = ! $grp->is_private;
-//         $group_facet->is_project = ! $grp->is_private;
-//         $private[] = $group_facet;
-//     }
-// }
-//                         }
-//                     } catch (\Exception $exc) {
-//                     }
-//                 }
+        $group_facet->collapsed = $group_facet->count == 0;
+        $group_facet->institution = ! $grp->is_private;
+        $group_facet->is_project = ! $grp->is_private;
+        $private[] = $group_facet;
+    }
+}
+                        }
+                    } catch (\Exception $exc) {
+                    }
+                }
 
-//                 $cols[KlinkFacets::COLLECTIONS] = [
-//                     'label' => trans('search.facets.documentGroups'),
-//                     'items' => $private
-//                 ];
-//             }
+                $cols[KlinkFacets::COLLECTIONS] = [
+                    'label' => trans('search.facets.documentGroups'),
+                    'items' => $private
+                ];
+            }
             
             foreach ($facets as $name => $f) {
                 if (array_key_exists($name, $cols)) {
@@ -360,7 +354,7 @@ class DocumentsComposer
                         if ($name == KlinkFacets::LANGUAGE) {
                             $f_items->label =  trans('languages.'.$f_items->value);
                         } elseif ($name == KlinkFacets::MIME_TYPE) {
-                            $f_items->label =  trans_choice('documents.type.'.$f_items->value, 1);
+                            $f_items->label =  trans_choice('documents.type.'.KlinkDocumentUtils::documentTypeFromMimeType($f_items->value), 1).' ('.KlinkDocumentUtils::getExtensionFromMimeType($f_items->value).')';
                         } elseif ($name == KlinkFacets::PROJECTS) {
                             $prj = Project::find($f_items->value);
 

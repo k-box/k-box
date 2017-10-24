@@ -484,16 +484,16 @@ class DocumentDescriptor extends Model
             // the document is in a project only if the root collection
             // of the project (or one of its children) is attached to the document
 
-            $each = $this->groups->map(function ($el) {
+            $collections = $this->groups->map(function ($el) {
                 return $el->toKlinkGroup();
             });
 
             $projects = $this->projects()->map(function ($el) {
-                return ! is_null($el) && is_a($el, 'KlinkDMS\Project') ? 'p'.$el->id : null;
+                return ! is_null($el) && is_a($el, 'KlinkDMS\Project') ? $el->id : null;
             });
             
-            // $descr->setProjects(array_filter($projects->toArray()));
-            $descr->setCollections(array_filter($each->merge($projects)->toArray()));
+            $descr->setProjects(array_filter($projects->toArray()));
+            $descr->setCollections(array_filter($collections->toArray()));
         }
         
 
