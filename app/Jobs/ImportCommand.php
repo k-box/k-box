@@ -185,6 +185,8 @@ class ImportCommand extends Job implements ShouldQueue
             if (! empty($extracted_title) && $file->name !== $extracted_title) {
                 $file->name = $extracted_title;
             }
+
+            $file->upload_completed_at = \Carbon\Carbon::now();
             
             $file->save();
             $file = $file->fresh();

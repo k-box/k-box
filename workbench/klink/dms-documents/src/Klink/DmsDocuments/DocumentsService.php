@@ -1639,6 +1639,8 @@ class DocumentsService
             $file->user_id = $uploader->id;
             $file->original_uri = $url;
             $file->is_folder = false;//if remote, the root should not be a directory
+            $file->upload_started_at = \Carbon\Carbon::now();
+            
             $file->save();
 
             $import = new Import();

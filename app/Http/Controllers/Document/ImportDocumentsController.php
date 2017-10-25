@@ -17,8 +17,6 @@ use Exception;
 
 class ImportDocumentsController extends Controller
 {
-
-    // USER + DESCR ID (INST + LOCAL DOC ID)
     use DispatchesJobs;
     /**
      * [$adapter description]

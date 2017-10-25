@@ -29,31 +29,15 @@ class ImportTest extends BrowserKitTestCase
     }
     
     
-    public function url_provider()
-    {
-        return [
-            [ 'http://www.kg.undp.org/content/dam/kyrgyzstan/Publications/env-energy/KGZ_Insulating_Your_House_280114_RUS.pdf' ],
-            [ 'http://www.kg.undp.org/content/dam/kyrgyzstan/Publications/env-energy/KGZ_Insulating_Your_House_280114_KYR-small.pdf' ],
-            [ 'http://www.conservation.org/Pages/default.aspx' ],
-            [ 'http://www.conservation.org/publications/Documents/CI_Ecosystem-based-Adaptation-South-Africa-Vulnerability-Assessment-Brochure.pdf' ],
-            [ 'https://www.change.org/p/unfccc-united-nations-framework-convention-on-climate-change-ensure-that-the-impact-of-climate-change-on-mountain-peoples-and-ecosystems-is-fully-addressed-in-the-unfccc-cop21-new-climate-deal?source_location=petitions_share_skip' ],
-            [ 'https://www.change.org/p/unfccc-united-nations-framework-convention-on-climate-change-ensure-that-the-impact-of-climate-change-on-mountain-peoples-and-ecosystems-is-fully-addressed-in-the-unfccc-cop21-new-climate-deal?source_location' ],
-            [ 'http://klink.asia' ],
-        ];
-    }
-    
-    
     public function url_import_provider()
     {
         return [
-            [ 'http://www.kg.undp.org/content/dam/kyrgyzstan/Publications/env-energy/KGZ_Insulating_Your_House_280114_RUS.pdf', 'application/pdf' ],
-            [ 'http://www.kg.undp.org/content/dam/kyrgyzstan/Publications/env-energy/KGZ_Insulating_Your_House_280114_KYR-small.pdf', 'application/pdf' ],
-            [ 'http://www.conservation.org/Pages/default.aspx', 'text/html' ],
-            [ 'http://www.conservation.org/publications/Documents/CI_Ecosystem-based-Adaptation-South-Africa-Vulnerability-Assessment-Brochure.pdf', 'application/pdf' ],
-            [ 'https://www.change.org/p/unfccc-united-nations-framework-convention-on-climate-change-ensure-that-the-impact-of-climate-change-on-mountain-peoples-and-ecosystems-is-fully-addressed-in-the-unfccc-cop21-new-climate-deal?source_location=petitions_share_skip', 'text/html' ],
-            [ 'https://www.change.org/p/unfccc-united-nations-framework-convention-on-climate-change-ensure-that-the-impact-of-climate-change-on-mountain-peoples-and-ecosystems-is-fully-addressed-in-the-unfccc-cop21-new-climate-deal?source_location', 'text/html' ],
+            [ 'http://httpbin.org/image/png', 'image/png' ],
+            [ 'https://httpbin.org/image/jpeg', 'image/jpeg' ],
             [ 'http://klink.asia', 'text/html' ],
-            [ 'http://www.iisd.org/sites/default/files/publications/mainstreaming-climate-change-toolkit-guidebook.pdf', 'application/pdf' ],
+            [ 'http://publicliterature.org/pdf/olivr11.pdf', 'application/pdf' ],
+            [ 'http://www.gutenberg.org/cache/epub/730/pg730.txt', 'text/plain' ],
+            [ 'https://vimeo.com/96680745', 'text/html' ],
         ];
     }
     
@@ -99,9 +83,9 @@ class ImportTest extends BrowserKitTestCase
     /**
      * Test if the Import job is raised when creating an import
      *
-     * @dataProvider url_provider
+     * @dataProvider url_import_provider
      */
-    public function testImportControllerCreatesImportJob($url)
+    public function testImportControllerCreatesImportJob($url, $mime_type = '')
     {
         $this->withKlinkAdapterFake();
         
@@ -132,10 +116,6 @@ class ImportTest extends BrowserKitTestCase
      */
     public function testImportFromUrlJob($url, $mime_type)
     {
-        $this->markTestSkipped(
-            'Needs to be reimplemented.'
-          );
-          
         // create an ImportJob and run it
         $this->withKlinkAdapterFake();
 
@@ -146,7 +126,6 @@ class ImportTest extends BrowserKitTestCase
         if (file_exists($save_path)) {
             unlink($save_path);
         }
-        
         
         $user = $this->createAdminUser();
         
@@ -167,24 +146,20 @@ class ImportTest extends BrowserKitTestCase
 
         dispatch(new ImportCommand($user, $import)); //make sure to have QUEUE_DRIVER=sync in testing.env
         
-        
         $saved_import = Import::with('file')->findOrFail($import->id);
         
-        
         $this->assertEquals(KlinkDMS\Import::STATUS_COMPLETED, $saved_import->status, 'Import not completed');
-        
         $this->assertEquals(KlinkDMS\Import::MESSAGE_COMPLETED, $saved_import->status_message);
-        
         $this->assertTrue(file_exists($saved_import->file->absolute_path), "File do not exists");
-        
         $this->assertEquals($saved_import->bytes_expected, $saved_import->bytes_received, "Bytes expected and received are not equals");
-        
         $this->assertNotEquals(md5($url), $saved_import->file->hash, "File hash not changed");
-        
         $this->assertNotEquals(0, $saved_import->file->size, "File Size not changed");
         $this->assertEquals($saved_import->bytes_received, $saved_import->file->size, "File Size not equal to downloaded size");
         
-        $this->assertContains($mime_type, $saved_import->file->mime_type, "Inferred mime type is different than what is expected");
+        $file = $saved_import->file;
+
+        $this->assertContains($mime_type, $file->mime_type, "Inferred mime type is different than what is expected");
+        $this->assertNotEmpty($file->upload_completed_at, "file upload completed date is empty");
     }
     
     
