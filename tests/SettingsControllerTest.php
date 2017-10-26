@@ -95,4 +95,35 @@ class SettingsControllerTest extends BrowserKitTestCase
         
         $this->assertViewHas(Option::ANALYTICS_TOKEN, '');
     }
+
+    public function test_network_settings_are_stored()
+    {
+        $user = $this->createAdminUser();
+
+        $adapter = $this->withKlinkAdapterMock();
+        
+        $adapter->shouldReceive('test')->andReturn(['status' => 'ok']);
+        
+        $this->actingAs($user);
+        
+        $this->visit(route('administration.settings.index'));
+        
+        $this->type('http://network.local', 'public_core_url');
+        $this->type('A-TOKEN', 'public_core_password');
+        $this->type('Test a network', 'public_core_network_name_ru');
+        $this->type('Test a network', 'public_core_network_name_en');
+        $this->check('public_core_enabled');
+        
+        $this->press(trans('administration.settings.save_btn'));
+        
+        $this->see(trans('administration.settings.saved'));
+        $this->dontSee('administration.settings.saved');
+                
+        $this->assertViewHas(Option::PUBLIC_CORE_ENABLED, true);
+        $this->assertViewHas(Option::PUBLIC_CORE_URL, 'http://network.local');
+        $this->assertViewHas(Option::PUBLIC_CORE_USERNAME, '');
+        $this->assertViewHas(Option::PUBLIC_CORE_PASSWORD, 'A-TOKEN');
+        $this->assertViewHas(Option::PUBLIC_CORE_NETWORK_NAME_EN, 'Test a network');
+        $this->assertViewHas(Option::PUBLIC_CORE_NETWORK_NAME_RU, 'Test a network');
+    }
 }

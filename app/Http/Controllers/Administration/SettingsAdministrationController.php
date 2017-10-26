@@ -79,10 +79,8 @@ class SettingsAdministrationController extends Controller
 
             if ($request->input('public-settings-save-btn', false) !== false) {
                 if ($request->has(Option::PUBLIC_CORE_URL) &&
-                    $request->input(Option::PUBLIC_CORE_USERNAME) &&
                     $request->input(Option::PUBLIC_CORE_PASSWORD)) {
                     $url = $request->input(Option::PUBLIC_CORE_URL, null);
-                    // $username = $request->input(Option::PUBLIC_CORE_USERNAME, null);
                     $password = $request->input(Option::PUBLIC_CORE_PASSWORD, null);
                     
                     $test_result = app('klinkadapter')->test($url, $password);
@@ -98,7 +96,6 @@ class SettingsAdministrationController extends Controller
                     }
                     
                     Option::put(Option::PUBLIC_CORE_URL, $url);
-                    Option::put(Option::PUBLIC_CORE_USERNAME, $username);
                     Option::put(Option::PUBLIC_CORE_PASSWORD, base64_encode($password));
                     Option::put(Option::PUBLIC_CORE_CORRECT_CONFIG, true);
                     
