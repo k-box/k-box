@@ -4,6 +4,7 @@ namespace KlinkDMS\DocumentsElaboration\Actions;
 
 use KlinkDMS\Jobs\ConvertVideo;
 use KlinkDMS\Contracts\Action;
+use OneOffTech\VideoProcessing\VideoProcessorFactory;
 
 class ElaborateVideo extends Action
 {
@@ -11,9 +12,10 @@ class ElaborateVideo extends Action
 
     public function run($descriptor)
     {
-        \Log::info('Elaborate video action called');
-
-        dispatch(new ConvertVideo($descriptor));
+        if (VideoProcessorFactory::isInstalled()) {
+            \Log::info("Elaborate video action queued for $descriptor->uuid");
+            dispatch(new ConvertVideo($descriptor));
+        }
         
         return $descriptor;
     }

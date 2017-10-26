@@ -32,6 +32,7 @@ use Illuminate\Support\Facades\Crypt;
  * @property int $revision_of the id of the previous version of the file
  * @property string $mime_type the file mime type
  * @property bool $is_folder if this was a folder being imported in the K-Box
+ * @property \Illuminate\Support\Collection $properties additional properties of the file, as a collection
  * @property-read \KlinkDMS\DocumentDescriptor $document the related Document Descriptor
  * @property-read \KlinkDMS\File $revisionOf the previous version of the File
  * @property-read \KlinkDMS\User $user The User that uploaded the file.
@@ -97,7 +98,8 @@ class File extends Model
     protected $dates = ['deleted_at', 'upload_started_at', 'upload_completed_at'];
 
     protected $casts = [
-        'uuid' => 'uuid'
+        'uuid' => 'uuid',
+        'properties' => 'collection',
     ];
 
     /**
@@ -500,6 +502,16 @@ class File extends Model
     public function getLastVersion()
     {
         return $this->last_version_recursive($this);
+    }
+
+    /**
+     * Check if file is a video
+     *
+     * @return bool true if file is a MP4 video, false otherwise
+     */
+    public function isVideo()
+    {
+        return $this->mime_type === 'video/mp4';
     }
 
     /**

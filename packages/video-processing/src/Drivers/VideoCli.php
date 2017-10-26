@@ -45,7 +45,7 @@ class VideoCli
 
     public function run()
     {
-        $driver = $this->getVideoCliExecutable();
+        $driver = self::getVideoCliExecutable();
 
         if (is_bool($driver) || realpath($driver) === false) {
             throw new RuntimeException("Invalid Video CLI path [{$driver}].");
@@ -109,7 +109,7 @@ class VideoCli
         return $this->process ? $this->process->getExitCode() : -1;
     }
 
-    private function getVideoCliExecutable()
+    private static function getVideoCliExecutable()
     {
         $suffixes = [
             '',
@@ -128,5 +128,20 @@ class VideoCli
         }
 
         throw new RuntimeException("No Video CLI executable found in [{$dir}].");
+    }
+
+    public static function isInstalled()
+    {
+        try {
+            static::getVideoCliExecutable();
+
+            return true;
+        } catch (RuntimeException $ex) {
+            if (starts_with($ex->getMessage(), "No Video CLI executable found")) {
+                return false;
+            }
+
+            throw $ex;
+        }
     }
 }

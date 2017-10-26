@@ -225,4 +225,20 @@ class FileTest extends TestCase
         $this->assertTrue($created_at->eq($expire_at->subMinutes(10)));
         $this->assertTrue(Carbon::now()->between($created_at, $expire_at));
     }
+
+    public function test_file_properties_are_saved()
+    {
+        $uuid = (new File)->resolveUuid();
+        
+        $file = (new File)->forceFill([
+            'name' => 'something.txt',
+            'hash' => 'abcdefgh',
+            'path' => '2017/09/something.txt',
+            'uuid' => $uuid->getBytes(),
+            'properties' => ['author' => 'Jules']
+        ]);
+
+        $this->assertNotEmpty($file->properties);
+        $this->assertInstanceOf(\Illuminate\Support\Collection::class, $file->properties);
+    }
 }

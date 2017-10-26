@@ -2,6 +2,8 @@
 
 namespace OneOffTech\VideoProcessing;
 
+use OneOffTech\VideoProcessing\Drivers\VideoCli;
+
 /**
  * @see \OneOffTech\VideoProcessing\LocalVideoProcessor
  */
@@ -12,8 +14,14 @@ class VideoProcessorFactory
      *
      * @return \OneOffTech\VideoProcessing\Contracts\VideoProcessor
      */
-     public function make()
-     {
-         return new LocalVideoProcessor();
-     }
+    public function make()
+    {
+        return new LocalVideoProcessor();
+    }
+
+    public static function isInstalled()
+    {
+        // VideoProcessorFactory
+       return VideoCli::isInstalled();
+    }
 }

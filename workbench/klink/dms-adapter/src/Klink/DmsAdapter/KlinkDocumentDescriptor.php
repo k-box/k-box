@@ -11,12 +11,17 @@ use KSearchClient\Model\Data\Properties;
 use Klink\DmsAdapter\KlinkVisibilityType;
 use KSearchClient\Model\Data\CopyrightOwner;
 use KSearchClient\Model\Data\CopyrightUsage;
+use KSearchClient\Model\Data\Properties\Video as VideoProperties;
+use KSearchClient\Model\Data\Properties\Audio as AudioProperties;
+use KSearchClient\Model\Data\Properties\Source as VideoSource;
 
 /**
  * The mapping between DocumentDescriptor and K-Search Data model
  */
 final class KlinkDocumentDescriptor
 {
+	const DATA_TYPE_DOCUMENT = Data::DATA_TYPE_DOCUMENT;
+	const DATA_TYPE_VIDEO = Data::DATA_TYPE_VIDEO;
 	
 	/**
 	 * visibility
@@ -118,14 +123,18 @@ final class KlinkDocumentDescriptor
 
 	public function toData()
 	{
+		// grab the information of the data type to be used to express properties on the search
+
+		$file_properties = $this->descriptor->isMine() && $this->descriptor->file->properties ? (collect(array_dot($this->descriptor->file->properties)) ?? collect()) : collect();
+		$data_type = $this->descriptor->mime_type === 'video/mp4' ? self::DATA_TYPE_VIDEO : self::DATA_TYPE_DOCUMENT;
 		$data = new Data();
         $data->hash = $this->descriptor->hash;
-        $data->type = $this->descriptor->mime_type === 'video/mp4' ? 'video' : 'document';
+        $data->type = $data_type;
         $data->url = $this->buildDownloadUrl();
         $data->uuid = $this->descriptor->uuid;
-
+		
 		$authors = empty($this->descriptor->authors) ? [$this->descriptor->user_owner] : explode(',', $this->descriptor->authors);
-
+		
 		// Author is a required field, so if no authors are inserted by humans I will add the owner as an author. 
         $data->author = array_filter(array_map(function($author_string){
 			$splitted = explode('<', $author_string);
@@ -134,12 +143,12 @@ final class KlinkDocumentDescriptor
 			$author->email = rtrim(trim($splitted[1]), '>');
 			return $author;
 		}, $authors));
-
+		
 		$uploader = new Uploader();
 		// TODO: this is only a default value for initial usage, this must be changed to reflect the uploader that should be shown
         $uploader->name = $this->descriptor->user_owner;
         $uploader->url = url('/');
-
+		
         $data->uploader = $uploader;
 
 		// considering that copyright options are not configurable, 
@@ -152,7 +161,7 @@ final class KlinkDocumentDescriptor
         $data->copyright->usage->short = 'C';
         $data->copyright->usage->name = 'All right reserved';
         $data->copyright->usage->reference = '';
-
+		
         $data->properties = new Properties();
         $data->properties->title = $this->descriptor->title;
         $data->properties->filename = $this->descriptor->isMine() ? $this->descriptor->file->name : $this->descriptor->title;
@@ -169,13 +178,42 @@ final class KlinkDocumentDescriptor
         $data->properties->updated_at = new \DateTime($updated_at->format('Y-m-d H:i:s.u'), $updated_at->getTimezone());
         $data->properties->size = $this->descriptor->isMine() ? $this->descriptor->file->size : 0;
         $data->properties->abstract = $this->descriptor->abstract;
-        $data->properties->thumbnail = $this->descriptor->thumbnail_uri;
+		$data->properties->thumbnail = $this->descriptor->thumbnail_uri;
+		
+		if($data_type === self::DATA_TYPE_VIDEO){
+			
+			$video_properties = new VideoProperties();
+			
+			$video_properties->duration = $file_properties->get('duration', 'unknown');
+			
+			$video_properties->source = tap(new VideoSource(), function($source) use($file_properties){
 
+				$format = array_filter([$file_properties->get('format_long', ''), $file_properties->get('video.codec', '')]);
+
+				$source->format = implode(', ', $format);
+				$source->resolution = $file_properties->get('video.resolution', 'unknown'); 
+				$source->bitrate = $file_properties->get('bitrate', 'unknown'); 
+			});
+			
+			$data->properties->video = $video_properties;
+			
+			if($file_properties->has('audio.codec') && $file_properties->has('audio.sample_rate')){
+
+				$audio_properties = tap(new AudioProperties(), function($audio) use($file_properties){
+					$audio->bitrate = $file_properties->get('audio.sample_rate', 'unknown');
+					$audio->format = $file_properties->get('audio.codec', 'unknown');
+				});
+
+				$data->properties->audio = [$audio_properties];
+
+			}
+		}
+		
         return $data;
 	}
-
-
-
+	
+	
+	
 	/**
 	 * Build an instance of KlinkDocumentDescriptor
 	 * 

@@ -42,13 +42,7 @@
 
 <form action="{{route('documents.update', $document->id)}}" class="c-form edit-view" enctype="multipart/form-data" method="post" class="document-form" id="edit-form">
 
-	@if(!$document->trashed() && $document->isMine() && $document->isFileUploadComplete() && !$document->isIndexed())
-	
-	<div class="c-message">
-		{!!trans('documents.edit.not_index_message')!!}
-	</div>
-
-	@elseif(!$document->trashed() && $document->isMine() && !$document->isFileUploadComplete())
+	@if(!$document->trashed() && $document->isMine() && !$document->isFileUploadComplete())
 	
 	<div class="c-message c-message--warning">
 		{!!trans('documents.edit.not_fully_uploaded')!!}
@@ -151,7 +145,7 @@
 
 			
 
-			
+
 
 	</div>
 

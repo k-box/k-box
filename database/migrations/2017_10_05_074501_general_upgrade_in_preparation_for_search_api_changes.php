@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\QueryException;
 
 class GeneralUpgradeInPreparationForSearchApiChanges extends Migration
 {
@@ -14,8 +15,15 @@ class GeneralUpgradeInPreparationForSearchApiChanges extends Migration
     public function up()
     {
         Schema::table('microsites', function (Blueprint $table) {
-            $table->dropForeign('microsites_institution_id_foreign');
+            try{
+                $table->dropForeign('microsites_institution_id_foreign');
+            }catch(QueryException $ex){}
+                
             $table->dropColumn('institution_id');
+        });
+        
+        Schema::table('files', function (Blueprint $table) {
+            $table->text('properties')->nullable();
         });
     }
 
@@ -30,7 +38,13 @@ class GeneralUpgradeInPreparationForSearchApiChanges extends Migration
             // this will not restore the data, but at least redefines 
             // the table and the foreign key
             $table->bigInteger('institution_id')->nullable();
-            $table->foreign('institution_id')->references('id')->on('institutions');
+            try{
+                $table->foreign('institution_id')->references('id')->on('institutions');
+            }catch(QueryException $ex){}
+        });
+
+        Schema::table('files', function (Blueprint $table) {
+            $table->dropColumn('properties');
         });
     }
 }

@@ -17,7 +17,7 @@ class LocalVideoProcessor implements VideoProcessorContract
      */
      public function details($file, $options = [])
      {
-         $options = new VideoCliOptions('details', $file);
+         $options = new VideoCliOptions('details', $file, ['--json']);
         
          $cli = tap(new VideoCli($options))->run();
 
@@ -60,5 +60,10 @@ class LocalVideoProcessor implements VideoProcessorContract
         $out = $cli->output();
         
         return $out;
+    }
+
+    public function isInstalled()
+    {
+        return VideoCli::isInstalled();
     }
 }

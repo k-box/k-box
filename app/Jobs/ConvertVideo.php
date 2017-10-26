@@ -43,17 +43,19 @@ class ConvertVideo
         try {
             $videoFile = $this->descriptor->file;
             
-            if ($videoFile->mime_type === 'video/mp4') {
+            if ($videoFile->isVideo()) {
                 \Log::info("ConvertVideo called for descriptor: {$this->descriptor->id}, file: $videoFile->id");
                 
                 // prepare video for conversion only if is an mp4 file
                 \Log::info('About to call the VideoProcessorFactory');
 
                 $videoProcessor = app()->make(VideoProcessorFactory::class)->make();
-    
-                $out = $videoProcessor->streamify($videoFile->absolute_path);
 
-                \Log::info('VideoCovert streamify', ['out' => $out]);
+                if ($videoProcessor->isInstalled()) {
+                    $out = $videoProcessor->streamify($videoFile->absolute_path);
+    
+                    \Log::info('VideoCovert streamify', ['out' => $out]);
+                }
             }
         } catch (Exception $ex) {
             Log::error('Video conversion error', ['descriptor' => $this->descriptor, 'error' => $ex]);

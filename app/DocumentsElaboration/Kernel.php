@@ -14,6 +14,7 @@ class Kernel
      * @var array
      */
     protected $actions = [
+        \KlinkDMS\DocumentsElaboration\Actions\ExtractFileProperties::class,
         \KlinkDMS\DocumentsElaboration\Actions\AddToSearch::class,
         \KlinkDMS\DocumentsElaboration\Actions\GenerateThumbnail::class,
         \KlinkDMS\DocumentsElaboration\Actions\ElaborateVideo::class,
