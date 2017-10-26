@@ -15,6 +15,7 @@ return [
     '' => 'No language recognized',
     'en' => 'English',
     'ru' => 'Russian',
+    'tg' => 'Tajik',
     'ky' => 'Kyrgyz',
     'de' => 'German',
     'it' => 'Italian',
