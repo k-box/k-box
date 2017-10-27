@@ -2,6 +2,7 @@
 
 namespace Klink\DmsAdapter;
 
+use BadMethodCallException;
 use KSearchClient\Model\Data\Data;
 
 /**
@@ -50,9 +51,13 @@ final class KlinkSearchResultItem
         if (property_exists($this->document_descriptor, $property)) {
             return $this->document_descriptor->$property;
         }
-		// @codeCoverageIgnoreStart
-		return $this->$property;
-		// @codeCoverageIgnoreEnd
+		
+		if(property_exists($this, $property)){
+
+			return $this->$property;
+		}
+
+		throw new BadMethodCallException("Property $property don't exists.");
     }
 
 
@@ -63,9 +68,13 @@ final class KlinkSearchResultItem
 		{
 			return call_user_func_array(array($this->document_descriptor, $method), $parameters);
 		}
-		// @codeCoverageIgnoreStart
-		return call_user_func_array(array($this, $method), $parameters);
-		// @codeCoverageIgnoreEnd
+
+		if(method_exists($this, $method)){
+			return call_user_func_array(array($this, $method), $parameters);
+		}
+
+		throw new BadMethodCallException("Method $method don't exists.");
+
     }
 
 }

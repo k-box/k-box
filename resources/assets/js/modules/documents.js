@@ -635,7 +635,7 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
                 // checkbox = $this.find('.checkbox'),
                 type = $this.data('type'),
                 id = $this.data('id'),
-                selection_id = model + id + $this.data('institution');
+                selection_id = model + id;
 
             // console.log('documents.js select', this, evt);
 
@@ -651,9 +651,35 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
             else if(type && type==='group' && module.context.filter === 'sharing' && evt.target.nodeName !== 'INPUT'){
                 DMS.Services.Shared.openGroup(id);
             }
+            else if(model && model==='document' && module.context.filter === 'public' && evt.target.nodeName !== 'INPUT'){
+                console.log('opening details for public document', $this.data());
+
+                var uuid = $this.data('uuid');
+
+                if(!uuid){
+                    console.log('id not set');
+                    DMS.MessageBox.error('Selection', 'The selection cannot be processed. An error happend on our end.');
+                    return false;
+                }
+
+                var pnl = Panels.openAjax(uuid, this, DMS.Paths.DOCUMENTS + '/public/' + uuid, {}, {
+                    // callbacks: {
+                    //     click: _panelClickEventHandler
+                    // }
+                }).on('dms:panel-loaded', function(panel_evt, panel){
+
+                });
+                
+            }
             else if(evt.target.nodeName !== 'INPUT') {
 
-                var url_path = id ? id : $this.data('inst')+ '/' + $this.data('doc');
+                if(!id){
+                    console.log('id not set');
+                    DMS.MessageBox.error('Selection', 'The selection cannot be processed. An error happend on our end.');
+                    return false;
+                }
+
+                var url_path = id;
                 var panelUrl = (model && model==='project' ? DMS.Paths.PROJECTS : DMS.Paths.DOCUMENTS) + '/' + url_path;
                 
                 var pnl = Panels.openAjax(selection_id, this, panelUrl, {}, {
@@ -1637,7 +1663,7 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
                 }
             });
 
-        if(module.context.filter !== 'trash' && (module.context.filter !== 'projectspage' || 
+        if(module.context.filter !== 'trash' && module.context.filter !== 'public' && (module.context.filter !== 'projectspage' || 
             (module.context.filter ==='projectspage' && module.context.isSearchRequest)) ){
             if(module.context.canShare){
                 _menu_items.push({
@@ -1664,12 +1690,13 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
             }
         }
 
-        if(module.context.filter !=='projectspage' || 
+        if((module.context.filter !=='projectspage' && module.context.filter !== 'public') || 
             (module.context.filter ==='projectspage' && module.context.isSearchRequest)){
             _menu_items.push({
                 divider: true,
             });
         }
+        if(module.context.filter !== 'public'){
             _menu_items.push({
                 text: Lang.trans('actions.edit'),
                 action: function(e){
@@ -1696,6 +1723,7 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
                     }
                 }
             });
+        }
 
             if(module.context.filter === 'trash'){
                 _menu_items.push({
@@ -1709,7 +1737,7 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
                 });
             }
             
-            else if(module.context.filter !=='projectspage' || 
+            else if((module.context.filter !=='projectspage' && module.context.filter !== 'public') || 
             (module.context.filter ==='projectspage' && module.context.isSearchRequest)){
 
 

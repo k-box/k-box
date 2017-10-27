@@ -4,6 +4,7 @@
     class="item @if($type==='group') group-item @else document-item @endif @if(isset($selectable) && $selectable) js-selectable item--selectable @endif" 
     @if(!($type==='group' && $trashed)) rv-on-click="select" @endif
     @if(isset($id) && $id) data-id="{{$id}}" @endif 
+    @if(isset($uuid) && $uuid) data-uuid="{{$uuid}}" @endif 
     @if(isset($project) && $project) data-project="{{$project}}" @endif 
     @if($type ==='group') data-group-id="{{$id}}" @endif
     data-class="{{ $data_class }}" 
@@ -64,7 +65,7 @@
         
         <div class="item__badges">
         
-        @if(isset($starrable) && $starrable && (!isset($trashed) || (isset($trashed) && !$trashed)))
+        @if(isset($starrable) && $starrable && isset($local_document_id) && (!isset($trashed) || (isset($trashed) && !$trashed)))
 
             <button data-action="star" 
                 class="item__star @if($is_public) item__star--public @endif @if( $starred ) item__star--starred @endif"

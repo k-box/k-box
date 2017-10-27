@@ -44,29 +44,28 @@
 
 	@component('components.list-item', 
 		[
-			
-			'local_document_id' => $item->getLocalDocumentId(),
-			'type' => $item->documentType,
+			'uuid' => $item->uuid,
+			'type' => \Klink\DmsAdapter\KlinkDocumentUtils::documentTypeFromMimeType($item->properties->mime_type),
 			'data_class' => "document",
 			'draggable' => false,
 			'selectable' => false,
 			
-			'visibility' => $item->getVisibility(),
+			'visibility' => 'public',
 			'is_public' => true,
 			'star' => isset($item->starId) ? $item->starId : false,
 			'share' => false,
 			'shared_with' => false,
-			'thumbnail' => $item->thumbnailURI,
-			'name' => $item->title,
-			'url' => $item->documentURI,
-			'added_by' => $item->institutionName,
-			'modified_at' => $item->creationDate,
-			'created_at' => $item->creationDate,
-			'language' => $item->language,
+			'thumbnail' => $item->properties->thumbnail,
+			'name' => $item->properties->title,
+			'url' => $item->url,
+			'added_by' => $item->uploader->name,
+			'modified_at' => $item->properties->updated_at instanceof \DateTime ? \Carbon\Carbon::instance($item->properties->updated_at)->toDateTimeString() : $item->properties->updated_at,
+			'created_at' => $item->properties->created_at instanceof \DateTime ? \Carbon\Carbon::instance($item->properties->created_at)->toDateTimeString() : $item->properties->created_at,
+			'language' => $item->properties->language,
 			'shared_by' => false,
 			'shared' => false,
 			'starrable' => $item->isStarrable,
-			'starred' => $item->isStarred,
+			'starred' => !empty($item->starId),
 		])
 
 	@endcomponent

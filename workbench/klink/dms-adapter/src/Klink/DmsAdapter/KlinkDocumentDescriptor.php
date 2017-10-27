@@ -138,6 +138,9 @@ final class KlinkDocumentDescriptor
 		// Author is a required field, so if no authors are inserted by humans I will add the owner as an author. 
         $data->author = array_filter(array_map(function($author_string){
 			$splitted = explode('<', $author_string);
+			if(count($splitted) !== 2){
+				return false;
+			}
 			$author = new Author();
 			$author->name = trim($splitted[0]);
 			$author->email = rtrim(trim($splitted[1]), '>');

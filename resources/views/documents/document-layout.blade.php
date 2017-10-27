@@ -128,13 +128,13 @@
 			</button>
 		@endif
 
-		@if($context!=='trash' && $context!=='shared' && isset($can_share) && $can_share)
+		@if($context!=='trash' && $context!=='shared' && $context!=='public' && isset($can_share) && $can_share)
 			<button class="action__button" rv-on-click="share" rv-disabled="nothingIsSelected">
 				@materialicon('action', 'launch'){{trans('share.share_btn')}}
 			</button>
 		@endif
 
-		@if($context!=='trash' && $context!=='shared' && $context!=='starred' && isset($can_delete_documents) && $can_delete_documents)
+		@if($context!=='trash' && $context!=='shared' && $context!=='public' && $context!=='starred' && isset($can_delete_documents) && $can_delete_documents)
 
 			<button class="action__button" rv-on-click="del"  rv-disabled="nothingIsSelected">
 				@materialicon('action', 'delete'){{trans('actions.trash_btn')}}

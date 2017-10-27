@@ -7,8 +7,9 @@ define("modules/search", ["jquery", "DMS", "modules/minimalbind", "modules/panel
 		select: function(evt, vm){
 
 			var that = $(this);
+			var uuid = that.data('uuid');
 
-			Panels.openAjax('select-' + that.data('inst')+ '-' + that.data('doc'), that, DMS.Paths.DOCUMENTS + '/' + that.data('inst')+ '/' + that.data('doc'));
+			Panels.openAjax('select-' + uuid, that, DMS.Paths.DOCUMENTS + '/public/' + uuid);
 
 			evt.preventDefault();
 			return false;

@@ -130,6 +130,11 @@ Route::group(['as' => 'documents.', 'prefix' => 'documents'], function () {
             'uses' => 'Document\DocumentsController@index',
             'as' => 'visibility',
         ])->where(['visibility' => '(public|private|personal)']);
+    
+    Route::get('/public/{uuid}', [
+            'uses' => 'NetworkDocumentsController@show',
+            'as' => 'network.show',
+        ]);
 
     Route::put('/import/clearcompleted',
     [
