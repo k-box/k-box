@@ -42,10 +42,10 @@ return [
 
         'users_in_project' => 'Добавленных пользователей (:count)',
         
-        'managed_by' => 'Управляемый',
+        'managed_by' => 'Администратор',
         'created_on' => 'Создан в',
-        'user_count_label' => 'Члены',
-        'user_count' => ':count член|:count члена|:count членов',
+        'user_count_label' => 'Участники',
+        'user_count' => ':count участник|:count участника|:count участников',
         'documents_count_label' => 'Документы',
         'documents_count' => ':count документ|:count документа|:count докуметов',
         'avatar' => 'Аватар проекта',
@@ -82,6 +82,6 @@ return [
     
     'no_projects' => 'В настоящее время нет проектов.',
     
-    'show_documents' => 'Показывать документы',
+    'show_documents' => 'Показать документы',
 
 ];
