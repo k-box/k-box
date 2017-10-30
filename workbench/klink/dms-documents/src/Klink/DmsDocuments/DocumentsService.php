@@ -737,8 +737,6 @@ class DocumentsService
         try {
             dispatch(new ReindexDocument($descriptor, KlinkVisibilityType::KLINK_PRIVATE));
 
-            \Log::info('Core restoreDocument', ['context' => 'DocumentsService', 'response' => $returned_descriptor]);
-
             \Cache::flush();
         } catch (KlinkException $kex) {
             if ($kex->getCode() != 404) {

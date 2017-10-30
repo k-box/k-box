@@ -179,7 +179,7 @@ class DocumentDescriptor extends Model
      */
     public function file()
     {
-        return $this->hasOne('\KlinkDMS\File', 'id', 'file_id');
+        return $this->hasOne('\KlinkDMS\File', 'id', 'file_id')->withTrashed();
     }
 
     public function stars()
@@ -574,7 +574,8 @@ class DocumentDescriptor extends Model
             return false;
         }
 
-        return $this->file->upload_completed;
+        // if file is null means that is trashed, therefore was succesfully uploaded
+        return $this->file ? $this->file->upload_completed : true;
     }
     
     

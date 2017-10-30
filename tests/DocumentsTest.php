@@ -707,7 +707,7 @@ class DocumentsTest extends BrowserKitTestCase
 
         $this->assertTrue($doc->trashed());
 
-        $this->assertNull($doc->file);
+        $this->assertTrue($doc->file->trashed());
 
         $file = File::withTrashed()->findOrFail($doc->file_id);
 
