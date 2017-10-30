@@ -135,7 +135,7 @@
 			<select class="c-form__input c-form__input--larger" id="language" name="language" @if(!$document->isMine() || !$can_edit_document) disabled @endif>
 			<option value="en" @if($document->language == 'en') selected @endif>{{trans('languages.en')}}</option>
 			<option value="ru" @if($document->language == 'ru') selected @endif>{{trans('languages.ru')}}</option>
-			<option value="ky" @if($document->language == 'tg') selected @endif>{{trans('languages.tg')}}</option>
+			<option value="tg" @if($document->language == 'tg') selected @endif>{{trans('languages.tg')}}</option>
 			<option value="ky" @if($document->language == 'ky') selected @endif>{{trans('languages.ky')}}</option>
 			<option value="de" @if($document->language == 'de') selected @endif>{{trans('languages.de')}}</option>
 			<option value="fr" @if($document->language == 'fr') selected @endif>{{trans('languages.fr')}}</option>
