@@ -11,14 +11,9 @@ class ExtractFileProperties extends Action
 
     public function run($descriptor)
     {
-        // todo:
-        // grab the file
-        // open the file if possible
-        // extract as much as metadata as possible
-
         $file = $descriptor->file;
 
-        \Log::info("ExtractFileProperties action triggered: {$descriptor->id}, file: $file->id");
+        \Log::info("Extracting file properties action triggered: {$descriptor->id}, file: $file->id");
         
         if ($file->isVideo()) {
 

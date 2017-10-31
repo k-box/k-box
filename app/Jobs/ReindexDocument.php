@@ -50,8 +50,6 @@ class ReindexDocument extends Job implements ShouldQueue
         try {
             $service->reindexDocument($this->document, $this->visibility, false);
 
-            // TODO: handle the check of data.status for effective completion of the operation
-
             return true;
         } catch (\Exception $ex) {
             \Log::error('Exception during document reindex', ['document' => $this->document, 'visibility' => $this->visibility, 'error' => $ex]);

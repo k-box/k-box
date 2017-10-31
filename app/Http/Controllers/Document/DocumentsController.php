@@ -815,7 +815,7 @@ class DocumentsController extends Controller
                 }
 
                 // handle new file version
-            
+                $uploaded_new_version = false;
                 try {
                     if ($request->hasFile('document') && $request->file('document')->isValid()) {
                         \Log::info('Update Document with new version');
@@ -828,6 +828,7 @@ class DocumentsController extends Controller
                         $document->mime_type = $file_model->mime_type;
                         $document->document_type = KlinkDocumentUtils::documentTypeFromMimeType($file_model->mime_type);
                         $document->hash = $file_model->hash;
+                        $uploaded_new_version = true;
                     } elseif ($request->hasFile('document')) {
                         throw new Exception(trans('errors.upload.simple', ['description' => $request->file('document')->getErrorMessage()]), 400);
                     }
@@ -839,10 +840,20 @@ class DocumentsController extends Controller
                 
                 if ($document->isDirty() || $group_dirty) {
                     $document->save();
-
+                    
                     if ($document->isFileUploadComplete()) {
-                        dispatch(new ReindexDocument($document->fresh(), KlinkVisibilityType::KLINK_PRIVATE));
+                        $document->status = DocumentDescriptor::STATUS_PROCESSING;
+                        $document->save();
                         
+                        $descriptor = $document->fresh();
+                        
+                        // Considering a new file version as uploading a new file
+                        if ($uploaded_new_version) {
+                            event(new UploadCompleted($descriptor, $descriptor->owner));
+                        } else {
+                            dispatch(new ReindexDocument($descriptor, KlinkVisibilityType::KLINK_PRIVATE));
+                        }
+
                         if ($user->can_capability(Capability::CHANGE_DOCUMENT_VISIBILITY)) {
                             if (! $was_document_public && $document->is_public) {
                                 \Log::info('Applying visibility change', ['descriptor' => $document->id, 'old' => $was_document_public, 'new' => $document->is_public]);

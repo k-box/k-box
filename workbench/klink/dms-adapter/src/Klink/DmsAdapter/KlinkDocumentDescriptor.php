@@ -133,11 +133,13 @@ final class KlinkDocumentDescriptor
         $data->url = $this->buildDownloadUrl();
         $data->uuid = $this->descriptor->uuid;
 		
+		$user_owner = $this->descriptor->user_owner;
 		$authors = empty($this->descriptor->authors) ? [$this->descriptor->user_owner] : explode(',', $this->descriptor->authors);
 		
-		// Author is a required field, so if no authors are inserted by humans I will add the owner as an author. 
-        $data->author = array_filter(array_map(function($author_string){
+		$processed_authors = array_filter(array_map(function($author_string){
+			$author_string = str_replace('&lt;', '<', str_replace('&gt;', '>',$author_string ));
 			$splitted = explode('<', $author_string);
+
 			if(count($splitted) !== 2){
 				return false;
 			}
@@ -146,6 +148,17 @@ final class KlinkDocumentDescriptor
 			$author->email = rtrim(trim($splitted[1]), '>');
 			return $author;
 		}, $authors));
+
+		if(empty($processed_authors)){
+			$processed_authors[] = tap(new Author, function($a) use($user_owner){
+				$splitted = explode('<', $user_owner);
+				$a->name = trim($splitted[0]);
+				$a->email = rtrim(trim($splitted[1]), '>');
+			});
+		}
+
+		// Author is a required field, so if no authors are inserted by humans I will add the owner as an author. 
+        $data->author = $processed_authors;
 		
 		$uploader = new Uploader();
 		// TODO: this is only a default value for initial usage, this must be changed to reflect the uploader that should be shown
@@ -211,7 +224,7 @@ final class KlinkDocumentDescriptor
 
 			}
 		}
-		
+
         return $data;
 	}
 	

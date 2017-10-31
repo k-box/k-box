@@ -4,6 +4,7 @@ namespace Tests\Unit;
 
 use Tests\TestCase;
 use KSearchClient\Model\Data\Data;
+use KSearchClient\Model\Data\Author;
 use Klink\DmsAdapter\KlinkDocumentDescriptor;
 
 class KlinkDocumentDescriptorTest extends TestCase
@@ -11,7 +12,8 @@ class KlinkDocumentDescriptorTest extends TestCase
     public function test_private_document_descriptor_can_be_converted_to_ksearch_data()
     {
         $descriptor = factory('KlinkDMS\DocumentDescriptor')->make([
-            'authors' => 'Hello Author <hello@author.com>, Second Author <second@author.com>'
+            // generating an author string that don't respect the format
+            'authors' => 'Hello Author hello@author.com'
         ]);
 
         $klink_descriptor = $descriptor->toKlinkDocumentDescriptor();
@@ -33,5 +35,9 @@ class KlinkDocumentDescriptorTest extends TestCase
         $this->assertEquals($descriptor->title, $data->properties->title);
         $this->assertEquals($descriptor->mime_type, $data->properties->mime_type);
         $this->assertEquals($descriptor->thumbnail_uri, $data->properties->thumbnail);
+
+        $this->assertNotNull($data->author);
+        $this->assertCount(1, $data->author);
+        $this->assertContainsOnlyInstancesOf(Author::class, $data->author);
     }
 }

@@ -61,6 +61,12 @@
             {{session('flash_message')}}
         </div>
 
+	@elseif(!$document->trashed() && $document->isMine() && !$document->isIndexed())
+	
+	<div class="c-message c-message--info">
+		{!!trans('documents.messages.processing')!!}
+	</div>
+	
     @endif
 
 	<div class="edit-view__fields">

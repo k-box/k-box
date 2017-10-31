@@ -18,6 +18,7 @@ use KSearchClient\Model\Data\Data;
 use KSearchClient\Model\Data\SearchParams;
 use KSearchClient\Model\Data\Aggregation;
 use Klink\DmsAdapter\Concerns\HasConnections;
+use Klink\DmsAdapter\Exceptions\KlinkException;
 
 class KlinkAdapter implements AdapterContract
 {
@@ -146,7 +147,23 @@ class KlinkAdapter implements AdapterContract
             ->add($document->getDescriptor()->toData(), 
                   $document->getDocumentData());
 
+        // checking if the indexing is going ahead
+
+        $status = 'queued';
+        $cycles = 0;
+        do {
+            sleep(10);
+            $status = $this->selectConnection($document->getDescriptor()->getVisibility())->getStatus($document->getDescriptor()->uuid());
+            $cycles++;
+        }
+        while(strtolower($status) !== 'ok' && $cycles < 40);
+
+        if(strtolower($status) !== 'ok'){
+            throw new KlinkException('Indexing is still in progress after 400 seconds, aborting.');
+        }
+
         return $document->getDescriptor();
+
     }
 
     public function getDocument($uuid, $visibility = KlinkVisibilityType::KLINK_PRIVATE)

@@ -555,10 +555,19 @@ class File extends Model
 
             $filename = $upload->getClientOriginalName();
 
-            $file_m_time = false; //$upload->getMTime(); // will work?
+            $file_m_time = false; //$upload->getMTime();
+
+            // double checking, guess the mime type and evaluate the mime type from
+            // the list of known mime types, if different use the known one
+            $guessed_mime_type = $upload->getMimeType();
+            $fallback_mime_type = KlinkDocumentUtils::get_mime($filename);
+            
+            $mime = $fallback_mime_type === $guessed_mime_type ? $guessed_mime_type : $fallback_mime_type;
+            
+            $hash_name = substr($upload->hashName(), 0, 40).'.'.KlinkDocumentUtils::getExtensionFromMimeType($mime); // because Laravel generates a 40 chars random name
 
             // move the file from the temp upload dir to the local storage
-            $file_path = $upload->store($destination_path, 'local');
+            $file_path = $upload->storeAs($destination_path, $hash_name, 'local');
 
             // Get the absolute path of the file to use the hash_file function as Storage drivers don't support getting the hash of a file content
             // not using configuration value for local disk as during tests may vary if Storage::fake() is used
@@ -576,8 +585,6 @@ class File extends Model
                 throw new FileAlreadyExistsException($filename, $descr, $f);
             }
 
-            $mime = $upload->getMimeType();
-
             $file_model->name = $filename;
             $file_model->uuid = $uuid;
             $file_model->hash = $hash;
@@ -588,11 +595,11 @@ class File extends Model
             $file_model->user_id = $uploader->id;
             $file_model->original_uri = $file_path;
             $file_model->is_folder = false;
-            $file_model->upload_started_at = \Carbon\Carbon::now();
-            $file_model->upload_completed_at = \Carbon\Carbon::now();
+            $file_model->upload_started_at = Carbon::now();
+            $file_model->upload_completed_at = Carbon::now();
             
             if ($file_m_time) {
-                $file_model->created_at = \Carbon\Carbon::createFromFormat('U', $file_m_time);
+                $file_model->created_at = Carbon::createFromFormat('U', $file_m_time);
             }
 
             if (! is_null($revision_of)) {

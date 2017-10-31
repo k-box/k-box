@@ -6,6 +6,7 @@ use Tests\TestCase;
 use KSearchClient\Model\Data\Data;
 use Klink\DmsAdapter\KlinkDocument;
 use Klink\DmsAdapter\KlinkDocumentDescriptor;
+use Klink\DmsAdapter\Exceptions\KlinkException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class KlinkAdapterPrivateDataManagementTest extends TestCase
@@ -67,5 +68,18 @@ class KlinkAdapterPrivateDataManagementTest extends TestCase
         $this->assertTrue($response);
 
         return $uuid;
+    }
+
+    public function test_add_document_report_indexing_timeout()
+    {
+        $descriptor = factory('KlinkDMS\DocumentDescriptor')->create([
+            'mime_type' => 'application/pdf'
+        ]);
+            
+        $adapter = app('klinkadapter');
+        
+        $this->expectException(KlinkException::class);
+
+        $response = $adapter->addDocument(new KlinkDocument($descriptor->toKlinkDocumentDescriptor(), null));
     }
 }

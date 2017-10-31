@@ -251,7 +251,8 @@ return [
     ],
 
     'messages' => [
-        'updated' => 'Document has been updated',
+        'updated' => 'Document details changed. Processing the changes, the document might not be available in search results yet.',
+        'processing' => 'The document is being processed by the K-Box. It might not be immediately available in search results.',
         'local_public_only' => 'Currently showing only the Institution\'s Public documents.',
         'forbidden' => 'You don\'t have the ability to make changes to the document.',
         'delete_forbidden' => 'You don\'t have the rights to delete documents, please contact a Project Manager or an Administrator.',
