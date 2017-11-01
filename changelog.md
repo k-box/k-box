@@ -23,11 +23,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - `File::$path` now returns the relative path based on the `local` filesystem configured for storage
 - `File::forceDelete()` now deletes also the files saved on disk
 - `File::physicalDelete()` is now a `protected` method
+- Updated Russian localization
 
 
 ### Fixed
 
-- Show the share item in the context menu only if the user can share
+- Show the share item in the context menu only if the user can share, as well as on the details panel
+- Document sidebar not appearing on Internet Explorer 9-11
 
 ### Removed
 
