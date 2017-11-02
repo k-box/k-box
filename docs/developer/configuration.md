@@ -33,6 +33,7 @@ one that are strictly required in the environment file.
 | `DMS_IDENTIFIER`                      | **required** | string  |               | The unique identifier for the DMS instance |
 | `DMS_ARE_GUEST_PUBLIC_SEARCH_ENABLED` |              | boolean |               | Tell if the DMS will allow guest user to perform public search over K-Link instance |
 | `DMS_MAX_UPLOAD_SIZE`                 |              | integer | 30000         | The maximum size of the file allowed for upload in kilobytes |
+| `MAIL_ENCRYPTION`                     |              | string  | tls           | The mail encryption that should be used. If set to an empty string, insecure connections will be allowed (do this for testing purposes only). |
 
 The following block is a non exhaustive example of a `.env` file.
 
