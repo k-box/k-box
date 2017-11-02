@@ -70,11 +70,11 @@ define("modules/share", ["jquery", "DMS","lodash", "combokeys", "language", "swe
 		_switch.find('.c-switch__button--selected').removeClass('c-switch__button--selected');
 		el.addClass('c-switch__button--selected');
 		_actionIsRunning = true;
-		var filtered = _.pluck(_.filter(_items, {'type' : 'document'}), 'id');
+		var filtered = _.map(_.filter(_items, {'type' : 'document'}), 'id');
 
-		var params = {documents:filtered};
+		var id = filtered[0];
 
-		DMS.Services.Bulk.makePrivate(params, function(data){
+		DMS.Services.Documents.makePrivate(id, function(data){
 
 			_switchActionComplete(data);
                 
@@ -217,11 +217,11 @@ define("modules/share", ["jquery", "DMS","lodash", "combokeys", "language", "swe
 		_actionIsRunning = true;
 
 		
-		var filtered = _.pluck(_.filter(_items, {'type' : 'document'}), 'id');
+		var filtered = _.map(_.filter(_items, {'type' : 'document'}), 'id');
 
-		var params = {documents:filtered};
+		var params = {document_id:filtered[0]};
 
-		DMS.Services.Bulk.makePublic(params, function(data){
+		DMS.Services.Documents.makePublic(params, function(data){
 
 			_switchActionComplete(data);
                 
@@ -250,12 +250,20 @@ define("modules/share", ["jquery", "DMS","lodash", "combokeys", "language", "swe
 
 		if(error || data && data.status==='error'){
 			_switch.addClass('c-switch--error');
-			_panel.find('.js-publish-section .js-error-container').html(error).addClass('error-container--visible');
+			_panel.find('.js-publish-section .js-error-container').html(error || data.error).addClass('error-container--visible');
 		}
 		else {
 			_switch.addClass('c-switch--success');
 			_switchIsPublic = !_switchIsPublic;
-			_switchLabel.text(Lang.trans(_switchIsPublic ? 'share.dialog.published' : 'share.dialog.not_published', {network: _switchNetwork}));
+
+			if(data.descriptor && data.publication && data.publication.pending){
+
+				_switchLabel.text(Lang.trans(data.descriptor.is_public ? 'share.dialog.publishing' : 'share.dialog.unpublishing', {network: _switchNetwork}));
+			}
+			else {
+
+				_switchLabel.text(Lang.trans(_switchIsPublic ? 'share.dialog.published' : 'share.dialog.not_published', {network: _switchNetwork}));
+			}
 
 			setTimeout(function(){
 				_switch.removeClass('c-switch--success');

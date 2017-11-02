@@ -522,6 +522,7 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
         else {
             
             DMS.MessageBox.wait(Lang.trans('networks.making_public_title', {network: module.context.network_name}), Lang.trans('networks.making_public_title', {network: module.context.network_name}));
+
             DMS.Services.Bulk.makePublic(params, function(data){
                 
                 DMS.MessageBox.success(Lang.trans('networks.make_public_success_title'), (data && data.message) ? data.message : Lang.trans('networks.make_public_success_text_alt', {network: module.context.network_name}));
@@ -531,10 +532,10 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
             }, function(obj, err, errText){
                 
                 if(obj.responseJSON && obj.responseJSON.status === 'error'){
-                    DMS.MessageBox.error(Lang.trans('networks.make_public_error_title',{network: module.context.network_name}), bj.responseJSON.message);
+                    DMS.MessageBox.error(Lang.trans('networks.make_public_error_title',{network: module.context.network_name}), obj.responseJSON.message);
                 }
                 else if(obj.responseJSON && obj.responseJSON.error){
-                    DMS.MessageBox.error(Lang.trans('networks.make_public_error_title',{network: module.context.network_name}), bj.responseJSON.error);
+                    DMS.MessageBox.error(Lang.trans('networks.make_public_error_title',{network: module.context.network_name}), obj.responseJSON.error);
                 }
                 else if(obj.status == 422){
                     DMS.MessageBox.error(Lang.trans('networks.make_public_error_title',{network: module.context.network_name}), Lang.trans('make_public_error', {error: (obj.responseText ? obj.responseText : errText) } ));
@@ -864,7 +865,7 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
                             DMS.MessageBox.question('Remove share', 'Remove the sharing from ' + count_msg + '?', 'Unshare!', 'Cancel', function(choice){
                                 
                                 if(choice){
-                                    DMS.Services.Shared.remove(_.pluck(usable_documents, 'share'), function(data){
+                                    DMS.Services.Shared.remove(_.map(usable_documents, 'share'), function(data){
                                         //success
                                         
                                         if(data.status && data.status==='ok'){

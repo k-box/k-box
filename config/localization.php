@@ -188,6 +188,8 @@ return [
         'share.dialog.unpublishing',
         'share.dialog.published',
         'share.dialog.not_published',
+        'share.dialog.publishing_failed',
+        'share.dialog.publish_already_in_progress',
         'share.unshare',
         'share.unsharing',
         'share.remove',

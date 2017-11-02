@@ -2,6 +2,7 @@
 
 namespace KlinkDMS;
 
+use KlinkDMS\Traits\Publishable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Carbon\Carbon;
@@ -83,7 +84,7 @@ use Klink\DmsAdapter\KlinkDocumentDescriptor;
  */
 class DocumentDescriptor extends Model
 {
-    use SoftDeletes, LocalizableDateFields, GeneratesUuid;
+    use SoftDeletes, LocalizableDateFields, GeneratesUuid, Publishable;
 
     /**
      * Indicate that the document, reference by a DocumentDescriptor, has not yet been indexed
@@ -164,6 +165,7 @@ class DocumentDescriptor extends Model
     ];
     
     protected $hidden = [ 'last_error' ];
+    protected $append = [ 'publication' ];
 
     /**
      * Return the name of the pivot table that handles the relation
@@ -450,9 +452,14 @@ class DocumentDescriptor extends Model
 
     // --- setten and getter for Visibility
 
+    public function getIsPublicAttribute($value)
+    {
+        return filter_var($value, FILTER_VALIDATE_BOOLEAN);
+    }
+
     public function isPublic()
     {
-        return $this->visibility === KlinkVisibilityType::KLINK_PUBLIC || $this->is_public;
+        return $this->is_public && $this->isPublished();
     }
 
     public function isPrivate()
@@ -531,11 +538,6 @@ class DocumentDescriptor extends Model
         // ]);
         
         // return $cached;
-    }
-
-    public function getIsPublicAttribute($value)
-    {
-        return filter_var($value, FILTER_VALIDATE_BOOLEAN);
     }
 
     public function isMine()

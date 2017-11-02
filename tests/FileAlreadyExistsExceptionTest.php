@@ -5,7 +5,8 @@ use KlinkDMS\User;
 use KlinkDMS\File;
 use KlinkDMS\Institution;
 use KlinkDMS\Exceptions\FileAlreadyExistsException;
-
+use KlinkDMS\Publication;
+use Carbon\Carbon;
 use Tests\BrowserKitTestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
@@ -65,6 +66,12 @@ class FileAlreadyExistsExceptionTest extends BrowserKitTestCase
             'hash' => 'hash',
             'is_public' => true,
             'visibility' => 'public',
+        ]);
+
+        Publication::unguard(); // as fields are not mass assignable
+        
+        $doc->publications()->create([
+            'published_at' => Carbon::now()
         ]);
 
         $ex = new FileAlreadyExistsException('A file name', $doc);

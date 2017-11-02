@@ -81,8 +81,10 @@ return [
         'published' => 'Published on :network',
         'not_published' => 'Not published on :network',
         'publishing' => 'Publishing the document...',
+        'publishing_failed' => 'Publish operation failed.',
         'unpublishing' => 'Making the document private...',
         'publish_collection' => 'All the documents in the collection will be affected.',
+        'publish_already_in_progress' => 'A publication is already in progress.',
 
         'document_is_shared' => 'The document is accessible by',
         'collection_is_shared' => 'The collection is accessible by',

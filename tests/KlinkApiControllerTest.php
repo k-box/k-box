@@ -2,6 +2,8 @@
 
 use KlinkDMS\Capability;
 
+use KlinkDMS\Publication;
+use Carbon\Carbon;
 use Tests\BrowserKitTestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
@@ -76,6 +78,11 @@ class KlinkApiControllerTest extends BrowserKitTestCase
 
         $document = $this->createDocument($user, 'public');
 
+        Publication::unguard(); // as fields are not mass assignable
+        
+        $document->publications()->create([
+            'published_at' => Carbon::now()
+        ]);
         
         $url = route('klink_api', ['id' => $document->local_document_id, 'action' => 'document']);
 
@@ -96,6 +103,12 @@ class KlinkApiControllerTest extends BrowserKitTestCase
         $service = app('Klink\DmsDocuments\DocumentsService');
 
         $document = $this->createDocument($user, 'public');
+
+        Publication::unguard(); // as fields are not mass assignable
+        
+        $document->publications()->create([
+            'published_at' => Carbon::now()
+        ]);
 
         $project1 = $this->createProject(['user_id' => $user->id]);
         $project1->users()->attach($user_accessing_the_document->id);

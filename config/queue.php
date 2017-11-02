@@ -15,7 +15,7 @@ return [
     |
     */
 
-    'default' => env('QUEUE_DRIVER') ?: 'async',
+    'default' => env('QUEUE_DRIVER') ?: 'database',
 
     /*
     |--------------------------------------------------------------------------

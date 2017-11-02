@@ -80,13 +80,13 @@
 
 
 
-            @if( isset($visibility) && $visibility === 'public' )
+            @if( isset($is_public) && $is_public )
             
-                <div class="item__badge" title="{{trans('documents.descriptor.is_public')}}">
+                <div class="item__badge" title="{{trans( isset($is_published) && $is_published ? 'documents.descriptor.is_public' : 'share.dialog.publishing')}}">
                     @materialicon('social', 'public')
                 </div>
             
-            @elseif( isset($visibility) && $visibility === 'private' )
+            @else
 
                 <div class="item__badge" title="{{trans('documents.descriptor.private')}}">
                     @materialicon('action', 'lock')

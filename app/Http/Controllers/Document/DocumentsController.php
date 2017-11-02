@@ -27,6 +27,7 @@ use Klink\DmsAdapter\KlinkDocumentUtils;
 use Klink\DmsAdapter\KlinkVisibilityType;
 use Klink\DmsAdapter\Exceptions\KlinkException;
 use KlinkDMS\Jobs\ReindexDocument;
+use KlinkDMS\Jobs\UpdatePublishedDocumentJob;
 
 class DocumentsController extends Controller
 {
@@ -787,28 +788,28 @@ class DocumentsController extends Controller
                     $document->language = e($request->input('language'));
                 }
 
-                $was_document_public = $document->is_public;
+                // $was_document_public = $document->is_public;
                 $is_json = $request->isJson();
-                $has_visibility =$request->has('visibility');
+                // $has_visibility =$request->has('visibility');
                  
-                if ($user->can_capability(Capability::CHANGE_DOCUMENT_VISIBILITY)) {
-                    if ($request->has('visibility') && $request->input('visibility') === KlinkVisibilityType::KLINK_PUBLIC && ! $was_document_public) {
-                        // if was not public and is marked as public
-                        $document->is_public = true;
+                // if ($user->can_capability(Capability::CHANGE_DOCUMENT_VISIBILITY)) {
+                //     if ($request->has('visibility') && $request->input('visibility') === KlinkVisibilityType::KLINK_PUBLIC && ! $was_document_public) {
+                //         // if was not public and is marked as public
+                //         $document->is_public = true;
                         
-                        \Log::info('Document should be added to public', ['descriptor' => $document->id, 'triggered_by' => $user->id]);
-                    } elseif ($request->has('visibility') && $request->input('visibility') === KlinkVisibilityType::KLINK_PRIVATE && $was_document_public) {
-                        //was public and is no more marker as public
-                        $document->is_public = false;
+                //         \Log::info('Document should be added to public', ['descriptor' => $document->id, 'triggered_by' => $user->id]);
+                //     } elseif ($request->has('visibility') && $request->input('visibility') === KlinkVisibilityType::KLINK_PRIVATE && $was_document_public) {
+                //         //was public and is no more marker as public
+                //         $document->is_public = false;
 
-                        \Log::info('Document should be removed from public', ['descriptor' => $document->id, 'triggered_by' => $user->id]);
-                    } elseif (! $request->wantsJson() && ! $request->has('visibility') && $was_document_public) {
-                        //was public and is no more marker as public
-                        $document->is_public = false;
+                //         \Log::info('Document should be removed from public', ['descriptor' => $document->id, 'triggered_by' => $user->id]);
+                //     } elseif (! $request->wantsJson() && ! $request->has('visibility') && $was_document_public) {
+                //         //was public and is no more marker as public
+                //         $document->is_public = false;
 
-                        \Log::info('Document should be removed from public', ['descriptor' => $document->id, 'triggered_by' => $user->id, 'comes_from' => 'documents.edit']);
-                    }
-                }
+                //         \Log::info('Document should be removed from public', ['descriptor' => $document->id, 'triggered_by' => $user->id, 'comes_from' => 'documents.edit']);
+                //     }
+                // }
 
                 if ($request->has('authors') && $request->input('authors') !== $document->authors) {
                     $document->authors = e($request->input('authors')); //deve essere un array così poi laravel lo serializza
@@ -854,29 +855,33 @@ class DocumentsController extends Controller
                             dispatch(new ReindexDocument($descriptor, KlinkVisibilityType::KLINK_PRIVATE));
                         }
 
-                        if ($user->can_capability(Capability::CHANGE_DOCUMENT_VISIBILITY)) {
-                            if (! $was_document_public && $document->is_public) {
-                                \Log::info('Applying visibility change', ['descriptor' => $document->id, 'old' => $was_document_public, 'new' => $document->is_public]);
-                                dispatch(new ReindexDocument($document->fresh(), KlinkVisibilityType::KLINK_PUBLIC));
-                            } elseif ($was_document_public && ! $document->is_public) {
-                                \Log::info('Applying visibility change', ['descriptor' => $document->id, 'old' => $was_document_public, 'new' => $document->is_public]);
-                                $this->service->deletePublicDocument($document);
-                            } elseif ($was_document_public && $document->is_public) {
-                                \Log::info('Reindexing also Public Document because Doc is dirty', ['descriptor' => $document->id]);
-                                // $this->service->reindexDocument($document, KlinkVisibilityType::KLINK_PUBLIC);
-                                dispatch(new ReindexDocument($document->fresh(), KlinkVisibilityType::KLINK_PUBLIC));
-                            }
-                        } elseif ($was_document_public && $document->is_public) {
-                            \Log::info('Reindexing also Public Document because Doc is dirty', ['descriptor' => $document->id]);
-                            // $this->service->reindexDocument($document, KlinkVisibilityType::KLINK_PUBLIC);
-                            dispatch(new ReindexDocument($document->fresh(), KlinkVisibilityType::KLINK_PRIVATE));
+                        if ($descriptor->isPublished()) {
+                            // trigger update also for eventual publications,
+                            // as the public document must be in sync with the local copy
+                            dispatch(new UpdatePublishedDocumentJob($descriptor));
                         }
+
+                        // if ($user->can_capability(Capability::CHANGE_DOCUMENT_VISIBILITY)) {
+                        //     if (! $was_document_public && $document->is_public) {
+                        //         \Log::info('Applying visibility change', ['descriptor' => $document->id, 'old' => $was_document_public, 'new' => $document->is_public]);
+                        //         dispatch(new ReindexDocument($document->fresh(), KlinkVisibilityType::KLINK_PUBLIC));
+                        //     } elseif ($was_document_public && ! $document->is_public) {
+                        //         \Log::info('Applying visibility change', ['descriptor' => $document->id, 'old' => $was_document_public, 'new' => $document->is_public]);
+                        //         $this->service->deletePublicDocument($document);
+                        //     } elseif ($was_document_public && $document->is_public) {
+                        //         \Log::info('Reindexing also Public Document because Doc is dirty', ['descriptor' => $document->id]);
+                        //         // $this->service->reindexDocument($document, KlinkVisibilityType::KLINK_PUBLIC);
+                        //         dispatch(new ReindexDocument($document->fresh(), KlinkVisibilityType::KLINK_PUBLIC));
+                        //     }
+                        // } elseif ($was_document_public && $document->is_public) {
+                        //     \Log::info('Reindexing also Public Document because Doc is dirty', ['descriptor' => $document->id]);
+                        //     // $this->service->reindexDocument($document, KlinkVisibilityType::KLINK_PUBLIC);
+                        //     dispatch(new ReindexDocument($document->fresh(), KlinkVisibilityType::KLINK_PRIVATE));
+                        // }
                     }
                 } else {
                     $document->touch();
                 }
-                
-
                 
                 return $document;
             });

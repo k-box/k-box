@@ -2,9 +2,10 @@
 
 use Tests\BrowserKitTestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-
+use Carbon\Carbon;
 use KlinkDMS\Exceptions\FileNamingException;
 use KlinkDMS\DocumentDescriptor;
+use KlinkDMS\Publication;
 use KlinkDMS\Capability;
 use Klink\DmsAdapter\KlinkVisibilityType;
 use Klink\DmsAdapter\Exceptions\KlinkException;
@@ -223,5 +224,26 @@ class DocumentDescriptorTest extends BrowserKitTestCase
         $document = $this->createDocument($user);
 
         $this->assertNotNull($document->uuid);
+    }
+
+    public function test_document_descriptor_report_published_state()
+    {
+        $user = $this->createAdminUser();
+        
+        $document = $this->createDocument($user);
+
+        $document->is_public = true;
+        $document->save();
+
+        Publication::unguard(); // as fields are not mass assignable
+        
+        $what = $document->publications()->create([
+            'published_at' => Carbon::now()
+        ]);
+        
+        $this->assertEquals(1, $document->publications()->count());
+
+        $this->assertTrue($document->isPublic());
+        $this->assertTrue($document->isPublished());
     }
 }

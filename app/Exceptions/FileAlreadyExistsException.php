@@ -145,7 +145,7 @@ class FileAlreadyExistsException extends Exception
             ]);
         }
         
-        if ($this->existing_descriptor->isPublic()) {
+        if ($this->existing_descriptor->isPublished()) {
             return trans('errors.filealreadyexists.in_the_network', [
                 'network' => e(network_name()),
                 'title' => e($this->existing_descriptor->title),

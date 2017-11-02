@@ -279,6 +279,7 @@ window.DMS = (function(_$, _nprogress, _rivets, _alert){
 			SEARCH: 'search',
 			IMPORT: 'documents/import',
 			DOCUMENTS: 'documents',
+			PUBLISHED_DOCUMENTS: 'published-documents',
 			PROJECTS: 'documents/projects',
 			PROJECTS_EDIT: 'projects/{ID}/edit',
 			PROJECTS_API: 'projects',
@@ -572,7 +573,19 @@ window.DMS = (function(_$, _nprogress, _rivets, _alert){
 					module.Progress.start();
 
 					module.navigate(module.Paths.DOCUMENTS + '/' + id + '/edit');
-				}
+				},
+
+				makePublic: function(data, success, error){
+					console.log('Calling Documents.makePublic', data);
+
+					module.Ajax.post(module.Paths.PUBLISHED_DOCUMENTS, data, success, error);
+				},
+				
+				makePrivate: function(id, success, error){
+					console.log('Calling Documents.makePrivate', id);
+
+					module.Ajax.delete(module.Paths.PUBLISHED_DOCUMENTS + '/' + id, success, error);
+				},
 
 			},
 

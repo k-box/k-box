@@ -191,15 +191,18 @@ class SharingController extends Controller
         $users_to_exclude = [$me->id];
 
         $public_link = null;
+        $has_publishing_request = false;
+        $publication = null;
 
         if (! is_null($first) && $first instanceof DocumentDescriptor && ! $is_multiple_selection) {
-            $is_public = $first->isPublic();
+            $is_public = $first->isPublished();
+            $has_publishing_request = $first->hasPendingPublications();
+            $publication = $first->publication();
             
             // grab the existing share made by the user, so we can remove it also from the available_users
             // let's do it for $first only first
 
             $existing_shares = $first->shares()->sharedByMe($me)->where('sharedwith_type', 'KlinkDMS\User')->get();
-            // dump($existing_shares);
 
             $users_to_exclude = array_merge($users_to_exclude, $existing_shares->pluck('sharedwith_id')->unique()->toArray());
 
@@ -286,6 +289,9 @@ class SharingController extends Controller
             'elements_count' => $elements_count,
             'is_multiple_selection' => $is_multiple_selection,
             'is_public' => $is_public,
+            'has_publishing_request' => $has_publishing_request,
+            'publication' => $publication,
+            'publication_status' => $publication ? $publication->status : null,
             'is_collection' => $first instanceof Group,
         ]);
     }

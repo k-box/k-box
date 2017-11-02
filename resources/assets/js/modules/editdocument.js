@@ -1,4 +1,4 @@
-define("modules/editdocument", ["require", "modernizr", "jquery", "DMS", "sweetalert", "modules/minimalbind" ], function (_require, _modernizr, $, DMS, _alert, _rivets) {
+define("modules/editdocument", ["require", "modernizr", "jquery", "DMS", "sweetalert", "modules/minimalbind", "modules/share" ], function (_require, _modernizr, $, DMS, _alert, _rivets, Share) {
     
     console.log('loading EDIT document-page module...');
     
@@ -28,6 +28,19 @@ define("modules/editdocument", ["require", "modernizr", "jquery", "DMS", "sweeta
         uploadNew.addClass('processing');
 
         DMS.Progress.start();
+    });
+
+
+    $('.js-open-share-dialog').on('click', function(evt){
+
+        evt.preventDefault();
+        evt.stopPropagation();
+        var id = $(evt.target).data('id');
+        Share.open([{
+            id: id,
+            type: 'document'
+        }]);
+
     });
 
 });

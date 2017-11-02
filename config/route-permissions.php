@@ -49,6 +49,8 @@ return [
         'update' => KlinkDMS\Capability::EDIT_DOCUMENT,
         'destroy' => KlinkDMS\Capability::DELETE_DOCUMENT,
         
+        'publish' => KlinkDMS\Capability::CHANGE_DOCUMENT_VISIBILITY,
+        'unpublish' => KlinkDMS\Capability::CHANGE_DOCUMENT_VISIBILITY,
 
         'bulk' => [
             

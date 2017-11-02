@@ -89,6 +89,18 @@ Route::group(['as' => 'administration.', 'prefix' => 'administration'], function
 |
 */
 
+// publish and unpublish routes
+
+Route::post('/published-documents', [
+    'uses' => 'PublishedDocumentsController@store',
+    'as' => 'documents.publish',
+]);
+
+Route::delete('/published-documents/{id}', [
+    'uses' => 'PublishedDocumentsController@destroy',
+    'as' => 'documents.unpublish',
+]);
+
 Route::group(['as' => 'documents.', 'prefix' => 'documents'], function () {
     Route::resource('groups', 'Document\GroupsController');
 
@@ -172,6 +184,7 @@ Route::group(['as' => 'documents.', 'prefix' => 'documents'], function () {
 });
 
 Route::resource('/documents', 'Document\DocumentsController');
+
 /*
 |--------------------------------------------------------------------------
 | Sharing

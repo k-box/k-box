@@ -24,7 +24,6 @@ class DocumentsTest extends BrowserKitTestCase
 {
     use DatabaseTransactions;
     
-    
     public function user_provider_for_editpage_public_checkbox_test()
     {
         return [
@@ -35,7 +34,7 @@ class DocumentsTest extends BrowserKitTestCase
             [Capability::$GUEST, false],
         ];
     }
-    
+
     public function user_provider_document_link_test()
     {
         return [
@@ -151,44 +150,6 @@ class DocumentsTest extends BrowserKitTestCase
     }
     
     /**
-     * Tests if the edit page shows the "make public" checkbox only if the user can do the operation
-     *
-     * @dataProvider user_provider_for_editpage_public_checkbox_test
-     * @return void
-     */
-    public function testDocumentEditPageForKlinkPublicCheckBox($caps, $can_see)
-    {
-        \KlinkDMS\Option::put(\KlinkDMS\Option::PUBLIC_CORE_ENABLED, true);
-
-        $user = $this->createUser($caps);
-        
-        $file = factory('KlinkDMS\File')->create([
-            'user_id' => $user->id,
-            'original_uri' => ''
-        ]);
-        
-        $doc = factory('KlinkDMS\DocumentDescriptor')->create([
-            'owner_id' => $user->id,
-            'file_id' => $file->id,
-        ]);
-        
-        
-        $url = route('documents.edit', $doc->id);
-        
-        $this->actingAs($user);
-        
-        $this->visit($url);
-        
-        $this->assertResponseOk();
-        
-        if ($can_see) {
-            $this->see(trans('networks.publish_to_long', ['network' => network_name()]));
-        } else {
-            $this->dontSee(trans('networks.publish_to_long', ['network' => network_name()]));
-        }
-    }
-
-    /**
      * Tests if the edit page is showed even if the user uploader of the document was disabled
      *
      * @dataProvider user_provider_for_editpage_public_checkbox_test
@@ -262,49 +223,6 @@ class DocumentsTest extends BrowserKitTestCase
         $this->see('Document new Title');
     }
     
-    /**
-     * @dataProvider user_provider_that_can_make_public
-     */
-    public function testDocumentUpdateMakePublicFromEditPage($caps)
-    {
-        \KlinkDMS\Option::put(\KlinkDMS\Option::PUBLIC_CORE_ENABLED, true);
-
-        $this->withKlinkAdapterFake();
-        
-        $user = $this->createUser($caps);
-
-        $doc = $this->createDocument($user);
-        
-        $url = route('documents.edit', $doc->id);
-        
-        $this->actingAs($user);
-        
-        $this->visit($url);
-        
-        // Make public
-        
-        $this->check('visibility');
-        
-        $this->press(trans('actions.save'));
-        
-        $this->seePageIs($url);
-        
-        $saved = DocumentDescriptor::findOrFail($doc->id);
-        
-        $this->assertTrue($saved->is_public);
-        
-        // Make private again
-        
-        $this->uncheck('visibility');
-        
-        $this->press(trans('actions.save'));
-        
-        $this->seePageIs($url);
-        
-        $saved = DocumentDescriptor::findOrFail($doc->id);
-        
-        $this->assertFalse($saved->is_public);
-    }
     
     
     /**

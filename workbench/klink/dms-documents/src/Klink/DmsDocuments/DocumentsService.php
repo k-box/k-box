@@ -165,7 +165,7 @@ class DocumentsService
         }
     }
     
-    private function updateDocumentProxy(DocumentDescriptor $descr, File $file, $visibility)
+    public function updateDocumentProxy(DocumentDescriptor $descr, File $file, $visibility)
     {
         $klink_descriptor = $descr->toKlinkDocumentDescriptor($visibility == KlinkVisibilityType::KLINK_PUBLIC);
 

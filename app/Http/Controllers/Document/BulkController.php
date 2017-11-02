@@ -351,10 +351,10 @@ class BulkController extends Controller
     }
     
     
-    public function makePublicDialog(AuthGuard $auth, BulkDeleteRequest $request)
-    {
-        // for the dialog in case some documents needs a rename ?
-    }
+    // public function makePublicDialog(AuthGuard $auth, BulkDeleteRequest $request)
+    // {
+    //     // for the dialog in case some documents needs a rename ?
+    // }
     
     /**
      * Make documents and collections public on the network
@@ -382,11 +382,7 @@ class BulkController extends Controller
                 }
                 
                 foreach ($documents as $descriptor) {
-                    if (! $descriptor->isPublic()) {
-                        $descriptor->is_public = true;
-                        $descriptor->save();
-                        $that->service->reindexDocument($descriptor, KlinkVisibilityType::KLINK_PUBLIC);
-                    }
+                    $descriptor->publish($request->user());
                 }
 
                 $count = $documents->count();
@@ -437,11 +433,7 @@ class BulkController extends Controller
                 }
                 
                 foreach ($documents as $descriptor) {
-                    if ($descriptor->isPublic()) {
-                        $descriptor->is_public = false;
-                        $descriptor->save();
-                        $that->service->deletePublicDocument($descriptor);
-                    }
+                    $descriptor->unpublish($request->user());
                 }
 
                 $count = $documents->count();

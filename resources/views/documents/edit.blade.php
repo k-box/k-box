@@ -42,6 +42,8 @@
 
 <form action="{{route('documents.update', $document->id)}}" class="c-form edit-view" enctype="multipart/form-data" method="post" class="document-form" id="edit-form">
 
+	<input type="hidden" name="document_descriptor" value="{{ $document->id }}"'>
+
 	@if(!$document->trashed() && $document->isMine() && !$document->isFileUploadComplete())
 	
 	<div class="c-message c-message--warning">
@@ -169,9 +171,10 @@
 			@if($document->isMine() && $document->isIndexed() && $can_make_public && network_enabled())
 
 			<div class="c-form__field">
-				<input type="checkbox" name="visibility" id="visibility" value="public" @if($document->isPublic()) checked @endif>
-				<label for="visibility">{{trans('networks.publish_to_long', ['network' => network_name()])}}</label>
-				<span class="description @if($document->isPrivate()) hidden @endif">{{trans('documents.edit.public_visibility_description')}}</span>
+
+				@if($can_share || $can_make_public)
+				<button class="button js-open-share-dialog" data-id="{{$document->id}}">@materialicon('social','people', 'button__icon'){{ trans('panels.sharing_settings_btn') }}</button>
+				@endif
 			</div>
 
 			@endif
