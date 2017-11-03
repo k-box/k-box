@@ -97,16 +97,8 @@
 							<li><a href="#{{route('documents.create')}}" class="dropdown-el" id="upload_trigger">
 								@materialicon('action', 'description'){{trans('actions.upload')}}
 							</a></li>
-							<li><a href="{{route('uploads.index')}}" class="dropdown-el">
-								@materialicon('file', 'file_upload')New Uploader (preview)
-							</a></li>
-
-						@endif
-
-						@if(isset($can_import) && $can_import)
-
-							<li><a href="{{route('documents.import')}}" class="dropdown-el">
-								{{trans('actions.import')}}
+							<li><a href="{{ isset($context_group) ? route('uploads.index').'?c='.e($context_group) : route('uploads.index')}}" class="dropdown-el">
+								@materialicon('av', 'videocam'){{ trans('actions.upload_video') }}
 							</a></li>
 
 						@endif

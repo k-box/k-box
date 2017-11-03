@@ -66,7 +66,8 @@ return [
     ],
 
     'import' => 'Импорт',
-    'upload' => 'Файл',
+    'upload' => 'Upload Document',
+    'upload_video' => 'Upload Video',
     'upload_alt' => 'Загрузить',
 
     'save' => 'Сохранить',

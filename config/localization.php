@@ -255,6 +255,20 @@ return [
         'networks.make_public_dialog_text_count',
 
         'projects.labels.search_member_not_found',
+
+        // upload page
+
+        'upload.start',
+        'upload.remove',
+        'upload.open_file_location',
+        'upload.cancel',
+        'upload.cancel_question',
+        'upload.status.started',
+        'upload.status.queued',
+        'upload.status.uploading',
+        'upload.status.completed',
+        'upload.status.cancelled',
+        'upload.status.failed',
     ],
 
 ];

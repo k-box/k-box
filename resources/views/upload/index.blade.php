@@ -16,10 +16,17 @@
 @section('document_list_area')
 
     @include('errors.list')
+    
+    @if(isset($target_error) && $target_error)
+        <div class="c-message c-message--warning">
+            {{ $target_error }}
+        </div>
+    @endif
 
-	<h3>{{trans('documents.upload.page_title')}}</h3>
+	<h3>{{trans('actions.upload_alt')}} {!! $target !!}</h3>
+    
+    <p><em>{{ trans('upload.do_not_leave_the_page') }}</em></p>
 
-    @verbatim
 
     <div id="upload">
     </div>
@@ -28,12 +35,13 @@
 
         <div class="upload-trigger"> 
 
-            <label for="file">Drop here a file or <button class="upload-trigger__button">Select it</button></label>
+            <label for="file">{{ trans('upload.action_drop') }} {{ trans('actions.or_alt') }} <button class="upload-trigger__button">{{ trans('upload.action_select') }}</button></label>
 
             <input type="file" class="upload-field" name="file" id="file">
 
         </div>
     
+    @verbatim
 
         <div class="uploads-list">
 
@@ -63,28 +71,32 @@
                     <span class="meta-info progress">
                         {{ uploadPercentage }}%
                     </span>
-                    
+    @endverbatim    
                     <span class="meta-info">
-                        {{#if_eq status 1 }}
-                        <button class="button" data-action="start" data-id="{{ id }}" >Start</button>
-                        {{/if_eq }}
-                        {{#if_geq status 2 }}
-                        <button class="button" data-action="cancel" data-id="{{ id }}" >Cancel</button>
-                        {{/if_geq }}
-                        <button class="button" data-action="remove" data-id="{{ id }}">Remove</button>
+                        @{{#if_eq status 1 }}
+                        <button class="button" data-action="start" data-id="@{{ id }}">{{ trans('upload.start') }}</button>
+                        @{{/if_eq }}
+                        @{{#if_leq status 4 }}
+                        <button class="button" data-action="cancel" data-id="@{{ id }}">{{ trans('upload.cancel') }}</button>
+                        @{{/if_leq }}
+                        {{--  <button class="button" data-action="remove" data-id="@{{ id }}">{{ trans('upload.remove') }}</button>  --}}
+                        @{{#if_eq status 4 }}
+                        <button class="button" data-action="open" data-id="@{{ id }}">{{ trans('upload.open_file_location') }}</button>
+                        @{{/if_eq }}
                     </span>
                     
                 </div>
 
             </div>
+    @verbatim    
 
             {{/each}}
         
         </div>
 
+    @endverbatim
     </div>
 
-    @endverbatim
     
 
 @stop
@@ -100,6 +112,13 @@
 	<script>
         require(["modules/uploadjobs"], function(UploadJobs){
             $('.dz-message').hide();
+
+            @if($target_collection)
+
+                UploadJobs.setTargetCollection($target_collection);
+
+            @endif
+
         });
 	</script>
 

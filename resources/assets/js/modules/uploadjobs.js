@@ -5,22 +5,22 @@ define("modules/uploadjobs", ["jquery", "DMS", "modules/minimalbind", "sweetaler
     Handlebars.registerHelper('status', function(status) {
         switch (status) {
             case Uploader.Status.STARTED:
-                return "started";
+                return Lang.trans("upload.status.started");
                 break;
             case Uploader.Status.PENDING:
-                return "queued";
+                return Lang.trans("upload.status.queued");
                 break;
             case Uploader.Status.UPLOADING:
-                return "uploading";
+                return Lang.trans("upload.status.uploading");
                 break;
             case Uploader.Status.COMPLETED:
-                return "completed";
+                return Lang.trans("upload.status.completed");
                 break;
             case Uploader.Status.CANCELLED:
-                return "cancelled";
+                return Lang.trans("upload.status.cancelled");
                 break;
             case Uploader.Status.FAILED:
-                return "failed";
+                return Lang.trans("upload.status.failed");
                 break;
         
             default:
@@ -39,6 +39,13 @@ define("modules/uploadjobs", ["jquery", "DMS", "modules/minimalbind", "sweetaler
     
     Handlebars.registerHelper('if_geq', function(a, b, opts) {
         if(a >= b) 
+            return opts.fn(this);
+        else
+            return opts.inverse(this);
+    });
+    
+    Handlebars.registerHelper('if_leq', function(a, b, opts) {
+        if(a <= b) 
             return opts.fn(this);
         else
             return opts.inverse(this);
@@ -139,7 +146,6 @@ define("modules/uploadjobs", ["jquery", "DMS", "modules/minimalbind", "sweetaler
     }
 
     function pickNextUpload(){
-        debugger;
         var queue = Uploader.uploads();
         var pending = _.filter(queue, {status: Uploader.Status.QUEUED});
         var uploading = _.filter(queue, {status: Uploader.Status.UPLOADING});
