@@ -24,7 +24,7 @@ return [
 
     'download_btn' => 'Скачать',
     'open_btn' => 'Просмотр<sup>бета</sup>',
-    'open_site_btn' => 'Открыть веб-страницу',
+    'open_site_btn' => 'Открыть',
     'edit_btn' => 'Изменить',
     'edit_btn_title' => 'Изменить детали документа',
 
