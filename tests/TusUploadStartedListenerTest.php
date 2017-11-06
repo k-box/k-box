@@ -82,6 +82,5 @@ class TusUploadStartedListenerTest extends BrowserKitTestCase
         $this->assertEquals(DocumentDescriptor::STATUS_UPLOADING, $uploaded_descriptor->status);
         $this->assertEquals(1, $uploaded_descriptor->groups()->count());
         $this->assertEquals('That exact collection', $uploaded_descriptor->groups->first()->name);
-
     }
 }

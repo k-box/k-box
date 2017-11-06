@@ -60,13 +60,11 @@ class TusUploadStartedHandler
             // Creating the correspondent DocumentDescriptor
             $collection = null;
 
-            if($event->upload->metadata && isset($event->upload->metadata['collection'])){
+            if ($event->upload->metadata && isset($event->upload->metadata['collection'])) {
                 $collection = Group::find($event->upload->metadata['collection']);
             }
 
             $descriptor = $this->documentsService->createDocumentDescriptor($file->fresh(), 'private', $collection);
-
-
         } catch (\Exception $ex) {
             Log::error('File creation error while handling the TusUploadStarted event.', ['upload' => $event->upload,'error' => $ex]);
 

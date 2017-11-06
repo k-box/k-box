@@ -13,7 +13,7 @@ class UploadJobsController extends TusUploadQueueController
     {
         $upload_request = $uploads->findByUploadRequest($request->user()->id, $id);
 
-        if(!$upload_request){
+        if (! $upload_request) {
             return redirect()->back();
         }
 
@@ -21,16 +21,14 @@ class UploadJobsController extends TusUploadQueueController
 
         $file = File::where('request_id', $id)->first();
 
-        if(!$file){
+        if (! $file) {
             return redirect()->back();
         }
 
-
-        if($collection){
+        if ($collection) {
             return redirect()->route('documents.groups.show', [ 'id' => $collection, 'highlight' => $file->document->id]);
         }
 
         return redirect()->route('documents.index', ['highlight' => $file->document->id]);
-
     }
 }
