@@ -89,13 +89,18 @@ class KlinkApiController extends Controller
 
         $owner = ! is_null($user) && ! is_null($doc->owner) ? $doc->owner->id === $user->id || $user->isContentManager() : (is_null($doc->owner) ? true : false);
 
-        if (! ($is_in_collection || $is_shared || $doc->isPublic() || $owner)) {
+        if (! ($is_in_collection || $is_shared || $doc->isPublic() || $owner || $doc->hasPendingPublications())) {
             return view('errors.403', ['reason' => 'ForbiddenException: not shared, not in collection, not public or private of the user']);
         }
 
-        if ($action==='document' || $action==='preview') {
+        // transforming into a download, if request is made using Guzzle.
+        // This is a way of identifying that the request is coming from the K-Search, as, thanks to the proxy,
+        // the real host and IP addresses are not available
+        $isKSearchRequest = ($doc->isPublished() || $doc->hasPendingPublications()) && network_enabled() && str_contains(strtolower($request->userAgent()), 'guzzlehttp');
+
+        if (! $isKSearchRequest && ($action==='document' || $action==='preview')) {
             return $this->getPreview($request, $doc);
-        } elseif ($action==='download') {
+        } elseif ($isKSearchRequest || $action==='download') {
             return $this->getDocument($request, $doc);
         } elseif ($action==='thumbnail') {
             return $this->getThumbnail($request, $doc);
