@@ -62,7 +62,7 @@ class KlinkApiController extends Controller
         
         $user = $request->user();
 
-        if (! ($doc->isPublished() || $doc->hasPublicLink()) && is_null($user)) {
+        if (! ($doc->isPublished() || $doc->hasPendingPublications() || $doc->hasPublicLink()) && is_null($user)) {
             \Log::warning('KlinkApiController, requested a document that is not public and user is not authenticated', ['url' => $request->url()]);
 
             session()->put('url.dms.intended', $request->url());
