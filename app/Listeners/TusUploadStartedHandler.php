@@ -2,10 +2,11 @@
 
 namespace KlinkDMS\Listeners;
 
-use Avvertix\TusUpload\Events\TusUploadStarted;
+use Log;
+use KlinkDMS\Group;
 use Klink\DmsDocuments\DocumentsService;
 use Klink\DmsAdapter\KlinkDocumentUtils;
-use Log;
+use Avvertix\TusUpload\Events\TusUploadStarted;
 
 class TusUploadStartedHandler
 {
@@ -57,9 +58,15 @@ class TusUploadStartedHandler
             $file->save();
 
             // Creating the correspondent DocumentDescriptor
-            // TODO: handle addding document to collection
+            $collection = null;
 
-            $descriptor = $this->documentsService->createDocumentDescriptor($file->fresh());
+            if($event->upload->metadata && isset($event->upload->metadata['collection'])){
+                $collection = Group::find($event->upload->metadata['collection']);
+            }
+
+            $descriptor = $this->documentsService->createDocumentDescriptor($file->fresh(), 'private', $collection);
+
+
         } catch (\Exception $ex) {
             Log::error('File creation error while handling the TusUploadStarted event.', ['upload' => $event->upload,'error' => $ex]);
 

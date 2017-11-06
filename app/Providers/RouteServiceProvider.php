@@ -2,6 +2,7 @@
 
 namespace KlinkDMS\Providers;
 
+use Avvertix\TusUpload\Tus;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 
@@ -27,7 +28,7 @@ class RouteServiceProvider extends ServiceProvider
     {
         parent::boot();
 
-        //
+        Tus::routes();
     }
 
     /**

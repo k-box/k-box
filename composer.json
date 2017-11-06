@@ -20,7 +20,7 @@
 	"require": {
 		"php": ">=5.6.4",
 		"ext-fileinfo": "*",
-		"avvertix/laravel-tus-upload": "dev-master",
+		"avvertix/laravel-tus-upload": "0.1.*",
 		"avvertix/materialicons-laravel-bridge": "^0.1.0",
 		"barryvdh/laravel-async-queue": "0.6.*",
 		"doctrine/dbal": "^2.5",
@@ -103,5 +103,7 @@
 		"sort-packages": true, 
 		"optimize-autoloader": true,
 		"video-cli-download-url": "https://git.klink.asia/main/video-processing-cli/builds/artifacts/v0.2.0/browse?job=package"
-	}
+	},
+	"minimum-stability": "dev",
+	"prefer-stable": true	
 }

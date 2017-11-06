@@ -54,6 +54,9 @@ define("modules/uploadjobs", ["jquery", "DMS", "modules/minimalbind", "sweetaler
     var templateSource = $("#upload-template");
     var compiledTemplate = Handlebars.compile(templateSource.html());
     var bindArea = $("#upload");
+    var options = {
+        collection: null,
+    }
 
     templateSource.hide();
 
@@ -112,6 +115,32 @@ define("modules/uploadjobs", ["jquery", "DMS", "modules/minimalbind", "sweetaler
 
             Uploader.remove(this.id);
 
+        },
+        
+        open: function(){
+
+            console.log('open called', this);
+
+            var uploading = Uploader.uploads({status: Uploader.Status.UPLOADING});
+            var started = Uploader.uploads({status: Uploader.Status.STARTED});
+
+            if(uploading && uploading.length > 0 || started && started.length > 0){
+
+                var url = DMS.Paths.fullUrl('/uploadjobs/' + this.id);
+
+                var otherWindow = window.open();
+                otherWindow.opener = null;
+                otherWindow.location = url;
+            }
+            else {
+                DMS.navigate('/uploadjobs/' + this.id, null, false);
+            }
+
+
+        },
+
+        setTargetCollection: function(collection_id){
+            options.collection = collection_id;
         }
         
     };
@@ -170,7 +199,7 @@ define("modules/uploadjobs", ["jquery", "DMS", "modules/minimalbind", "sweetaler
 
         for (var i = 0, f, added; i < files.length ;  i++) {
             f = files[i];
-            added = Uploader.add(f);
+            added = Uploader.add(f, {collection: options.collection});
         }
 
 
@@ -222,5 +251,7 @@ define("modules/uploadjobs", ["jquery", "DMS", "modules/minimalbind", "sweetaler
         
 
     });
+
+    return upload_jobs_module;
 
 });

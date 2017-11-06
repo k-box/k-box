@@ -387,6 +387,10 @@ Route::get('/uploads', [
     'as' => 'uploads.index',
 ]);
 
+Route::post('/uploadjobs', 'UploadJobsController@store');
+Route::get('/uploadjobs/{id}', 'UploadJobsController@show');
+Route::delete('/uploadjobs/{id}', 'UploadJobsController@destroy');
+
 /*
 |--------------------------------------------------------------------------
 | Old /dms routes redirect

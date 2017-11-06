@@ -79,7 +79,6 @@
                         @{{#if_leq status 4 }}
                         <button class="button" data-action="cancel" data-id="@{{ id }}">{{ trans('upload.cancel') }}</button>
                         @{{/if_leq }}
-                        {{--  <button class="button" data-action="remove" data-id="@{{ id }}">{{ trans('upload.remove') }}</button>  --}}
                         @{{#if_eq status 4 }}
                         <button class="button" data-action="open" data-id="@{{ id }}">{{ trans('upload.open_file_location') }}</button>
                         @{{/if_eq }}
@@ -115,7 +114,7 @@
 
             @if($target_collection)
 
-                UploadJobs.setTargetCollection($target_collection);
+                UploadJobs.setTargetCollection('{{$target_collection}}');
 
             @endif
 
