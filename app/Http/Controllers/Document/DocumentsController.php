@@ -285,12 +285,6 @@ class DocumentsController extends Controller
         $list_of_docs = $list_of_docs->unique(function ($u) {
             return $u['id'];
         });
-        if ($list_of_docs->count() > config('dms.recent.limit')) {
-            $list_of_docs = $list_of_docs
-                ->sort(function ($el) {
-                    return $el->updated_at->timestamp;
-                })->take(config('dms.recent.limit'));
-        }
 
         
         $req->visibility('private');

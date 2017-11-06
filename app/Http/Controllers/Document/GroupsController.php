@@ -219,7 +219,7 @@ class GroupsController extends Controller
         // Could be the case that a sub-collection is marked private?
         $group_ids = [$group->toKlinkGroup()];
 
-        $group_ids = array_merge($group_ids, $this->service->getCollectionsAccessibleByUserFrom($user, $group)->take(80)->map(function ($grp) {
+        $group_ids = array_merge($group_ids, $this->service->getCollectionsAccessibleByUserFrom($user, $group)->map(function ($grp) {
             return $grp->toKlinkGroup();
         })->all());
         
