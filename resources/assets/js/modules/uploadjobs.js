@@ -126,14 +126,14 @@ define("modules/uploadjobs", ["jquery", "DMS", "modules/minimalbind", "sweetaler
 
             if(uploading && uploading.length > 0 || started && started.length > 0){
 
-                var url = DMS.Paths.fullUrl('/uploadjobs/' + this.id);
+                var url = DMS.Paths.fullUrl('uploadjobs/' + this.id);
 
                 var otherWindow = window.open();
                 otherWindow.opener = null;
                 otherWindow.location = url;
             }
             else {
-                DMS.navigate('/uploadjobs/' + this.id, null, false);
+                DMS.navigate('uploadjobs/' + this.id, null, true);
             }
 
 
