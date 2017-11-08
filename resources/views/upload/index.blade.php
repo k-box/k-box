@@ -33,11 +33,9 @@
 
     <div id="upload-template">
 
-        <div class="upload-trigger"> 
+        <div class="upload-trigger js-upload-fallback"> 
 
-            <label for="file">{{ trans('upload.action_drop') }} {{ trans('actions.or_alt') }} <button class="upload-trigger__button">{{ trans('upload.action_select') }}</button></label>
-
-            <input type="file" class="upload-field" name="file" id="file">
+            {{ trans('upload.action_drop') }} {{ trans('actions.or_alt') }} <button class="upload-trigger__button js-upload-fallback-button">{{ trans('upload.action_select') }}</button>
 
         </div>
     

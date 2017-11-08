@@ -146,6 +146,7 @@ define("modules/uploadjobs", ["jquery", "DMS", "modules/minimalbind", "sweetaler
     };
     
     function updateUI(){
+        // todo: introduce a small delay to enable the user to click on the cancel button while upload is in progress
         render(upload_jobs_module);
     }
 
@@ -208,15 +209,29 @@ define("modules/uploadjobs", ["jquery", "DMS", "modules/minimalbind", "sweetaler
 
 
     // Handle input change
-    var input = document.getElementById('file');
 
-    input.addEventListener("change", function(e) {
-        // Get the selected file from the input element
-        // var file = e.target.files[0]
-        addFiles(e.target.files);
-        // var added = Uploader.add(file);
+    var hiddenFileInput = null;
+    var setupHiddenFileInput = function setupHiddenFileInput() {
+        
+        if (hiddenFileInput) {
+          hiddenFileInput.parentNode.removeChild(hiddenFileInput);
+        }
+        hiddenFileInput = document.createElement("input");
+        hiddenFileInput.setAttribute("type", "file");
+        
+        hiddenFileInput.setAttribute("multiple", "multiple");
+        
+        hiddenFileInput.className = "upload-field";
 
-    });
+        document.querySelector('.js-upload-fallback').appendChild(hiddenFileInput);
+        return hiddenFileInput.addEventListener("change", function (e) {
+        
+          addFiles(e.target.files);
+
+          return setupHiddenFileInput();
+        });
+      };
+    setupHiddenFileInput();
 
 
     // Handle drag and drop
@@ -250,6 +265,11 @@ define("modules/uploadjobs", ["jquery", "DMS", "modules/minimalbind", "sweetaler
         addFiles(files);
         
 
+    });
+
+    bindArea.on('click', '.js-upload-fallback', function(evt){
+
+        hiddenFileInput.click();
     });
 
     return upload_jobs_module;
