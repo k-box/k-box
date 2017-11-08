@@ -189,7 +189,7 @@ define("modules/uploadjobs", ["jquery", "DMS", "modules/minimalbind", "sweetaler
     Uploader.on('upload.started',genericEventHandler);
     Uploader.on('upload.completed',nextUploadEventHandler);
     Uploader.on('upload.cancelled',nextUploadEventHandler);
-    Uploader.on('upload.progress',genericEventHandler);
+    Uploader.on('upload.progress',_.throttle(genericEventHandler, 500));
     Uploader.on('upload.failed',nextUploadEventHandler);
     Uploader.on('upload.removed',nextUploadEventHandler);
 
