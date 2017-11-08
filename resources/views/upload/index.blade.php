@@ -74,7 +74,7 @@
                         @{{#if_eq status 1 }}
                         <button class="button" data-action="start" data-id="@{{ id }}">{{ trans('upload.start') }}</button>
                         @{{/if_eq }}
-                        @{{#if_leq status 4 }}
+                        @{{#if_leq status 3 }}
                         <button class="button" data-action="cancel" data-id="@{{ id }}">{{ trans('upload.cancel') }}</button>
                         @{{/if_leq }}
                         @{{#if_eq status 4 }}
