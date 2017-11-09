@@ -22,13 +22,12 @@ return [
 
     'to' => 'в',
 
-    'do_not_leave_the_page' => 'Пожалуйста, не закрывайте эту страницу до заершения процесса загрузки. Вы можете продолжать использовать ваш брузер открыв новую вкладку.',
 
     'target' => [
-    'personal' => 'Загрузить в ваши <a href=":link" target="_blank" rel="noopener noreferrer">личные</a> файлы.',
-    'collection' => 'Загрузить в коллекцию <a href=":link" target="_blank" rel="noopener noreferrer">:name</a> в <strong>Моих коллекциях</strong>.',
-    'project' => 'Загрузить в проект <a href=":link" target="_blank" rel="noopener noreferrer">:name</a>.',
-    'project_collection' => 'Загрузить в коллекцию <a href=":link" target="_blank" rel="noopener noreferrer">:name</a> в проекте <a href=":project_link" target="_blank" rel="noopener noreferrer">:project_name</a>.',
+    'personal' => 'в ваши <a href=":link" target="_blank" rel="noopener noreferrer">личные</a> файлы.',
+    'collection' => 'в коллекцию <a href=":link" target="_blank" rel="noopener noreferrer">:name</a> в <strong>Моих коллекциях</strong>.',
+    'project' => 'в проект <a href=":link" target="_blank" rel="noopener noreferrer">:name</a>.',
+    'project_collection' => 'в коллекцию <a href=":link" target="_blank" rel="noopener noreferrer">:name</a> в проекте <a href=":project_link" target="_blank" rel="noopener noreferrer">:project_name</a>.',
     'error' => 'У вас нет доступа к данной коллекции',
     ],
 
