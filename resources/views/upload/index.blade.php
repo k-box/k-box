@@ -13,7 +13,11 @@
 @stop
 
 
-@section('document_list_area')
+@section('content')
+
+<div id="documents-list">
+
+    <div id="document-area">
 
     @include('errors.list')
     
@@ -94,7 +98,8 @@
     @endverbatim
     </div>
 
-    
+</div>
+</div>
 
 @stop
 
