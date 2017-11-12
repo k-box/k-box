@@ -67,9 +67,12 @@ laravel:
   script:
     - cp env.ci .env
     - composer install --no-dev --prefer-dist
+    - composer run install-content-cli
+    - composer run install-language-cli
   artifacts:
     expire_in: 1 day
     paths:
+    - bin/
     - vendor/
     - public/js/nls/
 
@@ -92,6 +95,8 @@ unit_test:
     - composer install --prefer-dist
     - composer run install-video-cli
     - chmod +x ./bin/bin/packager-linux
+    - composer run install-content-cli
+    - composer run install-language-cli
     - php artisan config:clear
     - php artisan migrate --env=testing --force
     - php artisan db:seed --env=testing --force

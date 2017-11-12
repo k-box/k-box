@@ -38,7 +38,8 @@
 		"php-http/guzzle6-adapter": "^1.1",
 		"phpoffice/phppresentation": "^0.8.0",
 		"phpoffice/phpspreadsheet": "dev-master",
-		"phpoffice/phpword": "~0.13.0"
+		"phpoffice/phpword": "~0.13.0",
+		"rinvex/language": "^1.1"
 	},
 	"require-dev": {
 		"barryvdh/laravel-ide-helper": "^2.3",
@@ -60,7 +61,8 @@
 			"KlinkDMS\\": "app/",
             "Klink\\DmsMicrosites\\": "workbench/klink/dms-project-microsites/src/",
 			"Content\\": "packages/contentprocessing/src/",
-			"OneOffTech\\VideoProcessing\\": "packages/video-processing/src/"
+			"OneOffTech\\VideoProcessing\\": "packages/video-processing/src/",
+			"OneOffTech\\LanguageGuesser\\": "packages/language-guesser/src/"
 		},
 		"psr-0": {
             "Klink\\DmsAdapter\\": "workbench/klink/dms-adapter/src/",
@@ -96,13 +98,20 @@
 		],
         "install-video-cli": [
             "OneOffTech\\VideoProcessing\\ComposerScripts::postInstall"
+        ],
+        "install-language-cli": [
+            "OneOffTech\\LanguageGuesser\\ComposerScripts::postInstall"
+        ],
+        "install-content-cli": [
+            "Content\\ComposerScripts::postInstall"
         ]
 	},
 	"config": {
 		"preferred-install": "dist",
 		"sort-packages": true, 
 		"optimize-autoloader": true,
-		"video-cli-download-url": "https://git.klink.asia/main/video-processing-cli/builds/artifacts/v0.2.0/browse?job=package"
+		"video-cli-download-url": "https://git.klink.asia/main/video-processing-cli/builds/artifacts/v0.2.0/browse?job=package",
+		"language-guesser-binary": "https://github.com/avvertix/franc-bin/releases/download/v0.1.0/franc-bin"
 	},
 	"minimum-stability": "dev",
 	"prefer-stable": true	

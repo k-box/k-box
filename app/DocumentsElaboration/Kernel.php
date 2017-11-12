@@ -15,6 +15,7 @@ class Kernel
      */
     protected $actions = [
         \KlinkDMS\DocumentsElaboration\Actions\ExtractFileProperties::class,
+        \KlinkDMS\DocumentsElaboration\Actions\GuessLanguage::class,
         \KlinkDMS\DocumentsElaboration\Actions\AddToSearch::class,
         \KlinkDMS\DocumentsElaboration\Actions\GenerateThumbnail::class,
         \KlinkDMS\DocumentsElaboration\Actions\ElaborateVideo::class,

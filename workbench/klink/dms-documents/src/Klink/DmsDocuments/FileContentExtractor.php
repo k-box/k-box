@@ -7,6 +7,7 @@ use Klink\DmsAdapter\KlinkDocumentUtils;
 
 /**
  * Basic Textual content extractor from files that are not indexable by the K-Link Core
+ * @deprecated
  */
 class FileContentExtractor
 {
@@ -68,8 +69,8 @@ class FileContentExtractor
         return $utf8_content = mb_convert_encoding($content, 'UTF-8',
                       mb_detect_encoding($content, 'UTF-8, ISO-8859-1', true));
     }
-    
-    
+
+   
     // File content extraction methods
     
     /**
