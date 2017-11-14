@@ -182,8 +182,8 @@ final class KlinkDocumentDescriptor
         $data->properties->title = $this->descriptor->title;
         $data->properties->filename = $this->descriptor->isMine() ? $this->descriptor->file->name : $this->descriptor->title;
 		$data->properties->mime_type = $this->descriptor->mime_type;
-		// TODO: setting language to en if not specified. This is due from a change in the K-Search API that do not extract language automatically
-		$data->properties->language = !is_null($this->descriptor->language) && $this->descriptor->language !== 'unknown' ? $this->descriptor->language : 'en';
+		$data->properties->language = !is_null($this->descriptor->language) && $this->descriptor->language !== 'unknown' ? $this->descriptor->language : '__';
+			// using __ to define that no language is specified for that document
 		$data->properties->collections = $this->collections;
 		$data->properties->tags = $this->projects;
 		

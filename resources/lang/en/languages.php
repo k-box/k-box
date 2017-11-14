@@ -13,6 +13,7 @@ return [
 
     'no_language' => 'No language recognized',
     '' => 'No language recognized',
+    '__' => 'No language recognized',
     'en' => 'English',
     'ru' => 'Russian',
     'tg' => 'Tajik',
