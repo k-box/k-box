@@ -54,7 +54,7 @@ class LanguageCli
             throw new RuntimeException("Invalid Language CLI path [{$driver}].");
         }
 
-        $executable = basename(realpath($driver));
+        $executable = realpath($driver);
 
         $options = [];
 
@@ -72,7 +72,7 @@ class LanguageCli
         }
 
         $this->process = $process = new Process(
-            sprintf('%1$s %2$s "%3$s"', $executable, join(' ', $options), $this->text),
+            sprintf('"%1$s" %2$s "%3$s"', $executable, join(' ', $options), $this->text),
             realpath(base_path(self::CLI_FOLDER)));
         
         $process->setTimeout(null);
