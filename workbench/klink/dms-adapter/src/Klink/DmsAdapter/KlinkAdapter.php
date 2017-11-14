@@ -40,7 +40,7 @@ class KlinkAdapter implements AdapterContract
     public function __construct()
     {
         $this->connections = [
-            KlinkVisibilityType::KLINK_PRIVATE => Client::build(config('dms.core.address'))
+            KlinkVisibilityType::KLINK_PRIVATE => Client::build(config('dms.core.address'), null)
         ];
         
         try {
@@ -156,9 +156,9 @@ class KlinkAdapter implements AdapterContract
             $status = $this->selectConnection($document->getDescriptor()->getVisibility())->getStatus($document->getDescriptor()->uuid());
             $cycles++;
         }
-        while(strtolower($status) !== 'ok' && $cycles < 40);
+        while(strtolower($status->status) !== 'ok' && $cycles < 40);
 
-        if(strtolower($status) !== 'ok'){
+        if(strtolower($status->status) !== 'ok'){
             throw new KlinkException('Indexing is still in progress after 400 seconds, aborting.');
         }
 

@@ -184,7 +184,7 @@ class DocumentDescriptorTest extends BrowserKitTestCase
         $this->assertEquals($document->language, $data1->properties->language);
         $this->assertEquals($document->abstract, $data1->properties->abstract);
         $this->assertEquals($document->mime_type, $data1->properties->mime_type);
-        $this->assertTrue(is_array($data1->author));
+        $this->assertTrue(is_array($data1->authors));
 
         if ($visibility === KlinkVisibilityType::KLINK_PRIVATE) {
             $groups = $descriptor->collections();

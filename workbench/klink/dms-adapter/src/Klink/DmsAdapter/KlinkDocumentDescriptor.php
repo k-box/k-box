@@ -158,7 +158,7 @@ final class KlinkDocumentDescriptor
 		}
 
 		// Author is a required field, so if no authors are inserted by humans I will add the owner as an author. 
-        $data->author = $processed_authors;
+        $data->authors = $processed_authors;
 		
 		$uploader = new Uploader();
 		// TODO: this is only a default value for initial usage, this must be changed to reflect the uploader that should be shown

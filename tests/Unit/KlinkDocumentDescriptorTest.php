@@ -36,8 +36,8 @@ class KlinkDocumentDescriptorTest extends TestCase
         $this->assertEquals($descriptor->mime_type, $data->properties->mime_type);
         $this->assertEquals($descriptor->thumbnail_uri, $data->properties->thumbnail);
 
-        $this->assertNotNull($data->author);
-        $this->assertCount(1, $data->author);
-        $this->assertContainsOnlyInstancesOf(Author::class, $data->author);
+        $this->assertNotNull($data->authors);
+        $this->assertCount(1, $data->authors);
+        $this->assertContainsOnlyInstancesOf(Author::class, $data->authors);
     }
 }
