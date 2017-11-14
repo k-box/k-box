@@ -132,12 +132,13 @@ class DocumentsController extends Controller
 
         return view('documents.documents', [
             'pagetitle' => (is_null($visibility) ? '': ($visibility === 'public' ? network_name().' ' : trans('documents.menu.'.($is_personal ? 'personal' : $visibility)).' ')).trans('documents.page_title'),
-            'documents' => $results->getCollection(), /*'collections' => $groups,*/
+            'documents' => $results ? $results->getCollection() : collect(),
             'context' => is_null($visibility) ? 'all' : $visibility,
             'pagination' => $results,
+            'is_search_failed' => $results === null,
             'search_terms' => $req->term,
-            'facets' => $results->facets(),
-            'filters' => $results->filters(),
+            'facets' => $results !== null ? $results->facets() : [],
+            'filters' => $results !== null ? $results->filters() : [],
             'current_visibility' => $is_personal ? 'private' : $visibility,
             'is_personal' => $is_personal,
             'hint' => $showing_only_local_public ? trans('documents.messages.local_public_only') : false,

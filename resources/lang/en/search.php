@@ -24,6 +24,8 @@ return [
 
     'error' => 'There was a problem connecting to the K-Link Core for making the search. The team has been notified and is working on a solution.',
 
+    'failure' => 'There was a problem on our end, the search request cannot be processed. Please notify the administrator if the problem persists.',
+
     'empty_query' => 'Insert something in the search field above and press enter to start searching.',
 
     'loading_filters' => 'Loading filters...',

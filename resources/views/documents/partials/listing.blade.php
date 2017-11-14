@@ -15,6 +15,11 @@
 
 		@endforeach
 
+	@elseif(isset($is_search_failed) && $is_search_failed)
+
+			<div class="c-message c-message--error">
+				<p>{{ trans('search.failure') }}</p>
+			</div>
 	@else
 
 
