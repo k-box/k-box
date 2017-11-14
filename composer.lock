@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "31d6da2f3d19e4edd3fb3f71ce617793",
+    "content-hash": "502882263cd954bca620f670a252225d",
     "packages": [
         {
             "name": "avvertix/laravel-tus-upload",
@@ -12,7 +12,7 @@
             "source": {
                 "type": "git",
                 "url": "https://git.klink.asia/alessio.vertemati/laravel-tus-upload",
-                "reference": "f8e1a702fb00c337e38f2c90742f7c335fd4e9f4"
+                "reference": "19f735aa93ea76c6ae9d6d9bf5c301d3a50faf3f"
             },
             "require": {
                 "illuminate/auth": "5.4.*",
@@ -31,11 +31,6 @@
                 "phpunit/phpunit": "~5.7"
             },
             "type": "project",
-            "extra": {
-                "brach-alias": {
-                    "dev-master": "0.1.x-dev"
-                }
-            },
             "autoload": {
                 "classmap": [
                     "database"
@@ -62,7 +57,7 @@
                 "tus",
                 "upload"
             ],
-            "time": "2017-11-05T09:55:46+00:00"
+            "time": "2017-08-31T09:13:07+00:00"
         },
         {
             "name": "avvertix/materialicons-laravel-bridge",
