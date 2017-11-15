@@ -32,7 +32,7 @@
 	</a>
 
 
-	<a href="{{route('documents.sharedwithme')}}" data-drop="true" data-drop-action="share" class="navigation__item navigation__item--link @if(\Request::is('*shared-with-me')) navigation__item--current @endif">
+	<a href="{{route('documents.sharedwithme')}}" data-drop="true" data-drop-action="share" class="navigation__item navigation__item--link @if(\Request::is('*shared-with-me') || (isset($context_group_shared) && $context_group_shared)) navigation__item--current @endif">
 		@materialicon('social', 'people', 'navigation__item__icon'){{trans('documents.menu.shared')}}
 	</a>
 	

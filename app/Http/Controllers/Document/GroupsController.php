@@ -239,7 +239,13 @@ class GroupsController extends Controller
             return false;
         });
 
-        $parents = $group->getAncestors()->reverse();
+        // The the ancestors that are viewable by the current user
+        $parents = $group->getAncestors()->reverse()->filter(function($c) use ($user){
+            return $this->service->isCollectionAccessible($user, $c);
+        });
+
+        // coming from shared section if collection is explicitely shared with the current user
+        $browsing_via_shared = $group->isSharedWith($user);
 
         return view('documents.documents', [
             'pagetitle' => $group->name,
@@ -248,6 +254,7 @@ class GroupsController extends Controller
             'context' => 'group',
             'context_group' => $group->id,
             'context_group_instance' => $group,
+            'context_group_shared' => $browsing_via_shared, 
             'filter' => $group->name,
             'parents' => $parents,
             'pagination' => $results,

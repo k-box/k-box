@@ -214,6 +214,11 @@ class Group extends Entity implements GroupInterface
     {
         return filter_var($value, FILTER_VALIDATE_BOOLEAN);
     }
+    
+    public function isSharedWith($user)
+    {
+        return $this->shares()->sharedWithMe($user)->count() > 0;
+    }
 
     public function getNameAttribute($value)
     {

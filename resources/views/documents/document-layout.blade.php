@@ -8,7 +8,11 @@
 		
 		@if($context ==='group' && isset($context_group_instance))
 		
-			@if($context_group_instance->is_private)
+			@if(isset($context_group_shared) && $context_group_shared)
+
+				<a href="{{route('documents.sharedwithme')}}" class="breadcrumb__item">{{trans('documents.menu.shared')}}</a>
+
+			@elseif($context_group_instance->is_private)
 				
 				<span class="breadcrumb__item">{{trans('groups.collections.personal_title')}}</span>
 			

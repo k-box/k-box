@@ -930,7 +930,7 @@ class DocumentsService
         
         // check if is shared with the user
         $shared = Shared::sharedWithMe($user)->where('shareable_id', $group->id)->where('shareable_type', get_class($group))->count() > 0;
-        
+
         return $personal || $project || $shared;
     }
     
