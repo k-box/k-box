@@ -3,7 +3,8 @@
 namespace Content\Pdf;
 
 use RuntimeException;
-use Symfony\Component\Process\ProcessBuilder;
+use Symfony\Component\Process\Process;
+use Illuminate\Support\Facades\Storage;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 
 class PdfCli
@@ -39,31 +40,46 @@ class PdfCli
             throw new RuntimeException("Invalid PDF CLI path [{$driver}].");
         }
 
-        $builder = (new ProcessBuilder())
-                ->setPrefix(realpath($driver))
-                ->setWorkingDirectory(realpath(base_path(self::CLI_FOLDER)));
+        // $process = $builder->getProcess();
+        $storage = Storage::disk('local');
 
-        $builder->add($file);
-        $builder->add('-');
+        if (! $storage->exists('extraction-cache/')) {
+            $storage->makeDirectory('extraction-cache/');
+        }
 
-        $process = $builder->getProcess();
+        // create temporary file
+        $extract_in = $storage->path('extraction-cache/'.md5(basename($file)).'.txt');
+
+        $executable = realpath($driver);
         
-        // pass the inputs
+        $this->process = $process = new Process(
+            sprintf('"%1$s" -enc UTF-8 "%2$s" "%3$s"', $executable, $file, $extract_in),
+            realpath(base_path(self::CLI_FOLDER)));
         
         $process->setTimeout(null);
         $process->setIdleTimeout(null);
 
+        $plain_text = null;
+
         try {
             $process->mustRun();
 
+            $content = file_get_contents($extract_in);
+        
+            $plain_text = mb_convert_encoding($content, 'UTF-8',
+                            mb_detect_encoding($content, 'UTF-8, ASCII, ISO-8859-1, ISO-8859-2, ISO-8859-3, ISO-8859-4, ISO-8859-5, ISO-8859-6, ISO-8859-7, ISO-8859-8, ISO-8859-9, ISO-8859-10, ISO-8859-13, ISO-8859-14, ISO-8859-15, ISO-8859-16, Windows-1251, Windows-1252, Windows-1254', true));
+    
+            $storage->delete($extract_in);
+            
             if (! $process->isSuccessful()) {
                 throw new ProcessFailedException($process);
             }
         } catch (ProcessFailedException $ex) {
+            $storage->delete($extract_in);
             throw $ex;
         }
 
-        return trim($process->getOutput(), " \t\n\r\0\x0B\x0C");
+        return trim($plain_text, " \t\n\r\0\x0B\x0C");
     }
 
     private static function getCliExecutable()
