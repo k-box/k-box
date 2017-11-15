@@ -240,7 +240,7 @@ class GroupsController extends Controller
         });
 
         // The the ancestors that are viewable by the current user
-        $parents = $group->getAncestors()->reverse()->filter(function($c) use ($user){
+        $parents = $group->getAncestors()->reverse()->filter(function ($c) use ($user) {
             return $this->service->isCollectionAccessible($user, $c);
         });
 
@@ -254,7 +254,7 @@ class GroupsController extends Controller
             'context' => 'group',
             'context_group' => $group->id,
             'context_group_instance' => $group,
-            'context_group_shared' => $browsing_via_shared, 
+            'context_group_shared' => $browsing_via_shared,
             'filter' => $group->name,
             'parents' => $parents,
             'pagination' => $results,
