@@ -12,7 +12,7 @@ class LocalLanguageGuesser implements LanguageGuesserContract
         $cli = new LanguageCli($text, false, $blacklist);
         $out = $cli->run();
        
-        return $out;
+        return substr(trim($out), 0, 3);
     }
 
     public function isInstalled()

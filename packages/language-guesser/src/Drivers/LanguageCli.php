@@ -72,8 +72,10 @@ class LanguageCli
         }
 
         $this->process = $process = new Process(
-            sprintf('"%1$s" %2$s "%3$s"', $executable, join(' ', $options), $this->text),
-            realpath(base_path(self::CLI_FOLDER)));
+            sprintf('"%1$s" %2$s', $executable, join(' ', $options)),
+            realpath(base_path(self::CLI_FOLDER)),
+            null,
+            $this->text);
         
         $process->setTimeout(null);
         $process->setIdleTimeout(null);

@@ -45,4 +45,13 @@ class LanguageCliTest extends TestCase
 
         $this->assertRegExp('/.{3}\s\d/m', $output);
     }
+    
+    public function test_language_cli_handles_shell_escapes()
+    {
+        $cli = new LanguageCli("() { :;};exit 1 \"; exit 1 \'; exit 1 \nexit 1 `exit 1` $(exit 1)`", true, ['sco']);
+
+        $output = $cli->run();
+
+        $this->assertRegExp('/.{3}\s\d/m', $output);
+    }
 }
