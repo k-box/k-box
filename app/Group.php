@@ -90,7 +90,7 @@ class Group extends Entity implements GroupInterface
     {
         
         // One to One
-        return $this->belongsTo('KlinkDMS\User');
+        return $this->belongsTo('KlinkDMS\User')->withTrashed();
     }
     
     public function project()

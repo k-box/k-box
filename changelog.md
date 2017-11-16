@@ -40,6 +40,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Show the share item in the context menu only if the user can share, as well as on the details panel
 - Document sidebar not appearing on Internet Explorer 9-11
 - Breadcrumbs for shared collection now shows only the collection that the user has access to
+- Loading shared page if a disabled user shared a collection with you
 
 ### Removed
 
