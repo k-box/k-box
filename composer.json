@@ -13,8 +13,11 @@
 		{
             "type": "vcs",
 			"url": "https://git.klink.asia/alessio.vertemati/laravel-tus-upload"
-        }
-        
+		},
+		{
+			"type": "vcs",
+			"url": "https://git.klink.asia/main/k-link-video-streaming-client-php.git"
+		}        
     ],
 
 	"require": {
@@ -35,6 +38,7 @@
 		"laravel/framework": "5.4.*",
 		"laravel/tinker": "~1.0",
 		"league/csv": "^8.0",
+		"oneofftech/k-link-streaming-upload-client": "0.1.*",
 		"php-http/guzzle6-adapter": "^1.1",
 		"phpoffice/phppresentation": "^0.8.0",
 		"phpoffice/phpspreadsheet": "dev-master",
@@ -104,7 +108,9 @@
         ],
         "install-content-cli": [
             "Content\\ComposerScripts::postInstall"
-        ]
+		],
+		"install-streaming-client": "@composer run-script post-install-cmd -d ./vendor/oneofftech/k-link-streaming-upload-client"
+		
 	},
 	"config": {
 		"preferred-install": "dist",

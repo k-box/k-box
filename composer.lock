@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "502882263cd954bca620f670a252225d",
+    "content-hash": "1917ba92c473fd001461c36f19589cb7",
     "packages": [
         {
             "name": "avvertix/laravel-tus-upload",
@@ -1686,6 +1686,52 @@
             "time": "2017-11-14T00:00:00+00:00"
         },
         {
+            "name": "kitetail/zttp",
+            "version": "v0.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kitetail/zttp.git",
+                "reference": "fb8f379c5d34d56399c5038226a1db845220ff8b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kitetail/zttp/zipball/fb8f379c5d34d56399c5038226a1db845220ff8b",
+                "reference": "fb8f379c5d34d56399c5038226a1db845220ff8b",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^6.0",
+                "php": ">=7.0",
+                "tightenco/collect": "^5.4"
+            },
+            "require-dev": {
+                "laravel/lumen-framework": "^5.4",
+                "phpunit/phpunit": "^6.0"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/Zttp.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Adam Wathan",
+                    "email": "adam.wathan@gmail.com"
+                }
+            ],
+            "description": "A developer-experience focused HTTP client, optimized for most common use cases.",
+            "keywords": [
+                "Guzzle",
+                "http"
+            ],
+            "time": "2017-07-20T14:16:37+00:00"
+        },
+        {
             "name": "laravel/framework",
             "version": "v5.4.36",
             "source": {
@@ -2401,6 +2447,60 @@
                 }
             ],
             "time": "2017-04-29T15:27:41+00:00"
+        },
+        {
+            "name": "oneofftech/k-link-streaming-upload-client",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://git.klink.asia/main/k-link-video-streaming-client-php.git",
+                "reference": "e4c098c241c3235f9b84f92c75fea5419e1febb7"
+            },
+            "require": {
+                "kitetail/zttp": "^0.2.0",
+                "php": ">=7.0",
+                "symfony/process": "~3.2"
+            },
+            "require-dev": {
+                "fzaninotto/faker": "~1.4",
+                "mockery/mockery": "0.9.*",
+                "phpunit/phpunit": "~6.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Oneofftech\\KlinkStreaming\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "post-install-cmd": [
+                    "Oneofftech\\KlinkStreaming\\Installer::downloadTusClient"
+                ],
+                "post-update-cmd": [
+                    "Oneofftech\\KlinkStreaming\\Installer::downloadTusClient"
+                ]
+            },
+            "license": [
+                "AGPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "alessio",
+                    "email": "alessio.vertemati@oneofftech.xyz"
+                }
+            ],
+            "description": "Upload videos to a K-Link Streaming Service",
+            "time": "2017-11-17T09:33:03+00:00"
         },
         {
             "name": "paragonie/random_compat",

@@ -93,7 +93,7 @@
                         @if( isset($errors) && $errors->has('public_core_network_name_en') )
                             <span class="field-error">{{ implode(",", $errors->get('public_core_network_name_en'))  }}</span>
                         @endif
-                        <input class="c-form__input" type="text" required name="public_core_network_name_en" id="public_core_network_name_en" value="{{old('public_core_network_name_en', isset($public_core_network_name_en) ? $public_core_network_name_en : '')}}">
+                        <input class="c-form__input" type="text" name="public_core_network_name_en" id="public_core_network_name_en" value="{{old('public_core_network_name_en', isset($public_core_network_name_en) ? $public_core_network_name_en : '')}}">
                         </div>
 
                         <div class="c-form__field">
@@ -101,9 +101,24 @@
                         @if( isset($errors) && $errors->has('public_core_network_name_ru') )
                             <span class="field-error">{{ implode(",", $errors->get('public_core_network_name_ru'))  }}</span>
                         @endif
-                        <input class="c-form__input" type="text" required name="public_core_network_name_ru" id="public_core_network_name_ru" value="{{old('public_core_network_name_ru', isset($public_core_network_name_ru) ? $public_core_network_name_ru : '')}}">
+                        <input class="c-form__input" type="text" name="public_core_network_name_ru" id="public_core_network_name_ru" value="{{old('public_core_network_name_ru', isset($public_core_network_name_ru) ? $public_core_network_name_ru : '')}}">
                         </div>
 
+
+                    </div>
+                    
+                    <div class="c-form__field">
+
+                        <strong>{{ trans('networks.settings.streaming_section') }}</strong><br/>
+                        <p class="c-section__description">{{ trans('networks.settings.streaming_section_help') }}</span>
+
+                        <div class="c-form__field">
+                        <label for="streaming_service_url">{{trans('networks.settings.streaming_service_url')}}</label>
+                        @if( isset($errors) && $errors->has('streaming_service_url') )
+                            <span class="field-error">{{ implode(",", $errors->get('streaming_service_url'))  }}</span>
+                        @endif
+                        <input class="c-form__input c-form__input--larger" type="text" name="streaming_service_url" id="streaming_service_url" value="{{old('streaming_service_url', isset($streaming_service_url) ? $streaming_service_url : '')}}">
+                        </div>
 
                     </div>
                     

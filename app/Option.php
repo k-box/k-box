@@ -38,6 +38,12 @@ class Option extends Model
     const PUBLIC_CORE_NETWORK_NAME_RU = 'public_core_network_name_ru';
     
     /**
+     * Option name for storing the url of the video streaming service
+     * to use for public video publishing
+     */
+    const STREAMING_SERVICE_URL = 'streaming_service_url';
+    
+    /**
      * The option that stores the key for the UserVoice support service
      */
     const SUPPORT_TOKEN = 'support_token';

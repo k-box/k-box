@@ -14,6 +14,7 @@ use KSearchClient\Model\Data\CopyrightUsage;
 use KSearchClient\Model\Data\Properties\Video as VideoProperties;
 use KSearchClient\Model\Data\Properties\Audio as AudioProperties;
 use KSearchClient\Model\Data\Properties\Source as VideoSource;
+use KSearchClient\Model\Data\Properties\Streaming as VideoStreaming;
 
 /**
  * The mapping between DocumentDescriptor and K-Search Data model
@@ -210,6 +211,24 @@ final class KlinkDocumentDescriptor
 				$source->resolution = $file_properties->get('video.resolution', 'unknown'); 
 				$source->bitrate = $file_properties->get('bitrate', 'unknown'); 
 			});
+
+			// if public is requested and has a streaming URL
+			
+			if($this->visibility === KlinkVisibilityType::KLINK_PUBLIC && $this->descriptor->hasPendingPublications()){
+				
+				$publication = $this->descriptor->publication();
+
+				if($publication && $publication->streaming_url){
+
+					$streaming_properties = tap(new VideoStreaming(), function($stream) use ($publication){
+						$stream->type = 'dash';
+						$stream->url = $publication->streaming_url;
+					});
+					
+					$video_properties->streaming = [$streaming_properties];
+				}
+
+			}
 			
 			$data->properties->video = $video_properties;
 			

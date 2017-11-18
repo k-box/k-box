@@ -4,6 +4,8 @@ namespace KlinkDMS\Jobs;
 
 use Illuminate\Bus\Queueable;
 use KlinkDMS\Publication;
+use KlinkDMS\Option;
+use KlinkDMS\Facades\KlinkStreaming;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Klink\DmsAdapter\KlinkVisibilityType;
@@ -44,6 +46,24 @@ class UnPublishDocumentJob implements ShouldQueue
         }
         
         try {
+            if ($document->file->isVideo() &&
+                network_enabled() &&
+                ! empty(Option::option(Option::STREAMING_SERVICE_URL, null)) &&
+                ! empty($this->publication->streaming_url) &&
+                ! empty($this->publication->streaming_id)) {
+                try {
+                    KlinkStreaming::delete($this->publication->streaming_id);
+
+                    $this->publication->streaming_url = null;
+                    $this->publication->streaming_id = null;
+
+                    $this->publication->save();
+                } catch (\Exception $ex) {
+                    \Log::error('Updating streaming video error', ['publication' => $this->publication, 'document' => $document, 'error' => $ex]);
+                    throw $ex;
+                }
+            }
+
             $service->removeDocumentById($document->uuid, KlinkVisibilityType::KLINK_PUBLIC);
 
             $this->publication->unpublished = true;

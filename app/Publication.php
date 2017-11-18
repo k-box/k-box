@@ -29,7 +29,11 @@ class Publication extends Model
     protected $fillable = [
         'published_by',
         'unpublished_by',
+        'published_at',
+        'unpublished_at',
         'pending',
+        'streaming_url',
+        'streaming_id',
     ];
 
     protected $casts = [

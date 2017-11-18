@@ -48,6 +48,7 @@ class SettingsAdministrationController extends Controller
       Option::PUBLIC_CORE_PASSWORD => @base64_decode(Option::option(Option::PUBLIC_CORE_PASSWORD, '')),
       Option::PUBLIC_CORE_NETWORK_NAME_EN => Option::option(Option::PUBLIC_CORE_NETWORK_NAME_EN, ''),
       Option::PUBLIC_CORE_NETWORK_NAME_RU => Option::option(Option::PUBLIC_CORE_NETWORK_NAME_RU, ''),
+      Option::STREAMING_SERVICE_URL => Option::option(Option::STREAMING_SERVICE_URL, ''),
       Option::SUPPORT_TOKEN => support_token(),
       Option::ANALYTICS_TOKEN => Option::analytics_token(),
     ];
@@ -119,6 +120,13 @@ class SettingsAdministrationController extends Controller
                     // disable it
                     Option::put(Option::PUBLIC_CORE_ENABLED, false);
                 }
+            }
+
+            if ($request->has(Option::STREAMING_SERVICE_URL) && ! empty($request->input(Option::STREAMING_SERVICE_URL, null))) {
+                Option::put(Option::STREAMING_SERVICE_URL, $request->input(Option::STREAMING_SERVICE_URL, null));
+            } else {
+                // disable it
+                Option::put(Option::STREAMING_SERVICE_URL, '');
             }
       
             return redirect()->route('administration.settings.index')->with([

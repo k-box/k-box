@@ -196,6 +196,7 @@ return [
          */
         Content\Providers\ThumbnailsServiceProvider::class,
         Content\Providers\PreviewServiceProvider::class,
+        Content\Providers\TextExtractionServiceProvider::class,
             
         /**
          * Async Queue
@@ -228,6 +229,7 @@ return [
         KlinkDMS\Providers\EventServiceProvider::class,
         KlinkDMS\Providers\RouteServiceProvider::class,
         KlinkDMS\Providers\ViewComposerServiceProvider::class,
+        KlinkDMS\Providers\KlinkStreamingServiceProvider::class,
 
         MaterialIcons\MaterialIconsBridgeServiceProvider::class,
 
@@ -301,6 +303,8 @@ return [
         'DmsRouting' => KlinkDMS\RoutingHelpers::class,
 
         'LocalizedDate' => Jenssegers\Date\Date::class,
+        
+        'KlinkStreaming' => KlinkDMS\Facades\KlinkStreaming::class,
 
     ],
 

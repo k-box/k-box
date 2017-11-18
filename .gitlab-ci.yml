@@ -69,6 +69,7 @@ laravel:
     - composer install --no-dev --prefer-dist
     - composer run install-content-cli
     - composer run install-language-cli
+    - composer run install-streaming-client
   artifacts:
     expire_in: 1 day
     paths:
@@ -97,6 +98,7 @@ unit_test:
     - chmod +x ./bin/bin/packager-linux
     - composer run install-content-cli
     - composer run install-language-cli
+    - composer run install-streaming-client
     - php artisan config:clear
     - php artisan migrate --env=testing --force
     - php artisan db:seed --env=testing --force

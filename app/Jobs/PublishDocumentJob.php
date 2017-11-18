@@ -4,6 +4,8 @@ namespace KlinkDMS\Jobs;
 
 use Illuminate\Bus\Queueable;
 use KlinkDMS\Publication;
+use KlinkDMS\Option;
+use KlinkDMS\Facades\KlinkStreaming;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Klink\DmsDocuments\DocumentsService;
@@ -42,8 +44,22 @@ class PublishDocumentJob implements ShouldQueue
             // Abort as publication is already happened or is in the process
             return true;
         }
-        
+
         try {
+            if ($document->file->isVideo() && network_enabled() && ! empty(Option::option(Option::STREAMING_SERVICE_URL, null))) {
+                try {
+                    $stream = $this->pushVideoToStreamingService($document->file);
+    
+                    $this->publication->streaming_url = $stream->url;
+                    $this->publication->streaming_id = $stream->video_id;
+    
+                    $this->publication->save();
+                } catch (\Exception $ex) {
+                    \Log::error('Video sending to streaming service error', ['publication' => $this->publication, 'document' => $document, 'error' => $ex]);
+                    throw $ex;
+                }
+            }
+
             $returned_descriptor = $service->updateDocumentProxy($document, $document->file, KlinkVisibilityType::KLINK_PUBLIC);
 
             $this->publication->published = true;
@@ -60,5 +76,20 @@ class PublishDocumentJob implements ShouldQueue
 
             return false;
         }
+    }
+
+    private function pushVideoToStreamingService($file)
+    {
+        \Log::info("Upload to straming service started for file $file->id");
+
+        $upload = KlinkStreaming::upload($file->absolute_path);
+
+        \Log::info("Upload to streaming service completed for file $file->id");
+
+        $video_id = $upload->videoId();
+
+        $streaming = KlinkStreaming::get($video_id);
+
+        return $streaming;
     }
 }

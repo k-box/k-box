@@ -6,3 +6,11 @@
 - document is published if marked as public (`is_public === true`) and has an entry in the `published_documents` table
 - publish and unpublish operations are tracked
 - published_at, published_by, unpublished_at, unpublished_by
+
+
+### Publishing with video streaming service enabled
+
+- Tracking `streaming_id` and `streaming_url`
+- Adding video the first time and only if file update date is greather than publication published_at date
+ - When updating the linked video stream, the old one is deleted and a new video stream is created
+- Unpublishing causes the video stream to be deleted

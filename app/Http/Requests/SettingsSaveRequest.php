@@ -27,12 +27,11 @@ class SettingsSaveRequest extends Request
         return [
             'public_core_enabled' => 'nullable|sometimes|required|in:true',
             'public_core_url' => 'nullable|sometimes|required|url',
-            'public_core_username' => 'nullable|sometimes|required_with:public_core_url|string',
             'public_core_password' => 'nullable|sometimes|required_with:public_core_url|string',
-            'public_core_debug' => 'nullable|sometimes|required|in:true',
             'public_core_network_name_en' => 'nullable|sometimes|string',
             'public_core_network_name_ru' => 'nullable|sometimes|string',
             'support_token' => 'nullable|sometimes|string',
+            'streaming_service_url' => 'nullable|sometimes|string|url',
         ];
     }
 }

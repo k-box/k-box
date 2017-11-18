@@ -35,6 +35,7 @@ class SettingsControllerTest extends BrowserKitTestCase
         $this->assertViewHas(Option::PUBLIC_CORE_NETWORK_NAME_RU);
         $this->assertViewHas(Option::SUPPORT_TOKEN);
         $this->assertViewHas(Option::ANALYTICS_TOKEN);
+        $this->assertViewHas(Option::STREAMING_SERVICE_URL);
     }
     
     public function testUservoiceSettingStore()
@@ -125,5 +126,29 @@ class SettingsControllerTest extends BrowserKitTestCase
         $this->assertViewHas(Option::PUBLIC_CORE_PASSWORD, 'A-TOKEN');
         $this->assertViewHas(Option::PUBLIC_CORE_NETWORK_NAME_EN, 'Test a network');
         $this->assertViewHas(Option::PUBLIC_CORE_NETWORK_NAME_RU, 'Test a network');
+    }
+
+    public function test_streaming_service_url_is_stored()
+    {
+        $adapter = $this->withKlinkAdapterMock();
+        
+        $adapter->shouldReceive('test')->andReturn(['status' => 'ok']);
+        
+        $user = $this->createAdminUser();
+        $this->actingAs($user);
+        $this->visit(route('administration.settings.index'));
+
+        $this->assertViewHas(Option::STREAMING_SERVICE_URL, '');
+        
+        $this->type('http://streaming.local', 'streaming_service_url');
+        $this->type('http://network.local', 'public_core_url');
+        $this->type('A-TOKEN', 'public_core_password');
+
+        $this->press(trans('administration.settings.save_btn'));
+        
+        $this->see(trans('administration.settings.saved'));
+        $this->dontSee('administration.settings.saved');
+        
+        $this->assertViewHas(Option::STREAMING_SERVICE_URL, 'http://streaming.local');
     }
 }

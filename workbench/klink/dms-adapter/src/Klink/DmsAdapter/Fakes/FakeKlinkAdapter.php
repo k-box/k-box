@@ -322,6 +322,8 @@ class FakeKlinkAdapter implements AdapterContract
      */
     public function assertDocumentIndexed($documentId, $times = 1)
     {
+        PHPUnit::assertTrue(isset($this->calls['indexing']), "KlinkAdapter addDocument or updateDocument not called");
+
         PHPUnit::assertNotEmpty($this->calls['indexing'], "KlinkAdapter addDocument or updateDocument not called");
 
         $filtered = array_filter($this->calls['indexing'], function ($el) use ($documentId) {
