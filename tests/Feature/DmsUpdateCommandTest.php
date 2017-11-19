@@ -7,6 +7,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 use KlinkDMS\DocumentDescriptor;
 use KlinkDMS\Option;
 use KlinkDMS\Institution;
+use KlinkDMS\Publication;
 use KlinkDMS\Console\Commands\DmsUpdateCommand;
 
 class DmsUpdateCommandTest extends TestCase
@@ -89,5 +90,26 @@ class DmsUpdateCommandTest extends TestCase
         $updated = $this->invokePrivateMethod($command, 'updateUserOrganizationAttributes');
 
         $this->assertEquals($users->count(), $updated);
+    }
+
+    public function test_old_publications_are_migrated_to_the_publications_table()
+    {
+        Publication::all()->each->delete();
+        $docs = factory('KlinkDMS\DocumentDescriptor', 3)->create(['is_public' => true]);
+        $ids = $docs->pluck('id');
+
+        $command = new DmsUpdateCommand();
+        
+        $updated = $this->invokePrivateMethod($command, 'updatePublications');
+
+        $this->assertEquals($docs->count(), $updated);
+
+        $publications = Publication::published()->whereIn('descriptor_id', $ids->toArray())->get();
+
+        $this->assertEquals($docs->count(), $publications->count());
+
+        $updated = $this->invokePrivateMethod($command, 'updatePublications');
+        
+        $this->assertEquals(0, $updated);
     }
 }

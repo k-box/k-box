@@ -378,9 +378,13 @@ class DmsUpdateCommand extends Command
         if ($count_generated > 0) {
             $this->write("  - <comment>Updated {$count_generated} Users.</comment>");
         }
+        
+        $this->write('  <comment>Migrating publications to new format...</comment>');
+        $count_migrated = $this->updatePublications();
+        if ($count_migrated > 0) {
+            $this->write("  - <comment>Migrated {$count_migrated} publications.</comment>");
+        }
 
-        
-        
         // check the installed db branch
         
         $b_option = Option::findByKey('branch');
@@ -494,6 +498,24 @@ class DmsUpdateCommand extends Command
             }
         });
         
+        return $counter;
+    }
+
+    private function updatePublications()
+    {
+        $public_descriptors = DocumentDescriptor::where('is_public', true)->doesntHave('publications')->get();
+        // dump($public_descriptors->toArray());
+        $counter = 0;
+        
+        $public_descriptors->each(function ($descriptor) use (&$counter) {
+            $descriptor->publications()->create([
+                'published_at' => $descriptor->updated_at,
+                'pending' => false
+            ]);
+
+            $counter++;
+        });
+
         return $counter;
     }
 }

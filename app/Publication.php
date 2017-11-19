@@ -28,6 +28,7 @@ class Publication extends Model
 
     protected $fillable = [
         'published_by',
+        'published_at',
         'unpublished_by',
         'published_at',
         'unpublished_at',
