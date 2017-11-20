@@ -24,6 +24,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Support for managing the asynchronous publication workflow
 - Text Extraction service for extracting plain text from files. Supports docx, pptx, pdf, txt, md, kml and csv files.
 - Language Guesser component from plain text file
+- Publishing to the video streaming streaming a video if it should appear in the network
 
 ### Changed
 
