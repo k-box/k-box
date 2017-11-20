@@ -28,8 +28,8 @@ class KlinkStreamingServiceProvider extends ServiceProvider
         $this->app->singleton(StreamingClient::class, function ($app) {
             $service_url = Option::option(Option::STREAMING_SERVICE_URL, null);
             $token = @base64_decode(Option::option(Option::PUBLIC_CORE_PASSWORD));
-            $app_url = config('app.url');
-            
+            $app_url = rtrim(config('app.url'), '/');
+
             return new StreamingClient($service_url, $token, $app_url);
         });
     }
