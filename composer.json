@@ -116,7 +116,7 @@
 		"preferred-install": "dist",
 		"sort-packages": true, 
 		"optimize-autoloader": true,
-		"video-cli-download-url": "https://git.klink.asia/main/video-processing-cli/builds/artifacts/v0.2.0/browse?job=package",
+		"video-cli-download-url": "https://git.klink.asia/main/video-processing-cli/builds/artifacts/v0.3.1/browse?job=package",
 		"language-guesser-binary": "https://github.com/avvertix/franc-bin/releases/download/v0.1.0/franc-bin"
 	},
 	"minimum-stability": "dev",

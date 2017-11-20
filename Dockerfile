@@ -1,5 +1,5 @@
 ## Grabbing required binaries for the video processing part
-FROM docker.klink.asia/images/video-processing-cli:0.2.0
+FROM docker.klink.asia/images/video-processing-cli:0.3.1
 
 ## Generating the real K-Box image
 FROM php:7.0.21-fpm
