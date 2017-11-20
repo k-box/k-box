@@ -100,8 +100,8 @@ class ConvertVideoTest extends TestCase
         // the folder (plus the original file, of course)
 
         Storage::disk('local')->assertExists($file_path);
-        Storage::disk('local')->assertExists("$folder/AVIDEO_audio.mp4");
-        Storage::disk('local')->assertExists("$folder/AVIDEO_video.mp4");
+        Storage::disk('local')->assertExists("$folder/AVIDEO-360_audio.mp4");
+        Storage::disk('local')->assertExists("$folder/AVIDEO-360_video.mp4");
         Storage::disk('local')->assertExists("$folder/AVIDEO.mpd");
     }
 }
