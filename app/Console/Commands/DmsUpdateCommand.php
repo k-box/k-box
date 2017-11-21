@@ -13,6 +13,7 @@ use KlinkDMS\DocumentDescriptor;
 use KlinkDMS\File;
 use KlinkDMS\Institution;
 use Ramsey\Uuid\Uuid;
+use Illuminate\Support\Facades\Storage;
 
 class DmsUpdateCommand extends Command
 {
@@ -353,7 +354,13 @@ class DmsUpdateCommand extends Command
         }
         
 
+        
         // generate the UUID for the private DocumentDescriptor that don't have it
+        $this->write('  <comment>Generating UUIDs for existing Files...</comment>');
+        $count_generated = $this->generateFilesUuid();
+        if ($count_generated > 0) {
+            $this->write("  - <comment>Generated {$count_generated} file UUIDs.</comment>");
+        }
         $this->write('  <comment>Generating UUIDs for existing Document Descriptors...</comment>');
         $count_generated = $this->generateDocumentsUuid();
         if ($count_generated > 0) {
@@ -367,6 +374,12 @@ class DmsUpdateCommand extends Command
             $this->write("  - <comment>Updated {$count_generated} Files.</comment>");
         }
         
+        $this->write('  <comment>Organizing video files on the filesystem...</comment>');
+        $count_moved = $this->moveVideoFilesToUuidFolder();
+        if ($count_moved > 0) {
+            $this->write("  - <comment>Moved {$count_moved} files.</comment>");
+        }
+
         $this->write('  <comment>Checking default institution...</comment>');
         $count_generated = $this->createDefaultInstitution();
         if ($count_generated > 0) {
@@ -426,6 +439,36 @@ class DmsUpdateCommand extends Command
                 $doc->timestamps = false;
 
                 $doc->save();
+                $counter++;
+            }
+        });
+        
+        return $counter;
+    }
+    
+    private function generateFilesUuid()
+    {
+        $files = File::withNullUuid()->get();
+
+        $count = $files->count();
+
+        if ($count === 0) {
+            return 0;
+        }
+
+        $counter = 0;
+
+        $zero_uuid = Uuid::fromString("00000000-0000-0000-0000-000000000000");
+
+        $files->each(function ($file) use (&$counter, $zero_uuid) {
+            $current = Uuid::fromString($file->uuid);
+
+            if ($current->equals($zero_uuid) || ! Uuid::isValid($file->uuid)) {
+                $file->uuid = Uuid::{$file->resolveUuidVersion()}()->toString();
+                //temporarly disable the automatic upgrade of the updated_at field
+                $file->timestamps = false;
+
+                $file->save();
                 $counter++;
             }
         });
@@ -512,6 +555,34 @@ class DmsUpdateCommand extends Command
                 'published_at' => $descriptor->updated_at,
                 'pending' => false
             ]);
+
+            $counter++;
+        });
+
+        return $counter;
+    }
+
+    private function moveVideoFilesToUuidFolder()
+    {
+        $files = File::where('mime_type', 'video/mp4')->get();
+
+        $counter = 0;
+        
+        $files->each(function ($file) use (&$counter) {
+            $dir = dirname($file->path);
+
+            Storage::disk('local')->makeDirectory("$dir/$file->uuid");
+
+            $extension = pathinfo($file->path, PATHINFO_EXTENSION);
+
+            $move_location = "$dir/$file->uuid/$file->uuid.$extension";
+            Storage::disk('local')->move($file->path, $move_location);
+
+            $file->path = $move_location;
+
+            $file->timestamps = false;
+
+            $file->save();
 
             $counter++;
         });

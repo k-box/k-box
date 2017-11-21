@@ -210,6 +210,20 @@ class File extends Model
     {
         return $query->where('hash', $hash);
     }
+
+    /**
+     * Scope queries to find by empty UUID.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeWithNullUuid($query)
+    {
+        return $query->withTrashed()
+                    //  ->whereUuid("00000000-0000-0000-0000-000000000000")
+                     ->where('uuid', 0);
+    }
     
     /**
      * Get the upload job, if still stored, that made possible to

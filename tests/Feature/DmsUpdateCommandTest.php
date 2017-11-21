@@ -8,6 +8,8 @@ use KlinkDMS\DocumentDescriptor;
 use KlinkDMS\Option;
 use KlinkDMS\Institution;
 use KlinkDMS\Publication;
+use KlinkDMS\File;
+use Illuminate\Support\Facades\Storage;
 use KlinkDMS\Console\Commands\DmsUpdateCommand;
 
 class DmsUpdateCommandTest extends TestCase
@@ -111,5 +113,105 @@ class DmsUpdateCommandTest extends TestCase
         $updated = $this->invokePrivateMethod($command, 'updatePublications');
         
         $this->assertEquals(0, $updated);
+    }
+
+    public function test_that_files_uuid_are_generated()
+    {
+        $this->withKlinkAdapterMock();
+
+        $files = factory('KlinkDMS\File', 3)->create(['uuid' => "00000000-0000-0000-0000-000000000000"]);
+
+        $file_ids = $files->pluck('id')->toArray();
+        
+        // making sure that the install script thinks an update must be performed
+        Option::create(['key' => 'c', 'value' => ''.time()]);
+
+        $count_with_null_uuid = File::withNullUuid()->count();
+
+        $this->assertEquals($files->count(), $count_with_null_uuid, 'Query cannot retrieve files with null UUID');
+
+        $command = new DmsUpdateCommand();
+
+        $updated = $this->invokePrivateMethod($command, 'generateFilesUuid');
+
+        $this->assertEquals(3, $updated, 'Not all files have been updated');
+        
+        $ret = File::whereIn('id', $file_ids)->get(['id', 'uuid']);
+
+        $this->assertEquals(3, $ret->count(), 'Not found the same files originally created');
+
+        //second invokation of the same command
+
+        $updated = $this->invokePrivateMethod($command, 'generateFilesUuid');
+
+        $this->assertEquals(0, $updated, 'Some UUID has been regenerated');
+    }
+
+    public function test_video_files_are_moved_to_uuid_folder()
+    {
+        $this->withKlinkAdapterMock();
+        
+        Storage::fake('local');
+
+        // making sure that the install script thinks an update must be performed
+        Option::create(['key' => 'c', 'value' => ''.time()]);
+
+        $path = '2017/11/video.mp4';
+        
+        Storage::disk('local')->makeDirectory('2017/11/');
+
+        Storage::disk('local')->put(
+            $path,
+            file_get_contents(base_path('tests/data/video.mp4'))
+        );
+        
+        $file = factory('KlinkDMS\File')->create([
+            'path' => $path,
+            'mime_type' => 'video/mp4'
+        ]);
+
+        Storage::disk('local')->assertExists("2017/11/video.mp4");
+
+        $command = new DmsUpdateCommand();
+
+        $updated = $this->invokePrivateMethod($command, 'moveVideoFilesToUuidFolder');
+
+        $this->assertEquals("2017/11/$file->uuid/$file->uuid.mp4", $file->fresh()->path);
+
+        Storage::disk('local')->assertExists("2017/11/$file->uuid/$file->uuid.mp4");
+    }
+    
+    public function test_video_files_with_absolute_path_are_moved_to_uuid_folder()
+    {
+        $this->withKlinkAdapterMock();
+        
+        Storage::fake('local');
+
+        // making sure that the install script thinks an update must be performed
+        Option::create(['key' => 'c', 'value' => ''.time()]);
+
+        $path = '2017/11/video.mp4';
+        
+        Storage::disk('local')->makeDirectory('2017/11/');
+
+        Storage::disk('local')->put(
+            $path,
+            file_get_contents(base_path('tests/data/video.mp4'))
+        );
+        
+        $file = factory('KlinkDMS\File')->create([
+            'path' => Storage::disk('local')->path($path),
+            'mime_type' => 'video/mp4'
+        ]);
+
+        Storage::disk('local')->assertExists("2017/11/video.mp4");
+
+        $command = new DmsUpdateCommand();
+
+        $updated = $this->invokePrivateMethod($command, 'moveVideoFilesToUuidFolder');
+
+        $this->assertEquals("2017/11/$file->uuid/$file->uuid.mp4", $file->fresh()->path);
+
+        Storage::disk('local')->assertExists("2017/11/$file->uuid/$file->uuid.mp4");
     }
 }
