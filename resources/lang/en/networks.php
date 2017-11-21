@@ -44,12 +44,12 @@ return [
     'publish_to_hint' => 'Select some documents to be published on the :network',
     
 
-    'publish_btn' => 'Publish!',
+    'publish_btn' => 'Publish',
 
     'settings' => [
         'section' => 'Join a network',
-        'section_help' => 'Here you can configure how the DMS joins a network',
-        'enabled' => 'Enable publish documents to the network',
+        'section_help' => 'Here you can configure how the K-Box joins a network',
+        'enabled' => 'Enable publishing of documents to the network',
         'debug_enabled' => 'Enable the Debug of the network connection',
         'username' => 'The user used for authenticating with the Network',
         'password' => 'The password used for authenticating with the Network',
@@ -57,7 +57,7 @@ return [
         'name_en' => 'Network name (english version)',
         'name_ru' => 'Network name (russian version)',
         'name_section' => 'Network name',
-        'name_section_help' => 'Give the network a name, this will be used on the UI when publishing documents or collections. With both fields empty the "K-Link Public Network" name will be used',
+        'name_section_help' => 'Give the network a name. It will be used on the UI when publishing documents or collections. With both fields empty the "K-Link Public Network" name will be used',
         'streaming_section' => 'Video Streaming Service',
         'streaming_section_help' => 'Set the video streaming service to use when publishing videos to the network',
         'streaming_service_url' => 'The URL of the video streaming service',
@@ -68,7 +68,7 @@ return [
     'make_public_error' => 'The publish operation was not completed due to an error. :error',
     'make_public_error_title' => 'Cannot publish in :network',
     
-    'make_public_success_text_alt' => 'The documents are now available on the :network',
+    'make_public_success_text_alt' => 'The documents are now available in the :network',
     'make_public_success_title' => 'Publish completed',
 
     'making_public_title' => 'Publishing on :network...',
@@ -76,8 +76,8 @@ return [
 
     'make_public_change_title_not_available' => 'The option for changing title before Publish is not currently available.',
 
-    'make_public_all_collection_dialog_text' => 'You will make all the documents in this collection available on the :network. (click outside to undo)',
-    'make_public_inside_collection_dialog_text' => 'You will make all the documents inside ":item" available on the :network. (click outside to undo)',
+    'make_public_all_collection_dialog_text' => 'You will make all the documents in this collection available on the :network.',
+    'make_public_inside_collection_dialog_text' => 'You will make all the documents inside ":item" available on the :network.',
     
     'make_public_dialog_title' => 'Publish ":item" on :network',
     'make_public_dialog_title_alt' => 'Publish on :network',
@@ -85,7 +85,7 @@ return [
     
     'make_public_empty_selection' => 'Please select the documents you want to make available in the :network.',
     
-    'make_public_dialog_text' => 'You will make ":item" available on the :network. (click outside to stop)',
-    'make_public_dialog_text_count' => 'You will make :count documents available on the :network. (click outside to stop)',
+    'make_public_dialog_text' => 'You will make ":item" available in the :network.',
+    'make_public_dialog_text_count' => 'You will make :count documents available on the :network.',
 
 ];
