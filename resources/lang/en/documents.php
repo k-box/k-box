@@ -85,13 +85,13 @@ return [
 
     'bulk' => [
 
-        'removed' => ':num element deleted.|:num elements deleted.',
+        'removed' => ':num file deleted.|:num files deleted.',
         
-        'permanently_removed' => ':num element permanently deleted.|:num elements permanently deleted.',
+        'permanently_removed' => ':num file permanently deleted.|:num files permanently deleted.',
         
-        'restored' => ':num element restored.|:num elements restored.',
+        'restored' => ':num file restored.|:num files restored.',
 
-        'remove_error' => 'Cannot delete elements. :error',
+        'remove_error' => 'Cannot delete files. :error',
         
         'copy_error' => 'Cannot copy to collection. :error',
         
@@ -183,29 +183,29 @@ return [
         'restore_dialog_text' => 'You\'re about to restore ":document"',
         'restore_dialog_title_count' => 'Restore :count documents?',
         'restore_dialog_text' => 'You\'re about to restore ":document"',
-        'restore_dialog_text_count' => 'You\'re about to restore :count elements',
-        'restore_dialog_yes_btn' => 'Yes, Restore!',
-        'restore_dialog_no_btn' => 'No, Cancel',
+        'restore_dialog_text_count' => 'You\'re about to restore :count files',
+        'restore_dialog_yes_btn' => 'Yes, restore',
+        'restore_dialog_no_btn' => 'No',
         
         'restore_success_title' => 'Restored',
-        'restore_error_title' => 'I was not able to restore',
-        'restore_error_text_generic' => 'Unfortunately I was not able to move out of the trash what you needed.',
+        'restore_error_title' => 'Cannot restore',
+        'restore_error_text_generic' => 'The selected file was not moved out of the trash.',
       
         'restoring' => 'Restoring...',
     ],
     
     'delete' => [
         
-        'dialog_title' => 'Delete ":document"?',
-        'dialog_title_alt' => 'Delete document?',
-        'dialog_title_count' => 'Delete :count documents?',
-        'dialog_text' => 'You\'re about to delete :document.',
-        'dialog_text_count' => 'You\'re about to delete :count documents',
-        'deleted_dialog_title' => ':document has been deleted',
-        'deleted_dialog_title_alt' => 'Deleted',
-        'cannot_delete_dialog_title' => 'Cannot delete ":document"!',
-        'cannot_delete_dialog_title_alt' => 'Cannot delete!',
-        'cannot_delete_general_error' => 'There was a problem deleting the document, please contact an Administrator.',
+        'dialog_title' => 'Trash ":document"?',
+        'dialog_title_alt' => 'Trash document?',
+        'dialog_title_count' => 'Move :count documents to Trash?',
+        'dialog_text' => 'You\'re about to move :document to Trash.',
+        'dialog_text_count' => 'You\'re about to move :count documents to Trash',
+        'deleted_dialog_title' => ':document has been trashed',
+        'deleted_dialog_title_alt' => 'Trashed',
+        'cannot_delete_dialog_title' => 'Cannot trash ":document"',
+        'cannot_delete_dialog_title_alt' => 'Cannot trash',
+        'cannot_delete_general_error' => 'There was a problem moving the document to Trash, please contact an Administrator.',
     ],
 
     'permanent_delete' => [
@@ -225,17 +225,17 @@ return [
     'preview' => [
         'page_title' => 'Previewing :document',
         'error' => 'Sorry, but we were unable to load the preview of ":document".',
-        'not_available' => 'The Document preview cannot be showed for this document.',
-        'google_file_disclaimer' => ':document is a Google Drive file, we cannot show the preview here so you have to open it in Google Drive.',
-        'google_file_disclaimer_alt' => 'This is a Google Drive file, we cannot show the preview here.',
+        'not_available' => 'The document preview cannot be showed for this document.',
+        'google_file_disclaimer' => ':document is a Google Drive file, we cannot show the preview here. You have to open it in Google Drive.',
+        'google_file_disclaimer_alt' => 'This is a Google Drive file and cannot be previewed here.',
         'open_in_google_drive_btn' => 'Open in Google Drive',
     ],
 
     'versions' => [
 
-        'section_title' => 'Document Versions',
+        'section_title' => 'Versions',
 
-        'section_title_with_count' => '1 Document version|:number Document versions',
+        'section_title_with_count' => '1 version|:number versions',
 
         'version_count_label' => ':number version|:number versions',
 
@@ -245,7 +245,7 @@ return [
 
         'new_version_button' => 'Upload new version',
         
-        'new_version_button_uploading' => 'Uploading document...',
+        'new_version_button_uploading' => 'Uploading...',
 
         'filealreadyexists' => 'The file version you are uploading already exists in the DMS',
     ],
@@ -255,11 +255,11 @@ return [
         'processing' => 'The document is being processed by the K-Box. It might not be immediately available in search results.',
         'local_public_only' => 'Currently showing only the Institution\'s Public documents.',
         'forbidden' => 'You don\'t have the ability to make changes to the document.',
-        'delete_forbidden' => 'You don\'t have the rights to delete documents, please contact a Project Manager or an Administrator.',
-        'delete_public_forbidden' => 'You cannot delete a Public Document, please contact a K-Linker or an Administrator.',
-        'delete_force_forbidden' => 'You cannot permanently delete a Document. Please contact a Project Manager or an Administrator.',
+        'delete_forbidden' => 'You don\'t have the rights to delete documents, please contact a Project Manager or Administrator.',
+        'delete_public_forbidden' => 'You cannot delete a Public Document, please contact a K-Linker or Administrator.',
+        'delete_force_forbidden' => 'You cannot permanently delete a Document. Please contact a Project Manager or Administrator.',
         'drag_hint' => 'Drop the file to start the upload.',
-        'recent_hint_dms_manager' => 'You are viewing all the document updates made by each user of the DMS.',
+        'recent_hint_dms_manager' => 'You are viewing all the document updates made by each user of the K-Box.',
         'no_documents' => 'No Documents, you can upload new documents here using the "Create or Add" button above or by dragging and dropping them here.',
     ],
     
@@ -267,10 +267,10 @@ return [
     'trash' => [
         
         'clean_title' => 'Clean trash?',
-        'yes_btn' => 'Yes, Clean!',
-        'no_btn' => 'No, Cancel',
+        'yes_btn' => 'Yes, clean',
+        'no_btn' => 'No',
 
-        'empty_trash' => 'Nothing is in trash',
+        'empty_trash' => 'Nothing in trash',
         
         'empty_all_text' => 'All the documents in the trash will be permanently deleted. This action will remove files and revision, starred, collections and shares. This action cannot be undone.',
         'empty_selected_text' => 'You\'re about to permanently delete the selected documents. You will remove also files and revision, starred, collections and shares. This action cannot be undone.',
