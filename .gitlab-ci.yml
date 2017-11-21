@@ -195,7 +195,7 @@ next_dms_klink_asia_deploy:
     - cd ${DOCKER_LOCATION}
     - docker tag $CI_REGISTRY_IMAGE:${CI_COMMIT_REF_NAME/v/} dms-migration-environment
     - docker-compose down
-    - docker run --rm -v ../dms_klink_asia/klink-docker/mnt/:/old/:ro -v ./data/:/new/:rw debian sh -c "rm -rf /new/* && cp -pr /old/mariadb/ /old/dms-storage/ /new/" # hacky way of removing the old files and copying over the files from the current DMS preview
+    - docker run --rm -v /opt/dms_klink_asia/klink-docker/mnt/:/old/:ro -v /opt/next-dms-klink-asia/data/:/new/:rw debian sh -c "rm -rf /new/* && cp -pr /old/mariadb/ /old/dms-storage/ /new/" # hacky way of removing the old files and copying over the files from the current DMS preview
     - docker-compose up -d
 
 ## the instance on test.slmtj.net
