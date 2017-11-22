@@ -2,6 +2,7 @@
 
 namespace KlinkDMS\Http\Composers;
 
+use Exception;
 use KlinkDMS\Capability;
 use KlinkDMS\DocumentDescriptor;
 use KlinkDMS\File;
@@ -354,7 +355,11 @@ if ($is_projectspage && (! $grp->is_private && ! $show_personal_collections_in_f
                         if ($name == KlinkFacets::LANGUAGE) {
                             $f_items->label =  trans('languages.'.$f_items->value);
                         } elseif ($name == KlinkFacets::MIME_TYPE) {
-                            $f_items->label =  trans_choice('documents.type.'.KlinkDocumentUtils::documentTypeFromMimeType($f_items->value), 1).' ('.KlinkDocumentUtils::getExtensionFromMimeType($f_items->value).')';
+                            try {
+                                $f_items->label =  trans_choice('documents.type.'.KlinkDocumentUtils::documentTypeFromMimeType($f_items->value), 1).' ('.KlinkDocumentUtils::getExtensionFromMimeType($f_items->value).')';
+                            } catch (Exception $ex) {
+                                $f_items->label =  trans_choice('documents.type.document', 1).' ('.$f_items->value.')';
+                            }
                         } elseif ($name == KlinkFacets::PROJECTS) {
                             $prj = Project::find($f_items->value);
 

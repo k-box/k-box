@@ -45,6 +45,7 @@ class KlinkDocumentUtils
         'application/x-tar' => 'archive',
         'application/x-bzip2' => 'archive',
         'application/gzip' => 'archive',
+        'application/x-gzip' => 'archive',
         'application/x-mimearchive' => 'web-page',
         'video/x-ms-vob' => 'dvd',
         'content/DVD' => 'dvd',
