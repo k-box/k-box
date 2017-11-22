@@ -357,12 +357,12 @@ class DmsUpdateCommand extends Command
         
         // generate the UUID for the private DocumentDescriptor that don't have it
         $this->write('  <comment>Generating UUIDs for existing Files...</comment>');
-        $count_generated = $this->generateFilesUuid();
+        $count_generated = $this->generateFilesUuid(100);
         if ($count_generated > 0) {
             $this->write("  - <comment>Generated {$count_generated} file UUIDs.</comment>");
         }
         $this->write('  <comment>Generating UUIDs for existing Document Descriptors...</comment>');
-        $count_generated = $this->generateDocumentsUuid();
+        $count_generated = $this->generateDocumentsUuid(100);
         if ($count_generated > 0) {
             $this->write("  - <comment>Generated {$count_generated} UUIDs.</comment>");
         }
@@ -416,11 +416,9 @@ class DmsUpdateCommand extends Command
         return $migrate_result;
     }
 
-    private function generateDocumentsUuid()
+    private function generateDocumentsUuid($chunkSize = 10)
     {
-        $docs = DocumentDescriptor::local()->withNullUuid()->get();
-
-        $count = $docs->count();
+        $count = DocumentDescriptor::local()->count();
 
         if ($count === 0) {
             return 0;
@@ -430,27 +428,29 @@ class DmsUpdateCommand extends Command
 
         $zero_uuid = Uuid::fromString("00000000-0000-0000-0000-000000000000");
 
-        $docs->each(function ($doc) use (&$counter, $zero_uuid) {
-            $current = Uuid::fromString($doc->uuid);
-
-            if ($current->equals($zero_uuid) || ! Uuid::isValid($doc->uuid)) {
-                $doc->uuid = Uuid::{$doc->resolveUuidVersion()}()->toString();
-                //temporarly disable the automatic upgrade of the updated_at field
-                $doc->timestamps = false;
-
-                $doc->save();
-                $counter++;
+        DocumentDescriptor::local()->chunk($chunkSize, function ($documents) use (&$counter, $zero_uuid) {
+            foreach ($documents as $doc) {
+                $is_current_valid = Uuid::isValid($doc->uuid);
+                $current = $is_current_valid ? Uuid::fromString($doc->uuid) : false;
+                
+                if (($is_current_valid && $current->equals($zero_uuid)) ||
+                     ! $is_current_valid ||
+                    ($is_current_valid && $current && $current->getVersion() !== 4)) {
+                    $doc->uuid = Uuid::{$doc->resolveUuidVersion()}()->getBytes();
+                    //temporarly disable the automatic upgrade of the updated_at field
+                    $doc->timestamps = false;
+                    $doc->save();
+                    $counter++;
+                }
             }
         });
         
         return $counter;
     }
     
-    private function generateFilesUuid()
+    private function generateFilesUuid($chunkSize = 10)
     {
-        $files = File::withNullUuid()->get();
-
-        $count = $files->count();
+        $count = File::count();
 
         if ($count === 0) {
             return 0;
@@ -460,19 +460,23 @@ class DmsUpdateCommand extends Command
 
         $zero_uuid = Uuid::fromString("00000000-0000-0000-0000-000000000000");
 
-        $files->each(function ($file) use (&$counter, $zero_uuid) {
-            $current = Uuid::fromString($file->uuid);
-
-            if ($current->equals($zero_uuid) || ! Uuid::isValid($file->uuid)) {
-                $file->uuid = Uuid::{$file->resolveUuidVersion()}()->toString();
-                //temporarly disable the automatic upgrade of the updated_at field
-                $file->timestamps = false;
-
-                $file->save();
-                $counter++;
+        File::chunk($chunkSize, function ($files) use (&$counter, $zero_uuid) {
+            foreach ($files as $file) {
+                $is_current_valid = Uuid::isValid($file->uuid);
+                $current = $is_current_valid ? Uuid::fromString($file->uuid) : false;
+                
+                if (($is_current_valid && $current->equals($zero_uuid)) ||
+                     ! $is_current_valid ||
+                    ($is_current_valid && $current && $current->getVersion() !== 4)) {
+                    $file->uuid = Uuid::{$file->resolveUuidVersion()}()->getBytes();
+                    //temporarly disable the automatic upgrade of the updated_at field
+                    $file->timestamps = false;
+                    $file->save();
+                    $counter++;
+                }
             }
         });
-        
+
         return $counter;
     }
 
@@ -569,22 +573,24 @@ class DmsUpdateCommand extends Command
         $counter = 0;
         
         $files->each(function ($file) use (&$counter) {
-            $dir = dirname($file->path);
-
-            Storage::disk('local')->makeDirectory("$dir/$file->uuid");
-
-            $extension = pathinfo($file->path, PATHINFO_EXTENSION);
-
-            $move_location = "$dir/$file->uuid/$file->uuid.$extension";
-            Storage::disk('local')->move($file->path, $move_location);
-
-            $file->path = $move_location;
-
-            $file->timestamps = false;
-
-            $file->save();
-
-            $counter++;
+            if (is_file($file->absolute_path)) {
+                $dir = dirname($file->path);
+    
+                Storage::disk('local')->makeDirectory("$dir/$file->uuid");
+    
+                $extension = pathinfo($file->path, PATHINFO_EXTENSION);
+    
+                $move_location = "$dir/$file->uuid/$file->uuid.$extension";
+                Storage::disk('local')->move($file->path, $move_location);
+    
+                $file->path = $move_location;
+    
+                $file->timestamps = false;
+    
+                $file->save();
+    
+                $counter++;
+            }
         });
 
         return $counter;
