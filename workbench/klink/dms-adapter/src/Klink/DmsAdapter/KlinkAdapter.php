@@ -152,14 +152,14 @@ class KlinkAdapter implements AdapterContract
         $status = 'queued';
         $cycles = 0;
         do {
-            sleep(10);
+            sleep(1);
             $status = $this->selectConnection($document->getDescriptor()->getVisibility())->getStatus($document->getDescriptor()->uuid());
             $cycles++;
         }
         while(strtolower($status->status) !== 'ok' && $cycles < 40);
 
         if(strtolower($status->status) !== 'ok'){
-            throw new KlinkException('Indexing is still in progress after 400 seconds, aborting.');
+            throw new KlinkException('Indexing is still in progress after 40 seconds, aborting.');
         }
 
         return $document->getDescriptor();
