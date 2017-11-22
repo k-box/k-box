@@ -34,6 +34,7 @@ class Kernel extends ConsoleKernel
         'KlinkDMS\Console\Commands\DmsFlagsCommand',
         'KlinkDMS\Console\Commands\Language\LanguageCheckCommand',
         'KlinkDMS\Console\Commands\OrphanFilesCommand',
+        'KlinkDMS\Console\Commands\DocumentUpdatePropertiesCommand',
     ];
 
     /**
