@@ -25,6 +25,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Text Extraction service for extracting plain text from files. Supports docx, pptx, pdf, txt, md, kml and csv files.
 - Language Guesser component from plain text file
 - Publishing to the video streaming streaming a video if it should appear in the network
+- Migration of video file location on disk
 
 ### Changed
 
@@ -42,6 +43,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Document sidebar not appearing on Internet Explorer 9-11
 - Breadcrumbs for shared collection now shows only the collection that the user has access to
 - Loading shared page if a disabled user shared a collection with you
+- Generation of UUID
+- Handling of unknown mime types when processing aggregations for the elastic list
 
 ### Removed
 
