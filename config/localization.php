@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'supported_locales' => ['ru'],
+    'supported_locales' => ['ru', 'tg'],
     
     
     /*

@@ -58,9 +58,9 @@ return [
         'name_ru' => 'Network name (russian version)',
         'name_section' => 'Network name',
         'name_section_help' => 'Give the network a name. It will be used on the UI when publishing documents or collections. With both fields empty the "K-Link Public Network" name will be used',
-        'streaming_section' => 'Video Streaming Service',
-        'streaming_section_help' => 'Set the video streaming service to use when publishing videos to the network',
-        'streaming_service_url' => 'The URL of the video streaming service',
+        'streaming_section' => 'Хизматрасонии намоиши видео',
+        'streaming_section_help' => 'Танзими хидмати намоиши видеоӣ барои истифода,хангоми нашр видео дар шабака',
+        'streaming_service_url' => 'URL-и хизматрасонии намоиши видео',
     ],
 
     'made_public' => ':num document has been published over the :network|:num documents were made available in the :network.',

@@ -27,7 +27,7 @@ class UserOptionUpdateRequest extends Request
     {
         return [
             User::OPTION_LIST_TYPE => 'sometimes|required|in:details,tiles,cards',
-            User::OPTION_LANGUAGE => 'sometimes|required|in:en,ru',
+            User::OPTION_LANGUAGE => 'sometimes|required|in:en,ru,tg',
             User::OPTION_TERMS_ACCEPTED => 'sometimes|required|boolean'
         ];
     }
