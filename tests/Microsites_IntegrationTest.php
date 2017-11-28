@@ -394,7 +394,8 @@ class Microsites_IntegrationTest extends BrowserKitTestCase
         $this->post(route('microsites.store'), $microsite_request);
         
         if ($error_type === 'authorize') {
-            $this->see('Woops! Looks like you <strong>cannot</strong> view the page<br/>due to your <strong>Authorization</strong> level');
+            $this->see(trans('errors.403_text'));
+            $this->dontSee('errors.403_text');
         } elseif (! is_null($error_type)) {
             $this->assertSessionHasErrors([$attribute]);
         } else {
