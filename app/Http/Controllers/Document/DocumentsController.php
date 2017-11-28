@@ -593,12 +593,12 @@ class DocumentsController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function show($id, AuthGuard $auth)
+    public function show($id, AuthGuard $auth, Request $request)
     {
         try {
             $document = DocumentDescriptor::withTrashed()->findOrFail($id);
 
-            if (\Request::ajax()) {
+            if ($request->ajax()) {
                 return $this->_showPanel($document, $auth->user());
             }
 
@@ -607,14 +607,24 @@ class DocumentsController extends Controller
             return redirect($url);
         } catch (ModelNotFoundException $kex) {
             \Log::warning('Document Descriptor not found', ['error' => $kex, 'id' => $id]);
-            return view('panels.error', ['error_title' => trans('errors.404_title'), 'message' => $kex->getMessage()]);
+
+            if ($request->ajax()) {
+                return view('panels.error', ['error_title' => trans('errors.404_title'), 'message' => $kex->getMessage()]);
+            }
+            
+            throw $kex;
         } catch (ForbiddenException $kex) {
             \Log::warning('Document Descriptor not accessible by user', ['error' => $kex, 'id' => $id, 'user' => $auth->user()->id]);
             
             return view('panels.error', ['error_title' => trans('errors.403_title'), 'message' => trans('errors.forbidden_see_document_exception')]);
         } catch (\Exception $kex) {
             \Log::error('Document Descriptor panel show error', ['error' => $kex, 'id' => $id]);
-            return view('panels.error', ['message' => $kex->getMessage()]);
+            
+            if ($request->ajax()) {
+                return view('panels.error', ['message' => $kex->getMessage()]);
+            }
+
+            throw $kex;
         }
     }
 
@@ -681,7 +691,8 @@ class DocumentsController extends Controller
         } catch (\Exception $kex) {
             \Log::error('Error generating data for documents.edit view', ['error' => $kex]);
             
-            return view('panels.error', ['message' => $kex->getMessage()]);
+            // return view('panels.error', ['message' => $kex->getMessage()]);
+            throw $kex;
         }
     }
 
