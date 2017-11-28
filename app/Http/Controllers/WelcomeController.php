@@ -3,6 +3,7 @@
 namespace KlinkDMS\Http\Controllers;
 
 use KlinkDMS\User;
+use KlinkDMS\Option;
 
 /**
  * --------------------------------------------------------------------------
@@ -38,6 +39,18 @@ class WelcomeController extends Controller
         if (\Config::get('dms.are_guest_public_search_enabled')) {
             $params['filter'] = network_name();
         }
+
+        $welcome_string = trans('dashboard.welcome.hero_title');
+        
+        if (Option::areContactsConfigured()) {
+            $organization = Option::option('contact.name', '');
+            
+            if ($organization) {
+                $welcome_string = trans('dashboard.welcome.hero_title_with_organization', compact('organization'));
+            }
+        }
+
+        $params['welcome_string'] = $welcome_string;
 
         return view('welcome', $params);
     }

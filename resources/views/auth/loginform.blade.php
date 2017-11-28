@@ -1,7 +1,7 @@
 
 <form action="{{ url('/login') }}" class="c-form c-form--space" method="POST">
 	
-	<h2 class="">{{ trans('dashboard.welcome.hero_title') }}</h2>
+	<h2 class="">{{ $welcome_string }}</h2>
 
 	<div class="c-form__field">
 		<label for="email">{{trans('login.form.email_label')}}</label>
