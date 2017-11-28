@@ -45,6 +45,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Loading shared page if a disabled user shared a collection with you
 - Generation of UUID
 - Handling of unknown mime types when processing aggregations for the elastic list
+- Showing microsite creation/edit only if the project administrator is connected
+- Fixed display of microsite view button if no microsite is configured for the project
+- Microsite section only visible if microsite is available or the logged in user is the project manager
+- Show project edit link only if the authenticated user is project manager
 
 ### Removed
 

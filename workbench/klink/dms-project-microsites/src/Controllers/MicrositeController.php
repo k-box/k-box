@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Contracts\Auth\Guard as AuthGuard;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\JsonResponse;
+use KlinkDMS\Exceptions\ForbiddenException;
 
 use Klink\DmsMicrosites\Requests\MicrositeCreationRequest;
 use Klink\DmsMicrosites\Requests\MicrositeUpdateRequest;
