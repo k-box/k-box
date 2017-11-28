@@ -20,13 +20,13 @@ return [
     ],
 
     'filealreadyexists' => [
-        'generic' => 'The document :name already exists in the K-DMS with the title <strong>":title"</strong>.',
+        'generic' => 'The document :name already exists in the K-Box with the title <strong>":title"</strong>.',
         'incollection' => 'The document is already available in <a href=":collection_link"><strong>":collection"</strong></a> with the title <strong>":title"</strong>',
         'incollection_by_you' => 'You already uploaded this document as <strong>":title"</strong> in <a href=":collection_link"><strong>":collection"</strong></a>',
         'by_you' => 'You already uploaded this document as <strong>":title"</strong>',
         'revision_of_document' => 'The document you are uploading is an existing revision of <strong>":title"</strong>, added by :user (:email)',
         'revision_of_your_document' => 'The document is an existing revision of your document titled <strong>:title</strong>',
-        'by_user' => 'The document has already been added to the K-DMS by :user (:email).',
+        'by_user' => 'The document has already been added to the K-Box by :user (:email).',
         'in_the_network' => 'The document is already available in <strong>:network</strong> as <strong>":title"</strong>. Added by :institution',
     ],
 
@@ -70,22 +70,22 @@ return [
     'group_edit_project' => "You cannot edit project collections.",
     'group_edit_else' => "You cannot edit someone else's groups.",
 
-    '503_title' => 'K-Link DMS Maintenance',
-    '503_text' => 'The <strong>DMS</strong> is currently in<br/><strong>maintenance</strong><br/><small>will be back shortly :)</small>',
+    '503_title' => 'K-Box Maintenance',
+    '503_text' => 'The <strong>K-Box</strong> is currently in<br/><strong>maintenance</strong><br/><small>will be back shortly :)</small>',
 
-    '500_title' => 'Error - K-Link DMS',
+    '500_title' => 'Error - K-Box',
     '500_text' => 'Oh Snap! Something <strong>bad</strong><br/>and unexpected <strong>happened</strong>,<br/>we are deeply sorry.',
 
-    '404_title' => 'Not Found on the K-Link DMS',
-    '404_text' => 'Woops! Looks like <strong>the page</strong><br/>your are looking for<br/><strong>doesn\'t exist</strong> anymore.',
+    '404_title' => 'Not Found on the K-Box',
+    '404_text' => 'Looks like <strong>the page</strong><br/>you\'re looking for<br/><strong>doesn\'t exist</strong> anymore.',
     
-    '401_title' => 'You cannot view the page K-Link DMS',
-    '401_text' => 'Woops! Looks like you <strong>cannot</strong> view the page<br/>due to your <strong>Authorization</strong> level.',
+    '401_title' => 'You cannot view the page - K-Box',
+    '401_text' => 'Looks like you <strong>cannot</strong> view the page<br/>due to your <strong>Authorization</strong> level.',
     
     '403_title' => 'You don\'t have the permission to view the page',
-    '403_text' => 'Woops! Looks like you <strong>cannot</strong> view the page<br/>due to your <strong>Authorization</strong> level.',
+    '403_text' => 'Looks like you <strong>cannot</strong> view the page<br/>due to your <strong>Authorization</strong> level.',
 
-    '405_title' => 'Method Not Allowed on the K-Link DMS',
+    '405_title' => 'Method Not Allowed on the K-Box',
     '405_text' => 'Don\'t call me like this again.',
     
     '413_title' => 'Document Excessive File Size',
