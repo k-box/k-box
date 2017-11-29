@@ -30,7 +30,7 @@ return [
 
     'accounts' => [
 
-        'disable_confirm' => 'Do you really want to disable :name',
+        'disable_confirm' => 'Do you really want to disable :name?',
 
         'create_user_btn' => 'Create User',
 
@@ -62,28 +62,24 @@ return [
 
         'capabilities' => [
 
-            'manage_dms' => 'The user can access to the DMS administration panel',
-            'manage_dms_users' => 'The user can manage DMS users',
-            'manage_dms_log' => 'The user can see the DMS logs',
-            'manage_dms_backup' => 'The user can perform DMS backups and restore',
-            'change_document_visibility' => 'The user can change the visibility of the documents',
-            'edit_document' => 'The user can edit documents',
-            'delete_document' => 'The user can delete documents',
-            'import_documents' => 'The user can import documents from folders or external URL',
-            'upload_documents' => 'The user can upload documents',
-            'make_search' => 'The user can access all the private documents of the institution',
-            'manage_own_groups' => 'The user can manage personal document collections',
-            'manage_institution_groups' => 'The user can manage institution\'s document collections',
-            'manage_project_collections' => 'The user can manage project collections',
-            
-            'manage_share' => 'User may share private documents with a single or a group of users',
+            'manage_dms' => 'User can access the K-Box administration panel',
+            'manage_dms_users' => 'User can create/disable K-Box users',
+            'manage_dms_log' => 'User can see the K-Box logs',
+            'manage_dms_backup' => 'User can perform K-Box backups and restore',
+            'change_document_visibility' => 'User can un-/publish documents',
+            'edit_document' => 'User can edit documents',
+            'delete_document' => 'User can trash documents',
+            'import_documents' => 'User can import documents from folders or external URL',
+            'upload_documents' => 'User can upload documents',
+            'make_search' => 'User can access all the unpublished documents in accessible projects',
+            'manage_own_groups' => 'User can add/remove personal document collections',
+            'manage_institution_groups' => 'User can add/remove document collections in accessible projects',
+            'manage_project_collections' => 'User can add/remove project collections in accessible projects',
+            'manage_share' => 'User may directly share project documents with other K-Box users',
             'receive_share' => 'User can see documents that have been shared with him',
-        
-            'manage_share_personal' => 'User may share personal documents with a single or a "personal" group of users',
+            'manage_share_personal' => 'User may directly share personal documents with other K-Box users',
             'manage_share_private' => 'User can share documents to groups of users defined at institution level',
-            
-            'clean_trash' => 'User can permanently remove documents from the trash',
-            
+            'clean_trash' => 'User can permanently remove owned documents from the K-Box',
             'manage_personal_people' => 'User can create/edit groups of users defined at personal level',
             'manage_people' => 'User can create/edit groups of users defined at institution level',
 
@@ -111,7 +107,7 @@ return [
         'created_msg' => 'User created, the password has been sent directly to the users email',
         'edit_disabled_msg' => 'You cannnot modify your account capabilities. Profile configuration can also be made through the <a href=":profile_url">profile page</a>.',
         'disabled_msg' => 'User :name disabled',
-        'enabled_msg' => 'User :name back in action',
+        'enabled_msg' => 'User :name has been restored',
         'updated_msg' => 'User updated',
         'mail_subject' => 'Your K-Box account is ready',
         'reset_sent' => 'Password reset e-mail sent to :name (:email)',
@@ -148,11 +144,11 @@ return [
         'reindexing_status_completed' => 'All documents has been reindexed.',
 
         'naming_policy_title' => 'File Naming Convention',
-        'naming_policy_description' => 'You can prevent the upload of files that don\'t follow a particular naming convention',
+        'naming_policy_description' => 'You can prevent upload of files that don\'t follow this particular naming convention',
 
-        'naming_policy_btn_activate' => 'Enable naming convention',
+        'naming_policy_btn_activate' => 'Enable',
         'naming_policy_btn_save' => 'Update',
-        'naming_policy_btn_deactivate' => 'Disable naming convention',
+        'naming_policy_btn_deactivate' => 'Disable',
 
         'naming_policy_msg_activated' => 'Naming convention enabled',
         'naming_policy_msg_deactivated' => 'Naming convention disabled',
@@ -181,14 +177,14 @@ return [
         'test_success_msg' => 'The test E-Mail has been successfully queued for sending (from :from). Check your inbox.',
         'test_failure_msg' => 'The test email cannot be sent due to an error.',
         'enable_chk' => 'Enable Sending E-Mails',
-        'enabled' => 'The DMS can send emails',
+        'enabled' => 'The K-Box can send emails',
         'enabled_by_configuration' => 'Send email is enabled by deployment configuration',
-        'disabled' => 'The DMS cannot send emails',
+        'disabled' => 'The K-Box cannot send emails',
         'test_btn' => 'Send a test E-Mail',
         'from_label' => 'Send E-Mail From',
-        'from_description' => 'Here, you may specify a name and address that is used globally for all e-mails that are sent by the DMS.',
+        'from_description' => 'Here, you may specify a name and address that is used globally for all e-mails that are sent by the K-Box.',
         'server_configuration_label' => 'Server configuration',
-        'server_configuration_description' => 'How the DMS connects to the email server',
+        'server_configuration_description' => 'How the K-Box connects to the email server',
         'from_name' => 'Name (e.g John)',
         'from_address' => 'E-Mail address (e.g. john@klink.org)',
         'from_name_placeholder' => 'John',
@@ -199,7 +195,7 @@ return [
         'username_label' => 'SMTP Server Username',
         'password_label' => 'SMTP Server Password',
         'log_driver_used' => 'The log driver is used. You cannot change the server configuration.',
-        'log_driver_go_to_log' => 'The email messages will be written in the DMS log file. You can check it from <a href=":link">Administration > Maintenance and Events</a>.',
+        'log_driver_go_to_log' => 'The email messages will be written in the K-Box log file. You can check it from <a href=":link">Administration > Maintenance and Events</a>.',
     ],
     'update' => [],
     'maintenance' => [
