@@ -7,6 +7,36 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- Organization name is presented on the login page
+
+### Changed
+
+- Document descriptors with a cancelled upload status or an in progress upload status are not listed anymore in the document sections
+
+### Fixed
+
+- Showing microsite creation/edit only if the project administrator is connected
+- Fixed display of microsite view button if no microsite is configured for the project
+- Microsite section only visible if microsite is available or the logged in user is the project manager
+- Show project edit link only if the authenticated user is project manager
+- Showing a proper error message if the user is trying to access a non existent file
+- Cancelling an upload is now reflected on the database
+
+## [0.19-RC2] 2017-11-23
+
+### Added
+
+- Migration of video file location on disk
+
+### Fixed
+
+- Handling of unknown mime types when processing aggregations for the elastic list
+- Generation of UUID
+
+## [0.19-RC1] 2017-11-19
+
 ### Added 
 
 - UUID field to File model and database table
@@ -25,7 +55,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Text Extraction service for extracting plain text from files. Supports docx, pptx, pdf, txt, md, kml and csv files.
 - Language Guesser component from plain text file
 - Publishing to the video streaming streaming a video if it should appear in the network
-- Migration of video file location on disk
 
 ### Changed
 
@@ -43,13 +72,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Document sidebar not appearing on Internet Explorer 9-11
 - Breadcrumbs for shared collection now shows only the collection that the user has access to
 - Loading shared page if a disabled user shared a collection with you
-- Generation of UUID
-- Handling of unknown mime types when processing aggregations for the elastic list
-- Showing microsite creation/edit only if the project administrator is connected
-- Fixed display of microsite view button if no microsite is configured for the project
-- Microsite section only visible if microsite is available or the logged in user is the project manager
-- Show project edit link only if the authenticated user is project manager
-- Showing a proper error message if the user is trying to access a non existent file
 
 ### Removed
 
