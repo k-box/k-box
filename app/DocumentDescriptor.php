@@ -270,12 +270,21 @@ class DocumentDescriptor extends Model
     }
 
     /**
-     * Select only the DocumentDescriptor that are physically local to the DMS
+     * Select only the DocumentDescriptor that are physically local to the K-Box
+     *
+     * Will not select
+     * - document descriptors that don't have a file
+     * - document descriptor whose file upload was cancelled
+     *
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeLocal($query)
     {
-        return $query->where('file_id', '!=', 'null');
+        return $query->where([
+            ['file_id', '!=', 'null'],
+            ['status', '!=', self::STATUS_UPLOAD_CANCELLED],
+            ['status', '!=', self::STATUS_UPLOADING],
+        ]);
     }
 
     /**

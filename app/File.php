@@ -420,6 +420,9 @@ class File extends Model
      */
     protected function physicalDelete()
     {
+        if (empty($this->path)) {
+            return;
+        }
         $storage = Storage::disk('local');
         
         $this->thumbnail_path = null;

@@ -28,6 +28,7 @@ RUN apt-get update -yqq && \
         libbz2-dev \
         gettext \
         supervisor \
+        cron \
     && docker-php-ext-install -j$(nproc) iconv mcrypt \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-install -j$(nproc) gd \
@@ -56,6 +57,9 @@ RUN apt-key adv --keyserver hkp://pgp.mit.edu:80 --recv-keys 573BFD6B3D8FBC64107
 						# gettext-base \
 	&& rm -rf /var/lib/apt/lists/*
 
+## Configure cron to run Laravel scheduler
+RUN echo '* * * * * php /var/www/dms/artisan schedule:run >> /dev/null 2>&1' | crontab -
+
 ## Copy NGINX default configuration
 COPY docker/nginx-default.conf /etc/nginx/conf.d/default.conf
 
@@ -80,6 +84,7 @@ RUN chmod +x /usr/local/bin/apache2-foreground.sh && \
     chmod +x /usr/local/bin/configure.sh && \
     chmod +x /usr/local/bin/php-start.sh && \
     chmod +x /usr/local/bin/start.sh
+
 
 COPY deploy-screens/index.html /var/www/html/index.html
 

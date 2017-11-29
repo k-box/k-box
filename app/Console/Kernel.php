@@ -35,6 +35,7 @@ class Kernel extends ConsoleKernel
         'KlinkDMS\Console\Commands\Language\LanguageCheckCommand',
         'KlinkDMS\Console\Commands\OrphanFilesCommand',
         'KlinkDMS\Console\Commands\DocumentUpdatePropertiesCommand',
+        'KlinkDMS\Console\Commands\ClearCancelledDocumentUploadsCommand',
     ];
 
     /**
@@ -45,7 +46,6 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')
-        // 		 ->hourly();
+        $schedule->command('documents:clear-cancelled')->withoutOverlapping()->daily();
     }
 }

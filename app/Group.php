@@ -104,7 +104,7 @@ class Group extends Entity implements GroupInterface
      */
     public function documents()
     {
-        return $this->belongsToMany('KlinkDMS\DocumentDescriptor', 'document_groups', 'group_id', 'document_id');
+        return $this->belongsToMany('KlinkDMS\DocumentDescriptor', 'document_groups', 'group_id', 'document_id')->local();
     }
 
     /**
