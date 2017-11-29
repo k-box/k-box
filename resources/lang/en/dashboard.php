@@ -18,6 +18,7 @@ return [
 
         'hero_title' => 'Welcome to the K-Box',
         'hero_title_with_organization' => 'Welcome to the K-Box of :organization',
+        'photo_by' => 'Photo by',
         
 
     ]
