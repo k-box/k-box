@@ -265,7 +265,12 @@ class DocumentsController extends Controller
                 });
 
         // let's make them together
-        $list_of_docs = $documents_query->merge($shared_query);
+        
+        // Wrapping inside a new Illuminate\Support\Collection as $documents_query might
+        // be a Illuminate\Database\Eloquent\Collection. To prevent the case that optimizations based on
+        // the item being instance of Illuminate\Database\Eloquent\Model are used, when is not the case,
+        // it is converted to a standard collection
+        $list_of_docs = collect($documents_query)->merge($shared_query);
 
         if (! $user_is_dms_manager) {
             // add the projects only if is not a DMS admin, otherwise only duplicates will be added
