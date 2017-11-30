@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.19-RC3] 2017-11-30
+
 ### Added
 
 - Organization name is presented on the login page
