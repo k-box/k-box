@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Fixed
+
+- Streaming information was not always sent when updating previously published documents
+
 ## [0.19.0-RC4] 2017-12-01
 
 ### Changed

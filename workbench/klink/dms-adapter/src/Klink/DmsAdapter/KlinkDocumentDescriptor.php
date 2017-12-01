@@ -214,7 +214,7 @@ final class KlinkDocumentDescriptor
 
 			// if public is requested and has a streaming URL
 			
-			if($this->visibility === KlinkVisibilityType::KLINK_PUBLIC && $this->descriptor->hasPendingPublications()){
+			if($this->visibility === KlinkVisibilityType::KLINK_PUBLIC && ($this->descriptor->hasPendingPublications() || $this->descriptor->isPublished()) ){
 				
 				$publication = $this->descriptor->publication();
 
