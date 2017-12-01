@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.19.0-RC4] 2017-12-01
+
+### Changed
+
+- Image on the login image
+
+### Fixed
+
+- Recent page not loading if the user don't have a personal document, but only shared ones
+
 ## [0.19-RC3] 2017-11-30
 
 ### Added
