@@ -300,6 +300,12 @@ Route::get('files/{uuid}', [
     'as' => 'files.download',
 ]);
 
+// video streaming, handle manifest files and range request for video resources
+Route::get('stream/{uuid}/{resource?}', [
+    'uses' => 'VideoPlaybackController@show',
+    'as' => 'video.play',
+])->where(['resource' => 'mpd|.*\-(\d*)\_(audio|video)\.mp4']);
+
 /*
 |--------------------------------------------------------------------------
 | Authentication & Password Reset Controllers

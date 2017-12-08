@@ -59,11 +59,11 @@ class DmsQueueListen extends Command
             Option::put('dms.queuelistener.active', true);
             Option::put('dms.queuelistener.errorState', false);
 
-        
-                        // throw new \Exception("Error Processing Request", 1);
-            
-        
-            $queue_listen_result = $this->call('queue:listen', ['--tries' => 3]);
+            $queue_listen_result = $this->call('queue:listen', [
+                '--tries' => 3,
+                '--timeout' => 240,
+                '--memory' => 256,
+            ]);
         } catch (\Exception $ex) {
             $this->error($ex->getMessage());
 

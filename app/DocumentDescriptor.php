@@ -10,6 +10,7 @@ use KlinkDMS\Traits\LocalizableDateFields;
 use Dyrynda\Database\Support\GeneratesUuid;
 use Klink\DmsAdapter\KlinkVisibilityType;
 use Klink\DmsAdapter\KlinkDocumentDescriptor;
+use Klink\DmsDocuments\DocumentsService;
 
 /**
  * A Document Descriptor
@@ -587,6 +588,46 @@ class DocumentDescriptor extends Model
 
         // if file is null means that is trashed, therefore was succesfully uploaded
         return $this->file ? $this->file->upload_completed : true;
+    }
+
+    /**
+     * Check if the document descriptor can be viewed by a user
+     *
+     * @param \KlinkDMS\User $user
+     * @return bool
+     */
+    public function isAccessibleBy($user)
+    {
+        if ($this->isPublished() || $this->hasPublicLink()) {
+            return true;
+        }
+
+        if (is_null($user) || ! is_a($user, User::class)) {
+            return false;
+        }
+
+        $collections = $this->groups;
+        $is_in_collection = false;
+
+        if (! is_null($collections) && ! $collections->isEmpty()) {
+            $serv = app(DocumentsService::class);
+
+            $filtered = $collections->filter(function ($c) use ($serv, $user) {
+                return $serv->isCollectionAccessible($user, $c);
+            });
+            
+            $is_in_collection = ! $filtered->isEmpty();
+        }
+
+        $is_shared = $this->shares()->sharedWithMe($user)->count() > 0 ?: false;
+
+        $owner = ! is_null($this->owner) ? $this->owner->id === $user->id || $user->isContentManager() : (is_null($this->owner) ? true : false);
+
+        if ($is_in_collection || $is_shared || $owner) {
+            return true;
+        }
+
+        return false;
     }
     
     

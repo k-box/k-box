@@ -551,6 +551,36 @@ class File extends Model
     }
 
     /**
+     * Resources related to video streaming.
+     *
+     * @return \Illuminate\Support\Collection A collection containing the dash manifest and the various resolutions the video is available in. If the file is not a video an empty collection will be returned
+     */
+    public function videoResources()
+    {
+        if (! $this->isVideo()) {
+            return collect([]);
+        }
+
+        $files = collect(Storage::disk('local')->files(dirname($this->path)));
+
+        $resources = collect();
+
+        $dash_manifest = $files->filter(function ($value, $key) {
+            return ends_with($value, 'mpd');
+        })->first();
+
+        $resources->put('dash', $dash_manifest);
+
+        $videos = $files->filter(function ($value, $key) {
+            return ends_with($value, 'mp4') && $this->path !== $value;
+        });
+
+        $resources->put('streams', $videos);
+
+        return $resources;
+    }
+
+    /**
      * Create a file given an upload
      *
      * @param \Illuminate\Http\UploadedFile $upload the file uploaded

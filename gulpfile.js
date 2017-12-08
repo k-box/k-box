@@ -22,7 +22,7 @@ elixir.extend('previewJsModules', function() {
     new Task('copyPreviewModule', function() {
             return gulp.src("packages/contentprocessing/assets/js/**/*").pipe(gulp.dest( that.config.jsOutput + "/modules/" ));
         })
-        .watch('packages/contentprocessing/assets/js/modules/*.*');
+        .watch('packages/contentprocessing/assets/js/*.*');
 
 });
 
@@ -58,6 +58,7 @@ elixir(function(mix) {
                 '../resources/assets/js/deps/contextmenu.js',
                 'holmes.js/js/holmes.js',
                 'plyr/dist/plyr.js',
+                'shaka-player/dist/shaka-player.compiled.js',
                 'handlebars/dist/handlebars.js',
                 "../vendor/avvertix/laravel-tus-upload/public/js/tusuploader.js",
     			'requirejs/require.js',

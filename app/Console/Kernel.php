@@ -36,6 +36,7 @@ class Kernel extends ConsoleKernel
         'KlinkDMS\Console\Commands\OrphanFilesCommand',
         'KlinkDMS\Console\Commands\DocumentUpdatePropertiesCommand',
         'KlinkDMS\Console\Commands\ClearCancelledDocumentUploadsCommand',
+        'KlinkDMS\Console\Commands\VideoElaborateCommand',
     ];
 
     /**

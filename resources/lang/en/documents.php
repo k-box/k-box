@@ -229,6 +229,7 @@ return [
         'google_file_disclaimer' => ':document is a Google Drive file, we cannot show the preview here. You have to open it in Google Drive.',
         'google_file_disclaimer_alt' => 'This is a Google Drive file and cannot be previewed here.',
         'open_in_google_drive_btn' => 'Open in Google Drive',
+        'video_not_ready' => 'The video is being processed. It will be available within seconds.',
     ],
 
     'versions' => [

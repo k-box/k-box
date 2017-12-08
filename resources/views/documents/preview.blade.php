@@ -130,11 +130,6 @@
     <div class="preview__body">
 
         <div class="preview__area js-preview-area">
-            {{-- <div class="preview__navigation">
-            
-                navigation inside the preview
-            
-            </div> --}}
 
             <div class="preview__content js-preview-content">
 
@@ -158,13 +153,28 @@
 	@if($type=='image')
 	
 		<img src="{{DmsRouting::download($document)}}" alt="{{$document->title}}">
-	@elseif($type=='video')
-	
-		<video controls>
-			<source src="{{DmsRouting::download($document)}}" type="{{ $document->mime_type }}">
-		</video>
 
-		<script>plyr.setup();</script>  
+	@elseif($type=='video')
+
+		@if($document->status === \KlinkDMS\DocumentDescriptor::STATUS_COMPLETED)
+
+			<video id="the-player" 
+				data-dash="{{ route('video.play', ['uuid' => $document->file->uuid, 'resource' => 'mpd']) }}"
+				data-source="{{ DmsRouting::download($document) }}"
+				data-source-type="{{ $document->mime_type }}"
+				controls preload="none"
+				style="min-height:100%;min-width:100%"
+				poster="{{ DmsRouting::thumbnail($document) }}">
+
+			</video>
+
+		@else 
+
+			<div class="c-message c-message--warning">
+				<p>{{ trans('documents.preview.video_not_ready') }}</p>
+			</div>
+
+		@endif
 	
 	@elseif($type=='document' && $extension === 'pdf')
 	

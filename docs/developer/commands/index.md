@@ -1,4 +1,4 @@
-# K-DMS Command Line Tools
+# K-Box Command Line Tools
 
 > The usage of the command line options requires direct access to the running 
 > K-DMS instance.
@@ -34,6 +34,7 @@ Here are only listed the specific commands added by the K-DMS:
 - [`lang:check`](./lang-check.md) Get the status of the localization in different languages
 - [`files:orphans`](./files-orphans.md): Find and remove orphan files, i.e. the one not linked
   to a document descriptor
+- `video:elaborate`: Trigger the video elaboration for the specified documents
 
 For a complete list of available commands execute
 

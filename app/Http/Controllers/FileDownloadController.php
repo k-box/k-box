@@ -49,7 +49,7 @@ class FileDownloadController extends Controller
         $ascii_name = Str::ascii($file->name); // ascii name is required for the response as it is mandatory for the Symfony binary response
 
         if (strtolower($request->method()) === 'head') {
-            return response('', 200, ['Content-Length' => 0, 'Content-Type' => 'application/pdf' ]);
+            return response('', 200, ['Content-Length' => 0, 'Content-Type' => $file->mime_type ]);
         }
 
         return response()->download($file->absolute_path, $ascii_name, [
