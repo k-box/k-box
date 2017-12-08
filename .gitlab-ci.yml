@@ -16,7 +16,8 @@ cache:
   - node_modules/ # TODO: cache the NPM cache location
 
 variables:
-    CONTAINER_RELEASE_IMAGE_BASE: $CI_REGISTRY/images/dms
+    CONTAINER_RELEASE_IMAGE_BASE: $CI_REGISTRY/images/k-box
+    CONTAINER_RELEASE_LEGACY_IMAGE_BASE: $CI_REGISTRY/images/dms
 
 ## Making sure that the composer cache folder is the one we have in the CI cache
 before_script:
@@ -144,6 +145,12 @@ tagged_release:
     - docker login -u $REGISTRY_RELEASE_USERNAME -p $REGISTRY_RELEASE_PASSWORD $CI_REGISTRY
     - docker tag $CI_REGISTRY_IMAGE:${CI_COMMIT_REF_NAME/v/} "$CONTAINER_RELEASE_IMAGE_BASE:${CI_COMMIT_REF_NAME/v/}"
     - docker tag $CI_REGISTRY_IMAGE:${CI_COMMIT_REF_NAME/v/} "$CONTAINER_RELEASE_IMAGE_BASE:latest"
+    - docker tag $CI_REGISTRY_IMAGE:${CI_COMMIT_REF_NAME/v/} "$CONTAINER_RELEASE_LEGACY_IMAGE_BASE:${CI_COMMIT_REF_NAME/v/}"
+    - docker tag $CI_REGISTRY_IMAGE:${CI_COMMIT_REF_NAME/v/} "$CONTAINER_RELEASE_LEGACY_IMAGE_BASE:latest"
+    # legacy image registry
+    - docker push "$CONTAINER_RELEASE_LEGACY_IMAGE_BASE:latest"
+    - docker push "$CONTAINER_RELEASE_LEGACY_IMAGE_BASE:${CI_COMMIT_REF_NAME/v/}"
+    # new image registry
     - docker push "$CONTAINER_RELEASE_IMAGE_BASE:latest"
     - docker push "$CONTAINER_RELEASE_IMAGE_BASE:${CI_COMMIT_REF_NAME/v/}"
   tags:
