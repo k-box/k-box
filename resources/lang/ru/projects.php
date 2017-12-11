@@ -30,6 +30,8 @@ return [
         'project_details' => 'Детали Проекта',
         
         'users' => 'Пользователи',
+        'search_member_placeholder' => 'Поиск участника проекта...',
+        'search_member_not_found' => 'Участник с таким именем или организацией не найден.',
         'add_users' => 'Добавить пользователей',
         'add_users_button' => 'Добавить',
         'users_placeholder' => 'Выбрать',
@@ -43,14 +45,14 @@ return [
         'users_in_project' => 'Добавленных пользователей (:count)',
         
         'managed_by' => 'Администратор',
-        'created_on' => 'Создан в',
+        'created_on' => 'Создан',
         'user_count_label' => 'Участники',
         'user_count' => ':count участник|:count участника|:count участников',
         'documents_count_label' => 'Документы',
         'documents_count' => ':count документ|:count документа|:count докуметов',
         'avatar' => 'Аватар проекта',
         'avatar_description' => 'Максимальный размер файла 200KB. Наилучший вид при 300 x 160 пикселях.',
-        'avatar_remove_btn' => 'Удалить аватар',
+        'avatar_remove_btn' => 'Удалить',
         'avatar_remove_confirmation' => 'Аватар проекта будет удален. Вы уверены?',
         'avatar_remove_error_generic' => 'Аватар не может быть удален.',
     ],
@@ -60,7 +62,7 @@ return [
     'removing_wait_title' => 'Снятие...',
     'removing_wait_text' => 'Снимаю пользователя...',
 
-    'no_user_available' => 'Невозможно добавить пользователей. Скорее всего вы добавили всех в списке K-DMS.',
+    'no_user_available' => 'Невозможно добавить пользователей. Скорее всего вы добавили всех в списке K-Box.',
     
     'no_members' => 'Нет пользователей. Начните добавлять.',
     

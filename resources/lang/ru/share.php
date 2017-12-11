@@ -11,7 +11,7 @@ return [
 
     'page_title' => 'Документы в совместном доступе',
     
-    'share_btn' => 'Предоставить совместный доступ',
+    'share_btn' => 'Поделиться',
 
     'share_panel_title' => 'Предоставить доступ к :num элементу|Предоставить доступ к :num элементам|Предоставить доступ к :num элементам',
     
@@ -33,7 +33,7 @@ return [
     'shared_with_me_title' => 'Доступные мне',
     
     'shared_with_label' => 'Вами предоставлен доступ к',
-    'shared_by_label' => 'Доступ предоставлен',
+    'shared_by_label' => 'Доступ предоставил',
     
     'bulk_destroy' => 'Доступ к документу удален|Совместный доступ к некоторым документам не может быть удален<br/>:errors',
     'removed' => 'Доступ закрыт',
@@ -53,7 +53,7 @@ return [
     
     'link_copied_to_clipboard' => 'Ссылка скопирована. Вы можете вставить ее, используя комбинацию CTRL+V',
 
-    'shared_on' => 'shared on',
+    'shared_on' => 'Дата',
     
     'dialog' => [
         'title' => 'Настройки доступа',
@@ -78,16 +78,18 @@ return [
         'linkshare_members_only' => 'Доступ открыт только для зарегистрированных пользователей',
         'linkshare_public' => 'Доступ открыт для любого получателя ссылки',
 
-        'published' => 'Опубликовано в открытой сети :network',
-        'not_published' => 'Публикация в сети :network отменена',
+        'published' => 'Опубликовано в :network',
+        'not_published' => 'Публикация в :network отменена',
         'publishing' => 'Идет публикация документа...',
+        'publishing_failed' => 'Публикация прошла безуспешно',
         'unpublishing' => 'Идет отмена публикации...',
         'publish_collection' => 'Действие коснется всех документов коллекции.',
+        'publish_already_in_progress' => 'Публикация документа уже началась',
 
         'document_is_shared' => 'Имеют доступ:',
-        'collection_is_shared' => 'Коллекция доступна для:',
+        'collection_is_shared' => 'Имеют доступ:',
         'users_already_has_access' => ':num пользователь|:num пользователя|:num пользователей',
-        'users_already_has_access_alternate' => '{0} Только вы|{1} :num пользователь|[2,Inf]:num пользователей',
+        'users_already_has_access_alternate' => '{0} Только вы|{1} :num пользователь|[2,4]:num пользователя|[5,Inf]:num пользователей',
         
         'users_already_has_access_with_public_link' => '{0} Любой пользователь получивший открытую ссылку получит доступ|{1} Вы и пользователи получившие открытую ссылку|[2,Inf]:num пользователя и люди получившие открытую ссылку',
         'document_already_accessible_by_all_users' => 'Документ уже доступен для всех пользователей системы.',

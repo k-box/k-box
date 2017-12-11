@@ -28,11 +28,11 @@ return [
 
         'intro' => 'Dear :name,',
         
-        'subject' => 'Message from K-Link DMS',
+        'subject' => 'Message from K-Box',
         
-        'signature' => ':name<br/>Sent from K-Link DMS.',
+        'signature' => ':name<br/>Sent from K-Box.',
         
-        'you_are_receiving_because' => 'You are receiving this e-mail because you are a user of the <a href=":link">K-Link DMS</a>.',
+        'you_are_receiving_because' => 'You are receiving this e-mail because you are a user of the <a href=":link">K-Box</a>.',
         
         
     ],

@@ -31,7 +31,7 @@ return [
         'password_confirm' => 'Confirm your password',
         'language' => 'Select your preferred language',
         'organization_name' => 'Organization Name',
-        'organization_name_hint' => 'The organization your joined to, if any',
+        'organization_name_hint' => 'The organization you are part of, if any',
         'organization_website' => 'Organization Website',
         'organization_website_hint' => 'The organization website (e.g. https://klink.asia)',
     ],

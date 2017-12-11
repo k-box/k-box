@@ -4,6 +4,8 @@ return [
 
     
     'loading_message' => 'Загрузка...',
+    'load_error' => 'Загрузка невозможна :(<br/>:error',
+    'load_error_title' => 'Ошибка',
 
     'close_btn' => 'Закрыть',
 
@@ -32,18 +34,18 @@ return [
     'restore_btn_title' => 'Восстановить документы из корзины',
 
     'version_btn' => 'Версии',
-    'version_btn_title' => 'Управлять и добавлять версии документа',
+    'version_btn_title' => 'Изменить версию документа',
 
-    'info_section_title' => 'Информация',
-    'share_section_title' => 'Вы поделились с',
+    'info_section_title' => 'Общая информация',
+    'share_section_title' => 'Информация о доступе',
     'groups_section_title' => 'Коллекции',
     'version_section_title' => 'Версии документов',
     'abstract_section_title' => 'Краткое содержание',
     
     'not_shared' => 'Совместный доступ к документу еще не создан',
-    'not_in_collection' => 'Документ не присутствует в коллекциях',
+    'not_in_collection' => 'Документ не добавлен к коллекциям',
 
-    'collection_remove' => 'Удалить из :collection',
+    'collection_remove' => 'Снять :collection',
 
     'collection_open' => 'Открыть :collection',
 
@@ -54,14 +56,14 @@ return [
 
     'access' => [
 
-        'only_you' => 'Только вы имеете доступ',
+        'only_you' => 'Только вы',
         'you_and_direct' => 'Вы и :num пользователь (прямая ссылка)|Вы и:num пользователя (прямая ссылка)|Вы и:num пользователей (прямая ссылка)',
-        'only_project_members' => 'Все участники проекта :projects имеют доступ',
+        'only_project_members' => 'Все участники проекта :projects',
         'only_shares' => ':num пользователь|:num пользователя|:num пользователей',
         'project_members_and_shares' => 'Все участники :projects и :num пользователь|Все участники :projects и :num пользователя|Все участники :projects и :num пользователей',
         
         'internal' => 'Документ доступен только для зарегистрированных пользователей',
-        'network' => 'Документ доступен для любого пользователя (опубликовано в :network)',
-        'public' => 'Документ доступен для обладателя ссылки',
+        'network' => 'Документ доступен для любого пользователя (опубликован в :network)',
+        'public' => 'Документ доступен для любого обладателя ссылки',
     ],
 ];

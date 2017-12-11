@@ -12,7 +12,7 @@ return [
 
     'collections' => [
         'title'        => 'Коллекция',
-        'personal_title' => 'Моя Коллекция',
+        'personal_title' => 'Мои Коллекции',
         'private_title' => 'Проекты',
         'description'   => 'Коллекции помогают упорядочить ваши документы.',
         
@@ -22,24 +22,24 @@ return [
 
     'create_btn' => 'Создать',
     'save_btn' => 'Сохранить',
-    'loading' => 'Сохраняю коллекцию...',
+    'loading' => 'Сохраняю...',
 
-    'panel_create_title' => 'Создать новую Коллекцию',
+    'panel_create_title' => 'Новая коллекция',
 
-    'panel_edit_title' => 'Изменить Коллекцию <strong>:name</strong>',
+    'panel_edit_title' => 'Изменить <strong>:name</strong>',
 
     'created_on' => 'создано',
     'created_by' => 'создано',
 
-    'private_badge_label' => 'Личная Коллекция документов',
+    'private_badge_label' => 'Личная коллекция документов',
 
     'group_icon_label' => 'Коллекция',
 
     'empty_msg' => 'Нет существующих коллекций. Создайте коллекцию.',
 
     'form' => [
-        'collection_name_placeholder' => 'Название коллекции',
-        'collection_name_label' => 'Название коллекции',
+        'collection_name_placeholder' => 'Введите название коллекции',
+        'collection_name_label' => 'Название',
 
         'parent_label' => 'Родительская коллекция',
         'parent_project_label' => 'Коллекция Проекта',
@@ -80,17 +80,17 @@ return [
         'delete_dialog_title' => 'Удалить ":name"?',
         'delete_dialog_text' => 'Вы хотите безвозвратно удалить группу ":name"? (данное действие не может быть отмененно)',
         'delete_error_title' => 'Невозможно удалить группу',
-        'delete_generic_error_text' => 'Невозможно удалить группу. На данный момент, это все, что мы знаем.',
+        'delete_generic_error_text' => 'Невозможно удалить группу.',
         
-        'remove_user_dialog_title' => 'Удалить ":name"?',
-        'remove_user_dialog_text' => 'Удалить ":name" из ":group"?',
-        'remove_user_error_title' => 'Невозможно удалить пользователя из группы',
-        'remove_user_generic_error_text' => 'Невозможно удалить пользователя. На данный момент, это все, что мы знаем.',
+        'remove_user_dialog_title' => 'снять ":name"?',
+        'remove_user_dialog_text' => 'Снять ":name" с ":group"?',
+        'remove_user_error_title' => 'Невозможно снять пользователя с группы',
+        'remove_user_generic_error_text' => 'Невозможно снять пользователя.',
         
         'rename_dialog_title' => 'Переименовать ":name"?',
         'rename_dialog_text' => 'Название группы:',
         'rename_error_title' => 'Не удалось переименовать группу.',
-        'rename_generic_error_text' => 'Невозможно переименовать группу. На данный момент, это все, что мы знаем.',
+        'rename_generic_error_text' => 'Невозможно переименовать группу',
     ],
     
     
@@ -104,8 +104,8 @@ return [
         'deleted_dialog_title' => 'Коллекция :collection удалена',
         'deleted_dialog_title_alt' => 'Удалено',
         
-        'cannot_delete_dialog_title' => 'Невозможно удалить ":collection"!',
-        'cannot_delete_dialog_title_alt' => 'Не удалось удалить!',
+        'cannot_delete_dialog_title' => 'Невозможно удалить ":collection"',
+        'cannot_delete_dialog_title_alt' => 'Не удалось удалить',
         
         'cannot_delete_general_error' => 'Невозможно удалить выбранные элементы. Удаление не успешно.',
         
@@ -115,7 +115,7 @@ return [
     
     'move' => [
         'moved' => 'Коллекция ":collection" перемещена',
-        'moved_alt' => 'Перемещено',
+        'moved_alt' => 'Готово',
         'moved_text' => 'Коллекция была перемещена, мы обновляем вашу визуализацию...',
         'error_title' => 'Невозможно переместить :collection',
         'error_title_alt' => 'Невозможно переместить коллекцию',

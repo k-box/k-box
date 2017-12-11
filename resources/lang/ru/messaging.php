@@ -28,11 +28,11 @@ return [
 
         'intro' => 'Здравствуйте, :name,',
         
-        'subject' => 'Сообщение от K-Link DMS',
+        'subject' => 'Сообщение от K-Box',
         
-        'signature' => ':name<br/>Отправлено из K-Link DMS.',
+        'signature' => ':name<br/>Отправлено из K-Box.',
         
-        'you_are_receiving_because' => 'Вы получаете данное сообщение, потому что являетесь пользователем <a href=":link">K-Link DMS</a>.',
+        'you_are_receiving_because' => 'Вы получаете данное сообщение, потому что являетесь пользователем <a href=":link">K-Box</a>.',
         
         
     ],

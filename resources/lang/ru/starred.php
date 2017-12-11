@@ -18,13 +18,13 @@ return [
     'page_title' => 'Избранное',
 
     'starred_count' => ':number отмеченный документ|:number отмеченного документа|:number отмеченных документов',
-    'starred_count_alt' => ':number раз добавлен в Избранное|:number раза добавлен в Избранное|:number раз добавлен в Избранное',
+    'starred_count_alt' => ':number не добавлен в Избранное|:number раза добавлен в Избранное|:number раз добавлен в Избранное',
 
     'already_exists' => 'Этот документ уже добавлен в Избранное',
 
     'errors' => [
 
-        'invalidargumentexception' => 'Извините, невозможно добавить в Избранное. (:exception)',
+        'invalidargumentexception' => 'Невозможно добавить в Избранное. (:exception)',
 
     ],
 

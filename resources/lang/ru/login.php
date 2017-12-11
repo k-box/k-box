@@ -21,6 +21,7 @@ return [
         'password_label' => 'Пароль',
         'password_placeholder' => 'Пароль',
         'submit' => 'Войти',
+        'remember_me' => 'Сохранить мои сведения',
     ],
 
 ];

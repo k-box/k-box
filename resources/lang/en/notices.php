@@ -13,7 +13,7 @@ return [
     */
     
     'mail_testing_mode_msg' => 'The email configuration is not valid, no mail message will be sent to new users or existing ones. <a href=":url">Change it</a>',
-    'mail_not_configured' => 'The E-Mail configuration require your attention.<br/><a href=":url">Please review the E-Mail settings</a>.',
+    'mail_not_configured' => 'The E-Mail configuration requires your attention.<br/><a href=":url">Please review the E-Mail settings</a>.',
     'mail_config_msg' => 'Please complete the <a href=":url">E-Mail service configuration</a>.',
     'account_mail_msg' => 'Please <a href=":url">change your account E-Mail</a> to a real E-Mail address otherwise you will not be able to receive messages.',
 

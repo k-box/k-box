@@ -37,12 +37,12 @@ return [
         'hint' => 'Выбрать все/Очистить выбранное',
      
         'at_least_one_document' => 'Выберите хотя бы один документ',
-        'at_least_one' => 'Пожалуйста, выберите хотя бы один документ или коллекцию',
-        'only_one' => 'Пожалуйста, выберите только один документ или коллекцию',
+        'at_least_one' => 'Выберите хотя бы один документ или коллекцию',
+        'only_one' => 'Выберите только один документ или коллекцию',
     ],
  
     'clipboard' => [
-        'copied_title' => 'Скопировано!',
+        'copied_title' => 'Скопировано',
         'copied_link_text' => 'Ссылка была скопирована',
         
         'not_copied_title' => 'Невозможно скопировать',
@@ -82,12 +82,12 @@ return [
 
     'add_or_move_to' => 'Коллекции',
 
-    'publish_documents' => 'Добавить в открытый доступ',
+    'publish_documents' => 'Опубликовать',
     'make_private' => 'Сохранить закрытым',
 
     'create_add_dropdown' => 'Создать или добавить',
 
-    'trash_btn' => 'Удалить',
+    'trash_btn' => 'В корзину',
     'trash_btn_alt' => 'В корзину',
     'forcedelete_btn_alt' => 'Удалить безвозвратно',
     'restore_btn' => 'Восстановить',
@@ -116,29 +116,29 @@ return [
         'make_public' => 'Выберите несколько документов, прежде чем предоставить им открытый доступ в Сети K-Link',
     ],
 
-    'not_available' => 'Опаньки, данное действие не готово для вашего пользования!',
+    'not_available' => 'Данное действие недоступно',
 
     // buttons on the dialog
     'dialogs' => [
-        'cancel_btn' => 'Нет, отменить!',
+        'cancel_btn' => 'Нет',
         'cancel_btn_alt' => 'Отменить',
         
         'yes_btn' => 'Да',
         'no_btn' => 'Нет',
         'ok_btn' => 'OK',
         
-        'delete_btn' => 'Да, удалить!',
-        'remove_btn' => 'Да, удалить!',
-        'trash_btn' => 'Да, отправить в корзину!',
-        'move_btn' => 'Да, переместить!',
+        'delete_btn' => 'Да',
+        'remove_btn' => 'Да',
+        'trash_btn' => 'Да',
+        'move_btn' => 'Да',
         
         // showed when on a dialog, like the one in people group creation, the input field is empty, but a value is required
-        'input_required' => 'Напишите что-нибудь!',
+        'input_required' => 'Напишите что-нибудь',
         
         
     ],
     
-    'got_it' => 'Согласен!',
+    'got_it' => 'Согласен',
     
     'remove' => 'Удалить',
     
