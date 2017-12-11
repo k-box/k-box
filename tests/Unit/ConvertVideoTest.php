@@ -2,12 +2,12 @@
 
 namespace Tests\Unit;
 
-use KlinkDMS\File;
-use KlinkDMS\User;
+use KBox\File;
+use KBox\User;
 use Tests\TestCase;
-use KlinkDMS\Institution;
-use KlinkDMS\Jobs\ConvertVideo;
-use KlinkDMS\DocumentDescriptor;
+use KBox\Institution;
+use KBox\Jobs\ConvertVideo;
+use KBox\DocumentDescriptor;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Mockery;
@@ -39,7 +39,7 @@ class ConvertVideoTest extends TestCase
 
         Storage::fake('local');
 
-        $descriptor = factory('KlinkDMS\DocumentDescriptor')->create();
+        $descriptor = factory('KBox\DocumentDescriptor')->create();
 
         dispatch(new ConvertVideo($descriptor));
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace KlinkDMS\Http\Composers;
+namespace KBox\Http\Composers;
 
 use Illuminate\Contracts\View\View;
 

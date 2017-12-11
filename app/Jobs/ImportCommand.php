@@ -1,21 +1,21 @@
 <?php
 
-namespace KlinkDMS\Jobs;
+namespace KBox\Jobs;
 
 use Illuminate\Console\Command;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use KlinkDMS\Import;
-use KlinkDMS\User;
-use KlinkDMS\File;
-use KlinkDMS\Group;
-use KlinkDMS\DocumentDescriptor;
+use KBox\Import;
+use KBox\User;
+use KBox\File;
+use KBox\Group;
+use KBox\DocumentDescriptor;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\File as Storage;
 use Symfony\Component\Finder\Finder;
 use GuzzleHttp\Client;
-use KlinkDMS\Exceptions\FileDownloadException;
+use KBox\Exceptions\FileDownloadException;
 use Symfony\Component\Console\Output\OutputInterface;
 use Illuminate\Support\Facades\Storage as DiskStorage;
 use Exception;
@@ -200,7 +200,7 @@ class ImportCommand extends Job implements ShouldQueue
 
             try {
                 $descriptor = $this->service->indexDocument($file, KlinkVisibilityType::KLINK_PRIVATE, $this->user);
-                $descriptor->status = \KlinkDMS\DocumentDescriptor::STATUS_COMPLETED;
+                $descriptor->status = \KBox\DocumentDescriptor::STATUS_COMPLETED;
                 $descriptor->save();
             } catch (KlinkException $kex) {
                 Log::error('ImportCommand Indexing error: KlinkException', ['exception' => $kex, 'import' => $this->import->toArray(), 'import_file' => $file, 'is_remote' => true]);

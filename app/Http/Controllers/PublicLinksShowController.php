@@ -1,11 +1,11 @@
 <?php
 
-namespace KlinkDMS\Http\Controllers;
+namespace KBox\Http\Controllers;
 
-use KlinkDMS\PublicLink;
-use KlinkDMS\Shared;
-use KlinkDMS\DocumentDescriptor;
-use KlinkDMS\RoutingHelpers;
+use KBox\PublicLink;
+use KBox\Shared;
+use KBox\DocumentDescriptor;
+use KBox\RoutingHelpers;
 
 class PublicLinksShowController extends Controller
 {

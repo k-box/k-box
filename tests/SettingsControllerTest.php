@@ -3,7 +3,7 @@
 use Tests\BrowserKitTestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-use KlinkDMS\Option;
+use KBox\Option;
 
 class SettingsControllerTest extends BrowserKitTestCase
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace KlinkDMS\Http\Middleware;
+namespace KBox\Http\Middleware;
 
 use Jenssegers\Agent\Agent;
 use Closure;

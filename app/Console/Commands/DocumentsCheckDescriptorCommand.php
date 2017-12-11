@@ -1,13 +1,13 @@
 <?php
 
-namespace KlinkDMS\Console\Commands;
+namespace KBox\Console\Commands;
 
 use Illuminate\Console\Command;
 
-use KlinkDMS\DocumentDescriptor;
+use KBox\DocumentDescriptor;
 use Klink\DmsDocuments\DocumentsService;
 use Klink\DmsAdapter\KlinkDocumentUtils;
-use KlinkDMS\Console\Traits\DebugOutput;
+use KBox\Console\Traits\DebugOutput;
 
 class DocumentsCheckDescriptorCommand extends Command
 {

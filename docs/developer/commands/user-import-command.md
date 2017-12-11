@@ -1,8 +1,8 @@
 # Import Users in batch and assign them to projects
 
-Starting from DMS version 0.7.0 there is the ability to perform user creation in batch, which means that is possible to creates a high number of users by using a file that describe the characteristics of those users.
+Starting from K-Box version 0.7.0 there is the ability to perform user creation in batch, which means that is possible to creates a high number of users by using a file that describe the characteristics of those users.
 
-The ability to perform the mass user creation is available only in the form of a maintenance command, therefore physical access to the running DMS instance is required.
+The ability to perform the mass user creation is available only in the form of a maintenance command, therefore physical access to the running K-Box instance is required.
 
 **Please use UTF-8 encoded CSV files**
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace KlinkDMS\Notifications;
+namespace KBox\Notifications;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
@@ -17,28 +17,28 @@ class ShareCreatedNotification extends Notification
     /**
      * Who shared the document or the collection
      *
-     * @var KlinkDMS\User
+     * @var KBox\User
      */
     private $from;
 
     /**
      * What has been shared
      *
-     * @var KlinkDMS\Group|KlinkDMS\DocumentDescriptor
+     * @var KBox\Group|KBox\DocumentDescriptor
      */
     private $what;
 
     /**
      * The share that has been created
      *
-     * @var KlinkDMS\Shared
+     * @var KBox\Shared
      */
     private $share;
 
     /**
      * Create a new notification instance.
      *
-     * @param KlinkDMS\Shared $share The share created
+     * @param KBox\Shared $share The share created
      * @return void
      */
     public function __construct($share)
@@ -67,9 +67,9 @@ class ShareCreatedNotification extends Notification
      */
     public function toMail($notifiable)
     {
-        $language = is_a($notifiable, 'KlinkDMS\User') ? $notifiable->optionLanguage(config('app.locale')) : config('app.locale');
+        $language = is_a($notifiable, 'KBox\User') ? $notifiable->optionLanguage(config('app.locale')) : config('app.locale');
 
-        $is_collection = is_a($this->what, 'KlinkDMS\Group') ? true : false;
+        $is_collection = is_a($this->what, 'KBox\Group') ? true : false;
         $item_title = $is_collection ? $this->what->name : $this->what->title;
         $share_link = rtrim(config('app.url'), '/').route('shares.show', ['id' => $this->share->token], false);
 

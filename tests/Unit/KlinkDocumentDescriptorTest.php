@@ -16,7 +16,7 @@ class KlinkDocumentDescriptorTest extends TestCase
 
     public function test_private_document_descriptor_can_be_converted_to_ksearch_data()
     {
-        $descriptor = factory('KlinkDMS\DocumentDescriptor')->make([
+        $descriptor = factory('KBox\DocumentDescriptor')->make([
             // generating an author string that don't respect the format
             'authors' => 'Hello Author hello@author.com'
         ]);
@@ -50,12 +50,12 @@ class KlinkDocumentDescriptorTest extends TestCase
     {
         $streaming_url = 'https://streaming.service/play/123';
 
-        $file = factory('KlinkDMS\File')->create([
+        $file = factory('KBox\File')->create([
             'path' => 'video.mp4',
             'mime_type' => 'video/mp4',
             ]);
             
-        $descriptor = factory('KlinkDMS\DocumentDescriptor')->create([
+        $descriptor = factory('KBox\DocumentDescriptor')->create([
             'file_id' => $file->id,
             'mime_type' => 'video/mp4',
             'is_public' => true

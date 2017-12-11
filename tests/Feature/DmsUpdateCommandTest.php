@@ -4,14 +4,14 @@ namespace Tests\Feature;
 
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use KlinkDMS\DocumentDescriptor;
-use KlinkDMS\Option;
-use KlinkDMS\Institution;
-use KlinkDMS\Publication;
-use KlinkDMS\File;
+use KBox\DocumentDescriptor;
+use KBox\Option;
+use KBox\Institution;
+use KBox\Publication;
+use KBox\File;
 use Ramsey\Uuid\Uuid;
 use Illuminate\Support\Facades\Storage;
-use KlinkDMS\Console\Commands\DmsUpdateCommand;
+use KBox\Console\Commands\DmsUpdateCommand;
 
 class DmsUpdateCommandTest extends TestCase
 {
@@ -34,8 +34,8 @@ class DmsUpdateCommandTest extends TestCase
     {
         $this->withKlinkAdapterMock();
 
-        $docs = factory('KlinkDMS\DocumentDescriptor', 11)->create(['uuid' => "00000000-0000-0000-0000-000000000000"]);
-        $v3_docs = factory('KlinkDMS\DocumentDescriptor')->create(['uuid' => "39613931-3436-3066-2d31-3533322d3466"]);
+        $docs = factory('KBox\DocumentDescriptor', 11)->create(['uuid' => "00000000-0000-0000-0000-000000000000"]);
+        $v3_docs = factory('KBox\DocumentDescriptor')->create(['uuid' => "39613931-3436-3066-2d31-3533322d3466"]);
 
         $doc_ids = $docs->pluck('id')->toArray();
         
@@ -87,8 +87,8 @@ class DmsUpdateCommandTest extends TestCase
 
     public function test_user_affiliation_is_moved_to_organization()
     {
-        $institution = factory('KlinkDMS\Institution')->create();
-        $users = factory('KlinkDMS\User', 3)->create([
+        $institution = factory('KBox\Institution')->create();
+        $users = factory('KBox\User', 3)->create([
             'institution_id' => $institution->id
         ]);
 
@@ -104,7 +104,7 @@ class DmsUpdateCommandTest extends TestCase
     public function test_old_publications_are_migrated_to_the_publications_table()
     {
         Publication::all()->each->delete();
-        $docs = factory('KlinkDMS\DocumentDescriptor', 3)->create(['is_public' => true]);
+        $docs = factory('KBox\DocumentDescriptor', 3)->create(['is_public' => true]);
         $ids = $docs->pluck('id');
 
         $command = new DmsUpdateCommand();
@@ -126,8 +126,8 @@ class DmsUpdateCommandTest extends TestCase
     {
         $this->withKlinkAdapterMock();
 
-        $files = factory('KlinkDMS\File', 11)->create(['uuid' => "00000000-0000-0000-0000-000000000000"]);
-        $v3_files = factory('KlinkDMS\File')->create(['uuid' => "39613931-3436-3066-2d31-3533322d3466"]);
+        $files = factory('KBox\File', 11)->create(['uuid' => "00000000-0000-0000-0000-000000000000"]);
+        $v3_files = factory('KBox\File')->create(['uuid' => "39613931-3436-3066-2d31-3533322d3466"]);
 
         $file_ids = $files->pluck('id')->toArray();
         
@@ -178,7 +178,7 @@ class DmsUpdateCommandTest extends TestCase
             file_get_contents(base_path('tests/data/video.mp4'))
         );
         
-        $file = factory('KlinkDMS\File')->create([
+        $file = factory('KBox\File')->create([
             'path' => $path,
             'mime_type' => 'video/mp4'
         ]);
@@ -212,7 +212,7 @@ class DmsUpdateCommandTest extends TestCase
             file_get_contents(base_path('tests/data/video.mp4'))
         );
         
-        $file = factory('KlinkDMS\File')->create([
+        $file = factory('KBox\File')->create([
             'path' => Storage::disk('local')->path($path),
             'mime_type' => 'video/mp4'
         ]);

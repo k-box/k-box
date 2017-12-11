@@ -1,16 +1,16 @@
 <?php
 
-namespace KlinkDMS\Http\Controllers\Projects;
+namespace KBox\Http\Controllers\Projects;
 
-use KlinkDMS\Http\Requests\ProjectRequest;
-use KlinkDMS\Http\Controllers\Controller;
-use KlinkDMS\PeopleGroup;
-use KlinkDMS\User;
-use KlinkDMS\Project;
+use KBox\Http\Requests\ProjectRequest;
+use KBox\Http\Controllers\Controller;
+use KBox\PeopleGroup;
+use KBox\User;
+use KBox\Project;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\JsonResponse;
 use Klink\DmsDocuments\DocumentsService;
-use KlinkDMS\Traits\AvatarUpload;
+use KBox\Traits\AvatarUpload;
 
 /**
  * Controller for the Project Management

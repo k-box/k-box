@@ -1,33 +1,33 @@
 <?php
 
-namespace KlinkDMS\Http\Controllers\Document;
+namespace KBox\Http\Controllers\Document;
 
 use Illuminate\Http\Request;
-use KlinkDMS\Http\Controllers\Controller;
-use KlinkDMS\DocumentDescriptor;
-use KlinkDMS\Shared;
-use KlinkDMS\Group;
-use KlinkDMS\Capability;
-use KlinkDMS\Project;
-use KlinkDMS\User;
+use KBox\Http\Controllers\Controller;
+use KBox\DocumentDescriptor;
+use KBox\Shared;
+use KBox\Group;
+use KBox\Capability;
+use KBox\Project;
+use KBox\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Contracts\Auth\Guard as AuthGuard;
-use KlinkDMS\Http\Requests\DocumentAddRequest;
-use KlinkDMS\Http\Requests\DocumentUpdateRequest;
-use KlinkDMS\Exceptions\FileAlreadyExistsException;
-use KlinkDMS\Exceptions\FileNamingException;
-use KlinkDMS\Exceptions\ForbiddenException;
+use KBox\Http\Requests\DocumentAddRequest;
+use KBox\Http\Requests\DocumentUpdateRequest;
+use KBox\Exceptions\FileAlreadyExistsException;
+use KBox\Exceptions\FileNamingException;
+use KBox\Exceptions\ForbiddenException;
 use Illuminate\Support\Collection;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use KlinkDMS\Traits\Searchable;
-use KlinkDMS\Events\UploadCompleted;
+use KBox\Traits\Searchable;
+use KBox\Events\UploadCompleted;
 use Klink\DmsAdapter\KlinkDocumentUtils;
 use Klink\DmsAdapter\KlinkVisibilityType;
 use Klink\DmsAdapter\Exceptions\KlinkException;
-use KlinkDMS\Jobs\ReindexDocument;
-use KlinkDMS\Jobs\UpdatePublishedDocumentJob;
+use KBox\Jobs\ReindexDocument;
+use KBox\Jobs\UpdatePublishedDocumentJob;
 
 class DocumentsController extends Controller
 {
@@ -254,7 +254,7 @@ class DocumentsController extends Controller
         });
         
         $shared_query = $shared_query->orderBy('updated_at', $order)->
-                where('shareable_type', '=', 'KlinkDMS\DocumentDescriptor')
+                where('shareable_type', '=', 'KBox\DocumentDescriptor')
                 ->with('shareable')
                 ->get()->map(function ($descriptor) {
                     return [
@@ -553,8 +553,8 @@ class DocumentsController extends Controller
 
         if (! is_null($auth_user)) {
             if ($document->isMine()) {
-                $existing_shares = $document->shares()->sharedByMe($auth_user)->where('sharedwith_type', 'KlinkDMS\User')->count();
-                $public_link_shares = $document->shares()->where('sharedwith_type', 'KlinkDMS\PublicLink')->count();
+                $existing_shares = $document->shares()->sharedByMe($auth_user)->where('sharedwith_type', 'KBox\User')->count();
+                $public_link_shares = $document->shares()->where('sharedwith_type', 'KBox\PublicLink')->count();
                 
                 $users_from_projects = $this->service->getUsersWithAccess($document, $auth_user);
                 $users_from_projects_count = $users_from_projects->count();
@@ -607,7 +607,7 @@ class DocumentsController extends Controller
                 return $this->_showPanel($document, $auth->user());
             }
 
-            $url = \KlinkDMS\RoutingHelpers::preview($document);
+            $url = \KBox\RoutingHelpers::preview($document);
 
             return redirect($url);
         } catch (ModelNotFoundException $kex) {

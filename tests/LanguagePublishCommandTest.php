@@ -3,7 +3,7 @@
 use Tests\BrowserKitTestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-use KlinkDMS\Console\Commands\DmsLanguagePublishCommand;
+use KBox\Console\Commands\DmsLanguagePublishCommand;
 
 class LanguagePublishCommandTest extends BrowserKitTestCase
 {

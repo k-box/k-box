@@ -6,14 +6,14 @@ use Illuminate\Support\Facades\Artisan;
 use Tests\BrowserKitTestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-use KlinkDMS\Console\Commands\DmsFlagsCommand;
+use KBox\Console\Commands\DmsFlagsCommand;
 
-use KlinkDMS\Traits\RunCommand;
+use KBox\Traits\RunCommand;
 
-use KlinkDMS\Flags;
+use KBox\Flags;
 
 /*
- * Test the KlinkDMS\Console\Commands\DmsFlagsCommand artisan console command
+ * Test the KBox\Console\Commands\DmsFlagsCommand artisan console command
 */
 class DmsFlagsCommandTest extends BrowserKitTestCase
 {

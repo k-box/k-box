@@ -1,12 +1,12 @@
 <?php
 
-namespace KlinkDMS\Http\Controllers;
+namespace KBox\Http\Controllers;
 
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\Request;
-use KlinkDMS\Traits\Searchable;
-use KlinkDMS\Exceptions\ForbiddenException;
-use KlinkDMS\Option;
+use KBox\Traits\Searchable;
+use KBox\Exceptions\ForbiddenException;
+use KBox\Option;
 use Klink\DmsAdapter\KlinkVisibilityType;
 
 class SearchController extends Controller
@@ -109,9 +109,9 @@ class SearchController extends Controller
         $uid = $auth->user()->id;
 
         if (is_null($search_terms)) {
-            $recent = \KlinkDMS\RecentSearch::ofUser($uid)->take(5)->orderBy('updated_at', 'desc')->get();
+            $recent = \KBox\RecentSearch::ofUser($uid)->take(5)->orderBy('updated_at', 'desc')->get();
         } else {
-            $recent = \KlinkDMS\RecentSearch::ofUser($uid)->thatContains($search_terms)->take(5)->orderBy('updated_at', 'desc')->get();
+            $recent = \KBox\RecentSearch::ofUser($uid)->thatContains($search_terms)->take(5)->orderBy('updated_at', 'desc')->get();
         }
 
         if (! is_null($search_terms)) {

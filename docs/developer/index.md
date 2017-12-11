@@ -1,4 +1,4 @@
-# K-Link DMS 
+# K-Link K-Box 
 # Developer documentation
 
 
@@ -14,8 +14,8 @@ See [Configuration.md](./configuration.md)
 
 ## Command Line
 
-The DMS exposes a set of commands through a command line interface in addition to 
-the ones available from the framework used for developing the DMS itself.
+The K-Box exposes a set of commands through a command line interface in addition to 
+the ones available from the framework used for developing the K-Box itself.
 
 The command line tool set is exposed using 
 [Laravel's Artisan](https://laravel.com/docs/5.2/artisan) command line.
@@ -26,12 +26,12 @@ See the section [Commands](./commands/index.md) for more information.
 
 ## Support and Maintenance
 
-Sometimes a support request is about a user that is experiencing problems during the normal operations on the DMS. 
+Sometimes a support request is about a user that is experiencing problems during the normal operations on the K-Box. 
 
 From the perspective of the support different actions can be made. Here is the list of the operations that can be performed:
 
 - [View the current log file](./support/view-logs.md)
-- [Clear the DMS cache](./support/clearing-cache.md) (_requires physical access_)
+- [Clear the K-Box cache](./support/clearing-cache.md) (_requires physical access_)
 - [Transfer Project ownership to another Project Administrator](./support/transfer-project-ownership.md)  (_requires physical access_)
 
 

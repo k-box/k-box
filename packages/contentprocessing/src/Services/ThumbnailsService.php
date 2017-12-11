@@ -2,7 +2,7 @@
 
 namespace Content\Services;
 
-use KlinkDMS\File;
+use KBox\File;
 
 use Klink\DmsAdapter\Contracts\KlinkAdapter;
 use Klink\DmsAdapter\KlinkDocumentUtils;

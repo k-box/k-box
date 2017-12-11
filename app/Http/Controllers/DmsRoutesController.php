@@ -1,6 +1,6 @@
 <?php
 
-namespace KlinkDMS\Http\Controllers;
+namespace KBox\Http\Controllers;
 
 /**
  * Handle the redirect from the /dms routes to the root

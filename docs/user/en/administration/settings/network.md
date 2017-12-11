@@ -1,8 +1,8 @@
 # Join a network
 
-The K-Link DMS has the ability to connect to a network of partners through the K-Link Network protocol.
+The K-Link K-Box has the ability to connect to a network of partners through the K-Link Network protocol.
 
-By default the DMS is not connected to any network. The network management is under `Administration > Settings`, from that page on the bottom you will see the _Join a Network_ section.
+By default the K-Box is not connected to any network. The network management is under `Administration > Settings`, from that page on the bottom you will see the _Join a Network_ section.
 
 
 ![](./img/dms-network.JPG)
@@ -12,7 +12,7 @@ Joioning a network will enable to publish documents to organizations and searchi
 
 To connect to a network you have to specify the network entry point, the username and the password. This information comes from the Network Administrator or the K-Link Development Team.
 
-Then you can mark the checkbox _Enable publish documents to the network_. When pressing the _Save settings_ button the system will validate all the inserted connection information. If some parameters are wrong the DMS will auto-disable the checkbox _Enable publish documents to the network_ in order to prevent errors for the other users of the DMS.  
+Then you can mark the checkbox _Enable publish documents to the network_. When pressing the _Save settings_ button the system will validate all the inserted connection information. If some parameters are wrong the K-Box will auto-disable the checkbox _Enable publish documents to the network_ in order to prevent errors for the other users of the K-Box.  
 
 If you are connecting to a network other than the K-Link Network you can personalize the name that users will see using the fields under _Network name_. There is one field for each supported language.
 

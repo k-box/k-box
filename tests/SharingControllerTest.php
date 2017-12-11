@@ -3,9 +3,9 @@
 use Tests\BrowserKitTestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-use KlinkDMS\Capability;
-use KlinkDMS\User;
-use KlinkDMS\Shared;
+use KBox\Capability;
+use KBox\User;
+use KBox\Shared;
 use Laracasts\TestDummy\Factory;
 use Illuminate\Support\Collection;
 
@@ -42,7 +42,7 @@ class SharingControllerTest extends BrowserKitTestCase
     {
         $this->withKlinkAdapterFake();
 
-        $this->expectsEvents(KlinkDMS\Events\ShareCreated::class);
+        $this->expectsEvents(KBox\Events\ShareCreated::class);
 
         $user = $this->createUser(Capability::$PARTNER);
         
@@ -93,7 +93,7 @@ class SharingControllerTest extends BrowserKitTestCase
     {
         $this->withKlinkAdapterFake();
 
-        $this->expectsEvents(KlinkDMS\Events\ShareCreated::class);
+        $this->expectsEvents(KBox\Events\ShareCreated::class);
 
         $user = $this->createUser(Capability::$PARTNER);
         
@@ -179,7 +179,7 @@ class SharingControllerTest extends BrowserKitTestCase
 
         $this->actingAs($user);
         
-        $share = factory('KlinkDMS\Shared')->create([
+        $share = factory('KBox\Shared')->create([
             'user_id' => $user->id,
             'sharedwith_id' => $user_target->id,
         ]);

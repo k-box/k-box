@@ -4,7 +4,7 @@ namespace Tests\Feature;
 
 use Carbon\Carbon;
 use Tests\TestCase;
-use KlinkDMS\Publication;
+use KBox\Publication;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -21,9 +21,9 @@ class DocumentPublishingTest extends TestCase
 
         $adapter = $this->withKlinkAdapterFake();
 
-        $user = factory('KlinkDMS\User')->create();
+        $user = factory('KBox\User')->create();
 
-        $descriptor = factory('KlinkDMS\DocumentDescriptor')->create();
+        $descriptor = factory('KBox\DocumentDescriptor')->create();
 
         $response = $this->actingAs($user)->json('POST', '/published-documents', [
             'document_id' => $descriptor->id
@@ -57,9 +57,9 @@ class DocumentPublishingTest extends TestCase
 
         $adapter = $this->withKlinkAdapterFake();
 
-        $user = factory('KlinkDMS\User')->create();
+        $user = factory('KBox\User')->create();
 
-        $descriptor = factory('KlinkDMS\DocumentDescriptor')->create(['is_public' => true]);
+        $descriptor = factory('KBox\DocumentDescriptor')->create(['is_public' => true]);
 
         Publication::unguard(); // as fields are not mass assignable
         
@@ -102,9 +102,9 @@ class DocumentPublishingTest extends TestCase
 
         $adapter = $this->withKlinkAdapterFake();
 
-        $user = factory('KlinkDMS\User')->create();
+        $user = factory('KBox\User')->create();
 
-        $descriptor = factory('KlinkDMS\DocumentDescriptor')->create(['is_public' => true]);
+        $descriptor = factory('KBox\DocumentDescriptor')->create(['is_public' => true]);
 
         Publication::unguard(); // as fields are not mass assignable
         

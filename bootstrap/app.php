@@ -28,17 +28,17 @@ $app = new Illuminate\Foundation\Application(
 
 $app->singleton(
     'Illuminate\Contracts\Http\Kernel',
-    'KlinkDMS\Http\Kernel'
+    'KBox\Http\Kernel'
 );
 
 $app->singleton(
     'Illuminate\Contracts\Console\Kernel',
-    'KlinkDMS\Console\Kernel'
+    'KBox\Console\Kernel'
 );
 
 $app->singleton(
     'Illuminate\Contracts\Debug\ExceptionHandler',
-    'KlinkDMS\Exceptions\Handler'
+    'KBox\Exceptions\Handler'
 );
 
 // >>> tricked configuration for having multiple environment (env) configuration on the same machine

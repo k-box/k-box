@@ -1,16 +1,16 @@
 <?php
 
 use Laracasts\TestDummy\Factory;
-use KlinkDMS\User;
-use KlinkDMS\Capability;
-use KlinkDMS\DocumentDescriptor;
+use KBox\User;
+use KBox\Capability;
+use KBox\DocumentDescriptor;
 
 use Tests\BrowserKitTestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-use KlinkDMS\Console\Commands\DocumentsCheckInstitutionCommand;
+use KBox\Console\Commands\DocumentsCheckInstitutionCommand;
 
-use KlinkDMS\Traits\RunCommand;
+use KBox\Traits\RunCommand;
 
 /*
  * Test the DocumentsCheckInstitutionCommand
@@ -79,19 +79,19 @@ class DocumentsCheckInstitutionCommandTest extends BrowserKitTestCase
     
     private function createDocuments($index_document = false)
     {
-        $institution = factory('KlinkDMS\Institution')->create();
-        $institution2 = factory('KlinkDMS\Institution')->create();
+        $institution = factory('KBox\Institution')->create();
+        $institution2 = factory('KBox\Institution')->create();
         
         $user = $this->createUser(Capability::$PROJECT_MANAGER, [
             'institution_id' => $institution->id
         ]);
         
-        $file = factory('KlinkDMS\File')->create([
+        $file = factory('KBox\File')->create([
             'user_id' => $user->id,
             'original_uri' => ''
         ]);
         
-        $doc = factory('KlinkDMS\DocumentDescriptor')->create([
+        $doc = factory('KBox\DocumentDescriptor')->create([
             'owner_id' => $user->id,
             'file_id' => $file->id,
             'hash' => $file->hash,

@@ -1,11 +1,11 @@
 <?php
 
-namespace KlinkDMS;
+namespace KBox;
 
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * KlinkDMS\Import
+ * KBox\Import
  *
  * @property int $id
  * @property int $bytes_expected
@@ -21,34 +21,34 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $message
  * @property array $payload
  * @property string $job_payload
- * @property-read \KlinkDMS\Import $father
- * @property-read \KlinkDMS\File $file
+ * @property-read \KBox\Import $father
+ * @property-read \KBox\File $file
  * @property-read mixed $is_completed
  * @property-read mixed $is_error
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Import allCompleted()
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Import allRoots()
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Import allZombies()
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Import completed($user_id)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Import fromFile($file_id)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Import fromUser($user_id)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Import myChildren($parent_id)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Import myDownloads($user_id)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Import notCompleted($user_id)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Import whereBytesExpected($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Import whereBytesReceived($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Import whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Import whereFileId($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Import whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Import whereIsRemote($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Import whereJobPayload($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Import whereMessage($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Import whereParentId($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Import wherePayload($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Import whereStatus($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Import whereStatusMessage($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Import whereUpdatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Import whereUserId($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Import withError($user_id)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\Import allCompleted()
+ * @method static \Illuminate\Database\Query\Builder|\KBox\Import allRoots()
+ * @method static \Illuminate\Database\Query\Builder|\KBox\Import allZombies()
+ * @method static \Illuminate\Database\Query\Builder|\KBox\Import completed($user_id)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\Import fromFile($file_id)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\Import fromUser($user_id)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\Import myChildren($parent_id)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\Import myDownloads($user_id)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\Import notCompleted($user_id)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\Import whereBytesExpected($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\Import whereBytesReceived($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\Import whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\Import whereFileId($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\Import whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\Import whereIsRemote($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\Import whereJobPayload($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\Import whereMessage($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\Import whereParentId($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\Import wherePayload($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\Import whereStatus($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\Import whereStatusMessage($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\Import whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\Import whereUserId($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\Import withError($user_id)
  * @mixin \Eloquent
  */
 class Import extends Model
@@ -138,12 +138,12 @@ class Import extends Model
 
     public function file()
     {
-        return $this->belongsTo('\KlinkDMS\File');
+        return $this->belongsTo('\KBox\File');
     }
 
     public function father()
     {
-        return $this->hasOne('\KlinkDMS\Import');
+        return $this->hasOne('\KBox\Import');
     }
     /*
      * delete all the downloads updated 30 minutes ago

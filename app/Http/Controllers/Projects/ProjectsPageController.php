@@ -1,13 +1,13 @@
 <?php
 
-namespace KlinkDMS\Http\Controllers\Projects;
+namespace KBox\Http\Controllers\Projects;
 
 use Illuminate\Http\Request as IlluminateRequest;
-use KlinkDMS\Project;
+use KBox\Project;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\JsonResponse;
-use KlinkDMS\Traits\Searchable;
-use KlinkDMS\Http\Controllers\Controller;
+use KBox\Traits\Searchable;
+use KBox\Http\Controllers\Controller;
 
 /**
  * Handle the Unified Search project page (issue klinkdms/dms#699)

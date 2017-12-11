@@ -1,10 +1,10 @@
 <?php
 
-namespace KlinkDMS\Http\Controllers\Administration;
+namespace KBox\Http\Controllers\Administration;
 
-use KlinkDMS\User;
-use KlinkDMS\Http\Controllers\Controller;
-use KlinkDMS\Institution;
+use KBox\User;
+use KBox\Http\Controllers\Controller;
+use KBox\Institution;
 use Illuminate\Contracts\Auth\Guard as AuthGuard;
 
 /**

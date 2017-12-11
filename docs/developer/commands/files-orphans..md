@@ -14,7 +14,7 @@ $ php artisan files:orphans [options]
 **Options:**
 
 - `--delete`: Put the orphan files in the trashed state.
-- `--force`: Permanently delete the orphan files from the DMS.
+- `--force`: Permanently delete the orphan files from the K-Box.
 - `--file-paths` : Output the paths on disk of the orphan files
 
 If executed with no options, the output will list the orphan files ID and the state (i.e. if in trash), 

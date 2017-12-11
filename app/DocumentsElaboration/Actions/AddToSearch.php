@@ -1,9 +1,9 @@
 <?php
 
-namespace KlinkDMS\DocumentsElaboration\Actions;
+namespace KBox\DocumentsElaboration\Actions;
 
 use Klink\DmsDocuments\DocumentsService;
-use KlinkDMS\Contracts\Action;
+use KBox\Contracts\Action;
 
 class AddToSearch extends Action
 {

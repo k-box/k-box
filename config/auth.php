@@ -67,7 +67,7 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => KlinkDMS\User::class,
+            'model' => KBox\User::class,
         ],
 
         // 'users' => [

@@ -1,6 +1,6 @@
 <?php
 
-namespace KlinkDMS;
+namespace KBox;
 
 use Franzose\ClosureTable\Contracts\EntityInterface;
 

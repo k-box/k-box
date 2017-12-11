@@ -2,14 +2,14 @@
 
 The DMS saves a log file for each day. Log files older than 5 days might not be available.
 
-The log file of the current day can be viewed from the DMS `Administration > Maintenance and Events` page. The page is similar to the one showed below
+The log file of the current day can be viewed from the K-Box `Administration > Maintenance and Events` page. The page is similar to the one showed below
 
 ![current day log](./img/log-view.png)
  
 The Log file is a big chunk of text on which every line starts with a timestamp (e.g. `[2016-05-15 05:42:26]`). 
 Timestamps report the time according to the timezone specififed in the DMS configuration.
  
-Considering that the DMS is a beta product the log file can be very big as it stores information messages, warning and errors.
+Considering that the K-Box is a beta product the log file can be very big as it stores information messages, warning and errors.
  
 You can distinguish between the different types of messages because of the `production.` statement in the log entry:
  
@@ -69,7 +69,7 @@ The code block shows a thumbnail generation error for a Power Point presentation
     "exception":"[object] (KlinkException(code: 500): Internal Server Error at /var/www/dms/vendor/klink/adapterboilerplate/klink/KlinkCoreClient.php:919)"} 
 ``` 
 
-Although the error is logged the DMS shows a standard image as the thumbnail of the file. This log entry give to the developers the information about which document 
+Although the error is logged the K-Box shows a standard image as the thumbnail of the file. This log entry give to the developers the information about which document 
 raised the problem and the kind of exception. In this case the exception `KlinkException(code: 500)` indicates that the problem must be further investigated in the 
-K-Core component and is not related to the DMS itself. 
+K-Core component and is not related to the K-Box itself. 
  

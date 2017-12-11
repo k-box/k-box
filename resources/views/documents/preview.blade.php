@@ -156,7 +156,7 @@
 
 	@elseif($type=='video')
 
-		@if($document->status === \KlinkDMS\DocumentDescriptor::STATUS_COMPLETED)
+		@if($document->status === \KBox\DocumentDescriptor::STATUS_COMPLETED)
 
 			<video id="the-player" 
 				data-dash="{{ route('video.play', ['uuid' => $document->file->uuid, 'resource' => 'mpd']) }}"

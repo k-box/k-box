@@ -1,10 +1,10 @@
 <?php
 
-namespace KlinkDMS\Console\Commands;
+namespace KBox\Console\Commands;
 
 use Illuminate\Console\Command;
 use InvalidArgumentException;
-use KlinkDMS\Flags;
+use KBox\Flags;
 
 /**
  * Command for enabling or disabling feature flags.

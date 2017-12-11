@@ -2,8 +2,8 @@
 
 namespace Klink\DmsDocuments;
 
-use KlinkDMS\DocumentDescriptor;
-use KlinkDMS\File;
+use KBox\DocumentDescriptor;
+use KBox\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Config;
 use Klink\DmsAdapter\KlinkFacetsBuilder;

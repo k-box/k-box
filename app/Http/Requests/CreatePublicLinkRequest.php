@@ -1,6 +1,6 @@
 <?php
 
-namespace KlinkDMS\Http\Requests;
+namespace KBox\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest as Request;
 

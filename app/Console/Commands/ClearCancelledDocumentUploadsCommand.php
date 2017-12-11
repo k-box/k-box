@@ -1,10 +1,10 @@
 <?php
 
-namespace KlinkDMS\Console\Commands;
+namespace KBox\Console\Commands;
 
 use Log;
 use Illuminate\Console\Command;
-use KlinkDMS\DocumentDescriptor;
+use KBox\DocumentDescriptor;
 use Avvertix\TusUpload\TusUpload;
 
 class ClearCancelledDocumentUploadsCommand extends Command

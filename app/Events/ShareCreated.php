@@ -1,8 +1,8 @@
 <?php
 
-namespace KlinkDMS\Events;
+namespace KBox\Events;
 
-use KlinkDMS\Shared;
+use KBox\Shared;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\PrivateChannel;

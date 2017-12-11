@@ -1,6 +1,6 @@
 <?php
 
-namespace KlinkDMS\Traits;
+namespace KBox\Traits;
 
 use Jenssegers\Date\Date as LocalizedDate;
 use DateTime;

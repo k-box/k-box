@@ -1,15 +1,15 @@
 <?php
 
 use Laracasts\TestDummy\Factory;
-use KlinkDMS\User;
-use KlinkDMS\DocumentDescriptor;
+use KBox\User;
+use KBox\DocumentDescriptor;
 
 use Tests\BrowserKitTestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-use KlinkDMS\Console\Commands\DmsReindexCommand;
+use KBox\Console\Commands\DmsReindexCommand;
 
-use KlinkDMS\Traits\RunCommand;
+use KBox\Traits\RunCommand;
 
 /*
  * Test the DMSReindexCommand
@@ -22,7 +22,7 @@ class DmsReindexCommandTest extends BrowserKitTestCase
 
     private function createDocuments($quantity = 5)
     {
-        $docs = factory('KlinkDMS\DocumentDescriptor', $quantity)->create([
+        $docs = factory('KBox\DocumentDescriptor', $quantity)->create([
             'is_public' => false,
             'language' => null
         ]);

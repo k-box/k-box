@@ -1,6 +1,6 @@
 <?php
 
-use KlinkDMS\Group;
+use KBox\Group;
 
 use Tests\BrowserKitTestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -177,7 +177,7 @@ class GroupManagementTest extends BrowserKitTestCase
     }
 
     /**
-     * @expectedException KlinkDMS\Exceptions\ForbiddenException
+     * @expectedException KBox\Exceptions\ForbiddenException
      */
     public function testGroupUpdateForbidden($value='')
     {
@@ -386,7 +386,7 @@ class GroupManagementTest extends BrowserKitTestCase
 
     /**
      * Test the raise of forbidden exception in case of existing subtree in the new position
-     * @expectedException KlinkDMS\Exceptions\ForbiddenException
+     * @expectedException KBox\Exceptions\ForbiddenException
      */
     public function testGroupMoveForbidden()
     {
@@ -401,7 +401,7 @@ class GroupManagementTest extends BrowserKitTestCase
     }
 
     /**
-     * @expectedException KlinkDMS\Exceptions\ForbiddenException
+     * @expectedException KBox\Exceptions\ForbiddenException
      */
     public function testGroupCopyForbidden()
     {

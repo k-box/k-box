@@ -17,17 +17,17 @@ return [
      */
 //
 //    'profile' => array(
-//		'index' => KlinkDMS\Capability::MAKE_SEARCH,
-//		'store' => KlinkDMS\Capability::MAKE_SEARCH,
-//		'update' => KlinkDMS\Capability::MAKE_SEARCH,
-//		'show' => KlinkDMS\Capability::MAKE_SEARCH,
+//		'index' => KBox\Capability::MAKE_SEARCH,
+//		'store' => KBox\Capability::MAKE_SEARCH,
+//		'update' => KBox\Capability::MAKE_SEARCH,
+//		'show' => KBox\Capability::MAKE_SEARCH,
 //	),
 
     /**
      * Search routes
      */
     
-    'search-autocomplete' => KlinkDMS\Capability::MAKE_SEARCH,
+    'search-autocomplete' => KBox\Capability::MAKE_SEARCH,
 
     /**
      * Document routes
@@ -35,133 +35,133 @@ return [
 
     'documents' => [
 
-        'index' => KlinkDMS\Capability::MAKE_SEARCH,
-        'recent' => KlinkDMS\Capability::MAKE_SEARCH,
-        'trash' => KlinkDMS\Capability::$CONTENT_MANAGER,
-        'notindexed' => KlinkDMS\Capability::$CONTENT_MANAGER,
-        'sharedwithme' => [KlinkDMS\Capability::RECEIVE_AND_SEE_SHARE, KlinkDMS\Capability::SHARE_WITH_PERSONAL, KlinkDMS\Capability::SHARE_WITH_PRIVATE],
-        'show' => KlinkDMS\Capability::$CONTENT_MANAGER,
-        'by-klink-id' => KlinkDMS\Capability::$CONTENT_MANAGER,
-        'visibility' => KlinkDMS\Capability::MAKE_SEARCH,
-        'create' => KlinkDMS\Capability::UPLOAD_DOCUMENTS,
-        'store' => KlinkDMS\Capability::UPLOAD_DOCUMENTS,
-        'edit' => KlinkDMS\Capability::EDIT_DOCUMENT,
-        'update' => KlinkDMS\Capability::EDIT_DOCUMENT,
-        'destroy' => KlinkDMS\Capability::DELETE_DOCUMENT,
+        'index' => KBox\Capability::MAKE_SEARCH,
+        'recent' => KBox\Capability::MAKE_SEARCH,
+        'trash' => KBox\Capability::$CONTENT_MANAGER,
+        'notindexed' => KBox\Capability::$CONTENT_MANAGER,
+        'sharedwithme' => [KBox\Capability::RECEIVE_AND_SEE_SHARE, KBox\Capability::SHARE_WITH_PERSONAL, KBox\Capability::SHARE_WITH_PRIVATE],
+        'show' => KBox\Capability::$CONTENT_MANAGER,
+        'by-klink-id' => KBox\Capability::$CONTENT_MANAGER,
+        'visibility' => KBox\Capability::MAKE_SEARCH,
+        'create' => KBox\Capability::UPLOAD_DOCUMENTS,
+        'store' => KBox\Capability::UPLOAD_DOCUMENTS,
+        'edit' => KBox\Capability::EDIT_DOCUMENT,
+        'update' => KBox\Capability::EDIT_DOCUMENT,
+        'destroy' => KBox\Capability::DELETE_DOCUMENT,
         
-        'publish' => KlinkDMS\Capability::CHANGE_DOCUMENT_VISIBILITY,
-        'unpublish' => KlinkDMS\Capability::CHANGE_DOCUMENT_VISIBILITY,
+        'publish' => KBox\Capability::CHANGE_DOCUMENT_VISIBILITY,
+        'unpublish' => KBox\Capability::CHANGE_DOCUMENT_VISIBILITY,
 
         'bulk' => [
             
-            'restore' => KlinkDMS\Capability::DELETE_DOCUMENT,
-            'remove' => KlinkDMS\Capability::DELETE_DOCUMENT,
-            'emptytrash' => KlinkDMS\Capability::CLEAN_TRASH,
-            'copyto' => KlinkDMS\Capability::$CONTENT_MANAGER,
-            'makepublic' => KlinkDMS\Capability::CHANGE_DOCUMENT_VISIBILITY,
-            'makeprivate' => KlinkDMS\Capability::CHANGE_DOCUMENT_VISIBILITY,
+            'restore' => KBox\Capability::DELETE_DOCUMENT,
+            'remove' => KBox\Capability::DELETE_DOCUMENT,
+            'emptytrash' => KBox\Capability::CLEAN_TRASH,
+            'copyto' => KBox\Capability::$CONTENT_MANAGER,
+            'makepublic' => KBox\Capability::CHANGE_DOCUMENT_VISIBILITY,
+            'makeprivate' => KBox\Capability::CHANGE_DOCUMENT_VISIBILITY,
 
         ],
 
         'starred' => [
 
-            'index' => KlinkDMS\Capability::MAKE_SEARCH,
-            'store' => KlinkDMS\Capability::MAKE_SEARCH,
-            'show' => KlinkDMS\Capability::MAKE_SEARCH,
-            'destroy' => KlinkDMS\Capability::MAKE_SEARCH,
+            'index' => KBox\Capability::MAKE_SEARCH,
+            'store' => KBox\Capability::MAKE_SEARCH,
+            'show' => KBox\Capability::MAKE_SEARCH,
+            'destroy' => KBox\Capability::MAKE_SEARCH,
 
         ],
 
         'groups' => [
 
-            'index' => KlinkDMS\Capability::$CONTENT_MANAGER,
-            'create' => KlinkDMS\Capability::$CONTENT_MANAGER,
-            'edit' => KlinkDMS\Capability::$CONTENT_MANAGER,
-            'update' => KlinkDMS\Capability::$CONTENT_MANAGER,
-            'store' => KlinkDMS\Capability::$CONTENT_MANAGER,
-            'show' => KlinkDMS\Capability::$CONTENT_MANAGER,
-            'destroy' => KlinkDMS\Capability::$CONTENT_MANAGER,
+            'index' => KBox\Capability::$CONTENT_MANAGER,
+            'create' => KBox\Capability::$CONTENT_MANAGER,
+            'edit' => KBox\Capability::$CONTENT_MANAGER,
+            'update' => KBox\Capability::$CONTENT_MANAGER,
+            'store' => KBox\Capability::$CONTENT_MANAGER,
+            'show' => KBox\Capability::$CONTENT_MANAGER,
+            'destroy' => KBox\Capability::$CONTENT_MANAGER,
 
         ],
 
         'import' => [
 
-            'index' => KlinkDMS\Capability::IMPORT_DOCUMENTS,
-            'store' => KlinkDMS\Capability::IMPORT_DOCUMENTS,
-            'clearcompleted' => KlinkDMS\Capability::IMPORT_DOCUMENTS,
-            'destroy' => KlinkDMS\Capability::IMPORT_DOCUMENTS,
-            'update' => KlinkDMS\Capability::IMPORT_DOCUMENTS,
-            // 'status' => KlinkDMS\Capability::IMPORT_DOCUMENTS,
+            'index' => KBox\Capability::IMPORT_DOCUMENTS,
+            'store' => KBox\Capability::IMPORT_DOCUMENTS,
+            'clearcompleted' => KBox\Capability::IMPORT_DOCUMENTS,
+            'destroy' => KBox\Capability::IMPORT_DOCUMENTS,
+            'update' => KBox\Capability::IMPORT_DOCUMENTS,
+            // 'status' => KBox\Capability::IMPORT_DOCUMENTS,
 
         ],
 
         'projects' => [
 
-            'index' => KlinkDMS\Capability::MANAGE_PROJECT_COLLECTIONS,
-            'show' => KlinkDMS\Capability::MANAGE_PROJECT_COLLECTIONS,
+            'index' => KBox\Capability::MANAGE_PROJECT_COLLECTIONS,
+            'show' => KBox\Capability::MANAGE_PROJECT_COLLECTIONS,
 
         ],
     
     ],
 
     'shares' => [
-        'index' => KlinkDMS\Capability::RECEIVE_AND_SEE_SHARE,
-        'create' => [KlinkDMS\Capability::SHARE_WITH_PERSONAL, KlinkDMS\Capability::SHARE_WITH_PRIVATE],
-        'store' => [KlinkDMS\Capability::SHARE_WITH_PERSONAL, KlinkDMS\Capability::SHARE_WITH_PRIVATE],
-        'show' => KlinkDMS\Capability::RECEIVE_AND_SEE_SHARE,
-        'group' => KlinkDMS\Capability::RECEIVE_AND_SEE_SHARE,
-        'edit' => [KlinkDMS\Capability::SHARE_WITH_PERSONAL, KlinkDMS\Capability::SHARE_WITH_PRIVATE],
-        'update' => [KlinkDMS\Capability::SHARE_WITH_PERSONAL, KlinkDMS\Capability::SHARE_WITH_PRIVATE],
-        'destroy' => [KlinkDMS\Capability::SHARE_WITH_PERSONAL, KlinkDMS\Capability::SHARE_WITH_PRIVATE],
-        'deletemultiple' => [KlinkDMS\Capability::SHARE_WITH_PERSONAL, KlinkDMS\Capability::SHARE_WITH_PRIVATE],
+        'index' => KBox\Capability::RECEIVE_AND_SEE_SHARE,
+        'create' => [KBox\Capability::SHARE_WITH_PERSONAL, KBox\Capability::SHARE_WITH_PRIVATE],
+        'store' => [KBox\Capability::SHARE_WITH_PERSONAL, KBox\Capability::SHARE_WITH_PRIVATE],
+        'show' => KBox\Capability::RECEIVE_AND_SEE_SHARE,
+        'group' => KBox\Capability::RECEIVE_AND_SEE_SHARE,
+        'edit' => [KBox\Capability::SHARE_WITH_PERSONAL, KBox\Capability::SHARE_WITH_PRIVATE],
+        'update' => [KBox\Capability::SHARE_WITH_PERSONAL, KBox\Capability::SHARE_WITH_PRIVATE],
+        'destroy' => [KBox\Capability::SHARE_WITH_PERSONAL, KBox\Capability::SHARE_WITH_PRIVATE],
+        'deletemultiple' => [KBox\Capability::SHARE_WITH_PERSONAL, KBox\Capability::SHARE_WITH_PRIVATE],
     ],
     
     'links' => [
-        'store' => KlinkDMS\Capability::SHARE_WITH_PERSONAL,
-        'show' => KlinkDMS\Capability::RECEIVE_AND_SEE_SHARE,
-        'update' => [KlinkDMS\Capability::SHARE_WITH_PERSONAL, KlinkDMS\Capability::SHARE_WITH_PRIVATE],
-        'destroy' => [KlinkDMS\Capability::SHARE_WITH_PERSONAL, KlinkDMS\Capability::SHARE_WITH_PRIVATE],
+        'store' => KBox\Capability::SHARE_WITH_PERSONAL,
+        'show' => KBox\Capability::RECEIVE_AND_SEE_SHARE,
+        'update' => [KBox\Capability::SHARE_WITH_PERSONAL, KBox\Capability::SHARE_WITH_PRIVATE],
+        'destroy' => [KBox\Capability::SHARE_WITH_PERSONAL, KBox\Capability::SHARE_WITH_PRIVATE],
     ],
     
     
     'people' => [
-        'index' => [KlinkDMS\Capability::MANAGE_PEOPLE_GROUPS, KlinkDMS\Capability::MANAGE_PERSONAL_PEOPLE_GROUPS],
-        'create' => [KlinkDMS\Capability::MANAGE_PEOPLE_GROUPS, KlinkDMS\Capability::MANAGE_PERSONAL_PEOPLE_GROUPS],
-        'store' => [KlinkDMS\Capability::MANAGE_PEOPLE_GROUPS, KlinkDMS\Capability::MANAGE_PERSONAL_PEOPLE_GROUPS],
-        'show' => [KlinkDMS\Capability::MANAGE_PEOPLE_GROUPS, KlinkDMS\Capability::MANAGE_PERSONAL_PEOPLE_GROUPS],
-        'edit' => [KlinkDMS\Capability::MANAGE_PEOPLE_GROUPS, KlinkDMS\Capability::MANAGE_PERSONAL_PEOPLE_GROUPS],
-        'update' => [KlinkDMS\Capability::MANAGE_PEOPLE_GROUPS, KlinkDMS\Capability::MANAGE_PERSONAL_PEOPLE_GROUPS],
-        'destroy' => [KlinkDMS\Capability::MANAGE_PEOPLE_GROUPS, KlinkDMS\Capability::MANAGE_PERSONAL_PEOPLE_GROUPS],
+        'index' => [KBox\Capability::MANAGE_PEOPLE_GROUPS, KBox\Capability::MANAGE_PERSONAL_PEOPLE_GROUPS],
+        'create' => [KBox\Capability::MANAGE_PEOPLE_GROUPS, KBox\Capability::MANAGE_PERSONAL_PEOPLE_GROUPS],
+        'store' => [KBox\Capability::MANAGE_PEOPLE_GROUPS, KBox\Capability::MANAGE_PERSONAL_PEOPLE_GROUPS],
+        'show' => [KBox\Capability::MANAGE_PEOPLE_GROUPS, KBox\Capability::MANAGE_PERSONAL_PEOPLE_GROUPS],
+        'edit' => [KBox\Capability::MANAGE_PEOPLE_GROUPS, KBox\Capability::MANAGE_PERSONAL_PEOPLE_GROUPS],
+        'update' => [KBox\Capability::MANAGE_PEOPLE_GROUPS, KBox\Capability::MANAGE_PERSONAL_PEOPLE_GROUPS],
+        'destroy' => [KBox\Capability::MANAGE_PEOPLE_GROUPS, KBox\Capability::MANAGE_PERSONAL_PEOPLE_GROUPS],
     ],
     
     'projects' => [
-        'index' => ['all' => KlinkDMS\Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH],
-        'create' => ['all' => KlinkDMS\Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH],
-        'store' => ['all' => KlinkDMS\Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH],
-        'show' => ['all' => KlinkDMS\Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH],
-        'edit' => ['all' => KlinkDMS\Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH],
-        'update' => ['all' => KlinkDMS\Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH],
-        'destroy' => ['all' => KlinkDMS\Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH],
+        'index' => ['all' => KBox\Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH],
+        'create' => ['all' => KBox\Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH],
+        'store' => ['all' => KBox\Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH],
+        'show' => ['all' => KBox\Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH],
+        'edit' => ['all' => KBox\Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH],
+        'update' => ['all' => KBox\Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH],
+        'destroy' => ['all' => KBox\Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH],
 
         'avatar' => [
-            'index' => KlinkDMS\Capability::RECEIVE_AND_SEE_SHARE,
-            'store' => ['all' => KlinkDMS\Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH],
-            'destroy' => ['all' => KlinkDMS\Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH],
+            'index' => KBox\Capability::RECEIVE_AND_SEE_SHARE,
+            'store' => ['all' => KBox\Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH],
+            'destroy' => ['all' => KBox\Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH],
         ]
     ],
     
     'microsites' => [
-        'index' => ['all' => KlinkDMS\Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH],
-        'create' => ['all' => KlinkDMS\Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH],
-        'store' => ['all' => KlinkDMS\Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH],
-        'show' => ['all' => KlinkDMS\Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH],
-        'edit' => ['all' => KlinkDMS\Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH],
-        'update' => ['all' => KlinkDMS\Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH],
-        'destroy' => ['all' => KlinkDMS\Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH],
+        'index' => ['all' => KBox\Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH],
+        'create' => ['all' => KBox\Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH],
+        'store' => ['all' => KBox\Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH],
+        'show' => ['all' => KBox\Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH],
+        'edit' => ['all' => KBox\Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH],
+        'update' => ['all' => KBox\Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH],
+        'destroy' => ['all' => KBox\Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH],
     ],
 
-    'import' => KlinkDMS\Capability::IMPORT_DOCUMENTS,
-    'import-refresh' => KlinkDMS\Capability::IMPORT_DOCUMENTS,
+    'import' => KBox\Capability::IMPORT_DOCUMENTS,
+    'import-refresh' => KBox\Capability::IMPORT_DOCUMENTS,
 
     /**
      * Administration routes
@@ -169,67 +169,67 @@ return [
 
     'administration' => [
 
-        'index' => KlinkDMS\Capability::MANAGE_DMS,
+        'index' => KBox\Capability::MANAGE_DMS,
 
         'storage' => [
-            'index' => KlinkDMS\Capability::MANAGE_DMS,
-            'reindexall' => KlinkDMS\Capability::MANAGE_DMS,
-            'reindexstatus' => KlinkDMS\Capability::MANAGE_DMS,
-            'naming' => KlinkDMS\Capability::MANAGE_DMS,
+            'index' => KBox\Capability::MANAGE_DMS,
+            'reindexall' => KBox\Capability::MANAGE_DMS,
+            'reindexstatus' => KBox\Capability::MANAGE_DMS,
+            'naming' => KBox\Capability::MANAGE_DMS,
         ],
 
         'network' => [
-            'index' => KlinkDMS\Capability::MANAGE_DMS,
+            'index' => KBox\Capability::MANAGE_DMS,
         ],
 
         'maintenance' => [
-            'index' => KlinkDMS\Capability::MANAGE_DMS,
+            'index' => KBox\Capability::MANAGE_DMS,
         ],
 
         'mail' => [
-            'index' => KlinkDMS\Capability::MANAGE_DMS,
-            'store' => KlinkDMS\Capability::MANAGE_DMS,
-            'test' => KlinkDMS\Capability::MANAGE_DMS,
+            'index' => KBox\Capability::MANAGE_DMS,
+            'store' => KBox\Capability::MANAGE_DMS,
+            'test' => KBox\Capability::MANAGE_DMS,
         ],
         
         'identity' => [
-            'index' => KlinkDMS\Capability::MANAGE_DMS,
-            'store' => KlinkDMS\Capability::MANAGE_DMS,
+            'index' => KBox\Capability::MANAGE_DMS,
+            'store' => KBox\Capability::MANAGE_DMS,
         ],
 
         'users' => [
-            'index' => KlinkDMS\Capability::MANAGE_USERS,
-            'create' => KlinkDMS\Capability::MANAGE_USERS,
-            'store' => KlinkDMS\Capability::MANAGE_USERS,
-            'show' => KlinkDMS\Capability::MANAGE_USERS,
-            'edit' => KlinkDMS\Capability::MANAGE_USERS,
-            'update' => KlinkDMS\Capability::MANAGE_USERS,
-            'destroy' => KlinkDMS\Capability::MANAGE_USERS,
+            'index' => KBox\Capability::MANAGE_USERS,
+            'create' => KBox\Capability::MANAGE_USERS,
+            'store' => KBox\Capability::MANAGE_USERS,
+            'show' => KBox\Capability::MANAGE_USERS,
+            'edit' => KBox\Capability::MANAGE_USERS,
+            'update' => KBox\Capability::MANAGE_USERS,
+            'destroy' => KBox\Capability::MANAGE_USERS,
         ],
         
         'messages' => [
-            'index' => KlinkDMS\Capability::MANAGE_USERS,
-            'create' => KlinkDMS\Capability::MANAGE_USERS,
-            'store' => KlinkDMS\Capability::MANAGE_USERS,
-            'show' => KlinkDMS\Capability::MANAGE_USERS,
-            'edit' => KlinkDMS\Capability::MANAGE_USERS,
-            'update' => KlinkDMS\Capability::MANAGE_USERS,
-            'destroy' => KlinkDMS\Capability::MANAGE_USERS,
+            'index' => KBox\Capability::MANAGE_USERS,
+            'create' => KBox\Capability::MANAGE_USERS,
+            'store' => KBox\Capability::MANAGE_USERS,
+            'show' => KBox\Capability::MANAGE_USERS,
+            'edit' => KBox\Capability::MANAGE_USERS,
+            'update' => KBox\Capability::MANAGE_USERS,
+            'destroy' => KBox\Capability::MANAGE_USERS,
         ],
         
         'institutions' => [
-            'index' => KlinkDMS\Capability::MANAGE_DMS,
-            'show' => KlinkDMS\Capability::MANAGE_DMS,
+            'index' => KBox\Capability::MANAGE_DMS,
+            'show' => KBox\Capability::MANAGE_DMS,
         ],
         
         'settings' => [
-            'index' => KlinkDMS\Capability::MANAGE_DMS,
-            'create' => KlinkDMS\Capability::MANAGE_DMS,
-            'store' => KlinkDMS\Capability::MANAGE_DMS,
-            'show' => KlinkDMS\Capability::MANAGE_DMS,
-            'edit' => KlinkDMS\Capability::MANAGE_DMS,
-            'update' => KlinkDMS\Capability::MANAGE_DMS,
-            'destroy' => KlinkDMS\Capability::MANAGE_DMS,
+            'index' => KBox\Capability::MANAGE_DMS,
+            'create' => KBox\Capability::MANAGE_DMS,
+            'store' => KBox\Capability::MANAGE_DMS,
+            'show' => KBox\Capability::MANAGE_DMS,
+            'edit' => KBox\Capability::MANAGE_DMS,
+            'update' => KBox\Capability::MANAGE_DMS,
+            'destroy' => KBox\Capability::MANAGE_DMS,
         ],
     ],
 

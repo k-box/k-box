@@ -1,11 +1,11 @@
 <?php
 
-namespace KlinkDMS;
+namespace KBox;
 
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * KlinkDMS\Activity
+ * KBox\Activity
  *
  * @deprecated
  * @property int $id
@@ -14,13 +14,13 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $instance_id
  * @property string $instance_type
  * @property int $user_id
- * @property-read \KlinkDMS\User $user
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Activity whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Activity whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Activity whereInstanceId($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Activity whereInstanceType($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Activity whereUpdatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Activity whereUserId($value)
+ * @property-read \KBox\User $user
+ * @method static \Illuminate\Database\Query\Builder|\KBox\Activity whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\Activity whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\Activity whereInstanceId($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\Activity whereInstanceType($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\Activity whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\Activity whereUserId($value)
  * @mixin \Eloquent
  */
 class Activity extends Model
@@ -40,6 +40,6 @@ class Activity extends Model
 
     public function user()
     {
-        return $this->hasOne('KlinkDMS\User');
+        return $this->hasOne('KBox\User');
     }
 }

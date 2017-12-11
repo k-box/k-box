@@ -1,11 +1,11 @@
 <?php
 
-namespace KlinkDMS\Console\Commands;
+namespace KBox\Console\Commands;
 
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputArgument;
-use KlinkDMS\User;
-use KlinkDMS\Capability;
+use KBox\User;
+use KBox\Capability;
 
 /**
  * Creates admin user accounts

@@ -6,23 +6,23 @@ With the usage of Microsite(beta) you can create a single page website for your 
 Microsites are attached to Projects. You can only create a Microsite for an existing Project. A microsite can be seen as a public page that do not require login to be viewed.
 
 
-Microsites are in currently beta phase so each release of the DMS can introduce breaking changes.
+Microsites are in currently beta phase so each release of the K-Box can introduce breaking changes.
 
 
 ## Viewing a Microsite
 
-Microsites are reachable through a URL hosted on the K-Link DMS. The URL is in the form
+Microsites are reachable through a URL hosted on the K-Link K-Box. The URL is in the form
 
 ```
 https://{dms-domain}/projects/{project-slug}
 ```
 
-where `{dms-domain}` is the domain from which you access the DMS (e.g. `dms.klink.asia/dms`), while `{project-slug}` is the project friendly name, 
+where `{dms-domain}` is the domain from which you access the K-Box (e.g. `dms.klink.asia/dms`), while `{project-slug}` is the project friendly name, 
 usually is the project name with eventual spaces substituted with dashes. For example if a project name is _Project A_ the default slug is `project-a`. 
 The slug is configurable, for more info please check the [Creating a Microsite section](#creating-a-microsite).
 
 The URL of the microsite must be given to the users by the Project Administrator because there is no page that lists all 
-the Microsite available on the DMS (both for logged-in and guest users).
+the Microsite available on the K-Box (both for logged-in and guest users).
 
 The current Microsite page layout is similar to the one showed in the figure below.
 
@@ -33,7 +33,7 @@ On the top navigation bar you can find
 - the logo, which is a picture whose height cannot be more than 80 pixels
 - the search bar
 - the language switcher
-- login and go to project link, these links are mutually exclusive, the login button is showed only if the user is not logged-in in the DMS. 
+- login and go to project link, these links are mutually exclusive, the login button is showed only if the user is not logged-in in the K-Box. 
 
 
 ### Search from the Microsite
@@ -42,7 +42,7 @@ The Microsite offer a search box that let your user search the K-Link Public Net
 
 ![microsite difference in search for logged-in users and guests](./img/microsite-login-vs-guest.jpg)
 
-As pictured above the search will be perfomed on the K-Link Public Network if the user is not logged in the DMS.
+As pictured above the search will be perfomed on the K-Link Public Network if the user is not logged in the K-Box.
 
 
 ### Multiple Languages
@@ -62,7 +62,7 @@ Also the creator of the microsite can specify the default language to be showed 
 
 ## Creating a Microsite
 
-The creation can only be performed by the Project Administrator through the Project management page that is under the Projects section (from the main navigation of the DMS).
+The creation can only be performed by the Project Administrator through the Project management page that is under the Projects section (from the main navigation of the K-Box).
 
 On the Project management page, of the project you want to have a microsite, you can press the button _Create Microsite_ (picture below) to start creating the Microsite.
 
@@ -89,7 +89,7 @@ A slug cannot have spaces or start with the `create` word.
 **The website logo**
 
 This will be the logo of the microsite and will be showed on the header. The image must be hosted on an HTTPS enabled website without authentication. 
-Currently is not possible to host the image on the DMS itself.
+Currently is not possible to host the image on the K-Box itself.
 
 The image can be of any image type supported by browsers (git, jpg, png), but must not exceed the size of 350x80 pixels.
 

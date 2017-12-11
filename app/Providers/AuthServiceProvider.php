@@ -1,7 +1,7 @@
 <?php
 
 
-namespace KlinkDMS\Providers;
+namespace KBox\Providers;
 
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;

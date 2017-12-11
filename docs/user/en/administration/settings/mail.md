@@ -1,15 +1,15 @@
 # Mail
 
-The Mail administration section enable to configure how the DMS sends emails. The DMS rely on 
+The Mail administration section enable to configure how the K-Box sends emails. The K-Box rely on 
 emails for user notification, password sending and password resets.
 
-In order to send emails from the DMS an email SMTP server is needed. The server **must support TLS Encryption**. 
+In order to send emails from the K-Box an email SMTP server is needed. The server **must support TLS Encryption**. 
 If you don't have a SMTP server with that option, but you own an internet domain you can use free service like 
 [Mailgun](https://www.mailgun.com/).
 
 The configuration can be specified via User Interface or deployment configuration.
 
-If you are the DMS administrator and you are loggin-in for the first time a message, like the one in the next picture, 
+If you are the K-Box administrator and you are loggin-in for the first time a message, like the one in the next picture, 
 is shown.
 
 ![](./img/dms-admin-mail-first-login.PNG)
@@ -28,7 +28,7 @@ picture below.
 
 The emails are sent via an external provider. The provider should expose a SMTP (Simple Mail Transport Protocol) server.
 
-The required configuration to make the DMS able to send emails include:
+The required configuration to make the K-Box able to send emails include:
 
 - From Address: the email address from which the emails are sent, an example can be info@klink.asia. This address is very 
   important because it must exists otherwise emails might not be delivered to recipients at all.
@@ -44,8 +44,8 @@ error will be shown on the page. You can always get more information on the erro
 
 ## Configuration via deployment environment file
 
-The DMS also supports the ability to configure the email parameters at [deploy time](https://dev.klink.asia/klink-node/production-deployment), 
-i.e. when the DMS is installed.
+The K-Box also supports the ability to configure the email parameters at [deploy time](https://dev.klink.asia/klink-node/production-deployment), 
+i.e. when the K-Box is installed.
 
 The accepted configuration parameters are
 
@@ -61,6 +61,6 @@ The `MAIL_HOST`, `MAIL_PORT`, `MAIL_FROM_ADDRESS` and `MAIL_FROM_NAME` are requi
 
 Those settings can be overrided from the user interface, except for the `MAIL_DRIVER`.
 
-If the `log` `MAIL_DRIVER` is set, the DMS will be locked in a particular develpment mode that will write all the 
+If the `log` `MAIL_DRIVER` is set, the K-Box will be locked in a particular develpment mode that will write all the 
 email messages to the log file, accessible from the _Maintanance and events page_. With this driver no real email will be sent.
 Also, when the `log` driver is used, the administrator will not be able to change the server parameters from the UI.

@@ -3,8 +3,8 @@
 namespace Tests\Unit\Streaming;
 
 use Tests\TestCase;
-use KlinkDMS\Option;
-use KlinkDMS\Facades\KlinkStreaming;
+use KBox\Option;
+use KBox\Facades\KlinkStreaming;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 

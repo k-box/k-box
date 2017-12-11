@@ -1,14 +1,14 @@
 <?php
 
-namespace KlinkDMS\Http\Controllers;
+namespace KBox\Http\Controllers;
 
 use Exception;
-use KlinkDMS\File;
+use KBox\File;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
-use KlinkDMS\Exceptions\ForbiddenException;
+use KBox\Exceptions\ForbiddenException;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
@@ -25,7 +25,7 @@ class FileDownloadController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \KlinkDMS\File  $file
+     * @param  \KBox\File  $file
      * @return \Illuminate\Http\Response
      */
     public function show(Request $request, $uuid)

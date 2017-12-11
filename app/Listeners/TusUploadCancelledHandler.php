@@ -1,10 +1,10 @@
 <?php
 
-namespace KlinkDMS\Listeners;
+namespace KBox\Listeners;
 
 use Avvertix\TusUpload\Events\TusUploadCancelled;
-use KlinkDMS\File;
-use KlinkDMS\DocumentDescriptor;
+use KBox\File;
+use KBox\DocumentDescriptor;
 use Log;
 
 class TusUploadCancelledHandler

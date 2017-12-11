@@ -1,11 +1,11 @@
 <?php
 
-namespace KlinkDMS\Traits;
+namespace KBox\Traits;
 
-use KlinkDMS\User;
-use KlinkDMS\Publication;
-use KlinkDMS\Jobs\PublishDocumentJob;
-use KlinkDMS\Jobs\UnPublishDocumentJob;
+use KBox\User;
+use KBox\Publication;
+use KBox\Jobs\PublishDocumentJob;
+use KBox\Jobs\UnPublishDocumentJob;
 
 /**
  * Add support for managing publication

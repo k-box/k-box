@@ -5,7 +5,7 @@
 
 			@forelse($share->sharedwith as $with)
 				<div class="user-grab">
-					@if($with instanceof \KlinkDMS\User)
+					@if($with instanceof \KBox\User)
 						<span class="icon-social-black icon-social-black-ic_person_black_24dp"></span> {{$with->name}}
 					@else
 						<span class="btn-icon icon-social-black icon-social-black-ic_group_black_24dp"></span>{{$with->name}}
@@ -19,7 +19,7 @@
 
 		@else 
 		 
-			@if($share->sharedwith instanceof \KlinkDMS\User)
+			@if($share->sharedwith instanceof \KBox\User)
 				<span class="icon-social-black icon-social-black-ic_person_black_24dp"></span> {{$share->sharedwith->name}}
 			@else
 				<span class="btn-icon icon-social-black icon-social-black-ic_group_black_24dp"></span> {{$share->sharedwith->name}}

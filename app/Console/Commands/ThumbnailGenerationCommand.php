@@ -1,12 +1,12 @@
 <?php
 
-namespace KlinkDMS\Console\Commands;
+namespace KBox\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
-use KlinkDMS\DocumentDescriptor;
-use KlinkDMS\Jobs\ThumbnailGenerationJob;
+use KBox\DocumentDescriptor;
+use KBox\Jobs\ThumbnailGenerationJob;
 
 use Exception;
 use Log;

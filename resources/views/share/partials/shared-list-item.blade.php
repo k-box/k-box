@@ -1,4 +1,4 @@
-@if($item instanceof KlinkDMS\Shared)
+@if($item instanceof KBox\Shared)
 
 <div class="shared-list__item">
 
@@ -61,12 +61,12 @@
 
     <div class="shared-list__type">
         @if($item->pivot)
-            <span title="{{ trans('share.dialog.access_by_project_membership_hint', ['project' => KlinkDMS\Project::find($item->pivot->project_id)->name]) }}">
-            {{ trans('share.dialog.access_by_project_membership', ['project' => KlinkDMS\Project::find($item->pivot->project_id)->name]) }}
+            <span title="{{ trans('share.dialog.access_by_project_membership_hint', ['project' => KBox\Project::find($item->pivot->project_id)->name]) }}">
+            {{ trans('share.dialog.access_by_project_membership', ['project' => KBox\Project::find($item->pivot->project_id)->name]) }}
             </span>
         @elseif($item->project_id)
-            <span title="{{ trans('share.dialog.access_by_project_membership_hint', ['project' => KlinkDMS\Project::find($item->project_id)->name]) }}">
-            {{ trans('share.dialog.access_by_project_membership', ['project' => KlinkDMS\Project::find($item->project_id)->name]) }}
+            <span title="{{ trans('share.dialog.access_by_project_membership_hint', ['project' => KBox\Project::find($item->project_id)->name]) }}">
+            {{ trans('share.dialog.access_by_project_membership', ['project' => KBox\Project::find($item->project_id)->name]) }}
             </span>
         @endif
     </div>

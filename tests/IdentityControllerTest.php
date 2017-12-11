@@ -3,8 +3,8 @@
 use Tests\BrowserKitTestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-use KlinkDMS\Option;
-use KlinkDMS\Capability;
+use KBox\Option;
+use KBox\Capability;
 
 class IdentityControllerTest extends BrowserKitTestCase
 {

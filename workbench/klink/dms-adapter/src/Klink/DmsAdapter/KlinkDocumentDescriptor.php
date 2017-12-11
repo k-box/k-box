@@ -2,7 +2,7 @@
 
 namespace Klink\DmsAdapter;
 
-use KlinkDMS\DocumentDescriptor;
+use KBox\DocumentDescriptor;
 use KSearchClient\Model\Data\Data;
 use KSearchClient\Model\Data\Author;
 use KSearchClient\Model\Data\Uploader;

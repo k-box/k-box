@@ -1,11 +1,11 @@
 <?php
 
-namespace KlinkDMS;
+namespace KBox;
 
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * KlinkDMS\PeopleGroup
+ * KBox\PeopleGroup
  *
  * @property int $id
  * @property int $user_id
@@ -13,16 +13,16 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Carbon\Carbon $updated_at
  * @property string $name
  * @property bool $is_institution_group
- * @property-read \Illuminate\Database\Eloquent\Collection|\KlinkDMS\User[] $people
- * @property-read \KlinkDMS\User $user
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\PeopleGroup institutional()
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\PeopleGroup personal($user_id)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\PeopleGroup whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\PeopleGroup whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\PeopleGroup whereIsInstitutionGroup($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\PeopleGroup whereName($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\PeopleGroup whereUpdatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\PeopleGroup whereUserId($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection|\KBox\User[] $people
+ * @property-read \KBox\User $user
+ * @method static \Illuminate\Database\Query\Builder|\KBox\PeopleGroup institutional()
+ * @method static \Illuminate\Database\Query\Builder|\KBox\PeopleGroup personal($user_id)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\PeopleGroup whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\PeopleGroup whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\PeopleGroup whereIsInstitutionGroup($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\PeopleGroup whereName($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\PeopleGroup whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\PeopleGroup whereUserId($value)
  * @mixin \Eloquent
  */
 class PeopleGroup extends Model
@@ -47,7 +47,7 @@ class PeopleGroup extends Model
 
     public function user()
     {
-        return $this->belongsTo('KlinkDMS\User', 'user_id');
+        return $this->belongsTo('KBox\User', 'user_id');
     }
 
     /**
@@ -57,7 +57,7 @@ class PeopleGroup extends Model
     public function people()
     {
         // Many to Many relation using the pivot table
-        return $this->belongsToMany('KlinkDMS\User', 'peoplegroup_to_user', 'peoplegroup_id', 'user_id');
+        return $this->belongsToMany('KBox\User', 'peoplegroup_to_user', 'peoplegroup_id', 'user_id');
     }
     
     public function scopeInstitutional($query)

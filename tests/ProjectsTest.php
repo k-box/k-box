@@ -2,8 +2,8 @@
 
 use Tests\BrowserKitTestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use KlinkDMS\Project;
-use KlinkDMS\Capability;
+use KBox\Project;
+use KBox\Capability;
 
 class ProjectsTest extends BrowserKitTestCase
 {
@@ -82,7 +82,7 @@ class ProjectsTest extends BrowserKitTestCase
             $user = $this->createUser($caps);
             
             if (strpos($route, 'show') !== -1 || strpos($route, 'edit') !== -1) {
-                $project = factory('KlinkDMS\Project')->create(['user_id' => $user->id]);
+                $project = factory('KBox\Project')->create(['user_id' => $user->id]);
                 
                 $params = ['projects' => $project->id];
             } else {
@@ -175,7 +175,7 @@ class ProjectsTest extends BrowserKitTestCase
 
     public function testProjectEdit()
     {
-        $project = factory('KlinkDMS\Project')->create();
+        $project = factory('KBox\Project')->create();
         
         $user = $project->manager()->first();
 

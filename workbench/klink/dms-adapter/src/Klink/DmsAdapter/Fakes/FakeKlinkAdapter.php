@@ -2,7 +2,7 @@
 
 namespace Klink\DmsAdapter\Fakes;
 
-use KlinkDMS\Option;
+use KBox\Option;
 use Illuminate\Support\Collection;
 
 use Klink\DmsAdapter\Contracts\KlinkAdapter as AdapterContract;

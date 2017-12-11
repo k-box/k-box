@@ -1,15 +1,15 @@
 <?php
 
-use KlinkDMS\User;
-use KlinkDMS\Project;
-use KlinkDMS\Capability;
+use KBox\User;
+use KBox\Project;
+use KBox\Capability;
 use Illuminate\Support\Facades\Artisan;
 
 use Tests\BrowserKitTestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 use Illuminate\Foundation\Application;
-use KlinkDMS\Console\Commands\DmsUserImportCommand;
+use KBox\Console\Commands\DmsUserImportCommand;
 
 /*
  * Test the DmsUserImportCommand
@@ -67,11 +67,11 @@ class UserImportCommandTest extends BrowserKitTestCase
         \Mail::shouldReceive('queue')->times(4)->withAnyArgs();
         
         // create a Project called "test"
-        $test = factory('KlinkDMS\Project')->create(['name' => 'test']);
+        $test = factory('KBox\Project')->create(['name' => 'test']);
         // create a Project called "secondary"
-        $secondary = factory('KlinkDMS\Project')->create(['name' => 'secondary']);
+        $secondary = factory('KBox\Project')->create(['name' => 'secondary']);
         // create a project called "lead by"
-        $lead_by = factory('KlinkDMS\Project')->create(['name' => 'lead by']);
+        $lead_by = factory('KBox\Project')->create(['name' => 'lead by']);
         
         $command = new DmsUserImportCommand();
         

@@ -1,8 +1,8 @@
 <?php
 
-namespace KlinkDMS\Http\Controllers\Administration;
+namespace KBox\Http\Controllers\Administration;
 
-use KlinkDMS\Http\Controllers\Controller;
+use KBox\Http\Controllers\Controller;
 use Klink\DmsAdapter\Contracts\KlinkAdapter;
 
 /**

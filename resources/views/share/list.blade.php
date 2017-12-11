@@ -55,7 +55,7 @@
 
 			@forelse ($shares as $result)
 		
-				@include('documents.descriptor', ['link_route' => 'shares.group', 'item' => ($result instanceof \KlinkDMS\DocumentDescriptor) ? $result : $result->shareable, 'share_created_at' => $result->getCreatedAt(), 'share_created_at_timestamp' => $result->getCreatedAt(true)])
+				@include('documents.descriptor', ['link_route' => 'shares.group', 'item' => ($result instanceof \KBox\DocumentDescriptor) ? $result : $result->shareable, 'share_created_at' => $result->getCreatedAt(), 'share_created_at_timestamp' => $result->getCreatedAt(true)])
 		
 			@empty
 		

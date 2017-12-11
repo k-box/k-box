@@ -1,6 +1,6 @@
 <?php
 
-namespace KlinkDMS\Jobs;
+namespace KBox\Jobs;
 
 use Log;
 use Exception;
@@ -8,7 +8,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use KlinkDMS\DocumentDescriptor;
+use KBox\DocumentDescriptor;
 use OneOffTech\VideoProcessing\VideoProcessorFactory;
 
 class ConvertVideo
@@ -18,14 +18,14 @@ class ConvertVideo
     /**
      * The pointer tp the Document Descriptor that represent the video to be converted
      *
-     * @var \KlinkDMS\DocumentDescriptor
+     * @var \KBox\DocumentDescriptor
      */
     public $descriptor = null;
 
     /**
      * Create a new job instance.
      *
-     * @param \KlinkDMS\DocumentDescriptor $descriptor The descriptor, that represents a video file, to convert
+     * @param \KBox\DocumentDescriptor $descriptor The descriptor, that represents a video file, to convert
      * @return void
      */
     public function __construct(DocumentDescriptor $descriptor)

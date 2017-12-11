@@ -1,8 +1,8 @@
 <?php
 
-use KlinkDMS\User;
-use KlinkDMS\Capability;
-use KlinkDMS\Project;
+use KBox\User;
+use KBox\Capability;
+use KBox\Project;
 use Illuminate\Support\Collection;
 
 use Tests\BrowserKitTestCase;
@@ -126,7 +126,7 @@ class FiltersTest extends BrowserKitTestCase
         $url = route('documents.groups.show', ['id' => $collections->first()->id, 's' => '*']);
         $this->visit($url)->seePageIs($url);
         $view = $this->response->original; // is a view
-        $composer = app('KlinkDMS\Http\Composers\DocumentsComposer');
+        $composer = app('KBox\Http\Composers\DocumentsComposer');
         $composer->facets($view);
         $this->response->original = $view;
 

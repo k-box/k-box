@@ -1,18 +1,18 @@
 <?php
 
-namespace KlinkDMS\Http\Controllers\Document;
+namespace KBox\Http\Controllers\Document;
 
-use KlinkDMS\Http\Controllers\Controller;
-use KlinkDMS\Import;
+use KBox\Http\Controllers\Controller;
+use KBox\Import;
 use Illuminate\Contracts\Auth\Guard;
-use KlinkDMS\File;
+use KBox\File;
 use Request;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Foundation\Bus\DispatchesJobs;
-use KlinkDMS\Exceptions\FileAlreadyExistsException;
-use KlinkDMS\Exceptions\ForbiddenException;
+use KBox\Exceptions\FileAlreadyExistsException;
+use KBox\Exceptions\ForbiddenException;
 use Illuminate\Http\JsonResponse;
-use KlinkDMS\Http\Requests\ImportUpdateRequest;
+use KBox\Http\Requests\ImportUpdateRequest;
 use Exception;
 
 class ImportDocumentsController extends Controller
@@ -86,7 +86,7 @@ class ImportDocumentsController extends Controller
     /**
      * Handle the creation of an import job
      */
-    public function store(Guard $auth, \KlinkDMS\Http\Requests\ImportRequest $request)
+    public function store(Guard $auth, \KBox\Http\Requests\ImportRequest $request)
     {
         $auth_user = $auth->user();
 

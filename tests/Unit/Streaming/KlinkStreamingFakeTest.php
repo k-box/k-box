@@ -3,8 +3,8 @@
 namespace Tests\Unit\Streaming;
 
 use Tests\TestCase;
-use KlinkDMS\Facades\KlinkStreaming;
-use KlinkDMS\Support\Testing\Fakes\KlinkStreamingClientFake;
+use KBox\Facades\KlinkStreaming;
+use KBox\Support\Testing\Fakes\KlinkStreamingClientFake;
 
 class KlinkStreamingFakeTest extends TestCase
 {

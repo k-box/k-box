@@ -1,22 +1,22 @@
 <?php
 
-namespace KlinkDMS\Http\Controllers\Document;
+namespace KBox\Http\Controllers\Document;
 
 use Illuminate\Http\Request;
-use KlinkDMS\Http\Controllers\Controller;
-use KlinkDMS\DocumentDescriptor;
-use KlinkDMS\Group;
-use KlinkDMS\Capability;
+use KBox\Http\Controllers\Controller;
+use KBox\DocumentDescriptor;
+use KBox\Group;
+use KBox\Capability;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Contracts\Auth\Guard as AuthGuard;
-use KlinkDMS\Http\Requests\BulkDeleteRequest;
-use KlinkDMS\Http\Requests\BulkMoveRequest;
-use KlinkDMS\Http\Requests\BulkRestoreRequest;
-use KlinkDMS\Http\Requests\BulkMakePublicRequest;
-use KlinkDMS\Exceptions\ForbiddenException;
+use KBox\Http\Requests\BulkDeleteRequest;
+use KBox\Http\Requests\BulkMoveRequest;
+use KBox\Http\Requests\BulkRestoreRequest;
+use KBox\Http\Requests\BulkMakePublicRequest;
+use KBox\Exceptions\ForbiddenException;
 use Illuminate\Support\Collection;
 use Klink\DmsAdapter\KlinkVisibilityType;
-use KlinkDMS\Jobs\ReindexDocument;
+use KBox\Jobs\ReindexDocument;
 
 class BulkController extends Controller
 {

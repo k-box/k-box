@@ -1,20 +1,20 @@
 <?php
 
-namespace KlinkDMS\Http\Controllers;
+namespace KBox\Http\Controllers;
 
 use Illuminate\Http\JsonResponse;
 
-use KlinkDMS\DocumentDescriptor;
-use KlinkDMS\Group;
-use KlinkDMS\Shared;
-use KlinkDMS\PublicLink;
+use KBox\DocumentDescriptor;
+use KBox\Group;
+use KBox\Shared;
+use KBox\PublicLink;
 
 use DB;
-use KlinkDMS\Http\Requests\CreatePublicLinkRequest;
-use KlinkDMS\Http\Requests\UpdatePublicLinkRequest;
+use KBox\Http\Requests\CreatePublicLinkRequest;
+use KBox\Http\Requests\UpdatePublicLinkRequest;
 use Illuminate\Contracts\Auth\Guard as AuthGuard;
-use KlinkDMS\Exceptions\ForbiddenException;
-use KlinkDMS\Events\ShareCreated;
+use KBox\Exceptions\ForbiddenException;
+use KBox\Events\ShareCreated;
 
 class PublicLinksController extends Controller
 {

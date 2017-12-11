@@ -1,9 +1,9 @@
 <?php
 
-namespace KlinkDMS\DocumentsElaboration\Actions;
+namespace KBox\DocumentsElaboration\Actions;
 
-use KlinkDMS\Jobs\ConvertVideo;
-use KlinkDMS\Contracts\Action;
+use KBox\Jobs\ConvertVideo;
+use KBox\Contracts\Action;
 use OneOffTech\VideoProcessing\VideoProcessorFactory;
 
 class ElaborateVideo extends Action

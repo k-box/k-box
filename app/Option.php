@@ -1,6 +1,6 @@
 <?php
 
-namespace KlinkDMS;
+namespace KBox;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -15,11 +15,11 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $id
  * @property string $key
  * @property string $value
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Option fromKey($key)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Option section($section_name)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Option whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Option whereKey($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Option whereValue($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\Option fromKey($key)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\Option section($section_name)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\Option whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\Option whereKey($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\Option whereValue($value)
  * @mixin \Eloquent
  */
 class Option extends Model

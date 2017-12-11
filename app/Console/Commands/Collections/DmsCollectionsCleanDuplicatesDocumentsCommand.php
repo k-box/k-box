@@ -1,13 +1,13 @@
 <?php
 
-namespace KlinkDMS\Console\Commands\Collections;
+namespace KBox\Console\Commands\Collections;
 
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Finder\Finder;
-use KlinkDMS\User;
-use KlinkDMS\Group;
+use KBox\User;
+use KBox\Group;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
 class DmsCollectionsCleanDuplicatesDocumentsCommand extends Command

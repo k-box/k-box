@@ -54,13 +54,13 @@ if (! function_exists('support_token')) {
     /**
      * Get the Support service authentication token
      *
-     * @uses \KlinkDMS\Option::support_token()
+     * @uses \KBox\Option::support_token()
      *
      * @return string|boolean the support ticket integration token if configured, false if not configured
      */
     function support_token()
     {
-        return \KlinkDMS\Option::support_token();
+        return \KBox\Option::support_token();
     }
 }
 
@@ -145,10 +145,10 @@ if (! function_exists('network_name')) {
     function network_name()
     {
         $opt_en = \Cache::rememberForever('network-name-en', function () {
-            return \KlinkDMS\Option::option(\KlinkDMS\Option::PUBLIC_CORE_NETWORK_NAME_EN, '');
+            return \KBox\Option::option(\KBox\Option::PUBLIC_CORE_NETWORK_NAME_EN, '');
         });
         $opt_ru = \Cache::rememberForever('network-name-ru', function () {
-            return \KlinkDMS\Option::option(\KlinkDMS\Option::PUBLIC_CORE_NETWORK_NAME_RU, '');
+            return \KBox\Option::option(\KBox\Option::PUBLIC_CORE_NETWORK_NAME_RU, '');
         });
 
         $locale = \App::getLocale();
@@ -173,7 +173,7 @@ if (! function_exists('network_enabled')) {
      */
     function network_enabled()
     {
-        return ! ! \KlinkDMS\Option::option(\KlinkDMS\Option::PUBLIC_CORE_ENABLED, false);
+        return ! ! \KBox\Option::option(\KBox\Option::PUBLIC_CORE_ENABLED, false);
     }
 }
 
@@ -181,25 +181,25 @@ if (! function_exists('analytics_token')) {
     /**
      * Get the analytics service tracking token
      *
-     * @uses \KlinkDMS\Option::analytics_token()
+     * @uses \KBox\Option::analytics_token()
      *
      * @return string|boolean the analytics site identifier/token
      */
     function analytics_token()
     {
-        return \KlinkDMS\Option::analytics_token();
+        return \KBox\Option::analytics_token();
     }
 }
 
 if (! function_exists('flags')) {
     /**
-     * Shortcut for accessing the KlinkDMS\Flags class
+     * Shortcut for accessing the KBox\Flags class
      *
-     * @return KlinkDMS\Flags
+     * @return KBox\Flags
      */
     function flags()
     {
-        return new \KlinkDMS\Flags();
+        return new \KBox\Flags();
     }
 }
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace KlinkDMS\Http\Controllers;
+namespace KBox\Http\Controllers;
 
 class SupportPagesController extends Controller
 {

@@ -1,9 +1,9 @@
 <?php
 
-namespace KlinkDMS\Http\Controllers;
+namespace KBox\Http\Controllers;
 
-use KlinkDMS\DocumentDescriptor;
-use KlinkDMS\File;
+use KBox\DocumentDescriptor;
+use KBox\File;
 use Illuminate\Http\Request;
 use Content\Services\ThumbnailsService;
 use Content\Services\PreviewService;

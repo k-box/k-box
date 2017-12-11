@@ -14,10 +14,10 @@ class RecentDocumentsTest extends TestCase
     {
         $adapter = $this->withKlinkAdapterFake();
         
-        $user_sender = factory('KlinkDMS\User')->create();
-        $user_receiver = factory('KlinkDMS\User')->create();
+        $user_sender = factory('KBox\User')->create();
+        $user_receiver = factory('KBox\User')->create();
 
-        $descriptor = factory('KlinkDMS\DocumentDescriptor')->create();
+        $descriptor = factory('KBox\DocumentDescriptor')->create();
 
         $share = $descriptor->shares()->create([
             'user_id' => $user_sender->id,

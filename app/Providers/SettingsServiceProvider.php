@@ -1,9 +1,9 @@
 <?php
 
-namespace KlinkDMS\Providers;
+namespace KBox\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use KlinkDMS\Option;
+use KBox\Option;
 use Illuminate\Contracts\Encryption\DecryptException;
 
 class SettingsServiceProvider extends ServiceProvider

@@ -4,10 +4,10 @@ use Tests\BrowserKitTestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Avvertix\TusUpload\Events\TusUploadCancelled;
 use Avvertix\TusUpload\TusUpload;
-use KlinkDMS\Listeners\TusUploadCancelledHandler;
+use KBox\Listeners\TusUploadCancelledHandler;
 use Carbon\Carbon;
-use KlinkDMS\DocumentDescriptor;
-use KlinkDMS\File;
+use KBox\DocumentDescriptor;
+use KBox\File;
 
 class TusUploadCancelledListenerTest extends BrowserKitTestCase
 {

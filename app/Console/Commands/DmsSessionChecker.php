@@ -1,10 +1,10 @@
 <?php
 
-namespace KlinkDMS\Console\Commands;
+namespace KBox\Console\Commands;
 
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
-use KlinkDMS\User;
+use KBox\User;
 
 class DmsSessionChecker extends Command
 {

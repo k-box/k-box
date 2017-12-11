@@ -1,15 +1,15 @@
 <?php
 
-namespace KlinkDMS\Console\Commands;
+namespace KBox\Console\Commands;
 
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
-use KlinkDMS\Option;
-use KlinkDMS\User;
-use KlinkDMS\Capability;
-use KlinkDMS\DocumentDescriptor;
-use KlinkDMS\Traits\Searchable;
+use KBox\Option;
+use KBox\User;
+use KBox\Capability;
+use KBox\DocumentDescriptor;
+use KBox\Traits\Searchable;
 use Klink\DmsAdapter\KlinkFacetsBuilder;
 
 class DmsSyncCommand extends Command

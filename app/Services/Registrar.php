@@ -1,8 +1,8 @@
 <?php
 
-namespace KlinkDMS\Services;
+namespace KBox\Services;
 
-use KlinkDMS\User;
+use KBox\User;
 use Validator;
 use Illuminate\Contracts\Auth\Registrar as RegistrarContract;
 

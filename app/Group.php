@@ -1,10 +1,10 @@
 <?php
 
-namespace KlinkDMS;
+namespace KBox;
 
 use Franzose\ClosureTable\Models\Entity;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use KlinkDMS\Traits\LocalizableDateFields;
+use KBox\Traits\LocalizableDateFields;
 
 /**
  * A collection of document descriptors
@@ -21,30 +21,30 @@ use KlinkDMS\Traits\LocalizableDateFields;
  * @property int $parent_id
  * @property int $position
  * @property int $real_depth
- * @property-read \Illuminate\Database\Eloquent\Collection|\KlinkDMS\DocumentDescriptor[] $documents
- * @property-read \KlinkDMS\Project $project
- * @property-read \Illuminate\Database\Eloquent\Collection|\KlinkDMS\Shared[] $shares
- * @property-read \KlinkDMS\User $user
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Group byName($name)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Group ofType($type)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Group orPrivate($user_id)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Group orPublic()
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Group private($user_id)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Group public()
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Group roots()
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Group whereColor($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Group whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Group whereDeletedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Group whereGroupTypeId($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Group whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Group whereIsPrivate($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Group whereName($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Group whereParentId($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Group wherePosition($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Group whereRealDepth($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Group whereUpdatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Group whereUserId($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Group withAllDescendants()
+ * @property-read \Illuminate\Database\Eloquent\Collection|\KBox\DocumentDescriptor[] $documents
+ * @property-read \KBox\Project $project
+ * @property-read \Illuminate\Database\Eloquent\Collection|\KBox\Shared[] $shares
+ * @property-read \KBox\User $user
+ * @method static \Illuminate\Database\Query\Builder|\KBox\Group byName($name)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\Group ofType($type)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\Group orPrivate($user_id)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\Group orPublic()
+ * @method static \Illuminate\Database\Query\Builder|\KBox\Group private($user_id)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\Group public()
+ * @method static \Illuminate\Database\Query\Builder|\KBox\Group roots()
+ * @method static \Illuminate\Database\Query\Builder|\KBox\Group whereColor($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\Group whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\Group whereDeletedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\Group whereGroupTypeId($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\Group whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\Group whereIsPrivate($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\Group whereName($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\Group whereParentId($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\Group wherePosition($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\Group whereRealDepth($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\Group whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\Group whereUserId($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\Group withAllDescendants()
  * @mixin \Eloquent
  */
 class Group extends Entity implements GroupInterface
@@ -79,7 +79,7 @@ class Group extends Entity implements GroupInterface
      *
      * @var groupClosure
      */
-    protected $closure = 'KlinkDMS\GroupClosure';
+    protected $closure = 'KBox\GroupClosure';
 
     
     protected $fillable = ['name','color', 'user_id','parent_id', 'group_type_id', 'is_private'];
@@ -90,12 +90,12 @@ class Group extends Entity implements GroupInterface
     {
         
         // One to One
-        return $this->belongsTo('KlinkDMS\User')->withTrashed();
+        return $this->belongsTo('KBox\User')->withTrashed();
     }
     
     public function project()
     {
-        return $this->belongsTo('KlinkDMS\Project', 'id', 'collection_id');
+        return $this->belongsTo('KBox\Project', 'id', 'collection_id');
     }
 
     /**
@@ -104,7 +104,7 @@ class Group extends Entity implements GroupInterface
      */
     public function documents()
     {
-        return $this->belongsToMany('KlinkDMS\DocumentDescriptor', 'document_groups', 'group_id', 'document_id')->local();
+        return $this->belongsToMany('KBox\DocumentDescriptor', 'document_groups', 'group_id', 'document_id')->local();
     }
 
     /**
@@ -117,7 +117,7 @@ class Group extends Entity implements GroupInterface
 
     public function shares()
     {
-        return $this->morphMany('KlinkDMS\Shared', 'shareable');
+        return $this->morphMany('KBox\Shared', 'shareable');
     }
 
     public function scopeOfType($query, $type)

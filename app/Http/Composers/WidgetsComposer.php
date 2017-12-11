@@ -1,10 +1,10 @@
 <?php
 
-namespace KlinkDMS\Http\Composers;
+namespace KBox\Http\Composers;
 
 use Illuminate\Contracts\View\View;
 
-use KlinkDMS\User;
+use KBox\User;
 use Carbon\Carbon;
 use Klink\DmsDocuments\StorageService;
 use Auth;

@@ -1,10 +1,10 @@
 <?php
 
-namespace KlinkDMS\Http\Controllers\Administration;
+namespace KBox\Http\Controllers\Administration;
 
-use KlinkDMS\Http\Controllers\Controller;
-use KlinkDMS\Http\Requests\SettingsSaveRequest;
-use KlinkDMS\Option;
+use KBox\Http\Controllers\Controller;
+use KBox\Http\Requests\SettingsSaveRequest;
+use KBox\Option;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Contracts\Auth\Guard as AuthGuard;
 

@@ -1,9 +1,9 @@
 <?php
 
-namespace KlinkDMS\Listeners;
+namespace KBox\Listeners;
 
 use Log;
-use KlinkDMS\Group;
+use KBox\Group;
 use Klink\DmsDocuments\DocumentsService;
 use Klink\DmsAdapter\KlinkDocumentUtils;
 use Avvertix\TusUpload\Events\TusUploadStarted;

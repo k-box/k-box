@@ -1,9 +1,9 @@
 <?php
 
-namespace KlinkDMS\Http\Controllers;
+namespace KBox\Http\Controllers;
 
 use Illuminate\Http\Request;
-use KlinkDMS\File;
+use KBox\File;
 use Avvertix\TusUpload\TusUploadRepository;
 use Avvertix\TusUpload\Http\Controllers\TusUploadQueueController;
 

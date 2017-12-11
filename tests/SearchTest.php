@@ -4,12 +4,12 @@
 use Tests\BrowserKitTestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-use KlinkDMS\Starred;
-use KlinkDMS\DocumentDescriptor;
+use KBox\Starred;
+use KBox\DocumentDescriptor;
 use Laracasts\TestDummy\Factory;
 use Illuminate\Support\Collection;
 use Klink\DmsSearch\SearchRequest;
-use KlinkDMS\Traits\Searchable;
+use KBox\Traits\Searchable;
 use Klink\DmsAdapter\Fakes\FakeKlinkAdapter;
 
 class SearchTest extends BrowserKitTestCase
@@ -25,7 +25,7 @@ class SearchTest extends BrowserKitTestCase
         
         $user = $this->createAdminUser();
         
-        $starred = factory('KlinkDMS\DocumentDescriptor', 3)
+        $starred = factory('KBox\DocumentDescriptor', 3)
             ->create()
             ->each(function ($doc) use ($user) {
                 $doc->stars()->create(['user_id' => $user->id]);
@@ -49,7 +49,7 @@ class SearchTest extends BrowserKitTestCase
             return Starred::with('document')->ofUser($user->id); // or Collection or Eloquent\Builder instance
         });
         
-        $this->assertInstanceOf('KlinkDMS\Pagination\SearchResultsPaginator', $results, 'Result not a paginator');
+        $this->assertInstanceOf('KBox\Pagination\SearchResultsPaginator', $results, 'Result not a paginator');
         
         $this->assertNotEmpty($results->items());
         $this->assertNotNull($results->items());
@@ -105,7 +105,7 @@ class SearchTest extends BrowserKitTestCase
             return FakeKlinkAdapter::generateFacetsResponse($facets, $visibility, $term);
         });
 
-        $docs = factory('KlinkDMS\DocumentDescriptor', $count)->create();
+        $docs = factory('KBox\DocumentDescriptor', $count)->create();
 
         $interested_in = $docs->last();
         
@@ -179,7 +179,7 @@ class SearchTest extends BrowserKitTestCase
         $last_element = null;
 
         foreach ($document_names as $index => $title) {
-            $created = factory('KlinkDMS\DocumentDescriptor')->create([
+            $created = factory('KBox\DocumentDescriptor')->create([
                 'title' => $title
             ]);
 

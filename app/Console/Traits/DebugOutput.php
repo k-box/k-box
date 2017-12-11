@@ -1,6 +1,6 @@
 <?php
 
-namespace KlinkDMS\Console\Traits;
+namespace KBox\Console\Traits;
 
 /**
  * Add the debugLine method that print the text only if verbosity level is greater than 1

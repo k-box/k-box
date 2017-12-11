@@ -1,11 +1,11 @@
 <?php
 
-namespace KlinkDMS\Console\Commands;
+namespace KBox\Console\Commands;
 
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
-use KlinkDMS\Import;
+use KBox\Import;
 use Exception;
 
 class ImportJobPayloadFetcher extends Command

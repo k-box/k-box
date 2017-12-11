@@ -1,13 +1,13 @@
 <?php
 
-use KlinkDMS\File;
+use KBox\File;
 
 use Tests\BrowserKitTestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-use KlinkDMS\Console\Commands\OrphanFilesCommand;
+use KBox\Console\Commands\OrphanFilesCommand;
 
-use KlinkDMS\Traits\RunCommand;
+use KBox\Traits\RunCommand;
 
 /**
  * Test the {@see OrphanFilesCommand}
@@ -26,14 +26,14 @@ class OrphanFilesCommandTest extends BrowserKitTestCase
     }
 
     /**
-     * @return KlinkDMS\File the orphan to be identified
+     * @return KBox\File the orphan to be identified
      */
     private function createSomeDocumentsAndFiles()
     {
         $user = $this->createAdminUser();
 
         // generate 3 document descriptors with file
-        $docs = factory('KlinkDMS\DocumentDescriptor', 3)->create();
+        $docs = factory('KBox\DocumentDescriptor', 3)->create();
 
         // add a file revision to the last generated document
         $document3 = $docs->last();
@@ -42,7 +42,7 @@ class OrphanFilesCommandTest extends BrowserKitTestCase
         $destination = storage_path('documents/example-document.pdf');
         copy($template, $destination);
 
-        $revision = factory('KlinkDMS\File')->create([
+        $revision = factory('KBox\File')->create([
             'user_id' => $user->id,
             'original_uri' => '',
             'path' => $destination,
@@ -54,7 +54,7 @@ class OrphanFilesCommandTest extends BrowserKitTestCase
         $document3->save();
 
         // create an orphan file
-        $orphan = factory('KlinkDMS\File')->create([
+        $orphan = factory('KBox\File')->create([
             'user_id' => $user->id,
             'original_uri' => '',
             'path' => $destination,
@@ -62,12 +62,12 @@ class OrphanFilesCommandTest extends BrowserKitTestCase
         ]);
         
         // trash a document with its related file
-        $to_be_trashed = factory('KlinkDMS\DocumentDescriptor')->create();
+        $to_be_trashed = factory('KBox\DocumentDescriptor')->create();
         $to_be_trashed->file->delete();
         $to_be_trashed->delete();
 
         // orphan file that is already trashed
-        $deleted_orphan = factory('KlinkDMS\File')->create([
+        $deleted_orphan = factory('KBox\File')->create([
             'user_id' => $user->id,
             'original_uri' => '',
             'path' => $destination,

@@ -1,6 +1,6 @@
 <?php
 
-namespace KlinkDMS;
+namespace KBox;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -9,7 +9,7 @@ use Illuminate\Http\UploadedFile;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Dyrynda\Database\Support\GeneratesUuid;
-use KlinkDMS\Exceptions\FileAlreadyExistsException;
+use KBox\Exceptions\FileAlreadyExistsException;
 use Klink\DmsAdapter\KlinkDocumentUtils;
 use Illuminate\Support\Facades\Crypt;
 
@@ -33,31 +33,31 @@ use Illuminate\Support\Facades\Crypt;
  * @property string $mime_type the file mime type
  * @property bool $is_folder if this was a folder being imported in the K-Box
  * @property \Illuminate\Support\Collection $properties additional properties of the file, as a collection
- * @property-read \KlinkDMS\DocumentDescriptor $document the related Document Descriptor
- * @property-read \KlinkDMS\File $revisionOf the previous version of the File
- * @property-read \KlinkDMS\User $user The User that uploaded the file.
+ * @property-read \KBox\DocumentDescriptor $document the related Document Descriptor
+ * @property-read \KBox\File $revisionOf the previous version of the File
+ * @property-read \KBox\User $user The User that uploaded the file.
  * @property \Carbon\Carbon $upload_completed_at when the upload finished
  * @property \Carbon\Carbon $upload_cancelled_at when the upload was cancelled by the user
  * @property \Carbon\Carbon $upload_started_at when the upload started, might be the same as the creation date
  * @property-read bool $upload_completed true if the upload completed
  * @property-read bool $upload_cancelled true if the upload was cancelled by the user
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\File folders() {@see KlinkDMS\File::scopeFolders()}
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\File fromHash($hash) {@see KlinkDMS\File::scopeFromHash()}
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\File fromOriginalUri($uri) {@see KlinkDMS\File::scopeFromOriginalUri()}
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\File whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\File whereDeletedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\File whereHash($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\File whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\File whereIsFolder($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\File whereMimeType($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\File whereName($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\File whereOriginalUri($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\File wherePath($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\File whereRevisionOf($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\File whereSize($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\File whereThumbnailPath($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\File whereUpdatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\File whereUserId($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\File folders() {@see KBox\File::scopeFolders()}
+ * @method static \Illuminate\Database\Query\Builder|\KBox\File fromHash($hash) {@see KBox\File::scopeFromHash()}
+ * @method static \Illuminate\Database\Query\Builder|\KBox\File fromOriginalUri($uri) {@see KBox\File::scopeFromOriginalUri()}
+ * @method static \Illuminate\Database\Query\Builder|\KBox\File whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\File whereDeletedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\File whereHash($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\File whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\File whereIsFolder($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\File whereMimeType($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\File whereName($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\File whereOriginalUri($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\File wherePath($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\File whereRevisionOf($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\File whereSize($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\File whereThumbnailPath($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\File whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\File whereUserId($value)
  * @mixin \Eloquent
  */
 class File extends Model
@@ -111,7 +111,7 @@ class File extends Model
     {
         
         // One to One
-        return $this->belongsTo('\KlinkDMS\User');
+        return $this->belongsTo('\KBox\User');
     }
 
     /**
@@ -123,7 +123,7 @@ class File extends Model
      */
     public function document()
     {
-        return $this->belongsTo('\KlinkDMS\DocumentDescriptor', 'id', 'file_id');
+        return $this->belongsTo('\KBox\DocumentDescriptor', 'id', 'file_id');
     }
 
     /**
@@ -133,7 +133,7 @@ class File extends Model
      */
     public function revisionOf()
     {
-        return $this->belongsTo('\KlinkDMS\File', 'revision_of', 'id');
+        return $this->belongsTo('\KBox\File', 'revision_of', 'id');
     }
 
     /**
@@ -177,7 +177,7 @@ class File extends Model
     }
 
     /**
-     * Retrieve all files that have the specified {@see \KlinkDMS\File::$original_uri}
+     * Retrieve all files that have the specified {@see \KBox\File::$original_uri}
      *
      * @param \Illuminate\Database\Eloquent\Builder $query
      * @param string $uri the URI to search for
@@ -459,7 +459,7 @@ class File extends Model
      * Find a file by its hash value
      *
      * @param string $hash
-     * @return \KlinkDMS\File
+     * @return \KBox\File
      * @throws ModelNotFoundException if a file with a given hash do not exists
      */
     public static function findByHash($hash)
@@ -492,7 +492,7 @@ class File extends Model
 
     private function last_version_recursive(File $file)
     {
-        $belongsTo = $file->belongsTo('\KlinkDMS\File', 'id', 'revision_of')->first();
+        $belongsTo = $file->belongsTo('\KBox\File', 'id', 'revision_of')->first();
 
         if (! is_null($belongsTo)) {
             return $this->last_version_recursive($belongsTo);
@@ -584,10 +584,10 @@ class File extends Model
      * Create a file given an upload
      *
      * @param \Illuminate\Http\UploadedFile $upload the file uploaded
-     * @param \KlinkDMS\User $uploader The user that perfomed the upload
-     * @param \KlinkDMS\File $revision_of The file that will be replaced with this new uploaded version
-     * @return \KlinkDMS\File
-     * @throws \KlinkDMS\Exceptions\FileAlreadyExistsException if a file with the same hash already exists in the system
+     * @param \KBox\User $uploader The user that perfomed the upload
+     * @param \KBox\File $revision_of The file that will be replaced with this new uploaded version
+     * @return \KBox\File
+     * @throws \KBox\Exceptions\FileAlreadyExistsException if a file with the same hash already exists in the system
      */
     public static function createFromUploadedFile(UploadedFile $upload, User $uploader, File $revision_of = null)
     {

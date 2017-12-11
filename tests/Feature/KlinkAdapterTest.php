@@ -3,7 +3,7 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
-use KlinkDMS\Option;
+use KBox\Option;
 use Klink\DmsAdapter\KlinkAdapter;
 use Klink\DmsAdapter\KlinkVisibilityType;
 use Illuminate\Foundation\Testing\DatabaseTransactions;

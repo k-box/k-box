@@ -3,7 +3,7 @@
 namespace Tests\Unit;
 
 use Tests\TestCase;
-use KlinkDMS\Contracts\Action;
+use KBox\Contracts\Action;
 
 class ActionTest extends TestCase
 {

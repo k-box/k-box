@@ -1,6 +1,6 @@
 <?php
 
-namespace KlinkDMS;
+namespace KBox;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -18,15 +18,15 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $document_id
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
- * @property-read \KlinkDMS\DocumentDescriptor $document
- * @property-read \KlinkDMS\User $user
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Starred byDocumentId($document_id)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Starred ofUser($user_id)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Starred whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Starred whereDocumentId($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Starred whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Starred whereUpdatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Starred whereUserId($value)
+ * @property-read \KBox\DocumentDescriptor $document
+ * @property-read \KBox\User $user
+ * @method static \Illuminate\Database\Query\Builder|\KBox\Starred byDocumentId($document_id)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\Starred ofUser($user_id)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\Starred whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\Starred whereDocumentId($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\Starred whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\Starred whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\Starred whereUserId($value)
  * @mixin \Eloquent
  */
 class Starred extends Model
@@ -53,7 +53,7 @@ class Starred extends Model
      */
     public function user()
     {
-        return $this->hasOne('KlinkDMS\User');
+        return $this->hasOne('KBox\User');
     }
 
     /**
@@ -63,7 +63,7 @@ class Starred extends Model
      */
     public function document()
     {
-        return $this->belongsTo('KlinkDMS\DocumentDescriptor', 'document_id');
+        return $this->belongsTo('KBox\DocumentDescriptor', 'document_id');
     }
 
     /**

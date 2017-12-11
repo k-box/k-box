@@ -3,7 +3,7 @@
 namespace Klink\DmsMicrosites\Requests;
 
 use Illuminate\Foundation\Http\FormRequest as Request;
-use KlinkDMS\Capability;
+use KBox\Capability;
 use Klink\DmsMicrosites\Microsite;
 
 class MicrositeUpdateRequest extends Request

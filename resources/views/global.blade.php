@@ -36,8 +36,8 @@
 		<link rel="icon" type="image/png" href="{{ url('/') }}/favicon-96x96.png?v=1" sizes="96x96">
 		<link rel="icon" type="image/png" href="{{ url('/') }}/favicon-16x16.png?v=1" sizes="16x16">
 		<link rel="manifest" href="{{ url('/') }}/manifest.json">
-		<meta name="apple-mobile-web-app-title" content="K-Link DMS">
-		<meta name="application-name" content="K-Link DMS">
+		<meta name="apple-mobile-web-app-title" content="K-Box">
+		<meta name="application-name" content="K-Box">
 		<meta name="msapplication-TileColor" content="#603cba">
 		<meta name="msapplication-TileImage" content="{{ url('/') }}/mstile-144x144.png?v=1">
 		<meta name="theme-color" content="#ffffff">

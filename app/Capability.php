@@ -1,6 +1,6 @@
 <?php
 
-namespace KlinkDMS;
+namespace KBox;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -10,11 +10,11 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $id the autoincrement id of the capability
  * @property string $key the capability name
  * @property string $description the capability description (in English)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Capability fromKey($key) retrieve a capability by a given name
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Capability fromKeys($keys) retrieve the capabilities from the given names
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Capability whereDescription($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Capability whereId($value) add a where clause for the capability $id
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Capability whereKey($value) add a where clause for the capability $key
+ * @method static \Illuminate\Database\Query\Builder|\KBox\Capability fromKey($key) retrieve a capability by a given name
+ * @method static \Illuminate\Database\Query\Builder|\KBox\Capability fromKeys($keys) retrieve the capabilities from the given names
+ * @method static \Illuminate\Database\Query\Builder|\KBox\Capability whereDescription($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\Capability whereId($value) add a where clause for the capability $id
+ * @method static \Illuminate\Database\Query\Builder|\KBox\Capability whereKey($value) add a where clause for the capability $key
  * @mixin \Eloquent
  */
 class Capability extends Model
@@ -323,7 +323,7 @@ class Capability extends Model
 
     private static function getConstants()
     {
-        $oClass = new \ReflectionClass('KlinkDMS\Capability');
+        $oClass = new \ReflectionClass('KBox\Capability');
 
         return array_filter($oClass->getConstants(), function ($el) {
             return $el !== self::CREATED_AT && $el !== self::UPDATED_AT;
@@ -333,7 +333,7 @@ class Capability extends Model
     /**
      * Get all known capabilities
      *
-     * @return \Illuminate\Database\Eloquent\Collection|\KlinkDMS\Capability[]
+     * @return \Illuminate\Database\Eloquent\Collection|\KBox\Capability[]
      */
     public static function known()
     {

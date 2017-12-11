@@ -1,6 +1,6 @@
 <?php
 
-namespace KlinkDMS\Support\Testing\Fakes;
+namespace KBox\Support\Testing\Fakes;
 
 use Oneofftech\KlinkStreaming\Video;
 use PHPUnit\Framework\Assert as PHPUnit;

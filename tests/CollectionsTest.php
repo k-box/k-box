@@ -1,10 +1,10 @@
 <?php
 
 use Laracasts\TestDummy\Factory;
-use KlinkDMS\User;
-use KlinkDMS\Group;
-use KlinkDMS\Project;
-use KlinkDMS\Capability;
+use KBox\User;
+use KBox\Group;
+use KBox\Project;
+use KBox\Capability;
 use Illuminate\Support\Collection;
 
 use Tests\BrowserKitTestCase;
@@ -117,9 +117,9 @@ class CollectionsTest extends BrowserKitTestCase
         
         // $users = [$user1, $user2];
         
-        $projectA = factory('KlinkDMS\Project')->create(['user_id' => $user1->id]);
-        $projectB = factory('KlinkDMS\Project')->create(['user_id' => $user1->id]);
-        $projectC = factory('KlinkDMS\Project')->create(['user_id' => $user2->id]);
+        $projectA = factory('KBox\Project')->create(['user_id' => $user1->id]);
+        $projectB = factory('KBox\Project')->create(['user_id' => $user1->id]);
+        $projectC = factory('KBox\Project')->create(['user_id' => $user2->id]);
         
         $service = app('Klink\DmsDocuments\DocumentsService');
         
@@ -268,7 +268,7 @@ class CollectionsTest extends BrowserKitTestCase
         
         // create a project
         
-        $project = factory('KlinkDMS\Project')->create();
+        $project = factory('KBox\Project')->create();
         
         $user = $project->manager()->first();
         
@@ -284,9 +284,9 @@ class CollectionsTest extends BrowserKitTestCase
         $this->assertTrue($accessible, 'Collection is not accessible by the creator');
         
         
-        $projectA = factory('KlinkDMS\Project')->create(['user_id' => $user->id]);
-        $projectB = factory('KlinkDMS\Project')->create(['user_id' => $user->id]);
-        $projectC = factory('KlinkDMS\Project')->create(['user_id' => $user->id]);
+        $projectA = factory('KBox\Project')->create(['user_id' => $user->id]);
+        $projectB = factory('KBox\Project')->create(['user_id' => $user->id]);
+        $projectC = factory('KBox\Project')->create(['user_id' => $user->id]);
         
         $collection2 = $service->createGroup($user, 'sub-sub-collection name', null, $collection, false);
         
@@ -347,11 +347,11 @@ class CollectionsTest extends BrowserKitTestCase
         $service = app('Klink\DmsDocuments\DocumentsService');
         
         // create one document
-        $doc = factory('KlinkDMS\DocumentDescriptor')->create([
+        $doc = factory('KBox\DocumentDescriptor')->create([
             'owner_id' => $user->id
         ]);
         
-        $doc2 = factory('KlinkDMS\DocumentDescriptor')->create([
+        $doc2 = factory('KBox\DocumentDescriptor')->create([
             'owner_id' => $user->id
         ]);
         
@@ -399,7 +399,7 @@ class CollectionsTest extends BrowserKitTestCase
         $service = app('Klink\DmsDocuments\DocumentsService');
         
         // create one document
-        $doc = factory('KlinkDMS\DocumentDescriptor')->create([
+        $doc = factory('KBox\DocumentDescriptor')->create([
             'owner_id' => $user->id
         ]);
         
@@ -462,7 +462,7 @@ class CollectionsTest extends BrowserKitTestCase
     }
 
     /**
-     * @expectedException KlinkDMS\Exceptions\ForbiddenException
+     * @expectedException KBox\Exceptions\ForbiddenException
      */
     public function testDocumentService_deleteGroup_forbidden()
     {
@@ -539,7 +539,7 @@ class CollectionsTest extends BrowserKitTestCase
     }
 
     /**
-     * @expectedException KlinkDMS\Exceptions\ForbiddenException
+     * @expectedException KBox\Exceptions\ForbiddenException
      */
     public function testDocumentService_permanentlyDeleteGroup_forbidden()
     {
@@ -595,7 +595,7 @@ class CollectionsTest extends BrowserKitTestCase
     {
         $service = app('Klink\DmsDocuments\DocumentsService');
 
-        $project = factory('KlinkDMS\Project')->create();
+        $project = factory('KBox\Project')->create();
 
         $user = $this->createUser(Capability::$PROJECT_MANAGER);
         
@@ -621,7 +621,7 @@ class CollectionsTest extends BrowserKitTestCase
     {
         $service = app('Klink\DmsDocuments\DocumentsService');
 
-        $project = factory('KlinkDMS\Project')->create();
+        $project = factory('KBox\Project')->create();
 
         $user = $this->createUser(Capability::$PROJECT_MANAGER);
         

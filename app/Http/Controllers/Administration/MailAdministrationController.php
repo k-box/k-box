@@ -1,13 +1,13 @@
 <?php
 
-namespace KlinkDMS\Http\Controllers\Administration;
+namespace KBox\Http\Controllers\Administration;
 
-use KlinkDMS\Http\Controllers\Controller;
-use KlinkDMS\Option;
+use KBox\Http\Controllers\Controller;
+use KBox\Option;
 use Config;
-use KlinkDMS\Http\Requests\MailSettingsRequest;
+use KBox\Http\Requests\MailSettingsRequest;
 use Illuminate\Support\Facades\Mail;
-use KlinkDMS\Mail\TestingMail;
+use KBox\Mail\TestingMail;
 
 /**
  * Controller

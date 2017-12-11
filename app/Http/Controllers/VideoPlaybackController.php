@@ -1,11 +1,11 @@
 <?php
 
-namespace KlinkDMS\Http\Controllers;
+namespace KBox\Http\Controllers;
 
-use KlinkDMS\File;
+use KBox\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use KlinkDMS\Exceptions\ForbiddenException;
+use KBox\Exceptions\ForbiddenException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 /**

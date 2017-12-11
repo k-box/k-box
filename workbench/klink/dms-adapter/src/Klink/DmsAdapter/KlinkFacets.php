@@ -3,7 +3,7 @@
 namespace Klink\DmsAdapter;
 
 use InvalidArgumentException;
-use KlinkDMS\Traits\HasEnums;
+use KBox\Traits\HasEnums;
 
 /**
 * Available search aggregations.

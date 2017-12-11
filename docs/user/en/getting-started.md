@@ -1,6 +1,6 @@
 # Introduction
 
-In K-DMS, DMS stands for Document Management System. It is a system meant to
+K-Box. It is a system meant to
 structure documents in an organization.
 
 Thanks to features such as collections or *project*, it helps organizing and

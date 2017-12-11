@@ -1,10 +1,10 @@
 <?php
 
-namespace KlinkDMS\Http\Controllers\Administration;
+namespace KBox\Http\Controllers\Administration;
 
-use KlinkDMS\Http\Controllers\Controller;
-use KlinkDMS\User;
-use KlinkDMS\Option;
+use KBox\Http\Controllers\Controller;
+use KBox\User;
+use KBox\Option;
 
 class AdministrationDashboardController extends Controller
 {

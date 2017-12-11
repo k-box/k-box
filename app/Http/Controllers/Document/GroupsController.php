@@ -1,19 +1,19 @@
 <?php
 
-namespace KlinkDMS\Http\Controllers\Document;
+namespace KBox\Http\Controllers\Document;
 
-use KlinkDMS\Group;
-use KlinkDMS\Http\Controllers\Controller;
-use KlinkDMS\Capability;
+use KBox\Group;
+use KBox\Http\Controllers\Controller;
+use KBox\Capability;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Contracts\Auth\Guard as AuthGuard;
-use KlinkDMS\Http\Requests\CreateGroupRequest;
-use KlinkDMS\Http\Requests\UpdateGroupRequest;
+use KBox\Http\Requests\CreateGroupRequest;
+use KBox\Http\Requests\UpdateGroupRequest;
 use Illuminate\Support\Collection;
-use KlinkDMS\Exceptions\GroupAlreadyExistsException;
+use KBox\Exceptions\GroupAlreadyExistsException;
 use Illuminate\Http\Request;
-use KlinkDMS\Traits\Searchable;
-use KlinkDMS\Exceptions\ForbiddenException;
+use KBox\Traits\Searchable;
+use KBox\Exceptions\ForbiddenException;
 
 class GroupsController extends Controller
 {

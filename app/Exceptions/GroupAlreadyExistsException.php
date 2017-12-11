@@ -1,9 +1,9 @@
 <?php
 
-namespace KlinkDMS\Exceptions;
+namespace KBox\Exceptions;
 
 use Exception;
-use KlinkDMS\Group;
+use KBox\Group;
 
 /**
 * States that a @see Group with the same uniqueness attributes already exists

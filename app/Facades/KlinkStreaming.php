@@ -1,9 +1,9 @@
 <?php
 
-namespace KlinkDMS\Facades;
+namespace KBox\Facades;
 
 use Illuminate\Support\Facades\Facade;
-use KlinkDMS\Support\Testing\Fakes\KlinkStreamingClientFake;
+use KBox\Support\Testing\Fakes\KlinkStreamingClientFake;
 use Oneofftech\KlinkStreaming\Client as StreamingClient;
 
 /**

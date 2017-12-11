@@ -1,9 +1,9 @@
 <!-- 1 -->
 # Introduction
 
-The K-Link Document Managament System (DMS) is a web application designed for document management inside an Organization or in the context of a Project involving more Organizations.
+The K-Link Document Managament System (K-Box) is a web application designed for document management inside an Organization or in the context of a Project involving more Organizations.
 
-The DMS is built on top of [Laravel 5.1](http://laravel.com/docs/5.1/) and PHP 5.5. It is available in two edition: (1) Standard and (2) Project Edition.
+The K-Box is built on top of [Laravel 5.1](http://laravel.com/docs/5.1/) and PHP 5.5. It is available in two edition: (1) Standard and (2) Project Edition.
 
 **Standard Edition**
 
@@ -33,9 +33,9 @@ Main flows?
 
 
 
-What is the DMS Project Edition?
+What is the K-Box Project Edition?
 
-How differs from the standard DMS?
+How differs from the standard K-Box?
 
 - Has the Project concept, collections created under a project are defined as Project Collections
 - Don't have the Institutional Collections
@@ -63,4 +63,4 @@ Project flow? what happens when a project is created
 
 ## Contribution
 
-**If you want to contribute to the DMS please have a look at the [developer installation guide](./developer-installation)**
+**If you want to contribute to the K-Box please have a look at the [developer installation guide](./developer-installation)**

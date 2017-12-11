@@ -1,8 +1,8 @@
 <?php
 
-namespace KlinkDMS;
+namespace KBox;
 
-use KlinkDMS\Traits\HasEnums;
+use KBox\Traits\HasEnums;
 use InvalidArgumentException;
 
 /**
@@ -13,7 +13,7 @@ use InvalidArgumentException;
  *
  * Feature flags are persisted as {@see Option} with the "flag_" prefix.
  *
- * @uses KlinkDMS\Traits\HasEnums
+ * @uses KBox\Traits\HasEnums
  */
 final class Flags
 {

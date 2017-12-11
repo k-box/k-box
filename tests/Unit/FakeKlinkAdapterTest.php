@@ -18,7 +18,7 @@ class FakeKlinkAdapterTest extends TestCase
     {
         $adapter = new FakeKlinkAdapter();
 
-        $document = new KlinkDocument(KlinkDocumentDescriptor::make($descriptor = factory('KlinkDMS\DocumentDescriptor')->make(), 'private'), 'document content');
+        $document = new KlinkDocument(KlinkDocumentDescriptor::make($descriptor = factory('KBox\DocumentDescriptor')->make(), 'private'), 'document content');
 
         $adapter->addDocument($document);
 
@@ -29,7 +29,7 @@ class FakeKlinkAdapterTest extends TestCase
     {
         $adapter = new FakeKlinkAdapter();
 
-        $document = new KlinkDocument(KlinkDocumentDescriptor::make($descriptor = factory('KlinkDMS\DocumentDescriptor')->make(), 'private'), 'document content');
+        $document = new KlinkDocument(KlinkDocumentDescriptor::make($descriptor = factory('KBox\DocumentDescriptor')->make(), 'private'), 'document content');
         
         $adapter->addDocument($document);
 
@@ -42,7 +42,7 @@ class FakeKlinkAdapterTest extends TestCase
     {
         $adapter = new FakeKlinkAdapter();
         
-        $document = new KlinkDocument(KlinkDocumentDescriptor::make($descriptor = factory('KlinkDMS\DocumentDescriptor')->make(), 'private'), 'document content');
+        $document = new KlinkDocument(KlinkDocumentDescriptor::make($descriptor = factory('KBox\DocumentDescriptor')->make(), 'private'), 'document content');
         
         $adapter->addDocument($document);
 
@@ -55,7 +55,7 @@ class FakeKlinkAdapterTest extends TestCase
     {
         $adapter = new FakeKlinkAdapter();
         
-        $document = new KlinkDocument(KlinkDocumentDescriptor::make($descriptor = factory('KlinkDMS\DocumentDescriptor')->make(), 'private'), 'document content');
+        $document = new KlinkDocument(KlinkDocumentDescriptor::make($descriptor = factory('KBox\DocumentDescriptor')->make(), 'private'), 'document content');
 
         $adapter->addDocument($document);
         

@@ -26,7 +26,7 @@ class KlinkAdapterPrivateDataManagementTest extends TestCase
 
     public function test_document_descriptor_is_added()
     {
-        $descriptor = factory('KlinkDMS\DocumentDescriptor')->create();
+        $descriptor = factory('KBox\DocumentDescriptor')->create();
 
         $adapter = app('klinkadapter');
 
@@ -72,7 +72,7 @@ class KlinkAdapterPrivateDataManagementTest extends TestCase
 
     public function test_add_document_report_indexing_timeout()
     {
-        $descriptor = factory('KlinkDMS\DocumentDescriptor')->create([
+        $descriptor = factory('KBox\DocumentDescriptor')->create([
             'mime_type' => 'application/pdf'
         ]);
             

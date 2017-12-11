@@ -1,7 +1,7 @@
 <?php
 
 use Tests\BrowserKitTestCase;
-use KlinkDMS\Option;
+use KBox\Option;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class NetworkAdministrationControllerTest extends BrowserKitTestCase

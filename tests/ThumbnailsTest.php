@@ -2,13 +2,13 @@
 
 use Tests\BrowserKitTestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use KlinkDMS\Import;
-use KlinkDMS\Project;
-use KlinkDMS\Jobs\ThumbnailGenerationJob;
+use KBox\Import;
+use KBox\Project;
+use KBox\Jobs\ThumbnailGenerationJob;
 use GuzzleHttp\Client;
 use Klink\DmsAdapter\KlinkDocumentUtils;
 use Illuminate\Foundation\Application;
-use KlinkDMS\Console\Commands\ThumbnailGenerationCommand;
+use KBox\Console\Commands\ThumbnailGenerationCommand;
 
 class ThumbnailsTest extends BrowserKitTestCase
 {
@@ -121,7 +121,7 @@ class ThumbnailsTest extends BrowserKitTestCase
         
         $real_path = base_path($path);
         
-        $file = factory('KlinkDMS\File')->create([
+        $file = factory('KBox\File')->create([
             'name' => basename($real_path),
             'hash' => KlinkDocumentUtils::generateDocumentHash($real_path),
             'path' => $real_path,
@@ -133,7 +133,7 @@ class ThumbnailsTest extends BrowserKitTestCase
 
         dispatch(new ThumbnailGenerationJob($file)); //make sure to have QUEUE_DRIVER=sync in testing.env
         
-        $file = KlinkDMS\File::findOrFail($file->id);
+        $file = KBox\File::findOrFail($file->id);
         
         $this->assertNotNull($file->thumbnail_path);
         
@@ -183,7 +183,7 @@ class ThumbnailsTest extends BrowserKitTestCase
             $this->assertTrue($good, 'HTTP Download failed');
         }
         
-        $file = factory('KlinkDMS\File')->create([
+        $file = factory('KBox\File')->create([
             'name' => basename($real_path),
             'hash' => KlinkDocumentUtils::generateDocumentHash($real_path),
             'path' => $real_path,
@@ -196,7 +196,7 @@ class ThumbnailsTest extends BrowserKitTestCase
 
         dispatch(new ThumbnailGenerationJob($file)); //make sure to have QUEUE_DRIVER=sync in testing.env
         
-        $file = KlinkDMS\File::findOrFail($file->id);
+        $file = KBox\File::findOrFail($file->id);
         
         $this->assertNotNull($file->thumbnail_path);
         
@@ -236,7 +236,7 @@ class ThumbnailsTest extends BrowserKitTestCase
         
         $real_path = base_path($path);
         
-        $file = factory('KlinkDMS\File')->create([
+        $file = factory('KBox\File')->create([
             'name' => basename($real_path),
             'hash' => KlinkDocumentUtils::generateDocumentHash($real_path),
             'path' => $real_path,
@@ -245,7 +245,7 @@ class ThumbnailsTest extends BrowserKitTestCase
         ]);
         
         
-        $document = factory('KlinkDMS\DocumentDescriptor')->create([
+        $document = factory('KBox\DocumentDescriptor')->create([
             'owner_id' => $file->user_id,
             'file_id' => $file->id,
         ]);

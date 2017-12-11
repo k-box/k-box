@@ -1,9 +1,9 @@
 <?php
 
-namespace KlinkDMS;
+namespace KBox;
 
 use Illuminate\Database\Eloquent\Model;
-use KlinkDMS\Traits\LocalizableDateFields;
+use KBox\Traits\LocalizableDateFields;
 
 /**
  * The project concept.
@@ -16,19 +16,19 @@ use KlinkDMS\Traits\LocalizableDateFields;
  * @property string $avatar
  * @property int $user_id
  * @property int $collection_id
- * @property-read \KlinkDMS\Group $collection
- * @property-read \KlinkDMS\User $manager
+ * @property-read \KBox\Group $collection
+ * @property-read \KBox\User $manager
  * @property-read \Klink\DmsMicrosites\Microsite $microsite
- * @property-read \Illuminate\Database\Eloquent\Collection|\KlinkDMS\User[] $users
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Project managedBy($user)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Project whereAvatar($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Project whereCollectionId($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Project whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Project whereDescription($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Project whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Project whereName($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Project whereUpdatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Project whereUserId($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection|\KBox\User[] $users
+ * @method static \Illuminate\Database\Query\Builder|\KBox\Project managedBy($user)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\Project whereAvatar($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\Project whereCollectionId($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\Project whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\Project whereDescription($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\Project whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\Project whereName($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\Project whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\Project whereUserId($value)
  * @mixin \Eloquent
  */
 class Project extends Model
@@ -68,7 +68,7 @@ class Project extends Model
      */
     public function collection()
     {
-        return $this->hasOne('KlinkDMS\Group', 'id', 'collection_id');
+        return $this->hasOne('KBox\Group', 'id', 'collection_id');
     }
     
     /**
@@ -76,7 +76,7 @@ class Project extends Model
      */
     public function manager()
     {
-        return $this->belongsTo('KlinkDMS\User', 'user_id', 'id');
+        return $this->belongsTo('KBox\User', 'user_id', 'id');
     }
     
     /**
@@ -84,7 +84,7 @@ class Project extends Model
      */
     public function users()
     {
-        return $this->belongsToMany('KlinkDMS\User', 'userprojects', 'project_id', 'user_id');
+        return $this->belongsToMany('KBox\User', 'userprojects', 'project_id', 'user_id');
     }
 
     public function scopeManagedBy($query, $user)

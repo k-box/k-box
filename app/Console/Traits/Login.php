@@ -1,8 +1,8 @@
 <?php
 
-namespace KlinkDMS\Console\Traits;
+namespace KBox\Console\Traits;
 
-use KlinkDMS\Exceptions\ForbiddenException;
+use KBox\Exceptions\ForbiddenException;
 use Auth;
 use App;
 
@@ -15,7 +15,7 @@ trait Login
 {
     
     /**
-     * @var KlinkDMS\User
+     * @var KBox\User
      */
     private $user = null;
     
@@ -40,7 +40,7 @@ trait Login
     
     /** Get the logged in user
      *
-     * @return KlinkDMS\User
+     * @return KBox\User
      */
     public function user()
     {

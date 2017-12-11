@@ -41,7 +41,7 @@ Laravel offer some helper methods to write localized strings in the PHP source c
 
 #### `LocalizableDateFields` Trait
 
-The trait `KlinkDMS\Traits\LocalizableDateFields` has been added to offer localized date and time output 
+The trait `KBox\Traits\LocalizableDateFields` has been added to offer localized date and time output 
 for Eloquent Models. Using the `LocalizableDateFields` trait the created_at, updated_at and deleted_at model 
 dates can be easily localized.
 

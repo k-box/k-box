@@ -1,20 +1,20 @@
 <?php
 
-namespace KlinkDMS;
+namespace KBox;
 
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * KlinkDMS\OpenDocumentActivity
+ * KBox\OpenDocumentActivity
  *
  * @deprecated
  * @property int $id
  * @property int $document_id
  * @property int $originating_activity
- * @property-read \KlinkDMS\DocumentDescriptor $documentDescriptor
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\OpenDocumentActivity whereDocumentId($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\OpenDocumentActivity whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\OpenDocumentActivity whereOriginatingActivity($value)
+ * @property-read \KBox\DocumentDescriptor $documentDescriptor
+ * @method static \Illuminate\Database\Query\Builder|\KBox\OpenDocumentActivity whereDocumentId($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\OpenDocumentActivity whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\OpenDocumentActivity whereOriginatingActivity($value)
  * @mixin \Eloquent
  */
 class OpenDocumentActivity extends Model
@@ -38,7 +38,7 @@ class OpenDocumentActivity extends Model
     {
         
         // One to One
-        return $this->hasOne('KlinkDMS\DocumentDescriptor');
+        return $this->hasOne('KBox\DocumentDescriptor');
 
         // One to Many
         // return $this->hasMany('DocumentDescriptor');

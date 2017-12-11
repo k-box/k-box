@@ -1,6 +1,6 @@
 <?php
 
-namespace KlinkDMS\Contracts;
+namespace KBox\Contracts;
 
 use Log;
 use Closure;

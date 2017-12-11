@@ -3,8 +3,8 @@
 use Tests\BrowserKitTestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-use KlinkDMS\Capability;
-use KlinkDMS\Starred;
+use KBox\Capability;
+use KBox\Starred;
 use Laracasts\TestDummy\Factory;
 
 class StarredTest extends BrowserKitTestCase
@@ -34,7 +34,7 @@ class StarredTest extends BrowserKitTestCase
         
         $user = $this->createUser($caps);
         
-        $starred = factory('KlinkDMS\Starred', 3)->create(['user_id' => $user->id]);
+        $starred = factory('KBox\Starred', 3)->create(['user_id' => $user->id]);
         
         $this->actingAs($user);
         
@@ -60,7 +60,7 @@ class StarredTest extends BrowserKitTestCase
         
         $user = $this->createAdminUser();
         
-        $starred = factory('KlinkDMS\Starred', $starred_count)->create(['user_id' => $user->id]);
+        $starred = factory('KBox\Starred', $starred_count)->create(['user_id' => $user->id]);
         
         $this->actingAs($user);
         
@@ -88,7 +88,7 @@ class StarredTest extends BrowserKitTestCase
         
         $expected_count = Starred::count() + 1;
         
-        $doc = factory('KlinkDMS\DocumentDescriptor')->create(['owner_id' => $user->id]);
+        $doc = factory('KBox\DocumentDescriptor')->create(['owner_id' => $user->id]);
         
         \Session::start(); // Start a session for the current test
         
@@ -115,7 +115,7 @@ class StarredTest extends BrowserKitTestCase
         
         $expected_count = Starred::count();
         
-        $starred = factory('KlinkDMS\Starred')->create(['user_id' => $user->id]);
+        $starred = factory('KBox\Starred')->create(['user_id' => $user->id]);
         
         $this->actingAs($user);
         

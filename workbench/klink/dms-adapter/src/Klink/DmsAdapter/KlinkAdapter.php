@@ -3,7 +3,7 @@
 namespace Klink\DmsAdapter;
 
 use Klink\DmsAdapter\KlinkDocument;
-use KlinkDMS\Option;
+use KBox\Option;
 use KSearchClient\Client;
 use Klink\DmsAdapter\KlinkDocumentDescriptor;
 use Illuminate\Support\Collection;

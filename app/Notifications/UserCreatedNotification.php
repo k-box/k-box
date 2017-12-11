@@ -1,8 +1,8 @@
 <?php
 
-namespace KlinkDMS\Notifications;
+namespace KBox\Notifications;
 
-use KlinkDMS\User;
+use KBox\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -16,7 +16,7 @@ class UserCreatedNotification extends Notification
 
     /**
      * The user that has been created
-     * @var \KlinkDMS\User
+     * @var \KBox\User
      */
     private $user = null;
 
@@ -30,7 +30,7 @@ class UserCreatedNotification extends Notification
     /**
      * Create a new notification instance.
      *
-     * @param KlinkDMS\User $user the created user
+     * @param KBox\User $user the created user
      * @param string $password the password assigned to the user, in plain text
      * @return void
      */

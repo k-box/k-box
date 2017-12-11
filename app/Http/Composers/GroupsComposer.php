@@ -1,9 +1,9 @@
 <?php
 
-namespace KlinkDMS\Http\Composers;
+namespace KBox\Http\Composers;
 
-use KlinkDMS\Group;
-use KlinkDMS\Capability;
+use KBox\Group;
+use KBox\Capability;
 use Illuminate\Contracts\View\View;
 use Klink\DmsDocuments\DocumentsService;
 

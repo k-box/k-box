@@ -1,6 +1,6 @@
 # Importing from URL
 
-If a document is available on internet, the K-DMS can fetch it directly, using its URL.
+If a document is available on internet, the K-Box can fetch it directly, using its URL.
 
 On the document tab, you simply need to click on the "Create or Add" menu, then on "Import".
 

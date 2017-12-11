@@ -1,12 +1,12 @@
 <?php
 
-namespace KlinkDMS\Console\Commands;
+namespace KBox\Console\Commands;
 
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 
-use KlinkDMS\Option;
+use KBox\Option;
 
 declare(ticks = 1); // http://php.net/manual/it/function.pcntl-signal.php
 

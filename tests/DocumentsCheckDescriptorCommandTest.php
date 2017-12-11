@@ -5,9 +5,9 @@ use Laracasts\TestDummy\Factory;
 use Tests\BrowserKitTestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-use KlinkDMS\Console\Commands\DocumentsCheckDescriptorCommand;
+use KBox\Console\Commands\DocumentsCheckDescriptorCommand;
 use Klink\DmsAdapter\KlinkDocumentUtils;
-use KlinkDMS\Traits\RunCommand;
+use KBox\Traits\RunCommand;
 
 /*
  * Test the DocumentsCheckDescriptorCommand
@@ -20,7 +20,7 @@ class DocumentsCheckDescriptorCommandTest extends BrowserKitTestCase
 
     private function createWrongDocument($options = [])
     {
-        $docs = factory('KlinkDMS\DocumentDescriptor')->create($options);
+        $docs = factory('KBox\DocumentDescriptor')->create($options);
         
         
         return $docs;
@@ -62,7 +62,7 @@ class DocumentsCheckDescriptorCommandTest extends BrowserKitTestCase
     /**
      * Test the check descriptor command with a non existing document
      * @expectedException     Illuminate\Database\Eloquent\ModelNotFoundException
-     * @expectedExceptionMessage No query results for model [KlinkDMS\DocumentDescriptor]
+     * @expectedExceptionMessage No query results for model [KBox\DocumentDescriptor]
      */
     public function testCheckDescriptorOnNonExistingDocument()
     {

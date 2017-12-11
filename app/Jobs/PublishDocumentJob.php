@@ -1,11 +1,11 @@
 <?php
 
-namespace KlinkDMS\Jobs;
+namespace KBox\Jobs;
 
 use Illuminate\Bus\Queueable;
-use KlinkDMS\Publication;
-use KlinkDMS\Option;
-use KlinkDMS\Facades\KlinkStreaming;
+use KBox\Publication;
+use KBox\Option;
+use KBox\Facades\KlinkStreaming;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Klink\DmsDocuments\DocumentsService;

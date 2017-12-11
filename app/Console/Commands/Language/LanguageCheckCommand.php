@@ -1,11 +1,11 @@
 <?php
 
-namespace KlinkDMS\Console\Commands\Language;
+namespace KBox\Console\Commands\Language;
 
 use Illuminate\Console\Command;
 
 use Illuminate\Foundation\Bus\DispatchesJobs;
-use KlinkDMS\Console\Traits\DebugOutput;
+use KBox\Console\Traits\DebugOutput;
 use Carbon\Carbon;
 
 use Illuminate\Filesystem\Filesystem;

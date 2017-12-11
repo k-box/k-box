@@ -3,7 +3,7 @@
 ## Help widget
 
 ### Display
-K-DMS offers the possibility to display a [uservoice](https://www.uservoice.com/)
+K-Box offers the possibility to display a [uservoice](https://www.uservoice.com/)
 widget on every page for users to communicate to a help desk while browsing.
 
 ![Support wodget](img/support-widget.png)  

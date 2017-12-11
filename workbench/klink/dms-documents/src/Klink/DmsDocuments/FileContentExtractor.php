@@ -2,7 +2,7 @@
 
 namespace Klink\DmsDocuments;
 
-use KlinkDMS\File;
+use KBox\File;
 use Klink\DmsAdapter\KlinkDocumentUtils;
 
 /**
@@ -23,7 +23,7 @@ class FileContentExtractor
      *
      * In case of errors or problems the file name will be returned
      *
-     * @param KlinkDMS\File $file The file to be indexed
+     * @param KBox\File $file The file to be indexed
      * @return string the file path or the textual content
      * @throws InvalidArgumentException if the mime type is null, empty or not a string
      */

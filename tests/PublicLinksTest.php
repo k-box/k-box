@@ -3,8 +3,8 @@
 use Tests\BrowserKitTestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-use KlinkDMS\Capability;
-use KlinkDMS\Shared;
+use KBox\Capability;
+use KBox\Shared;
 use Laracasts\TestDummy\Factory;
 
 class PublicLinksTest extends BrowserKitTestCase
@@ -63,7 +63,7 @@ class PublicLinksTest extends BrowserKitTestCase
     {
         $this->withKlinkAdapterFake();
 
-        $this->expectsEvents(KlinkDMS\Events\ShareCreated::class);
+        $this->expectsEvents(KBox\Events\ShareCreated::class);
 
         $user = $this->createUser(Capability::$PARTNER);
         $document = $this->createDocument($user);
@@ -97,7 +97,7 @@ class PublicLinksTest extends BrowserKitTestCase
     {
         $this->withKlinkAdapterFake();
 
-        $this->expectsEvents(KlinkDMS\Events\ShareCreated::class);
+        $this->expectsEvents(KBox\Events\ShareCreated::class);
 
         $user = $this->createUser(Capability::$PARTNER);
         $document = $this->createDocument($user);
@@ -187,7 +187,7 @@ class PublicLinksTest extends BrowserKitTestCase
         $share = factory(Shared::class, 'publiclink')->create();
 
         $url = $share->sharedwith->url;
-        $expected_redirect = \KlinkDMS\RoutingHelpers::preview($share->shareable);
+        $expected_redirect = \KBox\RoutingHelpers::preview($share->shareable);
 
         \Session::start();
 

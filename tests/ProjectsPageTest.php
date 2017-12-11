@@ -2,10 +2,10 @@
 
 use Tests\BrowserKitTestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use KlinkDMS\User;
-use KlinkDMS\Flags;
-use KlinkDMS\Capability;
-use KlinkDMS\Traits\Searchable;
+use KBox\User;
+use KBox\Flags;
+use KBox\Capability;
+use KBox\Traits\Searchable;
 use Klink\DmsAdapter\Fakes\FakeKlinkAdapter;
 
 /**
@@ -73,7 +73,7 @@ class ProjectsPageTest extends BrowserKitTestCase
             $user = $this->createUser($caps);
             
             if (strpos($route, 'show') !== false) {
-                $project = factory('KlinkDMS\Project')->create(['user_id' => $user->id]);
+                $project = factory('KBox\Project')->create(['user_id' => $user->id]);
                 
                 $params = ['projects' => $project->id];
             } else {
@@ -182,7 +182,7 @@ class ProjectsPageTest extends BrowserKitTestCase
 
         // Trick get the facets view to test which columns are available in the elastic list
         $view = $this->response->original; // is a view
-        $composer = app('KlinkDMS\Http\Composers\DocumentsComposer');
+        $composer = app('KBox\Http\Composers\DocumentsComposer');
         $composer->facets($view);
         $this->response->original = $view;
 
@@ -205,7 +205,7 @@ class ProjectsPageTest extends BrowserKitTestCase
 
         $mock = $this->withKlinkAdapterMock();
 
-        $mock->shouldReceive('institutions')->andReturn(factory('KlinkDMS\Institution')->make());
+        $mock->shouldReceive('institutions')->andReturn(factory('KBox\Institution')->make());
         
         $mock->shouldReceive('isNetworkEnabled')->andReturn(false);
 
@@ -289,7 +289,7 @@ class ProjectsPageTest extends BrowserKitTestCase
 
         // Trick get the facets view to test which columns are available in the elastic list
         $view = $this->response->original; // is a view
-        $composer = app('KlinkDMS\Http\Composers\DocumentsComposer');
+        $composer = app('KBox\Http\Composers\DocumentsComposer');
         $composer->facets($view);
         $this->response->original = $view;
 

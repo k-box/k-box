@@ -1,8 +1,8 @@
 <?php
 
-namespace KlinkDMS\Http\Controllers;
+namespace KBox\Http\Controllers;
 
-use KlinkDMS\Option;
+use KBox\Option;
 
 /**
  * Shows the K-Box contact page

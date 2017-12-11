@@ -1,24 +1,24 @@
 <?php
 
-namespace KlinkDMS\Console\Commands;
+namespace KBox\Console\Commands;
 
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Finder\Finder;
-use KlinkDMS\Import;
-use KlinkDMS\User;
-use KlinkDMS\File;
-use KlinkDMS\Group;
-use KlinkDMS\Project;
+use KBox\Import;
+use KBox\User;
+use KBox\File;
+use KBox\Group;
+use KBox\Project;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Bus\DispatchesJobs;
-use KlinkDMS\Jobs\ImportCommand;
+use KBox\Jobs\ImportCommand;
 
-use KlinkDMS\Console\Traits\Login;
-use KlinkDMS\Console\Traits\DebugOutput;
+use KBox\Console\Traits\Login;
+use KBox\Console\Traits\DebugOutput;
 
-use KlinkDMS\Exceptions\ForbiddenException;
+use KBox\Exceptions\ForbiddenException;
 
 class DmsImportCommand extends Command
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace KlinkDMS\Traits;
+namespace KBox\Traits;
 
 use Illuminate\Foundation\Http\FormRequest as Request;
 use Carbon\Carbon;
@@ -15,7 +15,7 @@ trait AvatarUpload
      * Store the avatar contained in the avatar field of the request and
      * returns the storage path
      *
-     * @param \KlinkDMS\Http\Requests\Request $request The request to extract the file from
+     * @param \KBox\Http\Requests\Request $request The request to extract the file from
      * @param string $prefix (optional). The prefix used for generating the stored file name
      * @return string|null the absolute path to the stored avatar file. Null if no avatar field is available
      */

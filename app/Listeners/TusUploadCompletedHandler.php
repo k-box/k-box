@@ -1,11 +1,11 @@
 <?php
 
-namespace KlinkDMS\Listeners;
+namespace KBox\Listeners;
 
 use Log;
-use KlinkDMS\File;
-use KlinkDMS\DocumentDescriptor;
-use KlinkDMS\Events\UploadCompleted;
+use KBox\File;
+use KBox\DocumentDescriptor;
+use KBox\Events\UploadCompleted;
 use Illuminate\Support\Facades\Storage;
 use Klink\DmsDocuments\DocumentsService;
 use Avvertix\TusUpload\Events\TusUploadCompleted;

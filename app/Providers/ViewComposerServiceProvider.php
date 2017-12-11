@@ -1,10 +1,10 @@
 <?php
 
-namespace KlinkDMS\Providers;
+namespace KBox\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\View\View;
-use KlinkDMS\Capability;
+use KBox\Capability;
 
 class ViewComposerServiceProvider extends ServiceProvider
 {
@@ -16,9 +16,9 @@ class ViewComposerServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        view()->composer('global', '\KlinkDMS\Http\Composers\AllComposer');
-        view()->composer('search', 'KlinkDMS\Http\Composers\HeadersComposer');
-        view()->composer('profile.user', 'KlinkDMS\Http\Composers\HeadersComposer');
+        view()->composer('global', '\KBox\Http\Composers\AllComposer');
+        view()->composer('search', 'KBox\Http\Composers\HeadersComposer');
+        view()->composer('profile.user', 'KBox\Http\Composers\HeadersComposer');
         
         $this->registerHeadersComposer();
         
@@ -50,10 +50,10 @@ class ViewComposerServiceProvider extends ServiceProvider
 
     public function registerHeadersComposer()
     {
-        view()->composer('headers.header', 'KlinkDMS\Http\Composers\HeadersComposer');
-        // view()->composer('headers.external', 'KlinkDMS\Http\Composers\HeadersComposer');
-        view()->composer('login-layout', 'KlinkDMS\Http\Composers\HeadersComposer');
-        view()->composer('share.create', 'KlinkDMS\Http\Composers\HeadersComposer');
+        view()->composer('headers.header', 'KBox\Http\Composers\HeadersComposer');
+        // view()->composer('headers.external', 'KBox\Http\Composers\HeadersComposer');
+        view()->composer('login-layout', 'KBox\Http\Composers\HeadersComposer');
+        view()->composer('share.create', 'KBox\Http\Composers\HeadersComposer');
     }
     
     public function registerFrontpageComposer()
@@ -62,50 +62,50 @@ class ViewComposerServiceProvider extends ServiceProvider
 
     private function registerWidgetComposers()
     {
-        view()->composer('widgets.starred-documents', 'KlinkDMS\Http\Composers\WidgetsComposer@widgetStarred');
+        view()->composer('widgets.starred-documents', 'KBox\Http\Composers\WidgetsComposer@widgetStarred');
 
-        view()->composer('widgets.storage', 'KlinkDMS\Http\Composers\WidgetsComposer@widgetStorage');
+        view()->composer('widgets.storage', 'KBox\Http\Composers\WidgetsComposer@widgetStorage');
 
-        view()->composer('widgets.recent-searches', 'KlinkDMS\Http\Composers\WidgetsComposer@widgetRecentSearches');
+        view()->composer('widgets.recent-searches', 'KBox\Http\Composers\WidgetsComposer@widgetRecentSearches');
         
-        view()->composer('widgets.users-sessions', 'KlinkDMS\Http\Composers\WidgetsComposer@widgetUserSessions');
+        view()->composer('widgets.users-sessions', 'KBox\Http\Composers\WidgetsComposer@widgetUserSessions');
     }
 
     private function registerGroupComposers()
     {
-        view()->composer('groups.tree', 'KlinkDMS\Http\Composers\GroupsComposer@tree');
+        view()->composer('groups.tree', 'KBox\Http\Composers\GroupsComposer@tree');
 
-        view()->composer('groups.group', 'KlinkDMS\Http\Composers\GroupsComposer@group');
+        view()->composer('groups.group', 'KBox\Http\Composers\GroupsComposer@group');
 
-        view()->composer('groups.groupform', 'KlinkDMS\Http\Composers\GroupsComposer@groupForm');
+        view()->composer('groups.groupform', 'KBox\Http\Composers\GroupsComposer@groupForm');
     }
 
     private function registerDocumentComposers()
     {
-        view()->composer('documents.document-layout', 'KlinkDMS\Http\Composers\DocumentsComposer@layout');
-        view()->composer('documents.projects.layout', 'KlinkDMS\Http\Composers\DocumentsComposer@layout');
+        view()->composer('documents.document-layout', 'KBox\Http\Composers\DocumentsComposer@layout');
+        view()->composer('documents.projects.layout', 'KBox\Http\Composers\DocumentsComposer@layout');
         
-        view()->composer('documents.documents', 'KlinkDMS\Http\Composers\DocumentsComposer@layout');
-        view()->composer('documents.recent', 'KlinkDMS\Http\Composers\DocumentsComposer@layout');
-        view()->composer('documents.trash', 'KlinkDMS\Http\Composers\DocumentsComposer@layout');
-        view()->composer('documents.starred', 'KlinkDMS\Http\Composers\DocumentsComposer@layout');
-        view()->composer('documents.sharedwithme', 'KlinkDMS\Http\Composers\DocumentsComposer@shared');
-        view()->composer('documents.menu', 'KlinkDMS\Http\Composers\DocumentsComposer@menu');
+        view()->composer('documents.documents', 'KBox\Http\Composers\DocumentsComposer@layout');
+        view()->composer('documents.recent', 'KBox\Http\Composers\DocumentsComposer@layout');
+        view()->composer('documents.trash', 'KBox\Http\Composers\DocumentsComposer@layout');
+        view()->composer('documents.starred', 'KBox\Http\Composers\DocumentsComposer@layout');
+        view()->composer('documents.sharedwithme', 'KBox\Http\Composers\DocumentsComposer@shared');
+        view()->composer('documents.menu', 'KBox\Http\Composers\DocumentsComposer@menu');
         
-        view()->composer('documents.trash', 'KlinkDMS\Http\Composers\DocumentsComposer@layout');
+        view()->composer('documents.trash', 'KBox\Http\Composers\DocumentsComposer@layout');
 
-        view()->composer('documents.descriptor', 'KlinkDMS\Http\Composers\DocumentsComposer@descriptor');
+        view()->composer('documents.descriptor', 'KBox\Http\Composers\DocumentsComposer@descriptor');
 
-        view()->composer('panels.document', 'KlinkDMS\Http\Composers\DocumentsComposer@descriptorPanel');
+        view()->composer('panels.document', 'KBox\Http\Composers\DocumentsComposer@descriptorPanel');
 
-        view()->composer('documents.edit', 'KlinkDMS\Http\Composers\DocumentsComposer@descriptorPanel');
+        view()->composer('documents.edit', 'KBox\Http\Composers\DocumentsComposer@descriptorPanel');
 
-        view()->composer('documents.partials.versioninfo', 'KlinkDMS\Http\Composers\DocumentsComposer@versionInfo');
+        view()->composer('documents.partials.versioninfo', 'KBox\Http\Composers\DocumentsComposer@versionInfo');
         
-        view()->composer('documents.preview', 'KlinkDMS\Http\Composers\DocumentsComposer@descriptorPanel');
+        view()->composer('documents.preview', 'KBox\Http\Composers\DocumentsComposer@descriptorPanel');
         
-        view()->composer('documents.facets', 'KlinkDMS\Http\Composers\DocumentsComposer@facets');
-        view()->composer('documents.group-facets', 'KlinkDMS\Http\Composers\DocumentsComposer@groupFacets');
+        view()->composer('documents.facets', 'KBox\Http\Composers\DocumentsComposer@facets');
+        view()->composer('documents.group-facets', 'KBox\Http\Composers\DocumentsComposer@groupFacets');
     }
 
     private function registerNoticesComposer()

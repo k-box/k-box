@@ -1,10 +1,10 @@
 <?php
 
-namespace KlinkDMS\Jobs;
+namespace KBox\Jobs;
 
-use KlinkDMS\User;
-use KlinkDMS\Option;
-use KlinkDMS\DocumentDescriptor;
+use KBox\User;
+use KBox\Option;
+use KBox\DocumentDescriptor;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -29,7 +29,7 @@ class ReindexAll extends Job implements ShouldQueue
     /**
      * Create a new ReindexAll job instance.
      *
-     * @param \KlinkDMS\User $user the User that is triggering the reindex
+     * @param \KBox\User $user the User that is triggering the reindex
      * @param array|string[] $docIds the array of document descriptor ID to be reindexed
      * @return ReindexAll
      */

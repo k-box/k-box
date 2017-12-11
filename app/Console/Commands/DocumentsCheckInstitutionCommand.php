@@ -1,15 +1,15 @@
 <?php
 
-namespace KlinkDMS\Console\Commands;
+namespace KBox\Console\Commands;
 
 use Illuminate\Console\Command;
 
-use KlinkDMS\DocumentDescriptor;
-use KlinkDMS\Institution;
+use KBox\DocumentDescriptor;
+use KBox\Institution;
 use Klink\DmsAdapter\Contracts\KlinkAdapter;
 use Klink\DmsDocuments\DocumentsService;
 
-use KlinkDMS\Console\Traits\DebugOutput;
+use KBox\Console\Traits\DebugOutput;
 
 use Exception;
 use Klink\DmsAdapter\Exceptions\KlinkException;

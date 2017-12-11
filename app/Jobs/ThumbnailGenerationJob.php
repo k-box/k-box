@@ -1,19 +1,19 @@
 <?php
 
-namespace KlinkDMS\Jobs;
+namespace KBox\Jobs;
 
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-use KlinkDMS\File;
+use KBox\File;
 
 use Content\Services\ThumbnailsService;
 
 use Exception;
 
 /**
- * Job for generating the thumbnail of a {@see KlinkDMS\File}.
+ * Job for generating the thumbnail of a {@see KBox\File}.
  *
  * It runs on the queue.
  *
@@ -25,7 +25,7 @@ class ThumbnailGenerationJob extends Job implements ShouldQueue
     
     /**
      *
-     * @var KlinkDMS\File
+     * @var KBox\File
      */
     private $file;
     

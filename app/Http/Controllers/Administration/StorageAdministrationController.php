@@ -1,13 +1,13 @@
 <?php
 
-namespace KlinkDMS\Http\Controllers\Administration;
+namespace KBox\Http\Controllers\Administration;
 
-use KlinkDMS\DocumentDescriptor;
-use KlinkDMS\Http\Controllers\Controller;
-use KlinkDMS\User;
-use KlinkDMS\Option;
+use KBox\DocumentDescriptor;
+use KBox\Http\Controllers\Controller;
+use KBox\User;
+use KBox\Option;
 use Klink\DmsDocuments\StorageService;
-use KlinkDMS\Jobs\ReindexAll;
+use KBox\Jobs\ReindexAll;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**

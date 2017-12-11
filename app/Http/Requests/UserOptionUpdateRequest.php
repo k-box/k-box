@@ -1,9 +1,9 @@
 <?php
 
-namespace KlinkDMS\Http\Requests;
+namespace KBox\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest as Request;
-use KlinkDMS\User;
+use KBox\User;
 
 class UserOptionUpdateRequest extends Request
 {

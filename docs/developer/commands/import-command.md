@@ -1,12 +1,12 @@
 # Import files, collections and projects with collections and documents
 
-Starting from DMS version 0.7.0 the import from folder has been enhanced. Now can
+Starting from K-Box version 0.7.0 the import from folder has been enhanced. Now can
 
-- import from the same DMS storage folder (or any folder without copying the files)
+- import from the same K-Box storage folder (or any folder without copying the files)
 - import folders without a parent as Projects
 - better File Already Exists conflicts resolution
 
-The ability to perform the mass document and collection import is available only in the form of a maintenance command, therefore physical access to the running DMS instance is required. Also an existing administration or Project Manager account is required because this procedure requires a login.
+The ability to perform the mass document and collection import is available only in the form of a maintenance command, therefore physical access to the running K-Box instance is required. Also an existing administration or Project Manager account is required because this procedure requires a login.
 
 ## The Command
 
@@ -40,7 +40,7 @@ Let's consider an example execution of the command
 php artisan dms:import --local --create-projects .\tests\data\folder_for_import
 ```
 
-Which will tell to create projects from sub-folder that can be found in `.\tests\data\folder_for_import` and also to not copy the files from the folders to the DMS storage folder (`--local` option)
+Which will tell to create projects from sub-folder that can be found in `.\tests\data\folder_for_import` and also to not copy the files from the folders to the K-Box storage folder (`--local` option)
 
 Consider that the folder `.\tests\data\folder_for_import` has the following structure
 
@@ -60,7 +60,7 @@ Consider that the folder `.\tests\data\folder_for_import` has the following stru
 The command output will be similar to the transcript below
 
 ```
-DMS Import command. Please login before proceeding
+K-Box Import command. Please login before proceeding
 Gathering folder structure for .\tests\data\folder_for_import
 Enqueuing 1114:folder1 as import 568 in group 4051:folder1
 Preparing import from .\tests\data\folder_for_import\folder1
@@ -105,7 +105,7 @@ When a document is merged the abstract will be populate with a phrase that repor
 An example output of the import command when run with the option `--attempt-to-resolve-file-conflicts` is reported below
 
 ```
-DMS Import command. Please login before proceeding
+K-Box Import command. Please login before proceeding
 Gathering folder structure for .\tests\data\folder_for_import
 Enqueuing 1114:folder1 as import 568 in group 4051:folder1
 Preparing import from .\tests\data\folder_for_import\folder1
@@ -148,4 +148,4 @@ As can be seen in the output
   >   done.
 ```
 
-The file `in-subfolder-3.md` has the same content as `in-subfolder-2.md`, which has the id `1311` in the DMS. Then the Document Descriptor has been searched and on that (the one that is attached to file id `1311`) the group `subfolder3` is added.
+The file `in-subfolder-3.md` has the same content as `in-subfolder-2.md`, which has the id `1311` in the K-Box. Then the Document Descriptor has been searched and on that (the one that is attached to file id `1311`) the group `subfolder3` is added.

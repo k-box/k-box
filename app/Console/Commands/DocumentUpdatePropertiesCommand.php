@@ -1,11 +1,11 @@
 <?php
 
-namespace KlinkDMS\Console\Commands;
+namespace KBox\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use KlinkDMS\DocumentsElaboration\Actions\ExtractFileProperties;
-use KlinkDMS\DocumentDescriptor;
+use KBox\DocumentsElaboration\Actions\ExtractFileProperties;
+use KBox\DocumentDescriptor;
 
 use Exception;
 use Log;

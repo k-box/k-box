@@ -1,19 +1,19 @@
 <?php
 
-namespace KlinkDMS;
+namespace KBox;
 
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * KlinkDMS\RequestSearchQueryActivity
+ * KBox\RequestSearchQueryActivity
  *
  * @deprecated
  * @property int $id
  * @property string $terms
  * @property string $visibility
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\RequestSearchQueryActivity whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\RequestSearchQueryActivity whereTerms($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\RequestSearchQueryActivity whereVisibility($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\RequestSearchQueryActivity whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\RequestSearchQueryActivity whereTerms($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\RequestSearchQueryActivity whereVisibility($value)
  * @mixin \Eloquent
  */
 class RequestSearchQueryActivity extends Model

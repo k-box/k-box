@@ -1,11 +1,11 @@
 <?php
 
-namespace KlinkDMS\Http\Controllers\Administration;
+namespace KBox\Http\Controllers\Administration;
 
 use Illuminate\Http\Request;
-use KlinkDMS\Http\Controllers\Controller;
-use KlinkDMS\Http\Requests\ContactsSaveRequest;
-use KlinkDMS\Option;
+use KBox\Http\Controllers\Controller;
+use KBox\Http\Requests\ContactsSaveRequest;
+use KBox\Option;
 
 /**
  * Manage the K-Box Identity configuration

@@ -1,14 +1,14 @@
 <?php
 
-namespace KlinkDMS;
+namespace KBox;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-use KlinkDMS\Traits\HasCapability;
-use KlinkDMS\Traits\UserOptionsAccessor;
+use KBox\Traits\HasCapability;
+use KBox\Traits\UserOptionsAccessor;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
-use KlinkDMS\Notifications\ResetPasswordNotification;
+use KBox\Notifications\ResetPasswordNotification;
 
 /**
  * The User model
@@ -24,29 +24,29 @@ use KlinkDMS\Notifications\ResetPasswordNotification;
  * @property string $deleted_at
  * @property string $organization_name
  * @property string $organization_website
- * @property-read \Illuminate\Database\Eloquent\Collection|\KlinkDMS\Capability[] $capabilities
- * @property-read \Illuminate\Database\Eloquent\Collection|\KlinkDMS\DocumentDescriptor[] $documents
- * @property-read \Franzose\ClosureTable\Extensions\Collection|\KlinkDMS\Group[] $groups
- * @property-read \Illuminate\Database\Eloquent\Collection|\KlinkDMS\PeopleGroup[] $involvedingroups
- * @property-read \Illuminate\Database\Eloquent\Collection|\KlinkDMS\Project[] $managedProjects
- * @property-read \Illuminate\Database\Eloquent\Collection|\KlinkDMS\UserOption[] $options
- * @property-read \Illuminate\Database\Eloquent\Collection|\KlinkDMS\PeopleGroup[] $peoplegroups
- * @property-read \Illuminate\Database\Eloquent\Collection|\KlinkDMS\Project[] $projects
- * @property-read \Illuminate\Database\Eloquent\Collection|\KlinkDMS\RecentSearch[] $searches
- * @property-read \Illuminate\Database\Eloquent\Collection|\KlinkDMS\Shared[] $shares
- * @property-read \Illuminate\Database\Eloquent\Collection|\KlinkDMS\Starred[] $starred
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\User fromEmail($mail)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\User fromName($name)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\User whereAvatar($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\User whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\User whereDeletedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\User whereEmail($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\User whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\User whereInstitutionId($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\User whereName($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\User wherePassword($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\User whereRememberToken($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\User whereUpdatedAt($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection|\KBox\Capability[] $capabilities
+ * @property-read \Illuminate\Database\Eloquent\Collection|\KBox\DocumentDescriptor[] $documents
+ * @property-read \Franzose\ClosureTable\Extensions\Collection|\KBox\Group[] $groups
+ * @property-read \Illuminate\Database\Eloquent\Collection|\KBox\PeopleGroup[] $involvedingroups
+ * @property-read \Illuminate\Database\Eloquent\Collection|\KBox\Project[] $managedProjects
+ * @property-read \Illuminate\Database\Eloquent\Collection|\KBox\UserOption[] $options
+ * @property-read \Illuminate\Database\Eloquent\Collection|\KBox\PeopleGroup[] $peoplegroups
+ * @property-read \Illuminate\Database\Eloquent\Collection|\KBox\Project[] $projects
+ * @property-read \Illuminate\Database\Eloquent\Collection|\KBox\RecentSearch[] $searches
+ * @property-read \Illuminate\Database\Eloquent\Collection|\KBox\Shared[] $shares
+ * @property-read \Illuminate\Database\Eloquent\Collection|\KBox\Starred[] $starred
+ * @method static \Illuminate\Database\Query\Builder|\KBox\User fromEmail($mail)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\User fromName($name)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\User whereAvatar($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\User whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\User whereDeletedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\User whereEmail($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\User whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\User whereInstitutionId($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\User whereName($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\User wherePassword($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\User whereRememberToken($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\User whereUpdatedAt($value)
  * @mixin \Eloquent
  */
 class User extends Authenticatable
@@ -139,7 +139,7 @@ class User extends Authenticatable
     */
     public function searches()
     {
-        return $this->hasMany('KlinkDMS\RecentSearch');
+        return $this->hasMany('KBox\RecentSearch');
     }
 
    /**
@@ -149,7 +149,7 @@ class User extends Authenticatable
     */
     public function groups()
     {
-        return $this->hasMany('KlinkDMS\Group');
+        return $this->hasMany('KBox\Group');
     }
   
    /**
@@ -159,7 +159,7 @@ class User extends Authenticatable
     */
     public function peoplegroups()
     {
-        return $this->hasMany('KlinkDMS\PeopleGroup');
+        return $this->hasMany('KBox\PeopleGroup');
     }
   
    /**
@@ -169,7 +169,7 @@ class User extends Authenticatable
     */
     public function involvedingroups()
     {
-        return $this->belongsToMany('KlinkDMS\PeopleGroup', 'peoplegroup_to_user', 'user_id', 'peoplegroup_id');
+        return $this->belongsToMany('KBox\PeopleGroup', 'peoplegroup_to_user', 'user_id', 'peoplegroup_id');
     }
 
    /**
@@ -179,7 +179,7 @@ class User extends Authenticatable
     */
     public function shares()
     {
-        return $this->hasMany('KlinkDMS\Shared', 'user_id');
+        return $this->hasMany('KBox\Shared', 'user_id');
     }
 
    /**
@@ -190,7 +190,7 @@ class User extends Authenticatable
     */
     public function institution()
     {
-        return $this->hasOne('KlinkDMS\Institution', 'id', 'institution_id');
+        return $this->hasOne('KBox\Institution', 'id', 'institution_id');
     }
 
    /**
@@ -200,7 +200,7 @@ class User extends Authenticatable
     */
     public function documents()
     {
-        return $this->hasMany('KlinkDMS\DocumentDescriptor', 'owner_id');
+        return $this->hasMany('KBox\DocumentDescriptor', 'owner_id');
     }
 
    /**
@@ -210,7 +210,7 @@ class User extends Authenticatable
     */
     public function starred()
     {
-        return $this->hasMany('KlinkDMS\Starred');
+        return $this->hasMany('KBox\Starred');
     }
 
     /**
@@ -220,7 +220,7 @@ class User extends Authenticatable
      */
     public function options()
     {
-        return $this->hasMany('KlinkDMS\UserOption');
+        return $this->hasMany('KBox\UserOption');
     }
 
     /**
@@ -230,7 +230,7 @@ class User extends Authenticatable
      */
     public function projects()
     {
-        return $this->belongsToMany('KlinkDMS\Project', 'userprojects', 'user_id', 'project_id');
+        return $this->belongsToMany('KBox\Project', 'userprojects', 'user_id', 'project_id');
     }
   
     /**
@@ -240,7 +240,7 @@ class User extends Authenticatable
      */
     public function managedProjects()
     {
-        return $this->hasMany('KlinkDMS\Project');
+        return $this->hasMany('KBox\Project');
     }
 
     /**

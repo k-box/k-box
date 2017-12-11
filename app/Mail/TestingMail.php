@@ -1,6 +1,6 @@
 <?php
 
-namespace KlinkDMS\Mail;
+namespace KBox\Mail;
 
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;

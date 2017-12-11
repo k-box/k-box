@@ -1,17 +1,17 @@
 <?php
 
-namespace KlinkDMS\Http\Controllers\Administration;
+namespace KBox\Http\Controllers\Administration;
 
-use KlinkDMS\Capability;
-use KlinkDMS\Http\Controllers\Controller;
-use KlinkDMS\Http\Requests\UserRequest;
+use KBox\Capability;
+use KBox\Http\Controllers\Controller;
+use KBox\Http\Requests\UserRequest;
 use Illuminate\Support\Facades\Hash;
-use KlinkDMS\User;
-use KlinkDMS\Option;
+use KBox\User;
+use KBox\Option;
 use Illuminate\Contracts\Auth\Guard;
 use Klink\DmsAdapter\KlinkAdapter;
 use Illuminate\Contracts\Auth\PasswordBroker as PasswordBrokerContract;
-use KlinkDMS\Notifications\UserCreatedNotification;
+use KBox\Notifications\UserCreatedNotification;
 
 /**
  * User Resource Controller

@@ -1,9 +1,9 @@
 <?php
 
-namespace KlinkDMS;
+namespace KBox;
 
 use Illuminate\Database\Eloquent\Model;
-use KlinkDMS\Traits\LocalizableDateFields;
+use KBox\Traits\LocalizableDateFields;
 
 /**
  * PublicLink. A type target of a share.
@@ -20,13 +20,13 @@ use KlinkDMS\Traits\LocalizableDateFields;
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @property int $user_id
- * @property-read \KlinkDMS\Shared $share
- * @property-read \KlinkDMS\User $user
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\PublicLink whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\PublicLink whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\PublicLink whereSlug($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\PublicLink whereUpdatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\PublicLink whereUserId($value)
+ * @property-read \KBox\Shared $share
+ * @property-read \KBox\User $user
+ * @method static \Illuminate\Database\Query\Builder|\KBox\PublicLink whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\PublicLink whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\PublicLink whereSlug($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\PublicLink whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\PublicLink whereUserId($value)
  * @mixin \Eloquent
  */
 class PublicLink extends Model
@@ -51,17 +51,17 @@ class PublicLink extends Model
      */
     public function user()
     {
-        return $this->belongsTo('KlinkDMS\User', 'user_id', 'id');
+        return $this->belongsTo('KBox\User', 'user_id', 'id');
     }
 
     /**
      * The share to which this link refers to.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\MorphOne|KlinkDMS\Shared
+     * @return \Illuminate\Database\Eloquent\Relations\MorphOne|KBox\Shared
      */
     public function share()
     {
-        return $this->morphOne('KlinkDMS\Shared', 'sharedwith');
+        return $this->morphOne('KBox\Shared', 'sharedwith');
     }
 
     /**

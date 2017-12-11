@@ -4,8 +4,8 @@ namespace Klink\DmsMicrosites;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use KlinkDMS\Project;
-use KlinkDMS\User;
+use KBox\Project;
+use KBox\User;
 
 /**
  * The Microsite model.
@@ -50,7 +50,7 @@ class Microsite extends Model
      */
     public function project()
     {
-        return $this->belongsTo('KlinkDMS\Project', 'project_id', 'id');
+        return $this->belongsTo('KBox\Project', 'project_id', 'id');
     }
        
     /**
@@ -59,7 +59,7 @@ class Microsite extends Model
      */
     public function user()
     {
-        return $this->belongsTo('KlinkDMS\User', 'user_id', 'id');
+        return $this->belongsTo('KBox\User', 'user_id', 'id');
     }
     
     /**

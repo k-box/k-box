@@ -1,9 +1,9 @@
 <?php
 
-namespace KlinkDMS\Http\Controllers\Auth;
+namespace KBox\Http\Controllers\Auth;
 
 use Illuminate\Http\Request;
-use KlinkDMS\Http\Controllers\Controller;
+use KBox\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class LoginController extends Controller

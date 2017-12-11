@@ -7,7 +7,7 @@ different from the one attached to the user who has performed the file upload
 (or url import). This case could lead to have the same document indexed in the search 
 engine with two institutions.
 
-This command attempts to normalize the situation by checking the discrepancies in the private documents hosted by the DMS.
+This command attempts to normalize the situation by checking the discrepancies in the private documents hosted by the K-Box.
 
 ## Check
 

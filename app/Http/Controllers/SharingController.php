@@ -1,22 +1,22 @@
 <?php
 
-namespace KlinkDMS\Http\Controllers;
+namespace KBox\Http\Controllers;
 
 use Illuminate\Http\Request;
-use KlinkDMS\DocumentDescriptor;
-use KlinkDMS\Group;
-use KlinkDMS\PeopleGroup;
-use KlinkDMS\Capability;
-use KlinkDMS\Shared;
-use KlinkDMS\User;
-use KlinkDMS\Project;
+use KBox\DocumentDescriptor;
+use KBox\Group;
+use KBox\PeopleGroup;
+use KBox\Capability;
+use KBox\Shared;
+use KBox\User;
+use KBox\Project;
 use Illuminate\Http\JsonResponse;
-use KlinkDMS\Http\Requests\CreateShareRequest;
-use KlinkDMS\Http\Requests\ShareDialogRequest;
+use KBox\Http\Requests\CreateShareRequest;
+use KBox\Http\Requests\ShareDialogRequest;
 use Illuminate\Contracts\Auth\Guard as AuthGuard;
 use Illuminate\Support\Collection;
-use KlinkDMS\Traits\Searchable;
-use KlinkDMS\Events\ShareCreated;
+use KBox\Traits\Searchable;
+use KBox\Events\ShareCreated;
 
 /**
  * Manage you personal shares
@@ -88,7 +88,7 @@ class SharingController extends Controller
             
             $shared_docs = $all_shared->pluck('shareable.uuid')->all();
             $shared_files_in_groups = array_flatten(array_filter($all_shared->map(function ($g) {
-                if ($g->shareable_type === 'KlinkDMS\Group' && ! is_null($g->shareable)) {
+                if ($g->shareable_type === 'KBox\Group' && ! is_null($g->shareable)) {
                     return $g->shareable->documents->pluck('uuid')->all();
                 }
                 return null;
@@ -136,7 +136,7 @@ class SharingController extends Controller
         }
 
         if (is_null($share)) {
-            throw (new ModelNotFoundException)->setModel('KlinkDMS/Shared');
+            throw (new ModelNotFoundException)->setModel('KBox/Shared');
         }
 
         $share = $share->load('shareable');
@@ -148,7 +148,7 @@ class SharingController extends Controller
         $see_share = $auth->user()->can_capability(Capability::RECEIVE_AND_SEE_SHARE);
         $partner = $auth->user()->can_all_capabilities(Capability::$PARTNER);
 
-        if (is_a($share->shareable, 'KlinkDMS\Group')) {
+        if (is_a($share->shareable, 'KBox\Group')) {
             return redirect()->route($partner ? 'documents.groups.show' : 'shares.group', ['id' => $share->shareable->id]);
         }
 
@@ -202,7 +202,7 @@ class SharingController extends Controller
             // grab the existing share made by the user, so we can remove it also from the available_users
             // let's do it for $first only first
 
-            $existing_shares = $first->shares()->sharedByMe($me)->where('sharedwith_type', 'KlinkDMS\User')->get();
+            $existing_shares = $first->shares()->sharedByMe($me)->where('sharedwith_type', 'KBox\User')->get();
 
             $users_to_exclude = array_merge($users_to_exclude, $existing_shares->pluck('sharedwith_id')->unique()->toArray());
 
@@ -230,7 +230,7 @@ class SharingController extends Controller
             // is the document in a shared collection? if yes a user could still have access to the document because of that
 
             if ($first->hasPublicLink()) {
-                $public_link_share = $first->shares()->where('sharedwith_type', 'KlinkDMS\PublicLink')->first();
+                $public_link_share = $first->shares()->where('sharedwith_type', 'KBox\PublicLink')->first();
                 $public_link = $public_link_share->sharedwith; //instance of PublicLink
                 $existing_shares = $existing_shares->merge([$public_link_share]);
             }
@@ -239,7 +239,7 @@ class SharingController extends Controller
             // grab the existing share made by the user, so we can remove it also from the available_users
             // let's do it for $first only first
 
-            $existing_shares = $first->shares()->sharedByMe($me)->where('sharedwith_type', 'KlinkDMS\User')->get();
+            $existing_shares = $first->shares()->sharedByMe($me)->where('sharedwith_type', 'KBox\User')->get();
 
             $users_to_exclude = array_merge($users_to_exclude, $existing_shares->pluck('sharedwith_id')->unique()->toArray());
         }

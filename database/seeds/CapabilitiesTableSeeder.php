@@ -1,6 +1,6 @@
 <?php
 
-use KlinkDMS\Capability;
+use KBox\Capability;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 
@@ -18,15 +18,13 @@ class CapabilitiesTableSeeder extends Seeder
 
         DB::table('capabilities')->delete();
 
-        // DMS related capabilities
+        Capability::create([ 'key' => Capability::MANAGE_DMS, 'description' => 'The user can access to the K-Box administration panel.' ]);
 
-        Capability::create([ 'key' => Capability::MANAGE_DMS, 'description' => 'The user can access to the DMS administration panel.' ]);
+        Capability::create([ 'key' => Capability::MANAGE_USERS, 'description' => 'The user can manage K-Box users.' ]);
 
-        Capability::create([ 'key' => Capability::MANAGE_USERS, 'description' => 'The user can manage DMS users.' ]);
+        Capability::create([ 'key' => Capability::MANAGE_LOG, 'description' => 'The user can see the K-Box logs.' ]);
 
-        Capability::create([ 'key' => Capability::MANAGE_LOG, 'description' => 'The user can see the DMS logs.' ]);
-
-        Capability::create([ 'key' => Capability::MANAGE_BACKUP, 'description' => 'The user can perform DMS backups and restore.' ]);
+        Capability::create([ 'key' => Capability::MANAGE_BACKUP, 'description' => 'The user can perform K-Box backups and restore.' ]);
 
         // Document management capabilities
 

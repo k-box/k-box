@@ -1,6 +1,6 @@
 <?php
 
-namespace KlinkDMS\Traits;
+namespace KBox\Traits;
 
 use ReflectionClass;
 

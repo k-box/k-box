@@ -2,34 +2,34 @@
 
 namespace Klink\DmsDocuments;
 
-use KlinkDMS\DocumentDescriptor;
-use KlinkDMS\File;
-use KlinkDMS\User;
-use KlinkDMS\Shared;
-use KlinkDMS\Group;
-use KlinkDMS\GroupType;
-use KlinkDMS\Capability;
-use KlinkDMS\Import;
-use KlinkDMS\Option;
-use KlinkDMS\Project;
+use KBox\DocumentDescriptor;
+use KBox\File;
+use KBox\User;
+use KBox\Shared;
+use KBox\Group;
+use KBox\GroupType;
+use KBox\Capability;
+use KBox\Import;
+use KBox\Option;
+use KBox\Project;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Config;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use KlinkDMS\Exceptions\ForbiddenException;
-use KlinkDMS\Exceptions\FileAlreadyExistsException;
-use KlinkDMS\Exceptions\FileNamingException;
+use KBox\Exceptions\ForbiddenException;
+use KBox\Exceptions\FileAlreadyExistsException;
+use KBox\Exceptions\FileNamingException;
 use Illuminate\Support\Collection;
 use Carbon\Carbon;
-use KlinkDMS\Exceptions\GroupAlreadyExistsException;
-use KlinkDMS\Jobs\ImportCommand;
-use KlinkDMS\Jobs\ThumbnailGenerationJob;
+use KBox\Exceptions\GroupAlreadyExistsException;
+use KBox\Jobs\ImportCommand;
+use KBox\Jobs\ThumbnailGenerationJob;
 use Klink\DmsAdapter\KlinkDocument;
 use Klink\DmsAdapter\KlinkDocumentUtils;
 use Klink\DmsAdapter\KlinkVisibilityType;
 use Klink\DmsAdapter\Exceptions\KlinkException;
-use KlinkDMS\Jobs\ReindexDocument;
+use KBox\Jobs\ReindexDocument;
 
 class DocumentsService
 {
@@ -58,7 +58,7 @@ class DocumentsService
      * [getDocument description]
      * @param  string $documentID    [description]
      * @param  string $visibility    [description]
-     * @return KlinkDMS\DocumentDescriptor                [description]
+     * @return KBox\DocumentDescriptor                [description]
      */
     public function getDocument($documentID, $visibility='public')
     {
@@ -92,7 +92,7 @@ class DocumentsService
      *
      * In case of errors or problems the file name will be returned
      *
-     * @param KlinkDMS\File $file The file to be indexed
+     * @param KBox\File $file The file to be indexed
      * @return string the file path or the textual content
      */
     private function getFileContentForIndexing(File $file)
@@ -214,16 +214,16 @@ class DocumentsService
     }
 
     /**
-     * Index a previously uploaded file (giving the \KlinkDMS\File model instance) into K-Link. At the end of the indexing process a DocumentDescriptor will be created, persisted and returned to the caller.
+     * Index a previously uploaded file (giving the \KBox\File model instance) into K-Link. At the end of the indexing process a DocumentDescriptor will be created, persisted and returned to the caller.
      *
      * If the DocumentDescriptor related to the File hash does not exists a new DocumentDescriptor will be created
      * and indexed into the K-Link Core.
      * If the DocumentDescriptor related to the File hash has been deleted with soft delete, the descriptor will be
      * updated according to the File information and re-indexed into the K-link Core
      *
-     * @param KlinkDMS\File $file The file to be indexed
+     * @param KBox\File $file The file to be indexed
      * @param string $visibility The visibility of the document inside K-Link (private or public). Optional, default value 'public'
-     * @return KlinkDMS\DocumentDescriptor the document descriptor that has been stored on the database
+     * @return KBox\DocumentDescriptor the document descriptor that has been stored on the database
      * @throws KlinkException If the file cannot be indexed
      * @throws InvalidArgumentException If the file type could not be indexed,
      */
@@ -347,7 +347,7 @@ class DocumentsService
     /**
      * Creates a File entry in the database
      *
-     * @param string|int|\KlinkDMS\User $user the user that is adding the file
+     * @param string|int|\KBox\User $user the user that is adding the file
      * @param string $name the filename
      * @param string $type the file mimetype
      * @param string $path the file path on disk
@@ -356,7 +356,7 @@ class DocumentsService
      * @param boolean $is_folder If the file actually refers to a folder. Default false
      * @param string $original_uri The original uri of the file location. Used in case of import from http. Default empty string
      * @param string $thumbnail_path The path of the thumbnail for the file. Default null 
-     * @return \KlinkDMS\File
+     * @return \KBox\File
      */
     public function createFile($user, $name, $type, $path, $hash, $size, $is_folder = false, $original_uri = '', $thumbnail_path = null)
     {
@@ -376,9 +376,9 @@ class DocumentsService
     /**
      * 
      * 
-     * @param \KlinkDMS\File $file
+     * @param \KBox\File $file
      * @param string $visibility
-     * @param \KlinkDMS\Group|null $collection
+     * @param \KBox\Group|null $collection
      * @return 
      */
     public function createDocumentDescriptor($file, $visibility = 'private', $collection = null)
@@ -428,7 +428,7 @@ class DocumentsService
      *
      * @param  DocumentDescriptor $descriptor The descriptor of the document that needs to the updated on the K-Link Core
      * @param  string             $visibility The descriptor visibility to reindex
-     * @return KlinkDMS\DocumentDescriptor the document descriptor that has been stored on the database
+     * @return KBox\DocumentDescriptor the document descriptor that has been stored on the database
      * @throws KlinkException If the file cannot be indexed or something happened on the K-Link Core side
      * @throws InvalidArgumentException If the file type could not be indexed,
      */
@@ -1580,7 +1580,7 @@ class DocumentsService
      * @throws InvalidArgumentException if the @see $url parameter is not a valid url or is an empty string. Also in this case the whole procedure is stopped
      *
      * @param string $urls the url list as one url for line, line ending could be ; of new line
-     * @param \KlinkDMS\User $uploader the user that has started the import process
+     * @param \KBox\User $uploader the user that has started the import process
      * @return array with 'count' and 'messages' keys with th number of added jobs
      */
     public function importFromUrl($urls, User $uploader)
@@ -1675,7 +1675,7 @@ class DocumentsService
      * @throws InvalidArgumentException if the @see $paths parameter contains invalid paths or is an empty string. Also in this case the whole procedure is stopped
      *
      * @param string $paths the paths list as one path for line, line separator could be ; of new line
-     * @param \KlinkDMS\User $uploader the user that has started the import process
+     * @param \KBox\User $uploader the user that has started the import process
      *
      * @param boolean $copy set to true will perform the copy of all files from the original folder to the DMS documents folder, set to false if the file don't need to be copied but only inserted into the db (default true)
      *
@@ -1765,7 +1765,7 @@ class DocumentsService
      * Handle the "import" operation needed for and uploaded file using a form based approach
      *
      *
-     * @return \KlinkDMS\DocumentDescriptor a DocumentDescriptor instance in case of full success, an array with keys 'descriptor' and 'error' in case of an indexing error, but the DocumentDescriptor has been saved correctly
+     * @return \KBox\DocumentDescriptor a DocumentDescriptor instance in case of full success, an array with keys 'descriptor' and 'error' in case of an indexing error, but the DocumentDescriptor has been saved correctly
      */
     public function importFile(UploadedFile $upload, User $uploader, $visibility = 'private', Group $group = null)
     {
@@ -2044,7 +2044,7 @@ class DocumentsService
     /**
      * Return the extension of the file
      */
-    public static function extension_from_file(\KlinkDMS\File $file)
+    public static function extension_from_file(\KBox\File $file)
     {
         try {
             return KlinkDocumentUtils::getExtensionFromMimeType($file->mime_type);

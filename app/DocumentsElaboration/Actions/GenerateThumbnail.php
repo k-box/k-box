@@ -1,9 +1,9 @@
 <?php
 
-namespace KlinkDMS\DocumentsElaboration\Actions;
+namespace KBox\DocumentsElaboration\Actions;
 
-use KlinkDMS\Jobs\ThumbnailGenerationJob;
-use KlinkDMS\Contracts\Action;
+use KBox\Jobs\ThumbnailGenerationJob;
+use KBox\Contracts\Action;
 
 class GenerateThumbnail extends Action
 {

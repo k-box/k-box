@@ -1,30 +1,30 @@
 <?php
 
-namespace KlinkDMS\Jobs;
+namespace KBox\Jobs;
 
 use Log;
 use Exception;
 use Illuminate\Bus\Queueable;
-use KlinkDMS\DocumentDescriptor;
+use KBox\DocumentDescriptor;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use KlinkDMS\DocumentsElaboration\Kernel as ElaborationKernel;
+use KBox\DocumentsElaboration\Kernel as ElaborationKernel;
 
 class ElaborateDocument implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     /**
-     * @var \KlinkDMS\DocumentDescriptor
+     * @var \KBox\DocumentDescriptor
      */
     public $descriptor = null;
 
     /**
      * Create a new job instance.
      *
-     * @param \KlinkDMS\DocumentDescriptor $descriptor
+     * @param \KBox\DocumentDescriptor $descriptor
      * @return void
      */
     public function __construct($descriptor)

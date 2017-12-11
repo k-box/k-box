@@ -4,7 +4,7 @@ namespace Tests;
 
 use Exception;
 use PHPUnit\Framework\Assert;
-use KlinkDMS\Exceptions\Handler;
+use KBox\Exceptions\Handler;
 use Klink\DmsAdapter\Traits\MockKlinkAdapter;
 use Illuminate\Foundation\Testing\TestResponse;
 use Illuminate\Contracts\Debug\ExceptionHandler;

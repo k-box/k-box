@@ -1,6 +1,6 @@
 <?php
 
-namespace KlinkDMS\Providers;
+namespace KBox\Providers;
 
 use Avvertix\TusUpload\Tus;
 use Illuminate\Support\Facades\Route;
@@ -16,7 +16,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    protected $namespace = 'KlinkDMS\Http\Controllers';
+    protected $namespace = 'KBox\Http\Controllers';
 
     /**
      * Define your route model bindings, pattern filters, etc.

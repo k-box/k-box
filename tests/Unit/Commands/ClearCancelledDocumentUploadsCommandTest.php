@@ -4,9 +4,9 @@ namespace Tests\Unit\Commands;
 
 use Artisan;
 use Carbon\Carbon;
-use KlinkDMS\File;
+use KBox\File;
 use Tests\TestCase;
-use KlinkDMS\DocumentDescriptor;
+use KBox\DocumentDescriptor;
 use Avvertix\TusUpload\TusUpload;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
@@ -16,7 +16,7 @@ class ClearCancelledDocumentUploadsCommandTest extends TestCase
 
     private function generateCancelledUploads($count = 3)
     {
-        $user = factory('KlinkDMS\User')->create();
+        $user = factory('KBox\User')->create();
         
         $uploads = [];
 
@@ -83,7 +83,7 @@ class ClearCancelledDocumentUploadsCommandTest extends TestCase
         $previous_files = File::withTrashed()->count();
         \DB::table('tus_uploads_queue')->truncate();
 
-        $doc_that_should_remain = factory('KlinkDMS\DocumentDescriptor')->create();
+        $doc_that_should_remain = factory('KBox\DocumentDescriptor')->create();
         $uploads = $this->generateCancelledUploads(3);
 
         $exitCode = Artisan::call('document:clear-cancelled', []);

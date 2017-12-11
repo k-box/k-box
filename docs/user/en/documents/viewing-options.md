@@ -1,6 +1,6 @@
 # Documents Viewing Options
 
-The DMS has three different ways of showing the documents list
+The K-Box has three different ways of showing the documents list
 
 1. Details
 2. Tiles
@@ -34,7 +34,7 @@ The tiles layout uses one line per document, but with an expanded style
 
 In this view is also available the thumbnail of the document, which is an image that describes the content of the document. For multipage documents is always taken from the first page.
 
-The icons and information showed are the same of the details view, but with different positioning and labels. In addition the date of the upload in the DMS is showed.
+The icons and information showed are the same of the details view, but with different positioning and labels. In addition the date of the upload in the K-Box is showed.
 
 ## Grid
 

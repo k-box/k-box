@@ -1,11 +1,11 @@
 <?php
 
-namespace KlinkDMS\Console\Commands;
+namespace KBox\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use KlinkDMS\DocumentDescriptor;
-use KlinkDMS\Jobs\ConvertVideo;
+use KBox\DocumentDescriptor;
+use KBox\Jobs\ConvertVideo;
 
 use Exception;
 use Log;

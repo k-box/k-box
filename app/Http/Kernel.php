@@ -1,6 +1,6 @@
 <?php
 
-namespace KlinkDMS\Http;
+namespace KBox\Http;
 
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
@@ -13,11 +13,11 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $middleware = [
-        \KlinkDMS\Http\Middleware\PortRedirectMiddleware::class,
+        \KBox\Http\Middleware\PortRedirectMiddleware::class,
         \Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode::class,
-        \KlinkDMS\Http\Middleware\TrustedProxyMiddleware::class,
+        \KBox\Http\Middleware\TrustedProxyMiddleware::class,
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
-        \KlinkDMS\Http\Middleware\TrimStrings::class,
+        \KBox\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
     ];
 
@@ -28,13 +28,13 @@ class Kernel extends HttpKernel
      */
     protected $middlewareGroups = [
         'web' => [
-            \KlinkDMS\Http\Middleware\EncryptCookies::class,
+            \KBox\Http\Middleware\EncryptCookies::class,
             \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
             \Illuminate\Session\Middleware\StartSession::class,
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
-            \KlinkDMS\Http\Middleware\BlockUnsupportedBrowsers::class,
-            \KlinkDMS\Http\Middleware\VerifyCsrfToken::class,
-            \KlinkDMS\Http\Middleware\Locale::class,
+            \KBox\Http\Middleware\BlockUnsupportedBrowsers::class,
+            \KBox\Http\Middleware\VerifyCsrfToken::class,
+            \KBox\Http\Middleware\Locale::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
 
@@ -56,8 +56,8 @@ class Kernel extends HttpKernel
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
-        'guest' => \KlinkDMS\Http\Middleware\RedirectIfAuthenticated::class,
-        'capabilities' => \KlinkDMS\Http\Middleware\RedirectIfForbidden::class,
+        'guest' => \KBox\Http\Middleware\RedirectIfAuthenticated::class,
+        'capabilities' => \KBox\Http\Middleware\RedirectIfForbidden::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
     ];
 }

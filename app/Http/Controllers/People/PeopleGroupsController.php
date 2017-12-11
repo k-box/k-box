@@ -1,13 +1,13 @@
 <?php
 
-namespace KlinkDMS\Http\Controllers\People;
+namespace KBox\Http\Controllers\People;
 
-use KlinkDMS\Http\Requests\PeopleGroupUpdateRequest;
-use KlinkDMS\Http\Controllers\Controller;
-use KlinkDMS\PeopleGroup;
-use KlinkDMS\User;
-use KlinkDMS\Shared;
-use KlinkDMS\Capability;
+use KBox\Http\Requests\PeopleGroupUpdateRequest;
+use KBox\Http\Controllers\Controller;
+use KBox\PeopleGroup;
+use KBox\User;
+use KBox\Shared;
+use KBox\Capability;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\JsonResponse;
 

@@ -165,7 +165,7 @@ return [
         Illuminate\Foundation\Providers\FoundationServiceProvider::class,
         Illuminate\Hashing\HashServiceProvider::class,
         
-        KlinkDMS\Providers\SettingsServiceProvider::class, //so the service provider will have access to what is needed, but before the mail provider (we want to override the mail config!!)
+        KBox\Providers\SettingsServiceProvider::class, //so the service provider will have access to what is needed, but before the mail provider (we want to override the mail config!!)
         
         Illuminate\Mail\MailServiceProvider::class,
         Illuminate\Notifications\NotificationServiceProvider::class,
@@ -223,13 +223,13 @@ return [
         /*
          * Application Service Providers...
          */
-        KlinkDMS\Providers\AppServiceProvider::class,
-        KlinkDMS\Providers\AuthServiceProvider::class,
+        KBox\Providers\AppServiceProvider::class,
+        KBox\Providers\AuthServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
-        KlinkDMS\Providers\EventServiceProvider::class,
-        KlinkDMS\Providers\RouteServiceProvider::class,
-        KlinkDMS\Providers\ViewComposerServiceProvider::class,
-        KlinkDMS\Providers\KlinkStreamingServiceProvider::class,
+        KBox\Providers\EventServiceProvider::class,
+        KBox\Providers\RouteServiceProvider::class,
+        KBox\Providers\ViewComposerServiceProvider::class,
+        KBox\Providers\KlinkStreamingServiceProvider::class,
 
         MaterialIcons\MaterialIconsBridgeServiceProvider::class,
 
@@ -296,15 +296,15 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
 
-        'ImportCommand' => KlinkDMS\Commands\ImportCommand::class,
+        'ImportCommand' => KBox\Commands\ImportCommand::class,
 
         'Markdown' => GrahamCampbell\Markdown\Facades\Markdown::class,
         
-        'DmsRouting' => KlinkDMS\RoutingHelpers::class,
+        'DmsRouting' => KBox\RoutingHelpers::class,
 
         'LocalizedDate' => Jenssegers\Date\Date::class,
         
-        'KlinkStreaming' => KlinkDMS\Facades\KlinkStreaming::class,
+        'KlinkStreaming' => KBox\Facades\KlinkStreaming::class,
 
     ],
 

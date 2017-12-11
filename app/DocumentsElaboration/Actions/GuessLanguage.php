@@ -1,10 +1,10 @@
 <?php
 
-namespace KlinkDMS\DocumentsElaboration\Actions;
+namespace KBox\DocumentsElaboration\Actions;
 
 use Log;
 use Exception;
-use KlinkDMS\Contracts\Action;
+use KBox\Contracts\Action;
 use Rinvex\Language\LanguageLoader;
 use Content\Services\TextExtractionService;
 use OneOffTech\LanguageGuesser\LanguageGuesserFactory;

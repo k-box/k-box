@@ -1,8 +1,8 @@
 <?php
 
-namespace KlinkDMS\Providers;
+namespace KBox\Providers;
 
-use KlinkDMS\Option;
+use KBox\Option;
 use Illuminate\Support\ServiceProvider;
 use Oneofftech\KlinkStreaming\Client as StreamingClient;
 

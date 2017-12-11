@@ -3,7 +3,7 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
-use KlinkDMS\DocumentDescriptor;
+use KBox\DocumentDescriptor;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
@@ -23,7 +23,7 @@ class DocumentsControllerTest extends TestCase
 
         $adapter = $this->withKlinkAdapterFake();
 
-        $user = factory('KlinkDMS\User')->create();
+        $user = factory('KBox\User')->create();
 
         $response = $this->actingAs($user)->json('POST', '/documents', [
             'document' => UploadedFile::fake()->create('document.pdf', 10)

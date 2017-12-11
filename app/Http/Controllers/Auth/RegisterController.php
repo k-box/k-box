@@ -1,9 +1,9 @@
 <?php
 
-namespace KlinkDMS\Http\Controllers\Auth;
+namespace KBox\Http\Controllers\Auth;
 
-use KlinkDMS\User;
-use KlinkDMS\Http\Controllers\Controller;
+use KBox\User;
+use KBox\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 

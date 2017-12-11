@@ -1,6 +1,6 @@
 <?php
 
-namespace KlinkDMS;
+namespace KBox;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -48,7 +48,7 @@ class Publication extends Model
      */
     public function document()
     {
-        return $this->belongsTo('KlinkDMS\DocumentDescriptor', 'descriptor_id', 'id');
+        return $this->belongsTo('KBox\DocumentDescriptor', 'descriptor_id', 'id');
     }
 
     /**

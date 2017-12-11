@@ -1,6 +1,6 @@
 <?php
 
-namespace KlinkDMS;
+namespace KBox;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -17,12 +17,12 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $key
  * @property string $value
  * @property int $user_id
- * @property-read \KlinkDMS\User $user
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\UserOption option($key)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\UserOption whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\UserOption whereKey($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\UserOption whereUserId($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\UserOption whereValue($value)
+ * @property-read \KBox\User $user
+ * @method static \Illuminate\Database\Query\Builder|\KBox\UserOption option($key)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\UserOption whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\UserOption whereKey($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\UserOption whereUserId($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\UserOption whereValue($value)
  * @mixin \Eloquent
  */
 class UserOption extends Model
@@ -49,7 +49,7 @@ class UserOption extends Model
      */
     public function user()
     {
-        return $this->hasOne('KlinkDMS\User');
+        return $this->hasOne('KBox\User');
     }
 
     /**

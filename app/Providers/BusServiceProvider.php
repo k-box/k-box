@@ -1,6 +1,6 @@
 <?php
 
-namespace KlinkDMS\Providers;
+namespace KBox\Providers;
 
 use Illuminate\Bus\Dispatcher;
 use Illuminate\Support\ServiceProvider;
@@ -19,7 +19,7 @@ class BusServiceProvider extends ServiceProvider
         // $dispatcher->mapUsing(function($command)
         // {
         // 	return Dispatcher::simpleMapping(
-        // 		$command, 'KlinkDMS\Commands', 'KlinkDMS\Handlers\Commands'
+        // 		$command, 'KBox\Commands', 'KBox\Handlers\Commands'
         // 	);
         // });
     }

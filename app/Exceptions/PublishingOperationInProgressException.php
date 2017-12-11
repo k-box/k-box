@@ -1,6 +1,6 @@
 <?php
 
-namespace KlinkDMS\Exceptions;
+namespace KBox\Exceptions;
 
 use Exception;
 

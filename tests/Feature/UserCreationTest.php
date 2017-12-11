@@ -6,8 +6,8 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Notification;
-use KlinkDMS\User;
-use KlinkDMS\Notifications\UserCreatedNotification;
+use KBox\User;
+use KBox\Notifications\UserCreatedNotification;
 
 /**
  * Tests the UserAdministrationController::create and store
@@ -28,7 +28,7 @@ class UserCreationTest extends TestCase
 
     public function test_user_is_created()
     {
-        $user = factory('KlinkDMS\User')->create();
+        $user = factory('KBox\User')->create();
 
         Notification::fake();
 
@@ -52,7 +52,7 @@ class UserCreationTest extends TestCase
 
     public function test_wrong_email_is_rejected()
     {
-        $user = factory('KlinkDMS\User')->create();
+        $user = factory('KBox\User')->create();
 
         $response = $this->actingAs($user)
                     ->from('/administration/users/create')
@@ -67,7 +67,7 @@ class UserCreationTest extends TestCase
 
     public function test_empty_user_name_is_rejected()
     {
-        $user = factory('KlinkDMS\User')->create();
+        $user = factory('KBox\User')->create();
 
         $response = $this->actingAs($user)
                     ->from('/administration/users/create')
@@ -82,7 +82,7 @@ class UserCreationTest extends TestCase
 
     public function test_empty_capability_is_rejected()
     {
-        $user = factory('KlinkDMS\User')->create();
+        $user = factory('KBox\User')->create();
 
         $response = $this->actingAs($user)
                     ->from('/administration/users/create')

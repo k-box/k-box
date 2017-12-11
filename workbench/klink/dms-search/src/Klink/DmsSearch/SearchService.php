@@ -3,11 +3,11 @@
 namespace Klink\DmsSearch;
 
 use Illuminate\Contracts\Auth\Guard;
-use KlinkDMS\RecentSearch;
-use KlinkDMS\Capability;
-use KlinkDMS\DocumentDescriptor;
-use KlinkDMS\Starred;
-use KlinkDMS\Pagination\SearchResultsPaginator as Paginator;
+use KBox\RecentSearch;
+use KBox\Capability;
+use KBox\DocumentDescriptor;
+use KBox\Starred;
+use KBox\Pagination\SearchResultsPaginator as Paginator;
 use Illuminate\Support\Collection;
 use Klink\DmsAdapter\KlinkFacetsBuilder;
 use Klink\DmsAdapter\Exceptions\KlinkException;

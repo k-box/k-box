@@ -1,8 +1,8 @@
 <?php
 
-namespace KlinkDMS\DocumentsElaboration\Actions;
+namespace KBox\DocumentsElaboration\Actions;
 
-use KlinkDMS\Contracts\Action;
+use KBox\Contracts\Action;
 use OneOffTech\VideoProcessing\VideoProcessorFactory;
 
 class ExtractFileProperties extends Action

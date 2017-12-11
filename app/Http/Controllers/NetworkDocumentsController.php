@@ -1,6 +1,6 @@
 <?php
 
-namespace KlinkDMS\Http\Controllers;
+namespace KBox\Http\Controllers;
 
 use Log;
 use Illuminate\Http\Request;

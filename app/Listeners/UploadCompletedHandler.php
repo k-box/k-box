@@ -1,12 +1,12 @@
 <?php
 
-namespace KlinkDMS\Listeners;
+namespace KBox\Listeners;
 
 use Log;
 use Exception;
-use KlinkDMS\DocumentDescriptor;
-use KlinkDMS\Events\UploadCompleted;
-use KlinkDMS\Jobs\ElaborateDocument;
+use KBox\DocumentDescriptor;
+use KBox\Events\UploadCompleted;
+use KBox\Jobs\ElaborateDocument;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 

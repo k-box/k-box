@@ -1,6 +1,6 @@
 <?php
 
-namespace KlinkDMS\Providers;
+namespace KBox\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Broadcast;

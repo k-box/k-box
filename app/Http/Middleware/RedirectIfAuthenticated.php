@@ -1,6 +1,6 @@
 <?php
 
-namespace KlinkDMS\Http\Middleware;
+namespace KBox\Http\Middleware;
 
 use Closure;
 use Illuminate\Support\Facades\Auth;

@@ -1,9 +1,9 @@
 <?php
 
-namespace KlinkDMS\Exceptions;
+namespace KBox\Exceptions;
 
 use Exception;
-use KlinkDMS\File;
+use KBox\File;
 
 /**
  * Raised when a file cannot be downloaded.

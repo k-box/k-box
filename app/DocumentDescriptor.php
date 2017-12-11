@@ -1,12 +1,12 @@
 <?php
 
-namespace KlinkDMS;
+namespace KBox;
 
-use KlinkDMS\Traits\Publishable;
+use KBox\Traits\Publishable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Carbon\Carbon;
-use KlinkDMS\Traits\LocalizableDateFields;
+use KBox\Traits\LocalizableDateFields;
 use Dyrynda\Database\Support\GeneratesUuid;
 use Klink\DmsAdapter\KlinkVisibilityType;
 use Klink\DmsAdapter\KlinkDocumentDescriptor;
@@ -40,47 +40,47 @@ use Klink\DmsDocuments\DocumentsService;
  * @property int $status the status of the descriptor in the K-Box
  * @property bool $is_public
  * @property string $last_error
- * @property-read \KlinkDMS\File $file The last version of the document, described by this document descriptor
- * @property-read \Franzose\ClosureTable\Extensions\Collection|\KlinkDMS\Group[] $groups the collections in which this document is categorized
- * @property-read \KlinkDMS\Institution $institution the institution to which this document pertain
- * @property-read \KlinkDMS\User $owner the user that is owning the document in the K-Box
- * @property-read \Illuminate\Database\Eloquent\Collection|\KlinkDMS\Shared[] $shares the shares of the document
- * @property-read \Illuminate\Database\Eloquent\Collection|\KlinkDMS\Starred[] $stars the star applied to this document by the users
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\DocumentDescriptor fromKlinkID($institution_id, $document_id) {@see KlinkDMS\DocumentDescriptor::scopeFromKlinkID()}
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\DocumentDescriptor fromOwnerId($owner_id) {@see \KlinkDMS\DocumentDescriptor::scopeFromOwnerId()}
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\DocumentDescriptor fromUser($user_id) {@see \KlinkDMS\DocumentDescriptor::scopeFromUser()}
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\DocumentDescriptor indexed() {@see \KlinkDMS\DocumentDescriptor::scopeIndexed()}
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\DocumentDescriptor local() {@see \KlinkDMS\DocumentDescriptor::scopeLocal()}
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\DocumentDescriptor notIndexed() {@see \KlinkDMS\DocumentDescriptor::scopeNotIndexed()}
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\DocumentDescriptor ofUser($user_id) {@see \KlinkDMS\DocumentDescriptor::scopeOfUser()}
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\DocumentDescriptor pending() {@see \KlinkDMS\DocumentDescriptor::scopePending()}
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\DocumentDescriptor private() {@see \KlinkDMS\DocumentDescriptor::scopePrivate()}
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\DocumentDescriptor public() {@see \KlinkDMS\DocumentDescriptor::scopePublic()}
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\DocumentDescriptor whereAbstract($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\DocumentDescriptor whereAuthors($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\DocumentDescriptor whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\DocumentDescriptor whereDeletedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\DocumentDescriptor whereDocumentType($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\DocumentDescriptor whereDocumentUri($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\DocumentDescriptor whereFileId($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\DocumentDescriptor whereHash($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\DocumentDescriptor whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\DocumentDescriptor whereInstitutionId($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\DocumentDescriptor whereIsPublic($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\DocumentDescriptor whereLanguage($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\DocumentDescriptor whereLastError($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\DocumentDescriptor whereLocalDocumentId($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\DocumentDescriptor whereMimeType($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\DocumentDescriptor whereOwnerId($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\DocumentDescriptor whereStatus($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\DocumentDescriptor whereThumbnailUri($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\DocumentDescriptor whereTitle($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\DocumentDescriptor whereUpdatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\DocumentDescriptor whereUserOwner($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\DocumentDescriptor whereUserUploader($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\DocumentDescriptor whereVisibility($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\DocumentDescriptor withIndexingError() {@see \KlinkDMS\DocumentDescriptor::withIndexingError()}
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\DocumentDescriptor withVisibility($visibility) {@see \KlinkDMS\DocumentDescriptor::withVisibility()}
+ * @property-read \KBox\File $file The last version of the document, described by this document descriptor
+ * @property-read \Franzose\ClosureTable\Extensions\Collection|\KBox\Group[] $groups the collections in which this document is categorized
+ * @property-read \KBox\Institution $institution the institution to which this document pertain
+ * @property-read \KBox\User $owner the user that is owning the document in the K-Box
+ * @property-read \Illuminate\Database\Eloquent\Collection|\KBox\Shared[] $shares the shares of the document
+ * @property-read \Illuminate\Database\Eloquent\Collection|\KBox\Starred[] $stars the star applied to this document by the users
+ * @method static \Illuminate\Database\Query\Builder|\KBox\DocumentDescriptor fromKlinkID($institution_id, $document_id) {@see KBox\DocumentDescriptor::scopeFromKlinkID()}
+ * @method static \Illuminate\Database\Query\Builder|\KBox\DocumentDescriptor fromOwnerId($owner_id) {@see \KBox\DocumentDescriptor::scopeFromOwnerId()}
+ * @method static \Illuminate\Database\Query\Builder|\KBox\DocumentDescriptor fromUser($user_id) {@see \KBox\DocumentDescriptor::scopeFromUser()}
+ * @method static \Illuminate\Database\Query\Builder|\KBox\DocumentDescriptor indexed() {@see \KBox\DocumentDescriptor::scopeIndexed()}
+ * @method static \Illuminate\Database\Query\Builder|\KBox\DocumentDescriptor local() {@see \KBox\DocumentDescriptor::scopeLocal()}
+ * @method static \Illuminate\Database\Query\Builder|\KBox\DocumentDescriptor notIndexed() {@see \KBox\DocumentDescriptor::scopeNotIndexed()}
+ * @method static \Illuminate\Database\Query\Builder|\KBox\DocumentDescriptor ofUser($user_id) {@see \KBox\DocumentDescriptor::scopeOfUser()}
+ * @method static \Illuminate\Database\Query\Builder|\KBox\DocumentDescriptor pending() {@see \KBox\DocumentDescriptor::scopePending()}
+ * @method static \Illuminate\Database\Query\Builder|\KBox\DocumentDescriptor private() {@see \KBox\DocumentDescriptor::scopePrivate()}
+ * @method static \Illuminate\Database\Query\Builder|\KBox\DocumentDescriptor public() {@see \KBox\DocumentDescriptor::scopePublic()}
+ * @method static \Illuminate\Database\Query\Builder|\KBox\DocumentDescriptor whereAbstract($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\DocumentDescriptor whereAuthors($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\DocumentDescriptor whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\DocumentDescriptor whereDeletedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\DocumentDescriptor whereDocumentType($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\DocumentDescriptor whereDocumentUri($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\DocumentDescriptor whereFileId($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\DocumentDescriptor whereHash($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\DocumentDescriptor whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\DocumentDescriptor whereInstitutionId($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\DocumentDescriptor whereIsPublic($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\DocumentDescriptor whereLanguage($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\DocumentDescriptor whereLastError($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\DocumentDescriptor whereLocalDocumentId($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\DocumentDescriptor whereMimeType($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\DocumentDescriptor whereOwnerId($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\DocumentDescriptor whereStatus($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\DocumentDescriptor whereThumbnailUri($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\DocumentDescriptor whereTitle($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\DocumentDescriptor whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\DocumentDescriptor whereUserOwner($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\DocumentDescriptor whereUserUploader($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\DocumentDescriptor whereVisibility($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\DocumentDescriptor withIndexingError() {@see \KBox\DocumentDescriptor::withIndexingError()}
+ * @method static \Illuminate\Database\Query\Builder|\KBox\DocumentDescriptor withVisibility($visibility) {@see \KBox\DocumentDescriptor::withVisibility()}
  * @mixin \Eloquent
  */
 class DocumentDescriptor extends Model
@@ -182,32 +182,32 @@ class DocumentDescriptor extends Model
      */
     public function file()
     {
-        return $this->hasOne('\KlinkDMS\File', 'id', 'file_id')->withTrashed();
+        return $this->hasOne('\KBox\File', 'id', 'file_id')->withTrashed();
     }
 
     public function stars()
     {
-        return $this->hasMany('\KlinkDMS\Starred', 'document_id');
+        return $this->hasMany('\KBox\Starred', 'document_id');
     }
 
     public function institution()
     {
-        return $this->belongsTo('\KlinkDMS\Institution');
+        return $this->belongsTo('\KBox\Institution');
     }
 
     public function groups()
     {
-        return $this->belongsToMany('\KlinkDMS\Group', 'document_groups', 'document_id');
+        return $this->belongsToMany('\KBox\Group', 'document_groups', 'document_id');
     }
 
     public function shares()
     {
-        return $this->morphMany('KlinkDMS\Shared', 'shareable');
+        return $this->morphMany('KBox\Shared', 'shareable');
     }
 
     public function owner()
     {
-        return $this->belongsTo('KlinkDMS\User', 'owner_id', 'id');
+        return $this->belongsTo('KBox\User', 'owner_id', 'id');
     }
 
     /**
@@ -244,7 +244,7 @@ class DocumentDescriptor extends Model
      */
     public function hasPublicLink()
     {
-        return $this->shares()->where('sharedwith_type', 'KlinkDMS\PublicLink')->count() > 0;
+        return $this->shares()->where('sharedwith_type', 'KBox\PublicLink')->count() > 0;
     }
     
     public function isStarred($user_id = null)
@@ -506,7 +506,7 @@ class DocumentDescriptor extends Model
             });
 
             $projects = $this->projects()->map(function ($el) {
-                return ! is_null($el) && is_a($el, 'KlinkDMS\Project') ? $el->id : null;
+                return ! is_null($el) && is_a($el, 'KBox\Project') ? $el->id : null;
             });
             
             $descr->setProjects(array_filter($projects->toArray()));
@@ -593,7 +593,7 @@ class DocumentDescriptor extends Model
     /**
      * Check if the document descriptor can be viewed by a user
      *
-     * @param \KlinkDMS\User $user
+     * @param \KBox\User $user
      * @return bool
      */
     public function isAccessibleBy($user)

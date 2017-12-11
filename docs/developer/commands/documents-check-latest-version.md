@@ -2,7 +2,7 @@
 
 Check if the document mime type, type and hash are updated to the latest file version.
 
-**is highly recommended to put the DMS in maintenance mode and have a backup of the database before executing the command**
+**is highly recommended to put the K-Box in maintenance mode and have a backup of the database before executing the command**
 
 
 ## Usage

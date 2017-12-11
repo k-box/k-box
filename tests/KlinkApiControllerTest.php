@@ -1,8 +1,8 @@
 <?php
 
-use KlinkDMS\Capability;
+use KBox\Capability;
 
-use KlinkDMS\Publication;
+use KBox\Publication;
 use Carbon\Carbon;
 use Tests\BrowserKitTestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;

@@ -2,8 +2,8 @@
 
 use Tests\BrowserKitTestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use KlinkDMS\Project;
-use KlinkDMS\Capability;
+use KBox\Project;
+use KBox\Capability;
 use Illuminate\Http\UploadedFile;
 
 class ProjectAvatarsTest extends BrowserKitTestCase
@@ -90,7 +90,7 @@ class ProjectAvatarsTest extends BrowserKitTestCase
         
         $user = $this->createUser($caps);
         
-        $project = factory('KlinkDMS\Project')->create([
+        $project = factory('KBox\Project')->create([
             'avatar' => base_path('tests/data/project-avatar.png')
         ]);
 
@@ -129,7 +129,7 @@ class ProjectAvatarsTest extends BrowserKitTestCase
     
     public function testProjectAvatarStore()
     {
-        $project = factory('KlinkDMS\Project')->create();
+        $project = factory('KBox\Project')->create();
         \Session::start();
         
         $this->actingAs($project->manager);
@@ -159,7 +159,7 @@ class ProjectAvatarsTest extends BrowserKitTestCase
     
     public function testProjectAvatarStoreForbidden()
     {
-        $project = factory('KlinkDMS\Project')->create();
+        $project = factory('KBox\Project')->create();
         \Session::start();
         
         $this->actingAs($this->createAdminUser());
@@ -186,7 +186,7 @@ class ProjectAvatarsTest extends BrowserKitTestCase
     {
         copy(base_path('tests/data/project-avatar.png'), storage_path('app/projects/avatars/project-avatar.png'));
 
-        $project = factory('KlinkDMS\Project')->create([
+        $project = factory('KBox\Project')->create([
             'avatar' => storage_path('app/projects/avatars/project-avatar.png')
         ]);
         \Session::start();
@@ -209,7 +209,7 @@ class ProjectAvatarsTest extends BrowserKitTestCase
 
     public function testProjectAvatarDeleteForbidden()
     {
-        $project = factory('KlinkDMS\Project')->create([
+        $project = factory('KBox\Project')->create([
             'avatar' => storage_path('app/projects/avatars/project-avatar.png')
         ]);
         \Session::start();

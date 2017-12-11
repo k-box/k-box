@@ -1,6 +1,6 @@
 <?php
 
-namespace KlinkDMS;
+namespace KBox;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -19,15 +19,15 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Carbon\Carbon $updated_at
  * @property int $times
  * @property int $user_id
- * @property-read \KlinkDMS\User $user
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\RecentSearch ofUser($user_id)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\RecentSearch thatContains($term)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\RecentSearch whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\RecentSearch whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\RecentSearch whereTerms($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\RecentSearch whereTimes($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\RecentSearch whereUpdatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\RecentSearch whereUserId($value)
+ * @property-read \KBox\User $user
+ * @method static \Illuminate\Database\Query\Builder|\KBox\RecentSearch ofUser($user_id)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\RecentSearch thatContains($term)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\RecentSearch whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\RecentSearch whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\RecentSearch whereTerms($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\RecentSearch whereTimes($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\RecentSearch whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\RecentSearch whereUserId($value)
  * @mixin \Eloquent
  */
 class RecentSearch extends Model
@@ -54,7 +54,7 @@ class RecentSearch extends Model
      */
     public function user()
     {
-        return $this->belongsTo('KlinkDMS\User');
+        return $this->belongsTo('KBox\User');
     }
 
     /**

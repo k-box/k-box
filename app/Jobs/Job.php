@@ -1,6 +1,6 @@
 <?php
 
-namespace KlinkDMS\Jobs;
+namespace KBox\Jobs;
 
 use Illuminate\Bus\Queueable;
 

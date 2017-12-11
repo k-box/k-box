@@ -1,13 +1,13 @@
 <?php
 
-namespace KlinkDMS\Http\Controllers\Projects;
+namespace KBox\Http\Controllers\Projects;
 
-use KlinkDMS\Http\Requests\AvatarRequest;
-use KlinkDMS\Http\Controllers\Controller;
-use KlinkDMS\Project;
+use KBox\Http\Requests\AvatarRequest;
+use KBox\Http\Controllers\Controller;
+use KBox\Project;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\JsonResponse;
-use KlinkDMS\Traits\AvatarUpload;
+use KBox\Traits\AvatarUpload;
 
 /**
  * Controller for the management of the Project Avatar

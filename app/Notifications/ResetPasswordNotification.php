@@ -1,6 +1,6 @@
 <?php
 
-namespace KlinkDMS\Notifications;
+namespace KBox\Notifications;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;

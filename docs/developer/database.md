@@ -2,7 +2,7 @@
 
 [![Project Database Table Diagram](./images/dms_project_db_entities.png)](./images/dms_project_db_entities.png)
 
-The figure above shows the database structure of the DMS. In the next sections a more in-depth comment on how some feature are implemented is reported.
+The figure above shows the database structure of the K-Box. In the next sections a more in-depth comment on how some feature are implemented is reported.
 
 Here the list of the main tables is proposed and described:
 
@@ -14,7 +14,7 @@ Here the list of the main tables is proposed and described:
 - *files*: store the files metadata and link the logical representation to the filesystem
 - *import*: stores the documents imports
 - *groups*: stores the collections:
- - `is_private` attribute indicate if the collection is Personal to the user or not. If not, w.r.t. DMS edition, can be Institutional or Project
+ - `is_private` attribute indicate if the collection is Personal to the user or not. If not, w.r.t. K-Box edition, can be Institutional or Project
  - `color`: is a 6 digit field that stores the Hex Color value without the leading `#` character
 - *group_types*: stores the different group types available. Group types values are stored at database seeding time. Possible values are:
  - `GroupType::GENERIC` : generic collection
@@ -23,7 +23,7 @@ Here the list of the main tables is proposed and described:
 - *sessions*: stores the logged in sessions
 - *failded_jobs*: stores the failed async jobs
 - *laq_async_queue*: asynchronous jobs queue
-- *options*: stores the global DMS [dynamic configuration](./configuration)
+- *options*: stores the global K-Box [dynamic configuration](./configuration)
 - *user_options*: stores the user configuration options
 - *recent_searches*: stores a users recent searches
 - *peoplegroup*: stores the groups of users
@@ -32,7 +32,7 @@ Here the list of the main tables is proposed and described:
 
 
 
-The DMS Standard and Project edition shares the same database structure except from the following tables and relations:
+The K-Box Standard and Project edition shares the same database structure except from the following tables and relations:
 
 - *projects*: stores the projects details
 - *userprojects*: handle the N to M relation between projects and user involved in projects
@@ -52,7 +52,7 @@ For more in-depth discussion see [User capabilities and Accounts](./user-capabil
 
 ## Document Descriptor, Files and their versions
 
-The *document_descriptors* table stores the metadata of the documents that are added to the DMS and so indexed by the K-Link Search Engine.
+The *document_descriptors* table stores the metadata of the documents that are added to the K-Box and so indexed by the K-Link Search Engine.
 
 > One Document Descriptor correspond to one physical file.
 
@@ -66,7 +66,7 @@ Under this condition the file versioning is possible enabling a single hierarchy
 
 In the K-Link network there is the concept of Public and Private. By default all document descriptors are marked `private`.
 
-A public document descriptor, inside the DMS, is considered a flag of a private document descriptor. This means that a public document descriptor is still a private document of the institution, but has been opened for public viewing. In fact they both (public and private) shares the same meta data and, most of all, they have the same identifier, because it is the same document that will be showed for private and public requests.
+A public document descriptor, inside the K-Box, is considered a flag of a private document descriptor. This means that a public document descriptor is still a private document of the institution, but has been opened for public viewing. In fact they both (public and private) shares the same meta data and, most of all, they have the same identifier, because it is the same document that will be showed for private and public requests.
 
 
 ### Deleting a Document Descriptor and a file
@@ -88,7 +88,7 @@ Groups are available at personal and institution level:
 - institution level groups are visible to all the users
 - personal groups are visible only to the user that has created them
 
-The *groups*, *group_closure*, *group_types* and *document_groups* tables are responsible for handling the Collection concept inside the DMS.
+The *groups*, *group_closure*, *group_types* and *document_groups* tables are responsible for handling the Collection concept inside the K-Box.
 
 The *groups* table is the main entry point as it stores the collections details for each users created collection.
 
@@ -113,7 +113,7 @@ Other closure table reference:
 
 Historically the collections were considered private and public from a users point of view. This distinction refers to the fact that private collections means that only the user that has created it can view it (and manage it), while public collections can be viewed by all the institutions users.
 
-In this way the concept of Personal Collection (aka My Collections) and Institutional Collection was implemented. As the introduction of the Project Edition the Institutional Collections have been removed and re-purposed to Project Collections. Project Collections are collections that belongs to a specific project. The `is_private` attribute has two different meanings, based on the DMS edition:
+In this way the concept of Personal Collection (aka My Collections) and Institutional Collection was implemented. As the introduction of the Project Edition the Institutional Collections have been removed and re-purposed to Project Collections. Project Collections are collections that belongs to a specific project. The `is_private` attribute has two different meanings, based on the K-Box edition:
 
 - `is_private === true` means user personal on both edition
 - `is_private === false` means Institutional collection in the Standard Edition and means Project Collection in the Project Edition

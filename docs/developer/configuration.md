@@ -87,7 +87,7 @@ the normal execution of the K-DMS.
 Some features that are in testing might be behind activation flags.
 
 Feature flags are stored in the `options` table with the `flag_` prefix. 
-The `KlinkDMS\Flags` is the class responsible to interact with the flags. All flags are boolean
+The `KBox\Flags` is the class responsible to interact with the flags. All flags are boolean
 
 | flag          | description                        |
 |---------------|------------------------------------|

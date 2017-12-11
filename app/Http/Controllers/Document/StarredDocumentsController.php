@@ -1,13 +1,13 @@
 <?php
 
-namespace KlinkDMS\Http\Controllers\Document;
+namespace KBox\Http\Controllers\Document;
 
-use KlinkDMS\Http\Requests\StarredRequest;
-use KlinkDMS\Http\Controllers\Controller;
-use KlinkDMS\Starred;
+use KBox\Http\Requests\StarredRequest;
+use KBox\Http\Controllers\Controller;
+use KBox\Starred;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\JsonResponse;
-use KlinkDMS\Traits\Searchable;
+use KBox\Traits\Searchable;
 use Illuminate\Http\Request;
 
 class StarredDocumentsController extends Controller

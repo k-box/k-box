@@ -1,13 +1,13 @@
 <?php
 
-namespace KlinkDMS\Console\Commands;
+namespace KBox\Console\Commands;
 
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
-use KlinkDMS\Option;
-use KlinkDMS\User;
-use KlinkDMS\DocumentDescriptor;
+use KBox\Option;
+use KBox\User;
+use KBox\DocumentDescriptor;
 use Klink\DmsAdapter\KlinkVisibilityType;
 
 class DmsReindexCommand extends Command

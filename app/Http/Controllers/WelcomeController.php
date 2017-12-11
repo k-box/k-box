@@ -1,9 +1,9 @@
 <?php
 
-namespace KlinkDMS\Http\Controllers;
+namespace KBox\Http\Controllers;
 
-use KlinkDMS\User;
-use KlinkDMS\Option;
+use KBox\User;
+use KBox\Option;
 
 /**
  * --------------------------------------------------------------------------

@@ -1,19 +1,19 @@
 <?php
 
-namespace KlinkDMS\Providers;
+namespace KBox\Providers;
 
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
-use KlinkDMS\Events\ShareCreated;
-use KlinkDMS\Events\UploadCompleted;
-use KlinkDMS\Listeners\ShareCreatedHandler;
-use KlinkDMS\Listeners\UploadCompletedHandler;
-use KlinkDMS\Listeners\TusUploadStartedHandler;
+use KBox\Events\ShareCreated;
+use KBox\Events\UploadCompleted;
+use KBox\Listeners\ShareCreatedHandler;
+use KBox\Listeners\UploadCompletedHandler;
+use KBox\Listeners\TusUploadStartedHandler;
 use Avvertix\TusUpload\Events\TusUploadStarted;
 use Avvertix\TusUpload\Events\TusUploadCompleted;
 use Avvertix\TusUpload\Events\TusUploadCancelled;
-use KlinkDMS\Listeners\TusUploadCompletedHandler;
-use KlinkDMS\Listeners\TusUploadCancelledHandler;
+use KBox\Listeners\TusUploadCompletedHandler;
+use KBox\Listeners\TusUploadCancelledHandler;
 
 class EventServiceProvider extends ServiceProvider
 {

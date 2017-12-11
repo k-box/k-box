@@ -1,6 +1,6 @@
 <?php
 
-use KlinkDMS\RoutingHelpers;
+use KBox\RoutingHelpers;
 
 use Tests\BrowserKitTestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;

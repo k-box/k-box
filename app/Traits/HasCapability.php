@@ -1,8 +1,8 @@
 <?php
 
-namespace KlinkDMS\Traits;
+namespace KBox\Traits;
 
-use KlinkDMS\Capability;
+use KBox\Capability;
 
 /**
  * Add support for checking capabilities and permission to the User Eloquent Model
@@ -21,7 +21,7 @@ trait HasCapability
      */
     public function capabilities()
     {
-        return $this->belongsToMany('KlinkDMS\Capability', 'capability_user')->withTimestamps();
+        return $this->belongsToMany('KBox\Capability', 'capability_user')->withTimestamps();
     }
 
     // Testing capabilities ---------------------------------------------------
@@ -91,7 +91,7 @@ trait HasCapability
     /**
      * Check if the user can manage content.
      *
-     * Test if the user has all the @see \KlinkDMS\Capability::$CONTENT_MANAGER capabilities
+     * Test if the user has all the @see \KBox\Capability::$CONTENT_MANAGER capabilities
      *
      * @return boolean true if is a content manager, false otherwise
      */
@@ -103,7 +103,7 @@ trait HasCapability
     /**
      * Check if the user has the partner role.
      *
-     * Test if the user has all the @see \KlinkDMS\Capability::$PARTNER capabilities
+     * Test if the user has all the @see \KBox\Capability::$PARTNER capabilities
      *
      * @return boolean true if is a partner, false otherwise
      */
@@ -115,7 +115,7 @@ trait HasCapability
     /**
      * Check if the user has full administrative powers
      *
-     * Test if the user has all the @see \KlinkDMS\Capability::$ADMIN capabilities
+     * Test if the user has all the @see \KBox\Capability::$ADMIN capabilities
      *
      * @return boolean true if is a DMS administrator, false otherwise
      */
@@ -127,7 +127,7 @@ trait HasCapability
     /**
      * Check if the user can perform DMS Management operations
      *
-     * Test if the user has all the @see \KlinkDMS\Capability::$DMS_MASTER capabilities
+     * Test if the user has all the @see \KBox\Capability::$DMS_MASTER capabilities
      *
      * @return boolean true if can manage the DMS configuration, false otherwise
      */
@@ -140,7 +140,7 @@ trait HasCapability
     /**
      * Check if the user is a Project Manager
      *
-     * Test if the user has all the @see \KlinkDMS\Capability::$DMS_MASTER capabilities
+     * Test if the user has all the @see \KBox\Capability::$DMS_MASTER capabilities
      *
      * @return boolean true if the user is a project manager, false otherwise
      */
@@ -154,7 +154,7 @@ trait HasCapability
     /**
      * Add a capability to the model
      *
-     * @param string|\KlinkDMS\Capability $cap the capability to add. It can be a string (corresponding to the Capability key) or the Capability instance
+     * @param string|\KBox\Capability $cap the capability to add. It can be a string (corresponding to the Capability key) or the Capability instance
      * @return void
      */
     public function addCapability($cap)
@@ -213,7 +213,7 @@ trait HasCapability
     /**
      * Remove a capability from the model
      *
-     * @param string|\KlinkDMS\Capability $cap the capability to remove. It can be a string (corresponding to the Capability key) or the Capability instance
+     * @param string|\KBox\Capability $cap the capability to remove. It can be a string (corresponding to the Capability key) or the Capability instance
      * @return void
      */
     public function removeCapability($cap)

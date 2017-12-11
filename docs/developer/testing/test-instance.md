@@ -1,8 +1,8 @@
 # Test instance
 
-The K-Link DMS can be tested on a specific test instance, available at https://test.klink.asia/dms/
+The K-Link K-Box can be tested on a specific test instance, available at https://test.klink.asia/dms/
 
-The test instance always start with a fully empty and non-configured DMS. 
+The test instance always start with a fully empty and non-configured K-Box. 
 This mean: no mail configuration, no institution, no documents, default settings and only one user.
 
 The only way to login is to use the `admin@klink.local` account. 

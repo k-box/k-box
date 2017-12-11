@@ -1,6 +1,6 @@
 <?php
 
-namespace KlinkDMS\Traits;
+namespace KBox\Traits;
 
 use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Input\ArrayInput;

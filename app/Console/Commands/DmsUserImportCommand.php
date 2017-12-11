@@ -1,19 +1,19 @@
 <?php
 
-namespace KlinkDMS\Console\Commands;
+namespace KBox\Console\Commands;
 
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 
-use KlinkDMS\User;
-use KlinkDMS\Capability;
-use KlinkDMS\Project;
+use KBox\User;
+use KBox\Capability;
+use KBox\Project;
 
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
-use KlinkDMS\Console\Traits\Login;
-use KlinkDMS\Console\Traits\DebugOutput;
+use KBox\Console\Traits\Login;
+use KBox\Console\Traits\DebugOutput;
 use League\Csv\Reader;
 
 use Validator;

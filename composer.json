@@ -62,7 +62,7 @@
 			"database"
 		],
 		"psr-4": {
-			"KlinkDMS\\": "app/",
+			"KBox\\": "app/",
             "Klink\\DmsMicrosites\\": "workbench/klink/dms-project-microsites/src/",
 			"Content\\": "packages/contentprocessing/src/",
 			"OneOffTech\\VideoProcessing\\": "packages/video-processing/src/",

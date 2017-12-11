@@ -1,8 +1,8 @@
 <?php
 
-namespace KlinkDMS\Jobs;
+namespace KBox\Jobs;
 
-use KlinkDMS\DocumentDescriptor;
+use KBox\DocumentDescriptor;
 use Klink\DmsDocuments\DocumentsService;
 
 use Illuminate\Queue\SerializesModels;

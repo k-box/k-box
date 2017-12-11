@@ -1,6 +1,6 @@
 <?php
 
-use KlinkDMS\GroupType;
+use KBox\GroupType;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 

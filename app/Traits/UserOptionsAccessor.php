@@ -1,6 +1,6 @@
 <?php
 
-namespace KlinkDMS\Traits;
+namespace KBox\Traits;
 
 /**
  * Add support for faster accessing of the user's saved options

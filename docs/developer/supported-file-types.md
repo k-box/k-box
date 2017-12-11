@@ -2,7 +2,7 @@
 
 Here is the comprehensive list of supported mime types and their associated file extension.
 
-In the table with *Is Searchable* we mean that can be added to the K-Link Core and the Core can extract text from the document and perform search over that text. With *Is Previewable* we mean that the DMS can show a preview of the content of the file (this is not the thumbnail).
+In the table with *Is Searchable* we mean that can be added to the K-Link Core and the Core can extract text from the document and perform search over that text. With *Is Previewable* we mean that the K-Box can show a preview of the content of the file (this is not the thumbnail).
 
 Possible values for *Is Searchable*:
 
@@ -12,7 +12,7 @@ Possible values for *Is Searchable*:
 
 Possible values for *Is Previewable*:
 
-- yes: You will get a preview of the file content inside the DMS
+- yes: You will get a preview of the file content inside the K-Box
 - partial: You will get a link to the file preview
 - no: You are not able to get a preview of the file's content 
 
@@ -41,4 +41,4 @@ Possible values for *Is Previewable*:
 | application/vnd.google-apps.presentation                                  | gslides      | basic         | partial        | Google Slides                                                                          |
 | application/vnd.google-apps.spreadsheet                                   | gsheet       | basic         | partial        | Google Spreadsheet                                                                     |
 
-Other file types not directly mentioned in the previous table can be uploaded to the DMS and only the filename will be used for the search functionality.
+Other file types not directly mentioned in the previous table can be uploaded to the K-Box and only the filename will be used for the search functionality.

@@ -1,10 +1,10 @@
 <?php
 
 use Laracasts\TestDummy\Factory;
-use KlinkDMS\User;
-use KlinkDMS\Group;
-use KlinkDMS\Capability;
-use KlinkDMS\DocumentDescriptor;
+use KBox\User;
+use KBox\Group;
+use KBox\Capability;
+use KBox\DocumentDescriptor;
 use Klink\DmsAdapter\KlinkVisibilityType;
 use Tests\BrowserKitTestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -48,17 +48,17 @@ class DocumentsServiceTest extends BrowserKitTestCase
 
         $user = $this->createUser($caps);
         
-        $doc = factory('KlinkDMS\DocumentDescriptor')->create([
+        $doc = factory('KBox\DocumentDescriptor')->create([
             'owner_id' => $user->id
         ]);
 
-        $owned_project = factory('KlinkDMS\Project')->create([
+        $owned_project = factory('KBox\Project')->create([
             'user_id' => $user->id,
         ]);
 
-        $other_project = factory('KlinkDMS\Project')->create();
+        $other_project = factory('KBox\Project')->create();
 
-        $secondary_project = factory('KlinkDMS\Project')->create();
+        $secondary_project = factory('KBox\Project')->create();
 
         $secondary_project->users()->save($user);
         
@@ -120,7 +120,7 @@ class DocumentsServiceTest extends BrowserKitTestCase
         // todo test add and reindex
         $user = $this->createAdminUser();
         
-        $file = factory('KlinkDMS\File')->create([
+        $file = factory('KBox\File')->create([
             'user_id' => $user->id,
             'original_uri' => ''
         ]);

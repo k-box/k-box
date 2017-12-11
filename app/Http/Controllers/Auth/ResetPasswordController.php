@@ -1,8 +1,8 @@
 <?php
 
-namespace KlinkDMS\Http\Controllers\Auth;
+namespace KBox\Http\Controllers\Auth;
 
-use KlinkDMS\Http\Controllers\Controller;
+use KBox\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 
 class ResetPasswordController extends Controller

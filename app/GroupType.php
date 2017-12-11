@@ -1,17 +1,17 @@
 <?php
 
-namespace KlinkDMS;
+namespace KBox;
 
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * KlinkDMS\GroupType
+ * KBox\GroupType
  *
  * @property int $id
  * @property string $type
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\GroupType type($type)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\GroupType whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\GroupType whereType($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\GroupType type($type)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\GroupType whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\GroupType whereType($value)
  * @mixin \Eloquent
  */
 class GroupType extends Model

@@ -2,16 +2,16 @@
 
 namespace Klink\DmsMicrosites\Controllers;
 
-use KlinkDMS\Project;
+use KBox\Project;
 use Klink\DmsMicrosites\Microsite;
 use Klink\DmsMicrosites\MicrositeContent;
-use KlinkDMS\Http\Controllers\Controller;
-use KlinkDMS\Capability;
+use KBox\Http\Controllers\Controller;
+use KBox\Capability;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Auth\Guard as AuthGuard;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\JsonResponse;
-use KlinkDMS\Exceptions\ForbiddenException;
+use KBox\Exceptions\ForbiddenException;
 
 use Klink\DmsMicrosites\Requests\MicrositeCreationRequest;
 use Klink\DmsMicrosites\Requests\MicrositeUpdateRequest;

@@ -1,6 +1,6 @@
 <?php
 
-namespace KlinkDMS\Providers;
+namespace KBox\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Validator;
@@ -37,7 +37,7 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->bind(
             'Illuminate\Contracts\Auth\Registrar',
-            'KlinkDMS\Services\Registrar'
+            'KBox\Services\Registrar'
         );
 
         // Loading workbench service provider only if running in console (aka Artisan) and the environment is set to 'development'

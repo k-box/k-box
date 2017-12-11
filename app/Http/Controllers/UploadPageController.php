@@ -1,8 +1,8 @@
 <?php
 
-namespace KlinkDMS\Http\Controllers;
+namespace KBox\Http\Controllers;
 
-use KlinkDMS\Group;
+use KBox\Group;
 use Klink\DmsDocuments\DocumentsService;
 
 class UploadPageController extends Controller

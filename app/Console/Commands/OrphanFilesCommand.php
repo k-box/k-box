@@ -1,12 +1,12 @@
 <?php
 
-namespace KlinkDMS\Console\Commands;
+namespace KBox\Console\Commands;
 
 use Illuminate\Console\Command;
-use KlinkDMS\File;
+use KBox\File;
 
 /**
- * Find and remove {@see KlinkDMS\File} that do not have a connection with a {@see KlinkDMS\DocumentDescriptor}
+ * Find and remove {@see KBox\File} that do not have a connection with a {@see KBox\DocumentDescriptor}
  *
  * The following conditions should be met to consider a file as orphan:
  * - not a revision of another file

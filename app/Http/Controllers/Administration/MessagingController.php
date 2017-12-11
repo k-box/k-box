@@ -1,11 +1,11 @@
 <?php
 
-namespace KlinkDMS\Http\Controllers\Administration;
+namespace KBox\Http\Controllers\Administration;
 
-use KlinkDMS\Http\Controllers\Controller;
-use KlinkDMS\Http\Requests\CreateMessageRequest;
-use KlinkDMS\User;
-use KlinkDMS\Option;
+use KBox\Http\Controllers\Controller;
+use KBox\Http\Requests\CreateMessageRequest;
+use KBox\User;
+use KBox\Option;
 use Illuminate\Contracts\Auth\Guard as AuthGuard;
 
 /**

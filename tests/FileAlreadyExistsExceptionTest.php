@@ -1,11 +1,11 @@
 <?php
 
 use Laracasts\TestDummy\Factory;
-use KlinkDMS\User;
-use KlinkDMS\File;
-use KlinkDMS\Institution;
-use KlinkDMS\Exceptions\FileAlreadyExistsException;
-use KlinkDMS\Publication;
+use KBox\User;
+use KBox\File;
+use KBox\Institution;
+use KBox\Exceptions\FileAlreadyExistsException;
+use KBox\Publication;
 use Carbon\Carbon;
 use Tests\BrowserKitTestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -60,7 +60,7 @@ class FileAlreadyExistsExceptionTest extends BrowserKitTestCase
     {
         $user = $this->createAdminUser();
 
-        $doc = factory('KlinkDMS\DocumentDescriptor')->create([
+        $doc = factory('KBox\DocumentDescriptor')->create([
             'owner_id' => null,
             'file_id' => null,
             'hash' => 'hash',

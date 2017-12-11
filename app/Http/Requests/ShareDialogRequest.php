@@ -1,9 +1,9 @@
 <?php
 
-namespace KlinkDMS\Http\Requests;
+namespace KBox\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest as Request;
-use KlinkDMS\Capability;
+use KBox\Capability;
 
 class ShareDialogRequest extends Request
 {

@@ -4,12 +4,12 @@ use Tests\BrowserKitTestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Avvertix\TusUpload\Events\TusUploadCompleted;
 use Avvertix\TusUpload\TusUpload;
-use KlinkDMS\Listeners\TusUploadCompletedHandler;
+use KBox\Listeners\TusUploadCompletedHandler;
 use Carbon\Carbon;
-use KlinkDMS\DocumentDescriptor;
-use KlinkDMS\File;
+use KBox\DocumentDescriptor;
+use KBox\File;
 use Illuminate\Support\Facades\Event;
-use KlinkDMS\Events\UploadCompleted;
+use KBox\Events\UploadCompleted;
 
 class TusUploadCompletedListenerTest extends BrowserKitTestCase
 {

@@ -1,11 +1,11 @@
 <?php
 
-namespace KlinkDMS\Exceptions;
+namespace KBox\Exceptions;
 
 use Exception;
-use KlinkDMS\DocumentDescriptor;
-use KlinkDMS\File;
-use KlinkDMS\User;
+use KBox\DocumentDescriptor;
+use KBox\File;
+use KBox\User;
 
 /**
 * States that a file already exists in the system

@@ -1,11 +1,11 @@
 <?php
 
-namespace KlinkDMS;
+namespace KBox;
 
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * KlinkDMS\Institution
+ * KBox\Institution
  *
  * @property int $id
  * @property string $klink_id
@@ -21,21 +21,21 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Carbon\Carbon $updated_at
  * @property string $thumbnail_uri
  * @property string $url
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Institution fromKlinkID($klink_id)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Institution whereAddressCountry($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Institution whereAddressLocality($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Institution whereAddressStreet($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Institution whereAddressZip($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Institution whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Institution whereEmail($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Institution whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Institution whereKlinkId($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Institution whereName($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Institution wherePhone($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Institution whereThumbnailUri($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Institution whereType($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Institution whereUpdatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\KlinkDMS\Institution whereUrl($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\Institution fromKlinkID($klink_id)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\Institution whereAddressCountry($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\Institution whereAddressLocality($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\Institution whereAddressStreet($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\Institution whereAddressZip($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\Institution whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\Institution whereEmail($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\Institution whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\Institution whereKlinkId($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\Institution whereName($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\Institution wherePhone($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\Institution whereThumbnailUri($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\Institution whereType($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\Institution whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\KBox\Institution whereUrl($value)
  * @mixin \Eloquent
  */
 class Institution extends Model
@@ -129,7 +129,7 @@ class Institution extends Model
                 $this->address_country == $instance->addressCountry &&
                 $this->address_locality == $instance->addressLocality &&
                 $this->address_zip == $instance->addressZip;
-        } elseif (is_a($instance, 'KlinkDMS\Institution')) {
+        } elseif (is_a($instance, 'KBox\Institution')) {
             return $this->klink_id == $instance->klink_id &&
                 $this->name == $instance->name &&
                 $this->email == $instance->email &&

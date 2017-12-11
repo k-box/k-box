@@ -1,16 +1,16 @@
 <?php
 
-namespace KlinkDMS\Listeners;
+namespace KBox\Listeners;
 
-use KlinkDMS\Events\ShareCreated;
+use KBox\Events\ShareCreated;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Log;
 // use Mail;
-use KlinkDMS\Notifications\ShareCreatedNotification;
+use KBox\Notifications\ShareCreatedNotification;
 
 /**
- * Handler for the {@see KlinkDMS\Events\ShareCreated} event
+ * Handler for the {@see KBox\Events\ShareCreated} event
  *
  * This handler creates and enqueue an email to the user target of the share
  */
@@ -40,7 +40,7 @@ class ShareCreatedHandler implements ShouldQueue
         $to = $event->share->sharedwith;
         // $what = $event->share->shareable;
 
-        if (is_a($to, 'KlinkDMS\User')) {
+        if (is_a($to, 'KBox\User')) {
             Log::info('share created', compact('event'));
 
             $to->notify(new ShareCreatedNotification($event->share));

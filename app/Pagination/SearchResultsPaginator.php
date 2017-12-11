@@ -1,6 +1,6 @@
 <?php
 
-namespace KlinkDMS\Pagination;
+namespace KBox\Pagination;
 
 use Illuminate\Pagination\LengthAwarePaginator;
 

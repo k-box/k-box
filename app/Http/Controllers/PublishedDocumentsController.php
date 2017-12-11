@@ -1,12 +1,12 @@
 <?php
 
-namespace KlinkDMS\Http\Controllers;
+namespace KBox\Http\Controllers;
 
 use Exception;
-use KlinkDMS\Publication;
+use KBox\Publication;
 use Illuminate\Http\Request;
-use KlinkDMS\DocumentDescriptor;
-use KlinkDMS\Exceptions\PublishingOperationInProgressException;
+use KBox\DocumentDescriptor;
+use KBox\Exceptions\PublishingOperationInProgressException;
 
 class PublishedDocumentsController extends Controller
 {
@@ -51,7 +51,7 @@ class PublishedDocumentsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \KlinkDMS\DocumentDescriptor  $documentDescriptor
+     * @param  \KBox\DocumentDescriptor  $documentDescriptor
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

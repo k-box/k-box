@@ -2,8 +2,8 @@
 
 use Tests\BrowserKitTestCase;
 use Illuminate\Support\Facades\Mail;
-use KlinkDMS\Option;
-use KlinkDMS\Mail\TestingMail;
+use KBox\Option;
+use KBox\Mail\TestingMail;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class MailAdministrationControllerTest extends BrowserKitTestCase

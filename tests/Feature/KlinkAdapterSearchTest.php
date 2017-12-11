@@ -36,7 +36,7 @@ class KlinkAdapterSearchTest extends TestCase
 
         $this->indexedDataUUIDs = collect();
 
-        $descriptors = factory('KlinkDMS\DocumentDescriptor', 5)->create();
+        $descriptors = factory('KBox\DocumentDescriptor', 5)->create();
         
         $descriptors->each(function ($descriptor) {
             $response = $this->adapter->addDocument(

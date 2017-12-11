@@ -2,10 +2,10 @@
 
 namespace Tests;
 
-use KlinkDMS\User;
-use KlinkDMS\Capability;
-use KlinkDMS\Project;
-use KlinkDMS\Group;
+use KBox\User;
+use KBox\Capability;
+use KBox\Project;
+use KBox\Group;
 use Klink\DmsAdapter\Traits\MockKlinkAdapter;
 use Laravel\BrowserKitTesting\TestCase as BaseTestCase;
 use Log;
@@ -51,7 +51,7 @@ abstract class BrowserKitTestCase extends BaseTestCase
             $this->seedDatabase();
         }
         
-        $admin_user = factory(\KlinkDMS\User::class)->create($params);
+        $admin_user = factory(\KBox\User::class)->create($params);
         
         $admin_user->addCapabilities(Capability::$ADMIN);
         
@@ -64,7 +64,7 @@ abstract class BrowserKitTestCase extends BaseTestCase
             $this->seedDatabase();
         }
         
-        $user = factory(\KlinkDMS\User::class)->create($user_params);
+        $user = factory(\KBox\User::class)->create($user_params);
         $count = $user->addCapabilities($capabilities);
         
         return $user;
@@ -76,7 +76,7 @@ abstract class BrowserKitTestCase extends BaseTestCase
             $this->seedDatabase();
         }
         
-        $users = factory(\KlinkDMS\User::class, $count)->create($user_params);
+        $users = factory(\KBox\User::class, $count)->create($user_params);
 
         $users->each(function ($el) use ($capabilities) {
             $el->addCapabilities($capabilities);
@@ -92,14 +92,14 @@ abstract class BrowserKitTestCase extends BaseTestCase
 
         copy($template, $destination);
 
-        $file = factory('KlinkDMS\File')->create([
+        $file = factory('KBox\File')->create([
             'user_id' => $user->id,
             'original_uri' => '',
             'path' => $destination,
             'hash' => hash_file('sha512', $destination)
         ]);
         
-        $doc = factory('KlinkDMS\DocumentDescriptor')->create([
+        $doc = factory('KBox\DocumentDescriptor')->create([
             'institution_id' => $user->institution_id,
             'owner_id' => $user->id,
             'file_id' => $file->id,
@@ -130,7 +130,7 @@ abstract class BrowserKitTestCase extends BaseTestCase
 
     protected function createProject($params = [])
     {
-        return factory('KlinkDMS\Project')->create($params);
+        return factory('KBox\Project')->create($params);
     }
 
     /**
@@ -139,7 +139,7 @@ abstract class BrowserKitTestCase extends BaseTestCase
      */
     protected function createProjectCollection(User $user, $parent)
     {
-        $group = is_a($parent, 'KlinkDMS\Project') ? $parent->collection : $parent;
+        $group = is_a($parent, 'KBox\Project') ? $parent->collection : $parent;
 
         $service = app('Klink\DmsDocuments\DocumentsService');
 

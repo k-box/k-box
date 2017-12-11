@@ -1,9 +1,9 @@
 <?php
 
-namespace KlinkDMS\Events;
+namespace KBox\Events;
 
-use KlinkDMS\User;
-use KlinkDMS\DocumentDescriptor;
+use KBox\User;
+use KBox\DocumentDescriptor;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\PrivateChannel;
@@ -15,12 +15,12 @@ class UploadCompleted
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
-     * @var \KlinkDMS\DocumentDescriptor
+     * @var \KBox\DocumentDescriptor
      */
      public $descriptor = null;
      
      /**
-      * @var \KlinkDMS\User
+      * @var \KBox\User
       */
     public $user = null;
 
