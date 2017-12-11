@@ -10,7 +10,8 @@ use Composer\Downloader\TransportException;
 
 class ComposerScripts
 {
-    const DOWNLOAD_URL = 'https://www.xpdfreader.com/dl/';
+    // const DOWNLOAD_URL = 'https://www.xpdfreader.com/dl/';
+    const DOWNLOAD_URL = 'https://git.klink.asia/alessio.vertemati/k-box-dependency-cache/raw/master/';
     /**
      * Maps the OS family (according to PHP) to the required file
      */
@@ -46,8 +47,10 @@ class ComposerScripts
     {
         try {
             $io = $event->getIO();
+
+            $composer_config = $event->getComposer()->getConfig();
             
-            $rfs = Factory::createRemoteFilesystem($io, $event->getComposer()->getConfig());
+            $rfs = Factory::createRemoteFilesystem($io, $composer_config);
             
             $os = strtolower(PHP_OS);
 
