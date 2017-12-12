@@ -692,4 +692,32 @@ class Microsites_IntegrationTest extends BrowserKitTestCase
             ]);
         }
     }
+
+    public function test_html_can_be_used_in_microsite_content()
+    {
+        $content = MicrositeContent::make([
+            'language' => 'en',
+            'type' => MicrositeContent::TYPE_PAGE,
+            'user_id' => 1,
+            'content' => 'This contains a <strong>bold statement</strong>. <div>A div</div> and an <img src="http://localhost/image.png">',
+        ]);
+
+        $rendered_content = app()->make('micrositeparser')->toHtml($content);
+
+        $this->assertEquals('<p>This contains a <strong>bold statement</strong>. <div>A div</div> and an <img src="http://localhost/image.png"></p>', trim($rendered_content));
+    }
+
+    public function test_scripts_cannot_be_used_in_microsite_content()
+    {
+        $content = MicrositeContent::make([
+            'language' => 'en',
+            'type' => MicrositeContent::TYPE_PAGE,
+            'user_id' => 1,
+            'content' => 'This contains a <strong>bold statement</strong>.<script>alert(\'\')</script> <div>A div</div> and an <img src="http://localhost/image.png">',
+        ]);
+
+        $rendered_content = app()->make('micrositeparser')->toHtml($content);
+
+        $this->assertEquals('<p>This contains a <strong>bold statement</strong>.alert(\'\') <div>A div</div> and an <img src="http://localhost/image.png"></p>', trim($rendered_content));
+    }
 }

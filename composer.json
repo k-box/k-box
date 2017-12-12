@@ -30,7 +30,7 @@
 		"dyrynda/laravel-efficient-uuid": "^1.0",
 		"dyrynda/laravel-model-uuid": "~2.0",
 		"franzose/closure-table": "~5.0.0",
-		"graham-campbell/markdown": "~7.1",
+		"graham-campbell/markdown": "~8.1",
 		"guzzlehttp/guzzle": "~6.2.0",
 		"jenssegers/agent": "^2.5",
 		"jenssegers/date": "^3.2",

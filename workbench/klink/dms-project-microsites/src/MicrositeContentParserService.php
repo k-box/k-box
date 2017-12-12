@@ -51,15 +51,29 @@ final class MicrositeContentParserService
      */
     public function toHtml(MicrositeContent $entry)
     {
-        $content = $this->cache->remember('micrositecontent-'.$entry->id, 60, function () use ($entry) {
+        $content = $this->cache->remember('micrositecontent-'.$entry->id, 5, function () use ($entry) {
             $entry_content = $this->expandRssTag($entry->content);
         
-            $content = \Markdown::convertToHtml($entry_content);
+            $content = \Markdown::convertToHtml($this->stripRiskyHtml($entry_content));
             
             return $content;
         });
 
         return $content;
+    }
+
+    /**
+     * Remove HTML tags that might cause a security issue.
+     * 
+     * The following tags will be preserved: a, p, div, span, em, strong, img, br, b, style, ol, li, ul
+     * 
+     * @param string $content
+     * @return string the content without risky tags
+     */
+    private function stripRiskyHtml($content)
+    {
+        // this is just a basic defense, as per official documentation invalid HTML can still pass
+        return strip_tags($content, '<a><p><div><span><em><strong><img><br><b><style><ol><li><ul>');
     }
 
     /**
