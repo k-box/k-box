@@ -26,6 +26,6 @@ return [
     |
     */
 
-    'email' => 'a.vertemati@sirisacademic.com',
+    'email' => 'alessio@oneofftech.xyz',
 
 ];

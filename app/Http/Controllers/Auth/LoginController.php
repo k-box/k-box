@@ -2,6 +2,8 @@
 
 namespace KBox\Http\Controllers\Auth;
 
+use Config;
+use KBox\Option;
 use Illuminate\Http\Request;
 use KBox\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
@@ -36,6 +38,29 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest', ['except' => 'logout']);
+    }
+
+    public function showLoginForm()
+    {
+        $params = ['classes' => 'frontpage'];
+        
+        if (Config::get('dms.are_guest_public_search_enabled')) {
+            $params['filter'] = network_name();
+        }
+
+        $welcome_string = trans('dashboard.welcome.hero_title');
+        
+        if (Option::areContactsConfigured()) {
+            $organization = Option::option('contact.name', '');
+            
+            if ($organization) {
+                $welcome_string = trans('dashboard.welcome.hero_title_with_organization', compact('organization'));
+            }
+        }
+
+        $params['welcome_string'] = $welcome_string;
+
+        return view('auth.login', $params);
     }
 
     /**

@@ -22,6 +22,7 @@ class RoutesTest extends BrowserKitTestCase
             [ 'terms' ],
             [ 'help' ],
             [ 'browserupdate' ],
+            [ 'login' ],
         ];
     }
     
@@ -99,15 +100,4 @@ class RoutesTest extends BrowserKitTestCase
         
         $this->assertResponseOk();
     }
- 
-    // /**
-    //  * Tests routes that need a login
-    //  *
-    //  * @dataProvider routes_with_login_provider
-    //  * @return void
-    //  */
-    // public function testProtectedRoutes($caps, $expected_code)
-    // {
-    //
-    // }
 }
