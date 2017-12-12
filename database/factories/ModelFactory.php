@@ -46,7 +46,9 @@ $factory->define(KBox\File::class, function (Faker\Generator $faker) {
         'hash' => hash_file('sha512', $path),
         'path' => $path,
         'mime_type' => 'text/plain',
-        'user_id' => factory(KBox\User::class)->create()->id,
+        'user_id' => function () {
+            return factory(KBox\User::class)->create()->id;
+        },
         'size' => $faker->randomNumber(2),
         'original_uri' => '',
         'upload_completed_at' => \Carbon\Carbon::now()
