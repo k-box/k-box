@@ -406,7 +406,7 @@ Route::delete('/uploadjobs/{id}', 'UploadJobsController@destroy');
 |
 */
 
-Route::prefix('dms')->middleware('guest')->group(function () {
+Route::prefix('dms')->group(function () {
     Route::get('/', 'DmsRoutesController@index');
 
     Route::get('/{route}', 'DmsRoutesController@show')->where('route', '[A-Za-z0-9\-\_\/]+');
