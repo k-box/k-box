@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 - Video playback using the Dynamic Adaptive Streaming over HTTP protocol.
 
+### Fixed
+
+- Restored share item in the context menu when searching from the projects page
+
 ## [0.19.0-RC5] 2017-12-01
 
 ### Fixed
