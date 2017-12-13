@@ -2,10 +2,12 @@
 
 namespace KBox\Http\Controllers\Administration;
 
-use KBox\Http\Controllers\Controller;
-use KBox\Http\Requests\CreateMessageRequest;
 use KBox\User;
 use KBox\Option;
+use KBox\Mail\UserDirectMessage;
+use Illuminate\Support\Facades\Mail;
+use KBox\Http\Controllers\Controller;
+use KBox\Http\Requests\CreateMessageRequest;
 use Illuminate\Contracts\Auth\Guard as AuthGuard;
 
 /**
@@ -108,11 +110,7 @@ class MessagingController extends Controller
         
         
           foreach ($to_users as $user) {
-              \Mail::queue('emails.message-html',
-            ['user' => $user, 'text' => $text, 'sender' => $me->name],
-            function ($message) use ($user, $me, $from_mail, $from_name) {
-                $message->to($user->email, $user->name)->from($from_mail, $from_name)->replyTo($from_mail, $from_name)->subject(trans('messaging.mail.subject'));
-            });
+              Mail::queue(new UserDirectMessage($me, $user, $text));
           }
     
           return redirect()->route('administration.users.index')->with([

@@ -2,7 +2,7 @@
 <html>
     <body>
 
-    <img src="<?php echo $message->embed(public_path('images/klink_mail_logo.png')); ?>" alt="K-Link">
+    <img src="{{ $message->embed(public_path('images/klink_mail_logo.png')) }}" alt="K-Link">
 
     <p>{{ trans('messaging.mail.intro', ['name' => $user['name']]) }}</p>
 
