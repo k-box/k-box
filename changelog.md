@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Restored share item in the context menu when searching from the projects page
 - Re-enabling the use of some html tags in microsite content. Allowed tags are a, p, div, span, em, strong, img, br, b, style, ol, li, ul
 - Direct email sending to user from the administration panel
+- Project filters selection on search performed from the projects page
 
 ## [0.19.0-RC5] 2017-12-01
 

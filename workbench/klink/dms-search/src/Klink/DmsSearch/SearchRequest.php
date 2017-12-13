@@ -103,8 +103,6 @@ class SearchRequest
 
                 $dashed_value = str_replace('.','_',$klinkValue);
 
-                $value = str_after('This is: a test', 'This is:');
-
                 if ($request->has($constant) ) {
                     $filters[$klinkValue] = explode(',', $request->input($constant, ''));
                 }
@@ -275,6 +273,21 @@ class SearchRequest
         $this->explicit_filters = array_keys($this->filters);
 
         return $this;
+    }
+
+    /**
+     * Get the filter values for a specific filter
+     * 
+     * @param string $filter_name the filter to get the values of
+     * @return \Illuminate\Support\Collection the currently applied values filters for the requested filter
+     */
+    public function getFilter($filter_name)
+    {
+        if(!isset($this->filters[$filter_name])){
+            return collect();
+        }
+
+        return collect($this->filters[$filter_name]);
     }
     
     /**
@@ -466,15 +479,15 @@ class SearchRequest
         // added filters will be merged with implicit filters from the usage of `on`, `in`, `inProjects`
 
         if (! is_null($this->on_collections) && $this->on_collections->count() > 0) {
-            $filters[KlinkFilters::COLLECTIONS] = array_merge($filters[KlinkFilters::COLLECTIONS] ?? [], $this->on_collections->all());
+            $filters[KlinkFilters::COLLECTIONS] = array_unique(array_merge($filters[KlinkFilters::COLLECTIONS] ?? [], $this->on_collections->all()));
         }
 
         if (! is_null($this->in_projects) && $this->in_projects->count() > 0) {
-            $filters[KlinkFilters::PROJECTS] = array_merge($filters[KlinkFilters::PROJECTS] ?? [], $this->in_projects->all());
+            $filters[KlinkFilters::PROJECTS] = array_unique(array_merge($filters[KlinkFilters::PROJECTS] ?? [], $this->in_projects->all()));
         }
 
         if (! is_null($this->in_documents) && $this->in_documents->count() > 0) {
-            $filters[KlinkFilters::UUID] = array_merge($filters[KlinkFilters::UUID] ?? [], $this->in_documents->all());
+            $filters[KlinkFilters::UUID] = array_unique(array_merge($filters[KlinkFilters::UUID] ?? [], $this->in_documents->all()));
         }
 
         return $filters;

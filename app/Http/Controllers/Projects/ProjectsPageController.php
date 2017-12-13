@@ -49,7 +49,9 @@ class ProjectsPageController extends Controller
 
             $all_projects = $managed->merge($added_to)->pluck('id')->toArray();
 
-            $_request->inProject($all_projects);
+            if ($_request->getFilter('properties.tags')->isEmpty()) {
+                $_request->inProject($all_projects);
+            }
             
             if ($_request->isPageRequested() && ! $_request->isSearchRequested()) {
                 $all_query = Project::whereIn('id', $all_projects)
