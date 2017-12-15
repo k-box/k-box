@@ -13,7 +13,8 @@ cache:
   key: "kbox"
   paths:
   - .composer-cache/
-  - node_modules/ # TODO: cache the NPM cache location
+  - .yarn/
+  - node_modules/
 
 variables:
     CONTAINER_RELEASE_IMAGE_BASE: $CI_REGISTRY/images/k-box
@@ -48,13 +49,14 @@ test-syntax:7.0:
 ## Building the artifacts for release
 
 frontend:
-  image: node:4.5
+  image: node:8.9
   stage: build_frontend
   tags:
     - docker
   script:
-    - npm install
-    - npm run production
+    - yarn config set cache-folder .yarn
+    - yarn
+    - yarn run production
   artifacts:
     expire_in: 1 day
     paths:

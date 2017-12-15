@@ -1,7 +1,6 @@
 process.env.DISABLE_NOTIFIER = true;
 var elixir = require('laravel-elixir');
 var gulp = require("gulp");
-var logger = require("./node_modules/laravel-elixir/Logger");
 var Task = elixir.Task;
 
 elixir.extend('copyJsModules', function() {
@@ -85,14 +84,6 @@ elixir(function(mix) {
             elixir.config.jsOutput +'/modules/axios.js', //output dir
             elixir.config.npmDir //base dir
         )
-        // .scripts([
-        //         'html5shiv/dist/html5shiv.min.js', // for supporting header, footer,... elements
-        //         'es5-shim/es5-shim.min.js', // Shims EcmaScript 5 methods
-        //         'object.observe/dist/object-observe-lite.js' //Object.observe for making rivetsjs adapter happy
-        //     ],
-        //     elixir.config.jsOutput +'/ie8-shivm.js', //output dir
-        //     elixir.config.npmDir //base dir
-        // )
     	// Copy pure JS modules to public folder
     	.copyJsModules()
     	.previewJsModules();
