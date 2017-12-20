@@ -11,32 +11,32 @@ return [
     |
     */
 
-    'edit' => 'Edit',
-    'details' => 'Details',
-    'expand'     => 'Expand',
-    'collapse'     => 'Collapse',
-    'expand_all'     => 'Expand All',
-    'collapse_all'     => 'Collapse All',
-    'open' => 'Open',
+    'edit' => 'Edition',
+    'details' => 'Détails',
+    'expand'     => 'Etendre',
+    'collapse'     => 'Réduire',
+    'expand_all'     => 'Etendre tout',
+    'collapse_all'     => 'Réduire tout',
+    'open' => 'Ouvrir',
 
-    'restore' => 'Restore',
-    'disable' => 'Disable',
+    'restore' => 'Restaurer',
+    'disable' => 'Désactiver',
 
-    'cancel' => 'Cancel',
-    'done' => 'Done',
+    'cancel' => 'Annuler',
+    'done' => 'Fait',
 
-    'or_alt' => 'or',
-    'or' => 'or :action',
+    'or_alt' => 'ou',
+    'or' => 'ou :action',
 
     'selection' => [
 
-        'dropdown' => 'Selection',
-        'all' => 'All',
-        'clear' => 'Clear',
-        'invert' => 'Invert',
-        'hint' => 'Select All/Clear selection',
+        'dropdown' => 'Sélection',
+        'all' => 'Tout',
+        'clear' => 'Effacer',
+        'invert' => 'Inverser',
+        'hint' => 'Sélectionner tout / Effacer la sélection',
 
-        'at_least_one_document' => 'Select at least 1 document',
+        'at_least_one_document' => 'Sélectionnez au moins 1 document',
         'at_least_one' => 'Please select at least 1 document or collection',
         'only_one' => 'Please select only 1 document or collection',
     ],
