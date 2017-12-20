@@ -12,13 +12,13 @@ return [
     |
     */
 
-    'project_edition' => 'Project Edition',
+    'project_edition' => 'Edition Projet',
 
     'welcome' => [
 
-        'hero_title' => 'Welcome to the K-Box',
-        'hero_title_with_organization' => 'Welcome to the K-Box of :organization',
-        'photo_by' => 'Photo by',
+        'hero_title' => 'Bienvenue chez K-Box',
+        'hero_title_with_organization' => 'Bienvenue dans la K-Box de :organization',
+        'photo_by' => 'Photo par',
         
 
     ]
