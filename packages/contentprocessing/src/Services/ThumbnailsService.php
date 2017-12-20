@@ -8,6 +8,7 @@ use Klink\DmsAdapter\Contracts\KlinkAdapter;
 use Klink\DmsAdapter\KlinkDocumentUtils;
 use Log;
 use Exception;
+use Imagick;
 use Symfony\Component\Debug\Exception\FatalThrowableError;
 use OneOffTech\VideoProcessing\VideoProcessorFactory;
 use Klink\DmsAdapter\KlinkImageResize;
@@ -24,6 +25,7 @@ class ThumbnailsService
     const THUMBNAILS_FOLDER_NAME = 'thumbnails';
     const THUMBNAIL_IMAGE_FORMAT = 'image/png';
     const THUMBNAIL_IMAGE_EXTENSION = '.png';
+    const THUMBNAIL_SIZE = 300;
 
     /**
      * Supported file mime types.
@@ -111,6 +113,8 @@ class ThumbnailsService
         try {
             if ($mime === 'image/jpg' || $mime === 'image/jpeg' || $mime === 'image/png') {
                 $thumb_save_path = $this->generateImageThumbnail($mime, $file->absolute_path, $thumb_save_path);
+            } elseif ($mime === 'application/pdf') {
+                $thumb_save_path = $this->generatePdfThumbnail($mime, $file->absolute_path, $thumb_save_path);
             } elseif ($mime === 'video/mp4') {
                 $videoProcessor = app()->make(VideoProcessorFactory::class)->make();
                 
@@ -153,10 +157,29 @@ class ThumbnailsService
         $image = new KlinkImageResize();
         
         $image->load($filePath);
-        $image->resizeToWidth(300);
+        $image->resizeToWidth(self::THUMBNAIL_SIZE);
         $fileContent = $image->get(IMAGETYPE_PNG);
         
         file_put_contents($savePath, $fileContent);
+
+        return $savePath;
+    }
+
+    private function generatePdfThumbnail($mime, $filePath, $savePath)
+    {
+        // check if imagemagick is installed
+        if (! extension_loaded('imagick') && ! class_exists('Imagick')) {
+            throw new Exception('Failed to generate pdf thumbnail: imagemagick is not installed');
+        }
+
+        $image = new Imagick();
+        $image->setResolution(300, 300); // forcing resolution to 300dpi prevents mushy images
+        $image->readImage($filePath.'[0]'); // file.pdf[0] refers to the first page of the pdf
+        $image->setImageBackgroundColor('#ffffff'); // do not create transparent thumbnails
+        $image->resizeImage(self::THUMBNAIL_SIZE, self::THUMBNAIL_SIZE, Imagick::FILTER_LANCZOS, 1); // best interpolation
+        $image->setImageFormat("png"); // save as png, TODO: respect THUMBNAIL_IMAGE_EXTENSION
+        $image->writeImage($savePath);
+        $image->clear(); // free memory
 
         return $savePath;
     }

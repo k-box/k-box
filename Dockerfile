@@ -29,10 +29,13 @@ RUN apt-get update -yqq && \
         gettext \
         supervisor \
         cron \
+        libmagickwand-dev \
     && docker-php-ext-install -j$(nproc) iconv mcrypt \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-install -j$(nproc) gd \
     && docker-php-ext-install bz2 zip exif pdo_mysql \
+    && pecl install imagick \
+    && docker-php-ext-enable imagick \
     && curl -o /usr/local/bin/tini https://github.com/krallin/tini/releases/download/v${TINI_VERSION}/tini \
     && chmod +x /usr/local/bin/tini \
     && apt-get clean \
