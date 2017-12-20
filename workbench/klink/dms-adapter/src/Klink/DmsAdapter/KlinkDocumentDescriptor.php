@@ -162,9 +162,16 @@ final class KlinkDocumentDescriptor
         $data->authors = $processed_authors;
 		
 		$uploader = new Uploader();
-		// TODO: this is only a default value for initial usage, this must be changed to reflect the uploader that should be shown
-        $uploader->name = $this->descriptor->user_owner;
-        $uploader->url = url('/');
+
+		if($this->descriptor->owner){
+			$uploader->name = !empty($this->descriptor->owner->organization_name) ? $this->descriptor->owner->organization_name : $this->descriptor->user_owner;
+			$uploader->url = !empty($this->descriptor->owner->organization_website) ? $this->descriptor->owner->organization_website : url('/');
+		}
+		else {
+			$uploader->name = $this->descriptor->user_owner;
+			$uploader->url = url('/');
+		}
+		
 		
         $data->uploader = $uploader;
 
