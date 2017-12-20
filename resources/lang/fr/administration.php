@@ -15,7 +15,7 @@ return [
 
     'menu' => [
 
-        'accounts'=>'Copmtes',
+        'accounts'=>'Comptes',
         'language'=>'Langue',
         'storage'=>'Stockage',
         'network'=>'Réseau',
