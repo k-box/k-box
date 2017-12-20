@@ -4,7 +4,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Administration Language Lines
+    | Administration Language Lines 
     |--------------------------------------------------------------------------
     |
     | The following language lines are used inside the DMS Administration area
