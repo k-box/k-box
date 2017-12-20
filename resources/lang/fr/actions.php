@@ -36,9 +36,9 @@ return [
         'invert' => 'Inverser',
         'hint' => 'Sélectionner tout / Effacer la sélection',
 
-        'at_least_one_document' => 'Sélectionnez au moins 1 document',
-        'at_least_one' => 'Sélectionnez au moins 1 document ou collection',
-        'only_one' => 'Sélctionnez seulement 1 document ou collection',
+        'at_least_one_document' => 'Sélectionnez au moins un document',
+        'at_least_one' => 'Sélectionnez au moins un document ou collection',
+        'only_one' => 'Sélctionnez seulement un document ou collection',
     ],
     
     'clipboard' => [
