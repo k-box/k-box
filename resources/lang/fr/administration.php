@@ -15,73 +15,73 @@ return [
 
     'menu' => [
 
-        'accounts'=>'Accounts',
-        'language'=>'Language',
-        'storage'=>'Storage',
-        'network'=>'Network',
-        'mail'=>'Mail',
-        'update'=>'Update and recovery',
-        'maintenance'=>'Maintenance and Events',
+        'accounts'=>'Copmtes',
+        'language'=>'Langue',
+        'storage'=>'Stockage',
+        'network'=>'Réseau',
+        'mail'=>'Email',
+        'update'=>'Mise à jour et récupération',
+        'maintenance'=>'Maintenance et Evènements',
         'institutions'=>'Institutions',
-        'settings'=>'Settings',
-        'identity' => 'Identity',
+        'settings'=>'Paramètres',
+        'identity' => 'Identité',
 
     ],
 
     'accounts' => [
 
-        'disable_confirm' => 'Do you really want to disable :name?',
+        'disable_confirm' => 'Voulez-vous vraiment désactiver :name?',
 
-        'create_user_btn' => 'Create User',
+        'create_user_btn' => 'Créer un utilisateur',
 
         'table' => [
 
-            'name_column' => 'name',
+            'name_column' => 'nom',
             'email_column' => 'email',
             'institution_column' => 'institution',
 
         ],
         
-        'edit_account_title' => 'Edit :name',
+        'edit_account_title' => 'Editer :name',
 
         'labels' => [
 
-            'email' => 'Mail',
-            'username' => 'Username',
+            'email' => 'Email',
+            'username' => 'Nom d´utilisateur',
             'perms' => 'Permissions',
 
-            'cancel' => 'Cancel',
+            'cancel' => 'Annuler',
 
-            'create' => 'Create',
-            'update' => 'Update',
+            'create' => 'Créer',
+            'update' => 'Mettre à jour',
 
             'institution' => 'Institution',
-            'select_institution' => 'Select the user Institution affiliation...',
+            'select_institution' => 'Choisissez l´institution de cet utilisateur...',
 
         ],
 
         'capabilities' => [
 
-            'manage_dms' => 'User can access the K-Box administration panel',
-            'manage_dms_users' => 'User can create/disable K-Box users',
-            'manage_dms_log' => 'User can see the K-Box logs',
-            'manage_dms_backup' => 'User can perform K-Box backups and restore',
-            'change_document_visibility' => 'User can un-/publish documents',
-            'edit_document' => 'User can edit documents',
-            'delete_document' => 'User can trash documents',
-            'import_documents' => 'User can import documents from folders or external URL',
-            'upload_documents' => 'User can upload documents',
-            'make_search' => 'User can access all the unpublished documents in accessible projects',
-            'manage_own_groups' => 'User can add/remove personal document collections',
-            'manage_institution_groups' => 'User can add/remove document collections in accessible projects',
-            'manage_project_collections' => 'User can add/remove project collections in accessible projects',
-            'manage_share' => 'User may directly share project documents with other K-Box users',
-            'receive_share' => 'User can see documents that have been shared with him',
-            'manage_share_personal' => 'User may directly share personal documents with other K-Box users',
-            'manage_share_private' => 'User can share documents to groups of users defined at institution level',
-            'clean_trash' => 'User can permanently remove owned documents from the K-Box',
-            'manage_personal_people' => 'User can create/edit groups of users defined at personal level',
-            'manage_people' => 'User can create/edit groups of users defined at institution level',
+            'manage_dms' => 'L´utilisateur peut accéder à la console d´administration de K-Box',
+            'manage_dms_users' => 'L´utilisateur peut créer / désactiver des utilisateurs K-Box',
+            'manage_dms_log' => 'L´utilisateur peut voir les journaux K-Box',
+            'manage_dms_backup' => 'L´utilisateur peut  effectuer des sauvegardes et restauration de K-Box',
+            'change_document_visibility' => 'L´utilisateur peut publier et dépublier des documents',
+            'edit_document' => 'L´utilisateur peut éditer des documents',
+            'delete_document' => 'L´utilisateur peut mettre des documents à la corbeille',
+            'import_documents' => 'L´utilisateur peut importer des documents depuis des dossiers ou URLs distantes',
+            'upload_documents' => 'L´utilisateur peut téléverser des documents',
+            'make_search' => 'L´utilisateur peut  accéder à tous les documents non publiés se trouvant dans des projets accessibles',
+            'manage_own_groups' => 'L´utilisateur peut ajouter/supprimer des collections de documents personnels',
+            'manage_institution_groups' => 'L´utilisateur peut ajouter/supprimer des collections de documents se trouvant dans des projets accessibles',
+            'manage_project_collections' => 'L´utilisateur peut ajouter/supprimer des collections de projet se trouvant dans des projets accessibles',
+            'manage_share' => 'L´utilisateur peut directement partager des documents de projet avec d´autres utilisateurs K-Box',
+            'receive_share' => 'L´utilisateur peut voir les documents qui ont été partagés avec lui',
+            'manage_share_personal' => 'L´utilisateur peut directement partager des documents personnels avec d´autres utilisateurs K-Box',
+            'manage_share_private' => 'L´utilisateur peut partager des documents avec des groupes d´utilisateurs définis au niveau de l´institution',
+            'clean_trash' => 'L´utilisateur peut supprimer ses propres documents de manière définitive',
+            'manage_personal_people' => 'L´utilisateur peut créer/éditer des groupes d´utilisateurs définis au niveau personnel',
+            'manage_people' => 'L´utilisateur peut créer/éditer des groupes d´utilisateurs définis au niveau de l´institutionUser can create/edit groups of users defined at institution level',
 
         ],
         
