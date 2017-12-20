@@ -37,114 +37,114 @@ return [
         'hint' => 'Sélectionner tout / Effacer la sélection',
 
         'at_least_one_document' => 'Sélectionnez au moins 1 document',
-        'at_least_one' => 'Please select at least 1 document or collection',
-        'only_one' => 'Please select only 1 document or collection',
+        'at_least_one' => 'Sélectionnez au moins 1 document ou collection',
+        'only_one' => 'Sélctionnez seulement 1 document ou collection',
     ],
     
     'clipboard' => [
-        'copied_title' => 'Copied!',
-        'copied_link_text' => 'The link has been copied to your clipboard',
+        'copied_title' => 'Copié!',
+        'copied_link_text' => 'The lien a été copié dans le presse-papier',
         
-        'not_copied_title' => 'Cannot copy to clipboard',
-        'not_copied_link_text' => 'The link cannot be copied to the clipboard, you can copy it manually by pressing Ctrl+C on the keyboard.',
+        'not_copied_title' => 'Impossible the copier dans le presse-papier',
+        'not_copied_link_text' => 'Le lien ne peut pas être copié dans le press-papier, vous pouvez le copier manuellement en pressant Ctrl+C sur votre clavier.',
     ],
 
     'switcher' => [
 
-        'details' => 'Details View',
-        'tiles' => 'Tiles View',
-        'grid' => 'Grid View',
-        'map' => 'Map View',
+        'details' => 'Vue détaillée',
+        'tiles' => 'Vue en tuiles',
+        'grid' => 'Vue en grille',
+        'map' => 'Vue sur une carte',
 
     ],
 
     'versions' => [
 
-        'manage' => 'Manage versions',
-        'add_new' => 'Add a new version',
+        'manage' => 'Gérer les versions',
+        'add_new' => 'Ajouter une nouvelle version',
 
     ],
 
-    'import' => 'Import',
-    'upload' => 'Upload Document',
-    'upload_video' => 'Upload Video',
-    'upload_alt' => 'Upload',
+    'import' => 'Importer',
+    'upload' => 'Téléverser un Document',
+    'upload_video' => 'Téléverser une Vidéo',
+    'upload_alt' => 'Téléverser',
 
-    'save' => 'Save',
-    'saving' => 'Saving...',
-    'deleting' => 'Deleting...',
-    'restoring' => 'Restoring...',
-    'cleaning_trash' => 'Cleaning the trash...',
-    'cleaning_trash_wait' => 'Please wait while the trash is being cleaned...',
+    'save' => 'Enregistrer',
+    'saving' => 'Enregistrement en cours...',
+    'deleting' => 'Suppression en cours...',
+    'restoring' => 'Restauration en cours...',
+    'cleaning_trash' => 'Vidage de la corbeille en cours...',
+    'cleaning_trash_wait' => 'Veuillez attendre pendant que la corbeille est vidée...',
 
-    'add_to' => 'Add to',
-    'move_to' => 'Move to',
+    'add_to' => 'Ajouter à',
+    'move_to' => 'Déplacer vers',
 
     'add_or_move_to' => 'Collections',
 
-    'publish_documents' => 'Publish Documents',
-    'make_private' => 'Keep Private',
+    'publish_documents' => 'Publier des documents',
+    'make_private' => 'Garder privé',
 
-    'create_add_dropdown' => 'Create or Add',
+    'create_add_dropdown' => 'Créer ou ajouter',
 
-    'trash_btn' => 'Delete',
-    'trash_btn_alt' => 'Move to Trash',
-    'forcedelete_btn_alt' => 'Permanently Delete',
-    'restore_btn' => 'Restore',
-    'empty_trash' => 'Empty Trash',
+    'trash_btn' => 'Supprimer',
+    'trash_btn_alt' => 'Déplacer vers la corbeille',
+    'forcedelete_btn_alt' => 'Effacer définitivement',
+    'restore_btn' => 'Restaurer',
+    'empty_trash' => 'Vider la corbeille',
 
-    'create_btn' => 'Create',
+    'create_btn' => 'Créer',
 
-    'create_collection_btn' => 'Create Collection',
+    'create_collection_btn' => 'Créer une collection',
     
-    'create_people_group' => 'New Group',
+    'create_people_group' => 'Nouveau Groupe',
     
-    'rename_people_group' => 'Change Group Name',
+    'rename_people_group' => 'Changer le nom du groupe',
     
-    'delete_people_group' => 'Delete group',
+    'delete_people_group' => 'Effacer le groupe',
     
-    'make_institutional_people_group' => 'Make Institutional',
-    'make_personal_people_group' => 'Keep Personal',
+    'make_institutional_people_group' => 'Rendre institutionnel',
+    'make_personal_people_group' => 'Garder personnel',
     
     'filters' => [
-        'filter' => 'Filters',
-        'clear_filters' => 'Clear Filters',
-        'collection_locked' => 'This is the collection you are browsing and cannot be removed.'
+        'filter' => 'Filtres',
+        'clear_filters' => 'Effacer les filtres',
+        'collection_locked' => 'C´est la collection que vous êtes en train de consulter. Elle ne peut pas être supprimée.'
     ],
     
     // 'hints' => [
-    //     'make_public' => 'Select some documents before making them available in the K-Link Network',
+    //     'make_public' => 'Sélectionnez quelques documents avant de les rendre publics sur le réseau K-Link',
     // ],
     
-    'not_available' => 'Oops, the action is not ready for the primetime!',
+    'not_available' => 'Oops, cette action n´est pas prête pour le primetime!',
 
     // buttons on the dialog
     'dialogs' => [
-        'cancel_btn' => 'No, cancel!',
-        'cancel_btn_alt' => 'Cancel',
+        'cancel_btn' => 'Non, annuler!',
+        'cancel_btn_alt' => 'Annuler',
         
-        'yes_btn' => 'Yes',
-        'no_btn' => 'No',
+        'yes_btn' => 'Oui',
+        'no_btn' => 'Non',
         'ok_btn' => 'OK',
         
-        'delete_btn' => 'Yes, delete it!',
-        'remove_btn' => 'Yes, remove!',
-        'trash_btn' => 'Yes, trash it!',
-        'move_btn' => 'Yes, Move!',
+        'delete_btn' => 'Oui, effacer!',
+        'remove_btn' => 'Oui, supprimer!',
+        'trash_btn' => 'Oui, à la corbeille!',
+        'move_btn' => 'Oui, déplace!',
         
         // showed when on a dialog, like the one in people group creation, the input field is empty, but a value is required
-        'input_required' => 'You need to write something!',
+        'input_required' => 'Vous devez écrire quelque chose!',
         
         
     ],
     
-    'got_it' => 'Got it!',
+    'got_it' => 'J´ai compris!',
 
-    'remove' => 'Remove',
+    'remove' => 'Supprimer',
 
     'sort_by' => [
-        'label' => 'Sort by',
-        'oldest_first' => 'Oldest',
-        'newest_first' => 'Latest',
+        'label' => 'Trier par',
+        'oldest_first' => 'Plus anciens',
+        'newest_first' => 'Plus récents',
     ],
 ];
