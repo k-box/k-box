@@ -109,14 +109,14 @@ return [
     'filters' => [
         'filter' => 'Filtres',
         'clear_filters' => 'Effacer les filtres',
-        'collection_locked' => 'C´est la collection que vous êtes en train de consulter. Elle ne peut pas être supprimée.'
+        'collection_locked' => 'C\'est la collection que vous êtes en train de consulter. Elle ne peut pas être supprimée.'
     ],
     
     // 'hints' => [
     //     'make_public' => 'Sélectionnez quelques documents avant de les rendre publics sur le réseau K-Link',
     // ],
     
-    'not_available' => 'Oops, cette action n´est pas prête pour le primetime!',
+    'not_available' => 'Oops, cette action n\'est pas prête pour le primetime!',
 
     // buttons on the dialog
     'dialogs' => [
@@ -138,7 +138,7 @@ return [
         
     ],
     
-    'got_it' => 'J´ai compris!',
+    'got_it' => 'J\'ai compris!',
 
     'remove' => 'Supprimer',
 
