@@ -173,10 +173,13 @@ class ThumbnailsService
         }
 
         $image = new Imagick();
+        $image->setBackgroundColor('white'); // do not create transparent thumbnails
         $image->setResolution(300, 300); // forcing resolution to 300dpi prevents mushy images
         $image->readImage($filePath.'[0]'); // file.pdf[0] refers to the first page of the pdf
-        $image->setImageBackgroundColor('#ffffff'); // do not create transparent thumbnails
-        $image->resizeImage(self::THUMBNAIL_SIZE, self::THUMBNAIL_SIZE, Imagick::FILTER_LANCZOS, 1); // best interpolation
+        $image = $image->mergeImageLayers(\Imagick::LAYERMETHOD_FLATTEN);
+
+        $image->thumbnailImage(self::THUMBNAIL_SIZE, 0, false, true);
+
         $image->setImageFormat("png"); // save as png, TODO: respect THUMBNAIL_IMAGE_EXTENSION
         $image->writeImage($savePath);
         $image->clear(); // free memory
