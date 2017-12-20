@@ -7,7 +7,7 @@ return [
     | Actions Language Lines
     |--------------------------------------------------------------------------
     |
-    | The following language lines are used primarly for buttons and switcher
+    | The following language lines are used primarly for buttons and switcher 
     |
     */
 
