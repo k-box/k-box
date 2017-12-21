@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.19.1] 2017-12-21
+
 ### Fixed
 
 - Wrong images linked in some FAQ on the Russian version

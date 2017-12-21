@@ -1,4 +1,4 @@
-[![build status](https://git.klink.asia/main/k-box/badges/master/build.svg)](https://git.klink.asia/main/k-box/commits/master) ![latest version](https://img.shields.io/badge/version-0.19.0-blue.svg)
+[![build status](https://git.klink.asia/main/k-box/badges/master/build.svg)](https://git.klink.asia/main/k-box/commits/master) ![latest version](https://img.shields.io/badge/version-0.19.1-blue.svg)
 
 # K-Box
 
