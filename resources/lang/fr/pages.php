@@ -11,13 +11,13 @@ return [
     |
     */
 
-    'help' => 'Help',
+    'help' => 'Aide',
     'support' => 'Support',
-    'terms'  => 'Terms',
-    'terms_long'  => 'Terms of Service',
-    'privacy' => 'Privacy',
+    'terms'  => 'Conditions',
+    'terms_long'  => 'Conditions d\'utilisation',
+    'privacy' => 'Confidentialité',
     'contact' => 'Contact',
-    'service_policy' => 'Service Policy',
-    'browserupdate' => 'Browser Update Help',
+    'service_policy' => 'Politique de service',
+    'browserupdate' => 'Aide mise à jour du navigateur',
 
 ];
