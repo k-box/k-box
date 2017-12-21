@@ -13,14 +13,14 @@ return [
     |
     */
 
-    'msec' => 'millisecond|milliseconds',
-    'sec'     => 'second|seconds',
-    'klink_since' => 'in K-Link since :date',
-    'today' => 'Today',
-    'yesterday' => 'Yesterday',
-    'this_week' => 'Earlier this week',
-    'this_month' => 'Earlier this month',
-    'older' => 'Older',
+    'msec' => 'milliseconde|millisecondes',
+    'sec'     => 'seconde|secondes',
+    'klink_since' => 'isur K-Link depuis :date',
+    'today' => 'Aujourd\'hui',
+    'yesterday' => 'Hier',
+    'this_week' => 'Cette semaine',
+    'this_month' => 'Ce mois',
+    'older' => 'Plus ancien',
      // translators: Do not translate this. This expression is the date formatting string. Please refer to http://php.net/manual/en/function.date.php
     'date_format' => 'd M Y',
     'date_format_full' => 'l j F Y H:i:s',
