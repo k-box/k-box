@@ -18,6 +18,35 @@ define(function () {
         previewAreaOriginalWidth = previewArea.offsetWidth,
         sidebar = document.querySelector(".js-preview-sidebar");
 
+    function handleLicenseDetailsShowHide(innerEvent)
+    {
+        var licenseDetails = $('.js-license-details');
+        var close = false;
+
+        if(innerEvent){
+
+            if($(innerEvent.target).parents('.js-license-details').length === 0){
+
+                innerEvent.stopPropagation();
+
+                close = true;
+
+                $(document).off('click', ':not(.js-license-details)', handleLicenseDetailsShowHide);
+            }
+        }
+
+        if(licenseDetails.hasClass('license__details--opened') && close){
+            licenseDetails.removeClass('license__details--opened');
+        }
+        else {
+            licenseDetails.addClass('license__details--opened');
+
+            $(document).on('click', ':not(.js-license-details)', handleLicenseDetailsShowHide);
+            
+        }
+
+    }
+
     detailsBtn.addEventListener('click', function(e){
 
         if(!sidebarOpen){
@@ -41,6 +70,9 @@ define(function () {
 
     });
 
+    $("[data-action=showCopyrightUsageDescription]").click(function () {
+        handleLicenseDetailsShowHide();
+    })
 
     
 

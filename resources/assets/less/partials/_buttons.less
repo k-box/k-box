@@ -67,6 +67,27 @@ a.button {
 	}
 }
 
+.button--link {
+	background-color: transparent;
+	border: 0;
+	display: inline;
+	text-align: left;
+	color: saturate(lighten(@accent-color, 10%), 15%);
+	box-shadow: none;
+
+	&:hover, &:focus {
+		background-color: @brand-orange;
+		border-color: transparent;
+		color: #fff;
+		fill: #fff;
+	}
+
+	&:active {
+		background-color: darken(@brand-orange, 10%);
+		border-color: transparent;
+	}
+}
+
 .button--larger {
 	padding: @base-padding;
 	min-width: 180px;

@@ -36,6 +36,11 @@
 
 			@endif
 
+			<div class="js-license-details">
+				@include('documents.partials.license', ['license' => $document->copyright_usage, 'owner' => $document->copyright_owner])
+			</div>
+			
+
 		<div class="file-properties__property">
             <span class="file-properties__label">{{trans('panels.groups_section_title')}}</span>
 			@include('documents.partials.collections', [
@@ -212,8 +217,8 @@
     
         <div class="preview__sidebar js-preview-sidebar">
         
-            @include('preview::partials.properties')
-        
+			@include('preview::partials.properties')
+			
         </div>
     </div>
 

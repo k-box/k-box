@@ -170,7 +170,7 @@ class KlinkAdapter implements AdapterContract
     {
         KlinkVisibilityType::fromString($visibility); // check if a valid visibility is used
 
-        return $this->selectConnection($visibility)->get($uuid);
+        return new KlinkSearchResultItem($this->selectConnection($visibility)->get($uuid));
     }
 
     public function updateDocument(KlinkDocument $document)

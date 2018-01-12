@@ -3,8 +3,8 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
-use KSearchClient\Model\Data\Data;
 use Klink\DmsAdapter\KlinkDocument;
+use Klink\DmsAdapter\KlinkSearchResultItem;
 use Klink\DmsAdapter\KlinkDocumentDescriptor;
 use Klink\DmsAdapter\Exceptions\KlinkException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -48,7 +48,7 @@ class KlinkAdapterPrivateDataManagementTest extends TestCase
         
         $response = $adapter->getDocument($uuid);
 
-        $this->assertInstanceOf(Data::class, $response);
+        $this->assertInstanceOf(KlinkSearchResultItem::class, $response);
 
         $this->assertEquals($uuid, $response->uuid);
         $this->assertEquals('text/plain', $response->properties->mime_type);

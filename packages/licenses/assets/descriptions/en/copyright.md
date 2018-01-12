@@ -1,0 +1,1 @@
+All rights of this work are reserved by the owner. Please contact the owner to get an individual permission to use this work in any possible way (including to copy, modify, distribute or download).

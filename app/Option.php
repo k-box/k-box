@@ -3,6 +3,8 @@
 namespace KBox;
 
 use Illuminate\Database\Eloquent\Model;
+use OneOffTech\Licenses\Contracts\LicenseRepository;
+use KBox\Exceptions\UndefinedDefaultCopyrightUsageLicenseException;
 
 /**
  * The dynamic configuration options
@@ -52,6 +54,17 @@ class Option extends Model
      * The option that stores the Analytics token
      */
     const ANALYTICS_TOKEN = 'analytics_token';
+    
+    /**
+     * The option that stores the default copyright usage license
+     */
+    const COPYRIGHT_DEFAULT_LICENSE = 'copyright_default_license';
+    
+    /**
+     * The option that stores the selected licenses to
+     * present to the user for selection
+     */
+    const COPYRIGHT_AVAILABLE_LICENSES = 'copyright_available_licenses';
 
     /**
      * The database table used by the model.
@@ -275,5 +288,69 @@ class Option extends Model
     public static function areContactsConfigured()
     {
         return ! empty(static::sectionAsArray('contact'));
+    }
+
+    /**
+     * Get the default configured copyright license
+     *
+     * @return \OneOffTech\Licenses\License|null the license or null if not configured
+     * @throws \OneOffTech\Licenses\Exceptions\LicenseNotFound
+     * @throws \KBox\Exceptions\UndefinedDefaultCopyrightUsageLicenseException if the default license is not set at application level
+     */
+    public static function copyright_default_license()
+    {
+        $opt = static::option(static::COPYRIGHT_DEFAULT_LICENSE, 'C');
+
+        if (! $opt) {
+            throw new UndefinedDefaultCopyrightUsageLicenseException();
+        }
+
+        $licenses = app()->make(LicenseRepository::class);
+
+        return $licenses->findOrFail($opt);
+    }
+
+    /**
+     * get the available copyright licenses that can be used in the K-Box
+     *
+     * @return \Illuminate\Support\Collection|\OneOffTech\Licenses\License[]
+     */
+    public static function copyright_available_licenses()
+    {
+        $opt = static::option(static::COPYRIGHT_AVAILABLE_LICENSES, '["C"]');
+
+        if (! $opt) {
+            return collect();
+        }
+
+        $decoded = json_decode($opt, JSON_OBJECT_AS_ARRAY);
+
+        if (! $decoded) {
+            return collect();
+        }
+
+        $licenses = app()->make(LicenseRepository::class);
+
+        return collect($decoded)->map(function ($item) use ($licenses) {
+            return $licenses->find($item);
+        })->filter();
+    }
+
+    /**
+     *
+     * @return bool true if default license for new file uploads is explicitly set
+     */
+    public static function isDefaultLicenseConfigured()
+    {
+        return static::option(static::COPYRIGHT_DEFAULT_LICENSE, null) !== null;
+    }
+    
+    /**
+     *
+     * @return bool true if the list of usable licenses in this K-Box instance contains at least 1 license explicitly by the administrator
+     */
+    public static function areAvailableLicensesConfigured()
+    {
+        return ! empty(static::option(static::COPYRIGHT_AVAILABLE_LICENSES, null));
     }
 }

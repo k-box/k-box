@@ -21,6 +21,8 @@
 
 		@endif
 
+		
+
 
 		@if($item->is_public)
 
@@ -111,6 +113,8 @@
 @endif
 
 <div class="c-panel__data">
+
+		@include('documents.partials.license', ['license' => $item->copyright_usage, 'owner' => $item->copyright_owner])
 
 @if(!empty($item->abstract))
 

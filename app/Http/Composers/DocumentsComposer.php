@@ -15,6 +15,7 @@ use Illuminate\Support\Collection;
 use Klink\DmsAdapter\KlinkVisibilityType;
 use Klink\DmsAdapter\KlinkFacets;
 use Klink\DmsAdapter\KlinkDocumentUtils;
+use OneOffTech\Licenses\Contracts\LicenseRepository;
 
 class DocumentsComposer
 {
@@ -24,6 +25,8 @@ class DocumentsComposer
      */
     private $documents = null;
     
+    private $licenses = null;
+    
     
 
     /**
@@ -32,9 +35,10 @@ class DocumentsComposer
      * @param  UserRepository  $users
      * @return void
      */
-    public function __construct(\Klink\DmsDocuments\DocumentsService $documentsService)
+    public function __construct(\Klink\DmsDocuments\DocumentsService $documentsService, LicenseRepository $licenses)
     {
         $this->documents = $documentsService;
+        $this->licenses = $licenses;
     }
 
     public function layout(View $view)
@@ -284,6 +288,7 @@ class DocumentsComposer
             ];
         } else {
             $cols = [
+                KlinkFacets::COPYRIGHT_USAGE_SHORT => ['label' => trans('search.facets.copyright_usage')],
                 // KlinkFacets::UPLOADER => ['label' => trans('search.facets.institutionId')],
                 KlinkFacets::LANGUAGE => ['label' => trans('search.facets.language')],
                 KlinkFacets::MIME_TYPE => ['label' => trans('search.facets.documentType')],
@@ -366,6 +371,10 @@ if ($is_projectspage && (! $grp->is_private && ! $show_personal_collections_in_f
                             if (! is_null($prj) && Project::isAccessibleBy($prj, $auth_user)) {
                                 $f_items->label = $prj->name;
                             }
+                        } elseif ($name == KlinkFacets::COPYRIGHT_USAGE_SHORT) {
+                            $license = $this->licenses->find($f_items->value);
+                            
+                            $f_items->label = $license ? $license->title : $f_items->value;
                         } else {
                             $lang_group = $f_items->value;
                         }

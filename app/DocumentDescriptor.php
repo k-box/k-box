@@ -11,6 +11,7 @@ use Dyrynda\Database\Support\GeneratesUuid;
 use Klink\DmsAdapter\KlinkVisibilityType;
 use Klink\DmsAdapter\KlinkDocumentDescriptor;
 use Klink\DmsDocuments\DocumentsService;
+use OneOffTech\Licenses\Contracts\LicenseRepository;
 
 /**
  * A Document Descriptor
@@ -162,7 +163,8 @@ class DocumentDescriptor extends Model
         // Cast the UUID field to UUID, which is a binary field
         // instead of a varchar, see https://www.percona.com/blog/2014/12/19/store-uuid-optimized-way/
         // and https://github.com/michaeldyrynda/laravel-efficient-uuid
-        'uuid' => 'uuid'
+        'uuid' => 'uuid',
+        'copyright_owner' => 'collection',
     ];
     
     protected $hidden = [ 'last_error' ];
@@ -482,6 +484,26 @@ class DocumentDescriptor extends Model
         return $this->visibility === KlinkVisibilityType::KLINK_PRIVATE && $this->is_public;
     }
 
+    public function getCopyrightUsageAttribute($value = null)
+    {
+        if (! $value) {
+            return Option::copyright_default_license();
+        }
+
+        $licenses = app()->make(LicenseRepository::class);
+        
+        return $licenses->find($value);
+    }
+    
+    public function getCopyrightOwnerAttribute($value = null)
+    {
+        if (! $value) {
+            return collect();
+        }
+        return $this->castAttribute('copyright_owner', $value);
+    }
+
+    
     // --- convert to/from KlinkDocumentDescriptor
 
     /**

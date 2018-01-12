@@ -20,11 +20,11 @@ class ReindexDocument extends Job implements ShouldQueue
 {
     use InteractsWithQueue, SerializesModels;
 
-    private $document = null;
+    public $document = null;
     
     private $user = null;
 
-    private $visibility = null;
+    public $visibility = null;
 
     /**
      * Create a new reindex document job.

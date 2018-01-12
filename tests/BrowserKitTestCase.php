@@ -105,7 +105,9 @@ abstract class BrowserKitTestCase extends BaseTestCase
             'file_id' => $file->id,
             'hash' => $file->hash,
             'language' => 'en',
-            'is_public' => $visibility === 'private' ? false : true
+            'is_public' => $visibility === 'private' ? false : true,
+            'copyright_usage' => 'C',
+            'copyright_owner' => collect(['name' => 'owner name', 'website' => 'https://something.com'])
         ]);
 
         return $doc;

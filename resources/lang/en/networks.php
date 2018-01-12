@@ -88,4 +88,5 @@ return [
     'make_public_dialog_text' => 'You will make ":item" available in the :network.',
     'make_public_dialog_text_count' => 'You will make :count documents available on the :network.',
 
+    'publication_error_copyright' => 'Hey, you\'re trying to publish a document that don\'t have a copyright owner. This information needs to be specified before publishing the document.',
 ];

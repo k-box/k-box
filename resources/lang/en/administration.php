@@ -25,6 +25,7 @@ return [
         'institutions'=>'Institutions',
         'settings'=>'Settings',
         'identity' => 'Identity',
+        'licenses' => 'Document Licenses',
 
     ],
 
@@ -270,6 +271,36 @@ return [
 
         'contact_info_updated' => 'Contact details saved.',
         'update_error' => 'Contact details were not updated. :error',
+    ],
+
+    'documentlicenses' => [
+
+        'no_licenses' => 'No licences are available in the system.',
+        'view_license' => 'View License',
+        'default_configuration_notice' => 'The default copyright settings has been set to "All rights reserved", consider changing it to a more permissive license in order to leverage collaboration.',
+        
+
+        
+        
+        'default' => [
+            'title' => 'Default license for new uploads',
+            'description' => 'The license of a document indicates how other person can use your work. The default license applies to new file uploads.',
+            'label' => '',
+            'save' => 'Save default license',
+            'no_licenses_error' => 'The usable licenses in this K-Box are not configured. Please configure them before selecting the default license.',
+            'saved' => 'Default copyright settings saved. New uploads will be automatically set to ":title" and can be individually altered to any of the other options.',
+            'select' => 'Select a License',
+            'apply_default_license_to_previous' => 'Update :count document without license to the selected default license|Update :count documents without license to the selected default license',
+            'apply_default_license_all' => 'Update all documents to use the selected default license',
+        ],
+        'available' => [
+            'title' => 'Licenses available in this K-Box',
+            'description' => 'With the available license list, you can configure what licenses can be applied to data uploaded in this K-Box',
+            'label' => '',
+            'save' => 'Save license list',
+            'no_licenses_error' => 'No available licenses to be used in this K-Box, please verify the K-Box configuration.',
+            'saved' => 'Available license list updated.',
+        ],
     ],
 
 ];

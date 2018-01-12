@@ -44,7 +44,8 @@ return [
         'documentGroups' => "Collections",
         'projectId' => 'Project',
         'collections' => "Collections",
-        'projects' => 'Project'
+        'projects' => 'Project',
+        'copyright_usage' => 'License',
     ],
 
 ];

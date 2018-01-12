@@ -127,6 +127,12 @@ return [
         ],
         'with_users' => [
             'required' => 'You need to select at least one user',
+        ],
+        'copyright_owner_website' => [
+            'required_without' => 'You should at least specify a contact method. The website and/or an email might be a good candidate.'
+        ],
+        'copyright_owner_name' => [
+            'required' => 'For a public document you have to specify who owns the copyright. It can be you, your company or a third party.'
         ]
 
     ],

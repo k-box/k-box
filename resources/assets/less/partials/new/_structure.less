@@ -288,6 +288,19 @@ table {
     }
 }
 
+.c-form__checkbox {
+    margin-bottom: 0;
+    min-width: 200px;
+    display: block;
+    padding: @base-padding/2;
+    color: @text-color;
+    box-sizing: border-box;
+
+    &:hover {
+        background-color: @brand-light-gray;
+    }
+}
+
 .c-form__input--full-width {
     width: 100%;
 }
@@ -315,6 +328,10 @@ table {
 .c-section--separated {
     padding-bottom: @base-padding*2;
     border-bottom: 1px solid @brand-gray;
+}
+
+.c-section--top-separated {
+    padding-top: @base-padding*2;
 }
 
 .c-section__title {

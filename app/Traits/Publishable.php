@@ -2,6 +2,7 @@
 
 namespace KBox\Traits;
 
+use Exception;
 use KBox\User;
 use KBox\Publication;
 use KBox\Jobs\PublishDocumentJob;
@@ -44,6 +45,12 @@ trait Publishable
     {
         if ($this->hasPendingPublications() || $this->isPublished()) {
             return;
+        }
+
+        // check copyright information, if not set deny the publication
+
+        if (! $this->copyright_usage || ! $this->isCopyrightOwnerValidForPublishing()) {
+            throw new Exception(trans('networks.publication_error_copyright'));
         }
         
         // create a publication entry for the document and the user
@@ -89,5 +96,16 @@ trait Publishable
     public function isPublished()
     {
         return $this->is_public && $this->publications()->published()->count() > 0;
+    }
+
+    public function isCopyrightOwnerValidForPublishing()
+    {
+        $owner = $this->copyright_owner->only(['name', 'email', 'website']);
+
+        if ($owner->isEmpty() || $owner->values()->filter()->count() < 2) {
+            return false;
+        }
+
+        return true;
     }
 }

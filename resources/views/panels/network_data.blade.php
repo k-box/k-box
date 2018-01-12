@@ -11,6 +11,7 @@
 
 		</div>
 
+
 	</div>
 
 	<div class="c-panel__thumbnail">
@@ -28,6 +29,8 @@
 </div>
 
 <div class="c-panel__data">
+
+	@include('documents.partials.license', ['license' => $item->getLicense(), 'owner' => $item->getCopyrightOwner()])
 
 	@if(!empty($item->properties->abstract))
 

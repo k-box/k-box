@@ -135,7 +135,7 @@
 {{old('authors', isset($document) ? $document->authors : '')}}</textarea>
 		</div>
 			
-		<div class="c-form__field">
+		<div class="c-form__field c-section--top-separated">
   			<label for="language">{{trans('documents.edit.language_label')}}</label>
   			@if( $errors->has('language') )
 	            <span class="field-error">{{ implode(",", $errors->get('language'))  }}</span>
@@ -154,7 +154,9 @@
 		</div>
 
 			
-
+		@include('documents.partials.copyrightform', [
+			'selected_license' => $document->copyright_usage,
+			'owner' => $document->copyright_owner])
 
 
 	</div>

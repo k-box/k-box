@@ -3,6 +3,7 @@
 namespace Klink\DmsAdapter;
 
 use KBox\DocumentDescriptor;
+use KBox\Option;
 use KSearchClient\Model\Data\Data;
 use KSearchClient\Model\Data\Author;
 use KSearchClient\Model\Data\Uploader;
@@ -175,16 +176,24 @@ final class KlinkDocumentDescriptor
 		
         $data->uploader = $uploader;
 
-		// considering that copyright options are not configurable, 
-		// the data is marked with full copyright and the owner is 
-		// specified by the URL of the K-Box instance
 		$data->copyright = new Copyright();
-        $data->copyright->owner = new CopyrightOwner();
-        $data->copyright->owner->contact = url('/');
-        $data->copyright->usage = new CopyrightUsage();
-        $data->copyright->usage->short = 'C';
-        $data->copyright->usage->name = 'All right reserved';
-        $data->copyright->usage->reference = '';
+		$data->copyright->owner = new CopyrightOwner();
+
+		$copyright_owner = $this->descriptor->copyright_owner;
+
+		$owner_name = $copyright_owner->get('name', '');
+		
+        $data->copyright->owner->name = empty(trim($owner_name)) ? 'Not specified' : $owner_name;
+        $data->copyright->owner->website = $copyright_owner->get('website', '');
+        $data->copyright->owner->email = $copyright_owner->get('email', '');
+        $data->copyright->owner->address = $copyright_owner->get('address', '');
+		
+		$usage_license = $this->descriptor->copyright_usage ?? Option::copyright_default_license();
+		
+		$data->copyright->usage = new CopyrightUsage();
+        $data->copyright->usage->short = $usage_license->id;
+        $data->copyright->usage->name = $usage_license->name;
+        $data->copyright->usage->reference = $usage_license->license;
 		
         $data->properties = new Properties();
         $data->properties->title = $this->descriptor->title;

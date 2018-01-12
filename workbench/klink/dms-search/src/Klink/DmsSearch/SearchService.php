@@ -38,7 +38,8 @@ class SearchService
         'public' => [
             KlinkFacets::LANGUAGE,
             KlinkFacets::MIME_TYPE,
-            // KlinkFacets::UPLOADER,
+            KlinkFacets::UPLOADER,
+            KlinkFacets::COPYRIGHT_USAGE_SHORT,
         ],
         'private' => [
             KlinkFacets::LANGUAGE,

@@ -202,7 +202,9 @@ class DocumentsTest extends BrowserKitTestCase
         
         $doc = factory('KBox\DocumentDescriptor')->create([
             'owner_id' => $user->id,
-            'file_id' => $file->id
+            'file_id' => $file->id,
+            'copyright_usage' => 'C',
+            'copyright_owner' => collect(['name' => 'owner name', 'website' => 'https://something.com'])
         ]);
         
         
@@ -287,7 +289,9 @@ class DocumentsTest extends BrowserKitTestCase
             'owner_id' => $user->id,
             'file_id' => $file->id,
             'is_public' => true,
-            'hash' => $file->hash
+            'hash' => $file->hash,
+            'copyright_usage' => 'C',
+            'copyright_owner' => collect(['name' => 'owner name', 'website' => 'https://something.com'])
         ]);
         
         $service = app('Klink\DmsDocuments\DocumentsService');
@@ -568,7 +572,9 @@ class DocumentsTest extends BrowserKitTestCase
             'owner_id' => $user->id,
             'file_id' => $file->id,
             'hash' => $file->hash,
-            'is_public' => false
+            'is_public' => false,
+            'copyright_usage' => 'C',
+            'copyright_owner' => collect(['name' => 'owner name', 'website' => 'https://something.com'])
         ]);
         
         $service = app('Klink\DmsDocuments\DocumentsService');

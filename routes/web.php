@@ -79,6 +79,11 @@ Route::group(['as' => 'administration.', 'prefix' => 'administration'], function
     Route::resource('/settings', 'Administration\SettingsAdministrationController', ['only' => ['index', 'store']]);
 
     Route::resource('/identity', 'Administration\IdentityController', ['only' => ['index', 'store']]);
+    
+    // document licenses administration
+    Route::get('/licenses', 'Administration\DocumentLicenses\DocumentLicensesController@index')->name('licenses.index');
+    Route::put('/licenses/default', 'Administration\DocumentLicenses\DefaultDocumentLicensesController@update')->name('licenses.default.update');
+    Route::put('/licenses/available', 'Administration\DocumentLicenses\AvailableDocumentLicensesController@update')->name('licenses.available.update');
 });
 /*
 |--------------------------------------------------------------------------

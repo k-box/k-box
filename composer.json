@@ -34,7 +34,7 @@
 		"guzzlehttp/guzzle": "~6.2.0",
 		"jenssegers/agent": "^2.5",
 		"jenssegers/date": "^3.2",
-		"k-box/k-search-client-php": "3.*",
+		"k-box/k-search-client-php": "3.0.*",
 		"laravel/framework": "5.4.*",
 		"laravel/tinker": "~1.0",
 		"league/csv": "^8.0",
@@ -66,7 +66,8 @@
             "Klink\\DmsMicrosites\\": "workbench/klink/dms-project-microsites/src/",
 			"Content\\": "packages/contentprocessing/src/",
 			"OneOffTech\\VideoProcessing\\": "packages/video-processing/src/",
-			"OneOffTech\\LanguageGuesser\\": "packages/language-guesser/src/"
+			"OneOffTech\\LanguageGuesser\\": "packages/language-guesser/src/",
+			"OneOffTech\\Licenses\\": "packages/licenses/src/"
 		},
 		"psr-0": {
             "Klink\\DmsAdapter\\": "workbench/klink/dms-adapter/src/",

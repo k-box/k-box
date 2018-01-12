@@ -116,3 +116,55 @@
 .widget--sessions__username {
 	font-weight: 700
 }
+
+.license {
+	position: relative;
+	padding-top: @base-padding;
+
+}
+
+.license__attribution {
+	padding-top: @base-padding;
+
+	svg {
+		fill: initial !important
+	}
+}
+
+.license__details {
+	background: #fff;
+	position: absolute;
+	z-index: 9999;
+	color: @text-color;
+	border: 1px solid @brand-gray;
+	padding: @base-padding/2;
+	width: 400px;
+
+	span {
+		display: block
+	}
+
+	em {
+		color: @brand-gray
+	}
+
+	
+}
+
+.license__owner, .license__description {
+	margin-bottom: @base-padding;
+}
+
+.license__description {}
+
+
+.license__details {
+	display: none;
+
+	max-height: 280px;
+	overflow-y: scroll;
+}
+
+.license__details--opened {
+	display: block;
+}

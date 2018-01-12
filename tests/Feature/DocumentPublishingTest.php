@@ -24,11 +24,10 @@ class DocumentPublishingTest extends TestCase
         $user = factory('KBox\User')->create();
 
         $descriptor = factory('KBox\DocumentDescriptor')->create();
-
         $response = $this->actingAs($user)->json('POST', '/published-documents', [
             'document_id' => $descriptor->id
-        ]);
-
+            ]);
+            
         $response->assertStatus(200);
 
         $response->assertJsonStructure([
@@ -47,6 +46,56 @@ class DocumentPublishingTest extends TestCase
         $this->assertNotNull($publication->published_at);
         $this->assertFalse($publication->pending);
         $this->assertEquals(Publication::STATUS_PUBLISHED, $publication->status);
+    }
+    
+    public function test_document_without_copyright_owner_cannot_be_published()
+    {
+        Storage::fake('local');
+
+        $this->disableExceptionHandling();
+
+        $adapter = $this->withKlinkAdapterFake();
+
+        $user = factory('KBox\User')->create();
+
+        $descriptor = factory('KBox\DocumentDescriptor')->create([
+            'copyright_owner' => null
+        ]);
+
+        $response = $this->actingAs($user)->json('POST', '/published-documents', [
+            'document_id' => $descriptor->id
+        ]);
+
+        $response->assertStatus(200);
+
+        $response->assertJsonStructure([
+            'error'
+        ]);
+    }
+    
+    public function test_document_without_copyright_owner_name_cannot_be_published()
+    {
+        Storage::fake('local');
+
+        $this->disableExceptionHandling();
+
+        $adapter = $this->withKlinkAdapterFake();
+
+        $user = factory('KBox\User')->create();
+
+        $descriptor = factory('KBox\DocumentDescriptor')->create([
+            'copyright_owner' => collect(['website' => 'https://hello.com'])
+        ]);
+
+        $response = $this->actingAs($user)->json('POST', '/published-documents', [
+            'document_id' => $descriptor->id
+        ]);
+
+        $response->assertStatus(200);
+
+        $response->assertJsonStructure([
+            'error'
+        ]);
     }
  
     public function test_document_can_be_unpublished()
@@ -121,5 +170,54 @@ class DocumentPublishingTest extends TestCase
         $response->assertJsonStructure([
             'status', 'error'
         ]);
+    }
+
+    public function invalid_copyright_owner_provider()
+    {
+        return [
+            [[]],
+            [['name' => 'the owner name']],
+            [['name' => '', 'website' => '']],
+            [['name' => '', 'email' => '']],
+            [['email' => '']],
+            [['website' => '']],
+            [['website' => 'https://klink.asia']],
+            [['address' => 'something']],
+            [['email' => 'some@email.io']],
+        ];
+    }
+
+    /**
+     * @dataProvider invalid_copyright_owner_provider
+     */
+    public function test_not_valid_copyright_owner_is_reported($owner)
+    {
+        $descriptor = factory('KBox\DocumentDescriptor')->create([
+            'copyright_owner' => collect($owner),
+        ]);
+
+        $this->assertFalse($descriptor->isCopyrightOwnerValidForPublishing());
+    }
+
+    public function copyright_owner_provider()
+    {
+        return [
+            [['name' => 'the owner name', 'website' => 'https://klink.asia']],
+            [['name' => 'the owner name', 'email' => 'some@email.io']],
+            [['name' => 'the owner name', 'email' => 'some@email.io', 'website' => 'https://klink.asia']],
+            [['name' => 'the owner name', 'email' => 'some@email.io', 'website' => 'https://klink.asia', 'address' => 'something']],
+        ];
+    }
+
+    /**
+     * @dataProvider copyright_owner_provider
+     */
+    public function test_valid_copyright_owner_is_reported($owner)
+    {
+        $descriptor = factory('KBox\DocumentDescriptor')->create([
+            'copyright_owner' => collect($owner),
+        ]);
+
+        $this->assertTrue($descriptor->isCopyrightOwnerValidForPublishing());
     }
 }

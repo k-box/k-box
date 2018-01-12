@@ -388,7 +388,7 @@ class BulkController extends Controller
                 $count = $documents->count();
                 return ['status' => 'ok', 'message' =>  trans_choice('networks.made_public', $count, ['num' => $count, 'network' => network_name() ])];
             });
-
+            
             if ($request->ajax() && $request->wantsJson()) {
                 return new JsonResponse($status, 200);
             }

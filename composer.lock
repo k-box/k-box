@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "29fe1b2916eb5afd39fdab2cae939352",
+    "content-hash": "e55fcd8a9072ace0df03a1908d6ffc96",
     "packages": [
         {
             "name": "avvertix/laravel-tus-upload",
@@ -1634,11 +1634,11 @@
         },
         {
             "name": "k-box/k-search-client-php",
-            "version": "v3.0.0",
+            "version": "v3.0.1",
             "source": {
                 "type": "git",
                 "url": "https://git.klink.asia/main/k-search-client-php.git",
-                "reference": "82a3564573a73c501b561db7860bcf2d3a022f4e"
+                "reference": "3dbe5bdd045f8b2b34e46c3f773ed6d03565c252"
             },
             "require": {
                 "doctrine/annotations": "^1.4",
@@ -1662,7 +1662,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.0-dev"
+                    "dev-master": "3.0.1-dev"
                 }
             },
             "autoload": {
@@ -1696,13 +1696,12 @@
                 }
             ],
             "description": "The K-Link K-Search client",
-            "homepage": "https://git.klink.asia/main/k-search-client-php",
+            "homepage": "https://github.com/k-box/k-search-client-php",
             "support": {
-                "issues": "https://git.klink.asia/main/k-search-client-php/issues",
-                "wiki": "https://git.klink.asia/main/k-search-client-php/wikis/home",
-                "source": "https://git.klink.asia/main/k-search-client-php"
+                "issues": "https://github.com/k-box/k-search-client-php/issues",
+                "source": "https://github.com/k-box/k-search-client-php"
             },
-            "time": "2017-11-14T00:00:00+00:00"
+            "time": "2018-01-19T00:00:00+00:00"
         },
         {
             "name": "kitetail/zttp",

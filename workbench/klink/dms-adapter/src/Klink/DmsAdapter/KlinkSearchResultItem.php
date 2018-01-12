@@ -4,6 +4,7 @@ namespace Klink\DmsAdapter;
 
 use BadMethodCallException;
 use KSearchClient\Model\Data\Data;
+use OneOffTech\Licenses\Contracts\LicenseRepository;
 
 /**
  * Wrapper around Data
@@ -39,6 +40,26 @@ final class KlinkSearchResultItem
 	public function getDescriptor()
 	{
 		return $this->document_descriptor;
+	}
+
+
+	public function getLicense()
+	{
+		$licenses = app()->make(LicenseRepository::class);
+
+		return $licenses->find($this->document_descriptor->copyright->usage->short) ?? $this->document_descriptor->copyright->usage->short;
+	}
+
+	public function getCopyrightOwner()
+	{
+		$owner = $this->document_descriptor->copyright->owner;
+
+		return collect([
+			'name' => $owner->name,
+			'website' => $owner->website,
+			'address' => $owner->address,
+			'email' => $owner->email,
+		]);
 	}
 
 	/**

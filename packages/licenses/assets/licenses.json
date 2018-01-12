@@ -1,0 +1,112 @@
+[
+    {
+        "id": "C",
+        "name": "All rights reserved",
+        "short_title": "Full Copyright",
+        "title": {
+            "en": "All rights reserved",
+            "ru": "All rights reserved",
+            "tg": "All rights reserved"
+        },
+        "icon": "copy.svg",
+        "description": "copyright.md",
+        "license": null
+    },
+    {
+        "id": "PD",
+        "name": "Public domain",
+        "short_title": "Public domain",
+        "title": {
+            "en": "Public Domain",
+            "ru": "Public Domain",
+            "tg": "Public Domain"
+        },
+        "icon": "publicdomain.svg",
+        "description": "publicdomain.md",
+        "license": null
+    },
+    {
+        "id": "CC-BY-4.0",
+        "name": "Creative Commons Attribution 4.0",
+        "license": {
+            "en": "http://creativecommons.org/licenses/by/4.0/legalcode"
+        },
+        "icon": "by.svg",
+        "short_title": "CC BY 4.0",
+        "title": {
+            "en": "Creative Commons Attribution 4.0 International",
+            "ru": "Creative Commons С указанием авторства 4.0 Всемирная"
+        },
+        "description": "cc-by-4.0.md"
+    },
+    {
+        "id": "CC-BY-NC-4.0",
+        "name": "Creative Commons Attribution Non Commercial 4.0",
+        "icon": "by-nc.svg",
+        "license": {
+            "en": "http://creativecommons.org/licenses/by-nc/4.0/legalcode"
+        },
+        "short_title": "CC BY-NC 4.0",
+        "title": {
+            "en": "Creative Commons Attribution-NonCommercial 4.0 International",
+            "ru": "Creative Commons С указанием авторства-Некоммерческая 4.0 Всемирная"
+        },
+        "description": "cc-by-nc-4.0.md"
+    },
+    {
+        "id": "CC-BY-NC-ND-4.0",
+        "name": "Creative Commons Attribution Non Commercial No Derivatives 4.0",
+        "icon": "by-nc-nd.svg",
+        "license": {
+            "en": "http://creativecommons.org/licenses/by-nc-nd/4.0/legalcode"
+        },
+        "short_title": "CC BY-NC-ND 4.0",
+        "title": {
+            "en": "Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International",
+            "ru": "Creative Commons С указанием авторства-Некоммерческая-Без производных 4.0 Всемирная"
+        },
+        "description": "cc-by-nc-nd-4.0.md"
+    },
+    {
+        "id": "CC-BY-NC-SA-4.0",
+        "name": "Creative Commons Attribution Non Commercial Share Alike 4.0",
+        "icon": "by-nc-sa.svg",
+        "license": {
+            "en": "http://creativecommons.org/licenses/by-nc-sa/4.0/legalcode"
+        },
+        "short_title": "CC BY-NC-SA 4.0",
+        "title": {
+            "en": "Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International",
+            "ru": "Creative Commons С указанием авторства-Некоммерческая-С сохранением условий 4.0 Всемирная"
+        },
+        "description": "cc-by-nc-sa-4.0.md"
+    },
+    {
+        "id": "CC-BY-ND-4.0",
+        "name": "Creative Commons Attribution No Derivatives 4.0",
+        "icon": "by-nd.svg",
+        "license": {
+            "en": "http://creativecommons.org/licenses/by-nd/4.0/legalcode"
+        },
+        "short_title": "CC BY-ND 4.0",
+        "title": {
+            "en": "Creative Commons Attribution-NoDerivatives 4.0 International",
+            "ru": "Creative Commons С указанием авторства-Без производных 4.0 Всемирная"
+        },
+        "description": "cc-by-nd-4.0.md"
+    },
+    {
+        "id": "CC-BY-SA-4.0",
+        "name": "Creative Commons Attribution Share Alike 4.0",
+        "icon": "by-sa.svg",
+        "license": {
+            "en": "http://creativecommons.org/licenses/by-sa/4.0/legalcode"
+        },
+        "short_title": "CC BY-SA 4.0",
+        "title": {
+            "en": "Creative Commons Attribution-ShareAlike 4.0 International",
+            "ru": "Creative Commons С указанием авторства-С сохранением условий 4.0 Всемирная"
+        },
+        "description": "cc-by-sa-4.0.md"
+    }
+]

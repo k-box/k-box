@@ -46,6 +46,15 @@
 				</a>
 			</li>
 
+			<li class="navigation-admin__item">
+				<a href="{{ route('administration.licenses.index') }}" class="navigation-admin__link @if(\Request::is('*licenses')) navigation__item--current @endif">
+				
+					@materialicon('action', 'copyright', 'navigation-admin__item__icon')
+					
+					{{trans('administration.menu.licenses')}}
+				</a>
+			</li>
+
 			<li class="navigation-admin__item"><a href="{{ route('administration.network.index') }}" class="navigation-admin__link @if(\Request::is('*network')) navigation--current @endif">
 					
 					@materialicon('action', 'settings_ethernet', 'navigation-admin__item__icon')

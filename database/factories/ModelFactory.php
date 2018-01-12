@@ -99,6 +99,8 @@ $factory->define(KBox\DocumentDescriptor::class, function (Faker\Generator $fake
         'file_id' => $file->id,
         'owner_id' => $user->id,
         'status' => KBox\DocumentDescriptor::STATUS_COMPLETED,
+        'copyright_usage' => 'PD',
+        'copyright_owner' => collect(['name' => 'the owner name', 'website' => 'https://klink.asia']),
     ];
 });
 

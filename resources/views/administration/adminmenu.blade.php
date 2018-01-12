@@ -23,6 +23,13 @@
 		
 		{{trans('administration.menu.storage')}}
 	</a>
+	
+	<a href="{{ route('administration.licenses.index') }}" class="navigation__item navigation__item--link @if(\Request::is('*licenses')) navigation__item--current @endif">
+			
+		@materialicon('action', 'copyright', 'navigation__item__icon')
+		
+		{{trans('administration.menu.licenses')}}
+	</a>
 
 	<a href="{{ route('administration.network.index') }}" class="navigation__item navigation__item--link @if(\Request::is('*network')) navigation__item--current @endif">
 			

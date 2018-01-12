@@ -1,0 +1,108 @@
+{
+  "$schema": "http://json-schema.org/draft-06/schema#",
+  "$id": "license-schema.json",
+  "type": "object",
+  "title": "License",
+  "description": "Representation of a license entity",
+  "required": [
+    "id",
+    "name",
+    "license",
+    "title",
+    "short_title",
+    "description"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "title": "The Identifier or the license",
+      "description": "The SPDX identifier of the license, plus C for copyright and PD for public domain.",
+      "examples": [
+        "CC-BY-4.0",
+        "C",
+        "PD",
+        "MIT"
+      ]
+    },
+    "name": {
+      "type": "string",
+      "title": "The license name",
+      "description": "The name of the license.",
+      "examples": [
+        "Creative Commons Attribution 4.0",
+        "Public Domain"
+      ]
+    },
+    "license": {
+      "title": "The license full text referece",
+      "description": "The URL on which the full text of the licence can be found.",
+      "type": "object",
+      "minItems": 1,
+      "required": [
+        "en"
+      ],
+      "properties": {
+        "en": {
+          "type": "string",
+          "title": "The url of the full license text in English"
+        },
+        "ru": {
+          "type": "string",
+          "title": "The url of the full license text in Russian"
+        },
+        "tg": {
+          "type": "string",
+          "title": "The url of the full license text in Tajik"
+        }
+      }
+    },
+    "icon": {
+      "type": "string",
+      "title": "Icon file name",
+      "description": "The icon file name, currently only SVG files and relative paths are supported.",
+      "examples": [
+        "by.svg",
+        "by-nc.svg",
+        "copy.svg"
+      ]
+    },
+    "short_title": {
+      "type": "string",
+      "title": "A short title",
+      "description": "Sometimes the license title is very long. For some licenses a short title might be available.",
+      "examples": [
+        "CC BY 4.0"
+      ]
+    },
+    "title": {
+      "type": "object",
+      "title": "",
+      "minItems": 1,
+      "required": [
+        "en"
+      ],
+      "properties": {
+        "en": {
+          "type": "string",
+          "title": "The English title",
+          "description": "The localized title of the license."
+        },
+        "ru": {
+          "type": "string",
+          "title": "The Russian title",
+          "description": "The localized title of the license."
+        },
+        "tg": {
+          "type": "string",
+          "title": "The Tajik title",
+          "description": "The localized title of the license."
+        }
+      }
+    },
+    "description": {
+      "type": "string",
+      "title": "Short description of the license",
+      "description": "The file that contains a short description that describes the main points of the license. File should reside in a description folder under a locale subfolder. In all locales the file must have the same name."
+    }
+  }
+}

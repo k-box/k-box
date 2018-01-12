@@ -21,7 +21,7 @@ interface KlinkAdapter
      * Retrieve the Document Descriptor of an indexed document given the institution identifier and the local document identifier
      * @param string $uuid
      * @param string $visibility (optional) The visibility of the document to be retrieved. Acceptable values are: public, private. Default value KlinkVisibilityType::KLINK_PRIVATE.
-     * @return \KSearchClient\Model\Data\Data
+     * @return \Klink\DmsAdapter\KlinkSearchResultItem which contains and let access a \KSearchClient\Model\Data\Data instance
      * @throws InvalidArgumentException If one or more parameters are invalid
      */
     public function getDocument($uuid, $visibility = KlinkVisibilityType::KLINK_PRIVATE);

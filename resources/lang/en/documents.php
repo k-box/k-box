@@ -163,6 +163,19 @@ return [
         'not_index_message' => 'The document has not yet been succesfully added to K-Link. Please try to <button type="submit">Reindex it</button> now or contact your administrator.',
         'not_fully_uploaded' => 'The upload of this document is still in progress.',
         'preview_available_when_upload_completes' => 'The preview will be available once the upload completes.',
+
+        'license' => 'License',
+        'license_help' => 'Licences provide a way for the copyright owner to grant someone else permission to use their work.',
+        'license_choose_help_button' => 'Help me choose a license',
+        
+        'copyright_owner' => 'Copyright Owner',
+        'copyright_owner_help' => 'Information about the owner of the copyright. These information applies independently from the selected license',
+        
+        'copyright_owner_name_label' => 'Name',
+        'copyright_owner_email_label' => 'E-Mail',
+        'copyright_owner_website_label' => 'Website',
+        'copyright_owner_address_label' => 'Address',
+
     ],
 
     'update' => [

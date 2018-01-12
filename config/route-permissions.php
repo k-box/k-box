@@ -231,6 +231,12 @@ return [
             'update' => KBox\Capability::MANAGE_DMS,
             'destroy' => KBox\Capability::MANAGE_DMS,
         ],
+
+        'licenses' => [
+            'index' => KBox\Capability::MANAGE_DMS,
+            'default' => ['update' => KBox\Capability::MANAGE_DMS],
+            'available' => ['update' => KBox\Capability::MANAGE_DMS],
+        ],
     ],
 
  ];

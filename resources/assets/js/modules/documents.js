@@ -510,7 +510,42 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
                 DMS.MessageBox.close();
             });
         }
+        else if(data.action && data.action==='showCopyrightUsageDescription'){
+
+            handleLicenseDetailsShowHide();
+
+            
+        }
  
+    }
+
+    function handleLicenseDetailsShowHide(innerEvent)
+    {
+        var licenseDetails = $('.js-license-details');
+        var close = false;
+
+        if(innerEvent){
+
+            if($(innerEvent.target).parents('.js-license-details').length === 0){
+
+                innerEvent.stopPropagation();
+
+                close = true;
+
+                $(document).off('click', ':not(.js-license-details)', handleLicenseDetailsShowHide);
+            }
+        }
+
+        if(licenseDetails.hasClass('license__details--opened') && close){
+            licenseDetails.removeClass('license__details--opened');
+        }
+        else {
+            licenseDetails.addClass('license__details--opened');
+
+            $(document).on('click', ':not(.js-license-details)', handleLicenseDetailsShowHide);
+            
+        }
+
     }
     
     function _doMakePublic(params, changeTitles){
@@ -525,10 +560,18 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
 
             DMS.Services.Bulk.makePublic(params, function(data){
                 
-                DMS.MessageBox.success(Lang.trans('networks.make_public_success_title'), (data && data.message) ? data.message : Lang.trans('networks.make_public_success_text_alt', {network: module.context.network_name}));
-                
-                DMS.navigateReload();
-                
+                if(data.status && data.status==='ok'){
+                                            
+                    DMS.MessageBox.success(Lang.trans('networks.make_public_success_title'), (data && data.message) ? data.message : Lang.trans('networks.make_public_success_text_alt', {network: module.context.network_name}));
+                    
+                    DMS.navigateReload();
+                }
+                else if(data.message) {
+
+                    DMS.MessageBox.error(Lang.trans('networks.make_public_error_title',{network: module.context.network_name}), data.message);
+
+                }
+
             }, function(obj, err, errText){
                 
                 if(obj.responseJSON && obj.responseJSON.status === 'error'){
@@ -664,9 +707,9 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
                 }
 
                 var pnl = Panels.openAjax(uuid, this, DMS.Paths.DOCUMENTS + '/public/' + uuid, {}, {
-                    // callbacks: {
-                    //     click: _panelClickEventHandler
-                    // }
+                    callbacks: {
+                        click: _panelClickEventHandler
+                    }
                 }).on('dms:panel-loaded', function(panel_evt, panel){
 
                 });

@@ -30,8 +30,6 @@ class PublishedDocumentsController extends Controller
      */
     public function store(Request $request)
     {
-        // todo: validate document_id existence
-
         try {
             $document = DocumentDescriptor::findOrFail($request->input('document_id'));
 
