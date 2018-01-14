@@ -283,7 +283,7 @@ return [
     
     
     'upload' => [
-        'folders_dragdrop_not_supported' => 'Votre navigateur ne supporte pas le drag-and-drop.',
+        'folders_dragdrop_not_supported' => 'Votre navigateur ne supporte pas le glisser-déposer.',
         'error_dialog_title' => 'Erreur pendant la mise en ligne du fichier',
         
         'max_uploads_reached_title' => 'Désolé, vous devez patienter encore un peu',
