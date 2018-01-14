@@ -258,47 +258,47 @@ return [
         'forbidden' => 'Vous n\'avez pas les droits nécessaires pour modifier ce document.',
         'delete_forbidden' => 'Vous n\'avez pas les droits nécessaires pour effacer des documents, veuillez contacter votre administrateur.',
         'delete_public_forbidden' => 'Voud ne pouvez pas effacer un document public. Veuillez contacter votre administrateur.',
-        'delete_force_forbidden' => 'You cannot permanently delete a Document. Please contact a Project Manager or Administrator.',
-        'drag_hint' => 'Drop the file to start the upload.',
-        'recent_hint_dms_manager' => 'You are viewing all the document updates made by each user of the K-Box.',
-        'no_documents' => 'No Documents, you can upload new documents here using the "Create or Add" button above or by dragging and dropping them here.',
+        'delete_force_forbidden' => 'Vous ne pouvez pas effacer définitivement un document. Veuillez contacter votre administrateur.',
+        'drag_hint' => 'Faites glisser le fichier pour commencer la mise en ligne.',
+        'recent_hint_dms_manager' => 'Vous voyez actuellement toutes les modifications de documents faites par chaque utilisateur de la K-Box.',
+        'no_documents' => 'Aucun Aucun document.  Vous pouvez ajouter des documents en utilisant le bouton "Créer ou ajouter" ci-dessus ou en les faisant glisser ici.',
     ],
     
     
     'trash' => [
         
-        'clean_title' => 'Clean trash?',
-        'yes_btn' => 'Yes, clean',
-        'no_btn' => 'No',
+        'clean_title' => 'Vider la corbeille?',
+        'yes_btn' => 'Oui, vider',
+        'no_btn' => 'Non',
 
-        'empty_trash' => 'Nothing in trash',
+        'empty_trash' => 'La corbeille est vide',
         
-        'empty_all_text' => 'All the documents in the trash will be permanently deleted. This action will remove files and revision, starred, collections and shares. This action cannot be undone.',
-        'empty_selected_text' => 'You\'re about to permanently delete the selected documents. You will remove also files and revision, starred, collections and shares. This action cannot be undone.',
+        'empty_all_text' => 'Tous les documents dans la corbeille vont être effacés définitivement. Cette action va supprimer les fichiers et leurs modifications, les favoris, les collections et les documents partagés. Cette action ne peut pas être annulée.',
+        'empty_selected_text' => 'Vous allez effacer définitivement les documents sélectionnés. Vous allez aussi effacer les fichiers et leurs modifications, les favoris, les collections et les documents partagés. Cette action ne peut pas être annulée.',
         
-        'cleaned' => 'Trash Cleaned',
-        'cannot_clean' => 'Cannot clean trash',
-        'cannot_clean_general_error' => 'There was a problem cleaning the trash, please contact an Administrator if the problem persists.',
+        'cleaned' => 'Corbeille vidée',
+        'cannot_clean' => 'Impossible de vider la corbeilleCannot clean trash',
+        'cannot_clean_general_error' => 'Il y a eu un problème en vidant la corbeille. Veuillez contacter votre administrateur si le problème se répète.',
     ],
     
     
     'upload' => [
-        'folders_dragdrop_not_supported' => 'Your browser don\'t support folder drag and drop.',
-        'error_dialog_title' => 'File Upload error',
+        'folders_dragdrop_not_supported' => 'Votre navigateur ne supporte pas le drag-and-drop.',
+        'error_dialog_title' => 'Erreur pendant la mise en ligne du fichier',
         
-        'max_uploads_reached_title' => 'Sorry, but you have to wait a little',
-        'max_uploads_reached_text' => 'We can process only a little amount of file, so please have a little patience before adding another file.',
+        'max_uploads_reached_title' => 'Désolé, vous devez patienter encore un peu',
+        'max_uploads_reached_text' => 'Nous pouvons traiter seulement un nombre limité de fichiers. Veuillez patienter un peu avant d\'ajouter un autre fichier.',
         
-        'all_uploaded' => 'All the files have been successfully uploaded.',
+        'all_uploaded' => 'Tous les fichiers ont été mis en ligne avec succès.',
         
-        'upload_dialog_title' => 'Upload',
-        'page_title' => 'Upload',
-        'dragdrop_not_supported' => 'Your browser does not support drag and drop file uploads.',
-        'dragdrop_not_supported_text' => 'Please upload your files using file selector in "Create or Add".',
-        'remove_btn' => "Remove file", //this is the little link that is showed after the file upload has been processed
-        'cancel_btn' => 'Cancel upload', //for future use
-        'cancel_question' => 'Are you sure you want to cancel this upload?',  //for future use
-        'outside_project_target_area' => 'Please drag and drop your file over a Project to upload it.',
-        'empty_file_error' => 'Empty file, please upload a file, which has at least one word in it.',
+        'upload_dialog_title' => 'Mise en ligne',
+        'page_title' => 'Mise en ligne',
+        'dragdrop_not_supported' => 'Votre navigateur ne supporte pas la mise en ligne par drag-and-drop..',
+        'dragdrop_not_supported_text' => 'Veuillez mettre vos fichiers en ligne en utilisant le sélecteur de fichiers dans "Créer ou ajouter".',
+        'remove_btn' => "Supprimer le fichier", //this is the little link that is showed after the file upload has been processed
+        'cancel_btn' => 'Annuler la mise en ligne', //for future use
+        'cancel_question' => 'Etes-vous sûr de vouloir annuler cette mise en ligne?',  //for future use
+        'outside_project_target_area' => 'Veuillez faire glisser votre fichier vers un projet pour le mettre en ligne.',
+        'empty_file_error' => 'Fichier vide, veuillez mettre en ligne un fichier, qui contient au moins un mot.',
     ],
 ];
