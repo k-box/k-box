@@ -13,35 +13,35 @@ return [
     |
     */
 
-    "password" => "Passwords must be at least six characters and match the confirmation.",
-    "user" => "We can't find a user with that e-mail address.",
-    "token" => "The password reset link you have used is expired. It will be usable only for 5 minutes after the password reset request.",
-    "sent" => "Password reset link sent!",
-    "reset" => "Password has been reset!",
+    "password" => "Les mots de passe doivent avoir au moins 6 caractères et doivent correspondre à la confirmation.",
+    "user" => "Nous n\'avons pas trouvé d\'utilisateur avec cette adresse email.",
+    "token" => "Le lien de réinitialisation du mot de passe que vous avez utilisé a expiré. Il est valide uniquement pendant 5 minutes après la demande de réinitialisation.",
+    "sent" => "Le lien de réinitialisation du mot de passe a été envoyé!",
+    "reset" => "Le mot de passe a été réinitialisé!",
 
     'forgot' => [
 
-        'link' => 'Forgot your password?',
+        'link' => 'Mot de passe oublié?',
 
-        'title' => 'Forgot your password?',
+        'title' => 'Mot de passe oublié?',
 
-        'instructions' => 'To reset your password please specify your E-Mail address. A mail with a reset link will be sended to your E-Mail account.',
+        'instructions' => 'Pour réinitialiser votre mot de passe, veuillez indiquer vote adresse email. Un email avec un lien de réinitialisation vous sera envoyé.',
 
-        'submit' => 'Request a Password Reset',
+        'submit' => 'Demander une réinitialisation du mot de passe',
 
-        'email_subject' => 'K-Box Password Reset Request',
+        'email_subject' => 'Demande de réinitialisation du mot de passe K-Box',
 
     ],
 
     'reset' => [
 
-        'title' => 'Reset your account password',
+        'title' => 'Réinitialisez le mot de passe de votre compte',
 
-        'instructions' => 'Please specify a new 8 character long alphanumeric password.',
+        'instructions' => 'Veuillez indiquer un nouveau mot de passe avec minimum 8 charactères alphanumériques.',
 
-        'submit' => 'Reset the Password',
+        'submit' => 'Réinitialiser le mot de passe',
 
-        'email_subject' => 'Your K-Box Account Password has been changed',
+        'email_subject' => 'Le mot de passe de votre compte K-Box a été modifié',
 
     ],
 
