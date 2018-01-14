@@ -166,70 +166,70 @@ return [
     ],
 
     'update' => [
-        'error' => 'Cannot Update the document. Nothing has been changed. :error',
+        'error' => 'Impossible de mettre à jour le document. Rien n\'a changé. :error',
         
-        'removed_from_title' => 'Removed from collection',
-        'removed_from_text' => 'The document has been removed from ":collection"',
-        'removed_from_text_alt' => 'The document has been removed from the collection',
+        'removed_from_title' => 'Supprimé de la collection',
+        'removed_from_text' => 'Ce document a été supprimé de ":collection"',
+        'removed_from_text_alt' => 'Ce document a été supprimé de la collection',
         
-        'cannot_remove_from_title' => 'Cannot remove from collection',
-        'cannot_remove_from_general_error' => 'Cannot remove document from collection, if the problem persists please contact the DMS Administrator.',
+        'cannot_remove_from_title' => 'Impossible de supprimer de la collection',
+        'cannot_remove_from_general_error' => 'Impossible de supprimer le document de la collection. Si le problème se répète, veuillez contacter votre administrateur.',
 
     ],
     
     'restore' => [
         
-        'restore_dialog_title' => 'Restore :document?',
-        'restore_dialog_text' => 'You\'re about to restore ":document"',
-        'restore_dialog_title_count' => 'Restore :count documents?',
-        'restore_dialog_text' => 'You\'re about to restore ":document"',
-        'restore_dialog_text_count' => 'You\'re about to restore :count files',
-        'restore_dialog_yes_btn' => 'Yes, restore',
-        'restore_dialog_no_btn' => 'No',
+        'restore_dialog_title' => 'Restaurer :document?',
+        'restore_dialog_text' => 'Vous allez restaurer ":document"',
+        'restore_dialog_title_count' => 'Restaurer :count documents?',
+        'restore_dialog_text' => 'Vous allez restaurer ":document"',
+        'restore_dialog_text_count' => 'Vous allez restaurer :count files',
+        'restore_dialog_yes_btn' => 'Oui, restaurer?',
+        'restore_dialog_no_btn' => 'Non',
         
-        'restore_success_title' => 'Restored',
-        'restore_error_title' => 'Cannot restore',
-        'restore_error_text_generic' => 'The selected file was not moved out of the trash.',
+        'restore_success_title' => 'Restauré',
+        'restore_error_title' => 'Impossible de restaurer',
+        'restore_error_text_generic' => 'Le fichier sélectionné n\'a pas été sorti de la corbeille.',
       
-        'restoring' => 'Restoring...',
+        'restoring' => 'Restauration en cours...',
     ],
     
     'delete' => [
         
-        'dialog_title' => 'Trash ":document"?',
-        'dialog_title_alt' => 'Trash document?',
-        'dialog_title_count' => 'Move :count documents to Trash?',
-        'dialog_text' => 'You\'re about to move :document to Trash.',
-        'dialog_text_count' => 'You\'re about to move :count documents to Trash',
-        'deleted_dialog_title' => ':document has been trashed',
-        'deleted_dialog_title_alt' => 'Trashed',
-        'cannot_delete_dialog_title' => 'Cannot trash ":document"',
-        'cannot_delete_dialog_title_alt' => 'Cannot trash',
-        'cannot_delete_general_error' => 'There was a problem moving the document to Trash, please contact an Administrator.',
+        'dialog_title' => 'Mettre ":document" à la corbeille?',
+        'dialog_title_alt' => 'Mettre le document à la corbeille?',
+        'dialog_title_count' => 'Déplacer :count documents vers la corbeille?',
+        'dialog_text' => 'Vous allez déplacer :document dans la corbeille.',
+        'dialog_text_count' => 'Vous allez déplacer :document dans la corbeille',
+        'deleted_dialog_title' => ':document ont été mis à la corbeille',
+        'deleted_dialog_title_alt' => 'Mis à la corbeille',
+        'cannot_delete_dialog_title' => 'Impossible de mettre ":document" à la corbeille',
+        'cannot_delete_dialog_title_alt' => 'Impossible de mettre à la corbeille',
+        'cannot_delete_general_error' => 'Un problème est apparu en déplaçant ce document dans la corbeille, veuillez contacter votre administrateur.',
     ],
 
     'permanent_delete' => [
         
-        'dialog_title' => 'Permanently Delete ":document"?',
-        'dialog_title_alt' => 'Permanently Delete document?',
-        'dialog_title_count' => 'Delete :count documents?',
-        'dialog_text' => 'You\'re about to permanently delete :document. This operation cannot be undone.',
-        'dialog_text_count' => 'You\'re about to permanently delete :count documents. This operation cannot be undone.',
-        'deleted_dialog_title' => ':document has been permanently deleted',
-        'deleted_dialog_title_alt' => 'Permanently Deleted',
-        'cannot_delete_dialog_title' => 'Cannot permanently delete ":document"!',
-        'cannot_delete_dialog_title_alt' => 'Cannot permanently delete!',
-        'cannot_delete_general_error' => 'There was a problem while permanently deleting the document, please contact an Administrator.',
+        'dialog_title' => 'Effacer définitivement ":document"?',
+        'dialog_title_alt' => 'Effacer définitivement ce document?',
+        'dialog_title_count' => 'Effacer :count documents?',
+        'dialog_text' => 'Vous allez effacer définitivement :document. Cette opération ne peut pas être annulée.',
+        'dialog_text_count' => 'Vous allez effacer définitivement :count documents. Cette opération ne peut pas être annulée.',
+        'deleted_dialog_title' => ':document a été définitivement effacé',
+        'deleted_dialog_title_alt' => 'Effacé définitivement',
+        'cannot_delete_dialog_title' => 'Impossible d\'effacer définitivement ":document"!',
+        'cannot_delete_dialog_title_alt' => 'Impossible d\'effacer définitivement!',
+        'cannot_delete_general_error' => 'Un problème est apparu en effaçant de document, veuillez contacter votre administrateur.',
     ],
 
     'preview' => [
-        'page_title' => 'Previewing :document',
-        'error' => 'Sorry, but we were unable to load the preview of ":document".',
-        'not_available' => 'The document preview cannot be showed for this document.',
-        'google_file_disclaimer' => ':document is a Google Drive file, we cannot show the preview here. You have to open it in Google Drive.',
-        'google_file_disclaimer_alt' => 'This is a Google Drive file and cannot be previewed here.',
-        'open_in_google_drive_btn' => 'Open in Google Drive',
-        'video_not_ready' => 'The video is being processed. It will be available within seconds.',
+        'page_title' => 'Aperçu de :document',
+        'error' => 'Désolé, mais nous sommes incapables de charger l\'aperçu de ":document".',
+        'not_available' => 'L\'aperçu de ce document ne peut être affiché.',
+        'google_file_disclaimer' => ':document est un document Google Drive, nous ne pouvons pas afficher son aperçu ici. Vous devez l\'ouvrir dans Google Drive.',
+        'google_file_disclaimer_alt' => 'Ceci est un document Google Drive et l\'aperçu ne peut être affiché ici.',
+        'open_in_google_drive_btn' => 'Ouvrir dans Google Drive',
+        'video_not_ready' => 'La vidéo est en cours de traitement. Elle sera disponible dans quelques secondes.',
     ],
 
     'versions' => [
@@ -242,22 +242,22 @@ return [
 
         'version_number' => 'version :number',
 
-        'version_current' => 'current',
+        'version_current' => 'actuel',
 
-        'new_version_button' => 'Upload new version',
+        'new_version_button' => 'Mettre une nouvelle version en ligne',
         
-        'new_version_button_uploading' => 'Uploading...',
+        'new_version_button_uploading' => 'Mise en ligne en cours...',
 
-        'filealreadyexists' => 'The file version you are uploading already exists in the DMS',
+        'filealreadyexists' => 'La version du fichier que vous mettez en ligne existe déjà dans le DMS',
     ],
 
     'messages' => [
-        'updated' => 'Document details changed. Processing the changes, the document might not be available in search results yet.',
-        'processing' => 'The document is being processed by the K-Box. It might not be immediately available in search results.',
-        'local_public_only' => 'Currently showing only the Institution\'s Public documents.',
-        'forbidden' => 'You don\'t have the ability to make changes to the document.',
-        'delete_forbidden' => 'You don\'t have the rights to delete documents, please contact a Project Manager or Administrator.',
-        'delete_public_forbidden' => 'You cannot delete a Public Document, please contact a K-Linker or Administrator.',
+        'updated' => 'Les détails du document ont chang. Pendant le traitement des changements, le document peut ne pas encore être disponible dans les résultats de recherche.',
+        'processing' => 'Le document est en cours de traitement par la K-Box. Il peut ne pas encore être disponible dans les résultats de recherche.',
+        'local_public_only' => 'Affichage uniquement des docments publics de l\'institution.',
+        'forbidden' => 'Vous n\'avez pas les droits nécessaires pour modifier ce document.',
+        'delete_forbidden' => 'Vous n\'avez pas les droits nécessaires pour effacer des documents, veuillez contacter votre administrateur.',
+        'delete_public_forbidden' => 'Voud ne pouvez pas effacer un document public. Veuillez contacter votre administrateur.',
         'delete_force_forbidden' => 'You cannot permanently delete a Document. Please contact a Project Manager or Administrator.',
         'drag_hint' => 'Drop the file to start the upload.',
         'recent_hint_dms_manager' => 'You are viewing all the document updates made by each user of the K-Box.',
