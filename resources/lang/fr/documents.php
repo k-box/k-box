@@ -4,7 +4,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Document and Document Descriptor Language Lines
+    | Document and Document Descriptor Language Lines 
     |--------------------------------------------------------------------------
     |
     | The following language lines are used for localizing the document description
