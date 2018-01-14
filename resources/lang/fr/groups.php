@@ -16,7 +16,7 @@ return [
         'private_title' => 'Projets',
         'description'   => 'Une collection vous aide à organiser vos documents.',
         
-        'empty_private_msg' => 'Aucuns projets pour le moment.',
+        'empty_private_msg' => 'Aucun projet pour le moment.',
 
     ],
 
@@ -54,10 +54,10 @@ return [
         
         'page_title' => 'Groupes',
             
-        'no_users' => 'Aucun utiliateur ne peut être ajouté à un groupe. Veuillez contacter votre administrateur ou vérifier que les utilisateurs peuvent recevoir et voir les partages.',
+        'no_users' => 'Aucun utilisateur ne peut être ajouté à un groupe. Veuillez contacter votre administrateur ou vérifier que les utilisateurs peuvent recevoir et voir les partages.',
         
         'available_users' => 'Utilisateurs disponibles',
-        'available_users_hint' => 'Glissez un utilisateur d\'ici vers un groupe pour ajouter cet utilsateur à ce groupe.',
+        'available_users_hint' => 'Glissez un utilisateur d\'ici vers un groupe pour ajouter cet utilisateur à ce groupe.',
        
         'remove_user' => 'Supprimer du groupe',
         
@@ -114,7 +114,7 @@ return [
     ],
     
     'move' => [
-        'moved' => '":collection" déplacée',
+        'moved' => '":collection" déplacé',
         'moved_alt' => 'Déplacé',
         'moved_text' => 'La collection a été déplacée. Nous rafraîchissons votre visualisation...',
         'error_title' => 'Impossible de déplacer :collection',
