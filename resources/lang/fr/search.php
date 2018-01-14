@@ -10,39 +10,39 @@ return [
     |
     */
 
-    'page_title' => 'Search',
+    'page_title' => 'Recherche',
 
     'form' => [
-        'placeholder' => 'Search...',
-        'placeholder_in' => 'Search ":location"...',
-        'hint' => 'Search for words and phrases, you could use AND and/or OR modifiers to make something interesting.',
-        'hint_in' => 'Search inside :location',
-        'submit' => 'Start searching',
-        'public_switch_alt' => 'Search for Public documents',
-        'private_switch_alt' => 'Search for Private documents',
+        'placeholder' => 'Rechercher...',
+        'placeholder_in' => 'Rechercher ":location"...',
+        'hint' => 'Rechercher des mots et des phrases. Vous pouvez utiliser les mots clés AND et/ou OR pour affiner vos recherches.',
+        'hint_in' => 'Chercher à l\'intérieur de :location',
+        'submit' => 'Lancer la recherche',
+        'public_switch_alt' => 'Rechercher des documents publics',
+        'private_switch_alt' => 'Rechercher des documents privés',
     ],
 
-    'error' => 'There was a problem connecting to the K-Link Core for making the search. The team has been notified and is working on a solution.',
+    'error' => 'Il y a eu un problème lors de la connexion à K-Link Core pour effectuer une recherche. L\'équipe technique en a été informée et recherche une solution.',
 
-    'failure' => 'There was a problem on our end, the search request cannot be processed. Please notify the administrator if the problem persists.',
+    'failure' => 'Il y a eu un problème de notre côté. La recherche ne peut pas être traitée. Veuillez contacter l\'administrateur si le problème se reproduit.',
 
-    'empty_query' => 'Insert something in the search field above and press enter to start searching.',
+    'empty_query' => 'Ecrivez quelque chose dans le champ de recherche ci-dessus et appuyez sur Enter pour lancer la recherche.',
 
-    'loading_filters' => 'Loading filters...',
+    'loading_filters' => 'Chargement des filtres...',
 
-    'no_results' => 'Sorry nothing has been found for <strong>:term</strong> into <strong>:collection</strong> documents.',
-    'no_results_no_markup' => 'Sorry nothing has been found for :term in :collection',
-    'no_results_generic' => 'No documents match your search criteria.',
-    'no_results_for_term' => 'No documents match your search for ":term".',
+    'no_results' => 'Désolé, aucun résultat n\'a été trouvé pour <strong>:term</strong> parmi les documents de <strong>:collection</strong>.',
+    'no_results_no_markup' => 'Désolé, rien n\'a été trouvé pour :term dans :collection',
+    'no_results_generic' => 'Aucun document de correspond à vos critères de recherche.',
+    'no_results_for_term' => 'Aucun document de correspond à votre recherche pour ":term".',
 
-    'try_message' => 'Try search for words that starts with :startwithlink',
+    'try_message' => 'Veuillez essayer de chercher des mots commençant avec :startwithlink',
 
     'facets' => [
         'institutionId' => 'Institution',
-        'language' => "Language",
-        'documentType' => "Document Type",
+        'language' => "Langue",
+        'documentType' => "Type de Document",
         'documentGroups' => "Collections",
-        'projectId' => 'Project',
+        'projectId' => 'Projet',
         'collections' => "Collections",
         'projects' => 'Project'
     ],
