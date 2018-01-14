@@ -14,91 +14,91 @@ return [
 
     'descriptor' => [
 
-        'name' => 'name',
-        'added_by' => 'added by',
-        'language' => 'language',
-        'added_on' => 'added on',
-        'last_modified' => 'last modified',
-        'indexing_error' => 'The document has not been indexed in K-Link',
-        'private' => 'Private',
-        'shared' => 'Shared',
-        'is_public' => 'Public Document',
-        'is_public_description' => 'This document is publicly available to other Institution in the K-Link Network',
-        'trashed' => 'This document is in the trash',
-        'klink_public_not_mine' => 'This document is only a reference to the document added to K-Link Public, therefore you cannot make any changes.',
+        'name' => 'nom',
+        'added_by' => 'ajouté par',
+        'language' => 'langue',
+        'added_on' => 'ajouté le',
+        'last_modified' => 'dernière modification',
+        'indexing_error' => 'Ca document n\'a pas été indexé par K-Link',
+        'private' => 'Privé',
+        'shared' => 'Partagé',
+        'is_public' => 'Document Public',
+        'is_public_description' => 'Ce document est publiquement accessible par toutes les institutions membres du réseau K-Link',
+        'trashed' => 'Ce document est dans la corbeille',
+        'klink_public_not_mine' => 'Ce document est uniquement une référence à un document ajouté à K-Link Public et vous ne pouvez donc pas le modifier.',
     ],
 
     'page_title' => 'Documents',
 
     'menu' => [
-        'all' => 'All',
+        'all' => 'Tous',
         'public' => 'K-Link Public',
-        'private' => 'Private',
-        'personal' => 'Personal',
-        'starred' => 'Starred',
-        'shared' => 'Shared with me',
-        'recent' => 'Recent',
-        'trash' => 'Trash',
-        'not_indexed' => 'Not Indexed',
-        'recent_hint' => 'You will find here recently modified documents you own',
+        'private' => 'Privé',
+        'personal' => 'Personel',
+        'starred' => 'Favori',
+        'shared' => 'Partagés avec moi',
+        'recent' => 'Récents',
+        'trash' => 'Corbeille',
+        'not_indexed' => 'Pas indexé',
+        'recent_hint' => 'Vous trouverez ici les documents récemment modifiés que vous possédez',
         'starred_hint' => 'You will find here all your starred documents',
     ],
 
     'sort' => [
-        'sorted_by' => 'Sorted by :sort',
-        'type_project_name' => 'project name',
-        'type_search_relevance' => 'search relevance',
-        'type_updated_at' => 'update date',
+        'sorted_by' => 'Ordonner par :sort',
+        'type_project_name' => 'nom du projet',
+        'type_search_relevance' => 'pertinence',
+        'type_updated_at' => 'date de mise à jour',
     ],
 
     'filtering' => [
-        'date_range_hint' => 'Preferred time range',
-        'items_per_page_hint' => 'Number of items per page',
-        'today' => 'Today',
-        'yesterday' => 'Since Yesterday',
-        'currentweek' => 'Last 7 days',
-        'currentmonth' => 'Last 30 days',
+        'date_range_hint' => 'Période de temps préférée',
+        'items_per_page_hint' => 'Nombre d\'objets par page',
+        'today' => 'Aujourd\'hui',
+        'yesterday' => 'Depuis hier',
+        'currentweek' => 'Derniers 7 jours',
+        'currentmonth' => 'Derniers 30 jours',
     ],
 
     'visibility' => [
         'public' => 'Public',
-        'private' => 'Private',
+        'private' => 'Privé',
     ],
 
     'type' => [
 
-        'web-page' => 'web page|web pages',
+        'web-page' => 'page web|pages web',
         'document' => 'document|documents',
-        'spreadsheet' => 'spreadsheet|spreadsheets',
-        'presentation' => 'presentation|presentations',
-        'uri-list' => 'URL list|URLs list',
+        'spreadsheet' => 'tableur|tableurs',
+        'presentation' => 'présentation|présentations',
+        'uri-list' => 'liste d\'URLs|listes d\'URLs',
         'image' => 'image|images',
-        'geodata' => 'geographic data|geographic data',
-        'text-document' => 'textual document|textual documents',
+        'geodata' => 'jeu de données géographiques|jeux de données géographiques',
+        'text-document' => 'document texte|documents texte',
         'video' => 'video|videos',
         'archive' => 'archive|archives',
         'PDF' => 'PDF|PDFs',
     ],
 
-    'empty_msg' => 'No documents in <strong>:context</strong>',
-    'empty_msg_recent' => 'No documents for <strong>:range</strong>',
+    'empty_msg' => 'Aucun document dans <strong>:context</strong>',
+    'empty_msg_recent' => 'Aucun document pour <strong>:range</strong>',
 
     'bulk' => [
 
-        'removed' => ':num file deleted.|:num files deleted.',
+        'removed' => ':num fichier effacé.|:num fichiers effacés.',
         
-        'permanently_removed' => ':num file permanently deleted.|:num files permanently deleted.',
+        'permanently_removed' => ':num fichier effacé définitivement.|:num fichiers effacés définitivement.',
         
-        'restored' => ':num file restored.|:num files restored.',
+        'restored' => ':num fichier restauré.|:num fichiers restaurés.',
 
-        'remove_error' => 'Cannot delete files. :error',
+        'remove_error' => 'Impossible d\'effacet les fichiers. :error',
         
-        'copy_error' => 'Cannot copy to collection. :error',
+        'copy_error' => 'Impossible de copier la collection. :error',
         
-        'copy_completed_all' => 'All documents has been added to :collection',
-        'copy_completed_some' => '{0}No documents has been added because were already in ":collection"|[1,Inf]:count Documents added to :collection, the remaining :remaining where already in :collection',
+        'copy_completed_all' => 'Tous les documents ont ét´ajoutés à :collection',
+        'copy_completed_some' => '{0}Aucun document n\'a été ajouté car il existe déjà dans ":collection"|[1,Inf]:count Documents ajoutés à :collection, les autres :remaining existaient déjà dans :collection',
         
-        'restore_error' => 'Cannot restore document. :error',
+        'restore_error' => 'Impossible de restaurer le document. :error',
         
         // 'make_public' => ':num document has been published over the K-Link Public Network|:num documents were made available in the K-Link Network.',
         
@@ -108,12 +108,12 @@ return [
         // 'make_public_success_text_alt' => 'The documents are now publicly available on the K-Link Network',
         // 'make_public_success_title' => 'Publish completed',
 
-        'adding_title' => 'Adding documents...',
-        'adding_message' => 'Please wait while the documents are being added to the collection...',
-        'added_to_collection' => 'Added',
-        'some_added_to_collection' => '{0}Documents not added|[1,Inf]Some documents not added',
+        'adding_title' => 'Ajout des documents...',
+        'adding_message' => 'Veuillez patienter pendant que les documents sont ajoutés à la collection...',
+        'added_to_collection' => 'Ajouté',
+        'some_added_to_collection' => '{0}Documents non ajoutés|[1,Inf]Certains documents non ajoutés',
         
-        'add_to_error' => 'Cannot add to collection',
+        'add_to_error' => 'Impossible d\'ajouter à la collection',
         
         // 'making_public_title' => 'Publishing...',
         // 'making_public_text' => 'Please wait while the documents will be made publicly available in the K-Link Network',
@@ -134,35 +134,35 @@ return [
     ],
 
     'create' => [
-        'page_breadcrumb' => 'Create',
-        'page_title' => 'Create a new Document',
+        'page_breadcrumb' => 'Créer',
+        'page_title' => 'Créer un nouveau document',
     ],
 
     'edit' => [
-        'page_breadcrumb' => 'Edit :document',
-        'page_title' => 'Edit :document',
+        'page_breadcrumb' => 'Editer :document',
+        'page_title' => 'Editer :document',
 
-        'title_placeholder' => 'Document Title',
+        'title_placeholder' => 'Titre du document',
 
-        'abstract_label' => 'Abstract',
-        'abstract_placeholder' => 'Document abstract',
+        'abstract_label' => 'Résumé',
+        'abstract_placeholder' => 'Résumé du document',
 
-        'authors_label' => 'Authors',
-        'authors_help' => 'Authors must be specified as a comma separated list of entry formatted like <code>name surname &lt;mail@something.com&gt;</code>',
-        'authors_placeholder' => 'Document authors (name surname <mail@something.com>)',
+        'authors_label' => 'Auteurs',
+        'authors_help' => '´Donnez le nom de chaque auteur, séparé par une virgule, comme <code>name surname &lt;mail@something.com&gt;</code>',
+        'authors_placeholder' => 'Auteurs du document authors (prénom nom <mail@something.com>)',
 
-        'language_label' => 'Language',
+        'language_label' => 'Langue',
 
-        'last_edited' => 'Last edit <strong>:time</strong>',
-        'created_on' => 'Created on <strong>:time</strong>',
-        'uploaded_by' => 'Uploaded by <strong>:name</strong>',
+        'last_edited' => 'Dernière modification <strong>:time</strong>',
+        'created_on' => 'Crée le <strong>:time</strong>',
+        'uploaded_by' => 'Mis en ligne par <strong>:name</strong>',
 
-        'public_visibility_description' => 'The document will be made available to all Institution in the K-Link Network',
+        'public_visibility_description' => 'Ce document sera accessible par toutes les institutions membres du réseau K-Link',
         
         
-        'not_index_message' => 'The document has not yet been succesfully added to K-Link. Please try to <button type="submit">Reindex it</button> now or contact your administrator.',
-        'not_fully_uploaded' => 'The upload of this document is still in progress.',
-        'preview_available_when_upload_completes' => 'The preview will be available once the upload completes.',
+        'not_index_message' => 'Ce document n\'a pas encore pu être ajouté à K-Link.  Veuilles essayer de <button type="submit">le ré-indexer</button> maintenant ou contactez votre administrateur.',
+        'not_fully_uploaded' => 'La mise en ligne de ce document est encore en cours.',
+        'preview_available_when_upload_completes' => 'L\'aperçu sera disponible quand la mise en ligne sera terminée.',
     ],
 
     'update' => [
