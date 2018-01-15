@@ -25,7 +25,7 @@ return [
 
     'errors' => [
 
-        'invalidargumentexception' => 'Désolé, je ne peux pas ajouter ce document à vos favoris. (:exception)',
+        'invalidargumentexception' => 'Désolé, nous ne pouvons pas ajouter ce document à vos favoris. (:exception)',
     ],
 
 ];
