@@ -57,7 +57,7 @@ return [
         'no_users' => 'Aucun utilisateur ne peut être ajouté à un groupe. Veuillez contacter votre administrateur ou vérifier que les utilisateurs peuvent recevoir et voir les partages.',
         
         'available_users' => 'Utilisateurs disponibles',
-        'available_users_hint' => 'Glissez un utilisateur d\'ici vers un groupe pour ajouter cet utilisateur à ce groupe.',
+        'available_users_hint' => 'Glissez un utilisateur d\'ici vers un groupe pour l\'ajouter à ce groupe.',
        
         'remove_user' => 'Supprimer du groupe',
         
@@ -75,7 +75,7 @@ return [
         'cannot_add_user_dialog_title' => 'Impossible de créer l\'utilisateur',
         'cannot_add_user_dialog_text' => 'L\'utilisateur ne peut pas être ajouté au groupe. Une erreur inattendue s\'est produite.',
         
-        'user_already_exists' => 'Utilisateur ":name" existe déjà dans ce groupe',
+        'user_already_exists' => 'L\'utilisateur ":name" existe déjà dans ce groupe',
         
         'delete_dialog_title' => 'Effacer ":name"?',
         'delete_dialog_text' => 'Supprimer le groupe ":name" de façon permanente? (cette opération ne peut pas être annulée)',
@@ -127,7 +127,7 @@ return [
         'move_to_project_title_alt' => 'Déplacer vers le projet?',
         'move_to_project_text' => 'Vous allez déplacer une collection personnelle vers un projet. Cela va rendre ":collection" et ses sous-collections visibles pour tous les utilisateurs du projet.',
         'move_to_personal_title' => 'Rendre cette collection personnelle?',
-        'move_to_personal_text' => 'Vous allez sortir la collection d\'un projet vers votre collection personnelle. La collection ":collection" ne sera plus visible par les utilisateurs du projet.',
+        'move_to_personal_text' => 'Vous allez déplacer la collection d\'un projet vers vos collections personnelles. La collection ":collection" ne sera plus visible par les utilisateurs du projet.',
     ],
  
     'access' => [
