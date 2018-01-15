@@ -4,7 +4,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Upload Language Lines
+    | Upload Language Lines 
     |--------------------------------------------------------------------------
     |
     | The following language lines are used primarly for the video uploader
