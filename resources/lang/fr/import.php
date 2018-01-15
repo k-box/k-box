@@ -15,9 +15,9 @@ return [
 
     'clear_completed_btn' => 'Effacer les éléments terminés',
 
-    'import_status_general' => '{0} Import complet|{1} :num import en cours|[2,Inf] :num imports en cours',
+    'import_status_general' => '{0} Import complété|{1} :num import en cours|[2,Inf] :num imports en cours',
 
-    'import_status_details' => ':total total, :completed complets et :executing en cours',
+    'import_status_details' => ':total total, :completed complétés et :executing en cours',
     
     'preparing_import' => 'Import en préparation...',
 
@@ -56,7 +56,7 @@ return [
     
     'remove' => [
         'remove_btn' => 'Supprimer',
-        'remove_btn_hint' => 'Supprime l\'import',
+        'remove_btn_hint' => 'Supprimer l\'import',
         'remove_dialog_title' => 'Supprimer ":import"?',
         'remove_confirmation' => 'Voulez-vous supprimer ":import"?',
         'removing' => 'Suppression en cours ":import"...',
