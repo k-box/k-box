@@ -4,7 +4,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Static pages Language Lines
+    | Static pages Language Lines 
     |--------------------------------------------------------------------------
     |
     | The following language lines are used for the static page titles and link.
