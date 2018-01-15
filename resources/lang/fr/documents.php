@@ -41,7 +41,7 @@ return [
         'trash' => 'Corbeille',
         'not_indexed' => 'Pas indexé',
         'recent_hint' => 'Vous trouverez ici les documents récemment modifiés que vous possédez',
-        'starred_hint' => 'You will find here all your starred documents',
+        'starred_hint' => 'Vous trouverez ici tous vos documents favoris',
     ],
 
     'sort' => [
@@ -95,7 +95,7 @@ return [
         
         'copy_error' => 'Impossible de copier la collection. :error',
         
-        'copy_completed_all' => 'Tous les documents ont ét´ajoutés à :collection',
+        'copy_completed_all' => 'Tous les documents ont été ajoutés à :collection',
         'copy_completed_some' => '{0}Aucun document n\'a été ajouté car il existe déjà dans ":collection"|[1,Inf]:count Documents ajoutés à :collection, les autres :remaining existaient déjà dans :collection',
         
         'restore_error' => 'Impossible de restaurer le document. :error',
@@ -111,7 +111,7 @@ return [
         'adding_title' => 'Ajout des documents...',
         'adding_message' => 'Veuillez patienter pendant que les documents sont ajoutés à la collection...',
         'added_to_collection' => 'Ajouté',
-        'some_added_to_collection' => '{0}Documents non ajoutés|[1,Inf]Certains documents non ajoutés',
+        'some_added_to_collection' => '{0}Document non ajouté|[1,Inf]Certains documents non ajoutés',
         
         'add_to_error' => 'Impossible d\'ajouter à la collection',
         
@@ -139,8 +139,8 @@ return [
     ],
 
     'edit' => [
-        'page_breadcrumb' => 'Editer :document',
-        'page_title' => 'Editer :document',
+        'page_breadcrumb' => 'Modifier :document',
+        'page_title' => 'Modifier :document',
 
         'title_placeholder' => 'Titre du document',
 
@@ -148,19 +148,19 @@ return [
         'abstract_placeholder' => 'Résumé du document',
 
         'authors_label' => 'Auteurs',
-        'authors_help' => '´Donnez le nom de chaque auteur, séparé par une virgule, comme <code>name surname &lt;mail@something.com&gt;</code>',
-        'authors_placeholder' => 'Auteurs du document authors (prénom nom <mail@something.com>)',
+        'authors_help' => '´Donnez le nom de chaque auteur, séparé par une virgule, comme <code>prénom surname &lt;mail@something.com&gt;</code>',
+        'authors_placeholder' => 'Auteurs du document (prénom nom <mail@something.com>)',
 
         'language_label' => 'Langue',
 
         'last_edited' => 'Dernière modification <strong>:time</strong>',
-        'created_on' => 'Crée le <strong>:time</strong>',
+        'created_on' => 'Créé le <strong>:time</strong>',
         'uploaded_by' => 'Mis en ligne par <strong>:name</strong>',
 
         'public_visibility_description' => 'Ce document sera accessible par toutes les institutions membres du réseau K-Link',
         
         
-        'not_index_message' => 'Ce document n\'a pas encore pu être ajouté à K-Link.  Veuilles essayer de <button type="submit">le ré-indexer</button> maintenant ou contactez votre administrateur.',
+        'not_index_message' => 'Ce document n\'a pas encore pu être ajouté à K-Link. Veuillez essayer de <button type="submit">le ré-indexer</button> maintenant ou contactez votre administrateur.',
         'not_fully_uploaded' => 'La mise en ligne de ce document est encore en cours.',
         'preview_available_when_upload_completes' => 'L\'aperçu sera disponible quand la mise en ligne sera terminée.',
     ],
@@ -183,7 +183,7 @@ return [
         'restore_dialog_text' => 'Vous allez restaurer ":document"',
         'restore_dialog_title_count' => 'Restaurer :count documents?',
         'restore_dialog_text' => 'Vous allez restaurer ":document"',
-        'restore_dialog_text_count' => 'Vous allez restaurer :count files',
+        'restore_dialog_text_count' => 'Vous allez restaurer :count fichiers',
         'restore_dialog_yes_btn' => 'Oui, restaurer?',
         'restore_dialog_no_btn' => 'Non',
         
@@ -198,14 +198,14 @@ return [
         
         'dialog_title' => 'Mettre ":document" à la corbeille?',
         'dialog_title_alt' => 'Mettre le document à la corbeille?',
-        'dialog_title_count' => 'Déplacer :count documents vers la corbeille?',
-        'dialog_text' => 'Vous allez déplacer :document dans la corbeille.',
-        'dialog_text_count' => 'Vous allez déplacer :document dans la corbeille',
+        'dialog_title_count' => 'Mettre :count documents à la corbeille?',
+        'dialog_text' => 'Vous allez mettre :document à la corbeille.',
+        'dialog_text_count' => 'Vous allez mettre :document à la corbeille',
         'deleted_dialog_title' => ':document ont été mis à la corbeille',
         'deleted_dialog_title_alt' => 'Mis à la corbeille',
         'cannot_delete_dialog_title' => 'Impossible de mettre ":document" à la corbeille',
         'cannot_delete_dialog_title_alt' => 'Impossible de mettre à la corbeille',
-        'cannot_delete_general_error' => 'Un problème est apparu en déplaçant ce document dans la corbeille, veuillez contacter votre administrateur.',
+        'cannot_delete_general_error' => 'Un problème est apparu en mettant ce document à la corbeille, veuillez contacter votre administrateur.',
     ],
 
     'permanent_delete' => [
@@ -248,20 +248,20 @@ return [
         
         'new_version_button_uploading' => 'Mise en ligne en cours...',
 
-        'filealreadyexists' => 'La version du fichier que vous mettez en ligne existe déjà dans le DMS',
+        'filealreadyexists' => 'La version du fichier que vous mettez en ligne existe déjà dans la K-Box',
     ],
 
     'messages' => [
-        'updated' => 'Les détails du document ont chang. Pendant le traitement des changements, le document peut ne pas encore être disponible dans les résultats de recherche.',
+        'updated' => 'Les détails du document ont changé. Pendant le traitement des changements, le document peut ne pas encore être disponible dans les résultats de recherche.',
         'processing' => 'Le document est en cours de traitement par la K-Box. Il peut ne pas encore être disponible dans les résultats de recherche.',
         'local_public_only' => 'Affichage uniquement des docments publics de l\'institution.',
         'forbidden' => 'Vous n\'avez pas les autorisations nécessaires pour modifier ce document.',
         'delete_forbidden' => 'Vous n\'avez pas les autorisations nécessaires pour effacer des documents, veuillez contacter votre administrateur.',
-        'delete_public_forbidden' => 'Voud ne pouvez pas effacer un document public. Veuillez contacter votre administrateur.',
+        'delete_public_forbidden' => 'Vous ne pouvez pas effacer un document public. Veuillez contacter votre administrateur.',
         'delete_force_forbidden' => 'Vous ne pouvez pas effacer définitivement un document. Veuillez contacter votre administrateur.',
         'drag_hint' => 'Faites glisser le fichier pour commencer la mise en ligne.',
         'recent_hint_dms_manager' => 'Vous voyez actuellement toutes les modifications de documents faites par chaque utilisateur de la K-Box.',
-        'no_documents' => 'Aucun Aucun document.  Vous pouvez ajouter des documents en utilisant le bouton "Créer ou ajouter" ci-dessus ou en les faisant glisser ici.',
+        'no_documents' => 'Aucun document.  Vous pouvez ajouter des documents en utilisant le bouton "Créer ou ajouter" ci-dessus ou en les faisant glisser ici.',
     ],
     
     
@@ -277,7 +277,7 @@ return [
         'empty_selected_text' => 'Vous allez effacer définitivement les documents sélectionnés. Vous allez aussi effacer les fichiers et leurs modifications, les favoris, les collections et les documents partagés. Cette action ne peut pas être annulée.',
         
         'cleaned' => 'Corbeille vidée',
-        'cannot_clean' => 'Impossible de vider la corbeilleCannot clean trash',
+        'cannot_clean' => 'Impossible de vider la corbeille',
         'cannot_clean_general_error' => 'Il y a eu un problème en vidant la corbeille. Veuillez contacter votre administrateur si le problème se répète.',
     ],
     
@@ -287,13 +287,13 @@ return [
         'error_dialog_title' => 'Erreur pendant la mise en ligne du fichier',
         
         'max_uploads_reached_title' => 'Désolé, vous devez patienter encore un peu',
-        'max_uploads_reached_text' => 'Nous pouvons traiter seulement un nombre limité de fichiers. Veuillez patienter un peu avant d\'ajouter un autre fichier.',
+        'max_uploads_reached_text' => 'Nous pouvons traiter seulement un nombre limité de fichiers en même temps. Veuillez patienter un peu avant d\'ajouter un autre fichier.',
         
         'all_uploaded' => 'Tous les fichiers ont été mis en ligne avec succès.',
         
         'upload_dialog_title' => 'Mise en ligne',
         'page_title' => 'Mise en ligne',
-        'dragdrop_not_supported' => 'Votre navigateur ne supporte pas la mise en ligne par drag-and-drop..',
+        'dragdrop_not_supported' => 'Votre navigateur ne supporte pas la mise en ligne par glisser-déposer..',
         'dragdrop_not_supported_text' => 'Veuillez mettre vos fichiers en ligne en utilisant le sélecteur de fichiers dans "Créer ou ajouter".',
         'remove_btn' => "Supprimer le fichier", //this is the little link that is showed after the file upload has been processed
         'cancel_btn' => 'Annuler la mise en ligne', //for future use
