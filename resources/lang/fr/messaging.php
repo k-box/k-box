@@ -16,7 +16,7 @@ return [
     'message_sent' => 'Le message a été envoyé.',
     'message_error' => 'Il y a eu une erreur pendant l\'envoi du message. :error',
     'error_empty_users' => 'Veuillez sélectionner au moins un utilisateur.',
-    'error_users_not_found' => 'Les destinataires suivant ne peuvent pas être trouvés: :users',
+    'error_users_not_found' => 'Les destinataires suivants ne peuvent pas être trouvés: :users',
 
     'labels' => [
         'users' => 'Sélectionner les utilisateurs qui recevront le message',
