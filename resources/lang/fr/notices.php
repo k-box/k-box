@@ -4,7 +4,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Administrator Messages Language Lines
+    | Administrator Messages Language Lines 
     |--------------------------------------------------------------------------
     |
     | The following language lines are used for rendering particular messages
