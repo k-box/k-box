@@ -4,12 +4,12 @@ return [
 
     
     'loading_message' => 'Chargement en cours...',
-    'load_error' => 'Oups, la boîte de dialogue ne peut pas être chargée:(<br/>:error',
+    'load_error' => 'Oups, la boîte de dialogue ne peut pas être chargée :(<br/>:error',
     'load_error_title' => 'Oups!',
 
     'close_btn' => 'Fermer',
 
-    'sharing_settings_btn' => 'Paramètres d\'échange',
+    'sharing_settings_btn' => 'Paramètres de partage',
 
     'meta' => [
 
