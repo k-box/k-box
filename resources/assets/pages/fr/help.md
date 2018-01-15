@@ -1,4 +1,4 @@
-## K-Link DMS Frequently Asked Questions
+## K-Box Foire Aux Questions (FAQ)
 
 - [Début](#start)
 - [Projets](#projects-activities)
@@ -14,9 +14,9 @@
 
 ### <a id="start"></a>Début
  
-**1. I forgot my log-in password. What should I do?**
+**1. J'oublié mon mot de passe. Que dois-je faire?**
 
-Please choose “Forgot your password?” on main page. The system will send a message with reset link to your registered email address. Please make sure to use the link shortly after its request.
+Veuillez cliquer sur “Mot de passe oublié?” sur la page d'accueil. Le système enverra à votre adresse email un message avec un lien de réinitialisation. Veuillez cliquer sur ce lien dans les 5 minutes suivant votre requête.
  
 **2. I want to add information about my institution. How can I do that?**
 
