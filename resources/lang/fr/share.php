@@ -44,7 +44,7 @@ return [
     'removing' => 'Suppression en cours...',
     
     'share_link_section' => 'Partager un lien',
-    'download_link_copy' => 'Copy le lien de téléchargement vers le presse-papier',
+    'download_link_copy' => 'Copier le lien de téléchargement vers le presse-papier',
     'document_link_copy' => 'Copier le lien',
     'preview_link_copy' => 'Copier le lien d\'aperçu vers le presse-papier',
     'document_link_copy_multiple' => 'Copier les liens',
@@ -73,8 +73,8 @@ return [
         'section_linkshare_title_alternate' => 'Lien à partager',
         'section_publish_title' => 'Publier',
 
-        'linkshare_hint' => 'Uniquement les utilisateurs enregistrés qui ont déjà accès à ce ce document peuvent l\'ouvrir.',
-        'linkshare_multiple_selection_hint' => 'Uniquement les utilisateurs enregistrés qui ont déjà accès à ce ce document peuvent l\'ouvrir. Pour créer un lien public, veuillez sélectionner un seul document',
+        'linkshare_hint' => 'Uniquement les utilisateurs enregistrés qui ont déjà accès à ce document peuvent l\'ouvrir.',
+        'linkshare_multiple_selection_hint' => 'Uniquement les utilisateurs enregistrés qui ont déjà accès à ce document peuvent l\'ouvrir. Pour créer un lien public, veuillez sélectionner un seul document',
         'linkshare_members_only' => 'Uniquement les utilisateurs enregistrés listés ci-dessous peuvent accéder',
         'linkshare_public' => 'Toute personne disposant du lien peut accéder. Identification non nécessaire.',
 
@@ -82,7 +82,7 @@ return [
         'not_published' => 'Non publié sur :network',
         'publishing' => 'Document en cours de publication...',
         'publishing_failed' => 'La publication a échoué.',
-        'unpublishing' => 'Privatisation du document en cours...',
+        'unpublishing' => 'Dépublication du document en cours...',
         'publish_collection' => 'Tous les documents dans la collection seront affectés.',
         'publish_already_in_progress' => 'Une publication est déjà en cours.',
 
