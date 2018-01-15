@@ -42,7 +42,7 @@ return [
 
         ],
         
-        'edit_account_title' => 'Editer :name',
+        'edit_account_title' => 'Modifier :name',
 
         'labels' => [
 
@@ -63,14 +63,14 @@ return [
         'capabilities' => [
 
             'manage_dms' => 'L\'utilisateur peut accéder à la console d\'administration de K-Box',
-            'manage_dms_users' => 'L\'utilisateur peut créer / désactiver des utilisateurs K-Box',
+            'manage_dms_users' => 'L\'utilisateur peut créer/désactiver des utilisateurs K-Box',
             'manage_dms_log' => 'L\'utilisateur peut voir les journaux K-Box',
             'manage_dms_backup' => 'L\'utilisateur peut  effectuer des sauvegardes et restauration de K-Box',
             'change_document_visibility' => 'L\'utilisateur peut publier et dépublier des documents',
-            'edit_document' => 'L\'utilisateur peut éditer des documents',
+            'edit_document' => 'L\'utilisateur peut modifier des documents',
             'delete_document' => 'L\'utilisateur peut mettre des documents à la corbeille',
             'import_documents' => 'L\'utilisateur peut importer des documents depuis des dossiers ou URLs distantes',
-            'upload_documents' => 'L\'utilisateur peut téléverser des documents',
+            'upload_documents' => 'L\'utilisateur peut mettre en ligne des documents',
             'make_search' => 'L\'utilisateur peut  accéder à tous les documents non publiés se trouvant dans des projets accessibles',
             'manage_own_groups' => 'L\'utilisateur peut ajouter/supprimer des collections de documents personnels',
             'manage_institution_groups' => 'L\'utilisateur peut ajouter/supprimer des collections de documents se trouvant dans des projets accessibles',
@@ -81,7 +81,7 @@ return [
             'manage_share_private' => 'L\'utilisateur peut partager des documents avec des groupes d\'utilisateurs définis au niveau de l\'institution',
             'clean_trash' => 'L\'utilisateur peut supprimer ses propres documents de manière définitive',
             'manage_personal_people' => 'L\'utilisateur peut créer/éditer des groupes d\'utilisateurs définis au niveau personnel',
-            'manage_people' => 'L\'utilisateur peut créer/éditer des groupes d\'utilisateurs définis au niveau de l\'institutionUser can create/edit groups of users defined at institution level',
+            'manage_people' => 'L\'utilisateur peut créer/éditer des groupes d\'utilisateurs définis au niveau de l\'institution',
 
         ],
         
@@ -121,7 +121,7 @@ return [
 
     'language' => [
 
-        'list_label' => 'Voici la liste des langues supportées.',
+        'list_label' => 'Voici la liste des langues supportées',
         'code_column' => 'Code de la langue',
         'name_column' => 'Nom de la langue',
 
@@ -144,7 +144,7 @@ return [
         'reindexing_status_completed' => 'Tous les documents ont été réindexés.',
 
         'naming_policy_title' => 'Convention de nommage de fichiers',
-        'naming_policy_description' => 'Vous pouvez éviter le téléversement de fichiers qui ne respectent pas cette convention de nommage particulière',
+        'naming_policy_description' => 'Vous pouvez éviter la mise en ligne de fichiers qui ne respectent pas cette convention de nommage',
 
         'naming_policy_btn_activate' => 'Activer',
         'naming_policy_btn_save' => 'Mettre à jour',
@@ -157,12 +157,12 @@ return [
 
     'network' => [
 
-        'klink_net_title' => 'Connection réseau K-Link',
-        'ksearch' => 'Connection K-Search engine',
-        'ksearch_description' => 'Montrer l\'état de la connection entre la K-Box et le moteur de recherche.',
+        'klink_net_title' => 'Connexion réseau K-Link',
+        'ksearch' => 'Connexion K-Search engine',
+        'ksearch_description' => 'Montrer l\'état de la connexion entre la K-Box et le moteur de recherche.',
 
-        'network' => 'Connection à ":network"',
-        'network_description' => 'Montrer l\'état de la connection entre la K-Box et le réseau.',
+        'network' => 'Connexion à ":network"',
+        'network_description' => 'Montrer l\'état de la connexion entre la K-Box et le réseau.',
 
 
         'klink_status' => [
@@ -172,7 +172,7 @@ return [
 
     ],
     'mail' => [
-        'save_btn' => 'Enregistrer la configuration Email',
+        'save_btn' => 'Enregistrer la configuration email',
         'configuration_saved_msg' => 'L\'email de configuration a été enregistré avec succès.',
         'test_success_msg' => 'L\'email de test a été préparé pour envoi (de :from) avec succès. Alez voir votre boîte de réception.',
         'test_failure_msg' => 'L\'email de test ne peut pas être envoyé à cause d\'une erreur.',
@@ -191,7 +191,7 @@ return [
         'from_address_placeholder' => 'ex. john@klink.asia',
         'host_label' => 'Adresse hôte SMTP',
         'port_label' => 'Port hôte SMTP',
-        'encryption_label' => 'Le serveur email doit suport le cryptage TLS',
+        'encryption_label' => 'Le serveur email doit supporter le cryptage TLS',
         'username_label' => 'Nom d\'utilisateur serveur SMTP',
         'password_label' => 'Mot de passe serveur SMTP',
         'log_driver_used' => 'Le log driver est utilisé. Vous ne pouvez pas changer la configuration du serveur.',
@@ -202,10 +202,10 @@ return [
 
         'queue_runner' => 'Asynchronous process jobs runner',
 
-        'queue_runner_started' => 'Started and listening',
-        'queue_runner_stopped' => 'Not running',
+        'queue_runner_started' => 'Commencé et actif',
+        'queue_runner_stopped' => 'Arrêté',
 
-        'queue_runner_not_running_description' => 'The jobs runner is not running so Mail Messages and Document Indexing may not work as expected.',
+        'queue_runner_not_running_description' => 'Le jobs runner ne fonctionne pas et l\'indexation de messages email et de documents peut ne pas fonctionner comme attendu.',
         
         'logs_widget_title' => 'Dernières entrées du journal',
     ],
@@ -213,13 +213,13 @@ return [
     
     'institutions' => [
         
-        'edit_title' => 'Editer les détails de :name',
+        'edit_title' => 'Modifier les détails de :name',
         'create_title' => 'Créer une nouvelle institution',
         'create_institutions_btn' => 'Ajouter une nouvelle institution',
         'saved' => 'Institution :name mise à jour.',
         'update_error' => 'Détail de l\'institution non sauvegardé: :error',
         'create_error' => 'L\'institution ne peut pas être créée: :error',
-        'delete_not_possible' => 'L\'institution :name est actuellement utilisée pour des documents et/ou des utilisateurs y sont addiliés. Veuillez supprimer les documents et l\'affiliation des utilisateurs avant de l\'effacer.',
+        'delete_not_possible' => 'L\'institution :name est actuellement utilisée pour des documents et/ou pour l\'affiliation d\'utilisateurs. Veuillez supprimer les documents et l\'affiliation des utilisateurs avant de l\'effacer.',
         'delete_error' => 'L\'institution :name ne peut pas être supprimée: :error',
         'deleted' => 'L\'institution :name a été supprimée.',
         'delete_confirm' => 'Supprimer l\'institution :name du réseau?',
@@ -264,7 +264,7 @@ return [
 
     'identity' => [
         'page_title' => 'Identité',
-        'description' => 'Informations relatives à votre organisation, afin que les utilisateurs puissent vous contacter depuis la page de contact".',
+        'description' => 'Informations relatives à votre organisation, afin que les utilisateurs puissent vous contacter depuis la page de contact.',
         'not_complete' => 'Les informations de contact ne sont pas complètes.',
         'suggestion_based_on_institution_hint' => 'Nous avons automatiquement rempli les informations de contact à partir des informations de contact de l\'institution. Veuillez les contrôler et appuyer sur Enregistrer.',
 
