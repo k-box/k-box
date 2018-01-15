@@ -12,7 +12,7 @@ return [
     |
     */
 
-    'view_all' => 'View all',
+    'view_all' => 'Tout voir',
 
     'dms_admin' => [
 
