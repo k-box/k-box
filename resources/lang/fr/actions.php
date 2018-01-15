@@ -43,9 +43,9 @@ return [
     
     'clipboard' => [
         'copied_title' => 'Copié!',
-        'copied_link_text' => 'The lien a été copié dans le presse-papier',
+        'copied_link_text' => 'Le lien a été copié dans le presse-papier',
         
-        'not_copied_title' => 'Impossible the copier dans le presse-papier',
+        'not_copied_title' => 'Impossible de copier dans le presse-papier',
         'not_copied_link_text' => 'Le lien ne peut pas être copié dans le press-papier, vous pouvez le copier manuellement en pressant Ctrl+C sur votre clavier.',
     ],
 
@@ -66,9 +66,9 @@ return [
     ],
 
     'import' => 'Importer',
-    'upload' => 'Téléverser un Document',
-    'upload_video' => 'Téléverser une Vidéo',
-    'upload_alt' => 'Téléverser',
+    'upload' => 'Mettre en ligne un document',
+    'upload_video' => 'Mettre en ligne une vidéo',
+    'upload_alt' => 'Mettre en ligne',
 
     'save' => 'Enregistrer',
     'saving' => 'Enregistrement en cours...',
@@ -116,7 +116,7 @@ return [
     //     'make_public' => 'Sélectionnez quelques documents avant de les rendre publics sur le réseau K-Link',
     // ],
     
-    'not_available' => 'Oops, cette action n\'est pas prête pour le primetime!',
+    'not_available' => 'Oups, cette action n\'est pas prête pour le primetime!',
 
     // buttons on the dialog
     'dialogs' => [
@@ -130,7 +130,7 @@ return [
         'delete_btn' => 'Oui, effacer!',
         'remove_btn' => 'Oui, supprimer!',
         'trash_btn' => 'Oui, à la corbeille!',
-        'move_btn' => 'Oui, déplace!',
+        'move_btn' => 'Oui, déplacer!',
         
         // showed when on a dialog, like the one in people group creation, the input field is empty, but a value is required
         'input_required' => 'Vous devez écrire quelque chose!',
