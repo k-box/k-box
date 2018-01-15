@@ -1,19 +1,19 @@
-# Information about data usage and privacy
+# Information relative à l'utilisation et à la confidentialité des données
 
-Your privacy is important to us. Here we explain which data we collect for what purpose, and what we do with them. First: All data is exclusively processed on our servers. We will not pass your data on to any service provider.
+Votre confidentialité est très importante pour nous. Nous expliquons ici quelles informations nous collectons dans quel but, et ce que nous faisons avec. En premier lieu: toutes vos données sont uniquement stockées sur nos serveurs. Nous ne transmettrons vos données à aucun prestataire de service.
  
-We differentiate between the data we collect when you are not logged in (see 1.) or logged into your account on the system (see 2.).
+Nous faisons la différence entre les informations que nous collectons lorsque vous n'êtes pas connecté (voir 1.) et lorsque vous êtes connectés avec votre compte sur le système (voir 2.).
  
-**1- Anonymous user**
+**1- Utilisateur anonyme**
 
-We store the IP address currently used by your computer in an anonymized form, your browser type and operating system, and the date and time of your visit. We also log the pages you view. We are not able to link this information to your personal data, nor is it our intention to do so.
+Nous stockons d'une manière anonyme l'adresse IP actuellement utilisée par votre ordinateur, votre type de navigateur, votre système d'exploitation, ainsi que la date et l'heure de votre visite. Nous gardons également un journal des pages que vous avez visitées. Nous n'avons ni la possibilité ni la volonté de relier cette information avec vos données personnelles.
 
-**2- User with account**
+**2- Utilisateur authentifié**
 
-For users with account we store personal data. Personal data are items of information that can be connected back to a person, i.e. data through which you are identifiable as an individual or company, or that can be assigned to you. Personal data include what are known as master data, i.e. data that are required to form, define or alter contractual relationships between you and this K-Box, such as your name and your contact data (e-mail).
+Pour les utilisateurs ayant un compte, nous stockons des données personnelles. Les informations personnelles sont des informations qui peuvent être reliées à une personne, par exemple des informations par lesquelles vous êtes identifiables en tant qu'individu ou entreprise, ou des informations qui peuvent vous être attribuées. Les informations personnelles incluent des données de référence, par exemple des données qui sont nécessaires pour constituer, définir ou modifier des relations contractuelles entre vous et cette K-Box, comme votre nom ou vos informations de contact (adresse email).
 
-In order to allow a persistent and comfortable login experience, we set a cookie, a small file with a number, on your computer, to be able to identify. This is common practice, but you shall be aware.
+Afin de permettre utilisation confortable et cohérente, nous plaçons un cookie (un petit fichier contenant un nombre) sur votre ordinateur, pour permettre de vous reconnaître. Cette pratique est commune à de très nombreux sites web, mais nous voulions être sûrs que vous soyez au courant.
  
-**Your Rights**
- 
-If you contact us personally you can always withdraw your consent to the use of your data at any time, effective for the future. You also have the right to request information on the data we hold on you, free of charge. In addition, you have the right to demand that we amend, block, or delete your data in accordance with legal regulations. Should you wish to contact us regarding your personal data, please [send us a message](/contact).
+**Vos droits**
+
+Si vous nous contactez personnellement, vous pouvez en tout temps retirer votre consentement à l'utilisation de vos informations personnelles. Vous pouvez aussi réclamer la liste de toutes les informations que nous avons sur vous, gratuitement. De plus, vous avez le droit de réclamer que nous modifions, bloquions our effacions vos informations, conformément aux dispositions légales. Si vous souhaitez nous contacter au sujet de vos informations personnelles, veuillez [nous envoyer un message](/contact).
