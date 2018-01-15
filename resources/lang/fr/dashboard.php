@@ -12,7 +12,7 @@ return [
     |
     */
 
-    'project_edition' => 'Edition Projet',
+    'project_edition' => 'Edition de projet',
 
     'welcome' => [
 
