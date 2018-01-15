@@ -22,7 +22,7 @@ return [
     'filealreadyexists' => [
         'generic' => 'Le document :name existe déjà dans la K-Box sous le titre <strong>":title"</strong>.',
         'incollection' => 'Le document est déjà disponible dans <a href=":collection_link"><strong>":collection"</strong></a> sous le titre <strong>":title"</strong>',
-        'incollection_by_you' => 'Vous avez déjà mis le document <strong>":title"</strong> en ligne dans <a href=":collection_link"><strong>":collection"</strong></a>',
+        'incollection_by_you' => 'Vous avez déjà mis en ligne le document <strong>":title"</strong> dans <a href=":collection_link"><strong>":collection"</strong></a>',
         'by_you' => 'Vous avez déjà mis en ligne ce document sous le titre <strong>":title"</strong>',
         'revision_of_document' => 'Le document que vous voulez mettre en ligne est une révision existante de <strong>":title"</strong>, ajoutée par :user (:email)',
         'revision_of_your_document' => 'Le document est une révision existante de votre document <strong>:title</strong>',
@@ -35,9 +35,9 @@ return [
         'name_and_parent' => 'La collection ":name" dans ":parent" existe déjà.',
     ],
     
-    'generic_text' => 'Oops! quelque chose d\'inattendu s\'est passé.',
-    'generic_text_alt' => 'Oops! quelque chose d\'inattendu s\'est passé. :error',
-    'generic_title' => 'Oops!',
+    'generic_text' => 'Oups! quelque chose d\'inattendu s\'est passé.',
+    'generic_text_alt' => 'Oups! quelque chose d\'inattendu s\'est passé. :error',
+    'generic_title' => 'Oups!',
 
     'reindex_all' => 'La procédure de réindexation de tous les documents ne peut aboutir à cause d\'une erreur. Veuillez consulter les logs ou contacter votre administrateur.',
 
@@ -49,15 +49,15 @@ return [
 
     'forbidden_exception' => 'Vous n\'avez pas accès à cette page.',
     'forbidden_edit_document_exception' => 'Vous ne pouvez pas modifier ce document.',
-    'forbidden_see_document_exception' => 'Vous ne pouvez pas voir ce document car il s\'agit d\'un document prové d\'un autre utilisateur.',
+    'forbidden_see_document_exception' => 'Vous ne pouvez pas voir ce document car il s\'agit d\'un document privé d\'un autre utilisateur.',
     
     'kcore_connection_problem' => 'La connexion à K-Link Core ne peut pas être établie.',
 
     'fatal' => 'Erreur fatale :reason',
 
     'panels' => [
-        'title' => 'Oops! quelque chose d\'inattendu s\'est passé.',
-        'prevent_edit' => 'Vous ne pouvez modifier :name',
+        'title' => 'Oups! quelque chose d\'inattendu s\'est passé.',
+        'prevent_edit' => 'Vous ne pouvez pas modifier :name',
     ],
 
     'import' => [
@@ -115,8 +115,8 @@ return [
     'generic_form_error' => 'Vous avez quelques erreurs, veuillez les corriger avant de continuer',
 
     'oldbrowser' => [
-        'generic' => 'Votre navigateur est périmé. Pour une meilleure expérience, veuillez garder votre navigateur à jour.',
-        'ie8' => 'Votre navigateur (Internet Explorer 8) est périmé. Il a des problèmes de sécurité et ne peut pas afficher toutes les fonctionnalités de K-Link. Pour une meilleure expérience, veuillez garder votre navigateur à jour.',
+        'generic' => 'Votre navigateur est périmé. Pour une meilleure expérience et pour plus de sécurité, veuillez garder votre navigateur à jour.',
+        'ie8' => 'Votre navigateur (Internet Explorer 8) est périmé. Il a des failles de sécurité et ne peut pas afficher toutes les fonctionnalités de K-Link. Pour une meilleure expérience, veuillez garder votre navigateur à jour.',
         'nosupport' => 'La version de votre navigateur n´est pas supportée par la K-Box.',
         
         'more_info' => 'Plus d\'information',
