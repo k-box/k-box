@@ -32,8 +32,8 @@ return [
 
     'no_results' => 'Désolé, aucun résultat n\'a été trouvé pour <strong>:term</strong> parmi les documents de <strong>:collection</strong>.',
     'no_results_no_markup' => 'Désolé, rien n\'a été trouvé pour :term dans :collection',
-    'no_results_generic' => 'Aucun document de correspond à vos critères de recherche.',
-    'no_results_for_term' => 'Aucun document de correspond à votre recherche pour ":term".',
+    'no_results_generic' => 'Aucun document ne correspond à vos critères de recherche.',
+    'no_results_for_term' => 'Aucun document ne correspond à votre recherche pour ":term".',
 
     'try_message' => 'Veuillez essayer de chercher des mots commençant avec :startwithlink',
 
