@@ -25,7 +25,7 @@ return [
 
         'title' => 'Mot de passe oublié?',
 
-        'instructions' => 'Pour réinitialiser votre mot de passe, veuillez indiquer vote adresse email. Un email avec un lien de réinitialisation vous sera envoyé.',
+        'instructions' => 'Pour réinitialiser votre mot de passe, veuillez indiquer votre adresse email. Un email avec un lien de réinitialisation vous sera envoyé.',
 
         'submit' => 'Demander une réinitialisation du mot de passe',
 
@@ -37,7 +37,7 @@ return [
 
         'title' => 'Réinitialisez le mot de passe de votre compte',
 
-        'instructions' => 'Veuillez indiquer un nouveau mot de passe avec minimum 8 charactères alphanumériques.',
+        'instructions' => 'Veuillez indiquer un nouveau mot de passe avec minimum 8 caractères alphanumériques.',
 
         'submit' => 'Réinitialiser le mot de passe',
 
