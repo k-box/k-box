@@ -1,39 +1,40 @@
-# Terms of Service
+# Conditions d'utilisation
 
-**PLEASE READ THIS DOCUMENT CAREFULLY.** By registering as a member or by using the K-DMS Service in any way, you accept these Terms of Service ("Agreement"). If you do not wish to be bound by this Agreement, do not use the Service.
+**VEUILLEZ LIRE CE DOCUMENT TRÈS ATTENTIVEMENT.** En vous enregistrant ou en utilisant la K-Box de n'importe quelle manière, vous acceptez ces conditions d'utilisation. Si vous ne souhaitez pas être lié à ces conditions d'utilisation, veuillez ne pas utiliser ce service.
 
-**Table of content**
+**Table des matières**
 
-- [Content Restrictions](#content-restrictions)
-- [Code of Conduct](#code-of-conduct)
-- [Third Party Copyrights and Other Rights](#third-party-copyrights-and-other-rights)
-- [Limitation of Liability](#limitation-of-liability)
+- [Restrictions de contenu](#content-restrictions)
+- [Code de conduite](#code-of-conduct)
+- [Droits d'auteur de tiers et autres droits](#third-party-copyrights-and-other-rights)
+- [Limitation de responsabilité](#limitation-of-liability)
 
 
-## <a id="content-restrictions"></a>Content Restrictions
-You may not upload, post, or transmit any video, image, text, audio recording, or other work (collectively, "content") that:
-* Infringes any third party's copyrights or other rights (e.g., trademark, privacy rights, etc.);
-* Contains sexually explicit content or pornography (provided, however, that non-sexual nudity is permitted);
-* Contains hateful, defamatory, or discriminatory content or incites hatred against any individual or group;
-* Exploits minors;
-* Depicts unlawful acts or extreme violence;
-* Depicts animal cruelty or extreme violence towards animals;
-* Promotes fraudulent or dubious business schemes; or
-* Violates any law.
+## <a id="content-restrictions"></a>Restrictions de contenu
+Vous ne pouvez pas mettre en ligne, poster ou transmettre des vidéos, images, textes, enregistrements sonores ou tout autre type de contenu (ci-après, "contenu") qui:
+* Enfreint les droits d'auteur de tiers ou tout autre droit (par exemple, marque déposée, confidentialité, etc.);
+* Contient du contenu sexuellement explicite ou de la pornographie (toutefois, la nudité non-sexuelle est autorisée);
+* Contient du contenu haineux, diffamatoire ou discriminatoire ou qui incite à la haine à l'encontre de tout groupe ou individu;
+* Exploite des personnes mineurs;
+* Représente des actes illégaux ou d'une violence extrême;
+* Représente de la cruauté animale ou des actes d'extrême violence envers des animaux;
+* Encourage des projets frauduleux ou douteux; ou
+* Viole toute loi.
 
-## <a id="code-of-conduct"></a>Code of Conduct
-In using the K-DMS Service, you must behave in a civil and respectful manner at all times. Further, you will not:
-* Act in a deceptive manner by, among other things, impersonating any person;
-* Harass or stalk any other person;
-* Harm or exploit minors;
-* Distribute "spam";
-* Collect information about others; or
-* Advertise or solicit others to purchase any product or service within the K-DMS Site.
+## <a id="code-of-conduct"></a>Code de conduite
+En utilisant les service K-Box, vous devez vous comporter de manière respectueuse en tout temps. De plus vous ne pouvez pas:
+* Agir de manière trompeuse, par exemple en usurpant l'identité de quelqu'un d'autre;
+* Harceler ou traquer toute autre personne;
+* Nuire à des personnes mineures ou les exploiter;
+* Distribuer du "spam";
+* Récolter des informations sur autrui; ou
+* Faire de la publicité ou solliciter l'achat de tout produit ou service à l'intérieur de cette K-Box.
 
-K-DMS has the right, but not the obligation, to monitor all conduct on and content submitted to the K-DMS Service.
+Cette K-Box a le droit, mais pas l'obligation, de surveiller les conduites des utilisateurs, ainsi que le contenu stocké.
 
-## <a id="third-party-copyrights-and-other-rights"></a>Third Party Copyrights and Other Rights
-K-DMS respects the intellectual property rights of others. If you believe that your copyright has been infringed and for other intellectual property claims, [please send us a notice](contact).
+## <a id="third-party-copyrights-and-other-rights"></a>Droits d'auteur de tiers et autres droits
+K-Box respecte la propriété intellectuelle d'autrui. Si vous pensez que votre droit d'auteur a été enfreint, ou pour toute autre réclamation relative à la propriété intellectuelle, [veuillez nous envoyer un message](contact).
 
-## <a id="limitation-of-liability"></a>Limitation of Liability
-To the fullest extent permitted by law: K-DMS shall not be liable for any direct, indirect, incidental, special, consequential, or exemplary damages, including but not limited to damages for loss of profits, goodwill, use, data or other intangible losses.
+## <a id="limitation-of-liability"></a>Limitation de responsabilité
+
+Dans toute la mesure permise par la loi: K-Box ne peut être tenu responsable pour aucun dommage direct, indirect, fortuit, spécial, consécutif ou exemplaire, incluant mais non limité à des dommages pour manque à gagner, écart d'acquisition, utilisation, données ou toute autre perte intangible.
