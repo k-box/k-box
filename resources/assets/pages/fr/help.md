@@ -1,18 +1,18 @@
 ## K-Link DMS Frequently Asked Questions
 
-- [Start](#start)
-- [Projects activities](#projects-activities)
-  - [Upload](#upload)
-  - [Sharing](#sharing)
-  - [Publication](#publication)
-- [My Collections activities](#my-collections-activities)
-- [Search](#search)
+- [Début](#start)
+- [Projets](#projects-activities)
+  - [Mettre en ligne](#upload)
+  - [Partager](#sharing)
+  - [Publier](#publication)
+- [Mes collections](#my-collections-activities)
+- [Recherche](#search)
 - [Administration](#administration)
 - [Questions/Suggestions](#questions)
-- [Errors](#errors)
-- [Contact us](#contact-us)
+- [Erreurs](#errors)
+- [Contactez nous](#contact-us)
 
-### <a id="start"></a>Start
+### <a id="start"></a>Début
  
 **1. I forgot my log-in password. What should I do?**
 
@@ -47,7 +47,7 @@ In the K-Box, “deleting” a file means removing it from the K-Box, while keep
 
 We recommend using incognito tabs or different browsers for this purpose. Otherwise, the latest logged-in user account will be active.
 
-### <a id="projects-activities"></a>Projects activities 
+### <a id="projects-activities"></a>Projets
 
 **1. How can I know what Projects are accessible?**
 
@@ -62,7 +62,7 @@ If you cannot see any project, then you have not been added to any. Please conta
 Please right-click on a file, select “Details”, to open the details window. At this point you can click on download.
 
 
-#### <a id="upload"></a>Upload
+#### <a id="upload"></a>Mettre en ligne
 
 **4. I can see the Project collection but how can I get to its subcollections?**
 
@@ -86,7 +86,7 @@ Please select your file and drag and drop it into the target subcollection in th
 In order to change the language of a document, please go to the “Edit” page from its details panel (or via the right click menu “Edit” item). Select the language and “Save” your changes.
 
 
-#### <a id="sharing"></a>Sharing
+#### <a id="sharing"></a>Partager
 
 <a id="sharing-to-user"></a>**9. I want to share documents with another user. How can I do that?**
 
@@ -106,7 +106,7 @@ In order to have an overview of users with access to file, please go to its Shar
 
 In case your file is not accessible by others, please check if the conditions listed in question 9 are successfully achieved.
 
-#### <a id="publication"></a>Publication
+#### <a id="publication"></a>Publier
 
 **12. What is a K-Link Network?**
 
@@ -135,7 +135,7 @@ Editing process for public files resembles the process for private files. Please
 Please go to the Projects page for overview over all accessible projects. Please right-click on the project of interest and select “Details” from the menu. The “View Microsite” button under “Micrositebeta” will lead you to its public page.
 
 
-### <a id="my-collections-activities"></a>My Collections activities
+### <a id="my-collections-activities"></a>Mes collections
 
 **1. I want to organize my documents. How can I create collections?**
 
@@ -150,7 +150,7 @@ Please right-click on the collection where you intend to create an internal stru
 Except for publication, sharing of personal files has same features as sharing Project files. Please refer to the described steps in the [sharing questions](#sharing-to-user) for further actions.
 
 
-### <a id="search"></a>Search
+### <a id="search"></a>Rechercher
 
 **1. How can I help the system find a document?**
 
@@ -228,7 +228,7 @@ Please go to http://klink.uservoice.com/ to post your suggestion and vote for id
 
 Please refer all your questions to your librarian via email. Describe your question in two-three sentences providing the information such as what you find strange and what actions have you performed to get such a response from the system.  Sharing your screen typically helps to better explain and understand the situation.
 
-### <a id="errors"></a>Errors
+### <a id="errors"></a>Erreurs
 
 **1. “File exists”**
 
@@ -264,6 +264,6 @@ The preview of a document is available only for selected file types. At now only
 This behavior emerges with some browsers and is caused by the fact that the file has been drag and dropped outside of the upload sensible area. The upload area covers the whole page and is surrounded by a green border. If you’re in doubt drag and drop on the center of the screen, where the documents are listed.
 
 
-### <a id="contact-us"></a>Contact us
+### <a id="contact-us"></a>Contactez nous
 
 Should you have any questions, please contact us at `support@klink.asia` 
