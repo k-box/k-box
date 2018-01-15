@@ -15,7 +15,7 @@ return [
 
     'msec' => 'milliseconde|millisecondes',
     'sec'     => 'seconde|secondes',
-    'klink_since' => 'isur K-Link depuis :date',
+    'klink_since' => 'sur K-Link depuis :date',
     'today' => 'Aujourd\'hui',
     'yesterday' => 'Hier',
     'this_week' => 'Cette semaine',
