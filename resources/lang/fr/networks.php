@@ -57,7 +57,7 @@ return [
         'name_en' => 'Nom du réseau (anglais)',
         'name_ru' => 'Nom du réseau (russe)',
         'name_section' => 'Nom du réseau',
-        'name_section_help' => 'Donner un nom au réseau. Il sera utilisé dans l\'interface utilisateur lors de la publication de documents et collections. Si les 2 champs sont vides, le nome "K-Link Public Network" sera utilisé',
+        'name_section_help' => 'Donner un nom au réseau. Il sera utilisé dans l\'interface utilisateur lors de la publication de documents et collections. Si les 2 champs sont vides, le nom "K-Link Public Network" sera utilisé',
         'streaming_section' => 'Service de streaming de vidéo',
         'streaming_section_help' => 'Activer le service de streaming de vidéo pour la publication de vidéos sur le réseau',
         'streaming_service_url' => 'L\'adresse (URL) du service de streaming vidéo',
