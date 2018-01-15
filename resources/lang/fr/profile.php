@@ -36,7 +36,7 @@ return [
         'organization_website_hint' => 'Site web de l\'organisation (ex. https://klink.asia)',
     ],
 
-    'change_password_btn' => 'Changer les mot de passe',
+    'change_password_btn' => 'Changer le mot de passe',
     'update_profile_btn' => 'Mettre à jour le profil',
     'change_mail_btn' => 'Changer l\'email',
     'change_language_btn' => 'Changer la langue',
