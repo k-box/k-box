@@ -37,6 +37,7 @@ K-Box collections behave differently from folders in the following way:
 - There can be only one copy of your document.
 - You can assign your document to more than one collection  
 - Changes to the file will be visible in all assigned collections
+- The address (URL) of a document remains unchanged even if you change the document's name or upload a new version of it
 
 
 **6. What is the difference between Trash and Delete?**
@@ -68,7 +69,7 @@ Please right-click on a file, select “Details”, to open the details window. 
 
 In order to view the internal structuring of a Project collection, please hit the arrow-like symbol next to title of the Project. Same applied to sub-subcollections.
 
-**5. I want to upload a document to a Project subcollection. How can I do that?**
+**5. I want to upload a file to a Project subcollection. How can I do that?**
 
 There are several options for uploading a file into K-Box.
 
@@ -82,18 +83,18 @@ If you used “Upload Video” function from top menu bar, after uploading video
 **7. I want to move a file from the current location to another subcollection. How can I do that?**
 Please select your file and drag and drop it into the target subcollection in the left-hand navigation menu. Right click on the file to open the details window. Under Collections you can see assigned subcollections highlighted orange. Hit the “X” symbol to remove the incorrect collection.
 
-**8. The language of an uploaded file is detected wrong. How to change that?**
+**8. The language of an uploaded document is detected wrong. How to change that?**
 In order to change the language of a document, please go to the “Edit” page from its details panel (or via the right click menu “Edit” item). Select the language and “Save” your changes.
 
 
 #### <a id="sharing"></a>Sharing
 
-<a id="sharing-to-user"></a>**9. I want to share documents with another user. How can I do that?**
+<a id="sharing-to-user"></a>**9. I want to share files with another user. How can I do that?**
 
-There are several ways to share a document. They depend on the target audience you aim to share file with:
+There are several ways to share a file. They depend on the target audience you aim to share file with:
 
-1. _Your colleague from the Project:_ they most likely have access to all document in the project. Hence, you can copy-paste the link from the share dialog and send it to them from the same window;
-2. _Partner from another Project:_ if you belong to different Projects, you can send the link to your partner using  direct share. Please add your partner to the list of user who have access to the files (through Sharing dialog). Make sure you click on “Add user” and then “Done”. The recipient will receive an email with the link and the shared document will appear in their “Shared with me” section;
+1. _Your colleague from the Project:_ they most likely have access to all files in the project. Hence, you can copy-paste the link from the share dialog and send it to them from the same window;
+2. _Partner from another Project:_ if you belong to different Projects, you can send the link to your partner using  direct share. Please add your partner to the list of user who have access to the files (through Sharing dialog). Make sure you click on “Add user” and then “Done”. The recipient will receive an email with the link and the shared file will appear in their “Shared with me” section;
 3. _Non-registered user:_ in order to make a file accessible to a non-registered user, please first clarify if:
  - file can be accessible to a wider audience (in other words, Public) – in this case, please contact your librarian to make the file public on your K-Link network. Then proceed as in step 1.
  - file should be accessible only to users with access  - in this case, please change the permissions to “Anyone with link can preview. No login required” from the same window of sharing settings. In this way only the person that have the direct link can access the document
