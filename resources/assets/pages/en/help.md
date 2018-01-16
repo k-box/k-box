@@ -94,14 +94,14 @@ In order to change the language of a document, please go to the “Edit” page 
 There are several ways to share a file. They depend on the target audience you aim to share file with:
 
 1. _Your colleague from the Project:_ they most likely have access to all files in the project. Hence, you can copy-paste the link from the share dialog and send it to them from the same window;
-2. _Partner from another Project:_ if you belong to different Projects, you can send the link to your partner using  direct share. Please add your partner to the list of user who have access to the files (through Sharing dialog). Make sure you click on “Add user” and then “Done”. The recipient will receive an email with the link and the shared file will appear in their “Shared with me” section;
+2. _Partner from another Project:_ if you belong to different Projects on the same K-Box, you can send the link to your partner using  direct share. Please add your partner to the list of user who have access to the files (through Sharing dialog): start typing the name of your partner and make sure you click on “Add user” and then “Done”. The recipient will receive an email with the link and the shared file will appear in their “Shared with me” section;
 3. _Non-registered user:_ in order to make a file accessible to a non-registered user, please first clarify if:
- - file can be accessible to a wider audience (in other words, Public) – in this case, please contact your librarian to make the file public on your K-Link network. Then proceed as in step 1.
- - file should be accessible only to users with access  - in this case, please change the permissions to “Anyone with link can preview. No login required” from the same window of sharing settings. In this way only the person that have the direct link can access the document
+ - can your file be accessible to a wider audience (in other words, Public)? doesn'it contain any private or sensitive information? – in this case it can be published. If you don't have yourself the authorization to publish files, please contact your librarian to make the file public on your K-Link network. Then proceed as in step 1.
+ - should this file be only accessible to a limited group of users? - in this case, please change the permissions to “Anyone with link can preview. No login required” from the same window of sharing settings. In this way only the people who have the direct link can access the document (but it is not available on the K-Link public network).
 
 **10. I want to share a file with my colleague. How do I know they have access to the Project?**
 
-In order to have an overview of users with access to file, please go to its Sharing settings through Details panel or right-click menu. Then click on highlighted number of users having access to the file. If your partner is on the list, they have access to file. Otherwise, please use direct share (described above) before sending the link.
+In order to have an overview of users with access to file, please go to its Sharing settings through Details panel or right-click menu. Then click on highlighted number of users having access to the file. If your colleague is on the list, they have access to file. Otherwise, please use direct share (described above) before sending the link.
 
 **11. I shared a link to an uploaded file. Why do my colleagues not have access to it?**
 
@@ -111,21 +111,21 @@ In case your file is not accessible by others, please check if the conditions li
 
 **12. What is a K-Link Network?**
 
-K-Link technology allows users to organize themselves in public or closed networks for easier sharing of relevant information. Examples are the [K-Link](https://klink.asia/) and [SLM Tajikistan](https://slmtj.net/) networks.
+K-Link technology allows users to organize themselves in public or closed networks for easier sharing of relevant information and documents. Examples are the [K-Link](https://klink.asia/) and [SLM Tajikistan](https://slmtj.net/) networks.
 
-**13. I want to make a document available for search in the K-Link network. How can I do that?**
+**13. I want to make a file available for search in the K-Link network. How can I do that?**
 
-Note: To prevent sharing of non-open source documents, only users with permissions of project manager can employ the feature. Please contact your Project Administrator via email, indicating the document you would like to make public.
+Note: To prevent sharing of unauthorized files (private, confidential, etc.), only users with permissions of project manager can employ the feature. Please contact your Project Administrator via email, indicating the file you would like to make public.
 
-In order to make a document visible in the K-Link network, please go the sharing settings of the file and hit the “globe” icon. 
+In order to make a file visible in the K-Link network, please go the sharing settings of the file and hit the “globe” icon. 
 
 Depending on the file type, the publication might require seconds or minutes to be searchable and playable from the public search results. Once you select the globe icon you can close the sharing dialog. Moving the mouse over the globe icon will tell the status of the publication process.
 
-**14. I want to make a public document private. How can I do that?**
+**14. I want to make a public file private. How can I do that?**
 
 Note: Only users with permissions of project manager can perform this operation. Please contact your Project Administrator via email, indicating the document you would like to make private.
 
-One can unpublish documents only from the same instance they are physically stored in. In order to do that, please go the sharing settings of the file and hit the “lock” icon. As soon as the icon changed from “globe” to “lock”, your file is private  again.
+One can unpublish files only from the same K-Box they are physically stored in. In order to do that, please go the sharing settings of the file and hit the “lock” icon. As soon as the icon changed from “globe” to “lock”, your file is private  again.
 
 **15. How can I edit public file?**
 
@@ -144,9 +144,10 @@ You can organize your uploads in My Collections section. Please create collectio
 
 **2. I want to create a structure. How can I do that?**
 
-Please right-click on the collection where you intend to create an internal structuring. Select create a sub-collection. Hit the arrow-like symbol on the collection to see the subcollections.
+Please right-click on the collection where you intend to create an internal structuring. Select create a sub-collection and give it a name. 
+Hit the arrow-like symbol on the collection to see the subcollections.
 
-**3. I want to share a document(-s) with another user. How can I do that?**
+**3. I want to share a file with another user. How can I do that?**
 
 Except for publication, sharing of personal files has same features as sharing Project files. Please refer to the described steps in the [sharing questions](#sharing-to-user) for further actions.
 
