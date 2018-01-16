@@ -162,54 +162,53 @@ En-dehors de la publication, le partage de fichiers personnels a les mêmes fonc
 
 Veuillez utiliser des mots-clés pertinents, respectant les conventions de nommage de votre K-Box et utilisez des opérateurs booléens pour obtenir de meilleurs résultats:
 
-- `OR`: the operator links two key-words and searches for documents which contain either one of them. When no operator is entered, the `OR` operator is assumed by the system. E.g. `Markhor report 2014` keyword combination is understood by the system as: `Markhor OR report OR 2014`
-- `AND`: matches documents where both terms are used anywhere in the text. E.g. `Markhor AND report AND 2014` will display documents where all the keywords are mentioned.
-- `+`: a word after this symbol must exist in documents retrieved after search is performed. E.g., `+Markhor` report search will focus on Markhor, and will look for report too, but search results might include only documents that match Markhor.
-- `NOT`: terms after this operator must not be used in a retrieved document.
-- `*`: when you do not remember the whole word (common with names/surnames), the symbol can be used to look for beginning or end of the word ( * in the end or beginning of the keyword respectively). E.g. `K-Link AND presentation AND Muzafar*` will come back with results where `Muzafar` will have various endings mentioned in documents. This is the reason why more keywords return better results!
+- `OR`: cet opérateur relie deux mots-clés et recherche les documents qui contiennent l'un ou l'autre de ces mots-clés. Si vous n'utilisez aucun opérateur, le système va supposer que vous souhaitez utiliser `OR`. Par exemple, la combinaison de mots-clés `Markhor report 2014` sera comprise par le système exactement de la même manière que `Markhor OR report OR 2014`
+- `AND`: cherche des documents qui contiennent ces deux mots-clés. Par exemple, `Markhor AND report AND 2014` ne retournera que les documents qui contiennent ces trois mots-clés.
+- `+`: le mot-clé écrit après cet opérateur doit impérativement se trouver dans les documents retournés par la recherche. Par exemple, `+Markhor AND report AND 2014` va rechercher ces trois mots-clés, mais avec un focus particulier sur "Markhor". Les résultats de recherche peuvent aussi contenir des documents qui contiennent uniquement "Markhor", mais pas forcément "report" ou "2014".
+- `NOT`: tout document contenant le mot-clé que vous entrez après cet opérateur sera exclu des résultats de la recherche.
+- `*`: si vous ne vous souvenez pas du mot en entier (situation fréquente avec les noms de famille, per example), vous pouvez utiliser cet opérateur comme joker. Par exemple, `Muzafar*` vous retournera des documents qui contiennent les mots `Muzafarov`, `Muzafarova`, `Muzafarbek`, etc. 
 
-**2. I want to find a document I have uploaded. How can I do that?**
+Vous pouvez bien évidemment aussi combiner tous ces opérateurs, afin d'obtenir des résultats de recherche plus pertinents.
 
-If you are looking for recently uploaded file, please go to “Recent” to find the latest uploads. For a greater search, please go to your Personal in the left-hand navigation menu and perform a search, using keywords and filtering the results.
+**2. Je veux trouver un document que j'ai mis en ligne. Comment puis-je le faire?**
 
-**3. I want to find a document in a Project collection. How can I do that?**
+Si vous cherchez un document mis en ligne récemment, veuillez cliquer sur "Récents" dans le menu de navigation. Pour effectuer une recherche plus approfondie, veuillez cliquer sur "Privé" et effectuer une recherche depuis ici, en utilisant des mots-clés, des opérateurs booléens et en filtrant les résultats.
 
-Please open the Project collection so that you can see it appear in the search bar and highlighted white in the left-hand navigation menu. Please use comprehensive keywords and filters (see point 1) to find the target information.
+**3. Je veux trouver un document dans une collection de projet. Comment puis-je le faire?**
 
-**4. I want to find a file, but do not remember which project it was assigned to. How can I find it?**
+Veuillez ouvrir la collection de projet qui vous intéresse, afin que son nom apparaisse dans la barre de recherche en-haut de la page. Effectuez une recherche, comme expliqué au point 1 ci-dessus.
 
-Please open the Projects page where overview of accessible projects is offered. Start your search on that page, using comprehensive keywords and filters (see point 1) to find the target document.
+**4. Je veux trouver un fichier mais je ne me souviens pas à quel projet il est assigné. Comment puis-je le trouver?**
 
-**5. I want to save several documents in my profile for a faster search. How can I do that?**
+Veuillez cliquer sur "Projets" dans le menu de navigation pour afficher la vue d'ensemble de tous les projets accessibles. Effectuez votre recherche depuis cette page, en utilisant des mots-clés, des opérateurs booléens et en filtrant les résultats.
 
-You can “star” a document clicking next to its title and it will appear in “Starred” section in the left-hand navigation menu. The usage of the star functionality is limited to documents hosted on the K-Box.
+**5. Je veux enregistrer plusieurs fichiers dans mon profil, afin de les retrouver plus facilement plus tard. Comment puis-je le faire?**
 
-**6. Where can I find all documents shared with me from another Project?**
+Vous pouvez ajouter un fichier à vos favoris en cliquant sur l'étoile affichée près de son nom. Vous pourrez alors le retrouver rapidement sous "Favoris" dans le menu de navigation. Cette fonctionalité est limitée aux fichiers se trouvant physiquement sur votre K-Box.
 
-Please go to “Shared with me” section in the left-hand navigation menu to view documents shared by individual users.
+**6. Où puis-je trouver tous les fichiers qui ont été partagés avec moi par un autre projet?**
 
+Veuillez cliquer sur "Partagés avec moi" dans le menu de navigation pour voir tous es fichiers partagés avec vous.
 
 ### <a id="administration"></a>Administration
 
-_Only users with permissions of project manager can perform operations described below. Please contact your Project Administrator via email, indicating your interest any of the points._
+_Uniquement les utilisateurs possédant le rôle de gestionnaire de projet peuvent effectuer les opérations décrites ci-dessous. Veuillez contacter votre gestionnaire de projet par email si l'un des points ci-dessous vous intéresse._
 
-**1. How can I create a Project?**
+**1. Comment puis-je créer un projet?**
 
-Please go to the Projects page, click on “Create project” button from the top navigation bar. Fill necessary fields: project title, description, and add members to the project. Click on “Create project” button to finish task. Please make sure to add at least one user before saving your project. 
+Veuillez vous rendre sur la page "Projets" et cliquer sur "Créer un projet" dans la barre de navigation supérieure. Remplissez les champs nécessaires (nom du projet, description) et ajoutez des membres à ce projet. Cliquez sur le bouton "Créer un projet" pour sauver. Veuillez vérifier que vous avez ajouté au moins un utiliateur avant de sauver votre projet.
 
-**2. I shared the Project with users, but they cannot see it. Why?**
+**2. J'ai partagé un projet avec des utilisateurs mais ils ne peuvent pas le voir. Pourquoi?**
 
-In order for users to have access to Project, the project manager should add them as its members. To do that, please go to the Projects page for overview over existing projects. Please right-click on the project of interest and select “Edit” from the menu. On the redirected page, please select all necessary users and click “Add users” to successfully share the project.
+Pour que les utilisateurs puissent avoir accès au projet, le gestionnaire de projet doit les ajouter en tant que membres. Pour cela, veuillez vous rendre sur la page "Projets" pout avoir une vue d'ensemble de tous les projets existants. Faites un clic-droit sur le projet qui vous intéresse et choisissez "Modifier" dans le menu. Sur la page suivant, sélectionnez tous les utilisateurs nécessaires et cliquez sur "Ajouter des utilisateurs" afin de partager votre projet avec eux.
 
-All users listed under “Current members” will have access to the Project.
+**3. Comment puis-je modifier les informations d'un projet?**
 
-**3. How can I edit Project information?**
+Veuillez vous rendre sur la page "Projets" pout avoir une vue d'ensemble de tous les projets existants. Faites un clic-droit sur le projet qui vous intéresse et choisissez "Modifier" dans le menu.
 
-Please go to the Projects page for overview over existing projects. Please right-click on the project of interest and select “Edit” from the menu.
+**4. Comment puis-je créer un microsite de projet?** 
 
-**4. How can I create a Project microsite?** 
-
-Please go to the Projects page for overview over existing projects. Please right-click on the project of interest and select “Details” option. On that page you will see “Micrositebeta” section and “Create microsite” button. If you click on it, new page will be opened where you can choose the name of microsite, short link to it, logo, default language. You have to create content for English and Russian version of microsite by filling respective fields. Click to “Publish the Microsite” button to finish this task.
+Veuillez vous rendre sur la page "Projets" pout avoir une vue d'ensemble de tous les projets existants. Faites un clic-droit sur le projet qui vous intéresse et choisissez "Détails" dans le menu. Sur la nouvelle page vous verrez la section "Micrositebeta" et le bouton "Créer un microsite". Si vous cliquez dessus, une nouvelle page va s'ouvrir, où vous pouvez choisir le nom du microsite, un lien court vers le microsite (version conviviale de l'adresse), son logo et sa langue par défaut. Vous pouvez créer du contenu pour les versions anglaise et russe du microsite en replissant les champs respectifs. Cliquez sur le bouton "Publier le microsite".
 
 **5. How can I edit a Project microsite?** 
 
