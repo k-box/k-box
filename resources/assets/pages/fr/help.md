@@ -18,54 +18,56 @@
 
 Veuillez cliquer sur “Mot de passe oublié?” sur la page d'accueil. Le système enverra à votre adresse email un message avec un lien de réinitialisation. Veuillez cliquer sur ce lien dans les 5 minutes suivant votre requête.
  
-**2. I want to add information about my institution. How can I do that?**
+**2. Je veux ajouter des informations sur mon institution. Comment puis-je le faire?**
 
-Please click on your avatar in the upper-right corner of the window. Fill in the fields related to your organization in respective lines. Save them, clicking on “Update profile” button.
+Veuillez cliquer sur votre avatar dans le coin supérieur droit de la fenêtre. Remplissez les champs relatifs à votre organisation. Enregistrez les changements en cliquant sur le bouton "Mettre à jour le profil".
 
-**3. I want to change my personal data: mail, name, password. How can I do that?**
+**3. Je veux changer mes informations personnelles: email, nom, mot de passe. Comment puis-je le faire?**
 
-Please click on your avatar in the upper-right corner of the window. Enter and save your preferred email, password and display name in respective lines. Save them by clicking on buttons under each section.
+Veuillez cliquer sur votre avatar dans le coin supérieur droit de la fenêtre. Remplissez les champs relatifs à votre adresse email, mot de passe et votre nicename (le nom sous lequel vous apparaîtrez dans le système). Enregistrez les changements en cliquant sur le bouton au bas de chaque section.
 
-**4. I want to change the language of the system. How can I do that?**
+**4. Je veux changer la langue d'affichage du système. Comment puis-je le faire?**
 
-Please click on your avatar in the upper-right corner of the window. Select your preferred language from the drop-down menu, located in the “Change Interface Language” section.  Save settings by clicking on “Change language”.
+Veuillez cliquer sur votre avatar dans le coin supérieur droit de la fenêtre. Choisissez votre langue préférée dans la liste déroulante sitée dans la section "Choisissez votre langue préférée". Enregistrez les changements en cliquant sur "Changer la langue".
 
-**5. What is the difference between folder on my PC and collection in the K-Box?**
+**5. Quelle est la différence entre un dossier sur mon ordinateur et une collection dans la K-Box?**
 
-K-Box collections behave differently from folders in the following way:
+Les collections K-Box ont un comportement différent de celui des dossiers. Dans la K-Box:
 
-- There can be only one copy of your document.
-- You can assign your document to more than one collection  
-- Changes to the file will be visible in all assigned collections
+- Il ne peut exister qu'une seulw copie d'un document dans la K-Box
+- Un document peut être assigné à autant de collections que vous le souhaitez. Autrement dit, ce il n'y aura qu'une seule copie de ce document, mais il sera visible à l'intérieur de toutes les collections auxquelles in a été assigné
+- Si vous modifiez ce document, les modifications seront visibles dans toutes les collections où il est assigné
+- L'adresse (URL) d'un document reste identique, même si vous modifiez son nom ou mettez en ligne une nouvelle version
 
 
-**6. What is the difference between Trash and Delete?**
+**6. Quelle est la différence entre "mettre à la corbeille" et "effacer"?**
 
-In the K-Box, “deleting” a file means removing it from the K-Box, while keeping in it “trash” allows to restore it, since it is still in the system.  Complete deletion is possible only from Trash.
+Dans la K-Box, "effacer" un fichier signifie le supprimer de la K-Box, alors que "mettre à la corbeille" le conserve dans le système et vous permettra donc de le restaurer ultérieurement, si nécessaire. Effacer complètement un document est uniquement possible depuis la corbeille.
 
-**7. Can me and my colleague login at the same time from my browser?**
+**7. Est-ce que 2 personnes peuvent se connecter en même temps depuis le même navigateur?**
 
-We recommend using incognito tabs or different browsers for this purpose. Otherwise, the latest logged-in user account will be active.
+Nous vous recommendons pour cela d'utiliser un onglet de navigation privée. Sinon, uniquement le compte de l'utilisateur s'étant connecté en dernier sera actif.
 
 ### <a id="projects-activities"></a>Projets
 
-**1. How can I know what Projects are accessible?**
+**1. Comment puis-je savoir quels projets sont accessibles?**
 
-The overview over accessible projects is possible from the Projects page, as well as under “Projects” section in the left-hand navigation system. Projects are marked with yellow line.
+La vue d'ensemble des projets accessibles est possible depuis la page Projets, ainsi que dans la section "Projets" du menu de navigation. Les projets sont indiqués avec une ligne jaune à gauche de leur nom.
 
-**2. I cannot see any Project collection. Who should I contact?**
+**2. Je ne vois aucune collection de projet. Qui dois-je contacter?**
 
-If you cannot see any project, then you have not been added to any. Please contact your librarian or project manager via email for further assistance.
+Si vous ne voyez aucun projet, cela signifie que vous n'avez été ajouté à aucun. Veuillez contacter votre libraire ou votre chef de projet par email.
 
-**3. I want to download a file from the Project collection. How can I do that?**
+**3. Je veux télécharger un fichier depuis une collection de projet. Comment puis-je le faire?**
 
-Please right-click on a file, select “Details”, to open the details window. At this point you can click on download.
+Veuillez faire un clic-droit sur le fichier et sélectionnez "Détails". Dans la nouvelle fenêtre, veuillez cliquer sur "Télécharger".
 
 
 #### <a id="upload"></a>Mettre en ligne
 
-**4. I can see the Project collection but how can I get to its subcollections?**
+**4. Je vois une collection de projet. Comment puis-je voir ses sous-collections?**
 
+Pour voir la structure interne d'une collection de projet, veuillez cliquer sur le symbole en forme de flêche à gauche du nom du projet. Vous pouvez faire la même chose pour parcourir toutes les sous-collections.
 In order to view the internal structuring of a Project collection, please hit the arrow-like symbol next to title of the Project. Same applied to sub-subcollections.
 
 **5. I want to upload a document to a Project subcollection. How can I do that?**
