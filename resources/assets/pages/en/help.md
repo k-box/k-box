@@ -236,8 +236,8 @@ Please refer all your questions to your librarian via email. Describe your quest
 
 **1. “File exists”**
 
-The document you are trying to upload is either among Personal or Project collections or Trash. Please review your Recent and Trash to make sure you do not have a copy uploaded. You can search Project collections using relevant keywords, if the file was uploaded by your partner.
-Having exhausted the options above, please contact the K-Link team using the ticketing system or your Project Administrator via email to find the document.
+The file you are trying to upload is either among Personal or Project collections or Trash. Please review your Recent and Trash to make sure you do not have a copy uploaded. You can search Project collections using relevant keywords, if the file was uploaded by a colleague.
+Having exhausted the options above, please contact the K-Link team or your Project Administrator to find the file.
 
 **2. I cannot delete documents from Trash. Why?**
 
@@ -245,7 +245,7 @@ In order to prevent accidental loss of information, permanent deletion from K-Bo
 
 **3. I trashed a file, but the system does not allow me to upload it again. Why?**
 
-In order to avoid forest of files with identical content, the system does not allow to upload same document more than once. If your file is in Trash, please restore it and make changes (update version, edit, and assign correct collection). As long as file has not been permanently deleted, it is saved in the system.
+In order to avoid forest of files with identical content, the system does not allow to upload same file more than once. If your file is in Trash, please restore it and make changes (update version, edit, and assign correct collection). As long as file has not been permanently deleted, it is saved in the system.
 
 **4. “Cannot delete Collection”**
 
