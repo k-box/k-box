@@ -178,13 +178,13 @@ Please open the Project collection so that you can see it appear in the search b
 
 Please open the Projects page where overview of accessible projects is offered. Start your search on that page, using comprehensive keywords and filters (see point 1) to find the target document.
 
-**5. I want to save several documents in my profile for a faster search. How can I do that?**
+**5. I want to save several files in my profile for a faster search. How can I do that?**
 
-You can “star” a document clicking next to its title and it will appear in “Starred” section in the left-hand navigation menu. The usage of the star functionality is limited to documents hosted on the K-Box.
+You can “star” a file clicking next to its title and it will appear in “Starred” section in the left-hand navigation menu. This functionality is limited to files hosted on your K-Box.
 
-**6. Where can I find all documents shared with me from another Project?**
+**6. Where can I find all files shared with me from another Project?**
 
-Please go to “Shared with me” section in the left-hand navigation menu to view documents shared by individual users.
+Please go to “Shared with me” section in the left-hand navigation menu to view files shared by individual users.
 
 
 ### <a id="administration"></a>Administration
