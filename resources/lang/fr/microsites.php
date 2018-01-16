@@ -38,7 +38,7 @@ return [
     
     'actions' => [
         'create' => 'Créer un microsite',
-        'edit' => 'Modifier un microsite',
+        'edit' => 'Modifier le microsite',
         'save' => 'Enregistrer les paramètres du microsite',
         'delete' => 'Effacer le microsite',
         'delete_ask' => 'Vous allez effacer le microsite de ":title". Etes-vous sûr de vouloir l\'effacer?',
