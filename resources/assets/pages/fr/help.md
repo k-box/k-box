@@ -103,63 +103,64 @@ Il y a plusieurs possibilités pour partager un fichier:
  - le fichier peut-il être partagé à l'extérieur de votre organisation? ne contient-il aucune information confidentielle ou sensible? – dans ce cas, il peut être publié. Si vous n'avez pas l'autorisation de publier des documents vous-même, veuillez contacter votre bibliothécaire pour qu'il le publie sur le réseau K-Link. Faites ensuite comme au point 1.
  - le fichier doit-il être accessible uniquement à un groupe restreints d'utilisateurs? - dans ce cas, depuis la fenêtre de partage, veuillez change le niveau d'autorisation à "Toute personne disposant du lien peut accéder. Identification non nécessaire.". De cette manière, uniquement les personnes possédant le lien direct peuvent accéder à ce fichier (mais il n'est pas disponible sur le réseau K-Link).
 
-**10. I want to share a file with my colleague. How do I know they have access to the Project?**
+**10. Je veux partager un fichier avec un collègue. Comment puis-je savoir s'il a accès à ce projet?**
 
-In order to have an overview of users with access to file, please go to its Sharing settings through Details panel or right-click menu. Then click on highlighted number of users having access to the file. If your partner is on the list, they have access to file. Otherwise, please use direct share (described above) before sending the link.
+Pour avoir une vue d'ensemble des utilisateurs ayant accès à ce fichier, veuillez dans la fenêtre de partage (clic-droit sur le fichier → Partager). Dans cette fenêtre, cliquez sur le nombre indiquant le nombre d'utilisateurs ayant accès à ce fichier. Si votre collègue est dans la liste, il ou elle a accès à ce fichier. Sinon, réfèrez vous au poinr précédent de cette FAQ.
 
-**11. I shared a link to an uploaded file. Why do my colleagues not have access to it?**
+**11. J'ai partagé un lien vers un document mis en ligne. Pourquoi mes collègues ne peuvent pas y accéder?**
 
-In case your file is not accessible by others, please check if the conditions listed in question 9 are successfully achieved.
+Dans le cas où votre fichier n'est pas accessible par d'autres, veuillez vérifier si les conditions listées dans la question 9 sont remplies.
 
 #### <a id="publication"></a>Publier
 
-**12. What is a K-Link Network?**
+**12. Qu'est-ce qu'un réseau K-Link?**
 
-K-Link technology allows users to organize themselves in public or closed networks for easier sharing of relevant information. Examples are the [K-Link](https://klink.asia/) and [SLM Tajikistan](https://slmtj.net/) networks.
+La technologie K-Link permet à des utilisateurs de s'organiser en réseaux privés ou publics pour faciliter l'échange d'information et de documents. [K-Link](https://klink.asia/) et [SLM Tajikistan](https://slmtj.net/) sont deux exemples de réseaux K-Link actuellement en fonction.
 
-**13. I want to make a document available for search in the K-Link network. How can I do that?**
+**13. Je veux rendre un fichier trouvable sur le réseau K-Link. Comment puis-je le faire?**
 
-Note: To prevent sharing of non-open source documents, only users with permissions of project manager can employ the feature. Please contact your Project Administrator via email, indicating the document you would like to make public.
+Note: afin de prévenir le partage de fichiers non autorisés (documents privés, confidentiels, etc.), uniquement les utilisateurs disposant des droits de gestionnaire de projet peuvent utiliser cette fonction. Si ce n'est pas votre cas, veuillez contacter votre gestionnaire de projet par email, en lui indiquant le fichier que vous souhaitez publier.
 
-In order to make a document visible in the K-Link network, please go the sharing settings of the file and hit the “globe” icon. 
+Afin de publier un fichier sur le réseau K-Link, allez dans les paramètres de partage et cliquez sur l'icone "globe".
 
-Depending on the file type, the publication might require seconds or minutes to be searchable and playable from the public search results. Once you select the globe icon you can close the sharing dialog. Moving the mouse over the globe icon will tell the status of the publication process.
+En fonction du type de fichier, la publication peut nécessiter quelques secondes ou minutes avant que le fichier soir trouvable et visible dans les résultats de recherche. Une fois que vous avez cliqué sur le globe, vous pouvez fermer la fenêtre de partage. Si vous placez votre souris sur l'icone "globe", vous verrez le statut du processus de publication.
 
-**14. I want to make a public document private. How can I do that?**
+**14. Je veux dépublier un fichier. Comment puis-je le faire?**
 
-Note: Only users with permissions of project manager can perform this operation. Please contact your Project Administrator via email, indicating the document you would like to make private.
+Note: uniquement les utilisateurs disposant des droits de gestionnaire de projet peuvent utiliser cette fonction. Si ce n'est pas votre cas, veuillez contacter votre gestionnaire de projet par email, en lui indiquant le fichier que vous souhaitez dépublier.
 
-One can unpublish documents only from the same instance they are physically stored in. In order to do that, please go the sharing settings of the file and hit the “lock” icon. As soon as the icon changed from “globe” to “lock”, your file is private  again.
+Vous pouvez uniquement dépublier des fichiers depuis la K-Box sur laquelle ils sont physiquement stockés. Pour cela, allez dans les paramètres de partage et cliquez sur l'icone "Cadenas". Dès que l'icone est changée de "globe" à "cadenas", votre fichier est à nouveau privé.
 
-**15. How can I edit public file?**
+**15. Comment puis-je modifier un fichier public?**
 
-Editing process for public files resembles the process for private files. Please go to Projects and open details panel for your file. Select “Edit” and make changes on the redirected page. Click “Save” for adopting your changes.
+Le processus pour modifier des fichiers publics est identique à celui pour modifier des fichiers privés. Veuillez cliquez sur votre fichier pour ouvrir son panneau d'information et cliquez sur "Modifier".  Vous pouvez alors modifier ses informations. Cliquez sur "Enregistrer" pour sauvegarder vos changements.
 
-**16. How can I view a Project microsite?**
+**16. Comment puis-je voir le microsite d'un projet?**
 
-Please go to the Projects page for overview over all accessible projects. Please right-click on the project of interest and select “Details” from the menu. The “View Microsite” button under “Micrositebeta” will lead you to its public page.
+Veuillez cliquez sur "Projets", dans le menu de navigation, pour avoir une vue d'ensemble de tous les projets disponibles. Faites un clic-droit sur le projet qui vous intéresse cliquez sur "Détails". Le bouton "Voir le microsite" vous amène à sa page publique.
 
 
 ### <a id="my-collections-activities"></a>Mes collections
 
-**1. I want to organize my documents. How can I create collections?**
+**1. Je veux organiser mes documents. Comment puis-je créer des collections?**
 
-You can organize your uploads in My Collections section. Please create collections through  “+” sign. Private collections are colored green for distinction from project collections (orange).
+Vous pouvez organiser vos documents dans la section "Mes collections". Veuillez cliquer sur le bouton "+". Les collections privées sont colorées en vert, pour les différencier des collections de projet (orange).
 
-**2. I want to create a structure. How can I do that?**
+**2. Je veux créer une structure. Comment puis-je le faire?**
 
-Please right-click on the collection where you intend to create an internal structuring. Select create a sub-collection. Hit the arrow-like symbol on the collection to see the subcollections.
+Veuillez faire un clic-droit sur la collection pour laquelle vous voulez créer une structure interne. Choisissez "Créer une sous-collection" et donnez-lui un nom.
+Utilisez le bouton en forme de flèche à côté de votre collection pour voir ses sous-collections.
 
-**3. I want to share a document(-s) with another user. How can I do that?**
+**3. Je veux partager un fichier avec un autre utilisateur. Comment puis-je le faire?**
 
-Except for publication, sharing of personal files has same features as sharing Project files. Please refer to the described steps in the [sharing questions](#sharing-to-user) for further actions.
+En-dehors de la publication, le partage de fichiers personnels a les mêmes fonctionnalités que pour les fichiers de projet. Veuillez vous référer à la procédure décrite dans [partager avec un autre utilisateur](#sharing-to-user).
 
 
 ### <a id="search"></a>Rechercher
 
-**1. How can I help the system find a document?**
+**1. Comment puis-je aider le système à trouver un document?**
 
-Please use comprehensive keywords, following naming convention and boolean operators for better search:
+Veuillez utiliser des mots-clés pertinents, respectant les conventions de nommage de votre K-Box et utilisez des opérateurs booléens pour obtenir de meilleurs résultats:
 
 - `OR`: the operator links two key-words and searches for documents which contain either one of them. When no operator is entered, the `OR` operator is assumed by the system. E.g. `Markhor report 2014` keyword combination is understood by the system as: `Markhor OR report OR 2014`
 - `AND`: matches documents where both terms are used anywhere in the text. E.g. `Markhor AND report AND 2014` will display documents where all the keywords are mentioned.
