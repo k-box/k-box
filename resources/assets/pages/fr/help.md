@@ -210,63 +210,63 @@ Veuillez vous rendre sur la page "Projets" pout avoir une vue d'ensemble de tous
 
 Veuillez vous rendre sur la page "Projets" pout avoir une vue d'ensemble de tous les projets existants. Faites un clic-droit sur le projet qui vous intéresse et choisissez "Détails" dans le menu. Sur la nouvelle page vous verrez la section "Micrositebeta" et le bouton "Créer un microsite". Si vous cliquez dessus, une nouvelle page va s'ouvrir, où vous pouvez choisir le nom du microsite, un lien court vers le microsite (version conviviale de l'adresse), son logo et sa langue par défaut. Vous pouvez créer du contenu pour les versions anglaise et russe du microsite en replissant les champs respectifs. Cliquez sur le bouton "Publier le microsite".
 
-**5. How can I edit a Project microsite?** 
+**5. Comment puis-je modifier un microsite de projet?** 
 
-Please go to the Projects page for overview over existing projects. Please right-click on the project of interest and select “details” from the menu. The “Edit microsite” button under “Microsite” will lead you to its settings page.
+Veuillez vous rendre sur la page "Projets" pout avoir une vue d'ensemble de tous les projets existants. Faites un clic-droit sur le projet qui vous intéresse et choisissez "Détails" dans le menu. Le bouton "Modifier le microsite", dans la section "Microsite" vous amène à la page de paramètres.
 
-**6. I want to create a user. How can I do that?** 
+**6. Je veux créer un utilisateur. Comment puis-je le faire?** 
 
-To create a user, please go to the Administration panel. Select Create user and fill in the fields. In order to assign the correct user account type, find out about the role and involvement of the user in the project activities:
+Pour créer un utilisateur, veuillez vous rendre dans la fenêtre d'administration. Cliquez sur "Créer un utilisateur" et remplissez les champs. Afin d'attribuer les bons droits d'accès, vuillez identifier le rôle de cet utilisateur dans les activités du projet:
 
-- **guest** – user should only see what has been directly shared with them;
-- **partner** – user should be member of a project and see all collections shared with them;
-- **project administrator** – user is going to administer a project, adding/removing members, un-/publishing content from project.
+- **invité** – l'utilisateur doit uniquement voir ce qui a été partagé avec lui / elle;
+- **partenaire** – l'utilisateur doit être membre d'un projet et doit voir toutes les collections partagées avec lui / elle;
+- **gestionnaire de projet** – l'utilisateur va gérer un projet (ajouter / supprimer des utilisateurs, publier / dépublier des documents).
 
 
 ### <a id="questions"></a>Questions/Suggestions
 
-**1. I have a suggestion on how to improve the K-Link services. Where to post it?**
+**1. J'ai une suggestion pour améliorer K-Link. Où puis-je la poster?**
 
-Please go to http://klink.uservoice.com/ to post your suggestion and vote for ideas of other users.
+Veuillez vous rendre sur http://klink.uservoice.com/ pour poster votre suggestion et voter pour les idées des autres utilisateurs.
 
-**2. I have a question regarding the behavior of the system. Whom should I ask?**
+**2. J'ai une question concernant le comportement du système. Qui peut me renseigner?**
 
-Please refer all your questions to your librarian via email. Describe your question in two-three sentences providing the information such as what you find strange and what actions have you performed to get such a response from the system.  Sharing your screen typically helps to better explain and understand the situation.
+Veuillez adresser toutes vos questions par email à votre bibliothécaire. Décrivez votre question en quelques phrases, en fournissant toutes les informations nécessaires, comme "que trouvez-vous bizarre?", "quelles actions avez-vous effectuées avant que le système ne réagisse ainsi?". Ajouter une capture d'écran montrant le problème (ou le comportement inattendu) est souvent très utile.
 
 ### <a id="errors"></a>Erreurs
 
-**1. “File exists”**
+**1. “Le fichier existe”**
 
-The document you are trying to upload is either among Personal or Project collections or Trash. Please review your Recent and Trash to make sure you do not have a copy uploaded. You can search Project collections using relevant keywords, if the file was uploaded by your partner.
-Having exhausted the options above, please contact the K-Link team using the ticketing system or your Project Administrator via email to find the document.
+Le fichier que vous essayez de mettre en ligne existe déjà sur la K-Box (dans des collections de projet, dans un espace personnel ou dans la corbeille). Veuillez vérifier aussi dans vos documents récents et dans la corbeille si une copie de ce document ne s'y trouve pas déjà. Vous pouvez aussi chercher dans les collections de projet, si le file a déjà été mis en ligne par un collègue.
+Si aucune de ces méthodes ne porte ses fruits, veuillez contacter l'équipe de développemnt K-Link ou votre gestionnaire de projet pour trouver le fichier.
 
-**2. I cannot delete documents from Trash. Why?**
+**2. Je ne peux pas vider la corbeille. Pourquoi?**
 
-In order to prevent accidental loss of information, permanent deletion from K-Box can be performed only when the administrator gives such permissions to user. Please contact your librarian should you be interested to have this permission.
+Afin de prévenir une perte accidentelle d'information, un utilisateur ne peut supprimer définitivement des fichiers que quand un administrateur lui en a donné les droits. Veuillez contacter votre bibliothécaire si vous souhaitez avoir ces droits.
 
-**3. I trashed a file, but the system does not allow me to upload it again. Why?**
+**3. J'ai mis un fichier à la corbeille mais le système ne me permet pas de le mettre à nouveau en ligne. Pourquoi?**
 
-In order to avoid forest of files with identical content, the system does not allow to upload same document more than once. If your file is in Trash, please restore it and make changes (update version, edit, and assign correct collection). As long as file has not been permanently deleted, it is saved in the system.
+Afin d'éviter une multiplication de fichiers avec un contenu identique, le système ne permet pas de mettre un ligne le même fichier plus d'une fois.Si votre fichier se trouve dans la corbeille, veuillez le restaurer et effectuer les modifications nécessaires (mettez à jour la version, affectez le à la bonne collection ). Tant que le fichier n'a pas été définitivement supprimé, il reste sauvé dans le système.
 
-**4. “Cannot delete Collection”**
+**4. “Impossible d'effacer une collection”**
 
-You tried to delete a Project Collection. Only Project administrator can perform such an action as delete a project.
+Vous avez essayé d'effacer une collection de projet. Uniquement un gestionnaire de projet peut effectuer cette action.
 
 **5. “Gateway timeout”**
 
-Poor internet connection results in delay of response from K-Link server.
+Une connexion internet lente ou instable est souvent responsable pour des temps de réponse accrus du serveur K-Link.
 
-**6. “Loading problem. Some functionalities may not be available.”**
+**6. “Le chargement de la page semble être lent et certaines fonctionalités peuvent ne pas être disponibles”**
 
-This message will be showed in case of internet connectivity delay or blocked response. Sometimes the K-Link is slow or under high traffic, so everything needed for running the K-Box on your browser might not be received. You can refresh the page by clicking the browser refresh button or Ctrl+R on your keyboard. Refreshing the page normally solves the problem.
+Ce message sera affiché en cas de lenteur de la connexion internet. K-Link peut parfois subir un trafic important, engandrant certaines lenteurs et toutes les foncionnalités nécessaires au bon foncionnement de la K-Box peuvent ne pas avoir été reçues. Vous pouvez rafraîchir la page en cliquant sur le bouton "Rafraîchir" de votre navigateur ou en pressant Ctrl+R sur votre clavier. Ceci résout généralement le problème.
 
-**7. “File preview cannot be showed” or “File preview error”**
+**7. “L'aperçu du fichier ne peut être affiché” ou “Erreur dans l'aperçu du fichier”**
 
-The preview of a document is available only for selected file types. At now only PDF, MP4 video, JPG and PNG images are well supported. Word Documents (created using Office 2010 or above using the Open XML format) might raise an error due some elements of the Word processing format not supported or being showed with partial formatting
+L'aperçu d'un fichier est uniquement disponible pour certains types de fichiers. Actuellement, uniquement les fichiers PDF, MP4 vidéos, JPG et PNG sont correctement supportés. Les documents Microsoft Word (créés avec Office 2010 ou plus récent utilisant le format Open XML) peuvent générer des erreurs à cause de certains éléments du format qui ne sont pas supportés, ou peuvent être affichés avec un formatage partiel et incomplet.
 
-**8. I want to upload a file, but it is opening instead. Drag and drop does not work?**
+**8. Je veux mettre un fichier en ligne mais, au lieu de cela, il s'ouvre. Le glisser-déposer n'est pas supporté?**
 
-This behavior emerges with some browsers and is caused by the fact that the file has been drag and dropped outside of the upload sensible area. The upload area covers the whole page and is surrounded by a green border. If you’re in doubt drag and drop on the center of the screen, where the documents are listed.
+Ce comportement apparaît avec certains navigateurs et est causé par le fait que le fichier a été glissé-déposé en-dehors de la zone de mise en ligne. La zone de mise en ligne couvre toute la page et est entourée par un cadre vert. En cas de doute, veuillez glisser-déposer vos fichiers vers le centre de l'écran, là où les documents sont listés.
 
 
 ### <a id="contact-us"></a>Contactez nous
