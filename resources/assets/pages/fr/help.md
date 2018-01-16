@@ -67,15 +67,14 @@ Veuillez faire un clic-droit sur le fichier et sélectionnez "Détails". Dans la
 
 **4. Je vois une collection de projet. Comment puis-je voir ses sous-collections?**
 
-Pour voir la structure interne d'une collection de projet, veuillez cliquer sur le symbole en forme de flêche à gauche du nom du projet. Vous pouvez faire la même chose pour parcourir toutes les sous-collections.
-In order to view the internal structuring of a Project collection, please hit the arrow-like symbol next to title of the Project. Same applied to sub-subcollections.
+Pour voir la structure interne d'une collection de projet, veuillez cliquer sur le symbole en forme de flèche à gauche du nom du projet. Vous pouvez faire la même chose pour parcourir toutes les sous-collections.
 
-**5. I want to upload a document to a Project subcollection. How can I do that?**
+**5. Je veux mettre un fichier en ligne dans une sous-collection de projet. Comment puis-je le faire?**
 
-There are several options for uploading a file into K-Box.
+Il y a plusieurs possibilités pour mettre un fichier en-ligne dans votre K-Box.
 
-1. Using drag-and-drop, you can upload any file to preferred location. When dropped over a collection, the uploaded file will automatically be assigned to it.
-2. Using file selector from the top navigation bar (“Create or Add” → “File”). When the action is performed from a collection, the uploaded file will be automatically assigned to it.
+1. En utilisant le glisser-déposer, vous pouvez mettre un fichier en ligne das n'importe quel projet ou (sous-)collection. Quand un fichier est déposé sur une collection, il sera automatiquement assigné à cette collection.
+2. En utilisant le sélecteur de fichiers dans la barre de navigation supérieure ("Créer ou ajouter" → "Fichier")Using file selector from the top navigation bar (“Create or Add” → “File”). When the action is performed from a collection, the uploaded file will be automatically assigned to it.
 3. For videos, we recommend to use the video uploader (“Create or Add” → “Video uploader”).  In case of poor internet connection, you can upload your video during the second try, should the first attempt be interrupted.
 
 **6. I uploaded a video, but it does not appear in the Project subcollection. Where can I find it?**
