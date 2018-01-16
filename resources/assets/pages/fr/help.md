@@ -74,30 +74,34 @@ Pour voir la structure interne d'une collection de projet, veuillez cliquer sur 
 Il y a plusieurs possibilités pour mettre un fichier en-ligne dans votre K-Box.
 
 1. En utilisant le glisser-déposer, vous pouvez mettre un fichier en ligne das n'importe quel projet ou (sous-)collection. Quand un fichier est déposé sur une collection, il sera automatiquement assigné à cette collection.
-2. En utilisant le sélecteur de fichiers dans la barre de navigation supérieure ("Créer ou ajouter" → "Fichier")Using file selector from the top navigation bar (“Create or Add” → “File”). When the action is performed from a collection, the uploaded file will be automatically assigned to it.
-3. For videos, we recommend to use the video uploader (“Create or Add” → “Video uploader”).  In case of poor internet connection, you can upload your video during the second try, should the first attempt be interrupted.
+2. En utilisant le sélecteur de fichiers dans la barre de navigation supérieure ("Créer ou ajouter" → "Fichier"). Si vous vous trouvez à l'intérieur d'une collection, le fichier sélectionné sera automatiquement assigné à cette collection.
+3. Pour les vidéos, nous vous recommendons d'utiliser l'outil de mise en ligne de vidéos ("Créer ou ajouter" → "Mettre en ligne une vidéo"), en particulier si vous avez une connexion internet instable. Vous pourrez ainsi continuer la mise en ligne, même si le premier essai a été interrompu.
 
-**6. I uploaded a video, but it does not appear in the Project subcollection. Where can I find it?**
-If you used “Upload Video” function from top menu bar, after uploading video, you will see small button “Open file location”. If you click on it, the system will open your file in uploaded collection. Alternatively, you can go to your “Recent” in the navigation menu to see latest files uploaded. You can select and move it from Recent into target location in the left-hand navigation menu.
+**6. J'ai mis une vidéo en ligne mais elle n'apparaît pas dans la sous-collection. Ou puis-je la trouver?**
 
-**7. I want to move a file from the current location to another subcollection. How can I do that?**
-Please select your file and drag and drop it into the target subcollection in the left-hand navigation menu. Right click on the file to open the details window. Under Collections you can see assigned subcollections highlighted orange. Hit the “X” symbol to remove the incorrect collection.
+Si vous avez utilisé l'outil "Mettre en ligne une vidéo" depuis la barre de navigation supérieure, vous verrez, à la fin de la mise en ligne, un petit bouton "Ouvrir l'emplacement du fichier". Si vous cliquez dessus, le système va ouvrir votre fichier dans la collection où il a été mis en ligne. Sinon, vous pouvez aussi cliquer sur "Récents" dans le menu de navigation. Vous pouvez alors déplacer votre fichier en le glissant-déposant vers une autre collection.
 
-**8. The language of an uploaded file is detected wrong. How to change that?**
-In order to change the language of a document, please go to the “Edit” page from its details panel (or via the right click menu “Edit” item). Select the language and “Save” your changes.
+**7. Je veux déplacer un fichier de son emplacement actuel vers une autre (sous-)collection. Comment puis-je le faire?**
+
+Veuillez sélectionner votre fichier et le glisser-déposer dans la (sous-)collection de votre choix dans le menu de navigation.
+Si vous faites un clic-droit sur le fichier et sélectionnez "Détails", vous pourrez voir que le fichier est maintenant assigné à cette nouvelle (sous-)collection. Dans cette fenêtre de détails vous pouvez aussi cliquer sur le "X" pour sortir le fichier d'une collection.
+
+**8. La langue d'un document mis en ligne est erronée. Comment puis-je la changer?**
+
+Pour changer la langue d'un document, veuillez faire un clic-droit sur le fichier et sélectionnez "Détails". Dans la nouvelle fenêtre, cliquez sur "Modifier". Vous pouvez maintenant choisir manuellement une autre langue pour ce document. Cliquez sur "Enregistrer" pour sauvegarder vos modifications.
 
 
 #### <a id="sharing"></a>Partager
 
-<a id="sharing-to-user"></a>**9. I want to share documents with another user. How can I do that?**
+<a id="sharing-to-user"></a>**9. Je veux partager des fichiers avec un autre utilisateur. Comment puis-je le faire?**
 
-There are several ways to share a document. They depend on the target audience you aim to share file with:
+Il y a plusieurs possibilités pour partager un fichier:
 
-1. _Your colleague from the Project:_ they most likely have access to all document in the project. Hence, you can copy-paste the link from the share dialog and send it to them from the same window;
-2. _Partner from another Project:_ if you belong to different Projects, you can send the link to your partner using  direct share. Please add your partner to the list of user who have access to the files (through Sharing dialog). Make sure you click on “Add user” and then “Done”. The recipient will receive an email with the link and the shared document will appear in their “Shared with me” section;
-3. _Non-registered user:_ in order to make a file accessible to a non-registered user, please first clarify if:
- - file can be accessible to a wider audience (in other words, Public) – in this case, please contact your librarian to make the file public on your K-Link network. Then proceed as in step 1.
- - file should be accessible only to users with access  - in this case, please change the permissions to “Anyone with link can preview. No login required” from the same window of sharing settings. In this way only the person that have the direct link can access the document
+1. _Un collègue de votre projet:_ vos collègues ont probablement déjà accès à tous les fichiers dans le projet. Vous pouvez alors copier-coller le lien vers le fichier, depuis la boîte de dialogue "Partager", ou même l'envoyer directement par email, en cliquant sur le bouton représentant une enveloppe;
+2. _Un partenaire d'un autre projet:_ si vous appartenez à des projets différents sur la même K-Box, vous pouvez lui envoyer le lien comme expliqué ci-dessus. Mais vous devez aussi l'ajouter à la liste des utilisateurs ayant accès à ce fichier. Dans la fenêtre de partage, commencez à taper le nom de l'utilisateur en question, cliquez sur "Ajouter des utilisateurs" puis sur "Terminé". L'utilisateur recevra un email avec le lien vers ce fichier et ce fichier apparaîtra aussi dans sa section "Partagés avec moi";
+3. _Utilisateur non enregistré sur cette K-Box:_ afin de rendre un fichier accessible à un utilisateur non enregistré, veuillez tout d'abord clarifier les points suivants:
+ - le fichier peut-il être partagé à l'extérieur de votre organisation? ne contient-il aucune information confidentielle ou sensible? – dans ce cas, il peut être publié. Si vous n'avez pas l'autorisation de publier des documents vous-même, veuillez contacter votre bibliothécaire pour qu'il le publie sur le réseau K-Link. Faites ensuite comme au point 1.
+ - le fichier doit-il être accessible uniquement à un groupe restreints d'utilisateurs? - dans ce cas, depuis la fenêtre de partage, veuillez change le niveau d'autorisation à "Toute personne disposant du lien peut accéder. Identification non nécessaire.". De cette manière, uniquement les personnes possédant le lien direct peuvent accéder à ce fichier (mais il n'est pas disponible sur le réseau K-Link).
 
 **10. I want to share a file with my colleague. How do I know they have access to the Project?**
 
