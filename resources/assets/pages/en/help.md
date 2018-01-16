@@ -261,7 +261,7 @@ This message will be showed in case of internet connectivity delay or blocked re
 
 **7. “File preview cannot be showed” or “File preview error”**
 
-The preview of a document is available only for selected file types. At now only PDF, MP4 video, JPG and PNG images are well supported. Word Documents (created using Office 2010 or above using the Open XML format) might raise an error due some elements of the Word processing format not supported or being showed with partial formatting
+The preview of a file is available only for selected file types. At now only PDF, MP4 video, JPG and PNG images are well supported. Microsoft Word Documents (created using Office 2010 or above using the Open XML format) might raise an error due some elements of the Word processing format not supported or being showed with partial formatting
 
 **8. I want to upload a file, but it is opening instead. Drag and drop does not work?**
 
