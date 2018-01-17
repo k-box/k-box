@@ -88,5 +88,7 @@ return [
         
     'make_public_dialog_text' => 'Документ ":item" будет в открытом доступе в :network',
     'make_public_dialog_text_count' => 'Вы сделаете :count документов открытыми в :network',
+    
+    'publication_error_copyright' => 'Вы пытаетесь опубликовать документ без указания авторства, пожалуйста, заполните необходимые поля перед публикацией документа',
 
 ];

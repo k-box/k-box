@@ -8,5 +8,12 @@
 
 return [
 
+    'copyright' => 'Все права защищены',
+
+    'publicdomain' => 'Всеобщее достояние',
+
+    'licensed' => 'Лицензировано :license.',
+    'licensed_alt' => 'Лицензировано',
+
     
 ];

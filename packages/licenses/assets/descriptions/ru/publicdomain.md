@@ -1,1 +1,1 @@
-You, the copyright holder, waive your interest in your work and place the work as completely as possible in the public domain so others may freely exploit and use the work without restriction under copyright or database law.
+Владелец авторских прав отказался от прав на данную работу, и передал ее в общественное достояние, вы можете свободно ее использовать без каких-либо ограничений

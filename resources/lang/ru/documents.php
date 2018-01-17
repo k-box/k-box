@@ -152,6 +152,18 @@ return [
         'not_fully_uploaded' => 'Загрузка документа еще не закончилась.',
         'preview_available_when_upload_completes' => 'Просмотр документа будет доступен по завершении его загрузки.',
    
+   
+        'license' => 'Лицензия',
+        'license_help' => 'С помощью лицензии владелец авторских прав дает возможность другим людям использовать его работу',
+        'license_choose_help_button' => 'Подсказка по выбору лицензии',
+        
+        'copyright_owner' => 'Владелец авторских прав',
+        'copyright_owner_help' => 'Информация о владельце авторских прав. Эта информация указывается независимо от выбранной лицензии.',
+        
+        'copyright_owner_name_label' => 'ФИО',
+        'copyright_owner_email_label' => 'Электронная почта',
+        'copyright_owner_website_label' => 'Веб-сайт',
+        'copyright_owner_address_label' => 'Адрес',
 
     
     ],

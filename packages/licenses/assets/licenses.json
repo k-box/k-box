@@ -5,7 +5,7 @@
         "short_title": "Full Copyright",
         "title": {
             "en": "All rights reserved",
-            "ru": "All rights reserved",
+            "ru": "Все права защищены",
             "tg": "All rights reserved"
         },
         "icon": "copy.svg",
@@ -18,7 +18,7 @@
         "short_title": "Public domain",
         "title": {
             "en": "Public Domain",
-            "ru": "Public Domain",
+            "ru": "Всеобщее достояние",
             "tg": "Public Domain"
         },
         "icon": "publicdomain.svg",
