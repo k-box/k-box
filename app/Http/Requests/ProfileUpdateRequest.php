@@ -33,7 +33,7 @@ class ProfileUpdateRequest extends Request
             'organization_name' => 'sometimes|nullable|string',
             'organization_website' => 'sometimes|nullable|url',
             '_change' => 'required|in:pass,mail,info,language',
-            User::OPTION_LANGUAGE => 'sometimes|required|in:en,ru,tg'
+            User::OPTION_LANGUAGE => 'sometimes|required|in:en,ru,tg,fr'
         ];
     }
 }
