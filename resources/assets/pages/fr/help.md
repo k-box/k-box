@@ -105,7 +105,7 @@ Il y a plusieurs possibilités pour partager un fichier:
 
 **10. Je veux partager un fichier avec un collègue. Comment puis-je savoir s'il a accès à ce projet?**
 
-Pour avoir une vue d'ensemble des utilisateurs ayant accès à ce fichier, veuillez dans la fenêtre de partage (clic-droit sur le fichier → Partager). Dans cette fenêtre, cliquez sur le nombre indiquant le nombre d'utilisateurs ayant accès à ce fichier. Si votre collègue est dans la liste, il ou elle a accès à ce fichier. Sinon, réfèrez vous au poinr précédent de cette FAQ.
+Pour avoir une vue d'ensemble des utilisateurs ayant accès à ce fichier, veuillez dans la fenêtre de partage (clic-droit sur le fichier → Partager). Dans cette fenêtre, cliquez sur le nombre indiquant le nombre d'utilisateurs ayant accès à ce fichier. Si votre collègue est dans la liste, il ou elle a accès à ce fichier. Sinon, réfèrez vous au point précédent de cette FAQ.
 
 **11. J'ai partagé un lien vers un document mis en ligne. Pourquoi mes collègues ne peuvent pas y accéder?**
 
@@ -148,7 +148,7 @@ Vous pouvez organiser vos documents dans la section "Mes collections". Veuillez 
 
 **2. Je veux créer une structure. Comment puis-je le faire?**
 
-Veuillez faire un clic-droit sur la collection pour laquelle vous voulez créer une structure interne. Choisissez "Créer une sous-collection" et donnez-lui un nom.
+Veuillez faire un clic-droit sur la collection pour laquelle vous voulez créer une structure interne. Choisissez "Créer une collection", donnez-lui un nom et cliquez sur "Créer".
 Utilisez le bouton en forme de flèche à côté de votre collection pour voir ses sous-collections.
 
 **3. Je veux partager un fichier avec un autre utilisateur. Comment puis-je le faire?**
@@ -166,7 +166,7 @@ Veuillez utiliser des mots-clés pertinents, respectant les conventions de nomma
 - `AND`: cherche des documents qui contiennent ces deux mots-clés. Par exemple, `Markhor AND report AND 2014` ne retournera que les documents qui contiennent ces trois mots-clés.
 - `+`: le mot-clé écrit après cet opérateur doit impérativement se trouver dans les documents retournés par la recherche. Par exemple, `+Markhor AND report AND 2014` va rechercher ces trois mots-clés, mais avec un focus particulier sur "Markhor". Les résultats de recherche peuvent aussi contenir des documents qui contiennent uniquement "Markhor", mais pas forcément "report" ou "2014".
 - `NOT`: tout document contenant le mot-clé que vous entrez après cet opérateur sera exclu des résultats de la recherche.
-- `*`: si vous ne vous souvenez pas du mot en entier (situation fréquente avec les noms de famille, per example), vous pouvez utiliser cet opérateur comme joker. Par exemple, `Muzafar*` vous retournera des documents qui contiennent les mots `Muzafarov`, `Muzafarova`, `Muzafarbek`, etc. 
+- `*`: si vous ne vous souvenez pas du mot en entier (situation fréquente avec les noms de famille, par example), vous pouvez utiliser cet opérateur comme joker. Par exemple, `Muzafar*` vous retournera des documents qui contiennent les mots `Muzafarov`, `Muzafarova`, `Muzafarbek`, etc. 
 
 Vous pouvez bien évidemment aussi combiner tous ces opérateurs, afin d'obtenir des résultats de recherche plus pertinents.
 
