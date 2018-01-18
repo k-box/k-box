@@ -73,9 +73,9 @@ Pour voir la structure interne d'une collection de projet, veuillez cliquer sur 
 
 Il y a plusieurs possibilités pour mettre en ligne un fichier dans votre K-Box.
 
-1. En utilisant le glisser-déposer, vous pouvez mettre en ligne un fichier dans n'importe quel projet ou (sous-)collection. Quand un fichier est déposé sur une collection, il sera automatiquement assigné à cette collection.
-2. En utilisant le sélecteur de fichiers dans la barre de navigation supérieure ("Créer ou ajouter" → "Mettre en ligne un document"). Si vous vous trouvez à l'intérieur d'une collection, le fichier sélectionné sera automatiquement assigné à cette collection.
-3. Pour les vidéos, nous vous recommendons d'utiliser l'outil de mise en ligne de vidéos ("Créer ou ajouter" → "Mettre en ligne une vidéo"), en particulier si vous avez une connexion internet instable. Vous pourrez ainsi continuer la mise en ligne, même si le premier essai a été interrompu.
+1. En utilisant le _glisser-déposer_, vous pouvez mettre en ligne un fichier dans n'importe quel projet ou (sous-)collection. Quand un fichier est déposé sur une collection, il sera automatiquement assigné à cette collection.
+2. En utilisant le _sélecteur de fichiers_ dans la barre de navigation supérieure ("Créer ou ajouter" → "Mettre en ligne un document"). Si vous vous trouvez à l'intérieur d'une collection, le fichier sélectionné sera automatiquement assigné à cette collection.
+3. Pour les vidéos, nous vous recommendons d'utiliser l'_outil de mise en ligne de vidéos_ ("Créer ou ajouter" → "Mettre en ligne une vidéo"), en particulier si vous avez une connexion internet instable. Vous pourrez ainsi continuer la mise en ligne, même si le premier essai a été interrompu.
 
 **6. J'ai mis une vidéo en ligne mais elle n'apparaît pas dans la sous-collection. Ou puis-je la trouver?**
 
