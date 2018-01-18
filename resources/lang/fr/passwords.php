@@ -13,7 +13,7 @@ return [
     |
     */
 
-    "password" => "Les mots de passe doivent avoir au moins 6 caractères et doivent correspondre à la confirmation.",
+    "password" => "Les mots de passe doivent avoir au moins 8 caractères et doivent correspondre à la confirmation.",
     "user" => "Nous n'avons pas trouvé d'utilisateur avec cette adresse email.",
     "token" => "Le lien de réinitialisation du mot de passe que vous avez utilisé a expiré. Il est valide uniquement pendant 5 minutes après la demande de réinitialisation.",
     "sent" => "Le lien de réinitialisation du mot de passe a été envoyé!",
