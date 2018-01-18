@@ -1,6 +1,6 @@
 ## K-Box Foire Aux Questions (FAQ)
 
-- [Début](#start)
+- [Général](#start)
 - [Projets](#projects-activities)
   - [Mettre en ligne](#upload)
   - [Partager](#sharing)
@@ -12,7 +12,7 @@
 - [Erreurs](#errors)
 - [Contactez nous](#contact-us)
 
-### <a id="start"></a>Début
+### <a id="start"></a>Général
  
 **1. J'oublié mon mot de passe. Que dois-je faire?**
 
@@ -28,21 +28,21 @@ Veuillez cliquer sur votre avatar dans le coin supérieur droit de la fenêtre. 
 
 **4. Je veux changer la langue d'affichage du système. Comment puis-je le faire?**
 
-Veuillez cliquer sur votre avatar dans le coin supérieur droit de la fenêtre. Choisissez votre langue préférée dans la liste déroulante sitée dans la section "Choisissez votre langue préférée". Enregistrez les changements en cliquant sur "Changer la langue".
+Veuillez cliquer sur votre avatar dans le coin supérieur droit de la fenêtre. Choisissez votre langue préférée dans la liste déroulante sitée dans la section "Changer la langue de l'interface. Enregistrez les changements en cliquant sur "Changer la langue".
 
 **5. Quelle est la différence entre un dossier sur mon ordinateur et une collection dans la K-Box?**
 
 Les collections K-Box ont un comportement différent de celui des dossiers. Dans la K-Box:
 
-- Il ne peut exister qu'une seulw copie d'un document dans la K-Box
-- Un document peut être assigné à autant de collections que vous le souhaitez. Autrement dit, ce il n'y aura qu'une seule copie de ce document, mais il sera visible à l'intérieur de toutes les collections auxquelles in a été assigné
+- Il ne peut exister qu'une seule copie d'un même document
+- Un document peut être assigné à autant de collections que vous le souhaitez. Autrement dit, il n'y aura qu'une seule copie de ce document, mais il sera visible à l'intérieur de toutes les collections auxquelles il a été assigné
 - Si vous modifiez ce document, les modifications seront visibles dans toutes les collections où il est assigné
-- L'adresse (URL) d'un document reste identique, même si vous modifiez son nom ou mettez en ligne une nouvelle version
+- L'adresse (URL) d'un document reste identique, même si vous modifiez son nom, l'assignez à une autre collection ou mettez en ligne une nouvelle version
 
 
 **6. Quelle est la différence entre "mettre à la corbeille" et "effacer"?**
 
-Dans la K-Box, "effacer" un fichier signifie le supprimer de la K-Box, alors que "mettre à la corbeille" le conserve dans le système et vous permettra donc de le restaurer ultérieurement, si nécessaire. Effacer complètement un document est uniquement possible depuis la corbeille.
+Dans la K-Box, "effacer" un fichier signifie le supprimer définitivement de la K-Box, alors que "mettre à la corbeille" le conserve dans le système et vous permettra donc de le restaurer ultérieurement, si nécessaire. Effacer complètement un document est uniquement possible depuis la corbeille.
 
 **7. Est-ce que 2 personnes peuvent se connecter en même temps depuis le même navigateur?**
 
@@ -56,7 +56,7 @@ La vue d'ensemble des projets accessibles est possible depuis la page Projets, a
 
 **2. Je ne vois aucune collection de projet. Qui dois-je contacter?**
 
-Si vous ne voyez aucun projet, cela signifie que vous n'avez été ajouté à aucun. Veuillez contacter votre libraire ou votre chef de projet par email.
+Si vous ne voyez aucun projet, cela signifie que vous n'avez été ajouté à aucun. Veuillez contacter votre bibliothécaire ou votre chef de projet par email.
 
 **3. Je veux télécharger un fichier depuis une collection de projet. Comment puis-je le faire?**
 
