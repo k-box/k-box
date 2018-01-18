@@ -40,20 +40,20 @@ return [
         'recent' => 'Récents',
         'trash' => 'Corbeille',
         'not_indexed' => 'Pas indexé',
-        'recent_hint' => 'Vous trouverez ici les documents récemment modifiés que vous possédez',
+        'recent_hint' => 'Vous trouverez ici les documents que vous avez récemment mis en ligne',
         'starred_hint' => 'Vous trouverez ici tous vos documents favoris',
     ],
 
     'sort' => [
-        'sorted_by' => 'Ordonner par :sort',
+        'sorted_by' => 'Trier par :sort',
         'type_project_name' => 'nom du projet',
         'type_search_relevance' => 'pertinence',
         'type_updated_at' => 'date de mise à jour',
     ],
 
     'filtering' => [
-        'date_range_hint' => 'Période de temps préférée',
-        'items_per_page_hint' => 'Nombre d\'objets par page',
+        'date_range_hint' => 'Fichiers mis en ligne depuis...',
+        'items_per_page_hint' => 'Nombre de fichiers par page',
         'today' => 'Aujourd\'hui',
         'yesterday' => 'Depuis hier',
         'currentweek' => 'Derniers 7 jours',
