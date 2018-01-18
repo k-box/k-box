@@ -184,7 +184,7 @@ return [
         'restore_dialog_title_count' => 'Restaurer :count documents?',
         'restore_dialog_text' => 'Vous allez restaurer ":document"',
         'restore_dialog_text_count' => 'Vous allez restaurer :count fichiers',
-        'restore_dialog_yes_btn' => 'Oui, restaurer?',
+        'restore_dialog_yes_btn' => 'Oui, restaurer',
         'restore_dialog_no_btn' => 'Non',
         
         'restore_success_title' => 'Restauré',
