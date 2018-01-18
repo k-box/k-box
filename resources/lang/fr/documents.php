@@ -244,7 +244,7 @@ return [
 
         'version_current' => 'actuel',
 
-        'new_version_button' => 'Mettre une nouvelle version en ligne',
+        'new_version_button' => 'Mettre en ligne une nouvelle version',
         
         'new_version_button_uploading' => 'Mise en ligne en cours...',
 
