@@ -216,18 +216,18 @@ Veuillez vous rendre sur la page "Projets" pout avoir une vue d'ensemble de tous
 
 **6. Je veux créer un utilisateur. Comment puis-je le faire?** 
 
-Pour créer un utilisateur, veuillez vous rendre dans la fenêtre d'administration. Cliquez sur "Créer un utilisateur" et remplissez les champs. Afin d'attribuer les bons droits d'accès, vuillez identifier le rôle de cet utilisateur dans les activités du projet:
+Pour créer un utilisateur, veuillez vous rendre dans la fenêtre d'administration. Cliquez sur "Créer un utilisateur" et remplissez les champs. Afin d'attribuer les bons droits d'accès, veuillez identifier le rôle de cet utilisateur dans les activités du projet:
 
-- **invité** – l'utilisateur doit uniquement voir ce qui a été partagé avec lui / elle;
-- **partenaire** – l'utilisateur doit être membre d'un projet et doit voir toutes les collections partagées avec lui / elle;
-- **gestionnaire de projet** – l'utilisateur va gérer un projet (ajouter / supprimer des utilisateurs, publier / dépublier des documents).
+- **invité** – l'utilisateur peut uniquement voir ce qui a été partagé avec lui / elle;
+- **partenaire** – l'utilisateur peut être membre d'un projet et peut voir toutes les collections partagées avec lui / elle;
+- **gestionnaire de projet** – l'utilisateur peut gérer un projet (ajouter / supprimer des utilisateurs, publier / dépublier des documents).
 
 
 ### <a id="questions"></a>Questions/Suggestions
 
 **1. J'ai une suggestion pour améliorer K-Link. Où puis-je la poster?**
 
-Veuillez vous rendre sur http://klink.uservoice.com/ pour poster votre suggestion et voter pour les idées des autres utilisateurs.
+Veuillez vous rendre sur [K-Link Uservoice](https://klink.uservoice.com/) pour poster votre suggestion et voter pour les idées des autres utilisateurs.
 
 **2. J'ai une question concernant le comportement du système. Qui peut me renseigner?**
 
@@ -238,7 +238,7 @@ Veuillez adresser toutes vos questions par email à votre bibliothécaire. Décr
 **1. “Le fichier existe”**
 
 Le fichier que vous essayez de mettre en ligne existe déjà sur la K-Box (dans des collections de projet, dans un espace personnel ou dans la corbeille). Veuillez vérifier aussi dans vos documents récents et dans la corbeille si une copie de ce document ne s'y trouve pas déjà. Vous pouvez aussi chercher dans les collections de projet, si le file a déjà été mis en ligne par un collègue.
-Si aucune de ces méthodes ne porte ses fruits, veuillez contacter l'équipe de développemnt K-Link ou votre gestionnaire de projet pour trouver le fichier.
+Si aucune de ces méthodes ne porte ses fruits, veuillez contacter l'équipe de développement K-Link ou votre gestionnaire de projet pour trouver le fichier.
 
 **2. Je ne peux pas vider la corbeille. Pourquoi?**
 
@@ -246,7 +246,7 @@ Afin de prévenir une perte accidentelle d'information, un utilisateur ne peut s
 
 **3. J'ai mis un fichier à la corbeille mais le système ne me permet pas de le mettre à nouveau en ligne. Pourquoi?**
 
-Afin d'éviter une multiplication de fichiers avec un contenu identique, le système ne permet pas de mettre un ligne le même fichier plus d'une fois.Si votre fichier se trouve dans la corbeille, veuillez le restaurer et effectuer les modifications nécessaires (mettez à jour la version, affectez le à la bonne collection ). Tant que le fichier n'a pas été définitivement supprimé, il reste sauvé dans le système.
+Afin d'éviter une multiplication de fichiers avec un contenu identique, le système ne permet pas de mettre un ligne le même fichier plus d'une fois. Si votre fichier se trouve dans la corbeille, veuillez le restaurer et effectuer les modifications nécessaires (mettez à jour la version, affectez le à la bonne collection ). Tant que le fichier n'a pas été définitivement supprimé, il reste sauvé dans le système.
 
 **4. “Impossible d'effacer une collection”**
 
@@ -258,13 +258,13 @@ Une connexion internet lente ou instable est souvent responsable pour des temps 
 
 **6. “Le chargement de la page semble être lent et certaines fonctionalités peuvent ne pas être disponibles”**
 
-Ce message sera affiché en cas de lenteur de la connexion internet. K-Link peut parfois subir un trafic important, engandrant certaines lenteurs et toutes les foncionnalités nécessaires au bon foncionnement de la K-Box peuvent ne pas avoir été reçues. Vous pouvez rafraîchir la page en cliquant sur le bouton "Rafraîchir" de votre navigateur ou en pressant Ctrl+R sur votre clavier. Ceci résout généralement le problème.
+Ce message sera affiché en cas de lenteur de la connexion internet. K-Link peut parfois subir un trafic important, engendrant certaines lenteurs et toutes les fonctionnalités nécessaires au bon foncionnement de la K-Box peuvent ne pas avoir été reçues par votre navigateur. Vous pouvez rafraîchir la page en cliquant sur le bouton "Rafraîchir" de votre navigateur ou en pressant Ctrl+R sur votre clavier. Ceci résout généralement le problème.
 
 **7. “L'aperçu du fichier ne peut être affiché” ou “Erreur dans l'aperçu du fichier”**
 
 L'aperçu d'un fichier est uniquement disponible pour certains types de fichiers. Actuellement, uniquement les fichiers PDF, MP4 vidéos, JPG et PNG sont correctement supportés. Les documents Microsoft Word (créés avec Office 2010 ou plus récent utilisant le format Open XML) peuvent générer des erreurs à cause de certains éléments du format qui ne sont pas supportés, ou peuvent être affichés avec un formatage partiel et incomplet.
 
-**8. Je veux mettre un fichier en ligne mais, au lieu de cela, il s'ouvre. Le glisser-déposer n'est pas supporté?**
+**8. Je veux mettre en ligne un fichier mais, au lieu de cela, il s'ouvre. Le glisser-déposer n'est pas supporté?**
 
 Ce comportement apparaît avec certains navigateurs et est causé par le fait que le fichier a été glissé-déposé en-dehors de la zone de mise en ligne. La zone de mise en ligne couvre toute la page et est entourée par un cadre vert. En cas de doute, veuillez glisser-déposer vos fichiers vers le centre de l'écran, là où les documents sont listés.
 
