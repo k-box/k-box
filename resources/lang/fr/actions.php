@@ -11,7 +11,7 @@ return [
     |
     */
 
-    'edit' => 'Edition',
+    'edit' => 'Modifier',
     'details' => 'Détails',
     'expand'     => 'Etendre',
     'collapse'     => 'Réduire',
