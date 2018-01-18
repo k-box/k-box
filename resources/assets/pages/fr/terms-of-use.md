@@ -1,6 +1,6 @@
 # Conditions d'utilisation
 
-**VEUILLEZ LIRE CE DOCUMENT TRÈS ATTENTIVEMENT.** En vous enregistrant ou en utilisant la K-Box de n'importe quelle manière, vous acceptez ces conditions d'utilisation. Si vous ne souhaitez pas être lié à ces conditions d'utilisation, veuillez ne pas utiliser ce service.
+**VEUILLEZ LIRE CE DOCUMENT TRÈS ATTENTIVEMENT.** En vous enregistrant ou en utilisant la K-Box de n'importe quelle manière, vous acceptez ces conditions d'utilisation. Si vous ne souhaitez pas être lié à ces conditions d'utilisation, veuillez ne pas utiliser la K-Box.
 
 **Table des matières**
 
@@ -15,7 +15,7 @@ Vous ne pouvez pas mettre en ligne, poster ou transmettre des vidéos, images, t
 * Enfreint les droits d'auteur de tiers ou tout autre droit (par exemple, marque déposée, confidentialité, etc.);
 * Contient du contenu sexuellement explicite ou de la pornographie (toutefois, la nudité non-sexuelle est autorisée);
 * Contient du contenu haineux, diffamatoire ou discriminatoire ou qui incite à la haine à l'encontre de tout groupe ou individu;
-* Exploite des personnes mineurs;
+* Exploite des personnes mineures;
 * Représente des actes illégaux ou d'une violence extrême;
 * Représente de la cruauté animale ou des actes d'extrême violence envers des animaux;
 * Encourage des projets frauduleux ou douteux; ou
