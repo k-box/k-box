@@ -271,4 +271,4 @@ Ce comportement apparaît avec certains navigateurs et est causé par le fait qu
 
 ### <a id="contact-us"></a>Contactez nous
 
-Should you have any questions, please contact us at `support@klink.asia` 
+Si vous avez des questions, veuillez nous contacter (en anglais, russe, tadjik, kirghize, allemand ou italien) à `support@klink.asia` 
