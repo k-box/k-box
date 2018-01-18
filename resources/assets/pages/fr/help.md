@@ -69,17 +69,17 @@ Veuillez faire un clic-droit sur le fichier et sélectionnez "Détails". Dans la
 
 Pour voir la structure interne d'une collection de projet, veuillez cliquer sur le symbole en forme de flèche à gauche du nom du projet. Vous pouvez faire la même chose pour parcourir toutes les sous-collections.
 
-**5. Je veux mettre un fichier en ligne dans une sous-collection de projet. Comment puis-je le faire?**
+**5. Je veux mettre en ligne un fichier dans une sous-collection de projet. Comment puis-je le faire?**
 
-Il y a plusieurs possibilités pour mettre un fichier en-ligne dans votre K-Box.
+Il y a plusieurs possibilités pour mettre en ligne un fichier dans votre K-Box.
 
-1. En utilisant le glisser-déposer, vous pouvez mettre un fichier en ligne das n'importe quel projet ou (sous-)collection. Quand un fichier est déposé sur une collection, il sera automatiquement assigné à cette collection.
-2. En utilisant le sélecteur de fichiers dans la barre de navigation supérieure ("Créer ou ajouter" → "Fichier"). Si vous vous trouvez à l'intérieur d'une collection, le fichier sélectionné sera automatiquement assigné à cette collection.
+1. En utilisant le glisser-déposer, vous pouvez mettre en ligne un fichier dans n'importe quel projet ou (sous-)collection. Quand un fichier est déposé sur une collection, il sera automatiquement assigné à cette collection.
+2. En utilisant le sélecteur de fichiers dans la barre de navigation supérieure ("Créer ou ajouter" → "Mettre en ligne un document"). Si vous vous trouvez à l'intérieur d'une collection, le fichier sélectionné sera automatiquement assigné à cette collection.
 3. Pour les vidéos, nous vous recommendons d'utiliser l'outil de mise en ligne de vidéos ("Créer ou ajouter" → "Mettre en ligne une vidéo"), en particulier si vous avez une connexion internet instable. Vous pourrez ainsi continuer la mise en ligne, même si le premier essai a été interrompu.
 
 **6. J'ai mis une vidéo en ligne mais elle n'apparaît pas dans la sous-collection. Ou puis-je la trouver?**
 
-Si vous avez utilisé l'outil "Mettre en ligne une vidéo" depuis la barre de navigation supérieure, vous verrez, à la fin de la mise en ligne, un petit bouton "Ouvrir l'emplacement du fichier". Si vous cliquez dessus, le système va ouvrir votre fichier dans la collection où il a été mis en ligne. Sinon, vous pouvez aussi cliquer sur "Récents" dans le menu de navigation. Vous pouvez alors déplacer votre fichier en le glissant-déposant vers une autre collection.
+Si vous avez utilisé l'outil "Mettre en ligne une vidéo" depuis la barre de navigation supérieure, vous verrez, à la fin de la mise en ligne, un bouton "Ouvrir l'emplacement du fichier". Si vous cliquez dessus, le système va ouvrir votre fichier dans la collection où il a été mis en ligne. Sinon, vous pouvez aussi cliquer sur "Récents" dans le menu de navigation. Vous pouvez alors déplacer votre fichier en le glissant-déposant vers une autre collection.
 
 **7. Je veux déplacer un fichier de son emplacement actuel vers une autre (sous-)collection. Comment puis-je le faire?**
 
