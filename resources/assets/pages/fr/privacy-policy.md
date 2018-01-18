@@ -1,6 +1,6 @@
-# Information relative à l'utilisation et à la confidentialité des données
+# Informations relatives à l'utilisation et à la confidentialité des données
 
-Votre confidentialité est très importante pour nous. Nous expliquons ici quelles informations nous collectons dans quel but, et ce que nous faisons avec. En premier lieu: toutes vos données sont uniquement stockées sur nos serveurs. Nous ne transmettrons vos données à aucun prestataire de service.
+Votre confidentialité est très importante pour nous. Nous expliquons ici quelles informations nous collectons, dans quel but, et ce que nous faisons avec. En premier lieu: toutes vos données sont uniquement stockées sur nos serveurs. Nous ne transmettrons vos données à aucun prestataire de service.
  
 Nous faisons la différence entre les informations que nous collectons lorsque vous n'êtes pas connecté (voir 1.) et lorsque vous êtes connectés avec votre compte sur le système (voir 2.).
  
@@ -12,7 +12,7 @@ Nous stockons d'une manière anonyme l'adresse IP actuellement utilisée par vot
 
 Pour les utilisateurs ayant un compte, nous stockons des données personnelles. Les informations personnelles sont des informations qui peuvent être reliées à une personne, par exemple des informations par lesquelles vous êtes identifiables en tant qu'individu ou entreprise, ou des informations qui peuvent vous être attribuées. Les informations personnelles incluent des données de référence, par exemple des données qui sont nécessaires pour constituer, définir ou modifier des relations contractuelles entre vous et cette K-Box, comme votre nom ou vos informations de contact (adresse email).
 
-Afin de permettre utilisation confortable et cohérente, nous plaçons un cookie (un petit fichier contenant un nombre) sur votre ordinateur, pour permettre de vous reconnaître. Cette pratique est commune à de très nombreux sites web, mais nous voulions être sûrs que vous soyez au courant.
+Afin de permettre une utilisation confortable et cohérente, nous plaçons un cookie (un petit fichier contenant un nombre) sur votre ordinateur, pour permettre de vous reconnaître. Cette pratique est commune à de très nombreux sites web, mais nous voulions être sûrs que vous soyez au courant.
  
 **Vos droits**
 
