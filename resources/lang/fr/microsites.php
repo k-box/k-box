@@ -71,7 +71,7 @@ return [
         'site_title' => 'Nom du site',
         'slug' => 'Nom convivial du site',
         'site_description' => 'Description du site',
-        'logo' => 'Le logo du site. Veuillez indiquer une URL vers une image (l\'url doit être en HTTPS)',
+        'logo' => 'Logo du site. Veuillez indiquer une URL vers une image (l\'url doit être en HTTPS)',
         'default_language' => 'Langue par défaut du site',
         'cancel_and_back' => 'Annuler et retourner au projet',
         'publishing_box' => 'Publier',
@@ -82,6 +82,6 @@ return [
         
         'page_title' => 'Le titre de la page à créer',
         'page_slug' => 'Le nom convivial de la page',
-        'page_content' => 'Le contenu de la page',
+        'page_content' => 'Contenu de la page',
     ],
 ];
