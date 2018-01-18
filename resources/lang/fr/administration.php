@@ -113,7 +113,7 @@ return [
         'reset_sent' => 'L\'email de réinitialisation du mot de passe a été envoyé à :name (:email)',
         'reset_not_sent' => 'L\'email de réinitialisation du mot de passe ne peut être envoyé à :email. :error',
         'reset_not_sent_invalid_user' => 'L\'utilisateur, :email, ne peut être trouvé.',
-        'send_reset_password_btn' => 'Mot de passe réinitialisé',
+        'send_reset_password_btn' => 'Réinitialiser le mot de passe ',
         'send_reset_password_hint' => 'Demander un lien de réinitialisation du mot de passe pour l\'utilisateur',
         'send_message_btn' => 'Envoyer un message',
         'send_message_btn_hint' => 'Envoyer un message à chaque utilisateur',
