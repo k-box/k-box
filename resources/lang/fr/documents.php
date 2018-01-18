@@ -273,8 +273,8 @@ return [
 
         'empty_trash' => 'La corbeille est vide',
         
-        'empty_all_text' => 'Tous les documents dans la corbeille vont être effacés définitivement. Cette action va supprimer les fichiers et leurs modifications, les favoris, les collections et les documents partagés. Cette action ne peut pas être annulée.',
-        'empty_selected_text' => 'Vous allez effacer définitivement les documents sélectionnés. Vous allez aussi effacer les fichiers et leurs modifications, les favoris, les collections et les documents partagés. Cette action ne peut pas être annulée.',
+        'empty_all_text' => 'Tous les documents dans la corbeille vont être effacés définitivement. Cette action ne peut pas être annulée.',
+        'empty_selected_text' => 'Vous allez effacer définitivement les documents sélectionnés. Cette action ne peut pas être annulée.',
         
         'cleaned' => 'Corbeille vidée',
         'cannot_clean' => 'Impossible de vider la corbeille',
