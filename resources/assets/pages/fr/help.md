@@ -196,7 +196,7 @@ _Uniquement les utilisateurs possédant le rôle de gestionnaire de projet peuve
 
 **1. Comment puis-je créer un projet?**
 
-Veuillez vous rendre sur la page "Projets" et cliquer sur "Créer un projet" dans la barre de navigation supérieure. Remplissez les champs nécessaires (nom du projet, description) et ajoutez des membres à ce projet. Cliquez sur le bouton "Créer un projet" pour sauver. Veuillez vérifier que vous avez ajouté au moins un utiliateur avant de sauver votre projet.
+Veuillez vous rendre sur la page "Projets" et cliquer sur "Créer un projet" dans la barre de navigation supérieure. Remplissez les champs nécessaires (nom du projet, description) et ajoutez des membres à ce projet. Cliquez sur le bouton "Créer un projet" pour sauver. Veuillez vérifier que vous avez ajouté au moins un utilisateur avant de sauver votre projet.
 
 **2. J'ai partagé un projet avec des utilisateurs mais ils ne peuvent pas le voir. Pourquoi?**
 
