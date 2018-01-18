@@ -19,7 +19,7 @@ return [
 
     'long_running_msg' => '<strong>Processus en cours!</strong> Il semble que cette action prend un peu plus de temps que d\'habitude. Nous en sommes désolés!',
     
-    'terms_of_use' => 'Lorsque vous mettez en ligne ou partagez un document, cela signifie que vous acceptez notre <a href=":policy_link"Politique de service</a>',
+    'terms_of_use' => 'Lorsque vous mettez en ligne ou partagez un document, cela signifie que vous acceptez notre <a href=":policy_link">Politique de service</a>',
 
     'contacts_not_configured' => 'Les informations de contact nécessitent votre attention. <a href=":url">Veuillez les vérifier</a> dans la section Identité.',
 ];
