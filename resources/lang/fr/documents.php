@@ -148,7 +148,7 @@ return [
         'abstract_placeholder' => 'Résumé du document',
 
         'authors_label' => 'Auteurs',
-        'authors_help' => '´Donnez le nom de chaque auteur, séparé par une virgule, comme <code>prénom surname &lt;mail@something.com&gt;</code>',
+        'authors_help' => 'Donnez le nom de chaque auteur, séparé par une virgule, comme <code>prénom surname &lt;mail@something.com&gt;</code>',
         'authors_placeholder' => 'Auteurs du document (prénom nom <mail@something.com>)',
 
         'language_label' => 'Langue',
