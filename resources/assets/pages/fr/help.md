@@ -28,7 +28,7 @@ Veuillez cliquer sur votre avatar dans le coin supérieur droit de la fenêtre. 
 
 **4. Je veux changer la langue d'affichage du système. Comment puis-je le faire?**
 
-Veuillez cliquer sur votre avatar dans le coin supérieur droit de la fenêtre. Choisissez votre langue préférée dans la liste déroulante sitée dans la section "Changer la langue de l'interface. Enregistrez les changements en cliquant sur "Changer la langue".
+Veuillez cliquer sur votre avatar dans le coin supérieur droit de la fenêtre. Choisissez votre langue préférée dans la liste déroulante sitée dans la section "Changer la langue de l'interface". Enregistrez les changements en cliquant sur "Changer la langue".
 
 **5. Quelle est la différence entre un dossier sur mon ordinateur et une collection dans la K-Box?**
 
