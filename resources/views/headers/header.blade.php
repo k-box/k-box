@@ -49,13 +49,13 @@
 
 			</div>
 
-		@else
-
-			<div class="header__navigation">
-
-				<a href="{{ url('/login') }}">{{ trans('login.page_title')}}</a>
-
-			</div>
+//		@else
+//
+//			<div class="header__navigation">
+//
+//				<a href="{{ url('/login') }}">{{ trans('login.page_title')}}</a>
+//
+//			</div>
 
 		@endif
 
