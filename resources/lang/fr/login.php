@@ -4,24 +4,24 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Login Language Lines
+    | Login Language Lines 
     |--------------------------------------------------------------------------
     |
     | The following language lines are used for the login box and page
     |
     */
 
-    'page_title' => 'Login',
+    'page_title' => 'Connexion',
 
-    'logout' => 'Logout',
+    'logout' => 'Déconnexion',
 
     'form' => [
-        'email_label' => 'Email',
-        'email_placeholder' => 'Email (e.g., user@klink.local)',
-        'password_label' => 'Password',
-        'password_placeholder' => 'Password',
-        'submit' => 'Login',
-        'remember_me' => 'Remember Me',
+        'email_label' => 'Adresse email',
+        'email_placeholder' => 'Adresse email (ex., user@klink.local)',
+        'password_label' => 'Mot de passe',
+        'password_placeholder' => 'Mot de passe',
+        'submit' => 'Connexion',
+        'remember_me' => 'Se souvenir de moi',
     ],
 
 ];

@@ -12,57 +12,57 @@ return [
     |
     */
 
-    'view_all' => 'View all',
+    'view_all' => 'Tout voir',
 
     'dms_admin' => [
 
-        'title'=>'DMS Administration',
+        'title'=>'Administration DMS',
 
     ],
 
     'starred' => [
 
-        'title'=>'Last Starred',
-        'empty' => 'No Starred, start searching for something and mark as starred',
+        'title'=>'Dernier favori',
+        'empty' => 'Aucun favori. Cherchez des documents intéressants et marquez les comme favoris',
 
     ],
 
     'storage' => [
 
-        'title'=>'Storage',
-        'free' => '<span class="free">:free</span> of :total free',
-        'used' => ':used of :total used',
-        'used_alt' => ':used of :total',
-        'used_percentage' => ':used% used',
+        'title'=>'Stockage',
+        'free' => '<span class="free">:free</span> de :total sont libres',
+        'used' => ':used de :total sont utilisés',
+        'used_alt' => ':used de :total',
+        'used_percentage' => ':used% utilisé',
 
         'graph_labels' => [
             'documents' => 'Documents',
             'images' => 'Images',
-            'videos' => 'Videos',
-            'other' => 'Other'
+            'videos' => 'Vidéos',
+            'other' => 'Autres'
         ],
 
     ],
     
     'user_sessions' => [
 
-        'title'=>'Active Users',
-        'empty' => 'No user activity in the last 20 minutes'
+        'title'=>'Utilisateurs actifs',
+        'empty' => 'Aucun utilisateur actif durant les dernières 20 minutes'
 
     ],
 
     'recent_searches' => [
 
-        'title'=>'Recent Searches',
-        'executed' => 'executed',
-        'empty' => 'No past searches',
+        'title'=>'Recherches récentes',
+        'executed' => 'exécuté',
+        'empty' => 'Aucune recherche antérieure',
 
     ],
 
     'search_statistics' => [
 
-        'found'=>'document found|documents found',
-        'in' => 'in :time :unit',
+        'found'=>'document trouvé|documents trouvés',
+        'in' => 'en :time :unit',
 
     ],
 

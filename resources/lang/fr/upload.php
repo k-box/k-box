@@ -4,40 +4,40 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Upload Language Lines
+    | Upload Language Lines 
     |--------------------------------------------------------------------------
     |
     | The following language lines are used primarly for the video uploader
     |
     */
 
-    'start' => 'Start the upload',
-    'remove' => 'Remove upload from the list',
-    'open_file_location' => 'Open file location',
-    'cancel' => 'Cancel upload',
-    'cancel_question' => 'Are you sure you want to cancel this upload?',
+    'start' => 'Lancer la mise en ligne',
+    'remove' => 'Retirer de la liste',
+    'open_file_location' => 'Ouvrir l\'emplacement du fichier',
+    'cancel' => 'Annuler la mise en ligne',
+    'cancel_question' => 'Etes-vous sûr de vouloir annuler la mise en ligne?',
 
-    'action_drop' => 'Drop here a file',
-    'action_select' => 'Select it',
+    'action_drop' => 'Déposez un fichier ici',
+    'action_select' => 'Sélectionnez',
 
-    'to' => 'to',
+    'to' => 'vers',
 
-    'do_not_leave_the_page' => 'Please do not leave this page during the upload process. Feel free to open a new tab in your browser and keep browsing the K-Box there, until the upload finished.',
+    'do_not_leave_the_page' => 'Veuillez ne pas quitter cette page pendant la durée de la mise en ligne. Vous pouvez ouvrir un nouvel onglet dans votre navigateur et y naviguer dans K-Box jusqu\'à ce que la mise en ligne se termine.',
 
     'target' => [
-        'personal' => 'to your <a href=":link" target="_blank" rel="noopener noreferrer">private</a> space.',
-        'collection' => 'to the collection <a href=":link" target="_blank" rel="noopener noreferrer">:name</a> under <strong>My Collections</strong>.',
-        'project' => 'to project <a href=":link" target="_blank" rel="noopener noreferrer">:name</a>.',
-        'project_collection' => 'to the collection <a href=":link" target="_blank" rel="noopener noreferrer">:name</a> inside the project <a href=":project_link" target="_blank" rel="noopener noreferrer">:project_name</a>.',
-        'error' => 'You cannot access the selected collection.',
+        'personal' => 'vers votre espace <a href=":link" target="_blank" rel="noopener noreferrer">privé</a>.',
+        'collection' => 'vers la collection <a href=":link" target="_blank" rel="noopener noreferrer">:name</a> sous <strong>Mes Collections</strong>.',
+        'project' => 'vers le projet <a href=":link" target="_blank" rel="noopener noreferrer">:name</a>.',
+        'project_collection' => 'vers la collection <a href=":link" target="_blank" rel="noopener noreferrer">:name</a> à l\'intérieur du projet <a href=":project_link" target="_blank" rel="noopener noreferrer">:project_name</a>.',
+        'error' => 'Vous ne pouvez pas accéder à la collection sélectionnée.',
     ],
 
     'status' => [
-        'started' => 'started',
-        'queued' => 'queued',
-        'uploading' => 'uploading',
-        'completed' => 'completed',
-        'cancelled' => 'cancelled',
-        'failed' => 'failed',
+        'started' => 'commencé',
+        'queued' => 'dans la file d\'attente',
+        'uploading' => 'mise en ligne en cours',
+        'completed' => 'terminé',
+        'cancelled' => 'annulé',
+        'failed' => 'échoué',
     ],
 ];

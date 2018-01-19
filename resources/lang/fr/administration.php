@@ -4,7 +4,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Administration Language Lines
+    | Administration Language Lines 
     |--------------------------------------------------------------------------
     |
     | The following language lines are used inside the DMS Administration area
@@ -15,261 +15,261 @@ return [
 
     'menu' => [
 
-        'accounts'=>'Accounts',
-        'language'=>'Language',
-        'storage'=>'Storage',
-        'network'=>'Network',
-        'mail'=>'Mail',
-        'update'=>'Update and recovery',
-        'maintenance'=>'Maintenance and Events',
+        'accounts'=>'Comptes',
+        'language'=>'Langue',
+        'storage'=>'Stockage',
+        'network'=>'Réseau',
+        'mail'=>'Email',
+        'update'=>'Mise à jour et récupération',
+        'maintenance'=>'Maintenance et événements',
         'institutions'=>'Institutions',
-        'settings'=>'Settings',
-        'identity' => 'Identity',
+        'settings'=>'Paramètres',
+        'identity' => 'Identité',
 
     ],
 
     'accounts' => [
 
-        'disable_confirm' => 'Do you really want to disable :name?',
+        'disable_confirm' => 'Voulez-vous vraiment désactiver :name?',
 
-        'create_user_btn' => 'Create User',
+        'create_user_btn' => 'Créer un utilisateur',
 
         'table' => [
 
-            'name_column' => 'name',
+            'name_column' => 'nom',
             'email_column' => 'email',
             'institution_column' => 'institution',
 
         ],
         
-        'edit_account_title' => 'Edit :name',
+        'edit_account_title' => 'Modifier :name',
 
         'labels' => [
 
-            'email' => 'Mail',
-            'username' => 'Username',
+            'email' => 'Email',
+            'username' => 'Nom d\'utilisateur',
             'perms' => 'Permissions',
 
-            'cancel' => 'Cancel',
+            'cancel' => 'Annuler',
 
-            'create' => 'Create',
-            'update' => 'Update',
+            'create' => 'Créer',
+            'update' => 'Mettre à jour',
 
             'institution' => 'Institution',
-            'select_institution' => 'Select the user Institution affiliation...',
+            'select_institution' => 'Choisissez l\'institution de cet utilisateur...',
 
         ],
 
         'capabilities' => [
 
-            'manage_dms' => 'User can access the K-Box administration panel',
-            'manage_dms_users' => 'User can create/disable K-Box users',
-            'manage_dms_log' => 'User can see the K-Box logs',
-            'manage_dms_backup' => 'User can perform K-Box backups and restore',
-            'change_document_visibility' => 'User can un-/publish documents',
-            'edit_document' => 'User can edit documents',
-            'delete_document' => 'User can trash documents',
-            'import_documents' => 'User can import documents from folders or external URL',
-            'upload_documents' => 'User can upload documents',
-            'make_search' => 'User can access all the unpublished documents in accessible projects',
-            'manage_own_groups' => 'User can add/remove personal document collections',
-            'manage_institution_groups' => 'User can add/remove document collections in accessible projects',
-            'manage_project_collections' => 'User can add/remove project collections in accessible projects',
-            'manage_share' => 'User may directly share project documents with other K-Box users',
-            'receive_share' => 'User can see documents that have been shared with him',
-            'manage_share_personal' => 'User may directly share personal documents with other K-Box users',
-            'manage_share_private' => 'User can share documents to groups of users defined at institution level',
-            'clean_trash' => 'User can permanently remove owned documents from the K-Box',
-            'manage_personal_people' => 'User can create/edit groups of users defined at personal level',
-            'manage_people' => 'User can create/edit groups of users defined at institution level',
+            'manage_dms' => 'L\'utilisateur peut accéder à la console d\'administration de K-Box',
+            'manage_dms_users' => 'L\'utilisateur peut créer/désactiver des utilisateurs K-Box',
+            'manage_dms_log' => 'L\'utilisateur peut voir les journaux K-Box',
+            'manage_dms_backup' => 'L\'utilisateur peut  effectuer des sauvegardes et restauration de K-Box',
+            'change_document_visibility' => 'L\'utilisateur peut publier et dépublier des documents',
+            'edit_document' => 'L\'utilisateur peut modifier des documents',
+            'delete_document' => 'L\'utilisateur peut mettre des documents à la corbeille',
+            'import_documents' => 'L\'utilisateur peut importer des documents depuis des dossiers ou URLs distantes',
+            'upload_documents' => 'L\'utilisateur peut mettre en ligne des documents',
+            'make_search' => 'L\'utilisateur peut  accéder à tous les documents non publiés se trouvant dans des projets accessibles',
+            'manage_own_groups' => 'L\'utilisateur peut ajouter/supprimer des collections de documents personnels',
+            'manage_institution_groups' => 'L\'utilisateur peut ajouter/supprimer des collections de documents se trouvant dans des projets accessibles',
+            'manage_project_collections' => 'L\'utilisateur peut ajouter/supprimer des collections de projet se trouvant dans des projets accessibles',
+            'manage_share' => 'L\'utilisateur peut directement partager des documents de projet avec d\'autres utilisateurs K-Box',
+            'receive_share' => 'L\'utilisateur peut voir les documents qui ont été partagés avec lui',
+            'manage_share_personal' => 'L\'utilisateur peut directement partager des documents personnels avec d\'autres utilisateurs K-Box',
+            'manage_share_private' => 'L\'utilisateur peut partager des documents avec des groupes d\'utilisateurs définis au niveau de l\'institution',
+            'clean_trash' => 'L\'utilisateur peut supprimer ses propres documents de manière définitive',
+            'manage_personal_people' => 'L\'utilisateur peut créer/éditer des groupes d\'utilisateurs définis au niveau personnel',
+            'manage_people' => 'L\'utilisateur peut créer/éditer des groupes d\'utilisateurs définis au niveau de l\'institution',
 
         ],
         
         'types' => [
 
-            'guest' => 'Guest',
-            'partner' => 'Partner',
-            'content_manager' => 'Content Manager',
-            'quality_content_manager' => 'Quality Content Manager',
-            'project_admin' => 'Project Administrator',
-            'admin' => 'K-Box Admin',
+            'guest' => 'Invité',
+            'partner' => 'Partenaire',
+            'content_manager' => 'Gestionnaire de contenu',
+            'quality_content_manager' => 'Gestionnaire de qualité de contenu',
+            'project_admin' => 'Administrateur de projet',
+            'admin' => 'Administrateur K-Box',
             'klinker' => 'K-Linker',
 
         ],
 
         'create' => [
 
-            'title' => 'Create New Account',
-            'slug' => 'Create',
+            'title' => 'Créer un nouveau compte',
+            'slug' => 'Créer',
 
         ],
 
-        'created_msg' => 'User created, the password has been sent directly to the users email',
-        'edit_disabled_msg' => 'You cannnot modify your account capabilities. Profile configuration can also be made through the <a href=":profile_url">profile page</a>.',
-        'disabled_msg' => 'User :name disabled',
-        'enabled_msg' => 'User :name has been restored',
-        'updated_msg' => 'User updated',
-        'mail_subject' => 'Your K-Box account is ready',
-        'reset_sent' => 'Password reset e-mail sent to :name (:email)',
-        'reset_not_sent' => 'The Password reset e-mail cannot be sent to :email. :error',
-        'reset_not_sent_invalid_user' => 'The user, :email, cannot be found.',
-        'send_reset_password_btn' => 'Password reset',
-        'send_reset_password_hint' => 'Request a password link reset for the user',
-        'send_message_btn' => 'Send Message',
-        'send_message_btn_hint' => 'Send a Message to each user',
+        'created_msg' => 'Utilisateur créé, son mot de passe lui a été envoyé directement par email',
+        'edit_disabled_msg' => 'Vous ne pouvez pas modifier les paramètres de votre compte. Le paramétrage de votre profil peut se faire sur la <a href=":profile_url">page de profil</a>.',
+        'disabled_msg' => 'Utilisateur :name désactivé',
+        'enabled_msg' => 'Utilisateur :name a été restauré',
+        'updated_msg' => 'Utilisateur mis à jour',
+        'mail_subject' => 'Votre compte K-Box est prêt',
+        'reset_sent' => 'L\'email de réinitialisation du mot de passe a été envoyé à :name (:email)',
+        'reset_not_sent' => 'L\'email de réinitialisation du mot de passe ne peut être envoyé à :email. :error',
+        'reset_not_sent_invalid_user' => 'L\'utilisateur, :email, ne peut être trouvé.',
+        'send_reset_password_btn' => 'Réinitialiser le mot de passe ',
+        'send_reset_password_hint' => 'Demander un lien de réinitialisation du mot de passe pour l\'utilisateur',
+        'send_message_btn' => 'Envoyer un message',
+        'send_message_btn_hint' => 'Envoyer un message à chaque utilisateur',
     ],
 
     'language' => [
 
-        'list_label' => 'Here is the list of supported languages.',
-        'code_column' => 'Language code',
-        'name_column' => 'Language name',
+        'list_label' => 'Voici la liste des langues supportées',
+        'code_column' => 'Code de la langue',
+        'name_column' => 'Nom de la langue',
 
     ],
 
     'storage' => [
 
-        'disk_status_title' => 'Disk status',
-        'documents_report_title' => 'Document Types',
-        'disk_number' => 'Disk :number',
-        'disk_type_all' => 'Main and Documents Disk',
-        'disk_type_main' => 'Main Disk',
-        'disk_type_docs' => 'Documents Disk',
-        'disk_space' => ':free <strong>free</strong>, :used used of :total total.',
+        'disk_status_title' => 'Etat du disque',
+        'documents_report_title' => 'Types de documents',
+        'disk_number' => 'Disque :number',
+        'disk_type_all' => 'Disque principal et disque de documents',
+        'disk_type_main' => 'Disque principal',
+        'disk_type_docs' => 'Disque de documents',
+        'disk_space' => ':free <strong>libres</strong>, :used utilisés de :total total.',
 
-        'reindexall_btn' => 'Reindex all Documents',
+        'reindexall_btn' => 'Réindexer tous les documents',
 
-        'reindexing_status' => 'Reindexing :number documents...',
-        'reindexing_all_status' => 'Reindexing all documents...',
-        'reindexing_status_completed' => 'All documents has been reindexed.',
+        'reindexing_status' => 'Réindexation en cours: :number documents...',
+        'reindexing_all_status' => 'Réindexation de tous les documents en cours...',
+        'reindexing_status_completed' => 'Tous les documents ont été réindexés.',
 
-        'naming_policy_title' => 'File Naming Convention',
-        'naming_policy_description' => 'You can prevent upload of files that don\'t follow this particular naming convention',
+        'naming_policy_title' => 'Convention de nommage de fichiers',
+        'naming_policy_description' => 'Vous pouvez éviter la mise en ligne de fichiers qui ne respectent pas cette convention de nommage',
 
-        'naming_policy_btn_activate' => 'Enable',
-        'naming_policy_btn_save' => 'Update',
-        'naming_policy_btn_deactivate' => 'Disable',
+        'naming_policy_btn_activate' => 'Activer',
+        'naming_policy_btn_save' => 'Mettre à jour',
+        'naming_policy_btn_deactivate' => 'Désactiver',
 
-        'naming_policy_msg_activated' => 'Naming convention enabled',
-        'naming_policy_msg_deactivated' => 'Naming convention disabled',
+        'naming_policy_msg_activated' => 'Convention de nommage activée',
+        'naming_policy_msg_deactivated' => 'Convention de nommage désactivée',
 
     ],
 
     'network' => [
 
-        'klink_net_title' => 'K-Link Network Connection',
-        'ksearch' => 'K-Search engine Connection',
-        'ksearch_description' => 'Show the status of the connection between the K-Box and the search engine.',
+        'klink_net_title' => 'Connexion réseau K-Link',
+        'ksearch' => 'Connexion K-Search engine',
+        'ksearch_description' => 'Montrer l\'état de la connexion entre la K-Box et le moteur de recherche.',
 
-        'network' => 'Connection to ":network"',
-        'network_description' => 'Show the status of the connection between the K-Box and the joined network.',
+        'network' => 'Connexion à ":network"',
+        'network_description' => 'Montrer l\'état de la connexion entre la K-Box et le réseau.',
 
 
         'klink_status' => [
-            'success' => 'Established and verified',
-            'failed' => 'Cannot connect',
+            'success' => 'Etabli et vérifié',
+            'failed' => 'Connexion impossible',
         ]
 
     ],
     'mail' => [
-        'save_btn' => 'Save Mail configuration',
-        'configuration_saved_msg' => 'The Mail configuration has been succesfully saved.',
-        'test_success_msg' => 'The test E-Mail has been successfully queued for sending (from :from). Check your inbox.',
-        'test_failure_msg' => 'The test email cannot be sent due to an error.',
-        'enable_chk' => 'Enable Sending E-Mails',
-        'enabled' => 'The K-Box can send emails',
-        'enabled_by_configuration' => 'Send email is enabled by deployment configuration',
-        'disabled' => 'The K-Box cannot send emails',
-        'test_btn' => 'Send a test E-Mail',
-        'from_label' => 'Send E-Mail From',
-        'from_description' => 'Here, you may specify a name and address that is used globally for all e-mails that are sent by the K-Box.',
-        'server_configuration_label' => 'Server configuration',
-        'server_configuration_description' => 'How the K-Box connects to the email server',
-        'from_name' => 'Name (e.g John)',
-        'from_address' => 'E-Mail address (e.g. john@klink.org)',
+        'save_btn' => 'Enregistrer la configuration email',
+        'configuration_saved_msg' => 'L\'email de configuration a été enregistré avec succès.',
+        'test_success_msg' => 'L\'email de test a été préparé pour envoi (de :from) avec succès. Alez voir votre boîte de réception.',
+        'test_failure_msg' => 'L\'email de test ne peut pas être envoyé à cause d\'une erreur.',
+        'enable_chk' => 'Activer l\'envoi d\'emails',
+        'enabled' => 'La K-Box peut envoyer des emails',
+        'enabled_by_configuration' => 'L\'envoi d\'emails est activé par le paramétrage du déploiement',
+        'disabled' => 'La K-Box ne peut pas envoyer d\'emails',
+        'test_btn' => 'Envoyer un email de test',
+        'from_label' => 'Envoyer un email de',
+        'from_description' => 'Ici, vous pouvez indiquer un nom et une adresse qui sont utilisés globalement pour tous les emails qui sont envoyés par la K-Box.',
+        'server_configuration_label' => 'Configuration de serveur',
+        'server_configuration_description' => 'Comment la K-Box se connecte au server email',
+        'from_name' => 'Nom (ex. John)',
+        'from_address' => 'Adresse email (ex. john@klink.org)',
         'from_name_placeholder' => 'John',
-        'from_address_placeholder' => 'e.g. john@klink.asia',
-        'host_label' => 'SMTP Host Address',
-        'port_label' => 'SMTP Host Port',
-        'encryption_label' => 'The E-Mail server must support TLS Encryption',
-        'username_label' => 'SMTP Server Username',
-        'password_label' => 'SMTP Server Password',
-        'log_driver_used' => 'The log driver is used. You cannot change the server configuration.',
-        'log_driver_go_to_log' => 'The email messages will be written in the K-Box log file. You can check it from <a href=":link">Administration > Maintenance and Events</a>.',
+        'from_address_placeholder' => 'ex. john@klink.asia',
+        'host_label' => 'Adresse hôte SMTP',
+        'port_label' => 'Port hôte SMTP',
+        'encryption_label' => 'Le serveur email doit supporter le cryptage TLS',
+        'username_label' => 'Nom d\'utilisateur serveur SMTP',
+        'password_label' => 'Mot de passe serveur SMTP',
+        'log_driver_used' => 'Le log driver est utilisé. Vous ne pouvez pas changer la configuration du serveur.',
+        'log_driver_go_to_log' => 'Les emails seront écrits dans le fichier journal K-Box. Vous pouvez le voir sur la page <a href=":link">Administration > Maintenance et événements</a>.',
     ],
     'update' => [],
     'maintenance' => [
 
         'queue_runner' => 'Asynchronous process jobs runner',
 
-        'queue_runner_started' => 'Started and listening',
-        'queue_runner_stopped' => 'Not running',
+        'queue_runner_started' => 'Commencé et actif',
+        'queue_runner_stopped' => 'Arrêté',
 
-        'queue_runner_not_running_description' => 'The jobs runner is not running so Mail Messages and Document Indexing may not work as expected.',
+        'queue_runner_not_running_description' => 'Le jobs runner ne fonctionne pas et l\'indexation de messages email et de documents peut ne pas fonctionner comme attendu.',
         
-        'logs_widget_title' => 'Latest Log entries',
+        'logs_widget_title' => 'Dernières entrées du journal',
     ],
     
     
     'institutions' => [
         
-        'edit_title' => 'Edit :name details',
-        'create_title' => 'Create new Institution',
-        'create_institutions_btn' => 'Add new Institution',
-        'saved' => 'Institution :name updated.',
-        'update_error' => 'Institution detail not saved: :error',
-        'create_error' => 'The Institution cannot be created: :error',
-        'delete_not_possible' => 'The institution :name is currently being used for documents and/or user affiliation. Please remove all the documents and the user affiliation before deleting it.',
-        'delete_error' => 'The institution :name cannot be deleted: :error',
-        'deleted' => 'The institution :name has been removed.',
-        'delete_confirm' => 'Deleting institution :name from the network?',
-        'deprecated' => 'Institutions management is going to change. To prepare your K-Box to support the next changes we are disabling adding, editing and removing Institutions.',
+        'edit_title' => 'Modifier les détails de :name',
+        'create_title' => 'Créer une nouvelle institution',
+        'create_institutions_btn' => 'Ajouter une nouvelle institution',
+        'saved' => 'Institution :name mise à jour.',
+        'update_error' => 'Détail de l\'institution non sauvegardé: :error',
+        'create_error' => 'L\'institution ne peut pas être créée: :error',
+        'delete_not_possible' => 'L\'institution :name est actuellement utilisée pour des documents et/ou pour l\'affiliation d\'utilisateurs. Veuillez supprimer les documents et l\'affiliation des utilisateurs avant de l\'effacer.',
+        'delete_error' => 'L\'institution :name ne peut pas être supprimée: :error',
+        'deleted' => 'L\'institution :name a été supprimée.',
+        'delete_confirm' => 'Supprimer l\'institution :name du réseau?',
+        'deprecated' => 'La gestion des institutions va changer. Afin de préparer votre K-Box pour ces changements, nous avons désactivé l\'addition, l\'édition et la suppression d\'institutions.',
         
         'labels' => [
-            'klink_id' => 'Institution Identifier (in the K-Link Network)',
-            'name' => 'Institution name',
-            'email' => 'Institution E-Mail for getting information',
-            'phone' => 'Institution secretary phone number',
-            'url' => 'Institution website address',
-            'thumbnail_url' => 'Institution image or avatar (url of an image)',
-            'address_street' => 'Institution Street Address',
-            'address_country' => 'Institution Country',
-            'address_locality' => 'Institution City',
-            'address_zip' => 'Postal Code',
-            'update' => 'Save Details',
-            'create' => 'Create Institution'
+            'klink_id' => 'Identificateur d\'institution (dans le réseau K-Link)',
+            'name' => 'Nom de l\'institution',
+            'email' => 'Email de l\'institution pour recevoir des informations',
+            'phone' => 'Numéro de téléphone du secrétaire de l\'institution',
+            'url' => 'Site web de l\'institution',
+            'thumbnail_url' => 'Photo ou avatar de l\'institution (url d\'une image)',
+            'address_street' => 'Adresse de l\'institution (rue)',
+            'address_country' => 'Adresse de l\'institution (pays)',
+            'address_locality' => 'Adresse de l\'institution (ville)',
+            'address_zip' => 'Code postal',
+            'update' => 'Enregistrer',
+            'create' => 'Créer une institution'
         ],
     ],
     
     'settings' => [
-        'viewing_section' => 'Viewing',
-        'viewing_section_help' => 'You can configure how the users can view the documents.',
-        'save_btn' => 'Save Settings',
-        'saved' => 'Settings has been updated. When the users will refresh the page they will see the update.',
-        'save_error' => 'The settings cannot be saved. :error',
+        'viewing_section' => 'Visualisation',
+        'viewing_section_help' => 'Vous pouvez paramétrer comment les utilisateurs voient les documents.',
+        'save_btn' => 'Enregistrer les paramètres',
+        'saved' => 'Les paramètres ont été mis à jour. Quand les utilisateurs rafraîchiront la page, ils verront les changements.',
+        'save_error' => 'Les paramètres ne peuvent pas être enregistrés. :error',
         
-        'map_visualization_chk' => 'Enable the map visualization',
+        'map_visualization_chk' => 'Activer la vue cartographique',
         
         'support_section' => 'Support',
-        'support_section_help' => 'If you have a support subscription please insert here the authentication token to enable your users to submit support requests and receive help from the K-Link Dev team.',
-        'support_token_field' => 'Support Token',
-        'support_save_btn' => 'Save Support Settings',
+        'support_section_help' => 'Si vous avez un jeton pour le support, indiquez le ici pour permettre à vos utilisateurs d\'envoyer des demandes de support et pour recevoir de l\'aide de l\'équipe de développeurs K-Link.',
+        'support_token_field' => 'Jeton de support',
+        'support_save_btn' => 'Enregistrer les paramètres de support',
 
-        'analytics_section' => 'Analytics',
-        'analytics_section_help' => 'Analytics gives you the power to understand how users are using the system and how many of them use it regularly. In this section you can opt-in for the K-Link Analytics.',
-        'analytics_token_field' => 'Analytics token',
-        'analytics_save_btn' => 'Save Analytics Settings',
+        'analytics_section' => 'Analytique',
+        'analytics_section_help' => 'Analytique vous donne la possibilité de comprendre comment vos utilisateurs utilisent le système et combien d\'entre eux l\'utilisent régulièrement. Dans cette section vous pouvez gérer l\'analytique K-Link.',
+        'analytics_token_field' => 'Jeton Analytique',
+        'analytics_save_btn' => 'Enregistrer les paramètres Analytique',
         
     ],
 
     'identity' => [
-        'page_title' => 'Identity',
-        'description' => 'Your organization information, so users can contact you from the "Contacts page".',
-        'not_complete' => 'Contact information are not complete.',
-        'suggestion_based_on_institution_hint' => 'We automatically populated the contact information based on the K-Link Institution information. Please review them and press save.',
+        'page_title' => 'Identité',
+        'description' => 'Informations relatives à votre organisation, afin que les utilisateurs puissent vous contacter depuis la page de contact.',
+        'not_complete' => 'Les informations de contact ne sont pas complètes.',
+        'suggestion_based_on_institution_hint' => 'Nous avons automatiquement rempli les informations de contact à partir des informations de contact de l\'institution. Veuillez les contrôler et appuyer sur Enregistrer.',
 
-        'contact_info_updated' => 'Contact details saved.',
-        'update_error' => 'Contact details were not updated. :error',
+        'contact_info_updated' => 'Détails du contact enregistrés.',
+        'update_error' => 'Les détails du contact n\'ont pas été mis à jour. :error',
     ],
 
 ];

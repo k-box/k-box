@@ -31,61 +31,61 @@ return [
     |
     */
 
-    'klink_network_name' => 'K-Link Public network',
+    'klink_network_name' => 'Réseau K-Link Public',
     'menu_public_klink' => 'K-Link Public',
     'menu_public' => ':network',
-    'menu_public_hint' => 'Explore the documents available in the :network',
+    'menu_public_hint' => 'Explorer les documents disponibles dans le :network',
 
-    'make_public' => 'Make Public',
-    'publish_to_short' => 'Publish',
-    'publish_to_long' => 'Publish to :network',
+    'make_public' => 'Rendre Public',
+    'publish_to_short' => 'Publier',
+    'publish_to_long' => 'Publier vers :network',
 
     
-    'publish_to_hint' => 'Select some documents to be published on the :network',
+    'publish_to_hint' => 'Sélectionnez quelques documents à publier vers le :network',
     
 
-    'publish_btn' => 'Publish',
+    'publish_btn' => 'Publier',
 
     'settings' => [
-        'section' => 'Join a network',
-        'section_help' => 'Here you can configure how the K-Box joins a network',
-        'enabled' => 'Enable publishing of documents to the network',
-        'debug_enabled' => 'Enable the Debug of the network connection',
-        'username' => 'The user used for authenticating with the Network',
-        'password' => 'The password used for authenticating with the Network',
-        'url' => 'The URL of the Network Entry Point',
-        'name_en' => 'Network name (english version)',
-        'name_ru' => 'Network name (russian version)',
-        'name_section' => 'Network name',
-        'name_section_help' => 'Give the network a name. It will be used on the UI when publishing documents or collections. With both fields empty the "K-Link Public Network" name will be used',
-        'streaming_section' => 'Video Streaming Service',
-        'streaming_section_help' => 'Set the video streaming service to use when publishing videos to the network',
-        'streaming_service_url' => 'The URL of the video streaming service',
+        'section' => 'Rejoindre un réseau',
+        'section_help' => 'Ici vous pouvez configurer comment la K-Box rejoint un réseau',
+        'enabled' => 'Activer la publication de documents vers le réseau',
+        'debug_enabled' => 'Activer le débogage de la connexion au réseau',
+        'username' => 'Utilisateur utilisé pour l\'identification sur le réseau',
+        'password' => 'Mot de passe utilisé pour l\'identification sur le réseau',
+        'url' => 'L\'adresse (URL) du Network Entry Point',
+        'name_en' => 'Nom du réseau (anglais)',
+        'name_ru' => 'Nom du réseau (russe)',
+        'name_section' => 'Nom du réseau',
+        'name_section_help' => 'Donner un nom au réseau. Il sera utilisé dans l\'interface utilisateur lors de la publication de documents et collections. Si les 2 champs sont vides, le nom "K-Link Public Network" sera utilisé',
+        'streaming_section' => 'Service de streaming de vidéo',
+        'streaming_section_help' => 'Activer le service de streaming de vidéo pour la publication de vidéos sur le réseau',
+        'streaming_service_url' => 'L\'adresse (URL) du service de streaming vidéo',
     ],
 
-    'made_public' => ':num document has been published over the :network|:num documents were made available in the :network.',
+    'made_public' => ':num document a été publié sur le :network|:num documents ont été publiés sur le :network.',
         
-    'make_public_error' => 'The publish operation was not completed due to an error. :error',
-    'make_public_error_title' => 'Cannot publish in :network',
+    'make_public_error' => 'L\'opération de publication n\'a pas pu être réalisée à cause d\'une erreur. :error',
+    'make_public_error_title' => 'Impossible de publier vers :network',
     
-    'make_public_success_text_alt' => 'The documents are now available in the :network',
-    'make_public_success_title' => 'Publish completed',
+    'make_public_success_text_alt' => 'Les documents sont maintenant disponibles dans :network',
+    'make_public_success_title' => 'Publication complétée',
 
-    'making_public_title' => 'Publishing on :network...',
-    'making_public_text' => 'Please wait while the documents will be made available in the :network',
+    'making_public_title' => 'En cours de publication vers :network...',
+    'making_public_text' => 'Veuillez patienter pendant que les documents sont publiés vers :network',
 
-    'make_public_change_title_not_available' => 'The option for changing title before Publish is not currently available.',
+    'make_public_change_title_not_available' => 'Il n\'est pour le moment pas possible de changer le titre avant la publication.',
 
-    'make_public_all_collection_dialog_text' => 'You will make all the documents in this collection available on the :network.',
-    'make_public_inside_collection_dialog_text' => 'You will make all the documents inside ":item" available on the :network.',
+    'make_public_all_collection_dialog_text' => 'Vous allez rendre tous les documents de cette collection disponibles dans :network.',
+    'make_public_inside_collection_dialog_text' => 'Vous allez rendre tous les documents à l\'intérieur de ":item" disponibles dans :network.',
     
-    'make_public_dialog_title' => 'Publish ":item" on :network',
-    'make_public_dialog_title_alt' => 'Publish on :network',
+    'make_public_dialog_title' => 'Publier ":item" vers :network',
+    'make_public_dialog_title_alt' => 'Publier vers :network',
     
     
-    'make_public_empty_selection' => 'Please select the documents you want to make available in the :network.',
+    'make_public_empty_selection' => 'Veuillez sélectionner les documents que vous voulez rendre disponibles dans :network.',
     
-    'make_public_dialog_text' => 'You will make ":item" available in the :network.',
-    'make_public_dialog_text_count' => 'You will make :count documents available on the :network.',
+    'make_public_dialog_text' => 'Vous allez rendre ":item" disponible dans :network.',
+    'make_public_dialog_text_count' => 'Vous allez rendre :count documents disponibles dans :network.',
 
 ];

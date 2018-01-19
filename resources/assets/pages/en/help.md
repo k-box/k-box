@@ -37,6 +37,7 @@ K-Box collections behave differently from folders in the following way:
 - There can be only one copy of your document.
 - You can assign your document to more than one collection  
 - Changes to the file will be visible in all assigned collections
+- The address (URL) of a document remains unchanged even if you change the document's name or upload a new version of it
 
 
 **6. What is the difference between Trash and Delete?**
@@ -68,7 +69,7 @@ Please right-click on a file, select “Details”, to open the details window. 
 
 In order to view the internal structuring of a Project collection, please hit the arrow-like symbol next to title of the Project. Same applied to sub-subcollections.
 
-**5. I want to upload a document to a Project subcollection. How can I do that?**
+**5. I want to upload a file to a Project subcollection. How can I do that?**
 
 There are several options for uploading a file into K-Box.
 
@@ -82,25 +83,25 @@ If you used “Upload Video” function from top menu bar, after uploading video
 **7. I want to move a file from the current location to another subcollection. How can I do that?**
 Please select your file and drag and drop it into the target subcollection in the left-hand navigation menu. Right click on the file to open the details window. Under Collections you can see assigned subcollections highlighted orange. Hit the “X” symbol to remove the incorrect collection.
 
-**8. The language of an uploaded file is detected wrong. How to change that?**
+**8. The language of an uploaded document is detected wrong. How to change that?**
 In order to change the language of a document, please go to the “Edit” page from its details panel (or via the right click menu “Edit” item). Select the language and “Save” your changes.
 
 
 #### <a id="sharing"></a>Sharing
 
-<a id="sharing-to-user"></a>**9. I want to share documents with another user. How can I do that?**
+<a id="sharing-to-user"></a>**9. I want to share files with another user. How can I do that?**
 
-There are several ways to share a document. They depend on the target audience you aim to share file with:
+There are several ways to share a file. They depend on the target audience you aim to share file with:
 
-1. _Your colleague from the Project:_ they most likely have access to all document in the project. Hence, you can copy-paste the link from the share dialog and send it to them from the same window;
-2. _Partner from another Project:_ if you belong to different Projects, you can send the link to your partner using  direct share. Please add your partner to the list of user who have access to the files (through Sharing dialog). Make sure you click on “Add user” and then “Done”. The recipient will receive an email with the link and the shared document will appear in their “Shared with me” section;
+1. _Your colleague from the Project:_ they most likely have access to all files in the project. Hence, you can copy-paste the link from the share dialog and send it to them from the same window;
+2. _Partner from another Project:_ if you belong to different Projects on the same K-Box, you can send the link to your partner using  direct share. Please add your partner to the list of user who have access to the files (through Sharing dialog): start typing the name of your partner and make sure you click on “Add user” and then “Done”. The recipient will receive an email with the link and the shared file will appear in their “Shared with me” section;
 3. _Non-registered user:_ in order to make a file accessible to a non-registered user, please first clarify if:
- - file can be accessible to a wider audience (in other words, Public) – in this case, please contact your librarian to make the file public on your K-Link network. Then proceed as in step 1.
- - file should be accessible only to users with access  - in this case, please change the permissions to “Anyone with link can preview. No login required” from the same window of sharing settings. In this way only the person that have the direct link can access the document
+ - can your file be accessible to a wider audience (in other words, Public)? doesn'it contain any private or sensitive information? – in this case it can be published. If you don't have yourself the authorization to publish files, please contact your librarian to make the file public on your K-Link network. Then proceed as in step 1.
+ - should this file be only accessible to a limited group of users? - in this case, please change the permissions to “Anyone with link can preview. No login required” from the same window of sharing settings. In this way only the people who have the direct link can access the document (but it is not available on the K-Link public network).
 
 **10. I want to share a file with my colleague. How do I know they have access to the Project?**
 
-In order to have an overview of users with access to file, please go to its Sharing settings through Details panel or right-click menu. Then click on highlighted number of users having access to the file. If your partner is on the list, they have access to file. Otherwise, please use direct share (described above) before sending the link.
+In order to have an overview of users with access to file, please go to its Sharing settings through Details panel or right-click menu. Then click on highlighted number of users having access to the file. If your colleague is on the list, they have access to file. Otherwise, please use direct share (described above) before sending the link.
 
 **11. I shared a link to an uploaded file. Why do my colleagues not have access to it?**
 
@@ -110,21 +111,21 @@ In case your file is not accessible by others, please check if the conditions li
 
 **12. What is a K-Link Network?**
 
-K-Link technology allows users to organize themselves in public or closed networks for easier sharing of relevant information. Examples are the [K-Link](https://klink.asia/) and [SLM Tajikistan](https://slmtj.net/) networks.
+K-Link technology allows users to organize themselves in public or closed networks for easier sharing of relevant information and documents. Examples are the [K-Link](https://klink.asia/) and [SLM Tajikistan](https://slmtj.net/) networks.
 
-**13. I want to make a document available for search in the K-Link network. How can I do that?**
+**13. I want to make a file available for search in the K-Link network. How can I do that?**
 
-Note: To prevent sharing of non-open source documents, only users with permissions of project manager can employ the feature. Please contact your Project Administrator via email, indicating the document you would like to make public.
+Note: To prevent sharing of unauthorized files (private, confidential, etc.), only users with permissions of project manager can employ the feature. Please contact your Project Administrator via email, indicating the file you would like to make public.
 
-In order to make a document visible in the K-Link network, please go the sharing settings of the file and hit the “globe” icon. 
+In order to make a file visible in the K-Link network, please go the sharing settings of the file and hit the “globe” icon. 
 
 Depending on the file type, the publication might require seconds or minutes to be searchable and playable from the public search results. Once you select the globe icon you can close the sharing dialog. Moving the mouse over the globe icon will tell the status of the publication process.
 
-**14. I want to make a public document private. How can I do that?**
+**14. I want to make a public file private. How can I do that?**
 
 Note: Only users with permissions of project manager can perform this operation. Please contact your Project Administrator via email, indicating the document you would like to make private.
 
-One can unpublish documents only from the same instance they are physically stored in. In order to do that, please go the sharing settings of the file and hit the “lock” icon. As soon as the icon changed from “globe” to “lock”, your file is private  again.
+One can unpublish files only from the same K-Box they are physically stored in. In order to do that, please go the sharing settings of the file and hit the “lock” icon. As soon as the icon changed from “globe” to “lock”, your file is private  again.
 
 **15. How can I edit public file?**
 
@@ -143,9 +144,10 @@ You can organize your uploads in My Collections section. Please create collectio
 
 **2. I want to create a structure. How can I do that?**
 
-Please right-click on the collection where you intend to create an internal structuring. Select create a sub-collection. Hit the arrow-like symbol on the collection to see the subcollections.
+Please right-click on the collection where you intend to create an internal structuring. Select create a sub-collection and give it a name. 
+Hit the arrow-like symbol on the collection to see the subcollections.
 
-**3. I want to share a document(-s) with another user. How can I do that?**
+**3. I want to share a file with another user. How can I do that?**
 
 Except for publication, sharing of personal files has same features as sharing Project files. Please refer to the described steps in the [sharing questions](#sharing-to-user) for further actions.
 
@@ -158,9 +160,11 @@ Please use comprehensive keywords, following naming convention and boolean opera
 
 - `OR`: the operator links two key-words and searches for documents which contain either one of them. When no operator is entered, the `OR` operator is assumed by the system. E.g. `Markhor report 2014` keyword combination is understood by the system as: `Markhor OR report OR 2014`
 - `AND`: matches documents where both terms are used anywhere in the text. E.g. `Markhor AND report AND 2014` will display documents where all the keywords are mentioned.
-- `+`: a word after this symbol must exist in documents retrieved after search is performed. E.g., `+Markhor` report search will focus on Markhor, and will look for report too, but search results might include only documents that match Markhor.
-- `NOT`: terms after this operator must not be used in a retrieved document.
-- `*`: when you do not remember the whole word (common with names/surnames), the symbol can be used to look for beginning or end of the word ( * in the end or beginning of the keyword respectively). E.g. `K-Link AND presentation AND Muzafar*` will come back with results where `Muzafar` will have various endings mentioned in documents. This is the reason why more keywords return better results!
+- `+`: a word after this operator must exist in documents retrieved after search is performed. E.g., `+Markhor AND report AND 2014` will search for all three key-words, but with a stronger focus on "Markhor". The result searches might also include documents containing only "Markhor", but not necessarily "report" and "2014".
+- `NOT`: any document containing the keyword that you write after this operator will be excluded from the search results.
+- `*`: when you do not remember the whole word (common with names/surnames), you can use this operator as a wild card. the symbol can be used to look for beginning or end of the word ( * in the end or beginning of the keyword respectively). E.g. `Muzafar*` will return documents containing words like `Muzafarov`, `Muzafarova`, `Muzafarbek`, etc. 
+
+You can of course combine all those operators in order to get more relevant search results.
 
 **2. I want to find a document I have uploaded. How can I do that?**
 
@@ -174,13 +178,13 @@ Please open the Project collection so that you can see it appear in the search b
 
 Please open the Projects page where overview of accessible projects is offered. Start your search on that page, using comprehensive keywords and filters (see point 1) to find the target document.
 
-**5. I want to save several documents in my profile for a faster search. How can I do that?**
+**5. I want to save several files in my profile for a faster search. How can I do that?**
 
-You can “star” a document clicking next to its title and it will appear in “Starred” section in the left-hand navigation menu. The usage of the star functionality is limited to documents hosted on the K-Box.
+You can “star” a file clicking next to its title and it will appear in “Starred” section in the left-hand navigation menu. This functionality is limited to files hosted on your K-Box.
 
-**6. Where can I find all documents shared with me from another Project?**
+**6. Where can I find all files shared with me from another Project?**
 
-Please go to “Shared with me” section in the left-hand navigation menu to view documents shared by individual users.
+Please go to “Shared with me” section in the left-hand navigation menu to view files shared by individual users.
 
 
 ### <a id="administration"></a>Administration
@@ -232,8 +236,8 @@ Please refer all your questions to your librarian via email. Describe your quest
 
 **1. “File exists”**
 
-The document you are trying to upload is either among Personal or Project collections or Trash. Please review your Recent and Trash to make sure you do not have a copy uploaded. You can search Project collections using relevant keywords, if the file was uploaded by your partner.
-Having exhausted the options above, please contact the K-Link team using the ticketing system or your Project Administrator via email to find the document.
+The file you are trying to upload is either among Personal or Project collections or Trash. Please review your Recent and Trash to make sure you do not have a copy uploaded. You can search Project collections using relevant keywords, if the file was uploaded by a colleague.
+Having exhausted the options above, please contact the K-Link team or your Project Administrator to find the file.
 
 **2. I cannot delete documents from Trash. Why?**
 
@@ -241,7 +245,7 @@ In order to prevent accidental loss of information, permanent deletion from K-Bo
 
 **3. I trashed a file, but the system does not allow me to upload it again. Why?**
 
-In order to avoid forest of files with identical content, the system does not allow to upload same document more than once. If your file is in Trash, please restore it and make changes (update version, edit, and assign correct collection). As long as file has not been permanently deleted, it is saved in the system.
+In order to avoid forest of files with identical content, the system does not allow to upload same file more than once. If your file is in Trash, please restore it and make changes (update version, edit, and assign correct collection). As long as file has not been permanently deleted, it is saved in the system.
 
 **4. “Cannot delete Collection”**
 
@@ -257,7 +261,7 @@ This message will be showed in case of internet connectivity delay or blocked re
 
 **7. “File preview cannot be showed” or “File preview error”**
 
-The preview of a document is available only for selected file types. At now only PDF, MP4 video, JPG and PNG images are well supported. Word Documents (created using Office 2010 or above using the Open XML format) might raise an error due some elements of the Word processing format not supported or being showed with partial formatting
+The preview of a file is available only for selected file types. At now only PDF, MP4 video, JPG and PNG images are well supported. Microsoft Word Documents (created using Office 2010 or above using the Open XML format) might raise an error due some elements of the Word processing format not supported or being showed with partial formatting
 
 **8. I want to upload a file, but it is opening instead. Drag and drop does not work?**
 

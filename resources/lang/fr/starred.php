@@ -12,20 +12,20 @@ return [
     |
     */
 
-    'add' => 'Add to starred',
-    'remove' => 'Remove from starred',
-    'empty_message' => 'Your starred documents will appear here. Start to put stars.',
+    'add' => 'Ajouter aux favoris',
+    'remove' => 'Supprimer des favoris',
+    'empty_message' => 'Vos documents favoris apparaîtront ici. Commencez à mettre des étoiles!',
 
-    'page_title' => 'Starred',
+    'page_title' => 'Favoris',
 
-    'starred_count' => ':number starred document|:number starred documents',
-    'starred_count_alt' => ':number star|:number stars',
+    'starred_count' => ':number document favori|:number documents favoris',
+    'starred_count_alt' => ':number favori|:number favoris',
 
-    'already_exists' => 'You have already starred the document',
+    'already_exists' => 'Ce document appartient déjà à vos favoris',
 
     'errors' => [
 
-        'invalidargumentexception' => 'Sorry, I cannot add the star. (:exception)',
+        'invalidargumentexception' => 'Désolé, nous ne pouvons pas ajouter ce document à vos favoris. (:exception)',
     ],
 
 ];

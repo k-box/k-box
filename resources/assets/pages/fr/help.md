@@ -1,269 +1,274 @@
-## K-Link DMS Frequently Asked Questions
+## K-Box Foire Aux Questions (FAQ)
 
-- [Start](#start)
-- [Projects activities](#projects-activities)
-  - [Upload](#upload)
-  - [Sharing](#sharing)
-  - [Publication](#publication)
-- [My Collections activities](#my-collections-activities)
-- [Search](#search)
+- [Général](#start)
+- [Projets](#projects-activities)
+  - [Mettre en ligne](#upload)
+  - [Partager](#sharing)
+  - [Publier](#publication)
+- [Mes collections](#my-collections-activities)
+- [Recherche](#search)
 - [Administration](#administration)
 - [Questions/Suggestions](#questions)
-- [Errors](#errors)
-- [Contact us](#contact-us)
+- [Erreurs](#errors)
+- [Contactez nous](#contact-us)
 
-### <a id="start"></a>Start
+### <a id="start"></a>Général
  
-**1. I forgot my log-in password. What should I do?**
+**1. J'oublié mon mot de passe. Que dois-je faire?**
 
-Please choose “Forgot your password?” on main page. The system will send a message with reset link to your registered email address. Please make sure to use the link shortly after its request.
+Veuillez cliquer sur “Mot de passe oublié?” sur la page d'accueil. Le système enverra à votre adresse email un message avec un lien de réinitialisation. Veuillez cliquer sur ce lien dans les 5 minutes suivant votre requête.
  
-**2. I want to add information about my institution. How can I do that?**
+**2. Je veux ajouter des informations sur mon institution. Comment puis-je le faire?**
 
-Please click on your avatar in the upper-right corner of the window. Fill in the fields related to your organization in respective lines. Save them, clicking on “Update profile” button.
+Veuillez cliquer sur votre avatar dans le coin supérieur droit de la fenêtre. Remplissez les champs relatifs à votre organisation. Enregistrez les changements en cliquant sur le bouton "Mettre à jour le profil".
 
-**3. I want to change my personal data: mail, name, password. How can I do that?**
+**3. Je veux changer mes informations personnelles: email, nom, mot de passe. Comment puis-je le faire?**
 
-Please click on your avatar in the upper-right corner of the window. Enter and save your preferred email, password and display name in respective lines. Save them by clicking on buttons under each section.
+Veuillez cliquer sur votre avatar dans le coin supérieur droit de la fenêtre. Remplissez les champs relatifs à votre adresse email, mot de passe et votre nicename (le nom sous lequel vous apparaîtrez dans le système). Enregistrez les changements en cliquant sur le bouton au bas de chaque section.
 
-**4. I want to change the language of the system. How can I do that?**
+**4. Je veux changer la langue d'affichage du système. Comment puis-je le faire?**
 
-Please click on your avatar in the upper-right corner of the window. Select your preferred language from the drop-down menu, located in the “Change Interface Language” section.  Save settings by clicking on “Change language”.
+Veuillez cliquer sur votre avatar dans le coin supérieur droit de la fenêtre. Choisissez votre langue préférée dans la liste déroulante sitée dans la section "Changer la langue de l'interface". Enregistrez les changements en cliquant sur "Changer la langue".
 
-**5. What is the difference between folder on my PC and collection in the K-Box?**
+**5. Quelle est la différence entre un dossier sur mon ordinateur et une collection dans la K-Box?**
 
-K-Box collections behave differently from folders in the following way:
+Les collections K-Box ont un comportement différent de celui des dossiers. Dans la K-Box:
 
-- There can be only one copy of your document.
-- You can assign your document to more than one collection  
-- Changes to the file will be visible in all assigned collections
+- Il ne peut exister qu'une seule copie d'un même document
+- Un document peut être assigné à autant de collections que vous le souhaitez. Autrement dit, il n'y aura qu'une seule copie de ce document, mais il sera visible à l'intérieur de toutes les collections auxquelles il a été assigné
+- Si vous modifiez ce document, les modifications seront visibles dans toutes les collections où il est assigné
+- L'adresse (URL) d'un document reste identique, même si vous modifiez son nom, l'assignez à une autre collection ou mettez en ligne une nouvelle version
 
 
-**6. What is the difference between Trash and Delete?**
+**6. Quelle est la différence entre "mettre à la corbeille" et "effacer"?**
 
-In the K-Box, “deleting” a file means removing it from the K-Box, while keeping in it “trash” allows to restore it, since it is still in the system.  Complete deletion is possible only from Trash.
+Dans la K-Box, "effacer" un fichier signifie le supprimer définitivement de la K-Box, alors que "mettre à la corbeille" le conserve dans le système et vous permettra donc de le restaurer ultérieurement, si nécessaire. Effacer complètement un document est uniquement possible depuis la corbeille.
 
-**7. Can me and my colleague login at the same time from my browser?**
+**7. Est-ce que 2 personnes peuvent se connecter en même temps depuis le même navigateur?**
 
-We recommend using incognito tabs or different browsers for this purpose. Otherwise, the latest logged-in user account will be active.
+Nous vous recommendons pour cela d'utiliser un onglet de navigation privée. Sinon, uniquement le compte de l'utilisateur s'étant connecté en dernier sera actif.
 
-### <a id="projects-activities"></a>Projects activities 
+### <a id="projects-activities"></a>Projets
 
-**1. How can I know what Projects are accessible?**
+**1. Comment puis-je savoir quels projets sont accessibles?**
 
-The overview over accessible projects is possible from the Projects page, as well as under “Projects” section in the left-hand navigation system. Projects are marked with yellow line.
+La vue d'ensemble des projets accessibles est possible depuis la page Projets, ainsi que dans la section "Projets" du menu de navigation. Les projets sont indiqués avec une ligne jaune à gauche de leur nom.
 
-**2. I cannot see any Project collection. Who should I contact?**
+**2. Je ne vois aucune collection de projet. Qui dois-je contacter?**
 
-If you cannot see any project, then you have not been added to any. Please contact your librarian or project manager via email for further assistance.
+Si vous ne voyez aucun projet, cela signifie que vous n'avez été ajouté à aucun. Veuillez contacter votre bibliothécaire ou votre chef de projet par email.
 
-**3. I want to download a file from the Project collection. How can I do that?**
+**3. Je veux télécharger un fichier depuis une collection de projet. Comment puis-je le faire?**
 
-Please right-click on a file, select “Details”, to open the details window. At this point you can click on download.
+Veuillez faire un clic-droit sur le fichier et sélectionnez "Détails". Dans la nouvelle fenêtre, veuillez cliquer sur "Télécharger".
 
 
-#### <a id="upload"></a>Upload
+#### <a id="upload"></a>Mettre en ligne
 
-**4. I can see the Project collection but how can I get to its subcollections?**
+**4. Je vois une collection de projet. Comment puis-je voir ses sous-collections?**
 
-In order to view the internal structuring of a Project collection, please hit the arrow-like symbol next to title of the Project. Same applied to sub-subcollections.
+Pour voir la structure interne d'une collection de projet, veuillez cliquer sur le symbole en forme de flèche à gauche du nom du projet. Vous pouvez faire la même chose pour parcourir toutes les sous-collections.
 
-**5. I want to upload a document to a Project subcollection. How can I do that?**
+**5. Je veux mettre en ligne un fichier dans une sous-collection de projet. Comment puis-je le faire?**
 
-There are several options for uploading a file into K-Box.
+Il y a plusieurs possibilités pour mettre en ligne un fichier dans votre K-Box.
 
-1. Using drag-and-drop, you can upload any file to preferred location. When dropped over a collection, the uploaded file will automatically be assigned to it.
-2. Using file selector from the top navigation bar (“Create or Add” → “File”). When the action is performed from a collection, the uploaded file will be automatically assigned to it.
-3. For videos, we recommend to use the video uploader (“Create or Add” → “Video uploader”).  In case of poor internet connection, you can upload your video during the second try, should the first attempt be interrupted.
+1. En utilisant le _glisser-déposer_, vous pouvez mettre en ligne un fichier dans n'importe quel projet ou (sous-)collection. Quand un fichier est déposé sur une collection, il sera automatiquement assigné à cette collection.
+2. En utilisant le _sélecteur de fichiers_ dans la barre de navigation supérieure ("Créer ou ajouter" → "Mettre en ligne un document"). Si vous vous trouvez à l'intérieur d'une collection, le fichier sélectionné sera automatiquement assigné à cette collection.
+3. Pour les vidéos, nous vous recommendons d'utiliser l'_outil de mise en ligne de vidéos_ ("Créer ou ajouter" → "Mettre en ligne une vidéo"), en particulier si vous avez une connexion internet instable. Vous pourrez ainsi continuer la mise en ligne, même si le premier essai a été interrompu.
 
-**6. I uploaded a video, but it does not appear in the Project subcollection. Where can I find it?**
-If you used “Upload Video” function from top menu bar, after uploading video, you will see small button “Open file location”. If you click on it, the system will open your file in uploaded collection. Alternatively, you can go to your “Recent” in the navigation menu to see latest files uploaded. You can select and move it from Recent into target location in the left-hand navigation menu.
+**6. J'ai mis une vidéo en ligne mais elle n'apparaît pas dans la sous-collection. Ou puis-je la trouver?**
 
-**7. I want to move a file from the current location to another subcollection. How can I do that?**
-Please select your file and drag and drop it into the target subcollection in the left-hand navigation menu. Right click on the file to open the details window. Under Collections you can see assigned subcollections highlighted orange. Hit the “X” symbol to remove the incorrect collection.
+Si vous avez utilisé l'outil "Mettre en ligne une vidéo" depuis la barre de navigation supérieure, vous verrez, à la fin de la mise en ligne, un bouton "Ouvrir l'emplacement du fichier". Si vous cliquez dessus, le système va ouvrir votre fichier dans la collection où il a été mis en ligne. Sinon, vous pouvez aussi cliquer sur "Récents" dans le menu de navigation. Vous pouvez alors déplacer votre fichier en le glissant-déposant vers une autre collection.
 
-**8. The language of an uploaded file is detected wrong. How to change that?**
-In order to change the language of a document, please go to the “Edit” page from its details panel (or via the right click menu “Edit” item). Select the language and “Save” your changes.
+**7. Je veux déplacer un fichier de son emplacement actuel vers une autre (sous-)collection. Comment puis-je le faire?**
 
+Veuillez sélectionner votre fichier et le glisser-déposer dans la (sous-)collection de votre choix dans le menu de navigation.
+Si vous faites un clic-droit sur le fichier et sélectionnez "Détails", vous pourrez voir que le fichier est maintenant assigné à cette nouvelle (sous-)collection. Dans cette fenêtre de détails vous pouvez aussi cliquer sur le "X" pour sortir le fichier d'une collection.
 
-#### <a id="sharing"></a>Sharing
+**8. La langue d'un document mis en ligne est erronée. Comment puis-je la changer?**
 
-<a id="sharing-to-user"></a>**9. I want to share documents with another user. How can I do that?**
+Pour changer la langue d'un document, veuillez faire un clic-droit sur le fichier et sélectionnez "Détails". Dans la nouvelle fenêtre, cliquez sur "Modifier". Vous pouvez maintenant choisir manuellement une autre langue pour ce document. Cliquez sur "Enregistrer" pour sauvegarder vos modifications.
 
-There are several ways to share a document. They depend on the target audience you aim to share file with:
 
-1. _Your colleague from the Project:_ they most likely have access to all document in the project. Hence, you can copy-paste the link from the share dialog and send it to them from the same window;
-2. _Partner from another Project:_ if you belong to different Projects, you can send the link to your partner using  direct share. Please add your partner to the list of user who have access to the files (through Sharing dialog). Make sure you click on “Add user” and then “Done”. The recipient will receive an email with the link and the shared document will appear in their “Shared with me” section;
-3. _Non-registered user:_ in order to make a file accessible to a non-registered user, please first clarify if:
- - file can be accessible to a wider audience (in other words, Public) – in this case, please contact your librarian to make the file public on your K-Link network. Then proceed as in step 1.
- - file should be accessible only to users with access  - in this case, please change the permissions to “Anyone with link can preview. No login required” from the same window of sharing settings. In this way only the person that have the direct link can access the document
+#### <a id="sharing"></a>Partager
 
-**10. I want to share a file with my colleague. How do I know they have access to the Project?**
+<a id="sharing-to-user"></a>**9. Je veux partager des fichiers avec un autre utilisateur. Comment puis-je le faire?**
 
-In order to have an overview of users with access to file, please go to its Sharing settings through Details panel or right-click menu. Then click on highlighted number of users having access to the file. If your partner is on the list, they have access to file. Otherwise, please use direct share (described above) before sending the link.
+Il y a plusieurs possibilités pour partager un fichier:
 
-**11. I shared a link to an uploaded file. Why do my colleagues not have access to it?**
+1. _Un collègue de votre projet:_ vos collègues ont probablement déjà accès à tous les fichiers dans le projet. Vous pouvez alors copier-coller le lien vers le fichier, depuis la boîte de dialogue "Partager", ou même l'envoyer directement par email, en cliquant sur le bouton représentant une enveloppe;
+2. _Un partenaire d'un autre projet:_ si vous appartenez à des projets différents sur la même K-Box, vous pouvez lui envoyer le lien comme expliqué ci-dessus. Mais vous devez aussi l'ajouter à la liste des utilisateurs ayant accès à ce fichier. Dans la fenêtre de partage, commencez à taper le nom de l'utilisateur en question, cliquez sur "Ajouter des utilisateurs" puis sur "Terminé". L'utilisateur recevra un email avec le lien vers ce fichier et ce fichier apparaîtra aussi dans sa section "Partagés avec moi";
+3. _Utilisateur non enregistré sur cette K-Box:_ afin de rendre un fichier accessible à un utilisateur non enregistré, veuillez tout d'abord clarifier les points suivants:
+ - le fichier peut-il être partagé à l'extérieur de votre organisation? ne contient-il aucune information confidentielle ou sensible? – dans ce cas, il peut être publié. Si vous n'avez pas l'autorisation de publier des documents vous-même, veuillez contacter votre bibliothécaire pour qu'il le publie sur le réseau K-Link. Faites ensuite comme au point 1.
+ - le fichier doit-il être accessible uniquement à un groupe restreints d'utilisateurs? - dans ce cas, depuis la fenêtre de partage, veuillez change le niveau d'autorisation à "Toute personne disposant du lien peut accéder. Identification non nécessaire.". De cette manière, uniquement les personnes possédant le lien direct peuvent accéder à ce fichier (mais il n'est pas disponible sur le réseau K-Link).
 
-In case your file is not accessible by others, please check if the conditions listed in question 9 are successfully achieved.
+**10. Je veux partager un fichier avec un collègue. Comment puis-je savoir s'il a accès à ce projet?**
 
-#### <a id="publication"></a>Publication
+Pour avoir une vue d'ensemble des utilisateurs ayant accès à ce fichier, veuillez dans la fenêtre de partage (clic-droit sur le fichier → Partager). Dans cette fenêtre, cliquez sur le nombre indiquant le nombre d'utilisateurs ayant accès à ce fichier. Si votre collègue est dans la liste, il ou elle a accès à ce fichier. Sinon, réfèrez vous au point précédent de cette FAQ.
 
-**12. What is a K-Link Network?**
+**11. J'ai partagé un lien vers un document mis en ligne. Pourquoi mes collègues ne peuvent pas y accéder?**
 
-K-Link technology allows users to organize themselves in public or closed networks for easier sharing of relevant information. Examples are the [K-Link](https://klink.asia/) and [SLM Tajikistan](https://slmtj.net/) networks.
+Dans le cas où votre fichier n'est pas accessible par d'autres, veuillez vérifier si les conditions listées dans la question 9 sont remplies.
 
-**13. I want to make a document available for search in the K-Link network. How can I do that?**
+#### <a id="publication"></a>Publier
 
-Note: To prevent sharing of non-open source documents, only users with permissions of project manager can employ the feature. Please contact your Project Administrator via email, indicating the document you would like to make public.
+**12. Qu'est-ce qu'un réseau K-Link?**
 
-In order to make a document visible in the K-Link network, please go the sharing settings of the file and hit the “globe” icon. 
+La technologie K-Link permet à des utilisateurs de s'organiser en réseaux privés ou publics pour faciliter l'échange d'information et de documents. [K-Link](https://klink.asia/) et [SLM Tajikistan](https://slmtj.net/) sont deux exemples de réseaux K-Link actuellement en fonction.
 
-Depending on the file type, the publication might require seconds or minutes to be searchable and playable from the public search results. Once you select the globe icon you can close the sharing dialog. Moving the mouse over the globe icon will tell the status of the publication process.
+**13. Je veux rendre un fichier trouvable sur le réseau K-Link. Comment puis-je le faire?**
 
-**14. I want to make a public document private. How can I do that?**
+Note: afin de prévenir le partage de fichiers non autorisés (documents privés, confidentiels, etc.), uniquement les utilisateurs disposant des droits de gestionnaire de projet peuvent utiliser cette fonction. Si ce n'est pas votre cas, veuillez contacter votre gestionnaire de projet par email, en lui indiquant le fichier que vous souhaitez publier.
 
-Note: Only users with permissions of project manager can perform this operation. Please contact your Project Administrator via email, indicating the document you would like to make private.
+Afin de publier un fichier sur le réseau K-Link, allez dans les paramètres de partage et cliquez sur l'icone "globe".
 
-One can unpublish documents only from the same instance they are physically stored in. In order to do that, please go the sharing settings of the file and hit the “lock” icon. As soon as the icon changed from “globe” to “lock”, your file is private  again.
+En fonction du type de fichier, la publication peut nécessiter quelques secondes ou minutes avant que le fichier soir trouvable et visible dans les résultats de recherche. Une fois que vous avez cliqué sur le globe, vous pouvez fermer la fenêtre de partage. Si vous placez votre souris sur l'icone "globe", vous verrez le statut du processus de publication.
 
-**15. How can I edit public file?**
+**14. Je veux dépublier un fichier. Comment puis-je le faire?**
 
-Editing process for public files resembles the process for private files. Please go to Projects and open details panel for your file. Select “Edit” and make changes on the redirected page. Click “Save” for adopting your changes.
+Note: uniquement les utilisateurs disposant des droits de gestionnaire de projet peuvent utiliser cette fonction. Si ce n'est pas votre cas, veuillez contacter votre gestionnaire de projet par email, en lui indiquant le fichier que vous souhaitez dépublier.
 
-**16. How can I view a Project microsite?**
+Vous pouvez uniquement dépublier des fichiers depuis la K-Box sur laquelle ils sont physiquement stockés. Pour cela, allez dans les paramètres de partage et cliquez sur l'icone "Cadenas". Dès que l'icone est changée de "globe" à "cadenas", votre fichier est à nouveau privé.
 
-Please go to the Projects page for overview over all accessible projects. Please right-click on the project of interest and select “Details” from the menu. The “View Microsite” button under “Micrositebeta” will lead you to its public page.
+**15. Comment puis-je modifier un fichier public?**
 
+Le processus pour modifier des fichiers publics est identique à celui pour modifier des fichiers privés. Veuillez cliquez sur votre fichier pour ouvrir son panneau d'information et cliquez sur "Modifier".  Vous pouvez alors modifier ses informations. Cliquez sur "Enregistrer" pour sauvegarder vos changements.
 
-### <a id="my-collections-activities"></a>My Collections activities
+**16. Comment puis-je voir le microsite d'un projet?**
 
-**1. I want to organize my documents. How can I create collections?**
+Veuillez cliquez sur "Projets", dans le menu de navigation, pour avoir une vue d'ensemble de tous les projets disponibles. Faites un clic-droit sur le projet qui vous intéresse cliquez sur "Détails". Le bouton "Voir le microsite" vous amène à sa page publique.
 
-You can organize your uploads in My Collections section. Please create collections through  “+” sign. Private collections are colored green for distinction from project collections (orange).
 
-**2. I want to create a structure. How can I do that?**
+### <a id="my-collections-activities"></a>Mes collections
 
-Please right-click on the collection where you intend to create an internal structuring. Select create a sub-collection. Hit the arrow-like symbol on the collection to see the subcollections.
+**1. Je veux organiser mes documents. Comment puis-je créer des collections?**
 
-**3. I want to share a document(-s) with another user. How can I do that?**
+Vous pouvez organiser vos documents dans la section "Mes collections". Veuillez cliquer sur le bouton "+". Les collections privées sont colorées en vert, pour les différencier des collections de projet (orange).
 
-Except for publication, sharing of personal files has same features as sharing Project files. Please refer to the described steps in the [sharing questions](#sharing-to-user) for further actions.
+**2. Je veux créer une structure. Comment puis-je le faire?**
 
+Veuillez faire un clic-droit sur la collection pour laquelle vous voulez créer une structure interne. Choisissez "Créer une collection", donnez-lui un nom et cliquez sur "Créer".
+Utilisez le bouton en forme de flèche à côté de votre collection pour voir ses sous-collections.
 
-### <a id="search"></a>Search
+**3. Je veux partager un fichier avec un autre utilisateur. Comment puis-je le faire?**
 
-**1. How can I help the system find a document?**
+En-dehors de la publication, le partage de fichiers personnels a les mêmes fonctionnalités que pour les fichiers de projet. Veuillez vous référer à la procédure décrite dans [partager avec un autre utilisateur](#sharing-to-user).
 
-Please use comprehensive keywords, following naming convention and boolean operators for better search:
 
-- `OR`: the operator links two key-words and searches for documents which contain either one of them. When no operator is entered, the `OR` operator is assumed by the system. E.g. `Markhor report 2014` keyword combination is understood by the system as: `Markhor OR report OR 2014`
-- `AND`: matches documents where both terms are used anywhere in the text. E.g. `Markhor AND report AND 2014` will display documents where all the keywords are mentioned.
-- `+`: a word after this symbol must exist in documents retrieved after search is performed. E.g., `+Markhor` report search will focus on Markhor, and will look for report too, but search results might include only documents that match Markhor.
-- `NOT`: terms after this operator must not be used in a retrieved document.
-- `*`: when you do not remember the whole word (common with names/surnames), the symbol can be used to look for beginning or end of the word ( * in the end or beginning of the keyword respectively). E.g. `K-Link AND presentation AND Muzafar*` will come back with results where `Muzafar` will have various endings mentioned in documents. This is the reason why more keywords return better results!
+### <a id="search"></a>Rechercher
 
-**2. I want to find a document I have uploaded. How can I do that?**
+**1. Comment puis-je aider le système à trouver un document?**
 
-If you are looking for recently uploaded file, please go to “Recent” to find the latest uploads. For a greater search, please go to your Personal in the left-hand navigation menu and perform a search, using keywords and filtering the results.
+Veuillez utiliser des mots-clés pertinents, respectant les conventions de nommage de votre K-Box et utilisez des opérateurs booléens pour obtenir de meilleurs résultats:
 
-**3. I want to find a document in a Project collection. How can I do that?**
+- `OR`: cet opérateur relie deux mots-clés et recherche les documents qui contiennent l'un ou l'autre de ces mots-clés. Si vous n'utilisez aucun opérateur, le système va supposer que vous souhaitez utiliser `OR`. Par exemple, la combinaison de mots-clés `Markhor report 2014` sera comprise par le système exactement de la même manière que `Markhor OR report OR 2014`
+- `AND`: cherche des documents qui contiennent ces deux mots-clés. Par exemple, `Markhor AND report AND 2014` ne retournera que les documents qui contiennent ces trois mots-clés.
+- `+`: le mot-clé écrit après cet opérateur doit impérativement se trouver dans les documents retournés par la recherche. Par exemple, `+Markhor AND report AND 2014` va rechercher ces trois mots-clés, mais avec un focus particulier sur "Markhor". Les résultats de recherche peuvent aussi contenir des documents qui contiennent uniquement "Markhor", mais pas forcément "report" ou "2014".
+- `NOT`: tout document contenant le mot-clé que vous entrez après cet opérateur sera exclu des résultats de la recherche.
+- `*`: si vous ne vous souvenez pas du mot en entier (situation fréquente avec les noms de famille, par example), vous pouvez utiliser cet opérateur comme joker. Par exemple, `Muzafar*` vous retournera des documents qui contiennent les mots `Muzafarov`, `Muzafarova`, `Muzafarbek`, etc. 
 
-Please open the Project collection so that you can see it appear in the search bar and highlighted white in the left-hand navigation menu. Please use comprehensive keywords and filters (see point 1) to find the target information.
+Vous pouvez bien évidemment aussi combiner tous ces opérateurs, afin d'obtenir des résultats de recherche plus pertinents.
 
-**4. I want to find a file, but do not remember which project it was assigned to. How can I find it?**
+**2. Je veux trouver un document que j'ai mis en ligne. Comment puis-je le faire?**
 
-Please open the Projects page where overview of accessible projects is offered. Start your search on that page, using comprehensive keywords and filters (see point 1) to find the target document.
+Si vous cherchez un document mis en ligne récemment, veuillez cliquer sur "Récents" dans le menu de navigation. Pour effectuer une recherche plus approfondie, veuillez cliquer sur "Privé" et effectuer une recherche depuis ici, en utilisant des mots-clés, des opérateurs booléens et en filtrant les résultats.
 
-**5. I want to save several documents in my profile for a faster search. How can I do that?**
+**3. Je veux trouver un document dans une collection de projet. Comment puis-je le faire?**
 
-You can “star” a document clicking next to its title and it will appear in “Starred” section in the left-hand navigation menu. The usage of the star functionality is limited to documents hosted on the K-Box.
+Veuillez ouvrir la collection de projet qui vous intéresse, afin que son nom apparaisse dans la barre de recherche en-haut de la page. Effectuez une recherche, comme expliqué au point 1 ci-dessus.
 
-**6. Where can I find all documents shared with me from another Project?**
+**4. Je veux trouver un fichier mais je ne me souviens pas à quel projet il est assigné. Comment puis-je le trouver?**
 
-Please go to “Shared with me” section in the left-hand navigation menu to view documents shared by individual users.
+Veuillez cliquer sur "Projets" dans le menu de navigation pour afficher la vue d'ensemble de tous les projets accessibles. Effectuez votre recherche depuis cette page, en utilisant des mots-clés, des opérateurs booléens et en filtrant les résultats.
 
+**5. Je veux enregistrer plusieurs fichiers dans mon profil, afin de les retrouver plus facilement plus tard. Comment puis-je le faire?**
+
+Vous pouvez ajouter un fichier à vos favoris en cliquant sur l'étoile affichée près de son nom. Vous pourrez alors le retrouver rapidement sous "Favoris" dans le menu de navigation. Cette fonctionalité est limitée aux fichiers se trouvant physiquement sur votre K-Box.
+
+**6. Où puis-je trouver tous les fichiers qui ont été partagés avec moi par un autre projet?**
+
+Veuillez cliquer sur "Partagés avec moi" dans le menu de navigation pour voir tous es fichiers partagés avec vous.
 
 ### <a id="administration"></a>Administration
 
-_Only users with permissions of project manager can perform operations described below. Please contact your Project Administrator via email, indicating your interest any of the points._
+_Uniquement les utilisateurs possédant le rôle de gestionnaire de projet peuvent effectuer les opérations décrites ci-dessous. Veuillez contacter votre gestionnaire de projet par email si l'un des points ci-dessous vous intéresse._
 
-**1. How can I create a Project?**
+**1. Comment puis-je créer un projet?**
 
-Please go to the Projects page, click on “Create project” button from the top navigation bar. Fill necessary fields: project title, description, and add members to the project. Click on “Create project” button to finish task. Please make sure to add at least one user before saving your project. 
+Veuillez vous rendre sur la page "Projets" et cliquer sur "Créer un projet" dans la barre de navigation supérieure. Remplissez les champs nécessaires (nom du projet, description) et ajoutez des membres à ce projet. Cliquez sur le bouton "Créer un projet" pour sauver. Veuillez vérifier que vous avez ajouté au moins un utilisateur avant de sauver votre projet.
 
-**2. I shared the Project with users, but they cannot see it. Why?**
+**2. J'ai partagé un projet avec des utilisateurs mais ils ne peuvent pas le voir. Pourquoi?**
 
-In order for users to have access to Project, the project manager should add them as its members. To do that, please go to the Projects page for overview over existing projects. Please right-click on the project of interest and select “Edit” from the menu. On the redirected page, please select all necessary users and click “Add users” to successfully share the project.
+Pour que les utilisateurs puissent avoir accès au projet, le gestionnaire de projet doit les ajouter en tant que membres. Pour cela, veuillez vous rendre sur la page "Projets" pout avoir une vue d'ensemble de tous les projets existants. Faites un clic-droit sur le projet qui vous intéresse et choisissez "Modifier" dans le menu. Sur la page suivant, sélectionnez tous les utilisateurs nécessaires et cliquez sur "Ajouter des utilisateurs" afin de partager votre projet avec eux.
 
-All users listed under “Current members” will have access to the Project.
+**3. Comment puis-je modifier les informations d'un projet?**
 
-**3. How can I edit Project information?**
+Veuillez vous rendre sur la page "Projets" pout avoir une vue d'ensemble de tous les projets existants. Faites un clic-droit sur le projet qui vous intéresse et choisissez "Modifier" dans le menu.
 
-Please go to the Projects page for overview over existing projects. Please right-click on the project of interest and select “Edit” from the menu.
+**4. Comment puis-je créer un microsite de projet?** 
 
-**4. How can I create a Project microsite?** 
+Veuillez vous rendre sur la page "Projets" pout avoir une vue d'ensemble de tous les projets existants. Faites un clic-droit sur le projet qui vous intéresse et choisissez "Détails" dans le menu. Sur la nouvelle page vous verrez la section "Micrositebeta" et le bouton "Créer un microsite". Si vous cliquez dessus, une nouvelle page va s'ouvrir, où vous pouvez choisir le nom du microsite, un lien court vers le microsite (version conviviale de l'adresse), son logo et sa langue par défaut. Vous pouvez créer du contenu pour les versions anglaise et russe du microsite en replissant les champs respectifs. Cliquez sur le bouton "Publier le microsite".
 
-Please go to the Projects page for overview over existing projects. Please right-click on the project of interest and select “Details” option. On that page you will see “Micrositebeta” section and “Create microsite” button. If you click on it, new page will be opened where you can choose the name of microsite, short link to it, logo, default language. You have to create content for English and Russian version of microsite by filling respective fields. Click to “Publish the Microsite” button to finish this task.
+**5. Comment puis-je modifier un microsite de projet?** 
 
-**5. How can I edit a Project microsite?** 
+Veuillez vous rendre sur la page "Projets" pout avoir une vue d'ensemble de tous les projets existants. Faites un clic-droit sur le projet qui vous intéresse et choisissez "Détails" dans le menu. Le bouton "Modifier le microsite", dans la section "Microsite" vous amène à la page de paramètres.
 
-Please go to the Projects page for overview over existing projects. Please right-click on the project of interest and select “details” from the menu. The “Edit microsite” button under “Microsite” will lead you to its settings page.
+**6. Je veux créer un utilisateur. Comment puis-je le faire?** 
 
-**6. I want to create a user. How can I do that?** 
+Pour créer un utilisateur, veuillez vous rendre dans la fenêtre d'administration. Cliquez sur "Créer un utilisateur" et remplissez les champs. Afin d'attribuer les bons droits d'accès, veuillez identifier le rôle de cet utilisateur dans les activités du projet:
 
-To create a user, please go to the Administration panel. Select Create user and fill in the fields. In order to assign the correct user account type, find out about the role and involvement of the user in the project activities:
-
-- **guest** – user should only see what has been directly shared with them;
-- **partner** – user should be member of a project and see all collections shared with them;
-- **project administrator** – user is going to administer a project, adding/removing members, un-/publishing content from project.
+- **invité** – l'utilisateur peut uniquement voir ce qui a été partagé avec lui / elle;
+- **partenaire** – l'utilisateur peut être membre d'un projet et peut voir toutes les collections partagées avec lui / elle;
+- **gestionnaire de projet** – l'utilisateur peut gérer un projet (ajouter / supprimer des utilisateurs, publier / dépublier des documents).
 
 
 ### <a id="questions"></a>Questions/Suggestions
 
-**1. I have a suggestion on how to improve the K-Link services. Where to post it?**
+**1. J'ai une suggestion pour améliorer K-Link. Où puis-je la poster?**
 
-Please go to http://klink.uservoice.com/ to post your suggestion and vote for ideas of other users.
+Veuillez vous rendre sur [K-Link Uservoice](https://klink.uservoice.com/) pour poster votre suggestion et voter pour les idées des autres utilisateurs.
 
-**2. I have a question regarding the behavior of the system. Whom should I ask?**
+**2. J'ai une question concernant le comportement du système. Qui peut me renseigner?**
 
-Please refer all your questions to your librarian via email. Describe your question in two-three sentences providing the information such as what you find strange and what actions have you performed to get such a response from the system.  Sharing your screen typically helps to better explain and understand the situation.
+Veuillez adresser toutes vos questions par email à votre bibliothécaire. Décrivez votre question en quelques phrases, en fournissant toutes les informations nécessaires, comme "que trouvez-vous bizarre?", "quelles actions avez-vous effectuées avant que le système ne réagisse ainsi?". Ajouter une capture d'écran montrant le problème (ou le comportement inattendu) est souvent très utile.
 
-### <a id="errors"></a>Errors
+### <a id="errors"></a>Erreurs
 
-**1. “File exists”**
+**1. “Le fichier existe”**
 
-The document you are trying to upload is either among Personal or Project collections or Trash. Please review your Recent and Trash to make sure you do not have a copy uploaded. You can search Project collections using relevant keywords, if the file was uploaded by your partner.
-Having exhausted the options above, please contact the K-Link team using the ticketing system or your Project Administrator via email to find the document.
+Le fichier que vous essayez de mettre en ligne existe déjà sur la K-Box (dans des collections de projet, dans un espace personnel ou dans la corbeille). Veuillez vérifier aussi dans vos documents récents et dans la corbeille si une copie de ce document ne s'y trouve pas déjà. Vous pouvez aussi chercher dans les collections de projet, si le file a déjà été mis en ligne par un collègue.
+Si aucune de ces méthodes ne porte ses fruits, veuillez contacter l'équipe de développement K-Link ou votre gestionnaire de projet pour trouver le fichier.
 
-**2. I cannot delete documents from Trash. Why?**
+**2. Je ne peux pas vider la corbeille. Pourquoi?**
 
-In order to prevent accidental loss of information, permanent deletion from K-Box can be performed only when the administrator gives such permissions to user. Please contact your librarian should you be interested to have this permission.
+Afin de prévenir une perte accidentelle d'information, un utilisateur ne peut supprimer définitivement des fichiers que quand un administrateur lui en a donné les droits. Veuillez contacter votre bibliothécaire si vous souhaitez avoir ces droits.
 
-**3. I trashed a file, but the system does not allow me to upload it again. Why?**
+**3. J'ai mis un fichier à la corbeille mais le système ne me permet pas de le mettre à nouveau en ligne. Pourquoi?**
 
-In order to avoid forest of files with identical content, the system does not allow to upload same document more than once. If your file is in Trash, please restore it and make changes (update version, edit, and assign correct collection). As long as file has not been permanently deleted, it is saved in the system.
+Afin d'éviter une multiplication de fichiers avec un contenu identique, le système ne permet pas de mettre un ligne le même fichier plus d'une fois. Si votre fichier se trouve dans la corbeille, veuillez le restaurer et effectuer les modifications nécessaires (mettez à jour la version, affectez le à la bonne collection ). Tant que le fichier n'a pas été définitivement supprimé, il reste sauvé dans le système.
 
-**4. “Cannot delete Collection”**
+**4. “Impossible d'effacer une collection”**
 
-You tried to delete a Project Collection. Only Project administrator can perform such an action as delete a project.
+Vous avez essayé d'effacer une collection de projet. Uniquement un gestionnaire de projet peut effectuer cette action.
 
 **5. “Gateway timeout”**
 
-Poor internet connection results in delay of response from K-Link server.
+Une connexion internet lente ou instable est souvent responsable pour des temps de réponse accrus du serveur K-Link.
 
-**6. “Loading problem. Some functionalities may not be available.”**
+**6. “Le chargement de la page semble être lent et certaines fonctionalités peuvent ne pas être disponibles”**
 
-This message will be showed in case of internet connectivity delay or blocked response. Sometimes the K-Link is slow or under high traffic, so everything needed for running the K-Box on your browser might not be received. You can refresh the page by clicking the browser refresh button or Ctrl+R on your keyboard. Refreshing the page normally solves the problem.
+Ce message sera affiché en cas de lenteur de la connexion internet. K-Link peut parfois subir un trafic important, engendrant certaines lenteurs et toutes les fonctionnalités nécessaires au bon foncionnement de la K-Box peuvent ne pas avoir été reçues par votre navigateur. Vous pouvez rafraîchir la page en cliquant sur le bouton "Rafraîchir" de votre navigateur ou en pressant Ctrl+R sur votre clavier. Ceci résout généralement le problème.
 
-**7. “File preview cannot be showed” or “File preview error”**
+**7. “L'aperçu du fichier ne peut être affiché” ou “Erreur dans l'aperçu du fichier”**
 
-The preview of a document is available only for selected file types. At now only PDF, MP4 video, JPG and PNG images are well supported. Word Documents (created using Office 2010 or above using the Open XML format) might raise an error due some elements of the Word processing format not supported or being showed with partial formatting
+L'aperçu d'un fichier est uniquement disponible pour certains types de fichiers. Actuellement, uniquement les fichiers PDF, MP4 vidéos, JPG et PNG sont correctement supportés. Les documents Microsoft Word (créés avec Office 2010 ou plus récent utilisant le format Open XML) peuvent générer des erreurs à cause de certains éléments du format qui ne sont pas supportés, ou peuvent être affichés avec un formatage partiel et incomplet.
 
-**8. I want to upload a file, but it is opening instead. Drag and drop does not work?**
+**8. Je veux mettre en ligne un fichier mais, au lieu de cela, il s'ouvre. Le glisser-déposer n'est pas supporté?**
 
-This behavior emerges with some browsers and is caused by the fact that the file has been drag and dropped outside of the upload sensible area. The upload area covers the whole page and is surrounded by a green border. If you’re in doubt drag and drop on the center of the screen, where the documents are listed.
+Ce comportement apparaît avec certains navigateurs et est causé par le fait que le fichier a été glissé-déposé en-dehors de la zone de mise en ligne. La zone de mise en ligne couvre toute la page et est entourée par un cadre vert. En cas de doute, veuillez glisser-déposer vos fichiers vers le centre de l'écran, là où les documents sont listés.
 
 
-### <a id="contact-us"></a>Contact us
+### <a id="contact-us"></a>Contactez nous
 
-Should you have any questions, please contact us at `support@klink.asia` 
+Si vous avez des questions, veuillez nous contacter (en anglais, russe, tadjik, kirghize, allemand ou italien) à `support@klink.asia` 

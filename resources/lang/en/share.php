@@ -91,8 +91,8 @@ return [
         'users_already_has_access' => ':num user|:num users',
         'users_already_has_access_alternate' => '{0} Only you|{1} :num user|[2,Inf]:num users',
         'users_already_has_access_with_public_link' => '{0} Only you and who has the public link|{1} Only you and who has the public link|[2,Inf]:num users and who has the public link',
-        'document_already_accessible_by_all_users' => 'The document is already accessible by all DMS users.',
-        'collection_already_accessible_by_all_users' => 'The collection is already accessible by all DMS users.',
+        'document_already_accessible_by_all_users' => 'The document is already accessible by all K-Box users.',
+        'collection_already_accessible_by_all_users' => 'The collection is already accessible by all K-Box users.',
 
         'add_users' => 'Add users',
         'select_users' => 'Enter username...',

@@ -4,22 +4,22 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Languages code Language Lines
+    | Languages code Language Lines 
     |--------------------------------------------------------------------------
     |
     | this lines are used for output a more human friendly version of the language codes
     |
     */
 
-    'no_language' => 'No language recognized',
-    '' => 'No language recognized',
-    '__' => 'No language recognized',
-    'en' => 'English',
-    'ru' => 'Russian',
-    'tg' => 'Tajik',
-    'ky' => 'Kyrgyz',
-    'de' => 'German',
-    'it' => 'Italian',
-    'fr' => 'French',
+    'no_language' => 'Langue non reconnue',
+    '' => 'Langue non reconnue',
+    '__' => 'Langue non reconnue',
+    'en' => 'Anglais',
+    'ru' => 'Russe',
+    'tg' => 'Tadjik',
+    'ky' => 'Kirghize',
+    'de' => 'Allemand',
+    'it' => 'Italien',
+    'fr' => 'Français',
     
 ];
