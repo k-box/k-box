@@ -1,0 +1,38 @@
+language: php
+
+php:
+  - 7.0
+
+sudo: false
+
+services:
+  - mysql
+
+before_install:
+  - mysql -e 'CREATE DATABASE IF NOT EXISTS dms;'
+
+
+install:
+  - cp env.travis .env
+  - cp env.travis testing.env
+  - travis_retry composer install --no-interaction
+
+script: 
+  - ./vendor/bin/parallel-lint --exclude vendor .
+  - php artisan view:clear
+  - ./vendor/bin/php-cs-fixer fix --dry-run
+  - mkdir ./storage/documents
+  - composer install --prefer-dist
+  - composer run install-video-cli
+  - chmod +x ./bin/bin/packager-linux
+  - composer run install-content-cli
+  - composer run install-language-cli
+  - composer run install-streaming-client
+  - php artisan config:clear
+  - php artisan migrate --env=testing --force
+  - php artisan db:seed --env=testing --force
+  - vendor/bin/phpunit
+
+notifications:
+  email:
+    on_success: never
