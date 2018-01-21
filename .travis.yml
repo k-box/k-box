@@ -17,12 +17,14 @@ install:
   - cp env.travis testing.env
   - travis_retry composer install --no-interaction
 
+before_script:
+  - phpenv config-rm xdebug.ini # disabling XDebug as currently we are not interested in code coverage report
+
 script: 
   - ./vendor/bin/parallel-lint --exclude vendor .
   - php artisan view:clear
   - ./vendor/bin/php-cs-fixer fix --dry-run
   - mkdir ./storage/documents
-  - composer install --prefer-dist
   - composer run install-video-cli
   - chmod +x ./bin/bin/packager-linux
   - composer run install-content-cli
