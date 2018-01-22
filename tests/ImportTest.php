@@ -36,7 +36,7 @@ class ImportTest extends BrowserKitTestCase
             [ 'https://httpbin.org/image/jpeg', 'image/jpeg' ],
             [ 'http://klink.asia', 'text/html' ],
             [ 'http://publicliterature.org/pdf/olivr11.pdf', 'application/pdf' ],
-            [ 'http://www.gutenberg.org/cache/epub/730/pg730.txt', 'text/plain' ],
+            [ 'http://www.gutenberg.org/files/730/730-h/730-h.htm', 'text/plain' ],
             [ 'https://vimeo.com/96680745', 'text/html' ],
         ];
     }
