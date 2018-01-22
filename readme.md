@@ -1,4 +1,4 @@
-[![build status](https://git.klink.asia/main/k-box/badges/master/build.svg)](https://git.klink.asia/main/k-box/commits/master) ![latest version](https://img.shields.io/badge/version-0.19.1-blue.svg)
+[![Build Status](https://travis-ci.org/k-box/k-box.svg?branch=master)](https://travis-ci.org/k-box/k-box) ![latest version](https://img.shields.io/badge/version-0.19.1-blue.svg)
 
 # K-Box
 
@@ -22,7 +22,9 @@ For more information see [Executing Unit Tests](./docs/developer/testing.md).
 
 ## Contributing
 
-Thank you for considering contributing to the K-Box! The [contribution guide](./contributing.md) is currently under heavy rewrite, but in the meantime you can still submit Pull Requests.
+Thank you for considering contributing to the K-Box! 
+
+We have a small [contribution guide](./contributing.md) that might be of help.
 
 When submitting pull/merge requests always consider the `master` branch as your target.
 
