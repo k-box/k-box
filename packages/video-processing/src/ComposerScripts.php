@@ -21,6 +21,16 @@ class ComposerScripts
     ];
 
     /**
+     * Maps the OS family (according to PHP) to the file
+     * inside the Gitlab artifacts
+     */
+    private static $os_suffix = [
+        'windows' => '-win.exe',
+        'linux' => '-linux',
+        'darwin' => '-macos'
+    ];
+
+    /**
      * normalize the PHP_OS value
      */
     private static $map = ['winnt' => 'windows'];
@@ -109,44 +119,19 @@ class ComposerScripts
         }
     }
         
-        
-        
-        
     private static function findArtifactPermalink($url, $rfs)
     {
-        try {
-            $hostname = parse_url($url, PHP_URL_HOST);
-            
-            $content = $rfs->getContents($hostname, $url, false);
-            
-            $headers = $rfs->getLastHeaders();
-                
-            $interesting_headers = array_values(array_filter($headers, function ($h) {
-                return strpos($h, 'Location') !== false;
-            }));
-
-            if (empty($interesting_headers)) {
-                throw new \Exception('Expecting to find the location of the artifact package, but got nothing');
-            }
-
-            $location_header = array_pop($interesting_headers);
-
-            $location = rtrim(trim(substr($location_header, 9)), 'browse').'raw';
-
-            $os = strtolower(PHP_OS);
-            
-            if (isset(static::$map[$os])) {
-                $os = static::$map[$os];
-            }
-            
-            if (isset(static::$file_for_os[$os])) {
-                return $location.'/'.static::$file_for_os[$os];
-            } else {
-                $expected = implode(',', array_keys(self::$file_for_os));
-                throw new \Exception("OS family not supported. Found $os, expected [$expected].");
-            }
-        } catch (TransportException $e) {
-            throw new \Exception("Failed to retrieve available binaries location: {$e->getMessage()}");
+        $os = strtolower(PHP_OS);
+        
+        if (isset(static::$map[$os])) {
+            $os = static::$map[$os];
+        }
+        
+        if (isset(static::$os_suffix[$os])) {
+            return $url.static::$os_suffix[$os];
+        } else {
+            $expected = implode(',', array_keys(self::$os_suffix));
+            throw new \Exception("OS family not supported. Found $os, expected [$expected].");
         }
     }
 }
