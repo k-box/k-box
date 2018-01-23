@@ -1,4 +1,4 @@
-<div class="preview">
+<div class="preview js-preview">
     
     <div class="preview__header">
 

@@ -121,5 +121,26 @@
 }
 
 
+.preview__title {
+    margin-left: 8px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	/* display block is required to make text truncation effective */
+	display: block;
+}
 
+.preview__title-container {
+	flex: 1;
+	/* this to make text truncation happening */
+	min-width: 0;
+}
+
+@media(max-width: 720px){
+	.preview--state-details {
+		.preview__button:not(.preview__button--expanded) {
+			display: none
+		}
+	}
+}
 

@@ -101,7 +101,7 @@
 @section('content')
 
 
-	<div class="preview">
+	<div class="preview js-preview">
     
     <div class="preview__header">
 	
@@ -163,7 +163,6 @@
 				data-source="{{ DmsRouting::download($document) }}"
 				data-source-type="{{ $document->mime_type }}"
 				controls preload="none"
-				style="min-height:100%;min-width:100%"
 				poster="{{ DmsRouting::thumbnail($document) }}">
 
 			</video>

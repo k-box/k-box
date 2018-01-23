@@ -7,12 +7,14 @@ define(function () {
 
     // using var instead of const as IE10 don't support it
     var SIDEBAR_VISIBLE_CLASS = "preview__sidebar--visible";
+    var PREVIEW_STATE_SIDEBAR_OPEN = "preview--state-details";
 
     var DETAILS_BUTTON_EXPANDED_CLASS = "preview__button--expanded";
 
     var detailsBtn = document.querySelector(".js-preview-details-button")
         sidebarOpen = false,
         previewArea = document.querySelector(".js-preview-area"),
+        preview = document.querySelector(".js-preview"),
         previewAreaOriginalWidth = previewArea.offsetWidth,
         sidebar = document.querySelector(".js-preview-sidebar");
 
@@ -22,13 +24,15 @@ define(function () {
 
             detailsBtn.classList.add(DETAILS_BUTTON_EXPANDED_CLASS);
             sidebar.classList.add(SIDEBAR_VISIBLE_CLASS);
+            preview.classList.add(PREVIEW_STATE_SIDEBAR_OPEN);
             previewArea.style.width = previewAreaOriginalWidth - 344 +"px";
-
+            
             sidebarOpen = true;
         }
         else {
-
+            
             detailsBtn.classList.remove(DETAILS_BUTTON_EXPANDED_CLASS);
+            preview.classList.remove(PREVIEW_STATE_SIDEBAR_OPEN);
             sidebar.classList.remove(SIDEBAR_VISIBLE_CLASS);
             previewArea.style.width = "";
 
