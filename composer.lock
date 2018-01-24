@@ -1400,16 +1400,16 @@
         },
         {
             "name": "jenssegers/date",
-            "version": "v3.2.10",
+            "version": "v3.2.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jenssegers/date.git",
-                "reference": "ddc073e6cbba95bf298bf2bf43f2ebb2ec47b050"
+                "reference": "1db4d580d1d45085a48fd4a332697619b9a3851c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jenssegers/date/zipball/ddc073e6cbba95bf298bf2bf43f2ebb2ec47b050",
-                "reference": "ddc073e6cbba95bf298bf2bf43f2ebb2ec47b050",
+                "url": "https://api.github.com/repos/jenssegers/date/zipball/1db4d580d1d45085a48fd4a332697619b9a3851c",
+                "reference": "1db4d580d1d45085a48fd4a332697619b9a3851c",
                 "shasum": ""
             },
             "require": {
@@ -1425,6 +1425,14 @@
             "extra": {
                 "branch-alias": {
                     "dev-master": "3.1-dev"
+                },
+                "laravel": {
+                    "providers": [
+                        "Jenssegers\\Date\\DateServiceProvider"
+                    ],
+                    "aliases": {
+                        "Date": "Jenssegers\\Date\\Date"
+                    }
                 }
             },
             "autoload": {
@@ -1453,7 +1461,7 @@
                 "time",
                 "translation"
             ],
-            "time": "2017-04-20T14:50:49+00:00"
+            "time": "2017-06-30T11:51:03+00:00"
         },
         {
             "name": "jms/metadata",
