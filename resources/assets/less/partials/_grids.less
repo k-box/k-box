@@ -808,38 +808,37 @@ ul.blocks {
 
 // .version-list component
 
+.version-actions {
+	padding: @base-padding 0;
+}
+
 .version__item {
-	margin-bottom: @base-padding;
+	margin: 0 -2px @base-padding;
+	padding: @base-padding 2px;
 
-
-	opacity: 0.8;
+	display: flex;
+	justify-content: space-between;
 
 	&:hover {
-		opacity: 1;
+		background-color: darken(@background-color, 5%);
 	}
 }
 
-.version__item:not(:last-of-type) {
-	border-bottom: 1px solid @brand-gray;
-	padding-bottom: @base-padding;
+// .version__item:not(:last-of-type) {
+// 	padding-bottom: @base-padding;
+// }
 
-}
-
-.version__badge {
-	color: @brand-orange;
-	padding:  @base-padding/3 @base-padding/2;
-	border-radius:@base-padding/2;
-	border: 1px solid @brand-orange;
-}
 .version__meta {
-	display: flex;
-	justify-content: space-between
+	// display: flex;
+	// justify-content: space-between;
+	color: lighten(@brand-dark-gray, 20%);
 }
 
-.version__item--current {
-	opacity: 1;
+.version__current {
+	opacity: 0.6;
+	fill:@brand-orange;
 }
 
 .version__item--current .version__title {
-	font-weight: bold;
+		font-weight: bold;
 }

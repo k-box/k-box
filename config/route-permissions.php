@@ -52,6 +52,13 @@ return [
         'publish' => KBox\Capability::CHANGE_DOCUMENT_VISIBILITY,
         'unpublish' => KBox\Capability::CHANGE_DOCUMENT_VISIBILITY,
 
+        'version' => [
+
+            'show' => KBox\Capability::EDIT_DOCUMENT,
+            'delete' => KBox\Capability::EDIT_DOCUMENT,
+            'restore' => KBox\Capability::EDIT_DOCUMENT,
+        ],
+
         'bulk' => [
             
             'restore' => KBox\Capability::DELETE_DOCUMENT,

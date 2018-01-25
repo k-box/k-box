@@ -117,13 +117,18 @@
 
         <div class="preview__title-container">
 
-            <span class="preview__title">{{ $document->title }}</span>            
+            <span class="preview__title">{{ $document->title }}
+			
+				@if($version)
+					&nbsp;/&nbsp;{{ $version->name }}
+				@endif
+			</span>            
         
         </div>
 
         <div class="preview__actions">
         
-            <a class="preview__button js-preview-download-button"  href="{{DmsRouting::download($document)}}" download="{{ $document->title }}">{{ trans('panels.download_btn') }}</a>
+            <a class="preview__button js-preview-download-button"  href="{{DmsRouting::download($document, $version)}}" download="{{ $filename_for_download }}">{{ trans('panels.download_btn') }}</a>
             
             <button class="preview__button preview__button--expandable js-preview-details-button"><span class="preview__button-close">{{ trans('preview::actions.close') }}</span>{{ trans('preview::actions.details') }}</button>
 
@@ -147,7 +152,7 @@
 		<h4>{{trans('documents.preview.not_available')}}</h4>
 	
 	
-		<a class="button button-primary" href="{{DmsRouting::download($document)}}" target="_blank" download="{{ $document->title }}">
+		<a class="button button-primary" href="{{DmsRouting::download($document, $version)}}" target="_blank" download="{{ $filename_for_download }}">
 			{{trans('panels.download_btn')}}
 		</a>
 	
@@ -157,7 +162,7 @@
 
 	@if($type=='image')
 	
-		<img src="{{DmsRouting::download($document)}}" alt="{{$document->title}}">
+		<img src="{{DmsRouting::download($document, $version)}}" alt="{{$document->title}}">
 
 	@elseif($type=='video')
 
@@ -165,10 +170,10 @@
 
 			<video id="the-player" 
 				data-dash="{{ route('video.play', ['uuid' => $document->file->uuid, 'resource' => 'mpd']) }}"
-				data-source="{{ DmsRouting::download($document) }}"
+				data-source="{{ DmsRouting::download($document, $version) }}"
 				data-source-type="{{ $document->mime_type }}"
 				controls preload="none"
-				poster="{{ DmsRouting::thumbnail($document) }}">
+				poster="{{ DmsRouting::thumbnail($document, $version) }}">
 
 			</video>
 
@@ -181,8 +186,8 @@
 		@endif
 	
 	@elseif($type=='document' && $extension === 'pdf')
-	
-		<iframe src="{{DmsRouting::embed($document)}}" frameborder="0"></iframe>
+
+		<iframe src="{{DmsRouting::embed($document, $version)}}" frameborder="0"></iframe>
 	
 	@elseif(isset($render) && !empty($render))
 	
@@ -195,7 +200,7 @@
 			<h4>{{trans('documents.preview.error', ['document' => $document->title])}}</h4>
 		
 		
-			<a class="button button-primary" href="{{DmsRouting::download($document)}}" download="{{ $document->title }}">
+			<a class="button button-primary" href="{{DmsRouting::download($document, $version)}}" download="{{ $filename_for_download }}">
 				{{trans('panels.download_btn')}}
 			</a>
 		

@@ -147,6 +147,27 @@ class File extends Model
     }
 
     /**
+     * Get the previous versions of the current file
+     *
+     * @return Illuminate\Support\Collection|File[] the previous versions of the current file instance
+     */
+    public function versions()
+    {
+        if (! $this->revision_of) {
+            return collect();
+        }
+
+        $current = $this->revisionOf()->first();
+        $versions = collect();
+
+        while (! is_null($current)) {
+            $versions->push($current);
+            $current = $current ? $current->revisionOf()->first() : null;
+        }
+        return $versions;
+    }
+
+    /**
      * Check if the file is supported into K-Link
      *
      * @return boolean true if the file is supported, false otherwise

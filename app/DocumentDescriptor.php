@@ -613,6 +613,20 @@ class DocumentDescriptor extends Model
     }
 
     /**
+     * Get the file versions of this document. It includes the current file version
+     *
+     * @return Illuminate\Support\Collection|File[] the ordered file versions. An empty collection can be returned if the current file version is trashed or cannot be found anymore in the system
+     */
+    public function fileVersions()
+    {
+        if (is_null($this->file)) {
+            return collect();
+        }
+
+        return collect([$this->file])->merge($this->file->versions());
+    }
+
+    /**
      * Check if the document descriptor can be viewed by a user
      *
      * @param \KBox\User $user

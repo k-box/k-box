@@ -6,50 +6,74 @@ final class RoutingHelpers
 {
     private static $group_route_cache = null;
     
-    public static function thumbnail(DocumentDescriptor $doc)
+    public static function thumbnail(DocumentDescriptor $doc, File $version = null)
     {
-        if ($doc->isMine()) {
-            return route('klink_api', ['id' => $doc->local_document_id, 'action' => 'thumbnail']);
+        if (! $doc->isMine()) {
+            return $doc->thumbnail_uri;
         }
-        
-        return $doc->thumbnail_uri;
+
+        $params = ['id' => $doc->local_document_id, 'action' => 'thumbnail'];
+
+        if ($version) {
+            $params['version'] = $version->uuid;
+        }
+
+        return route('klink_api', $params);
     }
     
-    public static function document(DocumentDescriptor $doc)
+    public static function document(DocumentDescriptor $doc, File $version = null)
+    {
+        if (! $doc->isMine()) {
+            return $doc->document_uri;
+        }
+        
+        $params = ['id' => $doc->local_document_id, 'action' => 'document', 'version' => null];
+
+        if ($version) {
+            $params['version'] = $version->uuid;
+        }
+
+        return route('klink_api', $params);
+    }
+    
+    
+    public static function preview(DocumentDescriptor $doc, File $version = null)
+    {
+        if (! $doc->isMine()) {
+            return $doc->document_uri;
+        }
+
+        $params = ['id' => $doc->local_document_id, 'action' => 'preview'];
+
+        if ($version) {
+            $params['version'] = $version->uuid;
+        }
+
+        return route('klink_api', $params);
+    }
+    
+    public static function embed(DocumentDescriptor $doc, File $version = null)
     {
         if ($doc->isMine()) {
-            return route('klink_api', ['id' => $doc->local_document_id, 'action' => 'document']);
+            return self::download($doc, $version).'?embed=true';
         }
         
         return $doc->document_uri;
     }
     
-    
-    public static function preview(DocumentDescriptor $doc)
+    public static function download(DocumentDescriptor $doc, File $version = null)
     {
-        if ($doc->isMine()) {
-            return route('klink_api', ['id' => $doc->local_document_id, 'action' => 'preview']);
+        if (! $doc->isMine()) {
+            return $doc->document_uri;
         }
-        
-        return $doc->document_uri;
-    }
-    
-    public static function embed(DocumentDescriptor $doc)
-    {
-        if ($doc->isMine()) {
-            return route('klink_api', ['id' => $doc->local_document_id, 'action' => 'download']).'?embed=true';
+
+        $params = ['id' => $doc->local_document_id, 'action' => 'download'];
+
+        if ($version) {
+            $params['version'] = $version->uuid;
         }
-        
-        return $doc->document_uri;
-    }
-    
-    public static function download(DocumentDescriptor $doc)
-    {
-        if ($doc->isMine()) {
-            return route('klink_api', ['id' => $doc->local_document_id, 'action' => 'download']);
-        }
-        
-        return $doc->document_uri;
+
+        return route('klink_api', $params);
     }
     
     

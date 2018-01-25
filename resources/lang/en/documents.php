@@ -194,6 +194,7 @@ return [
         
         'restore_dialog_title' => 'Restore :document?',
         'restore_dialog_text' => 'You\'re about to restore ":document"',
+        'restore_version_dialog_text' => 'You\'re about to restore the version ":document". This will permanently delete all the newest versions.',
         'restore_dialog_title_count' => 'Restore :count documents?',
         'restore_dialog_text' => 'You\'re about to restore ":document"',
         'restore_dialog_text_count' => 'You\'re about to restore :count files',
@@ -203,6 +204,8 @@ return [
         'restore_success_title' => 'Restored',
         'restore_error_title' => 'Cannot restore',
         'restore_error_text_generic' => 'The selected file was not moved out of the trash.',
+        'restore_version_error_text_generic' => 'It was not possible to restore the file at the specified version.',
+        'restore_version_error_only_one_version' => 'The document has only version and is the latest.',
       
         'restoring' => 'Restoring...',
     ],

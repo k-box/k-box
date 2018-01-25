@@ -683,7 +683,7 @@ class DocumentsController extends Controller
                     'can_edit_groups' => ! $document->trashed() && $user->can_capability([Capability::MANAGE_OWN_GROUPS, Capability::MANAGE_PROJECT_COLLECTIONS]),
                     'can_upload_file' => ! $document->trashed() && $user->can_capability(Capability::UPLOAD_DOCUMENTS),
                     'can_edit_document' => ! $document->trashed() && $user->can_capability([Capability::EDIT_DOCUMENT, Capability::DELETE_DOCUMENT]),
-                    'versions' => ! is_null($document->file) ? $document->file->revisionOfRecursive()->get() : new Collection,
+                    // 'versions' => ! is_null($document->file) ? $document->file->revisionOfRecursive()->get() : new Collection,
                     'pagetitle' => trans('documents.edit.page_title', ['document' => $document->title]),
                     'context' => 'document', 'context_document' => $document->id, 'filter' => $document->name,
                 ];

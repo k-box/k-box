@@ -71,6 +71,7 @@ return [
         'documents.restore.restore_dialog_title',
         'documents.restore.restore_dialog_title_count',
         'documents.restore.restore_dialog_text',
+        'documents.restore.restore_version_dialog_text',
         'documents.restore.restore_dialog_text_count',
         'documents.restore.restore_dialog_yes_btn',
         'documents.restore.restore_dialog_no_btn',
@@ -78,6 +79,7 @@ return [
         'documents.restore.restore_error_title',
         'documents.restore.restoring',
         'documents.restore.restore_error_text_generic',
+        'documents.restore.restore_version_error_text_generic',
         
         'documents.delete.dialog_title',
         'documents.delete.dialog_title_alt',

@@ -2,6 +2,8 @@
 
 namespace KBox\Http\Controllers;
 
+use Exception;
+use Throwable;
 use KBox\DocumentDescriptor;
 use KBox\File;
 use Illuminate\Http\Request;
@@ -49,12 +51,22 @@ class KlinkApiController extends Controller
      * @param  string $action the type of action to perform on the given rseource: thumbnail or document
      * @return Response
      */
-    public function show(Request $request, $id, $action)
+    public function show(Request $request, $id, $action, $version = null)
     {
 
         // no need for input syntax validation, already performed by Laravel when invoking this controller
 
         $doc = DocumentDescriptor::withTrashed()->where('local_document_id', $id)->with('file')->first();
+
+        $file_version = null; // will contain the file instance to use in case $version is not null, null means the latest
+
+        $versions = $doc->file->versions();
+
+        if (! is_null($version) && $doc->file->uuid !== $version && $versions->contains('uuid', $version)) {
+            $file_version = $versions->where('uuid', $version)->first();
+        }
+
+        // if version is requested, the file must be a version of the same document descriptor is referenced in $id
 
         if (is_null($doc) || (! is_null($doc) && ! $doc->isMine())) {
             \App::abort(404, trans('errors.document_not_found'));
@@ -99,11 +111,11 @@ class KlinkApiController extends Controller
         $isKSearchRequest = ($doc->isPublished() || $doc->hasPendingPublications()) && network_enabled() && str_contains(strtolower($request->userAgent()), 'guzzlehttp');
 
         if (! $isKSearchRequest && ($action==='document' || $action==='preview')) {
-            return $this->getPreview($request, $doc);
+            return $this->getPreview($request, $doc, $file_version);
         } elseif ($isKSearchRequest || $action==='download') {
-            return $this->getDocument($request, $doc);
+            return $this->getDocument($request, $doc, $file_version);
         } elseif ($action==='thumbnail') {
-            return $this->getThumbnail($request, $doc);
+            return $this->getThumbnail($request, $doc, $file_version);
         }
 
         return view('errors.403', ['reason' => 'WrongAction']);
@@ -116,7 +128,7 @@ class KlinkApiController extends Controller
      * @param DocumentDescriptor $doc the descriptor to build the thumbnail for
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    private function getThumbnail(Request $request, DocumentDescriptor $doc)
+    private function getThumbnail(Request $request, DocumentDescriptor $doc, File $version = null)
     {
         if (! $doc->isFileUploadComplete()) {
             $response = response()->make();
@@ -129,10 +141,10 @@ class KlinkApiController extends Controller
             return $response;
         }
 
-        /* File */ $file = $doc->file;
+        /* File */ $file = $version ?? $doc->file;
         
         if (is_null($file)) {
-            $file = File::withTrashed()->findOrFail($doc->file_id);
+            $file = File::withTrashed()->findOrFail($version ?? $doc->file_id);
         }
 
         $response = response()->make();
@@ -182,13 +194,13 @@ class KlinkApiController extends Controller
      * @param DocumentDescriptor $doc the descriptor whose file needs to be downloaded
      * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
      */
-    private function getDocument(Request $request, DocumentDescriptor $doc)
+    private function getDocument(Request $request, DocumentDescriptor $doc, File $version = null)
     {
         if ($doc->trashed()) {
             \App::abort(404, trans('errors.document_not_found'));
         }
 
-        /* File */ $file = $doc->file;
+        /* File */ $file = $version ?? $doc->file;
 
         $embed = $request->input('embed', false);
         
@@ -212,13 +224,13 @@ class KlinkApiController extends Controller
      * @param DocumentDescriptor $doc the descriptor to build the preview for
      * @return Illuminate\View\View the documents.preview view
      */
-    private function getPreview(Request $request, DocumentDescriptor $doc)
+    private function getPreview(Request $request, DocumentDescriptor $doc, File $version = null)
     {
         if ($doc->trashed()) {
             \App::abort(404, trans('errors.document_not_found'));
         }
 
-        /* File */ $file = $doc->file;
+        /* File */ $file = $version ?? $doc->file;
             
         $extension = KlinkDocumentUtils::getExtensionFromMimeType($file->mime_type);
 
@@ -236,17 +248,22 @@ class KlinkApiController extends Controller
         } catch (UnsupportedFileException $pex) {
         } catch (PreviewGenerationException $pex) {
             \Log::error('KlinkApiController - Preview Generation, using PreviewService, failure', ['error' => $pex, 'file' => $file]);
+        } catch (Exception $pex) {
+            \Log::error('KlinkApiController - Preview Generation, using PreviewService, failure', ['error' => $pex, 'file' => $file]);
+        } catch (Throwable $pex) {
+            \Log::error('KlinkApiController - Preview Generation, using PreviewService, failure', ['error' => $pex, 'file' => $file]);
         }
 
-        // return view('preview::preview-full', compact('properties', 'render', 'documentTitle'));
-        
         return view('documents.preview', [
             'document' => $doc,
             'file' => $file,
-            'type' =>  $doc->document_type,
+            'version' => $version,
+            'type' =>  KlinkDocumentUtils::documentTypeFromMimeType($file->mime_type),
+            'mime_type' =>  $file->mime_type,
             'render' => $render,
             'extension' => $extension,
-            'body_classes' => 'preview '.$doc->document_type,
+            'body_classes' => 'preview '.$file->mime_type,
+            'filename_for_download' => $version ? $version->name : $doc->title,
             'pagetitle' => trans('documents.preview.page_title', ['document' => $doc->title]),
         ]);
     }

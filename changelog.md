@@ -14,6 +14,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Added: License and Copyright management
 - Fixed: Identification of the browser accepted languages, if user don't 
   have a profile configured preference
+- Added: Ability to preview and download old versions of a document
+- Changed: Improved version listing on the document edit page
 
 ## [0.19.1] 2017-12-21
 

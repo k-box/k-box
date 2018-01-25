@@ -527,7 +527,7 @@ window.DMS = (function(_$, _nprogress, _rivets, _alert){
 				},
 				
 				restore: function(data, success, error){
-					console.log('Calling Documents.remove', data);
+					console.log('Calling Documents.restore', data);
 
 					module.Ajax.put(module.Paths.DOCUMENTS + '/restore', data, success, error);
 				},
@@ -585,6 +585,13 @@ window.DMS = (function(_$, _nprogress, _rivets, _alert){
 					console.log('Calling Documents.makePrivate', id);
 
 					module.Ajax.delete(module.Paths.PUBLISHED_DOCUMENTS + '/' + id, success, error);
+				},
+
+				restoreVersion: function(document, version, success, error){
+					console.log('Calling Documents.restoreVersion', document, version);
+
+					module.Ajax.put(module.Paths.DOCUMENTS +  '/' + document + '/versions/'+ version +'/restore', {}, success, error);
+					
 				},
 
 			},

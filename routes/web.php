@@ -188,6 +188,21 @@ Route::group(['as' => 'documents.', 'prefix' => 'documents'], function () {
         ['names' => ['index' => 'import'], 'only' => ['index', 'store', 'destroy', 'update']]);
 });
 
+Route::get('/documents/{document}/versions/{version}', [
+    'uses' => 'Document\DocumentVersionsController@show',
+    'as' => 'documents.version.show'
+]);
+
+Route::put('/documents/{document}/versions/{version}/restore', [
+    'uses' => 'Document\RestoreVersionsController@update',
+    'as' => 'documents.version.restore'
+]);
+
+Route::delete('/documents/{document}/versions/{version}', [
+    'uses' => 'Document\DocumentVersionsController@destroy',
+    'as' => 'documents.version.destroy'
+]);
+
 Route::resource('/documents', 'Document\DocumentsController');
 
 /*
@@ -294,7 +309,7 @@ Route::resource('projects', 'Projects\ProjectsController');
 |
 */
 
-Route::get('klink/{id}/{action}', [
+Route::get('klink/{id}/{action}/{version?}', [
         'uses' => 'KlinkApiController@show',
         'as' => 'klink_api',
     ])->where(['id' => '[0-9A-Za-z]+', 'action' => '(thumbnail|document|preview|download)']);

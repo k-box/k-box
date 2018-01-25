@@ -1,4 +1,4 @@
-define("modules/editdocument", ["require", "modernizr", "jquery", "DMS", "sweetalert", "modules/minimalbind", "modules/share" ], function (_require, _modernizr, $, DMS, _alert, _rivets, Share) {
+define("modules/editdocument", ["require", "modernizr", "jquery", "DMS", "sweetalert", "modules/minimalbind", "modules/share", 'language' ], function (_require, _modernizr, $, DMS, _alert, _rivets, Share, Lang) {
     
     console.log('loading EDIT document-page module...');
     
@@ -41,6 +41,60 @@ define("modules/editdocument", ["require", "modernizr", "jquery", "DMS", "sweeta
             type: 'document'
         }]);
 
+    });
+
+    $('[data-action=restoreVersion').on('click', function(evt) {
+
+        var data = $(evt.target).data();
+
+        console.log(data);
+        
+        DMS.MessageBox.question(
+            Lang.trans('documents.restore.restore_dialog_title', {document: data.versionTitle}),
+            Lang.trans('documents.restore.restore_version_dialog_text', {document: data.versionTitle}), 
+            Lang.trans("documents.restore.restore_dialog_yes_btn"), 
+            Lang.trans("documents.restore.restore_dialog_no_btn"), function(restore){
+
+            if(restore){
+                
+                DMS.MessageBox.wait( Lang.trans('actions.restoring'), '...');
+
+
+                DMS.Services.Documents.restoreVersion(
+                    data.documentId, 
+                    data.versionId,
+                    function (data) {
+
+                        if(data.status && data.status === 'ok'){
+
+                            DMS.navigateReload();
+
+                        }
+                        else if(data.message) {
+                            DMS.MessageBox.error(Lang.trans('documents.restore.restore_error_title'), data.message);
+                        }
+
+                    }, function(obj, err, errText){
+
+                        if(obj.responseJSON && obj.responseJSON.status === 'error'){
+                            DMS.MessageBox.error(Lang.trans('documents.restore.restore_error_title'), obj.responseJSON.message);
+                        }
+                        else if(obj.responseJSON && obj.responseJSON.error){
+                            DMS.MessageBox.error(Lang.trans('documents.restore.restore_error_title'), obj.responseJSON.error);
+                        }
+                        else {
+                            DMS.MessageBox.error(Lang.trans('documents.restore.restore_error_title'), Lang.trans('documents.restore.restore_version_error_text_generic'));
+                        }
+
+                    }
+                );
+
+
+            }
+
+        });
+        
+        return false;
     });
 
 });

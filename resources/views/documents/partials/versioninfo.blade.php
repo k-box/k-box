@@ -1,28 +1,34 @@
 <div class="version-container">
 
-	<h4 class="c-section__title" id="versions">@materialicon('action', 'history', 'button__icon')
-	{{trans('documents.versions.section_title')}}</h4 >
-	<p class="c-section__description">
+	<h4 class="c-section__title" id="versions">@materialicon('action', 'history', 'button__icon c-section__icon')
+	{{--  {{trans('documents.versions.section_title')}}  --}}
 		{{trans_choice('documents.versions.section_title_with_count', $versions_count, ['number' => $versions_count])}}
-	</p>
+	</h4>
+	{{--  <p class="c-section__description">
+		{{trans_choice('documents.versions.section_title_with_count', $versions_count, ['number' => $versions_count])}}
+	</p>  --}}
 
 	@if($can_upload_file)
 
-		@if( $errors->has('document') )
-            <span class="field-error">{{ implode(",", $errors->get('document'))  }}</span>
-        @endif
+		<div class="version-actions">
 
-		<input type="file" name="document" id="document" style="position: absolute;opacity: 0;z-index:-1">
-		<label for="document">
-		<div class="button ladda-button file-button" id="upload_new">
-			<span class="normal">
-				{{trans('documents.versions.new_version_button')}}
-			</span>
-			<span class="processing">
-				{{trans('documents.versions.new_version_button_uploading')}}
-			</span>
+			@if( $errors->has('document') )
+				<span class="field-error">{{ implode(",", $errors->get('document'))  }}</span>
+			@endif
+
+			<input type="file" name="document" id="document" style="position: absolute;opacity: 0;z-index:-1">
+			<label for="document">
+				<div class="button ladda-button file-button" id="upload_new">
+					<span class="normal">
+						{{trans('documents.versions.new_version_button')}}
+					</span>
+					<span class="processing">
+						{{trans('documents.versions.new_version_button_uploading')}}
+					</span>
+				</div>
+			</label>
+
 		</div>
-		</label>
 	@endif
 
 
@@ -31,29 +37,39 @@
 		@foreach($versions as $version)
 			
 			<div class="version__item @if($loop->first) version__item--current @endif">
-				<div class="version__title">
-					{{$version->name}}
-				
-					@if($loop->first)
-						<span class="version__badge">	
-							{{trans('documents.versions.version_current')}}
-						</span>
-					@endif
-
-				</div>
-
-				<div class="version__meta">
-				
-					<div class="version__author">
-						@if(!is_null($version->user))
-							{{ $version->user->name }}
+				<div>
+					<div class="version__title" title="{{$version->name}}">
+						@if($loop->first)
+							{{$version->name}}
+						@else
+							<a href="{{DmsRouting::preview($document, $version)}}" target="_blank">{{$version->name}}</a>
 						@endif
 					</div>
-					<div class="version__update-date" title="{{ localized_date_full($version->updated_at) }}">
-						{{ localized_date_human_diff($version->updated_at) }}
-					</div>
 
+					<div class="version__meta">
+					
+						<div class="version__author">
+							@if(!is_null($version->user))
+								{{ $version->user->name }},&nbsp;
+							@endif
+
+							<span title="{{ localized_date_full($version->updated_at) }}">{{ localized_date_human_diff($version->updated_at) }}</span>
+						</div>
+
+					</div>
 				</div>
+				
+				@if($loop->first)
+				<div>
+					@materialicon('image', 'navigate_before', 'version__current')
+				</div>
+				@endif
+				
+				@unless($loop->first)
+				<div>
+					<button class="button button--ghost" data-action="restoreVersion" data-version-title="{{$version->name}}" data-document-id="{{ $document->id }}" data-version-id="{{ $version->uuid }}">{{ trans('actions.restore') }}</button>
+				</div>
+				@endunless
 			</div>
 
 		@endforeach
