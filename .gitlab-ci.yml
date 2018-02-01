@@ -125,8 +125,8 @@ branch_release:
     - sed -i "s/BUILDVERSION/${CI_COMMIT_REF_NAME}/g" ./config/dms.php
     - sed -i "s/BUILDCODE/${CI_COMMIT_SHA}/g" ./config/dms.php
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
-    - docker build -t $CI_REGISTRY_IMAGE:${CI_COMMIT_REF_NAME/v/} .
-    - docker push $CI_REGISTRY_IMAGE:${CI_COMMIT_REF_NAME/v/}
+    - docker build -t $CI_REGISTRY_IMAGE:${CI_COMMIT_REF_NAME#v} .
+    - docker push $CI_REGISTRY_IMAGE:${CI_COMMIT_REF_NAME#v}
   tags:
     - shell
   except:
@@ -142,19 +142,19 @@ tagged_release:
     - sed -i "s/BUILDVERSION/${CI_COMMIT_REF_NAME}/g" ./config/dms.php
     - sed -i "s/BUILDCODE/${CI_COMMIT_SHA}/g" ./config/dms.php
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
-    - docker build -t $CI_REGISTRY_IMAGE:${CI_COMMIT_REF_NAME/v/} .
-    - docker push $CI_REGISTRY_IMAGE:${CI_COMMIT_REF_NAME/v/}
+    - docker build -t $CI_REGISTRY_IMAGE:${CI_COMMIT_REF_NAME#v} .
+    - docker push $CI_REGISTRY_IMAGE:${CI_COMMIT_REF_NAME#v}
     - docker login -u $REGISTRY_RELEASE_USERNAME -p $REGISTRY_RELEASE_PASSWORD $CI_REGISTRY
-    - docker tag $CI_REGISTRY_IMAGE:${CI_COMMIT_REF_NAME/v/} "$CONTAINER_RELEASE_IMAGE_BASE:${CI_COMMIT_REF_NAME/v/}"
-    - docker tag $CI_REGISTRY_IMAGE:${CI_COMMIT_REF_NAME/v/} "$CONTAINER_RELEASE_IMAGE_BASE:latest"
-    - docker tag $CI_REGISTRY_IMAGE:${CI_COMMIT_REF_NAME/v/} "$CONTAINER_RELEASE_LEGACY_IMAGE_BASE:${CI_COMMIT_REF_NAME/v/}"
-    - docker tag $CI_REGISTRY_IMAGE:${CI_COMMIT_REF_NAME/v/} "$CONTAINER_RELEASE_LEGACY_IMAGE_BASE:latest"
+    - docker tag $CI_REGISTRY_IMAGE:${CI_COMMIT_REF_NAME#v} "$CONTAINER_RELEASE_IMAGE_BASE:${CI_COMMIT_REF_NAME#v}"
+    - docker tag $CI_REGISTRY_IMAGE:${CI_COMMIT_REF_NAME#v} "$CONTAINER_RELEASE_IMAGE_BASE:latest"
+    - docker tag $CI_REGISTRY_IMAGE:${CI_COMMIT_REF_NAME#v} "$CONTAINER_RELEASE_LEGACY_IMAGE_BASE:${CI_COMMIT_REF_NAME#v}"
+    - docker tag $CI_REGISTRY_IMAGE:${CI_COMMIT_REF_NAME#v} "$CONTAINER_RELEASE_LEGACY_IMAGE_BASE:latest"
     # legacy image registry
     - docker push "$CONTAINER_RELEASE_LEGACY_IMAGE_BASE:latest"
-    - docker push "$CONTAINER_RELEASE_LEGACY_IMAGE_BASE:${CI_COMMIT_REF_NAME/v/}"
+    - docker push "$CONTAINER_RELEASE_LEGACY_IMAGE_BASE:${CI_COMMIT_REF_NAME#v}"
     # new image registry
     - docker push "$CONTAINER_RELEASE_IMAGE_BASE:latest"
-    - docker push "$CONTAINER_RELEASE_IMAGE_BASE:${CI_COMMIT_REF_NAME/v/}"
+    - docker push "$CONTAINER_RELEASE_IMAGE_BASE:${CI_COMMIT_REF_NAME#v}"
   tags:
     - shell
   only:
@@ -182,9 +182,9 @@ tagged_release:
 #     DOCKER_LOCATION: $TEST_DOCKER_FOLDER 
 #   script: 
 #     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
-#     - docker pull $CI_REGISTRY_IMAGE:${CI_COMMIT_REF_NAME/v/}
+#     - docker pull $CI_REGISTRY_IMAGE:${CI_COMMIT_REF_NAME#v}
 #     - cd ${DOCKER_LOCATION}
-#     - docker tag $CI_REGISTRY_IMAGE:${CI_COMMIT_REF_NAME/v/} dms-testing-environment
+#     - docker tag $CI_REGISTRY_IMAGE:${CI_COMMIT_REF_NAME#v} dms-testing-environment
 #     - docker-compose -f docker-compose-kbox.yml -p ${INSTANCE_PREFIX} stop && docker-compose -f docker-compose-kbox.yml -p ${INSTANCE_PREFIX} rm -v -f && docker-compose -f docker-compose-kbox.yml -p ${INSTANCE_PREFIX} up -d frontend
 
 
@@ -200,9 +200,9 @@ next_dms_klink_asia_deploy:
     DOCKER_LOCATION: "/opt/next-dms-klink-asia"
   script: 
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
-    - docker pull $CI_REGISTRY_IMAGE:${CI_COMMIT_REF_NAME/v/}
+    - docker pull $CI_REGISTRY_IMAGE:${CI_COMMIT_REF_NAME#v}
     - cd ${DOCKER_LOCATION}
-    - docker tag $CI_REGISTRY_IMAGE:${CI_COMMIT_REF_NAME/v/} dms-migration-environment
+    - docker tag $CI_REGISTRY_IMAGE:${CI_COMMIT_REF_NAME#v} dms-migration-environment
     - docker-compose down
     - docker run --rm -v /opt/dms_klink_asia/klink-docker/mnt/:/old/:ro -v /opt/next-dms-klink-asia/data/:/new/:rw debian sh -c "rm -rf /new/* && cp -pr /old/mariadb/ /old/dms-storage/ /new/" # hacky way of removing the old files and copying over the files from the current DMS preview
     - docker-compose up -d
@@ -217,7 +217,7 @@ test_slmtj_net_deploy:
     - deploy
   script:
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
-    - docker pull $CI_REGISTRY_IMAGE:${CI_COMMIT_REF_NAME/v/}
+    - docker pull $CI_REGISTRY_IMAGE:${CI_COMMIT_REF_NAME#v}
     - cd ${INTEGRATION_DOCKER_FOLDER}
-    - docker tag $CI_REGISTRY_IMAGE:${CI_COMMIT_REF_NAME/v/} $INTEGRATION_DOCKER_IMAGE
+    - docker tag $CI_REGISTRY_IMAGE:${CI_COMMIT_REF_NAME#v} $INTEGRATION_DOCKER_IMAGE
     - docker-compose down && docker-compose up -d
