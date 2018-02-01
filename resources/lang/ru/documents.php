@@ -184,6 +184,7 @@ return [
         
         'restore_dialog_title' => 'Восстановить :document?',
         'restore_dialog_text' => 'Вы собираетесь восстановить ":document"',
+        'restore_version_dialog_text' => 'Вы собираетесь восстановить версию ":document". Последние загруженные версии будут безвозвратно удалены.',
         'restore_dialog_title_count' => 'Восстановить :count документов?',
         'restore_dialog_text' => 'Вы собираетесь восстановить ":document"',
         'restore_dialog_text_count' => 'Вы собираетесь восстановить :count элементов',
@@ -192,7 +193,9 @@ return [
         
         'restore_success_title' => 'Готово',
         'restore_error_title' => 'Не восстановлено',
-        'restore_error_text_generic' => 'Документ не был перемещен из корзины.',
+        'restore_error_text_generic' => 'Документ не был перемещен из корзины',
+        'restore_version_error_text_generic' => 'Восстановление данной версии не удалось',
+        'restore_version_error_only_one_version' => 'Текущая версия является единственной',
       
         'restoring' => 'Восстанавливаю...',
     ],
