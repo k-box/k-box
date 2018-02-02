@@ -160,10 +160,10 @@ return [
 
         'klink_net_title' => 'Connexion réseau K-Link',
         'ksearch' => 'Connexion K-Search engine',
-        'ksearch_description' => 'Montrer l\'état de la connexion entre la K-Box et le moteur de recherche.',
+        'ksearch_description' => 'Statut de la connexion entre la K-Box et le moteur de recherche.',
 
         'network' => 'Connexion à ":network"',
-        'network_description' => 'Montrer l\'état de la connexion entre la K-Box et le réseau.',
+        'network_description' => 'Statut de la connexion entre la K-Box et le réseau.',
 
 
         'klink_status' => [
