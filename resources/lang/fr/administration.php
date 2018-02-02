@@ -25,7 +25,7 @@ return [
         'institutions'=>'Institutions',
         'settings'=>'Paramètres',
         'identity' => 'Identité',
-        'licenses' => 'Licenses',
+        'licenses' => 'Licences',
 
     ],
 
