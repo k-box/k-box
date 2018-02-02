@@ -40,7 +40,7 @@ return [
         'recent' => 'Récents',
         'trash' => 'Corbeille',
         'not_indexed' => 'Pas indexé',
-        'recent_hint' => 'Vous trouverez ici les documents que vous avez récemment mis en ligne',
+        'recent_hint' => 'Vous trouverez ici les documents récemment mis en ligne',
         'starred_hint' => 'Vous trouverez ici tous vos documents favoris',
     ],
 
@@ -163,6 +163,18 @@ return [
         'not_index_message' => 'Ce document n\'a pas encore pu être ajouté à K-Link. Veuillez essayer de <button type="submit">le ré-indexer</button> maintenant ou contactez votre administrateur.',
         'not_fully_uploaded' => 'La mise en ligne de ce document est encore en cours.',
         'preview_available_when_upload_completes' => 'L\'aperçu sera disponible quand la mise en ligne sera terminée.',
+        
+        'license' => 'Licence',
+        'license_help' => 'Les licences permettent au propriétaire des droits d\'auteurs d\'un document d\'accorder à quiconque l\'autorisation de l\'utiliser.',
+        'license_choose_help_button' => 'Aidez moi à choisir une licence',
+        
+        'copyright_owner' => 'Droits d\'auteurs',
+        'copyright_owner_help' => 'Information sur le propriétaire des droits d\'auteurs. Cette information est valable indépendamment de la licence choisie',
+        
+        'copyright_owner_name_label' => 'Nom',
+        'copyright_owner_email_label' => 'Email',
+        'copyright_owner_website_label' => 'Site web',
+        'copyright_owner_address_label' => 'Addresse',
     ],
 
     'update' => [

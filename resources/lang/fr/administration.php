@@ -25,6 +25,7 @@ return [
         'institutions'=>'Institutions',
         'settings'=>'Paramètres',
         'identity' => 'Identité',
+        'licenses' => 'Licences',
 
     ],
 
@@ -159,10 +160,10 @@ return [
 
         'klink_net_title' => 'Connexion réseau K-Link',
         'ksearch' => 'Connexion K-Search engine',
-        'ksearch_description' => 'Montrer l\'état de la connexion entre la K-Box et le moteur de recherche.',
+        'ksearch_description' => 'Statut de la connexion entre la K-Box et le moteur de recherche.',
 
         'network' => 'Connexion à ":network"',
-        'network_description' => 'Montrer l\'état de la connexion entre la K-Box et le réseau.',
+        'network_description' => 'Statut de la connexion entre la K-Box et le réseau.',
 
 
         'klink_status' => [
@@ -270,6 +271,36 @@ return [
 
         'contact_info_updated' => 'Détails du contact enregistrés.',
         'update_error' => 'Les détails du contact n\'ont pas été mis à jour. :error',
+    ],
+    
+     'documentlicenses' => [
+         
+        'no_licenses' => 'Aucune licence disponible dans le système.',
+        'view_license' => 'Voir les licences',
+        'default_configuration_notice' => 'Les paramètres de droits d\'auteurs par défaut ont été définis à "Tous droits réservés". Vous pouvez changer pour une licence plus permissive, afin de faciliter la collaboration.',
+        
+   
+         
+        
+        'default' => [
+            'title' => 'Licence par défaut pour nouveaux documents',
+            'description' => 'La licence d\'un document indique dans quelle mesure d\'autres personnes peuvent l\'utiliser. La licence par défaut s\'applique pour tous les nouveaux documents.',
+            'label' => '',
+            'save' => 'Enregistrer la licence par défaut',
+            'no_licenses_error' => 'Les licences utilisables sur cette K-Box ne sont pas configurées. Veuillez les sélectionner avant de choisir la licence par défaut.',
+            'saved' => 'Paramètres de droits d\'auteurs par défaut enregistrés. Les nouveaux documents recevront automatiquement la licence  ":title", qui peut ensuite être modifiée manuellement.',
+            'select' => 'Choisissez une licence',
+            'apply_default_license_to_previous' => 'Appliquer la licence par défaut à :count document sans licence|Appliquer la licence par défaut à :count documents sans licence',
+            'apply_default_license_all' => 'Appliquer la licence par défaut à tous les documents',
+        ],
+        'available' => [
+            'title' => 'Licences disponibles sur cette K-Box',
+            'description' => 'Avec la liste de licences disponibles, vous pouvze spécifier quelle licences peuvent être utilisées pour les nouveaux documents dans cette K-Box',
+            'label' => '',
+            'save' => 'Enregistrer la liste de licences',
+            'no_licenses_error' => 'Aucune licence disponible pour cette K-Box. Veuillez contrôler la configuration de la K-Box.',
+            'saved' => 'La liste de licences disponibles a été mise à jour.',
+        ],
     ],
 
 ];

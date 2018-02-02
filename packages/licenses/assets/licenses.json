@@ -6,7 +6,8 @@
         "title": {
             "en": "All rights reserved",
             "ru": "Все права защищены",
-            "tg": "All rights reserved"
+            "tg": "All rights reserved",
+            "fr": "Tous droits réservés"
         },
         "icon": "copy.svg",
         "description": "copyright.md",
@@ -19,7 +20,8 @@
         "title": {
             "en": "Public Domain",
             "ru": "Всеобщее достояние",
-            "tg": "Public Domain"
+            "tg": "Public Domain",
+            "fr": "Domaine public"
         },
         "icon": "publicdomain.svg",
         "description": "publicdomain.md",
@@ -29,13 +31,15 @@
         "id": "CC-BY-4.0",
         "name": "Creative Commons Attribution 4.0",
         "license": {
-            "en": "http://creativecommons.org/licenses/by/4.0/legalcode"
+            "en": "http://creativecommons.org/licenses/by/4.0/legalcode",
+            "fr": "https://creativecommons.org/licenses/by/4.0/deed.fr"
         },
         "icon": "by.svg",
         "short_title": "CC BY 4.0",
         "title": {
             "en": "Creative Commons Attribution 4.0 International",
-            "ru": "Creative Commons С указанием авторства 4.0 Всемирная"
+            "ru": "Creative Commons С указанием авторства 4.0 Всемирная",
+            "fr": "Creative Commons Attribution 4.0 International"
         },
         "description": "cc-by-4.0.md"
     },
@@ -44,12 +48,14 @@
         "name": "Creative Commons Attribution Non Commercial 4.0",
         "icon": "by-nc.svg",
         "license": {
-            "en": "http://creativecommons.org/licenses/by-nc/4.0/legalcode"
+            "en": "http://creativecommons.org/licenses/by-nc/4.0/legalcode",
+            "fr": "https://creativecommons.org/licenses/by-nc/4.0/legalcode.fr"
         },
         "short_title": "CC BY-NC 4.0",
         "title": {
             "en": "Creative Commons Attribution-NonCommercial 4.0 International",
-            "ru": "Creative Commons С указанием авторства-Некоммерческая 4.0 Всемирная"
+            "ru": "Creative Commons С указанием авторства-Некоммерческая 4.0 Всемирная",
+            "fr": "Crative Commons Attribution - Utilisation non commerciale 4.0 International"
         },
         "description": "cc-by-nc-4.0.md"
     },
@@ -58,12 +64,14 @@
         "name": "Creative Commons Attribution Non Commercial No Derivatives 4.0",
         "icon": "by-nc-nd.svg",
         "license": {
-            "en": "http://creativecommons.org/licenses/by-nc-nd/4.0/legalcode"
+            "en": "http://creativecommons.org/licenses/by-nc-nd/4.0/legalcode",
+            "fr": "https://creativecommons.org/licenses/by-nc-nd/4.0/legalcode.fr"
         },
         "short_title": "CC BY-NC-ND 4.0",
         "title": {
             "en": "Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International",
-            "ru": "Creative Commons С указанием авторства-Некоммерческая-Без производных 4.0 Всемирная"
+            "ru": "Creative Commons С указанием авторства-Некоммерческая-Без производных 4.0 Всемирная",
+            "fr": "Creative Commons Attribution - Utilisation non commerciale - Pas d’Œuvre dérivée 4.0 International"
         },
         "description": "cc-by-nc-nd-4.0.md"
     },
@@ -72,12 +80,14 @@
         "name": "Creative Commons Attribution Non Commercial Share Alike 4.0",
         "icon": "by-nc-sa.svg",
         "license": {
-            "en": "http://creativecommons.org/licenses/by-nc-sa/4.0/legalcode"
+            "en": "http://creativecommons.org/licenses/by-nc-sa/4.0/legalcode",
+            "fr": "https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode.fr"
         },
         "short_title": "CC BY-NC-SA 4.0",
         "title": {
             "en": "Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International",
-            "ru": "Creative Commons С указанием авторства-Некоммерческая-С сохранением условий 4.0 Всемирная"
+            "ru": "Creative Commons С указанием авторства-Некоммерческая-С сохранением условий 4.0 Всемирная",
+            "fr": "Creative Commons Attribution - Utilisation non commerciale - Partage dans les mêmes conditions 4.0 International"
         },
         "description": "cc-by-nc-sa-4.0.md"
     },
@@ -86,12 +96,14 @@
         "name": "Creative Commons Attribution No Derivatives 4.0",
         "icon": "by-nd.svg",
         "license": {
-            "en": "http://creativecommons.org/licenses/by-nd/4.0/legalcode"
+            "en": "http://creativecommons.org/licenses/by-nd/4.0/legalcode",
+            "fr": "https://creativecommons.org/licenses/by-nd/4.0/legalcode.fr"
         },
         "short_title": "CC BY-ND 4.0",
         "title": {
             "en": "Creative Commons Attribution-NoDerivatives 4.0 International",
-            "ru": "Creative Commons С указанием авторства-Без производных 4.0 Всемирная"
+            "ru": "Creative Commons С указанием авторства-Без производных 4.0 Всемирная",
+            "fr": "Creative Commons Attribution - Pas d'Œuvre dérivée 4.0 International"
         },
         "description": "cc-by-nd-4.0.md"
     },
@@ -100,12 +112,14 @@
         "name": "Creative Commons Attribution Share Alike 4.0",
         "icon": "by-sa.svg",
         "license": {
-            "en": "http://creativecommons.org/licenses/by-sa/4.0/legalcode"
+            "en": "http://creativecommons.org/licenses/by-sa/4.0/legalcode",
+            "fr": "https://creativecommons.org/licenses/by-sa/4.0/legalcode.fr"
         },
         "short_title": "CC BY-SA 4.0",
         "title": {
             "en": "Creative Commons Attribution-ShareAlike 4.0 International",
-            "ru": "Creative Commons С указанием авторства-С сохранением условий 4.0 Всемирная"
+            "ru": "Creative Commons С указанием авторства-С сохранением условий 4.0 Всемирная",
+            "fr": "Creative Commons Attribution - Partage dans les mêmes conditions 4.0 International"
         },
         "description": "cc-by-sa-4.0.md"
     }
