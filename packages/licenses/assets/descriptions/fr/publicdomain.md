@@ -1,0 +1,1 @@
+The copyright holder, waived his/her interest in this work and placed the work in the public domain so others may freely exploit and use the work without restriction under copyright or database law.
