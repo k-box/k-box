@@ -16,9 +16,9 @@ return [
         'institution' => 'Организация',
         'main_contact' => 'Контактное лицо',
         'language' => 'Язык',
-        'added_on' => 'Добавлено',
+        'added_on' => 'Добавлен',
         'deleted_on' => 'удалены',
-        'uploaded_by' => 'Загружено',
+        'uploaded_by' => 'Загружен',
         'size' => 'Размер',
         'authors' => 'Автор'
 
