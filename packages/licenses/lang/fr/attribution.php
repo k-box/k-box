@@ -8,11 +8,11 @@
 
 return [
 
-    'copyright' => 'All rights reserved.',
+    'copyright' => 'Tous droits réservés.',
 
-    'publicdomain' => 'Released to the Public Domain.',
+    'publicdomain' => 'Publié dans le domain public.',
 
-    'licensed' => 'Licensed under :license.',
-    'licensed_alt' => 'Licensed under',
+    'licensed' => 'Sous licence :license.',
+    'licensed_alt' => 'Sous licence',
 
 ];
