@@ -12,7 +12,7 @@ return [
 
     'publicdomain' => 'Publié dans le domain public.',
 
-    'licensed' => 'Sous licence :license.',
+    'licensed' => 'Publié sous licence :license.',
     'licensed_alt' => 'Sous licence',
 
 ];
