@@ -8,7 +8,7 @@ L'Offrant ne peut retirer les autorisations concédées par la licence tant que 
 
 #### Selon les conditions suivantes :
 
-**Attribution** — Vous devez [créditer l'Œuvre](https://creativecommons.org/licenses/by/4.0/deed.fr#), intégrer un lien vers la licence et [indiquer](https://creativecommons.org/licenses/by/4.0/deed.fr#) si des modifications ont été effectuées à l'Oeuvre. Vous devez indiquer ces informations par tous les moyens raisonnables, sans toutefois suggérer que l'Offrant vous soutient ou soutient la façon dont vous avez utilisé son Oeuvre.
+**Attribution** — Vous devez [créditer l'Œuvre](https://wiki.creativecommons.org/wiki/License_Versions#Detailed_attribution_comparison_chart), intégrer un lien vers la licence et indiquer si des modifications ont été effectuées à l'Oeuvre. Vous devez indiquer ces informations par tous les moyens raisonnables, sans toutefois suggérer que l'Offrant vous soutient ou soutient la façon dont vous avez utilisé son Oeuvre.
 
 **Pas de restrictions complémentaires** — Vous n'êtes pas autorisé à appliquer des conditions légales ou des mesures techniques qui restreindraient légalement autrui à utiliser l'Oeuvre dans les conditions décrites par la licence.
 
