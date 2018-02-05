@@ -265,8 +265,8 @@ return [
 
     'identity' => [
         'page_title' => 'Identity',
-        'description' => 'Your organization information, so users can contact you from the "Contacts page".',
-        'not_complete' => 'Contact information are not complete.',
+        'description' => 'Your organization information so users can contact you. It will be shown on your "Contacts page".',
+        'not_complete' => 'Contact information is not complete.',
         'suggestion_based_on_institution_hint' => 'We automatically populated the contact information based on the K-Link Institution information. Please review them and press save.',
 
         'contact_info_updated' => 'Contact details saved.',
@@ -275,31 +275,31 @@ return [
 
     'documentlicenses' => [
 
-        'no_licenses' => 'No licences are available in the system.',
+        'no_licenses' => 'No licenses are available in the system.',
         'view_license' => 'View License',
-        'default_configuration_notice' => 'The default copyright settings has been set to "All rights reserved", consider changing it to a more permissive license in order to leverage collaboration.',
+        'default_configuration_notice' => 'The default copyright settings has been set to "All rights reserved". Consider changing it to a more permissive license in order to leverage collaboration.',
         
 
         
         
         'default' => [
-            'title' => 'Default license for new uploads',
-            'description' => 'The license of a document indicates how other person can use your work. The default license applies to new file uploads.',
+            'title' => 'Default license',
+            'description' => 'Select a license to be applied to all future uploads by default.',
             'label' => '',
             'save' => 'Save default license',
             'no_licenses_error' => 'The usable licenses in this K-Box are not configured. Please configure them before selecting the default license.',
-            'saved' => 'Default copyright settings saved. New uploads will be automatically set to ":title" and can be individually altered to any of the other options.',
+            'saved' => 'Default copyright settings saved. New uploads will be automatically set to ":title" and can be individually altered to on their edit page.',
             'select' => 'Select a License',
             'apply_default_license_to_previous' => 'Update :count document without license to the selected default license|Update :count documents without license to the selected default license',
-            'apply_default_license_all' => 'Update all documents to use the selected default license',
+            'apply_default_license_all' => 'Apply the selected default license to all already existing documents',
         ],
         'available' => [
-            'title' => 'Licenses available in this K-Box',
-            'description' => 'With the available license list, you can configure what licenses can be applied to data uploaded in this K-Box',
+            'title' => 'Available licenses',
+            'description' => 'License indicates how others can use the work while respecting the copyright terms and conditions. Select licenses to be available to users for their uploads',
             'label' => '',
             'save' => 'Save license list',
-            'no_licenses_error' => 'No available licenses to be used in this K-Box, please verify the K-Box configuration.',
-            'saved' => 'Available license list updated.',
+            'no_licenses_error' => 'No available licenses to be used in this K-Box. Please verify the K-Box configuration.',
+            'saved' => 'Available licenses list updated.',
         ],
     ],
 

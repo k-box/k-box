@@ -165,11 +165,11 @@ return [
         'preview_available_when_upload_completes' => 'The preview will be available once the upload completes.',
 
         'license' => 'License',
-        'license_help' => 'Licences provide a way for the copyright owner to grant someone else permission to use their work.',
+        'license_help' => 'License indicates how others can use the work while respecting the copyright terms and conditions.',
         'license_choose_help_button' => 'Help me choose a license',
         
         'copyright_owner' => 'Copyright Owner',
-        'copyright_owner_help' => 'Information about the owner of the copyright. These information applies independently from the selected license',
+        'copyright_owner_help' => 'Information about the copyright owner is applied independently from the selected license.',
         
         'copyright_owner_name_label' => 'Name',
         'copyright_owner_email_label' => 'E-Mail',
