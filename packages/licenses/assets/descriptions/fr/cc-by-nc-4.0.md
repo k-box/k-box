@@ -1,18 +1,18 @@
-#### You are free to:
+#### Vous êtes autorisé à :
 
-**Share** — copy and redistribute the material in any medium or format 
+**Partager** — copier, distribuer et communiquer le matériel par tous moyens et sous tous formats 
 
-**Adapt** — remix, transform, and build upon the material 
+**Adapter** — remixer, transformer et créer à partir du matériel
 
-The licensor cannot revoke these freedoms as long as you follow the license terms.
+L'Offrant ne peut retirer les autorisations concédées par la licence tant que vous appliquez les termes de cette licence. 
 
-#### Under the following terms:
+#### Selon les conditions suivantes :
 
-**Attribution** — You must give [appropriate credit](https://wiki.creativecommons.org/wiki/License_Versions#Detailed_attribution_comparison_chart), provide a link to the license, and indicate if changes were made. You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use. 
+**Attribution** — Vous devez [créditer l'Œuvre](https://creativecommons.org/licenses/by/4.0/deed.fr#), intégrer un lien vers la licence et [indiquer](https://creativecommons.org/licenses/by/4.0/deed.fr#) si des modifications ont été effectuées à l'Oeuvre. Vous devez indiquer ces informations par tous les moyens raisonnables, sans toutefois suggérer que l'Offrant vous soutient ou soutient la façon dont vous avez utilisé son Oeuvre.
 
-**NonCommercial** — You may not use the material for commercial purposes. 
+**Pas d’Utilisation Commerciale** — Vous n'êtes pas autorisé à faire un usage commercial de cette Oeuvre, tout ou partie du matériel la composant.
 
-**No additional restrictions** — You may not apply legal terms or technological measures that legally restrict others from doing anything the license permits. 
+**Pas de restrictions complémentaires** — Vous n'êtes pas autorisé à appliquer des conditions légales ou des mesures techniques qui restreindraient légalement autrui à utiliser l'Oeuvre dans les conditions décrites par la licence.
 
 #### Notices: 
 
