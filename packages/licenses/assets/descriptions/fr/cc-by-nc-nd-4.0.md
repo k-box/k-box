@@ -1,6 +1,6 @@
 #### Vous êtes autorisé à :
 
-**Partager** —     copier, distribuer et communiquer le matériel par tous moyens et sous tous formats
+**Partager** — copier, distribuer et communiquer le matériel par tous moyens et sous tous formats
 
 L'Offrant ne peut retirer les autorisations concédées par la licence tant que vous appliquez les termes de cette licence.
 
