@@ -2,8 +2,8 @@
 
 return [
 
-    'description_disclaimer' => 'This deed highlights only some of the key features and terms of the actual license. It is not a license and has no legal value. You should carefully review all of the terms and conditions of the actual license before using the licensed material. K-Link and the K-Box are not a law firm and does not provide legal services.',
+    'description_disclaimer' => 'Cet acte met uniquement en évidence quelques unes des caractéristiques principales et des conditions de cette licence. Ce n\'est pas une licence et n\'a pas de valeur légale. Vous devriez minutieusement passer en revue les termes et conditions de la licence avant d\'utiliser une œuvre sous licence. K-Link et la K-Box ne sont pas un cabinet d\'avocats et ne fournissent pas de conseils légaux.',
 
-    'deed_intro' => 'This is a human-readable summary of (and not a substitute for) the <a href=":link">license</a>.'
+    'deed_intro' => 'C\'est un résumé (et non pas un substitut) de la <a href=":link">licence</a>.'
 
 ];
