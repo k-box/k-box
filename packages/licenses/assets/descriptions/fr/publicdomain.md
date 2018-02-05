@@ -1,1 +1,1 @@
-The copyright holder, waived his/her interest in this work and placed the work in the public domain so others may freely exploit and use the work without restriction under copyright or database law.
+Le détenteur des droits d'auteur a renoncé à son intérêt pour ce travail et a placé l'œuvre dans le domaine public afin que d'autres puissent exploiter et utiliser librement l'œuvre sans restriction en vertu du droit d'auteur ou de la base de données.
