@@ -10,7 +10,7 @@ return [
 
     'copyright' => 'Tous droits réservés.',
 
-    'publicdomain' => 'Publié dans le domain public.',
+    'publicdomain' => 'Publié dans le domaine public.',
 
     'licensed' => 'Publié sous licence :license.',
     'licensed_alt' => 'Sous licence',
