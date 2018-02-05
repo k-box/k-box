@@ -1,1 +1,1 @@
-All rights of this work are reserved by the owner. Please contact the owner to get an individual permission to use this work in any possible way (including to copy, modify, distribute or download).
+Tous les droits de cette oeuvre sont réservés par le propriétaire. Veuillez contacter le propriétaire pour obtenir une permission individuelle d'utiliser cette oeuvre d'une quelconque manière (incluant la copie, la modification, la distribution et le téléchargement).
