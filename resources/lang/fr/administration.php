@@ -276,14 +276,14 @@ return [
      'documentlicenses' => [
          
         'no_licenses' => 'Aucune licence disponible dans le système.',
-        'view_license' => 'Voir les licences',
-        'default_configuration_notice' => 'Les paramètres de droits d\'auteurs par défaut ont été définis à "Tous droits réservés". Vous pouvez changer pour une licence plus permissive, afin de faciliter la collaboration.',
+        'view_license' => 'Voir la licence',
+        'default_configuration_notice' => 'Les paramètres de droits d\'auteurs par défaut ont été définis à "Tous droits réservés". Vous pouvez changer pour une licence plus permissive, afin de faciliter l\'utilisation de votre travail par d\'autres.',
         
    
          
         
         'default' => [
-            'title' => 'Licence par défaut pour nouveaux documents',
+            'title' => 'Licence par défaut pour les nouveaux documents',
             'description' => 'La licence d\'un document indique dans quelle mesure d\'autres personnes peuvent l\'utiliser. La licence par défaut s\'applique pour tous les nouveaux documents.',
             'label' => '',
             'save' => 'Enregistrer la licence par défaut',
@@ -295,7 +295,7 @@ return [
         ],
         'available' => [
             'title' => 'Licences disponibles sur cette K-Box',
-            'description' => 'Avec la liste de licences disponibles, vous pouvze spécifier quelle licences peuvent être utilisées pour les nouveaux documents dans cette K-Box',
+            'description' => 'Avec la liste de licences disponibles, vous pouvez spécifier quelle licences peuvent être utilisées pour les nouveaux documents dans cette K-Box',
             'label' => '',
             'save' => 'Enregistrer la liste de licences',
             'no_licenses_error' => 'Aucune licence disponible pour cette K-Box. Veuillez contrôler la configuration de la K-Box.',
