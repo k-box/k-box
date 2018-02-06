@@ -50,6 +50,10 @@
           "type": "string",
           "title": "The url of the full license text in Russian"
         },
+        "fr": {
+          "type": "string",
+          "title": "The url of the full license text in French"
+        },
         "tg": {
           "type": "string",
           "title": "The url of the full license text in Tajik"
@@ -90,6 +94,11 @@
         "ru": {
           "type": "string",
           "title": "The Russian title",
+          "description": "The localized title of the license."
+        },
+        "fr": {
+          "type": "string",
+          "title": "The French title",
           "description": "The localized title of the license."
         },
         "tg": {

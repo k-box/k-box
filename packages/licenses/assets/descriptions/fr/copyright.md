@@ -1,0 +1,1 @@
+Tous les droits de cette œuvre sont réservés par le détenteur des droits d'auteurs. Veuillez le contacter pour obtenir une permission individuelle d'utiliser cette œuvre d'une quelconque manière (incluant la copie, la modification, la distribution et le téléchargement).
