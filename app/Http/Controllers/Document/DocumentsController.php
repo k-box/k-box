@@ -808,13 +808,13 @@ class DocumentsController extends Controller
                 if ($request->has('copyright_usage') && $request->input('copyright_usage') !== $document->copyright_usage->id) {
                     $document->copyright_usage = e($request->input('copyright_usage'));
                 }
-                
-                if ($request->has('copyright_owner_name') ||
-                    $request->has('copyright_owner_email') ||
-                    $request->has('copyright_owner_website') ||
-                    $request->has('copyright_owner_address')) {
+
+                if ($request->exists('copyright_owner_name') ||
+                    $request->exists('copyright_owner_email') ||
+                    $request->exists('copyright_owner_website') ||
+                    $request->exists('copyright_owner_address')) {
                     $document->copyright_owner = collect([
-                        'name' => e($request->input('copyright_owner_name')),
+                        'name' => e($request->input('copyright_owner_name', '')),
                         'email' => e($request->input('copyright_owner_email', '')),
                         'website' => e($request->input('copyright_owner_website', '')),
                         'address' => e($request->input('copyright_owner_address', '')),
