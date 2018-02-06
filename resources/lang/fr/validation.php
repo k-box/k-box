@@ -132,7 +132,7 @@ return [
             'required_without' => 'Vous devez indiquer au moins une méthode de contact. Email et/ou site web sont de bons candidats pour cela.'
         ],
         'copyright_owner_name' => [
-            'required' => 'Pour un document public vous devez spécifier le propriétaire des droits d\'auteurs. Cela peut être vous, votre institution ou un tiers.'
+            'required' => 'Pour un document public vous devez spécifier qui est le détenteur des droits d\'auteurs. Cela peut être vous, votre institution ou un tiers.'
         ]        
 
     ],
