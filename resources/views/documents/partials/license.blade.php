@@ -13,7 +13,7 @@
             @endslot
             
             @slot('owner')
-                {{ $owner->get('name', '') }}. 
+                {{ $owner->get('name', '') }} 
             @endslot
         
             <button class="button button--link" data-action="showCopyrightUsageDescription">
@@ -50,7 +50,7 @@
                 @endif
 
                 @if($license->license)
-                    <span><a href="{{ $license->license }}">{{ $license->short_title }}</a></span>
+                    <span><a href="{{ $license->license }}" target="_blank" rel="noopener noreferrer nofollow">{{ $license->short_title }}</a></span>
                 @endif
 
             @endslot
