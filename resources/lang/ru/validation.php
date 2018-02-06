@@ -168,7 +168,7 @@ return [
     */
 
     'attributes' => [
-        'copyright_owner_website' => 'Веб-сайт владельца авторских прав',
+        'copyright_owner_website' => 'веб-сайт',
         ],
 
 ];
