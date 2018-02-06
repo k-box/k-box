@@ -1,4 +1,4 @@
-#### Vous êtes autorisé à ::
+#### Vous êtes autorisé à :
 
 **Partager** — copier, distribuer et communiquer le matériel par tous moyens et sous tous formats 
 
