@@ -99,14 +99,6 @@ return [
         'copy_completed_some' => '{0}Aucun document n\'a été ajouté car il existe déjà dans ":collection"|[1,Inf]:count Documents ajoutés à :collection, les autres :remaining existaient déjà dans :collection',
         
         'restore_error' => 'Impossible de restaurer le document. :error',
-        
-        // 'make_public' => ':num document has been published over the K-Link Public Network|:num documents were made available in the K-Link Network.',
-        
-        // 'make_public_error' => 'The publish operation was not completed due to an error. :error',
-        // 'make_public_error_title' => 'Cannot publish in K-Link Network',
-        
-        // 'make_public_success_text_alt' => 'The documents are now publicly available on the K-Link Network',
-        // 'make_public_success_title' => 'Publish completed',
 
         'adding_title' => 'Ajout des documents...',
         'adding_message' => 'Veuillez patienter pendant que les documents sont ajoutés à la collection...',
@@ -115,22 +107,6 @@ return [
         
         'add_to_error' => 'Impossible d\'ajouter à la collection',
         
-        // 'making_public_title' => 'Publishing...',
-        // 'making_public_text' => 'Please wait while the documents will be made publicly available in the K-Link Network',
-    
-        // 'make_public_change_title_not_available' => 'The option for changing title before Publish is not currently available.',
-
-        // 'make_public_all_collection_dialog_text' => 'You will make all the documents in this collection publicly available on the K-Link Network. (click outside to undo)',
-        // 'make_public_inside_collection_dialog_text' => 'You will make all the documents inside ":item" publicly available on the K-Link Network. (click outside to undo)',
-        
-        // 'make_public_dialog_title' => 'Publish ":item" on K-Link Network',
-        // 'make_public_dialog_title_alt' => 'Publish on K-Link Network',
-        
-        // 'publish_btn' => 'Publish!',
-        // 'make_public_empty_selection' => 'Please select the documents you want to make available in the K-Link Network.',
-        
-        // 'make_public_dialog_text' => 'You will make ":item" publicly available on the K-Link Network. (click outside to stop)',
-        // 'make_public_dialog_text_count' => 'You will make :count documents publicly available on the K-Link Network. (click outside to stop)',
     ],
 
     'create' => [
@@ -165,11 +141,11 @@ return [
         'preview_available_when_upload_completes' => 'L\'aperçu sera disponible quand la mise en ligne sera terminée.',
         
         'license' => 'Licence',
-        'license_help' => 'Les licences permettent au propriétaire des droits d\'auteurs d\'un document d\'accorder à quiconque l\'autorisation de l\'utiliser.',
+        'license_help' => 'Les licences permettent au détenteur des droits d\'auteurs d\'un document d\'accorder à quiconque l\'autorisation de l\'utiliser.',
         'license_choose_help_button' => 'Aidez moi à choisir une licence',
         
         'copyright_owner' => 'Droits d\'auteurs',
-        'copyright_owner_help' => 'Information sur le propriétaire des droits d\'auteurs. Cette information est valable indépendamment de la licence choisie',
+        'copyright_owner_help' => 'Information sur le détenteur des droits d\'auteurs. Cette information est valable indépendamment de la licence choisie',
         
         'copyright_owner_name_label' => 'Nom',
         'copyright_owner_email_label' => 'Email',
