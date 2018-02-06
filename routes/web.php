@@ -383,6 +383,8 @@ Route::get('help', ['as' => 'help', 'uses' => 'SupportPagesController@help']);
 
 Route::get('help/browserupdate', ['as' => 'browserupdate', 'uses' => 'SupportPagesController@browserupdate']);
 
+Route::get('help/licenses', ['as' => 'help.licenses', 'uses' => 'LicensesHelpController@index']);
+
 /*
 |--------------------------------------------------------------------------
 | Microsites

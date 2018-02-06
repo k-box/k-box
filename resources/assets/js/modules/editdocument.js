@@ -1,4 +1,4 @@
-define("modules/editdocument", ["require", "modernizr", "jquery", "DMS", "sweetalert", "modules/minimalbind", "modules/share", 'language' ], function (_require, _modernizr, $, DMS, _alert, _rivets, Share, Lang) {
+define("modules/editdocument", ["require", "modernizr", "jquery", "DMS", "sweetalert", "modules/minimalbind", "modules/share", "modules/panels" ], function (_require, _modernizr, $, DMS, _alert, _rivets, Share, Panels) {
     
     console.log('loading EDIT document-page module...');
     
@@ -42,12 +42,19 @@ define("modules/editdocument", ["require", "modernizr", "jquery", "DMS", "sweeta
         }]);
 
     });
+    
+    $('[data-action="showLicenseHelp"]').on('click', function(evt){
+
+        evt.preventDefault();
+        evt.stopPropagation();
+
+        Panels.openAjax('help-licenses', this, DMS.Paths.LICENSE_HELP, {}, {});
+        
+    });
 
     $('[data-action=restoreVersion').on('click', function(evt) {
 
         var data = $(evt.target).data();
-
-        console.log(data);
         
         DMS.MessageBox.question(
             Lang.trans('documents.restore.restore_dialog_title', {document: data.versionTitle}),

@@ -18,7 +18,7 @@
             @endforelse
         </select>
         
-        <a href="https://creativecommons.org/choose/" target="_blank" rel="noopener nofollow">{{ trans('documents.edit.license_choose_help_button') }}</a>
+        <a href="{{ route('help.licenses') }}" data-action="showLicenseHelp" target="_blank" rel="noopener nofollow">{{ trans('documents.edit.license_choose_help_button') }}</a>
         
     </div>
 
