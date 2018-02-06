@@ -1,1 +1,1 @@
-Le détenteur des droits d'auteur a renoncé à son intérêt pour ce travail et a placé l'œuvre dans le domaine public afin que d'autres puissent exploiter et utiliser librement l'œuvre sans restriction en vertu du droit d'auteur ou de la base de données.
+Le détenteur des droits d'auteur a renoncé à ses droits sur ce travail et a placé l'œuvre dans le domaine public afin que d'autres puissent exploiter et utiliser librement l'œuvre sans restriction en vertu du droit d'auteur ou de la base de données.
