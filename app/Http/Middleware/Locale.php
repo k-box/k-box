@@ -2,11 +2,9 @@
 
 namespace KBox\Http\Middleware;
 
-use Illuminate\Contracts\Auth\Guard;
-use Closure;
+use App;
 use Config;
 use Session;
-use App;
 use Jenssegers\Date\Date as LocalizedDate;
 
 /**
@@ -16,32 +14,20 @@ final class Locale
 {
 
     /**
-     * The Guard implementation.
-     *
-     * @var Guard
-     */
-    protected $auth;
-
-    public function __construct(Guard $auth)
-    {
-        $this->auth = $auth;
-    }
-
-    /**
      * Handle an incoming request.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle($request, Closure $next)
+    public function handle($request, $next)
     {
         $language = Session::get('language', Config::get('app.locale'));
         $force = false;
 
-        if ($this->auth->check()) {
+        if (auth()->check()) {
             // if the user is authenticated get the language configured in the options
-            $user_selected = $this->auth->user()->optionLanguage();
+            $user_selected = auth()->user()->optionLanguage();
 
             if (! is_null($user_selected)) {
                 $language = $user_selected;
@@ -49,21 +35,31 @@ final class Locale
             }
         }
 
-        if (! $force && isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
+        $browser_language_preference = $request->header('ACCEPT_LANGUAGE', null);
+
+        if (! $force && ! empty($browser_language_preference)) {
 
             // set the locale of the browser if available
 
-            $browser_suggests = $_SERVER['HTTP_ACCEPT_LANGUAGE'];
+            $languages = collect(explode(',', $browser_language_preference));
 
-            if (! empty($browser_suggests)) {
-                $languages = explode(',', $_SERVER['HTTP_ACCEPT_LANGUAGE']);
+            $keyed = $languages->map(function ($item) {
+                $lang = substr(ltrim($item), 0, 2);
+                if (strlen($lang) < 2) {
+                    $lang = config('app.locale');
+                }
+                $factor = '1.0';
 
-                $pos = strrpos($languages[0], '-');
+                if (str_contains($item, ';q=')) {
+                    $factor = str_after($item, ';q=');
+                }
 
-                $language = substr($languages[0], 0, $pos);
-            }
+                return compact('lang', 'factor');
+            })->sortByDesc('factor')->first();
+
+            $language = $keyed['lang'];
         }
-        
+
         if (empty($language)) {
             // this because the user might not have a option language property defined or might be empty
             $language = config('app.locale');

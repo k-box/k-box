@@ -12,6 +12,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Fixed: Layout of the preview page at small resolution when a video is displayed
 - Fixed: Document update date in Russian not properly displayed
 - Added: License and Copyright management
+- Fixed: Identification of the browser accepted languages, if user don't 
+  have a profile configured preference
 
 ## [0.19.1] 2017-12-21
 
