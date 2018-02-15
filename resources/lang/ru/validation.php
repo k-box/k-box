@@ -167,6 +167,8 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'copyright_owner_website' => 'веб-сайт',
+        ],
 
 ];
