@@ -15,5 +15,5 @@ return [
     'licensed' => 'Лицензировано :license.',
     'licensed_alt' => 'Лицензировано',
 
-    
+    'copyright_owner_not_available' => 'Информация об авторских правах недоступна',
 ];

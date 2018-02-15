@@ -13,14 +13,18 @@
             @endslot
             
             @slot('owner')
-                {{ $owner->get('name', '') }} 
+                @unless($owner->get('name', '') === '-')
+                    {{ $owner->get('name', '') }} 
+                @endunless
             @endslot
         
             <button class="button button--link" data-action="showCopyrightUsageDescription">
                 @if($license->id === 'C')
-                {{ trans('license::attribution.copyright') }}
+                    {{ trans('license::attribution.copyright') }}
                 @elseif($license->id === 'PD')
                     {{ trans('license::attribution.publicdomain') }}
+                @elseif($license->id === 'UNK')
+                    {{ $license->title }}
                 @else
                     {{ trans('license::attribution.licensed', ['license' => $license->title]) }}
                 @endif
@@ -35,7 +39,11 @@
         @component('license::deed')
             
             @slot('owner')
-                <span>{{ $owner->get('name', '') }}</span>
+                @if($owner->get('name', '') === '-')
+                    {{ trans('license::attribution.copyright_owner_not_available') }}
+                @else
+                    {{ $owner->get('name', '') }} 
+                @endif
                 
                 @if($owner->get('email', null))
                     <span>{{ $owner->get('email') }}</span>

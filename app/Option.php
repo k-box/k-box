@@ -4,7 +4,6 @@ namespace KBox;
 
 use Illuminate\Database\Eloquent\Model;
 use OneOffTech\Licenses\Contracts\LicenseRepository;
-use KBox\Exceptions\UndefinedDefaultCopyrightUsageLicenseException;
 
 /**
  * The dynamic configuration options
@@ -295,14 +294,13 @@ class Option extends Model
      *
      * @return \OneOffTech\Licenses\License|null the license or null if not configured
      * @throws \OneOffTech\Licenses\Exceptions\LicenseNotFound
-     * @throws \KBox\Exceptions\UndefinedDefaultCopyrightUsageLicenseException if the default license is not set at application level
      */
     public static function copyright_default_license()
     {
-        $opt = static::option(static::COPYRIGHT_DEFAULT_LICENSE, 'C');
-
+        $opt = static::option(static::COPYRIGHT_DEFAULT_LICENSE, 'UNK');
+        
         if (! $opt) {
-            throw new UndefinedDefaultCopyrightUsageLicenseException();
+            $opt = 'UNK'; // interpreted as no license selected
         }
 
         $licenses = app()->make(LicenseRepository::class);
@@ -317,7 +315,7 @@ class Option extends Model
      */
     public static function copyright_available_licenses()
     {
-        $opt = static::option(static::COPYRIGHT_AVAILABLE_LICENSES, '["C"]');
+        $opt = static::option(static::COPYRIGHT_AVAILABLE_LICENSES, '["UNK","C"]');
 
         if (! $opt) {
             return collect();

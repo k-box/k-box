@@ -47,56 +47,6 @@ class DocumentPublishingTest extends TestCase
         $this->assertFalse($publication->pending);
         $this->assertEquals(Publication::STATUS_PUBLISHED, $publication->status);
     }
-    
-    public function test_document_without_copyright_owner_cannot_be_published()
-    {
-        Storage::fake('local');
-
-        $this->disableExceptionHandling();
-
-        $adapter = $this->withKlinkAdapterFake();
-
-        $user = factory('KBox\User')->create();
-
-        $descriptor = factory('KBox\DocumentDescriptor')->create([
-            'copyright_owner' => null
-        ]);
-
-        $response = $this->actingAs($user)->json('POST', '/published-documents', [
-            'document_id' => $descriptor->id
-        ]);
-
-        $response->assertStatus(200);
-
-        $response->assertJsonStructure([
-            'error'
-        ]);
-    }
-    
-    public function test_document_without_copyright_owner_name_cannot_be_published()
-    {
-        Storage::fake('local');
-
-        $this->disableExceptionHandling();
-
-        $adapter = $this->withKlinkAdapterFake();
-
-        $user = factory('KBox\User')->create();
-
-        $descriptor = factory('KBox\DocumentDescriptor')->create([
-            'copyright_owner' => collect(['website' => 'https://hello.com'])
-        ]);
-
-        $response = $this->actingAs($user)->json('POST', '/published-documents', [
-            'document_id' => $descriptor->id
-        ]);
-
-        $response->assertStatus(200);
-
-        $response->assertJsonStructure([
-            'error'
-        ]);
-    }
  
     public function test_document_can_be_unpublished()
     {

@@ -26,13 +26,13 @@ class DefaultDocumentLicensesController extends Controller
 
     public function update()
     {
-        $selectable_licenses = Option::copyright_available_licenses();
+        $selectable_licenses = Option::copyright_available_licenses()->pluck('id')->toArray();
  
         $this->validate(request(), [
             'default_license' => [
                 'required',
                 'string',
-                Rule::in($selectable_licenses->pluck('id')->toArray())
+                Rule::in($selectable_licenses)
             ],
             'apply_to' => 'nullable|sometimes|required|in:all,previous',
         ]);
