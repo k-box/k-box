@@ -10,7 +10,6 @@ use KSearchClient\Model\Data\Properties\Video;
 use KSearchClient\Model\Data\Properties\Streaming;
 use Klink\DmsAdapter\KlinkDocumentDescriptor;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use KBox\Exceptions\UndefinedDefaultCopyrightUsageLicenseException;
 
 class KlinkDocumentDescriptorTest extends TestCase
 {
@@ -146,16 +145,16 @@ class KlinkDocumentDescriptorTest extends TestCase
         $data = $descriptor->toKlinkDocumentDescriptor()->toData();
 
         $this->assertEquals('PD', $data->copyright->usage->short);
-        $this->assertEquals('Public domain', $data->copyright->usage->name);
+        $this->assertNotEmpty($data->copyright->usage->name);
         $this->assertEquals('', $data->copyright->usage->reference);
 
-        $this->assertEquals('Not specified', $data->copyright->owner->name);
+        $this->assertEquals('-', $data->copyright->owner->name);
         $this->assertEquals('', $data->copyright->owner->email);
         $this->assertEquals('', $data->copyright->owner->website);
         $this->assertEquals('', $data->copyright->owner->address);
     }
-    
-    public function test_copyright_default_not_set_throws_exception()
+
+    public function test_copyright_fallback_is_used()
     {
         Option::put(Option::COPYRIGHT_DEFAULT_LICENSE, null);
 
@@ -164,8 +163,15 @@ class KlinkDocumentDescriptorTest extends TestCase
             'copyright_owner' => null
         ]);
 
-        $this->expectException(UndefinedDefaultCopyrightUsageLicenseException::class);
-
         $data = $descriptor->toKlinkDocumentDescriptor()->toData();
+
+        $this->assertEquals('UNK', $data->copyright->usage->short);
+        $this->assertNotEmpty($data->copyright->usage->name);
+        $this->assertEquals('', $data->copyright->usage->reference);
+
+        $this->assertEquals('-', $data->copyright->owner->name);
+        $this->assertEquals('', $data->copyright->owner->email);
+        $this->assertEquals('', $data->copyright->owner->website);
+        $this->assertEquals('', $data->copyright->owner->address);
     }
 }

@@ -46,30 +46,18 @@ class DocumentUpdateRequest extends Request
             'copyright_owner_email' => 'nullable|sometimes|string|email',
             'copyright_owner_address' => 'nullable|sometimes|string',
             'copyright_usage' => [
+                'nullable',
                 'sometimes',
-                'required',
                 'string',
                 $valid_licenses
             ],
+            'copyright_owner_name' => 'nullable|sometimes|string',
+            'copyright_owner_website' => 'nullable|sometimes|string|url',
 
             // if this is present a new file version will be created
             'document' => 'nullable|sometimes|required|between:0,'.$max_size, //new document version
             
         ];
-
-        if ($document && $document->isPublic()) {
-            // adding strict validation on the copyright owner only if the document is public
-
-            $tests = array_merge($tests, [
-                'copyright_owner_name' => 'required|string',
-                'copyright_owner_website' => 'nullable|sometimes|required_without:copyright_owner_email|string|url',
-            ]);
-        } else {
-            $tests = array_merge($tests, [
-                'copyright_owner_name' => 'nullable|sometimes|string',
-                'copyright_owner_website' => 'nullable|sometimes|string|url',
-            ]);
-        }
 
         return $tests;
     }

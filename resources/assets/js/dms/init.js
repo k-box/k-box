@@ -295,6 +295,7 @@ window.DMS = (function(_$, _nprogress, _rivets, _alert){
 			MICROSITE: "microsites/{ID}",
 			
 			PEOPLE: 'people',
+			LICENSE_HELP: 'help/licenses',
 
 			fullUrl: function(path){
 				return _getBase() + path;

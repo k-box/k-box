@@ -33,7 +33,10 @@
 
         <div class="c-section">
             <h4 class="c-section__title">{{trans('administration.documentlicenses.available.title')}}</h4>
-            <p class="c-section__description">{{trans('administration.documentlicenses.available.description')}}</p>
+            <p class="c-section__description">{{trans('administration.documentlicenses.available.description')}}
+                <br>
+                <a href="{{ route('help.licenses') }}" data-action="showLicenseHelp" target="_blank" rel="noopener nofollow">{{ trans('documents.edit.license_choose_help_button') }}</a>
+            </p>
 
             @if(empty($licenses))
                 <span class="field-error">{{trans('administration.documentlicenses.available.no_licenses_error')}}</span>
@@ -132,5 +135,31 @@
         
     </form>
 
+
+@stop
+
+@section('panels')
+
+@include('panels.generic')
+
+@stop
+
+@section('scripts')
+
+	<script>
+	require(['DMS', 'modules/panels'], function(DMS, Panels){
+
+
+        $('[data-action="showLicenseHelp"]').on('click', function(evt){
+
+            evt.preventDefault();
+            evt.stopPropagation();
+            
+            Panels.openAjax('help-licenses', this, DMS.Paths.LICENSE_HELP + "?filter=all", {}, {});
+            
+        });
+
+	});
+	</script>
 
 @stop

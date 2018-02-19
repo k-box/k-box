@@ -56,6 +56,6 @@ class LicenseServiceTest extends TestCase
 
         $this->assertInstanceOf(Collection::class, $licenses);
         $this->assertContainsOnlyInstancesOf(License::class, $licenses);
-        $this->assertEquals(8, $licenses->count());
+        $this->assertEquals(9, $licenses->count());
     }
 }

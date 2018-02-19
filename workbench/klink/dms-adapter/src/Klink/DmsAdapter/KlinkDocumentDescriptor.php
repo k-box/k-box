@@ -183,7 +183,7 @@ final class KlinkDocumentDescriptor
 
 		$owner_name = $copyright_owner->get('name', '');
 		
-        $data->copyright->owner->name = empty(trim($owner_name)) ? 'Not specified' : $owner_name;
+        $data->copyright->owner->name = empty(trim($owner_name)) ? '-' : $owner_name;
         $data->copyright->owner->website = $copyright_owner->get('website', '');
         $data->copyright->owner->email = $copyright_owner->get('email', '');
         $data->copyright->owner->address = $copyright_owner->get('address', '');

@@ -1,33 +1,74 @@
-<!-- 10 -->
 # Localization
 
 Localization of the User Interface and messages in other languages is a key topic.
-Localization do not only mean translating strings in different languages. A great reference article 
+
+Localization is part of a broather topic, called internationalization. A great reference article 
 is [Design for internationalization](https://medium.com/dropbox-design/design-for-internationalization-24c12ea6b38f#.k6f86wehj) 
 by John Saito.
 
-**At now only fixed text handled by the Laravel framework is available in multiple languages**.
+> The focus is for localization of static text, not text inserted by users, like abstracts or titles.
 
 Current language supported are:
 
 - English
 - Russian
+- Tajik
+- French
 
 The language showed to the user is chosen according to the 
 [Accept-Language HTTP header (RFC2616)](http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.4) 
 sent by the browser.
 
-If the browser request a language not available the system will show the English version, as a fallback.
+If the browser request a language not available, the system will show the English version, as a fallback.
 Once logged in, the user, can select its preferred language for the User Interface.
-
-If you feel uncomfortable with this decision [let us know](http://klink.uservoice.com/forums/303582-k-link-dms/suggestions/9463032-language-buttons-for-switching-between-russian-and).
 
 ## Language files
 
-Language files an localization rules follows the [Laravel Localization](http://laravel.com/docs/5.2/localization). 
-All the files are in the `resources/lang` folder. Each language has its own sub folder represented by the two-letter 
-language code (ISO 639-1).
+Language files an localization rules follows the [Laravel Localization](http://laravel.com/docs/5.4/localization). 
 
+The files are stored in `language` folders, represented by the two-letter language code (ISO 639-1).
+
+The main language files can be found under [`resources/lang`](../../resources/lang).
+
+In some cases there are specific packages that include additional language files:
+
+- The content processing package has language files located in [`/packages/contentprocessing/lang`](../../packages/contentprocessing/lang)
+- The license package has language files located in [`/packages/licenses/lang`](../../packages/licenses/lang)
+
+
+### Translation of licenses
+
+License description and names are localizable. 
+
+The list of supported license is stored in the [licenses.json](../../packages/licenses/assets/licenses.json) file under [`/packages/licenses/assets`](../../packages/licenses/assets).
+
+For the title and the license URL the localization happens directly in the JSON file.
+The `title` and `license` property is an object whose keys are the language code. Adding a new language means adding a new key to that object.
+
+> Make sure that the resulting [JSON object is valid](https://jsonformatter.curiousconcept.com/)
+
+```json
+{
+    "id": "CC-BY-4.0",
+    "name": "Creative Commons Attribution 4.0",
+    "license": {
+        "en": "http://creativecommons.org/licenses/by/4.0/legalcode"
+    },
+    "icon": "by.svg",
+    "short_title": "CC BY 4.0",
+    "title": {
+        "en": "Creative Commons Attribution 4.0 International",
+        "ru": "Creative Commons С указанием авторства 4.0 Всемирная"
+    },
+    "description": "cc-by-4.0.md"
+}
+```
+
+The license description is located in a separate file under the [`descriptions/{language}`](../../packages/licenses/assets/descriptions/) folder. 
+
+The files are named accordingly to the license id in lower case and must be in markdown format.
+
+> For Creative Commons please consider to pull in the official translation of the license name and deeds. Non official translations might be rejected.
 
 ## Localizing strings in PHP
 

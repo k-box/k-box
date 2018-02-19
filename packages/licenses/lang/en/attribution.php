@@ -15,4 +15,6 @@ return [
     'licensed' => 'Licensed under :license.',
     'licensed_alt' => 'Licensed under',
 
+    'copyright_owner_not_available' => 'Copyright information is not available',
+
 ];

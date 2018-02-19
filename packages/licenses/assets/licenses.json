@@ -1,5 +1,17 @@
 [
     {
+        "id": "UNK",
+        "name": "No explicit license",
+        "short_title": "No explicit license",
+        "title": {
+            "en": "License information is not available. According to the international law, all rights are reserved",
+            "ru": "Информация о лицензии недоступна. Согласно международным стандартам, все права защищены"
+        },
+        "icon": "copy.svg",
+        "description": "not-explicit.md",
+        "license": null
+    },
+    {
         "id": "C",
         "name": "All rights reserved",
         "short_title": "Full Copyright",
