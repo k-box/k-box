@@ -23,7 +23,7 @@ class SearchRequestTest extends TestCase
         );
     }
 
-    public function testSearchRequestUsesDefaultValues()
+    public function test_search_request_uses_default_values()
     {
         $req = SearchRequest::create();
         
@@ -39,7 +39,7 @@ class SearchRequestTest extends TestCase
         $this->assertEmpty($req->buildAggregations());
     }
 
-    public function testSearchRequestBaseConstruction()
+    public function test_search_request_can_be_contructed_by_chaining_calls()
     {
         $req = SearchRequest::create()
             ->search('X') // term to search, default *
@@ -59,15 +59,11 @@ class SearchRequestTest extends TestCase
         $this->assertEmpty($req->buildAggregations());
     }
     
-    public function testSearchRequestRespectFacetsAndFilters()
+    public function test_search_request_handle_facets_and_filters()
     {
-        $this->markTestSkipped(
-            'Needs to be reimplemented.'
-          );
-
         $req = SearchRequest::create()
             ->search('X') // term to search, default *
-            ->on(['0-10', '0-1', '0-15']) // limit the search to specific documents (by id)
+            ->on(['10', '1', '15']) // limit the search to specific documents (by id)
             ->in([1,2,3,4,5]) // limit the search to specific collections (by id)
             ->inProject([8,9])
             ->facets(SearchService::$defaultFacets['private']); // tells which facets we want back, the same supported by the KLinkFacetsBuilder
@@ -104,7 +100,7 @@ class SearchRequestTest extends TestCase
         $this->assertNotEmpty($local_document_id);
         $this->assertEquals(['1', '2', '3', '4', '5'], $local_document_id);
         $this->assertNotEmpty($document_groups);
-        $this->assertEquals(['0-10','0-1','0-15'], $document_groups);
+        $this->assertEquals(['10','1','15'], $document_groups);
         $this->assertNotEmpty($project_ids);
         $this->assertEquals(['8','9'], $project_ids);
         $this->assertNull($req->explicit_filters);
@@ -131,21 +127,16 @@ class SearchRequestTest extends TestCase
         $this->assertNull($req->explicit_filters);
     }
     
-    public function testSearchRequestCanBeConstractedFromHttpRequest()
+    public function test_search_request_is_constructed_from_request()
     {
-        $this->markTestSkipped(
-            'Needs to be reimplemented.'
-          );
-          
         $req = SearchRequest::create($this->createValidHttpRequest(
             [
                 's' => 'X',
                 'page' => '2',
                 'visibility' => 'public',
-                'fs' => implode(',', SearchService::$defaultFacets['private']),
-                'language' => 'en,ru',
-                'collections' => '0:10,1:11',
-                'mime_type' => 'document'
+                'properties_language' => 'en,ru',
+                'properties_collections' => '0:10,1:11',
+                'properties_mime_type' => 'application/pdf'
             ]
         ));
 
@@ -154,31 +145,54 @@ class SearchRequestTest extends TestCase
         $this->assertEquals(2, $req->page);
         $this->assertEquals(12, $req->limit);
         $this->assertEquals('public', $req->visibility);
-        $this->assertNotNull($req->facets);
-        $this->assertEquals(SearchService::$defaultFacets['private'], $req->facets);
+        $this->assertEmpty($req->facets);
         $this->assertNotNull($req->filters);
         
         $this->assertEquals([
             KlinkFilters::LANGUAGE => ['en','ru'],
             KlinkFilters::COLLECTIONS => ['0:10','1:11'],
-            KlinkFilters::MIME_TYPE => ['document']], $req->filters);
+            KlinkFilters::MIME_TYPE => ['application/pdf']], $req->filters);
         
         $this->assertNotNull($req->explicit_filters);
         
         $this->assertContains(KlinkFilters::LANGUAGE, $req->explicit_filters);
         $this->assertContains(KlinkFilters::COLLECTIONS, $req->explicit_filters);
         $this->assertContains(KlinkFilters::MIME_TYPE, $req->explicit_filters);
-        
-        $built = $req->buildAggregations();
-        
-        $this->assertNotEmpty($built);
-        $this->assertCount(4, $built);
     }
     
     /**
      * test construction based from Request seeding and "by hand" modification
      */
-    public function testSearchRequestMixedConstruction()
+    public function test_search_request_prioritize_already_added_collection_filters()
+    {
+        $req = SearchRequest::create($this->createValidHttpRequest(
+            [
+                's' => 'X',
+                'page' => '2',
+                'properties_collections' => '10,11',
+            ]
+        ));
+        
+        $req->on(['15']);
+
+        $this->assertInstanceOf('Klink\DmsSearch\SearchRequest', $req);
+        
+        $this->assertEquals('X', $req->term);
+        
+        $this->assertEquals(2, $req->page);
+        
+        $this->assertEquals(12, $req->limit);
+        
+        $this->assertEmpty($req->facets);
+        
+        $this->assertNotNull($req->filters);
+        
+        $this->assertEquals([
+            'properties.collections' => ['10','11'],
+        ], $req->filters);
+    }
+    
+    public function test_search_request_creation_in_steps()
     {
         $req = SearchRequest::create($this->createValidHttpRequest(
             [

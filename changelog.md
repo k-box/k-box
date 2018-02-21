@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Changed: The forgot password page now requires an 8 characters long password as the other password change options
 - Removed: institution metadata presentation on details panel, replaced by "Uploaded by"
 - Changed: the "Uploaded by" information reports also the organization of the user that performed the upload, if available
+- Fixed: explicit collection filter selection was overrided by implicit filter from current collection
 
 ## [0.19.1] 2017-12-21
 
