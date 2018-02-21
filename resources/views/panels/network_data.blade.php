@@ -94,8 +94,11 @@
 				{{trans('panels.meta.uploaded_by')}}
 			</div>
 			
-				
-				{{ $item->uploader->name }}
+			{{ $item->uploader->name }}
+
+			@if($item->uploader->url)
+				({{ $item->uploader->url }})
+			@endif
 
 		</div>
 		

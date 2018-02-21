@@ -185,16 +185,6 @@
 		</div>
 		<div class="c-panel__meta">
 			<div class="c-panel__label">
-				{{trans('panels.meta.institution')}}
-			</div>
-			
-				@if(!is_null($item->institution))
-					{{$item->institution->name}}
-				@endif
-			
-		</div>
-		<div class="c-panel__meta">
-			<div class="c-panel__label">
 				{{trans('panels.meta.main_contact')}}
 			</div>
 			
@@ -251,13 +241,35 @@
 
 		@endif
 
+
+		
+
 		<div class="c-panel__meta">
 			<div class="c-panel__label">
 				{{trans('panels.meta.uploaded_by')}}
 			</div>
 			
+			@if($item->owner)
+
+				{{ $item->owner->name }}
+
+				@if($item->owner->organization_name)
+					@if($item->owner->organization_website)
+
+						(<a href="{{$item->owner->organization_website}}">{{ $item->owner->organization_name }}</a>)
+
+					@else
+
+						({{ $item->owner->organization_name }})
+
+					@endif
+				@endif
+			
+			@else
 				
 				{{ $item->user_uploader }}
+
+			@endif
 
 		</div>
 		

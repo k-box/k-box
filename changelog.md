@@ -17,6 +17,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Added: Ability to preview and download old versions of a document
 - Changed: Improved version listing on the document edit page
 - Changed: The forgot password page now requires an 8 characters long password as the other password change options
+- Removed: institution metadata presentation on details panel, replaced by "Uploaded by"
+- Changed: the "Uploaded by" information reports also the organization of the user that performed the upload, if available
 
 ## [0.19.1] 2017-12-21
 
