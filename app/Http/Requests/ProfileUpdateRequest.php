@@ -28,7 +28,7 @@ class ProfileUpdateRequest extends Request
         return [
             'name' => 'sometimes|required|string',
             'email' => 'sometimes|required|email|unique:users,email',
-            'password' => 'sometimes|required|min:8|regex:[\S]',
+            'password' => 'sometimes|required|min:8',
             'password_confirm' => 'required_with:password|same:password',
             'organization_name' => 'sometimes|nullable|string',
             'organization_website' => 'sometimes|nullable|url',
