@@ -169,6 +169,7 @@ return [
         
         'restore_dialog_title' => 'Restaurer :document?',
         'restore_dialog_text' => 'Vous allez restaurer ":document"',
+        'restore_version_dialog_text' => 'Vous êtes sur le point de restaurer la version ":document". Ceci va effacer de façon définitive toutes les versions plus récentes.',
         'restore_dialog_title_count' => 'Restaurer :count documents?',
         'restore_dialog_text' => 'Vous allez restaurer ":document"',
         'restore_dialog_text_count' => 'Vous allez restaurer :count fichiers',
@@ -178,6 +179,8 @@ return [
         'restore_success_title' => 'Restauré',
         'restore_error_title' => 'Impossible de restaurer',
         'restore_error_text_generic' => 'Le fichier sélectionné n\'a pas été sorti de la corbeille.',
+        'restore_version_error_text_generic' => 'Impossible de restaurer la version souhaitée de ce fichier.',
+        'restore_version_error_only_one_version' => 'Il n\'existe qu\'une seule version de ce document.',
       
         'restoring' => 'Restauration en cours...',
     ],
