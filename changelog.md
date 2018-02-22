@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Removed: institution metadata presentation on details panel, replaced by "Uploaded by"
 - Changed: the "Uploaded by" information reports also the organization of the user that performed the upload, if available
 - Fixed: explicit collection filter selection was overrided by implicit filter from current collection
+- Fixed: sidebar context menu showing only permanently delete entry when exploring the Trash
 
 ## [0.19.1] 2017-12-21
 

@@ -1800,80 +1800,65 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
 
         _context.attach(_documentArea, '.document-item', _menu_items);
 
-        var _groupsMenuItems = [];
-        
-        if(module.context.filter === 'trash'){
-            _groupsMenuItems.push({
-                text: Lang.trans('actions.forcedelete_btn_alt'),
+        var _groupsMenuItems = [
+            {
+                text: Lang.trans('actions.details'),
                 action: function(e){
-                    if(!_Selection.isSelect(this, true)){
-                        _Selection.select(this, true);
+                    e.preventDefault();
+    
+                    if(_Selection.selectionCount() > 1){
+                        DMS.MessageBox.error('Multiple Selection', 'The details view currently don\'t support multiple selection');
+                        return false;
                     }
-                    module.menu.forcedel(e, this);
+
+                    var $this = $(this),
+                        model = $this.data('class');
+    
+                    if(model!=='group'){
+                        module.select.call(this, e, this);
+                    }
+                    else {
+                        module.groups.showEdit.call(this, e, this);
+                    }
+
+    
+                },
+            },
+            {
+                text: Lang.trans('actions.edit'),
+                action: module.groups.showEdit,
+            },
+            {
+                text: Lang.trans('actions.trash_btn_alt'),
+                action: function(e){ 
+                    var id = this.data('groupId'),
+                        anchor = this.hasClass('js-tree-item-inner') ? this : this.find('.js-tree-item-inner');
+                    module.menu.deleteGroup(e, id, anchor ? anchor[0].innerText || anchor[0].textContent : undefined);
+
+                },
+            },
+            {
+                divider: true,
+            },
+            {
+                text: Lang.trans('actions.create_collection_btn'),
+                action: function(e){ 
+                    var id = this.data('groupId'),
+                        isPrivate = this.data('isprivate');
+                    module.menu.createGroup(e, id, id, isPrivate);
                 }
-            });
-        }
-        else {
-            _groupsMenuItems = [
-                {
-                    text: Lang.trans('actions.details'),
-                    action: function(e){
-                        e.preventDefault();
-        
-                        if(_Selection.selectionCount() > 1){
-                            DMS.MessageBox.error('Multiple Selection', 'The details view currently don\'t support multiple selection');
-                            return false;
-                        }
-
-                        var $this = $(this),
-                            model = $this.data('class');
-        
-                        if(model!=='group'){
-                            module.select.call(this, e, this);
-                        }
-                        else {
-                            module.groups.showEdit.call(this, e, this);
-                        }
-
-        
-                    },
-                },
-                {
-                    text: Lang.trans('actions.edit'),
-                    action: module.groups.showEdit,
-                },
-                {
-                    text: Lang.trans('actions.trash_btn_alt'),
-                    action: function(e){ 
-                        var id = this.data('groupId'),
-                            anchor = this.hasClass('js-tree-item-inner') ? this : this.find('.js-tree-item-inner');
-                        module.menu.deleteGroup(e, id, anchor ? anchor[0].innerText || anchor[0].textContent : undefined);
-
-                    },
-                },
-                {
-                    divider: true,
-                },
-                {
-                    text: Lang.trans('actions.create_collection_btn'),
-                    action: function(e){ 
-                        var id = this.data('groupId'),
-                            isPrivate = this.data('isprivate');
-                        module.menu.createGroup(e, id, id, isPrivate);
-                    }
-                },
-                {
-                    divider: true,
-                },
-                {
-                    text: Lang.trans('share.share_btn'),
-                    action: function(e){ 
-                        var id = this.data('groupId');
-                        module.menu.shareGroup(e, id);
-                    }
+            },
+            {
+                divider: true,
+            },
+            {
+                text: Lang.trans('share.share_btn'),
+                action: function(e){ 
+                    var id = this.data('groupId');
+                    module.menu.shareGroup(e, id);
                 }
-            ];
-        }
+            }
+        ];
 
         if(module.context.canPublish && module.context.filter !== 'trash'){
             _groupsMenuItems.push({
@@ -1887,10 +1872,19 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
             });
         }
 
+        var _trashGroupMenu = [{
+            text: Lang.trans('actions.forcedelete_btn_alt'),
+            action: function(e){
+                if(!_Selection.isSelect(this, true)){
+                    _Selection.select(this, true);
+                }
+                module.menu.forcedel(e, this);
+            }
+        }];
         
     
         _context.attach(_treeView, '.js-groups-menu', _groupsMenuItems);
-        _context.attach(_documentArea, '.group-item', _groupsMenuItems);
+        _context.attach(_documentArea, '.group-item', (module.context.filter === 'trash') ? _trashGroupMenu : _groupsMenuItems);
 
     }
     
