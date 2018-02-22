@@ -13,7 +13,7 @@ return [
     |
     */
 
-    "password" => "Passwords must be at least six characters and match the confirmation.",
+    "password" => "Passwords must be at least 8 characters and match the confirmation.",
     "user" => "We can't find a user with that e-mail address.",
     "token" => "The password reset link you have used is expired. It will be usable only for 5 minutes after the password reset request.",
     "sent" => "Password reset link sent!",
@@ -37,7 +37,7 @@ return [
 
         'title' => 'Reset your account password',
 
-        'instructions' => 'Please specify a new 8 character long alphanumeric password.',
+        'instructions' => 'Please specify a new 8 character long password.',
 
         'submit' => 'Reset the Password',
 

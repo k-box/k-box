@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
   have a profile configured preference
 - Added: Ability to preview and download old versions of a document
 - Changed: Improved version listing on the document edit page
+- Changed: The forgot password page now requires an 8 characters long password as the other password change options
 
 ## [0.19.1] 2017-12-21
 
