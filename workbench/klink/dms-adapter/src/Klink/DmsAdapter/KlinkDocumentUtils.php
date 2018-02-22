@@ -74,7 +74,6 @@ class KlinkDocumentUtils
 	 */
 	private static $indexableMimeTypes = array(
 
-		'text/html',
 		'application/msword',
 		'application/vnd.ms-excel',
 		'application/vnd.ms-powerpoint',

@@ -198,7 +198,7 @@ final class KlinkDocumentDescriptor
         $data->properties = new Properties();
         $data->properties->title = $this->descriptor->title;
         $data->properties->filename = $this->descriptor->isMine() ? $this->descriptor->file->name : $this->descriptor->title;
-		$data->properties->mime_type = $this->descriptor->mime_type;
+		$data->properties->mime_type = $this->removeCharsetFromMimeType($this->descriptor->mime_type);
 		$data->properties->language = !is_null($this->descriptor->language) && $this->descriptor->language !== 'unknown' ? $this->descriptor->language : '__';
 			// using __ to define that no language is specified for that document
 		$data->properties->collections = $this->collections;
@@ -263,7 +263,12 @@ final class KlinkDocumentDescriptor
         return $data;
 	}
 	
-	
+	private function removeCharsetFromMimeType($mime_type)
+	{
+		$charset_pos = strpos($mime_type, ';');
+		$mime = $charset_pos !== false ? trim(substr($mime_type, 0, $charset_pos)) : $mime_type;
+		return $mime;
+	}
 	
 	/**
 	 * Build an instance of KlinkDocumentDescriptor

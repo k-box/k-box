@@ -174,4 +174,15 @@ class KlinkDocumentDescriptorTest extends TestCase
         $this->assertEquals('', $data->copyright->owner->website);
         $this->assertEquals('', $data->copyright->owner->address);
     }
+
+    public function test_mime_type_charset_is_sanitized()
+    {
+        $descriptor = factory('KBox\DocumentDescriptor')->make([
+            'mime_type' => 'text/html; charset UTF-8',
+        ]);
+
+        $data = $descriptor->toKlinkDocumentDescriptor()->toData();
+
+        $this->assertEquals('text/html', $data->properties->mime_type);
+    }
 }
