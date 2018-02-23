@@ -7,20 +7,32 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
-- Added: French translation
-- Changed: Removed the login link that was present in the navigation menu on the login page [#12](https://github.com/k-box/k-box/pull/12), [#10](https://github.com/k-box/k-box/issues/10)
-- Fixed: Layout of the preview page at small resolution when a video is displayed
-- Fixed: Document update date in Russian not properly displayed
-- Added: License and Copyright management
-- Fixed: Identification of the browser accepted languages, if user don't 
-  have a profile configured preference
-- Added: Ability to preview and download old versions of a document
-- Changed: Improved version listing on the document edit page
-- Changed: The forgot password page now requires an 8 characters long password as the other password change options
-- Removed: institution metadata presentation on details panel, replaced by "Uploaded by"
-- Changed: the "Uploaded by" information reports also the organization of the user that performed the upload, if available
-- Fixed: explicit collection filter selection was overrided by implicit filter from current collection
-- Fixed: sidebar context menu showing only permanently delete entry when exploring the Trash
+## [0.20.0] 2018-03-05
+
+### Added
+
+- French translation
+- Preview and download old versions of documents
+- License and Copyright management
+
+### Changed
+
+- Removed the login link from the navigation menu [#12](https://github.com/k-box/k-box/pull/12), [#10](https://github.com/k-box/k-box/issues/10)
+- Improved user experience of versioning
+- The forgot password page now requires a minimum password length of 8 characters
+- "Uploaded by" includes now the organization the uploader is member of, if available.
+
+### Fixed
+
+- Layout of the preview page at small resolution when a video is displayed
+- Date of document in Russian UI
+- Identification of the browser accepted languages
+- Selection of collection filter is respected. It now has the precedence over the currently browsed collection (regression)
+- Sidebar context menu in the Trash
+
+### Removed 
+
+- The field "Institution" in details panel, replaced with "Uploaded by"
 
 ## [0.19.1] 2017-12-21
 
