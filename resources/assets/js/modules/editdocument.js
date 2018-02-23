@@ -1,4 +1,4 @@
-define("modules/editdocument", ["require", "modernizr", "jquery", "DMS", "sweetalert", "modules/minimalbind", "modules/share", "modules/panels" ], function (_require, _modernizr, $, DMS, _alert, _rivets, Share, Panels) {
+define("modules/editdocument", ["require", "modernizr", "jquery", "DMS", "sweetalert", "modules/minimalbind", "modules/share", "modules/panels", 'language' ], function (_require, _modernizr, $, DMS, _alert, _rivets, Share, Panels, Lang) {
     
     console.log('loading EDIT document-page module...');
     
