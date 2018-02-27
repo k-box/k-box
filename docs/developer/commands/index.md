@@ -35,6 +35,7 @@ Here are only listed the specific commands added by the K-DMS:
 - [`files:orphans`](./files-orphans.md): Find and remove orphan files, i.e. the one not linked
   to a document descriptor
 - `video:elaborate`: Trigger the video elaboration for the specified documents
+- [`statistics`](./statistics-command.md): Generate some usage statistics of the K-Box
 
 For a complete list of available commands execute
 

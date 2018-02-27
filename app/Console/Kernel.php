@@ -37,6 +37,7 @@ class Kernel extends ConsoleKernel
         'KBox\Console\Commands\DocumentUpdatePropertiesCommand',
         'KBox\Console\Commands\ClearCancelledDocumentUploadsCommand',
         'KBox\Console\Commands\VideoElaborateCommand',
+        'KBox\Console\Commands\StatisticsCommand',
     ];
 
     /**
