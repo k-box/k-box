@@ -89,8 +89,8 @@ return [
         'document_is_shared' => 'Le document est accessible par',
         'collection_is_shared' => 'La collection est accessible par',
         'users_already_has_access' => ':num utilisateur|:num utilisateurs',
-        'users_already_has_access_alternate' => '{0} Uniquement vous|{1} :num utilisateur|[2,Inf]:num utilisateurs',
-        'users_already_has_access_with_public_link' => '{0} Uniquement vous et ceux qui ont accès au lien public|{1} Uniquement vous et ceux qui ont accès au lien public|[2,Inf]:num utilisateurs et ceux qui ont accès au lien public',
+        'users_already_has_access_alternate' => '{0}Uniquement vous|{1}:num utilisateur|[2,*]:num utilisateurs',
+        'users_already_has_access_with_public_link' => '{0}Uniquement vous et ceux qui ont accès au lien public|{1}Uniquement vous et ceux qui ont accès au lien public|[2,*]:num utilisateurs et ceux qui ont accès au lien public',
         'document_already_accessible_by_all_users' => 'Le document est déjà accessible par tous les utilisateurs de la K-Box.',
         'collection_already_accessible_by_all_users' => 'La collection est déjà accessible par tous les utilisateurs de la K-Box.',
 

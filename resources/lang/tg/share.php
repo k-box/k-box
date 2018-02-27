@@ -89,8 +89,8 @@ return [
         'document_is_shared' => 'Санад дастрас аст аз ҷониби',
         'collection_is_shared' => 'Коллексия дастрас аст аз ҷониби',
         'users_already_has_access' => ':num истифодабаранда|:num истифодабаранда',
-        'users_already_has_access_alternate' => '{0} Факат Шумо|{1} :num истифодабаранда|[2,Inf]:num истифодабаранда',
-        'users_already_has_access_with_public_link' => '{0} Танҳо шумо ва касе, ки пайвандҳои умуми доред|{1} Танҳо шумо ва касе, ки пайвандҳои умуми доред|[2,Inf]:num истифодабаранда, ки пайвандҳои умуми доред',
+        'users_already_has_access_alternate' => '{0}Факат Шумо|{1}:num истифодабаранда|[2,*]:num истифодабарандагони',
+        'users_already_has_access_with_public_link' => '{0}Танҳо шумо ва касе, ки пайвандҳои умуми доред|{1}Танҳо шумо ва касе, ки пайвандҳои умуми доред|[2,*]:num истифодабаранда, ки пайвандҳои умуми доред',
         'document_already_accessible_by_all_users' => 'Санад аллакай аз ҷониби ҳамаи истифодабарандагони K-Box дастрас аст.',
         'collection_already_accessible_by_all_users' => 'Коллексия аллакай аз ҷониби ҳамаи истифодабарандагони K-Box дастрас аст.',
 
