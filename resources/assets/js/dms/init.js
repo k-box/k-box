@@ -395,7 +395,7 @@ window.DMS = (function(_$, _nprogress, _rivets, _alert){
 					confirmButtonColor: "#DD6B55",
 					confirmButtonText: Lang.trans('actions.dialogs.remove_btn'),
 					cancelButtonText: Lang.trans('actions.dialogs.cancel_btn'),
-				    showLoaderOnConfirm: true }, options || {});
+				    showLoaderOnConfirm: false }, options || {});
 
 				return _alert(_options);
 

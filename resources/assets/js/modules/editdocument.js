@@ -54,54 +54,60 @@ define("modules/editdocument", ["require", "modernizr", "jquery", "DMS", "sweeta
 
     $('[data-action=restoreVersion').on('click', function(evt) {
 
+        evt.preventDefault();
+        evt.stopPropagation();
+
         var data = $(evt.target).data();
-        
-        DMS.MessageBox.question(
+
+        DMS.MessageBox.deleteQuestion(
             Lang.trans('documents.restore.restore_dialog_title', {document: data.versionTitle}),
             Lang.trans('documents.restore.restore_version_dialog_text', {document: data.versionTitle}), 
-            Lang.trans("documents.restore.restore_dialog_yes_btn"), 
-            Lang.trans("documents.restore.restore_dialog_no_btn"), function(restore){
-
-            if(restore){
+            {
+                confirmButtonText: Lang.trans("documents.restore.restore_dialog_yes_btn"), 
+                cancelButtonText: Lang.trans("documents.restore.restore_dialog_no_btn"),
+                showLoaderOnConfirm:false
+            }).then(function(restore){
                 
-                DMS.MessageBox.wait( Lang.trans('actions.restoring'), '...');
+                if(restore){
+                    
+                    DMS.MessageBox.wait( Lang.trans('actions.restoring'), '...');
 
 
-                DMS.Services.Documents.restoreVersion(
-                    data.documentId, 
-                    data.versionId,
-                    function (data) {
+                    DMS.Services.Documents.restoreVersion(
+                        data.documentId, 
+                        data.versionId,
+                        function (data) {
 
-                        if(data.status && data.status === 'ok'){
+                            if(data.status && data.status === 'ok'){
 
-                            DMS.navigateReload();
+                                DMS.navigateReload();
+
+                            }
+                            else if(data.message) {
+                                DMS.MessageBox.error(Lang.trans('documents.restore.restore_error_title'), data.message);
+                            }
+
+                        }, function(obj, err, errText){
+
+                            if(obj.responseJSON && obj.responseJSON.status === 'error'){
+                                DMS.MessageBox.error(Lang.trans('documents.restore.restore_error_title'), obj.responseJSON.message);
+                            }
+                            else if(obj.responseJSON && obj.responseJSON.error){
+                                DMS.MessageBox.error(Lang.trans('documents.restore.restore_error_title'), obj.responseJSON.error);
+                            }
+                            else {
+                                DMS.MessageBox.error(Lang.trans('documents.restore.restore_error_title'), Lang.trans('documents.restore.restore_version_error_text_generic'));
+                            }
 
                         }
-                        else if(data.message) {
-                            DMS.MessageBox.error(Lang.trans('documents.restore.restore_error_title'), data.message);
-                        }
-
-                    }, function(obj, err, errText){
-
-                        if(obj.responseJSON && obj.responseJSON.status === 'error'){
-                            DMS.MessageBox.error(Lang.trans('documents.restore.restore_error_title'), obj.responseJSON.message);
-                        }
-                        else if(obj.responseJSON && obj.responseJSON.error){
-                            DMS.MessageBox.error(Lang.trans('documents.restore.restore_error_title'), obj.responseJSON.error);
-                        }
-                        else {
-                            DMS.MessageBox.error(Lang.trans('documents.restore.restore_error_title'), Lang.trans('documents.restore.restore_version_error_text_generic'));
-                        }
-
-                    }
-                );
+                    );
+                }
 
 
-            }
 
-        });
-        
-        return false;
+            }, function(dismiss){
+                DMS.MessageBox.close();
+            });
     });
 
 });
