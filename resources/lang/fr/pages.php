@@ -17,7 +17,7 @@ return [
     'terms_long'  => 'Conditions d\'utilisation',
     'privacy' => 'Confidentialité',
     'contact' => 'Contact',
-    'service_policy' => 'Politique de service',
-    'browserupdate' => 'Aide mise à jour du navigateur',
+    'service_policy' => 'Conditions d\'utilisation',
+    'browserupdate' => 'Aide concernant la mise à jour du navigateur',
 
 ];
