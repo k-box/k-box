@@ -573,7 +573,8 @@ class DmsUpdateCommand extends Command
         $counter = 0;
         
         $files->each(function ($file) use (&$counter) {
-            if (is_file($file->absolute_path)) {
+            if (is_file($file->absolute_path) &&
+                ! ends_with(dirname($file->path), "$file->uuid")) {
                 $dir = dirname($file->path);
     
                 Storage::disk('local')->makeDirectory("$dir/$file->uuid");

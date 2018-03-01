@@ -227,4 +227,42 @@ class DmsUpdateCommandTest extends TestCase
 
         Storage::disk('local')->assertExists("2017/11/$file->uuid/$file->uuid.mp4");
     }
+    
+    public function test_video_files_already_in_uuid_folder_are_not_moved()
+    {
+        $this->withKlinkAdapterMock();
+        
+        Storage::fake('local');
+
+        // making sure that the install script thinks an update must be performed
+        Option::create(['key' => 'c', 'value' => ''.time()]);
+
+        $uuid = "39613931-3436-3066-2d31-3533322d3466";
+        
+        $path = "2017/11/$uuid/$uuid.mp4";
+        
+        Storage::disk('local')->makeDirectory("2017/11/$uuid/");
+        
+        $file = factory('KBox\File')->create([
+            'path' => Storage::disk('local')->path($path),
+            'mime_type' => 'video/mp4',
+            'uuid' => $uuid
+        ]);
+
+        Storage::disk('local')->put(
+            $path,
+            file_get_contents(base_path('tests/data/video.mp4'))
+        );
+
+        Storage::disk('local')->assertExists($path);
+
+        $command = new DmsUpdateCommand();
+
+        $updated = $this->invokePrivateMethod($command, 'moveVideoFilesToUuidFolder');
+
+        $this->assertEquals("2017/11/$file->uuid/$file->uuid.mp4", $file->fresh()->path);
+
+        Storage::disk('local')->assertExists("2017/11/$file->uuid/$file->uuid.mp4");
+        Storage::disk('local')->assertMissing("2017/11/$file->uuid/$file->uuid/$file->uuid.mp4");
+    }
 }
