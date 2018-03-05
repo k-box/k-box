@@ -1,8 +1,9 @@
-## K-Link DMS Frequently Asked Questions
+## K-Box Frequently Asked Questions
 
 - [Start](#start)
 - [Projects activities](#projects-activities)
   - [Upload](#upload)
+  - [License and Copyright](#copyright)
   - [Sharing](#sharing)
   - [Publication](#publication)
 - [My Collections activities](#my-collections-activities)
@@ -62,12 +63,11 @@ If you cannot see any project, then you have not been added to any. Please conta
 
 Please right-click on a file, select “Details”, to open the details window. At this point you can click on download.
 
-
-#### <a id="upload"></a>Upload
-
 **4. I can see the Project collection but how can I get to its subcollections?**
 
 In order to view the internal structuring of a Project collection, please hit the arrow-like symbol next to title of the Project. Same applied to sub-subcollections.
+
+#### <a id="upload"></a>Upload
 
 **5. I want to upload a file to a Project subcollection. How can I do that?**
 
@@ -86,10 +86,50 @@ Please select your file and drag and drop it into the target subcollection in th
 **8. The language of an uploaded document is detected wrong. How to change that?**
 In order to change the language of a document, please go to the “Edit” page from its details panel (or via the right click menu “Edit” item). Select the language and “Save” your changes.
 
+**9. What are the supported video formats?**
+
+The K-Box offer special support for mp4 video files encoded with H.264 codec (with AAC or MP3 audio). The minimum supported resolution is 480x360 pixels. The maximum supported resolution is 1920x1080 pixels.
+
+#### <a id="copyright"></a>License and Copyright
+
+**10. Who is a copyright owner?**
+
+As a general rule, the copyright in a work is initially owned by the work’s creator, but this isn’t always the case. As a use case, if an author wants to publish their manuscript in a journal, they will have to conclude a publishing agreement. 
+
+According to the agreement, author transfers copyright to the publisher and will be capable of disseminating the original manuscript for non-commercial purposes only.
+
+A concrete example of the policy is presented on the [Elsevier](https://www.elsevier.com/about/our-business/policies/copyright) website.
+
+**11. What is a license?**
+
+License provides information about the terms and conditions for a document/work use by third parties as specified by the copyright owner. Licenses help to protect the work from copyright infringement. Due to their legal value, they also allow the copyright owner to avoid giving use permissions on case by case basis.
+
+**12. When should I indicate a license or copyright owner information?**
+
+The copyright owner and license information should be indicated as soon as a work is shared, or disseminated with other users. It is strongly recommended to add that information before a work is shared in a public space.
+
+**13. I want to specify the copyright owner information. Where should I do that?**
+
+In order to add the copyright owner information, please go to the “Edit” page from the details panel (or via the right click menu “Edit” item). Fill in the fields under “Copyright owner” and “Save” your changes.
+
+
+**14. Where should I select a license?**
+
+In order to apply license, please go to the “Edit” page from the details panel (or via the right click menu “Edit” item).  Under the “License” section, please select relevant license from the drop down list and “Save” your changes.
+
+**15. How should I select a license?**
+
+From the list of available licenses on the “Edit” page, users should select one fitting best the terms for use as indicated by the copyright owner.
+The K-Box also has a licenses help page integrated. To view the page, select “Help me choose a license” from the “Edit” page.
+
+**16. The license I need is not there. What should I do?**
+
+Please contact your librarian or K-Box Administrator, providing as much information as possible about the requested license. The request will be assessed by the K-Link K-Box support team.
+
 
 #### <a id="sharing"></a>Sharing
 
-<a id="sharing-to-user"></a>**9. I want to share files with another user. How can I do that?**
+<a id="sharing-to-user"></a>**17. I want to share files with another user. How can I do that?**
 
 There are several ways to share a file. They depend on the target audience you aim to share file with:
 
@@ -99,21 +139,21 @@ There are several ways to share a file. They depend on the target audience you a
  - can your file be accessible to a wider audience (in other words, Public)? doesn'it contain any private or sensitive information? – in this case it can be published. If you don't have yourself the authorization to publish files, please contact your librarian to make the file public on your K-Link network. Then proceed as in step 1.
  - should this file be only accessible to a limited group of users? - in this case, please change the permissions to “Anyone with link can preview. No login required” from the same window of sharing settings. In this way only the people who have the direct link can access the document (but it is not available on the K-Link public network).
 
-**10. I want to share a file with my colleague. How do I know they have access to the Project?**
+**18. I want to share a file with my colleague. How do I know they have access to the Project?**
 
 In order to have an overview of users with access to file, please go to its Sharing settings through Details panel or right-click menu. Then click on highlighted number of users having access to the file. If your colleague is on the list, they have access to file. Otherwise, please use direct share (described above) before sending the link.
 
-**11. I shared a link to an uploaded file. Why do my colleagues not have access to it?**
+**19. I shared a link to an uploaded file. Why do my colleagues not have access to it?**
 
 In case your file is not accessible by others, please check if the conditions listed in question 9 are successfully achieved.
 
 #### <a id="publication"></a>Publication
 
-**12. What is a K-Link Network?**
+**20. What is a K-Link Network?**
 
 K-Link technology allows users to organize themselves in public or closed networks for easier sharing of relevant information and documents. Examples are the [K-Link](https://klink.asia/) and [SLM Tajikistan](https://slmtj.net/) networks.
 
-**13. I want to make a file available for search in the K-Link network. How can I do that?**
+**21. I want to make a file available for search in the K-Link network. How can I do that?**
 
 Note: To prevent sharing of unauthorized files (private, confidential, etc.), only users with permissions of project manager can employ the feature. Please contact your Project Administrator via email, indicating the file you would like to make public.
 
@@ -121,17 +161,17 @@ In order to make a file visible in the K-Link network, please go the sharing set
 
 Depending on the file type, the publication might require seconds or minutes to be searchable and playable from the public search results. Once you select the globe icon you can close the sharing dialog. Moving the mouse over the globe icon will tell the status of the publication process.
 
-**14. I want to make a public file private. How can I do that?**
+**22. I want to make a public file private. How can I do that?**
 
 Note: Only users with permissions of project manager can perform this operation. Please contact your Project Administrator via email, indicating the document you would like to make private.
 
 One can unpublish files only from the same K-Box they are physically stored in. In order to do that, please go the sharing settings of the file and hit the “lock” icon. As soon as the icon changed from “globe” to “lock”, your file is private  again.
 
-**15. How can I edit public file?**
+**23. How can I edit public file?**
 
 Editing process for public files resembles the process for private files. Please go to Projects and open details panel for your file. Select “Edit” and make changes on the redirected page. Click “Save” for adopting your changes.
 
-**16. How can I view a Project microsite?**
+**24. How can I view a Project microsite?**
 
 Please go to the Projects page for overview over all accessible projects. Please right-click on the project of interest and select “Details” from the menu. The “View Microsite” button under “Micrositebeta” will lead you to its public page.
 
