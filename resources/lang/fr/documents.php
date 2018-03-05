@@ -91,7 +91,7 @@ return [
         
         'restored' => ':num fichier restauré.|:num fichiers restaurés.',
 
-        'remove_error' => 'Impossible d\'effacet les fichiers. :error',
+        'remove_error' => 'Impossible d\'effacer les fichiers. :error',
         
         'copy_error' => 'Impossible de copier la collection. :error',
         
