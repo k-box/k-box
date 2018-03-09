@@ -256,11 +256,11 @@
 				@if($item->owner->organization_name)
 					@if($item->owner->organization_website)
 
-						(<a href="{{$item->owner->organization_website}}">{{ $item->owner->organization_name }}</a>)
+						(<a href="{{$item->owner->organization_website}}">{{ $item->owner->organization_name}}</a>)
 
 					@else
 
-						({{ $item->owner->organization_name }})
+						({{ $item->owner->organization_name}})
 
 					@endif
 				@endif
