@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+- Fix: Filters and search were not correctly handled in personal section, leading to no filters being selectable and no search results being returned
+
 ## [0.20.0] 2018-03-05
 
 ### Added

@@ -99,7 +99,7 @@ class DocumentsController extends Controller
             }
             
             if ($is_personal) {
-                $personal_doc_id = DocumentDescriptor::local()->private()->ofUser($user->id)->get(['local_document_id'])->pluck('local_document_id')->all();
+                $personal_doc_id = DocumentDescriptor::local()->private()->ofUser($user->id)->get()->map->uuid;
                 
                 $_request->in($personal_doc_id);
             }
