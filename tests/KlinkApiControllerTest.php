@@ -203,4 +203,23 @@ class KlinkApiControllerTest extends BrowserKitTestCase
 
         $this->assertViewName('errors.403');
     }
+
+    public function testDocumentNotFoundIfFileIsTrashed()
+    {
+        $user = $this->createUser(Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH);
+        
+        $document = $this->createDocument($user, 'private');
+        
+        $document->file_id = null;
+        $document->save();
+        
+        $url = route('klink_api', ['id' => $document->local_document_id, 'action' => 'document']);
+        
+        $this->actingAs($user);
+        
+        $this->disableExceptionHandling();
+        $this->expectException(\Symfony\Component\HttpKernel\Exception\NotFoundHttpException::class);
+        
+        $this->visit($url);
+    }
 }

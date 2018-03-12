@@ -60,6 +60,10 @@ class KlinkApiController extends Controller
 
         $file_version = null; // will contain the file instance to use in case $version is not null, null means the latest
 
+        if (is_null($doc->file)) {
+            \App::abort(404, trans('errors.document_not_found'));
+        }
+
         $versions = $doc->file->versions();
 
         if (! is_null($version) && $doc->file->uuid !== $version && $versions->contains('uuid', $version)) {
