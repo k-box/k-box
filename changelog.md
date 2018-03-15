@@ -7,7 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
-- Fix: Filters and search were not correctly handled in personal section, leading to no filters being selectable and no search results being returned
+## [0.20.1] 2018-03-15
+
+### Fixed
+
+- Search and Filters were not available in personal section. Now they should be back.
+- Sidebar scrollbar were too thin on Chrome
 
 ## [0.20.0] 2018-03-05
 
