@@ -8,6 +8,7 @@ use KBox\User;
 use DatePeriod;
 use KBox\Group;
 use KBox\Project;
+use KBox\Shared;
 use Carbon\Carbon;
 use KBox\Publication;
 use KBox\RecentSearch;
@@ -55,7 +56,7 @@ class StatisticsCommand extends Command
      */
     public function handle()
     {
-        $folder = ltrim($this->option('out-path') ?? storage_path(), '/').'/';
+        $folder = rtrim($this->option('out-path') ?? storage_path(), '/').'/';
 
         $subtractDays = $this->option('days', 30);
         
@@ -100,27 +101,33 @@ class StatisticsCommand extends Command
 
         $users_created_per_day = User::where('created_at', '>=', $from)->where('created_at', '<=', $to)->select($date_field, $count_field)->groupBy('date')->orderBy('date')->get()->keyBy('date');
         $document_created_per_day = DocumentDescriptor::where('created_at', '>=', $from)->where('created_at', '<=', $to)->select($date_field, $count_field)->orderBy('date')->groupBy('date')->get()->keyBy('date');
+        $document_created_per_day_trashed = DocumentDescriptor::local()->withTrashed()->where('created_at', '>=', $from)->where('created_at', '<=', $to)->select($date_field, $count_field)->orderBy('date')->groupBy('date')->get()->keyBy('date');
         $files_created_per_day = File::where('created_at', '>=', $from)->where('created_at', '<=', $to)->select($date_field, $count_field)->groupBy('date')->orderBy('date')->get()->keyBy('date');
+        $files_created_per_day_trashed = File::withTrashed()->where('created_at', '>=', $from)->where('created_at', '<=', $to)->select($date_field, $count_field)->groupBy('date')->orderBy('date')->get()->keyBy('date');
         $publication_made_per_day = Publication::where('created_at', '>=', $from)->where('created_at', '<=', $to)->select($date_field, $count_field)->groupBy('date')->orderBy('date')->get()->keyBy('date');
         $projects_created_per_day =  Project::where('created_at', '>=', $from)->where('created_at', '<=', $to)->select($date_field, $count_field)->groupBy('date')->orderBy('date')->get()->keyBy('date');
         $collections_created_per_day = Group::where('created_at', '>=', $from)->where('created_at', '<=', $to)->select($date_field, $count_field)->groupBy('date')->orderBy('date')->get()->keyBy('date');
         $personal_collections_created_per_day = Group::where('is_private', true)->where('created_at', '>=', $from)->where('created_at', '<=', $to)->select($date_field, $count_field)->groupBy('date')->orderBy('date')->get()->keyBy('date');
+        $public_links_created_per_day = Shared::where('created_at', '>=', $from)->where('created_at', '<=', $to)->where('sharedwith_type', 'KBox\PublicLink')->select($date_field, $count_field)->groupBy('date')->orderBy('date')->get()->keyBy('date');
 
         $period = new DatePeriod($from, CarbonInterval::days(1), $to);
 
         $graph = [];
-        $graph[] = ['date', 'Users Created', 'Documents Created', 'Files uploaded', 'Publications performed', 'Projects created', 'Collections created', 'Personal collections created'];
+        $graph[] = ['date', 'Users Created', 'Documents Created', 'Documents Created (incl. Trash)', 'Files uploaded' ,'Files uploaded (incl. Trash)', 'Publications performed', 'Projects created', 'Collections created', 'Personal collections created', 'Public Links Created'];
 
         foreach ($period as $date) {
             $graph[] = [
                 $date->format('Y-n-d'),
                 $this->getValueFromDateGrouping($users_created_per_day, $date->format('Y-n-d'), 0),
                 $this->getValueFromDateGrouping($document_created_per_day, $date->format('Y-n-d'), 0),
+                $this->getValueFromDateGrouping($document_created_per_day_trashed, $date->format('Y-n-d'), 0),
                 $this->getValueFromDateGrouping($files_created_per_day, $date->format('Y-n-d'), 0),
+                $this->getValueFromDateGrouping($files_created_per_day_trashed, $date->format('Y-n-d'), 0),
                 $this->getValueFromDateGrouping($publication_made_per_day, $date->format('Y-n-d'), 0),
                 $this->getValueFromDateGrouping($projects_created_per_day, $date->format('Y-n-d'), 0),
                 $this->getValueFromDateGrouping($collections_created_per_day, $date->format('Y-n-d'), 0),
                 $this->getValueFromDateGrouping($personal_collections_created_per_day, $date->format('Y-n-d'), 0),
+                $this->getValueFromDateGrouping($public_links_created_per_day, $date->format('Y-n-d'), 0),
             ];
         }
         
