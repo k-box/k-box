@@ -2,15 +2,17 @@
 
 # K-Box
 
-The K-Box is a web application designed for handling document management inside an Organization.
-
-The K-Box is built on top of [Laravel](https://laravel.com/) and distributed via Docker image.
+K-Box, a web application designed for handling document management inside an Organization.
 
 ## Getting started
 
-_to be written_
+The K-Box is distributed via [Docker images](./docs/user/installation.md).
+
+If you want to know more about the architecture please refer to the [Official documentation](./docs/user/index.md)
 
 ## Development
+
+The K-Box is built on top of the [Laravel](https://laravel.com/) framework.
 
 Developer oriented material can be found in the [`Developer Documentation`](./docs/developer/index.md)
 
@@ -31,4 +33,3 @@ When submitting pull/merge requests always consider the `master` branch as your 
 ## License
 
 This project is licensed under the AGPL v3 license, see [LICENSE.txt](./LICENSE.txt).
-

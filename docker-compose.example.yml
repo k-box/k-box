@@ -1,73 +1,97 @@
-## Example Docker Compose file to start a testing intance of a K-Box
-## K-Search component is not included, therefore search related 
-## features won't work. In this example the K-Search component 
-## is the one exposed by the test.klink.asia instance
+## 
+## Example Docker Compose file
+##
+## This example shows how to expose the K-Box on localhost
+## For more information please check ./docs/user/installation.md
+##
+## Lines that starts with "##" are comments, lines that starts 
+## with "#" are optional or advanced configurations, that can be
+## uncommented if needed
+##
 
-mariadb:
-  image: mariadb:10
-  environment:
-    MYSQL_DATABASE: dms
-    MYSQL_USER: dms
-    MYSQL_ROOT_PASSWORD: "2381aa6a99bee6ff61c2209ef4373887"
-    MYSQL_PASSWORD: "b2510859c83414e0cbefd26284b9171d"
-  ## Using automatic volumes, use the next lines if you 
-  ## want persistent volumes
-  # volumes:
-  # - "./docker/mariadb:/var/lib/mysql"
+version: '2'
 
-## The K-Box container and the base for all the others
-kbox:
-  image: "kbox"
-  environment:
-    KLINK_DMS_DB_NAME: dms # must be the same as MYSQL_DATABASE
-    KLINK_DMS_DB_USERNAME: dms # must be the same as MYSQL_USER
-    KLINK_DMS_DB_HOST: mariadb # Host where the database is listening on
-    KLINK_DMS_DB_TABLE_PREFIX: "dms_"
-    KLINK_DMS_DB_PASSWORD: "b2510859c83414e0cbefd26284b9171d"  # must be the same as MYSQL_PASSWORD
-    KLINK_CORE_ID: "KLINK"
-    KLINK_DMS_CORE_USERNAME: "<K-Search-Authentication-Username>"
-    KLINK_DMS_CORE_PASSWORD: "<K-Search-Authentication-Password>"
-    KLINK_DMS_APP_URL: "http://localhost:8080/"
-    KLINK_DMS_CORE_ADDRESS: "https://test.klink.asia/kcore/"
-    KLINK_DMS_APP_KEY: "2ffa8bc059abc54b"
-    KLINK_DMS_ADMIN_USERNAME: "admin@klink.local"
-    KLINK_DMS_ADMIN_PASSWORD: "123456789"
-    KLINK_PHP_POST_MAX_SIZE: "120M"
-    KLINK_PHP_UPLOAD_MAX_FILESIZE: "500M"
-    KLINK_DMS_MAX_UPLOAD_SIZE: "1572864"
-    KLINK_PHP_MEMORY_LIMIT: "500M"
-    DMS_USE_HTTPS: "false" # false as this will not be exposed via HTTPS
-  links:
-    - mariadb:mariadb
-  volumes:
-    # - "/var/www/dms" # if you want to start the image the old way
-    - "/var/www/dms/storage"
-    # - "/var/run" # if you want to start the image the old way
-  #command: php # if you want to start the image the old way
-  ports: #you should remove this if you want to start using the old way, as nginx is managed with a different compose service
-    - "8080:80"
+networks:
+  internal:
 
-## The queue runner
-# kbox_queue:
-#   image: "kbox"
-#   links:
-#     - mariadb:mariadb
-#   volumes_from:
-#     - kbox
-#   hostname: "dmsqueue.standard.klink.asia"
-#   working_dir: /var/www/dms
-#   command: queue
+services:
 
-## this is the webserver container
-# kbox_frontend: 
-#   image: "kbox"
-#   links:
-#     - mariadb:mariadb
-#     - kbox_tus:tusd
-#   volumes_from:
-#     - kbox
-#   command: nginx
-  # ports:
-  #   - "8080:80"
+  ## The Search Engine service
+  engine:
+    image: "docker.klink.asia/images/k-search-engine:0.4.1"
+    ## Using automatic volumes, 
+    ## uncomment the next lines and specify a folder on disk to persist the search index
+    # volumes:
+    # - "./storage/index:/opt/solr/k-search/k-search/data"
+    expose:
+      - "8983"
+    environment:
+      ## the SOLR external address
+      KLINK_SOLR_MYHOST: engine 
+    networks:
+      - internal
 
+  ## The Search Engine API
+  ksearch:
+    image: "docker.klink.asia/images/k-search:3.2.0-1"
+    environment:
+      ## Further datails about K-Search configuration in https://github.com/k-box/k-search
+      ## Application settings
+      - APP_ENV=dev # Use the development environment
+      - APP_DEBUG=0 # Enable the debug feature
+      ## Solr search configuration
+      - SOLR_HOST=engine # this is the external address of Solr
+      - SOLR_CORE=k-search # this is the Solr index name
+      ## Registry configuration
+      - KLINK_REGISTRY_ENABLED=0 # = no authentication
+      ## A valid URL needs to be specified for the registry, even if the integration is disabled
+      - KLINK_REGISTRY_API_URL=https://registry.local/
+    depends_on:
+      - engine
+     networks:
+      - internal
+        aliases:
+          ## the K-Box service checks the validity of the host, and just ksearch is not a valid host name
+          - ksearch.local
 
+  ## The database
+  database:
+    image: mariadb:10
+    environment:
+      MYSQL_DATABASE: dms
+      MYSQL_USER: dms
+      MYSQL_ROOT_PASSWORD: "2381aa6a99bee6ff61c2209ef4373887"
+      MYSQL_PASSWORD: "b2510859c83414e0cbefd26284b9171d"
+    ## Using automatic volumes, 
+    ## uncomment the next lines and specify a folder on disk to persist the database
+    # volumes:
+    # - "./storage/database:/var/lib/mysql"
+
+  ## The K-Box container
+  kbox:
+    image: "docker.klink.asia/images/k-box:0.20.1"
+    environment:
+      ## K-Box access
+      KLINK_DMS_APP_URL: "http://localhost:8080/"
+      KLINK_DMS_ADMIN_USERNAME: "admin@klink.local"
+      KLINK_DMS_ADMIN_PASSWORD: "123456789"
+      KLINK_DMS_APP_KEY: "2ffa8bc059abc54b"
+      ## Deploy configuration
+      KLINK_DMS_DB_HOST: database # Host where the database is listening on
+      KLINK_DMS_DB_PASSWORD: "b2510859c83414e0cbefd26284b9171d"  # must be the same as MYSQL_PASSWORD
+      KLINK_CORE_ID: "KLINK" # deprecated, but still required in version 0.20.x
+      KLINK_DMS_CORE_USERNAME: "<K-Search-Authentication-Username>" # deprecated, but still required in version 0.20.x
+      KLINK_DMS_CORE_PASSWORD: "<K-Search-Authentication-Password>" # deprecated, but still required in version 0.20.x
+      KLINK_DMS_CORE_ADDRESS: "http://ksearch.local/"
+      DMS_USE_HTTPS: "false" # this will not be exposed via HTTPS, set it to true if the K-Box will be accessible over HTTPS
+    depends_on:
+      - ksearch
+      - database
+    ## Using automatic volumes, 
+    ## uncomment the next lines and specify a folder on disk to persist the storage folder
+    # volumes:
+    # - "./storage/data:/var/www/dms/storage"
+    ports: 
+      - "8080:80"
+    networks:
+      - internal

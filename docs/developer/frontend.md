@@ -8,7 +8,6 @@ We opted to not use a framework for not sticking with decision made by others in
 
 The supported browser are:
 
-- IE8 (some feature might not be available due to IE8 anciety)
 - IE9
 - IE10
 - IE11
@@ -16,7 +15,6 @@ The supported browser are:
 - Chrome (desktop, latest) 
 - Firefox (desktop, latest) 
 - Safari (desktop, latest) 
-
 
 ## Frontend Folder structure
 
