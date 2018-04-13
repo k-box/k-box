@@ -167,26 +167,19 @@ tagged_release:
 ## Deploy on review environments
 
 # ## the test.klink.asia instance with the new image
-# test_klink_asia_deploy:
-#   environment: Review
-#   except:
-#     - release
-#   when: manual
-#   stage: deploy
-#   tags:
-#     - shell
-#     - deploy
-#   variables:
-#     INSTANCE_PREFIX: $TEST_INSTANCE_PREFIX
-#     BUILD_LOCATION: $BUILD_FOLDER 
-#     DOCKER_LOCATION: $TEST_DOCKER_FOLDER 
-#   script: 
-#     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
-#     - docker pull $CI_REGISTRY_IMAGE:${CI_COMMIT_REF_NAME#v}
-#     - cd ${DOCKER_LOCATION}
-#     - docker tag $CI_REGISTRY_IMAGE:${CI_COMMIT_REF_NAME#v} dms-testing-environment
-#     - docker-compose -f docker-compose-kbox.yml -p ${INSTANCE_PREFIX} stop && docker-compose -f docker-compose-kbox.yml -p ${INSTANCE_PREFIX} rm -v -f && docker-compose -f docker-compose-kbox.yml -p ${INSTANCE_PREFIX} up -d frontend
-
+test_klink_asia_deploy:
+  environment: Review
+  when: manual
+  stage: deploy
+  tags:
+    - shell
+    - deploy
+  script:
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+    - docker pull $CI_REGISTRY_IMAGE:${CI_COMMIT_REF_NAME#v}
+    - cd ${REVIEW_DOCKER_FOLDER}
+    - docker tag $CI_REGISTRY_IMAGE:${CI_COMMIT_REF_NAME#v} $REVIEW_DOCKER_IMAGE
+    - docker-compose down && docker-compose up -d
 
 ## the next.dms.klink.asia instance with the new image
 next_dms_klink_asia_deploy:
