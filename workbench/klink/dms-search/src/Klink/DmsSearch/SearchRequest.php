@@ -104,11 +104,11 @@ class SearchRequest
                 $dashed_value = str_replace('.','_',$klinkValue);
 
                 if ($request->has($constant) ) {
-                    $filters[$klinkValue] = explode(',', $request->input($constant, ''));
+                    $filters[$klinkValue] = explode(',', str_replace(' ','+',$request->input($constant, '')));
                 }
 
                 if ($request->has($dashed_value) ) {
-                    $filters[$klinkValue] = explode(',', $request->input($dashed_value, ''));
+                    $filters[$klinkValue] = explode(',', str_replace(' ','+',$request->input($dashed_value, '')));
                 }
 
                 // isValidEnumKey
