@@ -21,7 +21,7 @@ class RoutingHelpersTest extends BrowserKitTestCase
             ['?', [], 'language', 'en', false, '?language=en'],
             ['?s=pasture', [], 'language', 'en', false, '?s=pasture&language=en'],
             ['?s=pasture', ['language' => ['en']], 'language', 'en', true, '?s=pasture'],
-            
+            ['?s=pasture', [], 'properties.mime_type', 'image/svg+xml', true, '?s=pasture&properties.mime_type=image%2Fsvg%2Bxml'],
         ];
     }
 

@@ -93,7 +93,7 @@ final class RoutingHelpers
 
         
         if (empty($current_active_filters)) {
-            $url_components[] = $facet.'='.$term;
+            $url_components[] = $facet.'='.urlencode($term);
         } else {
             $fs = array_keys($current_active_filters);
             
@@ -114,7 +114,7 @@ final class RoutingHelpers
                         $active[] = $key.'='.implode(',', $diff);
                     }
                 } elseif (! $selected && $facet===$key && ! in_array($term, $values)) {
-                    $values[] = $term;
+                    $values[] = urlencode($term);
                     $active[] = $key.'='.implode(',', $values);
                 } else {
                     $active[] = $key.'='.implode(',', $values);
