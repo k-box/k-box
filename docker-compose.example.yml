@@ -1,10 +1,10 @@
-## 
+##
 ## Example Docker Compose file
 ##
 ## This example shows how to expose the K-Box on localhost
 ## For more information please check ./docs/user/installation.md
 ##
-## Lines that starts with "##" are comments, lines that starts 
+## Lines that starts with "##" are comments, lines that starts
 ## with "#" are optional or advanced configurations, that can be
 ## uncommented if needed
 ##
@@ -19,15 +19,13 @@ services:
   ## The Search Engine service
   engine:
     image: "docker.klink.asia/images/k-search-engine:0.4.1"
-    ## Using automatic volumes, 
-    ## uncomment the next lines and specify a folder on disk to persist the search index
-    # volumes:
-    # - "./storage/index:/opt/solr/k-search/k-search/data"
+    volumes:
+      - "./storage/index:/opt/solr/k-search/k-search/data"
     expose:
       - "8983"
     environment:
       ## the SOLR external address
-      KLINK_SOLR_MYHOST: engine 
+      KLINK_SOLR_MYHOST: engine
     networks:
       - internal
 
@@ -64,10 +62,8 @@ services:
       MYSQL_PASSWORD: "b2510859c83414e0cbefd26284b9171d"
     networks:
       - internal
-    ## Using automatic volumes, 
-    ## uncomment the next lines and specify a folder on disk to persist the database
-    # volumes:
-    # - "./storage/database:/var/lib/mysql"
+    volumes:
+      - "./storage/database:/var/lib/mysql"
 
   ## The K-Box container
   kbox:
@@ -75,7 +71,7 @@ services:
     environment:
       ## K-Box access
       KLINK_DMS_APP_URL: "http://localhost:8080/"
-      KLINK_DMS_ADMIN_USERNAME: "admin@klink.local"
+      KLINK_DMS_ADMIN_USERNAME: "admin"
       KLINK_DMS_ADMIN_PASSWORD: "123456789"
       KLINK_DMS_APP_KEY: "2ffa8bc059abc54b"
       ## Deploy configuration
@@ -91,11 +87,9 @@ services:
     depends_on:
       - ksearch
       - database
-    ## Using automatic volumes, 
-    ## uncomment the next lines and specify a folder on disk to persist the storage folder
-    # volumes:
-    # - "./storage/data:/var/www/dms/storage"
-    ports: 
+    volumes:
+      - "./storage/data:/var/www/dms/storage"
+    ports:
       - "8080:80"
     networks:
       - internal

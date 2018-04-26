@@ -1,7 +1,84 @@
 ---
-Title: Deployment Configuration
+Title: Deployment configuration
 Description: What can be configured of the K-Box at deploy time
 ---
+
+# Deployment configuration
+
+## File system structure
+
+The default and recommended folder structure will look like the following:
+
+```
+|-- deploy/k-box/
+    |-- storage
+        |-- data
+        |-- index
+        |-- database
+    |-- docker-compose.yml
+```
+
+**Please note:** Per default configuration, the data is saved inside the same directory you located the `docker-compose.yml`, inside a directory called `storage`.
+
+## Configuration values
+
+The example Docker Compose file contains suitable defaults for most of the configuration, however some values are mandatory to change:
+
+The example `docker-compose.yml` file contains already suitable defaults for most of the configuration, however some values must be adjusted before you can start:
+
+- Define the used database passwords (`MYSQL_ROOT_PASSWORD`,`MYSQL_PASSWORD`,`DATABASE_PASSWORD`);
+- Admin user and password for the K-Box (`KLINK_DMS_ADMIN_USERNAME`, `KLINK_DMS_ADMIN_PASSWORD`);
+- A freely definable application key for the K-Box (`KLINK_DMS_APP_KEY`);
+- The domain the K-Box is running: (`KLINK_DMS_APP_URL`).
+
+The default configuration, contained in the `docker-compose.yml` file, exposes the K-Box on localhost, without https and on port `8000`.
+
+### Database
+
+The `database` requires two passwords, the first is the root password and the second is the user password for accessing the specific new database.
+
+```yaml
+MYSQL_ROOT_PASSWORD: "2381aa6a99bee6ff61c2209ef4373887"
+MYSQL_PASSWORD: "b2510859c83414e0cbefd26284b9171d"
+```
+
+The `MYSQL_PASSWORD` password must be copied in the `kbox` service configuration as `KLINK_DMS_DB_PASSWORD`
+
+```yaml
+KLINK_DMS_DB_PASSWORD: "b2510859c83414e0cbefd26284b9171d"
+```
+
+### K-Box administrator
+
+The default administrator account of the K-Box is configured at startup, the username and the password are specified in the configuration file as
+
+```yaml
+KLINK_DMS_ADMIN_USERNAME: "admin@klink.local"
+KLINK_DMS_ADMIN_PASSWORD: "*******"
+```
+
+> The mimumim password length is 8 characters
+
+### K-Box Application Key
+
+The application key serve to secure user sessions and other encrypted data. It must be set to a 32 characters string.
+
+```yaml
+KLINK_DMS_APP_KEY: "32 characters string"
+```
+
+### K-Box URL
+
+The K-Box needs to know the public URL that will be used to access it.
+
+If the K-Boxes will be exposed through a secure connection, specify here the HTTPS protocol
+
+```yaml
+KLINK_DMS_APP_URL: "https://my.box.tld/"
+```
+
+> if the application will be available on https by default, please remove the `DMS_USE_HTTPS: "false"` line from the `docker-compose.yml` file
+
 
 The K-Box offers various configuration options at deployment time.
 
@@ -23,4 +100,3 @@ The K-Box offers various configuration options at deployment time.
 | `DMS_IDENTIFIER`               | **required** | string  |               | The unique identifier for the DMS instance |
 | `DMS_MAX_UPLOAD_SIZE`          |              | integer | 30000         | The maximum size of the file allowed for upload in kilobytes |
 | `MAIL_ENCRYPTION`              |              | string  | tls           | The mail encryption that should be used. If set to an empty string, insecure connections will be allowed (do this for testing purposes only). |
-

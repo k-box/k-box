@@ -1,6 +1,6 @@
 # K-Box Documentation
 
-Ths folder contains the K-Box documentation.
+This folder contains the K-Box documentation.
 
 The documentation targets users, IT person, and developers.
 
@@ -11,7 +11,7 @@ The documentation targets users, IT person, and developers.
 
 ## Structure
 
-The `release-note` folder contains the presentation of the features included in a release. 
+The `release-note` folder contains the presentation of the features included in a release.
 Release notes are created only for Major and Minor releases, patch releases are only documented as part of the [changelog](../changelog.md) file.
 
 The `user` folder contains documentation related to the usage of the K-Box from the user perspective.
@@ -49,7 +49,7 @@ The documentation must have an English version.
 
 The documentation must be written in [Markdown](https://daringfireball.net/projects/markdown/) files (with `.md` extension). Each file must have a lower case filename with no spaces. To separate words use a dash `-`.
 
-At the beginning of each file a YAML frontmatter needs to be inserted. The frontmatter serve as metadata container for presentation purposes. 
+At the beginning of each file a YAML frontmatter needs to be inserted. The frontmatter serve as metadata container for presentation purposes.
 
 An example frontmatter is in the following code block
 
@@ -66,7 +66,7 @@ Order: 0
 
 When naming files please use
 
-- `.md` extension, 
+- `.md` extension,
 - no spaces,
 - use `-` as word separator,
 - entirely lower case
