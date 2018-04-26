@@ -1,13 +1,25 @@
 ---
 Title: Requirements
-Description: I can use my 7 years old computer to run the K-Box?
+Description: Hardware and Software prerequisites
 ---
 
 ## Hardware requirements
 
-- RAM 2GB minimum, suggested 4 GB
-- A x86-64 (“64 bit”) processor is required. h264 acceleration is optional, but recommended for the video transcoding feature.
-- A minimum of 5GB of free storage space for installation.
+- Memory: 2GB RAM minimum; suggested 4 GB.
+- Minimum of 5GB of free storage space for installation.
+- CPU: x86-64 processor. H264 acceleration is optional, but recommended if the optional video streaming service is enabled.
+
+## Software Requirements
+
+In order to run the K-Link the following Software is needed:
+
+- Operating system [supported by Docker](https://docs.docker.com/engine/faq/#does-docker-run-on-linux-macos-and-windows) (we recommend GNU/Linux and we use [Debian](https://debian.org))
+- [Docker](https://www.docker.com/)
+- [Docker compose](https://docs.docker.com/compose/)
+
+## Browser requirements
+
+For actions/components that requires a web browser, the K-Link support modern web browser: Edge 15+, Chrome, Firefox, Safari, and Opera together with their mobile counterparts.
 
 ## Storage
 
