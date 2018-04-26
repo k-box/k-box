@@ -48,8 +48,8 @@ services:
       - KLINK_REGISTRY_API_URL=https://registry.local/
     depends_on:
       - engine
-     networks:
-      - internal
+    networks:
+      internal:
         aliases:
           ## the K-Box service checks the validity of the host, and just ksearch is not a valid host name
           - ksearch.local
@@ -62,6 +62,8 @@ services:
       MYSQL_USER: dms
       MYSQL_ROOT_PASSWORD: "2381aa6a99bee6ff61c2209ef4373887"
       MYSQL_PASSWORD: "b2510859c83414e0cbefd26284b9171d"
+    networks:
+      - internal
     ## Using automatic volumes, 
     ## uncomment the next lines and specify a folder on disk to persist the database
     # volumes:
@@ -78,6 +80,8 @@ services:
       KLINK_DMS_APP_KEY: "2ffa8bc059abc54b"
       ## Deploy configuration
       KLINK_DMS_DB_HOST: database # Host where the database is listening on
+      KLINK_DMS_DB_NAME: dms
+      KLINK_DMS_DB_USERNAME: dms
       KLINK_DMS_DB_PASSWORD: "b2510859c83414e0cbefd26284b9171d"  # must be the same as MYSQL_PASSWORD
       KLINK_CORE_ID: "KLINK" # deprecated, but still required in version 0.20.x
       KLINK_DMS_CORE_USERNAME: "<K-Search-Authentication-Username>" # deprecated, but still required in version 0.20.x
