@@ -19,7 +19,7 @@ one that are strictly required in the environment file.
 |---------------------------------------|--------------| --------|---------------|-------------|
 | `APP_ENV`                             | **required** | string  |               | the environment (when developing is highly encoraged to use local) |
 | `APP_DEBUG`                           |              | boolean | false         | Set to true will enable debug, false will prevent debug information to show up |
-| `APP_KEY`                             | **required** | string  |               | Encryption Key. This key is used by the Illuminate encrypter service and should be set to a random, 32 character string, otherwise the encrypted strings will not be safe. **Please do this before deploying an application!**. **Please do not change during the application execution otherwise you have to save again everything that is encrypted** |
+| [`APP_KEY`](#application-key)                             | **required** | string  |               | Encryption Key. This key is used to make encrypted strings safe. Must be set to a random 32 character string |
 | `APP_URL`                             | **required** | string  |               | The url of the public folder, if you use a virtual host insert the virtual host url here, e.g. https://test.klink.asia/dms/ |
 | `DB_USERNAME`                         | **required** | string  | dms           | The database user that has only priviledge over the database specified by `DB_NAME` |
 | `DB_PASSWORD`                         | **required** | string  |               | The database user password |
@@ -95,3 +95,15 @@ The `KBox\Flags` is the class responsible to interact with the flags. All flags 
 
 
 
+## Application Key
+
+The Application Key is a 32 characters long string that is used by the application to ensure that encrypted strings are safe.
+
+This string can be set at the environment level, using the `KLINK_DMS_APP_KEY` environment variable. 
+Leaving the environment variable empty, or with a string shorter than 32 characters, will cause the generation of a new application key. 
+
+The generated application key is stored in `storage/app/app_key.key` for future startup.
+
+> Changing Application Key between deployments will invalidate all user sessions
+
+> **Breaking change** 16 characters application key are not anymore supported

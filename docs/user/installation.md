@@ -45,7 +45,6 @@ The example `docker-compose.yml` file contains already suitable defaults for mos
 - The domain the K-Box is running: `KLINK_DMS_APP_URL`
 - Admin user and password for the K-Box: `KLINK_DMS_ADMIN_USERNAME`, `KLINK_DMS_ADMIN_PASSWORD`
 - Alter the used database passwords: `MYSQL_ROOT_PASSWORD`,`MYSQL_PASSWORD`,`DATABASE_PASSWORD`
-- Define freely a different application key for the K-Box: `KLINK_DMS_APP_KEY`
 
 Learn more about the [deployment configuration](./deploy-configuration.md).
 
