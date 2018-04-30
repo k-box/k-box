@@ -1,7 +1,7 @@
 #!/bin/bash
 
 KLINK_DMS_DIR=${KLINK_DMS_DIR:-/var/www/dms}
-KLINK_DMS_APP_KEY=${KLINK_DMS_APP_KEY:-$(date| md5sum)}
+KLINK_DMS_APP_KEY=${KLINK_DMS_APP_KEY:-}
 KLINK_SETUP_WWWUSER=${KLINK_SETUP_WWWUSER:-www-data}
 KLINK_DMS_ADMIN_USERNAME=${KLINK_DMS_ADMIN_USERNAME:-}
 KLINK_DMS_ADMIN_PASSWORD=${KLINK_DMS_ADMIN_PASSWORD:-}
@@ -75,6 +75,10 @@ function write_config() {
         TUSUPLOAD_HTTP_PATH=/tus-uploads/
         TUSUPLOAD_URL=${KLINK_DMS_APP_URL}tus-uploads/
 	EOM
+
+    # generate APP_KEY if not already set
+    php artisan kbox:key
+
 	echo "- ENV file written! $KLINK_DMS_DIR/.env"
 }
 

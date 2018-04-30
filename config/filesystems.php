@@ -43,6 +43,11 @@ return [
 
     'disks' => [
 
+        'app' => [
+            'driver' => 'local',
+            'root'   => getenv('DMS_UPLOAD_FOLDER') ?: storage_path('app/'),
+        ],
+
         'local' => [
             'driver' => 'local',
             'root'   => getenv('DMS_UPLOAD_FOLDER') ?: storage_path('documents/'),
