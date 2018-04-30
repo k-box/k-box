@@ -2,7 +2,7 @@
 FROM docker.klink.asia/images/video-processing-cli:0.3.1
 
 ## Generating the real K-Box image
-FROM php:7.0.21-fpm
+FROM php:7.1.16-fpm
 
 ## Environment variables to define the version of the packages to pull
 ENV TINI_VERSION 0.15.0
