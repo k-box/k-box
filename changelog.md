@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Changed
+
+- Allow creating a project without selecting a second user other than the project manager ([#70](https://github.com/k-box/k-box/pull/70)).
+
 ### Fixed
 
 - Properly handle unescaped mime types when used as search parameters on the URL ([#65](https://github.com/k-box/k-box/issues/65)).
