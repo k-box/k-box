@@ -150,7 +150,7 @@ class ProjectsTest extends BrowserKitTestCase
 
         // check if the show page is stored
 
-        if ($omit_title || $omit_user) {
+        if ($omit_title) {
             $this->seePageIs(route('projects.create'));
 
             $this->see(trans('errors.generic_form_error'));
@@ -161,10 +161,6 @@ class ProjectsTest extends BrowserKitTestCase
 
             if ($omit_title) {
                 $this->assertTrue($errobag->has('name'));
-            }
-
-            if ($omit_user) {
-                $this->assertTrue($errobag->has('users'));
             }
         } else {
             $this->assertResponseOk();

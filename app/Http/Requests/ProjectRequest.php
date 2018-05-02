@@ -19,7 +19,7 @@ class ProjectRequest extends Request
         $tests = [
             'name' => 'required|string',
             'description' => 'nullable|sometimes|string',
-            'users' => 'required|array|exists:users,id',
+            'users' => 'nullable|sometimes|required|array|exists:users,id',
             'manager' => 'required|exists:users,id',
             'avatar' => 'nullable|sometimes|required|image|max:200'
         ];
