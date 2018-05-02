@@ -116,9 +116,9 @@ return [
     |
     */
 
-    'key' => env('APP_KEY') ?: '0CjGv0c4KF00D62T', //B10r3tJQdKM6cE0s
+    'key' => env('APP_KEY'),
 
-    'cipher' => \Illuminate\Support\Str::length(env('APP_KEY')) === 32 ? 'AES-256-CBC' : 'AES-128-CBC', //AES-256-CBC
+    'cipher' => 'AES-256-CBC',
 
     /*
     |--------------------------------------------------------------------------

@@ -14,6 +14,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
+        'KBox\Console\Commands\KboxKeyGenerateCommand',
         'KBox\Console\Commands\DmsModelCreation',
         'KBox\Console\Commands\DmsCreateAdminUserCommand',
         'KBox\Console\Commands\DmsTestConfiguration',

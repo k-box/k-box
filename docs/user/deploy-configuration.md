@@ -53,19 +53,11 @@ KLINK_DMS_DB_PASSWORD: "b2510859c83414e0cbefd26284b9171d"
 The default administrator account of the K-Box is configured at startup, the username and the password are specified in the configuration file as
 
 ```yaml
-KLINK_DMS_ADMIN_USERNAME: "admin@klink.local"
+KLINK_DMS_ADMIN_USERNAME: "admin@kbox.local"
 KLINK_DMS_ADMIN_PASSWORD: "*******"
 ```
 
 > The mimumim password length is 8 characters
-
-### K-Box Application Key
-
-The application key serve to secure user sessions and other encrypted data. It must be set to a 32 characters string.
-
-```yaml
-KLINK_DMS_APP_KEY: "32 characters string"
-```
 
 ### K-Box URL
 
