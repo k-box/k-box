@@ -12,6 +12,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Allow creating a project without selecting a second user other than the project manager ([#70](https://github.com/k-box/k-box/pull/70)).
 - The Application Key is automatically generated, if not specified in the deployment environment variables ([#72](https://github.com/k-box/k-box/pull/72)).
 - The Application Key is now enforced to be 32 characters long ([#72](https://github.com/k-box/k-box/pull/72)).
+- **Breaking change** The command `dms:create-admin` has been renamed to `create-admin`.
+- **Breaking change** The `create-admin` do not accept anymore the `password` and the `username` as arguments, but uses options instead.
 
 ### Fixed
 
