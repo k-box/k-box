@@ -4,12 +4,13 @@
 > K-DMS instance.
 
 
-The DMS command line suite of commands rely on the [Laravel Artisan CLI](https://laravel.com/docs/5.2/artisan).
+The K-Box command line suite of commands rely on the [Laravel Artisan CLI](https://laravel.com/docs/5.2/artisan).
 
-Here are only listed the specific commands added by the K-DMS:
+Here are only listed the specific commands added by the K-Box:
 
+- [`create-admin`](./create-admin.md): Create a K-Box Administrator
 - [`dms:update`](./update-command.md): Perform the installation/update steps for the 
-  K-Link DMS.
+  K-Box.
 - [`dms:reindex`](./reindex-command.md): Perform the reindexing of the currently 
   indexed documents.
 - `dms:test`: Tests the configuration and connection to the private K-Link Core.
