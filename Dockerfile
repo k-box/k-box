@@ -4,11 +4,6 @@ FROM docker.klink.asia/images/video-processing-cli:0.3.1
 ## Generating the real K-Box image
 FROM php:7.1.16-fpm
 
-## Environment variables to define the version of the packages to pull
-ENV TINI_VERSION 0.15.0
-### NGINX version, mainline for debian:jessie as the base image is based on debian:jessie
-ENV NGINX_VERSION 1.11.9-1~jessie 
-
 ## Default environment variables
 ENV KLINK_PHP_WWWHTML_DIR /var/www/html
 ENV KLINK_PHP_MAX_EXECUTION_TIME 120
@@ -36,8 +31,6 @@ RUN apt-get update -yqq && \
     && docker-php-ext-install bz2 zip exif pdo_mysql \
     && pecl install imagick \
     && docker-php-ext-enable imagick \
-    && curl -o /usr/local/bin/tini https://github.com/krallin/tini/releases/download/v${TINI_VERSION}/tini \
-    && chmod +x /usr/local/bin/tini \
     && apt-get clean \
     && rm -r /var/lib/apt/lists/*
 
@@ -50,14 +43,31 @@ RUN locale-gen "en_US.UTF-8" \
 
 ## NGINX installation
 ### This will install nginx for debian:jessie as the base PHP image is still based on debian:jessie
-RUN apt-key adv --keyserver hkp://pgp.mit.edu:80 --recv-keys 573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62 \
-	&& echo "deb http://nginx.org/packages/mainline/debian/ jessie nginx" >> /etc/apt/sources.list \
+### The installation procedure is heavily inspired from https://github.com/nginxinc/docker-nginx
+
+RUN set -e; \
+	NGINX_GPGKEY=573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62; \
+	NGINX_VERSION=1.11.9-1~jessie; \
+	found=''; \
+	for server in \
+		ha.pool.sks-keyservers.net \
+		hkp://keyserver.ubuntu.com:80 \
+		hkp://p80.pool.sks-keyservers.net:80 \
+		pgp.mit.edu \
+	; do \
+		echo "Fetching GPG key $NGINX_GPGKEY from $server"; \
+		apt-key adv --keyserver "$server" --keyserver-options timeout=10 --recv-keys "$NGINX_GPGKEY" && found=yes && break; \
+	done; \
+	test -z "$found" && echo >&2 "error: failed to fetch GPG key $NGINX_GPGKEY" && exit 1; \
+	exit 0 \
+    echo "deb http://nginx.org/packages/mainline/debian/ jessie nginx" >> /etc/apt/sources.list \
 	&& apt-get update \
 	&& apt-get install --no-install-recommends --no-install-suggests -y \
 						ca-certificates \
 						nginx=${NGINX_VERSION} \
 						# nginx-module-njs=${NJS_VERSION} \
 						# gettext-base \
+    && apt-get clean \
 	&& rm -rf /var/lib/apt/lists/*
 
 ## Configure cron to run Laravel scheduler
@@ -65,7 +75,6 @@ RUN echo '* * * * * php /var/www/dms/artisan schedule:run >> /dev/null 2>&1' | c
 
 ## Copy NGINX default configuration
 COPY docker/nginx-default.conf /etc/nginx/conf.d/default.conf
-
 
 ## Copy additional PHP configuration files
 COPY docker/php/php-*.ini /usr/local/etc/php/conf.d/
