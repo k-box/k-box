@@ -189,7 +189,6 @@ class FileTest extends TestCase
         $this->assertTrue($expire_at->isToday());
         $this->assertTrue($expire_at->gte($created_at));
         $this->assertTrue($created_at->eq($expire_at->subMinutes(5)));
-        $this->assertTrue(Carbon::now()->between($created_at, $expire_at));
     }
 
     public function test_download_token_with_custom_duration_is_generated()
@@ -223,7 +222,6 @@ class FileTest extends TestCase
         $this->assertTrue($expire_at->isToday());
         $this->assertTrue($expire_at->gte($created_at));
         $this->assertTrue($created_at->eq($expire_at->subMinutes(10)));
-        $this->assertTrue(Carbon::now()->between($created_at, $expire_at));
     }
 
     public function test_file_properties_are_saved()
