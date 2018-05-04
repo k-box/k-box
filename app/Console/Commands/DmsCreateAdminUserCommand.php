@@ -8,8 +8,6 @@ use Password;
 use KBox\User;
 use KBox\Capability;
 use Illuminate\Console\Command;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Creates admin user accounts
@@ -66,11 +64,11 @@ final class DmsCreateAdminUserCommand extends Command
             return 2;
         }
             
-        if(empty($password) && $this->input->isInteractive()){
+        if (empty($password) && $this->input->isInteractive()) {
             $password = $this->secret("Please specify an 8 character password for the administrator");
         }
 
-        if(empty($password)){
+        if (empty($password)) {
             $password = User::generatePassword();
             $passwordWasGenerated = true;
         }
@@ -82,7 +80,7 @@ final class DmsCreateAdminUserCommand extends Command
             
         $this->line(
             sprintf(
-                $this->option('show', false) && $passwordWasGenerated ? 'A password has been generated for you: <info>%1$s</info> ' . PHP_EOL . 'Want to change, use this link %2$s' : ($passwordWasGenerated ? 'Set a password for the account using <info>%2$s</info>' : 'Login on %3$s using your chosen password'),
+                $this->option('show', false) && $passwordWasGenerated ? 'A password has been generated for you: <info>%1$s</info> '.PHP_EOL.'Want to change, use this link %2$s' : ($passwordWasGenerated ? 'Set a password for the account using <info>%2$s</info>' : 'Login on %3$s using your chosen password'),
                 $password,
                 route('password.reset', ['email' => $email, 'token' => Password::createToken($user)]),
                 url('/'))
@@ -126,5 +124,4 @@ final class DmsCreateAdminUserCommand extends Command
 
         return $user;
     }
-
 }
