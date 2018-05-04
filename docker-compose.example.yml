@@ -71,8 +71,10 @@ services:
     environment:
       ## K-Box access
       KLINK_DMS_APP_URL: "http://localhost:8080/"
-      KLINK_DMS_ADMIN_USERNAME: "admin@kbox.local"
-      KLINK_DMS_ADMIN_PASSWORD: "123456789"
+      ## Administrator account
+      ## uncomment the next two lines and write a password to automatically create that user at startup
+      # KLINK_DMS_ADMIN_USERNAME: "admin@kbox.local"
+      # KLINK_DMS_ADMIN_PASSWORD: ""
       ## Deploy configuration
       KLINK_DMS_DB_HOST: database # Host where the database is listening on
       KLINK_DMS_DB_NAME: dms

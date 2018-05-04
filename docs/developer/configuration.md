@@ -107,3 +107,31 @@ The generated application key is stored in `storage/app/app_key.key` for future 
 > Changing Application Key between deployments will invalidate all user sessions
 
 > **Breaking change** 16 characters application key are not anymore supported
+
+
+## First Administrator
+
+The First Administrator is the user that completes the setup and is able to fully manage the K-Box. It can also create other administrators.
+
+By default the K-Box do not create an administrator account automatically. 
+
+The preferred way is to use the `create-admin` command
+
+```bash
+php artisan create-admin {email}
+
+# docker-compose exec kbox php artisan create-admin {email} if executed from Docker
+```
+
+The create-admin requires an email address, that will be used as the username and will ask for a password in interactive mode.
+Inserting an empty password, or running with the option `--no-interaction`, will cause the command to generate and print a 
+password reset link. The link is valid for 5 minutes and, opening it, will enable you to define your own password 
+via User Interface.
+
+As an alternative, and for backward compatibility, the administrator account can be created by setting 
+the `KLINK_DMS_ADMIN_USERNAME` and `KLINK_DMS_ADMIN_PASSWORD` environment variables inside the Docker configuration.
+
+```yaml
+KLINK_DMS_ADMIN_USERNAME: "admin@kbox.local"
+KLINK_DMS_ADMIN_PASSWORD: "*******"
+```
