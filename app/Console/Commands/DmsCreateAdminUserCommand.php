@@ -95,7 +95,7 @@ final class DmsCreateAdminUserCommand extends Command
     {
         $validator = Validator::make(
             ['name' => $email],
-            ['name' => 'email']
+            ['name' => 'required|email']
         );
 
         return $validator->fails();

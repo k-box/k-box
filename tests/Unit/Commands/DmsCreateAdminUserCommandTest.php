@@ -110,4 +110,15 @@ class DmsCreateAdminUserCommandTest extends TestCase
         ]);
         $this->assertEquals(3, $exitCode);
     }
+    
+    public function test_empty_email_blocks_the_user_creation()
+    {
+        $email = '';
+
+        $exitCode = Artisan::call('create-admin', [
+            'email' => $email,
+            '--no-interaction' => true,
+        ]);
+        $this->assertEquals(3, $exitCode);
+    }
 }
