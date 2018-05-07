@@ -49,7 +49,7 @@ test-syntax:7.0:
 ## Building the artifacts for release
 
 frontend:
-  image: node:8.9
+  image: node:8.11
   stage: build_frontend
   tags:
     - docker
@@ -63,7 +63,7 @@ frontend:
     - public/
 
 laravel:
-  image: "docker.klink.asia/main/docker-php:7.0-alpine"
+  image: "docker.klink.asia/main/docker-php:7.1-alpine"
   tags:
     - docker
   stage: build_laravel
@@ -84,7 +84,7 @@ laravel:
 
 unit_test:
   stage: test
-  image: "docker.klink.asia/main/docker-php:7.0"
+  image: "docker.klink.asia/main/docker-php:7.1"
   services:
     - mariadb:10.0
   variables:

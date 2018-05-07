@@ -565,7 +565,7 @@ class File extends Model
             $this->uuid,
             $this->hash,
             $now->timestamp,
-            $now->addMinutes($duration ?? 5)->timestamp,
+            $now->copy()->addMinutes($duration ?? 5)->timestamp,
         ];
 
         return Crypt::encryptString(implode('#', $components));

@@ -12,6 +12,7 @@ use Klink\DmsAdapter\KlinkDocumentUtils;
 use Klink\DmsAdapter\KlinkSearchRequest;
 use Klink\DmsAdapter\KlinkSearchResults;
 use Tests\BrowserKitTestCase;
+use Klink\DmsAdapter\KlinkVisibilityType;
 use Klink\DmsAdapter\Exceptions\KlinkException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
@@ -1120,7 +1121,7 @@ class DocumentsTest extends BrowserKitTestCase
         
         $mock->shouldReceive('isNetworkEnabled')->andReturn(false);
 
-        $mock->shouldReceive('search')->andReturnUsing(function ($terms, $type, $resultsPerPage, $offset, $facets) {
+        $mock->shouldReceive('search')->andReturnUsing(function ($terms, $visibility = KlinkVisibilityType::KLINK_PRIVATE, $resultsPerPage = 10, $page = 1, $facets = null) {
             $res = FakeKlinkAdapter::generateSearchResponse($terms, $type, $resultsPerPage, $offset, $facets);
 
             throw new KlinkException('raised error');
