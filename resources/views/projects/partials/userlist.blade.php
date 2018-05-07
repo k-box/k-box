@@ -35,7 +35,7 @@
                 @endif
 
                 @if(isset($edit) && $edit)
-                    <input type="checkbox" class="userlist__checkbox" checked name="users[]" value="{{$user->id}}" id="u-{{$user->id}}">
+                    <input type="checkbox" class="userlist__checkbox" name="users[]" value="{{$user->id}}" id="u-{{$user->id}}">
                 @endif
 
                 @if(isset($edit) && $edit)

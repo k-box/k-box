@@ -224,17 +224,16 @@ class ProjectsController extends Controller
                     $project->save();
                 }
                 
-                
+
                 // test if there are users to add/remove to/from the project
                 if ($request->has('users')) {
                     $users = $request->get('users');
                     // users are ID
                 
                     $prj_users = $project->users->pluck('id')->all();
-                
                     $users_to_add = array_diff($users, $prj_users);
-                    $users_to_remove = array_diff($prj_users, $users);
-                
+                    $users_to_remove = array_intersect($prj_users, $users);
+                    
                     if (count($users_to_add) > 0) {
                         foreach ($users_to_add as $user) {
                             $project->users()->attach($user);

@@ -102,7 +102,6 @@
         var form = $(".js-project-form");
 
         $(".js-member-container").on('click', '.js-user-remove', function(evt){
-            console.log(this);
 
             var user = $(this).data('user');
 
@@ -110,7 +109,7 @@
 
             elem.addClass('userlist__user--removing');
 
-            elem.find('.userlist__checkbox').remove();
+            elem.find('.userlist__checkbox').attr('checked', 'checked');
 
             DMS.MessageBox.wait('{{ trans('projects.removing_wait_title') }}', '{{ trans('projects.removing_wait_text') }}');
 
@@ -181,7 +180,9 @@
 
         });
 
-        h.start();
+        if($(".userlist .userlist__user").length > 0){
+            h.start();
+        }
 
         @endif
 
