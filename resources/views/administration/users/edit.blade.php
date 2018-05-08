@@ -1,4 +1,4 @@
-@extends('global')
+@extends('administration.layout')
 
 @section('breadcrumbs')
 

@@ -59,6 +59,10 @@ return [
             'institution' => 'Institution',
             'select_institution' => 'Select the user Institution affiliation...',
 
+            'generate_password' => 'Generate a password for the user',
+            'send_password' => 'Send the password to the user via email',
+            'no_password_sending' => 'Type a password for the user. No email server is configured, therefore we cannot generate and send the password directly via email.',
+
         ],
 
         'capabilities' => [
@@ -105,7 +109,9 @@ return [
 
         ],
 
-        'created_msg' => 'User created, the password has been sent directly to the users email',
+        'created_msg' => 'User created',
+        'created_password_sent_msg' => 'User created, the password has been sent directly to the users email',
+        'created_no_mail_msg' => 'User created. We couldn\'t send the password to the user email',
         'edit_disabled_msg' => 'You cannnot modify your account capabilities. Profile configuration can also be made through the <a href=":profile_url">profile page</a>.',
         'disabled_msg' => 'User :name disabled',
         'enabled_msg' => 'User :name has been restored',

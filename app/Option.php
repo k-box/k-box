@@ -259,6 +259,22 @@ class Option extends Model
         
         return true;
     }
+
+    public static function isMailUsingLogDriver()
+    {
+        $driver = config('mail.driver');
+
+        if ($driver === 'log') {
+            return true;
+        }
+        
+        return false;
+    }
+
+    public static function isMailUsingSmtpDriver()
+    {
+        return ! static::isMailUsingLogDriver();
+    }
     
     /**
      * Get the email address from which the DMS sends email messages

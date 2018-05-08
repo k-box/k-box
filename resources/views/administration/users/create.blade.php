@@ -1,4 +1,4 @@
-@extends('global')
+@extends('administration.layout')
 
 @section('breadcrumbs')
 
@@ -7,7 +7,6 @@
 @stop
 
 @section('content')
-
 
     <form  method="post" class="c-form" action="{{route('administration.users.store')}}">
         

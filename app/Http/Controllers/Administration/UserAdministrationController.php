@@ -80,6 +80,9 @@ class UserAdministrationController extends Controller
         'admin' => Capability::$ADMIN,
       ];
       
+
+    //   Option::isMailEnabled() && Option::isMailUsingLogDriver() => use the password field
+    //   Option::isMailUsingSmtpDriver()
       
       $type_resolutor = [];
       
@@ -110,9 +113,10 @@ class UserAdministrationController extends Controller
         'pagetitle' => trans('administration.accounts.create.title'),
         'capabilities' => array_values($perms),
         'type_resolutor' => $type_resolutor,
+        'show_password_field' => ! Option::isMailEnabled() || (Option::isMailEnabled() && Option::isMailUsingLogDriver()),
+        'disable_password_sending' => ! Option::isMailEnabled() || (Option::isMailEnabled() && Option::isMailUsingLogDriver()),
       ];
       
-
       return view('administration.users.create', $viewBag);
   }
 
@@ -123,19 +127,18 @@ class UserAdministrationController extends Controller
    */
   public function store(UserRequest $request)
   {
-      if (! Option::isMailEnabled()) {
-          return redirect()->back()->withInput()->withErrors([
-               'email' => trans('notices.mail_not_configured', ['url' => route('administration.mail.index')])
-          ]);
-      }
+      $mail_configured = ! Option::isMailEnabled() || (Option::isMailEnabled() && Option::isMailUsingLogDriver());
 
       $password = User::generatePassword();
+      $given_password = $request->input('password', null);
+      $use_given_password = ! empty($given_password) && ! $request->input('generate_password', false);
+      $send_password = $mail_configured && $request->input('send_password', false);
 
-      $user = \DB::transaction(function () use ($request, $password) {
+      $user = \DB::transaction(function () use ($request, $password, $given_password, $use_given_password) {
           $user = User::create([
               'name' => $request->get('name'),
               'email' => trim($request->get('email')),
-              'password' => Hash::make($password),
+              'password' => Hash::make($use_given_password ? $given_password : $password),
               'institution_id' => null
           ]);
     
@@ -144,10 +147,18 @@ class UserAdministrationController extends Controller
           return $user;
       });
 
-      $user->notify(new UserCreatedNotification($user, $password));
-
+      try {
+          if ($send_password || (! $send_password && ! $use_given_password)) {
+              $user->notify(new UserCreatedNotification($user, $use_given_password ? $given_password : $password));
+          }
+      } catch (Exception $ex) {
+          return redirect()->route('administration.users.index')->with([
+                'flash_message' => trans('administration.accounts.created_no_mail_msg')
+            ]);
+      }
+      
       return redirect()->route('administration.users.index')->with([
-            'flash_message' => trans('administration.accounts.created_msg')
+            'flash_message' => ! $send_password ? trans('administration.accounts.created_msg') : trans('administration.accounts.created_password_sent_msg')
         ]);
   }
 
