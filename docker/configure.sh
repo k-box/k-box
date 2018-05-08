@@ -83,10 +83,9 @@ function write_config() {
 }
 
 function update_dms() {
-    cd ${KLINK_DMS_DIR} &&
-    echo "- Launching dms:update procedure..." &&
-    php artisan dms:update --no-test -vv  &&
-    # su -s /bin/sh -c "php artisan dms:update --no-test -vv" $KLINK_SETUP_WWWUSER &&
+    cd ${KLINK_DMS_DIR}
+    echo "- Launching dms:update procedure..."
+    php artisan dms:update --no-test -vv
     create_admin
 }
 
@@ -127,15 +126,41 @@ function normalize_line_endings() {
 }
 
 function create_admin () {
-    su -s /bin/sh -c "php artisan dms:create-admin '$KLINK_DMS_ADMIN_USERNAME' '$KLINK_DMS_ADMIN_PASSWORD'" $KLINK_SETUP_WWWUSER
+
+    if [ -z "$KLINK_DMS_ADMIN_USERNAME" ] &&  [ -z "$KLINK_DMS_ADMIN_PASSWORD" ]; then
+        # if both username and password are not defined or empty, tell to create the user afterwards an end return
+        echo "**************"
+        echo "Remember to create an admin user: php artisan create-admin --help"
+        echo "**************"
+        return 0
+    fi
+
+    if [ -z "$KLINK_DMS_ADMIN_USERNAME" ] &&  [ ! -z "$KLINK_DMS_ADMIN_PASSWORD" ]; then
+        # username not set, but password set => error
+        echo "**************"
+        echo "Admin email not specified. Please specify an email address using the variable KLINK_DMS_ADMIN_USERNAME"
+        echo "**************"
+        return 1000
+    fi
+    
+    if [ ! -z "$KLINK_DMS_ADMIN_USERNAME" ] &&  [ -z "$KLINK_DMS_ADMIN_PASSWORD" ]; then
+        # username set, but empty password => the user needs to be created after the setup
+        echo "**************"
+        echo "Skipping creation of default administrator. Use php artisan create-admin after the startup is complete."
+        echo "**************"
+        return 0
+    fi
+
+    su -s /bin/sh -c "php artisan create-admin '$KLINK_DMS_ADMIN_USERNAME' --password '$KLINK_DMS_ADMIN_PASSWORD'" $KLINK_SETUP_WWWUSER
 
     local ret=$?
-    echo "Returned $ret"
     if [ $ret -eq 2 ]; then
-        echo "Return 2 means the user is already there, good for us"
+        echo "Admin user is already there, good for us"
+        return 0
+    elif [ $ret -eq 0 ]; then
         return 0
     else
-        echo "Returning $ret back to caller"
+        echo "Admin user creation fail. Error $ret"
         return $ret
     fi
 }

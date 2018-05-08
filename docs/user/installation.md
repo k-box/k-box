@@ -62,6 +62,22 @@ _Running this for the first time, this step will download quite a lot of data an
 
 Afterwards K-Box will be available: [http://localhost:8080](http://localhost:8080/)
 
+### Create the administrator
+
+The default deployment configuration do not specify a default administrator account.
+
+You can create an administrator account after the K-Box start-up using:
+
+```bash
+docker-compose exec kbox php artisan create-admin {email}
+```
+
+This command will ask for the password and generate the account.
+
+> If you want you can still [configure the default account using deploy configuration](./deploy-configuration.md#k-box-administrator)
+
+> Using a real email address, for `{email}` is encouraged
+
 ### Useful commands
 
 There are some handy commands you can use to manage your K-Box:

@@ -2,10 +2,12 @@
 
 namespace KBox\Console\Commands;
 
-use Illuminate\Console\Command;
-use Symfony\Component\Console\Input\InputArgument;
+use Hash;
+use Validator;
+use Password;
 use KBox\User;
 use KBox\Capability;
+use Illuminate\Console\Command;
 
 /**
  * Creates admin user accounts
@@ -14,18 +16,21 @@ final class DmsCreateAdminUserCommand extends Command
 {
 
     /**
-     * The console command name.
+     * The name and signature of the console command.
      *
      * @var string
      */
-    protected $name = 'dms:create-admin';
+    protected $signature = 'create-admin {email}
+                            {-p|--password= : The user password.}
+                            {--show : Show the generated password instead of generating a password reset link.}
+                            {-n|--name= : The user name to use. Default the email user.}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'This command will create the administration user of the DMS and will show the assigned password.';
+    protected $description = 'This command will create the Administrator of the K-Box.';
 
     /**
      * Create a new command instance.
@@ -44,70 +49,79 @@ final class DmsCreateAdminUserCommand extends Command
      */
     public function fire()
     {
-        $the_username = $this->argument('email');
-        $the_name = $this->argument('name');
-        $the_password = $this->argument('password');
+        $email = $this->argument('email');
+        $name = $this->option('name', null);
+        $password = $this->option('password', null);
+        $passwordWasGenerated = false;
 
-        $validator = \Validator::make(
-            ['name' => $the_username],
-            ['name' => 'email']
+        if ($this->validateEmail($email)) {
+            $this->error("The specified email $email is not valid.");
+            return 3;
+        }
+        
+        if ($this->exists($email)) {
+            $this->error("The user \"$email\" already exists.");
+            return 2;
+        }
+            
+        if (empty($password) && $this->input->isInteractive()) {
+            $password = $this->secret("Please specify an 8 character password for the administrator");
+        }
+
+        if (empty($password)) {
+            $password = User::generatePassword();
+            $passwordWasGenerated = true;
+        }
+        
+        $user = $this->createUser($email, $password, $name);
+
+        $this->line('');
+        $this->line("The K-Box Administrator, <comment>$email</comment>, has been created.");
+            
+        $this->line(
+            sprintf(
+                $this->option('show', false) && $passwordWasGenerated ? 'A password has been generated for you: <info>%1$s</info> '.PHP_EOL.'Want to change, use this link %2$s' : ($passwordWasGenerated ? 'Set a password for the account using <info>%2$s</info>' : 'Login on %3$s using your chosen password'),
+                $password,
+                route('password.reset', ['email' => $email, 'token' => Password::createToken($user)]),
+                url('/'))
+        );
+        
+        $this->line('');
+
+        return 0;
+    }
+
+    protected function validateEmail($email)
+    {
+        $validator = Validator::make(
+            ['name' => $email],
+            ['name' => 'required|email']
         );
 
-        if ($validator->fails()) {
-            $this->error("The specified username ($the_username) is not a valid mail address.");
-            return 1;
-        }
-
-        $exists = ! is_null(User::findByEmail($the_username));
-
-        if ($exists) {
-            $this->error("The user ($the_username) already exists.");
-            return 2;
-        } else {
-            $et_offset = strpos($the_username, '@');
-            $nice_name = $et_offset !== false ? substr($the_username, 0, $et_offset) : $the_username;
-
-            $the_user = User::create([
-                'name' => ! is_null($the_name) ? $the_name : $nice_name,
-                'email' => $the_username,
-                'password' => \Hash::make($the_password)
-            ]);
-
-            $the_user->addCapabilities(Capability::$ADMIN);
-
-            $this->line('');
-            $this->line('The DMS Administration user has been created.');
-
-            $this->line("  username: <comment>$the_username</comment>");
-            $this->line("  password: <info>The chosen password</info>");
-            $this->line('');
-
-            return 0;
-        }
+        return $validator->fails();
     }
 
-    /**
-     * Get the console command arguments.
-     *
-     * @return array
-     */
-    protected function getArguments()
+    protected function exists($email)
     {
-        return [
-            ['email', InputArgument::REQUIRED, 'User email.'],
-            ['password', InputArgument::REQUIRED, 'User password.'],
-            ['name', InputArgument::OPTIONAL, 'User nicename.']
-        ];
+        return ! is_null(User::findByEmail($email));
     }
 
-    /**
-     * Get the console command options.
-     *
-     * @return array
-     */
-    protected function getOptions()
+    private function getUsernameFrom($email)
     {
-        return [
-        ];
+        $et_offset = strpos($email, '@');
+        return $et_offset !== false ? substr($email, 0, $et_offset) : $email;
+    }
+
+    protected function createUser($email, $password, $name = null)
+    {
+        $user = User::create([
+            'name' => ! empty($name) ? $name : $this->getUsernameFrom($email),
+            'email' => $email,
+            'password' => Hash::make($password)
+        ]);
+
+        $user->addCapabilities(Capability::$ADMIN);
+
+        return $user;
     }
 }

@@ -50,7 +50,9 @@ KLINK_DMS_DB_PASSWORD: "b2510859c83414e0cbefd26284b9171d"
 
 ### K-Box administrator
 
-The default administrator account of the K-Box is configured at startup, the username and the password are specified in the configuration file as
+The default administrator account of the K-Box can be configured at startup.
+
+By specifying username and the password in the configuration file, as in the next code block, the user will be automatically created.
 
 ```yaml
 KLINK_DMS_ADMIN_USERNAME: "admin@kbox.local"
@@ -58,6 +60,11 @@ KLINK_DMS_ADMIN_PASSWORD: "*******"
 ```
 
 > The mimumim password length is 8 characters
+
+**errors**
+
+User creation might fail, for example if the given username is not a valid email address, or an empty password is specified
+
 
 ### K-Box URL
 
