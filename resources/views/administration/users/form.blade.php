@@ -23,6 +23,46 @@
         <input class="c-form__input" type="text" name="email" value="{{old('email', isset($user) ? $user->email : '')}}" @if(isset($can_change_mail) && !$can_change_mail) disabled @endif />
     </div>
 
+    @if(!isset($can_change_mail) || (isset($can_change_mail) && !$can_change_mail))
+
+    <div class="c-form__field">
+        <label>{{trans('login.form.password_label')}}</label>
+        @if( $errors->has('password') )
+        <span class="field-error">{{ implode(",", $errors->get('password'))  }}</span>
+        @endif
+
+        <input class="c-form__input" type="password" name="password" id="password" value="{{old('password', '')}}" />
+        
+        @if(isset($disable_password_sending) && $disable_password_sending)
+        <span class="description">{{ trans('administration.accounts.labels.no_password_sending') }}</span>
+        @endif
+        
+        @php
+            $sending_disabled = (isset($disable_password_sending) && $disable_password_sending);
+            $check_generate_password = old('generate_password', !$sending_disabled && !$errors->has('generate_password'));
+            $check_send_password = old('send_password', !$sending_disabled || $errors->has('send_password'));
+        @endphp
+
+        <div class="c-form__field ">
+            @if( $errors->has('generate_password') )
+            <span class="field-error">{{ implode(",", $errors->get('generate_password'))  }}</span>
+            @endif
+            <span class="c-form__checkbox {{ isset($disable_password_sending) && $disable_password_sending ? 'c-form__checkbox--disabled' : '' }}">
+                <input type="checkbox" class="" value="1" name="generate_password" id="generate_password" @if(isset($disable_password_sending) && $disable_password_sending) disabled @endif @if($check_generate_password) checked @endif>&nbsp;<label for="generate_password">{{ trans('administration.accounts.labels.generate_password') }}</label>
+            </span>
+        </div>
+        <div class="c-form__field">
+            @if( $errors->has('send_password') )
+            <span class="field-error">{{ implode(",", $errors->get('send_password'))  }}</span>
+            @endif
+            <span class="c-form__checkbox {{ isset($disable_password_sending) && $disable_password_sending ? 'c-form__checkbox--disabled' : '' }}">
+                <input type="checkbox" class="" value="1" name="send_password" id="send_password" @if(isset($disable_password_sending) && $disable_password_sending) disabled @endif @if($check_send_password) checked @endif>&nbsp;<label for="send_password">{{ trans('administration.accounts.labels.send_password') }}</label>
+            </span>
+        </div>
+    </div>
+
+    @endif
+
     <div class="c-form__field">
         
         <label>{{trans('administration.accounts.labels.username')}}</label>
@@ -86,6 +126,21 @@
              
              evt.preventDefault();
              return false; 
+          });
+
+
+          var generatePassword = _$("#generate_password");
+          isGeneratePasswordDisabled = generatePassword.attr('disabled');
+          _$("#password").change(function(evt){
+
+              if(this.value){
+                  generatePassword.attr('checked', false);
+              }
+              else if(!isGeneratePasswordDisabled) {
+
+                  generatePassword.attr('checked', true);
+              }
+
           });
 		
 	   });
