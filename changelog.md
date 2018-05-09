@@ -7,24 +7,32 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.21.0] 2018-05-10
+
+### Added
+
+- Ability to create users even if the email server is not configured ([#77](https://github.com/k-box/k-box/pull/77))
+
 ### Changed
 
-- Allow creating a project without selecting a second user other than the project manager ([#70](https://github.com/k-box/k-box/pull/70)).
+- Move to PHP 7.1 for the official Docker image ([#71](https://github.com/k-box/k-box/pull/71))
+- Besides the project manager, no need to add additional users upon project creation  ([#70](https://github.com/k-box/k-box/pull/70)).
 - The Application Key is automatically generated, if not specified in the deployment environment variables ([#72](https://github.com/k-box/k-box/pull/72)).
-- The Application Key is now enforced to be 32 characters long ([#72](https://github.com/k-box/k-box/pull/72)).
-- The command `dms:create-admin` has been renamed to `create-admin` (possible breaking change).
-- The `create-admin` do not accept anymore the `password` and the `username` as arguments, but uses options instead (possible breaking change).
+- **breaking change** The Application Key is now enforced to be 32 characters long ([#72](https://github.com/k-box/k-box/pull/72)).
+- The command `dms:create-admin` has been renamed to `create-admin` (possible breaking change) ([#75](https://github.com/k-box/k-box/pull/75)).
+- The `create-admin` does not accept `password` and `username` as arguments anymore, but uses options instead (possible breaking change) ([#75](https://github.com/k-box/k-box/pull/75)).
 
 ### Fixed
 
 - Properly handle unescaped mime types when used as search parameters on the URL ([#65](https://github.com/k-box/k-box/issues/65)).
+- Tajik translation of the copyright owner and license feature
 
 ## [0.20.1] 2018-03-15
 
 ### Fixed
 
 - Search and Filters were not available in personal section. Now they should be back.
-- Sidebar scrollbar were too thin on Chrome
+- Sidebar scrollbar is not too thin on Chrome anymore
 
 ## [0.20.0] 2018-03-05
 

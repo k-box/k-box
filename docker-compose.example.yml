@@ -18,7 +18,7 @@ services:
 
   ## The Search Engine service
   engine:
-    image: "docker.klink.asia/images/k-search-engine:0.4.1"
+    image: "docker.klink.asia/images/k-search-engine:0.4.2"
     volumes:
       - "./storage/index:/opt/solr/k-search/k-search/data"
     expose:
@@ -31,7 +31,7 @@ services:
 
   ## The Search Engine API
   ksearch:
-    image: "docker.klink.asia/images/k-search:3.2.0-1"
+    image: "docker.klink.asia/images/k-search:3.2.1-1"
     environment:
       ## Further datails about K-Search configuration in https://github.com/k-box/k-search
       ## Application settings
@@ -67,7 +67,7 @@ services:
 
   ## The K-Box container
   kbox:
-    image: "docker.klink.asia/images/k-box:0.20.1"
+    image: "docker.klink.asia/images/k-box:0.21.0"
     environment:
       ## K-Box access
       KLINK_DMS_APP_URL: "http://localhost:8080/"

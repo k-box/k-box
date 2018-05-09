@@ -1,10 +1,10 @@
 ---
 Slug: 0.20.0
-PageTitle: K-Box v0.20 (February 2017)
+PageTitle: K-Box v0.20 (February 2018)
 Order: 0
 ---
 
-Welcome to the February 2017 release of the K-Box. This release, among all other changes, includes two new features.
+Welcome to the February 2018 release of the K-Box. This release, among all other changes, includes two new features.
 One feature was requested by the community.
 
 - [Restore old versions](#access-old-versions-of-a-document)
