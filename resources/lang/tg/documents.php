@@ -23,7 +23,7 @@ return [
         'private' => 'Хусусӣ',
         'shared' => 'Муштарак',
         'is_public' => 'Санади умуми',
-        'is_public_description' => 'Ин санад ба таври умуми ба Ташкилотхои дигар дар K-Link дастрас аст',
+        'is_public_description' => 'Ин санад ба таври умуми ба ташкилотхои дигар дар K-Link дастрас аст',
         'trashed' => 'Ин санад дар кутии партов чойгир аст',
         'klink_public_not_mine' => 'Санади мазкур танҳо истинод ба санади ба K-Link иловашуда мебошад, бинобар ин, шумо ягон тағйиротро анҷом дода наметавонед.',
     ],
@@ -55,13 +55,13 @@ return [
         'date_range_hint' => 'Итихоби вақти мувофик',
         'items_per_page_hint' => 'Шумораи санадхо дар саҳифа',
         'today' => 'Имрӯз',
-        'yesterday' => 'Аз Дирўз',
+        'yesterday' => 'Аз дирўз',
         'currentweek' => '7 рузи охир',
         'currentmonth' => '30 рузи охир',
     ],
 
     'visibility' => [
-        'public' => 'Умуми',
+        'public' => 'Умумӣ',
         'private' => 'Хусусӣ',
     ],
 
@@ -70,14 +70,14 @@ return [
         'web-page' => 'веб саҳифа|веб саҳифаҳо',
         'document' => 'cанад|санадҳо',
         'spreadsheet' => 'ҷадвали электронӣ|ҷадвалҳои электронӣ',
-        'presentation' => 'презентация|презентацияхо',
-        'uri-list' => 'Рӯйхати URL|Рӯйхатхои URL',
-        'image' => 'Сурат|суратхо',
-        'geodata' => 'Маълумоти ҷуғрофӣ| маълумотҳои ҷуғрофӣ',
-        'text-document' => 'Санади матнӣ|санадҳои матнӣ',
-        'video' => 'Видео|Видеоҳо',
-        'archive' => 'Бойгони|Бойгониҳо',
-        'PDF' => 'PDF|PDFs',
+        'presentation' => 'презентатсия|презентатсияҳо',
+        'uri-list' => 'рӯйхати URL|рӯйхатхои URL',
+        'image' => 'сурат|суратҳо',
+        'geodata' => 'маълумоти ҷуғрофӣ| маълумотҳои ҷуғрофӣ',
+        'text-document' => 'санади матнӣ|санадҳои матнӣ',
+        'video' => 'видео|видеоҳо',
+        'archive' => 'бойгони|бойгониҳо',
+        'PDF' => 'PDF|PDFҳо',
     ],
 
     'empty_msg' => 'Санад вучуд надорад <strong>:context</strong>',
@@ -111,7 +111,7 @@ return [
         'adding_title' => 'Санад илова карда шуда истодаас…',
         'adding_message' => 'Лутфан интизор шавед, санадҳо ба коллексия илова карда мешаванд ...',
         'added_to_collection' => 'Илова шуд',
-        'some_added_to_collection' => '{0}Санад илова нашуд|[1,Inf]Баъзе санадхо илова нашуданд',
+        'some_added_to_collection' => '{0}санад илова нашуд|[1,Inf]баъзе санадхо илова нашуданд',
         
         'add_to_error' => 'Ба коллекция илова карда намешавад',
         
@@ -163,6 +163,19 @@ return [
         'not_index_message' => 'Санад ҳанӯз дар K-Link нашр нашудааст. Лутфан кӯшиш кунед <button type="submit">Индексатсия кунед</button> ё бо администратор муроҷиат намоед.',
         'not_fully_uploaded' => 'Воридкунии ин санад ҳанӯз идома дорад.',
         'preview_available_when_upload_completes' => 'Пешнамоиш баъди воридкунии дастрас мешавад',
+        
+        'license' => 'Литсензия',
+        'license_help' => 'Литсензия нишон медиҳад, ки чӣ гуна дигарон метавонанд ҳангоми риояи шартҳои ҳуқуқи муаллиф истифода баранд.',
+        'license_choose_help_button' => 'Кумак барои литсензия интихоб кардани',
+        
+        'copyright_owner' => 'Соҳиби ҳуқуқи муаллиф',
+        'copyright_owner_help' => 'Маълумот дар бораи нигоҳдории соҳиби ҳуқуқи муаллиф аст, новобаста аз литсензияи интихобшуда истифода бурда мешавад.',
+        
+        'copyright_owner_name_label' => 'Ном',
+        'copyright_owner_email_label' => 'Почта',
+        'copyright_owner_website_label' => 'Вебсайт',
+        'copyright_owner_address_label' => 'Cуроға',
+
     ],
 
     'update' => [
@@ -181,6 +194,7 @@ return [
         
         'restore_dialog_title' => 'Барқарор кунед :document?',
         'restore_dialog_text' => 'Шумо ":document" барқарор карданиед ',
+        'restore_version_dialog_text' => 'Шумо варианти ":document" барқарор карданиед. Ин ҳама навтарин вариантҳоро доимо бекор мекунад.',
         'restore_dialog_title_count' => 'Барқарор кунии :count санад?',
         'restore_dialog_text' => 'Шумо ":document" барқарор карданиед ',
         'restore_dialog_text_count' => 'Шумо :count санадро барқарор карданиед',
@@ -190,7 +204,9 @@ return [
         'restore_success_title' => 'Барқарор шуд',
         'restore_error_title' => 'Барқароркуни имкон надошт',
         'restore_error_text_generic' => 'Мутаассифона, ман чизе, ки шумо аз кутии партов баровардани будед ичро кардан натавонистам.',
-      
+        'restore_version_error_text_generic' => 'Барқароркуни версияи ҳуҷҷатеро имкон надошт',
+        'restore_version_error_only_one_version' => 'Ҳуҷҷат танҳо версия дорад ва охирин аст.',
+
         'restoring' => 'Барқароркуни …',
     ],
     
@@ -229,19 +245,20 @@ return [
         'google_file_disclaimer' => ':document файли Google Drive аст, пешнамоиш имкон надорад, ин санадро дар Google Drive кушоед.',
         'google_file_disclaimer_alt' => 'Ин файли Google Drive аст, пешнамоиш дар ин чо нишон дода намешавад.',
         'open_in_google_drive_btn' => 'Дар Google Drive кушоед',
+        'video_not_ready' => 'Видео кор мекунад. Он дар давоми сонияҳо дастрас хоҳад шуд.',
     ],
 
     'versions' => [
 
         'section_title' => 'Версияҳои санад',
 
-        'section_title_with_count' => ' :number Версияи санад :number Версияҳои санад',
+        'section_title_with_count' => ' :number версияи санад :number версияҳои санад',
 
         'version_count_label' => ':number версия|:number версия',
 
         'version_number' => 'Версияи :number',
 
-        'version_current' => 'версияи ҷорӣ',
+        'version_current' => 'Версияи ҷорӣ',
 
         'new_version_button' => 'Версияи навро ворид кунед',
         

@@ -19,7 +19,8 @@ return [
         'hero_title' => 'Хуш омадед ба K-Box',
         // 'hero_sub' => 'Ҷустуҷӯ дар дохили <strong>:documents</strong> санад ва <strong>:institutions</strong> ташкилотхо.',
         // 'hero_description' => 'Шумо ҳоло метавонед ҷустуҷӯи оммавиро истифода баред, аммо агар хоҳед, ки дастраси ба санадхои ташкилоти дошта бошед бояд аз тарики Login ворид шавед.',
-        
+        'hero_title_with_organization' => 'Хуш омадед ба K-Box-и :organization',
+        'photo_by' => 'Акс аз бойгони',
 
     ]
 

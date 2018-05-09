@@ -44,7 +44,8 @@ return [
         'documentGroups' => 'Коллексияхо',
         'projectId' => 'Лоиҳа',
         'collections' => "Коллексияхо",
-        'projects' => 'Лоиҳа'
+        'projects' => 'Лоиҳа',
+        'copyright_usage' => 'Литсензия'
     ],
 
 ];
