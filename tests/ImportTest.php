@@ -32,8 +32,9 @@ class ImportTest extends BrowserKitTestCase
     public function url_import_provider()
     {
         return [
-            [ 'http://httpbin.org/image/png', 'image/png' ],
-            [ 'https://httpbin.org/image/jpeg', 'image/jpeg' ],
+            // temporary disable httpbin tests due to httpbin service failures
+            // [ 'http://httpbin.org/image/png', 'image/png' ],
+            // [ 'https://httpbin.org/image/jpeg', 'image/jpeg' ],
             [ 'http://klink.asia', 'text/html' ],
             [ 'http://publicliterature.org/pdf/olivr11.pdf', 'application/pdf' ],
             [ 'https://vimeo.com/96680745', 'text/html' ],
