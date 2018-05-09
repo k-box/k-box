@@ -1,124 +1,225 @@
-# Contributing to the K-Box development
+# K-Box development
 
-FIRST RUN, tl;dr
+## Prerequisites
 
-requirements
+- [Git](https://git-scm.com/)
+- [PHP](https://php.net/), `>= 7.0.21` (tested on PHP 7.0 and 7.1)
+- [Composer](https://getcomposer.org/download/)
+- [Node.JS](https://nodejs.org/en/), `>= 8.11.1, < 9.0.0`
+- [Yarn](https://yarnpkg.com/en/), follow the [installation guide](https://yarnpkg.com/en/docs/install)
 
-- a running mysql/mariadb
-- a running K-Search
-- PHP 7.0+
-- NodeJS 6.x+
+In addition the following services should be reachable
 
-```bash
-npm install
-composer install --prefer-dist
-composer run install-video-cli
-chmod +x ./bin/bin/packager-linux
+- [MariaDB](https://mariadb.org/) `>= 10.1` or [Mysql](https://www.mysql.com/) `>= 5.7`
+- [K-Search](https://github.com/k-box/k-search) configured to run locally without authentication
 
-php artisan clear-compiled
+> if you don't want to install them separately you can run them using Docker, as explained in the services section 
 
-## create env file for configuration
+## Getting the sources
 
-## Make sure the storage folder has write permission
-
-php artisan dms:update --no-test
-php artisan dms:create-admin admin@klink.local password
-
-npm run dev
-
-php artisan dms:lang-publish
-
-php artisan dms:queuelisten # for the queue runner, this is a blocking call
-
-php artisan serve # for starting the PHP integrated web server, this is a blocking call
-```
-
-## Build and Run
-
-If you want to understand how the K-Box works, debug an issue or contribute you can download and build the K-Box locally.
-
-### Getting the sources
-
-**Note**: on Windows you might want to set `core.autocrlf=false` and `core.safecrlf=true`, to keep the line endings we have in our source files.
+The source code is available in a git repository hosted on GitHub. You can obtain the code by cloning it:
 
 ```bash
 git clone https://github.com/k-box/k-box.git
 ```
+> on Windows you might want to set `core.autocrlf=false` and `core.safecrlf=true`, to keep the line endings we have in our source files.
 
-### Prerequisites
 
-- [Git](https://git-scm.com/)
-- [PHP](https://php.net/), `>= 7.0.21, < 7.1.0`
-- [Composer](https://getcomposer.org/download/)
-- [Node.JS](https://nodejs.org/en/), `>= 8.9.1, < 9.0.0`
-- [Yarn](https://yarnpkg.com/en/), follow the [installation guide](https://yarnpkg.com/en/docs/install)
-- [Mysql](https://www.mysql.com/) `>= 5.7` or MariaDB
+## Dependencies installation
 
-Finally, install all dependencies using `Composer` and `Yarn`:
+Once the repository is cloned, the required PHP and javascript dependencies can be installed. We do so by issuing:
 
 ```bash
-composer install
+composer install --prefer-dist
 
 yarn
 ```
 
-### Build
+**Additional dependencies**
 
-From a terminal, where you have cloned the `k-box` repository, execute the following command to run the packaging of the required modules
+The K-Box have additional dependencies, e.g. FFMpeg, the language guesser or text extractors from PDF, that are defined by some of the PHP dependencies defined in the `composer.json` file. Composer will not execute installation scripts exposed by dependent packages, therefore we need to run them manually:
 
-```bash
-yarn run development
+```bash    
+composer run install-video-cli
+composer run install-content-cli
+composer run install-language-cli
+composer run install-streaming-client
 ```
 
-### Configuration
+> Depending on your operating system, make sure that binaries in the `/bin` folder are executable
 
-The environment configuration uses a `.env` file located in the root folder. 
-The `.env` file contains all the sensible configuration (local url, tokens, password, etc.).
+> If there are problems, check the [Troubleshooting section](#troubleshooting)
 
-The available configuration parameters are discussed in the [Configuration Section](./configuration#static-configuration).
+**Cleaning**
 
-**Important: make sure that all the required parameters are inserted into the `.env` file.**
+At the end of the installation, some files might have been compiled for production. 
+These files include class loading optimization and cache of configuration files. 
+To prevent that configuration caches slow down your development, execute
 
-**It's important that the parameters DMS_INSTITUTION_IDENTIFIER, DMS_CORE_ADDRESS, DMS_CORE_USERNAME, DMS_CORE_PASSWORD, DMS_IDENTIFIER are configured in the `.env` file before proceeding** (contact your K-Link Development team referent to get the values for those parameters).
+```bash
+php artisan clear-compiled
+php artisan config:clear
+php artisan route:clear
+```
 
-Just to verify that at least the PHP dependencies and the environment is configured correctly execute the following command
+### Required services
 
-	> php artisan
+The K-Box requires a MySql database and a running K-Search instance. 
 
-The ouput must be the list of invocable artisan commands.
+You can install those services from source, via prebuilt packages or via Docker.
 
-### 4. Testing the K-Link parameters
+For this documentation we consider to start those services using Docker.
 
-Before proceeding to the next configuration steps is highly important that the K-Link Core configuration is verified. To ensure that run from the command line
+An example docker compose file is available in `docker-compose.dev.example.yml`. It defines
 
-	> php artisan dms:test
+- 2 MariaDB instances, one configured for main use and one for unit tests
+- a K-Search with its related K-Search Engine
 
-This command will output a success message if the parameter are configured correctly. An error with the corresponding description will be printed in case of failure.
+```bash
+# copy the example configuration
+cp docker-compose.dev.example.yml docker-compose.yml
 
-### 5. Database creation and seeding
+# pull the images and start the containers
+docker-compose pull
+docker-compose up -d
+```
 
-After configuring the environment parameters you can create the database and seed the default values.
+### Environment configuration
+
+The environment configuration uses a `.env` file located in the root folder. The environment file define the deploy configuration and contains all the sensible information (local url, tokens, password, etc.).
+
+The project root folder contain a example environment configuration in the file `env.example`.
+
+You can copy it to be your environment file, `cp env.example .env` and then customize it.
+
+**Generate an Application Key**
+
+The application key is required to generate secure encrypted values. Generate a new one using:
+
+```bash
+php artisan key:generate
+```
+
+**Application URL**
+
+The application URL defines the location on which the K-Box will be exposed. The example configuration uses `localhost:8000` as the URL on which the K-Box will be listening
+
+```conf
+APP_URL=http://localhost:8000
+```
+
+> Even if the K-Box is a web application, it requires the configuration of the application public URL in order to use it while handling asynchrounous processes, e.g. sending emails.
+
+**Set the URL that the K-Search will use to pull files for indexing**
+
+The K-Search pulls the data from the the K-Box upon indexing request.
+
+The default configuration is suitable for Windows with a Docker based deployment. The configuration expects the K-Box to be running on localhost and on port 8000.
+
+```conf
+APP_INTERNAL_URL=http://docker.for.win.localhost:8000/
+```
+
+If your are on Linux, where Docker is native, you can comment (or delete) the `APP_INTERNAL_URL`, as the `APP_URL` will be used.
+
+> Since Docker for Windows and for Mac uses a virtual machine, the containers cannot resolve `localhost`. For them Docker defines `docker.for.win.localhost` and `docker.for.mac.localhost` respectively.
+
+**Mail configuration**
+
+The suggested development email configuration uses the log driver. 
+All emails will be written in plain text inside the [application log](../user/maintenance/logging.md).
+
+If you want to configure a real SMPT server you can comment or remove the following line from the `.env` file
+
+```conf
+MAIL_DRIVER=log
+```
+
+> The whole list of available configuration parameters are discussed in the [Configuration Section](./configuration#static-configuration).
+
+
+In order to verify that the PHP dependencies and the environment is configured correctly execute the following command
+
+```bash
+php artisan
+```
+
+The ouput must be the list of available [command line tools](./commands/index.md).
+
+## Frontend build
+
+Before starting the K-Box, the frontend CSS and JS must be built. The repository do not contain pre-built versions of it to reduce merge conflict while submitting Pull requests that heavily change the frontend styles.
+
+```bash
+# Build the CSS and JS
+yarn development
+
+# Generate the language files for Javascript
+php artisan dms:lang-publish
+```
+
+## Installation
+
+Now that the environment is configured, we can setup the database, seed the default values and the create the administrator user.
 
 The creation and seeding operation are performed by lauching the `dms:update` Laravel Artisan command:
 
 ```bash
-php artisan dms:update
+php artisan dms:update --no-test
 ```
 
-This command will take care of installing a fresh version of the database if there is no existing DMS installation. In case an existing installation is found it will be upgraded (if needed). 
-Please note that the update command performs, also, the connection test to the K-Link Core. If you don't want to perform it and you are installing the Project Edition of the DMS you can pass the `--no-test` option to skip the K-Link Core testing.
+### First user creation
 
-Now that the database is correctly setup the default administration user can be created by issuing the following command
+Now that the database is correctly setup the default administration user can be created by issuing the command
+
 ```bash
-php artisan dms:create-admin user_email user_password [user_nickname]
+php artisan create-admin user_email
 ```
-Replace `user_email` with a valid email address and `user_password` with an 8 character (minimum) long password.
+Replace `user_email` with a valid email address. An 8 character password will be asked during the command execution.
+
+## Running
+
+Everything is now ready for the startup. We will use the PHP integrated webserver to serve the application
+
+```bash
+php artisan serve
+```
+
+> This is a blocking command, to stop it press `Ctrl+C`
+
+In addition, document processing and email sending, requires the asynchronous job runner to be active
+
+```bash
+php artisan dms:queuelisten
+```
+
+> This is a blocking command, to stop it press `Ctrl+C`
+
+## Troubleshooting
+
+### Composer install fails, `fileinfo` extension not found
+
+Some packages require specific PHP extensions that might not be active by default. This is especially true on PHP for Windows.
+
+Verify that the `fileinfo` extension is loaded in your php configuration file.
+
+### Video processing CLI installation failure
+
+The automatic download of FFmpeg might fail. You can manually obtain the files for your Operating System using the following links
+
+- Windows, https://ffmpeg.zeranoe.com/builds/win64/static/ffmpeg-3.3.3-win64-static.zip
+- Linux, https://johnvansickle.com/ffmpeg/releases/ffmpeg-3.3.3-64bit-static.tar.xz 
+- MacOS, https://ffmpeg.zeranoe.com/builds/macos64/static/ffmpeg-3.3.4-macos64-static.zip
+
+After downloading, unzip the following binaries and put them in the `/bin/bin` folder
+
+- ffmpeg
+- ffprobe
 
 
+### Errors when writing files
 
-### 6. Test if is all up
-
-Please be sure that the following folders have write permissions:
+Please make sure that the following folders have write permissions:
 
 - `storage/logs`;
 - `storage/framework`;

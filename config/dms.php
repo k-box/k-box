@@ -41,7 +41,7 @@ return [
     | @var string
     */
 
-    'institutionID' => getenv('DMS_INSTITUTION_IDENTIFIER') ?: 'DMS',
+    'institutionID' => getenv('DMS_INSTITUTION_IDENTIFIER') ?: 'KLINK',
 
     /*
     |--------------------------------------------------------------------------
