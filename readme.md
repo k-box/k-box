@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/k-box/k-box.svg?branch=master)](https://travis-ci.org/k-box/k-box) ![latest version](https://img.shields.io/badge/version-0.20.1-blue.svg)
+[![Build Status](https://travis-ci.org/k-box/k-box.svg?branch=master)](https://travis-ci.org/k-box/k-box) [![latest version](https://img.shields.io/badge/version-0.21.1-blue.svg)](docs/release-note/release-note-0.21.md)
 
 # K-Box
 
