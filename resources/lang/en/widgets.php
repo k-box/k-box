@@ -16,7 +16,7 @@ return [
 
     'dms_admin' => [
 
-        'title'=>'DMS Administration',
+        'title'=>'K-Box Administration',
 
     ],
 

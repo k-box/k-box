@@ -23,9 +23,9 @@ return [
         'private' => 'Private',
         'shared' => 'Shared',
         'is_public' => 'Public Document',
-        'is_public_description' => 'This document is publicly available to other Institution in the K-Link Network',
-        'trashed' => 'This document is in the trash',
-        'klink_public_not_mine' => 'This document is only a reference to the document added to K-Link Public, therefore you cannot make any changes.',
+        'is_public_description' => 'This document is publicly available to other Institutions in the K-Link Network',
+        'trashed' => 'This document is in Trash. Editing is not possible',
+        'klink_public_not_mine' => 'This document is only a reference to the document added to K-Link Public. You cannot make any changes.',
     ],
 
     'page_title' => 'Documents',
@@ -40,14 +40,14 @@ return [
         'recent' => 'Recent',
         'trash' => 'Trash',
         'not_indexed' => 'Not Indexed',
-        'recent_hint' => 'You will find here recently modified documents you own',
-        'starred_hint' => 'You will find here all your starred documents',
+        'recent_hint' => 'Here you will find recently modified documents you own',
+        'starred_hint' => 'Here you will find all your starred documents',
     ],
 
     'sort' => [
         'sorted_by' => 'Sorted by :sort',
-        'type_project_name' => 'project name',
-        'type_search_relevance' => 'search relevance',
+        'type_project_name' => 'Project name',
+        'type_search_relevance' => 'Search relevance',
         'type_updated_at' => 'update date',
     ],
 
@@ -85,7 +85,7 @@ return [
 
     'bulk' => [
 
-        'removed' => ':num file deleted.|:num files deleted.',
+        'removed' => ':num file trashed.|:num files trashed.',
         
         'permanently_removed' => ':num file permanently deleted.|:num files permanently deleted.',
         
@@ -95,10 +95,10 @@ return [
         
         'copy_error' => 'Cannot copy to collection. :error',
         
-        'copy_completed_all' => 'All documents has been added to :collection',
-        'copy_completed_some' => '{0}No documents has been added because were already in ":collection"|[1,Inf]:count Documents added to :collection, the remaining :remaining where already in :collection',
+        'copy_completed_all' => 'All documents have been added to :collection',
+        'copy_completed_some' => '{0}These documents are already in ":collection"|[1,Inf]:count documents added to :collection. :remaining documents are already in :collection',
         
-        'restore_error' => 'Cannot restore document. :error',
+        'restore_error' => 'Cannot restore the document. :error',
         
         // 'make_public' => ':num document has been published over the K-Link Public Network|:num documents were made available in the K-Link Network.',
         
@@ -111,7 +111,7 @@ return [
         'adding_title' => 'Adding documents...',
         'adding_message' => 'Please wait while the documents are being added to the collection...',
         'added_to_collection' => 'Added',
-        'some_added_to_collection' => '{0}Documents not added|[1,Inf]Some documents not added',
+        'some_added_to_collection' => '{0}Documents not added|[1,Inf]Some documents were not added',
         
         'add_to_error' => 'Cannot add to collection',
         
@@ -135,7 +135,7 @@ return [
 
     'create' => [
         'page_breadcrumb' => 'Create',
-        'page_title' => 'Create a new Document',
+        'page_title' => 'Create new Document',
     ],
 
     'edit' => [
@@ -148,7 +148,7 @@ return [
         'abstract_placeholder' => 'Document abstract',
 
         'authors_label' => 'Authors',
-        'authors_help' => 'Authors must be specified as a comma separated list of entry formatted like <code>name surname &lt;mail@something.com&gt;</code>',
+        'authors_help' => 'Authors must be specified like <code>name surname &lt;mail@something.com&gt;</code>',
         'authors_placeholder' => 'Document authors (name surname <mail@something.com>)',
 
         'language_label' => 'Language',
@@ -157,15 +157,15 @@ return [
         'created_on' => 'Created on <strong>:time</strong>',
         'uploaded_by' => 'Uploaded by <strong>:name</strong>',
 
-        'public_visibility_description' => 'The document will be made available to all Institution in the K-Link Network',
+        'public_visibility_description' => 'The document will be made available to all Institutions in the K-Link Network',
         
         
         'not_index_message' => 'The document has not yet been succesfully added to K-Link. Please try to <button type="submit">Reindex it</button> now or contact your administrator.',
         'not_fully_uploaded' => 'The upload of this document is still in progress.',
-        'preview_available_when_upload_completes' => 'The preview will be available once the upload completes.',
+        'preview_available_when_upload_completes' => 'The preview will be available once the upload is completed.',
 
         'license' => 'License',
-        'license_help' => 'License indicates how others can use the work while respecting the copyright terms and conditions.',
+        'license_help' => 'License indicates how others can use the work while respecting its copyright terms and conditions.',
         'license_choose_help_button' => 'Help me choose a license',
         
         'copyright_owner' => 'Copyright Owner',
@@ -186,26 +186,26 @@ return [
         'removed_from_text_alt' => 'The document has been removed from the collection',
         
         'cannot_remove_from_title' => 'Cannot remove from collection',
-        'cannot_remove_from_general_error' => 'Cannot remove document from collection, if the problem persists please contact the DMS Administrator.',
+        'cannot_remove_from_general_error' => 'Cannot remove document from collection. If the problem persists, contact the K-Box Administrator.',
 
     ],
     
     'restore' => [
         
         'restore_dialog_title' => 'Restore :document?',
-        'restore_dialog_text' => 'You\'re about to restore ":document"',
-        'restore_version_dialog_text' => 'You\'re about to restore the version ":document". This will permanently delete all the newest versions.',
+        'restore_dialog_text' => 'You are about to restore ":document"',
+        'restore_version_dialog_text' => 'You are about to restore the version ":document". This will permanently delete all the newest versions.',
         'restore_dialog_title_count' => 'Restore :count documents?',
-        'restore_dialog_text' => 'You\'re about to restore ":document"',
-        'restore_dialog_text_count' => 'You\'re about to restore :count files',
-        'restore_dialog_yes_btn' => 'Yes, restore',
-        'restore_dialog_no_btn' => 'No',
+        'restore_dialog_text' => 'You are about to restore ":document"',
+        'restore_dialog_text_count' => 'You are about to restore :count files',
+        'restore_dialog_yes_btn' => 'Restore',
+        'restore_dialog_no_btn' => 'Cancel',
         
         'restore_success_title' => 'Restored',
         'restore_error_title' => 'Cannot restore',
         'restore_error_text_generic' => 'The selected file was not moved out of the trash.',
-        'restore_version_error_text_generic' => 'It was not possible to restore the file at the specified version.',
-        'restore_version_error_only_one_version' => 'The document has only version and is the latest.',
+        'restore_version_error_text_generic' => 'The selected previous version could not be restored.',
+        'restore_version_error_only_one_version' => 'The document has only one and the latest version.',
       
         'restoring' => 'Restoring...',
     ],
@@ -215,8 +215,8 @@ return [
         'dialog_title' => 'Trash ":document"?',
         'dialog_title_alt' => 'Trash document?',
         'dialog_title_count' => 'Move :count documents to Trash?',
-        'dialog_text' => 'You\'re about to move :document to Trash.',
-        'dialog_text_count' => 'You\'re about to move :count documents to Trash',
+        'dialog_text' => 'You are about to move :document to Trash.',
+        'dialog_text_count' => 'You are about to move :count documents to Trash',
         'deleted_dialog_title' => ':document has been trashed',
         'deleted_dialog_title_alt' => 'Trashed',
         'cannot_delete_dialog_title' => 'Cannot trash ":document"',
@@ -229,20 +229,20 @@ return [
         'dialog_title' => 'Permanently Delete ":document"?',
         'dialog_title_alt' => 'Permanently Delete document?',
         'dialog_title_count' => 'Delete :count documents?',
-        'dialog_text' => 'You\'re about to permanently delete :document. This operation cannot be undone.',
-        'dialog_text_count' => 'You\'re about to permanently delete :count documents. This operation cannot be undone.',
+        'dialog_text' => 'You are about to permanently delete :document. This operation cannot be undone.',
+        'dialog_text_count' => 'You are about to permanently delete :count documents. This operation cannot be undone.',
         'deleted_dialog_title' => ':document has been permanently deleted',
         'deleted_dialog_title_alt' => 'Permanently Deleted',
-        'cannot_delete_dialog_title' => 'Cannot permanently delete ":document"!',
-        'cannot_delete_dialog_title_alt' => 'Cannot permanently delete!',
-        'cannot_delete_general_error' => 'There was a problem while permanently deleting the document, please contact an Administrator.',
+        'cannot_delete_dialog_title' => 'Cannot delete ":document" permanently',
+        'cannot_delete_dialog_title_alt' => 'Cannot delete permanently',
+        'cannot_delete_general_error' => 'There was a problem while permanently deleting the document. Please contact the K-Box Administrator.',
     ],
 
     'preview' => [
         'page_title' => 'Previewing :document',
-        'error' => 'Sorry, but we were unable to load the preview of ":document".',
-        'not_available' => 'The document preview cannot be showed for this document.',
-        'google_file_disclaimer' => ':document is a Google Drive file, we cannot show the preview here. You have to open it in Google Drive.',
+        'error' => 'Sorry, we were unable to load the preview of ":document".',
+        'not_available' => 'The preview cannot be showed for this document.',
+        'google_file_disclaimer' => ':document is a Google Drive file. We cannot show the preview here. You have to open it in Google Drive.',
         'google_file_disclaimer_alt' => 'This is a Google Drive file and cannot be previewed here.',
         'open_in_google_drive_btn' => 'Open in Google Drive',
         'video_not_ready' => 'The video is being processed. It will be available within seconds.',
@@ -264,57 +264,57 @@ return [
         
         'new_version_button_uploading' => 'Uploading...',
 
-        'filealreadyexists' => 'The file version you are uploading already exists in the DMS',
+        'filealreadyexists' => 'The file version already exists in the K-Box',
     ],
 
     'messages' => [
-        'updated' => 'Document details changed. Processing the changes, the document might not be available in search results yet.',
+        'updated' => 'Document details changed. Processing the changes... The document might not be available in search results yet.',
         'processing' => 'The document is being processed by the K-Box. It might not be immediately available in search results.',
         'local_public_only' => 'Currently showing only the Institution\'s Public documents.',
-        'forbidden' => 'You don\'t have the ability to make changes to the document.',
-        'delete_forbidden' => 'You don\'t have the rights to delete documents, please contact a Project Manager or Administrator.',
-        'delete_public_forbidden' => 'You cannot delete a Public Document, please contact a K-Linker or Administrator.',
-        'delete_force_forbidden' => 'You cannot permanently delete a Document. Please contact a Project Manager or Administrator.',
+        'forbidden' => 'You do not have the ability to make changes to the document.',
+        'delete_forbidden' => 'You do not have the permissions to delete documents. Please contact the Project Manager or Administrator.',
+        'delete_public_forbidden' => 'You cannot delete a public document. Please contact the Project Manager or Administrator.',
+        'delete_force_forbidden' => 'You cannot permanently delete a document. Please contact the Project Manager or Administrator.',
         'drag_hint' => 'Drop the file to start the upload.',
-        'recent_hint_dms_manager' => 'You are viewing all the document updates made by each user of the K-Box.',
-        'no_documents' => 'No Documents, you can upload new documents here using the "Create or Add" button above or by dragging and dropping them here.',
+        'recent_hint_dms_manager' => 'You are viewing document updates performed by all K-Box users in accessible projects.',
+        'no_documents' => 'No documents. Upload new documents using the "Create or Add" button above or by dragging and dropping them here.',
     ],
     
     
     'trash' => [
         
         'clean_title' => 'Clean trash?',
-        'yes_btn' => 'Yes, clean',
-        'no_btn' => 'No',
+        'yes_btn' => 'Clean',
+        'no_btn' => 'Cancel',
 
-        'empty_trash' => 'Nothing in trash',
+        'empty_trash' => 'Nothing in Trash',
         
-        'empty_all_text' => 'All the documents in the trash will be permanently deleted. This action will remove files and revision, starred, collections and shares. This action cannot be undone.',
-        'empty_selected_text' => 'You\'re about to permanently delete the selected documents. You will remove also files and revision, starred, collections and shares. This action cannot be undone.',
+        'empty_all_text' => 'All the documents in the Trash will be permanently deleted. This action will remove files and revision, starred, collections and shares. This action cannot be undone.',
+        'empty_selected_text' => 'You are about to permanently delete the selected documents. You will remove also files and revision, starred, collections and shares. This action cannot be undone.',
         
         'cleaned' => 'Trash Cleaned',
-        'cannot_clean' => 'Cannot clean trash',
-        'cannot_clean_general_error' => 'There was a problem cleaning the trash, please contact an Administrator if the problem persists.',
+        'cannot_clean' => 'Cannot clean Trash',
+        'cannot_clean_general_error' => 'There was a problem cleaning the Trash. Please contact an Administrator, if the problem persists.',
     ],
     
     
     'upload' => [
-        'folders_dragdrop_not_supported' => 'Your browser don\'t support folder drag and drop.',
+        'folders_dragdrop_not_supported' => 'Your browser does not support folder drag and drop.',
         'error_dialog_title' => 'File Upload error',
         
-        'max_uploads_reached_title' => 'Sorry, but you have to wait a little',
-        'max_uploads_reached_text' => 'We can process only a little amount of file, so please have a little patience before adding another file.',
+        'max_uploads_reached_title' => 'Sorry, you have to wait a little',
+        'max_uploads_reached_text' => 'We can process only a small number of files. Please have a little patience before adding another file.',
         
         'all_uploaded' => 'All the files have been successfully uploaded.',
         
         'upload_dialog_title' => 'Upload',
         'page_title' => 'Upload',
         'dragdrop_not_supported' => 'Your browser does not support drag and drop file uploads.',
-        'dragdrop_not_supported_text' => 'Please upload your files using file selector in "Create or Add".',
+        'dragdrop_not_supported_text' => 'Please upload your files using "Create or Add".',
         'remove_btn' => "Remove file", //this is the little link that is showed after the file upload has been processed
         'cancel_btn' => 'Cancel upload', //for future use
         'cancel_question' => 'Are you sure you want to cancel this upload?',  //for future use
         'outside_project_target_area' => 'Please drag and drop your file over a Project to upload it.',
-        'empty_file_error' => 'Empty file, please upload a file, which has at least one word in it.',
+        'empty_file_error' => 'Empty file. Please upload a file, which has at least one word in it.',
     ],
 ];

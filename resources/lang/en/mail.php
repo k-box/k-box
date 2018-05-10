@@ -12,7 +12,7 @@ return [
 
     // Global layout elements
     'logo_text' => 'K-Box',
-    'footer_disclaimer' => "You're receiving this email because you are a member of <a href=\":url\">:instance</a>",
+    'footer_disclaimer' => "You are receiving this E-mail because you are a member of <a href=\":url\">:instance</a>",
     'footer_help' => "<a href=\":url\">Help</a>",
 
     'welcome' => [
@@ -21,10 +21,10 @@ return [
             Welcome mail template
          */
 
-        'disclaimer' => 'This E-Mail contains your access credentials, please keep it in a safe place.',
+        'disclaimer' => 'This E-Mail contains your access credentials. Please keep it in a safe place.',
         'welcome' => 'Welcome :name',
         'credentials' => 'you can now access the K-Box of your Institution with<br/>username <strong>:mail</strong><br/>password <strong>:password</strong>',
-        'credentials_alt' => 'you can now access the K-Box of your organization with the following credentials',
+        'credentials_alt' => 'you can now access the K-Box of your organization with the following credentials: ',
         'username' => 'user **:mail**',
         'password' => 'password `:password`',
 

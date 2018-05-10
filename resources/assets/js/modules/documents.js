@@ -1352,7 +1352,9 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
 
                     
 
-                    DMS.MessageBox.deleteQuestion(deleteTitle, deleteMessage).then(function(){
+                    DMS.MessageBox.deleteQuestion(deleteTitle, deleteMessage, {
+                        confirmButtonText: Lang.trans('actions.dialogs.trash_btn')
+                    }).then(function(){
 
                         DMS.MessageBox.wait( Lang.trans('actions.deleting'), '...');
 

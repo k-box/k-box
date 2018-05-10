@@ -12,12 +12,12 @@ return [
     |
     */
     
-    'mail_testing_mode_msg' => 'The email configuration is not valid, no mail message will be sent to new users or existing ones. <a href=":url">Change it</a>',
+    'mail_testing_mode_msg' => 'The email configuration is not valid. No mail message will be sent to new users or existing ones. <a href=":url">Change it</a>',
     'mail_not_configured' => 'The E-Mail configuration requires your attention.<br/><a href=":url">Please review the E-Mail settings</a>.',
     'mail_config_msg' => 'Please complete the <a href=":url">E-Mail service configuration</a>.',
-    'account_mail_msg' => 'Please <a href=":url">change your account E-Mail</a> to a real E-Mail address otherwise you will not be able to receive messages.',
+    'account_mail_msg' => 'Please <a href=":url">change your account E-Mail</a> to a real E-Mail address, otherwise you will not be able to receive messages.',
 
-    'long_running_msg' => '<strong>Still Working!</strong> Seems that the action is taking a quite amout of time, sorry about that.',
+    'long_running_msg' => '<strong>Still Working!</strong> The action takes longer this time...',
     
     'terms_of_use' => 'By uploading or sharing a document you agree to the <a href=":policy_link">Service Policy</a>',
 
@@ -26,11 +26,11 @@ return [
     'default_license_not_set' => 'The default license for new uploads is not configured. <a href=":url">Please select a default license</a>.',
     'available_licenses_not_set' => 'The list of usable licenses is not configured. <a href=":url">Please review the list of available licenses</a>.',
     
-    'license_configuration_error' => '<strong>This installation lacks of the obligatory copyright information about "All rights reserved", please contact your system administrator</strong>.<br/>This will have impact on the ability to search for documents and network publication.',
+    'license_configuration_error' => '<strong>This installation lacks the obligatory copyright information about "All rights reserved". Please contact your system administrator</strong>.<br/>This will impact on search and network publication.',
     
     // general upload blocked message for users
-    'uploads_blocked' => 'The K-Box is currently in read only mode. New file uploads are not permitted due to maintenance operations.',
+    'uploads_blocked' => 'The K-Box is currently in read-only mode. New file uploads are not permitted due to maintenance operations.',
     
     // upload blocked message for administrators
-    'uploads_blocked_admin' => 'Read only mode is active. File uploads are blocked, please review the configuration.',
+    'uploads_blocked_admin' => 'Read-only mode is active. File uploads are blocked. Please review the configuration.',
 ];

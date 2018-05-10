@@ -31,15 +31,15 @@ return [
 
     'accounts' => [
 
-        'disable_confirm' => 'Do you really want to disable :name?',
+        'disable_confirm' => 'Please confirm that you want to disable :name',
 
         'create_user_btn' => 'Create User',
 
         'table' => [
 
-            'name_column' => 'name',
-            'email_column' => 'email',
-            'institution_column' => 'institution',
+            'name_column' => 'Name',
+            'email_column' => 'E-mail',
+            'institution_column' => 'Institution',
 
         ],
         
@@ -57,20 +57,20 @@ return [
             'update' => 'Update',
 
             'institution' => 'Institution',
-            'select_institution' => 'Select the user Institution affiliation...',
+            'select_institution' => 'Select user\'s Institution affiliation...',
 
-            'generate_password' => 'Generate a password for the user',
-            'send_password' => 'Send the password to the user via email',
-            'no_password_sending' => 'Type a password for the user. No email server is configured, therefore we cannot generate and send the password directly via email.',
+            'generate_password' => 'Generate user\'s password',
+            'send_password' => 'Send password to user via E-mail',
+            'no_password_sending' => 'Type a password for the selected user. No email server is configured, K-Box cannot generate and send passwords directly via E-mail.',
 
         ],
 
         'capabilities' => [
 
             'manage_dms' => 'User can access the K-Box administration panel',
-            'manage_dms_users' => 'User can create/disable K-Box users',
-            'manage_dms_log' => 'User can see the K-Box logs',
-            'manage_dms_backup' => 'User can perform K-Box backups and restore',
+            'manage_dms_users' => 'User can create/disable other K-Box users',
+            'manage_dms_log' => 'User can see the K-Box log files',
+            'manage_dms_backup' => 'User can perform the K-Box backups and restore',
             'change_document_visibility' => 'User can un-/publish documents',
             'edit_document' => 'User can edit documents',
             'delete_document' => 'User can trash documents',
@@ -84,7 +84,7 @@ return [
             'receive_share' => 'User can see documents that have been shared with him',
             'manage_share_personal' => 'User may directly share personal documents with other K-Box users',
             'manage_share_private' => 'User can share documents to groups of users defined at institution level',
-            'clean_trash' => 'User can permanently remove owned documents from the K-Box',
+            'clean_trash' => 'User can permanently delete owned documents from the K-Box',
             'manage_personal_people' => 'User can create/edit groups of users defined at personal level',
             'manage_people' => 'User can create/edit groups of users defined at institution level',
 
@@ -97,7 +97,7 @@ return [
             'content_manager' => 'Content Manager',
             'quality_content_manager' => 'Quality Content Manager',
             'project_admin' => 'Project Administrator',
-            'admin' => 'K-Box Admin',
+            'admin' => 'K-Box Administrator',
             'klinker' => 'K-Linker',
 
         ],
@@ -110,18 +110,18 @@ return [
         ],
 
         'created_msg' => 'User created',
-        'created_password_sent_msg' => 'User created, the password has been sent directly to the users email',
-        'created_no_mail_msg' => 'User created. We couldn\'t send the password to the user email',
+        'created_password_sent_msg' => 'User was successfully created. The password has been sent directly to the user\'s E-mail',
+        'created_no_mail_msg' => 'User created. We could not send the password to the user\'s E-mail',
         'edit_disabled_msg' => 'You cannnot modify your account capabilities. Profile configuration can also be made through the <a href=":profile_url">profile page</a>.',
         'disabled_msg' => 'User :name disabled',
-        'enabled_msg' => 'User :name has been restored',
+        'enabled_msg' => 'User :name restored',
         'updated_msg' => 'User updated',
         'mail_subject' => 'Your K-Box account is ready',
-        'reset_sent' => 'Password reset e-mail sent to :name (:email)',
-        'reset_not_sent' => 'The Password reset e-mail cannot be sent to :email. :error',
-        'reset_not_sent_invalid_user' => 'The user, :email, cannot be found.',
+        'reset_sent' => 'Password reset E-mail sent to :name (:email)',
+        'reset_not_sent' => 'The password reset e-mail cannot be sent to :email. :error',
+        'reset_not_sent_invalid_user' => 'The user :email cannot be found.',
         'send_reset_password_btn' => 'Password reset',
-        'send_reset_password_hint' => 'Request a password link reset for the user',
+        'send_reset_password_hint' => 'Request a password reset link for the user',
         'send_message_btn' => 'Send Message',
         'send_message_btn_hint' => 'Send a Message to each user',
     ],
@@ -182,18 +182,18 @@ return [
         'save_btn' => 'Save Mail configuration',
         'configuration_saved_msg' => 'The Mail configuration has been succesfully saved.',
         'test_success_msg' => 'The test E-Mail has been successfully queued for sending (from :from). Check your inbox.',
-        'test_failure_msg' => 'The test email cannot be sent due to an error.',
+        'test_failure_msg' => 'The test E-mail cannot be sent due to an error.',
         'enable_chk' => 'Enable Sending E-Mails',
-        'enabled' => 'The K-Box can send emails',
+        'enabled' => 'The K-Box can send E-mails',
         'enabled_by_configuration' => 'Send email is enabled by deployment configuration',
-        'disabled' => 'The K-Box cannot send emails',
+        'disabled' => 'The K-Box cannot send E-mails',
         'test_btn' => 'Send a test E-Mail',
-        'from_label' => 'Send E-Mail From',
-        'from_description' => 'Here, you may specify a name and address that is used globally for all e-mails that are sent by the K-Box.',
+        'from_label' => 'Send E-Mail from',
+        'from_description' => 'Name and address used globally for all E-mails that are sent by the K-Box.',
         'server_configuration_label' => 'Server configuration',
-        'server_configuration_description' => 'How the K-Box connects to the email server',
-        'from_name' => 'Name (e.g John)',
-        'from_address' => 'E-Mail address (e.g. john@klink.org)',
+        'server_configuration_description' => 'Connection data from the K-Box to the email server',
+        'from_name' => 'Name',
+        'from_address' => 'E-Mail address',
         'from_name_placeholder' => 'John',
         'from_address_placeholder' => 'e.g. john@klink.asia',
         'host_label' => 'SMTP Host Address',
@@ -263,7 +263,7 @@ return [
         'support_save_btn' => 'Save Support Settings',
 
         'analytics_section' => 'Analytics',
-        'analytics_section_help' => 'Analytics gives you the power to understand how users are using the system and how many of them use it regularly. In this section you can opt-in for the K-Link Analytics.',
+        'analytics_section_help' => 'Analytics support the process of understanding how often and for what purposes the system is being used. In this section you can opt-in for the K-Link Analytics.',
         'analytics_token_field' => 'Analytics token',
         'analytics_save_btn' => 'Save Analytics Settings',
         

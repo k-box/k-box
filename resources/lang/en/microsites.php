@@ -18,24 +18,22 @@ return [
     
     
     'hints' => [
-        'what' => 'A microsite enables to create a public page for your project',
+        'what' => 'A microsite is a public page for your project',
         'create_for_project' => 'Create a microsite for the project',
         'for_project' => 'Create a microsite for the project',
         'delete_microsite' => 'Remove the project microsite',
         'edit_microsite' => 'Change the microsite page content and settings',
         
-        'site_title' => 'The name of the website that will be showed to the users',
-        
+        'site_title' => 'The following website name will be shown to users',
         'description' => 'A short description of the purpose of your microsite used by the search engines.',
+        'slug' => 'Short, descriptive sequence of terms for the user-friendly version of the website URL path. This will help users to find and remember the website address. For instance, the slug of the <a href="https://pasture.klink.asia/projects/pasture-network/en" target="_blank">Regional Pasture Network</a> is everything that comes after https://pasture.klink.asia/dms/projects/.... Slug cannot start with "create".',
+        'logo' => 'The website logo must be of max size 280x80 pixels and hosted somewhere with a secure connection over HTTPS',
+        'default_language' => 'The default language in which the website will be shown to its visitors, unless specified otherwise by their settings',
 
-        'slug' => 'The user friendly version of the website URL path, this will help users find and remember the website address. Slug cannot start with the "create" word.',
-        'logo' => 'The logo of the website, max size 280x80 pixels. The image must be hosted somewhere with a secure connection over HTTPS',
-        'default_language' => 'The language in which the website will be showed if the user don\'t explicitely ask for a language',
-
-        'content' => 'Here you can specify the microsite single page textual content and the optional navigation menu. At now you can only specify content in english and russian version.',
+        'content' => 'Here you can specify the microsite single page textual content and the optional navigation menu. At now you can only specify content in English and Russian versions.',
         
-        'page_title' => 'The title of the page, the default value is home',
-        'page_slug' => 'The user friendly version of the page URL path, this will help users find and remember the website address',
+        'page_title' => 'The title of the page. The default value is home',
+        'page_slug' => 'The user friendly version of the page URL path. This will help users find and remember the website address',
         'page_content' => 'You can insert text, links and other text. Supported format refers to the <a href="https://daringfireball.net/projects/markdown/basics" target="_blank">Markdown syntax</a>. You can also insert links and embed elements from other websites. For example you can embed an RSS content feed  by putting this code on its own line <code>@rss:https://klinktest.wordpress.com/feed/</code>. Please note that embed content will be cached to prevent high resource usage with a caching period of 1 to 4 hours (depending on the service)',
     ],
     
@@ -66,7 +64,7 @@ return [
         'update' => 'There was a problem updating the microsite. :error',
         'delete_forbidden' => 'You cannot delete the microsite ":title" because you are not a project manager of the project related to the microsite.',
         'forbidden' => 'You need to be a Project Administrator to interact with the microsites.',
-        'user_not_affiliated_to_an_institution' => 'You are not affiliated with an Institution, please ask to change your profile before creating a Microsite.',
+        'user_not_affiliated_to_an_institution' => 'You are not affiliated with an Institution. Please ask to change your profile before creating a Microsite.',
     ],
     
     'labels' => [
@@ -74,17 +72,17 @@ return [
         'site_title' => 'Site name',
         'slug' => 'Site human friendly slug',
         'site_description' => 'Site description',
-        'logo' => 'The website logo, please insert a URL to an image (url must be on HTTPS)',
+        'logo' => 'Website logo',
         'default_language' => 'Site default language',
-        'cancel_and_back' => 'Cancel and go back to the project',
-        'publishing_box' => 'Publish',
+        'cancel_and_back' => 'Cancel',
+        'publishing_box' => '',
         'content' => 'Microsite Content',
         
-        'content_en' => 'English version of the content',
-        'content_ru' => 'Russian version of the content',
+        'content_en' => 'English content of the site',
+        'content_ru' => 'Russian content of the site',
         
-        'page_title' => 'The title of the page to be created',
-        'page_slug' => 'The slug of the page',
-        'page_content' => 'The content of the page',
+        'page_title' => 'Title of the page to be created',
+        'page_slug' => 'Slug of the page',
+        'page_content' => 'Content of the page',
     ],
 ];

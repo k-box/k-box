@@ -42,11 +42,11 @@ return [
     ],
     
     'clipboard' => [
-        'copied_title' => 'Copied!',
+        'copied_title' => 'Copied',
         'copied_link_text' => 'The link has been copied to your clipboard',
         
         'not_copied_title' => 'Cannot copy to clipboard',
-        'not_copied_link_text' => 'The link cannot be copied to the clipboard, you can copy it manually by pressing Ctrl+C on the keyboard.',
+        'not_copied_link_text' => 'The link cannot be copied to the clipboard. Copy it manually by pressing Ctrl+C on the keyboard.',
     ],
 
     'switcher' => [
@@ -61,7 +61,7 @@ return [
     'versions' => [
 
         'manage' => 'Manage versions',
-        'add_new' => 'Add a new version',
+        'add_new' => 'Add new versions',
 
     ],
 
@@ -87,21 +87,21 @@ return [
 
     'create_add_dropdown' => 'Create or Add',
 
-    'trash_btn' => 'Delete',
+    'trash_btn' => 'Trash',
     'trash_btn_alt' => 'Move to Trash',
-    'forcedelete_btn_alt' => 'Permanently Delete',
+    'forcedelete_btn_alt' => 'Delete permanently',
     'restore_btn' => 'Restore',
     'empty_trash' => 'Empty Trash',
 
     'create_btn' => 'Create',
 
-    'create_collection_btn' => 'Create Collection',
+    'create_collection_btn' => 'New Collection',
     
     'create_people_group' => 'New Group',
     
     'rename_people_group' => 'Change Group Name',
     
-    'delete_people_group' => 'Delete group',
+    'delete_people_group' => 'Delete Group',
     
     'make_institutional_people_group' => 'Make Institutional',
     'make_personal_people_group' => 'Keep Personal',
@@ -116,29 +116,29 @@ return [
     //     'make_public' => 'Select some documents before making them available in the K-Link Network',
     // ],
     
-    'not_available' => 'Oops, the action is not ready for the primetime!',
+    'not_available' => 'The action is not ready for the primetime',
 
     // buttons on the dialog
     'dialogs' => [
-        'cancel_btn' => 'No, cancel!',
+        'cancel_btn' => 'Cancel',
         'cancel_btn_alt' => 'Cancel',
         
         'yes_btn' => 'Yes',
-        'no_btn' => 'No',
+        'no_btn' => 'Cancel',
         'ok_btn' => 'OK',
         
-        'delete_btn' => 'Yes, delete it!',
-        'remove_btn' => 'Yes, remove!',
-        'trash_btn' => 'Yes, trash it!',
-        'move_btn' => 'Yes, Move!',
+        'delete_btn' => 'Delete',
+        'remove_btn' => 'Remove',
+        'trash_btn' => 'Move to Trash',
+        'move_btn' => 'Move',
         
         // showed when on a dialog, like the one in people group creation, the input field is empty, but a value is required
-        'input_required' => 'You need to write something!',
+        'input_required' => 'You need to write something',
         
         
     ],
     
-    'got_it' => 'Got it!',
+    'got_it' => 'Got it',
 
     'remove' => 'Remove',
 

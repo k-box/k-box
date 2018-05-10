@@ -16,18 +16,18 @@ return [
     'go_to_profile' => 'View your profile',
     
     'messages' => [
-        'mail_changed' => 'The E-Mail address has been changed.',
-        'name_changed' => 'The user nicename has been changed.',
+        'mail_changed' => 'E-Mail address changed.',
+        'name_changed' => 'Username changed.',
         'info_changed' => 'User information changed.',
-        'password_changed' => 'The password has been changed.',
-        'language_changed' => 'The Language has been updated.',
+        'password_changed' => 'Password changed.',
+        'language_changed' => 'Language updated.',
     ],
 
     'labels' => [
         'nicename' => 'User\'s Nicename',
         'nicename_hint' => 'How would you like to be called?',
         'password' => 'Password',
-        'password_description' => 'The password must be alphanumeric and have a minimum length of 8 characters',
+        'password_description' => 'The password must be consist of numbers, letters and special characters and have a minimum length of 8 characters',
         'password_confirm' => 'Confirm your password',
         'language' => 'Select your preferred language',
         'organization_name' => 'Organization Name',

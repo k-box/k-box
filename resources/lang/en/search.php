@@ -15,7 +15,7 @@ return [
     'form' => [
         'placeholder' => 'Search...',
         'placeholder_in' => 'Search ":location"...',
-        'hint' => 'Search for words and phrases, you could use AND and/or OR modifiers to make something interesting.',
+        'hint' => 'Search for words and phrases. You can use AND and/or OR to narrow down your search results.',
         'hint_in' => 'Search inside :location',
         'submit' => 'Start searching',
         'public_switch_alt' => 'Search for Public documents',
@@ -24,7 +24,7 @@ return [
 
     'error' => 'There was a problem connecting to the K-Link Core for making the search. The team has been notified and is working on a solution.',
 
-    'failure' => 'There was a problem on our end, the search request cannot be processed. Please notify the administrator if the problem persists.',
+    'failure' => 'There was a problem on our end. The search request cannot be processed. Please notify the administrator if the problem persists.',
 
     'empty_query' => 'Insert something in the search field above and press enter to start searching.',
 
@@ -35,7 +35,7 @@ return [
     'no_results_generic' => 'No documents match your search criteria.',
     'no_results_for_term' => 'No documents match your search for ":term".',
 
-    'try_message' => 'Try search for words that starts with :startwithlink',
+    'try_message' => 'Try searching for words that start with :startwithlink',
 
     'facets' => [
         'institutionId' => 'Institution',

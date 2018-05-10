@@ -22,7 +22,7 @@ return [
 
     'to' => 'to',
 
-    'do_not_leave_the_page' => 'Please do not leave this page during the upload process. Feel free to open a new tab in your browser and keep browsing the K-Box there, until the upload finished.',
+    'do_not_leave_the_page' => 'Please do not leave this page during the upload process. You can open a new tab in your browser and keep browsing the K-Box there until the upload finished.',
 
     'target' => [
         'personal' => 'to your <a href=":link" target="_blank" rel="noopener noreferrer">private</a> space.',

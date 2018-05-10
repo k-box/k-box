@@ -74,16 +74,16 @@ return [
 
         'exception' => 'The project cannot be created. (:exception)',
         
-        'prevent_edit_description' => 'The Project collection cannot be edited from here, please goto <a href=":link">Projects > Edit :name</a> to make the edits.',
+        'prevent_edit_description' => 'The Project collection cannot be edited from here. Please goto <a href=":link">Projects > Edit :name</a> to make the edits.',
         
         'prevent_delete_description' => 'The Project collection cannot be deleted.'
     ],
     
-    'project_created' => 'Project :name has been created',
+    'project_created' => 'Project :name created',
     
-    'project_updated' => 'Project :name has been updated',
+    'project_updated' => 'Project :name updated',
     
-    'no_projects' => 'Currently there are no project to list here.',
+    'no_projects' => 'Currently there are no projects to list here.',
 
     'show_documents' => 'Show documents',
 ];
