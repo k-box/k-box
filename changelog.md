@@ -7,9 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.21.1] 2018-05-10
+
 ### Fixed
 
 - Add default application internal URL in the `docker-compose.example.yml` file
+- Fix application key not found when doing `docker-compose stop && docker-compose up -d` on an already configured instance
 
 ## [0.21.0] 2018-05-10
 
