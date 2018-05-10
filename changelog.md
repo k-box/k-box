@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Fixed
+
+- Add default application internal URL in the `docker-compose.example.yml` file
+
 ## [0.21.0] 2018-05-10
 
 ### Added
