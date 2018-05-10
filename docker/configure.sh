@@ -77,6 +77,7 @@ function write_config() {
 	EOM
 
     # generate APP_KEY if not already set
+    php artisan config:clear
     php artisan kbox:key
 
 	echo "- ENV file written! $KLINK_DMS_DIR/.env"
