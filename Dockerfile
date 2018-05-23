@@ -5,7 +5,6 @@ FROM docker.klink.asia/images/video-processing-cli:0.3.1
 FROM php:7.1.16-fpm
 
 ## Default environment variables
-ENV KLINK_PHP_WWWHTML_DIR /var/www/html
 ENV KLINK_PHP_MAX_EXECUTION_TIME 120
 ENV KLINK_PHP_MAX_INPUT_TIME 120
 ENV KLINK_PHP_MEMORY_LIMIT 288M

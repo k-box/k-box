@@ -1,4 +1,4 @@
-# DMS Configuration
+# K-Box Configuration
 
 The DMS configuration parameters are divided into two categories: static and dynamic.
 
@@ -82,19 +82,6 @@ the normal execution of the K-DMS.
 | analytics_token             | string  |               | The token for the Analytics service |
 | map_visualization           | boolean | true          | Control the map visualization enabling and disabling |
 
-## Flags
-
-Some features that are in testing might be behind activation flags.
-
-Feature flags are stored in the `options` table with the `flag_` prefix. 
-The `KBox\Flags` is the class responsible to interact with the flags. All flags are boolean
-
-| flag          | description                        |
-|---------------|------------------------------------|
-| unifiedsearch | Control the Unified search feature |
-
-
-
 ## Application Key
 
 The Application Key is a 32 characters long string that is used by the application to ensure that encrypted strings are safe.
@@ -119,8 +106,9 @@ The preferred way is to use the `create-admin` command
 
 ```bash
 php artisan create-admin {email}
-
-# docker-compose exec kbox php artisan create-admin {email} if executed from Docker
+## or
+docker-compose exec kbox php artisan create-admin {email}
+## if executed from Docker
 ```
 
 The create-admin requires an email address, that will be used as the username and will ask for a password in interactive mode.
@@ -132,6 +120,47 @@ As an alternative, and for backward compatibility, the administrator account can
 the `KLINK_DMS_ADMIN_USERNAME` and `KLINK_DMS_ADMIN_PASSWORD` environment variables inside the Docker configuration.
 
 ```yaml
-KLINK_DMS_ADMIN_USERNAME: "admin@kbox.local"
-KLINK_DMS_ADMIN_PASSWORD: "*******"
+KBOX_ADMIN_USERNAME: "admin@kbox.local"
+KBOX_ADMIN_PASSWORD: "*******"
 ```
+
+
+
+## Environment variable changes
+
+The next table summarizes the changes to the configuration environment variable that will be applied in version 0.22 of the K-Box.
+To make the upgrade process smooth the previous environment variables will be still supported for 4 months (until version 0.26)
+
+| version 0.21 and below          | new name starting from version 0.22 |
+|---------------------------------|-------------------------------------|
+| `KLINK_DMS_APP_URL`             | `KBOX_APP_URL`    |
+| `KLINK_DMS_APP_KEY`             | `KBOX_APP_KEY`    |
+| `KLINK_DMS_APP_ENV`             | `KBOX_APP_ENV`    |
+| `KLINK_DMS_APP_DEBUG`           | `KBOX_APP_DEBUG`    |
+| `KLINK_DMS_ADMIN_USERNAME`      | `KBOX_ADMIN_USERNAME`    |
+| `KLINK_DMS_ADMIN_PASSWORD`      | `KBOX_ADMIN_PASSWORD`    |
+
+| `KLINK_DMS_CORE_ADDRESS`        | `KLINK_DMS_CORE_ADDRESS`    |
+
+| `KLINK_DMS_DB_NAME`             | `KBOX_DB_NAME`    |
+| `KLINK_DMS_DB_HOST`             | `KBOX_DB_HOST`    |
+| `KLINK_DMS_DB_USERNAME`         | `KBOX_DB_USERNAME`    |
+| `KLINK_DMS_DB_PASSWORD`         | `KBOX_DB_PASSWORD`    |
+| `KLINK_DMS_DB_TABLE_PREFIX`     | `KBOX_DB_TABLE_PREFIX`    |
+
+
+| `KLINK_PHP_POST_MAX_SIZE`       | `KLINK_PHP_POST_MAX_SIZE`    |
+| `KLINK_PHP_UPLOAD_MAX_FILESIZE` | `KLINK_PHP_UPLOAD_MAX_FILESIZE`    |
+| `KLINK_DMS_MAX_UPLOAD_SIZE`     | `KLINK_DMS_MAX_UPLOAD_SIZE`    |
+| `KLINK_PHP_MEMORY_LIMIT`        | `KLINK_PHP_MEMORY_LIMIT`    |
+
+
+
+
+### Deprecations
+
+- `KLINK_DMS_DIR`
+- `DMS_USE_HTTPS` is now deprecated and should not be set manually
+- `DMS_INSTITUTION_IDENTIFIER` is now deprecated, as part of the Institution management removal, and will be removed in a future version
+- `DMS_IDENTIFIER` is now deprecated
+- `KLINK_SETUP_WWWUSER` is now deprecated, the default user will be `www-data`

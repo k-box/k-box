@@ -1,17 +1,32 @@
 #!/bin/bash
 
-KLINK_DMS_DIR=${KLINK_DMS_DIR:-/var/www/dms}
-KLINK_DMS_APP_KEY=${KLINK_DMS_APP_KEY:-}
-KLINK_SETUP_WWWUSER=${KLINK_SETUP_WWWUSER:-www-data}
-KLINK_DMS_ADMIN_USERNAME=${KLINK_DMS_ADMIN_USERNAME:-}
-KLINK_DMS_ADMIN_PASSWORD=${KLINK_DMS_ADMIN_PASSWORD:-}
+## The public URL on which the K-Box will be available
+KBOX_APP_URL=${KBOX_APP_URL:-${KLINK_DMS_APP_URL:-}}
+## Application key
+KBOX_APP_KEY=${KBOX_APP_KEY:-${KLINK_DMS_APP_KEY:-}}
+## Application environment name
+KBOX_APP_ENV=${KBOX_APP_ENV:-${KLINK_DMS_APP_ENV:-production}}
+## Enable/Disable the debug mode
+KBOX_APP_DEBUG=${KBOX_APP_DEBUG:-${KLINK_DMS_APP_DEBUG:-false}}
+
+## KLINK_DMS_ADMIN_USERNAME
+KBOX_ADMIN_USERNAME=${KBOX_ADMIN_USERNAME:-${KLINK_DMS_ADMIN_USERNAME:-}}
+KBOX_ADMIN_PASSWORD=${KBOX_ADMIN_PASSWORD:-${KLINK_DMS_ADMIN_PASSWORD:-}}
+##
 KLINK_PHP_POST_MAX_SIZE=${KLINK_PHP_POST_MAX_SIZE:-120M}
+##
 KLINK_PHP_UPLOAD_MAX_FILESIZE=${KLINK_PHP_UPLOAD_MAX_FILESIZE:-100M}
-KLINK_DMS_APP_ENV=${KLINK_DMS_APP_ENV:-production}
-KLINK_DMS_APP_DEBUG=${KLINK_DMS_APP_DEBUG:-false}
+##
 KLINK_DMS_MAX_UPLOAD_SIZE=${KLINK_DMS_MAX_UPLOAD_SIZE:-100000}
+
+##
 KLINK_PHP_MEMORY_LIMIT=${KLINK_PHP_MEMORY_LIMIT:-500M}
+##
 DMS_USE_HTTPS=${DMS_USE_HTTPS:-false}
+## User under which the data will run
+KBOX_SETUP_USER=www-data
+## Directory where the code is located
+KBOX_DIR=/var/www/dms
 
 function startup_config () {
     echo "Configuring K-Box..."
@@ -30,37 +45,45 @@ function startup_config () {
 	EOM
 
     write_config &&
-    init_empty_dir $KLINK_DMS_DIR/storage && 
+    init_empty_dir $KBOX_DIR/storage && 
     echo "Changing folder groups and permissions" &&
-    chgrp -R $KLINK_SETUP_WWWUSER $KLINK_DMS_DIR/storage &&
-    chgrp -R $KLINK_SETUP_WWWUSER $KLINK_DMS_DIR/bootstrap/cache &&
-    chgrp -R $KLINK_SETUP_WWWUSER $KLINK_DMS_DIR/vendor/avvertix/laravel-tus-upload/bin/ &&
-    chmod +x $KLINK_DMS_DIR/vendor/avvertix/laravel-tus-upload/bin/tusd-linux &&
-    chmod -R g+rw $KLINK_DMS_DIR/bootstrap/cache &&
-    chmod -R g+rw $KLINK_DMS_DIR/storage &&
+    chgrp -R $KBOX_SETUP_USER $KBOX_DIR/storage &&
+    chgrp -R $KBOX_SETUP_USER $KBOX_DIR/bootstrap/cache &&
+    chgrp -R $KBOX_SETUP_USER $KBOX_DIR/vendor/avvertix/laravel-tus-upload/bin/ &&
+    chmod +x $KBOX_DIR/vendor/avvertix/laravel-tus-upload/bin/tusd-linux &&
+    chmod -R g+rw $KBOX_DIR/bootstrap/cache &&
+    chmod -R g+rw $KBOX_DIR/storage &&
     normalize_line_endings &&
     wait_mariadb &&
     update_dms &&
-    chgrp -R $KLINK_SETUP_WWWUSER $KLINK_DMS_DIR/storage/logs &&
-    chgrp -R $KLINK_SETUP_WWWUSER $KLINK_DMS_DIR/bootstrap/cache &&
-    chmod -R g+rw $KLINK_DMS_DIR/bootstrap/cache &&
-    chmod -R g+rw $KLINK_DMS_DIR/storage/logs &&
+    chgrp -R $KBOX_SETUP_USER $KBOX_DIR/storage/logs &&
+    chgrp -R $KBOX_SETUP_USER $KBOX_DIR/bootstrap/cache &&
+    chmod -R g+rw $KBOX_DIR/bootstrap/cache &&
+    chmod -R g+rw $KBOX_DIR/storage/logs &&
 	echo "K-Box is now configured."
 }
 
 function write_config() {
+
+    if [ -z "$KBOX_APP_URL" ]; then
+        # application URL not set
+        echo "**************"
+        echo "K-Box public URL not set. Set the public URL using KBOX_APP_URL."
+        echo "**************"
+        return 1001
+    fi
+
     echo "- Writing env file..."
 
     KLINK_DMS_CORE_ADDRESS=${KLINK_DMS_CORE_ADDRESS:-https://$KCORE_1_PORT_443_TCP_ADDR/kcore}
-    echo "Using $KLINK_DMS_CORE_ADDRESS as core address"
     
-	cat > ${KLINK_DMS_DIR}/.env <<-EOM &&
-		APP_ENV=${KLINK_DMS_APP_ENV}
-		APP_DEBUG=${KLINK_DMS_APP_DEBUG}
+	cat > ${KBOX_DIR}/.env <<-EOM &&
+		APP_KEY=${KBOX_APP_KEY}
+		APP_URL=${KBOX_APP_URL}
+		APP_ENV=${KBOX_APP_ENV}
+		APP_DEBUG=${KBOX_APP_DEBUG}
 		DMS_USE_HTTPS=${DMS_USE_HTTPS}
 		DMS_INSTITUTION_IDENTIFIER=${KLINK_CORE_ID}
-		APP_KEY=${KLINK_DMS_APP_KEY}
-		APP_URL=${KLINK_DMS_APP_URL}
 		APP_INTERNAL_URL=${KLINK_DMS_APP_INTERNAL_URL}
 		DMS_IDENTIFIER=${KLINK_DMS_IDENTIFIER}
 		DMS_CORE_ADDRESS=${KLINK_DMS_CORE_ADDRESS}
@@ -73,18 +96,18 @@ function write_config() {
         TUSUPLOAD_USE_PROXY=true
         TUSUPLOAD_HOST=0.0.0.0
         TUSUPLOAD_HTTP_PATH=/tus-uploads/
-        TUSUPLOAD_URL=${KLINK_DMS_APP_URL}tus-uploads/
+        TUSUPLOAD_URL=${KBOX_APP_URL}tus-uploads/
 	EOM
 
     # generate APP_KEY if not already set
     php artisan config:clear
     php artisan kbox:key
 
-	echo "- ENV file written! $KLINK_DMS_DIR/.env"
+	echo "- ENV file written! $KBOX_DIR/.env"
 }
 
 function update_dms() {
-    cd ${KLINK_DMS_DIR}
+    cd ${KBOX_DIR}
     echo "- Launching dms:update procedure..."
     php artisan dms:update --no-test -vv
     create_admin
@@ -112,23 +135,23 @@ function wait_command () {
 
 function normalize_line_endings() {
 
-    cp $KLINK_DMS_DIR/vendor/avvertix/laravel-tus-upload/hooks/linux/pre-create $KLINK_DMS_DIR/vendor/avvertix/laravel-tus-upload/hooks/linux/pre-create-original \
-    && cp $KLINK_DMS_DIR/vendor/avvertix/laravel-tus-upload/hooks/linux/post-receive $KLINK_DMS_DIR/vendor/avvertix/laravel-tus-upload/hooks/linux/post-receive-original \
-    && cp $KLINK_DMS_DIR/vendor/avvertix/laravel-tus-upload/hooks/linux/post-finish $KLINK_DMS_DIR/vendor/avvertix/laravel-tus-upload/hooks/linux/post-finish-original \
-    && cp $KLINK_DMS_DIR/vendor/avvertix/laravel-tus-upload/hooks/linux/post-terminate $KLINK_DMS_DIR/vendor/avvertix/laravel-tus-upload/hooks/linux/post-terminate-original \
+    cp $KBOX_DIR/vendor/avvertix/laravel-tus-upload/hooks/linux/pre-create $KBOX_DIR/vendor/avvertix/laravel-tus-upload/hooks/linux/pre-create-original \
+    && cp $KBOX_DIR/vendor/avvertix/laravel-tus-upload/hooks/linux/post-receive $KBOX_DIR/vendor/avvertix/laravel-tus-upload/hooks/linux/post-receive-original \
+    && cp $KBOX_DIR/vendor/avvertix/laravel-tus-upload/hooks/linux/post-finish $KBOX_DIR/vendor/avvertix/laravel-tus-upload/hooks/linux/post-finish-original \
+    && cp $KBOX_DIR/vendor/avvertix/laravel-tus-upload/hooks/linux/post-terminate $KBOX_DIR/vendor/avvertix/laravel-tus-upload/hooks/linux/post-terminate-original \
 
-    tr -d '\r' < $KLINK_DMS_DIR/vendor/avvertix/laravel-tus-upload/hooks/linux/pre-create-original > $KLINK_DMS_DIR/vendor/avvertix/laravel-tus-upload/hooks/linux/pre-create
-    tr -d '\r' < $KLINK_DMS_DIR/vendor/avvertix/laravel-tus-upload/hooks/linux/post-receive-original > $KLINK_DMS_DIR/vendor/avvertix/laravel-tus-upload/hooks/linux/post-receive
-    tr -d '\r' < $KLINK_DMS_DIR/vendor/avvertix/laravel-tus-upload/hooks/linux/post-finish-original > $KLINK_DMS_DIR/vendor/avvertix/laravel-tus-upload/hooks/linux/post-finish
-    tr -d '\r' < $KLINK_DMS_DIR/vendor/avvertix/laravel-tus-upload/hooks/linux/post-terminate-original > $KLINK_DMS_DIR/vendor/avvertix/laravel-tus-upload/hooks/linux/post-terminate
+    tr -d '\r' < $KBOX_DIR/vendor/avvertix/laravel-tus-upload/hooks/linux/pre-create-original > $KBOX_DIR/vendor/avvertix/laravel-tus-upload/hooks/linux/pre-create
+    tr -d '\r' < $KBOX_DIR/vendor/avvertix/laravel-tus-upload/hooks/linux/post-receive-original > $KBOX_DIR/vendor/avvertix/laravel-tus-upload/hooks/linux/post-receive
+    tr -d '\r' < $KBOX_DIR/vendor/avvertix/laravel-tus-upload/hooks/linux/post-finish-original > $KBOX_DIR/vendor/avvertix/laravel-tus-upload/hooks/linux/post-finish
+    tr -d '\r' < $KBOX_DIR/vendor/avvertix/laravel-tus-upload/hooks/linux/post-terminate-original > $KBOX_DIR/vendor/avvertix/laravel-tus-upload/hooks/linux/post-terminate
 
-    chgrp -R $KLINK_SETUP_WWWUSER $KLINK_DMS_DIR/vendor/avvertix/laravel-tus-upload/hooks/linux/ \
-    && chmod -R +x $KLINK_DMS_DIR/vendor/avvertix/laravel-tus-upload/hooks/linux/
+    chgrp -R $KBOX_SETUP_USER $KBOX_DIR/vendor/avvertix/laravel-tus-upload/hooks/linux/ \
+    && chmod -R +x $KBOX_DIR/vendor/avvertix/laravel-tus-upload/hooks/linux/
 }
 
 function create_admin () {
 
-    if [ -z "$KLINK_DMS_ADMIN_USERNAME" ] &&  [ -z "$KLINK_DMS_ADMIN_PASSWORD" ]; then
+    if [ -z "$KBOX_ADMIN_USERNAME" ] &&  [ -z "$KBOX_ADMIN_PASSWORD" ]; then
         # if both username and password are not defined or empty, tell to create the user afterwards an end return
         echo "**************"
         echo "Remember to create an admin user: php artisan create-admin --help"
@@ -136,15 +159,15 @@ function create_admin () {
         return 0
     fi
 
-    if [ -z "$KLINK_DMS_ADMIN_USERNAME" ] &&  [ ! -z "$KLINK_DMS_ADMIN_PASSWORD" ]; then
+    if [ -z "$KBOX_ADMIN_USERNAME" ] &&  [ ! -z "$KBOX_ADMIN_PASSWORD" ]; then
         # username not set, but password set => error
         echo "**************"
-        echo "Admin email not specified. Please specify an email address using the variable KLINK_DMS_ADMIN_USERNAME"
+        echo "Admin email not specified. Please specify an email address using the variable KBOX_ADMIN_USERNAME"
         echo "**************"
         return 1000
     fi
     
-    if [ ! -z "$KLINK_DMS_ADMIN_USERNAME" ] &&  [ -z "$KLINK_DMS_ADMIN_PASSWORD" ]; then
+    if [ ! -z "$KBOX_ADMIN_USERNAME" ] &&  [ -z "$KBOX_ADMIN_PASSWORD" ]; then
         # username set, but empty password => the user needs to be created after the setup
         echo "**************"
         echo "Skipping creation of default administrator. Use php artisan create-admin after the startup is complete."
@@ -152,7 +175,7 @@ function create_admin () {
         return 0
     fi
 
-    su -s /bin/sh -c "php artisan create-admin '$KLINK_DMS_ADMIN_USERNAME' --password '$KLINK_DMS_ADMIN_PASSWORD'" $KLINK_SETUP_WWWUSER
+    su -s /bin/sh -c "php artisan create-admin '$KBOX_ADMIN_USERNAME' --password '$KBOX_ADMIN_PASSWORD'" $KBOX_SETUP_USER
 
     local ret=$?
     if [ $ret -eq 2 ]; then
@@ -166,6 +189,7 @@ function create_admin () {
     fi
 }
 
+## Initialize an empty storage directory with the required default folders
 function init_empty_dir() {
     local dir_to_init=$1
 
