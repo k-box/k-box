@@ -2,6 +2,8 @@
 
 ## The public URL on which the K-Box will be available
 KBOX_APP_URL=${KBOX_APP_URL:-${KLINK_DMS_APP_URL:-}}
+## The URL on which the K-Box will be reachable in the Docker network. Default http://kbox/
+KBOX_APP_LOCAL_URL=${KBOX_APP_LOCAL_URL:-${KLINK_DMS_APP_INTERNAL_URL:-http://kbox/}}
 ## Application key
 KBOX_APP_KEY=${KBOX_APP_KEY:-${KLINK_DMS_APP_KEY:-}}
 ## Application environment name
@@ -9,21 +11,26 @@ KBOX_APP_ENV=${KBOX_APP_ENV:-${KLINK_DMS_APP_ENV:-production}}
 ## Enable/Disable the debug mode
 KBOX_APP_DEBUG=${KBOX_APP_DEBUG:-${KLINK_DMS_APP_DEBUG:-false}}
 
-## KLINK_DMS_ADMIN_USERNAME
+## Maximum file size for upload (KB)
+KBOX_UPLOAD_LIMIT=${KBOX_UPLOAD_LIMIT:-${KLINK_DMS_MAX_UPLOAD_SIZE:-100000}}
+
+## Database connection
+KBOX_DB_NAME=${KBOX_DB_NAME:-${KLINK_DMS_DB_NAME}}
+KBOX_DB_HOST=${KBOX_DB_HOST:-${KLINK_DMS_DB_HOST}}
+KBOX_DB_USERNAME=${KBOX_DB_USERNAME:-${KLINK_DMS_DB_USERNAME}}
+KBOX_DB_PASSWORD=${KBOX_DB_PASSWORD:-${KLINK_DMS_DB_PASSWORD}}
+KBOX_DB_TABLE_PREFIX=${KBOX_DB_TABLE_PREFIX:-${KLINK_DMS_DB_TABLE_PREFIX}}
+
+## Administration account
 KBOX_ADMIN_USERNAME=${KBOX_ADMIN_USERNAME:-${KLINK_DMS_ADMIN_USERNAME:-}}
 KBOX_ADMIN_PASSWORD=${KBOX_ADMIN_PASSWORD:-${KLINK_DMS_ADMIN_PASSWORD:-}}
-##
-KLINK_PHP_POST_MAX_SIZE=${KLINK_PHP_POST_MAX_SIZE:-120M}
-##
-KLINK_PHP_UPLOAD_MAX_FILESIZE=${KLINK_PHP_UPLOAD_MAX_FILESIZE:-100M}
-##
-KLINK_DMS_MAX_UPLOAD_SIZE=${KLINK_DMS_MAX_UPLOAD_SIZE:-100000}
 
+## Search service endpoint
+KBOX_SEARCH_SERVICE_URL=${KBOX_SEARCH_SERVICE_URL:-${KLINK_DMS_CORE_ADDRESS:-http://ksearch.local/}}
+
+## Variables required by the configure script
 ##
-KLINK_PHP_MEMORY_LIMIT=${KLINK_PHP_MEMORY_LIMIT:-500M}
-##
-DMS_USE_HTTPS=${DMS_USE_HTTPS:-false}
-## User under which the data will run
+## User under which the commands will run
 KBOX_SETUP_USER=www-data
 ## Directory where the code is located
 KBOX_DIR=/var/www/dms
@@ -31,17 +38,14 @@ KBOX_DIR=/var/www/dms
 function startup_config () {
     echo "Configuring K-Box..."
     echo "- Writing php configuration..."
-
-    # Configuring PHP Timezone
-    sed -i "s|^;\?\(date.timezone =\).*$|\1 ${KLINK_PHP_TIMEZONE}|" /usr/local/etc/php/conf.d/php-timezone.ini
     
     # Set post and upload size for php if customized for the specific deploy
     cat > /usr/local/etc/php/conf.d/php-runtime.ini <<-EOM &&
-		post_max_size=${KLINK_PHP_POST_MAX_SIZE}
-        upload_max_filesize=${KLINK_PHP_UPLOAD_MAX_FILESIZE}
-        memory_limit=${KLINK_PHP_MEMORY_LIMIT}
-        max_input_time=${KLINK_PHP_MAX_INPUT_TIME}
-        max_execution_time=${KLINK_PHP_MAX_EXECUTION_TIME}
+		post_max_size=${KBOX_PHP_POST_MAX_SIZE}
+        upload_max_filesize=${KBOX_PHP_UPLOAD_MAX_FILESIZE}
+        memory_limit=${KBOX_PHP_MEMORY_LIMIT}
+        max_input_time=${KBOX_PHP_MAX_INPUT_TIME}
+        max_execution_time=${KBOX_PHP_MAX_EXECUTION_TIME}
 	EOM
 
     write_config &&
@@ -75,24 +79,21 @@ function write_config() {
 
     echo "- Writing env file..."
 
-    KLINK_DMS_CORE_ADDRESS=${KLINK_DMS_CORE_ADDRESS:-https://$KCORE_1_PORT_443_TCP_ADDR/kcore}
-    
 	cat > ${KBOX_DIR}/.env <<-EOM &&
 		APP_KEY=${KBOX_APP_KEY}
 		APP_URL=${KBOX_APP_URL}
 		APP_ENV=${KBOX_APP_ENV}
 		APP_DEBUG=${KBOX_APP_DEBUG}
-		DMS_USE_HTTPS=${DMS_USE_HTTPS}
 		DMS_INSTITUTION_IDENTIFIER=${KLINK_CORE_ID}
-		APP_INTERNAL_URL=${KLINK_DMS_APP_INTERNAL_URL}
+		APP_INTERNAL_URL=${KBOX_APP_LOCAL_URL}
 		DMS_IDENTIFIER=${KLINK_DMS_IDENTIFIER}
-		DMS_CORE_ADDRESS=${KLINK_DMS_CORE_ADDRESS}
-		DMS_MAX_UPLOAD_SIZE=${KLINK_DMS_MAX_UPLOAD_SIZE}
-		DB_NAME=${KLINK_DMS_DB_NAME}
-		DB_HOST=${KLINK_DMS_DB_HOST}
-		DB_USERNAME=${KLINK_DMS_DB_USERNAME}
-		DB_PASSWORD=${KLINK_DMS_DB_PASSWORD}
-		DB_TABLE_PREFIX=${KLINK_DMS_DB_TABLE_PREFIX}
+		DMS_CORE_ADDRESS=${KBOX_SEARCH_SERVICE_URL}
+		UPLOAD_LIMIT=${KBOX_UPLOAD_LIMIT}
+		KBOX_DB_NAME=${KBOX_DB_NAME}
+		KBOX_DB_HOST=${KBOX_DB_HOST}
+		KBOX_DB_USERNAME=${KBOX_DB_USERNAME}
+		KBOX_DB_PASSWORD=${KBOX_DB_PASSWORD}
+		KBOX_DB_TABLE_PREFIX=${KBOX_DB_TABLE_PREFIX}
         TUSUPLOAD_USE_PROXY=true
         TUSUPLOAD_HOST=0.0.0.0
         TUSUPLOAD_HTTP_PATH=/tus-uploads/

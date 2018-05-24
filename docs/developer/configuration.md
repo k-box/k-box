@@ -1,19 +1,19 @@
 # K-Box Configuration
 
-The DMS configuration parameters are divided into two categories: static and dynamic.
+The K-Box configuration parameters are divided into two categories: static and dynamic.
 
+Static configuration refer to settings expressed at deploy time. Those settings cannot 
+be edited from the K-Box while is running.
+Dynamic configuration refer to options that can be expressed at deploy time and edited 
+from the user interface, or entirely configurable from the user interface.
 
 ## Static Configuration
 
-The static configuration is determined by the environment configuration file. The 
-environment configuration is usually stored in the `.evn` file that is placed in the 
-root of the project. An example environment file is in `env.example`.
+The static configuration is determined by the environment configuration file. It is 
+usually stored in the `.evn` file, placed in the root of the project. 
+An example environment file is in `env.example`.
 
-All the environment options refers to configuration properties contained in the 
-`config` folder files.
-
-The following table shows the DMS specific configuration parameters and the 
-one that are strictly required in the environment file.
+The next table shows the K-Box specific configuration parameters:
 
 | parameter                             | required     | type    | default value | description |
 |---------------------------------------|--------------| --------|---------------|-------------|
@@ -21,19 +21,24 @@ one that are strictly required in the environment file.
 | `APP_DEBUG`                           |              | boolean | false         | Set to true will enable debug, false will prevent debug information to show up |
 | [`APP_KEY`](#application-key)                             | **required** | string  |               | Encryption Key. This key is used to make encrypted strings safe. Must be set to a random 32 character string |
 | `APP_URL`                             | **required** | string  |               | The url of the public folder, if you use a virtual host insert the virtual host url here, e.g. https://test.klink.asia/dms/ |
-| `DB_USERNAME`                         | **required** | string  | dms           | The database user that has only priviledge over the database specified by `DB_NAME` |
-| `DB_PASSWORD`                         | **required** | string  |               | The database user password |
-| `DB_HOST`                             |              | string  | localhost     | The database sever host |
-| `DB_NAME`                             | **required** | string  | dms           | The Database name |
-| `DB_TABLE_PREFIX`                     | **required** | string  | kdms_         | The table prefix for each database table. The default value is just an example, to increse the security of the installation set you own value |
+| `KBOX_DB_USERNAME` (`DB_USERNAME`)                         | **required** | string  | dms           | The database user that has only priviledge over the database specified by `DB_NAME` |
+| `KBOX_DB_PASSWORD` (`DB_PASSWORD`)                         | **required** | string  |               | The database user password |
+| `KBOX_DB_HOST` (`DB_HOST`)                             |              | string  | localhost     | The database sever host |
+| `KBOX_DB_NAME` (`DB_NAME`)                             | **required** | string  | dms           | The Database name |
+| `KBOX_DB_TABLE_PREFIX` (`DB_TABLE_PREFIX`)                     | **required** | string  | kdms_         | The table prefix for each database table. The default value is just an example, to increse the security of the installation set you own value |
 | `DMS_INSTITUTION_IDENTIFIER`          | **required** | string  |               | The institution identifier that is required for communicating with the K-Link Core |
 | `DMS_CORE_ADDRESS`                    | **required** | url     |               | The URL of the K-Link Core that will be used by the DMS. |
-| `DMS_CORE_USERNAME`                   | **required** | string  |               | The username for authenticating on the core. |
-| `DMS_CORE_PASSWORD`                   | **required** | string  |               | The password for authenticating on the core. |
-| `DMS_IDENTIFIER`                      | **required** | string  |               | The unique identifier for the DMS instance |
 | `DMS_ARE_GUEST_PUBLIC_SEARCH_ENABLED` |              | boolean |               | Tell if the DMS will allow guest user to perform public search over K-Link instance |
 | `DMS_MAX_UPLOAD_SIZE`                 |              | integer | 30000         | The maximum size of the file allowed for upload in kilobytes |
 | `MAIL_ENCRYPTION`                     |              | string  | tls           | The mail encryption that should be used. If set to an empty string, insecure connections will be allowed (do this for testing purposes only). |
+
+`KBOX_MAIL_DRIVER`
+`KBOX_MAIL_HOST`
+`KBOX_MAIL_PORT`
+`KBOX_MAIL_FROM_ADDRESS`
+`KBOX_MAIL_FROM_NAME`
+`KBOX_MAIL_USERNAME`
+`KBOX_MAIL_PASSWORD`
 
 The following block is a non exhaustive example of a `.env` file.
 
@@ -42,17 +47,17 @@ APP_ENV=local
 APP_DEBUG=false
 APP_KEY=%RANDOM_STRING%
 APP_URL=http://localhost/dms/
-DB_USERNAME=dms
-DB_PASSWORD=&middot;&middot;&middot;&middot;
-DB_HOST=localhost
-DB_NAME=dms
-DB_TABLE_PREFIX=kdms_
+APP_INTERNAL_URL=http://docker.for.win.localhost:8000/
+KBOX_DB_USERNAME=dms
+KBOX_DB_PASSWORD=&middot;&middot;&middot;&middot;
+KBOX_DB_HOST=localhost
+KBOX_DB_NAME=dms
+KBOX_DB_TABLE_PREFIX=kdms_
 ```
 
 **Important: make sure that all the required parameters are inserted into the `.env` file.**
 
-**Please check that the parameter `DMS_INSTITUTION_IDENTIFIER`, `DMS_CORE_ADDRESS`, `DMS_CORE_USERNAME`, `DMS_CORE_PASSWORD`, `DMS_IDENTIFIER` are configured in the `.env` file before proceeding** 
-(contact your K-Link Development team referent to get the values for those parameters).
+> if you are developing the K-Box, you could generate an application key with `php artisan key:generate`
 
 ## Dynamic Configuration
 
@@ -82,14 +87,45 @@ the normal execution of the K-DMS.
 | analytics_token             | string  |               | The token for the Analytics service |
 | map_visualization           | boolean | true          | Control the map visualization enabling and disabling |
 
+
+## Docker image configuration
+
+The K-Box Docker image has specific configuration options, expressed via environment variables
+
+| parameter                      | required | type    | default value   | description |
+|--------------------------------|----------|---------|-----------------|-------------|
+| `KBOX_APP_URL`                 | v        | url     |                 |  |
+| `KBOX_APP_LOCAL_URL`           | v        | url     |                 |  |
+| `KBOX_APP_KEY`                 |          | string  | _autogenerated_ |  |
+| `KBOX_APP_ENV`                 |          | string  | production      |  |
+| `KBOX_APP_DEBUG`               |          | boolean | false           |  |
+| `KBOX_ADMIN_USERNAME`          |          | string  |                 |  |
+| `KBOX_ADMIN_PASSWORD`          |          | string  |                 |  |
+| `KBOX_PHP_MAX_EXECUTION_TIME`  |          | number  | 120             |  |
+| `KBOX_PHP_MAX_INPUT_TIME`      |          | number  | 120             |  |
+| `KBOX_PHP_MEMORY_LIMIT`        |          | string  | 500M            |  |
+| `KBOX_PHP_POST_MAX_SIZE`       |          | string  | 120M            |  |
+| `KBOX_PHP_UPLOAD_MAX_FILESIZE` |          | string  | 100M            |  |
+
+> In addition to these specific variables, all static configuration variables prefixed with `KBOX_` can also be configured as part of the Docker environment variables
+
+### Options that cannot be configured in the Docker image
+
+The resumable upload environment variables, that are available in the static configuration, cannot be configured when running the K-Box using the Docker image.
+
+- `TUSUPLOAD_USE_PROXY`
+- `TUSUPLOAD_HOST`
+- `TUSUPLOAD_HTTP_PATH`
+- `TUSUPLOAD_URL`
+
 ## Application Key
 
 The Application Key is a 32 characters long string that is used by the application to ensure that encrypted strings are safe.
 
-This string can be set at the environment level, using the `KLINK_DMS_APP_KEY` environment variable. 
+This string can be set at the environment level, using the `APP_KEY` environment variable, or with `KBOX_APP_KEY` if the Docker image is used. 
 Leaving the environment variable empty, or with a string shorter than 32 characters, will cause the generation of a new application key. 
 
-The generated application key is stored in `storage/app/app_key.key` for future startup.
+The Docker image is able to automatically generate and store the application key in `storage/app/app_key.key`, if a value is omitted.
 
 > Changing Application Key between deployments will invalidate all user sessions
 
@@ -112,9 +148,7 @@ docker-compose exec kbox php artisan create-admin {email}
 ```
 
 The create-admin requires an email address, that will be used as the username and will ask for a password in interactive mode.
-Inserting an empty password, or running with the option `--no-interaction`, will cause the command to generate and print a 
-password reset link. The link is valid for 5 minutes and, opening it, will enable you to define your own password 
-via User Interface.
+Inserting an empty password, or running with the option `--no-interaction`, will cause the command to generate and print a password reset link. The link is valid for 5 minutes and, opening it, will enable you to define your own password via User Interface.
 
 As an alternative, and for backward compatibility, the administrator account can be created by setting 
 the `KLINK_DMS_ADMIN_USERNAME` and `KLINK_DMS_ADMIN_PASSWORD` environment variables inside the Docker configuration.
@@ -124,43 +158,54 @@ KBOX_ADMIN_USERNAME: "admin@kbox.local"
 KBOX_ADMIN_PASSWORD: "*******"
 ```
 
+## Environment variable name changes
 
+The next table summarizes the changes to the environment variable that will be applied in version 0.22 of the K-Box.
+To make the upgrade process smooth the previous environment variables will be still supported until version 0.26
 
-## Environment variable changes
+| version 0.21 and below          | new name from version 0.22     |
+|---------------------------------|--------------------------------|
+| `KLINK_DMS_APP_URL`             | `KBOX_APP_URL`                 |
+| `KLINK_DMS_APP_INTERNAL_URL`    | `KBOX_APP_LOCAL_URL`           |
+| `KLINK_DMS_APP_KEY`             | `KBOX_APP_KEY`                 |
+| `KLINK_DMS_APP_ENV`             | `KBOX_APP_ENV`                 |
+| `KLINK_DMS_APP_DEBUG`           | `KBOX_APP_DEBUG`               |
+| `KLINK_DMS_ADMIN_USERNAME`      | `KBOX_ADMIN_USERNAME`          |
+| `KLINK_DMS_ADMIN_PASSWORD`      | `KBOX_ADMIN_PASSWORD`          |
+| `KLINK_DMS_CORE_ADDRESS`        | `KBOX_SEARCH_SERVICE_URL`      |
+| `KLINK_DMS_DB_NAME`             | `KBOX_DB_NAME`                 |
+| `KLINK_DMS_DB_HOST`             | `KBOX_DB_HOST`                 |
+| `KLINK_DMS_DB_USERNAME`         | `KBOX_DB_USERNAME`             |
+| `KLINK_DMS_DB_PASSWORD`         | `KBOX_DB_PASSWORD`             |
+| `KLINK_DMS_DB_TABLE_PREFIX`     | `KBOX_DB_TABLE_PREFIX`         |
+| `KLINK_DMS_MAX_UPLOAD_SIZE`     | `KBOX_UPLOAD_LIMIT`            |
+| `KLINK_PHP_POST_MAX_SIZE`       | `KBOX_PHP_POST_MAX_SIZE`       |
+| `KLINK_PHP_UPLOAD_MAX_FILESIZE` | `KBOX_PHP_UPLOAD_MAX_FILESIZE` |
+| `KLINK_PHP_MEMORY_LIMIT`        | `KBOX_PHP_MEMORY_LIMIT`        |
+| `DMS_ITEMS_PER_PAGE`            | `KBOX_PAGE_LIMIT`              |
+| `MAIL_DRIVER`                   | `KBOX_MAIL_DRIVER`             |
+| `MAIL_HOST`                     | `KBOX_MAIL_HOST`               |
+| `MAIL_PORT`                     | `KBOX_MAIL_PORT`               |
+| `MAIL_FROM_ADDRESS`             | `KBOX_MAIL_FROM_ADDRESS`       |
+| `MAIL_FROM_NAME`                | `KBOX_MAIL_FROM_NAME`          |
+| `MAIL_ENCRYPTION`               | `KBOX_MAIL_ENCRYPTION`         |
+| `MAIL_USERNAME`                 | `KBOX_MAIL_USERNAME`           |
+| `MAIL_PASSWORD`                 | `KBOX_MAIL_PASSWORD`           |
 
-The next table summarizes the changes to the configuration environment variable that will be applied in version 0.22 of the K-Box.
-To make the upgrade process smooth the previous environment variables will be still supported for 4 months (until version 0.26)
+### Deprecation
 
-| version 0.21 and below          | new name starting from version 0.22 |
-|---------------------------------|-------------------------------------|
-| `KLINK_DMS_APP_URL`             | `KBOX_APP_URL`    |
-| `KLINK_DMS_APP_KEY`             | `KBOX_APP_KEY`    |
-| `KLINK_DMS_APP_ENV`             | `KBOX_APP_ENV`    |
-| `KLINK_DMS_APP_DEBUG`           | `KBOX_APP_DEBUG`    |
-| `KLINK_DMS_ADMIN_USERNAME`      | `KBOX_ADMIN_USERNAME`    |
-| `KLINK_DMS_ADMIN_PASSWORD`      | `KBOX_ADMIN_PASSWORD`    |
-
-| `KLINK_DMS_CORE_ADDRESS`        | `KLINK_DMS_CORE_ADDRESS`    |
-
-| `KLINK_DMS_DB_NAME`             | `KBOX_DB_NAME`    |
-| `KLINK_DMS_DB_HOST`             | `KBOX_DB_HOST`    |
-| `KLINK_DMS_DB_USERNAME`         | `KBOX_DB_USERNAME`    |
-| `KLINK_DMS_DB_PASSWORD`         | `KBOX_DB_PASSWORD`    |
-| `KLINK_DMS_DB_TABLE_PREFIX`     | `KBOX_DB_TABLE_PREFIX`    |
-
-
-| `KLINK_PHP_POST_MAX_SIZE`       | `KLINK_PHP_POST_MAX_SIZE`    |
-| `KLINK_PHP_UPLOAD_MAX_FILESIZE` | `KLINK_PHP_UPLOAD_MAX_FILESIZE`    |
-| `KLINK_DMS_MAX_UPLOAD_SIZE`     | `KLINK_DMS_MAX_UPLOAD_SIZE`    |
-| `KLINK_PHP_MEMORY_LIMIT`        | `KLINK_PHP_MEMORY_LIMIT`    |
-
-
-
-
-### Deprecations
+The following environment variables are deprecated:
 
 - `KLINK_DMS_DIR`
 - `DMS_USE_HTTPS` is now deprecated and should not be set manually
-- `DMS_INSTITUTION_IDENTIFIER` is now deprecated, as part of the Institution management removal, and will be removed in a future version
-- `DMS_IDENTIFIER` is now deprecated
+- `DMS_INSTITUTION_IDENTIFIER` is now deprecated, and as part of the Institution management removal will be removed in a future version
+- `DMS_IDENTIFIER` is now deprecated. The variable will be ignored if set
 - `KLINK_SETUP_WWWUSER` is now deprecated, the default user will be `www-data`
+- `DMS_ENABLE_ACTIVITY_TRACKING` was not used, so it has been deprecated. The variable will be ignored if set
+- `DMS_UPLOAD_FOLDER` was not used, so it has been deprecated
+- `DMS_RECENT_TIMELIMIT` is now deprecated as it was not used
+
+### Changes
+
+- `KBOX_APP_LOCAL_URL` default value, if used from Docker, is now `http://kbox/`. The new default value follow the example docker compose file
+- KBOX_PHP_POST_MAX_SIZE and KBOX_PHP_UPLOAD_MAX_FILESIZE are automatically set based on the KBOX_UPLOAD_LIMIT value

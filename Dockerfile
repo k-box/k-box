@@ -5,13 +5,14 @@ FROM docker.klink.asia/images/video-processing-cli:0.3.1
 FROM php:7.1.16-fpm
 
 ## Default environment variables
-ENV KLINK_PHP_MAX_EXECUTION_TIME 120
-ENV KLINK_PHP_MAX_INPUT_TIME 120
-ENV KLINK_PHP_MEMORY_LIMIT 288M
-ENV KLINK_PHP_POST_MAX_SIZE 20M
-ENV KLINK_PHP_UPLOAD_MAX_FILESIZE 60M
+ENV KBOX_PHP_MAX_EXECUTION_TIME 120
+ENV KBOX_PHP_MAX_INPUT_TIME 120
+ENV KBOX_PHP_MEMORY_LIMIT 500M
+ENV KBOX_PHP_POST_MAX_SIZE 120M
+ENV KBOX_PHP_UPLOAD_MAX_FILESIZE 100M
+ENV KBOX_DIR /var/www/dms
 
-## Install libraries, envsubst, tini, supervisor and php modules
+## Install libraries, envsubst, supervisor and php modules
 RUN apt-get update -yqq && \
     apt-get install -yqq \ 
         locales \
@@ -84,15 +85,11 @@ COPY docker/php/zz-docker.conf /usr/local/etc/php-fpm.d/
 COPY docker/supervisor/kbox.conf /etc/supervisor/conf.d/
 
 ## Copying custom startup scripts
-COPY docker/apache2-foreground.sh /usr/local/bin/apache2-foreground.sh
 COPY docker/configure.sh /usr/local/bin/configure.sh
-COPY docker/php-start.sh /usr/local/bin/php-start.sh
 COPY docker/start.sh /usr/local/bin/start.sh
 COPY docker/db-connect-test.php /usr/local/bin/db-connect-test.php
 
-RUN chmod +x /usr/local/bin/apache2-foreground.sh && \
-    chmod +x /usr/local/bin/configure.sh && \
-    chmod +x /usr/local/bin/php-start.sh && \
+RUN chmod +x /usr/local/bin/configure.sh && \
     chmod +x /usr/local/bin/start.sh
 
 
@@ -109,13 +106,5 @@ WORKDIR /var/www/dms
 
 EXPOSE 80
 
-# This container can do apache, php-fpm or php artisan dms:queue according to the need.
-# The entrypoint start command accept the following parameter values:
-# - php: Start php-fpm and writes the environment configuration
-# - apache|nginx: Start the Nginx integrated webserver
-# - queue: Start the Artisan queue listener for asynchronous jobs handling
-# - tusd: Start the Artisan tus:start command for resumable upload support
-
 ENTRYPOINT ["/usr/local/bin/start.sh"]
-# ENTRYPOINT ["/usr/local/bin/tini", "--", "/usr/local/bin/start.sh"]
 

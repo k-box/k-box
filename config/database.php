@@ -41,14 +41,14 @@ return [
 
         'mysql' => [
             'driver'    => 'mysql',
-            'host'      => env('DB_HOST', '127.0.0.1'),
-            'database'  => env('DB_NAME', env('DB_DATABASE', 'dms')),
-            'username'  => env('DB_USERNAME', 'dms'),
-            'password'  => env('DB_PASSWORD', ''),
-            'unix_socket' => env('DB_SOCKET', ''),
+            'host'      => env('KBOX_DB_HOST', env('DB_HOST', '127.0.0.1')),
+            'database'  => env('KBOX_DB_NAME', env('DB_NAME', env('DB_DATABASE', 'dms'))),
+            'username'  => env('KBOX_DB_USERNAME', env('DB_USERNAME', 'dms')),
+            'password'  => env('KBOX_DB_PASSWORD', env('DB_PASSWORD', '')),
+            'unix_socket' => env('KBOX_DB_SOCKET', env('DB_SOCKET', '')),
             'charset'   => 'utf8',
             'collation' => 'utf8_unicode_ci',
-            'prefix'    => env('DB_TABLE_PREFIX', 'kdms_'),
+            'prefix'    => env('KBOX_DB_TABLE_PREFIX', env('DB_TABLE_PREFIX', 'kdms_')),
             'strict' => false,
         ],
 

@@ -26,9 +26,10 @@ return [
     | The unique identifier for the DMS instance
     |
     | @var string
+    | @deprecated
     */
 
-    'identifier' => getenv('DMS_IDENTIFIER') ?: '4815162342',
+    'identifier' => '4815162342',
 
     /*
     |--------------------------------------------------------------------------
@@ -66,24 +67,9 @@ return [
         | @var string
         */
 
-        'address' => getenv('DMS_CORE_ADDRESS') ?: null,
+        'address' => getenv('KBOX_SEARCH_SERVICE_URL') ?: (getenv('DMS_CORE_ADDRESS') ?: null),
 
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Enable user activity tracking
-    |--------------------------------------------------------------------------
-    |
-    | Enable or Disable the user activity tracking
-    | K-Link Core
-    |
-    | default: true
-    |
-    | @var boolean
-    */
-
-    'enable_activity_tracking' => ! ! getenv('DMS_ENABLE_ACTIVITY_TRACKING') ?: true,
 
     /*
     |--------------------------------------------------------------------------
@@ -96,7 +82,7 @@ return [
     | @var integer
     */
 
-    'items_per_page' => getenv('DMS_ITEMS_PER_PAGE') ?: 12,
+    'items_per_page' => getenv('KBOX_PAGE_LIMIT') ?: (getenv('DMS_ITEMS_PER_PAGE') ?: 12),
 
     /*
     |--------------------------------------------------------------------------
@@ -124,7 +110,7 @@ return [
     | @var integer
     */
 
-    'max_upload_size' => getenv('DMS_MAX_UPLOAD_SIZE') ?: 204800,
+    'max_upload_size' => getenv('UPLOAD_LIMIT') ?: (getenv('DMS_MAX_UPLOAD_SIZE') ?: 204800),
 
     /*
     |--------------------------------------------------------------------------
@@ -152,7 +138,7 @@ return [
     | @var boolean
     */
 
-    'use_https' => getenv('DMS_USE_HTTPS') ?: true,
+    'use_https' => starts_with(env('APP_URL'), 'https') ? true : false,
     
     /*
     |--------------------------------------------------------------------------
@@ -220,6 +206,7 @@ return [
         | default: 3 weeks
         |
         | @var int
+        | @deprecated
         */
 
         'time_limit' => getenv('DMS_RECENT_TIMELIMIT') ?: 3,
