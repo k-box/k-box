@@ -106,12 +106,12 @@ return [
     |
     | The maximum size of the file allowed for upload in kilobytes
     |
-    | default: 30000
+    | default: 204800
     |
     | @var integer
     */
 
-    'max_upload_size' => getenv('UPLOAD_LIMIT') ?: (getenv('DMS_MAX_UPLOAD_SIZE') ?: 204800),
+    'max_upload_size' => env('KBOX_UPLOAD_LIMIT', env('UPLOAD_LIMIT', env('DMS_MAX_UPLOAD_SIZE', 204800))),
 
     /*
     |--------------------------------------------------------------------------

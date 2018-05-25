@@ -12,7 +12,7 @@ KBOX_APP_ENV=${KBOX_APP_ENV:-${KLINK_DMS_APP_ENV:-production}}
 KBOX_APP_DEBUG=${KBOX_APP_DEBUG:-${KLINK_DMS_APP_DEBUG:-false}}
 
 ## Maximum file size for upload (KB)
-KBOX_UPLOAD_LIMIT=${KBOX_UPLOAD_LIMIT:-${KLINK_DMS_MAX_UPLOAD_SIZE:-100000}}
+KBOX_UPLOAD_LIMIT=${KBOX_UPLOAD_LIMIT:-${KLINK_DMS_MAX_UPLOAD_SIZE:-204800}}
 
 ## Database connection
 KBOX_DB_NAME=${KBOX_DB_NAME:-${KLINK_DMS_DB_NAME:-dms}}
@@ -29,7 +29,7 @@ KBOX_ADMIN_PASSWORD=${KBOX_ADMIN_PASSWORD:-${KLINK_DMS_ADMIN_PASSWORD:-}}
 KBOX_SEARCH_SERVICE_URL=${KBOX_SEARCH_SERVICE_URL:-${KLINK_DMS_CORE_ADDRESS:-http://ksearch.local/}}
 
 ## Variables required by the configure script
-## The Institution identifier, is now deprecated
+## The Institution identifier (deprecated)
 KLINK_CORE_ID=${KLINK_CORE_ID:-KLINK}
 ## User under which the commands will run
 KBOX_SETUP_USER=www-data
@@ -39,6 +39,16 @@ KBOX_DIR=/var/www/dms
 function startup_config () {
     echo "Configuring K-Box..."
     echo "- Writing php configuration..."
+
+    if [ -z "$KBOX_PHP_POST_MAX_SIZE" ]; then
+        # calculating the post max size based on the upload limit
+        KBOX_PHP_POST_MAX_SIZE="${KBOX_UPLOAD_LIMIT+20048}K"
+    fi
+
+    if [ -z "$KBOX_PHP_UPLOAD_MAX_FILESIZE" ]; then
+        # calculating the upload max filesize based on the upload limit
+        KBOX_PHP_UPLOAD_MAX_FILESIZE="${KBOX_UPLOAD_LIMIT+2048}K"
+    fi
     
     # Set post and upload size for php if customized for the specific deploy
     cat > /usr/local/etc/php/conf.d/php-runtime.ini <<-EOM &&
@@ -75,7 +85,7 @@ function write_config() {
         echo "**************"
         echo "K-Box public URL not set. Set the public URL using KBOX_APP_URL."
         echo "**************"
-        return 1001
+        return 240
     fi
 
     echo "- Writing env file..."
@@ -108,7 +118,7 @@ function write_config() {
 }
 
 function update_dms() {
-    cd ${KBOX_DIR}
+    cd ${KBOX_DIR} || return 242
     echo "- Launching dms:update procedure..."
     php artisan dms:update --no-test -vv
     create_admin
@@ -119,7 +129,7 @@ function wait_mariadb () {
 }
 
 function mariadb_test () {
-   php -f /usr/local/bin/db-connect-test.php -- -d "${KLINK_DMS_DB_NAME}" -H "${KLINK_DMS_DB_HOST}" -u "${KLINK_DMS_DB_USERNAME}" -p "${KLINK_DMS_DB_PASSWORD}"
+   php -f /usr/local/bin/db-connect-test.php -- -d "${KBOX_DB_NAME}" -H "${KBOX_DB_HOST}" -u "${KBOX_DB_USERNAME}" -p "${KBOX_DB_PASSWORD}"
 }
 
 function wait_command () {
@@ -127,9 +137,13 @@ function wait_command () {
     local retry_times=$2
     local sleep_seconds=$3
 
-    for i in $(seq $retry_times); do
+    for i in $(seq "$retry_times"); do
         echo "- Waiting for ${command} ... Retry $i"
-        $command && return 0 || sleep $sleep_seconds
+        if [[ "$command" ]]; then
+            return 0
+        else
+            sleep "$sleep_seconds"
+        fi
     done
     return 1
 }
@@ -165,7 +179,7 @@ function create_admin () {
         echo "**************"
         echo "Admin email not specified. Please specify an email address using the variable KBOX_ADMIN_USERNAME"
         echo "**************"
-        return 1000
+        return 240
     fi
     
     if [ ! -z "$KBOX_ADMIN_USERNAME" ] &&  [ -z "$KBOX_ADMIN_PASSWORD" ]; then
