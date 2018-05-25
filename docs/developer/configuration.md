@@ -9,8 +9,8 @@ from the user interface, or entirely configurable from the user interface.
 
 ## Static Configuration options for .env file
 
-The static configuration is determined by the environment configuration file. It is 
-usually stored in the `.evn` file, placed in the root of the project. 
+The static configuration is determined by the environment configuration, usually stored
+in the `.evn` file. The `.env` file is located in the root of the project. 
 An example environment file is in `env.example`.
 
 The next table shows the K-Box specific configuration parameters:
@@ -65,30 +65,32 @@ KBOX_DB_TABLE_PREFIX=kdms_
 ## Dynamic Configuration
 
 Dynamic configuration is stored in the `options` table inside the database. 
-The dynamic configuration is intended for configuration parameters that may vary during 
-the normal execution of the K-DMS.
 
-| option key                  | type    | default value | description   |
-|-----------------------------|---------|---------------|---------------|
-| mail.host                   | string  |               | Here you may provide the host address of the SMTP server used by your applications. |
-| mail.port                   | integer | 587           | This is the SMTP port used by your application to deliver e-mails to users of the application. |
-| mail.encryption             | string  | tls           | Only TLS encrypcted mail servers are supported |
-| mail.username               | string  |               | If your SMTP server requires a username for authentication, you should set it here. This will get used to authenticate with your server on connection. |
-| mail.password               | string  |               | Here you may set the password required by your SMTP server to send out messages from your application. This will be given to the server on connection so that the application will be able to send messages. |
-| mail.from.address           | string  |               | You may wish for all e-mails sent by your application to be sent from the same address. Here you can specifiy the email address used as the sender of your emails | 
-| mail.from.name              | string  |               | Here you can specify the Human understandable name that is associated to the senders email address |
-| mail.pretend                | boolean | true          | When this option is enabled, e-mails will not actually be sent over the web and will instead be written to your application's logs files so you may inspect the message. This is great for local development. |
-| public_core_enabled         | boolean | false         | If the connection to the public network is enabled |         
-| public_core_url             | string  |               | The URL of the K-Link Public Network |
-| public_core_username        | string  |               | The Network authentication username |
-| public_core_password        | string  |               | The Network authentication password |
-| public_core_debug           | boolean | false         | If the debug flag on the network connection should be enabled |
-| public_core_correct         | boolean | false         | If the Network configuration is correct |
-| public_core_network_name_en | string  |               | The English name of the Network |
-| public_core_network_name_ru | string  |               | The Russian name of the Network |
-| support_token               | string  |               | The token for the support widget |
-| analytics_token             | string  |               | The token for the Analytics service |
-| map_visualization           | boolean | true          | Control the map visualization enabling and disabling |
+The dynamic configuration is intended for configuration parameters that may vary during 
+the normal execution of the K-Box.
+
+The following table lists the option key, the data type, default value and the purpose of the setting.
+During the K-Box usage the options are saved by specific administration pages.
+
+| option key                    | type    | default | description   |
+|-------------------------------|---------|---------|---------------|
+| `mail.host`                   | string  |         | The host address of the SMTP server |
+| `mail.port`                   | integer | 587     | The SMTP server port |
+| `mail.encryption`             | string  | tls     | Only TLS encrypcted mail servers are supported |
+| `mail.username`               | string  |         | The SMTP server username for authentication |
+| `mail.password `              | string  |         | The password required by your SMTP server |
+| `mail.from.address`           | string  |         | The email address used as the sender of your emails | 
+| `mail.from.name`              | string  |         | The name that is associated to the senders email address|
+| `public_core_enabled`         | boolean | false   | If the connection to the public network is enabled | 
+| `public_core_url`             | string  |         | The URL of the K-Link Public Network |
+| `public_core_username`        | string  |         | The Network authentication username |
+| `public_core_password`        | string  |         | The Network authentication password |
+| `public_core_debug`           | boolean | false   | Activate the debug of the K-Link connection |
+| `public_core_correct`         | boolean | false   | If the Network configuration is correct |
+| `public_core_network_name_en` | string  |         | The English name of the Network |
+| `public_core_network_name_ru` | string  |         | The Russian name of the Network |
+| `support_token`               | string  |         | The token for the support widget |
+| `analytics_token`             | string  |         | The token for the Analytics service |
 
 
 ## Docker image configuration
