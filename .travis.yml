@@ -32,6 +32,7 @@ before_script:
 
 script: 
   - ./vendor/bin/parallel-lint --exclude vendor .
+  - shellcheck ./docker/*.sh
   - php artisan view:clear
   - ./vendor/bin/php-cs-fixer fix --dry-run
   - mkdir ./storage/documents

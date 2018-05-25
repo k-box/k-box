@@ -46,6 +46,15 @@ test-syntax:7.0:
   tags:
     - docker
 
+test-shell-syntax:
+  stage: lint
+  image: "docker.klink.asia/alessio.vertemati/shellcheck-ci:latest"
+  script:
+    - shellcheck ./docker/configure.sh
+    - shellcheck ./docker/start.sh
+  tags:
+    - docker
+
 ## Building the artifacts for release
 
 frontend:
