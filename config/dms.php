@@ -40,9 +40,10 @@ return [
     | K-Link Core
     |
     | @var string
+    | @deprecated
     */
 
-    'institutionID' => getenv('DMS_INSTITUTION_IDENTIFIER') ?: 'KLINK',
+    'institutionID' => env('DMS_INSTITUTION_IDENTIFIER', 'KLINK'),
 
     /*
     |--------------------------------------------------------------------------
@@ -53,7 +54,7 @@ return [
     |
     | @var boolean
     */
-    'are_guest_public_search_enabled' => getenv('DMS_ARE_GUEST_PUBLIC_SEARCH_ENABLED') ?: true,
+    'are_guest_public_search_enabled' => env('KBOX_ENABLE_GUEST_NETWORK_SEARCH', env('DMS_ARE_GUEST_PUBLIC_SEARCH_ENABLED', true)),
 
     'core' => [
 
@@ -67,7 +68,7 @@ return [
         | @var string
         */
 
-        'address' => getenv('KBOX_SEARCH_SERVICE_URL') ?: (getenv('DMS_CORE_ADDRESS') ?: null),
+        'address' => env('KBOX_SEARCH_SERVICE_URL', env('DMS_CORE_ADDRESS', null)),
 
     ],
 
@@ -82,7 +83,7 @@ return [
     | @var integer
     */
 
-    'items_per_page' => getenv('KBOX_PAGE_LIMIT') ?: (getenv('DMS_ITEMS_PER_PAGE') ?: 12),
+    'items_per_page' => env('KBOX_PAGE_LIMIT', env('DMS_ITEMS_PER_PAGE', 12)),
 
     /*
     |--------------------------------------------------------------------------
@@ -96,7 +97,7 @@ return [
     | @var string
     */
 
-    'upload_folder' => getenv('DMS_UPLOAD_FOLDER') ?: storage_path('documents/'),
+    'upload_folder' => env('DMS_UPLOAD_FOLDER', storage_path('documents/')),
 
     /*
     |--------------------------------------------------------------------------
@@ -152,7 +153,7 @@ return [
     | @var string
     */
     
-    'support_token' => getenv('SUPPORT_TOKEN') ?: null,
+    'support_token' => env('KBOX_SUPPORT_TOKEN', env('SUPPORT_TOKEN', null)),
     
     
     /*

@@ -7,7 +7,7 @@ be edited from the K-Box while is running.
 Dynamic configuration refer to options that can be expressed at deploy time and edited 
 from the user interface, or entirely configurable from the user interface.
 
-## Static Configuration
+## Static Configuration options for .env file
 
 The static configuration is determined by the environment configuration file. It is 
 usually stored in the `.evn` file, placed in the root of the project. 
@@ -15,30 +15,33 @@ An example environment file is in `env.example`.
 
 The next table shows the K-Box specific configuration parameters:
 
-| parameter                             | required     | type    | default value | description |
-|---------------------------------------|--------------| --------|---------------|-------------|
-| `APP_ENV`                             | **required** | string  |               | the environment (when developing is highly encoraged to use local) |
-| `APP_DEBUG`                           |              | boolean | false         | Set to true will enable debug, false will prevent debug information to show up |
-| [`APP_KEY`](#application-key)                             | **required** | string  |               | Encryption Key. This key is used to make encrypted strings safe. Must be set to a random 32 character string |
-| `APP_URL`                             | **required** | string  |               | The url of the public folder, if you use a virtual host insert the virtual host url here, e.g. https://test.klink.asia/dms/ |
-| `KBOX_DB_USERNAME` (`DB_USERNAME`)                         | **required** | string  | dms           | The database user that has only priviledge over the database specified by `DB_NAME` |
-| `KBOX_DB_PASSWORD` (`DB_PASSWORD`)                         | **required** | string  |               | The database user password |
-| `KBOX_DB_HOST` (`DB_HOST`)                             |              | string  | localhost     | The database sever host |
-| `KBOX_DB_NAME` (`DB_NAME`)                             | **required** | string  | dms           | The Database name |
-| `KBOX_DB_TABLE_PREFIX` (`DB_TABLE_PREFIX`)                     | **required** | string  | kdms_         | The table prefix for each database table. The default value is just an example, to increse the security of the installation set you own value |
-| `DMS_INSTITUTION_IDENTIFIER`          | **required** | string  |               | The institution identifier that is required for communicating with the K-Link Core |
-| `DMS_CORE_ADDRESS`                    | **required** | url     |               | The URL of the K-Link Core that will be used by the DMS. |
-| `DMS_ARE_GUEST_PUBLIC_SEARCH_ENABLED` |              | boolean |               | Tell if the DMS will allow guest user to perform public search over K-Link instance |
-| `DMS_MAX_UPLOAD_SIZE`                 |              | integer | 30000         | The maximum size of the file allowed for upload in kilobytes |
-| `MAIL_ENCRYPTION`                     |              | string  | tls           | The mail encryption that should be used. If set to an empty string, insecure connections will be allowed (do this for testing purposes only). |
+| variable                              | required | type    | default value | description |
+|---------------------------------------|----------| --------|---------------|-------------|
+| `APP_ENV`                             | ✓        | string  |               | the environment under which the application is running, e.g. local, production |
+| `APP_DEBUG`                           |          | boolean | false         | Activate the debug mode |
+| [`APP_KEY`](#application-key)         | ✓        | string  |               | Encryption Key. See [Application Key section](#application-key) |
+| `APP_URL`                             | ✓        | string  |               | The url on which the K-Box will be reachable, e.g. https://my.kbox.tld/ |
+| `APP_INTERNAL_URL`           | v        | url     |                 |  |
+| `KBOX_DB_USERNAME` (`DB_USERNAME`)    |          | string  | dms           | The database user that can access `KBOX_DB_NAME` |
+| `KBOX_DB_PASSWORD` (`DB_PASSWORD`)    | ✓        | string  |               | The database user password |
+| `KBOX_DB_NAME` (`DB_NAME`)            |          | string  | dms           | The Database name |
+| `KBOX_DB_HOST` (`DB_HOST`)            |          | string  | 127.0.0.1     | The database sever host |
+| `KBOX_DB_TABLE_PREFIX` (`DB_TABLE_PREFIX`) |     | string  | kdms_         | The table prefix for each database table. To increse the security of the installation set you own value |
+| `KBOX_SEARCH_SERVICE_URL`             | ✓        | url     |               | The URL of the K-Search that will deliver the full text search service. |
+| `KBOX_ENABLE_GUEST_NETWORK_SEARCH`    |           | boolean | true          | Enable guests to search over the configures K-Link Network |
+| `DMS_MAX_UPLOAD_SIZE`                 |           | integer | 30000         | Maximum allowed file size for upload. Expressed in kilobytes |
+| `KBOX_MAIL_ENCRYPTION`                |           | string  | tls           | The mail encryption to use. Set to an empty string to allow insecure connections |
+| `KBOX_MAIL_DRIVER`                    |           | string  | smtp          | The Email driver. See [Configuring E-Mail](../user/en/administration/settings/mail.md) |
+| `KBOX_MAIL_HOST`                      |           | string  |               | The E-Mail server host |
+| `KBOX_MAIL_PORT`                      |           | number  | 587           | The E-Mail server port |
+| `KBOX_MAIL_FROM_ADDRESS`              |           | string  |               | The address to use when sending emails|
+| `KBOX_MAIL_FROM_NAME`                 |           | string  |               | The name to show when sending emails|
+| `KBOX_MAIL_USERNAME`                  |           | string  |               | The E-Mail server authentication |
+| `KBOX_MAIL_PASSWORD`                  |           | string  |               | The E-Mail server authentication |
+| `KBOX_SUPPORT_TOKEN` (`SUPPORT_TOKEN`)|           | string  |               | The Authentication token for the support service (can be configured from the UI) |
+| `KBOX_PAGE_LIMIT`                     |           | number  | 12            | The default number of items per page to show |
 
-`KBOX_MAIL_DRIVER`
-`KBOX_MAIL_HOST`
-`KBOX_MAIL_PORT`
-`KBOX_MAIL_FROM_ADDRESS`
-`KBOX_MAIL_FROM_NAME`
-`KBOX_MAIL_USERNAME`
-`KBOX_MAIL_PASSWORD`
+> `KBOX_MAIL_*` parameters can be configured from the User Interface, see [Configuring E-Mail](../user/en/administration/settings/mail.md).
 
 The following block is a non exhaustive example of a `.env` file.
 
@@ -163,34 +166,35 @@ KBOX_ADMIN_PASSWORD: "*******"
 The next table summarizes the changes to the environment variable that will be applied in version 0.22 of the K-Box.
 To make the upgrade process smooth the previous environment variables will be still supported until version 0.26
 
-| version 0.21 and below          | new name from version 0.22     |
-|---------------------------------|--------------------------------|
-| `KLINK_DMS_APP_URL`             | `KBOX_APP_URL`                 |
-| `KLINK_DMS_APP_INTERNAL_URL`    | `KBOX_APP_LOCAL_URL`           |
-| `KLINK_DMS_APP_KEY`             | `KBOX_APP_KEY`                 |
-| `KLINK_DMS_APP_ENV`             | `KBOX_APP_ENV`                 |
-| `KLINK_DMS_APP_DEBUG`           | `KBOX_APP_DEBUG`               |
-| `KLINK_DMS_ADMIN_USERNAME`      | `KBOX_ADMIN_USERNAME`          |
-| `KLINK_DMS_ADMIN_PASSWORD`      | `KBOX_ADMIN_PASSWORD`          |
-| `KLINK_DMS_CORE_ADDRESS`        | `KBOX_SEARCH_SERVICE_URL`      |
-| `KLINK_DMS_DB_NAME`             | `KBOX_DB_NAME`                 |
-| `KLINK_DMS_DB_HOST`             | `KBOX_DB_HOST`                 |
-| `KLINK_DMS_DB_USERNAME`         | `KBOX_DB_USERNAME`             |
-| `KLINK_DMS_DB_PASSWORD`         | `KBOX_DB_PASSWORD`             |
-| `KLINK_DMS_DB_TABLE_PREFIX`     | `KBOX_DB_TABLE_PREFIX`         |
-| `KLINK_DMS_MAX_UPLOAD_SIZE`     | `KBOX_UPLOAD_LIMIT`            |
-| `KLINK_PHP_POST_MAX_SIZE`       | `KBOX_PHP_POST_MAX_SIZE`       |
-| `KLINK_PHP_UPLOAD_MAX_FILESIZE` | `KBOX_PHP_UPLOAD_MAX_FILESIZE` |
-| `KLINK_PHP_MEMORY_LIMIT`        | `KBOX_PHP_MEMORY_LIMIT`        |
-| `DMS_ITEMS_PER_PAGE`            | `KBOX_PAGE_LIMIT`              |
-| `MAIL_DRIVER`                   | `KBOX_MAIL_DRIVER`             |
-| `MAIL_HOST`                     | `KBOX_MAIL_HOST`               |
-| `MAIL_PORT`                     | `KBOX_MAIL_PORT`               |
-| `MAIL_FROM_ADDRESS`             | `KBOX_MAIL_FROM_ADDRESS`       |
-| `MAIL_FROM_NAME`                | `KBOX_MAIL_FROM_NAME`          |
-| `MAIL_ENCRYPTION`               | `KBOX_MAIL_ENCRYPTION`         |
-| `MAIL_USERNAME`                 | `KBOX_MAIL_USERNAME`           |
-| `MAIL_PASSWORD`                 | `KBOX_MAIL_PASSWORD`           |
+| version 0.21 and below                | new name from version 0.22         |
+|---------------------------------------|------------------------------------|
+| `KLINK_DMS_APP_URL`                   | `KBOX_APP_URL`                     |
+| `KLINK_DMS_APP_INTERNAL_URL`          | `KBOX_APP_LOCAL_URL`               |
+| `KLINK_DMS_APP_KEY`                   | `KBOX_APP_KEY`                     |
+| `KLINK_DMS_APP_ENV`                   | `KBOX_APP_ENV`                     |
+| `KLINK_DMS_APP_DEBUG`                 | `KBOX_APP_DEBUG`                   |
+| `KLINK_DMS_ADMIN_USERNAME`            | `KBOX_ADMIN_USERNAME`              |
+| `KLINK_DMS_ADMIN_PASSWORD`            | `KBOX_ADMIN_PASSWORD`              |
+| `KLINK_DMS_CORE_ADDRESS`              | `KBOX_SEARCH_SERVICE_URL`          |
+| `KLINK_DMS_DB_NAME`                   | `KBOX_DB_NAME`                     |
+| `KLINK_DMS_DB_HOST`                   | `KBOX_DB_HOST`                     |
+| `KLINK_DMS_DB_USERNAME`               | `KBOX_DB_USERNAME`                 |
+| `KLINK_DMS_DB_PASSWORD`               | `KBOX_DB_PASSWORD`                 |
+| `KLINK_DMS_DB_TABLE_PREFIX`           | `KBOX_DB_TABLE_PREFIX`             |
+| `KLINK_DMS_MAX_UPLOAD_SIZE`           | `KBOX_UPLOAD_LIMIT`                |
+| `KLINK_PHP_POST_MAX_SIZE`             | `KBOX_PHP_POST_MAX_SIZE`           |
+| `KLINK_PHP_UPLOAD_MAX_FILESIZE`       | `KBOX_PHP_UPLOAD_MAX_FILESIZE`     |
+| `KLINK_PHP_MEMORY_LIMIT`              | `KBOX_PHP_MEMORY_LIMIT`            |
+| `DMS_ITEMS_PER_PAGE`                  | `KBOX_PAGE_LIMIT`                  |
+| `MAIL_DRIVER`                         | `KBOX_MAIL_DRIVER`                 |
+| `MAIL_HOST`                           | `KBOX_MAIL_HOST`                   |
+| `MAIL_PORT`                           | `KBOX_MAIL_PORT`                   |
+| `MAIL_FROM_ADDRESS`                   | `KBOX_MAIL_FROM_ADDRESS`           |
+| `MAIL_FROM_NAME`                      | `KBOX_MAIL_FROM_NAME`              |
+| `MAIL_ENCRYPTION`                     | `KBOX_MAIL_ENCRYPTION`             |
+| `MAIL_USERNAME`                       | `KBOX_MAIL_USERNAME`               |
+| `MAIL_PASSWORD`                       | `KBOX_MAIL_PASSWORD`               |
+| `DMS_ARE_GUEST_PUBLIC_SEARCH_ENABLED` | `KBOX_ENABLE_GUEST_NETWORK_SEARCH` |
 
 ### Deprecation
 
