@@ -21,7 +21,7 @@ The next table shows the K-Box specific configuration parameters:
 | `APP_DEBUG`                           |          | boolean | false         | Activate the debug mode |
 | [`APP_KEY`](#application-key)         | ✓        | string  |               | Encryption Key. See [Application Key section](#application-key) |
 | `APP_URL`                             | ✓        | string  |               | The url on which the K-Box will be reachable, e.g. https://my.kbox.tld/ |
-| `APP_INTERNAL_URL`           | v        | url     |                 |  |
+| `APP_INTERNAL_URL`                    | ✓        | url     |               | The URL on which the K-Box listen for file download request issues by the K-Search |
 | `KBOX_DB_USERNAME` (`DB_USERNAME`)    |          | string  | dms           | The database user that can access `KBOX_DB_NAME` |
 | `KBOX_DB_PASSWORD` (`DB_PASSWORD`)    | ✓        | string  |               | The database user password |
 | `KBOX_DB_NAME` (`DB_NAME`)            |          | string  | dms           | The Database name |
