@@ -247,6 +247,5 @@ class SearchRequestTest extends TestCase
                 'visibility' => 'public and 1>1',
             ]
         ));
-
     }
 }
