@@ -198,7 +198,7 @@
 
 		@include('errors.list')
 		
-		@if(isset($context) && ($context!=='recent' && $context!=='uploads'))
+		@if(isset($context) && ($context!=='recent' && $context!=='uploads' && $context!=='trash'))
 			@include('documents.facets')
 		@endif
 
