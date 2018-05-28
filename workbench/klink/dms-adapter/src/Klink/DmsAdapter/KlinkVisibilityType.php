@@ -2,6 +2,8 @@
 
 namespace Klink\DmsAdapter;
 
+use InvalidArgumentException;
+
 /**
  * Define the available types of document visibility.
  *
@@ -29,7 +31,7 @@ final class KlinkVisibilityType
 	 * Perform a parse of the given string into a visibility constant
 	 * @param string $string the value to be transformed into a KlinkVisibilityType
 	 * @return KlinkVisibilityType
-	 * @throws InvalidArgumentException if the passed string is not a valid visibility
+	 * @throws \InvalidArgumentException if the passed string is not a valid visibility
 	 */
 	public static function fromString( $string ){
 
@@ -40,7 +42,7 @@ final class KlinkVisibilityType
 			return KlinkVisibilityType::KLINK_PUBLIC;
 		}
 
-		throw new InvalidArgumentException("Wrong enumeration value");
+		throw new InvalidArgumentException("Unsupported visibility. Given $string");
 		
 
 	}
