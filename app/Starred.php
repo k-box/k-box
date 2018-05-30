@@ -63,7 +63,7 @@ class Starred extends Model
      */
     public function document()
     {
-        return $this->belongsTo('KBox\DocumentDescriptor', 'document_id');
+        return $this->belongsTo('KBox\DocumentDescriptor', 'document_id')->withTrashed();
     }
 
     /**

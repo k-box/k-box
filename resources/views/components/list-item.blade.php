@@ -65,16 +65,25 @@
         
         <div class="item__badges">
         
-        @if(isset($starrable) && $starrable && isset($local_document_id) && (!isset($trashed) || (isset($trashed) && !$trashed)))
+        @if(isset($starrable) && $starrable && isset($local_document_id) && (!isset($context) || (isset($context) && $context!=='trash')))
 
             <button data-action="star" 
                 class="item__star @if($is_public) item__star--public @endif @if( $starred ) item__star--starred @endif"
                 @if($star!== false) data-id="{{$star}}" @endif
                 data-doc="{{$local_document_id}}" 
-                data-visibility="{{$visibility}}">
-                @materialicon('toggle', 'star', 'star star--starred', ['alt' => trans('starred.remove')])
-                @materialicon('toggle', 'star_border', 'star star--not-starred', ['alt' => trans('starred.add')])
+                data-visibility="{{$visibility}}"
+                title="{{ $star!== false ? trans('starred.remove') : trans('starred.add') }}">
+                @materialicon('toggle', 'star', 'star star--starred', ['title' => trans('starred.remove')])
+                @materialicon('toggle', 'star_border', 'star star--not-starred', ['title' => trans('starred.add')])
             </button>
+
+            @if(isset($trashed) && $trashed)
+
+                <div class="item__badge" title="{{ trans('starred.starred_in_trash') }}">
+                    @materialicon('action', 'delete')
+                </div>
+
+            @endif
 
         @endif
 

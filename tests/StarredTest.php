@@ -133,4 +133,22 @@ class StarredTest extends BrowserKitTestCase
         
         $this->assertEquals($expected_count, Starred::count());
     }
+
+    public function test_starred_page_loads_with_trashed_documents()
+    {
+        $this->withKlinkAdapterFake();
+        
+        $user = $this->createUser(Capability::$PARTNER);
+        
+        $starred = factory('KBox\Starred', 3)->create(['user_id' => $user->id]);
+
+        $starred->first()->document->delete();
+
+        $this->actingAs($user);
+        
+        $this->visit(route('documents.starred.index'));
+        
+        $this->assertResponseOk();
+        $this->seePageIs(route('documents.starred.index'));
+    }
 }
