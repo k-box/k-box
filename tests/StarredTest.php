@@ -151,4 +151,34 @@ class StarredTest extends BrowserKitTestCase
         $this->assertResponseOk();
         $this->seePageIs(route('documents.starred.index'));
     }
+
+    public function test_remove_star_from_trashed_documents()
+    {
+        $this->withKlinkAdapterFake();
+        
+        $user = $this->createUser(Capability::$PARTNER);
+        
+        $expected_count = Starred::count();
+        
+        $starred = factory('KBox\Starred')->create(['user_id' => $user->id]);
+
+        $starred->document->delete();
+
+        $this->actingAs($user);
+        \Session::start(); // Start a session for the current test
+        
+        $this->visit(route('documents.starred.index'));
+
+        $this->delete(route('documents.starred.destroy', [
+                'id' => $starred->id,
+                '_token' => csrf_token()])
+             )
+             ->seeJson([
+                 'status' => 'ok'
+             ]);
+        
+        $this->assertResponseOk();
+        
+        $this->assertEquals($expected_count, Starred::count());
+    }
 }
