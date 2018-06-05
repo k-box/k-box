@@ -3,6 +3,7 @@
 namespace Tests\Unit;
 
 use Tests\TestCase;
+use InvalidArgumentException;
 use Klink\DmsAdapter\KlinkFacets;
 use Klink\DmsAdapter\KlinkFilters;
 use Klink\DmsSearch\SearchRequest;
@@ -235,5 +236,16 @@ class SearchRequestTest extends TestCase
         
         $this->assertNotEmpty($facets_built);
         $this->assertCount(4, $facets_built);
+    }
+
+    public function test_unsupported_visibility_is_handled()
+    {
+        $this->expectException(InvalidArgumentException::class);
+
+        $req = SearchRequest::create($this->createValidHttpRequest(
+            [
+                'visibility' => 'public and 1>1',
+            ]
+        ));
     }
 }

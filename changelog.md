@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Fixed
+
+- Visibility search parameter. Now if not public or private an InvalidArgumentException is thrown
+
 ### Removed
 
 - Filter button from Trash, as search and filtering is not supported
