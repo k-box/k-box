@@ -106,8 +106,12 @@ $factory->define(KBox\DocumentDescriptor::class, function (Faker\Generator $fake
 
 $factory->define(KBox\Starred::class, function (Faker\Generator $faker) {
     return [
-      'user_id' => factory(KBox\User::class)->create()->id,
-      'document_id' => factory(KBox\DocumentDescriptor::class)->create()->id
+      'user_id' => function () {
+          return factory(KBox\User::class)->create()->id;
+       },
+      'document_id' => function() { 
+          return factory(KBox\DocumentDescriptor::class)->create()->id;
+      }
     ];
 });
 
