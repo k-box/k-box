@@ -120,7 +120,11 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
         // console.log('DROP', dragText, this);
 
         var files = evt.originalEvent.dataTransfer.files;
-        if (files.length) {
+        
+        // If the dragText is not empty, this means that the file was not
+        // dragged in from outside the browser, therefore it is possibly a
+        // document or collection.
+        if (files.length && !dragText) {
             return;
         }
         
