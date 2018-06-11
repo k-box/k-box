@@ -17,12 +17,11 @@
 	@if(isset($show_parent) && $show_parent)
 
 		@if(isset($private) && $private)
-			<label>{{trans('groups.form.parent_label')}}</label>
+			<label>{!! trans('groups.form.parent_label', ['parent' => e($parent_label)]) !!}</label>
 		@else
-			<label>{{trans('groups.form.parent_project_label')}}</label>
+			<label>{!! trans('groups.form.parent_project_label', ['parent' => e($parent_label)]) !!}</label>
 		@endif
 		<input type="hidden" name="parent" value="{{$parent_id}}">
-		<p>{{$parent_label}}</p>
 
 	@endif
 

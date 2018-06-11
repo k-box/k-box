@@ -41,8 +41,8 @@ return [
         'collection_name_placeholder' => 'Name of the collection',
         'collection_name_label' => 'Collection name',
 
-        'parent_label' => 'Parent Collection',
-        'parent_project_label' => 'In the Project Collection',
+        'parent_label' => 'In the Private Collection: <strong>:parent</strong>',
+        'parent_project_label' => 'In the Project Collection: <strong>:parent</strong>',
 
         'make_public' => 'Make this collection visible to users of the Project.',
         'make_private' => 'Make this Collection personal',

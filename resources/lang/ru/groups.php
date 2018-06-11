@@ -41,8 +41,8 @@ return [
         'collection_name_placeholder' => 'Введите название коллекции',
         'collection_name_label' => 'Название',
 
-        'parent_label' => 'Родительская коллекция',
-        'parent_project_label' => 'Коллекция Проекта',
+        'parent_label' => 'В личной коллекции: <strong>:parent</strong>',
+        'parent_project_label' => 'В проектной коллекции: <strong>:parent</strong>',
 
         'make_public' => 'Сделать данную коллекцию видимой для пользователей Проекта.',
         'make_private' => 'Сделать эту коллекцию Личной',
