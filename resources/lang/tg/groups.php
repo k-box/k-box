@@ -41,8 +41,8 @@ return [
         'collection_name_placeholder' => 'Номи коллексия',
         'collection_name_label' => 'Номи коллексия',
 
-        'parent_label' => 'Коллесияи болотар',
-        'parent_project_label' => 'Дар коллексияи лоиха',
+        'parent_label' => 'Коллесияи болотар: <strong>:parent</strong>',
+        'parent_project_label' => 'Дар коллексияи лоиха: <strong>:parent</strong>',
 
         'make_public' => 'Ин коллексия ба истифодабарандагони лоиҳа намоён кунед.',
         'make_private' => 'Ин коллексияро хамчун Шахси ишора кунед',

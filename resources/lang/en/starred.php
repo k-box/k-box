@@ -28,4 +28,6 @@ return [
         'invalidargumentexception' => 'Sorry, I cannot add the star. (:exception)',
     ],
 
+    'starred_in_trash' => 'This document is in the trash',
+
 ];

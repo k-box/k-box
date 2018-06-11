@@ -171,7 +171,7 @@ class SharingController extends Controller
 
         $documents_req = is_array($documents_input) ? $documents_input : array_filter(explode(',', $request->input('documents', '')));
 
-        $documents = DocumentDescriptor::whereIn('id', $documents_req)->get();
+        $documents = DocumentDescriptor::withTrashed()->whereIn('id', $documents_req)->get();
 
         $groups = Group::whereIn('id', $groups_req)->get();
 

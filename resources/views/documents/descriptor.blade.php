@@ -34,7 +34,7 @@
 			'shared_on' => isset($share_created_at_timestamp) ? $share_created_at_timestamp : false,
 			'shared_on_diff' => isset($share_created_at) ? $share_created_at : false,
 			'shared' => $item->isShared(),
-			'starrable' => isset($is_starrable) ? $is_starrable : false,
+			'starrable' => isset($is_starrable) && (!isset($context) || isset($context) && $context !== 'trash') ? $is_starrable : false,
 			'starred' => isset($is_starred) ? $is_starred : false,
 		])
 

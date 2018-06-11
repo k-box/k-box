@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Fixed
+
+- Visibility search parameter. Now if not public or private an InvalidArgumentException is thrown
+- Listing starred documents when a document is in the trash
+
+### Removed
+
+- Filter button from Trash, as search and filtering is not supported
+
 ## [0.21.1] 2018-05-10
 
 ### Fixed
