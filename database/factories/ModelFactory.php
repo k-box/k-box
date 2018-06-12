@@ -71,16 +71,17 @@ $factory->define(KBox\Institution::class, function (Faker\Generator $faker) {
     ];
 });
 
-$factory->define(KBox\DocumentDescriptor::class, function (Faker\Generator $faker) {
+$factory->define(KBox\DocumentDescriptor::class, function (Faker\Generator $faker, $arguments = []) {
+    
     $hash = $faker->sha256.''.$faker->sha256;
     
-    $user = factory(KBox\User::class)->create();
+    $user = isset($arguments['owner_id']) ? $arguments['owner_id'] : factory(KBox\User::class)->create()->id;
     
-    $file = factory(KBox\File::class)->create([
-        'user_id' => $user->id,
+    $file = isset($arguments['file_id']) ? $arguments['file_id'] : factory(KBox\File::class)->create([
+        'user_id' => $user,
         'original_uri' => '',
         'upload_completed_at' => \Carbon\Carbon::now()
-    ]);
+    ])->id;
     
     return [
         'institution_id' => null,
@@ -89,15 +90,15 @@ $factory->define(KBox\DocumentDescriptor::class, function (Faker\Generator $fake
         'hash' => $hash,
         'document_uri' => $faker->url,
         'thumbnail_uri' => $faker->imageUrl,
-        'mime_type' => $file->mime_type,
+        'mime_type' => 'text/plain',
         'visibility' => 'private',
         'document_type' => 'document',
         'user_owner' => 'some user <usr@user.com>',
         'user_uploader' => 'some user <usr@user.com>',
         'abstract' => $faker->paragraph,
         'language' => $faker->languageCode,
-        'file_id' => $file->id,
-        'owner_id' => $user->id,
+        'file_id' => $file,
+        'owner_id' => $user,
         'status' => KBox\DocumentDescriptor::STATUS_COMPLETED,
         'copyright_usage' => 'PD',
         'copyright_owner' => collect(['name' => 'the owner name', 'website' => 'https://klink.asia']),
@@ -128,17 +129,26 @@ $factory->define(KBox\Import::class, function (Faker\Generator $faker) {
     ];
 });
 
-$factory->define(KBox\Project::class, function (Faker\Generator $faker) {
+$factory->define(KBox\Project::class, function (Faker\Generator $faker, $arguments = []) {
     
-    $user = factory(KBox\User::class)->create();
+    $user = isset($arguments['user_id']) ? KBox\User::findOrFail($arguments['user_id']) : factory(KBox\User::class)->create();
     
-    $user->addCapabilities(KBox\Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH);
+    if(!isset($arguments['user_id'])){
+        $user->addCapabilities(KBox\Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH);
+    }
     
     $project_title = $faker->sentence;
-        
-    $service = app('Klink\DmsDocuments\DocumentsService');
-        
-    $collection = $service->createGroup($user, $project_title, null, null, false);
+    
+    $collection = KBox\Group::create([
+        'user_id' => $user->id,
+        'name' => $project_title,
+        'color' => 'f1c40f',
+        'group_type_id' => KBox\GroupType::getGenericType()->id,
+        'is_private' => false,
+        'created_at' => isset($arguments['created_at']) ? $arguments['created_at'] : Carbon\Carbon::now(),
+    ]);
+
+    $collection->makeRoot(0);
     
     return [
         'name' => $project_title,
@@ -190,8 +200,8 @@ $factory->define(KBox\PublicLink::class, function (Faker\Generator $faker) {
     ];
 });
 
-$factory->defineAs(KBox\Shared::class, 'publiclink', function (Faker\Generator $faker) {
-    $link = factory(KBox\PublicLink::class)->create();
+$factory->defineAs(KBox\Shared::class, 'publiclink', function (Faker\Generator $faker, $arguments = []) {
+    $link = factory(KBox\PublicLink::class)->create(collect($arguments)->only('user_id')->toArray());
 
     return [
       'user_id' => $link->user_id,
