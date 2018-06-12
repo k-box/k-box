@@ -109,25 +109,27 @@ class StatisticsCommand extends Command
         $collections_created_per_day = Group::where('created_at', '>=', $from)->where('created_at', '<=', $to)->select($date_field, $count_field)->groupBy('date')->orderBy('date')->get()->keyBy('date');
         $personal_collections_created_per_day = Group::where('is_private', true)->where('created_at', '>=', $from)->where('created_at', '<=', $to)->select($date_field, $count_field)->groupBy('date')->orderBy('date')->get()->keyBy('date');
         $public_links_created_per_day = Shared::where('created_at', '>=', $from)->where('created_at', '<=', $to)->where('sharedwith_type', 'KBox\PublicLink')->select($date_field, $count_field)->groupBy('date')->orderBy('date')->get()->keyBy('date');
+        $shares_created_per_day = Shared::where('created_at', '>=', $from)->where('created_at', '<=', $to)->where('sharedwith_type', 'KBox\User')->select($date_field, $count_field)->groupBy('date')->orderBy('date')->get()->keyBy('date');
 
         $period = new DatePeriod($from, CarbonInterval::days(1), $to);
 
         $graph = [];
-        $graph[] = ['date', 'Users Created', 'Documents Created', 'Documents Created (incl. Trash)', 'Files uploaded' ,'Files uploaded (incl. Trash)', 'Publications performed', 'Projects created', 'Collections created', 'Personal collections created', 'Public Links Created'];
+        $graph[] = ['date', 'Users Created', 'Documents Created', 'Documents Created (incl. Trash)', 'Files uploaded' ,'Files uploaded (incl. Trash)', 'Publications performed', 'Projects created', 'Collections created', 'Personal collections created', 'Public Links Created', 'Shares to internal users'];
 
         foreach ($period as $date) {
             $graph[] = [
-                $date->format('Y-n-d'),
-                $this->getValueFromDateGrouping($users_created_per_day, $date->format('Y-n-d'), 0),
-                $this->getValueFromDateGrouping($document_created_per_day, $date->format('Y-n-d'), 0),
-                $this->getValueFromDateGrouping($document_created_per_day_trashed, $date->format('Y-n-d'), 0),
-                $this->getValueFromDateGrouping($files_created_per_day, $date->format('Y-n-d'), 0),
-                $this->getValueFromDateGrouping($files_created_per_day_trashed, $date->format('Y-n-d'), 0),
-                $this->getValueFromDateGrouping($publication_made_per_day, $date->format('Y-n-d'), 0),
-                $this->getValueFromDateGrouping($projects_created_per_day, $date->format('Y-n-d'), 0),
-                $this->getValueFromDateGrouping($collections_created_per_day, $date->format('Y-n-d'), 0),
-                $this->getValueFromDateGrouping($personal_collections_created_per_day, $date->format('Y-n-d'), 0),
-                $this->getValueFromDateGrouping($public_links_created_per_day, $date->format('Y-n-d'), 0),
+                $date->format('Y-n-j'),
+                $this->getValueFromDateGrouping($users_created_per_day, $date->format('Y-n-j'), 0),
+                $this->getValueFromDateGrouping($document_created_per_day, $date->format('Y-n-j'), 0),
+                $this->getValueFromDateGrouping($document_created_per_day_trashed, $date->format('Y-n-j'), 0),
+                $this->getValueFromDateGrouping($files_created_per_day, $date->format('Y-n-j'), 0),
+                $this->getValueFromDateGrouping($files_created_per_day_trashed, $date->format('Y-n-j'), 0),
+                $this->getValueFromDateGrouping($publication_made_per_day, $date->format('Y-n-j'), 0),
+                $this->getValueFromDateGrouping($projects_created_per_day, $date->format('Y-n-j'), 0),
+                $this->getValueFromDateGrouping($collections_created_per_day, $date->format('Y-n-j'), 0),
+                $this->getValueFromDateGrouping($personal_collections_created_per_day, $date->format('Y-n-j'), 0),
+                $this->getValueFromDateGrouping($public_links_created_per_day, $date->format('Y-n-j'), 0),
+                $this->getValueFromDateGrouping($shares_created_per_day, $date->format('Y-n-j'), 0),
             ];
         }
         
