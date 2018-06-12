@@ -117,17 +117,17 @@ class StatisticsCommand extends Command
 
         foreach ($period as $date) {
             $graph[] = [
-                $date->format('Y-n-d'),
-                $this->getValueFromDateGrouping($users_created_per_day, $date->format('Y-n-d'), 0),
-                $this->getValueFromDateGrouping($document_created_per_day, $date->format('Y-n-d'), 0),
-                $this->getValueFromDateGrouping($document_created_per_day_trashed, $date->format('Y-n-d'), 0),
-                $this->getValueFromDateGrouping($files_created_per_day, $date->format('Y-n-d'), 0),
-                $this->getValueFromDateGrouping($files_created_per_day_trashed, $date->format('Y-n-d'), 0),
-                $this->getValueFromDateGrouping($publication_made_per_day, $date->format('Y-n-d'), 0),
-                $this->getValueFromDateGrouping($projects_created_per_day, $date->format('Y-n-d'), 0),
-                $this->getValueFromDateGrouping($collections_created_per_day, $date->format('Y-n-d'), 0),
-                $this->getValueFromDateGrouping($personal_collections_created_per_day, $date->format('Y-n-d'), 0),
-                $this->getValueFromDateGrouping($public_links_created_per_day, $date->format('Y-n-d'), 0),
+                $date->format('Y-n-j'),
+                $this->getValueFromDateGrouping($users_created_per_day, $date->format('Y-n-j'), 0),
+                $this->getValueFromDateGrouping($document_created_per_day, $date->format('Y-n-j'), 0),
+                $this->getValueFromDateGrouping($document_created_per_day_trashed, $date->format('Y-n-j'), 0),
+                $this->getValueFromDateGrouping($files_created_per_day, $date->format('Y-n-j'), 0),
+                $this->getValueFromDateGrouping($files_created_per_day_trashed, $date->format('Y-n-j'), 0),
+                $this->getValueFromDateGrouping($publication_made_per_day, $date->format('Y-n-j'), 0),
+                $this->getValueFromDateGrouping($projects_created_per_day, $date->format('Y-n-j'), 0),
+                $this->getValueFromDateGrouping($collections_created_per_day, $date->format('Y-n-j'), 0),
+                $this->getValueFromDateGrouping($personal_collections_created_per_day, $date->format('Y-n-j'), 0),
+                $this->getValueFromDateGrouping($public_links_created_per_day, $date->format('Y-n-j'), 0),
             ];
         }
         
