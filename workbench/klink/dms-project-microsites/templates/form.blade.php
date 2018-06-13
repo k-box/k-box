@@ -36,6 +36,7 @@
         <span class="field-error">{{ implode(",", $errors->get('description'))  }}</span>
     @endif
     <textarea class="c-form__input c-form__input--larger" name="description">{{old('description', isset($microsite) ? $microsite->description : '')}}</textarea>
+    <span class="description">{{ trans('microsites.hints.description') }}</span>
 </div>
 
 <div class="c-form__field">

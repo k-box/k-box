@@ -25,6 +25,9 @@ return [
         'edit_microsite' => 'Change the microsite page content and settings',
         
         'site_title' => 'The name of the website that will be showed to the users',
+        
+        'description' => 'A short description of the purpose of your microsite used by the search engines.',
+
         'slug' => 'The user friendly version of the website URL path, this will help users find and remember the website address. Slug cannot start with the "create" word.',
         'logo' => 'The logo of the website, max size 280x80 pixels. The image must be hosted somewhere with a secure connection over HTTPS',
         'default_language' => 'The language in which the website will be showed if the user don\'t explicitely ask for a language',
