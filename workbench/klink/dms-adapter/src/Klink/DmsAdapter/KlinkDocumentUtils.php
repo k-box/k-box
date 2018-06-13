@@ -146,7 +146,7 @@ class KlinkDocumentUtils
 		'exe' => 'application/x-msdownload',
 		// MS Office formats.
 		'doc' => 'application/msword',
-		'pot|pps|ppt' => 'application/vnd.ms-powerpoint',
+		'ppt|pps|pot' => 'application/vnd.ms-powerpoint',
 		'wri' => 'application/vnd.ms-write',
 		'xls|xla|xlt|xlw' => 'application/vnd.ms-excel',
 		'mdb' => 'application/vnd.ms-access',
