@@ -16,6 +16,13 @@ class RecentDocumentsController extends Controller
 {
     use Searchable;
 
+    public function __construct()
+    {
+        $this->middleware('auth');
+
+        $this->middleware('capabilities');
+    }
+
     public function index(AuthGuard $auth, Request $request, $range = 'currentweek')
     {
         $base_now = Carbon::now();
