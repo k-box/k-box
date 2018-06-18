@@ -2070,8 +2070,8 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
                                     module.uploads.isUploading = false;
                                     module.uploads.status = "completed";
                                     $('#upload-status').removeClass('visible');
-                                    // DMS.navigateReload();
-                                    // _alert( Lang.trans('documents.upload.all_uploaded'), "", "success");
+                                    DMS.navigateReload();
+                                    _alert( Lang.trans('documents.upload.all_uploaded'), "", "success");
                                 }
 
                             });
