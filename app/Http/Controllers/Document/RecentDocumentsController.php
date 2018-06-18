@@ -3,11 +3,9 @@
 namespace KBox\Http\Controllers\Document;
 
 use KBox\User;
-use KBox\Group;
 use KBox\Shared;
 use KBox\Project;
 use Carbon\Carbon;
-use KBox\Capability;
 use KBox\Traits\Searchable;
 use KBox\DocumentDescriptor;
 use Illuminate\Http\Request;

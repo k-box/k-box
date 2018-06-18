@@ -6,11 +6,7 @@ use KBox\File;
 use KBox\Capability;
 use KBox\DocumentDescriptor;
 use KBox\Project;
-use Carbon\Carbon;
-use KBox\Flags;
 use Klink\DmsAdapter\KlinkDocumentUtils;
-use Klink\DmsAdapter\KlinkSearchRequest;
-use Klink\DmsAdapter\KlinkSearchResults;
 use Tests\BrowserKitTestCase;
 use Klink\DmsAdapter\KlinkVisibilityType;
 use Klink\DmsAdapter\Exceptions\KlinkException;
@@ -83,7 +79,6 @@ class DocumentsTest extends BrowserKitTestCase
             [['s' => 'pasture'], '?s=pasture'],
         ];
     }
-
 
     /**
      * Test that the route for documents.show is not leaking private documents to anyone

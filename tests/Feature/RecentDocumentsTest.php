@@ -3,12 +3,9 @@
 namespace Tests\Feature;
 
 use KBox\User;
-use KBox\File;
 use Carbon\Carbon;
 use Tests\TestCase;
 use KBox\Capability;
-use KBox\DocumentDescriptor;
-use Klink\DmsAdapter\KlinkDocumentUtils;
 use Klink\DmsAdapter\KlinkSearchRequest;
 use Klink\DmsAdapter\KlinkSearchResults;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
@@ -129,7 +126,6 @@ class RecentDocumentsTest extends TestCase
         $this->assertEquals($items_per_page, $listed_documents->count());
         $this->assertEquals($documents->count(), $pagination->total());
         $this->assertEquals(2, $pagination->lastPage());
-
     }
 
     public function test_number_of_items_per_page_must_be_positive_and_above_zero()
@@ -163,7 +159,6 @@ class RecentDocumentsTest extends TestCase
         
         $user = $user->fresh();
         $this->assertEquals(12, $user->optionItemsPerPage());
-
     }
     
     /**
@@ -197,24 +192,21 @@ class RecentDocumentsTest extends TestCase
         $listed_documents = $original_response['documents']->values()->collapse();
         $this->assertEquals(3, $listed_documents->count());
 
-        if($expected_value === 'ASC'){
+        if ($expected_value === 'ASC') {
             $this->assertEquals([
                 $recent_documents[2]->id,
                 $recent_documents[1]->id,
                 $recent_documents[0]->id,
             ], $listed_documents->pluck('id')->toArray());
-        }
-        else if($expected_value === 'DESC'){
+        } elseif ($expected_value === 'DESC') {
             $this->assertEquals([
                 $recent_documents[0]->id,
                 $recent_documents[1]->id,
                 $recent_documents[2]->id,
             ], $listed_documents->pluck('id')->toArray());
-        }
-        else {
+        } else {
             $this->fail('Document sorting is not respecting ASC or DESC');
         }
-
     }
     
     /**
@@ -292,7 +284,6 @@ class RecentDocumentsTest extends TestCase
 
     public function test_recent_support_search_parameters()
     {
-
         $docs = factory('KBox\DocumentDescriptor', 10)->create();
 
         $adapter = $this->withKlinkAdapterFake();
@@ -325,7 +316,6 @@ class RecentDocumentsTest extends TestCase
         $response->assertSee('search-form');
     }
 
-
     public function test_recent_includes_documents_with_new_file_version()
     {
         $this->disableExceptionHandling();
@@ -354,7 +344,7 @@ class RecentDocumentsTest extends TestCase
 
         $descriptor->save();
 
-        $response = $this->actingAs($user)->get(route('documents.recent') . '/today');
+        $response = $this->actingAs($user)->get(route('documents.recent').'/today');
 
         //assert recent for today shows the document
 
@@ -370,7 +360,6 @@ class RecentDocumentsTest extends TestCase
         $this->assertEquals($descriptor->id, $recent->id);
         $this->assertEquals($new_file_version->id, $recent->file->id);
     }
-
 
     public function test_recent_includes_documents_in_project_i_have_access()
     {
@@ -408,7 +397,7 @@ class RecentDocumentsTest extends TestCase
 
         $descriptor->save();
 
-        $response = $this->actingAs($user)->get(route('documents.recent') . '/today');
+        $response = $this->actingAs($user)->get(route('documents.recent').'/today');
 
         //assert recent for today shows the document
 
@@ -425,8 +414,8 @@ class RecentDocumentsTest extends TestCase
         $this->assertEquals($new_file_version->id, $recent->file->id);
     }
 
-
-    private function createUser($capabilities, $userParams = []) {
+    private function createUser($capabilities, $userParams = [])
+    {
         return tap(factory(\KBox\User::class)->create($userParams))->addCapabilities($capabilities);
     }
 
