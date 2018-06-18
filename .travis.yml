@@ -5,6 +5,11 @@ php:
 
 sudo: false
 
+branches:
+  only:
+  - master
+  - /^v\d+\.\d+(\.\d+)?(-\S*)?$/
+
 cache:
   directories:
   - $HOME/.composer/cache
