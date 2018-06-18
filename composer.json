@@ -9,17 +9,12 @@
         {
             "type": "vcs",
             "url": "https://github.com/k-box/k-search-client-php"
-		},
-		{
-            "type": "vcs",
-			"url": "https://git.klink.asia/alessio.vertemati/laravel-tus-upload"
-		}       
+		}
     ],
 
 	"require": {
 		"php": ">=5.6.4",
 		"ext-fileinfo": "*",
-		"avvertix/laravel-tus-upload": "0.2.*",
 		"avvertix/materialicons-laravel-bridge": "^0.1.0",
 		"barryvdh/laravel-async-queue": "0.6.*",
 		"doctrine/dbal": "^2.5",
@@ -35,6 +30,7 @@
 		"laravel/tinker": "~1.0",
 		"league/csv": "^8.0",
 		"oneofftech/k-link-streaming-upload-client": "0.1.*",
+		"oneofftech/laravel-tus-upload": "0.3.0",
 		"php-http/guzzle6-adapter": "^1.1",
 		"phpoffice/phppresentation": "^0.8.0",
 		"phpoffice/phpspreadsheet": "dev-master",

@@ -245,7 +245,7 @@ return [
         /*
          * For the tus based resumable upload handling
          */
-        Avvertix\TusUpload\Providers\TusUploadServiceProvider::class,
+        OneOffTech\TusUpload\Providers\TusUploadServiceProvider::class,
         
         /**
          * License provider

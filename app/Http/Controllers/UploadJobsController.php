@@ -4,8 +4,8 @@ namespace KBox\Http\Controllers;
 
 use Illuminate\Http\Request;
 use KBox\File;
-use Avvertix\TusUpload\TusUploadRepository;
-use Avvertix\TusUpload\Http\Controllers\TusUploadQueueController;
+use OneOffTech\TusUpload\TusUploadRepository;
+use OneOffTech\TusUpload\Http\Controllers\TusUploadQueueController;
 
 class UploadJobsController extends TusUploadQueueController
 {

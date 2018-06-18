@@ -2,7 +2,7 @@
 
 namespace KBox\Listeners;
 
-use Avvertix\TusUpload\Events\TusUploadCancelled;
+use OneOffTech\TusUpload\Events\TusUploadCancelled;
 use KBox\File;
 use KBox\DocumentDescriptor;
 use Log;

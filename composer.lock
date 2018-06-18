@@ -4,66 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c6c1c8b2fd20b419cc0199b95d6500d1",
+    "content-hash": "69f3ea446a1bd05e9c525b9d49f99aae",
     "packages": [
-        {
-            "name": "avvertix/laravel-tus-upload",
-            "version": "v0.2.0",
-            "source": {
-                "type": "git",
-                "url": "https://git.klink.asia/alessio.vertemati/laravel-tus-upload",
-                "reference": "0ae15d0eaa023481cab43d8dcd0ae3c330815969"
-            },
-            "require": {
-                "illuminate/auth": "5.4.*",
-                "illuminate/console": "5.4.*",
-                "illuminate/contracts": "5.4.*",
-                "illuminate/database": "5.4.*",
-                "illuminate/events": "5.4.*",
-                "illuminate/support": "5.4.*",
-                "illuminate/view": "5.4.*",
-                "php": ">=5.6.4"
-            },
-            "require-dev": {
-                "fzaninotto/faker": "~1.4",
-                "mockery/mockery": "0.9.*",
-                "orchestra/testbench": "~3.4",
-                "phpunit/phpunit": "~5.7"
-            },
-            "type": "project",
-            "extra": {
-                "brach-alias": {
-                    "dev-master": "0.1.x-dev"
-                }
-            },
-            "autoload": {
-                "classmap": [
-                    "database"
-                ],
-                "psr-4": {
-                    "Avvertix\\TusUpload\\": "src/"
-                },
-                "files": [
-                    "src/helpers.php"
-                ]
-            },
-            "autoload-dev": {
-                "psr-4": {
-                    "Tests\\": "tests/"
-                }
-            },
-            "license": [
-                "MIT"
-            ],
-            "description": "Upload files to your Laravel application with the tus.io resumable upload protocol.",
-            "keywords": [
-                "laravel",
-                "package",
-                "tus",
-                "upload"
-            ],
-            "time": "2017-11-24T15:57:36+00:00"
-        },
         {
             "name": "avvertix/materialicons-laravel-bridge",
             "version": "v0.1.0",
@@ -2508,6 +2450,69 @@
             ],
             "description": "Upload videos to a K-Link Streaming Service",
             "time": "2018-03-30 17:36:50"
+        },
+        {
+            "name": "oneofftech/laravel-tus-upload",
+            "version": "v0.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.klink.asia/alessio.vertemati/laravel-tus-upload",
+                "reference": "39d50e808d70dc305abd961843ebd5be622b47af"
+            },
+            "require": {
+                "illuminate/auth": "5.4.*",
+                "illuminate/console": "5.4.*",
+                "illuminate/contracts": "5.4.*",
+                "illuminate/database": "5.4.*",
+                "illuminate/events": "5.4.*",
+                "illuminate/support": "5.4.*",
+                "illuminate/view": "5.4.*",
+                "php": ">=7.0"
+            },
+            "require-dev": {
+                "fzaninotto/faker": "~1.4",
+                "mockery/mockery": "0.9.*",
+                "orchestra/testbench": "~3.4",
+                "phpunit/phpunit": "~6.0"
+            },
+            "type": "project",
+            "extra": {
+                "brach-alias": {
+                    "dev-master": "0.3.x-dev"
+                },
+                "laravel": {
+                    "providers": [
+                        "OneOffTech\\TusUpload\\Providers\\TusUploadServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "classmap": [
+                    "database"
+                ],
+                "psr-4": {
+                    "OneOffTech\\TusUpload\\": "src/"
+                },
+                "files": [
+                    "src/helpers.php"
+                ]
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "Tests\\": "tests/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "Upload files to your Laravel application with the tus.io resumable upload protocol.",
+            "keywords": [
+                "laravel",
+                "package",
+                "tus",
+                "upload"
+            ],
+            "time": "2018-01-09T20:33:24+00:00"
         },
         {
             "name": "paragonie/random_compat",

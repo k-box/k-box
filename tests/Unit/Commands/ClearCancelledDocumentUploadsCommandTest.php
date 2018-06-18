@@ -7,7 +7,7 @@ use Carbon\Carbon;
 use KBox\File;
 use Tests\TestCase;
 use KBox\DocumentDescriptor;
-use Avvertix\TusUpload\TusUpload;
+use OneOffTech\TusUpload\TusUpload;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class ClearCancelledDocumentUploadsCommandTest extends TestCase

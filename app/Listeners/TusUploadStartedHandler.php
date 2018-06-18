@@ -6,7 +6,7 @@ use Log;
 use KBox\Group;
 use Klink\DmsDocuments\DocumentsService;
 use Klink\DmsAdapter\KlinkDocumentUtils;
-use Avvertix\TusUpload\Events\TusUploadStarted;
+use OneOffTech\TusUpload\Events\TusUploadStarted;
 
 class TusUploadStartedHandler
 {
