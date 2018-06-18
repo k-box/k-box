@@ -7,14 +7,28 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+### Changed
+### Fixed
+### Removed
+
+## [0.21.2] 2018-06-18
+
 ### Fixed
 
-- Visibility search parameter. Now if not public or private an InvalidArgumentException is thrown
-- Listing starred documents when a document is in the trash
+- Checking of Visibility search parameter within _public_, _private_ enumeration ([#85](https://github.com/k-box/k-box/issues/85))
+- Listing starred documents in case a document is in the trash ([#86](https://github.com/k-box/k-box/issues/86))
+- Drag and drop of documents and collection on the sidebar in Microsoft Edge ([#81](https://github.com/k-box/k-box/issues/81), [#95](https://github.com/k-box/k-box/pull/95))
+- Automated statistics extraction for the first 9 days of the month ([#92](https://github.com/k-box/k-box/pull/92))
 
 ### Removed
 
-- Filter button from Trash, as search and filtering is not supported
+- Filter button from Trash, as search and filtering is not supported ([#84](https://github.com/k-box/k-box/issues/84))
+
+
+### Deprecated
+
+- `DMS_USE_HTTPS` environment variable. Will be guessed from the configured application URL
 
 ## [0.21.1] 2018-05-10
 
