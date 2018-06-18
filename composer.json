@@ -13,11 +13,7 @@
 		{
             "type": "vcs",
 			"url": "https://git.klink.asia/alessio.vertemati/laravel-tus-upload"
-		},
-		{
-			"type": "vcs",
-			"url": "https://git.klink.asia/main/k-link-video-streaming-client-php.git"
-		}        
+		}       
     ],
 
 	"require": {

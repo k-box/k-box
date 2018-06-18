@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "058e4bb85c4bc2be0e523fef524a74d5",
+    "content-hash": "c6c1c8b2fd20b419cc0199b95d6500d1",
     "packages": [
         {
             "name": "avvertix/laravel-tus-upload",
@@ -2466,8 +2466,14 @@
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://git.klink.asia/main/k-link-video-streaming-client-php.git",
-                "reference": "e4c098c241c3235f9b84f92c75fea5419e1febb7"
+                "url": "https://github.com/OneOffTech/k-link-streaming-upload-client.git",
+                "reference": "84f057959b25871685af321fa5d5df88048411bf"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/OneOffTech/k-link-streaming-upload-client/zipball/84f057959b25871685af321fa5d5df88048411bf",
+                "reference": "84f057959b25871685af321fa5d5df88048411bf",
+                "shasum": ""
             },
             "require": {
                 "kitetail/zttp": "^0.2.0",
@@ -2490,21 +2496,9 @@
                     "Oneofftech\\KlinkStreaming\\": "src/"
                 }
             },
-            "autoload-dev": {
-                "psr-4": {
-                    "Tests\\": "tests/"
-                }
-            },
-            "scripts": {
-                "post-install-cmd": [
-                    "Oneofftech\\KlinkStreaming\\Installer::downloadTusClient"
-                ],
-                "post-update-cmd": [
-                    "Oneofftech\\KlinkStreaming\\Installer::downloadTusClient"
-                ]
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "AGPL-3.0"
+                "MIT"
             ],
             "authors": [
                 {
@@ -2513,7 +2507,7 @@
                 }
             ],
             "description": "Upload videos to a K-Link Streaming Service",
-            "time": "2017-11-17T09:33:03+00:00"
+            "time": "2018-03-30 17:36:50"
         },
         {
             "name": "paragonie/random_compat",
