@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "90a9dd632afeec9abd91b0c8d7158d29",
+    "content-hash": "058e4bb85c4bc2be0e523fef524a74d5",
     "packages": [
         {
             "name": "avvertix/laravel-tus-upload",
@@ -1637,8 +1637,8 @@
             "version": "v3.0.2",
             "source": {
                 "type": "git",
-                "url": "https://git.klink.asia/main/k-search-client-php.git",
-                "reference": "8e97e0d2fc50eca36003856be9af4f512f5020d9"
+                "url": "https://github.com/k-box/k-search-client-php.git",
+                "reference": "3dbe5bdd045f8b2b34e46c3f773ed6d03565c252"
             },
             "require": {
                 "doctrine/annotations": "^1.4",
