@@ -67,7 +67,7 @@ services:
 
   ## The K-Box container
   kbox:
-    image: "docker.klink.asia/images/k-box:0.21.1"
+    image: "docker.klink.asia/images/k-box:0.21.2"
     environment:
       ## K-Box access
       KLINK_DMS_APP_URL: "http://localhost:8080/"
@@ -81,9 +81,7 @@ services:
       KLINK_DMS_DB_NAME: dms
       KLINK_DMS_DB_USERNAME: dms
       KLINK_DMS_DB_PASSWORD: "b2510859c83414e0cbefd26284b9171d"  # must be the same as MYSQL_PASSWORD
-      KLINK_CORE_ID: "KLINK" # deprecated, but still required in version 0.20.x
-      KLINK_DMS_CORE_USERNAME: "<K-Search-Authentication-Username>" # deprecated, but still required in version 0.20.x
-      KLINK_DMS_CORE_PASSWORD: "<K-Search-Authentication-Password>" # deprecated, but still required in version 0.20.x
+      KLINK_CORE_ID: "KLINK" # deprecated
       KLINK_DMS_CORE_ADDRESS: "http://ksearch.local/"
       DMS_USE_HTTPS: "false" # this will not be exposed via HTTPS, set it to true if the K-Box will be accessible over HTTPS
     depends_on:

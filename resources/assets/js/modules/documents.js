@@ -117,14 +117,12 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
         var dragText = evt.originalEvent.dataTransfer.getData('text');
         evt.originalEvent.dataTransfer.dropEffect = dragText !== 'dms_drag_collection' ? 'copy' : 'none';
 
-        // console.log('DROP', dragText, this);
-
         var files = evt.originalEvent.dataTransfer.files;
         
         // If the dragText is not empty, this means that the file was not
         // dragged in from outside the browser, therefore it is possibly a
         // document or collection.
-        if (files.length && !dragText) {
+        if (dragText !== undefined && dragText.length == 0 && files.length > 0) {
             return;
         }
         
@@ -150,7 +148,8 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
         if(dropAction){
             module['menu'][dropAction].call(module, evt, $this.data(), dragText);
         }
-
+        
+        return false;
     });
 
     dragItems.on('dragstart', function(evt){
@@ -1995,6 +1994,8 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
                             });
 
                             this.on('drop', function(evt){
+
+                                console.log('File drop, upload', evt);
                                 
                                 if(evt.target){
                                     
