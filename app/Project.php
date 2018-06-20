@@ -116,7 +116,7 @@ class Project extends Model
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function getDocumentsQuery()
+    protected function getDocumentsQuery()
     {
         return $this->collection->withAllDescendants()->
                             has('documents')->
@@ -129,18 +129,6 @@ class Project extends Model
     public function documents()
     {
         return DocumentDescriptor::whereIn('id', $this->getDocumentsQuery());
-
-        // $instance = $this->newRelatedInstance('KBox\DocumentDescriptor');
-        // return new MorphToMany(
-        //             $instance->newQuery(),
-
-        // return tap(new $class, function ($instance) {
-        //     if (! $instance->getConnectionName()) {
-        //         $instance->setConnection($this->connection);
-        //     }
-        // });
-
-        // return new Relation($instance->newQuery()->whereIn('id', $this->getDocumentsQuery()), $this);
     }
     
     /**

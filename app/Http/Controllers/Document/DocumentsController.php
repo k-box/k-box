@@ -46,23 +46,19 @@ class DocumentsController extends Controller
      * @var \Klink\DmsAdapter\KlinkAdapter
      */
     private $service = null;
-    
-    // private $searchService = null;
 
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct(\Klink\DmsDocuments\DocumentsService $adapterService/*, \Klink\DmsSearch\SearchService $searchService*/)
+    public function __construct(\Klink\DmsDocuments\DocumentsService $adapterService)
     {
         $this->middleware('auth', ['except' => ['showByKlinkId']]);
 
         $this->middleware('capabilities', ['except' => ['showByKlinkId']]);
 
         $this->service = $adapterService;
-        
-        // $this->searchService = $searchService;
     }
 
     /**

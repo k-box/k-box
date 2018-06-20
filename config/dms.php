@@ -200,12 +200,12 @@ return [
         | Use this option to limit the number of documents that can be showed
         | in the recent documents
         |
-        | default: 1000
+        | default: 500
         |
         | @var int
         */
 
-        'limit' => getenv('DMS_RECENT_LIMIT') ?: 1000,
+        'limit' => getenv('DMS_RECENT_LIMIT') ?: 500,
 
         /*
         |--------------------------------------------------------------------------

@@ -414,6 +414,38 @@ class RecentDocumentsTest extends TestCase
         $this->assertEquals($new_file_version->id, $recent->file->id);
     }
 
+    public function test_recent_shows_partner_expected_documents_for_today()
+    {
+        $this->disableExceptionHandling();
+        $this->withKlinkAdapterFake();
+
+        // create a project with 2 members + the manager
+        $target_user = $this->createUser(Capability::$PARTNER);
+
+        list($today_docs, $yesterday_docs, $previous_monday_docs, $seven_days_docs, $thirty_days_docs) = $this->createRecentEnvironment($target_user);
+
+        // today range
+
+        $range = 'today';
+        $items_per_page = 12;
+
+        $url = route('documents.recent', ['range' => $range, 'n' => $items_per_page]);
+
+        $response = $this->actingAs($target_user)->get($url);
+
+        $response->assertStatus(200);
+        $response->assertViewIs('documents.recent');
+        $response->assertViewHas('range', $range);
+
+        $pagination = $response->data('pagination');
+        $listed_documents = $response->data('documents')->values()->collapse();
+
+        $this->assertEquals($today_docs->count(), $listed_documents->count());
+        $this->assertEquals($today_docs->count(), $pagination->total());
+        $this->assertEquals(1, $pagination->lastPage());
+        $this->assertEquals($today_docs->pluck('id')->all(), $listed_documents->pluck('id')->all());
+    }
+
     public function test_recent_shows_partner_expected_documents_in_the_current_month()
     {
         $this->disableExceptionHandling();
@@ -421,6 +453,71 @@ class RecentDocumentsTest extends TestCase
 
         // create a project with 2 members + the manager
         $target_user = $this->createUser(Capability::$PARTNER);
+
+        list($today_docs, $yesterday_docs, $previous_monday_docs, $seven_days_docs, $thirty_days_docs) = $this->createRecentEnvironment($target_user);
+
+        // today range
+
+        $range = 'currentmonth';
+        $items_per_page = 50;
+
+        $url = route('documents.recent', ['range' => $range, 'n' => $items_per_page]);
+
+        $response = $this->actingAs($target_user)->get($url);
+
+        $response->assertStatus(200);
+        $response->assertViewIs('documents.recent');
+        $response->assertViewHas('range', $range);
+
+        $pagination = $response->data('pagination');
+        $listed_documents = $response->data('documents')->values()->collapse();
+
+        $this->assertEquals(25, $listed_documents->count());
+        $this->assertEquals(25, $pagination->total());
+        $this->assertEquals(1, $pagination->lastPage());
+
+        $all_docs = $today_docs->merge($yesterday_docs)
+            ->merge($previous_monday_docs)
+            ->merge($seven_days_docs)
+            ->merge($thirty_days_docs)->pluck('id')->all();
+
+        $this->assertEquals($all_docs, $listed_documents->pluck('id')->all());
+    }
+
+    private function createUser($capabilities, $userParams = [])
+    {
+        return tap(factory(\KBox\User::class)->create($userParams))->addCapabilities($capabilities);
+    }
+
+    protected function createDocument(User $user, $visibility = 'private')
+    {
+        return factory('KBox\DocumentDescriptor')->create([
+            'owner_id' => $user->id,
+            'is_public' => $visibility === 'private' ? false : true,
+        ]);
+    }
+
+    protected function createRecentDocuments($count, User $user, Carbon $date = null, $documentParams = [])
+    {
+        return factory('KBox\DocumentDescriptor', $count)->create(array_merge([
+            'owner_id' => $user->id,
+            'created_at' => $date ?? Carbon::now(),
+            'updated_at' => $date ?? Carbon::now(),
+        ], $documentParams));
+    }
+
+    protected function createRecentDocument(User $user, Carbon $date = null, $documentParams = [])
+    {
+        return factory('KBox\DocumentDescriptor')->create(array_merge([
+            'owner_id' => $user->id,
+            'created_at' => $date ?? Carbon::now(),
+            'updated_at' => $date ?? Carbon::now(),
+        ], $documentParams));
+    }
+
+    protected function createRecentEnvironment(User $target_user)
+    {
+        // $target_user = $this->createUser(Capability::$PARTNER);
         $member_user = $this->createUser(Capability::$PARTNER);
         $manager = $this->createUser(Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH);
 
@@ -474,78 +571,12 @@ class RecentDocumentsTest extends TestCase
             $collection_level_one->documents()->save($document);
         });
 
-        // previous monday could be 7 days ago!?!?!?!?
-
-        // dump([
-        //     'today_docs' => [$today, $today_docs->pluck('id')->toArray()],
-        //     'yesterday_docs' => [$yesterday , $yesterday_docs->pluck('id')->toArray()],
-        //     'previous_monday_docs' => [$previous_monday , $previous_monday_docs->pluck('id')->toArray()],
-        //     'seven_days_docs' => [$seven_days , $seven_days_docs->pluck('id')->toArray()],
-        //     'thirty_days_docs' => [$thirty_days , $thirty_days_docs->pluck('id')->toArray()],
-        // ]);
-
-        // today range
-
-        $range = 'today';
-        $items_per_page = 12;
-
-        $url = route('documents.recent', ['range' => $range, 'n' => $items_per_page]);
-
-        $response = $this->actingAs($target_user)->get($url);
-
-        $response->assertStatus(200);
-        $response->assertViewIs('documents.recent');
-        $response->assertViewHas('range', $range);
-
-        $pagination = $response->data('pagination');
-        $listed_documents = $response->data('documents')->values()->collapse();
-
-        
-    // public function getDocumentsCount()
-    // {
-    //     if (! $this->collection->hasChildren()) {
-    //         return $this->collection->documents()->count();
-    //     }
-
-    //     return $this->collection->getDescendants()->load('documents')->pluck('documents')->collapse()->count() + $this->collection->documents()->count();
-    // }
-
-        $this->assertEquals($today_docs->count(), $listed_documents->count());
-        $this->assertEquals($today_docs->count(), $pagination->total());
-        $this->assertEquals(1, $pagination->lastPage());
-
-        // $this->assertEquals(($count_documents_by_me - 1) + $count_documents_shared_with_me + $count_documents_in_project,
-        //     $listed_documents->count());
-    }
-
-    private function createUser($capabilities, $userParams = [])
-    {
-        return tap(factory(\KBox\User::class)->create($userParams))->addCapabilities($capabilities);
-    }
-
-    protected function createDocument(User $user, $visibility = 'private')
-    {
-        return factory('KBox\DocumentDescriptor')->create([
-            'owner_id' => $user->id,
-            'is_public' => $visibility === 'private' ? false : true,
-        ]);
-    }
-
-    protected function createRecentDocuments($count, User $user, Carbon $date = null, $documentParams = [])
-    {
-        return factory('KBox\DocumentDescriptor', $count)->create(array_merge([
-            'owner_id' => $user->id,
-            'created_at' => $date ?? Carbon::now(),
-            'updated_at' => $date ?? Carbon::now(),
-        ], $documentParams));
-    }
-
-    protected function createRecentDocument(User $user, Carbon $date = null, $documentParams = [])
-    {
-        return factory('KBox\DocumentDescriptor')->create(array_merge([
-            'owner_id' => $user->id,
-            'created_at' => $date ?? Carbon::now(),
-            'updated_at' => $date ?? Carbon::now(),
-        ], $documentParams));
+        return [
+            $today_docs,
+            $yesterday_docs,
+            $previous_monday_docs,
+            $seven_days_docs,
+            $thirty_days_docs,
+        ];
     }
 }
