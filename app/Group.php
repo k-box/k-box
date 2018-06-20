@@ -114,6 +114,11 @@ class Group extends Entity implements GroupInterface
     {
         return $this->joinClosureBy('descendant', true);
     }
+    
+    public function scopeWithDescendants()
+    {
+        return $this->joinClosureBy('descendant');
+    }
 
     public function shares()
     {

@@ -2,6 +2,7 @@
 
 namespace KBox\Http\Controllers\Document;
 
+use Illuminate\Support\Facades\DB;
 use KBox\User;
 use KBox\Shared;
 use KBox\Project;
@@ -63,6 +64,9 @@ class RecentDocumentsController extends Controller
         $req = $this->searchRequestCreate($request);
         
         $req->limit($items_per_page);
+
+
+        $this->getLastUpdateQuery($user, $today, Carbon::now());
         
         // Last Private Documents
         
@@ -76,7 +80,16 @@ class RecentDocumentsController extends Controller
         $shared_query = Shared::sharedWithMe($user)->take(config('dms.recent.limit'));
 
         // documents that have been updated in a project that the user has access to
-        $all_projects_with_documents_query = $user->projects()->orWhere('projects.user_id', $user->id)->with('collection.documents');
+        $all_projects_with_documents_query = $user->projects()->orWhere('projects.user_id', $user->id)->get()->reduce(function($carry, $prj) use ($today, $order){
+            return $carry->merge($prj->documents()->where('updated_at', '>=', $today)->orderBy('updated_at', $order)->get());
+        }, collect());
+        // dd($all_projects_with_documents_query->toSql());
+        // $documents_in_projects_query = DocumentDescriptor::whereIn('id', $all_projects_with_documents_query)->toSql();
+
+        // tutti i progetti
+        // tutti i documenti in tutti i progetti, che rispettano una certa data
+
+        // dd($all_projects_with_documents_query->toArray());
 
         $shared_table = with(new Shared)->getTable();
         $descriptor_table = with(new DocumentDescriptor)->getTable();
@@ -89,10 +102,13 @@ class RecentDocumentsController extends Controller
 
             $shared_query = $shared_query->where($shared_updated_at_field, '>=', $today);
 
-            $all_projects_with_documents_query = $all_projects_with_documents_query->whereHas('collection.documents', function ($query) use ($today, $order) {
-                $query->where('document_descriptors.updated_at', '>=', $today)
-                              ->orderBy('updated_at', $order);
-            });
+            // $all_projects_with_documents_query = $all_projects_with_documents_query->whereHas('documents', function ($query) use ($today, $order) {
+            //     $query->where('document_descriptors.updated_at', '>=', $today)
+            //                   ->orderBy('updated_at', $order);
+            // });
+
+            // dump($all_projects_with_documents_query->toSql());
+
         } elseif ($selected_range === 'yesterday') {
             $documents_query = $documents_query->where('updated_at', '>=', $yesterday);
 
@@ -151,9 +167,7 @@ class RecentDocumentsController extends Controller
 
         if (! $user_is_dms_manager) {
             // add the projects only if is not a DMS admin, otherwise only duplicates will be added
-            $all_projects_with_documents = $all_projects_with_documents_query->get()->map(function ($e) {
-                return $e->collection->documents;
-            })->collapse()->map(function ($e) {
+            $all_projects_with_documents = $all_projects_with_documents_query->map(function ($e) {
                 return [
                     'id' => $e->id,
                     'uuid' => $e->uuid,
@@ -214,5 +228,90 @@ class RecentDocumentsController extends Controller
             'groupings' => array_keys($grouped->toArray()),
             'context' => 'recent',
             'filter' => trans('documents.menu.recent')]);
+    }
+
+
+    /**
+     * Get the updated documents within a specific Period
+     * 
+     * @param KBox\User $user
+     * @param Carbon\Carbon $from
+     * @param Carbon\Carbon $to
+     * @return \Illuminate\Database\Eloquent\Builder the query to execute to retrieve the updated documents
+     */
+    private function getLastUpdateQuery(User $user, Carbon $from, Carbon $to)
+    {
+        $user_is_dms_manager = $user->isDMSManager();
+
+
+        // private documents directly updated
+        $documents_query = DocumentDescriptor::local()
+            ->private()
+            ->when(! $user_is_dms_manager, function ($query) use ($user) {
+                return $query->ofUser($user->id);
+            })
+            ->where('updated_at', '>=', $from)
+            ->where('updated_at', '<=', $to)
+            ->distinct()->select('id');
+
+        // last shared from other users
+        $shared_query = Shared::sharedWithMe($user)
+            ->where('updated_at', '>=', $from)
+            ->where('updated_at', '<=', $to)
+            ->where('shareable_type', '=', 'KBox\DocumentDescriptor')
+            ->select('shareable_id as id');
+
+dump($documents_query->toSql());
+dump($shared_query->toSql());
+
+
+        // dd(->get()->toArray());
+        // ->union(DocumentDescriptor::whereIn('id', $shared_query))
+
+        // Union syntax error on Laravel <= 5.4 https://github.com/laravel/framework/issues/5457
+        // once the framework will be upgraded, change with $documents_query->union($shared_query)
+
+        dd(DocumentDescriptor::whereIn('id', $documents_query->union($shared_query))->get());
+
+        // take(config('dms.recent.limit'))
+        
+        
+
+        // // documents that have been updated in a project that the user has access to
+        // $all_projects_with_documents_query = $user->projects()->orWhere('projects.user_id', $user->id)->get()->reduce(function($carry, $prj) use ($today, $order){
+        //     return $carry->merge($prj->documents()->where('updated_at', '>=', $today)->get());
+        // }, collect());
+
+        // if (! $user_is_dms_manager) {
+        //     // add the projects only if is not a DMS admin, otherwise only duplicates will be added
+        //     $all_projects_with_documents = $all_projects_with_documents_query->map(function ($e) {
+        //         return [
+        //             'id' => $e->id,
+        //             'uuid' => $e->uuid,
+        //             'updated_at' => $e->updated_at,
+        //         ];
+        //     });
+            
+        //     $list_of_docs = $list_of_docs->merge($all_projects_with_documents);
+        // }
+
+
+        
+        // $documents_query = $documents_query->get()->map(function ($descriptor) {
+        //     return [
+        //         'id' => $descriptor->id,
+        //         'uuid' => $descriptor->uuid,
+        //         'updated_at' => $descriptor->updated_at,
+        //     ];
+        // });
+        
+        // $shared_query = $shared_query
+        //         ->get()->map(function ($descriptor) {
+        //             return [
+        //                     'id' => $descriptor->shareable->id,
+        //                     'uuid' => $descriptor->shareable->uuid,
+        //                     'updated_at' => $descriptor->updated_at,
+        //                 ];
+        //         });
     }
 }

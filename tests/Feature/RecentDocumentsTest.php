@@ -414,6 +414,112 @@ class RecentDocumentsTest extends TestCase
         $this->assertEquals($new_file_version->id, $recent->file->id);
     }
 
+
+    public function test_recent_shows_partner_expected_documents_in_the_current_month()
+    {
+        $this->disableExceptionHandling();
+        $this->withKlinkAdapterFake();
+
+        // create a project with 2 members + the manager
+        $target_user = $this->createUser(Capability::$PARTNER);
+        $member_user = $this->createUser(Capability::$PARTNER);
+        $manager = $this->createUser(Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH);
+
+        $project = factory('KBox\Project')->create([
+            'user_id' => $manager->id
+        ]);
+
+        $project->users()->attach($target_user->id);
+        $project->users()->attach($member_user->id);
+
+        // add two first level collections and a second level collection to the project
+        // each one created by a different user
+        $service = app('Klink\DmsDocuments\DocumentsService');
+
+        $collection_level_one = $service->createGroup($manager, 'collection_level_one', null, $project->collection, false);
+        $collection_level_two = $service->createGroup($member_user, 'collection_level_two', null, $project->collection, false);
+        $collection_level_three = $service->createGroup($target_user, 'collection_level_three', null, $collection_level_one, false);
+
+        // create documents with various updated_at dates and add them to the collections
+        $base_now = Carbon::now();
+        $today = Carbon::today();
+        $yesterday = Carbon::yesterday();
+        $previous_monday = $today->copy()->previous(Carbon::MONDAY);
+        $seven_days = $base_now->copy()->subDays(7);
+        $thirty_days = $today->copy()->subMonth();
+
+        $today_docs = $this->createRecentDocuments(5, $manager, $today);
+        $yesterday_docs = $this->createRecentDocuments(5, $target_user, $yesterday);
+        $previous_monday_docs = $this->createRecentDocuments(5, $target_user, $previous_monday);
+        $seven_days_docs = $this->createRecentDocuments(5, $member_user, $seven_days);
+        $thirty_days_docs = $this->createRecentDocuments(5, $member_user, $thirty_days);
+      
+        $today_docs->each(function($document) use ($collection_level_one){
+            $collection_level_one->documents()->save($document);
+        });
+
+        $yesterday_docs->each(function($document) use ($collection_level_two){
+            $collection_level_two->documents()->save($document);
+        });
+
+        $previous_monday_docs->each(function($document) use ($collection_level_three){
+            $collection_level_three->documents()->save($document);
+        });
+
+        $seven_days_docs->each(function($document) use ($collection_level_three){
+            $collection_level_three->documents()->save($document);
+        });
+
+        $thirty_days_docs->each(function($document) use ($collection_level_three, $collection_level_one){
+            $collection_level_three->documents()->save($document);
+            $collection_level_one->documents()->save($document);
+        });
+
+        // previous monday could be 7 days ago!?!?!?!?
+
+        // dump([
+        //     'today_docs' => [$today, $today_docs->pluck('id')->toArray()],
+        //     'yesterday_docs' => [$yesterday , $yesterday_docs->pluck('id')->toArray()],
+        //     'previous_monday_docs' => [$previous_monday , $previous_monday_docs->pluck('id')->toArray()],
+        //     'seven_days_docs' => [$seven_days , $seven_days_docs->pluck('id')->toArray()],
+        //     'thirty_days_docs' => [$thirty_days , $thirty_days_docs->pluck('id')->toArray()],
+        // ]);
+
+
+        // today range
+
+        $range = 'today';
+        $items_per_page = 12;
+
+        $url = route('documents.recent', ['range' => $range, 'n' => $items_per_page]);
+
+        $response = $this->actingAs($target_user)->get($url);
+
+        $response->assertStatus(200);
+        $response->assertViewIs('documents.recent');
+        $response->assertViewHas('range', $range);
+
+        $pagination = $response->data('pagination');
+        $listed_documents = $response->data('documents')->values()->collapse();
+
+        
+    // public function getDocumentsCount()
+    // {
+    //     if (! $this->collection->hasChildren()) {
+    //         return $this->collection->documents()->count();
+    //     }
+
+    //     return $this->collection->getDescendants()->load('documents')->pluck('documents')->collapse()->count() + $this->collection->documents()->count();
+    // }
+
+        $this->assertEquals($today_docs->count(), $listed_documents->count());
+        $this->assertEquals($today_docs->count(), $pagination->total());
+        $this->assertEquals(1, $pagination->lastPage());
+
+        // $this->assertEquals(($count_documents_by_me - 1) + $count_documents_shared_with_me + $count_documents_in_project,
+        //     $listed_documents->count());
+    }
+
     private function createUser($capabilities, $userParams = [])
     {
         return tap(factory(\KBox\User::class)->create($userParams))->addCapabilities($capabilities);

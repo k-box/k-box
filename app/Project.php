@@ -2,8 +2,10 @@
 
 namespace KBox;
 
+use DB;
 use Illuminate\Database\Eloquent\Model;
 use KBox\Traits\LocalizableDateFields;
+use Illuminate\Database\Eloquent\Relations\Relation;
 
 /**
  * The project concept.
@@ -102,11 +104,44 @@ class Project extends Model
     
     public function getDocumentsCount()
     {
-        if (! $this->collection->hasChildren()) {
-            return $this->collection->documents()->count();
-        }
+        // if (! $this->collection->hasChildren()) {
+        //     return $this->collection->documents()->count();
+        // }
 
-        return $this->collection->getDescendants()->load('documents')->pluck('documents')->collapse()->count() + $this->collection->documents()->count();
+        // return $this->collection->getDescendants()->load('documents')->pluck('documents')->collapse()->count() + $this->collection->documents()->count();
+        return $this->getDocumentsQuery()->count();
+    }
+
+    /**
+     * Query that retrieve all documents in this project
+     * 
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function getDocumentsQuery()
+    {
+        return $this->collection->withAllDescendants()->
+                            has('documents')->
+                            leftJoin('document_groups', 'groups.id', '=', 'document_groups.group_id')->
+                            leftJoin('document_descriptors', 'document_descriptors.id', '=', 'document_groups.document_id')->
+                            distinct()->
+                            select('document_descriptors.id');
+    }
+    
+    public function documents()
+    {
+        return DocumentDescriptor::whereIn('id', $this->getDocumentsQuery());
+
+        // $instance = $this->newRelatedInstance('KBox\DocumentDescriptor');
+        // return new MorphToMany(
+        //             $instance->newQuery(),
+
+        // return tap(new $class, function ($instance) {
+        //     if (! $instance->getConnectionName()) {
+        //         $instance->setConnection($this->connection);
+        //     }
+        // });
+
+        // return new Relation($instance->newQuery()->whereIn('id', $this->getDocumentsQuery()), $this);
     }
     
     /**
