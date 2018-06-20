@@ -2,7 +2,6 @@
 
 namespace KBox\Http\Controllers\Document;
 
-use Illuminate\Support\Facades\DB;
 use KBox\User;
 use KBox\Shared;
 use KBox\Project;
@@ -65,7 +64,6 @@ class RecentDocumentsController extends Controller
         
         $req->limit($items_per_page);
 
-
         $this->getLastUpdateQuery($user, $today, Carbon::now());
         
         // Last Private Documents
@@ -80,7 +78,7 @@ class RecentDocumentsController extends Controller
         $shared_query = Shared::sharedWithMe($user)->take(config('dms.recent.limit'));
 
         // documents that have been updated in a project that the user has access to
-        $all_projects_with_documents_query = $user->projects()->orWhere('projects.user_id', $user->id)->get()->reduce(function($carry, $prj) use ($today, $order){
+        $all_projects_with_documents_query = $user->projects()->orWhere('projects.user_id', $user->id)->get()->reduce(function ($carry, $prj) use ($today, $order) {
             return $carry->merge($prj->documents()->where('updated_at', '>=', $today)->orderBy('updated_at', $order)->get());
         }, collect());
         // dd($all_projects_with_documents_query->toSql());
@@ -108,7 +106,6 @@ class RecentDocumentsController extends Controller
             // });
 
             // dump($all_projects_with_documents_query->toSql());
-
         } elseif ($selected_range === 'yesterday') {
             $documents_query = $documents_query->where('updated_at', '>=', $yesterday);
 
@@ -230,10 +227,9 @@ class RecentDocumentsController extends Controller
             'filter' => trans('documents.menu.recent')]);
     }
 
-
     /**
      * Get the updated documents within a specific Period
-     * 
+     *
      * @param KBox\User $user
      * @param Carbon\Carbon $from
      * @param Carbon\Carbon $to
@@ -242,7 +238,6 @@ class RecentDocumentsController extends Controller
     private function getLastUpdateQuery(User $user, Carbon $from, Carbon $to)
     {
         $user_is_dms_manager = $user->isDMSManager();
-
 
         // private documents directly updated
         $documents_query = DocumentDescriptor::local()
@@ -261,9 +256,8 @@ class RecentDocumentsController extends Controller
             ->where('shareable_type', '=', 'KBox\DocumentDescriptor')
             ->select('shareable_id as id');
 
-dump($documents_query->toSql());
-dump($shared_query->toSql());
-
+        dump($documents_query->toSql());
+        dump($shared_query->toSql());
 
         // dd(->get()->toArray());
         // ->union(DocumentDescriptor::whereIn('id', $shared_query))
@@ -295,9 +289,7 @@ dump($shared_query->toSql());
         //     $list_of_docs = $list_of_docs->merge($all_projects_with_documents);
         // }
 
-
-        
-        // $documents_query = $documents_query->get()->map(function ($descriptor) {
+                // $documents_query = $documents_query->get()->map(function ($descriptor) {
         //     return [
         //         'id' => $descriptor->id,
         //         'uuid' => $descriptor->uuid,

@@ -414,7 +414,6 @@ class RecentDocumentsTest extends TestCase
         $this->assertEquals($new_file_version->id, $recent->file->id);
     }
 
-
     public function test_recent_shows_partner_expected_documents_in_the_current_month()
     {
         $this->disableExceptionHandling();
@@ -454,23 +453,23 @@ class RecentDocumentsTest extends TestCase
         $seven_days_docs = $this->createRecentDocuments(5, $member_user, $seven_days);
         $thirty_days_docs = $this->createRecentDocuments(5, $member_user, $thirty_days);
       
-        $today_docs->each(function($document) use ($collection_level_one){
+        $today_docs->each(function ($document) use ($collection_level_one) {
             $collection_level_one->documents()->save($document);
         });
 
-        $yesterday_docs->each(function($document) use ($collection_level_two){
+        $yesterday_docs->each(function ($document) use ($collection_level_two) {
             $collection_level_two->documents()->save($document);
         });
 
-        $previous_monday_docs->each(function($document) use ($collection_level_three){
+        $previous_monday_docs->each(function ($document) use ($collection_level_three) {
             $collection_level_three->documents()->save($document);
         });
 
-        $seven_days_docs->each(function($document) use ($collection_level_three){
+        $seven_days_docs->each(function ($document) use ($collection_level_three) {
             $collection_level_three->documents()->save($document);
         });
 
-        $thirty_days_docs->each(function($document) use ($collection_level_three, $collection_level_one){
+        $thirty_days_docs->each(function ($document) use ($collection_level_three, $collection_level_one) {
             $collection_level_three->documents()->save($document);
             $collection_level_one->documents()->save($document);
         });
@@ -484,7 +483,6 @@ class RecentDocumentsTest extends TestCase
         //     'seven_days_docs' => [$seven_days , $seven_days_docs->pluck('id')->toArray()],
         //     'thirty_days_docs' => [$thirty_days , $thirty_days_docs->pluck('id')->toArray()],
         // ]);
-
 
         // today range
 

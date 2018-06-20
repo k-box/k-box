@@ -2,7 +2,6 @@
 
 namespace KBox;
 
-use DB;
 use Illuminate\Database\Eloquent\Model;
 use KBox\Traits\LocalizableDateFields;
 use Illuminate\Database\Eloquent\Relations\Relation;
@@ -114,7 +113,7 @@ class Project extends Model
 
     /**
      * Query that retrieve all documents in this project
-     * 
+     *
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function getDocumentsQuery()
