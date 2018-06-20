@@ -59,7 +59,7 @@ elixir(function(mix) {
                 'plyr/dist/plyr.js',
                 'shaka-player/dist/shaka-player.compiled.js',
                 'handlebars/dist/handlebars.js',
-                "../vendor/avvertix/laravel-tus-upload/public/js/tusuploader.js",
+                "../vendor/oneofftech/laravel-tus-upload/public/js/tusuploader.js",
     			'requirejs/require.js',
     			'../resources/assets/js/dms/init.js',
     		],
