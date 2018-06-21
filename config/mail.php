@@ -16,7 +16,7 @@ return [
     |
     */
 
-    'driver' => env('MAIL_DRIVER', 'smtp'),
+    'driver' => env('KBOX_MAIL_DRIVER', env('MAIL_DRIVER', 'smtp')),
 
     /*
     |--------------------------------------------------------------------------
@@ -29,7 +29,7 @@ return [
     |
     */
 
-    'host' => env('MAIL_HOST', null),
+    'host' => env('KBOX_MAIL_HOST', env('MAIL_HOST', null)),
 
     /*
     |--------------------------------------------------------------------------
@@ -42,7 +42,7 @@ return [
     |
     */
 
-    'port' => env('MAIL_PORT', 587),
+    'port' => env('KBOX_MAIL_PORT', env('MAIL_PORT', 587)),
 
     /*
     |--------------------------------------------------------------------------
@@ -56,8 +56,8 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', ''),
-        'name' => env('MAIL_FROM_NAME', '')
+        'address' => env('KBOX_MAIL_FROM_ADDRESS', env('MAIL_FROM_ADDRESS', '')),
+        'name' => env('KBOX_MAIL_FROM_NAME', env('MAIL_FROM_NAME', '')),
     ],
 
     /*
@@ -71,7 +71,7 @@ return [
     |
     */
 
-    'encryption' => env('MAIL_ENCRYPTION', 'tls'),
+    'encryption' => env('KBOX_MAIL_ENCRYPTION', env('MAIL_ENCRYPTION', 'tls')),
 
     /*
     |--------------------------------------------------------------------------
@@ -84,7 +84,7 @@ return [
     |
     */
 
-    'username' => env('MAIL_USERNAME', null),
+    'username' => env('KBOX_MAIL_USERNAME', env('MAIL_USERNAME', null)),
 
     /*
     |--------------------------------------------------------------------------
@@ -97,7 +97,7 @@ return [
     |
     */
 
-    'password' => env('MAIL_PASSWORD', null),
+    'password' => env('KBOX_MAIL_PASSWORD', env('MAIL_PASSWORD', null)),
 
     /*
     |--------------------------------------------------------------------------

@@ -67,23 +67,22 @@ services:
 
   ## The K-Box container
   kbox:
-    image: "docker.klink.asia/images/k-box:0.21.2"
+    image: "docker.klink.asia/images/k-box:0.22.0"
     environment:
       ## K-Box access
-      KLINK_DMS_APP_URL: "http://localhost:8080/"
-      KLINK_DMS_APP_INTERNAL_URL: "http://kbox/"
+      KBOX_APP_URL: "http://localhost:8080/"
+      # KBOX_APP_INTERNAL_URL: "http://kbox/" # Specify it only if the service name is different than kbox
       ## Administrator account
       ## uncomment the next two lines and write a password to automatically create that user at startup
-      # KLINK_DMS_ADMIN_USERNAME: "admin@kbox.local"
-      # KLINK_DMS_ADMIN_PASSWORD: ""
+      # KBOX_ADMIN_USERNAME: "admin@kbox.local"
+      # KBOX_ADMIN_PASSWORD: ""
       ## Deploy configuration
-      KLINK_DMS_DB_HOST: database # Host where the database is listening on
-      KLINK_DMS_DB_NAME: dms
-      KLINK_DMS_DB_USERNAME: dms
-      KLINK_DMS_DB_PASSWORD: "b2510859c83414e0cbefd26284b9171d"  # must be the same as MYSQL_PASSWORD
-      KLINK_CORE_ID: "KLINK" # deprecated
-      KLINK_DMS_CORE_ADDRESS: "http://ksearch.local/"
-      DMS_USE_HTTPS: "false" # this will not be exposed via HTTPS, set it to true if the K-Box will be accessible over HTTPS
+      KBOX_DB_HOST: database # Host where the database is listening on
+      KBOX_DB_NAME: dms  # must be the same as MYSQL_DATABASE
+      KBOX_DB_USERNAME: dms  # must be the same as MYSQL_USER
+      KBOX_DB_PASSWORD: "b2510859c83414e0cbefd26284b9171d"  # must be the same as MYSQL_PASSWORD
+      KLINK_CORE_ID: "KLINK" # deprecated, but still required in version 0.20.x
+      KBOX_SEARCH_SERVICE_URL: "http://ksearch.local/"
     depends_on:
       - ksearch
       - database

@@ -31,6 +31,7 @@ try
     ];
     $pdo = new PDO($dsn, $dbuser, $dbpass, $opt);
 
+    exit(0);
 }
 catch(Exception $ex)
 {

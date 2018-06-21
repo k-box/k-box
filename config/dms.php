@@ -26,9 +26,10 @@ return [
     | The unique identifier for the DMS instance
     |
     | @var string
+    | @deprecated
     */
 
-    'identifier' => getenv('DMS_IDENTIFIER') ?: '4815162342',
+    'identifier' => '4815162342',
 
     /*
     |--------------------------------------------------------------------------
@@ -39,9 +40,10 @@ return [
     | K-Link Core
     |
     | @var string
+    | @deprecated
     */
 
-    'institutionID' => getenv('DMS_INSTITUTION_IDENTIFIER') ?: 'KLINK',
+    'institutionID' => env('DMS_INSTITUTION_IDENTIFIER', 'KLINK'),
 
     /*
     |--------------------------------------------------------------------------
@@ -52,7 +54,7 @@ return [
     |
     | @var boolean
     */
-    'are_guest_public_search_enabled' => getenv('DMS_ARE_GUEST_PUBLIC_SEARCH_ENABLED') ?: true,
+    'are_guest_public_search_enabled' => env('KBOX_ENABLE_GUEST_NETWORK_SEARCH', env('DMS_ARE_GUEST_PUBLIC_SEARCH_ENABLED', true)),
 
     'core' => [
 
@@ -66,24 +68,9 @@ return [
         | @var string
         */
 
-        'address' => getenv('DMS_CORE_ADDRESS') ?: null,
+        'address' => env('KBOX_SEARCH_SERVICE_URL', env('DMS_CORE_ADDRESS', null)),
 
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Enable user activity tracking
-    |--------------------------------------------------------------------------
-    |
-    | Enable or Disable the user activity tracking
-    | K-Link Core
-    |
-    | default: true
-    |
-    | @var boolean
-    */
-
-    'enable_activity_tracking' => ! ! getenv('DMS_ENABLE_ACTIVITY_TRACKING') ?: true,
 
     /*
     |--------------------------------------------------------------------------
@@ -96,7 +83,7 @@ return [
     | @var integer
     */
 
-    'items_per_page' => getenv('DMS_ITEMS_PER_PAGE') ?: 12,
+    'items_per_page' => env('KBOX_PAGE_LIMIT', env('DMS_ITEMS_PER_PAGE', 12)),
 
     /*
     |--------------------------------------------------------------------------
@@ -110,7 +97,7 @@ return [
     | @var string
     */
 
-    'upload_folder' => getenv('DMS_UPLOAD_FOLDER') ?: storage_path('documents/'),
+    'upload_folder' => env('DMS_UPLOAD_FOLDER', storage_path('documents/')),
 
     /*
     |--------------------------------------------------------------------------
@@ -119,12 +106,12 @@ return [
     |
     | The maximum size of the file allowed for upload in kilobytes
     |
-    | default: 30000
+    | default: 204800
     |
     | @var integer
     */
 
-    'max_upload_size' => getenv('DMS_MAX_UPLOAD_SIZE') ?: 204800,
+    'max_upload_size' => env('KBOX_UPLOAD_LIMIT', env('UPLOAD_LIMIT', env('DMS_MAX_UPLOAD_SIZE', 204800))),
 
     /*
     |--------------------------------------------------------------------------
@@ -152,7 +139,7 @@ return [
     | @var boolean
     */
 
-    'use_https' => getenv('DMS_USE_HTTPS') ?: true,
+    'use_https' => starts_with(env('APP_URL'), 'https') ? true : false,
     
     /*
     |--------------------------------------------------------------------------
@@ -166,7 +153,7 @@ return [
     | @var string
     */
     
-    'support_token' => getenv('SUPPORT_TOKEN') ?: null,
+    'support_token' => env('KBOX_SUPPORT_TOKEN', env('SUPPORT_TOKEN', null)),
     
     
     /*
@@ -220,6 +207,7 @@ return [
         | default: 3 weeks
         |
         | @var int
+        | @deprecated
         */
 
         'time_limit' => getenv('DMS_RECENT_TIMELIMIT') ?: 3,
