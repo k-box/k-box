@@ -13,9 +13,8 @@ return [
     |
     */
 
-    'supported_locales' => ['ru', 'tg', 'fr'],
-    
-    
+    'supported_locales' => ['ru', 'tg', 'fr', 'de'],
+
     /*
     |--------------------------------------------------------------------------
     | What strings should be exported to JS localization
@@ -51,7 +50,7 @@ return [
         'actions.details',
         'actions.forcedelete_btn_alt',
         'actions.open',
-        
+
         'actions.dialogs.cancel_btn',
         'actions.dialogs.cancel_btn_alt',
         'actions.dialogs.yes_btn',
@@ -62,14 +61,13 @@ return [
         'actions.dialogs.remove_btn',
         'actions.dialogs.move_btn',
         'actions.dialogs.input_required',
-        
-        
+
         'documents.bulk.adding_title',
         'documents.bulk.adding_message',
         'documents.bulk.added_to_collection',
         'documents.bulk.some_added_to_collection',
         'documents.bulk.add_to_error',
-        
+
         'documents.restore.restore_dialog_title',
         'documents.restore.restore_dialog_title_count',
         'documents.restore.restore_dialog_text',
@@ -82,7 +80,7 @@ return [
         'documents.restore.restoring',
         'documents.restore.restore_error_text_generic',
         'documents.restore.restore_version_error_text_generic',
-        
+
         'documents.delete.dialog_title',
         'documents.delete.dialog_title_alt',
         'documents.delete.dialog_title_count',
@@ -104,7 +102,7 @@ return [
         'documents.permanent_delete.cannot_delete_dialog_title',
         'documents.permanent_delete.cannot_delete_dialog_title_alt',
         'documents.permanent_delete.cannot_delete_general_error',
-        
+
         'documents.trash.clean_title',
         'documents.trash.empty_all_text',
         'documents.trash.empty_selected_text',
@@ -113,13 +111,13 @@ return [
         'documents.trash.cleaned',
         'documents.trash.cannot_clean',
         'documents.trash.cannot_clean_general_error',
-        
+
         'documents.update.removed_from_title',
         'documents.update.removed_from_text',
         'documents.update.removed_from_text_alt',
         'documents.update.cannot_remove_from_title',
         'documents.update.cannot_remove_from_general_error',
-        
+
         'documents.upload.folders_dragdrop_not_supported',
         'documents.upload.error_dialog_title',
         'documents.upload.upload_dialog_title',
@@ -133,7 +131,7 @@ return [
         'documents.upload.cancel_question',
         'documents.upload.empty_file_error',
         'documents.messages.drag_hint',
-        
+
         'groups.delete.dialog_title',
         'groups.delete.dialog_title_alt',
         'groups.delete.dialog_text',
@@ -143,7 +141,7 @@ return [
         'groups.delete.cannot_delete_dialog_title',
         'groups.delete.cannot_delete_dialog_title_alt',
         'groups.delete.cannot_delete_general_error',
-        
+
         'groups.move.error_title',
         'groups.move.error_title_alt',
         'groups.move.error_text_generic',
@@ -158,7 +156,7 @@ return [
         'groups.move.move_to_title',
         'groups.move.move_to_personal_title',
         'groups.move.move_to_personal_text',
-        
+
         'groups.people.group_name_already_exists',
         'groups.people.create_group_dialog_title',
         'groups.people.create_group_dialog_text',
@@ -180,8 +178,7 @@ return [
         'groups.people.rename_dialog_text',
         'groups.people.rename_error_title',
         'groups.people.rename_generic_error_text',
-        
-        
+
         'share.with_label',
         'share.dialog.share_created',
         'share.dialog.collection_shared',
@@ -201,8 +198,7 @@ return [
         'share.removed',
         'share.remove_error',
         'share.dialog.select_users',
-        
-        
+
         'errors.dragdrop.not_permitted_title',
         'errors.dragdrop.not_permitted_text',
         'errors.dragdrop.link_not_permitted_title',
@@ -213,16 +209,16 @@ return [
         'errors.preference_not_saved_title',
         'errors.preference_not_saved_text',
         'errors.413_text',
-        
+
         'panels.loading_message',
         'panels.load_error',
         'panels.load_error_title',
-        
+
         'validation.custom.document.required',
         'validation.custom.document.required_alt',
-        
+
         'share.share_btn',
-        
+
         'import.remove.remove_btn',
         'import.remove.remove_dialog_title',
         'import.remove.remove_confirmation',
@@ -230,7 +226,7 @@ return [
         'import.remove.removing_alt',
         'import.remove.destroy_error_dialog_title',
         'import.remove.destroy_error',
-        
+
         'import.retry.retry_btn',
         'import.retry.retrying',
         'import.retry.retrying_alt',
