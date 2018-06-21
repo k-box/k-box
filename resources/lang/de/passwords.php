@@ -13,14 +13,36 @@ return [
     |
     */
 
-    "password" => "Passwörter müssen mindestens 8 Zeichen lang sein und korrekt bestätigt werden.",
+    "password" => "Passwörter müssen mindestens acht Zeichen lang sein.",
+    "user" => "Wir können keinen Nutzer mit dieser Adresse finden.",
+    "token" => "Der verwendete Link für das Passwortzurücksetzen ist abgelaufen. Er ist nur für 5 Minuten nach versenden der E-Mail gültig.",
+    "sent" => "Passwortlink versendet!",
+    "reset" => "Passwort wurde zurückgesetzt!",
 
-    "user"     => "Es konnte leider kein Nutzer mit dieser E-Mail Adresse gefunden werden.",
+    'forgot' => [
 
-    "token"    => "Die Passwort-Reset-Link, den Sie verwendet haben, ist nicht mehr erhältlich. es wird nur für 5 Minuten nach der Passwort-Reset-Anfrage nutzbar.",
+        'link' => 'Passwort vergessen?',
 
-    "sent"     => "Passworterinnerung wurde gesendet!",
+        'title' => 'Passwort vergessen?',
 
-    "reset"    => "Das Passwort wurde zurückgesetzt!",
+        'instructions' => 'Bitte geben Sie ihre E-Mailadresse an, um das Passwort zurückzusetzen. Eine E-Mail mit einem Passwort-Link wird an Ihre E-Mailadresse versendet.',
+
+        'submit' => 'Passwort zurücksetzen',
+
+        'email_subject' => 'K-Box Passwortwiederherstellung',
+
+    ],
+
+    'reset' => [
+
+        'title' => 'Nutzerpasswort zurücksetzen',
+
+        'instructions' => 'Bitte geben sie ein mindestens 8 Zeichen langes Passwort an.',
+
+        'submit' => 'Passwort ändern',
+
+        'email_subject' => 'Ihr K-Box Passwort wurde geändert',
+
+    ],
 
 ];

@@ -134,6 +134,7 @@
 						<option value="ru" @if($language=='ru') selected @endif>{{trans('languages.ru')}}</option>
 						<option value="tg" @if($language=='tg') selected @endif>{{trans('languages.tg')}}</option>
 						<option value="fr" @if($language=='fr') selected @endif>{{trans('languages.fr')}}</option>
+						<option value="de" @if($language=='de') selected @endif>{{trans('languages.de')}}</option>
 					</select>
 			    </div>
 			    
