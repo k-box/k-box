@@ -42,7 +42,6 @@ class RoutesTest extends BrowserKitTestCase
             [ 'documents.create' ],
             [ 'documents.groups.create' ],
             [ 'documents.groups.index' ],
-            [ 'documents.import' ],
             [ 'documents.notindexed' ],
             [ 'documents.recent' ],
             [ 'documents.sharedwithme' ],

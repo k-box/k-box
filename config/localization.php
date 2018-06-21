@@ -219,20 +219,6 @@ return [
 
         'share.share_btn',
 
-        'import.remove.remove_btn',
-        'import.remove.remove_dialog_title',
-        'import.remove.remove_confirmation',
-        'import.remove.removing',
-        'import.remove.removing_alt',
-        'import.remove.destroy_error_dialog_title',
-        'import.remove.destroy_error',
-
-        'import.retry.retry_btn',
-        'import.retry.retrying',
-        'import.retry.retrying_alt',
-        'import.retry.retry_error_dialog_title',
-        'import.retry.retry_error',
-
         // Network related
 
         'networks.make_public',
