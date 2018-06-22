@@ -99,6 +99,30 @@ class Group extends Entity implements GroupInterface
     }
 
     /**
+     * Get the project that contains this collection.
+     *
+     * @return KBox\Project|null the project that contains the collection, or null if not in project or personal
+     */
+    public function getProject()
+    {
+        if ($this->is_private) {
+            return null;
+        }
+
+        if (! is_null($this->project)) {
+            return $this->project;
+        }
+
+        $project_root = $this->withAncestors()->has('project')->with('project')->first();
+
+        if (! is_null($project_root)) {
+            return $project_root->project;
+        }
+
+        return null;
+    }
+
+    /**
      * [documents description]
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany [description]
      */
@@ -118,6 +142,11 @@ class Group extends Entity implements GroupInterface
     public function scopeWithDescendants()
     {
         return $this->joinClosureBy('descendant');
+    }
+    
+    public function scopeWithAncestors()
+    {
+        return $this->joinClosureBy('ancestor');
     }
 
     public function shares()

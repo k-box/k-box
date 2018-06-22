@@ -7,8 +7,7 @@ The trash contains every document and collection you delete. It gives you a seco
 
 The picture above shows an example of the trash content.
 
-When you delete a collection also the sub-collections are deleted.
-
+When you trash a collection also the sub-collections are trashed.
 
 > The administrator trash shows everything that has been trashed, so pay close attention
 
@@ -21,6 +20,7 @@ You can permanently delete a single document or a collection by using the mouse 
 
 The current release cannot permanently delete a selection of collections and documents at the same time.
 
+Trashed collections can only be permanently deleted by its creator, or the project manager if they were in a project.
 
 ## Empty the trash
 

@@ -679,27 +679,39 @@ class DocumentsService
         if (! $group->trashed()) {
             $trashed = $this->deleteGroup($user, $group);
             if (! $trashed) {
-                throw new \Exception('The document cannot be moved to trash automatically');
+                throw new \Exception('The collection cannot be moved to trash automatically');
             }
         }
 
-        if (! $group->is_private && ! $user->can_capability(Capability::MANAGE_PROJECT_COLLECTIONS)) {
-            throw new ForbiddenException(trans('groups.delete.forbidden_delete_project_collection', ['collection' => $group->name]));
+        if (! $group->is_private){
+
+            // check if creator or manager of the project the collection was in
+            $project = $group->getProject();
+            
+            if (! $user->can_capability(Capability::MANAGE_PROJECT_COLLECTIONS)) {
+                throw new ForbiddenException(trans('groups.delete.forbidden_delete_project_collection', ['collection' => $group->name]));
+            }
+
+            $is_creator = $user->id == $group->user_id;
+            $is_manager = !is_null($project) ? $project->user_id == $user->id : false;
+    
+            if (! $is_creator || ! $is_manager) {
+                throw new ForbiddenException(trans( ! $is_creator ? 'groups.delete.forbidden_delete_project_collection_not_creator' : 'groups.delete.forbidden_delete_project_collection_not_manager', ['collection' => $group->name]));
+            }
+
         }
 
-        if ($group->is_private && $user->id != $group->user_id && ! $user->can_capability(Capability::MANAGE_OWN_GROUPS)) {
+        if ($group->is_private && ! $user->can_capability(Capability::MANAGE_OWN_GROUPS)) {
             throw new ForbiddenException(trans('groups.delete.forbidden_delete_collection', ['collection' => $group->name]));
         }
-        
-        // $shares_query = $group->shares();
-        // $is_shared = $shares_query->count() > 0;
+
+        if ($group->is_private && $user->id != $group->user_id) {
+            throw new ForbiddenException(trans('groups.delete.forbidden_trash_personal_collection', ['collection' => $group->name]));
+        }
         
         return \DB::transaction(function () use ($group) {
             \Log::info('Permanently deleting group', ['group' => $group]);
-
-            // TODO: remove all shares
-            
-            
+   
             $is_deleted = $group->forceDelete();
 
             $group->deleteSubtree(false, true);
@@ -1174,15 +1186,17 @@ class DocumentsService
      */
     public function deleteGroup(User $user, Group $group)
     {
-        if (! $group->is_private && ! $user->can_capability(Capability::MANAGE_PROJECT_COLLECTIONS)) {
-            throw new ForbiddenException(trans('groups.delete.forbidden_delete_project_collection', ['collection' => $group->name]));
-        }
-
-        if ($group->is_private && $user->id != $group->user_id && ! $user->can_capability(Capability::MANAGE_OWN_GROUPS)) {
+        if ($group->is_private && ! $user->can_capability(Capability::MANAGE_OWN_GROUPS)) {
             throw new ForbiddenException(trans('groups.delete.forbidden_delete_collection', ['collection' => $group->name]));
         }
 
-        // TODO: if the collection was shared and the user that is deleting is the target of the share?
+        if ($group->is_private && $user->id != $group->user_id) {
+            throw new ForbiddenException(trans('groups.delete.forbidden_trash_personal_collection', ['collection' => $group->name]));
+        }
+
+        if (! $group->is_private && ! $user->can_capability(Capability::MANAGE_PROJECT_COLLECTIONS)) {
+            throw new ForbiddenException(trans('groups.delete.forbidden_delete_project_collection', ['collection' => $group->name]));
+        }
 
         $that = $this;
         $retval = \DB::transaction(function () use ($user, $group, $that) {
@@ -1196,11 +1210,11 @@ class DocumentsService
                 $descendants = $group->getDescendants();
 
                 foreach ($descendants as $descendant) {
-                    if ($descendant->user_id == $user->id) {
-                        $that->removeDocumentsFromGroup($user, $descendant->documents, $descendant);
 
-                        $descendant->delete();
-                    }
+                    $that->removeDocumentsFromGroup($user, $descendant->documents, $descendant);
+
+                    $descendant->delete();
+                    
                 }
             }
 
