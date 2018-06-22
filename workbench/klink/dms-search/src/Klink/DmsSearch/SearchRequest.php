@@ -234,7 +234,7 @@ class SearchRequest
     public function limit($limit)
     {
         if (! is_integer($limit) || is_integer($limit) && $limit < 0) {
-            throw new \InvalidArgumentException(sprintf('limit expects a positive number, given "%s".', $limit));
+            throw new \InvalidArgumentException(sprintf('limit expects a positive number, given "%d".', $limit));
         }
         
         $this->limit = $limit;

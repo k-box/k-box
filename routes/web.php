@@ -110,7 +110,7 @@ Route::group(['as' => 'documents.', 'prefix' => 'documents'], function () {
     Route::resource('groups', 'Document\GroupsController');
 
     Route::get('/recent/{range?}', [
-            'uses' => 'Document\DocumentsController@recent',
+            'uses' => 'Document\RecentDocumentsController@index',
             'as' => 'recent',
         ])->where(['range' => 'today|yesterday|currentweek|currentmonth']);
 

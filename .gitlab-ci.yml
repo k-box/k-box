@@ -112,6 +112,7 @@ unit_test:
     - composer run install-language-cli
     - composer run install-streaming-client
     - php artisan config:clear
+    - php artisan route:clear
     - php artisan migrate --env=testing --force
     - php artisan db:seed --env=testing --force
     - vendor/bin/phpunit
