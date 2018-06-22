@@ -14,10 +14,7 @@ use KBox\DocumentDescriptor;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\File as Storage;
 use Symfony\Component\Finder\Finder;
-use GuzzleHttp\Client;
-use KBox\Exceptions\FileDownloadException;
 use Symfony\Component\Console\Output\OutputInterface;
-use Illuminate\Support\Facades\Storage as DiskStorage;
 use Exception;
 use Klink\DmsAdapter\KlinkDocumentUtils;
 use Klink\DmsAdapter\KlinkVisibilityType;
@@ -92,7 +89,7 @@ class ImportCommand extends Job implements ShouldQueue
             $this->service = $documentsService;
                         
             if ($this->import->is_remote) {
-                $this->doImportUrl();
+                throw new Exception('Import from URL are not supported');
             } else {
                 $this->doImportFolder();
             }
@@ -101,7 +98,7 @@ class ImportCommand extends Job implements ShouldQueue
             $this->import->status_message = Import::MESSAGE_COMPLETED;
     
             $this->import->save();
-        } catch (\Exception $kex) {
+        } catch (Exception $kex) {
             Log::error('ImportCommand: unhandled Exception while importing', ['exception' => $kex, 'import' => $this->import->toArray()]);
             
             $this->import->status = Import::STATUS_ERROR;
@@ -129,91 +126,6 @@ class ImportCommand extends Job implements ShouldQueue
     public function failed()
     {
         \Log::warning('Job Failed');
-    }
-    
-    
-    protected function doImportUrl()
-    {
-        $file = $this->import->file;
-        
-        $this->url = $this->import->file->original_uri;
-
-        // remote file based import
-
-        // 1. download the file (the File entry is already in the db)
-        
-        // update import status to Downloading
-        $this->import->status = Import::STATUS_DOWNLOADING;
-        $this->import->status_message = Import::MESSAGE_DOWNLOADING;
-        $this->import->save();
-        
-        // really download the file
-        
-        $client = new Client([
-            // Base URI is used with relative requests
-            'base_uri' => $this->url,
-            // You can set any number of default request options.
-            'timeout'  => 60.0,
-        ]);
-        
-
-        DiskStorage::disk('local')->makeDirectory(dirname($file->path));
-
-        $response = $client->request('GET', $this->url, ['sink' => $file->absolute_path]);
-        
-        $response_headers = $response->getHeaders();
-        
-        $good = $response->getStatusCode() === 200;
-        
-        if ($good) {
-            $content_type_header = $response_headers['Content-Type'];
-            if (is_array($content_type_header)) {
-                $content_type_header = join(' ', $content_type_header);
-            }
-            // update the File entry in the DB with mimetype, size, and stuff like that
-            
-            $file->mime_type = $content_type_header;
-            $file->size = DiskStorage::disk('local')->size($file->path);
-            
-            $file->hash = KlinkDocumentUtils::generateDocumentHash($file->absolute_path);
-            
-            $this->import->bytes_expected = $file->size;
-            $this->import->bytes_received = $file->size;
-            
-            $extracted_title = $this->service->guessTitleFromFile($file);
-            
-            if (! empty($extracted_title) && $file->name !== $extracted_title) {
-                $file->name = $extracted_title;
-            }
-
-            $file->upload_completed_at = \Carbon\Carbon::now();
-            
-            $file->save();
-            $file = $file->fresh();
-            
-            
-            // 2. create a document descriptor and start indexing
-            
-            $this->import->status = Import::STATUS_INDEXING;
-            $this->import->status_message = Import::MESSAGE_INDEXING;
-            $this->import->save();
-
-            try {
-                $descriptor = $this->service->indexDocument($file, KlinkVisibilityType::KLINK_PRIVATE, $this->user);
-                $descriptor->status = \KBox\DocumentDescriptor::STATUS_COMPLETED;
-                $descriptor->save();
-            } catch (KlinkException $kex) {
-                Log::error('ImportCommand Indexing error: KlinkException', ['exception' => $kex, 'import' => $this->import->toArray(), 'import_file' => $file, 'is_remote' => true]);
-            } catch (\InvalidArgumentException $kex) {
-                Log::error('ImportCommand Indexing error: InvalidArgumentException', ['exception' => $kex, 'import' => $this->import->toArray(), 'import_file' => $file, 'is_remote' => true]);
-            } catch (\Exception $kex) {
-                Log::error('ImportCommand Indexing error', ['exception' => $kex, 'import' => $this->import->toArray(), 'import_file' => $file, 'is_remote' => true]);
-            }
-        } else {
-            Log::error('File download returned error', ['context' => 'ImportCommand@init', 'import' => $this->import->toArray(), 'is_remote' => true]);
-            
-            throw new FileDownloadException(trans('errors.import.download_error', ['url' => $this->url, 'error' => $response->getReasonPhrase()]), $file);
-        }
     }
     
     

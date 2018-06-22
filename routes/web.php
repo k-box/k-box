@@ -153,12 +153,6 @@ Route::group(['as' => 'documents.', 'prefix' => 'documents'], function () {
             'as' => 'network.show',
         ]);
 
-    Route::put('/import/clearcompleted',
-    [
-            'uses' => 'Document\ImportDocumentsController@clearCompleted',
-            'as' => 'import.clearcompleted',
-        ]);
-
     Route::put('/restore', [
         'uses' => 'Document\BulkController@restore',
         'as' => 'bulk.restore',
@@ -183,9 +177,6 @@ Route::group(['as' => 'documents.', 'prefix' => 'documents'], function () {
         'uses' => 'Document\BulkController@copyTo',
         'as' => 'bulk.copyto',
     ]);
-
-    Route::resource('/import', 'Document\ImportDocumentsController',
-        ['names' => ['index' => 'import'], 'only' => ['index', 'store', 'destroy', 'update']]);
 });
 
 Route::get('/documents/{document}/versions/{version}', [
