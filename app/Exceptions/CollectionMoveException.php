@@ -10,7 +10,7 @@ use KBox\Group;
 */
 final class CollectionMoveException extends Exception
 {
-    public const REASON_NOT_ALL_SAME_USER = 0;
+    const REASON_NOT_ALL_SAME_USER = 0;
 
     private $collection = null;
     private $reason = null;
