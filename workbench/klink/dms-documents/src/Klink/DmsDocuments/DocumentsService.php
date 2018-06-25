@@ -695,8 +695,8 @@ class DocumentsService
             $is_creator = $user->id == $group->user_id;
             $is_manager = !is_null($project) ? $project->user_id == $user->id : false;
     
-            if (! $is_creator || ! $is_manager) {
-                throw new ForbiddenException(trans( ! $is_creator ? 'groups.delete.forbidden_delete_project_collection_not_creator' : 'groups.delete.forbidden_delete_project_collection_not_manager', ['collection' => $group->name]));
+            if (! ($is_creator || $is_manager)) {
+                throw new ForbiddenException(trans( ! $is_manager ? 'groups.delete.forbidden_delete_project_collection_not_manager' : 'groups.delete.forbidden_delete_project_collection_not_creator', ['collection' => $group->name]));
             }
 
         }

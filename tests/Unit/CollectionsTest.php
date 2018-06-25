@@ -113,7 +113,7 @@ class CollectionsTest extends TestCase
         $this->assertEquals(1, $collection->getDescendants()->count());
     }
 
-    public function test_partner_cannot_permanently_delete_collections_in_project()
+    public function test_partner_can_permanently_delete_collections_in_project()
     {
         $service = app('Klink\DmsDocuments\DocumentsService');
         
@@ -131,6 +131,36 @@ class CollectionsTest extends TestCase
             
         //create a hierarchy
         $collection_level_one = $service->createGroup($user, 'collection_level_one', null, $project->collection, false);
+        $collection_level_two = $service->createGroup($user, 'collection_level_two', null, $project->collection, false);
+        $collection_level_three = $service->createGroup($user, 'collection_level_three', null, $collection_level_one, false);
+        $collection_level_four = $service->createGroup($user, 'collection_level_four', null, $collection_level_three, false);
+
+        $this->assertEquals(4, $project->collection->getDescendants()->count());
+
+        
+        $trashed = $service->permanentlyDeleteGroup($collection_level_one, $user);
+        $this->assertTrue($trashed);
+        $this->assertEquals(1, $project->collection->getDescendants()->count());
+    }
+
+    public function test_partner_cannot_permanently_delete_collections_in_project()
+    {
+        $service = app('Klink\DmsDocuments\DocumentsService');
+        
+        $manager = tap(factory('KBox\User')->create(), function ($user) {
+            $user->addCapabilities(Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH);
+        });
+        $user = tap(factory('KBox\User')->create(), function ($user) {
+            $user->addCapabilities(Capability::$PARTNER);
+        });
+
+        $project = factory('KBox\Project')->create([
+            'user_id' => $manager->id
+        ]);
+        $project->users()->attach($user);
+            
+        //create a hierarchy
+        $collection_level_one = $service->createGroup($manager, 'collection_level_one', null, $project->collection, false);
         $collection_level_two = $service->createGroup($user, 'collection_level_two', null, $project->collection, false);
         $collection_level_three = $service->createGroup($user, 'collection_level_three', null, $collection_level_one, false);
         $collection_level_four = $service->createGroup($user, 'collection_level_four', null, $collection_level_three, false);
