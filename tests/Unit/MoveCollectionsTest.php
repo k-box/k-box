@@ -38,7 +38,7 @@ class MoveCollectionsTest extends TestCase
             $this->documentService->moveProjectCollectionToPersonal($user, $collection, $collection_container);
             $this->fail("The collection move must have been denied");
         } catch (ForbiddenException $ex) {
-            $this->assertEquals(trans('groups.move.errors.no_access_to_project'), $ex->getMessage());
+            $this->assertEquals(trans('groups.move.errors.no_access_to_collection'), $ex->getMessage());
         }
     }
 
