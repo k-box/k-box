@@ -422,7 +422,7 @@ class RecentDocumentsTest extends TestCase
         // create a project with 2 members + the manager
         $target_user = $this->createUser(Capability::$PARTNER);
 
-        list($today_docs, $yesterday_docs, $previous_monday_docs, $seven_days_docs, $thirty_days_docs) = $this->createRecentEnvironment($target_user);
+        list($today_docs, $yesterday_docs, $seven_days_docs, $thirty_days_docs) = $this->createRecentEnvironment($target_user);
 
         // today range
 
@@ -454,7 +454,7 @@ class RecentDocumentsTest extends TestCase
         // create a project with 2 members + the manager
         $target_user = $this->createUser(Capability::$PARTNER);
 
-        list($today_docs, $yesterday_docs, $previous_monday_docs, $seven_days_docs, $thirty_days_docs) = $this->createRecentEnvironment($target_user);
+        list($today_docs, $yesterday_docs, $seven_days_docs, $thirty_days_docs) = $this->createRecentEnvironment($target_user);
 
         // today range
 
@@ -477,7 +477,6 @@ class RecentDocumentsTest extends TestCase
         $this->assertEquals(1, $pagination->lastPage());
 
         $all_docs = $today_docs->merge($yesterday_docs)
-            ->merge($previous_monday_docs)
             ->merge($seven_days_docs)
             ->merge($thirty_days_docs)->pluck('id')->all();
 
@@ -545,8 +544,7 @@ class RecentDocumentsTest extends TestCase
         $thirty_days = $today->copy()->subMonth();
 
         $today_docs = $this->createRecentDocuments(5, $manager, $today);
-        $yesterday_docs = $this->createRecentDocuments(5, $target_user, $yesterday);
-        $previous_monday_docs = $this->createRecentDocuments(5, $target_user, $previous_monday);
+        $yesterday_docs = $this->createRecentDocuments(10, $target_user, $yesterday);
         $seven_days_docs = $this->createRecentDocuments(5, $member_user, $seven_days);
         $thirty_days_docs = $this->createRecentDocuments(5, $member_user, $thirty_days);
       
@@ -556,10 +554,6 @@ class RecentDocumentsTest extends TestCase
 
         $yesterday_docs->each(function ($document) use ($collection_level_two) {
             $collection_level_two->documents()->save($document);
-        });
-
-        $previous_monday_docs->each(function ($document) use ($collection_level_three) {
-            $collection_level_three->documents()->save($document);
         });
 
         $seven_days_docs->each(function ($document) use ($collection_level_three) {
@@ -574,7 +568,6 @@ class RecentDocumentsTest extends TestCase
         return [
             $today_docs,
             $yesterday_docs,
-            $previous_monday_docs,
             $seven_days_docs,
             $thirty_days_docs,
         ];
