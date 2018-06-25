@@ -214,3 +214,17 @@ $factory->defineAs(KBox\Shared::class, 'publiclink', function (Faker\Generator $
       'sharedwith_type' => 'KBox\PublicLink'
     ];
 });
+
+
+$factory->define(KBox\Group::class, function (Faker\Generator $faker, $arguments = []) {
+    
+    return [
+        'user_id' => function () {
+            return factory(KBox\User::class)->create()->id;
+        },
+        'name' => $faker->sentence,
+        'color' => 'f1c40f',
+        'group_type_id' => KBox\GroupType::getGenericType()->id,
+        'is_private' => false
+    ];
+});

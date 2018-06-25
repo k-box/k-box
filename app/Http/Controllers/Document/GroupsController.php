@@ -11,6 +11,7 @@ use KBox\Http\Requests\CreateGroupRequest;
 use KBox\Http\Requests\UpdateGroupRequest;
 use Illuminate\Support\Collection;
 use KBox\Exceptions\GroupAlreadyExistsException;
+use KBox\Exceptions\CollectionMoveException;
 use Illuminate\Http\Request;
 use KBox\Traits\Searchable;
 use KBox\Exceptions\ForbiddenException;
@@ -347,10 +348,6 @@ class GroupsController extends Controller
                         // make public
                         $this->service->makeGroupPublic($auth->user(), $group);
                     }
-                    // else if(!$group->is_private && !!!$request->input('public')){
-                    // 	// make private
-                    // 	$this->service->makeGroupPrivate($auth->user(), $group);
-                    // }
                 } elseif ($request->has('private')) {
                     if (! $group->is_private && ! ! $request->input('private')) {
                         // make private
@@ -367,8 +364,6 @@ class GroupsController extends Controller
 
                 // // get current parent
 
-                // // TODO: verificare che spostandolo di parent non si abbiano due gruppi con lo stesso nome allo stesso livello
-                
                 $group = $group->fresh();
 
                 $parent_group = Group::findOrFail($request->input('parent'));
@@ -380,23 +375,17 @@ class GroupsController extends Controller
                 }
                 
                 if ($request->has('public') && $group->is_private && ! ! $request->input('public')) {
-
                     // make public
-                    $this->service->makeGroupPublic($auth->user(), $group);
+                    $group = $this->service->movePersonalCollectionToProject($user, $group, $parent_group);
                 } elseif ($request->has('private') && ! $group->is_private && ! ! $request->input('private')) {
-    
                     // make private
-                    $this->service->makeGroupPrivate($auth->user(), $group);
+                    $group = $this->service->moveProjectCollectionToPersonal($user, $group, $parent_group);
                 }
-
-                // $group->moveTo(0, $parent_group);
-                $group = $this->service->moveGroup($user, $group, $parent_group);
-                //TODO: check if is updating also sub-collections
             }
 
             \Cache::flush();
 
-            if ($request->ajax() && $request->wantsJson()) {
+            if ($request->wantsJson()) {
                 return response()->json($group);
             }
 
@@ -404,19 +393,25 @@ class GroupsController extends Controller
         } catch (ForbiddenException $fe) {
             //return forbidden response
 
-            if ($request->ajax() && $request->wantsJson()) {
+            if ($request->wantsJson()) {
                 return new JsonResponse(['error' => $fe->getMessage()], 403);
             }
 
             return response("forbidden: ".$fe->getMessage(), 403);
         } catch (GroupAlreadyExistsException $fe) {
-            if ($request->ajax() && $request->wantsJson()) {
+            if ($request->wantsJson()) {
+                return new JsonResponse(['error' => $fe->getMessage()], 409);
+            }
+
+            return response($fe->getMessage(), 409);
+        } catch (CollectionMoveException $fe) {
+            if ($request->wantsJson()) {
                 return new JsonResponse(['error' => $fe->getMessage()], 409);
             }
 
             return response($fe->getMessage(), 409);
         } catch (\ExistsException $fe) {
-            if ($request->ajax() && $request->wantsJson()) {
+            if ($request->wantsJson()) {
                 return new JsonResponse(['error' => $fe->getMessage()], 500);
             }
 

@@ -132,6 +132,14 @@ return [
         'move_to_project_text' => 'You are about to move a personal collection under a Project. This will make ":collection" and its sub-collections visible to all users of the Project.',
         'move_to_personal_title' => 'Make Collection personal?',
         'move_to_personal_text' => 'You are about to move out a Project collection to your personal collections. The collection ":collection" will not be seen anymore by the other users of the project.',
+
+        'errors' => [
+            'personal_not_all_same_user' => 'Cannot move ":collection" to your personal. You are not the creator of :collection_cause',
+            'personal_not_all_same_user_empty_cause' => 'Cannot move ":collection" to your personal as you are not the creator of it',
+            'no_project_collection_permission' => 'You do not have the necessary permission to move a project collection',
+            'no_access_to_collection' => 'You do not have access to the collection',
+        ],
+
     ],
     
     'access' => [
