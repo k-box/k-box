@@ -23,6 +23,7 @@ use KBox\Exceptions\FileNamingException;
 use Illuminate\Support\Collection;
 use Carbon\Carbon;
 use KBox\Exceptions\GroupAlreadyExistsException;
+use KBox\Exceptions\CollectionMoveException;
 use KBox\Jobs\ImportCommand;
 use KBox\Jobs\ThumbnailGenerationJob;
 use Klink\DmsAdapter\KlinkDocument;
@@ -1433,7 +1434,11 @@ class DocumentsService
         }
 
         if (! $user->can_capability(Capability::MANAGE_PROJECT_COLLECTIONS)) {
-            throw new ForbiddenException("Permission denieded for making the project collection a personal collection.");
+            throw new ForbiddenException(trans('groups.move.errors.no_project_collection_permission'));
+        }
+
+        if (! $this->isCollectionAccessible($user, $group)) {
+            throw new ForbiddenException(trans('groups.move.errors.no_access_to_collection'));
         }
         
         // change flag
@@ -1547,6 +1552,73 @@ class DocumentsService
         if ($perform_reindex) {
             dispatch(new ReindexDocument($document, KlinkVisibilityType::KLINK_PRIVATE));
         }
+    }
+
+    /**
+     * Move a project collection (and its descendants) to a personal collection
+     * 
+     * @param User $user The user that is performing the operation
+     * @param Group $collection The collection that you want to move
+     * @param Group $parent The new parent collection or null, in case will be a root
+     * @throws \KBox\Exceptions\CollectionMoveException when the move operation is not possible
+     */
+    public function moveProjectCollectionToPersonal(User $user, Group $collection, Group $parent = null )
+    {
+
+        if($collection->user_id !== $user->id){
+            throw new CollectionMoveException($collection, CollectionMoveException::REASON_NOT_ALL_SAME_USER);
+        }
+
+        // check if all sub-collections are from the same user
+
+        $descendants_count = $collection->withDescendants()->count();
+
+        $descendant_not_created_by_user = $collection->withDescendants()->where('user_id', '<>', $user->id)->get();
+
+        if(! $descendant_not_created_by_user->isEmpty()){
+            throw new CollectionMoveException($collection, CollectionMoveException::REASON_NOT_ALL_SAME_USER, $descendant_not_created_by_user);
+        }
+
+        \DB::transaction(function () use ($user, $collection, $parent) {
+
+            $this->makeGroupPrivate($user, $collection);
+            
+            $this->moveGroup($user, $collection, $parent);
+        
+        });
+
+        return $collection->fresh();
+
+    }
+
+    /**
+     * Move a personal collection (and its descendants) to a project collection
+     * 
+     * @param User $user The user that is performing the operation
+     * @param Group $collection The collection that you want to move
+     * @param Group $parent The new parent collection or null, in case will be a root
+     * @throws \KBox\Exceptions\CollectionMoveException when the move operation is not possible
+     */
+    public function movePersonalCollectionToProject(User $user, Group $collection, Group $parent = null )
+    {
+
+        if (! $this->isCollectionAccessible($user, $collection)) {
+            throw new ForbiddenException(trans('groups.move.errors.no_access_to_collection'));
+        }
+
+        if (! is_null($parent) && ! $this->isCollectionAccessible($user, $parent)) {
+            throw new ForbiddenException(trans('groups.move.errors.no_access_to_collection'));
+        }
+
+        \DB::transaction(function () use ($user, $collection, $parent) {
+
+            $this->makeGroupPublic($user, $collection);
+            $this->moveGroup($user, $collection, $parent);
+        
+        });
+
+        return $collection->fresh();
+
     }
 
         // --- Import related functions ----------------------------
