@@ -74,4 +74,34 @@ class CollectionControllerTest extends TestCase
             ])
         ]);
     }
+
+    public function test_move_from_personal_to_project_is_permitted()
+    {
+        $service = app('Klink\DmsDocuments\DocumentsService');
+
+        $project = factory('KBox\Project')->create();
+
+        $user = tap(factory('KBox\User')->create(), function ($u) {
+            $u->addCapabilities(Capability::$PROJECT_MANAGER);
+        });
+
+        $project->users()->attach($user);
+        
+        $collection = $service->createGroup($user, 'personal');
+        $collection_under = $service->createGroup($user, 'personal-sub-collection', null, $collection);
+        $collection_under2 = $service->createGroup($user, 'personal-sub-sub-collection', null, $collection_under);
+        
+        $response = $this->actingAs($user)->json('PUT', '/documents/groups/'.$collection->id, [
+            'private' => false,
+            'parent' => $project->collection->id,
+            'dry_run' => 0,
+            'action' => 'move',
+        ]);
+
+        $response->assertStatus(200);
+
+        $response->assertJson([
+            'id' => $collection->id
+        ]);
+    }
 }

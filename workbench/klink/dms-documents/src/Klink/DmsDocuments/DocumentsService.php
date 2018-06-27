@@ -1612,8 +1612,8 @@ class DocumentsService
 
         \DB::transaction(function () use ($user, $collection, $parent) {
 
-            $this->service->makeGroupPublic($user, $collection);
-            $this->service->moveGroup($user, $collection, $parent);
+            $this->makeGroupPublic($user, $collection);
+            $this->moveGroup($user, $collection, $parent);
         
         });
 

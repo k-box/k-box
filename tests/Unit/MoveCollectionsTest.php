@@ -106,6 +106,8 @@ class MoveCollectionsTest extends TestCase
         $user = tap(factory('KBox\User')->create(), function ($u) {
             $u->addCapabilities(Capability::$PROJECT_MANAGER);
         });
+
+        $project->users()->attach($user);
         
         $collection = $this->documentService->createGroup($user, 'personal');
         $collection_under = $this->documentService->createGroup($user, 'personal-sub-collection', null, $collection);
@@ -113,8 +115,7 @@ class MoveCollectionsTest extends TestCase
 
         // move $collection under $project->collection()
 
-        $this->documentService->makeGroupPublic($user, $collection);
-        $this->documentService->moveGroup($user, $collection, $project->collection);
+        $this->documentService->movePersonalCollectionToProject($user, $collection, $project->collection);
 
         $collection_under = $collection_under->fresh();
 
@@ -123,5 +124,27 @@ class MoveCollectionsTest extends TestCase
         $this->assertNotNull($collection->parent_id);
 
         $this->assertEquals([false, false, false], $project->collection->getDescendants()->pluck('is_private')->toArray());
+    }
+
+    public function test_move_from_personal_to_project_is_denied_if_user_do_not_have_access_to_project()
+    {
+        $project = factory('KBox\Project')->create();
+
+        $user = tap(factory('KBox\User')->create(), function ($u) {
+            $u->addCapabilities(Capability::$PROJECT_MANAGER);
+        });
+        
+        $collection = $this->documentService->createGroup($user, 'personal');
+        $collection_under = $this->documentService->createGroup($user, 'personal-sub-collection', null, $collection);
+        $collection_under2 = $this->documentService->createGroup($user, 'personal-sub-sub-collection', null, $collection_under);
+
+        // move $collection under $project->collection()
+
+        try {
+            $this->documentService->movePersonalCollectionToProject($user, $collection, $project->collection);
+            $this->fail("The collection move must have been denied");
+        } catch (ForbiddenException $ex) {
+            $this->assertEquals(trans('groups.move.errors.no_access_to_collection'), $ex->getMessage());
+        }
     }
 }
