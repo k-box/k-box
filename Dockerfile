@@ -95,7 +95,9 @@ RUN chmod +x /usr/local/bin/configure.sh && \
 COPY deploy-screens/index.html /var/www/html/index.html
 
 ## Copy the application code
-COPY . /var/www/dms/
+COPY \
+    --chown=www-data:www-data \
+    . /var/www/dms/
 
 COPY \
     --from=videocli \
