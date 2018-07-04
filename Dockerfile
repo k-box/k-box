@@ -2,6 +2,15 @@
 FROM docker.klink.asia/images/video-processing-cli:0.3.1 AS videocli
 # .. we just need this image so we can copy from it
 
+FROM node:8 AS frontend
+WORKDIR /app
+COPY . /app
+RUN \
+    npm install yarn && \
+    yarn config set cache-folder .yarn && \
+    yarn install && \
+    yarn run production
+
 ## Generating the real K-Box image
 FROM php:7.1-fpm AS php
 
@@ -103,6 +112,12 @@ COPY \
     --from=videocli \
     --chown=www-data:www-data \
     /video-processing-cli/ "/var/www/dms/bin/"
+
+## Add frontend assets
+COPY \
+    --from=frontend \
+    --chown=www-data:www-data \
+    /app/public /var/www/dms/public
 
 ENV KBOX_STORAGE "/var/www/dms/storage"
 
