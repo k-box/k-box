@@ -27,7 +27,7 @@ RUN apt-get update -yqq && \
         libfreetype6-dev \
         libjpeg62-turbo-dev \
         libmcrypt-dev \
-        libpng12-dev \
+        libpng-dev \
         libbz2-dev \
         gettext \
         supervisor \
@@ -50,13 +50,13 @@ RUN locale-gen "en_US.UTF-8" \
  	&& /usr/sbin/update-locale LANG="C.UTF-8"
 
 ## NGINX installation
-### This will install nginx for debian:jessie as the base PHP image is still based on debian:jessie
 ### The installation procedure is heavily inspired from https://github.com/nginxinc/docker-nginx
-
 RUN set -e; \
 	NGINX_GPGKEY=573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62; \
-	NGINX_VERSION=1.11.9-1~jessie; \
+	NGINX_VERSION=1.14.0-1~stretch; \
 	found=''; \
+	apt-get update; \
+	apt-get install -y gnupg; \
 	for server in \
 		ha.pool.sks-keyservers.net \
 		hkp://keyserver.ubuntu.com:80 \
@@ -67,7 +67,7 @@ RUN set -e; \
 		apt-key adv --keyserver "$server" --keyserver-options timeout=10 --recv-keys "$NGINX_GPGKEY" && found=yes && break; \
 	done; \
 	test -z "$found" && echo >&2 "error: failed to fetch GPG key $NGINX_GPGKEY" && exit 1; \
-    echo "deb http://nginx.org/packages/mainline/debian/ jessie nginx" >> /etc/apt/sources.list \
+    echo "deb http://nginx.org/packages/debian/ stretch nginx" >> /etc/apt/sources.list \
 	&& apt-get update \
 	&& apt-get install --no-install-recommends --no-install-suggests -y \
 						ca-certificates \
@@ -75,7 +75,7 @@ RUN set -e; \
 						# nginx-module-njs=${NJS_VERSION} \
 						# gettext-base \
     && apt-get clean \
-	&& rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/*
 
 ## Configure cron to run Laravel scheduler
 RUN echo '* * * * * php /var/www/dms/artisan schedule:run >> /dev/null 2>&1' | crontab -
