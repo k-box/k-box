@@ -2,7 +2,7 @@
 FROM docker.klink.asia/images/video-processing-cli:0.3.1
 
 ## Generating the real K-Box image
-FROM php:7.1.16-fpm
+FROM php:7.1-fpm AS php
 
 ## Default environment variables
 ENV KBOX_PHP_MAX_EXECUTION_TIME 120
