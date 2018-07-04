@@ -135,7 +135,7 @@ return [
         'move_to_personal_text' => 'Вы собираетесь переместить коллекцию из Проекта в Личные. ":collection" перестанет быть доступной для пользователей Проекта.',
     
         'errors' => [
-            'personal_not_all_same_user' => 'Коллекцию :collection_cause создал другой пользователь, поэтому Вы не можете переместить коллекцию ":collection"',
+            'personal_not_all_same_user' => 'Вы не можете переместить коллекцию ":collection", другой пользователь создал внутри неё коллекцию ":collection_cause"',
             'personal_not_all_same_user_empty_cause' => 'Вы не можете переместить коллекцию ":collection", её создал другой пользователь',
             'no_project_collection_permission' => 'Вы не можете переместить коллекцию',
             'no_access_to_collection' => 'У Вас нет доступа к коллекции',
