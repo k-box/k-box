@@ -54,75 +54,81 @@ class KlinkApiController extends Controller
     public function show(Request $request, $id, $action, $version = null)
     {
 
-        // no need for input syntax validation, already performed by Laravel when invoking this controller
-
         $doc = DocumentDescriptor::withTrashed()->where('local_document_id', $id)->with('file')->first();
 
-        $file_version = null; // will contain the file instance to use in case $version is not null, null means the latest
-
-        if (is_null($doc->file)) {
-            \App::abort(404, trans('errors.document_not_found'));
-        }
-
-        $versions = $doc->file->versions();
-
-        if (! is_null($version) && $doc->file->uuid !== $version && $versions->contains('uuid', $version)) {
-            $file_version = $versions->where('uuid', $version)->first();
-        }
-
-        // if version is requested, the file must be a version of the same document descriptor is referenced in $id
-
-        if (is_null($doc) || (! is_null($doc) && ! $doc->isMine())) {
-            \App::abort(404, trans('errors.document_not_found'));
-        }
-        
-        $user = $request->user();
-
-        if (! ($doc->isPublished() || $doc->hasPendingPublications() || $doc->hasPublicLink()) && is_null($user)) {
-            \Log::warning('KlinkApiController, requested a document that is not public and user is not authenticated', ['url' => $request->url()]);
-
-            session()->put('url.dms.intended', $request->url());
-
-            return redirect()->to(route('frontpage'));
-        } elseif ($doc->trashed()) {
-            \App::abort(404, trans('errors.document_not_found'));
-        }
-
-        $collections = $doc->groups;
-        $is_in_collection = false;
-
-        if (! is_null($collections) && ! $collections->isEmpty() && ! is_null($user)) {
-            $serv = $this->documentsService;
-
-            $filtered = $collections->filter(function ($c) use ($serv, $user) {
-                return $serv->isCollectionAccessible($user, $c);
-            });
-            
-            $is_in_collection = ! $filtered->isEmpty();
-        }
-
-        $is_shared = $doc->hasPublicLink() ? true : (! is_null($user) ? $doc->shares()->sharedWithMe($user)->count() > 0 : false);
-
-        $owner = ! is_null($user) && ! is_null($doc->owner) ? $doc->owner->id === $user->id || $user->isContentManager() : (is_null($doc->owner) ? true : false);
-
-        if (! ($is_in_collection || $is_shared || $doc->isPublic() || $owner || $doc->hasPendingPublications())) {
-            return view('errors.403', ['reason' => 'ForbiddenException: not shared, not in collection, not public or private of the user']);
-        }
-
-        // transforming into a download, if request is made using Guzzle.
-        // This is a way of identifying that the request is coming from the K-Search, as, thanks to the proxy,
-        // the real host and IP addresses are not available
-        $isKSearchRequest = ($doc->isPublished() || $doc->hasPendingPublications()) && network_enabled() && str_contains(strtolower($request->userAgent()), 'guzzlehttp');
-
-        if (! $isKSearchRequest && ($action==='document' || $action==='preview')) {
-            return $this->getPreview($request, $doc, $file_version);
-        } elseif ($isKSearchRequest || $action==='download') {
-            return $this->getDocument($request, $doc, $file_version);
+        if (($action==='document' || $action==='preview')) {
+            return redirect()->to(route('documents.preview', ['uuid' => $doc->uuid, 'versionUuid' => $version]));
+        } elseif ($action==='download') {
+            return redirect()->to(route('documents.download', ['uuid' => $doc->uuid, 'versionUuid' => $version]));
         } elseif ($action==='thumbnail') {
-            return $this->getThumbnail($request, $doc, $file_version);
+            return redirect()->to(route('documents.thumbnail', ['uuid' => $doc->uuid, 'versionUuid' => $version]));
         }
 
-        return view('errors.403', ['reason' => 'WrongAction']);
+        // $file_version = null; // will contain the file instance to use in case $version is not null, null means the latest
+
+        // if (is_null($doc->file)) {
+        //     \App::abort(404, trans('errors.document_not_found'));
+        // }
+
+        // $versions = $doc->file->versions();
+
+        // if (! is_null($version) && $doc->file->uuid !== $version && $versions->contains('uuid', $version)) {
+        //     $file_version = $versions->where('uuid', $version)->first();
+        // }
+
+        // // if version is requested, the file must be a version of the same document descriptor is referenced in $id
+
+        // if (is_null($doc) || (! is_null($doc) && ! $doc->isMine())) {
+        //     \App::abort(404, trans('errors.document_not_found'));
+        // }
+        
+        // $user = $request->user();
+
+        // if (! ($doc->isPublished() || $doc->hasPendingPublications() || $doc->hasPublicLink()) && is_null($user)) {
+        //     \Log::warning('KlinkApiController, requested a document that is not public and user is not authenticated', ['url' => $request->url()]);
+
+        //     session()->put('url.dms.intended', $request->url());
+
+        //     return redirect()->to(route('frontpage'));
+        // } elseif ($doc->trashed()) {
+        //     \App::abort(404, trans('errors.document_not_found'));
+        // }
+
+        // $collections = $doc->groups;
+        // $is_in_collection = false;
+
+        // if (! is_null($collections) && ! $collections->isEmpty() && ! is_null($user)) {
+        //     $serv = $this->documentsService;
+
+        //     $filtered = $collections->filter(function ($c) use ($serv, $user) {
+        //         return $serv->isCollectionAccessible($user, $c);
+        //     });
+            
+        //     $is_in_collection = ! $filtered->isEmpty();
+        // }
+
+        // $is_shared = $doc->hasPublicLink() ? true : (! is_null($user) ? $doc->shares()->sharedWithMe($user)->count() > 0 : false);
+
+        // $owner = ! is_null($user) && ! is_null($doc->owner) ? $doc->owner->id === $user->id || $user->isContentManager() : (is_null($doc->owner) ? true : false);
+
+        // if (! ($is_in_collection || $is_shared || $doc->isPublic() || $owner || $doc->hasPendingPublications())) {
+        //     return view('errors.403', ['reason' => 'ForbiddenException: not shared, not in collection, not public or private of the user']);
+        // }
+
+        // // transforming into a download, if request is made using Guzzle.
+        // // This is a way of identifying that the request is coming from the K-Search, as, thanks to the proxy,
+        // // the real host and IP addresses are not available
+        // $isKSearchRequest = ($doc->isPublished() || $doc->hasPendingPublications()) && network_enabled() && str_contains(strtolower($request->userAgent()), 'guzzlehttp');
+
+        // if (! $isKSearchRequest && ($action==='document' || $action==='preview')) {
+        //     return $this->getPreview($request, $doc, $file_version);
+        // } elseif ($isKSearchRequest || $action==='download') {
+        //     return $this->getDocument($request, $doc, $file_version);
+        // } elseif ($action==='thumbnail') {
+        //     return $this->getThumbnail($request, $doc, $file_version);
+        // }
+
+        // return view('errors.403', ['reason' => 'WrongAction']);
     }
 
     /**
