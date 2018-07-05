@@ -17,7 +17,7 @@
     	{!! trans('messaging.mail.you_are_receiving_because', ['link' => \Config::get('app.url')]) !!}
     </p>
     
-    <p>{{ trans('messaging.mail.do_not_reply) }}</p>
+    <p>{{ trans('messaging.mail.do_not_reply') }}</p>
 
     
     </body>

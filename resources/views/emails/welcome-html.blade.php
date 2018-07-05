@@ -12,7 +12,7 @@
     	{!! trans('mail.welcome.login_button', ['link' => \Config::get('app.url')]) !!}
     </p>
 
-    <p>{{ trans('messaging.mail.do_not_reply) }}</p>
+    <p>{{ trans('messaging.mail.do_not_reply') }}</p>
     
     </body>
 </html>
