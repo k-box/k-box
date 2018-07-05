@@ -2,8 +2,8 @@
 
 stages:
   - lint
-  - build_laravel
   - build_frontend
+  - build_laravel
   - test
   - build_release
   - release
@@ -54,8 +54,6 @@ test-shell-syntax:
     - shellcheck ./docker/start.sh
   tags:
     - docker
-
-## Building the artifacts for release
 
 frontend:
   image: node:8.11
@@ -141,9 +139,6 @@ branch_release:
     - shell
   except:
     - tags
-  dependencies:
-  - frontend
-  - laravel
 
 ## Tagged releases
 tagged_release:
@@ -169,10 +164,6 @@ tagged_release:
     - shell
   only:
     - tags
-  dependencies:
-  - frontend
-  - laravel
-
 
 ## Deploy on review environments
 

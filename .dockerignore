@@ -1,17 +1,11 @@
 
 .git*
-composer*
-gulpfile.js
-package.json
 bower.json
 phpspec.yml
 .php_cs
 phpunit.xml
 tests/*
 node_modules
-resources/assets/sass/*
-resources/assets/less/*
-resources/assets/vendor/*
 env*
 .env
 .gitlab-ci.yml
