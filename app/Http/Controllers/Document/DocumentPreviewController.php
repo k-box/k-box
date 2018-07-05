@@ -20,25 +20,8 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Content\Preview\Exception\PreviewGenerationException;
 
-class DocumentPreviewController extends Controller
+class DocumentPreviewController extends DocumentAccessController
 {
-
-    /**
-     * @var Content\Services\PreviewService
-     */
-    private $previewService = null;
-
-    /**
-     * @var Klink\DmsDocuments\DocumentsService
-     */
-    private $documentsService = null;
-
-    
-    public function __construct(PreviewService $preview, DocumentsService $documentsService)
-    {
-        $this->previewService = $preview;
-        $this->documentsService = $documentsService;
-    }
 
     public function show(Request $request, $uuid, $versionUuid = null)
     {
@@ -71,63 +54,6 @@ class DocumentPreviewController extends Controller
     }
 
 
-
-    private function getDocument($request, $uuid, $versionUuid)
-    {
-        $doc = DocumentDescriptor::withTrashed()->whereUuid($uuid)->with('file')->first();
-
-        $file_version = null; // will contain the file instance to use in case $version is not null, null means the latest
-
-        if (is_null($doc->file)) {
-            throw new ModelNotFoundException();
-        }
-
-        $versions = $doc->file->versions();
-
-        if (! is_null($versionUuid) && $doc->file->uuid !== $versionUuid && $versions->contains('uuid', $versionUuid)) {
-            $file_version = $versions->where('uuid', $versionUuid)->first();
-        }
-
-        // if version is requested, the file must be a version of the same document descriptor is referenced in $id
-
-        if (is_null($doc) || (! is_null($doc) && ! $doc->isMine())) {
-            throw new ModelNotFoundException();
-        }
-        
-        $user = $request->user();
-
-        if (! ($doc->isPublished() || $doc->hasPendingPublications() || $doc->hasPublicLink()) && is_null($user)) {
-            Log::warning('KlinkApiController, requested a document that is not public and user is not authenticated', ['url' => $request->url()]);
-
-            throw new AuthenticationException();
-        }
-        if ($doc->trashed()) {
-            throw new ModelNotFoundException();
-        }
-
-        $collections = $doc->groups;
-        $is_in_collection = false;
-
-        if (! is_null($collections) && ! $collections->isEmpty() && ! is_null($user)) {
-            $serv = $this->documentsService;
-
-            $filtered = $collections->filter(function ($c) use ($serv, $user) {
-                return $serv->isCollectionAccessible($user, $c);
-            });
-            
-            $is_in_collection = ! $filtered->isEmpty();
-        }
-
-        $is_shared = $doc->hasPublicLink() ? true : (! is_null($user) ? $doc->shares()->sharedWithMe($user)->count() > 0 : false);
-
-        $owner = ! is_null($user) && ! is_null($doc->owner) ? $doc->owner->id === $user->id || $user->isContentManager() : (is_null($doc->owner) ? true : false);
-
-        if (! ($is_in_collection || $is_shared || $doc->isPublic() || $owner || $doc->hasPendingPublications())) {
-            throw new ForbiddenException('not shared, not in collection, not public or private of the user');
-        }
-
-        return [$doc, $file_version];
-    }
 
     private function previewDocument(DocumentDescriptor $doc, File $version = null)
     {
@@ -169,22 +95,4 @@ class DocumentPreviewController extends Controller
         ]);
     }
 
-    private function downloadDocument(Request $request, DocumentDescriptor $doc, File $version = null)
-    {
-        /* File */ $file = $version ?? $doc->file;
-
-        $embed = $request->input('embed', false);
-        
-        $headers = [
-            'Content-Type' => $file->mime_type
-        ];
-
-        $response = new BinaryFileResponse($file->absolute_path, 200, $headers, true, null);
-        $name = $file->name;
-        if (! is_null($name)) {
-            return $response->setContentDisposition((! $embed ? 'attachment' : 'inline'), $name, str_replace('%', '', Str::ascii($name)));
-        }
-
-        return $response;
-    }
 }

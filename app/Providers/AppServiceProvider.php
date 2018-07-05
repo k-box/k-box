@@ -4,6 +4,7 @@ namespace KBox\Providers;
 
 use Validator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -34,6 +35,13 @@ class AppServiceProvider extends ServiceProvider
             return $this->isMethod('get')
                    && network_enabled() 
                    && str_contains(strtolower($this->userAgent()), 'guzzlehttp');
+        });
+
+        /**
+         * Register a response macro that respond as an head request
+         */
+        Response::macro('head', function ($headers) {
+            return response('', 200, array_merge(['Content-Length' => 0], $headers));
         });
     }
 
