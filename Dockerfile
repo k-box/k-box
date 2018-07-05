@@ -11,6 +11,21 @@ RUN \
     yarn install && \
     yarn run production
 
+## Installing the dependencies to be used in a later step.
+# Will generate three directories:
+# * /var/www/dms/bin/
+# * /var/www/dms/vendor/
+# * /var/www/dms/public/js/nls/
+FROM composer:1.6 AS dependencies
+COPY \
+    --chown=www-data:www-data \
+    . /app
+RUN \
+    composer install --no-dev --prefer-dist &&\
+    composer run install-content-cli &&\
+    composer run install-language-cli &&\
+    composer run install-streaming-client
+
 ## Generating the real K-Box image
 FROM php:7.1-fpm AS php
 
@@ -107,6 +122,15 @@ COPY deploy-screens/index.html /var/www/html/index.html
 COPY \
     --chown=www-data:www-data \
     . /var/www/dms/
+
+## Copy in the dependencies from the previous buildstep
+COPY \
+    --from=dependencies \
+    --chown=www-data:www-data \
+    /app/bin/ \
+    /app/vendor/ \
+    /app/public/js/nls/ \
+    /var/www/dms/
 
 COPY \
     --from=videocli \

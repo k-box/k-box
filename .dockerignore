@@ -1,6 +1,5 @@
 
 .git*
-composer*
 bower.json
 phpspec.yml
 .php_cs
