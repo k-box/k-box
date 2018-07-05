@@ -33,6 +33,8 @@ return [
         'signature' => ':name<br/>gesendet von der K-Box.',
 
         'you_are_receiving_because' => 'Sie erhalten diese E-Mail, da sie Nutzer der <a href=":link">K-Box</a> sind.',
+        
+        'do_not_reply' => 'Dies ist eine automatische Nachricht. Bitte nicht antworten', 
 
     ],
 

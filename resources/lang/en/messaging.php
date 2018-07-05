@@ -34,6 +34,7 @@ return [
         
         'you_are_receiving_because' => 'You are receiving this e-mail because you are a user of the <a href=":link">K-Box</a>.',
         
+        'do_not_reply' => 'This is an automatically generated message. Do not reply.',
         
     ],
 

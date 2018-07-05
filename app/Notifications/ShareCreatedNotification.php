@@ -76,6 +76,7 @@ class ShareCreatedNotification extends Notification
         return (new MailMessage)
                     ->subject(trans('mail.sharecreated.subject', ['user' => $this->from->name, 'title' => $item_title], '', $language))
                     ->line(trans($is_collection ? 'mail.sharecreated.shared_collection_with_you' : 'mail.sharecreated.shared_document_with_you', ['user' => $this->from->name], '', $language))
+                    ->salutation(trans('messaging.mail.do_not_reply'))
                     ->action($item_title, $share_link);
     }
 
