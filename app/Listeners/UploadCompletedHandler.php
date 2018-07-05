@@ -4,6 +4,7 @@ namespace KBox\Listeners;
 
 use Log;
 use Exception;
+use Carbon\Carbon;
 use KBox\DocumentDescriptor;
 use KBox\Events\UploadCompleted;
 use KBox\Jobs\ElaborateDocument;
@@ -42,7 +43,7 @@ class UploadCompletedHandler implements ShouldQueue
     {
         $file = $descriptor->file;
             
-        $file->upload_completed_at = \Carbon\Carbon::now();
+        $file->upload_completed_at = Carbon::now();
         
         $file->save();
         
