@@ -643,15 +643,15 @@ class File extends Model
 
             $hash = KlinkDocumentUtils::generateDocumentHash($file_absolute_path);
 
-            if (static::existsByHash($hash)) {
-                $storage->deleteDirectory($destination_path);
+            // if (static::existsByHash($hash)) {
+            //     $storage->deleteDirectory($destination_path);
 
-                $f = static::findByHash($hash);
+            //     $f = static::findByHash($hash);
 
-                $descr = $f->getLastVersion()->document;
+            //     $descr = $f->getLastVersion()->document;
                 
-                throw new FileAlreadyExistsException($filename, $descr, $f);
-            }
+            //     throw new FileAlreadyExistsException($filename, $descr, $f);
+            // }
 
             $file_model->name = $filename;
             $file_model->uuid = $uuid;
