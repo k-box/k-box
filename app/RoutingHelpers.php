@@ -12,13 +12,13 @@ final class RoutingHelpers
             return $doc->thumbnail_uri;
         }
 
-        $params = ['id' => $doc->local_document_id, 'action' => 'thumbnail'];
+        $params = ['id' => $doc->uuid];
 
         if ($version) {
-            $params['version'] = $version->uuid;
+            $params['versionUuid'] = $version->uuid;
         }
 
-        return route('klink_api', $params);
+        return route('documents.thumbnail', $params);
     }
     
     public static function document(DocumentDescriptor $doc, File $version = null)
@@ -27,13 +27,13 @@ final class RoutingHelpers
             return $doc->document_uri;
         }
         
-        $params = ['id' => $doc->local_document_id, 'action' => 'document', 'version' => null];
+        $params = ['id' => $doc->uuid, 'versionUuid' => null];
 
         if ($version) {
-            $params['version'] = $version->uuid;
+            $params['versionUuid'] = $version->uuid;
         }
 
-        return route('klink_api', $params);
+        return route('documents.preview', $params);
     }
     
     
@@ -43,13 +43,13 @@ final class RoutingHelpers
             return $doc->document_uri;
         }
 
-        $params = ['id' => $doc->local_document_id, 'action' => 'preview'];
+        $params = ['uuid' => $doc->uuid];
 
         if ($version) {
-            $params['version'] = $version->uuid;
+            $params['versionUuid'] = $version->uuid;
         }
 
-        return route('klink_api', $params);
+        return route('documents.preview', $params);
     }
     
     public static function embed(DocumentDescriptor $doc, File $version = null)
@@ -67,13 +67,13 @@ final class RoutingHelpers
             return $doc->document_uri;
         }
 
-        $params = ['id' => $doc->local_document_id, 'action' => 'download'];
+        $params = ['id' => $doc->uuid];
 
         if ($version) {
-            $params['version'] = $version->uuid;
+            $params['versionUuid'] = $version->uuid;
         }
 
-        return route('klink_api', $params);
+        return route('documents.download', $params);
     }
     
     

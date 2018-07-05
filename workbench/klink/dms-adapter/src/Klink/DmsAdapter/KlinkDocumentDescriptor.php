@@ -113,7 +113,7 @@ final class KlinkDocumentDescriptor
 	private function buildDownloadUrl()
 	{
 		if($this->visibility === KlinkVisibilityType::KLINK_PUBLIC){
-			return $this->descriptor->document_uri;
+			return route('documents.preview', ['uuid' => $this->descriptor->uuid]);
 		}
 
 		if(config('app.url') !== config('app.internal_url')){
