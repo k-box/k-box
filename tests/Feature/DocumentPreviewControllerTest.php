@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use KBox\Option;
 use Carbon\Carbon;
 use Tests\TestCase;
 use KBox\Capability;
@@ -9,6 +10,7 @@ use KBox\Publication;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class DocumentPreviewControllerTest extends TestCase
 {
@@ -33,7 +35,7 @@ class DocumentPreviewControllerTest extends TestCase
         $document = factory('KBox\DocumentDescriptor')->create(['owner_id' => $manager->id]);
         $service->addDocumentToGroup($manager, $document, $project->collection);
         
-        $url = route('klink_api', ['id' => $document->local_document_id, 'action' => 'document']);
+        $url = route('documents.preview', ['uuid' => $document->uuid]);
 
         $response = $this->actingAs($user)->get($url);
         
@@ -43,7 +45,31 @@ class DocumentPreviewControllerTest extends TestCase
     }
 
 
-    public function testDocumentShowForSharedDocument()
+    public function test_preview_is_forbidden_if_user_do_not_have_access_to_document_in_project()
+    {
+        $this->withKlinkAdapterFake();
+        
+        $service = app('Klink\DmsDocuments\DocumentsService');
+
+        $project = factory('KBox\Project')->create();
+
+        $manager = $project->manager;
+
+        $user = tap(factory('KBox\User')->create(), function ($u) {
+            $u->addCapabilities(Capability::$PARTNER);
+        });
+
+        $document = factory('KBox\DocumentDescriptor')->create(['owner_id' => $manager->id]);
+        $service->addDocumentToGroup($manager, $document, $project->collection);
+        
+        $url = route('documents.preview', ['uuid' => $document->uuid]);
+
+        $response = $this->actingAs($user)->get($url);
+
+        $response->assertViewIs('errors.403');
+    }
+
+    public function test_preview_is_loaded_for_shared_document()
     {
         $user = tap(factory('KBox\User')->create(), function ($u) {
             $u->addCapabilities(Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH);
@@ -62,14 +88,14 @@ class DocumentPreviewControllerTest extends TestCase
         ]);
 
         
-        $url = route('klink_api', ['id' => $document->local_document_id, 'action' => 'document']);
+        $url = route('documents.preview', ['uuid' => $document->uuid]);
 
         $response = $this->actingAs($user_accessing_the_document)->get($url);
 
         $response->assertViewIs('documents.preview');
     }
 
-    public function testDocumentShowForPublicDocument()
+    public function test_public_document_can_be_previewed_after_login()
     {
         $user = tap(factory('KBox\User')->create(), function ($u) {
             $u->addCapabilities(Capability::$PROJECT_MANAGER);
@@ -87,14 +113,14 @@ class DocumentPreviewControllerTest extends TestCase
             'published_at' => Carbon::now()
         ]);
         
-        $url = route('klink_api', ['id' => $document->local_document_id, 'action' => 'document']);
+        $url = route('documents.preview', ['uuid' => $document->uuid]);
 
         $response = $this->actingAs($user_accessing_the_document)->get($url);
 
         $response->assertViewIs('documents.preview');
     }
 
-    public function testDocumentShowForPublicDocumentWithNoLogin()
+    public function test_public_document_can_be_previewed_without_login()
     {
         $this->withKlinkAdapterFake();
 
@@ -121,14 +147,14 @@ class DocumentPreviewControllerTest extends TestCase
         $project1_child1 = $project1->collection;
         $service->addDocumentToGroup($user, $document, $project1_child1);
 
-        $url = route('klink_api', ['id' => $document->local_document_id, 'action' => 'document']);
+        $url = route('documents.preview', ['uuid' => $document->uuid]);
         
         $response = $this->get($url);
 
         $response->assertViewIs('documents.preview');
     }
     
-    public function testDocumentShowForDocumentNotSharedNorInProject()
+    public function test_document_cannot_be_previewed_if_personal_of_another_user()
     {
         $user = tap(factory('KBox\User')->create(), function ($u) {
             $u->addCapabilities(Capability::$PROJECT_MANAGER);
@@ -139,34 +165,29 @@ class DocumentPreviewControllerTest extends TestCase
 
         $document = factory('KBox\DocumentDescriptor')->create(['owner_id' => $user->id]);
 
-        
-        $url = route('klink_api', ['id' => $document->local_document_id, 'action' => 'document']);
+        $url = route('documents.preview', ['uuid' => $document->uuid]);
 
         $response = $this->actingAs($user_accessing_the_document)->get($url);
 
         $response->assertViewIs('errors.403');
     }
 
-    public function testDocumentShowForPrivateDocumentNotInCollectionOrShared()
+    public function test_user_can_preview_own_document()
     {
         $user = tap(factory('KBox\User')->create(), function ($u) {
             $u->addCapabilities(Capability::$PROJECT_MANAGER);
         });
-        $user_accessing_the_document = tap(factory('KBox\User')->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
 
         $document = factory('KBox\DocumentDescriptor')->create(['owner_id' => $user->id, 'is_public' => false]);
 
-        
-        $url = route('klink_api', ['id' => $document->local_document_id, 'action' => 'document']);
+        $url = route('documents.preview', ['uuid' => $document->uuid]);
 
         $response = $this->actingAs($user)->get($url);
 
         $response->assertViewIs('documents.preview');
     }
     
-    public function testDocumentShowForDocumentInProjectWithOwnerDisabled()
+    public function test_document_preview_is_available_even_if_owner_is_disabled()
     {
         $this->withKlinkAdapterFake();
 
@@ -187,7 +208,7 @@ class DocumentPreviewControllerTest extends TestCase
         $project1_child1 = $project1->collection;
         $service->addDocumentToGroup($user, $document, $project1_child1);
         
-        $url = route('klink_api', ['id' => $document->local_document_id, 'action' => 'document']);
+        $url = route('documents.preview', ['uuid' => $document->uuid]);
 
         $user->delete();
 
@@ -198,7 +219,7 @@ class DocumentPreviewControllerTest extends TestCase
         $response->assertViewIs('documents.preview');
     }
 
-    public function testDocumentShowForPrivateDocumentNotInCollectionOrSharedViaOtherUser()
+    public function test_redirect_to_login_if_document_not_accessible_and_user_not_authenticated()
     {
         $user = tap(factory('KBox\User')->create(), function ($u) {
             $u->addCapabilities(Capability::$PROJECT_MANAGER);
@@ -210,14 +231,34 @@ class DocumentPreviewControllerTest extends TestCase
         $document = factory('KBox\DocumentDescriptor')->create(['owner_id' => $user->id, 'is_public' => false]);
 
         
-        $url = route('klink_api', ['id' => $document->local_document_id, 'action' => 'document']);
+        $url = route('documents.preview', ['uuid' => $document->uuid]);
+
+        $response = $this->get($url);
+
+        $response->assertRedirect(route('frontpage'));
+        $response->assertSessionHas('url.dms.intended', $url);
+    }
+
+    public function test_forbidden_return_if_the_document_is_not_accessible_and_the_user_is_logged_in()
+    {
+        $user = tap(factory('KBox\User')->create(), function ($u) {
+            $u->addCapabilities(Capability::$PROJECT_MANAGER);
+        });
+        $user_accessing_the_document = tap(factory('KBox\User')->create(), function ($u) {
+            $u->addCapabilities(Capability::$PARTNER);
+        });
+
+        $document = factory('KBox\DocumentDescriptor')->create(['owner_id' => $user->id, 'is_public' => false]);
+
+        
+        $url = route('documents.preview', ['uuid' => $document->uuid]);
 
         $response = $this->actingAs($user_accessing_the_document)->get($url);
 
         $response->assertViewIs('errors.403');
     }
 
-    public function testDocumentNotFoundIfFileIsTrashed()
+    public function test_not_found_page_is_returned_if_file_is_trashed()
     {
         $user = tap(factory('KBox\User')->create(), function ($u) {
             $u->addCapabilities(Capability::$PROJECT_MANAGER);
@@ -228,11 +269,35 @@ class DocumentPreviewControllerTest extends TestCase
         $document->file_id = null;
         $document->save();
         
-        $url = route('klink_api', ['id' => $document->local_document_id, 'action' => 'document']);
-        
-        $this->disableExceptionHandling();
-        $this->expectException(\Symfony\Component\HttpKernel\Exception\NotFoundHttpException::class);
+        $url = route('documents.preview', ['uuid' => $document->uuid]);
 
         $response = $this->actingAs($user)->get($url);
+
+        $response->assertViewIs('errors.404');
+    }
+
+    
+    public function test_public_document_can_be_downloaded_by_the_klink_using_the_preview_link()
+    {
+        Option::put(Option::PUBLIC_CORE_ENABLED, true);
+
+        $user = tap(factory('KBox\User')->create(), function ($u) {
+            $u->addCapabilities(Capability::$PROJECT_MANAGER);
+        });
+
+        $document = factory('KBox\DocumentDescriptor')->create(['owner_id' => $user->id, 'is_public' => true]);
+        
+        Publication::unguard(); // as fields are not mass assignable
+        
+        $document->publications()->create([
+            'published_at' => Carbon::now()
+        ]);
+        
+        $url = route('documents.preview', ['uuid' => $document->uuid]);
+
+        $response = $this->get($url, ['User-Agent' => 'guzzlehttp']);
+
+        $this->assertInstanceOf(BinaryFileResponse::class ,$response->baseResponse);
+
     }
 }

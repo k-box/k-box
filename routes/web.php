@@ -106,6 +106,22 @@ Route::delete('/published-documents/{id}', [
     'as' => 'documents.unpublish',
 ]);
 
+
+Route::get('/d/{uuid}/{versionUuid?}', [
+    'uses' => 'Document\DocumentPreviewController@show',
+    'as' => 'documents.preview',
+]);
+
+Route::get('/d/download/{uuid}/{versionUuid?}', [
+    'uses' => 'Document\DocumentDownloadController@show',
+    'as' => 'documents.download',
+]);
+
+Route::get('/t/{uuid}/{versionUuid?}', [
+    'uses' => 'Document\DocumentThumbnailController@show',
+    'as' => 'documents.thumbnail',
+]);
+
 Route::group(['as' => 'documents.', 'prefix' => 'documents'], function () {
     Route::resource('groups', 'Document\GroupsController');
 
@@ -331,28 +347,6 @@ Route::get('stream/{uuid}/{resource?}', [
 // Login and Logout
 
 Auth::routes();
-
-// Route::get('auth/login', [
-//         'uses' => 'Auth\AuthController@getLogin',
-//         'as' => 'auth.login',
-//     ]);
-
-// Route::post('auth/login', 'Auth\AuthController@postLogin');
-// Route::get('auth/logout', 'Auth\AuthController@logout');
-
-// // Password reset link request routes...
-// Route::get('password/email', [
-//         'uses' => 'Auth\PasswordController@getEmail',
-//         'as' => 'password.reset',
-//     ]);
-// Route::post('password/email', 'Auth\PasswordController@postEmail');
-
-// // Password reset routes...
-// Route::get('password/reset/{token}', [
-//         'uses' => 'Auth\PasswordController@getReset',
-//         'as' => 'password.token',
-//     ]);
-// Route::post('password/reset', 'Auth\PasswordController@postReset');
 
 /*
 |--------------------------------------------------------------------------
