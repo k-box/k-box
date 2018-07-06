@@ -21,10 +21,11 @@ abstract class TestCase extends BaseTestCase
         TestResponse::macro('data', function ($key) {
             return $this->original->getData()[$key];
         });
+        
+        TestResponse::macro('assertInstanceOf', function ($class) {
+            Assert::assertInstanceOf($class, $this->baseResponse);
+        });
 
-        // TestResponse::macro('assertViewIs', function ($name) {
-        //     Assert::assertEquals($name, $this->original->name());
-        // });
     }
 
     /**

@@ -107,14 +107,14 @@ Route::delete('/published-documents/{id}', [
 ]);
 
 
-Route::get('/d/{uuid}/{versionUuid?}', [
-    'uses' => 'Document\DocumentPreviewController@show',
-    'as' => 'documents.preview',
-]);
-
 Route::get('/d/download/{uuid}/{versionUuid?}', [
     'uses' => 'Document\DocumentDownloadController@show',
     'as' => 'documents.download',
+]);
+
+Route::get('/d/{uuid}/{versionUuid?}', [
+    'uses' => 'Document\DocumentPreviewController@show',
+    'as' => 'documents.preview',
 ]);
 
 Route::get('/t/{uuid}/{versionUuid?}', [

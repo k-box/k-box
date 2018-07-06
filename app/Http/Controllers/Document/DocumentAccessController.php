@@ -107,11 +107,14 @@ abstract class DocumentAccessController extends Controller
         $ascii_name = Str::ascii($file->name); // ascii name is required for the response as it is mandatory for the Symfony binary response
 
         $headers = [
-            'Content-Type' => $file->mime_type
+            'Content-Type' => $file->mime_type,
+            'Etag' => $file->hash,
         ];
 
         if (strtolower($request->method()) === 'head') {
-            return response()->head($headers);
+            return response()->head(array_merge($headers, [
+                'Content-Length' => $file->size
+            ]));
         }
 
         if($embed){

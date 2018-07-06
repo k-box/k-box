@@ -20,7 +20,7 @@ class DocumentVersionsTest extends TestCase
 
         $response = $this->get("/documents/$document->id/versions/100");
 
-        $response->assertRedirect("/klink/$document->local_document_id/preview/100");
+        $response->assertRedirect("/d/$document->uuid/100");
     }
 
     public function test_delete_last_file_revision()

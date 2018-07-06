@@ -297,7 +297,33 @@ class DocumentPreviewControllerTest extends TestCase
 
         $response = $this->get($url, ['User-Agent' => 'guzzlehttp']);
 
-        $this->assertInstanceOf(BinaryFileResponse::class ,$response->baseResponse);
+        $response->assertInstanceOf(BinaryFileResponse::class);
+        $response->assertHeader('ETag', $document->file->hash);
 
+    }
+
+    public function test_preview_specific_file_version_is_possible()
+    {
+        $user = tap(factory('KBox\User')->create(), function ($u) {
+            $u->addCapabilities(Capability::$PROJECT_MANAGER);
+        });
+
+        $document = factory('KBox\DocumentDescriptor')->create(['owner_id' => $user->id, 'is_public' => false]);
+
+        $last_version = $document->file;
+
+        $first_version = factory('KBox\File')->create([
+            'mime_type' => 'text/html',
+        ]);
+
+        $last_version->revision_of = $first_version->id;
+        $last_version->save();
+
+        $url = route('documents.preview', ['uuid' => $document->uuid, 'versionUuid' => $first_version->uuid]);
+
+        $response = $this->actingAs($user)->get($url);
+
+        $response->assertViewIs('documents.preview');
+        $this->assertTrue($response->data('file')->is($first_version));
     }
 }
