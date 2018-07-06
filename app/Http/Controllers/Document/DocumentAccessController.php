@@ -24,19 +24,13 @@ abstract class DocumentAccessController extends Controller
 {
 
     /**
-     * @var Content\Services\PreviewService
-     */
-    private $previewService = null;
-
-    /**
      * @var Klink\DmsDocuments\DocumentsService
      */
     private $documentsService = null;
 
     
-    public function __construct(PreviewService $preview, DocumentsService $documentsService)
+    public function __construct(DocumentsService $documentsService)
     {
-        $this->previewService = $preview;
         $this->documentsService = $documentsService;
     }
 

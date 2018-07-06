@@ -2,11 +2,34 @@
 
 namespace KBox\Http\Controllers\Document;
 
+use Log;
+use Exception;
+use Throwable;
+use KBox\File;
+use KBox\DocumentDescriptor;
 use Illuminate\Http\Request;
 use KBox\Http\Controllers\Controller;
+use KBox\Exceptions\ForbiddenException;
+use Content\Services\ThumbnailsService;
+use Klink\DmsAdapter\KlinkDocumentUtils;
+use Klink\DmsDocuments\DocumentsService;
+use Illuminate\Auth\AuthenticationException;
+use Content\Preview\Exception\UnsupportedFileException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class DocumentThumbnailController extends DocumentAccessController
 {
+    /**
+     * @var Content\Services\ThumbnailsService
+     */
+    private $thumbnails = null;
+
+    public function __construct(ThumbnailsService $thumbnailService, DocumentsService $documentsService)
+    {
+        $this->thumbnails = $thumbnailService;
+        parent::__construct($documentsService);
+    }
+
     public function show(Request $request, $uuid, $versionUuid = null)
     {
         try{
@@ -66,7 +89,7 @@ class DocumentThumbnailController extends DocumentAccessController
         $response->setMaxAge(3600);
         $response->setSharedMaxAge(3600);
 
-        $response->setETag(substr($file->hash, 0, 32));
+        
         $response->setLastModified($file->updated_at);
 
         // Set response as public. Otherwise it will be private by default.
@@ -77,9 +100,12 @@ class DocumentThumbnailController extends DocumentAccessController
             // return the 304 Response immediately
             return $response;
         }
+
+        $etag_suffix = '';
         
         if (! $doc->isPublic() && is_null($request->user())) {
             $response->setContent(file_get_contents(public_path('images/document.png')));
+            $etag_suffix = '1';
         } else {
             if (empty($file->absolute_thumbnail_path)) {
                 $t_path = $this->thumbnails->generate($file);
@@ -89,8 +115,11 @@ class DocumentThumbnailController extends DocumentAccessController
                 $response->setContent(file_get_contents($file->absolute_thumbnail_path));
             } else {
                 $response->setContent(file_get_contents(public_path('images/document.png')));
+                $etag_suffix = '2';
             }
         }
+
+        $response->header('ETag', $file->hash . $etag_suffix);
 
         $response->header('Content-Type', 'image/png');
 

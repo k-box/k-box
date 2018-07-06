@@ -22,6 +22,16 @@ use Content\Preview\Exception\PreviewGenerationException;
 
 class DocumentPreviewController extends DocumentAccessController
 {
+    /**
+     * @var Content\Services\PreviewService
+     */
+    private $previewService = null;
+
+    public function __construct(PreviewService $preview, DocumentsService $documentsService)
+    {
+        $this->previewService = $preview;
+        parent::__construct($documentsService);
+    }
 
     public function show(Request $request, $uuid, $versionUuid = null)
     {
