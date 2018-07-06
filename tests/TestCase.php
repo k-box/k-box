@@ -25,7 +25,6 @@ abstract class TestCase extends BaseTestCase
         TestResponse::macro('assertInstanceOf', function ($class) {
             Assert::assertInstanceOf($class, $this->baseResponse);
         });
-
     }
 
     /**

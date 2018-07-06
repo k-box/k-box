@@ -33,7 +33,7 @@ class AppServiceProvider extends ServiceProvider
             // This is a way of identifying that the request is coming from the K-Search, as, thanks to the proxy,
             // the real host and IP addresses are not available
             return $this->isMethod('get')
-                   && network_enabled() 
+                   && network_enabled()
                    && str_contains(strtolower($this->userAgent()), 'guzzlehttp');
         });
 

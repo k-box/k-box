@@ -8,10 +8,7 @@ use Tests\TestCase;
 use KBox\Capability;
 use KBox\Publication;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class DocumentThumbnailControllerTest extends TestCase
 {
@@ -31,7 +28,7 @@ class DocumentThumbnailControllerTest extends TestCase
             $u->addCapabilities(Capability::$PARTNER);
         });
         
-        $project->users()->attach($user->id);       
+        $project->users()->attach($user->id);
 
         $document = factory('KBox\DocumentDescriptor')->create(['owner_id' => $manager->id]);
         $service->addDocumentToGroup($manager, $document, $project->collection);
@@ -44,7 +41,6 @@ class DocumentThumbnailControllerTest extends TestCase
         $response->assertStatus(200);
         $response->assertHeader('ETag', $document->file->hash);
     }
-
 
     public function test_thumbnail_forbidden_if_user_do_not_have_access_to_document_in_project()
     {

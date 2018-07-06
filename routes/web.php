@@ -106,7 +106,6 @@ Route::delete('/published-documents/{id}', [
     'as' => 'documents.unpublish',
 ]);
 
-
 Route::get('/d/download/{uuid}/{versionUuid?}', [
     'uses' => 'Document\DocumentDownloadController@show',
     'as' => 'documents.download',

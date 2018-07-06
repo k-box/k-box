@@ -7,8 +7,6 @@ use Carbon\Carbon;
 use Tests\TestCase;
 use KBox\Capability;
 use KBox\Publication;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
@@ -30,7 +28,7 @@ class DocumentPreviewControllerTest extends TestCase
             $u->addCapabilities(Capability::$PARTNER);
         });
         
-        $project->users()->attach($user->id);       
+        $project->users()->attach($user->id);
 
         $document = factory('KBox\DocumentDescriptor')->create(['owner_id' => $manager->id]);
         $service->addDocumentToGroup($manager, $document, $project->collection);
@@ -43,7 +41,6 @@ class DocumentPreviewControllerTest extends TestCase
 
         $response->assertViewIs('documents.preview');
     }
-
 
     public function test_preview_is_forbidden_if_user_do_not_have_access_to_document_in_project()
     {
@@ -299,7 +296,6 @@ class DocumentPreviewControllerTest extends TestCase
 
         $response->assertInstanceOf(BinaryFileResponse::class);
         $response->assertHeader('ETag', $document->file->hash);
-
     }
 
     public function test_preview_specific_file_version_is_possible()

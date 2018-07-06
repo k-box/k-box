@@ -6,18 +6,15 @@ use Log;
 use Exception;
 use Throwable;
 use KBox\File;
-use Illuminate\Support\Str;
 use KBox\DocumentDescriptor;
 use Illuminate\Http\Request;
 use Content\Services\PreviewService;
-use KBox\Http\Controllers\Controller;
 use KBox\Exceptions\ForbiddenException;
 use Klink\DmsAdapter\KlinkDocumentUtils;
 use Klink\DmsDocuments\DocumentsService;
 use Illuminate\Auth\AuthenticationException;
 use Content\Preview\Exception\UnsupportedFileException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Content\Preview\Exception\PreviewGenerationException;
 
 class DocumentPreviewController extends DocumentAccessController
@@ -35,8 +32,7 @@ class DocumentPreviewController extends DocumentAccessController
 
     public function show(Request $request, $uuid, $versionUuid = null)
     {
-        try{
-            
+        try {
             list($document, $file) = $this->getDocument($request, $uuid, $versionUuid);
             
             $klinkWantsDownload = ($document->isPublished() || $document->hasPendingPublications()) && $request->isKlinkRequest();
@@ -46,24 +42,18 @@ class DocumentPreviewController extends DocumentAccessController
             }
             
             return $this->previewDocument($document, $file);
-
-        }
-        catch(AuthenticationException $ex){
+        } catch (AuthenticationException $ex) {
             Log::warning('KlinkApiController, requested a document that is not public and user is not authenticated', ['url' => $request->url()]);
 
             session()->put('url.dms.intended', $request->url());
 
             return redirect()->to(route('frontpage'));
-        }
-        catch(ForbiddenException $ex){
-            return view('errors.403', ['reason' => 'ForbiddenException: ' . $ex->getMessage()]);
-        }
-        catch(ModelNotFoundException $ex){
+        } catch (ForbiddenException $ex) {
+            return view('errors.403', ['reason' => 'ForbiddenException: '.$ex->getMessage()]);
+        } catch (ModelNotFoundException $ex) {
             return view('errors.404', ['reason' => trans('errors.document_not_found')]);
         }
     }
-
-
 
     private function previewDocument(DocumentDescriptor $doc, File $version = null)
     {
@@ -104,5 +94,4 @@ class DocumentPreviewController extends DocumentAccessController
             'pagetitle' => trans('documents.preview.page_title', ['document' => $doc->title]),
         ]);
     }
-
 }

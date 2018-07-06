@@ -3,18 +3,13 @@
 namespace KBox\Http\Controllers\Document;
 
 use Log;
-use Exception;
-use Throwable;
 use KBox\File;
 use KBox\DocumentDescriptor;
 use Illuminate\Http\Request;
-use KBox\Http\Controllers\Controller;
 use KBox\Exceptions\ForbiddenException;
 use Content\Services\ThumbnailsService;
-use Klink\DmsAdapter\KlinkDocumentUtils;
 use Klink\DmsDocuments\DocumentsService;
 use Illuminate\Auth\AuthenticationException;
-use Content\Preview\Exception\UnsupportedFileException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class DocumentThumbnailController extends DocumentAccessController
@@ -32,24 +27,19 @@ class DocumentThumbnailController extends DocumentAccessController
 
     public function show(Request $request, $uuid, $versionUuid = null)
     {
-        try{
-            
+        try {
             list($document, $file) = $this->getDocument($request, $uuid, $versionUuid);
 
             return $this->getThumbnail($request, $document, $file);
-
-        }
-        catch(AuthenticationException $ex){
+        } catch (AuthenticationException $ex) {
             Log::warning('KlinkApiController, requested a document that is not public and user is not authenticated', ['url' => $request->url()]);
 
             session()->put('url.dms.intended', $request->url());
 
             return redirect()->to(route('frontpage'));
-        }
-        catch(ForbiddenException $ex){
-            return view('errors.403', ['reason' => 'ForbiddenException: ' . $ex->getMessage()]);
-        }
-        catch(ModelNotFoundException $ex){
+        } catch (ForbiddenException $ex) {
+            return view('errors.403', ['reason' => 'ForbiddenException: '.$ex->getMessage()]);
+        } catch (ModelNotFoundException $ex) {
             return view('errors.404', ['reason' => trans('errors.document_not_found')]);
         }
     }
@@ -119,11 +109,10 @@ class DocumentThumbnailController extends DocumentAccessController
             }
         }
 
-        $response->header('ETag', $file->hash . $etag_suffix);
+        $response->header('ETag', $file->hash.$etag_suffix);
 
         $response->header('Content-Type', 'image/png');
 
         return $response;
     }
-
 }

@@ -3,22 +3,15 @@
 namespace KBox\Http\Controllers\Document;
 
 use Log;
-use Exception;
-use Throwable;
 use KBox\File;
 use Illuminate\Support\Str;
 use KBox\DocumentDescriptor;
 use Illuminate\Http\Request;
-use Content\Services\PreviewService;
 use KBox\Http\Controllers\Controller;
 use KBox\Exceptions\ForbiddenException;
-use Klink\DmsAdapter\KlinkDocumentUtils;
 use Klink\DmsDocuments\DocumentsService;
 use Illuminate\Auth\AuthenticationException;
-use Content\Preview\Exception\UnsupportedFileException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
-use Content\Preview\Exception\PreviewGenerationException;
 
 abstract class DocumentAccessController extends Controller
 {
@@ -111,7 +104,7 @@ abstract class DocumentAccessController extends Controller
             ]));
         }
 
-        if($embed){
+        if ($embed) {
             return response()->file($file->absolute_path, $headers);
         }
 

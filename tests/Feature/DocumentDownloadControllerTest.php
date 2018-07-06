@@ -8,8 +8,6 @@ use Tests\TestCase;
 use KBox\Capability;
 use KBox\Publication;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
@@ -32,7 +30,7 @@ class DocumentDownloadControllerTest extends TestCase
             $u->addCapabilities(Capability::$PARTNER);
         });
         
-        $project->users()->attach($user->id);       
+        $project->users()->attach($user->id);
 
         $document = factory('KBox\DocumentDescriptor')->create(['owner_id' => $manager->id]);
         $service->addDocumentToGroup($manager, $document, $project->collection);
@@ -45,7 +43,6 @@ class DocumentDownloadControllerTest extends TestCase
         $response->assertInstanceOf(BinaryFileResponse::class);
         $response->assertHeader('ETag', $document->file->hash);
     }
-
 
     public function test_download_forbidden_if_user_do_not_have_access_to_document_in_project()
     {
@@ -327,7 +324,7 @@ class DocumentDownloadControllerTest extends TestCase
 
         $url = route('documents.download', ['uuid' => $document->uuid]);
 
-        $response = $this->actingAs($document->owner)->call('HEAD' ,$url);
+        $response = $this->actingAs($document->owner)->call('HEAD', $url);
 
         $response->assertStatus(200);
         $response->assertHeader('Content-Length', $file->size);
