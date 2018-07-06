@@ -18,7 +18,6 @@ use Illuminate\Support\Facades\Config;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use KBox\Exceptions\ForbiddenException;
-use KBox\Exceptions\FileAlreadyExistsException;
 use KBox\Exceptions\FileNamingException;
 use Illuminate\Support\Collection;
 use Carbon\Carbon;
@@ -229,13 +228,7 @@ class DocumentsService
      * @throws InvalidArgumentException If the file type could not be indexed,
      */
     public function indexDocument(File $file, $visibility = 'public', User $owner = null, Group $group = null, $return_also_if_indexing_error = false)
-    {
-        // if already saved as private and $visibility='public' keep only one record and change visibility to both
-
-        if (DocumentDescriptor::existsByHash($file->hash)) {
-            throw new FileAlreadyExistsException($file->name, DocumentDescriptor::findByHash($file->hash));
-        }
-        
+    {     
         if (is_null($owner)) {
             $owner = $file->user;
         }
@@ -1645,7 +1638,6 @@ class DocumentsService
      * A "Fail First" approach is followed. All security checks are performed before the actual async job will be enqueued so if an exception is thrown is
      * guaranteed that all the input has been rejected (no partial import to handle)
      *
-     * @throws FileAlreadyExistsException if a file from the same origin is already existing. The all procedure of import will be blocked and no file will be enqueued
      * @throws InvalidArgumentException if the @see $url parameter is not a valid url or is an empty string. Also in this case the whole procedure is stopped
      *
      * @param string $urls the url list as one url for line, line ending could be ; of new line
@@ -1670,16 +1662,6 @@ class DocumentsService
 
             return str_replace(' ', '%20', trim($el));
         }, $urls);
-
-        foreach ($urls as $url) {
-            if ($this->fileExistsFromOriginalUrl($url)) {
-                $f = File::fromOriginalUri($url)->first();
-
-                $descr = $f->getLastVersion()->document;
-
-                throw new FileAlreadyExistsException($url, $descr, $f);
-            }
-        }
 
         //ok, now it's time to import (aka enqueue)
         
@@ -1740,7 +1722,6 @@ class DocumentsService
      * A "Fail First" approach is followed. All security checks are performed before the actual async job will be enqueued so if an exception is thrown is
      * guaranteed that all the input has been rejected (no partial import to handle)
      *
-     * @throws FileAlreadyExistsException if a file from the same origin is already existing. The all procedure of import will be blocked and no file will be enqueued
      * @throws InvalidArgumentException if the @see $paths parameter contains invalid paths or is an empty string. Also in this case the whole procedure is stopped
      *
      * @param string $paths the paths list as one path for line, line separator could be ; of new line

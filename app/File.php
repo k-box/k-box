@@ -9,7 +9,6 @@ use Illuminate\Http\UploadedFile;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Dyrynda\Database\Support\GeneratesUuid;
-use KBox\Exceptions\FileAlreadyExistsException;
 use Klink\DmsAdapter\KlinkDocumentUtils;
 use Illuminate\Support\Facades\Crypt;
 
@@ -608,7 +607,6 @@ class File extends Model
      * @param \KBox\User $uploader The user that perfomed the upload
      * @param \KBox\File $revision_of The file that will be replaced with this new uploaded version
      * @return \KBox\File
-     * @throws \KBox\Exceptions\FileAlreadyExistsException if a file with the same hash already exists in the system
      */
     public static function createFromUploadedFile(UploadedFile $upload, User $uploader, File $revision_of = null)
     {
@@ -642,16 +640,6 @@ class File extends Model
             $file_absolute_path = $storage->path($file_path);
 
             $hash = KlinkDocumentUtils::generateDocumentHash($file_absolute_path);
-
-            // if (static::existsByHash($hash)) {
-            //     $storage->deleteDirectory($destination_path);
-
-            //     $f = static::findByHash($hash);
-
-            //     $descr = $f->getLastVersion()->document;
-                
-            //     throw new FileAlreadyExistsException($filename, $descr, $f);
-            // }
 
             $file_model->name = $filename;
             $file_model->uuid = $uuid;

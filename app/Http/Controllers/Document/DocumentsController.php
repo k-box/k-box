@@ -14,7 +14,6 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Contracts\Auth\Guard as AuthGuard;
 use KBox\Http\Requests\DocumentAddRequest;
 use KBox\Http\Requests\DocumentUpdateRequest;
-use KBox\Exceptions\FileAlreadyExistsException;
 use KBox\Exceptions\FileNamingException;
 use KBox\Exceptions\ForbiddenException;
 use Illuminate\Support\Collection;
@@ -310,16 +309,6 @@ class DocumentsController extends Controller
 
             return redirect()->back()->withErrors([
                 'error' => trans('errors.unknown')
-            ]);
-        } catch (FileAlreadyExistsException $ex) {
-            \Log::warning('DocumentsController store - File already exists check', ['error' => $ex]);
-
-            if ($request->wantsJson()) {
-                return new JsonResponse(['error' => $ex->render($auth->user())], 409);
-            }
-            
-            return redirect()->back()->withErrors([
-                'error' => $ex->render($auth->user())
             ]);
         } catch (FileNamingException $ex) {
             \Log::warning('DocumentsController store - File Naming Policy check', ['error' => $ex]);
@@ -625,24 +614,21 @@ class DocumentsController extends Controller
                 
                 // handle new file version
                 $uploaded_new_version = false;
-                try {
-                    if ($request->hasFile('document') && $request->file('document')->isValid()) {
-                        \Log::info('Update Document with new version');
-        
+                
+                if ($request->hasFile('document') && $request->file('document')->isValid()) {
+                    \Log::info('Update Document with new version');
+    
 
-                        //test and report exceptions
-                        $file_model = $this->service->createFileFromUpload($request->file('document'), $user, $document->file);
+                    //test and report exceptions
+                    $file_model = $this->service->createFileFromUpload($request->file('document'), $user, $document->file);
 
-                        $document->file_id = $file_model->id;
-                        $document->mime_type = $file_model->mime_type;
-                        $document->document_type = KlinkDocumentUtils::documentTypeFromMimeType($file_model->mime_type);
-                        $document->hash = $file_model->hash;
-                        $uploaded_new_version = true;
-                    } elseif ($request->hasFile('document')) {
-                        throw new Exception(trans('errors.upload.simple', ['description' => $request->file('document')->getErrorMessage()]), 400);
-                    }
-                } catch (FileAlreadyExistsException $fex) {
-                    throw new Exception($fex->render($user));
+                    $document->file_id = $file_model->id;
+                    $document->mime_type = $file_model->mime_type;
+                    $document->document_type = KlinkDocumentUtils::documentTypeFromMimeType($file_model->mime_type);
+                    $document->hash = $file_model->hash;
+                    $uploaded_new_version = true;
+                } elseif ($request->hasFile('document')) {
+                    throw new Exception(trans('errors.upload.simple', ['description' => $request->file('document')->getErrorMessage()]), 400);
                 }
 
                 // save everything if the descriptor isDirty and do the reindex if necesary
