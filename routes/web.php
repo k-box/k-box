@@ -111,12 +111,12 @@ Route::get('/d/download/{uuid}/{versionUuid?}', [
     'as' => 'documents.download',
 ]);
 
-Route::get('/d/{uuid}/{versionUuid?}', [
+Route::get('/d/show/{uuid}/{versionUuid?}', [
     'uses' => 'Document\DocumentPreviewController@show',
     'as' => 'documents.preview',
 ]);
 
-Route::get('/t/{uuid}/{versionUuid?}', [
+Route::get('/d/thumbnail/{uuid}/{versionUuid?}', [
     'uses' => 'Document\DocumentThumbnailController@show',
     'as' => 'documents.thumbnail',
 ]);

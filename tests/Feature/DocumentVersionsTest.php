@@ -12,7 +12,7 @@ class DocumentVersionsTest extends TestCase
 {
     use WithoutMiddleware, DatabaseTransactions;
 
-    public function test_version_show_redirects_to_klink_route()
+    public function test_version_show_redirects_to_document_preview_route()
     {
         Storage::fake('local');
 
@@ -20,7 +20,7 @@ class DocumentVersionsTest extends TestCase
 
         $response = $this->get("/documents/$document->id/versions/100");
 
-        $response->assertRedirect("/d/$document->uuid/100");
+        $response->assertRedirect("/d/show/$document->uuid/100");
     }
 
     public function test_delete_last_file_revision()
