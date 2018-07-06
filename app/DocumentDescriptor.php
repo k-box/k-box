@@ -503,7 +503,24 @@ class DocumentDescriptor extends Model
         return $this->castAttribute('copyright_owner', $value);
     }
 
-    
+    public function getDocumentUriAttribute($value = null)
+    {
+        if (! $value) {
+            return route('documents.preview', ['uuid' => $this->uuid]);
+        }
+
+        return $value;
+    }
+
+    public function getThumbnailUriAttribute($value = null)
+    {
+        if (! $value) {
+            return route('documents.thumbnail', ['uuid' => $this->uuid]);
+        }
+
+        return $value;
+    }
+
     // --- convert to/from KlinkDocumentDescriptor
 
     /**

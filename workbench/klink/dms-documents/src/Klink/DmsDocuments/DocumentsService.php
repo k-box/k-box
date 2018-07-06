@@ -243,16 +243,11 @@ class DocumentsService
         $document_type = KlinkDocumentUtils::documentTypeFromMimeType($file->mime_type);
         $local_document_id = substr($file->hash, 0, 6);
 
-        $document_url_path = $this->constructUrl($local_document_id, 'document');
-        $thumbnail_url_path = $this->constructUrl($local_document_id, 'thumbnail');
-
         $attrs = [
             'institution_id' => null,
             'local_document_id' => $local_document_id,
             'title' => $file->name,
             'hash' => $file->hash,
-            'document_uri' => $document_url_path,
-            'thumbnail_uri' => $thumbnail_url_path,
             'mime_type' => $file->mime_type,
             'visibility' => $visibility,
             'document_type' => $document_type,
@@ -388,9 +383,6 @@ class DocumentsService
         
         $owner = $file->user;
         
-        $document_url_path = $this->constructUrl($local_document_id, 'document');
-        $thumbnail_url_path = $this->constructUrl($local_document_id, 'thumbnail');
-
         $document_type = KlinkDocumentUtils::documentTypeFromMimeType($file->mime_type);
 
         $attrs = [
@@ -398,8 +390,6 @@ class DocumentsService
             'local_document_id' => $local_document_id,
             'title' => $file->name,
             'hash' => $file->hash,
-            'document_uri' => $document_url_path,
-            'thumbnail_uri' => $thumbnail_url_path,
             'mime_type' => $file->mime_type,
             'visibility' => $visibility,
             'document_type' => $document_type,
@@ -443,13 +433,6 @@ class DocumentsService
         $descriptor->status = DocumentDescriptor::STATUS_PROCESSING;
 
         $descriptor->save();
-
-        if ($force) {
-            $document_url_path = $this->constructUrl($descriptor->local_document_id, 'document');
-            $thumbnail_url_path = $this->constructUrl($descriptor->local_document_id, 'thumbnail');
-
-            $descriptor->save();
-        }
 
         try {
             $returned_descriptor = $this->updateDocumentProxy($descriptor, $descriptor->file, $visibility);
@@ -1886,15 +1869,6 @@ class DocumentsService
 
             throw $ex;
         }
-    }
-
-    public function constructUrl($id, $type = 'document')
-    {
-        if (app()->runningInConsole()) {
-            return app('Illuminate\Contracts\Routing\UrlGenerator')->to('dms/klink', [$id, $type], \Config::get('dms.use_https', false));
-        }
-
-        return app('Illuminate\Contracts\Routing\UrlGenerator')->to('klink', [$id, $type], \Config::get('dms.use_https', false));
     }
 
     public function constructLocalPathForFolderImport($folder_name)
