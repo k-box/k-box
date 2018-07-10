@@ -73,7 +73,8 @@ $factory->define(KBox\Institution::class, function (Faker\Generator $faker) {
 
 $factory->define(KBox\DocumentDescriptor::class, function (Faker\Generator $faker, $arguments = []) {
     
-    $hash = $faker->sha256.''.$faker->sha256;
+    // $hash = $faker->sha256.''.$faker->sha256;
+    $hash = hash_file('sha512', base_path('tests/data/example.txt'));
     
     $user = isset($arguments['owner_id']) ? $arguments['owner_id'] : factory(KBox\User::class)->create()->id;
     
