@@ -44,6 +44,17 @@ class DuplicateDocument extends Model
         return isset($this->attributes['notification_sent_at']) && ! is_null($this->attributes['notification_sent_at']);
     }
 
+    /**
+     * Get a message representing the duplicate.
+     *
+     * @param  mixed  $value not taken into account
+     * @return bool
+     */
+    public function getMessageAttribute($value = null)
+    {
+        return "duplicate message $this->id";
+    }
+
 
 
 
@@ -75,5 +86,26 @@ class DuplicateDocument extends Model
     public function duplicateOf()
     {
         return $this->belongsTo('KBox\DocumentDescriptor', 'document_id', 'id');
+    }
+
+
+    /**
+     * Filter by user
+     * @param KBox\User|in $user
+     */
+    public function scopeOf($query, $user)
+    {
+        $id = is_a($user, 'KBox\User') ? $user->id : $user;
+
+        return $query->where('user_id', $id);
+    }
+    
+    /**
+     * Filter for not sent notifications
+     * 
+     */
+    public function scopeNotSent($query)
+    {
+        return $query->whereNull('notification_sent_at');
     }
 }

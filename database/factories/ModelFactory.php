@@ -229,3 +229,27 @@ $factory->define(KBox\Group::class, function (Faker\Generator $faker, $arguments
         'is_private' => false
     ];
 });
+
+$factory->define(KBox\DuplicateDocument::class, function (Faker\Generator $faker, $arguments = []) {
+    
+    // $hash = $faker->sha256.''.$faker->sha256;
+    $hash = hash_file('sha512', base_path('tests/data/example.txt'));
+    
+    $user = isset($arguments['user_id']) ? $arguments['user_id'] : factory(KBox\User::class)->create()->id;
+    
+    $duplicate = isset($arguments['duplicate_document_id']) ? $arguments['duplicate_document_id'] : factory(KBox\DocumentDescriptor::class)->create([
+        'owner_id' => $user,
+        'hash' => $hash,
+    ])->id;
+    
+    $existing = isset($arguments['document_id']) ? $arguments['document_id'] : factory(KBox\DocumentDescriptor::class)->create([
+        'owner_id' => $user,
+        'hash' => $hash,
+    ])->id;
+    
+    return [
+        'duplicate_document_id' => $duplicate,
+        'document_id' => $existing,
+        'user_id' => $user,
+    ];
+});

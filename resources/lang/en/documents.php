@@ -317,4 +317,15 @@ return [
         'outside_project_target_area' => 'Please drag and drop your file over a Project to upload it.',
         'empty_file_error' => 'Empty file. Please upload a file, which has at least one word in it.',
     ],
+
+    'duplicates' => [
+        'generic' => 'The document :name already exists in the K-Box with the title <strong>":title"</strong>.',
+        'incollection' => 'The document is already available in <a href=":collection_link"><strong>":collection"</strong></a> with the title <strong>":title"</strong>',
+        'incollection_by_you' => 'You have already uploaded this document as <strong>":title"</strong> in <a href=":collection_link"><strong>":collection"</strong></a>',
+        'by_you' => 'You have already uploaded this document as <strong>":title"</strong>',
+        'revision_of_document' => 'The document you are uploading is an existing revision of <strong>":title"</strong>, added by :user (:email)',
+        'revision_of_your_document' => 'The document is an existing revision of <strong>:title</strong>',
+        'by_user' => 'The document has already been added to the K-Box by :user (:email).',
+        'in_the_network' => 'The document is already available in <strong>:network</strong> as <strong>":title"</strong>. Added by :institution',
+    ],
 ];

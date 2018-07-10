@@ -28,4 +28,11 @@ class DuplicateDocumentTest extends TestCase
         $this->assertNotNull($d->notification_sent_at);
     }
 
+    public function test_message_attribute_is_retrievable()
+    {
+        $d = new DuplicateDocument();
+
+        $this->assertEquals('', $d->message);
+    }
+
 }
