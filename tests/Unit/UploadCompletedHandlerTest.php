@@ -5,7 +5,6 @@ namespace Tests\Unit;
 use KBox\File;
 use Tests\TestCase;
 use KBox\Capability;
-use KBox\DuplicateDocument;
 use KBox\DocumentDescriptor;
 use KBox\Jobs\ElaborateDocument;
 use KBox\Events\UploadCompleted;
@@ -14,7 +13,6 @@ use Illuminate\Support\Facades\Queue;
 use KBox\Events\FileDuplicateFoundEvent;
 use KBox\Listeners\UploadCompletedHandler;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class UploadCompletedHandlerTest extends TestCase
 {
@@ -89,8 +87,8 @@ class UploadCompletedHandlerTest extends TestCase
         $handler->handle($uploadCompleteEvent);
 
         Event::assertDispatched(FileDuplicateFoundEvent::class, function ($e) use ($user, $descriptor, $duplicate) {
-            return $e->user->is($user) && 
-                $e->duplicateDocument->duplicate_document_id === $descriptor->id && 
+            return $e->user->is($user) &&
+                $e->duplicateDocument->duplicate_document_id === $descriptor->id &&
                 $e->duplicateDocument->document_id === $duplicate->id;
         });
     }
@@ -107,7 +105,7 @@ class UploadCompletedHandlerTest extends TestCase
             $u->addCapabilities(Capability::$PARTNER);
         });
 
-        $project = tap(factory('KBox\Project')->create(), function($p) use ($user){
+        $project = tap(factory('KBox\Project')->create(), function ($p) use ($user) {
             $p->users()->attach($user->id);
         });
 
@@ -134,9 +132,8 @@ class UploadCompletedHandlerTest extends TestCase
 
         
         Event::assertDispatched(FileDuplicateFoundEvent::class, function ($e) use ($user, $descriptor, $duplicate) {
-
-            return $e->user->is($user) && 
-                $e->duplicateDocument->duplicate_document_id === $descriptor->id && 
+            return $e->user->is($user) &&
+                $e->duplicateDocument->duplicate_document_id === $descriptor->id &&
                 $e->duplicateDocument->document_id === $duplicate->id;
         });
     }
@@ -166,7 +163,6 @@ class UploadCompletedHandlerTest extends TestCase
             'hash' => 'new_hash'
         ]);
 
-
         $last_version->revision_of = $first_version->id;
         $last_version->save();
 
@@ -189,7 +185,6 @@ class UploadCompletedHandlerTest extends TestCase
 
         Event::assertNotDispatched(FileDuplicateFoundEvent::class);
     }
-
 }
 
 // document of one user, access with the other

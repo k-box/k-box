@@ -12,12 +12,10 @@ use Illuminate\Support\Facades\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use KBox\Notifications\DuplicateDocumentsNotification;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class DuplicateDocumentsNotificationTest extends TestCase
 {
     use DatabaseMigrations;
-
 
     public function test_notification_is_sent_and_duplicates_marked_as_sent()
     {

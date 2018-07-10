@@ -213,6 +213,14 @@ class DocumentDescriptor extends Model
     }
 
     /**
+     * All duplicates of the document in the system
+     */
+    public function duplicates()
+    {
+        return $this->hasMany('KBox\DuplicateDocument', 'duplicate_document_id', 'id');
+    }
+
+    /**
      * Get the Projects that contain this document descriptor
      *
      * @return Collection return a {@see Collection} of {@see Project}

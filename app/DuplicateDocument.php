@@ -13,10 +13,7 @@ class DuplicateDocument extends Model
 
     protected $fillable = ['user_id','duplicate_document_id', 'document_id'];
 
-
-
-    
-    /**
+        /**
      * Set the upload_started attribute
      *
      * @param  bool  $started
@@ -55,12 +52,9 @@ class DuplicateDocument extends Model
         return "duplicate message $this->id";
     }
 
-
-
-
     /**
      * The user that uploaded, and therefore triggered, the duplicate document finding
-     * 
+     *
      * @return \KBox\User
      */
     public function user()
@@ -70,7 +64,7 @@ class DuplicateDocument extends Model
     
     /**
      * The document that caused the duplicate finding
-     * 
+     *
      * @return \Kbox\DocumentDescriptor
      */
     public function document()
@@ -80,14 +74,13 @@ class DuplicateDocument extends Model
     
     /**
      * The existing document in the system
-     * 
+     *
      * @return \Kbox\DocumentDescriptor
      */
     public function duplicateOf()
     {
         return $this->belongsTo('KBox\DocumentDescriptor', 'document_id', 'id');
     }
-
 
     /**
      * Filter by user
@@ -102,7 +95,7 @@ class DuplicateDocument extends Model
     
     /**
      * Filter for not sent notifications
-     * 
+     *
      */
     public function scopeNotSent($query)
     {

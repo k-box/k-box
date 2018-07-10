@@ -5,8 +5,6 @@ namespace Tests\Unit;
 use Carbon\Carbon;
 use Tests\TestCase;
 use KBox\DuplicateDocument;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class DuplicateDocumentTest extends TestCase
 {
@@ -34,5 +32,4 @@ class DuplicateDocumentTest extends TestCase
 
         $this->assertEquals('', $d->message);
     }
-
 }

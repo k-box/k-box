@@ -3,8 +3,6 @@
 namespace KBox\Notifications;
 
 use KBox\DuplicateDocument;
-use Illuminate\Bus\Queueable;
-use Illuminate\Queue\SerializesModels;
 use KBox\Events\FileDuplicateFoundEvent;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -24,7 +22,6 @@ class DuplicateDocumentsNotification extends Notification implements ShouldQueue
      */
     public function __construct()
     {
-        
     }
     
     /**
@@ -39,14 +36,14 @@ class DuplicateDocumentsNotification extends Notification implements ShouldQueue
 
         $duplicates = $duplicates->merge(DuplicateDocument::where('id', '<>', $event->duplicateDocument->id)->of($event->user)->notSent()->get());
         
-        $this->duplicates = tap($duplicates->where('sent', false), function($a){
-            $a->each(function($duplicate){
+        $this->duplicates = tap($duplicates->where('sent', false), function ($a) {
+            $a->each(function ($duplicate) {
                 $duplicate->sent = true;
                 $duplicate->save();
             });
         });
 
-        if(! $this->duplicates->isEmpty()){
+        if (! $this->duplicates->isEmpty()) {
             app(Dispatcher::class)
                 ->sendNow($event->user, $this);
         }
@@ -66,7 +63,7 @@ class DuplicateDocumentsNotification extends Notification implements ShouldQueue
             ->line(trans('mail.duplicatesnotification.greetings', [], '', $language));
             
 
-        $this->duplicates->each(function($duplicate) use ($message){
+        $this->duplicates->each(function ($duplicate) use ($message) {
             $message->line($duplicate->message);
         });
 

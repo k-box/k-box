@@ -35,7 +35,6 @@ class UploadCompletedHandler implements ShouldQueue
             $this->duplicateCheck($descriptor, $event->user);
 
             dispatch(new ElaborateDocument($descriptor));
-
         } catch (Exception $ex) {
             Log::error('Error while handling the UploadCompletedEvent.', ['event' => $event,'error' => $ex]);
             $event->descriptor->status = DocumentDescriptor::STATUS_ERROR;
@@ -45,7 +44,7 @@ class UploadCompletedHandler implements ShouldQueue
     }
 
     /**
-     * Update the status on the descriptor and make sure 
+     * Update the status on the descriptor and make sure
      * the linked file has the upload_completed_at date set
      */
     private function updateDescriptor($descriptor)
@@ -65,21 +64,19 @@ class UploadCompletedHandler implements ShouldQueue
 
     /**
      * Verify and signals if the uploaded document is a duplicate
-     * 
+     *
      * @return boolean true if duplicates are found
      */
     private function duplicateCheck($descriptor, $user)
     {
         $existings = DocumentDescriptor::withTrashed()->where('hash', $descriptor->hash)->get();
 
-        if($existings->isEmpty()){
+        if ($existings->isEmpty()) {
             return false;
         }
 
-        $existings->each(function($existing) use($user, $descriptor){
-
-            if(!$existing->is($descriptor) && $existing->isAccessibleBy($user)){
-
+        $existings->each(function ($existing) use ($user, $descriptor) {
+            if (! $existing->is($descriptor) && $existing->isAccessibleBy($user)) {
                 $duplicate = DuplicateDocument::create([
                     'user_id' => $user->id,
                     'document_id' => $existing->id,
@@ -90,8 +87,6 @@ class UploadCompletedHandler implements ShouldQueue
 
                 event($event);
             }
-
         });
-
     }
 }
