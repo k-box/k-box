@@ -110,6 +110,14 @@
                 </div>
 
             @endif
+            
+            @if( isset($has_duplicates) && $has_duplicates )
+
+                <div class="item__badge" title="{{trans('documents.duplicates.badge')}}">
+                    @materialicon('content', 'content_copy')
+                </div>
+
+            @endif
         
         </div>
 

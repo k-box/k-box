@@ -319,6 +319,11 @@ return [
     ],
 
     'duplicates' => [
+        'badge' => 'This is a duplicate of an existing document',
+        'duplicates_btn' => 'Duplicates',
+        'duplicates_btn_hint' => 'See and manage duplicates',
+        'duplicates_description' => 'This document is a possible duplicate of',
+
         'generic' => 'The document :name already exists in the K-Box with the title <strong>":title"</strong>.',
         'incollection' => 'The document is already available in <a href=":collection_link"><strong>":collection"</strong></a> with the title <strong>":title"</strong>',
         'incollection_by_you' => 'You have already uploaded this document as <strong>":title"</strong> in <a href=":collection_link"><strong>":collection"</strong></a>',

@@ -235,6 +235,9 @@
 
 
 	<div class="edit-view__versions">
+
+		@includeWhen( isset($duplicates) && ! $duplicates->isEmpty() , 'documents.partials.duplicates')
+
 			@if($document->isFileUploadComplete())
 			@include('documents.partials.versioninfo')
 			@endif

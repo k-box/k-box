@@ -90,6 +90,16 @@
 				{{trans('panels.edit_btn')}}
 			</a>
 
+			
+			@if( isset($badge_duplicate) && $badge_duplicate )
+		
+				<a href="{{route('documents.edit', $item->id)}}" class="button" title="{{trans('documents.duplicates.duplicates_btn_hint')}} ">
+					@materialicon('content', 'content_copy', 'button__icon')
+					{{trans('documents.duplicates.duplicates_btn')}}
+				</a>	
+		
+			@endif
+
 			<a href="{{route('documents.edit', $item->id)}}" class="button" title="{{trans('panels.version_btn_title')}} ">
 				@materialicon('action', 'history', 'button__icon')
 				{{trans('panels.version_btn')}} 

@@ -126,6 +126,8 @@ class DocumentsComposer
                 } else {
                     $view->with('badge_error', false);
                 }
+                
+                $view->with('badge_duplicate', $document->duplicates()->of($auth_user)->exists());
             }
         }
     }
@@ -196,6 +198,8 @@ class DocumentsComposer
                 } else {
                     $view->with('show_versions', false);
                 }
+
+                $view->with('badge_duplicate', $document->duplicates()->of($auth_user)->exists());
             }
         }
     }

@@ -477,6 +477,7 @@ class DocumentsController extends Controller
                     // 'versions' => ! is_null($document->file) ? $document->file->revisionOfRecursive()->get() : new Collection,
                     'pagetitle' => trans('documents.edit.page_title', ['document' => $document->title]),
                     'context' => 'document', 'context_document' => $document->id, 'filter' => $document->name,
+                    'duplicates' => $document->duplicates()->of($user)->get()
                 ];
 
             return view('documents.edit', $view_params);
