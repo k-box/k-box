@@ -75,7 +75,7 @@ return [
         
         'prevent_edit_description' => 'Изменение проекта возможно в <a href=":link">Проекты > Изменить :name</a>',
         
-        'prevent_delete_description' => 'Проектная коллекция не может быть удалена.'
+        'prevent_delete_description' => 'Нельзя удалить проектную коллекцию'
     ],
     
     'project_created' => 'Проект :name создан',
