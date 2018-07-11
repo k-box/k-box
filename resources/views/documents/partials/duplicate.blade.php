@@ -25,7 +25,8 @@
 					'document_id' =>  $duplicate->duplicateOf->id,
 					'collections' => $collections,
 					'use_groups_page' => $use_groups_page,
-					'is_in_collection' => isset($is_in_collection) && $is_in_collection 
+					'is_in_collection' => isset($is_in_collection) && $is_in_collection,
+					'hide_empty_message' => true
 				])
 			</div>
 
