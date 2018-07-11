@@ -21,6 +21,7 @@ trait ClearDatabase
         DB::table('publications')->truncate();
         DB::table('projects')->truncate();
         DB::table('groups')->truncate();
+        DB::table('group_closure')->truncate();
         DB::table('shared')->truncate();
         Schema::enableForeignKeyConstraints();
     }
