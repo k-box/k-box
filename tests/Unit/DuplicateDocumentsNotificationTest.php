@@ -10,12 +10,12 @@ use Illuminate\Support\Facades\Mail;
 use KBox\Events\FileDuplicateFoundEvent;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use KBox\Notifications\DuplicateDocumentsNotification;
 
 class DuplicateDocumentsNotificationTest extends TestCase
 {
-    use DatabaseMigrations;
+    use DatabaseTransactions;
 
     public function test_notification_is_sent_and_duplicates_marked_as_sent()
     {

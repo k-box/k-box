@@ -12,11 +12,11 @@ use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Queue;
 use KBox\Events\FileDuplicateFoundEvent;
 use KBox\Listeners\UploadCompletedHandler;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class UploadCompletedHandlerTest extends TestCase
 {
-    use DatabaseMigrations;
+    use DatabaseTransactions;
 
     public function setUp()
     {
