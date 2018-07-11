@@ -13,7 +13,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class DocumentsControllerTest extends TestCase
 {
-    use DatabaseTransactions, WithoutMiddleware;
+    use DatabaseTransactions;
 
     /**
      * Integration test of file upload via form.
@@ -21,11 +21,15 @@ class DocumentsControllerTest extends TestCase
      */
     public function test_file_upload_via_form()
     {
+        $this->withoutMiddleware();
+
         Storage::fake('local');
 
         $adapter = $this->withKlinkAdapterFake();
 
-        $user = factory('KBox\User')->create();
+        $user = tap(factory('KBox\User')->create(), function ($u) {
+            $u->addCapabilities(Capability::$ADMIN);
+        });
 
         $response = $this->actingAs($user)->json('POST', '/documents', [
             'document' => UploadedFile::fake()->create('document.pdf', 10)
