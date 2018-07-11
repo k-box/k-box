@@ -255,6 +255,12 @@ return [
         'upload.status.completed',
         'upload.status.cancelled',
         'upload.status.failed',
+
+        'documents.duplicates.processing',
+        'documents.duplicates.errors.title',
+        'documents.duplicates.errors.generic',
+        'documents.duplicates.errors.already_resolved',
+        'documents.duplicates.errors.resolve_with_trashed_document',
     ],
 
 ];

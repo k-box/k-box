@@ -280,6 +280,7 @@ window.DMS = (function(_$, _nprogress, _rivets, _alert){
 			IMPORT: 'documents/import',
 			DOCUMENTS: 'documents',
 			PUBLISHED_DOCUMENTS: 'published-documents',
+			DUPLICATE_DOCUMENTS: 'duplicate-documents',
 			PROJECTS: 'documents/projects',
 			PROJECTS_EDIT: 'projects/{ID}/edit',
 			PROJECTS_API: 'projects',
@@ -593,6 +594,12 @@ window.DMS = (function(_$, _nprogress, _rivets, _alert){
 
 					module.Ajax.put(module.Paths.DOCUMENTS +  '/' + document + '/versions/'+ version +'/restore', {}, success, error);
 					
+				},
+
+				resolveDuplicate: function(duplicate,success, error){
+					console.log('Calling Documents.resolveDuplicate', duplicate);
+
+					module.Ajax.delete(module.Paths.DUPLICATE_DOCUMENTS +  '/' + duplicate, {}, success, error);
 				},
 
 			},

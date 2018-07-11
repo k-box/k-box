@@ -11,12 +11,12 @@ class DuplicateDocument extends Model implements Htmlable
 {
     protected $table = 'duplicate_descriptors';
     
-    protected $dates = ['notification_sent_at'];
+    protected $dates = ['notification_sent_at', 'resolved_at'];
 
-    protected $fillable = ['user_id','duplicate_document_id', 'document_id'];
+    protected $fillable = ['user_id','duplicate_document_id', 'document_id', 'resolved_at'];
 
-        /**
-     * Set the upload_started attribute
+    /**
+     * Set if the user has been notified
      *
      * @param  bool  $started
      * @return void
@@ -33,7 +33,7 @@ class DuplicateDocument extends Model implements Htmlable
     }
 
     /**
-     * Get if the upload is started.
+     * Get if user has been notified
      *
      * @param  mixed  $value not taken into account
      * @return bool
@@ -41,6 +41,34 @@ class DuplicateDocument extends Model implements Htmlable
     public function getSentAttribute($value = null)
     {
         return isset($this->attributes['notification_sent_at']) && ! is_null($this->attributes['notification_sent_at']);
+    }
+
+    /**
+     * Set if the user has resolved the duplication with an action
+     *
+     * @param  bool  $started
+     * @return void
+     */
+    public function setResolvedAttribute($resolved)
+    {
+        if ($resolved && ! $this->resolved_at) {
+            $this->attributes['resolved_at'] = Carbon::now();
+        }
+
+        if (! $resolved && $this->resolved_at) {
+            $this->attributes['resolved_at'] = null;
+        }
+    }
+
+    /**
+     * Get if user has resolved the duplication
+     *
+     * @param  mixed  $value not taken into account
+     * @return bool
+     */
+    public function getResolvedAttribute($value = null)
+    {
+        return isset($this->attributes['resolved_at']) && ! is_null($this->attributes['resolved_at']);
     }
 
     /**
@@ -142,5 +170,14 @@ class DuplicateDocument extends Model implements Htmlable
     public function scopeNotSent($query)
     {
         return $query->whereNull('notification_sent_at');
+    }
+    
+    /**
+     * Filter for not sent notifications
+     *
+     */
+    public function scopeNotResolved($query)
+    {
+        return $query->whereNull('resolved_at');
     }
 }

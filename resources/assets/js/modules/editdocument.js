@@ -110,4 +110,58 @@ define("modules/editdocument", ["require", "modernizr", "jquery", "DMS", "sweeta
             });
     });
 
+    $('[data-action=resolveDuplicate').on('click', function(evt) {
+
+        evt.preventDefault();
+        evt.stopPropagation();
+
+        var details = $(evt.target).data();
+
+        DMS.MessageBox.wait( Lang.trans('documents.duplicates.processing'), '...');
+
+        DMS.Services.Documents.resolveDuplicate(
+            details.duplicateId, 
+            function (data, other) {
+
+                console.log("Duplicate resolution response", data, other);
+
+                if(data.status && data.status === 'ok'){
+
+                    DMS.navigateReload();
+                    
+                }
+                else if(data.responseJSON && data.responseJSON.status === 'ok'){
+                    
+                    DMS.navigateReload();
+
+                }
+                else if(data.responseJSON && data.responseJSON.status === 'error'){
+                    
+                    DMS.MessageBox.error(Lang.trans('documents.duplicates.errors.title'), data.responseJSON.message);
+
+                }
+                else if(data.message) {
+                    DMS.MessageBox.error(Lang.trans('documents.duplicates.errors.title'), data.message);
+                }
+
+            }, function(obj, err, errText){
+
+                console.log('error', obj, err, errText);
+
+                if(obj.responseJSON && obj.responseJSON.status === 'error'){
+                    DMS.MessageBox.error(Lang.trans('documents.duplicates.errors.title'), obj.responseJSON.message);
+                }
+                else if(obj.responseJSON && obj.responseJSON.error){
+                    DMS.MessageBox.error(Lang.trans('documents.duplicates.errors.title'), obj.responseJSON.error);
+                }
+                else {
+                    DMS.MessageBox.error(Lang.trans('documents.duplicates.errors.title'), Lang.trans('documents.duplicates.errors.generic'));
+                }
+
+            }
+        );
+        
+
+    });
+
 });

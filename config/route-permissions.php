@@ -111,6 +111,10 @@ return [
     
     ],
 
+    'duplicates' => [
+        'destroy' => KBox\Capability::EDIT_DOCUMENT,
+    ],
+
     'shares' => [
         'index' => KBox\Capability::RECEIVE_AND_SEE_SHARE,
         'create' => [KBox\Capability::SHARE_WITH_PERSONAL, KBox\Capability::SHARE_WITH_PRIVATE],

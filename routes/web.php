@@ -213,6 +213,17 @@ Route::resource('/documents', 'Document\DocumentsController');
 
 /*
 |--------------------------------------------------------------------------
+| Duplicate Documents
+|--------------------------------------------------------------------------
+*/
+
+Route::delete('/duplicate-documents/{id}', [
+    'uses' => 'Document\DuplicateDocumentsController@destroy',
+    'as' => 'duplicates.destroy'
+]);
+
+/*
+|--------------------------------------------------------------------------
 | Sharing
 |--------------------------------------------------------------------------
 |

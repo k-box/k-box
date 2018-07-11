@@ -4,6 +4,11 @@
 		<div class="version__title" title="{{$duplicate->duplicateOf->title}}">
 
 			<a href="{{DmsRouting::preview($duplicate->duplicateOf)}}" target="_blank">{{$duplicate->duplicateOf->title}}</a>
+
+
+			@if($duplicate->duplicateOf->trashed())
+				&nbsp;({{ trans('documents.duplicates.in_trash') }})
+			@endif
 		</div>
 
 		<div class="version__meta">
@@ -31,11 +36,13 @@
 			</div>
 
 		</div>
+		@unless($duplicate->resolved || $duplicate->document->trashed())
+		<div>
+			<button class="button button--ghost" data-action="resolveDuplicate" data-duplicate-id="{{ $duplicate->id }}">{{ trans('documents.duplicates.resolve_duplicate_button') }}</button>
+		</div>
+		@endunless
 	</div>
 	
 	
-	{{-- <div>
-		<button class="button button--ghost" data-action="restoreVersion" data-version-title="{{$duplicate->duplicateOf->name}}" data-document-id="{{ $document->id }}" data-version-id="{{ $duplicate->duplicateOf->uuid }}">{{ trans('actions.restore') }}</button>
-	</div> --}}
 	
 </div>

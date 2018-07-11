@@ -26,13 +26,16 @@ class CreateDuplicateDescriptorsTable extends Migration
             // When the user has been notified about the duplicate
             $table->timestamp('notification_sent_at')->nullable();
             
+            // if the duplication was manually resolved
+            $table->timestamp('resolved_at')->nullable();
+            
             // The user that uploaded the duplicate entry
             $table->bigInteger('user_id')->nullable()->unsigned();
             
             $table->foreign('user_id')->references('id')->on('users');
             
-            $table->foreign('document_id')->references('id')->on('document_descriptors');
-            $table->foreign('duplicate_document_id')->references('id')->on('document_descriptors');
+            $table->foreign('document_id')->references('id')->on('document_descriptors')->onDelete('cascade');
+            $table->foreign('duplicate_document_id')->references('id')->on('document_descriptors')->onDelete('cascade');
         });
     }
 
