@@ -106,6 +106,8 @@ class DocumentsControllerTest extends TestCase
     
     public function test_duplicate_actions_are_presented_on_document_edit_page()
     {
+        $this->disableExceptionHandling();
+
         Storage::fake('local');
 
         $adapter = $this->withKlinkAdapterFake();
@@ -114,15 +116,14 @@ class DocumentsControllerTest extends TestCase
             $u->addCapabilities(Capability::$PARTNER);
         });
         
-        $duplicates = $this->createDuplicates($user);
+        $duplicate = $this->createDuplicates($user, 1, ['user_id' => $user->id])->first();
 
-        $response = $this->actingAs($user)->get(route('documents.index'));
+        $response = $this->actingAs($user)->get(route('documents.edit', ['id' => $duplicate->document->id]));
 
         $response->assertStatus(200);
-        $response->assertViewIs('documents.documents');
-        $response->assertSee(trans('documents.duplicates.badge'));
-
-        $this->fail('implement me');
+        $response->assertViewIs('documents.edit');
+        $response->assertSee(trans('documents.duplicates.duplicates_btn'));
+        $response->assertSee(trans('documents.duplicates.duplicates_description'));
     }
 
     private function createDuplicates($user, $count = 1, $options = [])
