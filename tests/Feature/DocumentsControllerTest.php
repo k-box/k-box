@@ -8,7 +8,6 @@ use KBox\DuplicateDocument;
 use KBox\DocumentDescriptor;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class DocumentsControllerTest extends TestCase
