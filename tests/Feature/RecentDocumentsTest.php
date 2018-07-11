@@ -6,6 +6,7 @@ use KBox\User;
 use Carbon\Carbon;
 use Tests\TestCase;
 use KBox\Capability;
+use Tests\Concerns\ClearDatabase;
 use Klink\DmsAdapter\KlinkSearchRequest;
 use Klink\DmsAdapter\KlinkSearchResults;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
@@ -13,7 +14,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class RecentDocumentsTest extends TestCase
 {
-    use DatabaseTransactions, WithoutMiddleware;
+    use ClearDatabase, DatabaseTransactions, WithoutMiddleware;
 
     public function recent_date_range_provider()
     {

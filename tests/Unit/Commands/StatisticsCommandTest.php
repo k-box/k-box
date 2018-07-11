@@ -2,8 +2,6 @@
 
 namespace Tests\Unit\Commands;
 
-use DB;
-use Schema;
 use Artisan;
 use KBox\File;
 use KBox\User;
@@ -13,12 +11,13 @@ use KBox\Shared;
 use Carbon\Carbon;
 use Tests\TestCase;
 use KBox\DocumentDescriptor;
+use Tests\Concerns\ClearDatabase;
 use KBox\Console\Commands\StatisticsCommand;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class StatisticsCommandTest extends TestCase
 {
-    use DatabaseTransactions;
+    use ClearDatabase, DatabaseTransactions;
 
     public function test_overall_report_is_printed()
     {
@@ -88,16 +87,6 @@ class StatisticsCommandTest extends TestCase
 
     public function test_measurement_values_are_calculated()
     {
-        Schema::disableForeignKeyConstraints();
-        DB::table('document_descriptors')->truncate();
-        DB::table('files')->truncate();
-        DB::table('publications')->truncate();
-        DB::table('projects')->truncate();
-        DB::table('groups')->truncate();
-        DB::table('shared')->truncate();
-        DB::table('users')->truncate();
-        Schema::enableForeignKeyConstraints();
-
         // create the expected dataset
         $users = [
             factory('KBox\User')->create(['created_at' => Carbon::createFromDate(null, 6, 1)]),

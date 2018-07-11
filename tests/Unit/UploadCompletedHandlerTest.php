@@ -8,6 +8,7 @@ use KBox\Capability;
 use KBox\DocumentDescriptor;
 use KBox\Jobs\ElaborateDocument;
 use KBox\Events\UploadCompleted;
+use Tests\Concerns\ClearDatabase;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Queue;
 use KBox\Events\FileDuplicateFoundEvent;
@@ -16,16 +17,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class UploadCompletedHandlerTest extends TestCase
 {
-    use DatabaseTransactions;
-
-    public function setUp()
-    {
-        parent::setUp();
-
-        \Schema::disableForeignKeyConstraints();
-        \DB::table('document_descriptors')->truncate();
-        \DB::table('files')->truncate();
-    }
+    use DatabaseTransactions, ClearDatabase;
 
     public function test_elaborate_document_is_dispatched()
     {
