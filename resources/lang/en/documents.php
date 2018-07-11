@@ -324,13 +324,9 @@ return [
         'duplicates_btn_hint' => 'See and manage duplicates',
         'duplicates_description' => 'This document is a possible duplicate of',
 
-        'generic' => 'The document :name already exists in the K-Box with the title <strong>":title"</strong>.',
-        'incollection' => 'The document is already available in <a href=":collection_link"><strong>":collection"</strong></a> with the title <strong>":title"</strong>',
-        'incollection_by_you' => 'You have already uploaded this document as <strong>":title"</strong> in <a href=":collection_link"><strong>":collection"</strong></a>',
-        'by_you' => 'You have already uploaded this document as <strong>":title"</strong>',
-        'revision_of_document' => 'The document you are uploading is an existing revision of <strong>":title"</strong>, added by :user (:email)',
-        'revision_of_your_document' => 'The document is an existing revision of <strong>:title</strong>',
-        'by_user' => 'The document has already been added to the K-Box by :user (:email).',
-        'in_the_network' => 'The document is already available in <strong>:network</strong> as <strong>":title"</strong>. Added by :institution',
+        'message_me_owner' => 'The document you uploaded as <a href=":duplicate_link" target="_blank" rel="noopener noreferrer">:duplicate_title</a> is a duplicate of your document <a href=":existing_link" target="_blank" rel="noopener noreferrer">:existing_title</a>.',
+        'message_with_owner' => 'The document you uploaded as <a href=":duplicate_link" target="_blank" rel="noopener noreferrer">:duplicate_title</a> is a duplicate of <a href=":existing_link" target="_blank" rel="noopener noreferrer">:existing_title</a> (uploaded by :owner).',
+        'message_in_collection' => 'The document you uploaded as ":title" is a duplicate of ":existing_title" (uploaded by :owner in :collections).',
+        
     ],
 ];

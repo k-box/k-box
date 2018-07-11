@@ -64,7 +64,7 @@ class DuplicateDocumentsNotification extends Notification implements ShouldQueue
             
 
         $this->duplicates->each(function ($duplicate) use ($message) {
-            $message->line($duplicate->message);
+            $message->line($duplicate->toHtml());
         });
 
         $message->action(trans('mail.duplicatesnotification.action', [], '', $language), route('documents.recent', ['range' => 'today']));

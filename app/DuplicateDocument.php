@@ -3,9 +3,11 @@
 namespace KBox;
 
 use Carbon\Carbon;
+use Illuminate\Support\HtmlString;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Contracts\Support\Htmlable;
 
-class DuplicateDocument extends Model
+class DuplicateDocument extends Model implements Htmlable
 {
     protected $table = 'duplicate_descriptors';
     
@@ -49,7 +51,47 @@ class DuplicateDocument extends Model
      */
     public function getMessageAttribute($value = null)
     {
-        return "duplicate message $this->id";
+        if (is_null($this->document) || is_null($this->duplicateOf)) {
+            return '';
+        }
+
+        $args = [
+            'duplicate_link' => RoutingHelpers::preview($this->document),
+            'duplicate_title' => e($this->document->title),
+            'existing_link' => RoutingHelpers::preview($this->duplicateOf),
+            'existing_title' => e($this->duplicateOf->title),
+        ];
+
+        if ($this->document->owner_id === $this->user_id && $this->duplicateOf->owner_id === $this->user_id) {
+            return trans('documents.duplicates.message_me_owner', $args);
+        }
+
+        $service = app('Klink\DmsDocuments\DocumentsService');
+
+        $collections = $service->getDocumentCollections($this->duplicateOf, $this->user);
+
+        if (! $collections->isEmpty()) {
+            return trans('documents.duplicates.message_in_collection', array_merge($args, [
+                'owner' => e($this->duplicateOf->owner->name),
+                'collections' => $collections->map(function ($c) {
+                    return '<a href="'.route('documents.groups.show', [ 'id' => $c->id, 'highlight' => $this->duplicateOf->id]).'">'.e($c->name).'</a>';
+                })->implode(', ')
+            ]));
+        } else {
+            return trans('documents.duplicates.message_with_owner', array_merge($args, [
+                'owner' => e($this->duplicateOf->owner->name)
+            ]));
+        }
+
+        return '';
+    }
+
+    /**
+     * Return the HTML short message representation of this duplicate
+     */
+    public function toHtml()
+    {
+        return new HtmlString($this->message);
     }
 
     /**
@@ -69,7 +111,7 @@ class DuplicateDocument extends Model
      */
     public function document()
     {
-        return $this->belongsTo('KBox\DocumentDescriptor', 'duplicate_document_id', 'id');
+        return $this->belongsTo('KBox\DocumentDescriptor', 'duplicate_document_id', 'id')->withTrashed();
     }
     
     /**
@@ -79,7 +121,7 @@ class DuplicateDocument extends Model
      */
     public function duplicateOf()
     {
-        return $this->belongsTo('KBox\DocumentDescriptor', 'document_id', 'id');
+        return $this->belongsTo('KBox\DocumentDescriptor', 'document_id', 'id')->withTrashed();
     }
 
     /**
