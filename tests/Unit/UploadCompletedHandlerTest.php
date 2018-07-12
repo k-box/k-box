@@ -178,13 +178,3 @@ class UploadCompletedHandlerTest extends TestCase
         Event::assertNotDispatched(FileDuplicateFoundEvent::class);
     }
 }
-
-// document of one user, access with the other
-// $user = tap(factory('KBox\User')->create(), function ($u) {
-//     $u->addCapabilities(Capability::$PROJECT_MANAGER);
-// });
-// $user_accessing_the_document = tap(factory('KBox\User')->create(), function ($u) {
-//     $u->addCapabilities(Capability::$PARTNER);
-// });
-
-// $document = factory('KBox\DocumentDescriptor')->create(['owner_id' => $user->id]);

@@ -71,12 +71,14 @@ class UploadCompletedHandler implements ShouldQueue
     {
         $existings = DocumentDescriptor::withTrashed()->where('hash', $descriptor->hash)->get();
 
+        Log::info("Checking duplicates for $descriptor->hash", ['duplicates' => $existings]);
+
         if ($existings->isEmpty()) {
             return false;
         }
 
         $existings->each(function ($existing) use ($user, $descriptor) {
-            if (! $existing->is($descriptor) && $existing->isAccessibleBy($user)) {
+            if ($existing->id !== $descriptor->id && $existing->isAccessibleBy($user)) {
                 $duplicate = DuplicateDocument::create([
                     'user_id' => $user->id,
                     'document_id' => $existing->id,
