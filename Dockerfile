@@ -127,9 +127,14 @@ COPY \
 COPY \
     --from=dependencies \
     --chown=www-data:www-data \
-    /app/bin/. \
-    /app/vendor/. \
-    /var/www/dms/
+    /app/vendor/ \
+    /var/www/dms/vendor/
+
+COPY \
+    --from=dependencies \
+    --chown=www-data:www-data \
+    /app/bin/ \
+    /var/www/dms/bin/
 
 COPY \
     --from=dependencies \
