@@ -113,11 +113,14 @@ class DuplicateDocumentsNotificationTest extends TestCase
         $mail = $notification->toMail($user);
 
         $this->assertInstanceOf(MailMessage::class, $mail);
-        $this->assertEquals($mail->markdown, "notifications::email");
+        $this->assertEquals($mail->markdown, "emails.duplicatenotification");
         $this->assertEquals($mail->subject, trans('mail.duplicatesnotification.subject'));
         $this->assertEquals(trans('mail.duplicatesnotification.action'), $mail->actionText);
         $this->assertEquals(route('documents.recent', ['range' => 'today']), $mail->actionUrl);
-        $this->assertEquals(4, collect($mail->introLines)->count());
+        $this->assertEquals(1, collect($mail->introLines)->count());
+
+        $this->assertTrue(isset($mail->viewData['duplicates']), "Duplicates array not found in view");
+        $this->assertCount(3, $mail->viewData['duplicates']);
     }
 
     private function createDuplicates($user, $count = 1, $options = [])

@@ -58,14 +58,15 @@ class DuplicateDocumentsNotification extends Notification implements ShouldQueue
     {
         $language = is_a($notifiable, 'KBox\User') ? $notifiable->optionLanguage(config('app.locale')) : config('app.locale');
 
+        $duplicates = $this->duplicates->map(function ($duplicate) {
+            return $duplicate->message;
+        });
+
         $message = (new MailMessage)
+            ->markdown('emails.duplicatenotification', ['duplicates' => $duplicates])
             ->subject(trans('mail.duplicatesnotification.subject', [], '', $language))
             ->line(trans('mail.duplicatesnotification.greetings', [], '', $language));
             
-
-        $this->duplicates->each(function ($duplicate) use ($message) {
-            $message->line($duplicate->toHtml());
-        });
 
         $message->action(trans('mail.duplicatesnotification.action', [], '', $language), route('documents.recent', ['range' => 'today']));
 
