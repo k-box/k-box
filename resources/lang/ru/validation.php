@@ -169,7 +169,7 @@ return [
 
     'attributes' => [
         'copyright_owner_website' => 'веб-сайт',
-        'password' => 'Пароль',
+        'password' => 'пароль', // not capital because used in line 78 
         ],
 
 ];
