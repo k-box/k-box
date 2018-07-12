@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e55fcd8a9072ace0df03a1908d6ffc96",
+    "content-hash": "dffb769ab10fa63a4b1779ec2cc37a64",
     "packages": [
         {
             "name": "avvertix/laravel-tus-upload",
@@ -1634,11 +1634,11 @@
         },
         {
             "name": "k-box/k-search-client-php",
-            "version": "v3.0.1",
+            "version": "dev-request-id-null",
             "source": {
                 "type": "git",
                 "url": "https://git.klink.asia/main/k-search-client-php.git",
-                "reference": "3dbe5bdd045f8b2b34e46c3f773ed6d03565c252"
+                "reference": "e74124d2cadf297bc4cd3eef938b66b5763469c6"
             },
             "require": {
                 "doctrine/annotations": "^1.4",
@@ -1701,7 +1701,7 @@
                 "issues": "https://github.com/k-box/k-search-client-php/issues",
                 "source": "https://github.com/k-box/k-search-client-php"
             },
-            "time": "2018-01-19T00:00:00+00:00"
+            "time": "2018-07-12T09:54:54+00:00"
         },
         {
             "name": "kitetail/zttp",
@@ -2513,7 +2513,7 @@
                 }
             ],
             "description": "Upload videos to a K-Link Streaming Service",
-            "time": "2017-11-17 09:33:03"
+            "time": "2017-11-17T09:33:03+00:00"
         },
         {
             "name": "paragonie/random_compat",
@@ -7069,6 +7069,7 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
+        "k-box/k-search-client-php": 20,
         "phpoffice/phpspreadsheet": 20
     },
     "prefer-stable": true,
