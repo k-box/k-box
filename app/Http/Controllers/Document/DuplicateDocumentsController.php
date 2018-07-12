@@ -2,6 +2,8 @@
 
 namespace KBox\Http\Controllers\Document;
 
+use DB;
+use Log;
 use Exception;
 use KBox\DuplicateDocument;
 use Illuminate\Http\Request;
@@ -65,8 +67,11 @@ class DuplicateDocumentsController extends Controller
             $collections = $this->service->getDocumentCollections($duplicate->document, $user);
 
             if (! $collections->isEmpty()) {
-                $collections->each(function ($c) use ($user, $duplicate) {
-                    $this->service->addDocumentToGroup($user, $duplicate->duplicateOf, $c);
+                DB::transaction(function () use ($collections, $user, $duplicate) {
+                    $collections->each(function ($c) use ($user, $duplicate) {
+                        $this->service->addDocumentToGroup($user, $duplicate->duplicateOf, $c, false);
+                    });
+                    $this->service->triggerReindex($duplicate->duplicateOf);
                 });
             }
             
@@ -82,6 +87,8 @@ class DuplicateDocumentsController extends Controller
 
             return redirect()->route('documents.edit', $duplicate->duplicateOf->id);
         } catch (Exception $ex) {
+            Log::error('Duplicate resolution error', ['error' => $ex, 'duplicate' => $id]);
+
             if ($request->wantsJson()) {
                 $status = ['status' => 'error', 'message' => $ex->getMessage()];
                 return new JsonResponse($status, 400);

@@ -83,6 +83,8 @@ class UploadCompletedHandler implements ShouldQueue
                     'duplicate_document_id' => $descriptor->id,
                 ]);
                 
+                Log::info('Duplicate found', ['duplicate' => $duplicate]);
+
                 $event = (new FileDuplicateFoundEvent($user, $duplicate))->delay(Carbon::now()->addMinutes(30));
 
                 event($event);
