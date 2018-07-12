@@ -2066,6 +2066,11 @@ class DocumentsService
         return $file->name;
     }
 
+    public function triggerReindex(DocumentDescriptor $document)
+    {
+        dispatch(new ReindexDocument($document, KlinkVisibilityType::KLINK_PRIVATE));
+    }
+
     // -- Helper functions to be moved out from here
     
     /**
