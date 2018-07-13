@@ -17,7 +17,7 @@ return [
 
     'form' => [
         'email_label' => 'Почта',
-        'email_placeholder' => 'Почта (например, user@klink.local)',
+        'email_placeholder' => '',
         'password_label' => 'Пароль',
         'password_placeholder' => 'Пароль',
         'submit' => 'Войти',

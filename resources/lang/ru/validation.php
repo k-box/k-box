@@ -59,8 +59,8 @@ return [
         "numeric" => "Поле :attribute должно быть не менее :min.",
         "string"  => "Поле :attribute должно содержать не менее :min.",
         "file"    => "Размер файла в поле :attribute должен быть не менее :min Килобайт(а).",
-        "string"  => "Количество символов в поле :attribute должно быть не менее :min.",
-        "array"   => "Количество элементов в поле :attribute должно быть не менее :min."
+        "string"  => "Поле :attribute должно содержать не менее :min символов.",
+        "array"   => "Поле :attribute должно содержать не менее :min символов."
     ],
     "not_in"               => "Выбранное значение для :attribute ошибочно.",
     "numeric"              => "Поле :attribute должно быть числом.",
@@ -169,6 +169,7 @@ return [
 
     'attributes' => [
         'copyright_owner_website' => 'веб-сайт',
+        'password' => 'пароль', // not capital because used in line 78 
         ],
 
 ];
