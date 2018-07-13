@@ -311,7 +311,7 @@ return [
         'badge' => 'Копия',
         'duplicates_btn' => 'Копии',
         'duplicates_btn_hint' => 'Управление копиями',
-        'duplicates_description' => 'Копия документа',
+        'duplicates_description' => 'Копия документа:',
 
         'in_trash' => 'в Корзине',
 
