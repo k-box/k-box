@@ -127,10 +127,20 @@ COPY \
 COPY \
     --from=dependencies \
     --chown=www-data:www-data \
-    /app/bin/ \
     /app/vendor/ \
+    /var/www/dms/vendor/
+
+COPY \
+    --from=dependencies \
+    --chown=www-data:www-data \
+    /app/bin/ \
+    /var/www/dms/bin/
+
+COPY \
+    --from=dependencies \
+    --chown=www-data:www-data \
     /app/public/js/nls/ \
-    /var/www/dms/
+    /var/www/dms/public/js/nls/
 
 COPY \
     --from=videocli \
