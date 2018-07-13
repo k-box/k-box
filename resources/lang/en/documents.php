@@ -328,7 +328,7 @@ return [
 
         'message_me_owner' => 'The document you uploaded as <a href=":duplicate_link" target="_blank" rel="noopener noreferrer">:duplicate_title</a> is a duplicate of your document <a href=":existing_link" target="_blank" rel="noopener noreferrer">:existing_title</a>.',
         'message_with_owner' => 'The document you uploaded as <a href=":duplicate_link" target="_blank" rel="noopener noreferrer">:duplicate_title</a> is a duplicate of <a href=":existing_link" target="_blank" rel="noopener noreferrer">:existing_title</a> (uploaded by :owner).',
-        'message_in_collection' => 'The document you uploaded as ":title" is a duplicate of ":existing_title" (uploaded by :owner in :collections).',
+        'message_in_collection' => 'The document you uploaded as <a href=":duplicate_link" target="_blank" rel="noopener noreferrer">:duplicate_title</a> is a duplicate of <a href=":existing_link" target="_blank" rel="noopener noreferrer">:existing_title</a> (uploaded by :owner in :collections).',
         
         'resolve_duplicate_button' => 'Resolve duplicate using this, already existing, document',
 
