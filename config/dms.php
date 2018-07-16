@@ -158,18 +158,24 @@ return [
     
     /*
     |--------------------------------------------------------------------------
-    | Limit languages filters to
+    | Language whitelist
     |--------------------------------------------------------------------------
     |
-    | Use this option to limit the usable language filters
+    | Use this option to limit the  usable language filters
     |
-    | default: false
-    | acceptable value: array of comma separated language codes e.g. en,ru,de
+    | default: 'en', 'de', 'it', 'fr', 'ky', 'ru', 'tg'
+    | acceptable value: array of iso_639_1 language codes
+    | 
+    | if configured via environment variable, the acceptable value 
+    | is a string of comma separated iso_639_1 language codes 
+    | e.g. en,ru,de
     |
-    | @var boolean|string
+    | Set to null or empty array if the whitelist should be disabled
+    |
+    | @var array
     */
     
-    'limit_languages_to' => getenv('DMS_LIMIT_LANGUAGES_TO') ?: 'en,de,it,fr,ky,ru',
+    'language_whitelist' => array_from(env('KBOX_LANGUAGE_WHITELIST', env('DMS_LIMIT_LANGUAGES_TO', ['en', 'de', 'it', 'fr', 'ky', 'ru', 'tg']))),
     
     /*
     |--------------------------------------------------------------------------
