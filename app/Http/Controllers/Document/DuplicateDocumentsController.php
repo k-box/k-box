@@ -71,9 +71,9 @@ class DuplicateDocumentsController extends Controller
                     $collections->each(function ($c) use ($user, $duplicate) {
                         $this->service->addDocumentToGroup($user, $duplicate->duplicateOf, $c, false);
                     });
-                    try{
+                    try {
                         $this->service->triggerReindex($duplicate->duplicateOf);
-                    }catch(Exception $ex){
+                    } catch (Exception $ex) {
                         Log::warning('Reindex not triggered or failed after duplicates handling.');
                     }
                 });
