@@ -109,8 +109,13 @@ return [
         
         'cannot_delete_general_error' => 'Невозможно удалить выбранные элементы. Удаление не успешно.',
         
+        'forbidden_trash_personal_collection' => 'Вы не можете удалить коллекцию :collection, её создал другой пользователь',
+        'forbidden_delete_personal_collection' => 'Вы не можете удалить коллекцию :collection, её создал другой пользователь',
         'forbidden_delete_collection' => 'Невозможно удалить :collection. У вас отсутствуют пользовательские права на совершение данной операции.',
         'forbidden_delete_project_collection' => ':collection не может быть удалена. Данная коллекция находится в проекте, где у вас отсутствуют полномочия редактирования.',
+        'forbidden_delete_project_collection_not_creator' => 'Вы не можете удалить коллекцию :collection, её создал другой пользователь',
+        'forbidden_delete_project_collection_not_manager' => 'Удалить коллекцию :collection может только менеджер проекта',
+
     ],
     
     'move' => [
@@ -128,6 +133,14 @@ return [
         'move_to_project_text' => 'Вы собираетесь переместить личную коллекцию под Проект. ":collection" и субколлекции будут доступны для всех пользователей Проекта.',
         'move_to_personal_title' => 'Сделать коллекцию личной?',
         'move_to_personal_text' => 'Вы собираетесь переместить коллекцию из Проекта в Личные. ":collection" перестанет быть доступной для пользователей Проекта.',
+    
+        'errors' => [
+            'personal_not_all_same_user' => 'Вы не можете переместить коллекцию ":collection", другой пользователь создал внутри неё коллекцию ":collection_cause"',
+            'personal_not_all_same_user_empty_cause' => 'Вы не можете переместить коллекцию ":collection", её создал другой пользователь',
+            'no_project_collection_permission' => 'Вы не можете переместить коллекцию',
+            'no_access_to_collection' => 'У Вас нет доступа к коллекции',
+        ],
+    
     ],
     
     'access' => [
