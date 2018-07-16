@@ -227,15 +227,15 @@ if (! function_exists('array_from')) {
      */
     function array_from($value)
     {
-        if(is_null($value) || empty($value)){
+        if (is_null($value) || empty($value)) {
             return [];
         }
 
-        if(is_array($value)){
+        if (is_array($value)) {
             return $value;
         }
 
-        if(!is_string($value)){
+        if (! is_string($value)) {
             return [];
         }
 

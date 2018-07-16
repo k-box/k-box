@@ -56,7 +56,7 @@ class GuessLanguage extends Action
                 $language = array_first($language);
                 $iso_639_1 = $language['iso_639_1'];
 
-                if(in_array($iso_639_1, config('dms.language_whitelist'))){
+                if (in_array($iso_639_1, config('dms.language_whitelist'))) {
                     $descriptor->language = $iso_639_1;
         
                     $descriptor->save();
