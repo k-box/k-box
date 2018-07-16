@@ -599,7 +599,7 @@ window.DMS = (function(_$, _nprogress, _rivets, _alert){
 				resolveDuplicate: function(duplicate,success, error){
 					console.log('Calling Documents.resolveDuplicate', duplicate);
 
-					module.Ajax.delete(module.Paths.DUPLICATE_DOCUMENTS +  '/' + duplicate, {}, success, error);
+					module.Ajax.delete(module.Paths.DUPLICATE_DOCUMENTS +  '/' + duplicate, success, error);
 				},
 
 			},
