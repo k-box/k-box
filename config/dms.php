@@ -165,9 +165,9 @@ return [
     |
     | default: 'en', 'de', 'it', 'fr', 'ky', 'ru', 'tg'
     | acceptable value: array of iso_639_1 language codes
-    | 
-    | if configured via environment variable, the acceptable value 
-    | is a string of comma separated iso_639_1 language codes 
+    |
+    | if configured via environment variable, the acceptable value
+    | is a string of comma separated iso_639_1 language codes
     | e.g. en,ru,de
     |
     | Set to null or empty array if the whitelist should be disabled

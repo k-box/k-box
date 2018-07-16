@@ -13,5 +13,4 @@ interface LanguageGuesser
      * @return string the ISO 639-1 code
      */
     public function guess($text);
-    
 }
