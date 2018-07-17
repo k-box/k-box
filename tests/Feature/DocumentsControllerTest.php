@@ -59,6 +59,8 @@ class DocumentsControllerTest extends TestCase
 
         $file = $descriptor->file;
 
+        $this->assertEquals($descriptor->hash, $file->hash);
+
         $folder = date('Y').'/'.date('m');
         Storage::disk('local')->assertExists("{$folder}/{$file->uuid}/");
         Storage::disk('local')->assertExists($file->path);

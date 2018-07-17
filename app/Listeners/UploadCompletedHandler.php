@@ -4,6 +4,7 @@ namespace KBox\Listeners;
 
 use Log;
 use Exception;
+use KBox\File;
 use Carbon\Carbon;
 use KBox\DuplicateDocument;
 use KBox\DocumentDescriptor;
@@ -69,7 +70,7 @@ class UploadCompletedHandler implements ShouldQueue
      */
     private function duplicateCheck($descriptor, $user)
     {
-        $existings = DocumentDescriptor::withTrashed()->where('hash', $descriptor->hash)->get();
+        $existings = File::withTrashed()->where('hash', $descriptor->file->hash)->whereHas('document')->with('document')->get();
 
         Log::info("Checking duplicates for $descriptor->hash", ['duplicates' => $existings]);
 
@@ -78,10 +79,10 @@ class UploadCompletedHandler implements ShouldQueue
         }
 
         $existings->each(function ($existing) use ($user, $descriptor) {
-            if ($existing->id !== $descriptor->id && $existing->isAccessibleBy($user)) {
+            if ($existing->document && $existing->document->id !== $descriptor->id && $existing->document->isAccessibleBy($user)) {
                 $duplicate = DuplicateDocument::create([
                     'user_id' => $user->id,
-                    'document_id' => $existing->id,
+                    'document_id' => $existing->document->id,
                     'duplicate_document_id' => $descriptor->id,
                 ]);
                 

@@ -2,6 +2,7 @@
 
 namespace Klink\DmsDocuments;
 
+use DB;
 use KBox\DocumentDescriptor;
 use KBox\File;
 use KBox\User;
@@ -1821,11 +1822,14 @@ class DocumentsService
     {
         try {
 
-            $file_model = $this->createFileFromUpload($upload, $uploader);
+            return DB::transaction(function() use ($upload, $uploader, $visibility, $group){
 
-            $descriptor = $this->createDocumentDescriptor($file_model, $visibility, $group);
-
-            return $descriptor;
+                $file_model = $this->createFileFromUpload($upload, $uploader);
+                
+                $descriptor = $this->createDocumentDescriptor($file_model, $visibility, $group);
+                
+                return $descriptor;
+            });
 
         } catch (\Exception $ex) {
             \Log::error('File copy error', ['context' => 'DocumentsService@importFile', 'upload' => $upload->getClientOriginalName(), 'owner' => $uploader->id, 'error' => $ex]);
