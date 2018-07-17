@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "dffb769ab10fa63a4b1779ec2cc37a64",
+    "content-hash": "90a9dd632afeec9abd91b0c8d7158d29",
     "packages": [
         {
             "name": "avvertix/laravel-tus-upload",
@@ -1634,11 +1634,11 @@
         },
         {
             "name": "k-box/k-search-client-php",
-            "version": "dev-request-id-null",
+            "version": "v3.0.2",
             "source": {
                 "type": "git",
                 "url": "https://git.klink.asia/main/k-search-client-php.git",
-                "reference": "e74124d2cadf297bc4cd3eef938b66b5763469c6"
+                "reference": "8e97e0d2fc50eca36003856be9af4f512f5020d9"
             },
             "require": {
                 "doctrine/annotations": "^1.4",
@@ -1701,7 +1701,7 @@
                 "issues": "https://github.com/k-box/k-search-client-php/issues",
                 "source": "https://github.com/k-box/k-search-client-php"
             },
-            "time": "2018-07-12T09:54:54+00:00"
+            "time": "2018-01-19T00:00:00+00:00"
         },
         {
             "name": "kitetail/zttp",
@@ -7069,7 +7069,6 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "k-box/k-search-client-php": 20,
         "phpoffice/phpspreadsheet": 20
     },
     "prefer-stable": true,

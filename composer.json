@@ -34,7 +34,7 @@
 		"guzzlehttp/guzzle": "~6.2.0",
 		"jenssegers/agent": "^2.5",
 		"jenssegers/date": "^3.2",
-		"k-box/k-search-client-php": "dev-request-id-null",
+		"k-box/k-search-client-php": "3.0.2",
 		"laravel/framework": "5.4.*",
 		"laravel/tinker": "~1.0",
 		"league/csv": "^8.0",
