@@ -16,7 +16,7 @@
 
     @endforeach
 
-@else
+@elseif(!isset($hide_empty_message) || (isset($hide_empty_message) && !$hide_empty_message))
 
     <p>{{trans('panels.not_in_collection')}}</p>
 

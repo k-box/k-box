@@ -73,7 +73,8 @@ $factory->define(KBox\Institution::class, function (Faker\Generator $faker) {
 
 $factory->define(KBox\DocumentDescriptor::class, function (Faker\Generator $faker, $arguments = []) {
     
-    $hash = $faker->sha256.''.$faker->sha256;
+    // $hash = $faker->sha256.''.$faker->sha256;
+    $hash = hash_file('sha512', base_path('tests/data/example.txt'));
     
     $user = isset($arguments['owner_id']) ? $arguments['owner_id'] : factory(KBox\User::class)->create()->id;
     
@@ -226,5 +227,29 @@ $factory->define(KBox\Group::class, function (Faker\Generator $faker, $arguments
         'color' => 'f1c40f',
         'group_type_id' => KBox\GroupType::getGenericType()->id,
         'is_private' => false
+    ];
+});
+
+$factory->define(KBox\DuplicateDocument::class, function (Faker\Generator $faker, $arguments = []) {
+    
+    // $hash = $faker->sha256.''.$faker->sha256;
+    $hash = hash_file('sha512', base_path('tests/data/example.txt'));
+    
+    $user = isset($arguments['user_id']) ? $arguments['user_id'] : factory(KBox\User::class)->create()->id;
+    
+    $duplicate = isset($arguments['duplicate_document_id']) ? $arguments['duplicate_document_id'] : factory(KBox\DocumentDescriptor::class)->create([
+        'owner_id' => $user,
+        'hash' => $hash,
+    ])->id;
+    
+    $existing = isset($arguments['document_id']) ? $arguments['document_id'] : factory(KBox\DocumentDescriptor::class)->create([
+        'owner_id' => $user,
+        'hash' => $hash,
+    ])->id;
+    
+    return [
+        'duplicate_document_id' => $duplicate,
+        'document_id' => $existing,
+        'user_id' => $user,
     ];
 });

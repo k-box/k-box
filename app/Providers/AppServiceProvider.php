@@ -2,8 +2,10 @@
 
 namespace KBox\Providers;
 
-use Illuminate\Support\ServiceProvider;
 use Validator;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
+use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -21,6 +23,25 @@ class AppServiceProvider extends ServiceProvider
          */
         Validator::extend('not_array', function ($attribute, $value, $parameters, $validator) {
             return ! is_array($value);
+        });
+
+        /**
+         * Register a request macro that checks if the request comes from a K-Link that want to download the document
+         */
+        Request::macro('isKlinkRequest', function () {
+            
+            // This is a way of identifying that the request is coming from the K-Search, as, thanks to the proxy,
+            // the real host and IP addresses are not available
+            return $this->isMethod('get')
+                   && network_enabled()
+                   && str_contains(strtolower($this->userAgent()), 'guzzlehttp');
+        });
+
+        /**
+         * Register a response macro that respond as an head request
+         */
+        Response::macro('head', function ($headers) {
+            return response('', 200, array_merge(['Content-Length' => 0], $headers));
         });
     }
 

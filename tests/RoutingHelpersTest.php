@@ -42,11 +42,11 @@ class RoutingHelpersTest extends BrowserKitTestCase
 
         $url = RoutingHelpers::download($document);
 
-        $this->assertStringEndsWith("/klink/$document->local_document_id/download", $url);
+        $this->assertStringEndsWith("/d/download/$document->uuid", $url);
         
         $url_with_version = RoutingHelpers::download($document, $document->file);
 
-        $this->assertStringEndsWith("/klink/$document->local_document_id/download/{$document->file->uuid}", $url_with_version);
+        $this->assertStringEndsWith("/d/download/$document->uuid/{$document->file->uuid}", $url_with_version);
     }
     
     public function test_document_embed_url_generation()
@@ -56,11 +56,11 @@ class RoutingHelpersTest extends BrowserKitTestCase
 
         $url = RoutingHelpers::embed($document);
 
-        $this->assertStringEndsWith("/klink/$document->local_document_id/download?embed=true", $url);
+        $this->assertStringEndsWith("/d/download/$document->uuid?embed=true", $url);
         
         $url_with_version = RoutingHelpers::embed($document, $document->file);
 
-        $this->assertStringEndsWith("/klink/$document->local_document_id/download/{$document->file->uuid}?embed=true", $url_with_version);
+        $this->assertStringEndsWith("/d/download/$document->uuid/{$document->file->uuid}?embed=true", $url_with_version);
     }
 
     public function test_document_preview_url_generation()
@@ -70,11 +70,11 @@ class RoutingHelpersTest extends BrowserKitTestCase
 
         $url = RoutingHelpers::preview($document);
 
-        $this->assertStringEndsWith("/klink/$document->local_document_id/preview", $url);
+        $this->assertStringEndsWith("/d/show/$document->uuid", $url);
         
         $url_with_version = RoutingHelpers::preview($document, $document->file);
 
-        $this->assertStringEndsWith("/klink/$document->local_document_id/preview/{$document->file->uuid}", $url_with_version);
+        $this->assertStringEndsWith("/d/show/$document->uuid/{$document->file->uuid}", $url_with_version);
     }
 
     public function test_document_thumbnail_url_generation()
@@ -84,10 +84,10 @@ class RoutingHelpersTest extends BrowserKitTestCase
 
         $url = RoutingHelpers::thumbnail($document);
 
-        $this->assertStringEndsWith("/klink/$document->local_document_id/thumbnail", $url);
+        $this->assertStringEndsWith("/d/thumbnail/$document->uuid", $url);
         
         $url_with_version = RoutingHelpers::thumbnail($document, $document->file);
 
-        $this->assertStringEndsWith("/klink/$document->local_document_id/thumbnail/{$document->file->uuid}", $url_with_version);
+        $this->assertStringEndsWith("/d/thumbnail/$document->uuid/{$document->file->uuid}", $url_with_version);
     }
 }

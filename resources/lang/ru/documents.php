@@ -306,4 +306,29 @@ return [
         'outside_project_target_area' => 'Пожалуйста перетащите ваш файл в проект для его загрузки.',
         'empty_file_error' => 'Пустой документ. Пожалуйста, загрузите файл с содержанием одного слова и больше.',
     ],
+
+        'duplicates' => [
+        'badge' => 'Копия',
+        'duplicates_btn' => 'Копии',
+        'duplicates_btn_hint' => 'Управление копиями',
+        'duplicates_description' => 'Копия документа:',
+
+        'in_trash' => 'в Корзине',
+
+        'message_me_owner' => 'Документ <a href=":duplicate_link" target="_blank" rel="noopener noreferrer">:duplicate_title</a>  - копия <a href=":existing_link" target="_blank" rel="noopener noreferrer">:existing_title</a>.',
+        'message_with_owner' => 'Документ <a href=":duplicate_link" target="_blank" rel="noopener noreferrer">:duplicate_title</a> - копия <a href=":existing_link" target="_blank" rel="noopener noreferrer">:existing_title</a> (загрузил :owner).',
+        'message_in_collection' => 'Документ <a href=":duplicate_link" target="_blank" rel="noopener noreferrer">:duplicate_title</a> - копия <a href=":existing_link" target="_blank" rel="noopener noreferrer">:existing_title</a> (загрузил :owner в коллекцию :collections).',
+        
+        'resolve_duplicate_button' => 'Удалить мою копию',
+
+        'processing' => 'Удаление копии...',
+
+        'errors' => [
+            'title' => 'Не удалось удалить копию',
+            'generic' => 'Не удалось удалить копию',
+            'already_resolved' => 'Ошибка с копиями решена',
+            'resolve_with_trashed_document' => 'Ошибка с копиями решена',
+        ],
+    ],
+
 ];

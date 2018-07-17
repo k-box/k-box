@@ -20,7 +20,7 @@ class DocumentVersionsController extends Controller
     /**
      * Display the specified document version.
      *
-     * Currently it redirects to the klink_api route for file preview
+     * Currently it redirects to the DocumentPreviewController route for file preview
      *
      * @param  string $document_id The identifier of the document
      * @param  string  $version_uuid The uuid of the file version to show
@@ -30,10 +30,9 @@ class DocumentVersionsController extends Controller
     {
         $document = DocumentDescriptor::findOrFail($document_id);
         
-        return redirect()->route('klink_api', [
-            'id' => $document->local_document_id,
-            'action' => 'preview',
-            'version' => $version
+        return redirect()->route('documents.preview', [
+            'uuid' => $document->uuid,
+            'versionUuid' => $version
         ]);
     }
 

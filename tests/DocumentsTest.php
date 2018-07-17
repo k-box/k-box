@@ -112,7 +112,7 @@ class DocumentsTest extends BrowserKitTestCase
         
         $this->actingAs($user);
         
-        $this->visit($url)->seePageIs(route('klink_api', ['id' => $doc->local_document_id, 'action' => 'preview']));
+        $this->visit($url)->seePageIs(route('documents.preview', ['uuid' => $doc->uuid]));
         
         $this->assertResponseOk();
     }

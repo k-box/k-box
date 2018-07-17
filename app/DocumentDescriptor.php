@@ -213,6 +213,14 @@ class DocumentDescriptor extends Model
     }
 
     /**
+     * All duplicates of the document in the system
+     */
+    public function duplicates()
+    {
+        return $this->hasMany('KBox\DuplicateDocument', 'duplicate_document_id', 'id');
+    }
+
+    /**
      * Get the Projects that contain this document descriptor
      *
      * @return Collection return a {@see Collection} of {@see Project}
@@ -503,7 +511,24 @@ class DocumentDescriptor extends Model
         return $this->castAttribute('copyright_owner', $value);
     }
 
-    
+    public function getDocumentUriAttribute($value = null)
+    {
+        if (! $value) {
+            return route('documents.preview', ['uuid' => $this->uuid]);
+        }
+
+        return $value;
+    }
+
+    public function getThumbnailUriAttribute($value = null)
+    {
+        if (! $value) {
+            return route('documents.thumbnail', ['uuid' => $this->uuid]);
+        }
+
+        return $value;
+    }
+
     // --- convert to/from KlinkDocumentDescriptor
 
     /**

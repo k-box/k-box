@@ -74,7 +74,7 @@
 	<div class="edit-view__fields">
 
 		<div class="c-form__field">
-			@if( $errors->has('title') )
+			@if( isset($errors) && $errors->has('title') )
 				<span class="field-error">{{ implode(",", $errors->get('title'))  }}</span>
 			@endif
 			<input type="text" placeholder="{{trans('documents.edit.title_placeholder')}}" title="{{trans('documents.edit.title_placeholder')}}" name="title" value="{{old('title', isset($document) ? $document->title : '')}}" class="c-form__input c-form__input--full-width" @if(!$document->isMine() || !$can_edit_document) disabled @endif> 
@@ -96,7 +96,7 @@
 			</div>
 		</div>
 
-		@if( $errors->has('document') )
+		@if( isset($errors) && $errors->has('document') )
 			<span class="field-error">{{ implode(",", $errors->get('document'))  }}</span>
 		@endif
 
@@ -118,7 +118,7 @@
 
 		<div class="c-form__field">
 			<label for="abstract">{{trans('documents.edit.abstract_label')}}</label>
-			@if( $errors->has('abstract') )
+			@if( isset($errors) && $errors->has('abstract') )
 	            <span class="field-error">{{ implode(",", $errors->get('abstract'))  }}</span>
 	        @endif
   			<textarea class="c-form__input c-form__input--larger" placeholder="{{trans('documents.edit.abstract_placeholder')}}" id="abstract" name="abstract" @if(!$document->isMine() || !$can_edit_document) disabled @endif>
@@ -128,7 +128,7 @@
 		<div class="c-form__field">
   			<label for="authors">{{trans('documents.edit.authors_label')}}</label>
 			<p class="description">{!!trans('documents.edit.authors_help')!!}</p>
-  			@if( $errors->has('authors') )
+  			@if( isset($errors) && $errors->has('authors') )
 	            <span class="field-error">{{ implode(",", $errors->get('authors'))  }}</span>
 	        @endif
   			<textarea class="c-form__input c-form__input--larger" @if(!$document->isMine() || !$can_edit_document) disabled @endif placeholder="{{trans('documents.edit.authors_placeholder')}}" id="authors" name="authors">
@@ -137,7 +137,7 @@
 			
 		<div class="c-form__field c-section--top-separated">
   			<label for="language">{{trans('documents.edit.language_label')}}</label>
-  			@if( $errors->has('language') )
+  			@if( isset($errors) && $errors->has('language') )
 	            <span class="field-error">{{ implode(",", $errors->get('language'))  }}</span>
 	        @endif
 			<select class="c-form__input c-form__input--larger" id="language" name="language" @if(!$document->isMine() || !$can_edit_document) disabled @endif>
@@ -235,6 +235,9 @@
 
 
 	<div class="edit-view__versions">
+
+		@includeWhen( isset($duplicates) && ! $duplicates->isEmpty() , 'documents.partials.duplicates')
+
 			@if($document->isFileUploadComplete())
 			@include('documents.partials.versioninfo')
 			@endif

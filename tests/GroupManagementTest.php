@@ -3,15 +3,18 @@
 use KBox\Group;
 
 use Tests\BrowserKitTestCase;
+use Tests\Concerns\ClearDatabase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class GroupManagementTest extends BrowserKitTestCase
 {
+    use ClearDatabase;
+    use DatabaseTransactions;
+
     private $service = null;
 
     private $user = null;
     
-    use DatabaseTransactions;
 
     public function setUp()
     {
@@ -114,7 +117,7 @@ class GroupManagementTest extends BrowserKitTestCase
      */
     public function testGroupCreation()
     {
-
+        $this->clearDatabase();
         /*
               A            F
             B   C        C   G
@@ -218,6 +221,8 @@ class GroupManagementTest extends BrowserKitTestCase
 
     public function testGroupCreationFromFolderTwice()
     {
+        $this->clearDatabase();
+
         $user = $this->createAdminUser();
         
         $group = $this->service->createGroupsFromFolderPath($user, '/pretty/path/for/example/');
@@ -233,6 +238,8 @@ class GroupManagementTest extends BrowserKitTestCase
      */
     public function testGroupCopyBaseCases()
     {
+        $this->clearDatabase();
+        
         $user = $this->createAdminUser();
 
         $tree = $this->createTestGroupTree($user, $this->service);

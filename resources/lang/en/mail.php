@@ -46,4 +46,10 @@ return [
         'title_label' => 'Title',
     ],
 
-    ];
+    'duplicatesnotification' => [
+        'subject' => 'We found some duplicates in your recent uploads',
+        'greetings' => 'During the periodic document check, we found that some of your documents are duplicates of existing ones. If you are fine with the duplication ignore this message.',
+        'action' => 'See the duplicates from your recent documents',
+    ],
+
+];

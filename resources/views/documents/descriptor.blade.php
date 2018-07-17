@@ -36,6 +36,7 @@
 			'shared' => $item->isShared(),
 			'starrable' => isset($is_starrable) && (!isset($context) || isset($context) && $context !== 'trash') ? $is_starrable : false,
 			'starred' => isset($is_starred) ? $is_starred : false,
+			'has_duplicates' => isset($badge_duplicate) && $badge_duplicate,
 		])
 
 	@endcomponent

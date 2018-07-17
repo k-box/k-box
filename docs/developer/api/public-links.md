@@ -61,4 +61,4 @@ The public link URL is in the format
 /s/{ID||slug}
 ```
 
-This URL points to the document preview. Considering how the current implementation for obtaining a document preview works the URL is handled with a redirect to the corresponding `klink_api` route, i.e. `klink/{id}/preview`. **This is not available for collections**
+This URL points to the document preview. Considering how the current implementation for obtaining a document preview works the URL is handled with a redirect to the corresponding `documents.preview` route, i.e. `/d/{uuid}`. **This is not available for collections**

@@ -3,8 +3,9 @@
 namespace Tests;
 
 use Exception;
-use PHPUnit\Framework\Assert;
 use KBox\Exceptions\Handler;
+use PHPUnit\Framework\Assert;
+use Tests\Concerns\ClearDatabase;
 use Klink\DmsAdapter\Traits\MockKlinkAdapter;
 use Illuminate\Foundation\Testing\TestResponse;
 use Illuminate\Contracts\Debug\ExceptionHandler;
@@ -21,10 +22,23 @@ abstract class TestCase extends BaseTestCase
         TestResponse::macro('data', function ($key) {
             return $this->original->getData()[$key];
         });
+        
+        TestResponse::macro('assertInstanceOf', function ($class) {
+            Assert::assertInstanceOf($class, $this->baseResponse);
+        });
+    }
 
-        // TestResponse::macro('assertViewIs', function ($name) {
-        //     Assert::assertEquals($name, $this->original->name());
-        // });
+    protected function setUpTraits()
+    {
+        parent::setUpTraits();
+
+        $uses = array_flip(class_uses_recursive(static::class));
+
+        if (isset($uses[ClearDatabase::class])) {
+            $this->clearDatabase();
+        }
+
+        return $uses;
     }
 
     /**

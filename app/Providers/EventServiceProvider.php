@@ -7,6 +7,7 @@ use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvi
 use KBox\Events\ShareCreated;
 use KBox\Events\UploadCompleted;
 use KBox\Listeners\ShareCreatedHandler;
+use KBox\Events\FileDuplicateFoundEvent;
 use KBox\Listeners\UploadCompletedHandler;
 use KBox\Listeners\TusUploadStartedHandler;
 use Avvertix\TusUpload\Events\TusUploadStarted;
@@ -14,6 +15,7 @@ use Avvertix\TusUpload\Events\TusUploadCompleted;
 use Avvertix\TusUpload\Events\TusUploadCancelled;
 use KBox\Listeners\TusUploadCompletedHandler;
 use KBox\Listeners\TusUploadCancelledHandler;
+use KBox\Notifications\DuplicateDocumentsNotification;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -38,6 +40,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         UploadCompleted::class => [
             UploadCompletedHandler::class,
+        ],
+        FileDuplicateFoundEvent::class => [
+            DuplicateDocumentsNotification::class
         ],
     ];
 

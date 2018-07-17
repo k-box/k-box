@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e55fcd8a9072ace0df03a1908d6ffc96",
+    "content-hash": "90a9dd632afeec9abd91b0c8d7158d29",
     "packages": [
         {
             "name": "avvertix/laravel-tus-upload",
@@ -1634,11 +1634,11 @@
         },
         {
             "name": "k-box/k-search-client-php",
-            "version": "v3.0.1",
+            "version": "v3.0.2",
             "source": {
                 "type": "git",
                 "url": "https://git.klink.asia/main/k-search-client-php.git",
-                "reference": "3dbe5bdd045f8b2b34e46c3f773ed6d03565c252"
+                "reference": "8e97e0d2fc50eca36003856be9af4f512f5020d9"
             },
             "require": {
                 "doctrine/annotations": "^1.4",
@@ -2513,7 +2513,7 @@
                 }
             ],
             "description": "Upload videos to a K-Link Streaming Service",
-            "time": "2017-11-17 09:33:03"
+            "time": "2017-11-17T09:33:03+00:00"
         },
         {
             "name": "paragonie/random_compat",

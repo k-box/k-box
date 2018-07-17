@@ -37,6 +37,8 @@ class ViewComposerServiceProvider extends ServiceProvider
         $this->registerListSwitcher();
         
         $this->registerMenuComposer();
+
+        $this->registerDuplicateDocumentComposers();
     }
 
     /**
@@ -173,5 +175,10 @@ class ViewComposerServiceProvider extends ServiceProvider
                 $view->with('show_projects_link', false);
             }
         });
+    }
+
+    private function registerDuplicateDocumentComposers()
+    {
+        view()->composer('documents.partials.duplicate', 'KBox\Http\Composers\DuplicateDocumentsComposer@duplicatePartial');
     }
 }
