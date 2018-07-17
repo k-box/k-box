@@ -145,4 +145,21 @@ class GuessLanguageTest extends TestCase
         $this->assertEquals(2, strlen($descriptor->language));
         $this->assertEquals('it', $descriptor->language);
     }
+
+    public function test_language_guesser_respect_language_whitelist()
+    {
+        config(['dms.language_whitelist' => ['de']]);
+        // create descriptor with text file
+        $descriptor = $this->generateDescriptorForFile(base_path('tests/data/example-with-multiline.docx'));
+
+        // instantiate the GuessLanguage action
+        $action = new GuessLanguage();
+
+        $out_descriptor = $action->run($descriptor);
+
+        // obtaining a fresh copy to confirm that the action saved the language in the database
+        $descriptor = $descriptor->fresh();
+
+        $this->assertNull($descriptor->language);
+    }
 }

@@ -217,3 +217,28 @@ if (! function_exists('debugger') && env('APP_ENV') !== 'production') {
         eval('\Psy\Shell::debug(isset($mixed) && !is_null($mixed) ? $mixed : get_defined_vars());');
     }
 }
+
+if (! function_exists('array_from')) {
+    /**
+     * Create an array from a given comma separated string
+     *
+     * @param string $value
+     * @return array
+     */
+    function array_from($value)
+    {
+        if (is_null($value) || empty($value)) {
+            return [];
+        }
+
+        if (is_array($value)) {
+            return $value;
+        }
+
+        if (! is_string($value)) {
+            return [];
+        }
+
+        return explode(',', $value);
+    }
+}

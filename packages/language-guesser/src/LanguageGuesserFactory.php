@@ -21,7 +21,6 @@ class LanguageGuesserFactory
 
     public static function isInstalled()
     {
-        // LanguageGuesserFactory
-       return LanguageCli::isInstalled();
+        return LanguageCli::isInstalled();
     }
 }

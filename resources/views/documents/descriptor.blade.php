@@ -29,7 +29,7 @@
 			'created_at' => $item->getCreatedAt(true),
 			'modified_at_diff' => $item->getUpdatedAtHumanDiff(),
 			'created_at_diff' => $item->getCreatedAt(),
-			'language' => isset($item->language) ? $item->language : '',
+			'language' => isset($item->language) && in_array($item->language, config('dms.language_whitelist')) ? $item->language : '',
 			'shared_by' => isset($shared_by) ? $shared_by : false,
 			'shared_on' => isset($share_created_at_timestamp) ? $share_created_at_timestamp : false,
 			'shared_on_diff' => isset($share_created_at) ? $share_created_at : false,

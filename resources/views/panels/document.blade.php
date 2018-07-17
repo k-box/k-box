@@ -198,8 +198,8 @@
 				{{trans('panels.meta.language')}}
 			</div>
 			
-				{{!empty($item->language) ? trans('languages.' . $item->language) : trans('languages.no_language')}}
-			</div>
+			{{!empty($item->language) && in_array($item->language, config('dms.language_whitelist')) ? trans('languages.' . $item->language) : trans('languages.no_language')}}
+			
 		</div>
 		<div class="c-panel__meta">
 			<div class="c-panel__label">

@@ -250,35 +250,29 @@ class SearchService
     }
     
     /**
-     * Limits the language facets based on the configuration `dms.limit_languages_to`
+     * Limits the language facets based on the configured whitelist
      */
     public function limitFacets($facets)
     {
-//         $config = \Config::get('dms.limit_languages_to', false);
+        $whitelist = array_merge(config('dms.language_whitelist', []), ['__']);
         
-// dump($facets);
+        $lang_facets = array_first($facets, function ($value, $key) {
+            return $key === KlinkFacets::LANGUAGE;
+        }, null);
+    
+        if (empty($lang_facets)) {
+            return $facets;
+        }
+        
+        $items_to_keep = [];
+        
+        foreach ($lang_facets as $item) {
+            if (in_array($item->value, $whitelist)) {
+                $items_to_keep[] = $item;
+            }
+        }
 
-//         if ($config !== false && is_string($config) && ! is_null($facets)) {
-//             $langs = explode(',', $config);
-            
-//             $lang_facet = $value = array_first($facets, function ($value, $key) {
-//                 return $value->name === KlinkFacets::LANGUAGE;
-//             }, null);
-                
-//             if (is_null($lang_facet)) {
-//                 return $facets;
-//             }
-            
-//             $items_to_keep = [];
-            
-//             foreach ($lang_facet->items as $item) {
-//                 if (in_array($item->term, $langs)) {
-//                     $items_to_keep[] = $item;
-//                 }
-//             }
-            
-//             $lang_facet->items = $items_to_keep;
-//         }
+        $facets[KlinkFacets::LANGUAGE] = $items_to_keep;
         
         return $facets;
     }
