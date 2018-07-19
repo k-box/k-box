@@ -2,9 +2,9 @@
 
 namespace Klink\DmsAdapter;
 
-use KSearchClient\Model\Data\SearchResults;
+use KSearchClient\Model\Search\SearchResults;
 use \Klink\DmsAdapter\KlinkSearchResultItem;
-use KSearchClient\Model\Data\AggregationResult;
+use KSearchClient\Model\Search\AggregationResult;
 
 /**
  * Wrapper around SearchResults
@@ -186,7 +186,7 @@ final class KlinkSearchResults
 			$results->items, 
 			$results->query->limit, 
 			$results->query->offset, 
-			$results->total_matches,
+			$results->totalMatches,
 			$results->aggregations,
 			static::parseFilterString($results->query->filters)
 		);

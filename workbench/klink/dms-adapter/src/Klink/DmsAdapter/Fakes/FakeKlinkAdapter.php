@@ -20,7 +20,7 @@ use Klink\DmsAdapter\KlinkFacetItem;
 use Faker\Factory as FakerFactory;
 use PHPUnit_Framework_Assert as PHPUnit;
 use Klink\DmsAdapter\Concerns\HasConnections;
-use KSearchClient\Model\Data\AggregationResult;
+use KSearchClient\Model\Search\AggregationResult;
 use KSearchClient\Model\Data\Author;
 use KSearchClient\Model\Data\Uploader;
 use KSearchClient\Model\Data\Copyright;

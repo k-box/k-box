@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "69f3ea446a1bd05e9c525b9d49f99aae",
+    "content-hash": "9cb9378a5a078032ab1bc1cd18d0482c",
     "packages": [
         {
             "name": "avvertix/materialicons-laravel-bridge",
@@ -1576,11 +1576,17 @@
         },
         {
             "name": "k-box/k-search-client-php",
-            "version": "v3.0.2",
+            "version": "dev-update-data-model-api-3-4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/k-box/k-search-client-php.git",
-                "reference": "3dbe5bdd045f8b2b34e46c3f773ed6d03565c252"
+                "reference": "09b5132bbd56f4efee5efa29d01ebdd166ee7058"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/k-box/k-search-client-php/zipball/09b5132bbd56f4efee5efa29d01ebdd166ee7058",
+                "reference": "09b5132bbd56f4efee5efa29d01ebdd166ee7058",
+                "shasum": ""
             },
             "require": {
                 "doctrine/annotations": "^1.4",
@@ -1604,7 +1610,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.0.1-dev"
+                    "dev-master": "3.1.0-dev"
                 }
             },
             "autoload": {
@@ -1637,13 +1643,13 @@
                     "email": "carlos.reig@oneofftech.xyz"
                 }
             ],
-            "description": "The K-Link K-Search client",
+            "description": "The K-Search client",
             "homepage": "https://github.com/k-box/k-search-client-php",
             "support": {
                 "issues": "https://github.com/k-box/k-search-client-php/issues",
                 "source": "https://github.com/k-box/k-search-client-php"
             },
-            "time": "2018-01-19T00:00:00+00:00"
+            "time": "2018-07-19T09:33:03+00:00"
         },
         {
             "name": "kitetail/zttp",
@@ -2449,15 +2455,21 @@
                 }
             ],
             "description": "Upload videos to a K-Link Streaming Service",
-            "time": "2018-03-30 17:36:50"
+            "time": "2018-03-30T17:36:50+00:00"
         },
         {
             "name": "oneofftech/laravel-tus-upload",
             "version": "v0.3.0",
             "source": {
                 "type": "git",
-                "url": "https://git.klink.asia/alessio.vertemati/laravel-tus-upload",
+                "url": "https://github.com/OneOffTech/laravel-tus-upload.git",
                 "reference": "39d50e808d70dc305abd961843ebd5be622b47af"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/OneOffTech/laravel-tus-upload/zipball/39d50e808d70dc305abd961843ebd5be622b47af",
+                "reference": "39d50e808d70dc305abd961843ebd5be622b47af",
+                "shasum": ""
             },
             "require": {
                 "illuminate/auth": "5.4.*",
@@ -2497,11 +2509,7 @@
                     "src/helpers.php"
                 ]
             },
-            "autoload-dev": {
-                "psr-4": {
-                    "Tests\\": "tests/"
-                }
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -7068,6 +7076,7 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
+        "k-box/k-search-client-php": 20,
         "phpoffice/phpspreadsheet": 20
     },
     "prefer-stable": true,

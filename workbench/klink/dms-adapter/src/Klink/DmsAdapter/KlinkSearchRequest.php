@@ -2,11 +2,11 @@
 
 namespace Klink\DmsAdapter;
 
-use KSearchClient\Model\Data\SearchParams;
+use KSearchClient\Model\Search\SearchParams;
 use Klink\DmsSearch\SearchRequest;
 
 /**
- * Convert a \Klink\DmsSearch\SearchRequest to a \KSearchClient\Model\Data\SearchParams
+ * Convert a \Klink\DmsSearch\SearchRequest to a \KSearchClient\Model\Search\SearchParams
  */
 class KlinkSearchRequest
 {

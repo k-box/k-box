@@ -5,7 +5,7 @@ namespace Tests\Unit;
 use Tests\TestCase;
 use Klink\DmsAdapter\KlinkFacetsBuilder;
 use Klink\DmsAdapter\KlinkFacets;
-use KSearchClient\Model\Data\Aggregation;
+use KSearchClient\Model\Search\Aggregation;
 
 class KlinkFacetsBuilderTest extends TestCase
 {

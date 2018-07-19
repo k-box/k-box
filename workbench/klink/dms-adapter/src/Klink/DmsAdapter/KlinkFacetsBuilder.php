@@ -8,7 +8,7 @@ use InvalidArgumentException;
 use Klink\DmsAdapter\KlinkFacets;
 use Klink\DmsAdapter\KlinkFilters;
 use Klink\DmsAdapter\KlinkDocumentUtils;
-use KSearchClient\Model\Data\Aggregation;
+use KSearchClient\Model\Search\Aggregation;
 
 /**
 * Helps you constructing the facets search parameter with a fluent chainable api.
