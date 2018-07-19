@@ -411,7 +411,7 @@ class SearchRequest
         }
 
         if (! is_null($this->in_projects) && $this->in_projects->count() > 0) {
-            $filters[KlinkFilters::PROJECTS] = array_unique(array_merge($filters[KlinkFilters::PROJECTS] ?? [], $this->in_projects->all()));
+            $filters[KlinkFilters::TAGS] = array_unique(array_merge($filters[KlinkFilters::TAGS] ?? [], $this->in_projects->all()));
         }
 
         if (! is_null($this->in_documents) && $this->in_documents->count() > 0) {
