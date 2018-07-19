@@ -64,8 +64,8 @@ function startup_config () {
     echo "Changing folder groups and permissions" &&
     chgrp -R $KBOX_SETUP_USER $KBOX_DIR/storage &&
     chgrp -R $KBOX_SETUP_USER $KBOX_DIR/bootstrap/cache &&
-    chgrp -R $KBOX_SETUP_USER $KBOX_DIR/vendor/avvertix/laravel-tus-upload/bin/ &&
-    chmod +x $KBOX_DIR/vendor/avvertix/laravel-tus-upload/bin/tusd-linux &&
+    chgrp -R $KBOX_SETUP_USER $KBOX_DIR/vendor/oneofftech/laravel-tus-upload/bin/ &&
+    chmod +x $KBOX_DIR/vendor/oneofftech/laravel-tus-upload/bin/tusd-linux &&
     chmod -R g+rw $KBOX_DIR/bootstrap/cache &&
     chmod -R g+rw $KBOX_DIR/storage &&
     normalize_line_endings &&
@@ -150,18 +150,18 @@ function wait_command () {
 
 function normalize_line_endings() {
 
-    cp $KBOX_DIR/vendor/avvertix/laravel-tus-upload/hooks/linux/pre-create $KBOX_DIR/vendor/avvertix/laravel-tus-upload/hooks/linux/pre-create-original \
-    && cp $KBOX_DIR/vendor/avvertix/laravel-tus-upload/hooks/linux/post-receive $KBOX_DIR/vendor/avvertix/laravel-tus-upload/hooks/linux/post-receive-original \
-    && cp $KBOX_DIR/vendor/avvertix/laravel-tus-upload/hooks/linux/post-finish $KBOX_DIR/vendor/avvertix/laravel-tus-upload/hooks/linux/post-finish-original \
-    && cp $KBOX_DIR/vendor/avvertix/laravel-tus-upload/hooks/linux/post-terminate $KBOX_DIR/vendor/avvertix/laravel-tus-upload/hooks/linux/post-terminate-original \
+    cp $KBOX_DIR/vendor/oneofftech/laravel-tus-upload/hooks/linux/pre-create $KBOX_DIR/vendor/oneofftech/laravel-tus-upload/hooks/linux/pre-create-original \
+    && cp $KBOX_DIR/vendor/oneofftech/laravel-tus-upload/hooks/linux/post-receive $KBOX_DIR/vendor/oneofftech/laravel-tus-upload/hooks/linux/post-receive-original \
+    && cp $KBOX_DIR/vendor/oneofftech/laravel-tus-upload/hooks/linux/post-finish $KBOX_DIR/vendor/oneofftech/laravel-tus-upload/hooks/linux/post-finish-original \
+    && cp $KBOX_DIR/vendor/oneofftech/laravel-tus-upload/hooks/linux/post-terminate $KBOX_DIR/vendor/oneofftech/laravel-tus-upload/hooks/linux/post-terminate-original \
 
-    tr -d '\r' < $KBOX_DIR/vendor/avvertix/laravel-tus-upload/hooks/linux/pre-create-original > $KBOX_DIR/vendor/avvertix/laravel-tus-upload/hooks/linux/pre-create
-    tr -d '\r' < $KBOX_DIR/vendor/avvertix/laravel-tus-upload/hooks/linux/post-receive-original > $KBOX_DIR/vendor/avvertix/laravel-tus-upload/hooks/linux/post-receive
-    tr -d '\r' < $KBOX_DIR/vendor/avvertix/laravel-tus-upload/hooks/linux/post-finish-original > $KBOX_DIR/vendor/avvertix/laravel-tus-upload/hooks/linux/post-finish
-    tr -d '\r' < $KBOX_DIR/vendor/avvertix/laravel-tus-upload/hooks/linux/post-terminate-original > $KBOX_DIR/vendor/avvertix/laravel-tus-upload/hooks/linux/post-terminate
+    tr -d '\r' < $KBOX_DIR/vendor/oneofftech/laravel-tus-upload/hooks/linux/pre-create-original > $KBOX_DIR/vendor/oneofftech/laravel-tus-upload/hooks/linux/pre-create
+    tr -d '\r' < $KBOX_DIR/vendor/oneofftech/laravel-tus-upload/hooks/linux/post-receive-original > $KBOX_DIR/vendor/oneofftech/laravel-tus-upload/hooks/linux/post-receive
+    tr -d '\r' < $KBOX_DIR/vendor/oneofftech/laravel-tus-upload/hooks/linux/post-finish-original > $KBOX_DIR/vendor/oneofftech/laravel-tus-upload/hooks/linux/post-finish
+    tr -d '\r' < $KBOX_DIR/vendor/oneofftech/laravel-tus-upload/hooks/linux/post-terminate-original > $KBOX_DIR/vendor/oneofftech/laravel-tus-upload/hooks/linux/post-terminate
 
-    chgrp -R $KBOX_SETUP_USER $KBOX_DIR/vendor/avvertix/laravel-tus-upload/hooks/linux/ \
-    && chmod -R +x $KBOX_DIR/vendor/avvertix/laravel-tus-upload/hooks/linux/
+    chgrp -R $KBOX_SETUP_USER $KBOX_DIR/vendor/oneofftech/laravel-tus-upload/hooks/linux/ \
+    && chmod -R +x $KBOX_DIR/vendor/oneofftech/laravel-tus-upload/hooks/linux/
 }
 
 function create_admin () {
