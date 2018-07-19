@@ -2,7 +2,7 @@
 	"name": "klink/kbox",
 	"description": "The K-Link K-Box.",
 	"keywords": ["K-Link", "document", "management", "K-Box"],
-	"license": "AGPL-3.0",
+	"license": "AGPL-3.0-only",
 	"type": "project",	
 	
 	"repositories": [
