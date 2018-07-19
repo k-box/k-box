@@ -45,7 +45,7 @@ class SearchService
             KlinkFacets::LANGUAGE,
             KlinkFacets::MIME_TYPE,
             KlinkFacets::COLLECTIONS,
-            KlinkFacets::PROJECTS,
+            KlinkFacets::TAGS,
         ],
     ];
 

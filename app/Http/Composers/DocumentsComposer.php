@@ -287,7 +287,7 @@ class DocumentsComposer
             $cols = [
                 KlinkFacets::LANGUAGE => ['label' => trans('search.facets.language')],
                 KlinkFacets::MIME_TYPE => ['label' => trans('search.facets.documentType')],
-                KlinkFacets::PROJECTS => ['label' => trans('search.facets.projects')],
+                KlinkFacets::TAGS => ['label' => trans('search.facets.projects')],
                 KlinkFacets::COLLECTIONS => ['label' => trans('search.facets.collections')],
             ];
         } else {
@@ -369,7 +369,7 @@ if ($is_projectspage && (! $grp->is_private && ! $show_personal_collections_in_f
                             } catch (Exception $ex) {
                                 $f_items->label =  trans_choice('documents.type.document', 1).' ('.$f_items->value.')';
                             }
-                        } elseif ($name == KlinkFacets::PROJECTS) {
+                        } elseif ($name == KlinkFacets::TAGS) {
                             $prj = Project::find($f_items->value);
 
                             if (! is_null($prj) && Project::isAccessibleBy($prj, $auth_user)) {
@@ -403,7 +403,7 @@ if ($is_projectspage && (! $grp->is_private && ! $show_personal_collections_in_f
                             return false;
                         }
                         
-                        if ($name===KlinkFacets::PROJECTS && ! property_exists($f_items, 'label')) {
+                        if ($name===KlinkFacets::TAGS && ! property_exists($f_items, 'label')) {
                             return false;
                         }
 

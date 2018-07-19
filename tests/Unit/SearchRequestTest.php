@@ -84,7 +84,7 @@ class SearchRequestTest extends TestCase
         $filters_built = $req->buildFilters();
         
         $this->assertArrayHasKey(KlinkFacets::COLLECTIONS, $facets_built);
-        $this->assertArrayHasKey(KlinkFacets::PROJECTS, $facets_built);
+        $this->assertArrayHasKey(KlinkFacets::TAGS, $facets_built);
         $this->assertArrayHasKey(KlinkFacets::LANGUAGE, $facets_built);
         $this->assertArrayHasKey(KlinkFacets::MIME_TYPE, $facets_built);
 
