@@ -84,19 +84,19 @@ class SearchRequestTest extends TestCase
         $filters_built = $req->buildFilters();
         
         $this->assertArrayHasKey(KlinkFacets::COLLECTIONS, $facets_built);
-        $this->assertArrayHasKey(KlinkFacets::PROJECTS, $facets_built);
+        $this->assertArrayHasKey(KlinkFacets::TAGS, $facets_built);
         $this->assertArrayHasKey(KlinkFacets::LANGUAGE, $facets_built);
         $this->assertArrayHasKey(KlinkFacets::MIME_TYPE, $facets_built);
 
         $this->assertTrue(is_array($filters_built), 'SearchRequest built filters are not an array');
         $this->assertNotEmpty($filters_built);
         $this->assertArrayHasKey(KlinkFilters::COLLECTIONS, $filters_built);
-        $this->assertArrayHasKey(KlinkFilters::PROJECTS, $filters_built);
+        $this->assertArrayHasKey(KlinkFilters::TAGS, $filters_built);
         $this->assertArrayHasKey(KlinkFilters::UUID, $filters_built);
 
         $local_document_id = $filters_built[KlinkFilters::UUID];
         $document_groups = $filters_built[KlinkFilters::COLLECTIONS];
-        $project_ids = $filters_built[KlinkFilters::PROJECTS];
+        $project_ids = $filters_built[KlinkFilters::TAGS];
         
         $this->assertNotEmpty($local_document_id);
         $this->assertEquals(['1', '2', '3', '4', '5'], $local_document_id);
@@ -119,9 +119,9 @@ class SearchRequestTest extends TestCase
         $filters_built = $req->buildFilters();
 
         $this->assertEmpty($facets_built);
-        $this->assertArrayHasKey(KlinkFilters::PROJECTS, $filters_built);
+        $this->assertArrayHasKey(KlinkFilters::TAGS, $filters_built);
 
-        $project_ids = $filters_built[KlinkFilters::PROJECTS];
+        $project_ids = $filters_built[KlinkFilters::TAGS];
         
         $this->assertNotEmpty($project_ids);
         $this->assertEquals(['8','9'], $project_ids);

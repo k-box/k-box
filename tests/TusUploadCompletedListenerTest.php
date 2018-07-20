@@ -2,8 +2,8 @@
 
 use Tests\BrowserKitTestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Avvertix\TusUpload\Events\TusUploadCompleted;
-use Avvertix\TusUpload\TusUpload;
+use OneOffTech\TusUpload\Events\TusUploadCompleted;
+use OneOffTech\TusUpload\TusUpload;
 use KBox\Listeners\TusUploadCompletedHandler;
 use Carbon\Carbon;
 use KBox\DocumentDescriptor;

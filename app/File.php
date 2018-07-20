@@ -4,7 +4,7 @@ namespace KBox;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Avvertix\TusUpload\TusUpload;
+use OneOffTech\TusUpload\TusUpload;
 use Illuminate\Http\UploadedFile;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;

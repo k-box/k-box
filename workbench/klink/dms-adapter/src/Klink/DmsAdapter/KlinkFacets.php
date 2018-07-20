@@ -20,7 +20,7 @@ class KlinkFacets
 
 	const COLLECTIONS = 'properties.collections';
 	
-	const PROJECTS = 'properties.tags'; // using tags as there are no dedicated fields for projects
+	const TAGS = 'properties.tags'; // using tags as there are no dedicated fields for projects
 
 	const CREATED_AT = 'properties.created_at';
 

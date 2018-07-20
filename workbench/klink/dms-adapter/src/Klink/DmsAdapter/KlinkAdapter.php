@@ -2,6 +2,8 @@
 
 namespace Klink\DmsAdapter;
 
+use Log;
+use Exception;
 use Klink\DmsAdapter\KlinkDocument;
 use KBox\Option;
 use KSearchClient\Client;
@@ -15,8 +17,10 @@ use Klink\DmsAdapter\KlinkFacetItem;
 use Klink\DmsAdapter\KlinkSearchResults;
 use Klink\DmsAdapter\KlinkSearchRequest;
 use KSearchClient\Model\Data\Data;
-use KSearchClient\Model\Data\SearchParams;
-use KSearchClient\Model\Data\Aggregation;
+use KSearchClient\Model\Data\DataStatus;
+use KSearchClient\Model\Search\SearchParams;
+use KSearchClient\Model\Search\Aggregation;
+use KSearchClient\Exception\ErrorResponseException;
 use Klink\DmsAdapter\Concerns\HasConnections;
 use Klink\DmsAdapter\Exceptions\KlinkException;
 
@@ -55,7 +59,7 @@ class KlinkAdapter implements AdapterContract
                 
             }
         } catch (\Exception $qe) {
-            \Log::warning('Exception while reading K-Link Network settings', ['exception' => $qe]);
+            Log::warning('Exception while reading K-Link Network settings', ['exception' => $qe]);
         }
     }
 
@@ -122,7 +126,7 @@ class KlinkAdapter implements AdapterContract
             return $results->getTotalResults();
             
         } catch (\Exception $e) {
-            \Log::error('Error getDocumentsCount', ['visibility' => $visibility, 'exception' => $e]);
+            Log::error('Error getDocumentsCount', ['visibility' => $visibility, 'exception' => $e]);
 
             return 0;
         }
@@ -133,37 +137,102 @@ class KlinkAdapter implements AdapterContract
      * Add a KlinkDocument
      * 
      * @return KlinkDocumentDescriptor
+     * @throws KlinkException
      */
     public function addDocument(KlinkDocument $document)
     {
         KlinkVisibilityType::fromString($document->getDescriptor()->getVisibility()); // check if a valid visibility is used
 
-        \Log::info('Sending data.add request', ['data' => $document->getDescriptor()->toData(), 'dataTextualContent' => $document->getDocumentData()]);
+        Log::info('Sending data.add request', ['data' => $document->getDescriptor()->toData(), 'withDataTextualContent' => !empty($document->getDocumentData())]);
 
-        /**
-         * @var KSearchClient\Model\Data\Data
-         */
-        $added_data = $this->selectConnection($document->getDescriptor()->getVisibility())
+        try{
+            /**
+             * @var KSearchClient\Model\Data\Data
+             */
+            $added_data = $this->selectConnection($document->getDescriptor()->getVisibility())
             ->add($document->getDescriptor()->toData(), 
-                  $document->getDocumentData());
+            $document->getDocumentData());
+            
+        }catch(Exception $ex){
+            throw new KlinkException($ex->getMessage(), $ex->getCode(), $ex);   
+        }
 
         // checking if the indexing is going ahead
+        $status = $this->getStatus($document->getDescriptor()->uuid(), $document->getDescriptor()->getVisibility());
 
-        $status = 'queued';
-        $cycles = 0;
-        do {
-            sleep(1);
-            $status = $this->selectConnection($document->getDescriptor()->getVisibility())->getStatus($document->getDescriptor()->uuid());
-            $cycles++;
+        // considering that since version 3.3.0 of the K-Search even when index 
+        // fails the document is searchable, we don't throw errors unless the 
+        // download failed, otherwise we write warnings in the log
+        if($status === DataStatus::STATUS_QUEUED_OK){
+            Log::warning("The data {$document->getDescriptor()->uuid()} is still queued for processing after 6 seconds. Considering it ok.");
         }
-        while(strtolower($status->status) !== 'ok' && $cycles < 40);
 
-        if(strtolower($status->status) !== 'ok'){
-            throw new KlinkException('Indexing is still in progress after 40 seconds, aborting.');
+        if($status === DataStatus::STATUS_DOWNLOAD_FAIL){
+            throw new KlinkException("Data download failed for {$document->getDescriptor()->uuid()}");
+        }
+
+        if($status === DataStatus::STATUS_INDEX_FAIL){
+            Log::warning("Indexing failed for {$document->getDescriptor()->uuid()}.");
         }
 
         return $document->getDescriptor();
+    }
 
+    /**
+     * Internal status checking in accordance with API 3.4 workflow
+     * 
+     * 1. Checks processing status
+     * 2. if queued for more than 5 seconds we give up
+     * 3. if not anymore queued, check data status
+     * 4. return the last available state
+     * 
+     * Take into consideration that processing status checking is a 
+     * must because checking only the data status might return 
+     * the status of the previously indexed version.
+     * In addition the first check is done after 1 second to 
+     * make sure that the K-Search enqueued the add request
+     * 
+     * @return string the status, @see DataStatus constants
+     */
+    private function getStatus($uuid, $visibility)
+    {
+        // first we check in the processing queue
+        // if is there, at least something was received
+        try{
+
+            $statusResponse = null;
+            $cycles = 0;
+            do {
+                sleep(1);
+                $statusResponse = $this->selectConnection($visibility)->getStatus($uuid, DataStatus::TYPE_PROCESSING);
+                $cycles++;
+            }
+            while($statusResponse->status === DataStatus::STATUS_QUEUED_OK && $cycles < 5);
+            // check if is in the queue for a maximum of 5 cycles (~5 seconds)
+        }catch(ErrorResponseException $ex){
+            if($ex->getCode() !== 404){
+                // not found might be plausible if the add request is not 
+                // anymore in the queue to be picked up for processing.
+                // On the other end we are not happy with other errors 
+                // return "processing.failure";
+                throw $ex;
+            }
+        }
+
+        if($statusResponse && $statusResponse->status === DataStatus::STATUS_QUEUED_OK){
+            // if is in the queue for 5 seconds, 
+            // we give up and return the queued state
+            return DataStatus::STATUS_QUEUED_OK;
+        }
+
+        // if is not in the processing queue, might be in the indexing stage, 
+        // so we check DataStatus::TYPE_DATA and return whatever status is returned
+        
+        $statusResponse = $this->selectConnection($visibility)->getStatus($uuid, DataStatus::TYPE_DATA);
+        
+        Log::info("Status for $uuid in $visibility", ['status' => $statusResponse]);
+
+        return $statusResponse->status;
     }
 
     public function getDocument($uuid, $visibility = KlinkVisibilityType::KLINK_PRIVATE)

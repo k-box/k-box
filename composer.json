@@ -2,28 +2,19 @@
 	"name": "klink/kbox",
 	"description": "The K-Link K-Box.",
 	"keywords": ["K-Link", "document", "management", "K-Box"],
-	"license": "AGPL-3.0",
+	"license": "AGPL-3.0-only",
 	"type": "project",	
 	
 	"repositories": [
         {
             "type": "vcs",
-            "url": "https://git.klink.asia/main/k-search-client-php.git"
-		},
-		{
-            "type": "vcs",
-			"url": "https://git.klink.asia/alessio.vertemati/laravel-tus-upload"
-		},
-		{
-			"type": "vcs",
-			"url": "https://git.klink.asia/main/k-link-video-streaming-client-php.git"
-		}        
+            "url": "https://github.com/k-box/k-search-client-php"
+		}
     ],
 
 	"require": {
 		"php": ">=5.6.4",
 		"ext-fileinfo": "*",
-		"avvertix/laravel-tus-upload": "0.2.*",
 		"avvertix/materialicons-laravel-bridge": "^0.1.0",
 		"barryvdh/laravel-async-queue": "0.6.*",
 		"doctrine/dbal": "^2.5",
@@ -34,11 +25,12 @@
 		"guzzlehttp/guzzle": "~6.2.0",
 		"jenssegers/agent": "^2.5",
 		"jenssegers/date": "^3.2",
-		"k-box/k-search-client-php": "3.0.2",
+		"k-box/k-search-client-php": "3.1.*",
 		"laravel/framework": "5.4.*",
 		"laravel/tinker": "~1.0",
 		"league/csv": "^8.0",
 		"oneofftech/k-link-streaming-upload-client": "0.1.*",
+		"oneofftech/laravel-tus-upload": "0.3.0",
 		"php-http/guzzle6-adapter": "^1.1",
 		"phpoffice/phppresentation": "^0.8.0",
 		"phpoffice/phpspreadsheet": "dev-master",

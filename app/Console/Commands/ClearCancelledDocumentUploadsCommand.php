@@ -5,7 +5,7 @@ namespace KBox\Console\Commands;
 use Log;
 use Illuminate\Console\Command;
 use KBox\DocumentDescriptor;
-use Avvertix\TusUpload\TusUpload;
+use OneOffTech\TusUpload\TusUpload;
 
 class ClearCancelledDocumentUploadsCommand extends Command
 {

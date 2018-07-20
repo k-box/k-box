@@ -8,7 +8,7 @@ use KBox\DocumentDescriptor;
 use KBox\Events\UploadCompleted;
 use Illuminate\Support\Facades\Storage;
 use Klink\DmsDocuments\DocumentsService;
-use Avvertix\TusUpload\Events\TusUploadCompleted;
+use OneOffTech\TusUpload\Events\TusUploadCompleted;
 use Klink\DmsAdapter\KlinkDocumentUtils;
 
 class TusUploadCompletedHandler

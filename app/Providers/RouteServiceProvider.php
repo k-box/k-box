@@ -2,7 +2,7 @@
 
 namespace KBox\Providers;
 
-use Avvertix\TusUpload\Tus;
+use OneOffTech\TusUpload\Tus;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 

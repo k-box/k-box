@@ -31,19 +31,14 @@ services:
 
   ## The Search Engine API
   ksearch:
-    image: "docker.klink.asia/images/k-search:3.2.1-1"
+    image: "docker.klink.asia/images/k-search:3.3.0-2"
     environment:
       ## Further datails about K-Search configuration in https://github.com/k-box/k-search
-      ## Application settings
-      - APP_ENV=dev # Use the development environment
-      - APP_DEBUG=0 # Enable the debug feature
       ## Solr search configuration
       - SOLR_HOST=engine # this is the external address of Solr
       - SOLR_CORE=k-search # this is the Solr index name
       ## Registry configuration
       - KLINK_REGISTRY_ENABLED=0 # = no authentication
-      ## A valid URL needs to be specified for the registry, even if the integration is disabled
-      - KLINK_REGISTRY_API_URL=https://registry.local/
     depends_on:
       - engine
     networks:

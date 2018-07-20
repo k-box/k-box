@@ -4,66 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "90a9dd632afeec9abd91b0c8d7158d29",
+    "content-hash": "ccccc60eb844b5bf23659f4fe7d5c901",
     "packages": [
-        {
-            "name": "avvertix/laravel-tus-upload",
-            "version": "v0.2.0",
-            "source": {
-                "type": "git",
-                "url": "https://git.klink.asia/alessio.vertemati/laravel-tus-upload",
-                "reference": "0ae15d0eaa023481cab43d8dcd0ae3c330815969"
-            },
-            "require": {
-                "illuminate/auth": "5.4.*",
-                "illuminate/console": "5.4.*",
-                "illuminate/contracts": "5.4.*",
-                "illuminate/database": "5.4.*",
-                "illuminate/events": "5.4.*",
-                "illuminate/support": "5.4.*",
-                "illuminate/view": "5.4.*",
-                "php": ">=5.6.4"
-            },
-            "require-dev": {
-                "fzaninotto/faker": "~1.4",
-                "mockery/mockery": "0.9.*",
-                "orchestra/testbench": "~3.4",
-                "phpunit/phpunit": "~5.7"
-            },
-            "type": "project",
-            "extra": {
-                "brach-alias": {
-                    "dev-master": "0.1.x-dev"
-                }
-            },
-            "autoload": {
-                "classmap": [
-                    "database"
-                ],
-                "psr-4": {
-                    "Avvertix\\TusUpload\\": "src/"
-                },
-                "files": [
-                    "src/helpers.php"
-                ]
-            },
-            "autoload-dev": {
-                "psr-4": {
-                    "Tests\\": "tests/"
-                }
-            },
-            "license": [
-                "MIT"
-            ],
-            "description": "Upload files to your Laravel application with the tus.io resumable upload protocol.",
-            "keywords": [
-                "laravel",
-                "package",
-                "tus",
-                "upload"
-            ],
-            "time": "2017-11-24T15:57:36+00:00"
-        },
         {
             "name": "avvertix/materialicons-laravel-bridge",
             "version": "v0.1.0",
@@ -1634,11 +1576,17 @@
         },
         {
             "name": "k-box/k-search-client-php",
-            "version": "v3.0.2",
+            "version": "v3.1.0",
             "source": {
                 "type": "git",
-                "url": "https://git.klink.asia/main/k-search-client-php.git",
-                "reference": "8e97e0d2fc50eca36003856be9af4f512f5020d9"
+                "url": "https://github.com/k-box/k-search-client-php.git",
+                "reference": "20bbe096c99e3a451766a237ca59ae28fa83a6cd"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/k-box/k-search-client-php/zipball/20bbe096c99e3a451766a237ca59ae28fa83a6cd",
+                "reference": "20bbe096c99e3a451766a237ca59ae28fa83a6cd",
+                "shasum": ""
             },
             "require": {
                 "doctrine/annotations": "^1.4",
@@ -1662,7 +1610,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.0.1-dev"
+                    "dev-master": "3.1.0-dev"
                 }
             },
             "autoload": {
@@ -1679,7 +1627,7 @@
                 ]
             },
             "license": [
-                "AGPL-3.0"
+                "AGPL-3.0-only"
             ],
             "authors": [
                 {
@@ -1695,13 +1643,13 @@
                     "email": "carlos.reig@oneofftech.xyz"
                 }
             ],
-            "description": "The K-Link K-Search client",
+            "description": "The K-Search client",
             "homepage": "https://github.com/k-box/k-search-client-php",
             "support": {
                 "issues": "https://github.com/k-box/k-search-client-php/issues",
                 "source": "https://github.com/k-box/k-search-client-php"
             },
-            "time": "2018-01-19T00:00:00+00:00"
+            "time": "2018-07-20T00:00:00+00:00"
         },
         {
             "name": "kitetail/zttp",
@@ -2466,8 +2414,14 @@
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://git.klink.asia/main/k-link-video-streaming-client-php.git",
-                "reference": "e4c098c241c3235f9b84f92c75fea5419e1febb7"
+                "url": "https://github.com/OneOffTech/k-link-streaming-upload-client.git",
+                "reference": "84f057959b25871685af321fa5d5df88048411bf"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/OneOffTech/k-link-streaming-upload-client/zipball/84f057959b25871685af321fa5d5df88048411bf",
+                "reference": "84f057959b25871685af321fa5d5df88048411bf",
+                "shasum": ""
             },
             "require": {
                 "kitetail/zttp": "^0.2.0",
@@ -2490,21 +2444,9 @@
                     "Oneofftech\\KlinkStreaming\\": "src/"
                 }
             },
-            "autoload-dev": {
-                "psr-4": {
-                    "Tests\\": "tests/"
-                }
-            },
-            "scripts": {
-                "post-install-cmd": [
-                    "Oneofftech\\KlinkStreaming\\Installer::downloadTusClient"
-                ],
-                "post-update-cmd": [
-                    "Oneofftech\\KlinkStreaming\\Installer::downloadTusClient"
-                ]
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "AGPL-3.0"
+                "MIT"
             ],
             "authors": [
                 {
@@ -2513,7 +2455,72 @@
                 }
             ],
             "description": "Upload videos to a K-Link Streaming Service",
-            "time": "2017-11-17T09:33:03+00:00"
+            "time": "2018-03-30T17:36:50+00:00"
+        },
+        {
+            "name": "oneofftech/laravel-tus-upload",
+            "version": "v0.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/OneOffTech/laravel-tus-upload.git",
+                "reference": "39d50e808d70dc305abd961843ebd5be622b47af"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/OneOffTech/laravel-tus-upload/zipball/39d50e808d70dc305abd961843ebd5be622b47af",
+                "reference": "39d50e808d70dc305abd961843ebd5be622b47af",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/auth": "5.4.*",
+                "illuminate/console": "5.4.*",
+                "illuminate/contracts": "5.4.*",
+                "illuminate/database": "5.4.*",
+                "illuminate/events": "5.4.*",
+                "illuminate/support": "5.4.*",
+                "illuminate/view": "5.4.*",
+                "php": ">=7.0"
+            },
+            "require-dev": {
+                "fzaninotto/faker": "~1.4",
+                "mockery/mockery": "0.9.*",
+                "orchestra/testbench": "~3.4",
+                "phpunit/phpunit": "~6.0"
+            },
+            "type": "project",
+            "extra": {
+                "brach-alias": {
+                    "dev-master": "0.3.x-dev"
+                },
+                "laravel": {
+                    "providers": [
+                        "OneOffTech\\TusUpload\\Providers\\TusUploadServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "classmap": [
+                    "database"
+                ],
+                "psr-4": {
+                    "OneOffTech\\TusUpload\\": "src/"
+                },
+                "files": [
+                    "src/helpers.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Upload files to your Laravel application with the tus.io resumable upload protocol.",
+            "keywords": [
+                "laravel",
+                "package",
+                "tus",
+                "upload"
+            ],
+            "time": "2018-01-09T20:33:24+00:00"
         },
         {
             "name": "paragonie/random_compat",
