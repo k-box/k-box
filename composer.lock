@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9cb9378a5a078032ab1bc1cd18d0482c",
+    "content-hash": "ccccc60eb844b5bf23659f4fe7d5c901",
     "packages": [
         {
             "name": "avvertix/materialicons-laravel-bridge",
@@ -1576,16 +1576,16 @@
         },
         {
             "name": "k-box/k-search-client-php",
-            "version": "dev-update-data-model-api-3-4",
+            "version": "v3.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/k-box/k-search-client-php.git",
-                "reference": "09b5132bbd56f4efee5efa29d01ebdd166ee7058"
+                "reference": "20bbe096c99e3a451766a237ca59ae28fa83a6cd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/k-box/k-search-client-php/zipball/09b5132bbd56f4efee5efa29d01ebdd166ee7058",
-                "reference": "09b5132bbd56f4efee5efa29d01ebdd166ee7058",
+                "url": "https://api.github.com/repos/k-box/k-search-client-php/zipball/20bbe096c99e3a451766a237ca59ae28fa83a6cd",
+                "reference": "20bbe096c99e3a451766a237ca59ae28fa83a6cd",
                 "shasum": ""
             },
             "require": {
@@ -1627,7 +1627,7 @@
                 ]
             },
             "license": [
-                "AGPL-3.0"
+                "AGPL-3.0-only"
             ],
             "authors": [
                 {
@@ -1649,7 +1649,7 @@
                 "issues": "https://github.com/k-box/k-search-client-php/issues",
                 "source": "https://github.com/k-box/k-search-client-php"
             },
-            "time": "2018-07-19T09:33:03+00:00"
+            "time": "2018-07-20T00:00:00+00:00"
         },
         {
             "name": "kitetail/zttp",
@@ -7076,7 +7076,6 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "k-box/k-search-client-php": 20,
         "phpoffice/phpspreadsheet": 20
     },
     "prefer-stable": true,
