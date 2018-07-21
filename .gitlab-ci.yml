@@ -40,9 +40,9 @@ before_script:
 
 ## Linting
 
-test-syntax:7.0:
+test-syntax:7.1:
   <<: *composer_install
-  image: "docker.klink.asia/main/docker-php:7.0-alpine"
+  image: "docker.klink.asia/main/docker-php:7.1-alpine"
   tags:
     - docker
 

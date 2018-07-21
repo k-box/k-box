@@ -13,7 +13,7 @@
     ],
 
 	"require": {
-		"php": ">=7.0.0",
+		"php": ">=7.1.0",
 		"ext-fileinfo": "*",
 		"avvertix/materialicons-laravel-bridge": "0.2.*",
 		"barryvdh/laravel-async-queue": "0.7.*",
