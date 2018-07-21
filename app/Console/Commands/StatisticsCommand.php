@@ -2,7 +2,6 @@
 
 namespace KBox\Console\Commands;
 
-use DB;
 use KBox\File;
 use KBox\User;
 use DatePeriod;
