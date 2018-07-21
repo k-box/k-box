@@ -81,7 +81,7 @@ class LanguageCheckCommand extends Command
         }
 
         $en_files = $this->filesystem->files($en_language_path);
-        dd($en_files);
+        
         $lang_groups = array_map(
             function ($e) {
                 return str_replace('.php', '', basename($e));
