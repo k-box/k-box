@@ -52,8 +52,8 @@
 	
 	@endif
 
-	@csrf
-	@method('PUT')
+	{{ csrf_field() }}
+	{{ method_field('PUT') }}
 
 	@include('errors.list')
 

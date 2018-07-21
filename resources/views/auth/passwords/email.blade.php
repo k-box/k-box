@@ -25,7 +25,7 @@
 
 		<form method="post" action="{{ url('/password/email') }}">
 
-		   @csrf
+		   {{ csrf_field() }}
 
 		   <p>{{trans('passwords.forgot.instructions')}}</p>
 

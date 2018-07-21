@@ -16,7 +16,7 @@
 
 	<form method="post" action="{{ url('/password/reset') }}">
 
-	   @csrf
+	   {{ csrf_field() }}
 
 	   <input type="hidden" name="token" value="{{ $token }}"> 
 

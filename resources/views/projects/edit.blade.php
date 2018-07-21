@@ -28,7 +28,7 @@
 
     <form  method="post" class="js-project-form" enctype="multipart/form-data" action="{{route('projects.update', ['id' => $project->id])}}">
 		
-		@method('PUT')
+		{{ method_field('PUT') }}
 		
 		@include('projects.partials.form', ['submit_btn' => trans('projects.labels.edit_submit')])
     

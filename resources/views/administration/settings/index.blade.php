@@ -21,7 +21,7 @@
 
             <form  method="post" class="c-form" action="{{route('administration.settings.store')}}">
     
-                @csrf
+                {{ csrf_field() }}
 
                 <div class="c-section c-section--separated">
                     <h4 class="c-section__title">{{trans('administration.settings.support_section')}}</h4>
@@ -52,7 +52,7 @@
 
             <form  method="post" class="c-form" action="{{route('administration.settings.store')}}">
     
-                @csrf
+                {{ csrf_field() }}
                 
                 
                 <div class="c-section c-section--separated">
@@ -136,7 +136,7 @@
 
             <form  method="post" class="c-form" action="{{route('administration.settings.store')}}">
     
-                @csrf
+                {{ csrf_field() }}
 
                 <div class="c-section">
                     <h4 class="c-section__title">{{trans('administration.settings.analytics_section')}}</h4>

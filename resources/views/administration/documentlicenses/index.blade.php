@@ -26,9 +26,9 @@
 
     <form  method="post" class="c-form" action="{{route('administration.licenses.available.update')}}">
     
-        @csrf
+        {{ csrf_field() }}
 
-        @method('PUT')
+        {{ method_field('PUT') }}
 
 
         <div class="c-section">
@@ -73,9 +73,9 @@
 
     <form  method="post" class="c-form" action="{{route('administration.licenses.default.update')}}">
     
-        @csrf
+        {{ csrf_field() }}
 
-        @method('PUT')
+        {{ method_field('PUT') }}
 
         <div class="c-section">
             <h4 class="c-section__title">{{trans('administration.documentlicenses.default.title')}}</h4>

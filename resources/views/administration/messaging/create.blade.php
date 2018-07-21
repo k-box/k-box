@@ -14,7 +14,7 @@
 
         @include('errors.list')
 
-        @csrf
+        {{ csrf_field() }}
     
         <div class="c-form__field">
             
