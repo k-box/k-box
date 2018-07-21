@@ -2,12 +2,11 @@
 
 use KBox\File;
 
-use Tests\BrowserKitTestCase;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-
-use KBox\Console\Commands\OrphanFilesCommand;
-
 use KBox\Traits\RunCommand;
+use Tests\BrowserKitTestCase;
+use Illuminate\Support\Facades\DB;
+use KBox\Console\Commands\OrphanFilesCommand;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 /**
  * Test the {@see OrphanFilesCommand}
@@ -21,8 +20,8 @@ class OrphanFilesCommandTest extends BrowserKitTestCase
         parent::setUp();
 
         \Schema::disableForeignKeyConstraints();
-        \DB::table('document_descriptors')->truncate();
-        \DB::table('files')->truncate();
+        DB::table('document_descriptors')->truncate();
+        DB::table('files')->truncate();
     }
 
     /**
@@ -33,7 +32,7 @@ class OrphanFilesCommandTest extends BrowserKitTestCase
         $user = $this->createAdminUser();
 
         // generate 3 document descriptors with file
-        $docs = factory('KBox\DocumentDescriptor', 3)->create();
+        $docs = factory(\KBox\DocumentDescriptor::class, 3)->create();
 
         // add a file revision to the last generated document
         $document3 = $docs->last();
@@ -42,7 +41,7 @@ class OrphanFilesCommandTest extends BrowserKitTestCase
         $destination = storage_path('documents/example-document.pdf');
         copy($template, $destination);
 
-        $revision = factory('KBox\File')->create([
+        $revision = factory(\KBox\File::class)->create([
             'user_id' => $user->id,
             'original_uri' => '',
             'path' => $destination,
@@ -54,7 +53,7 @@ class OrphanFilesCommandTest extends BrowserKitTestCase
         $document3->save();
 
         // create an orphan file
-        $orphan = factory('KBox\File')->create([
+        $orphan = factory(\KBox\File::class)->create([
             'user_id' => $user->id,
             'original_uri' => '',
             'path' => $destination,
@@ -62,12 +61,12 @@ class OrphanFilesCommandTest extends BrowserKitTestCase
         ]);
         
         // trash a document with its related file
-        $to_be_trashed = factory('KBox\DocumentDescriptor')->create();
+        $to_be_trashed = factory(\KBox\DocumentDescriptor::class)->create();
         $to_be_trashed->file->delete();
         $to_be_trashed->delete();
 
         // orphan file that is already trashed
-        $deleted_orphan = factory('KBox\File')->create([
+        $deleted_orphan = factory(\KBox\File::class)->create([
             'user_id' => $user->id,
             'original_uri' => '',
             'path' => $destination,

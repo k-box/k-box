@@ -74,6 +74,6 @@ class AdministrationDashboardController extends Controller
         return view('administration.administration', [
         'notices' => $notices,
         'error_notices' => $config_errors,
-      ]);
+        ]);
     }
 }

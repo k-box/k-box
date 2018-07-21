@@ -19,14 +19,14 @@ class KlinkAdapterPrivateDataManagementTest extends TestCase
         
         if (empty(getenv('DMS_CORE_ADDRESS'))) {
             $this->markTestSkipped(
-              'DMS_CORE_ADDRESS not configured for running integration tests.'
+                'DMS_CORE_ADDRESS not configured for running integration tests.'
             );
         }
     }
 
     public function test_document_descriptor_is_added()
     {
-        $descriptor = factory('KBox\DocumentDescriptor')->create();
+        $descriptor = factory(\KBox\DocumentDescriptor::class)->create();
 
         $adapter = app('klinkadapter');
 
@@ -72,7 +72,7 @@ class KlinkAdapterPrivateDataManagementTest extends TestCase
 
     public function test_add_document_report_indexing_timeout()
     {
-        $descriptor = factory('KBox\DocumentDescriptor')->create([
+        $descriptor = factory(\KBox\DocumentDescriptor::class)->create([
             'mime_type' => 'application/pdf'
         ]);
             

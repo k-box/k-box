@@ -181,7 +181,7 @@ class GroupManagementTest extends BrowserKitTestCase
     /**
      * @expectedException KBox\Exceptions\ForbiddenException
      */
-    public function testGroupUpdateForbidden($value='')
+    public function testGroupUpdateForbidden($value = '')
     {
         $user = $this->createAdminUser();
         

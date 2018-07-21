@@ -74,7 +74,7 @@ class Shared extends Model
     {
         
         // One to One
-        return $this->belongsTo('KBox\User', 'user_id');
+        return $this->belongsTo(\KBox\User::class, 'user_id');
     }
 
     public function shareable()
@@ -138,7 +138,7 @@ class Shared extends Model
             $user = $user->id;
         }
 
-        return $query->where('sharedwith_id', $user)->where('sharedwith_type', 'KBox\User');
+        return $query->where('sharedwith_id', $user)->where('sharedwith_type', \KBox\User::class);
     }
 
     public function scopeSharedByMe($query, $user)
@@ -156,12 +156,12 @@ class Shared extends Model
             $user = $user->id;
         }
 
-        return $query->where('sharedwith_id', $user)->where('sharedwith_type', 'KBox\PeopleGroup');
+        return $query->where('sharedwith_id', $user)->where('sharedwith_type', \KBox\PeopleGroup::class);
     }
     
     public function scopeSharedWithGroups($query, $group_ids)
     {
-        return $query->whereIn('sharedwith_id', $group_ids)->where('sharedwith_type', 'KBox\PeopleGroup');
+        return $query->whereIn('sharedwith_id', $group_ids)->where('sharedwith_type', \KBox\PeopleGroup::class);
     }
 
     /**
@@ -217,6 +217,6 @@ class Shared extends Model
      */
     public function isPublicLink()
     {
-        return $this->sharedwith_type === 'KBox\PublicLink';
+        return $this->sharedwith_type === \KBox\PublicLink::class;
     }
 }

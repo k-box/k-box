@@ -45,7 +45,7 @@ class InstitutionsController extends Controller
 
         $data = ['institutions' => $institutions, 'pagetitle' => trans('administration.menu.institutions')];
     
-        $data['current_institution'] = \Config::get('dms.institutionID');
+        $data['current_institution'] = config('dms.institutionID');
 
         return view('administration.institutions.index', $data);
     }

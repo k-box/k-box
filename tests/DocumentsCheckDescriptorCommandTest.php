@@ -20,7 +20,7 @@ class DocumentsCheckDescriptorCommandTest extends BrowserKitTestCase
 
     private function createWrongDocument($options = [])
     {
-        $docs = factory('KBox\DocumentDescriptor')->create($options);
+        $docs = factory(\KBox\DocumentDescriptor::class)->create($options);
         
         return $docs;
     }

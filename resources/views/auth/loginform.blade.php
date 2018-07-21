@@ -22,7 +22,7 @@
 
 	
 
-	{{ csrf_field() }}
+	@csrf
 
 	<div class="c-form__buttons">
 		<input type="submit" id="login-submit" name="login-submit" class="button"  tabindex="3" value="{{trans('login.form.submit')}}">

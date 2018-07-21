@@ -30,9 +30,9 @@ class KlinkApiController extends Controller
      * Initialize the controller instance
      */
     public function __construct(
-            ThumbnailsService $thumbService,
-            PreviewService $preview,
-            DocumentsService $documentsService
+        ThumbnailsService $thumbService,
+        PreviewService $preview,
+        DocumentsService $documentsService
     ) {
         $this->thumbnails = $thumbService;
         $this->previewService = $preview;

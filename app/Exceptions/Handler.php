@@ -61,6 +61,20 @@ class Handler extends ExceptionHandler
     }
 
     /**
+     * Convert a validation exception into a JSON response.
+     *
+     * This transform the validation exception using the Laravel 5.4 error response style
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Validation\ValidationException  $exception
+     * @return \Illuminate\Http\JsonResponse
+     */
+    protected function invalidJson($request, ValidationException $exception)
+    {
+        return response()->json($exception->errors(), $exception->status);
+    }
+
+    /**
      * Convert an authentication exception into an unauthenticated response.
      *
      * @param  \Illuminate\Http\Request  $request

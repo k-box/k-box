@@ -64,11 +64,11 @@ class UserImportCommandTest extends BrowserKitTestCase
         \Mail::shouldReceive('queue')->times(4)->withAnyArgs();
         
         // create a Project called "test"
-        $test = factory('KBox\Project')->create(['name' => 'test']);
+        $test = factory(\KBox\Project::class)->create(['name' => 'test']);
         // create a Project called "secondary"
-        $secondary = factory('KBox\Project')->create(['name' => 'secondary']);
+        $secondary = factory(\KBox\Project::class)->create(['name' => 'secondary']);
         // create a project called "lead by"
-        $lead_by = factory('KBox\Project')->create(['name' => 'lead by']);
+        $lead_by = factory(\KBox\Project::class)->create(['name' => 'lead by']);
         
         $command = new DmsUserImportCommand();
         

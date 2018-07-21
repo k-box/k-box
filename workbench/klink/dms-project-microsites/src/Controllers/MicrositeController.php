@@ -12,7 +12,7 @@ use Illuminate\Contracts\Auth\Guard as AuthGuard;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\JsonResponse;
 use KBox\Exceptions\ForbiddenException;
-
+use Illuminate\Support\Facades\DB;
 use Klink\DmsMicrosites\Requests\MicrositeCreationRequest;
 use Klink\DmsMicrosites\Requests\MicrositeUpdateRequest;
 
@@ -131,7 +131,7 @@ class MicrositeController extends Controller
                 }
             }
             
-            $site = \DB::transaction(function () use ($site_request, $pages, $menus) {
+            $site = DB::transaction(function () use ($site_request, $pages, $menus) {
                 $st = Microsite::create($site_request);
                 
                 if (! empty($pages)) {
@@ -298,7 +298,7 @@ class MicrositeController extends Controller
                 }
             }
             
-            $site = \DB::transaction(function () use ($microsite, $site_request, $pages, $menus) {
+            $site = DB::transaction(function () use ($microsite, $site_request, $pages, $menus) {
                 $st = $microsite->update($site_request);
 
                 if (! empty($pages)) {

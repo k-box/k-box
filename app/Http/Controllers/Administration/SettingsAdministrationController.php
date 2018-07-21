@@ -39,18 +39,18 @@ class SettingsAdministrationController extends Controller
     public function index(AuthGuard $auth)
     {
         $data = [
-      'pagetitle' => trans('administration.menu.settings'),
-      Option::PUBLIC_CORE_ENABLED => ! ! Option::option(Option::PUBLIC_CORE_ENABLED, false),
-      Option::PUBLIC_CORE_DEBUG => ! ! Option::option(Option::PUBLIC_CORE_DEBUG, false),
-      Option::PUBLIC_CORE_URL => Option::option(Option::PUBLIC_CORE_URL, ''),
-      Option::PUBLIC_CORE_USERNAME => Option::option(Option::PUBLIC_CORE_USERNAME, ''),
-      Option::PUBLIC_CORE_PASSWORD => @base64_decode(Option::option(Option::PUBLIC_CORE_PASSWORD, '')),
-      Option::PUBLIC_CORE_NETWORK_NAME_EN => Option::option(Option::PUBLIC_CORE_NETWORK_NAME_EN, ''),
-      Option::PUBLIC_CORE_NETWORK_NAME_RU => Option::option(Option::PUBLIC_CORE_NETWORK_NAME_RU, ''),
-      Option::STREAMING_SERVICE_URL => Option::option(Option::STREAMING_SERVICE_URL, ''),
-      Option::SUPPORT_TOKEN => support_token(),
-      Option::ANALYTICS_TOKEN => Option::analytics_token(),
-    ];
+        'pagetitle' => trans('administration.menu.settings'),
+        Option::PUBLIC_CORE_ENABLED => ! ! Option::option(Option::PUBLIC_CORE_ENABLED, false),
+        Option::PUBLIC_CORE_DEBUG => ! ! Option::option(Option::PUBLIC_CORE_DEBUG, false),
+        Option::PUBLIC_CORE_URL => Option::option(Option::PUBLIC_CORE_URL, ''),
+        Option::PUBLIC_CORE_USERNAME => Option::option(Option::PUBLIC_CORE_USERNAME, ''),
+        Option::PUBLIC_CORE_PASSWORD => @base64_decode(Option::option(Option::PUBLIC_CORE_PASSWORD, '')),
+        Option::PUBLIC_CORE_NETWORK_NAME_EN => Option::option(Option::PUBLIC_CORE_NETWORK_NAME_EN, ''),
+        Option::PUBLIC_CORE_NETWORK_NAME_RU => Option::option(Option::PUBLIC_CORE_NETWORK_NAME_RU, ''),
+        Option::STREAMING_SERVICE_URL => Option::option(Option::STREAMING_SERVICE_URL, ''),
+        Option::SUPPORT_TOKEN => support_token(),
+        Option::ANALYTICS_TOKEN => Option::analytics_token(),
+        ];
 
         return view('administration.settings.index', $data);
     }
@@ -128,13 +128,13 @@ class SettingsAdministrationController extends Controller
       
             return redirect()->route('administration.settings.index')->with([
               'flash_message' => trans('administration.settings.saved')
-          ]);
+            ]);
         } catch (\Exception $ex) {
             \Log::error('Settings saving error', ['error' => $ex, 'request' => $request->all()]);
         
             return redirect()->back()->withInput()->withErrors([
               'error' => trans('administration.settings.save_error', ['error' => $ex->getMessage()])
-          ]);
+            ]);
         }
     }
 }

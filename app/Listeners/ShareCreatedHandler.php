@@ -37,7 +37,7 @@ class ShareCreatedHandler implements ShouldQueue
     {
         $to = $event->share->sharedwith;
 
-        if (is_a($to, 'KBox\User')) {
+        if (is_a($to, \KBox\User::class)) {
             Log::info('share created', compact('event'));
 
             $to->notify(new ShareCreatedNotification($event->share));

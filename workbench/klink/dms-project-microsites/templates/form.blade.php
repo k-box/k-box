@@ -1,5 +1,5 @@
 
-{{ csrf_field() }}
+@csrf
 <input type="hidden" name="project" value="{{ $project->id }}">
 
 <div class="c-form__field">

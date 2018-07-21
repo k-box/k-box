@@ -67,7 +67,7 @@
 
         <form  method="post" class="c-form" action="{{route('administration.storage.naming')}}">
 
-            {{ csrf_field() }}
+            @csrf
 
             <h3>{{trans('administration.storage.naming_policy_title')}}</h3>
 

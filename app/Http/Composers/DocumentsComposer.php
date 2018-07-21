@@ -230,7 +230,6 @@ class DocumentsComposer
                 $auth_user = \Auth::user();
 
                 if ($auth_user->can_capability(Capability::UPLOAD_DOCUMENTS) && ! is_null($document->file)) {
-                    
                     // $view->with('show_versions', true);
 
                     $view->with('has_versions', ! is_null($document->file->revision_of));
@@ -293,8 +292,7 @@ class DocumentsComposer
         }
         
         if (! is_null($facets)) {
-
-        //   array:1 [▼
+            //   array:1 [▼
             //     "properties.language" => array:1 [▼
             //       0 => AggregationResult {#733 ▼
             //         +value: "en"
@@ -323,8 +321,7 @@ class DocumentsComposer
                                     $this->documents->isCollectionAccessible($auth_user, $grp)) ||
                                 (! is_null($group_instance) &&
                                     in_array($grp_id, $group_instance_descendants))) {
-                                
-                                // considering only really accessible collections
+                                    // considering only really accessible collections
                                 
                                     $group_facet->label = $grp->name;
                                     $group_facet->selected = false;

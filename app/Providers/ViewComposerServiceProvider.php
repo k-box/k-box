@@ -16,9 +16,9 @@ class ViewComposerServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        view()->composer('global', '\KBox\Http\Composers\AllComposer');
-        view()->composer('search', 'KBox\Http\Composers\HeadersComposer');
-        view()->composer('profile.user', 'KBox\Http\Composers\HeadersComposer');
+        view()->composer('global', \KBox\Http\Composers\AllComposer::class);
+        view()->composer('search', \KBox\Http\Composers\HeadersComposer::class);
+        view()->composer('profile.user', \KBox\Http\Composers\HeadersComposer::class);
         
         $this->registerHeadersComposer();
         
@@ -52,10 +52,10 @@ class ViewComposerServiceProvider extends ServiceProvider
 
     public function registerHeadersComposer()
     {
-        view()->composer('headers.header', 'KBox\Http\Composers\HeadersComposer');
+        view()->composer('headers.header', \KBox\Http\Composers\HeadersComposer::class);
         // view()->composer('headers.external', 'KBox\Http\Composers\HeadersComposer');
-        view()->composer('login-layout', 'KBox\Http\Composers\HeadersComposer');
-        view()->composer('share.create', 'KBox\Http\Composers\HeadersComposer');
+        view()->composer('login-layout', \KBox\Http\Composers\HeadersComposer::class);
+        view()->composer('share.create', \KBox\Http\Composers\HeadersComposer::class);
     }
     
     public function registerFrontpageComposer()
@@ -109,7 +109,7 @@ class ViewComposerServiceProvider extends ServiceProvider
         view()->composer('documents.facets', 'KBox\Http\Composers\DocumentsComposer@facets');
         view()->composer('documents.group-facets', 'KBox\Http\Composers\DocumentsComposer@groupFacets');
 
-        view()->composer('documents.partials.copyrightform', 'KBox\Http\Composers\CopyrightComposer');
+        view()->composer('documents.partials.copyrightform', \KBox\Http\Composers\CopyrightComposer::class);
     }
 
     private function registerNoticesComposer()

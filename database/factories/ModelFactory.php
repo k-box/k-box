@@ -34,7 +34,7 @@ $factory->defineAs(KBox\User::class, 'admin', function (Faker\Generator $faker) 
 $factory->define(KBox\File::class, function (Faker\Generator $faker) {
     $hash = $faker->sha256.''.$faker->sha256;
 
-    if(!is_dir(storage_path('documents'))){
+    if (!is_dir(storage_path('documents'))) {
         mkdir(storage_path('documents'));
     }
 
@@ -110,8 +110,8 @@ $factory->define(KBox\Starred::class, function (Faker\Generator $faker) {
     return [
       'user_id' => function () {
           return factory(KBox\User::class)->create()->id;
-       },
-      'document_id' => function() { 
+      },
+      'document_id' => function () {
           return factory(KBox\DocumentDescriptor::class)->create()->id;
       }
     ];
@@ -134,7 +134,7 @@ $factory->define(KBox\Project::class, function (Faker\Generator $faker, $argumen
     
     $user = isset($arguments['user_id']) ? KBox\User::findOrFail($arguments['user_id']) : factory(KBox\User::class)->create();
     
-    if(!isset($arguments['user_id'])){
+    if (!isset($arguments['user_id'])) {
         $user->addCapabilities(KBox\Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH);
     }
     
@@ -184,11 +184,11 @@ $factory->define(KBox\Shared::class, function (Faker\Generator $faker) {
       'shareable_id' => function () {
           return factory(KBox\DocumentDescriptor::class)->create()->id;
       },
-      'shareable_type' => 'KBox\DocumentDescriptor',
+      'shareable_type' => \KBox\DocumentDescriptor::class,
       'sharedwith_id' => function () {
           return factory(KBox\User::class)->create()->id;
       },
-      'sharedwith_type' => 'KBox\User'
+      'sharedwith_type' => \KBox\User::class
     ];
 });
 
@@ -210,9 +210,9 @@ $factory->defineAs(KBox\Shared::class, 'publiclink', function (Faker\Generator $
       'shareable_id' => function () {
           return factory(KBox\DocumentDescriptor::class)->create()->id;
       },
-      'shareable_type' => 'KBox\DocumentDescriptor',
+      'shareable_type' => \KBox\DocumentDescriptor::class,
       'sharedwith_id' => $link->id,
-      'sharedwith_type' => 'KBox\PublicLink'
+      'sharedwith_type' => \KBox\PublicLink::class
     ];
 });
 

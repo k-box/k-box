@@ -137,12 +137,12 @@ class Import extends Model
 
     public function file()
     {
-        return $this->belongsTo('\KBox\File');
+        return $this->belongsTo(\KBox\File::class);
     }
 
     public function father()
     {
-        return $this->hasOne('\KBox\Import');
+        return $this->hasOne(\KBox\Import::class);
     }
     /*
      * delete all the downloads updated 30 minutes ago

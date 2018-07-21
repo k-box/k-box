@@ -91,12 +91,12 @@ class DocumentsTest extends BrowserKitTestCase
         
         $user = $this->createAdminUser();
         
-        $file = factory('KBox\File')->create([
+        $file = factory(\KBox\File::class)->create([
             'user_id' => $user->id,
             'original_uri' => ''
         ]);
         
-        $doc = factory('KBox\DocumentDescriptor')->create([
+        $doc = factory(\KBox\DocumentDescriptor::class)->create([
             'owner_id' => $user->id,
             'file_id' => $file->id,
         ]);
@@ -127,12 +127,12 @@ class DocumentsTest extends BrowserKitTestCase
         $user = $this->createUser($caps);
         $user2 = $this->createUser($caps);
         
-        $file = factory('KBox\File')->create([
+        $file = factory(\KBox\File::class)->create([
             'user_id' => $user->id,
             'original_uri' => ''
         ]);
         
-        $doc = factory('KBox\DocumentDescriptor')->create([
+        $doc = factory(\KBox\DocumentDescriptor::class)->create([
             'owner_id' => $user->id,
             'file_id' => $file->id,
         ]);
@@ -162,12 +162,12 @@ class DocumentsTest extends BrowserKitTestCase
         
         $user = $this->createUser($caps);
         
-        $file = factory('KBox\File')->create([
+        $file = factory(\KBox\File::class)->create([
             'user_id' => $user->id,
             'original_uri' => ''
         ]);
         
-        $doc = factory('KBox\DocumentDescriptor')->create([
+        $doc = factory(\KBox\DocumentDescriptor::class)->create([
             'owner_id' => $user->id,
             'file_id' => $file->id,
             'copyright_usage' => 'C',
@@ -200,12 +200,12 @@ class DocumentsTest extends BrowserKitTestCase
 
         $user = $this->createUser($caps);
         
-        $file = factory('KBox\File')->create([
+        $file = factory(\KBox\File::class)->create([
             'user_id' => $user->id,
             'original_uri' => ''
         ]);
         
-        $doc = factory('KBox\DocumentDescriptor')->create([
+        $doc = factory(\KBox\DocumentDescriptor::class)->create([
             'owner_id' => $user->id,
             'file_id' => $file->id,
             'is_public' => true,
@@ -243,12 +243,12 @@ class DocumentsTest extends BrowserKitTestCase
 
         $user = $this->createUser($caps);
         
-        $file = factory('KBox\File')->create([
+        $file = factory(\KBox\File::class)->create([
             'user_id' => $user->id,
             'original_uri' => ''
         ]);
         
-        $doc = factory('KBox\DocumentDescriptor')->create([
+        $doc = factory(\KBox\DocumentDescriptor::class)->create([
             'owner_id' => $user->id,
             'file_id' => $file->id,
             'is_public' => true,
@@ -295,12 +295,12 @@ class DocumentsTest extends BrowserKitTestCase
             'password' => bcrypt($user_password)
         ]);
         
-        $file = factory('KBox\File')->create([
+        $file = factory(\KBox\File::class)->create([
             'user_id' => $user->id,
             'original_uri' => ''
         ]);
         
-        $doc = factory('KBox\DocumentDescriptor')->create([
+        $doc = factory(\KBox\DocumentDescriptor::class)->create([
             'owner_id' => $user->id,
             'file_id' => $file->id
         ]);
@@ -343,12 +343,12 @@ class DocumentsTest extends BrowserKitTestCase
             'password' => bcrypt($user_password)
         ]);
         
-        $file = factory('KBox\File')->create([
+        $file = factory(\KBox\File::class)->create([
             'user_id' => $user->id,
             'original_uri' => ''
         ]);
         
-        $doc = factory('KBox\DocumentDescriptor')->create([
+        $doc = factory(\KBox\DocumentDescriptor::class)->create([
             'owner_id' => $user->id,
             'file_id' => $file->id
         ]);
@@ -383,12 +383,12 @@ class DocumentsTest extends BrowserKitTestCase
             'password' => bcrypt($user_password)
         ]);
         
-        $file = factory('KBox\File')->create([
+        $file = factory(\KBox\File::class)->create([
             'user_id' => $user->id,
             'original_uri' => ''
         ]);
         
-        $doc = factory('KBox\DocumentDescriptor')->create([
+        $doc = factory(\KBox\DocumentDescriptor::class)->create([
             'owner_id' => $user->id,
             'file_id' => $file->id
         ]);
@@ -435,12 +435,12 @@ class DocumentsTest extends BrowserKitTestCase
             'password' => bcrypt($user_password)
         ]);
         
-        $file = factory('KBox\File')->create([
+        $file = factory(\KBox\File::class)->create([
             'user_id' => $owner->id,
             'original_uri' => ''
         ]);
         
-        $doc = factory('KBox\DocumentDescriptor')->create([
+        $doc = factory(\KBox\DocumentDescriptor::class)->create([
             'owner_id' => $owner->id,
             'file_id' => $file->id
         ]);
@@ -474,12 +474,12 @@ class DocumentsTest extends BrowserKitTestCase
     {
         $user = $this->createUser(Capability::$PROJECT_MANAGER);
         
-        $file = factory('KBox\File')->create([
+        $file = factory(\KBox\File::class)->create([
             'user_id' => $user->id,
             'original_uri' => ''
         ]);
         
-        $doc = factory('KBox\DocumentDescriptor')->create([
+        $doc = factory(\KBox\DocumentDescriptor::class)->create([
             'owner_id' => $user->id,
             'file_id' => $file->id,
             'hash' => $file->hash,
@@ -521,12 +521,12 @@ class DocumentsTest extends BrowserKitTestCase
         
         $user = $this->createUser(Capability::$PROJECT_MANAGER);
                 
-        $file = factory('KBox\File')->create([
+        $file = factory(\KBox\File::class)->create([
             'user_id' => $user->id,
             'original_uri' => ''
         ]);
         
-        $doc = factory('KBox\DocumentDescriptor')->create([
+        $doc = factory(\KBox\DocumentDescriptor::class)->create([
             'owner_id' => $user->id,
             'file_id' => $file->id,
             'hash' => $file->hash,
@@ -780,14 +780,14 @@ class DocumentsTest extends BrowserKitTestCase
         
         $file = $descr->file;
 
-        $revision_of_revision = factory('KBox\File')->create([
+        $revision_of_revision = factory(\KBox\File::class)->create([
             'user_id' => $user->id,
             'original_uri' => '',
             'path' => $file->path,
             'revision_of' => null,
         ]);
 
-        $revision = factory('KBox\File')->create([
+        $revision = factory(\KBox\File::class)->create([
             'user_id' => $user->id,
             'original_uri' => '',
             'path' => $file->path,
@@ -859,7 +859,7 @@ class DocumentsTest extends BrowserKitTestCase
         // is internal to the page view, therefore already rendered when the response ends
 
         $view = $this->response->original; // is a view
-        $composer = app('KBox\Http\Composers\DocumentsComposer');
+        $composer = app(\KBox\Http\Composers\DocumentsComposer::class);
         $composer->facets($view);
         $this->response->original = $view;
 
@@ -890,7 +890,7 @@ class DocumentsTest extends BrowserKitTestCase
 
         $mock = $this->withKlinkAdapterMock();
 
-        $mock->shouldReceive('institutions')->andReturn(factory('KBox\Institution')->make());
+        $mock->shouldReceive('institutions')->andReturn(factory(\KBox\Institution::class)->make());
         
         $mock->shouldReceive('isNetworkEnabled')->andReturn(false);
 

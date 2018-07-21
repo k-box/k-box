@@ -3,6 +3,7 @@
 namespace KBox\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
 use Symfony\Component\Console\Input\InputOption;
 use KBox\User;
 
@@ -61,7 +62,7 @@ class DmsSessionChecker extends Command
         
         $this->log('Database session support... <info>OK</info>');
         
-        $sessions = \DB::table($sessions_table_name)->where('last_activity', '>=', time() - ($since*60))->get()->all();
+        $sessions = DB::table($sessions_table_name)->where('last_activity', '>=', time() - ($since*60))->get()->all();
         
         $this->log('<info>'.count($sessions).'</info> Sessions active in the last '.$since.' minutes.');
 

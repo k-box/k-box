@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Klink\DmsSearch\SearchRequest;
 use Illuminate\Support\Collection;
 use Klink\DmsSearch\SearchService;
+use Illuminate\Support\Facades\DB;
 use KBox\Pagination\SearchResultsPaginator;
 
 /**
@@ -54,17 +55,16 @@ trait Searchable
   
                     $new_page = floor($key / $request->limit) + 1;
                 } else {
-                      
-                      // duplicate the query to not change the original meaning
+                    // duplicate the query to not change the original meaning
                     $row_count_query = clone $override_response;
 
                     // counting how many elements we have before the chosen one
                     // For this we use MariaDB session variables, because the counter
                     // is not available by default
 
-                    \DB::statement(\DB::raw('set @row=0'));
+                    DB::statement(DB::raw('set @row=0'));
 
-                    $key = $row_count_query->select(\DB::raw('@row:=@row+1 as row'), 'id')->get(['row', 'id'])
+                    $key = $row_count_query->select(DB::raw('@row:=@row+1 as row'), 'id')->get(['row', 'id'])
                           ->where('id', $to_highlight)->first()->row - 1; // row is base 1
                       
                     $new_page = floor($key / $request->limit) + 1;
@@ -80,12 +80,12 @@ trait Searchable
             $request->facets(SearchService::$defaultFacets[$request->visibility]);
 
             return new SearchResultsPaginator(
-                    $request->term === '*' ? '' : $request->term,
-                    $paginated,
-                    null,
-                    $this->facets($request),
-                    $total,
-                    $request->limit,
+                $request->term === '*' ? '' : $request->term,
+                $paginated,
+                null,
+                $this->facets($request),
+                $total,
+                $request->limit,
                 $request->page,
                 [
                         'path'  => $request->url,

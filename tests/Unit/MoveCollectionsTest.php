@@ -23,9 +23,9 @@ class MoveCollectionsTest extends TestCase
 
     public function test_move_from_project_to_personal_is_denied_if_user_not_member_of_project()
     {
-        $project = factory('KBox\Project')->create();
+        $project = factory(\KBox\Project::class)->create();
 
-        $user = tap(factory('KBox\User')->create(), function ($u) {
+        $user = tap(factory(\KBox\User::class)->create(), function ($u) {
             $u->addCapabilities(Capability::$PARTNER);
         });
         
@@ -44,9 +44,9 @@ class MoveCollectionsTest extends TestCase
 
     public function test_move_from_project_to_personal_is_permitted()
     {
-        $project = factory('KBox\Project')->create();
+        $project = factory(\KBox\Project::class)->create();
 
-        $user = tap(factory('KBox\User')->create(), function ($u) {
+        $user = tap(factory(\KBox\User::class)->create(), function ($u) {
             $u->addCapabilities(Capability::$PARTNER);
         });
 
@@ -71,11 +71,11 @@ class MoveCollectionsTest extends TestCase
 
     public function test_move_from_project_to_personal_is_blocked_when_collections_are_created_by_different_users()
     {
-        $user = tap(factory('KBox\User')->create(), function ($u) {
+        $user = tap(factory(\KBox\User::class)->create(), function ($u) {
             $u->addCapabilities(Capability::$PARTNER);
         });
         
-        $project = tap(factory('KBox\Project')->create(), function ($p) use ($user) {
+        $project = tap(factory(\KBox\Project::class)->create(), function ($p) use ($user) {
             $p->users()->attach($user);
         });
         
@@ -101,9 +101,9 @@ class MoveCollectionsTest extends TestCase
 
     public function test_move_from_personal_to_project()
     {
-        $project = factory('KBox\Project')->create();
+        $project = factory(\KBox\Project::class)->create();
 
-        $user = tap(factory('KBox\User')->create(), function ($u) {
+        $user = tap(factory(\KBox\User::class)->create(), function ($u) {
             $u->addCapabilities(Capability::$PROJECT_MANAGER);
         });
 
@@ -128,9 +128,9 @@ class MoveCollectionsTest extends TestCase
 
     public function test_move_from_personal_to_project_is_denied_if_user_do_not_have_access_to_project()
     {
-        $project = factory('KBox\Project')->create();
+        $project = factory(\KBox\Project::class)->create();
 
-        $user = tap(factory('KBox\User')->create(), function ($u) {
+        $user = tap(factory(\KBox\User::class)->create(), function ($u) {
             $u->addCapabilities(Capability::$PROJECT_MANAGER);
         });
         

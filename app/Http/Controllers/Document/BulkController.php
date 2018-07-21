@@ -17,6 +17,7 @@ use KBox\Exceptions\ForbiddenException;
 use Illuminate\Support\Collection;
 use Klink\DmsAdapter\KlinkVisibilityType;
 use KBox\Jobs\ReindexDocument;
+use Illuminate\Support\Facades\DB;
 
 class BulkController extends Controller
 {
@@ -240,7 +241,7 @@ class BulkController extends Controller
                 
             $that = $this;
 
-            $status = \DB::transaction(function () use ($request, $that, $auth) {
+            $status = DB::transaction(function () use ($request, $that, $auth) {
                 $docs = $request->input('documents', []);
                 $grps = $request->input('groups', []);
 
@@ -356,7 +357,7 @@ class BulkController extends Controller
         try {
             $that = $this;
 
-            $status = \DB::transaction(function () use ($request, $that, $auth) {
+            $status = DB::transaction(function () use ($request, $that, $auth) {
                 $docs = $request->input('documents', []);
                 $grp = $request->input('group', null);
                 
@@ -407,7 +408,7 @@ class BulkController extends Controller
         try {
             $that = $this;
 
-            $status = \DB::transaction(function () use ($request, $that, $auth) {
+            $status = DB::transaction(function () use ($request, $that, $auth) {
                 $docs = $request->input('documents', []);
                 $grp = $request->input('group', null);
                 

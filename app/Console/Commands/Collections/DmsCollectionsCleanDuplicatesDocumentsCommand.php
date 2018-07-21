@@ -9,6 +9,7 @@ use Symfony\Component\Finder\Finder;
 use KBox\User;
 use KBox\Group;
 use Illuminate\Foundation\Bus\DispatchesJobs;
+use Illuminate\Support\Facades\DB;
 
 class DmsCollectionsCleanDuplicatesDocumentsCommand extends Command
 {
@@ -62,15 +63,15 @@ class DmsCollectionsCleanDuplicatesDocumentsCommand extends Command
         
         $group = Group::findOrFail($grp_arg);
         
-        // $count_field = \DB::raw('COUNT(*) as copies');
+        // $count_field = DB::raw('COUNT(*) as copies');
         
         $duplicates_query = $group->documents()
             ->groupBy(['document_id','group_id'])
-            ->orderBy(\DB::raw('copies'), 'desc')
+            ->orderBy(DB::raw('copies'), 'desc')
             ->having('copies', '>', 1)
             ->get(['document_id',
                 'group_id',
-                \DB::raw('COUNT(*) as copies'),
+                DB::raw('COUNT(*) as copies'),
             ]);
         
         $duplicates = [];
@@ -95,7 +96,7 @@ class DmsCollectionsCleanDuplicatesDocumentsCommand extends Command
                 foreach ($duplicates as $d) {
                     $this->line('Deleting '.$d['document_id'].'...');
                     $ids = explode(',', $d['pivot_ids_remove']);
-                    \DB::table('document_groups')->whereIn('id', $ids)->limit(count($ids))->delete();
+                    DB::table('document_groups')->whereIn('id', $ids)->limit(count($ids))->delete();
                 }
                 
                 $this->info('Completed. ');

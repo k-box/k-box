@@ -26,6 +26,7 @@ use Klink\DmsAdapter\KlinkVisibilityType;
 use Klink\DmsAdapter\Exceptions\KlinkException;
 use KBox\Jobs\ReindexDocument;
 use KBox\Jobs\UpdatePublishedDocumentJob;
+use Illuminate\Support\Facades\DB;
 
 class DocumentsController extends Controller
 {
@@ -334,8 +335,8 @@ class DocumentsController extends Controller
 
         if (! is_null($auth_user)) {
             if ($document->isMine()) {
-                $existing_shares = $document->shares()->sharedByMe($auth_user)->where('sharedwith_type', 'KBox\User')->count();
-                $public_link_shares = $document->shares()->where('sharedwith_type', 'KBox\PublicLink')->count();
+                $existing_shares = $document->shares()->sharedByMe($auth_user)->where('sharedwith_type', \KBox\User::class)->count();
+                $public_link_shares = $document->shares()->where('sharedwith_type', \KBox\PublicLink::class)->count();
                 
                 $users_from_projects = $this->service->getUsersWithAccess($document, $auth_user);
                 $users_from_projects_count = $users_from_projects->count();
@@ -522,7 +523,7 @@ class DocumentsController extends Controller
 
             $serv = $this->service;
 
-            $ret = \DB::transaction(function () use ($id, $serv, $request, $user) {
+            $ret = DB::transaction(function () use ($id, $serv, $request, $user) {
                 $document = DocumentDescriptor::findOrFail($id);
 
                 $group_dirty = false;

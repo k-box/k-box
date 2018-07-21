@@ -102,7 +102,6 @@ class DmsReindexCommand extends Command
         $docs = $only_public ? $query->public() : $query->private();
 
         if (! is_null($documents) && ! empty($documents)) {
-
             // get the documents reported by ID or Local_document_id
 
             $query->whereIn($interpret_as_klink_id ? 'local_document_id' : 'id', $documents);

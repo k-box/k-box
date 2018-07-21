@@ -88,7 +88,7 @@ class ProjectAvatarsTest extends BrowserKitTestCase
         
         $user = $this->createUser($caps);
         
-        $project = factory('KBox\Project')->create([
+        $project = factory(\KBox\Project::class)->create([
             'avatar' => base_path('tests/data/project-avatar.png')
         ]);
 
@@ -125,7 +125,7 @@ class ProjectAvatarsTest extends BrowserKitTestCase
     
     public function testProjectAvatarStore()
     {
-        $project = factory('KBox\Project')->create();
+        $project = factory(\KBox\Project::class)->create();
         \Session::start();
         
         $this->actingAs($project->manager);
@@ -155,7 +155,7 @@ class ProjectAvatarsTest extends BrowserKitTestCase
     
     public function testProjectAvatarStoreForbidden()
     {
-        $project = factory('KBox\Project')->create();
+        $project = factory(\KBox\Project::class)->create();
         \Session::start();
         
         $this->actingAs($this->createAdminUser());
@@ -183,7 +183,7 @@ class ProjectAvatarsTest extends BrowserKitTestCase
     {
         copy(base_path('tests/data/project-avatar.png'), storage_path('app/projects/avatars/project-avatar.png'));
 
-        $project = factory('KBox\Project')->create([
+        $project = factory(\KBox\Project::class)->create([
             'avatar' => storage_path('app/projects/avatars/project-avatar.png')
         ]);
         \Session::start();
@@ -206,7 +206,7 @@ class ProjectAvatarsTest extends BrowserKitTestCase
 
     public function testProjectAvatarDeleteForbidden()
     {
-        $project = factory('KBox\Project')->create([
+        $project = factory(\KBox\Project::class)->create([
             'avatar' => storage_path('app/projects/avatars/project-avatar.png')
         ]);
         \Session::start();

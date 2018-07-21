@@ -41,9 +41,9 @@ class PublicLinksShowController extends Controller
                 return redirect($url);
             }
 
-            \App::abort(404, 'Collections are not yet supported.');
+            \abort(404, 'Collections are not yet supported.');
         }
 
-        \App::abort(404, trans('errors.document_not_found'));
+        \abort(404, trans('errors.document_not_found'));
     }
 }

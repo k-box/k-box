@@ -29,7 +29,6 @@ class TusUploadCancelledHandler
         Log::info("Upload {$event->upload->request_id} cancelled.");
 
         try {
-
             //todo: do changes in transaction, if one fails, the other should not be updated
             $file = File::where('request_id', $event->upload->request_id)->first();
 

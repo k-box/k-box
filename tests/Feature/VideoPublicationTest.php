@@ -38,15 +38,15 @@ class VideoPublicationTest extends TestCase
             file_get_contents(base_path('tests/data/video.mp4'))
         );
 
-        $user = factory('KBox\User')->create();
+        $user = factory(\KBox\User::class)->create();
 
-        $file = factory('KBox\File')->create([
+        $file = factory(\KBox\File::class)->create([
             'hash' => hash_file('sha512', Storage::disk('local')->path($path)),
             'path' => $path,
             'mime_type' => KlinkDocumentUtils::get_mime($path),
         ]);
 
-        $descriptor = factory('KBox\DocumentDescriptor')->create([
+        $descriptor = factory(\KBox\DocumentDescriptor::class)->create([
             'file_id' => $file->id,
             'language' => null,
             'abstract' => null,
@@ -64,7 +64,7 @@ class VideoPublicationTest extends TestCase
             file_get_contents(base_path('tests/data/video.mp4'))
         );
 
-        $file = factory('KBox\File')->create([
+        $file = factory(\KBox\File::class)->create([
             'hash' => hash_file('sha512', Storage::disk('local')->path($path)),
             'path' => $path,
             'created_at' => Carbon::now()->subMinutes(2),
@@ -72,7 +72,7 @@ class VideoPublicationTest extends TestCase
             'mime_type' => KlinkDocumentUtils::get_mime($path),
         ]);
 
-        $descriptor = factory('KBox\DocumentDescriptor')->create([
+        $descriptor = factory(\KBox\DocumentDescriptor::class)->create([
             'file_id' => $file->id,
             'language' => null,
             'abstract' => null,
@@ -97,7 +97,7 @@ class VideoPublicationTest extends TestCase
 
         $descriptor = $this->createVideo();
         
-        $user = factory('KBox\User')->create();
+        $user = factory(\KBox\User::class)->create();
 
         $descriptor->publish($user);
 
@@ -163,7 +163,7 @@ class VideoPublicationTest extends TestCase
 
         // ADD a new file revision
 
-        $file = factory('KBox\File')->create([
+        $file = factory(\KBox\File::class)->create([
             'hash' => hash_file('sha512', Storage::disk('local')->path($path)),
             'path' => $path,
             'mime_type' => KlinkDocumentUtils::get_mime($path),
@@ -195,7 +195,7 @@ class VideoPublicationTest extends TestCase
         $descriptor = $this->createPublishedVideo();
         $original_publication = $descriptor->publication;
 
-        $user = factory('KBox\User')->create();
+        $user = factory(\KBox\User::class)->create();
 
         $descriptor->unpublish($user);
         

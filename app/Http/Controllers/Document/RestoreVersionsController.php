@@ -37,7 +37,7 @@ class RestoreVersionsController extends Controller
 
         if (! $versions->has($version_uuid)) {
             Log::warning("Version restore: requested version {$version_uuid} cannot be found for document {$document_id}");
-            \App::abort(404, trans('errors.document_not_found'));
+            \abort(404, trans('errors.document_not_found'));
         }
 
         if ($versions->count() === 1) {
@@ -48,7 +48,7 @@ class RestoreVersionsController extends Controller
                 return new JsonResponse($status, 200);
             }
 
-            \App::abort(404, trans('errors.document_not_found'));
+            \abort(404, trans('errors.document_not_found'));
         }
 
         $version_to_restore = $versions->get($version_uuid);

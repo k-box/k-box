@@ -79,19 +79,19 @@ class DocumentsCheckInstitutionCommandTest extends BrowserKitTestCase
     
     private function createDocuments($index_document = false)
     {
-        $institution = factory('KBox\Institution')->create();
-        $institution2 = factory('KBox\Institution')->create();
+        $institution = factory(\KBox\Institution::class)->create();
+        $institution2 = factory(\KBox\Institution::class)->create();
         
         $user = $this->createUser(Capability::$PROJECT_MANAGER, [
             'institution_id' => $institution->id
         ]);
         
-        $file = factory('KBox\File')->create([
+        $file = factory(\KBox\File::class)->create([
             'user_id' => $user->id,
             'original_uri' => ''
         ]);
         
-        $doc = factory('KBox\DocumentDescriptor')->create([
+        $doc = factory(\KBox\DocumentDescriptor::class)->create([
             'owner_id' => $user->id,
             'file_id' => $file->id,
             'hash' => $file->hash,

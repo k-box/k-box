@@ -147,7 +147,7 @@ class DmsModelCreation extends Command
      * @param  boolean $is_relation true if the model contains relations
      * @return string        the content of the stub
      */
-    private function getStub($is_relation=false)
+    private function getStub($is_relation = false)
     {
         if (! $is_relation) {
             return $this->files->get($this->getStubsPath().'/blank.stub');

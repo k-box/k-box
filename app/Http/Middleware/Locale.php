@@ -22,7 +22,7 @@ final class Locale
      */
     public function handle($request, $next)
     {
-        $language = Session::get('language', Config::get('app.locale'));
+        $language = Session::get('language', config('app.locale'));
         $force = false;
 
         if (auth()->check()) {
@@ -38,7 +38,6 @@ final class Locale
         $browser_language_preference = $request->header('ACCEPT_LANGUAGE', null);
 
         if (! $force && ! empty($browser_language_preference)) {
-
             // set the locale of the browser if available
 
             $languages = collect(explode(',', $browser_language_preference));

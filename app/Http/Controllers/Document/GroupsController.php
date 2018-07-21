@@ -130,7 +130,6 @@ class GroupsController extends Controller
         // }
         
         if ($request->has('group_context')) {
-            
             // preselect a parent collection
 
             $group = Group::findOrFail($request->input('group_context', 0));
@@ -283,15 +282,6 @@ class GroupsController extends Controller
         'main_action' => trans('groups.save_btn'),
         'group' => $selected_group];
 
-        // if context info is available
-
-        // if(\Request::has('group_context')){
-
-        // 	$group = Group::findOrFail(\Request::input('group_context', 0));
-
-        // 	$view_args = array_merge($view_args, ['show_parent' => true, 'parent_label' => $group->name, 'parent_id' => $group->id]);
-        // }
-
         return view('panels.group', $view_args);
     }
 
@@ -354,7 +344,6 @@ class GroupsController extends Controller
             }
 
             if ($request->has('action') && $request->has('parent')) {
-                
                 //action move (default)
 
                 // $parent = $request->input('parent');

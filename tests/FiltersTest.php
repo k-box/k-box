@@ -25,7 +25,7 @@ class FiltersTest extends BrowserKitTestCase
     {
         $this->markTestSkipped(
             'Needs to be reimplemented.'
-          );
+        );
           
         $mock = $this->withKlinkAdapterMock();
 
@@ -121,7 +121,7 @@ class FiltersTest extends BrowserKitTestCase
         $url = route('documents.groups.show', ['id' => $collections->first()->id, 's' => '*']);
         $this->visit($url)->seePageIs($url);
         $view = $this->response->original; // is a view
-        $composer = app('KBox\Http\Composers\DocumentsComposer');
+        $composer = app(\KBox\Http\Composers\DocumentsComposer::class);
         $composer->facets($view);
         $this->response->original = $view;
 

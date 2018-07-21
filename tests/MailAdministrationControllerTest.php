@@ -19,7 +19,7 @@ class MailAdministrationControllerTest extends BrowserKitTestCase
         Option::remove('mail.username');
         Option::remove('mail.password');
 
-        config(['mail.driver' => 'log']);
+        // config(['mail.driver' => 'log']);
 
         $adapter = $this->withKlinkAdapterFake();
 

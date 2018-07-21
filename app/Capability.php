@@ -2,6 +2,7 @@
 
 namespace KBox;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -322,7 +323,7 @@ class Capability extends Model
 
     private static function getConstants()
     {
-        $oClass = new \ReflectionClass('KBox\Capability');
+        $oClass = new \ReflectionClass(\KBox\Capability::class);
 
         return array_filter($oClass->getConstants(), function ($el) {
             return $el !== self::CREATED_AT && $el !== self::UPDATED_AT;
@@ -366,7 +367,7 @@ class Capability extends Model
             return false;
         }
         
-        $executed = \DB::transaction(function () use ($current_caps, $constants, $difference, $new) {
+        $executed = DB::transaction(function () use ($current_caps, $constants, $difference, $new) {
             
             // if yes create the new capabilities
             

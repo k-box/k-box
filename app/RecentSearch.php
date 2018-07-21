@@ -54,7 +54,7 @@ class RecentSearch extends Model
      */
     public function user()
     {
-        return $this->belongsTo('KBox\User');
+        return $this->belongsTo(\KBox\User::class);
     }
 
     /**

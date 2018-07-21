@@ -45,17 +45,17 @@ class DocumentsServiceTest extends BrowserKitTestCase
 
         $user = $this->createUser($caps);
         
-        $doc = factory('KBox\DocumentDescriptor')->create([
+        $doc = factory(\KBox\DocumentDescriptor::class)->create([
             'owner_id' => $user->id
         ]);
 
-        $owned_project = factory('KBox\Project')->create([
+        $owned_project = factory(\KBox\Project::class)->create([
             'user_id' => $user->id,
         ]);
 
-        $other_project = factory('KBox\Project')->create();
+        $other_project = factory(\KBox\Project::class)->create();
 
-        $secondary_project = factory('KBox\Project')->create();
+        $secondary_project = factory(\KBox\Project::class)->create();
 
         $secondary_project->users()->save($user);
         
@@ -117,7 +117,7 @@ class DocumentsServiceTest extends BrowserKitTestCase
         // todo test add and reindex
         $user = $this->createAdminUser();
         
-        $file = factory('KBox\File')->create([
+        $file = factory(\KBox\File::class)->create([
             'user_id' => $user->id,
             'original_uri' => ''
         ]);

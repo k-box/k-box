@@ -21,7 +21,7 @@ class DuplicateDocumentsNotificationTest extends TestCase
     {
         Notification::fake();
 
-        $user = tap(factory('KBox\User')->create(), function ($u) {
+        $user = tap(factory(\KBox\User::class)->create(), function ($u) {
             $u->addCapabilities(Capability::$PARTNER);
         });
 
@@ -48,7 +48,7 @@ class DuplicateDocumentsNotificationTest extends TestCase
     {
         Notification::fake();
 
-        $user = tap(factory('KBox\User')->create(), function ($u) {
+        $user = tap(factory(\KBox\User::class)->create(), function ($u) {
             $u->addCapabilities(Capability::$PARTNER);
         });
 
@@ -69,7 +69,7 @@ class DuplicateDocumentsNotificationTest extends TestCase
     public function test_notification_includes_newer_duplicates()
     {
         Notification::fake();
-        $user = tap(factory('KBox\User')->create(), function ($u) {
+        $user = tap(factory(\KBox\User::class)->create(), function ($u) {
             $u->addCapabilities(Capability::$PARTNER);
         });
 
@@ -99,7 +99,7 @@ class DuplicateDocumentsNotificationTest extends TestCase
         Notification::fake();
         Mail::fake();
 
-        $user = tap(factory('KBox\User')->create(), function ($u) {
+        $user = tap(factory(\KBox\User::class)->create(), function ($u) {
             $u->addCapabilities(Capability::$PARTNER);
         });
 

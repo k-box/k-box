@@ -18,7 +18,7 @@ class DuplicateDocumentsControllerTest extends TestCase
 
     public function test_duplicate_resolution_is_only_available_to_the_authenticated_users()
     {
-        $user = tap(factory('KBox\User')->create(), function ($u) {
+        $user = tap(factory(\KBox\User::class)->create(), function ($u) {
             $u->addCapabilities(Capability::$PARTNER);
         });
         
@@ -29,7 +29,7 @@ class DuplicateDocumentsControllerTest extends TestCase
     
     public function test_duplicate_resolution_is_only_available_to_the_user_that_created_the_duplicate()
     {
-        $user = tap(factory('KBox\User')->create(), function ($u) {
+        $user = tap(factory(\KBox\User::class)->create(), function ($u) {
             $u->addCapabilities(Capability::$PARTNER);
         });
         
@@ -46,7 +46,7 @@ class DuplicateDocumentsControllerTest extends TestCase
 
         $adapter = $this->withKlinkAdapterFake();
 
-        $user = tap(factory('KBox\User')->create(), function ($u) {
+        $user = tap(factory(\KBox\User::class)->create(), function ($u) {
             $u->addCapabilities(Capability::$PARTNER);
         });
         
@@ -71,20 +71,20 @@ class DuplicateDocumentsControllerTest extends TestCase
 
         $adapter = $this->withKlinkAdapterFake();
 
-        $user = tap(factory('KBox\User')->create(), function ($u) {
+        $user = tap(factory(\KBox\User::class)->create(), function ($u) {
             $u->addCapabilities(Capability::$PARTNER);
         });
 
-        $project = tap(factory('KBox\Project')->create(), function ($p) use ($user) {
+        $project = tap(factory(\KBox\Project::class)->create(), function ($p) use ($user) {
             $p->users()->attach($user->id);
         });
 
         $manager = $project->manager;
 
-        $descriptor = factory('KBox\DocumentDescriptor')->create([
+        $descriptor = factory(\KBox\DocumentDescriptor::class)->create([
             'owner_id' => $manager->id
         ]);
-        $duplicateDescriptor = factory('KBox\DocumentDescriptor')->create([
+        $duplicateDescriptor = factory(\KBox\DocumentDescriptor::class)->create([
             'owner_id' => $manager->id,
             'hash' => $descriptor->hash
         ]);
@@ -117,7 +117,7 @@ class DuplicateDocumentsControllerTest extends TestCase
 
         $adapter = $this->withKlinkAdapterFake();
 
-        $user = tap(factory('KBox\User')->create(), function ($u) {
+        $user = tap(factory(\KBox\User::class)->create(), function ($u) {
             $u->addCapabilities(Capability::$PARTNER);
         });
         
@@ -144,7 +144,7 @@ class DuplicateDocumentsControllerTest extends TestCase
 
         $adapter = $this->withKlinkAdapterFake();
 
-        $user = tap(factory('KBox\User')->create(), function ($u) {
+        $user = tap(factory(\KBox\User::class)->create(), function ($u) {
             $u->addCapabilities(Capability::$PARTNER);
         });
         

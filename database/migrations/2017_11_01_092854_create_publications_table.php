@@ -17,7 +17,7 @@ class CreatePublicationsTable extends Migration
             $table->bigIncrements('id');
             // the target network where the publication happens
             $table->string('network')->nullable();
-            // create and update date, creation date means when the publishing operation was started 
+            // create and update date, creation date means when the publishing operation was started
             $table->timestamps();
 
             $table->bigInteger('descriptor_id')->unsigned();

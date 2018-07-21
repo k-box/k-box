@@ -28,17 +28,17 @@ $app = new Illuminate\Foundation\Application(
 
 $app->singleton(
     'Illuminate\Contracts\Http\Kernel',
-    'KBox\Http\Kernel'
+    \KBox\Http\Kernel::class
 );
 
 $app->singleton(
     'Illuminate\Contracts\Console\Kernel',
-    'KBox\Console\Kernel'
+    \KBox\Console\Kernel::class
 );
 
 $app->singleton(
     'Illuminate\Contracts\Debug\ExceptionHandler',
-    'KBox\Exceptions\Handler'
+    \KBox\Exceptions\Handler::class
 );
 
 // >>> tricked configuration for having multiple environment (env) configuration on the same machine

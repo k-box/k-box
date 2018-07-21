@@ -30,7 +30,7 @@ class DocumentDescriptorTest extends BrowserKitTestCase
         $obj->internal = 'hello';
         
         return [
-            [ $ex1, ['message', 'type', 'payload'], 'KBox\Exceptions\FileNamingException' ],
+            [ $ex1, ['message', 'type', 'payload'], \KBox\Exceptions\FileNamingException::class ],
             [ $obj, ['payload', 'type'], 'stdClass' ],
             [ ['1', '2'], ['payload', 'type'], 'array' ],
             [ ['key' => 'value'], ['payload', 'type'], 'array' ],
@@ -51,7 +51,7 @@ class DocumentDescriptorTest extends BrowserKitTestCase
      */
     public function testLastErrorStoreAndRetrieve($obj, $expected_property_in_deserialized_object, $expected_value_for_type)
     {
-        $descr = factory('KBox\DocumentDescriptor')->make();
+        $descr = factory(\KBox\DocumentDescriptor::class)->make();
         $descr->last_error = $obj;
         $saved = $descr->save();
         
@@ -76,8 +76,8 @@ class DocumentDescriptorTest extends BrowserKitTestCase
     {
         $mock = $this->withKlinkAdapterMock();
         
-        $file = factory('KBox\File')->make();
-        $inst = factory('KBox\Institution')->make();
+        $file = factory(\KBox\File::class)->make();
+        $inst = factory(\KBox\Institution::class)->make();
         
         $service = app('Klink\DmsDocuments\DocumentsService');
 
@@ -88,7 +88,7 @@ class DocumentDescriptorTest extends BrowserKitTestCase
         
         $res = $service->indexDocument($file, 'private', null, null, true);
         
-        $this->assertInstanceOf('KBox\DocumentDescriptor', $res);
+        $this->assertInstanceOf(\KBox\DocumentDescriptor::class, $res);
         $this->assertEquals(DocumentDescriptor::STATUS_ERROR, $res->status);
         
         $le = $res->last_error;
@@ -102,11 +102,11 @@ class DocumentDescriptorTest extends BrowserKitTestCase
     {
         $mock = $this->withKlinkAdapterMock();
 
-        $doc = factory('KBox\DocumentDescriptor')->make();
+        $doc = factory(\KBox\DocumentDescriptor::class)->make();
         
         $service = app('Klink\DmsDocuments\DocumentsService');
 
-        $mock->shouldReceive('institutions')->andReturn(factory('KBox\Institution')->make());
+        $mock->shouldReceive('institutions')->andReturn(factory(\KBox\Institution::class)->make());
         $mock->shouldReceive('updateDocument')->andReturnUsing(function ($document) {
             throw new KlinkException('Bad Request, hash not equals');
         });
@@ -120,7 +120,7 @@ class DocumentDescriptorTest extends BrowserKitTestCase
         
         $res = DocumentDescriptor::findOrFail($doc->id);
         
-        $this->assertInstanceOf('KBox\DocumentDescriptor', $res);
+        $this->assertInstanceOf(\KBox\DocumentDescriptor::class, $res);
         
         $le = $res->last_error;
         

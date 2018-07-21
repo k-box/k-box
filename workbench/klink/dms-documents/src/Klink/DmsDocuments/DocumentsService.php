@@ -2,7 +2,7 @@
 
 namespace Klink\DmsDocuments;
 
-use DB;
+use Illuminate\Support\Facades\DB;
 use KBox\DocumentDescriptor;
 use KBox\File;
 use KBox\User;
@@ -619,7 +619,7 @@ class DocumentsService
         }
         
         
-        $transaction = \DB::transaction(function () use ($descriptor) {
+        $transaction = DB::transaction(function () use ($descriptor) {
             \Log::info('Permanently deleting document', ['descriptor' => $descriptor]);
             
             $is_shared = $is_deleted = $descriptor->shares()->count() > 0;
@@ -687,7 +687,7 @@ class DocumentsService
             throw new ForbiddenException(trans('groups.delete.forbidden_trash_personal_collection', ['collection' => $group->name]));
         }
         
-        return \DB::transaction(function () use ($group) {
+        return DB::transaction(function () use ($group) {
             \Log::info('Permanently deleting group', ['group' => $group]);
    
             $is_deleted = $group->forceDelete();
@@ -799,7 +799,7 @@ class DocumentsService
                 $project_collections_ids = $projects->pluck('collection.id')->toArray();
                 
                 // get the collection descendants that has the project collection as ancestor
-                $descendants = \DB::table($closure_table->getTable())->
+                $descendants = DB::table($closure_table->getTable())->
                     whereIn($closure_table->getAncestorColumn(), $project_collections_ids)->
                     whereNotIn($closure_table->getDescendantColumn(), $project_collections_ids)->get([$closure_table->getDescendantColumn()])->all();
                 
@@ -944,7 +944,7 @@ class DocumentsService
                 $collection_ids = [ $group->id ];
                 
                 $closure_table = Group::getClosureTable();
-                $descendants = \DB::table($closure_table->getTable())->
+                $descendants = DB::table($closure_table->getTable())->
                                 whereIn($closure_table->getAncestorColumn(), $collection_ids)->
                                 whereNotIn($closure_table->getDescendantColumn(), $collection_ids)->get([$closure_table->getDescendantColumn()])->all();
                                 
@@ -991,7 +991,7 @@ class DocumentsService
         
             // all descendants of $projects
             $closure_table = Group::getClosureTable();
-            $descendants = \DB::table($closure_table->getTable())->
+            $descendants = DB::table($closure_table->getTable())->
                         whereIn($closure_table->getAncestorColumn(), $project_collections_ids_method1)->
                         whereNotIn($closure_table->getDescendantColumn(), $project_collections_ids_method1)->get([$closure_table->getDescendantColumn()])->all();
                         
@@ -1081,7 +1081,7 @@ class DocumentsService
         
         $folder = str_replace('\\', '/', $folder);
 
-        return \DB::transaction(function () use ($user, $folder, $merge, $type, $make_private, $parent) {
+        return DB::transaction(function () use ($user, $folder, $merge, $type, $make_private, $parent) {
             $paths = array_values(array_filter(explode('/', $folder)));
 
             $count_paths = count($paths);
@@ -1139,7 +1139,7 @@ class DocumentsService
         }
 
         $that = $this;
-        return \DB::transaction(function () use ($user, $group, $details) {
+        return DB::transaction(function () use ($user, $group, $details) {
             if (isset($details['name']) && ! empty($details['name'])) {
                 $new_name = e($details['name']);
 
@@ -1177,7 +1177,7 @@ class DocumentsService
         }
 
         $that = $this;
-        $retval = \DB::transaction(function () use ($user, $group, $that) {
+        $retval = DB::transaction(function () use ($user, $group, $that) {
 
             // remove all documents from the group
             // reindex all the documents
@@ -1211,7 +1211,7 @@ class DocumentsService
     public function moveGroup(User $user, Group $group, Group $moveBelow = null, $merge = false)
     {
         $that = $this;
-        return \DB::transaction(function () use ($user, $group, $moveBelow, $merge, $that) {
+        return DB::transaction(function () use ($user, $group, $moveBelow, $merge, $that) {
 
             // base, move a leaf or a child in a totally new place (no-existing group with same details exists)
 
@@ -1279,7 +1279,7 @@ class DocumentsService
     public function copyGroup(User $user, Group $group, Group $copyUnder = null, $merge = false)
     {
         $that = $this;
-        return \DB::transaction(function () use ($user, $group, $copyUnder, $merge, $that) {
+        return DB::transaction(function () use ($user, $group, $copyUnder, $merge, $that) {
             $group_collection = is_null($copyUnder) ? Group::getRoots() : $copyUnder->getChildren();
 
             $is_there_already = ! $group_collection->where('name', $group->name)->where('user_id', $user->id)->isEmpty();
@@ -1556,7 +1556,7 @@ class DocumentsService
             throw new CollectionMoveException($collection, CollectionMoveException::REASON_NOT_ALL_SAME_USER, $descendant_not_created_by_user);
         }
 
-        \DB::transaction(function () use ($user, $collection, $parent) {
+        DB::transaction(function () use ($user, $collection, $parent) {
 
             $this->makeGroupPrivate($user, $collection);
             
@@ -1587,7 +1587,7 @@ class DocumentsService
             throw new ForbiddenException(trans('groups.move.errors.no_access_to_collection'));
         }
 
-        \DB::transaction(function () use ($user, $collection, $parent) {
+        DB::transaction(function () use ($user, $collection, $parent) {
 
             $this->makeGroupPublic($user, $collection);
             $this->moveGroup($user, $collection, $parent);

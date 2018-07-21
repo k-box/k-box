@@ -116,7 +116,7 @@ class ThumbnailsTest extends BrowserKitTestCase
         
         $real_path = base_path($path);
         
-        $file = factory('KBox\File')->create([
+        $file = factory(\KBox\File::class)->create([
             'name' => basename($real_path),
             'hash' => KlinkDocumentUtils::generateDocumentHash($real_path),
             'path' => $real_path,
@@ -178,7 +178,7 @@ class ThumbnailsTest extends BrowserKitTestCase
             $this->assertTrue($good, 'HTTP Download failed');
         }
         
-        $file = factory('KBox\File')->create([
+        $file = factory(\KBox\File::class)->create([
             'name' => basename($real_path),
             'hash' => KlinkDocumentUtils::generateDocumentHash($real_path),
             'path' => $real_path,
@@ -231,7 +231,7 @@ class ThumbnailsTest extends BrowserKitTestCase
         
         $real_path = base_path($path);
         
-        $file = factory('KBox\File')->create([
+        $file = factory(\KBox\File::class)->create([
             'name' => basename($real_path),
             'hash' => KlinkDocumentUtils::generateDocumentHash($real_path),
             'path' => $real_path,
@@ -239,7 +239,7 @@ class ThumbnailsTest extends BrowserKitTestCase
             'size' => filesize($real_path),
         ]);
         
-        $document = factory('KBox\DocumentDescriptor')->create([
+        $document = factory(\KBox\DocumentDescriptor::class)->create([
             'owner_id' => $file->user_id,
             'file_id' => $file->id,
         ]);

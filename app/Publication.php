@@ -48,7 +48,7 @@ class Publication extends Model
      */
     public function document()
     {
-        return $this->belongsTo('KBox\DocumentDescriptor', 'descriptor_id', 'id');
+        return $this->belongsTo(\KBox\DocumentDescriptor::class, 'descriptor_id', 'id');
     }
 
     /**

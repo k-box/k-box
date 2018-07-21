@@ -14,7 +14,7 @@
         <div class="c-section">
             <h4 class="c-section__title">{{trans('administration.institutions.edit_title', ['name' => $institution->name])}}</h4>
 
-            <input type="hidden" name="_method" value="PUT">
+            @method('PUT')
 
 
             @include('administration.institutions.form', ['submit_text' => trans('administration.institutions.labels.update'), 'can_change_mail' => false])

@@ -40,7 +40,7 @@ class DuplicateDocumentTest extends TestCase
 
     public function test_message_report_me_as_the_owner()
     {
-        $user = tap(factory('KBox\User')->create(), function ($u) {
+        $user = tap(factory(\KBox\User::class)->create(), function ($u) {
             $u->addCapabilities(Capability::$PARTNER);
         });
 
@@ -58,7 +58,7 @@ class DuplicateDocumentTest extends TestCase
 
     public function test_message_report_user_as_the_owner()
     {
-        $user = tap(factory('KBox\User')->create(), function ($u) {
+        $user = tap(factory(\KBox\User::class)->create(), function ($u) {
             $u->addCapabilities(Capability::$PARTNER);
         });
 
@@ -85,20 +85,20 @@ class DuplicateDocumentTest extends TestCase
 
         $this->withKlinkAdapterFake();
         
-        $user = tap(factory('KBox\User')->create(), function ($u) {
+        $user = tap(factory(\KBox\User::class)->create(), function ($u) {
             $u->addCapabilities(Capability::$PARTNER);
         });
 
-        $project = tap(factory('KBox\Project')->create(), function ($p) use ($user) {
+        $project = tap(factory(\KBox\Project::class)->create(), function ($p) use ($user) {
             $p->users()->attach($user->id);
         });
 
         $manager = $project->manager;
 
-        $descriptor = factory('KBox\DocumentDescriptor')->create([
+        $descriptor = factory(\KBox\DocumentDescriptor::class)->create([
             'owner_id' => $manager->id
         ]);
-        $duplicateDescriptor = factory('KBox\DocumentDescriptor')->create([
+        $duplicateDescriptor = factory(\KBox\DocumentDescriptor::class)->create([
             'owner_id' => $user->id,
             'hash' => $descriptor->hash
         ]);

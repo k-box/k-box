@@ -66,7 +66,7 @@ class UserCreatedNotification extends Notification
                     ->line(trans('mail.welcome.username', ['mail' => $this->user->email]))
                     ->line(trans('mail.welcome.password', ['password' => $this->password]))
                     ->salutation(trans('messaging.mail.do_not_reply'))
-                    ->action(trans('mail.welcome.login_button_alt'), \Config::get('app.url'));
+                    ->action(trans('mail.welcome.login_button_alt'), config('app.url'));
     }
 
     /**

@@ -129,7 +129,7 @@ class DuplicateDocument extends Model implements Htmlable
      */
     public function user()
     {
-        return $this->belongsTo('KBox\User', 'user_id', 'id');
+        return $this->belongsTo(\KBox\User::class, 'user_id', 'id');
     }
     
     /**
@@ -139,7 +139,7 @@ class DuplicateDocument extends Model implements Htmlable
      */
     public function document()
     {
-        return $this->belongsTo('KBox\DocumentDescriptor', 'duplicate_document_id', 'id')->withTrashed();
+        return $this->belongsTo(\KBox\DocumentDescriptor::class, 'duplicate_document_id', 'id')->withTrashed();
     }
     
     /**
@@ -149,7 +149,7 @@ class DuplicateDocument extends Model implements Htmlable
      */
     public function duplicateOf()
     {
-        return $this->belongsTo('KBox\DocumentDescriptor', 'document_id', 'id')->withTrashed();
+        return $this->belongsTo(\KBox\DocumentDescriptor::class, 'document_id', 'id')->withTrashed();
     }
 
     /**
@@ -158,7 +158,7 @@ class DuplicateDocument extends Model implements Htmlable
      */
     public function scopeOf($query, $user)
     {
-        $id = is_a($user, 'KBox\User') ? $user->id : $user;
+        $id = is_a($user, \KBox\User::class) ? $user->id : $user;
 
         return $query->where('user_id', $id);
     }

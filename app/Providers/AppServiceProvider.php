@@ -58,7 +58,7 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->bind(
             'Illuminate\Contracts\Auth\Registrar',
-            'KBox\Services\Registrar'
+            \KBox\Services\Registrar::class
         );
 
         // Loading workbench service provider only if running in console (aka Artisan) and the environment is set to 'development'

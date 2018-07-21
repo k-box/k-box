@@ -55,7 +55,7 @@ class FileAlreadyExistsExceptionTest extends BrowserKitTestCase
     {
         $user = $this->createAdminUser();
 
-        $doc = factory('KBox\DocumentDescriptor')->create([
+        $doc = factory(\KBox\DocumentDescriptor::class)->create([
             'owner_id' => null,
             'file_id' => null,
             'hash' => 'hash',

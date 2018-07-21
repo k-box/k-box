@@ -18,7 +18,7 @@ class KlinkStreamingTest extends TestCase
 
         if (empty(getenv('STREAMING_SERVICE_URL'))) {
             $this->markTestSkipped(
-              'STREAMING_SERVICE_URL not configured for running integration tests.'
+                'STREAMING_SERVICE_URL not configured for running integration tests.'
             );
         }
 

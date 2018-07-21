@@ -14,6 +14,7 @@ use KBox\File;
 use KBox\Institution;
 use Ramsey\Uuid\Uuid;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 
 class DmsUpdateCommand extends Command
 {
@@ -291,7 +292,7 @@ class DmsUpdateCommand extends Command
     {
         $this->write('  <comment>Installing the K-Box...</comment>');
 
-        $db_return = \DB::transaction(function () {
+        $db_return = DB::transaction(function () {
             if (! $this->isInstalled()) {
                 $this->log('    Performing database migration');
                 $migrate_result = $this->launch('migrate', ['--force' => true]);
@@ -315,7 +316,7 @@ class DmsUpdateCommand extends Command
             // set info on table that the procedure has been completed succesfully
 
             // create the db entry with the edition tag
-            Option::create(['key' => 'branch', 'value' => \Config::get('dms.edition')]);
+            Option::create(['key' => 'branch', 'value' => config('dms.edition')]);
 
             $this->write('  <comment>Checking default institution...</comment>');
             $count_generated = $this->createDefaultInstitution();
@@ -388,12 +389,10 @@ class DmsUpdateCommand extends Command
         $b_option = Option::findByKey('branch');
 
         if (is_null($b_option)) {
-            
             // if empty => write db version
             
-            Option::create(['key' => 'branch', 'value' => \Config::get('dms.edition')]);
+            Option::create(['key' => 'branch', 'value' => config('dms.edition')]);
         } else {
-            
             // if project => do project to only upgrade
             // if standard => do standard to only upgrade
         }

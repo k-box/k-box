@@ -65,7 +65,6 @@ class ImportTest extends BrowserKitTestCase
         $this->assertRegExp('/File already exists/', $res);
         
         foreach ($expected_projects as $prj_name => $sub_collections) {
-            
             // check for projects existence
             
             $prj = Project::where('name', $prj_name)->first();
@@ -137,7 +136,6 @@ class ImportTest extends BrowserKitTestCase
         $this->assertRegExp('/Attempting to merge document descriptors/', $res);
         
         foreach ($expected_projects as $prj_name => $sub_collections) {
-            
             // check for projects existence
             
             $prj = Project::where('name', $prj_name)->first();
@@ -219,7 +217,7 @@ class ImportTest extends BrowserKitTestCase
         
         $user = $this->createAdminUser();
         
-        $file = factory('KBox\File')->create([
+        $file = factory(\KBox\File::class)->create([
             'mime_type' => '',
             'size' => 0,
             'path' => $save_path,
@@ -227,7 +225,7 @@ class ImportTest extends BrowserKitTestCase
             'original_uri' => $url
         ]);
         
-        $import = factory('KBox\Import')->create([
+        $import = factory(\KBox\Import::class)->create([
             'file_id' => $file->id,
             'user_id' => $user->id,
             'is_remote' => true,

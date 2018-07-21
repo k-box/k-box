@@ -29,7 +29,7 @@ class DocumentUpdatePropertiesCommandTest extends TestCase
             file_get_contents(base_path('tests/data/video.mp4'))
         );
         
-        $file = factory('KBox\File')->create([
+        $file = factory(\KBox\File::class)->create([
             'path' => Storage::disk('local')->path($path),
             'mime_type' => 'video/mp4',
             'properties' => null,
@@ -37,7 +37,7 @@ class DocumentUpdatePropertiesCommandTest extends TestCase
 
         Storage::disk('local')->assertExists("2017/11/video.mp4");
 
-        $doc = factory('KBox\DocumentDescriptor')->create([
+        $doc = factory(\KBox\DocumentDescriptor::class)->create([
             "mime_type" => 'video/mp4',
             'file_id' => $file->id
         ]);

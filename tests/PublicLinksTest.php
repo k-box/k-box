@@ -122,7 +122,7 @@ class PublicLinksTest extends BrowserKitTestCase
              ])
              ->seeJson([
                 'url' => route('publiclinks.show', ['link' => 'my-slug']),
-            ]);
+             ]);
     }
 
     public function testDeletePublicLink()

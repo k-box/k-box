@@ -11,6 +11,7 @@ use KBox\Capability;
 use KBox\DocumentDescriptor;
 use KBox\Traits\Searchable;
 use Klink\DmsAdapter\KlinkFacetsBuilder;
+use Illuminate\Support\Facades\DB;
 
 class DmsSyncCommand extends Command
 {
@@ -68,7 +69,7 @@ class DmsSyncCommand extends Command
         }
         
         $facets_private = KlinkFacetsBuilder::create()
-            // ->institution(\Config::get('dms.institutionID'))
+            // ->institution(config('dms.institutionID'))
             ->localDocumentId(implode(',', $local_private_id_set))->build();
         
         $request = $this->searchRequestCreate()->visibility('private')->limit($total_private_on_core);
@@ -115,7 +116,7 @@ class DmsSyncCommand extends Command
         
         $count_docs = count($docs);
         
-        for ($i=0;$i<$count_docs;$i++) {
+        for ($i=0; $i<$count_docs; $i++) {
             $doc = $docs[$i];
         
             $this->write("Reindexing ".$doc->id."...");
@@ -270,7 +271,7 @@ class DmsSyncCommand extends Command
     {
         $this->write('  <comment>Installing the K-Link DMS...</comment>');
 
-        $db_return = \DB::transaction(function () {
+        $db_return = DB::transaction(function () {
             if (! $this->isInstalled()) {
                 $this->log('    Performing database migration');
                 $migrate_result = $this->launch('migrate', ['--force' => true]);

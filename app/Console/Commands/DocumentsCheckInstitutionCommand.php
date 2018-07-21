@@ -94,7 +94,6 @@ class DocumentsCheckInstitutionCommand extends Command
                     $document->save();
                     
                     if ($force_search_engine_update) {
-                        
                         // check if the search engine knows the document also with the old institution
                         
                         $old_doc = $this->getDocumentFromCore($document, $old_institution_id);

@@ -8,6 +8,7 @@ use Config;
 use KBox\Http\Requests\MailSettingsRequest;
 use Illuminate\Support\Facades\Mail;
 use KBox\Mail\TestingMail;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Controller
@@ -29,39 +30,39 @@ class MailAdministrationController extends Controller
 
     public function getIndex()
     {
-        $mail_config = Config::get('mail');
+        $mail_config = config('mail');
 
         $sections = Option::section('mail')->get(['key', 'value']);
 
         $flat = $sections->toArray();
 
         return view('administration.mail', [
-      'pagetitle' => trans('administration.menu.mail'),
-      'config' => $mail_config,
-      'is_server_configurable' => $mail_config['driver'] !== 'log'
-    ]);
+        'pagetitle' => trans('administration.menu.mail'),
+        'config' => $mail_config,
+        'is_server_configurable' => $mail_config['driver'] !== 'log'
+        ]);
     }
 
     public function postStore(MailSettingsRequest $request)
     {
         $server_fields = [
-      'pretend' => 'mail.pretend',
-      'host' => 'mail.host',
-      'port' => 'mail.port',
-      'encryption' => 'mail.encryption',
-      'smtp_u' => 'mail.username',
-      'smtp_p' => 'mail.password',
-    ];
+        'pretend' => 'mail.pretend',
+        'host' => 'mail.host',
+        'port' => 'mail.port',
+        'encryption' => 'mail.encryption',
+        'smtp_u' => 'mail.username',
+        'smtp_p' => 'mail.password',
+        ];
     
         $from_fields = [
-      'from_address' => 'mail.from.address',
-      'from_name' => 'mail.from.name',
-    ];
+        'from_address' => 'mail.from.address',
+        'from_name' => 'mail.from.name',
+        ];
 
-        $mail_config = Config::get('mail');
+        $mail_config = config('mail');
         $is_log_driver = $mail_config['driver'] === 'log';
 
-        $res = \DB::transaction(function () use ($request, $from_fields, $server_fields, $is_log_driver) {
+        $res = DB::transaction(function () use ($request, $from_fields, $server_fields, $is_log_driver) {
             $att = null;
             foreach ($from_fields as $field => $setting) {
                 if ($request->has($field)) {
@@ -108,15 +109,15 @@ class MailAdministrationController extends Controller
     public function getTest()
     {
         try {
-            $res = Mail::to(\Config::get('mail.from.address'))->sendNow(new TestingMail());
+            $res = Mail::to(config('mail.from.address'))->sendNow(new TestingMail());
 
             return redirect()->route('administration.mail.index')->with([
-                'flash_message' => trans('administration.mail.test_success_msg', ['from' => \Config::get('mail.from.address')])
+                'flash_message' => trans('administration.mail.test_success_msg', ['from' => config('mail.from.address')])
             ]);
         } catch (\Exception $ex) {
             return redirect()->route('administration.mail.index')->withErrors(
-            ['mail_send' => trans('administration.mail.test_failure_msg')]
-          );
+                ['mail_send' => trans('administration.mail.test_failure_msg')]
+            );
         }
     }
 }

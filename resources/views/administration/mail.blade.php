@@ -35,7 +35,7 @@
 
         <form method="post" class="c-form" action="{{route('administration.mail.store')}}">
 
-            {{ csrf_field() }}
+            @csrf
 
             <div class="c-section">
                 <h4 class="c-section__title">{{trans('administration.mail.from_label')}}</h4>

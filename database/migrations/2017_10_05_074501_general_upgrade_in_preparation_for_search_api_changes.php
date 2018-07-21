@@ -15,9 +15,10 @@ class GeneralUpgradeInPreparationForSearchApiChanges extends Migration
     public function up()
     {
         Schema::table('microsites', function (Blueprint $table) {
-            try{
+            try {
                 $table->dropForeign('microsites_institution_id_foreign');
-            }catch(QueryException $ex){}
+            } catch (QueryException $ex) {
+            }
                 
             $table->dropColumn('institution_id');
         });
@@ -35,12 +36,13 @@ class GeneralUpgradeInPreparationForSearchApiChanges extends Migration
     public function down()
     {
         Schema::table('microsites', function (Blueprint $table) {
-            // this will not restore the data, but at least redefines 
+            // this will not restore the data, but at least redefines
             // the table and the foreign key
             $table->bigInteger('institution_id')->nullable();
-            try{
+            try {
                 $table->foreign('institution_id')->references('id')->on('institutions');
-            }catch(QueryException $ex){}
+            } catch (QueryException $ex) {
+            }
         });
 
         Schema::table('files', function (Blueprint $table) {

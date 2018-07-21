@@ -148,7 +148,7 @@ class Microsites_IntegrationTest extends BrowserKitTestCase
      */
     public function testMicrositeCreateActionsOnProjectShowPage()
     {
-        $project = factory('KBox\Project')->create();
+        $project = factory(\KBox\Project::class)->create();
         
         $this->actingAs($project->manager()->first());
         
@@ -170,7 +170,7 @@ class Microsites_IntegrationTest extends BrowserKitTestCase
     
     public function testMicrositeManageActionsVisibilityOnProjectShowPage()
     {
-        $project = factory('KBox\Project')->create();
+        $project = factory(\KBox\Project::class)->create();
         
         $project_manager = $project->manager()->first();
         
@@ -190,7 +190,7 @@ class Microsites_IntegrationTest extends BrowserKitTestCase
     
     public function testMicrositeCreateInvokedWithoutProjectParameter()
     {
-        $project = factory('KBox\Project')->create();
+        $project = factory(\KBox\Project::class)->create();
         
         $project_manager = $project->manager()->first();
         
@@ -211,7 +211,7 @@ class Microsites_IntegrationTest extends BrowserKitTestCase
     {
         $user = $this->createAdminUser();
         
-        $project = factory('KBox\Project')->create(['user_id' => $user->id]);
+        $project = factory(\KBox\Project::class)->create(['user_id' => $user->id]);
         
         \Session::start();
         
@@ -228,7 +228,7 @@ class Microsites_IntegrationTest extends BrowserKitTestCase
     
     public function testMicrositeCreateOnProjectWithExistingMicrosite()
     {
-        $project = factory('KBox\Project')->create();
+        $project = factory(\KBox\Project::class)->create();
         
         $project_manager = $project->manager()->first();
         
@@ -250,7 +250,7 @@ class Microsites_IntegrationTest extends BrowserKitTestCase
     
     public function testMicrositeStoreWithValidData()
     {
-        $project = factory('KBox\Project')->create();
+        $project = factory(\KBox\Project::class)->create();
         
         $project_manager = $project->manager()->first();
         
@@ -298,7 +298,7 @@ class Microsites_IntegrationTest extends BrowserKitTestCase
     
     public function testMicrositeStoreWithValidData_NoLogo()
     {
-        $project = factory('KBox\Project')->create();
+        $project = factory(\KBox\Project::class)->create();
         
         $project_manager = $project->manager()->first();
         
@@ -350,7 +350,7 @@ class Microsites_IntegrationTest extends BrowserKitTestCase
      */
     public function testMicrositeStoreWithInvalidData($request_data, $attribute, $error_type)
     {
-        $project = factory('KBox\Project')->create();
+        $project = factory(\KBox\Project::class)->create();
         $project_manager = $project->manager()->first();
         
         \Session::start();
@@ -400,7 +400,7 @@ class Microsites_IntegrationTest extends BrowserKitTestCase
      */
     public function testMicrositeLanguageSwitch($default_lang, $switch_to)
     {
-        $project = factory('KBox\Project')->create();
+        $project = factory(\KBox\Project::class)->create();
         
         $project_manager = $project->manager()->first();
         
@@ -460,7 +460,7 @@ class Microsites_IntegrationTest extends BrowserKitTestCase
     
     public function testMicrositeStoreOnPojectWithExistingMicrosite()
     {
-        $project = factory('KBox\Project')->create();
+        $project = factory(\KBox\Project::class)->create();
         
         $project_manager = $project->manager()->first();
         
@@ -498,7 +498,7 @@ class Microsites_IntegrationTest extends BrowserKitTestCase
     
     public function testMicrositeEditFromProjectShowPage()
     {
-        $project = factory('KBox\Project')->create();
+        $project = factory(\KBox\Project::class)->create();
         
         $project_manager = $project->manager()->first();
         
@@ -520,7 +520,7 @@ class Microsites_IntegrationTest extends BrowserKitTestCase
     
     public function testMicrositeUpdateWithValidData()
     {
-        $project = factory('KBox\Project')->create();
+        $project = factory(\KBox\Project::class)->create();
         
         $project_manager = $project->manager()->first();
         
@@ -620,7 +620,7 @@ class Microsites_IntegrationTest extends BrowserKitTestCase
     
     public function testMicrositeDeleteWithValidData()
     {
-        $project = factory('KBox\Project')->create();
+        $project = factory(\KBox\Project::class)->create();
         
         $project_manager = $project->manager()->first();
         
@@ -637,7 +637,7 @@ class Microsites_IntegrationTest extends BrowserKitTestCase
             route('microsites.destroy', [
                 'id' => $microsite->id,
                 '_token' => csrf_token()])
-             );
+        );
         
         $this->assertInstanceOf('Illuminate\Http\RedirectResponse', $this->response);
         
@@ -652,7 +652,7 @@ class Microsites_IntegrationTest extends BrowserKitTestCase
     {
         $user = $this->createUser($caps);
         
-        $project = factory('KBox\Project')->create();
+        $project = factory(\KBox\Project::class)->create();
         
         $project_manager = $project->manager()->first();
         
@@ -669,7 +669,7 @@ class Microsites_IntegrationTest extends BrowserKitTestCase
             route('microsites.destroy', [
                 'id' => $microsite->id,
                 '_token' => csrf_token()])
-             );
+        );
         
         if ($response_status === 403) {
             $this->assertViewName('errors.403');

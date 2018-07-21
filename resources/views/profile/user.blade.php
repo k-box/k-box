@@ -74,7 +74,7 @@
 			
 			<form method="post" class="c-form" action="{{route('profile.store')}}">
 				
-				{{ csrf_field() }}
+				@csrf
 				<input type="hidden" name="_change" value="info">
 
 				<h4>{{trans('profile.info_section')}}</h4>
@@ -117,7 +117,7 @@
 
 			<form method="post"  class="c-form" action="{{route('profile.store')}}">
 				
-				{{ csrf_field() }}
+				@csrf
 				<input type="hidden" name="_change" value="language">
 
 				<h4>{{trans('profile.language_section')}}</h4>
@@ -149,7 +149,7 @@
 
 			<form method="post"  class="c-form" action="{{route('profile.store')}}">
 				
-				{{ csrf_field() }}
+				@csrf
 				<input type="hidden" name="_change" value="mail">
 
 				<h4>{{trans('profile.email_section')}}</h4>
@@ -175,7 +175,7 @@
 
 			<form method="post"  class="c-form" action="{{route('profile.store')}}">
 				
-				{{ csrf_field() }}
+				@csrf
 				<input type="hidden" name="_change" value="pass">
 
 				<h4>{{trans('profile.password_section')}}</h4>

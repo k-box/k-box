@@ -68,7 +68,7 @@ class Project extends Model
      */
     public function collection()
     {
-        return $this->hasOne('KBox\Group', 'id', 'collection_id');
+        return $this->hasOne(\KBox\Group::class, 'id', 'collection_id');
     }
     
     /**
@@ -76,7 +76,7 @@ class Project extends Model
      */
     public function manager()
     {
-        return $this->belongsTo('KBox\User', 'user_id', 'id');
+        return $this->belongsTo(\KBox\User::class, 'user_id', 'id');
     }
     
     /**
@@ -84,7 +84,7 @@ class Project extends Model
      */
     public function users()
     {
-        return $this->belongsToMany('KBox\User', 'userprojects', 'project_id', 'user_id');
+        return $this->belongsToMany(\KBox\User::class, 'userprojects', 'project_id', 'user_id');
     }
 
     public function scopeManagedBy($query, $user)

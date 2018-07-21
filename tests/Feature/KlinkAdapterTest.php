@@ -16,7 +16,7 @@ class KlinkAdapterTest extends TestCase
     {
         if (empty(getenv('DMS_CORE_ADDRESS'))) {
             $this->markTestSkipped(
-              'DMS_CORE_ADDRESS not configured for running integration tests.'
+                'DMS_CORE_ADDRESS not configured for running integration tests.'
             );
         }
 

@@ -41,7 +41,7 @@ class LocaleMiddlewareTest extends TestCase
 
     public function test_user_language_is_selected_if_no_preference_is_specified()
     {
-        $user = factory('KBox\User')->create();
+        $user = factory(\KBox\User::class)->create();
 
         $user->setOption(User::OPTION_LANGUAGE, 'fr');
 
@@ -75,7 +75,7 @@ class LocaleMiddlewareTest extends TestCase
     {
         config(['app.locale' => 'de']);
 
-        $user = factory('KBox\User')->create();
+        $user = factory(\KBox\User::class)->create();
 
         $user->setOption(User::OPTION_LANGUAGE, 'fr');
 
@@ -128,7 +128,7 @@ class LocaleMiddlewareTest extends TestCase
     {
         config(['app.locale' => $default_language]);
 
-        $user = factory('KBox\User')->create();
+        $user = factory(\KBox\User::class)->create();
 
         $user->setOption(User::OPTION_LANGUAGE, null);
 

@@ -30,7 +30,7 @@ class UserCreationTest extends TestCase
     
     public function test_user_is_created()
     {
-        $user = factory('KBox\User')->create();
+        $user = factory(\KBox\User::class)->create();
 
         Notification::fake();
 
@@ -55,7 +55,7 @@ class UserCreationTest extends TestCase
 
     public function test_wrong_email_is_rejected()
     {
-        $user = factory('KBox\User')->create();
+        $user = factory(\KBox\User::class)->create();
 
         $response = $this->actingAs($user)
                     ->from('/administration/users/create')
@@ -70,7 +70,7 @@ class UserCreationTest extends TestCase
 
     public function test_empty_user_name_is_rejected()
     {
-        $user = factory('KBox\User')->create();
+        $user = factory(\KBox\User::class)->create();
 
         $response = $this->actingAs($user)
                     ->from('/administration/users/create')
@@ -85,7 +85,7 @@ class UserCreationTest extends TestCase
 
     public function test_empty_capability_is_rejected()
     {
-        $user = factory('KBox\User')->create();
+        $user = factory(\KBox\User::class)->create();
 
         $response = $this->actingAs($user)
                     ->from('/administration/users/create')

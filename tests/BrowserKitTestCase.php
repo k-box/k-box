@@ -90,14 +90,14 @@ abstract class BrowserKitTestCase extends BaseTestCase
 
         copy($template, $destination);
 
-        $file = factory('KBox\File')->create([
+        $file = factory(\KBox\File::class)->create([
             'user_id' => $user->id,
             'original_uri' => '',
             'path' => $destination,
             'hash' => hash_file('sha512', $destination)
         ]);
         
-        $doc = factory('KBox\DocumentDescriptor')->create([
+        $doc = factory(\KBox\DocumentDescriptor::class)->create([
             'institution_id' => $user->institution_id,
             'owner_id' => $user->id,
             'file_id' => $file->id,
@@ -130,7 +130,7 @@ abstract class BrowserKitTestCase extends BaseTestCase
 
     protected function createProject($params = [])
     {
-        return factory('KBox\Project')->create($params);
+        return factory(\KBox\Project::class)->create($params);
     }
 
     /**
@@ -139,7 +139,7 @@ abstract class BrowserKitTestCase extends BaseTestCase
      */
     protected function createProjectCollection(User $user, $parent)
     {
-        $group = is_a($parent, 'KBox\Project') ? $parent->collection : $parent;
+        $group = is_a($parent, \KBox\Project::class) ? $parent->collection : $parent;
 
         $service = app('Klink\DmsDocuments\DocumentsService');
 

@@ -151,13 +151,12 @@ class RecentDocumentsController extends Controller
         $shared_documents = Shared::sharedWithMe($user)
             ->where('updated_at', '>=', $from)
             ->where('updated_at', '<=', $to)
-            ->where('shareable_type', '=', 'KBox\DocumentDescriptor')
+            ->where('shareable_type', '=', \KBox\DocumentDescriptor::class)
             ->select('shareable_id as id')->take(config('dms.recent.limit'))->orderBy('updated_at', $order);
 
         $document_ids = $document_ids->merge($shared_documents->get());
 
         if (! $user_is_dms_manager) {
-
             // documents updated in a project I have access to
             $documents_in_projects = $user->projects()->orWhere('projects.user_id', $user->id)->get()->reduce(function ($carry, $prj) use ($from, $to, $order) {
                 return $carry->merge($prj->documents()

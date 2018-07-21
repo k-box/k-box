@@ -47,7 +47,7 @@ class PeopleGroup extends Model
 
     public function user()
     {
-        return $this->belongsTo('KBox\User', 'user_id');
+        return $this->belongsTo(\KBox\User::class, 'user_id');
     }
 
     /**
@@ -57,7 +57,7 @@ class PeopleGroup extends Model
     public function people()
     {
         // Many to Many relation using the pivot table
-        return $this->belongsToMany('KBox\User', 'peoplegroup_to_user', 'peoplegroup_id', 'user_id');
+        return $this->belongsToMany(\KBox\User::class, 'peoplegroup_to_user', 'peoplegroup_id', 'user_id');
     }
     
     public function scopeInstitutional($query)

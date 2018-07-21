@@ -2,12 +2,12 @@
 
 namespace KBox\Http\Controllers\Administration;
 
-use KBox\DocumentDescriptor;
-use KBox\Http\Controllers\Controller;
-use KBox\User;
 use KBox\Option;
-use Klink\DmsDocuments\StorageService;
 use KBox\Jobs\ReindexAll;
+use Illuminate\Http\Request;
+use KBox\DocumentDescriptor;
+use Klink\DmsDocuments\StorageService;
+use KBox\Http\Controllers\Controller;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
@@ -50,7 +50,7 @@ class StorageAdministrationController extends Controller
         'total' => $storage->total(),
         'percentage' => $storage->usedPercentage(),
         'graph' => $storage->usageGraph()
-    ];
+        ];
 
         $reindex = $this->getReindexExecutionStatus();
 
@@ -63,7 +63,7 @@ class StorageAdministrationController extends Controller
         'storage' => $data,
         'reindex' => $reindex,
         'is_naming_policy_active' => Option::option('dms.namingpolicy.active', false)
-      ]);
+        ]);
     }
 
     private function getReindexExecutionStatus()
@@ -83,7 +83,7 @@ class StorageAdministrationController extends Controller
         'completed' => 0,
         'total' => 0,
         'progress_percentage' => $total > 0 ? round(($completed/$total)*100) : 0,
-      ];
+        ];
 
         if ($defaults['progress_percentage'] == 100) {
             $items['status'] = trans('administration.storage.reindexing_status_completed');
@@ -107,7 +107,7 @@ class StorageAdministrationController extends Controller
      * Start the Reindex All procedure
      * @return Response
      */
-    public function postReindexAll()
+    public function postReindexAll(Request $request)
     {
         $all_id = DocumentDescriptor::all(['id'])->map(function ($el) {
             return $el->id;
@@ -122,40 +122,38 @@ class StorageAdministrationController extends Controller
         Option::remove('dms.reindex.error');
 
         $this->dispatch(
-        new ReindexAll(\Auth::user(), $all_id->toArray())
-    );
+            new ReindexAll($request->user(), $all_id->toArray())
+        );
 
         return response()->json([
-      'status' => trans('administration.storage.reindexing_status', ['number' => $count]),
-      'pending' => $count,
-      'completed' => 0,
-      'total' => $count,
-      'progress_percentage' => 0,
-    ]);
+        'status' => trans('administration.storage.reindexing_status', ['number' => $count]),
+        'pending' => $count,
+        'completed' => 0,
+        'total' => $count,
+        'progress_percentage' => 0,
+        ]);
     }
 
     /**
      * Save the configuration of the naming policy option
      */
-    public function postNaming()
+    public function postNaming(Request $request)
     {
-        # code...
-
-        if (\Request::has('activate')) {
-            $activate = ! ! \Request::input('activate', null);
+        if ($request->has('activate')) {
+            $activate = ! ! $request->input('activate', null);
 
             if (! is_null($activate) && $activate) {
                 Option::put('dms.namingpolicy.active', true);
 
                 return redirect()->route('administration.storage.index')->with([
-              'flash_message' => trans('administration.storage.naming_policy_msg_activated')
-          ]);
+                'flash_message' => trans('administration.storage.naming_policy_msg_activated')
+                ]);
             } elseif (! is_null($activate) && ! $activate) {
                 Option::put('dms.namingpolicy.active', false);
 
                 return redirect()->route('administration.storage.index')->with([
-              'flash_message' => trans('administration.storage.naming_policy_msg_deactivated')
-          ]);
+                'flash_message' => trans('administration.storage.naming_policy_msg_deactivated')
+                ]);
             }
         }
     

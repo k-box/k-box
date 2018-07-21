@@ -12,6 +12,7 @@ use Illuminate\Contracts\Auth\Guard;
 use Klink\DmsAdapter\KlinkAdapter;
 use Illuminate\Contracts\Auth\PasswordBroker as PasswordBrokerContract;
 use KBox\Notifications\UserCreatedNotification;
+use Illuminate\Support\Facades\DB;
 
 /**
  * User Resource Controller
@@ -78,7 +79,7 @@ class UserAdministrationController extends Controller
         'project_admin' => Capability::$QUALITY_CONTENT_MANAGER,
         'klinker' => Capability::$QUALITY_CONTENT_MANAGER,
         'admin' => Capability::$ADMIN,
-      ];
+        ];
       
         //   Option::isMailEnabled() && Option::isMailUsingLogDriver() => use the password field
         //   Option::isMailUsingSmtpDriver()
@@ -114,7 +115,7 @@ class UserAdministrationController extends Controller
         'type_resolutor' => $type_resolutor,
         'show_password_field' => ! Option::isMailEnabled() || (Option::isMailEnabled() && Option::isMailUsingLogDriver()),
         'disable_password_sending' => ! Option::isMailEnabled() || (Option::isMailEnabled() && Option::isMailUsingLogDriver()),
-      ];
+        ];
       
         return view('administration.users.create', $viewBag);
     }
@@ -133,13 +134,13 @@ class UserAdministrationController extends Controller
         $use_given_password = ! empty($given_password) && ! $request->input('generate_password', false);
         $send_password = $mail_configured && $request->input('send_password', false);
 
-        $user = \DB::transaction(function () use ($request, $password, $given_password, $use_given_password) {
+        $user = DB::transaction(function () use ($request, $password, $given_password, $use_given_password) {
             $user = User::create([
               'name' => $request->get('name'),
               'email' => trim($request->get('email')),
               'password' => Hash::make($use_given_password ? $given_password : $password),
               'institution_id' => null
-          ]);
+            ]);
     
             $user->addCapabilities($request->get('capabilities'));
 
@@ -191,7 +192,7 @@ class UserAdministrationController extends Controller
         'project_admin' => Capability::$PROJECT_MANAGER,
         'klinker' => Capability::$PROJECT_MANAGER,
         'admin' => Capability::$ADMIN,
-      ];
+        ];
       
         $type_resolutor = [];
       
@@ -224,7 +225,7 @@ class UserAdministrationController extends Controller
         'type_resolutor' => $type_resolutor,
         'edit_enabled' => $auth->user()->id != $user->id,
         'caps' => array_pluck($user->capabilities()->get()->toArray(), 'key')
-      ];
+        ];
       
         return view('administration.users.edit', $viewBag);
     }
@@ -265,7 +266,7 @@ class UserAdministrationController extends Controller
             $current_submitted = $request->get('capabilities');
             $current_saved = array_pluck($user->capabilities()->get()->toArray(), 'key');
         
-            \DB::transaction(function () use ($current_saved, $current_submitted, $user) {
+            DB::transaction(function () use ($current_saved, $current_submitted, $user) {
                 $to_be_removed = array_diff($current_saved, $current_submitted);
     
                 $to_be_added = array_diff($current_submitted, $current_saved);
@@ -335,15 +336,15 @@ class UserAdministrationController extends Controller
             if ($view == PasswordBrokerContract::INVALID_USER) {
                 return redirect()->back()->withErrors([
                 'error' => trans('administration.accounts.reset_not_sent_invalid_user', ['email' => $user->email])
-            ]);
+                ]);
             } elseif ($view == PasswordBrokerContract::RESET_LINK_SENT) {
                 return redirect()->back()->with([
-              'flash_message' => trans('administration.accounts.reset_sent', ['name' => $user->name, 'email' => $user->email])
-          ]);
+                'flash_message' => trans('administration.accounts.reset_sent', ['name' => $user->name, 'email' => $user->email])
+                ]);
             } else {
                 return redirect()->back()->withErrors([
                 'error' => trans('administration.accounts.reset_not_sent', ['email' => $user->email, 'error' => ''])
-            ]);
+                ]);
             }
         } catch (\Exception $ex) {
             \Log::error('Password reset from admin interface error', ['error' => $ex]);

@@ -110,7 +110,7 @@ class File extends Model
     {
         
         // One to One
-        return $this->belongsTo('\KBox\User');
+        return $this->belongsTo(\KBox\User::class);
     }
 
     /**
@@ -122,7 +122,7 @@ class File extends Model
      */
     public function document()
     {
-        return $this->belongsTo('\KBox\DocumentDescriptor', 'id', 'file_id');
+        return $this->belongsTo(\KBox\DocumentDescriptor::class, 'id', 'file_id');
     }
 
     /**
@@ -132,7 +132,7 @@ class File extends Model
      */
     public function revisionOf()
     {
-        return $this->belongsTo('\KBox\File', 'revision_of', 'id');
+        return $this->belongsTo(\KBox\File::class, 'revision_of', 'id');
     }
 
     /**
@@ -512,7 +512,7 @@ class File extends Model
 
     private function last_version_recursive(File $file)
     {
-        $belongsTo = $file->belongsTo('\KBox\File', 'id', 'revision_of')->first();
+        $belongsTo = $file->belongsTo(\KBox\File::class, 'id', 'revision_of')->first();
 
         if (! is_null($belongsTo)) {
             return $this->last_version_recursive($belongsTo);

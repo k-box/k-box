@@ -139,7 +139,7 @@ class User extends Authenticatable
      */
     public function searches()
     {
-        return $this->hasMany('KBox\RecentSearch');
+        return $this->hasMany(\KBox\RecentSearch::class);
     }
 
     /**
@@ -149,7 +149,7 @@ class User extends Authenticatable
      */
     public function groups()
     {
-        return $this->hasMany('KBox\Group');
+        return $this->hasMany(\KBox\Group::class);
     }
   
     /**
@@ -159,7 +159,7 @@ class User extends Authenticatable
      */
     public function peoplegroups()
     {
-        return $this->hasMany('KBox\PeopleGroup');
+        return $this->hasMany(\KBox\PeopleGroup::class);
     }
   
     /**
@@ -169,7 +169,7 @@ class User extends Authenticatable
      */
     public function involvedingroups()
     {
-        return $this->belongsToMany('KBox\PeopleGroup', 'peoplegroup_to_user', 'user_id', 'peoplegroup_id');
+        return $this->belongsToMany(\KBox\PeopleGroup::class, 'peoplegroup_to_user', 'user_id', 'peoplegroup_id');
     }
 
     /**
@@ -179,7 +179,7 @@ class User extends Authenticatable
      */
     public function shares()
     {
-        return $this->hasMany('KBox\Shared', 'user_id');
+        return $this->hasMany(\KBox\Shared::class, 'user_id');
     }
 
     /**
@@ -190,7 +190,7 @@ class User extends Authenticatable
      */
     public function institution()
     {
-        return $this->hasOne('KBox\Institution', 'id', 'institution_id');
+        return $this->hasOne(\KBox\Institution::class, 'id', 'institution_id');
     }
 
     /**
@@ -200,7 +200,7 @@ class User extends Authenticatable
      */
     public function documents()
     {
-        return $this->hasMany('KBox\DocumentDescriptor', 'owner_id');
+        return $this->hasMany(\KBox\DocumentDescriptor::class, 'owner_id');
     }
 
     /**
@@ -210,7 +210,7 @@ class User extends Authenticatable
      */
     public function starred()
     {
-        return $this->hasMany('KBox\Starred');
+        return $this->hasMany(\KBox\Starred::class);
     }
 
     /**
@@ -220,7 +220,7 @@ class User extends Authenticatable
      */
     public function options()
     {
-        return $this->hasMany('KBox\UserOption');
+        return $this->hasMany(\KBox\UserOption::class);
     }
 
     /**
@@ -230,7 +230,7 @@ class User extends Authenticatable
      */
     public function projects()
     {
-        return $this->belongsToMany('KBox\Project', 'userprojects', 'user_id', 'project_id');
+        return $this->belongsToMany(\KBox\Project::class, 'userprojects', 'user_id', 'project_id');
     }
   
     /**
@@ -240,7 +240,7 @@ class User extends Authenticatable
      */
     public function managedProjects()
     {
-        return $this->hasMany('KBox\Project');
+        return $this->hasMany(\KBox\Project::class);
     }
 
     /**

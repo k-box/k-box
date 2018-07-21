@@ -10,7 +10,7 @@
     @endif
 
 
-    {{ csrf_field() }}
+    @csrf
 
     <div class="c-form__field">
         <label>{{trans('administration.accounts.labels.email')}}</label>

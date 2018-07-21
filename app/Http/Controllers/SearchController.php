@@ -96,9 +96,9 @@ class SearchController extends Controller
      * Ajax based route for getting the autocomplete for a search query while the user is typing
      * @return Response
      */
-    public function autocomplete(Guard $auth)
+    public function autocomplete(Request $request, Guard $auth)
     {
-        $search_terms = e(\Request::input('s', null));
+        $search_terms = e($request->input('s', null));
 
         $recent = null;
         $starred = null;

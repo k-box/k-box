@@ -45,7 +45,7 @@ class SearchServiceTest extends TestCase
         
         $res = $search_service->search($req);
         
-        $this->assertInstanceOf('KBox\Pagination\SearchResultsPaginator', $res, 'Result not a paginator');
+        $this->assertInstanceOf(\KBox\Pagination\SearchResultsPaginator::class, $res, 'Result not a paginator');
 
         $this->assertNotEmpty($res->items(), 'search result is empty');
         $this->assertInstanceOf('Illuminate\Support\Collection', $res->getCollection(), 'Result items as collection');
@@ -66,7 +66,7 @@ class SearchServiceTest extends TestCase
             
             $this->assertEquals($req->page, $res->currentPage(), 'Next pages - current page');
             
-            $this->assertInstanceOf('KBox\Pagination\SearchResultsPaginator', $res, 'Result not a paginator');
+            $this->assertInstanceOf(\KBox\Pagination\SearchResultsPaginator::class, $res, 'Result not a paginator');
         
             $this->assertNotEmpty($res->items());
             $this->assertNotNull($res->items());

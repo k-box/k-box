@@ -56,7 +56,7 @@ class DuplicateDocumentsNotification extends Notification implements ShouldQueue
 
     public function toMail($notifiable)
     {
-        $language = is_a($notifiable, 'KBox\User') ? $notifiable->optionLanguage(config('app.locale')) : config('app.locale');
+        $language = is_a($notifiable, \KBox\User::class) ? $notifiable->optionLanguage(config('app.locale')) : config('app.locale');
 
         $duplicates = $this->duplicates->map(function ($duplicate) {
             return $duplicate->message;

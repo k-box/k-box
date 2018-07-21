@@ -180,7 +180,7 @@ class SharingControllerTest extends BrowserKitTestCase
 
         $this->actingAs($user);
         
-        $share = factory('KBox\Shared')->create([
+        $share = factory(\KBox\Shared::class)->create([
             'user_id' => $user->id,
             'sharedwith_id' => $user_target->id,
         ]);

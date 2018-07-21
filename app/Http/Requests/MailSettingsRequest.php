@@ -33,7 +33,7 @@ class MailSettingsRequest extends Request
 
         // only if driver is different from log
         $server = [];
-        if (\Config::get('mail.driver') !== 'log') {
+        if (config('mail.driver') !== 'log') {
             $server = [
                 'pretend' => 'sometimes|required|boolean',
                 'host' => 'required|regex:/^[\w\d\.]*/',

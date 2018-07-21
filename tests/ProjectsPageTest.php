@@ -68,7 +68,7 @@ class ProjectsPageTest extends BrowserKitTestCase
             $user = $this->createUser($caps);
             
             if (strpos($route, 'show') !== false) {
-                $project = factory('KBox\Project')->create(['user_id' => $user->id]);
+                $project = factory(\KBox\Project::class)->create(['user_id' => $user->id]);
                 
                 $params = ['projects' => $project->id];
             } else {
@@ -112,7 +112,7 @@ class ProjectsPageTest extends BrowserKitTestCase
     {
         $this->markTestSkipped(
             'Needs to be reimplemented.'
-          );
+        );
 
         Flags::enable(Flags::UNIFIED_SEARCH);
 
@@ -177,7 +177,7 @@ class ProjectsPageTest extends BrowserKitTestCase
 
         // Trick get the facets view to test which columns are available in the elastic list
         $view = $this->response->original; // is a view
-        $composer = app('KBox\Http\Composers\DocumentsComposer');
+        $composer = app(\KBox\Http\Composers\DocumentsComposer::class);
         $composer->facets($view);
         $this->response->original = $view;
 
@@ -195,13 +195,13 @@ class ProjectsPageTest extends BrowserKitTestCase
     {
         $this->markTestSkipped(
             'Needs to be reimplemented.'
-          );
+        );
 
         Flags::enable(Flags::UNIFIED_SEARCH);
 
         $mock = $this->withKlinkAdapterMock();
 
-        $mock->shouldReceive('institutions')->andReturn(factory('KBox\Institution')->make());
+        $mock->shouldReceive('institutions')->andReturn(factory(\KBox\Institution::class)->make());
         
         $mock->shouldReceive('isNetworkEnabled')->andReturn(false);
 
@@ -284,7 +284,7 @@ class ProjectsPageTest extends BrowserKitTestCase
 
         // Trick get the facets view to test which columns are available in the elastic list
         $view = $this->response->original; // is a view
-        $composer = app('KBox\Http\Composers\DocumentsComposer');
+        $composer = app(\KBox\Http\Composers\DocumentsComposer::class);
         $composer->facets($view);
         $this->response->original = $view;
 

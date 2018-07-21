@@ -10,6 +10,7 @@ use KBox\Shared;
 use KBox\Capability;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\DB;
 
 class PeopleGroupsController extends Controller
 {
@@ -19,7 +20,7 @@ class PeopleGroupsController extends Controller
      *
      * @return void
      */
-    public function __construct(/*\Klink\DmsAdapter\KlinkAdapter $adapterService, \Klink\DmsDocuments\DocumentsService $documentsService, \Klink\DmsSearch\SearchService $searchService*/)
+    public function __construct()
     {
         $this->middleware('auth');
 
@@ -181,7 +182,7 @@ class PeopleGroupsController extends Controller
     public function destroy($id)
     {
         try {
-            $executed = \DB::transaction(function () use ($id) {
+            $executed = DB::transaction(function () use ($id) {
                 $pgrp = PeopleGroup::findOrFail($id);
             
                 $affectedRows = Shared::sharedWithGroups([$id])->delete();

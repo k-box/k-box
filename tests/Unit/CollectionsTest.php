@@ -16,7 +16,7 @@ class CollectionsTest extends TestCase
     {
         $service = app('Klink\DmsDocuments\DocumentsService');
         
-        $user = tap(factory('KBox\User')->create(), function ($user) {
+        $user = tap(factory(\KBox\User::class)->create(), function ($user) {
             $user->addCapabilities(Capability::$PARTNER);
         });
     
@@ -45,14 +45,14 @@ class CollectionsTest extends TestCase
     {
         $service = app('Klink\DmsDocuments\DocumentsService');
         
-        $manager = tap(factory('KBox\User')->create(), function ($user) {
+        $manager = tap(factory(\KBox\User::class)->create(), function ($user) {
             $user->addCapabilities(Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH);
         });
-        $user = tap(factory('KBox\User')->create(), function ($user) {
+        $user = tap(factory(\KBox\User::class)->create(), function ($user) {
             $user->addCapabilities(Capability::$PARTNER);
         });
 
-        $project = factory('KBox\Project')->create([
+        $project = factory(\KBox\Project::class)->create([
             'user_id' => $manager->id
         ]);
 
@@ -82,14 +82,14 @@ class CollectionsTest extends TestCase
     {
         $service = app('Klink\DmsDocuments\DocumentsService');
         
-        $manager = tap(factory('KBox\User')->create(), function ($user) {
+        $manager = tap(factory(\KBox\User::class)->create(), function ($user) {
             $user->addCapabilities(Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH);
         });
-        $user = tap(factory('KBox\User')->create(), function ($user) {
+        $user = tap(factory(\KBox\User::class)->create(), function ($user) {
             $user->addCapabilities(Capability::$PARTNER);
         });
 
-        $project = factory('KBox\Project')->create([
+        $project = factory(\KBox\Project::class)->create([
             'user_id' => $manager->id
         ]);
         $project->users()->attach($user);
@@ -117,14 +117,14 @@ class CollectionsTest extends TestCase
     {
         $service = app('Klink\DmsDocuments\DocumentsService');
         
-        $manager = tap(factory('KBox\User')->create(), function ($user) {
+        $manager = tap(factory(\KBox\User::class)->create(), function ($user) {
             $user->addCapabilities(Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH);
         });
-        $user = tap(factory('KBox\User')->create(), function ($user) {
+        $user = tap(factory(\KBox\User::class)->create(), function ($user) {
             $user->addCapabilities(Capability::$PARTNER);
         });
 
-        $project = factory('KBox\Project')->create([
+        $project = factory(\KBox\Project::class)->create([
             'user_id' => $manager->id
         ]);
         $project->users()->attach($user);
@@ -146,14 +146,14 @@ class CollectionsTest extends TestCase
     {
         $service = app('Klink\DmsDocuments\DocumentsService');
         
-        $manager = tap(factory('KBox\User')->create(), function ($user) {
+        $manager = tap(factory(\KBox\User::class)->create(), function ($user) {
             $user->addCapabilities(Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH);
         });
-        $user = tap(factory('KBox\User')->create(), function ($user) {
+        $user = tap(factory(\KBox\User::class)->create(), function ($user) {
             $user->addCapabilities(Capability::$PARTNER);
         });
 
-        $project = factory('KBox\Project')->create([
+        $project = factory(\KBox\Project::class)->create([
             'user_id' => $manager->id
         ]);
         $project->users()->attach($user);
@@ -178,10 +178,10 @@ class CollectionsTest extends TestCase
     {
         $service = app('Klink\DmsDocuments\DocumentsService');
         
-        $creator = tap(factory('KBox\User')->create(), function ($user) {
+        $creator = tap(factory(\KBox\User::class)->create(), function ($user) {
             $user->addCapabilities(Capability::$PARTNER);
         });
-        $user = tap(factory('KBox\User')->create(), function ($user) {
+        $user = tap(factory(\KBox\User::class)->create(), function ($user) {
             $user->addCapabilities(Capability::$PARTNER);
         });
             
@@ -207,10 +207,10 @@ class CollectionsTest extends TestCase
     {
         $service = app('Klink\DmsDocuments\DocumentsService');
         
-        $creator = tap(factory('KBox\User')->create(), function ($user) {
+        $creator = tap(factory(\KBox\User::class)->create(), function ($user) {
             $user->addCapabilities(Capability::$PARTNER);
         });
-        $user = tap(factory('KBox\User')->create(), function ($user) {
+        $user = tap(factory(\KBox\User::class)->create(), function ($user) {
             $user->addCapabilities(Capability::$PARTNER);
         });
             

@@ -77,7 +77,7 @@ class ProjectsTest extends BrowserKitTestCase
             $user = $this->createUser($caps);
             
             if (strpos($route, 'show') !== -1 || strpos($route, 'edit') !== -1) {
-                $project = factory('KBox\Project')->create(['user_id' => $user->id]);
+                $project = factory(\KBox\Project::class)->create(['user_id' => $user->id]);
                 
                 $params = ['projects' => $project->id];
             } else {
@@ -166,7 +166,7 @@ class ProjectsTest extends BrowserKitTestCase
 
     public function testProjectEdit()
     {
-        $project = factory('KBox\Project')->create();
+        $project = factory(\KBox\Project::class)->create();
         
         $user = $project->manager()->first();
 

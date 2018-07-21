@@ -34,7 +34,7 @@ class StarredTest extends BrowserKitTestCase
         
         $user = $this->createUser($caps);
         
-        $starred = factory('KBox\Starred', 3)->create(['user_id' => $user->id]);
+        $starred = factory(\KBox\Starred::class, 3)->create(['user_id' => $user->id]);
         
         $this->actingAs($user);
         
@@ -59,7 +59,7 @@ class StarredTest extends BrowserKitTestCase
         
         $user = $this->createAdminUser();
         
-        $starred = factory('KBox\Starred', $starred_count)->create(['user_id' => $user->id]);
+        $starred = factory(\KBox\Starred::class, $starred_count)->create(['user_id' => $user->id]);
         
         $this->actingAs($user);
         
@@ -87,7 +87,7 @@ class StarredTest extends BrowserKitTestCase
         
         $expected_count = Starred::count() + 1;
         
-        $doc = factory('KBox\DocumentDescriptor')->create(['owner_id' => $user->id]);
+        $doc = factory(\KBox\DocumentDescriptor::class)->create(['owner_id' => $user->id]);
         
         \Session::start(); // Start a session for the current test
         
@@ -113,7 +113,7 @@ class StarredTest extends BrowserKitTestCase
         
         $expected_count = Starred::count();
         
-        $starred = factory('KBox\Starred')->create(['user_id' => $user->id]);
+        $starred = factory(\KBox\Starred::class)->create(['user_id' => $user->id]);
         
         $this->actingAs($user);
         
@@ -123,7 +123,7 @@ class StarredTest extends BrowserKitTestCase
             route('documents.starred.destroy', [
                 'id' => $starred->id,
                 '_token' => csrf_token()])
-             )
+        )
              ->seeJson([
                  'status' => 'ok'
              ]);
@@ -139,7 +139,7 @@ class StarredTest extends BrowserKitTestCase
         
         $user = $this->createUser(Capability::$PARTNER);
         
-        $starred = factory('KBox\Starred', 3)->create(['user_id' => $user->id]);
+        $starred = factory(\KBox\Starred::class, 3)->create(['user_id' => $user->id]);
 
         $starred->first()->document->delete();
 
@@ -159,7 +159,7 @@ class StarredTest extends BrowserKitTestCase
         
         $expected_count = Starred::count();
         
-        $starred = factory('KBox\Starred')->create(['user_id' => $user->id]);
+        $starred = factory(\KBox\Starred::class)->create(['user_id' => $user->id]);
 
         $starred->document->delete();
 
@@ -172,7 +172,7 @@ class StarredTest extends BrowserKitTestCase
             route('documents.starred.destroy', [
                 'id' => $starred->id,
                 '_token' => csrf_token()])
-             )
+        )
              ->seeJson([
                  'status' => 'ok'
              ]);

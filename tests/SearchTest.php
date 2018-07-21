@@ -25,7 +25,7 @@ class SearchTest extends BrowserKitTestCase
         
         $user = $this->createAdminUser();
         
-        $starred = factory('KBox\DocumentDescriptor', 3)
+        $starred = factory(\KBox\DocumentDescriptor::class, 3)
             ->create()
             ->each(function ($doc) use ($user) {
                 $doc->stars()->create(['user_id' => $user->id]);
@@ -49,7 +49,7 @@ class SearchTest extends BrowserKitTestCase
             return Starred::with('document')->ofUser($user->id); // or Collection or Eloquent\Builder instance
         });
         
-        $this->assertInstanceOf('KBox\Pagination\SearchResultsPaginator', $results, 'Result not a paginator');
+        $this->assertInstanceOf(\KBox\Pagination\SearchResultsPaginator::class, $results, 'Result not a paginator');
         
         $this->assertNotEmpty($results->items());
         $this->assertNotNull($results->items());
@@ -105,7 +105,7 @@ class SearchTest extends BrowserKitTestCase
             return FakeKlinkAdapter::generateFacetsResponse($facets, $visibility, $term);
         });
 
-        $docs = factory('KBox\DocumentDescriptor', $count)->create();
+        $docs = factory(\KBox\DocumentDescriptor::class, $count)->create();
 
         $interested_in = $docs->last();
         
@@ -178,7 +178,7 @@ class SearchTest extends BrowserKitTestCase
         $last_element = null;
 
         foreach ($document_names as $index => $title) {
-            $created = factory('KBox\DocumentDescriptor')->create([
+            $created = factory(\KBox\DocumentDescriptor::class)->create([
                 'title' => $title
             ]);
 

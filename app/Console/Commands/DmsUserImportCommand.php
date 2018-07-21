@@ -11,7 +11,7 @@ use KBox\Capability;
 use KBox\Project;
 
 use Illuminate\Foundation\Bus\DispatchesJobs;
-
+use Illuminate\Support\Facades\DB;
 use KBox\Console\Traits\Login;
 use KBox\Console\Traits\DebugOutput;
 use League\Csv\Reader;
@@ -234,7 +234,7 @@ class DmsUserImportCommand extends Command
         if (! empty($parameters['add_to_projects'])) {
             $projects = Project::whereIn('name', $parameters['add_to_projects'])->get();
             
-            \DB::transaction(function () use ($projects, $user) {
+            DB::transaction(function () use ($projects, $user) {
                 foreach ($projects as $project) {
                     $project->users()->attach($user->id);
                     $this->debugLine('User '.$user->id.' added to "'.$project->name.'"');
@@ -249,7 +249,7 @@ class DmsUserImportCommand extends Command
         if (! empty($parameters['manage_projects'])) {
             $projects_to_manage = Project::whereIn('name', $parameters['manage_projects'])->get();
             
-            \DB::transaction(function () use ($projects_to_manage, $user) {
+            DB::transaction(function () use ($projects_to_manage, $user) {
                 foreach ($projects_to_manage as $project) {
                     $project->users()->attach($project->user_id);
                     

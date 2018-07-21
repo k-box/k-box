@@ -28,7 +28,7 @@
 
         <form  method="post" class="c-form" action="{{route('administration.identity.store')}}">
         
-            {{ csrf_field() }}
+            @csrf
 
 
             <div class="c-section">

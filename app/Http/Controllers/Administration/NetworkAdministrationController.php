@@ -53,7 +53,7 @@ class NetworkAdministrationController extends Controller
 
         return view(
             'administration.network',
-        array_merge(['pagetitle' => trans('administration.menu.network')], $info)
+            array_merge(['pagetitle' => trans('administration.menu.network')], $info)
         );
     }
 }

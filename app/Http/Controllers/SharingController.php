@@ -17,6 +17,7 @@ use Illuminate\Contracts\Auth\Guard as AuthGuard;
 use Illuminate\Support\Collection;
 use KBox\Traits\Searchable;
 use KBox\Events\ShareCreated;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Manage you personal shares
@@ -87,7 +88,7 @@ class SharingController extends Controller
             
             $shared_docs = $all_shared->pluck('shareable.uuid')->all();
             $shared_files_in_groups = array_flatten(array_filter($all_shared->map(function ($g) {
-                if ($g->shareable_type === 'KBox\Group' && ! is_null($g->shareable)) {
+                if ($g->shareable_type === \KBox\Group::class && ! is_null($g->shareable)) {
                     return $g->shareable->documents->pluck('uuid')->all();
                 }
                 return null;
@@ -146,7 +147,7 @@ class SharingController extends Controller
         $see_share = $auth->user()->can_capability(Capability::RECEIVE_AND_SEE_SHARE);
         $partner = $auth->user()->can_all_capabilities(Capability::$PARTNER);
 
-        if (is_a($share->shareable, 'KBox\Group')) {
+        if (is_a($share->shareable, \KBox\Group::class)) {
             return redirect()->route($partner ? 'documents.groups.show' : 'shares.group', ['id' => $share->shareable->id]);
         }
 
@@ -200,7 +201,7 @@ class SharingController extends Controller
             // grab the existing share made by the user, so we can remove it also from the available_users
             // let's do it for $first only first
 
-            $existing_shares = $first->shares()->sharedByMe($me)->where('sharedwith_type', 'KBox\User')->get();
+            $existing_shares = $first->shares()->sharedByMe($me)->where('sharedwith_type', \KBox\User::class)->get();
 
             $users_to_exclude = array_merge($users_to_exclude, $existing_shares->pluck('sharedwith_id')->unique()->toArray());
 
@@ -228,16 +229,15 @@ class SharingController extends Controller
             // is the document in a shared collection? if yes a user could still have access to the document because of that
 
             if ($first->hasPublicLink()) {
-                $public_link_share = $first->shares()->where('sharedwith_type', 'KBox\PublicLink')->first();
+                $public_link_share = $first->shares()->where('sharedwith_type', \KBox\PublicLink::class)->first();
                 $public_link = $public_link_share->sharedwith; //instance of PublicLink
                 $existing_shares = $existing_shares->merge([$public_link_share]);
             }
         } elseif (! is_null($first) && $first instanceof Group && ! $is_multiple_selection) {
-            
             // grab the existing share made by the user, so we can remove it also from the available_users
             // let's do it for $first only first
 
-            $existing_shares = $first->shares()->sharedByMe($me)->where('sharedwith_type', 'KBox\User')->get();
+            $existing_shares = $first->shares()->sharedByMe($me)->where('sharedwith_type', \KBox\User::class)->get();
 
             $users_to_exclude = array_merge($users_to_exclude, $existing_shares->pluck('sharedwith_id')->unique()->toArray());
         }
@@ -306,7 +306,7 @@ class SharingController extends Controller
         // groups
         // documents
 
-        $status = \DB::transaction(function () use ($auth, $request) {
+        $status = DB::transaction(function () use ($auth, $request) {
             $user = $auth->user();
 
             $users_to_share_with = $request->input('with_users', []);

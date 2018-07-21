@@ -2,11 +2,11 @@
 
 <form method="POST" class="c-form" action="@if(!isset($group) || (isset($create) && $create)) {{route('documents.groups.store')}} @else {{route('documents.groups.update', $group->id)}} @endif" rv-on-submit="groupSubmit">
 
-	{{ csrf_field() }}
+	@csrf
 
 	@if(isset($edit) && $edit)
 
-		<input type="hidden" name="_method" value="PUT">
+		@method('PUT')
 
 	@endif
 

@@ -93,17 +93,17 @@ class UploadCompletedHandlerTest extends TestCase
         
         $service = app('Klink\DmsDocuments\DocumentsService');
         
-        $user = tap(factory('KBox\User')->create(), function ($u) {
+        $user = tap(factory(\KBox\User::class)->create(), function ($u) {
             $u->addCapabilities(Capability::$PARTNER);
         });
 
-        $project = tap(factory('KBox\Project')->create(), function ($p) use ($user) {
+        $project = tap(factory(\KBox\Project::class)->create(), function ($p) use ($user) {
             $p->users()->attach($user->id);
         });
 
         $manager = $project->manager;
 
-        $descriptor = factory('KBox\DocumentDescriptor')->create([
+        $descriptor = factory(\KBox\DocumentDescriptor::class)->create([
             'owner_id' => $manager->id
         ]);
         $service->addDocumentToGroup($manager, $descriptor, $project->collection);
@@ -136,19 +136,19 @@ class UploadCompletedHandlerTest extends TestCase
         
         $service = app('Klink\DmsDocuments\DocumentsService');
         
-        $user = tap(factory('KBox\User')->create(), function ($u) {
+        $user = tap(factory(\KBox\User::class)->create(), function ($u) {
             $u->addCapabilities(Capability::$PROJECT_MANAGER);
         });
         
-        $userForDuplicate = tap(factory('KBox\User')->create(), function ($u) {
+        $userForDuplicate = tap(factory(\KBox\User::class)->create(), function ($u) {
             $u->addCapabilities(Capability::$PROJECT_MANAGER);
         });
 
-        $document = factory('KBox\DocumentDescriptor')->create(['owner_id' => $user->id, 'is_public' => false]);
+        $document = factory(\KBox\DocumentDescriptor::class)->create(['owner_id' => $user->id, 'is_public' => false]);
 
         $last_version = $document->file;
 
-        $first_version = factory('KBox\File')->create([
+        $first_version = factory(\KBox\File::class)->create([
             'mime_type' => 'text/html',
             'hash' => 'new_hash'
         ]);

@@ -51,7 +51,7 @@ class PublicLink extends Model
      */
     public function user()
     {
-        return $this->belongsTo('KBox\User', 'user_id', 'id');
+        return $this->belongsTo(\KBox\User::class, 'user_id', 'id');
     }
 
     /**
@@ -61,7 +61,7 @@ class PublicLink extends Model
      */
     public function share()
     {
-        return $this->morphOne('KBox\Shared', 'sharedwith');
+        return $this->morphOne(\KBox\Shared::class, 'sharedwith');
     }
 
     /**

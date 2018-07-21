@@ -47,12 +47,12 @@ class MaintenanceAdministrationController extends Controller
         }
     
         return view('administration.maintenance', [
-      'pagetitle' => trans('administration.menu.maintenance'),
-      'log_entries' => $log_entries,
-      'queue_runner_status' => $active ? trans('administration.maintenance.queue_runner_started') : trans('administration.maintenance.queue_runner_stopped'),
-      'queue_runner_status_class' => $active ? 'success' : 'error',
-      'queue_runner_status_boolean' => $active,
-    ]);
+        'pagetitle' => trans('administration.menu.maintenance'),
+        'log_entries' => $log_entries,
+        'queue_runner_status' => $active ? trans('administration.maintenance.queue_runner_started') : trans('administration.maintenance.queue_runner_stopped'),
+        'queue_runner_status_class' => $active ? 'success' : 'error',
+        'queue_runner_status_boolean' => $active,
+        ]);
     }
   
     public function tailCustom($filepath, $lines = 1, $adaptive = true)
