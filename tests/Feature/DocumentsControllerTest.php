@@ -104,7 +104,6 @@ class DocumentsControllerTest extends TestCase
         $response->assertDontSee(trans('documents.duplicates.badge'));
     }
 
-    
     public function test_duplicate_actions_are_presented_on_document_edit_page()
     {
         $this->disableExceptionHandling();

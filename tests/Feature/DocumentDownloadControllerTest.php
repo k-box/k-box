@@ -86,7 +86,6 @@ class DocumentDownloadControllerTest extends TestCase
             'token' => hash('sha512', '$token_content'),
         ]);
 
-        
         $url = route('documents.download', ['uuid' => $document->uuid]);
 
         $response = $this->actingAs($user_accessing_the_document)->get($url);
@@ -107,7 +106,6 @@ class DocumentDownloadControllerTest extends TestCase
 
         $document = factory('KBox\DocumentDescriptor')->create(['owner_id' => $user->id, 'is_public' => true]);
         
-
         Publication::unguard(); // as fields are not mass assignable
         
         $document->publications()->create([
@@ -237,7 +235,6 @@ class DocumentDownloadControllerTest extends TestCase
 
         $document = factory('KBox\DocumentDescriptor')->create(['owner_id' => $user->id, 'is_public' => false]);
 
-        
         $url = route('documents.download', ['uuid' => $document->uuid]);
 
         $response = $this->get($url);
@@ -256,7 +253,6 @@ class DocumentDownloadControllerTest extends TestCase
 
         $document = factory('KBox\DocumentDescriptor')->create(['owner_id' => $user->id, 'is_public' => false]);
 
-        
         $url = route('documents.download', ['uuid' => $document->uuid]);
 
         $response = $this->actingAs($user_accessing_the_document)->get($url);
@@ -282,7 +278,6 @@ class DocumentDownloadControllerTest extends TestCase
         $response->assertStatus(404);
     }
 
-    
     public function test_public_document_can_be_downloaded_by_the_klink_using_the_download_link()
     {
         Option::put(Option::PUBLIC_CORE_ENABLED, true);

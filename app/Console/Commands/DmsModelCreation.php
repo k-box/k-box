@@ -64,7 +64,7 @@ class DmsModelCreation extends Command
      *
      * @return mixed
      */
-    public function fire()
+    public function handle()
     {
         $starts = $this->files->glob($this->getMigrationPath().'/2015_03_16_115239_create_shared_table.php');
 
@@ -271,7 +271,6 @@ class DmsModelCreation extends Command
 
         preg_match_all("/->(\w+)\(\'(\w+)\'\);/", $content, $fields_array);
 
-        
         if (! empty($fields_array) && (! empty($fields_array[0]))) {
             $fields_array_count = count($fields_array[0]);
 
@@ -279,7 +278,6 @@ class DmsModelCreation extends Command
                 $var_type = $fields_array[1][$i];
                 $var_name = $fields_array[2][$i];
 
-                
                 $fields[] = $var_name.': '.($var_type !='on' ? $var_type : $this->getClassName($var_name));
             }
         }

@@ -3,7 +3,6 @@
 namespace KBox\Http\Controllers;
 
 use Exception;
-use KBox\Publication;
 use Illuminate\Http\Request;
 use KBox\DocumentDescriptor;
 use KBox\Exceptions\PublishingOperationInProgressException;
@@ -45,7 +44,6 @@ class PublishedDocumentsController extends Controller
         }
     }
 
- 
     /**
      * Remove the specified resource from storage.
      *

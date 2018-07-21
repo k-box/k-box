@@ -38,7 +38,6 @@ return [
             'retry_after' => 90,
         ],
             
-            
         'sync' => [
             'driver' => 'sync',
         ],

@@ -66,8 +66,11 @@ class PresentationExtractor implements ExtractTextContract
         $stripped = strip_tags($xml, '<a:r>'); //preserving paragraphs and new lines
 
         // collapsing into same line and returning
-        return trim(preg_replace("/ {2,}/", ' ',
-            str_replace('</a:r>', ' ', str_replace('<a:r>', '', $stripped))));
+        return trim(preg_replace(
+            "/ {2,}/",
+            ' ',
+            str_replace('</a:r>', ' ', str_replace('<a:r>', '', $stripped))
+        ));
     }
 
     public function properties()

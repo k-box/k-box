@@ -5,6 +5,7 @@ namespace Tests\Unit\Streaming;
 use Tests\TestCase;
 use KBox\Facades\KlinkStreaming;
 use KBox\Support\Testing\Fakes\KlinkStreamingClientFake;
+use Oneofftech\KlinkStreaming\Client;
 
 class KlinkStreamingFakeTest extends TestCase
 {
@@ -18,11 +19,11 @@ class KlinkStreamingFakeTest extends TestCase
     {
         KlinkStreaming::fake();
 
-        KlinkStreaming::uploaded('nothing.mp4');
+        $this->assertInstanceOf(KlinkStreamingClientFake::class, app()->make(Client::class));
     }
 
     /**
-     * @expectedException PHPUnit_Framework_ExpectationFailedException
+     * @expectedException \PHPUnit\Framework\ExpectationFailedException
      * @expectedExceptionMessage The expected [video.mp4] video was not uploaded.
      */
     public function test_assert_video_was_uploaded()
@@ -35,7 +36,7 @@ class KlinkStreamingFakeTest extends TestCase
     }
     
     /**
-     * @expectedException PHPUnit_Framework_ExpectationFailedException
+     * @expectedException \PHPUnit\Framework\ExpectationFailedException
      * @expectedExceptionMessage The unexpected [video.mp4] video was uploaded.
      */
     public function test_assert_video_was_not_uploaded()
@@ -48,7 +49,7 @@ class KlinkStreamingFakeTest extends TestCase
     }
 
     /**
-     * @expectedException PHPUnit_Framework_ExpectationFailedException
+     * @expectedException \PHPUnit\Framework\ExpectationFailedException
      * @expectedExceptionMessage Videos were uploaded unexpectedly.
      */
     public function test_assert_nothing_uploaded()
@@ -61,7 +62,7 @@ class KlinkStreamingFakeTest extends TestCase
     }
 
     /**
-     * @expectedException PHPUnit_Framework_ExpectationFailedException
+     * @expectedException \PHPUnit\Framework\ExpectationFailedException
      * @expectedExceptionMessage The expected [abcde123] video was not deleted.
      */
     public function test_assert_video_was_deleted()
@@ -74,7 +75,7 @@ class KlinkStreamingFakeTest extends TestCase
     }
     
     /**
-     * @expectedException PHPUnit_Framework_ExpectationFailedException
+     * @expectedException \PHPUnit\Framework\ExpectationFailedException
      * @expectedExceptionMessage The unexpected [abcde123] video was deleted.
      */
     public function test_assert_video_was_not_deleted()

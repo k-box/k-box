@@ -22,7 +22,6 @@ class DocumentsCheckDescriptorCommandTest extends BrowserKitTestCase
     {
         $docs = factory('KBox\DocumentDescriptor')->create($options);
         
-        
         return $docs;
     }
 
@@ -42,7 +41,6 @@ class DocumentsCheckDescriptorCommandTest extends BrowserKitTestCase
 
         $file = $doc->file;
 
-        
         $new_mime_type = $file->mime_type;
         $new_document_type = KlinkDocumentUtils::documentTypeFromMimeType($file->mime_type);
         $new_hash = $file->hash;

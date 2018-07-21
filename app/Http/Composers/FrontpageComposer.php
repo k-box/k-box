@@ -34,7 +34,6 @@ class FrontpageComposer
 
         $route_name = \Route::currentRouteName();
         
-
         if (! is_null($route_name)) {
             $body_classes[] = $route_name;
         }

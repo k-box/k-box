@@ -42,7 +42,7 @@ class DmsQueueListen extends Command
      *
      * @return mixed
      */
-    public function fire()
+    public function handle()
     {
         // set_exception_handler(array($this, "default_exception_handler"));
         

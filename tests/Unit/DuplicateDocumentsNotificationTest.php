@@ -61,7 +61,8 @@ class DuplicateDocumentsNotificationTest extends TestCase
         $notification->handle($event);
 
         Notification::assertNotSentTo(
-            [$user], DuplicateDocumentsNotification::class
+            [$user],
+            DuplicateDocumentsNotification::class
         );
     }
 

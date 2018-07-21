@@ -72,12 +72,12 @@ class PublicLinksController extends Controller
             throw new ForbiddenException(
                 trans('share.publiclinks.already_exist', [
                     'name' => ($to_type === 'document' ? $target->title : $target->name)
-                ]));
+                ])
+            );
         }
 
         $token = $user->id.$target->id.get_class($target).time().PublicLink::class;
 
-        
         $res = DB::transaction(function () use ($target, $user, $slug, $expiration, $token) {
             $link_params = [
                 'user_id' => $user->id,
@@ -119,7 +119,8 @@ class PublicLinksController extends Controller
         
         if ($user->id !== $link->user_id) {
             throw new ForbiddenException(
-                trans('share.publiclinks.edit_forbidden_not_your'));
+                trans('share.publiclinks.edit_forbidden_not_your')
+            );
         }
 
         $slug = $request->input('slug', null);
@@ -157,7 +158,8 @@ class PublicLinksController extends Controller
         
         if ($user->id !== $link->user_id) {
             throw new ForbiddenException(
-                trans('share.publiclinks.delete_forbidden_not_your'));
+                trans('share.publiclinks.delete_forbidden_not_your')
+            );
         }
 
         $res = DB::transaction(function () use ($link) {

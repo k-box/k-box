@@ -19,7 +19,6 @@ final class FileDownloadException extends Exception
         $this->ref_file = $file;
     }
     
-    
     public function file()
     {
         return $this->ref_file;

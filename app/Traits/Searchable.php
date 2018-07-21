@@ -39,40 +39,40 @@ trait Searchable
 
             $to_highlight = $request->highlight;
 
-              // someone wants to highlight a document?
+            // someone wants to highlight a document?
   
-              if (! is_null($to_highlight) && $to_highlight != 0) {
-                  // if collection, we already have all the results,
-                  // so we need to retrieve the element with ID == $to_highlight
-                  // and calculate its offset
+            if (! is_null($to_highlight) && $to_highlight != 0) {
+                // if collection, we already have all the results,
+                // so we need to retrieve the element with ID == $to_highlight
+                // and calculate its offset
   
-                  $new_page = $request->page;
+                $new_page = $request->page;
   
-                  if (is_a($override_response, 'Illuminate\Support\Collection')) {
-                      $key = $override_response->where('id', $to_highlight)->
+                if (is_a($override_response, 'Illuminate\Support\Collection')) {
+                    $key = $override_response->where('id', $to_highlight)->
                              keys()->first();
   
-                      $new_page = floor($key / $request->limit) + 1;
-                  } else {
+                    $new_page = floor($key / $request->limit) + 1;
+                } else {
                       
                       // duplicate the query to not change the original meaning
-                      $row_count_query = clone $override_response;
+                    $row_count_query = clone $override_response;
 
-                      // counting how many elements we have before the chosen one
-                      // For this we use MariaDB session variables, because the counter
-                      // is not available by default
+                    // counting how many elements we have before the chosen one
+                    // For this we use MariaDB session variables, because the counter
+                    // is not available by default
 
-                      \DB::statement(\DB::raw('set @row=0'));
+                    \DB::statement(\DB::raw('set @row=0'));
 
-                      $key = $row_count_query->select(\DB::raw('@row:=@row+1 as row'), 'id')->get(['row', 'id'])
+                    $key = $row_count_query->select(\DB::raw('@row:=@row+1 as row'), 'id')->get(['row', 'id'])
                           ->where('id', $to_highlight)->first()->row - 1; // row is base 1
                       
-                      $new_page = floor($key / $request->limit) + 1;
-                  }
+                    $new_page = floor($key / $request->limit) + 1;
+                }
   
-                  // then edit requested page accordingly
-                  $request->page(intval($new_page, 10));
-              }
+                // then edit requested page accordingly
+                $request->page(intval($new_page, 10));
+            }
 
             $paginated = $total === 0 ? new Collection() : (is_a($override_response, 'Illuminate\Support\Collection') ? $override_response->forPage($request->page, $request->limit)->values() : $override_response->forPage($request->page, $request->limit)->get());
 
@@ -85,10 +85,13 @@ trait Searchable
                     null,
                     $this->facets($request),
                     $total,
-                    $request->limit, $request->page, [
+                    $request->limit,
+                $request->page,
+                [
                         'path'  => $request->url,
                         'query' => collect($request->query)->except('highlight')->toArray(),
-                    ]);
+                    ]
+            );
         } else {
             $core_results = app(SearchService::class)->search($request);
               
@@ -96,7 +99,6 @@ trait Searchable
         }
     }
     
-
     /**
      * Retrieve the facets for subsequent filtering
      */

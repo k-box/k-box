@@ -27,7 +27,6 @@ class ImportTest extends BrowserKitTestCase
         ];
     }
     
-    
     /**
      * Tests the dms:import command for importing local storage folder with Project creation from root folders option.
      * This test attempt to index all the files
@@ -165,7 +164,6 @@ class ImportTest extends BrowserKitTestCase
         $this->assertEquals(4, File::where('user_id', $user->id)->where('mime_type', 'text/x-markdown')->count());
         $this->assertEquals(5, Import::where('user_id', $user->id)->where('status', Import::STATUS_COMPLETED)->count(), 'completed imports count');
         
-        
         // Check if the file conflict resolution was completed correctly
         $f = File::where('path', __DIR__.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR.'folder_for_import'.DIRECTORY_SEPARATOR.'folder2'.DIRECTORY_SEPARATOR.'subfolder2'.DIRECTORY_SEPARATOR.'in-subfolder-2.md')->first();
         $this->assertNotNull($f, 'Not able to find original file for conflict resolution');
@@ -247,8 +245,6 @@ class ImportTest extends BrowserKitTestCase
         $this->assertEquals('Import from URL are not supported', $import->message);
     }
 
-    
-    
     protected function runCommand($command, $input = [], $output = null)
     {
         if (is_null($output)) {

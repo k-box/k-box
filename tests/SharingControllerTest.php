@@ -1,13 +1,10 @@
 <?php
 
-use Tests\BrowserKitTestCase;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-
-use KBox\Capability;
 use KBox\User;
 use KBox\Shared;
-use Laracasts\TestDummy\Factory;
-use Illuminate\Support\Collection;
+use KBox\Capability;
+use Tests\BrowserKitTestCase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class SharingControllerTest extends BrowserKitTestCase
 {
@@ -84,6 +81,8 @@ class SharingControllerTest extends BrowserKitTestCase
         ];
 
         $this->json('POST', route('shares.store'), $data);
+        
+        $this->assertTrue(true, "Test concluded correctly");
     }
 
     /**
@@ -167,6 +166,8 @@ class SharingControllerTest extends BrowserKitTestCase
         $this->json('POST', route('shares.store'), $data);
         
         $this->json('POST', route('shares.store'), $data);
+
+        $this->assertTrue(true, "Test concluded correctly");
     }
 
     public function testUnshare()

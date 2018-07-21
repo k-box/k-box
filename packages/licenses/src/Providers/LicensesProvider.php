@@ -47,7 +47,8 @@ class LicensesProvider extends ServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(
-            __DIR__.'/../../config/licenses.php', 'licenses'
+            __DIR__.'/../../config/licenses.php',
+            'licenses'
         );
 
         $this->app->bind(LicenseRepository::class, LicenseService::class);

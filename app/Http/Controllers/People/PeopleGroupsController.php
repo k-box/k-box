@@ -39,7 +39,6 @@ class PeopleGroupsController extends Controller
         
         $can_personal = $user->can_capability(Capability::MANAGE_PERSONAL_PEOPLE_GROUPS);
 
-        
         $groups_query = PeopleGroup::with('people');
         
         $groups = null;
@@ -93,16 +92,16 @@ class PeopleGroupsController extends Controller
         try {
             $user_id = $auth->user()->id;
 
-//			if(!PeopleGroup::existsByDocumentAndUserId($doc->id, $user_id)){
+            //			if(!PeopleGroup::existsByDocumentAndUserId($doc->id, $user_id)){
 
-                $newGroup = PeopleGroup::create([
+            $newGroup = PeopleGroup::create([
                     'user_id' => $user_id,
                     'name' => $request->input('name'),
                     ]);
 
             return new JsonResponse(['status' => 'ok', 'group' => $newGroup], 201);
 
-//			}
+            //			}
 //			else {
 //				return response()->json(array('status' => trans('starred.already_exists')));
 //			}
@@ -133,8 +132,6 @@ class PeopleGroupsController extends Controller
                 $group->name = e($request->input('name'));
                 $group->save();
             }
-            
-            
             
             if ($request->has('make_institutional') && ! $user->can_capability(Capability::MANAGE_PEOPLE_GROUPS)) {
                 throw new \Exception('You cannot edit institutional groups');

@@ -1,7 +1,6 @@
 <?php
 
 use Laracasts\TestDummy\Factory;
-use KBox\User;
 use KBox\Capability;
 use KBox\DocumentDescriptor;
 
@@ -19,14 +18,14 @@ class DocumentsCheckInstitutionCommandTest extends BrowserKitTestCase
 {
     use DatabaseTransactions, RunCommand;
     
-    
     public function testDocumentInstitutionCheckDifference()
     {
         $values = $this->createDocuments();
         
         $command = new DocumentsCheckInstitutionCommand(
             app('Klink\DmsAdapter\KlinkAdapter'),
-            app('Klink\DmsDocuments\DocumentsService'));
+            app('Klink\DmsDocuments\DocumentsService')
+        );
         
         $res = $this->runArtisanCommand($command, []);
         
@@ -39,7 +38,8 @@ class DocumentsCheckInstitutionCommandTest extends BrowserKitTestCase
         
         $command = new DocumentsCheckInstitutionCommand(
             app('Klink\DmsAdapter\KlinkAdapter'),
-            app('Klink\DmsDocuments\DocumentsService'));
+            app('Klink\DmsDocuments\DocumentsService')
+        );
         
         $res = $this->runArtisanCommand($command, [
             '--override-with-uploader' => true
@@ -60,7 +60,8 @@ class DocumentsCheckInstitutionCommandTest extends BrowserKitTestCase
         
         $command = new DocumentsCheckInstitutionCommand(
             app('Klink\DmsAdapter\KlinkAdapter'),
-            app('Klink\DmsDocuments\DocumentsService'));
+            app('Klink\DmsDocuments\DocumentsService')
+        );
         
         $res = $this->runArtisanCommand($command, [
             '--override-with-uploader' => true,
@@ -75,7 +76,6 @@ class DocumentsCheckInstitutionCommandTest extends BrowserKitTestCase
         
         $this->assertEquals($doc->institution_id, $values['user_institution']);
     }
-    
     
     private function createDocuments($index_document = false)
     {
@@ -102,7 +102,6 @@ class DocumentsCheckInstitutionCommandTest extends BrowserKitTestCase
         if ($index_document) {
             app('Klink\DmsDocuments\DocumentsService')->reindexDocument($doc, 'private');
         }
-        
         
         return ['doc_id' => $doc->id, 'doc_institution' => $doc->institution_id, 'user_institution' => $institution->id];
     }

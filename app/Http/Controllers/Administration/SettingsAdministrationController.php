@@ -15,27 +15,26 @@ class SettingsAdministrationController extends Controller
 {
     use DispatchesJobs;
 
-  /*
-  |--------------------------------------------------------------------------
-  | Storage Management Page Controller
-  |--------------------------------------------------------------------------
-  |
-  | This controller respond to actions for the "storage administration page".
-  |
-  */
+    /*
+    |--------------------------------------------------------------------------
+    | Storage Management Page Controller
+    |--------------------------------------------------------------------------
+    |
+    | This controller respond to actions for the "storage administration page".
+    |
+    */
 
-  /**
-   * Create a new controller instance.
-   *
-   * @return void
-   */
-  public function __construct()
-  {
-      $this->middleware('auth');
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
 
-      $this->middleware('capabilities');
-  }
-  
+        $this->middleware('capabilities');
+    }
   
     public function index(AuthGuard $auth)
     {
@@ -55,7 +54,6 @@ class SettingsAdministrationController extends Controller
 
         return view('administration.settings.index', $data);
     }
-  
   
     public function store(AuthGuard $auth, SettingsSaveRequest $request)
     {
@@ -112,7 +110,6 @@ class SettingsAdministrationController extends Controller
                 \Cache::forget('network-name-en');
                 \Cache::forget('network-name-ru');
 
-            
                 if ($request->has(Option::PUBLIC_CORE_ENABLED)) {
                     // if !active => activate it
                     Option::put(Option::PUBLIC_CORE_ENABLED, true);

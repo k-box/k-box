@@ -49,7 +49,7 @@ class DmsUpdateCommand extends Command
      *
      * @return mixed
      */
-    public function fire()
+    public function handle()
     {
         $this->line("Started DMS configuration for <info>".$this->getLaravel()->environment()."</info>...");
         
@@ -81,16 +81,6 @@ class DmsUpdateCommand extends Command
             if ($code > 0) {
                 return 20 + $code;
             }
-
-            if (! $this->option('no-optimize')) {
-                $this->write('  Optimizing installation...');
-                $up_exit_code = $this->launch('optimize');
-                
-                if ($up_exit_code > 0) {
-                    $this->line('  <error>ERROR '.$up_exit_code.'</error>');
-                    return 50 + $up_exit_code;
-                }
-            }
             
             $up_exit_code = $this->launch('route:cache');
             
@@ -107,7 +97,6 @@ class DmsUpdateCommand extends Command
             }
             
             $this->info('  OK');
-            
             
             $this->write('  Clearing cache...');
             $up_exit_code = $this->launch('cache:clear');
@@ -346,14 +335,11 @@ class DmsUpdateCommand extends Command
 
         $migrate_result = $this->launch('migrate', ['--force' => true]);
         
-        
         // update the database if needed
         
         if (Capability::syncCapabilities()) {
             $this->write('  <comment>The user\' capabilities have been upgraded. You might check it in the user\'s management.</comment>');
         }
-        
-
         
         // generate the UUID for the private DocumentDescriptor that don't have it
         $this->write('  <comment>Generating UUIDs for existing Files...</comment>');
@@ -366,7 +352,6 @@ class DmsUpdateCommand extends Command
         if ($count_generated > 0) {
             $this->write("  - <comment>Generated {$count_generated} UUIDs.</comment>");
         }
-        
         
         $this->write('  <comment>Filling upload_completed_at File attribute for existing files...</comment>');
         $count_generated = $this->fillFileUploadCompletedAtForExistingFiles();

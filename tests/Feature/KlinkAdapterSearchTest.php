@@ -40,7 +40,8 @@ class KlinkAdapterSearchTest extends TestCase
         
         $descriptors->each(function ($descriptor) {
             $response = $this->adapter->addDocument(
-                new KlinkDocument($descriptor->toKlinkDocumentDescriptor(), 'test file content'));
+                new KlinkDocument($descriptor->toKlinkDocumentDescriptor(), 'test file content')
+            );
 
             $this->indexedDataUUIDs->push($descriptor->uuid);
         });

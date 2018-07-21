@@ -26,7 +26,6 @@ class DocumentDescriptorTest extends BrowserKitTestCase
     {
         $ex1 = new FileNamingException('Exception test');
         
-        
         $obj = new \stdClass;
         $obj->internal = 'hello';
         
@@ -43,7 +42,6 @@ class DocumentDescriptorTest extends BrowserKitTestCase
             [ [[1,2]], ['payload', 'type'], 'array' ],
         ];
     }
-    
     
     /**
      * Test if the last_error field stores data and the retrieval is comfortable

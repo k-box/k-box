@@ -77,7 +77,6 @@ class UsersTest extends BrowserKitTestCase
         }
     }
     
-    
     /**
      * @dataProvider capabilities
      */

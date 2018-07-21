@@ -107,7 +107,6 @@ class DocumentsTest extends BrowserKitTestCase
         
         $this->visit($url)->seePageIs(route('frontpage'));
 
-        
         // test with login with the owner user
         
         $this->actingAs($user);
@@ -175,7 +174,6 @@ class DocumentsTest extends BrowserKitTestCase
             'copyright_owner' => collect(['name' => 'owner name', 'website' => 'https://something.com'])
         ]);
         
-        
         $url = route('documents.edit', $doc->id);
         
         $this->actingAs($user);
@@ -192,8 +190,6 @@ class DocumentsTest extends BrowserKitTestCase
         
         $this->see('Document new Title');
     }
-    
-    
     
     /**
      * @dataProvider user_provider_that_can_make_public
@@ -221,7 +217,6 @@ class DocumentsTest extends BrowserKitTestCase
         $group = $service->createGroup($user, 'Personal collection of user '.$user->id);
         
         $group->documents()->save($doc);
-        
         
         $this->actingAs($user);
         
@@ -325,7 +320,6 @@ class DocumentsTest extends BrowserKitTestCase
         $this->type($user_password, 'password');
         
         $this->press(trans('login.form.submit'));
-        
         
         // see document page
         
@@ -467,7 +461,6 @@ class DocumentsTest extends BrowserKitTestCase
         
         $this->press(trans('login.form.submit'));
         
-        
         // see document page
         
         $this->seePageIs($doc_link);
@@ -499,7 +492,6 @@ class DocumentsTest extends BrowserKitTestCase
         
         $group->documents()->save($doc);
         
-        
         $descriptor = $doc->toKlinkDocumentDescriptor($visibility === 'private' ? false : true);
         
         $this->assertNotNull($descriptor);
@@ -522,8 +514,6 @@ class DocumentsTest extends BrowserKitTestCase
             $this->assertEmpty($collections);
         }
     }
-    
-    
     
     public function testDocumentReindexingStartedByAUserThatIsNotTheOwner()
     {
@@ -646,8 +636,6 @@ class DocumentsTest extends BrowserKitTestCase
         $this->assertTrue($doc->trashed());
     }
 
-    
-    
     public function testDocumentService_permanentlyDeleteDocument()
     {
         $this->withKlinkAdapterFake();
@@ -776,7 +764,6 @@ class DocumentsTest extends BrowserKitTestCase
         $this->assertNotNull($file);
         $this->assertEquals($descr->hash, $file->hash);
 
-        
         $this->assertNotNull($file->document);
 
         $relatedDocument = $file->document;

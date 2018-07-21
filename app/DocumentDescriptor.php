@@ -541,7 +541,8 @@ class DocumentDescriptor extends Model
     {
         $descr = KlinkDocumentDescriptor::make(
             $this,
-            $need_public ? KlinkVisibilityType::KLINK_PUBLIC : KlinkVisibilityType::KLINK_PRIVATE);
+            $need_public ? KlinkVisibilityType::KLINK_PUBLIC : KlinkVisibilityType::KLINK_PRIVATE
+        );
 
         if (! $need_public && ! $this->groups->isEmpty()) {
 
@@ -560,7 +561,6 @@ class DocumentDescriptor extends Model
             $descr->setCollections(array_filter($collections->toArray()));
         }
         
-
         return $descr;
     }
 
@@ -690,7 +690,6 @@ class DocumentDescriptor extends Model
 
         return false;
     }
-    
     
     public function setLastErrorAttribute($value)
     {

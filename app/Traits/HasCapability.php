@@ -136,7 +136,6 @@ trait HasCapability
         return $this->can_all_capabilities(Capability::$DMS_MASTER);
     }
     
-    
     /**
      * Check if the user is a Project Manager
      *

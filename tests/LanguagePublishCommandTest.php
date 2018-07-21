@@ -94,7 +94,6 @@ class LanguagePublishCommandTest extends BrowserKitTestCase
         $res = $this->runArtisanCommand($command, []);
     }
     
-    
     protected function runCommand($command, $input = [], $output = null)
     {
         if (is_null($output)) {

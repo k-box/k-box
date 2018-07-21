@@ -2,7 +2,6 @@
 
 use Tests\BrowserKitTestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use KBox\Project;
 use KBox\Capability;
 use Illuminate\Http\UploadedFile;
 
@@ -18,7 +17,6 @@ class ProjectAvatarsTest extends BrowserKitTestCase
             [ 'projects.avatar.destroy', ['id' => 1] ]
         ];
     }
-    
     
     public function routes_and_capabilities_provider()
     {
@@ -44,7 +42,6 @@ class ProjectAvatarsTest extends BrowserKitTestCase
         ];
     }
     
-    
     private function getFileForUpload()
     {
         $original_file = base_path('tests/data/project-avatar.png');
@@ -57,12 +54,12 @@ class ProjectAvatarsTest extends BrowserKitTestCase
             'image/png',
             filesize($copy_file),
             null,
-            true);
+            true
+        );
 
         return $file;
     }
      
-    
     /**
      * Test the expected routes are available
      *
@@ -71,10 +68,11 @@ class ProjectAvatarsTest extends BrowserKitTestCase
      */
     public function testProjectAvatarRoutesExistence($route_name, $parameters)
     {
-        
         // you will see InvalidArgumentException if the route is not defined
         
         route($route_name, $parameters);
+
+        $this->assertTrue(true, "Test complete without exceptions");
     }
     
     /**
@@ -94,7 +92,6 @@ class ProjectAvatarsTest extends BrowserKitTestCase
             'avatar' => base_path('tests/data/project-avatar.png')
         ]);
 
-        
         $this->actingAs($user);
 
         \Session::start();
@@ -115,7 +112,6 @@ class ProjectAvatarsTest extends BrowserKitTestCase
 
         $this->{$method}(route($route, $params), $content);
             
-
         if ($expected_return_code !== 302 && $expected_return_code !== 200) {
             if (property_exists($this->response, 'original') && $this->response->original instanceof \Illuminate\View\View) {
                 $this->assertViewName('errors.'.$expected_return_code);
@@ -176,7 +172,8 @@ class ProjectAvatarsTest extends BrowserKitTestCase
             route('projects.avatar.store', $params),
             [],
             [],
-            ['avatar' => $file], ['HTTP_ACCEPT' => 'application/json']
+            ['avatar' => $file],
+            ['HTTP_ACCEPT' => 'application/json']
         );
 
         $this->seeJson(['status' => 'error']);

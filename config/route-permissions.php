@@ -134,7 +134,6 @@ return [
         'destroy' => [KBox\Capability::SHARE_WITH_PERSONAL, KBox\Capability::SHARE_WITH_PRIVATE],
     ],
     
-    
     'people' => [
         'index' => [KBox\Capability::MANAGE_PEOPLE_GROUPS, KBox\Capability::MANAGE_PERSONAL_PEOPLE_GROUPS],
         'create' => [KBox\Capability::MANAGE_PEOPLE_GROUPS, KBox\Capability::MANAGE_PERSONAL_PEOPLE_GROUPS],

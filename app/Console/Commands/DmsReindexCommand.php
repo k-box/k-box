@@ -5,7 +5,6 @@ namespace KBox\Console\Commands;
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
-use KBox\Option;
 use KBox\User;
 use KBox\DocumentDescriptor;
 use Klink\DmsAdapter\KlinkVisibilityType;
@@ -45,7 +44,7 @@ class DmsReindexCommand extends Command
      *
      * @return mixed
      */
-    public function fire()
+    public function handle()
     {
 
         // Options
@@ -127,7 +126,6 @@ class DmsReindexCommand extends Command
 
         $docs = $query->get();
 
-        
         $count_docs = $docs->count();
 
         $this->line("Reindexing <info>".$count_docs." documents</info>...");
@@ -148,37 +146,40 @@ class DmsReindexCommand extends Command
             // Save the original updated_at time, so we could go back in time to not mess with the user recent list
             $last_modified_on = $doc->updated_at;
 
-        
             try {
                 if ($doc->isPublic() && $only_public) {
                     $this->service->reindexDocument(
                         $doc,
                         KlinkVisibilityType::KLINK_PUBLIC,
-                        $force);
+                        $force
+                    );
                 } else {
                     $this->service->reindexDocument(
                         $doc,
                         KlinkVisibilityType::KLINK_PRIVATE,
-                        $force);
+                        $force
+                    );
 
                     if ($doc->isPublic() && ! $only_private) {
                         $this->service->reindexDocument(
                             $doc,
                             KlinkVisibilityType::KLINK_PUBLIC,
-                            $force);
+                            $force
+                        );
                     }
                 }
 
-                
-                                                // $this->line('  <info>OK</info>');
+                // $this->line('  <info>OK</info>');
         
                 $reindexed_documents_count++;
             } catch (\Exception $ex) {
-                $this->line(sprintf('<error>Document %1$s (hash: %2$s user: %3$s) raised error: %4$s</error>',
+                $this->line(sprintf(
+                    '<error>Document %1$s (hash: %2$s user: %3$s) raised error: %4$s</error>',
                     $doc->id,
                     $doc->local_document_id,
                     $doc->user_id,
-                    $ex->getMessage()));
+                    $ex->getMessage()
+                ));
             }
 
             // update the local model. This is important because here we have a cached model that

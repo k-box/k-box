@@ -2,7 +2,6 @@
 
 namespace KBox\Http\Controllers\Administration;
 
-use Illuminate\Http\Request;
 use KBox\Http\Controllers\Controller;
 use KBox\Http\Requests\ContactsSaveRequest;
 use KBox\Option;
@@ -70,7 +69,6 @@ class IdentityController extends Controller
                 return true;
             });
 
-            
             return redirect()->route('administration.identity.index')->with([
                 'flash_message' => trans('administration.identity.contact_info_updated')
             ]);

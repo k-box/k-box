@@ -51,7 +51,6 @@ class StarredTest extends BrowserKitTestCase
         }
     }
     
-    
     public function testStarIndex()
     {
         $fake = $this->withKlinkAdapterFake();
@@ -108,7 +107,6 @@ class StarredTest extends BrowserKitTestCase
         $this->assertEquals($expected_count, Starred::count());
     }
     
-    
     public function testRemoveStar()
     {
         $user = $this->createUser(Capability::$CONTENT_MANAGER);
@@ -121,7 +119,8 @@ class StarredTest extends BrowserKitTestCase
         
         \Session::start(); // Start a session for the current test
 
-        $this->delete(route('documents.starred.destroy', [
+        $this->delete(
+            route('documents.starred.destroy', [
                 'id' => $starred->id,
                 '_token' => csrf_token()])
              )
@@ -169,7 +168,8 @@ class StarredTest extends BrowserKitTestCase
         
         $this->visit(route('documents.starred.index'));
 
-        $this->delete(route('documents.starred.destroy', [
+        $this->delete(
+            route('documents.starred.destroy', [
                 'id' => $starred->id,
                 '_token' => csrf_token()])
              )

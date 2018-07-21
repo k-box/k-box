@@ -47,7 +47,6 @@ class DmsUserImportCommand extends Command
         'add_to_projects' => 'nullable|sometimes|array|exists:projects,name',
     ];
     
-    
     private $expected_columns = [
         // column names will be compared lowercase
         'username' => ['user'],
@@ -56,7 +55,6 @@ class DmsUserImportCommand extends Command
         'manage_projects' => ['manage project', 'manage', 'manage-projects', 'manage-project'],
         'add_to_projects' => ['user of project', 'user of projects', 'add to', 'projects'],
     ];
-    
     
     private $role_mapping = null; // initialized in __construct
 
@@ -85,7 +83,7 @@ class DmsUserImportCommand extends Command
      *
      * @return mixed
      */
-    public function fire()
+    public function handle()
     {
         
         // Ask for user login with admin account
@@ -106,7 +104,6 @@ class DmsUserImportCommand extends Command
 
         $csv = Reader::createFromPath($file);
         $csv->setDelimiter($delimiter);
-        
         
         // check if the file is formatted properly
         
@@ -141,8 +138,6 @@ class DmsUserImportCommand extends Command
         
         $validator = null;
         
-        
-        
         $data = $csv->setOffset(1)->fetchAssoc(array_keys($this->expected_columns), function ($row, $rowOffset) use ($validator, $value_delimiter) {
             $this->debugLine('Reading file line '.$rowOffset);
             
@@ -150,7 +145,6 @@ class DmsUserImportCommand extends Command
                 $row['role'] = empty($row['role']) ? 'partner' : strtolower($row['role']);
             }
             
-        
             if (isset($row['manage_projects']) && ! empty($row['manage_projects'])) {
                 $row['manage_projects'] = array_filter(explode($value_delimiter, $row['manage_projects']));
             }
@@ -179,8 +173,6 @@ class DmsUserImportCommand extends Command
             return $row;
         });
         
-        
-        
         $invalid = [];
         
         $this->info('Creating users...');
@@ -201,7 +193,6 @@ class DmsUserImportCommand extends Command
             }
         }
         
-        
         if (! empty($invalid)) {
             $this->info('User Import Completed. ');
             
@@ -219,7 +210,6 @@ class DmsUserImportCommand extends Command
 
         return 0;
     }
-    
     
     private function createUser($parameters)
     {
@@ -254,7 +244,6 @@ class DmsUserImportCommand extends Command
             });
         }
         
-        
         // Make the user Project Admin of existing project
         
         if (! empty($parameters['manage_projects'])) {
@@ -273,16 +262,15 @@ class DmsUserImportCommand extends Command
             });
         }
         
-        
-        \Mail::queue('emails.welcome-html',
+        \Mail::queue(
+            'emails.welcome-html',
             ['user' => $user, 'password' => $password],
             function ($message) use ($user) {
                 $message->to($user->email, $user->name)->subject(trans('administration.accounts.mail_subject'));
-            });
+            }
+        );
     }
     
-    
-
     /**
      * Get the console command arguments.
      *

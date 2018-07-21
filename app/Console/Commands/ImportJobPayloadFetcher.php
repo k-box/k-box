@@ -60,7 +60,6 @@ class ImportJobPayloadFetcher extends Command
                 'import' => $import_id];
         }, $failed_jobs);
         
-        
         $filtered = array_values(array_filter($mapped, function ($j) use ($import) {
             if (! is_null($j['import'])) {
                 return $j['import'] === $import->id;
@@ -82,7 +81,6 @@ class ImportJobPayloadFetcher extends Command
             }, $filtered));
             
             $selected_id = $this->choice('Select the Job ID?', array_pluck($filtered, 'id'), false);
-            
             
             $element = array_first($filtered, function ($value, $k) use ($selected_id) {
                 return $value['id'] == $selected_id;
@@ -135,8 +133,6 @@ class ImportJobPayloadFetcher extends Command
             ['replace', null, InputOption::VALUE_NONE, 'Replace the already existing job_payload of the import'],
         ];
     }
-    
-    
     
     protected function get_import_from($payload)
     {

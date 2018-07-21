@@ -136,7 +136,6 @@ class SearchTest extends BrowserKitTestCase
         
         $this->assertEquals($interested_in->id, $first->id);
 
-        
         // Now let's use a query builder instance instead of a Collection
         $req = SearchRequest::create()
             ->highlight($interested_in->id);
@@ -225,7 +224,6 @@ class SearchTest extends BrowserKitTestCase
 
         $this->assertEquals($interested_in->id, $first->id);
 
-        
         // Now let's use a query builder instance instead of a Collection
         $req = SearchRequest::create()
             ->limit($per_page)

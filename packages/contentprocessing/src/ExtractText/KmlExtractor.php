@@ -28,8 +28,11 @@ class KmlExtractor implements ExtractTextContract
     {
         $content = file_get_contents($this->path);
         
-        $utf8_content = mb_convert_encoding($content, 'UTF-8',
-              mb_detect_encoding($content, 'UTF-8, ISO-8859-1', true));
+        $utf8_content = mb_convert_encoding(
+            $content,
+            'UTF-8',
+              mb_detect_encoding($content, 'UTF-8, ISO-8859-1', true)
+        );
         
         $name_preg_int = preg_match_all('/<name>(.*)<\/name>/', $utf8_content, $name_matches);
         

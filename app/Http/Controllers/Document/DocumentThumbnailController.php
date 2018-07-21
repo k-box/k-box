@@ -79,7 +79,6 @@ class DocumentThumbnailController extends DocumentAccessController
         $response->setMaxAge(3600);
         $response->setSharedMaxAge(3600);
 
-        
         $response->setLastModified($file->updated_at);
 
         // Set response as public. Otherwise it will be private by default.

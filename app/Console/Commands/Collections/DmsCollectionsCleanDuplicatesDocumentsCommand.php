@@ -47,7 +47,7 @@ class DmsCollectionsCleanDuplicatesDocumentsCommand extends Command
      *
      * @return mixed
      */
-    public function fire()
+    public function handle()
     {
         $debug = $this->getOutput()->getVerbosity() > 1;
         
@@ -88,7 +88,6 @@ class DmsCollectionsCleanDuplicatesDocumentsCommand extends Command
             $duplicates[] = $t;
         }
             
-        
         if (! empty($duplicates)) {
             $this->table(array_keys($duplicates[0]), $duplicates);
             
@@ -105,14 +104,9 @@ class DmsCollectionsCleanDuplicatesDocumentsCommand extends Command
             $this->info('No duplicates found');
         }
         
-        
-
         return 0;
     }
     
-    
-    
-
     /**
      * Get the console command arguments.
      *
@@ -139,11 +133,6 @@ class DmsCollectionsCleanDuplicatesDocumentsCommand extends Command
             // ['make-project', null, InputOption::VALUE_NONE, 'Makes the specified collection a project collection', null],
         ];
     }
-    
-    
-    
-    
-    
     
     /**
      * Traverse a directory to get all sub-directories

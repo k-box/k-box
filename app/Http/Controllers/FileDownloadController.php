@@ -82,7 +82,8 @@ class FileDownloadController extends Controller
                    $file->hash === $components[1] &&
                    Carbon::now()->between(
                     Carbon::createFromTimestamp($components[2]),
-                    Carbon::createFromTimestamp($components[3]));
+                    Carbon::createFromTimestamp($components[3])
+                   );
         } catch (DecryptException $ex) {
             return false;
         } catch (Exception $ex) {

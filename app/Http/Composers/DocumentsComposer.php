@@ -27,8 +27,6 @@ class DocumentsComposer
     
     private $licenses = null;
     
-    
-
     /**
      * Create a new profile composer.
      *
@@ -140,7 +138,6 @@ class DocumentsComposer
         
         $auth_check = \Auth::check();
         
-        
         $view->with('is_user_logged', $auth_check);
         
         if (! is_null($docOrItem) && is_array($docOrItem) && isset($docOrItem['descriptor'])) {
@@ -171,7 +168,6 @@ class DocumentsComposer
 
                 $view->with('can_share', $auth_user->can_capability([Capability::SHARE_WITH_PERSONAL, Capability::SHARE_WITH_PRIVATE]));
 
-                
                 // if($document->isMine()){
                 // // the document is shared by me
 
@@ -187,7 +183,6 @@ class DocumentsComposer
                 } else {
                     $view->with('user_can_edit', false);
                 }
-                
                 
                 $view->with('use_groups_page', $auth_user->can_capability(Capability::MANAGE_OWN_GROUPS));
 
@@ -252,7 +247,6 @@ class DocumentsComposer
         }
     }
     
-    
     public function preview(View $view)
     {
         $view->with('is_user_logged', \Auth::check());
@@ -261,7 +255,6 @@ class DocumentsComposer
     public function facets(View $view)
     {
         $auth_user = \Auth::user();
-        
         
         $group_instance = isset($view['context_group_instance']) ? $view['context_group_instance'] : null;
 
@@ -302,13 +295,13 @@ class DocumentsComposer
         if (! is_null($facets)) {
 
         //   array:1 [▼
-        //     "properties.language" => array:1 [▼
-        //       0 => AggregationResult {#733 ▼
-        //         +value: "en"
-        //         +count: 1
-        //       }
-        //     ]
-        //   ]
+            //     "properties.language" => array:1 [▼
+            //       0 => AggregationResult {#733 ▼
+            //         +value: "en"
+            //         +count: 1
+            //       }
+            //     ]
+            //   ]
 
             $group_facets = array_key_exists(KlinkFacets::COLLECTIONS, $facets) ?  $facets[KlinkFacets::COLLECTIONS] : [];
 
@@ -325,28 +318,27 @@ class DocumentsComposer
                             // boxing the collections to descendant of the collection
                             // currently browsed by the user (if any)
                         
-if ($is_projectspage && (! $grp->is_private && ! $show_personal_collections_in_filters) || ! $is_projectspage) {
-    if ((is_null($group_instance) &&
+                            if ($is_projectspage && (! $grp->is_private && ! $show_personal_collections_in_filters) || ! $is_projectspage) {
+                                if ((is_null($group_instance) &&
                                     $this->documents->isCollectionAccessible($auth_user, $grp)) ||
                                 (! is_null($group_instance) &&
                                     in_array($grp_id, $group_instance_descendants))) {
                                 
                                 // considering only really accessible collections
                                 
-                                $group_facet->label = $grp->name;
-        $group_facet->selected = false;
+                                    $group_facet->label = $grp->name;
+                                    $group_facet->selected = false;
                                 
-
-        if ($grp->countAncestors() > 0) {
-            $group_facet->parents = $grp->getAncestors()->sortByDesc('depth')->implode('name', ' > ');
-        }
+                                    if ($grp->countAncestors() > 0) {
+                                        $group_facet->parents = $grp->getAncestors()->sortByDesc('depth')->implode('name', ' > ');
+                                    }
                                 
-        $group_facet->collapsed = $group_facet->count == 0;
-        $group_facet->institution = ! $grp->is_private;
-        $group_facet->is_project = ! $grp->is_private;
-        $private[] = $group_facet;
-    }
-}
+                                    $group_facet->collapsed = $group_facet->count == 0;
+                                    $group_facet->institution = ! $grp->is_private;
+                                    $group_facet->is_project = ! $grp->is_private;
+                                    $private[] = $group_facet;
+                                }
+                            }
                         }
                     } catch (\Exception $exc) {
                     }
@@ -417,7 +409,6 @@ if ($is_projectspage && (! $grp->is_private && ! $show_personal_collections_in_f
         
         $view->with('width', 100/count($cols));
         
-        
         $current_visibility = isset($view['current_visibility']) ? $view['current_visibility'] : 'private';
         
         $search_terms =  isset($view['search_terms']) && ! empty($view['search_terms']) ? $view['search_terms'] : '*';
@@ -449,7 +440,6 @@ if ($is_projectspage && (! $grp->is_private && ! $show_personal_collections_in_f
         
         $facets = isset($view['facets']) ? $view['facets'] : null;
         
-        
         if (! is_null($facets)) {
             $group_facets = array_values(array_filter($facets, function ($f) {
                 return $f->name === 'documentGroups';
@@ -478,7 +468,6 @@ if ($is_projectspage && (! $grp->is_private && ! $show_personal_collections_in_f
         }
     }
     
-    
     public function shared(View $view)
     {
         if (\Auth::check()) {
@@ -492,7 +481,6 @@ if ($is_projectspage && (! $grp->is_private && ! $show_personal_collections_in_f
 
             $view->with('can_upload', $auth_user->can_capability(Capability::UPLOAD_DOCUMENTS));
             
-
             $view->with('list_style_current', $auth_user->optionListStyle());
         } else {
             $view->with('list_style_current', 'tiles');

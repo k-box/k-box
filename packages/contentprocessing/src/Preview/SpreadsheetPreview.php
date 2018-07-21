@@ -34,7 +34,7 @@ class SpreadsheetPreview implements PreviewContract
 
         $this->spreadsheet = IOFactory::load($this->path);
 
-        $this->writer = IOFactory::createWriter($this->spreadsheet, 'HTML')->setSheetIndex(null);
+        $this->writer = IOFactory::createWriter($this->spreadsheet, 'Html')->setSheetIndex(null);
 
         return $this;
     }
@@ -46,8 +46,10 @@ class SpreadsheetPreview implements PreviewContract
 
     public function html()
     {
-        return sprintf('<div class="preview__render preview__render--spreadsheet">%1$s</div>',
-                $this->writer->generateSheetData());
+        return sprintf(
+            '<div class="preview__render preview__render--spreadsheet">%1$s</div>',
+                $this->writer->generateSheetData()
+        );
     }
 
     /**

@@ -53,7 +53,7 @@ class DmsLanguagePublishCommand extends Command
      *
      * @return mixed
      */
-    public function fire()
+    public function handle()
     {
         $this->comment('Assembling language files for javascript...');
         
@@ -62,7 +62,6 @@ class DmsLanguagePublishCommand extends Command
         $supported = config('localization.supported_locales');
         
         $exports = config('localization.exports');
-        
         
         if (! is_array($supported)) {
             throw new \InvalidArgumentException('Supported languages (localization.supported_locales) should be an array.');
@@ -96,8 +95,6 @@ class DmsLanguagePublishCommand extends Command
         
         // Creating the file for each specific locale
         
-        
-        
         $lang_export = null;
         foreach ($supported as $language) {
             $this->debugLine('Creating '.$language.' language file...');
@@ -108,7 +105,6 @@ class DmsLanguagePublishCommand extends Command
             
             $this->debugLine('   done.');
         }
-        
         
         $this->info('   language files created in public/js/nls/');
         
@@ -166,7 +162,6 @@ class DmsLanguagePublishCommand extends Command
     {
         return $this->files->get($this->getStubsPath().'/'.$name);
     }
-    
     
     /**
      * Creates the Root lang.js file in its final location inside the public folder

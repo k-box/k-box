@@ -110,13 +110,8 @@ class DocumentsController extends Controller
                     }
                 }
                 
-                
-                
                 return $all_query->orderBy('title', 'ASC');
             }
-            
-            
-            
             
             return false; // force to execute a search on the core instead on the database
         });
@@ -160,9 +155,9 @@ class DocumentsController extends Controller
     {
         $all_query = DocumentDescriptor::local();
 
-//		if(!$auth->user()->isContentManager()){
-//			$all_query = $all_query->ofUser($auth->user()->id);
-//		}
+        //		if(!$auth->user()->isContentManager()){
+        //			$all_query = $all_query->ofUser($auth->user()->id);
+        //		}
 
         $all = $all_query->notIndexed()->get();
 
@@ -184,7 +179,6 @@ class DocumentsController extends Controller
 
         $order = $request->input('o', 'd') === 'a' ? 'ASC' : 'DESC';
         
-        
         $req = $this->searchRequestCreate($request);
         
         $req->visibility('private');
@@ -193,8 +187,6 @@ class DocumentsController extends Controller
             if (! $can_see_share) {
                 return new Collection();
             }
-            
-            
             
             $group_ids = $auth_user->involvedingroups()->get(['peoplegroup_id'])->pluck('peoplegroup_id')->toArray();
                     
@@ -213,8 +205,6 @@ class DocumentsController extends Controller
                 
                 return $all_shared;
             }
-            
-            
             
             return false; // force to execute a search on the core instead on the database
         });
@@ -466,8 +456,7 @@ class DocumentsController extends Controller
             //     throw new ForbiddenException( trans('errors.forbidden_edit_document_exception') , 403);
             // }
             
-
-                $view_params = [
+            $view_params = [
                     'document' => $document,
                     'file' => $document->file,
                     'can_make_public' => ! $document->trashed() && $user->can_capability(Capability::CHANGE_DOCUMENT_VISIBILITY),
@@ -541,7 +530,7 @@ class DocumentsController extends Controller
                 // 'authors' => 'sometimes|required|string|regex:/^[\w\d\s\.\-_\(\)]*/',
                 // 'visibility' => 'sometimes|required|string|in:public,private',
                 
-             //    // if this is present a new file version will be created and will inherit the
+                //    // if this is present a new file version will be created and will inherit the
                 // 'document' => 'sometimes|required|between:0,30000', //new document version
                 
                 // 'remove_group' => 'sometimes|required|exists:groups,id',
@@ -619,7 +608,6 @@ class DocumentsController extends Controller
                 if ($request->hasFile('document') && $request->file('document')->isValid()) {
                     \Log::info('Update Document with new version');
     
-
                     //test and report exceptions
                     $file_model = $this->service->createFileFromUpload($request->file('document'), $user, $document->file);
 
@@ -663,7 +651,6 @@ class DocumentsController extends Controller
                 return $document;
             });
 
-            
             if ($request->wantsJson()) {
                 return new JsonResponse($ret, 200);
             }
@@ -701,7 +688,6 @@ class DocumentsController extends Controller
                 throw new ForbiddenException(trans('documents.messages.delete_forbidden'), 1);
             }
             
-            
             $descriptor = DocumentDescriptor::withTrashed()->findOrFail($id);
 
             // TODO: if is a reference to a public document remove it if is not starred, shared or in a collection
@@ -726,7 +712,6 @@ class DocumentsController extends Controller
                 $this->service->permanentlyDeleteDocument($user, $descriptor);
             }
 
-            
             if ($request->wantsJson()) {
                 return new JsonResponse(['status' => 'ok', 'message' => $force ? trans('documents.permanent_delete.deleted_dialog_title', ['document' => $descriptor->title]): trans('documents.delete.deleted_dialog_title', ['document' => $descriptor->title])], 202);
             }

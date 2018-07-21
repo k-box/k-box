@@ -6,7 +6,6 @@ use KBox\Events\ShareCreated;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Log;
-// use Mail;
 use KBox\Notifications\ShareCreatedNotification;
 
 /**
@@ -36,9 +35,7 @@ class ShareCreatedHandler implements ShouldQueue
      */
     public function handle(ShareCreated $event)
     {
-        // $from = $event->share->user;
         $to = $event->share->sharedwith;
-        // $what = $event->share->shareable;
 
         if (is_a($to, 'KBox\User')) {
             Log::info('share created', compact('event'));

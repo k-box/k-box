@@ -77,7 +77,6 @@ class License /*implements ArrayAccess, Arrayable, Jsonable, JsonSerializable*/
         return $this->attributes['icon'] ? "$this->assetsPath/icons/{$this->attributes['icon']}" : null;
     }
     
-
     public function getDescriptionAttribute($value)
     {
         $path = $this->description_path;

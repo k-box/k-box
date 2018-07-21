@@ -201,7 +201,9 @@ class PublicLinksTest extends BrowserKitTestCase
         $this->assertViewHas('document');
         $this->assertViewHas('file');
         $this->assertViewHas('body_classes');
-        $this->assertViewHas('pagetitle',
-            trans('documents.preview.page_title', ['document' => $share->shareable->title]));
+        $this->assertViewHas(
+            'pagetitle',
+            trans('documents.preview.page_title', ['document' => $share->shareable->title])
+        );
     }
 }

@@ -65,7 +65,7 @@ class LanguageCheckCommand extends Command
      *
      * @return mixed
      */
-    public function fire()
+    public function handle()
     {
         $reportFile = $this->option('report');
         
@@ -81,10 +81,13 @@ class LanguageCheckCommand extends Command
         }
 
         $en_files = $this->filesystem->files($en_language_path);
-        $lang_groups = array_map(function ($e) {
-            return str_replace('.php', '', basename($e));
-        },
-            $this->filesystem->files($en_language_path));
+        dd($en_files);
+        $lang_groups = array_map(
+            function ($e) {
+                return str_replace('.php', '', basename($e));
+            },
+            $this->filesystem->files($en_language_path)
+        );
 
         $directories = array_filter($this->filesystem->directories($language_path), function ($i) {
             return ! ends_with($i, 'en');
@@ -191,7 +194,7 @@ class LanguageCheckCommand extends Command
         $this->line('Details');
         $this->line('-------------------------');
 
-        foreach ($counter as $lang => $details) {
+        foreach ($this->report as $lang => $details) {
             $this->comment($lang);
 
             foreach ($details['groups'] as $grp => $values) {

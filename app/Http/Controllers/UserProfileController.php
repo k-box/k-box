@@ -16,10 +16,10 @@ class UserProfileController extends Controller
        *
        * @return void
        */
-      public function __construct()
-      {
-          $this->middleware('auth');
-      }
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
 
     /**
      * Display a listing of the resource.
@@ -39,7 +39,6 @@ class UserProfileController extends Controller
         
         $language = $user->optionLanguage('en');
 
-        
         return view('profile.user', compact('pagetitle', 'user', 'stars_count', 'shares_count', 'documents_count', 'collections_count', 'language'));
     }
 

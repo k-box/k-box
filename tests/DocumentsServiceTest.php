@@ -16,7 +16,6 @@ class DocumentsServiceTest extends BrowserKitTestCase
 {
     use DatabaseTransactions;
     
-    
     public function user_provider_with_guest()
     {
         return [
@@ -36,8 +35,6 @@ class DocumentsServiceTest extends BrowserKitTestCase
         ];
     }
 
-    
-    
     /**
      * cover issue https://git.klink.asia/klinkdms/dms/issues/569
      * @dataProvider user_provider_no_guest

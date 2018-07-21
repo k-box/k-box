@@ -1,6 +1,5 @@
 <?php
 
-use KBox\User;
 use KBox\Capability;
 use KBox\Project;
 use Illuminate\Support\Collection;
@@ -18,9 +17,6 @@ class FiltersTest extends BrowserKitTestCase
 {
     use DatabaseTransactions;
     
-    
-    
-
     /**
      * Test that the collection column in filters is boxed to sub-collections
      * of the currently opened collection
@@ -85,7 +81,6 @@ class FiltersTest extends BrowserKitTestCase
             'user_id' => $user->id,
             'collection_id' => $prj_grp->id,
         ]);
-        
         
         $service->addDocumentToGroup($user, $documents->first(), $prj_grp);
 

@@ -107,8 +107,6 @@ class ProjectsController extends Controller
         ]);
     }
     
-    
-    
     public function create(Guard $auth)
     {
         $user = $auth->user();
@@ -124,8 +122,6 @@ class ProjectsController extends Controller
         ]);
     }
     
-    
-
     /**
      * Store a newly created resource in storage.
      *
@@ -166,7 +162,6 @@ class ProjectsController extends Controller
                 });
             }
 
-            
             \Cache::flush();
 
             if ($request->wantsJson()) {
@@ -224,7 +219,6 @@ class ProjectsController extends Controller
                     $project->save();
                 }
                 
-
                 // test if there are users to add/remove to/from the project
                 if ($request->has('users')) {
                     $users = $request->get('users');
@@ -250,7 +244,6 @@ class ProjectsController extends Controller
                 return $project->fresh();
             });
 
-            
             \Cache::flush();
 
             if ($request->wantsJson()) {

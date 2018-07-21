@@ -74,7 +74,7 @@ class BulkController extends Controller
             
             $all_that_can_be_deleted = $this->service->getUserTrash($user);
 
-                            // document delete
+            // document delete
             
             $docs = $request->input('documents', []);
             
@@ -109,7 +109,6 @@ class BulkController extends Controller
             }
 
             $group_delete_count = count($grps);
-            
             
             // TODO: now it's time to submit to the queue the reindex job for each DocumentDescriptor
             // submit:
@@ -147,9 +146,6 @@ class BulkController extends Controller
             
             \Log::info('Cleaning trash', ['triggered_by' => $user->id]);
             
-            
-
-            
             $all_that_can_be_deleted = $this->service->getUserTrash($user);
 
             // document delete
@@ -162,12 +158,10 @@ class BulkController extends Controller
 
             $grps = $all_that_can_be_deleted->collections();
             
-            
             foreach ($grps as $grp) {
                 $this->service->permanentlyDeleteGroup($grp, $user);
             }
 
-            
             $count = ($docs->count() + $grps->count());
             $message = trans_choice('documents.bulk.permanently_removed', $count, ['num' => $count]);
             $status = ['status' => 'ok', 'message' =>  $message];
@@ -242,7 +236,7 @@ class BulkController extends Controller
         try {
             \Log::info('Bulk Restoring', ['params' => $request]);
         
-//			$user = $auth->user();
+            //			$user = $auth->user();
                 
             $that = $this;
 
@@ -264,8 +258,6 @@ class BulkController extends Controller
                 $count = (count($docs) + count($grps));
                 return ['status' => 'ok', 'message' =>  trans_choice('documents.bulk.restored', $count, ['num' => $count])];
             });
-            
-
             
             if ($request->ajax() && $request->wantsJson()) {
                 return new JsonResponse($status, 200);
@@ -321,7 +313,6 @@ class BulkController extends Controller
                 dispatch(new ReindexDocument($document, KlinkVisibilityType::KLINK_PRIVATE));
             });
  
-
             $status = [
                 'status' => ! empty($already_there_from_this_request) ? 'partial' : 'ok',
                 'title' =>  ! empty($already_there_from_this_request) ?
@@ -349,7 +340,6 @@ class BulkController extends Controller
             return response('error');
         }
     }
-    
     
     // public function makePublicDialog(AuthGuard $auth, BulkDeleteRequest $request)
     // {

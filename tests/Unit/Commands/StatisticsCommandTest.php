@@ -82,7 +82,8 @@ class StatisticsCommandTest extends TestCase
                 $previous_collections,
                 $previous_personal_collections
             ),
-            trim($output));
+            trim($output)
+        );
     }
 
     public function test_measurement_values_are_calculated()

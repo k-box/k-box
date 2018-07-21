@@ -44,7 +44,7 @@ class KboxKeyGenerateCommand extends KeyGenerateCommand
      *
      * @return mixed
      */
-    public function fire()
+    public function handle()
     {
         $key = $this->generateOrLoadKey();
 

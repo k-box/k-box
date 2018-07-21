@@ -9,7 +9,6 @@ class SettingsControllerTest extends BrowserKitTestCase
 {
     use DatabaseTransactions;
     
-    
     /**
      * A basic functional test example.
      *
@@ -62,7 +61,6 @@ class SettingsControllerTest extends BrowserKitTestCase
         $this->see(trans('administration.settings.saved'));
         $this->dontSee('administration.settings.saved');
         
-        
         $this->assertViewHas(Option::SUPPORT_TOKEN, '');
     }
 
@@ -83,7 +81,6 @@ class SettingsControllerTest extends BrowserKitTestCase
 
         $this->assertEquals('Analytics-token-value', analytics_token());
         
-        
         $this->assertViewHas(Option::ANALYTICS_TOKEN, 'Analytics-token-value');
         
         $this->type('', 'analytics_token');
@@ -92,7 +89,6 @@ class SettingsControllerTest extends BrowserKitTestCase
         
         $this->see(trans('administration.settings.saved'));
         $this->dontSee('administration.settings.saved');
-        
         
         $this->assertViewHas(Option::ANALYTICS_TOKEN, '');
     }

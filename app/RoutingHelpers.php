@@ -36,7 +36,6 @@ final class RoutingHelpers
         return route('documents.preview', $params);
     }
     
-    
     public static function preview(DocumentDescriptor $doc, File $version = null)
     {
         if (! $doc->isMine()) {
@@ -76,7 +75,6 @@ final class RoutingHelpers
         return route('documents.download', $params);
     }
     
-    
     public static function group($id)
     {
         if (is_null(self::$group_route_cache)) {
@@ -86,12 +84,10 @@ final class RoutingHelpers
         return  self::$group_route_cache.'/'.$id;
     }
     
-    
     public static function filterSearch($empty_url, $current_active_filters, $facet, $term, $selected = false)
     {
         $url_components = [];
 
-        
         if (empty($current_active_filters)) {
             $url_components[] = $facet.'='.urlencode($term);
         } else {
@@ -125,7 +121,6 @@ final class RoutingHelpers
                 $active[] = $facet.'='.$term;
             }
             
-
             if (! empty($active)) {
                 $url_components[] = implode('&', $active);
             }

@@ -42,7 +42,6 @@ class Capability extends Model
      */
     const MANAGE_BACKUP = 'manage_dms_backup';
 
-    
     /**
      * The user can edit a document
      */
@@ -342,7 +341,6 @@ class Capability extends Model
         return Capability::fromKeys(array_values($known_constants))->get();
     }
     
-    
     /**
      * check if the Capabilities table is in sync with new
      * capabilities and, if not, add them to the database (old unused capabilities are not removed)
@@ -357,8 +355,6 @@ class Capability extends Model
     
         $constants = array_values(self::getConstants());
         
-        
-    
         $difference = array_diff($current_caps, $constants);
         
         $new = array_diff($constants, $current_caps);
@@ -370,7 +366,6 @@ class Capability extends Model
             return false;
         }
         
-            
         $executed = \DB::transaction(function () use ($current_caps, $constants, $difference, $new) {
             
             // if yes create the new capabilities
@@ -385,8 +380,6 @@ class Capability extends Model
                 $new_caps_ids[$n_cap->key] = $n_cap->id;
             }
             
-
-            
             // get the current users and their capabilities
             
             // remove the old capabilities and add the new ones according to the mapping
@@ -394,7 +387,6 @@ class Capability extends Model
             $mappings = self::$OLD_NEW_MAPPING;
             
             $old_keys = array_keys($mappings);
-            
             
             $users = User::all();
             
@@ -417,7 +409,6 @@ class Capability extends Model
             $removed = array_values(Capability::whereIn('key', $old_keys)->get(['id'])->pluck('id')->toArray());
             
             Capability::destroy($removed);
-            
             
             return true;
         });

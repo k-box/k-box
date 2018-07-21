@@ -84,7 +84,6 @@ class DocumentThumbnailControllerTest extends TestCase
             'token' => hash('sha512', '$token_content'),
         ]);
 
-        
         $url = route('documents.thumbnail', ['uuid' => $document->uuid]);
 
         $response = $this->actingAs($user_accessing_the_document)->get($url);
@@ -105,7 +104,6 @@ class DocumentThumbnailControllerTest extends TestCase
 
         $document = factory('KBox\DocumentDescriptor')->create(['owner_id' => $user->id, 'is_public' => true]);
         
-
         Publication::unguard(); // as fields are not mass assignable
         
         $document->publications()->create([
@@ -234,7 +232,6 @@ class DocumentThumbnailControllerTest extends TestCase
 
         $document = factory('KBox\DocumentDescriptor')->create(['owner_id' => $user->id, 'is_public' => false]);
 
-        
         $url = route('documents.thumbnail', ['uuid' => $document->uuid]);
 
         $response = $this->get($url);
@@ -253,7 +250,6 @@ class DocumentThumbnailControllerTest extends TestCase
 
         $document = factory('KBox\DocumentDescriptor')->create(['owner_id' => $user->id, 'is_public' => false]);
 
-        
         $url = route('documents.thumbnail', ['uuid' => $document->uuid]);
 
         $response = $this->actingAs($user_accessing_the_document)->get($url);
@@ -279,7 +275,6 @@ class DocumentThumbnailControllerTest extends TestCase
         $response->assertStatus(200);
     }
 
-    
     public function test_public_document_can_be_thumbnailed_by_the_klink_using_the_thumbnail_link()
     {
         Option::put(Option::PUBLIC_CORE_ENABLED, true);
@@ -304,7 +299,6 @@ class DocumentThumbnailControllerTest extends TestCase
         $response->assertHeader('ETag', $document->file->hash);
     }
 
-    
     public function test_thumbnail_returns_last_file_version()
     {
         Storage::fake('local');

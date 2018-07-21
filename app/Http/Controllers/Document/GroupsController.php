@@ -90,7 +90,6 @@ class GroupsController extends Controller
             return Group::getPersonalTree($user->id);
         });
         
-        
         if ($request->ajax() && $request->wantsJson()) {
             return new JsonResponse(compact('private_groups', 'personal_groups'), 200);
         }
@@ -234,8 +233,6 @@ class GroupsController extends Controller
             }
             
             // get all sub-collections for making the correct search request -> on(...)
-            
-            
             
             return false;
         });

@@ -22,7 +22,6 @@ class ProjectsTest extends BrowserKitTestCase
         ];
     }
     
-    
     public function routes_and_capabilities_provider()
     {
         return [
@@ -49,10 +48,6 @@ class ProjectsTest extends BrowserKitTestCase
         ];
     }
     
-    
-    
-     
-    
     /**
      * Test the expected project routes are available
      *
@@ -61,10 +56,10 @@ class ProjectsTest extends BrowserKitTestCase
      */
     public function testProjectRoutesExistence($route_name, $parameters)
     {
-        
         // you will see InvalidArgumentException if the route is not defined
-        
         route($route_name, $parameters);
+
+        $this->assertTrue(true, "Test complete without exceptions");
     }
     
     /**

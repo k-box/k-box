@@ -56,7 +56,7 @@ class DmsImportCommand extends Command
      *
      * @return mixed
      */
-    public function fire()
+    public function handle()
     {
         $debug = $this->getOutput()->getVerbosity() > 1;
         
@@ -198,11 +198,6 @@ class DmsImportCommand extends Command
             ['attempt-to-resolve-file-conflict', 'd', InputOption::VALUE_NONE, '', null],
         ];
     }
-    
-    
-    
-    
-    
     
     /**
      * Traverse a directory to get all sub-directories

@@ -8,7 +8,6 @@ use Content\Presentation\Reader\PowerPoint2007;
 use Content\Presentation\PresentationProperties;
 
 use PhpOffice\PhpPresentation\IOFactory;
-use PhpOffice\PhpPresentation\Slide;
 use PhpOffice\PhpPresentation\DocumentLayout;
 use PhpOffice\PhpPresentation\PhpPresentation;
 

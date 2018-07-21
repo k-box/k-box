@@ -12,7 +12,6 @@ class RoutingHelpersTest extends BrowserKitTestCase
 {
     use DatabaseTransactions;
     
-    
     public function filter_search_data_provider()
     {
         return [

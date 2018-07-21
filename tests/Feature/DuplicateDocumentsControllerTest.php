@@ -44,7 +44,6 @@ class DuplicateDocumentsControllerTest extends TestCase
     {
         $this->disableExceptionHandling();
 
-        
         $adapter = $this->withKlinkAdapterFake();
 
         $user = tap(factory('KBox\User')->create(), function ($u) {
@@ -80,7 +79,6 @@ class DuplicateDocumentsControllerTest extends TestCase
             $p->users()->attach($user->id);
         });
 
-        
         $manager = $project->manager;
 
         $descriptor = factory('KBox\DocumentDescriptor')->create([

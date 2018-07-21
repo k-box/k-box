@@ -48,7 +48,6 @@ class DocumentsCheckDescriptorCommand extends Command
     {
         $document = $this->argument('document');
         
-        
         $query = DocumentDescriptor::local()->private();
         
         $docs = collect();
@@ -78,7 +77,6 @@ class DocumentsCheckDescriptorCommand extends Command
 
             $file = $doc->file;
 
-            
             $doc->mime_type = $file->mime_type;
             $doc->document_type = KlinkDocumentUtils::documentTypeFromMimeType($file->mime_type);
             $doc->hash = $file->hash;
@@ -98,8 +96,6 @@ class DocumentsCheckDescriptorCommand extends Command
             $this->line("<info>No documents with problems found.</info>");
         }
 
-        
-        
         return 0;
     }
 }

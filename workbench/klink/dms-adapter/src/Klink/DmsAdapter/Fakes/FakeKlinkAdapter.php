@@ -18,7 +18,7 @@ use KSearchClient\Http\Authentication;
 use Klink\DmsAdapter\KlinkFacetsBuilder;
 use Klink\DmsAdapter\KlinkFacetItem;
 use Faker\Factory as FakerFactory;
-use PHPUnit_Framework_Assert as PHPUnit;
+use PHPUnit\Framework\Assert as PHPUnit;
 use Klink\DmsAdapter\Concerns\HasConnections;
 use KSearchClient\Model\Search\AggregationResult;
 use KSearchClient\Model\Data\Author;

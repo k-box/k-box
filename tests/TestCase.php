@@ -2,13 +2,10 @@
 
 namespace Tests;
 
-use Exception;
-use KBox\Exceptions\Handler;
 use PHPUnit\Framework\Assert;
 use Tests\Concerns\ClearDatabase;
 use Klink\DmsAdapter\Traits\MockKlinkAdapter;
 use Illuminate\Foundation\Testing\TestResponse;
-use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 
 abstract class TestCase extends BaseTestCase
@@ -42,21 +39,6 @@ abstract class TestCase extends BaseTestCase
     }
 
     /**
-     * Set the previous visited URL.
-     *
-     * This is useful for testing redirect to previous location
-     * in form validation.
-     *
-     * @param string $url
-     * @return TestCase
-     */
-    public function from($url)
-    {
-        session()->setPreviousUrl(url($url));
-        return $this;
-    }
-
-    /**
      * Invokes a private method on an object
      *
      * @param object $object the object to invoke the method on
@@ -75,17 +57,6 @@ abstract class TestCase extends BaseTestCase
 
     protected function disableExceptionHandling()
     {
-        $this->app->instance(ExceptionHandler::class, new class extends Handler {
-            public function __construct()
-            {
-            }
-            public function report(Exception $e)
-            {
-            }
-            public function render($request, Exception $e)
-            {
-                throw $e;
-            }
-        });
+        $this->withoutExceptionHandling();
     }
 }

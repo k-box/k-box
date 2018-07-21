@@ -108,7 +108,6 @@ class UploadCompletedHandlerTest extends TestCase
         ]);
         $service->addDocumentToGroup($manager, $descriptor, $project->collection);
         
-        
         $duplicate = factory(DocumentDescriptor::class)->create([
             'hash' => $descriptor->hash,
             'owner_id' => $user->id
@@ -122,7 +121,6 @@ class UploadCompletedHandlerTest extends TestCase
 
         $handler->handle($uploadCompleteEvent);
 
-        
         Event::assertDispatched(FileDuplicateFoundEvent::class, function ($e) use ($user, $descriptor, $duplicate) {
             return $e->user->is($user) &&
                 $e->duplicateDocument->duplicate_document_id === $descriptor->id &&

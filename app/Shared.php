@@ -150,7 +150,6 @@ class Shared extends Model
         return $query->where('user_id', $user);
     }
     
-    
     public function scopeSharedWithGroup($query, $user)
     {
         if (class_basename(get_class($user)) === 'PeopleGroup') {

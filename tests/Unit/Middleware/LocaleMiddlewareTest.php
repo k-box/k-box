@@ -134,10 +134,16 @@ class LocaleMiddlewareTest extends TestCase
 
         $this->be($user);
 
-        $request = Request::create('http://example.com/', 'GET', [], [], [],
+        $request = Request::create(
+            'http://example.com/',
+            'GET',
+            [],
+            [],
+            [],
             [
                 'HTTP_ACCEPT_LANGUAGE' => $header,
-            ]);
+            ]
+        );
 
         $middleware = new Locale();
 

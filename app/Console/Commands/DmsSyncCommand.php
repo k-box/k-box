@@ -48,7 +48,7 @@ class DmsSyncCommand extends Command
      *
      * @return mixed
      */
-    public function fire()
+    public function handle()
     {
         $debug = $this->getOutput()->getVerbosity() > 1;
 
@@ -83,7 +83,7 @@ class DmsSyncCommand extends Command
         if (! is_null($test) && $test->total() > 0) {
             $this->line('> '.$test->total().' on the core');
             
-            // $mapped = array_map(function($r){
+        // $mapped = array_map(function($r){
             // 	return $r->hash;
             // }, $test->getResults());
         } else {
@@ -103,7 +103,6 @@ class DmsSyncCommand extends Command
             return 0;
         }
         
-        
         $this->line("Found <info>".$count_hash_diff."</info> document(s) out of sync...");
         
         if ($debug) {
@@ -111,7 +110,6 @@ class DmsSyncCommand extends Command
             
             var_dump($hash_diff);
         }
-        
         
         $docs = DocumentDescriptor::whereIn('hash', $hash_diff)->get();
         
@@ -295,7 +293,6 @@ class DmsSyncCommand extends Command
 
             // set info on table that the procedure has been completed succesfully
 
-            
             return 0;
         });
 
@@ -306,11 +303,9 @@ class DmsSyncCommand extends Command
     {
         $this->write('  <comment>Updating the current K-Link DMS installation...</comment>');
         
-
         // TODO: perform security backup
 
         $migrate_result = $this->launch('migrate', ['--force' => true]);
-        
         
         // update the database if needed
         

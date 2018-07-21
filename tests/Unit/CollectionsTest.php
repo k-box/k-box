@@ -137,7 +137,6 @@ class CollectionsTest extends TestCase
 
         $this->assertEquals(4, $project->collection->getDescendants()->count());
 
-        
         $trashed = $service->permanentlyDeleteGroup($collection_level_one, $user);
         $this->assertTrue($trashed);
         $this->assertEquals(1, $project->collection->getDescendants()->count());
@@ -195,7 +194,6 @@ class CollectionsTest extends TestCase
 
         $this->assertEquals(4, $collection_root->getDescendants()->count());
 
-        
         // delete a collection close to the top
         try {
             $service->deleteGroup($user, $collection_level_one);

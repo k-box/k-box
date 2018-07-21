@@ -67,7 +67,6 @@ class DuplicateDocumentsNotification extends Notification implements ShouldQueue
             ->subject(trans('mail.duplicatesnotification.subject', [], '', $language))
             ->line(trans('mail.duplicatesnotification.greetings', [], '', $language));
             
-
         $message->action(trans('mail.duplicatesnotification.action', [], '', $language), route('documents.recent', ['range' => 'today']));
 
         return $message;

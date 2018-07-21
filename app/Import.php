@@ -98,7 +98,6 @@ class Import extends Model
     const MESSAGE_ERROR_LOOSE_CHUNKS = "the file is not downloaded completely. try again.";
     const MESSAGE_ERROR_FILE_NOT_FOUND = "file not found";
     
-    
     /*
     id: bigIncrements
     bytes_expected: bigInteger unsigned
@@ -196,8 +195,6 @@ class Import extends Model
         return $query->whereNull('parent_id');
     }
     
-    
-    
     public function isError()
     {
         return $this->status === self::STATUS_ERROR || $this->status === self::STATUS_ERROR_ALREADY_EXISTS;
@@ -207,7 +204,6 @@ class Import extends Model
     {
         return $this->status === self::STATUS_COMPLETED;
     }
-    
     
     // accessor methods for adding is_error and is_completed in the serialized json
     public function getIsErrorAttribute()

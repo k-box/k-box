@@ -141,7 +141,6 @@ class ViewComposerServiceProvider extends ServiceProvider
         });
     }
     
-    
     private function registerMenuComposer()
     {
         view()->composer('menu', function ($view) {

@@ -27,7 +27,6 @@ class DmsReindexCommandTest extends BrowserKitTestCase
             'language' => null
         ]);
         
-        
         return $docs;
     }
 

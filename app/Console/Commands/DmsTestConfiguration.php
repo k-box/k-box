@@ -37,7 +37,7 @@ class DmsTestConfiguration extends Command
      *
      * @return mixed
      */
-    public function fire()
+    public function handle()
     {
         $verbosity = $this->getOutput()->getVerbosity();
 

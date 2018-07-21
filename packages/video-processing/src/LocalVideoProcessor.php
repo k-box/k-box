@@ -15,16 +15,16 @@ class LocalVideoProcessor implements VideoProcessorContract
      * @param array $options Additional parameters
      * @return mixed
      */
-     public function details($file, $options = [])
-     {
-         $options = new VideoCliOptions('details', $file, ['--json']);
+    public function details($file, $options = [])
+    {
+        $options = new VideoCliOptions('details', $file, ['--json']);
         
-         $cli = tap(new VideoCli($options))->run();
+        $cli = tap(new VideoCli($options))->run();
 
-         $out = $cli->output();
+        $out = $cli->output();
         
-         return $out;
-     }
+        return $out;
+    }
      
     /**
     * Generate the thumbnail of video file

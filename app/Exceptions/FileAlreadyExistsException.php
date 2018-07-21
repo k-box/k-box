@@ -38,7 +38,6 @@ class FileAlreadyExistsException extends Exception
             'title' => is_null($descr) && ! is_null($file) ? e($file->name) : (is_null($descr) && is_null($file) ? e($upload_name) : e($descr->title))
         ]), 409);
         
-        
         $this->existing_descriptor = $descr;
         
         if (! is_null($file)) {

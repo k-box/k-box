@@ -28,7 +28,6 @@ class UserCreationTest extends TestCase
         ], $params);
     }
     
-
     public function test_user_is_created()
     {
         $user = factory('KBox\User')->create();
@@ -49,7 +48,8 @@ class UserCreationTest extends TestCase
         $this->assertTrue($user_created->can_all_capabilities(['receive_share']));
 
         Notification::assertSentTo(
-            [$user_created], UserCreatedNotification::class
+            [$user_created],
+            UserCreatedNotification::class
         );
     }
 

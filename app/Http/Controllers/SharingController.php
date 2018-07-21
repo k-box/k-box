@@ -62,13 +62,13 @@ class SharingController extends Controller
     {
         $user = $auth->user();
         
-// 		$group_ids = $user->involvedingroups()->get(array('peoplegroup_id'))->pluck('peoplegroup_id')->toArray();
+        // 		$group_ids = $user->involvedingroups()->get(array('peoplegroup_id'))->pluck('peoplegroup_id')->toArray();
 //
-// 		$all_in_groups = Shared::sharedWithGroups($group_ids)->get();
+        // 		$all_in_groups = Shared::sharedWithGroups($group_ids)->get();
 //
-// 		$all_single = Shared::sharedWithMe($user)->with(array('shareable', 'sharedwith'))->get();
+        // 		$all_single = Shared::sharedWithMe($user)->with(array('shareable', 'sharedwith'))->get();
 //
-// 		$all = $all_single->merge($all_in_groups)->unique();
+        // 		$all = $all_single->merge($all_in_groups)->unique();
         
         $order = $request->input('o', 'd') === 'a' ? 'ASC' : 'DESC';
         
@@ -81,7 +81,6 @@ class SharingController extends Controller
                     
             $all_in_groups = Shared::sharedWithGroups($group_ids)->orderBy('created_at', $order)->get();
             
-                
             $all_single = Shared::sharedWithMe($user)->orderBy('created_at', $order)->with(['shareable', 'sharedwith'])->get();
             
             $all_shared = $all_single->merge($all_in_groups)->unique();
@@ -105,7 +104,6 @@ class SharingController extends Controller
             return false; // force to execute a search on the core instead on the database
         });
         
-
         return view('share.list', [
             'shares' => $all,
             'pagetitle' => trans('share.page_title'),
@@ -248,7 +246,6 @@ class SharingController extends Controller
             $q->where('key', '=', Capability::RECEIVE_AND_SEE_SHARE);
         })->get();
         
-        
         $can_share = $me->can_capability(Capability::SHARE_WITH_PRIVATE) || $me->can_capability(Capability::SHARE_WITH_PERSONAL);
         $can_make_public = $me->can_capability(Capability::CHANGE_DOCUMENT_VISIBILITY);
         $is_project_manager = $me->isProjectManager();
@@ -329,7 +326,6 @@ class SharingController extends Controller
             
             $shares_list = $this->createShare($groups_to_share->merge($documents_to_share), $user_dest->merge($people_dest), $user);
 
-            
             return ['status' => 'ok', 'message' => trans_choice('share.share_created_msg', $shares_list->count(), ['num' => $shares_list->count()])];
         });
 
@@ -364,7 +360,6 @@ class SharingController extends Controller
         $share = Shared::findOrFail($id);
     }
     
-    
     private function _destroy($id)
     {
         $share = Shared::findOrFail($id);
@@ -396,7 +391,6 @@ class SharingController extends Controller
 
         return response($status);
     }
-    
     
     public function deleteMultiple(AuthGuard $auth, Request $request)
     {
@@ -458,17 +452,13 @@ class SharingController extends Controller
             }
         }
             
-
         return $shares_list;
-            // TODO: now send a notification/mail to every user about their new shares
+        // TODO: now send a notification/mail to every user about their new shares
     }
-    
-    
     
     public function showGroup(AuthGuard $auth, Request $request, $id)
     {
         
-                
         // if shareable == group, Search is possible
         
         $group = Group::findOrFail($id);
@@ -499,8 +489,6 @@ class SharingController extends Controller
             return DocumentDescriptor::where('local_document_id', $res_item->localDocumentID)->first();
         });
         
-        
-
         return view('share.list', [
             'shares' => $all,
             'pagetitle' => $group->name.' - '.trans('share.page_title'),

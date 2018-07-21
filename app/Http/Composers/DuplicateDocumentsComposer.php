@@ -14,8 +14,6 @@ class DuplicateDocumentsComposer
      */
     private $documents = null;
     
-    
-
     /**
      * Create a new profile composer.
      *

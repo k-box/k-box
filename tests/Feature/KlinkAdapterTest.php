@@ -23,7 +23,6 @@ class KlinkAdapterTest extends TestCase
         parent::setUp();
     }
 
-    
     public function test_adapter_report_succesfull_connection_test()
     {
         $test_results = KlinkAdapter::test(config('dms.core.address'));

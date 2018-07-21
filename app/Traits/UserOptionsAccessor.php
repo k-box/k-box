@@ -8,7 +8,6 @@ namespace KBox\Traits;
 trait UserOptionsAccessor
 {
 
-    
     /**
      * Get the language option for the specified user
      *

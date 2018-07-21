@@ -419,20 +419,20 @@ class File extends Model
      *
      * @return bool|null
      */
-     public function forceDelete()
-     {
-         $this->forceDeleting = true;
+    public function forceDelete()
+    {
+        $this->forceDeleting = true;
         
-         $deleted = $this->delete();
+        $deleted = $this->delete();
 
-         $this->forceDeleting = false;
+        $this->forceDeleting = false;
          
-         if ($deleted) {
-             $this->physicalDelete();
-         }
+        if ($deleted) {
+            $this->physicalDelete();
+        }
  
-         return $deleted;
-     }
+        return $deleted;
+    }
 
     /**
      * Delete the file from the database and from the file system
@@ -582,6 +582,7 @@ class File extends Model
         }
 
         $files = collect(Storage::disk('local')->files(dirname($this->path)));
+        // todo: files now return an array of SplFileInfo
 
         $resources = collect();
 

@@ -70,7 +70,6 @@ class DocumentsCheckInstitutionCommand extends Command
         
         $total = $documents->count();
         
-        
         $bar = $this->output->createProgressBar($total);
         
         $this->comment('  '.$total.' document(s)');
@@ -160,7 +159,6 @@ class DocumentsCheckInstitutionCommand extends Command
         
         return 0;
     }
-    
     
     protected function getKlinkIdForInstitution($id)
     {

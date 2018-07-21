@@ -40,14 +40,13 @@ class DmsSessionChecker extends Command
      *
      * @return mixed
      */
-    public function fire()
+    public function handle()
     {
         $since = $this->option('since');
         
         $this->debug = $this->getOutput()->getVerbosity() > 1;
         
         $this->log("Gathering sessions info on <info>".$this->getLaravel()->environment()."</info>...");
-        
         
         $sessions_table_name = app()->config['session.table'];
         
@@ -109,7 +108,6 @@ class DmsSessionChecker extends Command
             ['since', 's', InputOption::VALUE_OPTIONAL, 'The number of minutes for considering a section as active.', 120],
         ];
     }
-    
     
     private function log($text)
     {

@@ -69,7 +69,6 @@ class ImportCommand extends Job implements ShouldQueue
         return $this->file_already_exists_resolution_enabled;
     }
         
-
     /**
      * Execute the command.
      *
@@ -127,7 +126,6 @@ class ImportCommand extends Job implements ShouldQueue
     {
         \Log::warning('Job Failed');
     }
-    
     
     public function doImportFolder()
     {
@@ -261,7 +259,6 @@ class ImportCommand extends Job implements ShouldQueue
         }
     }
     
-
     public function files($directory, $exclude = null)
     {
         $directories = [];
@@ -272,7 +269,6 @@ class ImportCommand extends Job implements ShouldQueue
 
         return $directories;
     }
-    
     
     public function line($text)
     {

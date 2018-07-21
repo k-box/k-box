@@ -87,9 +87,6 @@ class ComposerScripts
         }
     }
         
-        
-        
-        
     private static function findArtifactPermalink($url, $rfs)
     {
         $os = strtolower(PHP_OS);

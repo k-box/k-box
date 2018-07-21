@@ -47,7 +47,7 @@ final class DmsCreateAdminUserCommand extends Command
      *
      * @return mixed
      */
-    public function fire()
+    public function handle()
     {
         $email = $this->argument('email');
         $name = $this->option('name', null);
@@ -83,7 +83,8 @@ final class DmsCreateAdminUserCommand extends Command
                 $this->option('show', false) && $passwordWasGenerated ? 'A password has been generated for you: <info>%1$s</info> '.PHP_EOL.'Want to change, use this link %2$s' : ($passwordWasGenerated ? 'Set a password for the account using <info>%2$s</info>' : 'Login on %3$s using your chosen password'),
                 $password,
                 route('password.reset', ['email' => $email, 'token' => Password::createToken($user)]),
-                url('/'))
+                url('/')
+            )
         );
         
         $this->line('');

@@ -55,15 +55,12 @@ class SearchController extends Controller
 
         $req = $this->searchRequestCreate($request);
         
-        
         $req->visibility(KlinkVisibilityType::KLINK_PUBLIC);
         
-
         $grand_total = $this->service->getTotalIndexedDocuments($req->visibility);
 
         $test = $all = $this->search($req);
         
-
         if ($request->wantsJson()) {
             if (! is_null($test)) {
                 return response()->json($test);

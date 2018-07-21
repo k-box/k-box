@@ -199,8 +199,6 @@ class Option extends Model
         return true;
     }
     
-    
-    
     // convenience methods for known options
     
     /**

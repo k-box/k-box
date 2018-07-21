@@ -279,8 +279,10 @@ class RecentDocumentsTest extends TestCase
 
         $listed_documents = $response->data('documents')->values()->collapse();
 
-        $this->assertEquals(($count_documents_by_me - 1) + $count_documents_shared_with_me + $count_documents_in_project,
-            $listed_documents->count());
+        $this->assertEquals(
+            ($count_documents_by_me - 1) + $count_documents_shared_with_me + $count_documents_in_project,
+            $listed_documents->count()
+        );
     }
 
     public function test_recent_support_search_parameters()
@@ -323,7 +325,6 @@ class RecentDocumentsTest extends TestCase
 
         $adapter = $this->withKlinkAdapterFake();
 
-        
         $user = factory('KBox\User')->create();
 
         $descriptor = factory('KBox\DocumentDescriptor')->create([
@@ -370,7 +371,6 @@ class RecentDocumentsTest extends TestCase
         $manager = tap(factory(\KBox\User::class)->create())->addCapabilities(Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH);
         $user = tap(factory(\KBox\User::class)->create())->addCapabilities(Capability::$PARTNER);
 
-        
         $project = factory('KBox\Project')->create([
             'user_id' => $manager->id
         ]);

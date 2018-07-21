@@ -22,6 +22,6 @@ class VideoProcessorFactory
     public static function isInstalled()
     {
         // VideoProcessorFactory
-       return VideoCli::isInstalled();
+        return VideoCli::isInstalled();
     }
 }

@@ -110,7 +110,6 @@ class DuplicateDocumentTest extends TestCase
 
         $service->addDocumentToGroup($manager, $descriptor, $project->collection);
         
-
         $duplicate = factory(DuplicateDocument::class)->create([
             'user_id' => $user->id,
             'duplicate_document_id' => $duplicateDescriptor->id,

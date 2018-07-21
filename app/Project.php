@@ -35,19 +35,19 @@ use Illuminate\Database\Eloquent\Relations\Relation;
 class Project extends Model
 {
     use LocalizableDateFields;
-  /*
+    /*
 
-      $table->bigIncrements('id');
-      $table->string('name');
-      $table->text('description')->nullable();
-      $table->string('avatar')->nullable();
+        $table->bigIncrements('id');
+        $table->string('name');
+        $table->text('description')->nullable();
+        $table->string('avatar')->nullable();
 
-      $table->bigInteger('user_id')->unsigned(); --> project manager
-      $table->bigInteger('collection_id')->unsigned(); --> root project collection
+        $table->bigInteger('user_id')->unsigned(); --> project manager
+        $table->bigInteger('collection_id')->unsigned(); --> root project collection
 
-      $table->timestamps();
+        $table->timestamps();
 
-   */
+     */
 
     /**
      * The database table used by the model.
@@ -62,7 +62,6 @@ class Project extends Model
      * @var array
      */
     protected $fillable = ['name', 'description', 'user_id', 'collection_id', 'avatar'];
-    
     
     /**
      * The root collection that stores the hierarchy of the project
@@ -144,9 +143,9 @@ class Project extends Model
             return true;
         }
 
-      // TODO: this can be optimized
+        // TODO: this can be optimized
 
-      $managed = $user->managedProjects()->get(['projects.id'])->pluck('id')->toArray();
+        $managed = $user->managedProjects()->get(['projects.id'])->pluck('id')->toArray();
 
         $added_to = $user->projects()->get(['projects.id'])->pluck('id')->toArray();
 

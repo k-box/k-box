@@ -155,7 +155,6 @@ return [
     
     'support_token' => env('KBOX_SUPPORT_TOKEN', env('SUPPORT_TOKEN', null)),
     
-    
     /*
     |--------------------------------------------------------------------------
     | Language whitelist
