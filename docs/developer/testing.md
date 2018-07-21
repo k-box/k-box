@@ -22,7 +22,7 @@ After that you can run
 $ ./vendor/bin/phpunit
 ```
 
-> Please consider that the documentation might be out-dated as Laravel 5.4 deprecated the core support for BrowserKit tests. Currently most of the unit tests in the K-Box code are BrowserKit based. **Newly created tests should follow the Laravel 5.4 (and above) approach.**
+> Please consider that the documentation might be out-dated as Laravel 5.5 deprecated the core support for BrowserKit tests. Currently most of the unit tests in the K-Box code are BrowserKit based. **Newly created tests should follow the Laravel 5.5 (and above) approach.**
 
 ## Helper methods
 
