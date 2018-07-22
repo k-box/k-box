@@ -147,11 +147,17 @@ Route::group(['as' => 'documents.', 'prefix' => 'documents'], function () {
             'as' => 'sharedwithme',
         ]);
 
-    Route::resource('/starred', 'Document\StarredDocumentsController',
-        ['only' => ['index', 'show', 'store', 'destroy']]);
+    Route::resource(
+        '/starred',
+        'Document\StarredDocumentsController',
+        ['only' => ['index', 'show', 'store', 'destroy']]
+    );
 
-    Route::resource('/projects', 'Projects\ProjectsPageController',
-        ['only' => ['index', 'show']]);
+    Route::resource(
+        '/projects',
+        'Projects\ProjectsPageController',
+        ['only' => ['index', 'show']]
+    );
 
     Route::get('/{institution}/{local_id}', [
             'uses' => 'Document\DocumentsController@showByKlinkId',

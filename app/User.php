@@ -65,25 +65,25 @@ class User extends Authenticatable
   
     const OPTION_RECENT_RANGE = "recent_range";
 
-  /**
-   * The database table used by the model.
-   *
-   * @var string
-   */
+    /**
+     * The database table used by the model.
+     *
+     * @var string
+     */
     protected $table = 'users';
 
-  /**
-   * The attributes that are mass assignable.
-   *
-   * @var array
-   */
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
     protected $fillable = ['name', 'email', 'password', 'institution_id'];
 
-  /**
-   * The attributes excluded from the model's JSON form.
-   *
-   * @var array
-   */
+    /**
+     * The attributes excluded from the model's JSON form.
+     *
+     * @var array
+     */
     protected $hidden = ['password', 'remember_token'];
 
     /**
@@ -121,96 +121,96 @@ class User extends Authenticatable
         return self::fromName($name)->first();
     }
 
-   /**
-    * Search a user by email
-    *
-    * @param string $name
-    * @return User|null the user, if any, null otherwise
-    */
+    /**
+     * Search a user by email
+     *
+     * @param string $name
+     * @return User|null the user, if any, null otherwise
+     */
     public static function findByEmail($email)
     {
         return self::fromEmail($email)->first();
     }
 
-   /**
-    * The searches performed by the user
-    *
-    * @return \Illuminate\Database\Eloquent\Relations\HasMany
-    */
+    /**
+     * The searches performed by the user
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function searches()
     {
-        return $this->hasMany('KBox\RecentSearch');
+        return $this->hasMany(\KBox\RecentSearch::class);
     }
 
-   /**
-    * User's collections
-    *
-    * @return \Illuminate\Database\Eloquent\Relations\HasMany
-    */
+    /**
+     * User's collections
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function groups()
     {
-        return $this->hasMany('KBox\Group');
+        return $this->hasMany(\KBox\Group::class);
     }
   
-   /**
-    * Groups of people created by the user
-    *
-    * @return \Illuminate\Database\Eloquent\Relations\HasMany
-    */
+    /**
+     * Groups of people created by the user
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function peoplegroups()
     {
-        return $this->hasMany('KBox\PeopleGroup');
+        return $this->hasMany(\KBox\PeopleGroup::class);
     }
   
-   /**
-    * Groups of people the user is inserted into
-    *
-    * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-    */
+    /**
+     * Groups of people the user is inserted into
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function involvedingroups()
     {
-        return $this->belongsToMany('KBox\PeopleGroup', 'peoplegroup_to_user', 'user_id', 'peoplegroup_id');
+        return $this->belongsToMany(\KBox\PeopleGroup::class, 'peoplegroup_to_user', 'user_id', 'peoplegroup_id');
     }
 
-   /**
-    * The shares created by the user
-    *
-    * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-    */
+    /**
+     * The shares created by the user
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function shares()
     {
-        return $this->hasMany('KBox\Shared', 'user_id');
+        return $this->hasMany(\KBox\Shared::class, 'user_id');
     }
 
-   /**
-    * The institution of the user
-    *
-    * @return \Illuminate\Database\Eloquent\Relations\HasOne
-    * @deprecated Institutions will be removed, use the origanization_* fields instead
-    */
+    /**
+     * The institution of the user
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @deprecated Institutions will be removed, use the origanization_* fields instead
+     */
     public function institution()
     {
-        return $this->hasOne('KBox\Institution', 'id', 'institution_id');
+        return $this->hasOne(\KBox\Institution::class, 'id', 'institution_id');
     }
 
-   /**
-    * The documents uploaded by the user
-    *
-    * @return \Illuminate\Database\Eloquent\Relations\HasMany
-    */
+    /**
+     * The documents uploaded by the user
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function documents()
     {
-        return $this->hasMany('KBox\DocumentDescriptor', 'owner_id');
+        return $this->hasMany(\KBox\DocumentDescriptor::class, 'owner_id');
     }
 
-   /**
-    * the starred documents
-    *
-    * @return \Illuminate\Database\Eloquent\Relations\HasMany
-    */
+    /**
+     * the starred documents
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function starred()
     {
-        return $this->hasMany('KBox\Starred');
+        return $this->hasMany(\KBox\Starred::class);
     }
 
     /**
@@ -220,7 +220,7 @@ class User extends Authenticatable
      */
     public function options()
     {
-        return $this->hasMany('KBox\UserOption');
+        return $this->hasMany(\KBox\UserOption::class);
     }
 
     /**
@@ -230,7 +230,7 @@ class User extends Authenticatable
      */
     public function projects()
     {
-        return $this->belongsToMany('KBox\Project', 'userprojects', 'user_id', 'project_id');
+        return $this->belongsToMany(\KBox\Project::class, 'userprojects', 'user_id', 'project_id');
     }
   
     /**
@@ -240,7 +240,7 @@ class User extends Authenticatable
      */
     public function managedProjects()
     {
-        return $this->hasMany('KBox\Project');
+        return $this->hasMany(\KBox\Project::class);
     }
 
     /**
@@ -416,7 +416,6 @@ class User extends Authenticatable
         }
     }
     
-    
     /**
      * Send the password reset notification.
      *
@@ -427,10 +426,6 @@ class User extends Authenticatable
     {
         $this->notify(new ResetPasswordNotification($token));
     }
-    
-    
-    
-    
     
     public static function boot()
     {

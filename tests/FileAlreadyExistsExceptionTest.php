@@ -1,9 +1,6 @@
 <?php
 
 use Laracasts\TestDummy\Factory;
-use KBox\User;
-use KBox\File;
-use KBox\Institution;
 use KBox\Exceptions\FileAlreadyExistsException;
 use KBox\Publication;
 use Carbon\Carbon;
@@ -22,32 +19,32 @@ class FileAlreadyExistsExceptionTest extends BrowserKitTestCase
         *
         * @return void
         */
-        public function testFileAlreadyExistsConstruction()
-        {
-            $user = $this->createAdminUser();
-            $doc = $this->createDocument($user, 'public');
-            $upload_name = 'A file name';
+    public function testFileAlreadyExistsConstruction()
+    {
+        $user = $this->createAdminUser();
+        $doc = $this->createDocument($user, 'public');
+        $upload_name = 'A file name';
 
-            $ex = new FileAlreadyExistsException($upload_name, $doc);
+        $ex = new FileAlreadyExistsException($upload_name, $doc);
 
-            $this->assertNotNull($ex->getDescriptor());
-            $this->assertEquals(trans('errors.filealreadyexists.generic', [
+        $this->assertNotNull($ex->getDescriptor());
+        $this->assertEquals(trans('errors.filealreadyexists.generic', [
                 'name' => e($upload_name),
                 'title' => e($doc->title)
             ]), $ex->getMessage());
         
-            $this->assertNull($ex->getFileVersion());
+        $this->assertNull($ex->getFileVersion());
 
-            $ex = new FileAlreadyExistsException($upload_name);
+        $ex = new FileAlreadyExistsException($upload_name);
 
-            $this->assertEquals(trans('errors.filealreadyexists.generic', [
+        $this->assertEquals(trans('errors.filealreadyexists.generic', [
                 'name' => e($upload_name),
                 'title' => e($upload_name)
             ]), $ex->getMessage());
         
-            $this->assertNull($ex->getDescriptor());
-            $this->assertNull($ex->getFileVersion());
-        }
+        $this->assertNull($ex->getDescriptor());
+        $this->assertNull($ex->getFileVersion());
+    }
 
     /**
      * ...
@@ -58,7 +55,7 @@ class FileAlreadyExistsExceptionTest extends BrowserKitTestCase
     {
         $user = $this->createAdminUser();
 
-        $doc = factory('KBox\DocumentDescriptor')->create([
+        $doc = factory(\KBox\DocumentDescriptor::class)->create([
             'owner_id' => null,
             'file_id' => null,
             'hash' => 'hash',
@@ -185,7 +182,7 @@ class FileAlreadyExistsExceptionTest extends BrowserKitTestCase
                 'email' => e($user2->email)
             ]), $ex->render($user));
 
-// -'The document you are uploading is an existing revision of <strong>"Vel reiciendis natus doloremque aut."</strong>, added by Ruthe O'Keefe (jewell84@hotmail.com)'
+        // -'The document you are uploading is an existing revision of <strong>"Vel reiciendis natus doloremque aut."</strong>, added by Ruthe O'Keefe (jewell84@hotmail.com)'
 // +'The document you are uploading is an existing revision of <strong>"Vel reiciendis natus doloremque aut."</strong>, added by Ruthe O'Keefe (jewell84@hotmail.com)'
     }
 

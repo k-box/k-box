@@ -24,7 +24,7 @@ Once logged in, the user, can select its preferred language for the User Interfa
 
 ## Language files
 
-Language files an localization rules follows the [Laravel Localization](http://laravel.com/docs/5.4/localization). 
+Language files an localization rules follows the [Laravel Localization](http://laravel.com/docs/5.5/localization). 
 
 The files are stored in `language` folders, represented by the two-letter language code (ISO 639-1).
 

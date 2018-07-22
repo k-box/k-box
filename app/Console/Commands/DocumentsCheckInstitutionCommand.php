@@ -70,7 +70,6 @@ class DocumentsCheckInstitutionCommand extends Command
         
         $total = $documents->count();
         
-        
         $bar = $this->output->createProgressBar($total);
         
         $this->comment('  '.$total.' document(s)');
@@ -95,7 +94,6 @@ class DocumentsCheckInstitutionCommand extends Command
                     $document->save();
                     
                     if ($force_search_engine_update) {
-                        
                         // check if the search engine knows the document also with the old institution
                         
                         $old_doc = $this->getDocumentFromCore($document, $old_institution_id);
@@ -160,7 +158,6 @@ class DocumentsCheckInstitutionCommand extends Command
         
         return 0;
     }
-    
     
     protected function getKlinkIdForInstitution($id)
     {

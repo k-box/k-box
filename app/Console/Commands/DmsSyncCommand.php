@@ -11,6 +11,7 @@ use KBox\Capability;
 use KBox\DocumentDescriptor;
 use KBox\Traits\Searchable;
 use Klink\DmsAdapter\KlinkFacetsBuilder;
+use Illuminate\Support\Facades\DB;
 
 class DmsSyncCommand extends Command
 {
@@ -48,7 +49,7 @@ class DmsSyncCommand extends Command
      *
      * @return mixed
      */
-    public function fire()
+    public function handle()
     {
         $debug = $this->getOutput()->getVerbosity() > 1;
 
@@ -68,7 +69,7 @@ class DmsSyncCommand extends Command
         }
         
         $facets_private = KlinkFacetsBuilder::create()
-            // ->institution(\Config::get('dms.institutionID'))
+            // ->institution(config('dms.institutionID'))
             ->localDocumentId(implode(',', $local_private_id_set))->build();
         
         $request = $this->searchRequestCreate()->visibility('private')->limit($total_private_on_core);
@@ -83,7 +84,7 @@ class DmsSyncCommand extends Command
         if (! is_null($test) && $test->total() > 0) {
             $this->line('> '.$test->total().' on the core');
             
-            // $mapped = array_map(function($r){
+        // $mapped = array_map(function($r){
             // 	return $r->hash;
             // }, $test->getResults());
         } else {
@@ -103,7 +104,6 @@ class DmsSyncCommand extends Command
             return 0;
         }
         
-        
         $this->line("Found <info>".$count_hash_diff."</info> document(s) out of sync...");
         
         if ($debug) {
@@ -112,12 +112,11 @@ class DmsSyncCommand extends Command
             var_dump($hash_diff);
         }
         
-        
         $docs = DocumentDescriptor::whereIn('hash', $hash_diff)->get();
         
         $count_docs = count($docs);
         
-        for ($i=0;$i<$count_docs;$i++) {
+        for ($i=0; $i<$count_docs; $i++) {
             $doc = $docs[$i];
         
             $this->write("Reindexing ".$doc->id."...");
@@ -272,7 +271,7 @@ class DmsSyncCommand extends Command
     {
         $this->write('  <comment>Installing the K-Link DMS...</comment>');
 
-        $db_return = \DB::transaction(function () {
+        $db_return = DB::transaction(function () {
             if (! $this->isInstalled()) {
                 $this->log('    Performing database migration');
                 $migrate_result = $this->launch('migrate', ['--force' => true]);
@@ -295,7 +294,6 @@ class DmsSyncCommand extends Command
 
             // set info on table that the procedure has been completed succesfully
 
-            
             return 0;
         });
 
@@ -306,11 +304,9 @@ class DmsSyncCommand extends Command
     {
         $this->write('  <comment>Updating the current K-Link DMS installation...</comment>');
         
-
         // TODO: perform security backup
 
         $migrate_result = $this->launch('migrate', ['--force' => true]);
-        
         
         // update the database if needed
         

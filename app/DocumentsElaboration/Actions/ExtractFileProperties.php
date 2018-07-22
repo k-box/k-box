@@ -16,7 +16,6 @@ class ExtractFileProperties extends Action
         \Log::info("Extracting file properties action triggered: {$descriptor->id}, file: $file->id");
         
         if ($file->isVideo()) {
-
             // todo: isolate this in a specific service, so can be used for multiple file types
 
             $videoProcessor = app()->make(VideoProcessorFactory::class)->make();

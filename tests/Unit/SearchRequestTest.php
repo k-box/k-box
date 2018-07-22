@@ -231,7 +231,6 @@ class SearchRequestTest extends TestCase
             'documentGroups' => ['0:10','1:11'],
             'documentType' => ['document']], $req->filters);
         
-        
         $facets_built = $req->buildAggregations();
         
         $this->assertNotEmpty($facets_built);

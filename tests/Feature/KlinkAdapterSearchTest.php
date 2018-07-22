@@ -27,7 +27,7 @@ class KlinkAdapterSearchTest extends TestCase
 
         if (empty(getenv('DMS_CORE_ADDRESS'))) {
             $this->markTestSkipped(
-              'DMS_CORE_ADDRESS not configured for running integration tests.'
+                'DMS_CORE_ADDRESS not configured for running integration tests.'
             );
         }
 
@@ -36,11 +36,12 @@ class KlinkAdapterSearchTest extends TestCase
 
         $this->indexedDataUUIDs = collect();
 
-        $descriptors = factory('KBox\DocumentDescriptor', 5)->create();
+        $descriptors = factory(\KBox\DocumentDescriptor::class, 5)->create();
         
         $descriptors->each(function ($descriptor) {
             $response = $this->adapter->addDocument(
-                new KlinkDocument($descriptor->toKlinkDocumentDescriptor(), 'test file content'));
+                new KlinkDocument($descriptor->toKlinkDocumentDescriptor(), 'test file content')
+            );
 
             $this->indexedDataUUIDs->push($descriptor->uuid);
         });

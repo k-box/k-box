@@ -19,7 +19,6 @@ trait Login
      */
     private $user = null;
     
-    
     public function askLogin()
     {
         if (App::environment() === 'testing') {

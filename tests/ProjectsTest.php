@@ -22,7 +22,6 @@ class ProjectsTest extends BrowserKitTestCase
         ];
     }
     
-    
     public function routes_and_capabilities_provider()
     {
         return [
@@ -49,10 +48,6 @@ class ProjectsTest extends BrowserKitTestCase
         ];
     }
     
-    
-    
-     
-    
     /**
      * Test the expected project routes are available
      *
@@ -61,10 +56,10 @@ class ProjectsTest extends BrowserKitTestCase
      */
     public function testProjectRoutesExistence($route_name, $parameters)
     {
-        
         // you will see InvalidArgumentException if the route is not defined
-        
         route($route_name, $parameters);
+
+        $this->assertTrue(true, "Test complete without exceptions");
     }
     
     /**
@@ -82,7 +77,7 @@ class ProjectsTest extends BrowserKitTestCase
             $user = $this->createUser($caps);
             
             if (strpos($route, 'show') !== -1 || strpos($route, 'edit') !== -1) {
-                $project = factory('KBox\Project')->create(['user_id' => $user->id]);
+                $project = factory(\KBox\Project::class)->create(['user_id' => $user->id]);
                 
                 $params = ['projects' => $project->id];
             } else {
@@ -171,7 +166,7 @@ class ProjectsTest extends BrowserKitTestCase
 
     public function testProjectEdit()
     {
-        $project = factory('KBox\Project')->create();
+        $project = factory(\KBox\Project::class)->create();
         
         $user = $project->manager()->first();
 

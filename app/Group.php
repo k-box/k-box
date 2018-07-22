@@ -79,9 +79,8 @@ class Group extends Entity implements GroupInterface
      *
      * @var groupClosure
      */
-    protected $closure = 'KBox\GroupClosure';
+    protected $closure = \KBox\GroupClosure::class;
 
-    
     protected $fillable = ['name','color', 'user_id','parent_id', 'group_type_id', 'is_private'];
 
     public $timestamps = true;
@@ -90,12 +89,12 @@ class Group extends Entity implements GroupInterface
     {
         
         // One to One
-        return $this->belongsTo('KBox\User')->withTrashed();
+        return $this->belongsTo(\KBox\User::class)->withTrashed();
     }
     
     public function project()
     {
-        return $this->belongsTo('KBox\Project', 'id', 'collection_id');
+        return $this->belongsTo(\KBox\Project::class, 'id', 'collection_id');
     }
 
     /**
@@ -128,7 +127,7 @@ class Group extends Entity implements GroupInterface
      */
     public function documents()
     {
-        return $this->belongsToMany('KBox\DocumentDescriptor', 'document_groups', 'group_id', 'document_id')->local();
+        return $this->belongsToMany(\KBox\DocumentDescriptor::class, 'document_groups', 'group_id', 'document_id')->local();
     }
 
     /**
@@ -151,7 +150,7 @@ class Group extends Entity implements GroupInterface
 
     public function shares()
     {
-        return $this->morphMany('KBox\Shared', 'shareable');
+        return $this->morphMany(\KBox\Shared::class, 'shareable');
     }
 
     public function scopeOfType($query, $type)
@@ -195,7 +194,6 @@ class Group extends Entity implements GroupInterface
         return $query->whereNull('parent_id');
     }
 
-    
     public static function getPersonalTree($user_id, array $columns = ['*'])
     {
         /**
@@ -204,7 +202,6 @@ class Group extends Entity implements GroupInterface
         $instance = new static;
         $columns = $instance->prepareTreeQueryColumns($columns);
 
-        
         return $instance
             ->where('is_private', '=', true)
             ->where('user_id', '=', $user_id)
@@ -220,7 +217,6 @@ class Group extends Entity implements GroupInterface
         $instance = new static;
         $columns = $instance->prepareTreeQueryColumns($columns);
 
-        
         return $instance
             ->where('is_private', '=', false)
             ->orderBy('name', 'asc')
@@ -260,7 +256,6 @@ class Group extends Entity implements GroupInterface
         // some values can be escaped, like the single quote char ' to #039; and needs to be escaped
         return htmlspecialchars_decode($value, ENT_QUOTES);
     }
-    
     
     public static function getClosureTable()
     {

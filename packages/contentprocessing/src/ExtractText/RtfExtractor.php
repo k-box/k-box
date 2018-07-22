@@ -31,8 +31,11 @@ class RtfExtractor implements ExtractTextContract
         
         $content = file_get_contents($path);
         
-        $rtf = $utf8_content = mb_convert_encoding($content, 'UTF-8',
-              mb_detect_encoding($content, 'UTF-8, ISO-8859-1', true));
+        $rtf = $utf8_content = mb_convert_encoding(
+            $content,
+            'UTF-8',
+              mb_detect_encoding($content, 'UTF-8, ISO-8859-1', true)
+        );
         
         $tokens = [
             'T_NOOP' => '\\\\uc1|\\\\uc2|\\\\pard|\\\\f[0-9]+|\\\\fs[0-9]+|\\\\viewkind[0-4]+',

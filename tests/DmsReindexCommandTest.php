@@ -22,11 +22,10 @@ class DmsReindexCommandTest extends BrowserKitTestCase
 
     private function createDocuments($quantity = 5)
     {
-        $docs = factory('KBox\DocumentDescriptor', $quantity)->create([
+        $docs = factory(\KBox\DocumentDescriptor::class, $quantity)->create([
             'is_public' => false,
             'language' => null
         ]);
-        
         
         return $docs;
     }

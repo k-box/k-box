@@ -14,7 +14,7 @@ class KlinkApiControllerTest extends TestCase
     {
         $this->withKlinkAdapterFake();
 
-        $document = factory('KBox\DocumentDescriptor')->create();
+        $document = factory(\KBox\DocumentDescriptor::class)->create();
         
         $url = route('klink_api', ['id' => $document->local_document_id, 'action' => 'document']);
 
@@ -27,7 +27,7 @@ class KlinkApiControllerTest extends TestCase
     {
         $this->withKlinkAdapterFake();
 
-        $document = factory('KBox\DocumentDescriptor')->create();
+        $document = factory(\KBox\DocumentDescriptor::class)->create();
 
         $url = route('klink_api', ['id' => $document->local_document_id, 'action' => 'download']);
 
@@ -39,7 +39,7 @@ class KlinkApiControllerTest extends TestCase
     {
         $this->withKlinkAdapterFake();
 
-        $document = factory('KBox\DocumentDescriptor')->create();
+        $document = factory(\KBox\DocumentDescriptor::class)->create();
 
         $url = route('klink_api', ['id' => $document->local_document_id, 'action' => 'thumbnail']);
 

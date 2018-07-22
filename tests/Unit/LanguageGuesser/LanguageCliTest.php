@@ -11,7 +11,7 @@ class LanguageCliTest extends TestCase
     {
         if (empty(glob('./bin/language-guesser*'))) {
             $this->markTestSkipped(
-              'Language Guesser not installed.'
+                'Language Guesser not installed.'
             );
         }
 

@@ -38,7 +38,7 @@ class OpenDocumentActivity extends Model
     {
         
         // One to One
-        return $this->hasOne('KBox\DocumentDescriptor');
+        return $this->hasOne(\KBox\DocumentDescriptor::class);
 
         // One to Many
         // return $this->hasMany('DocumentDescriptor');

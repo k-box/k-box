@@ -11,6 +11,7 @@ use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\JsonResponse;
 use Klink\DmsDocuments\DocumentsService;
 use KBox\Traits\AvatarUpload;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Controller for the Project Management
@@ -80,7 +81,7 @@ class ProjectsController extends Controller
             
             return redirect()->back()->withErrors(
                 ['error' => trans('projects.errors.exception', ['exception' => $ex->getMessage()])]
-              );
+            );
         }
     }
     
@@ -107,8 +108,6 @@ class ProjectsController extends Controller
         ]);
     }
     
-    
-    
     public function create(Guard $auth)
     {
         $user = $auth->user();
@@ -124,8 +123,6 @@ class ProjectsController extends Controller
         ]);
     }
     
-    
-
     /**
      * Store a newly created resource in storage.
      *
@@ -140,7 +137,7 @@ class ProjectsController extends Controller
 
             $avatar = $this->avatarStore($request, $manager->id);
 
-            $project = \DB::transaction(function () use ($manager, $request, $service, $avatar) {
+            $project = DB::transaction(function () use ($manager, $request, $service, $avatar) {
                 $name = $request->input('name');
                 
                 $projectcollection = $service->createGroup($manager, $name, null, null, false);
@@ -157,7 +154,7 @@ class ProjectsController extends Controller
             });
             
             if ($request->has('users')) {
-                \DB::transaction(function () use ($project, $request) {
+                DB::transaction(function () use ($project, $request) {
                     $users = $request->get('users');
                     
                     foreach ($users as $user) {
@@ -166,7 +163,6 @@ class ProjectsController extends Controller
                 });
             }
 
-            
             \Cache::flush();
 
             if ($request->wantsJson()) {
@@ -185,7 +181,7 @@ class ProjectsController extends Controller
             
             return redirect()->back()->withInput()->withErrors(
                 ['error' => trans('projects.errors.exception', ['exception' => $ex->getMessage()])]
-              );
+            );
         }
     }
 
@@ -200,7 +196,7 @@ class ProjectsController extends Controller
 
             $avatar = $this->avatarStore($request, $project->id);
 
-            $project = \DB::transaction(function () use ($manager, $request, $service, $project, $avatar) {
+            $project = DB::transaction(function () use ($manager, $request, $service, $project, $avatar) {
                 if ($request->has('name') && $project->name !== $request->input('name')) {
                     //rename project and collection
                     
@@ -224,7 +220,6 @@ class ProjectsController extends Controller
                     $project->save();
                 }
                 
-
                 // test if there are users to add/remove to/from the project
                 if ($request->has('users')) {
                     $users = $request->get('users');
@@ -250,7 +245,6 @@ class ProjectsController extends Controller
                 return $project->fresh();
             });
 
-            
             \Cache::flush();
 
             if ($request->wantsJson()) {
@@ -269,7 +263,7 @@ class ProjectsController extends Controller
             
             return redirect()->back()->withInput()/*->route('projects.create')*/->withErrors(
                 ['error' => trans('projects.errors.exception', ['exception' => $ex->getMessage()])]
-              );
+            );
         }
     }
 

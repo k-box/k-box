@@ -56,7 +56,6 @@ class RoutesTest extends BrowserKitTestCase
         ];
     }
     
-    
     public function routes_with_login_provider()
     {
         return [

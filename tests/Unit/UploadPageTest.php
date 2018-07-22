@@ -14,7 +14,7 @@ class UploadPageTest extends TestCase
 
     public function test_upload_page_shows_private_target()
     {
-        $user = factory('KBox\User')->create();
+        $user = factory(\KBox\User::class)->create();
 
         $this->disableExceptionHandling();
         
@@ -30,12 +30,12 @@ class UploadPageTest extends TestCase
     
     public function test_upload_page_shows_project_target()
     {
-        $user = factory('KBox\User')->create();
+        $user = factory(\KBox\User::class)->create();
         $user->addCapabilities(Capability::$ADMIN);
 
         $this->disableExceptionHandling();
 
-        $project = factory('KBox\Project')->create();
+        $project = factory(\KBox\Project::class)->create();
         
         $collection_id = $project->collection->id;
 
@@ -51,12 +51,12 @@ class UploadPageTest extends TestCase
     
     public function test_upload_page_shows_project_collection_target()
     {
-        $user = factory('KBox\User')->create();
+        $user = factory(\KBox\User::class)->create();
         $user->addCapabilities(Capability::$ADMIN);
 
         $this->disableExceptionHandling();
 
-        $project = factory('KBox\Project')->create();
+        $project = factory(\KBox\Project::class)->create();
 
         $service = app('Klink\DmsDocuments\DocumentsService');
         
@@ -82,7 +82,7 @@ class UploadPageTest extends TestCase
     
     public function test_upload_page_shows_collection_target()
     {
-        $user = factory('KBox\User')->create();
+        $user = factory(\KBox\User::class)->create();
 
         $user->addCapabilities(Capability::$ADMIN);
 
@@ -112,11 +112,11 @@ class UploadPageTest extends TestCase
     
     public function test_upload_page_shows_target_error()
     {
-        $user = factory('KBox\User')->create();
+        $user = factory(\KBox\User::class)->create();
 
         $this->disableExceptionHandling();
 
-        $project = factory('KBox\Project')->create();
+        $project = factory(\KBox\Project::class)->create();
         
         $collection_id = $project->collection->id;
 

@@ -13,12 +13,12 @@ class GuessLanguageTest extends TestCase
 
     private function generateDescriptorForFile($path)
     {
-        $file = factory('KBox\File')->create([
+        $file = factory(\KBox\File::class)->create([
             'hash' => hash_file('sha512', $path),
             'path' => $path,
             'mime_type' => KlinkDocumentUtils::get_mime($path),
         ]);
-        $descriptor = factory('KBox\DocumentDescriptor')->create([
+        $descriptor = factory(\KBox\DocumentDescriptor::class)->create([
             'file_id' => $file->id,
             'language' => null,
             'abstract' => null,

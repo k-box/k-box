@@ -53,7 +53,7 @@
 	@endif
 
 	{{ csrf_field() }}
-	<input type="hidden" name="_method" value="put">
+	{{ method_field('PUT') }}
 
 	@include('errors.list')
 

@@ -9,7 +9,7 @@ class CollectionMoveExceptionTest extends TestCase
 {
     public function test_current_collection_is_reported()
     {
-        $collection = factory('KBox\Group')->make(['user_id' => 10]);
+        $collection = factory(\KBox\Group::class)->make(['user_id' => 10]);
 
         $exception = new CollectionMoveException($collection, CollectionMoveException::REASON_NOT_ALL_SAME_USER);
 
@@ -20,8 +20,8 @@ class CollectionMoveExceptionTest extends TestCase
 
     public function test_cause_collection_is_reported()
     {
-        $collection = factory('KBox\Group')->make(['user_id' => 10]);
-        $cause = factory('KBox\Group')->make(['user_id' => 11]);
+        $collection = factory(\KBox\Group::class)->make(['user_id' => 10]);
+        $cause = factory(\KBox\Group::class)->make(['user_id' => 11]);
 
         $exception = new CollectionMoveException($collection, CollectionMoveException::REASON_NOT_ALL_SAME_USER, $cause);
 
@@ -36,8 +36,8 @@ class CollectionMoveExceptionTest extends TestCase
 
     public function test_multiple_cause_collection_is_reported()
     {
-        $collection = factory('KBox\Group')->make(['user_id' => 10]);
-        $causes = factory('KBox\Group', 3)->make(['user_id' => 11]);
+        $collection = factory(\KBox\Group::class)->make(['user_id' => 10]);
+        $causes = factory(\KBox\Group::class, 3)->make(['user_id' => 11]);
 
         $exception = new CollectionMoveException($collection, CollectionMoveException::REASON_NOT_ALL_SAME_USER, $causes);
 

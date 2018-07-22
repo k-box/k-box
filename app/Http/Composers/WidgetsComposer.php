@@ -8,6 +8,7 @@ use KBox\User;
 use Carbon\Carbon;
 use Klink\DmsDocuments\StorageService;
 use Auth;
+use Illuminate\Support\Facades\DB;
 
 class WidgetsComposer
 {
@@ -89,7 +90,7 @@ class WidgetsComposer
             $table_exists = \Schema::hasTable($sessions_table_name);
             
             if ($sessions_driver_db || ($sessions_driver_db && $table_exists)) {
-                $sessions = \DB::table($sessions_table_name)->where('last_activity', '>=', time() - (20*60))->distinct()->get()->all();
+                $sessions = DB::table($sessions_table_name)->where('last_activity', '>=', time() - (20*60))->distinct()->get()->all();
         
                 foreach ($sessions as $session) {
                     try {

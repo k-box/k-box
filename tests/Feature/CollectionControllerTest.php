@@ -14,9 +14,9 @@ class CollectionControllerTest extends TestCase
     {
         $service = app('Klink\DmsDocuments\DocumentsService');
 
-        $project = factory('KBox\Project')->create();
+        $project = factory(\KBox\Project::class)->create();
 
-        $user = tap(factory('KBox\User')->create(), function ($u) {
+        $user = tap(factory(\KBox\User::class)->create(), function ($u) {
             $u->addCapabilities(Capability::$PROJECT_MANAGER);
         });
 
@@ -45,11 +45,11 @@ class CollectionControllerTest extends TestCase
     {
         $service = app('Klink\DmsDocuments\DocumentsService');
 
-        $user = tap(factory('KBox\User')->create(), function ($u) {
+        $user = tap(factory(\KBox\User::class)->create(), function ($u) {
             $u->addCapabilities(Capability::$PARTNER);
         });
         
-        $project = tap(factory('KBox\Project')->create(), function ($p) use ($user) {
+        $project = tap(factory(\KBox\Project::class)->create(), function ($p) use ($user) {
             $p->users()->attach($user);
         });
         
@@ -79,9 +79,9 @@ class CollectionControllerTest extends TestCase
     {
         $service = app('Klink\DmsDocuments\DocumentsService');
 
-        $project = factory('KBox\Project')->create();
+        $project = factory(\KBox\Project::class)->create();
 
-        $user = tap(factory('KBox\User')->create(), function ($u) {
+        $user = tap(factory(\KBox\User::class)->create(), function ($u) {
             $u->addCapabilities(Capability::$PROJECT_MANAGER);
         });
 

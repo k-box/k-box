@@ -29,7 +29,6 @@ class UploadCompletedHandler implements ShouldQueue
         Log::info("Upload completed for document {$event->descriptor->uuid}.");
         
         try {
-
             // make sure file upload is marked completed and descriptor has the processing status
             $descriptor = $this->updateDescriptor($event->descriptor);
 

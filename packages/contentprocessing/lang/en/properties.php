@@ -24,5 +24,4 @@ return [
     'category' => 'Category',
     'company' => 'Company',
 
-    
-];
+    ];

@@ -89,7 +89,6 @@ class ComposerScripts
                     throw new Exception('Unable to find PharData class for extracting files from compressed archive.');
                 }
                 
-
                 $path_inside_archive = static::$version[$os].'/'.static::$architecture;
 
                 $archive = new PharData($fileName);
@@ -124,9 +123,6 @@ class ComposerScripts
             $io->writeError('');
         }
     }
-        
-        
-        
         
     private static function findArtifactPermalink($url, $rfs)
     {

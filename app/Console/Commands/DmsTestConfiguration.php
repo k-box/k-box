@@ -37,17 +37,17 @@ class DmsTestConfiguration extends Command
      *
      * @return mixed
      */
-    public function fire()
+    public function handle()
     {
         $verbosity = $this->getOutput()->getVerbosity();
 
         $debug_enabled = ! ! $this->option('debug') || ($verbosity>2 && $verbosity<4);
 
-        $core_address = \Config::get('dms.core.address');
+        $core_address = config('dms.core.address');
 
-        $core_one = new \KlinkAuthentication($core_address, \Config::get('dms.core.username'), \Config::get('dms.core.password'));
+        $core_one = new \KlinkAuthentication($core_address, config('dms.core.username'), config('dms.core.password'));
 
-        $klink_config = new \KlinkConfiguration(\Config::get('dms.institutionID'), \Config::get('dms.identifier'), [$core_one]);
+        $klink_config = new \KlinkConfiguration(config('dms.institutionID'), config('dms.identifier'), [$core_one]);
 
         if ($debug_enabled) {
             $klink_config->enableDebug();

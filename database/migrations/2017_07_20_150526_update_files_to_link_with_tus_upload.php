@@ -17,7 +17,7 @@ class UpdateFilesToLinkWithTusUpload extends Migration
             // the connection to the tus_upload_queue table created by the laravel-tus-upload package
             $table->string('request_id')->nullable();
 
-            // this is a duplication of the upload queue fields, as the entry in the upload queue 
+            // this is a duplication of the upload queue fields, as the entry in the upload queue
             // will be cleaned by cron jobs
             // when the upload was started by the user
             $table->timestamp('upload_started_at')->nullable();

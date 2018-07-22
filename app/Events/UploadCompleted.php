@@ -17,11 +17,11 @@ class UploadCompleted
     /**
      * @var \KBox\DocumentDescriptor
      */
-     public $descriptor = null;
+    public $descriptor = null;
      
-     /**
-      * @var \KBox\User
-      */
+    /**
+     * @var \KBox\User
+     */
     public $user = null;
 
     /**

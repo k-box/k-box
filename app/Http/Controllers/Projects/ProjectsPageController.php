@@ -121,7 +121,7 @@ class ProjectsPageController extends Controller
             
             return redirect()->back()->withErrors(
                 ['error' => trans('projects.errors.exception', ['exception' => $ex->getMessage()])]
-              );
+            );
         }
     }
 }

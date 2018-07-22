@@ -6,7 +6,7 @@
 
 	@if(isset($edit) && $edit)
 
-		<input type="hidden" name="_method" value="PUT">
+		{{ method_field('PUT') }}
 
 	@endif
 

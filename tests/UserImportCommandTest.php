@@ -18,7 +18,6 @@ class UserImportCommandTest extends BrowserKitTestCase
 {
     use DatabaseTransactions;
     
-    
     public function user_provider_for_editpage_public_checkbox_test()
     {
         return [
@@ -30,8 +29,6 @@ class UserImportCommandTest extends BrowserKitTestCase
         ];
     }
 
-    
-    
     /**
      * @expectedException \RuntimeException
      * @expectedExceptionMessage Not enough arguments (missing: "file").
@@ -67,11 +64,11 @@ class UserImportCommandTest extends BrowserKitTestCase
         \Mail::shouldReceive('queue')->times(4)->withAnyArgs();
         
         // create a Project called "test"
-        $test = factory('KBox\Project')->create(['name' => 'test']);
+        $test = factory(\KBox\Project::class)->create(['name' => 'test']);
         // create a Project called "secondary"
-        $secondary = factory('KBox\Project')->create(['name' => 'secondary']);
+        $secondary = factory(\KBox\Project::class)->create(['name' => 'secondary']);
         // create a project called "lead by"
-        $lead_by = factory('KBox\Project')->create(['name' => 'lead by']);
+        $lead_by = factory(\KBox\Project::class)->create(['name' => 'lead by']);
         
         $command = new DmsUserImportCommand();
         
@@ -85,7 +82,7 @@ class UserImportCommandTest extends BrowserKitTestCase
             '--delimiter' => ';',
             '--value-delimiter' => ',',
             ], $output);
-            // php artisan users:import --delimiter=; --value-delimiter=, ./tests/data/users.csv
+        // php artisan users:import --delimiter=; --value-delimiter=, ./tests/data/users.csv
         
         $res = $output->fetch();
         
@@ -98,7 +95,6 @@ class UserImportCommandTest extends BrowserKitTestCase
         $this->assertNotNull($user2);
         $this->assertNotNull($user3);
         $this->assertNotNull($user5);
-        
         
         $this->assertTrue($user1->can_all_capabilities(Capability::$PARTNER));
         $this->assertTrue($user2->can_all_capabilities(Capability::$GUEST));
@@ -154,7 +150,7 @@ class UserImportCommandTest extends BrowserKitTestCase
             '--delimiter' => ';',
             '--value-delimiter' => ',',
             ], $output);
-            // php artisan users:import --delimiter=; --value-delimiter=, ./tests/data/users.csv
+        // php artisan users:import --delimiter=; --value-delimiter=, ./tests/data/users.csv
         
         $res = $output->fetch();
 
@@ -179,7 +175,6 @@ class UserImportCommandTest extends BrowserKitTestCase
     {
         $user = $this->createAdminUser();
         
-        
         $command = new DmsUserImportCommand();
         
         $app = new Application();
@@ -195,8 +190,6 @@ class UserImportCommandTest extends BrowserKitTestCase
         
         // $res = $output->fetch();
     }
-    
-    
     
     protected function runCommand($command, $input = [], $output = null)
     {

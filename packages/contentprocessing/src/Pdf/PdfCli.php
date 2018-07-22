@@ -54,7 +54,8 @@ class PdfCli
         
         $this->process = $process = new Process(
             sprintf('"%1$s" -enc UTF-8 "%2$s" "%3$s"', $executable, $file, $extract_in),
-            realpath(base_path(self::CLI_FOLDER)));
+            realpath(base_path(self::CLI_FOLDER))
+        );
         
         $process->setTimeout(null);
         $process->setIdleTimeout(null);
@@ -66,8 +67,11 @@ class PdfCli
 
             $content = file_get_contents($extract_in);
         
-            $plain_text = mb_convert_encoding($content, 'UTF-8',
-                            mb_detect_encoding($content, 'UTF-8, ASCII, ISO-8859-1, ISO-8859-2, ISO-8859-3, ISO-8859-4, ISO-8859-5, ISO-8859-6, ISO-8859-7, ISO-8859-8, ISO-8859-9, ISO-8859-10, ISO-8859-13, ISO-8859-14, ISO-8859-15, ISO-8859-16, Windows-1251, Windows-1252, Windows-1254', true));
+            $plain_text = mb_convert_encoding(
+                $content,
+                'UTF-8',
+                            mb_detect_encoding($content, 'UTF-8, ASCII, ISO-8859-1, ISO-8859-2, ISO-8859-3, ISO-8859-4, ISO-8859-5, ISO-8859-6, ISO-8859-7, ISO-8859-8, ISO-8859-9, ISO-8859-10, ISO-8859-13, ISO-8859-14, ISO-8859-15, ISO-8859-16, Windows-1251, Windows-1252, Windows-1254', true)
+            );
     
             $storage->delete($extract_in);
             

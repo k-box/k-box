@@ -86,7 +86,7 @@ class Institution extends Model
      */
     public static function current()
     {
-        return self::findByKlinkID(\Config::get('dms.institutionID'));
+        return self::findByKlinkID(config('dms.institutionID'));
     }
 
     /**
@@ -129,7 +129,7 @@ class Institution extends Model
                 $this->address_country == $instance->addressCountry &&
                 $this->address_locality == $instance->addressLocality &&
                 $this->address_zip == $instance->addressZip;
-        } elseif (is_a($instance, 'KBox\Institution')) {
+        } elseif (is_a($instance, \KBox\Institution::class)) {
             return $this->klink_id == $instance->klink_id &&
                 $this->name == $instance->name &&
                 $this->email == $instance->email &&

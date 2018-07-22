@@ -123,7 +123,6 @@ class GroupsComposer
 
             // $group = $view['group'];
 
-            
             $view->with('user_can_edit_private_groups', $auth_user->can_capability(Capability::MANAGE_OWN_GROUPS));
             $view->with('user_can_edit_public_groups', $auth_user->can_capability(Capability::MANAGE_PROJECT_COLLECTIONS));
         }

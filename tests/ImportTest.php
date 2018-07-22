@@ -27,7 +27,6 @@ class ImportTest extends BrowserKitTestCase
         ];
     }
     
-    
     /**
      * Tests the dms:import command for importing local storage folder with Project creation from root folders option.
      * This test attempt to index all the files
@@ -66,7 +65,6 @@ class ImportTest extends BrowserKitTestCase
         $this->assertRegExp('/File already exists/', $res);
         
         foreach ($expected_projects as $prj_name => $sub_collections) {
-            
             // check for projects existence
             
             $prj = Project::where('name', $prj_name)->first();
@@ -138,7 +136,6 @@ class ImportTest extends BrowserKitTestCase
         $this->assertRegExp('/Attempting to merge document descriptors/', $res);
         
         foreach ($expected_projects as $prj_name => $sub_collections) {
-            
             // check for projects existence
             
             $prj = Project::where('name', $prj_name)->first();
@@ -164,7 +161,6 @@ class ImportTest extends BrowserKitTestCase
         
         $this->assertEquals(4, File::where('user_id', $user->id)->where('mime_type', 'text/x-markdown')->count());
         $this->assertEquals(5, Import::where('user_id', $user->id)->where('status', Import::STATUS_COMPLETED)->count(), 'completed imports count');
-        
         
         // Check if the file conflict resolution was completed correctly
         $f = File::where('path', __DIR__.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR.'folder_for_import'.DIRECTORY_SEPARATOR.'folder2'.DIRECTORY_SEPARATOR.'subfolder2'.DIRECTORY_SEPARATOR.'in-subfolder-2.md')->first();
@@ -221,7 +217,7 @@ class ImportTest extends BrowserKitTestCase
         
         $user = $this->createAdminUser();
         
-        $file = factory('KBox\File')->create([
+        $file = factory(\KBox\File::class)->create([
             'mime_type' => '',
             'size' => 0,
             'path' => $save_path,
@@ -229,7 +225,7 @@ class ImportTest extends BrowserKitTestCase
             'original_uri' => $url
         ]);
         
-        $import = factory('KBox\Import')->create([
+        $import = factory(\KBox\Import::class)->create([
             'file_id' => $file->id,
             'user_id' => $user->id,
             'is_remote' => true,
@@ -247,8 +243,6 @@ class ImportTest extends BrowserKitTestCase
         $this->assertEquals('Import from URL are not supported', $import->message);
     }
 
-    
-    
     protected function runCommand($command, $input = [], $output = null)
     {
         if (is_null($output)) {

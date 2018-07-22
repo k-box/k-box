@@ -110,7 +110,7 @@ class VideoPlaybackController extends Controller
         list($param, $range) = explode('=', $range_header);
             
         if (strtolower(trim($param)) !== 'bytes') {
-            \App::abort(400, 'Invalid request');
+            \abort(400, 'Invalid request');
         }
             
         list($from, $to) = explode('-', $range);

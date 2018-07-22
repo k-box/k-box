@@ -22,7 +22,6 @@ class ExtractTextFactory
         'docx' => WordExtractor::class,
         'pptx' => PresentationExtractor::class,
         
-        
         // text documents
         'txt' => TextFileExtractor::class,
         'md' => TextFileExtractor::class,

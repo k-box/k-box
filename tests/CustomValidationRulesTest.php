@@ -7,7 +7,6 @@ class CustomValidationRulesTest extends BrowserKitTestCase
 {
     use DatabaseTransactions;
     
-    
     public function values_that_will_cause_the_validator_to_fail()
     {
         
@@ -36,8 +35,6 @@ class CustomValidationRulesTest extends BrowserKitTestCase
             [['body' => 1]],
         ];
     }
-    
-    
     
     // Test not_array rule
     

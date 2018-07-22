@@ -56,7 +56,7 @@ class DmsImportCommand extends Command
      *
      * @return mixed
      */
-    public function fire()
+    public function handle()
     {
         $debug = $this->getOutput()->getVerbosity() > 1;
         
@@ -132,7 +132,7 @@ class DmsImportCommand extends Command
     
                 // create the corresponding group
     
-                $group = $this->service->createGroupsFromFolderPath($user, str_replace(realpath(\Config::get('dms.upload_folder')).DIRECTORY_SEPARATOR, '', $file->path), true, ! $is_project, $parent_group);
+                $group = $this->service->createGroupsFromFolderPath($user, str_replace(realpath(config('dms.upload_folder')).DIRECTORY_SEPARATOR, '', $file->path), true, ! $is_project, $parent_group);
                 
                 if (! $use_roots && $is_project) {
                     $this->debugLine('Creating project from '.$group->id.':'.$group->name);
@@ -198,11 +198,6 @@ class DmsImportCommand extends Command
             ['attempt-to-resolve-file-conflict', 'd', InputOption::VALUE_NONE, '', null],
         ];
     }
-    
-    
-    
-    
-    
     
     /**
      * Traverse a directory to get all sub-directories

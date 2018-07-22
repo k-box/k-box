@@ -15,6 +15,7 @@ class PresentationTextExtractionTest extends TestCase
 
         $this->assertEquals(
             'Simple presentation With a subtitle A new titled page Some Bullet Points',
-            $extractor->load($file)->text());
+            $extractor->load($file)->text()
+        );
     }
 }

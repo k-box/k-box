@@ -12,6 +12,7 @@ use KBox\File;
 use Ramsey\Uuid\Uuid;
 use Illuminate\Support\Facades\Storage;
 use KBox\Console\Commands\DmsUpdateCommand;
+use Illuminate\Support\Facades\DB;
 
 class DmsUpdateCommandTest extends TestCase
 {
@@ -22,9 +23,9 @@ class DmsUpdateCommandTest extends TestCase
         parent::setUp();
 
         \Schema::disableForeignKeyConstraints();
-        \DB::table('document_descriptors')->truncate();
-        \DB::table('files')->truncate();
-        \DB::table('options')->truncate();
+        DB::table('document_descriptors')->truncate();
+        DB::table('files')->truncate();
+        DB::table('options')->truncate();
     }
 
     /**
@@ -34,8 +35,8 @@ class DmsUpdateCommandTest extends TestCase
     {
         $this->withKlinkAdapterMock();
 
-        $docs = factory('KBox\DocumentDescriptor', 11)->create(['uuid' => "00000000-0000-0000-0000-000000000000"]);
-        $v3_docs = factory('KBox\DocumentDescriptor')->create(['uuid' => "39613931-3436-3066-2d31-3533322d3466"]);
+        $docs = factory(\KBox\DocumentDescriptor::class, 11)->create(['uuid' => "00000000-0000-0000-0000-000000000000"]);
+        $v3_docs = factory(\KBox\DocumentDescriptor::class)->create(['uuid' => "39613931-3436-3066-2d31-3533322d3466"]);
 
         $doc_ids = $docs->pluck('id')->toArray();
         
@@ -87,8 +88,8 @@ class DmsUpdateCommandTest extends TestCase
 
     public function test_user_affiliation_is_moved_to_organization()
     {
-        $institution = factory('KBox\Institution')->create();
-        $users = factory('KBox\User', 3)->create([
+        $institution = factory(\KBox\Institution::class)->create();
+        $users = factory(\KBox\User::class, 3)->create([
             'institution_id' => $institution->id
         ]);
 
@@ -104,7 +105,7 @@ class DmsUpdateCommandTest extends TestCase
     public function test_old_publications_are_migrated_to_the_publications_table()
     {
         Publication::all()->each->delete();
-        $docs = factory('KBox\DocumentDescriptor', 3)->create(['is_public' => true]);
+        $docs = factory(\KBox\DocumentDescriptor::class, 3)->create(['is_public' => true]);
         $ids = $docs->pluck('id');
 
         $command = new DmsUpdateCommand();
@@ -126,8 +127,8 @@ class DmsUpdateCommandTest extends TestCase
     {
         $this->withKlinkAdapterMock();
 
-        $files = factory('KBox\File', 11)->create(['uuid' => "00000000-0000-0000-0000-000000000000"]);
-        $v3_files = factory('KBox\File')->create(['uuid' => "39613931-3436-3066-2d31-3533322d3466"]);
+        $files = factory(\KBox\File::class, 11)->create(['uuid' => "00000000-0000-0000-0000-000000000000"]);
+        $v3_files = factory(\KBox\File::class)->create(['uuid' => "39613931-3436-3066-2d31-3533322d3466"]);
 
         $file_ids = $files->pluck('id')->toArray();
         
@@ -178,7 +179,7 @@ class DmsUpdateCommandTest extends TestCase
             file_get_contents(base_path('tests/data/video.mp4'))
         );
         
-        $file = factory('KBox\File')->create([
+        $file = factory(\KBox\File::class)->create([
             'path' => $path,
             'mime_type' => 'video/mp4'
         ]);
@@ -212,7 +213,7 @@ class DmsUpdateCommandTest extends TestCase
             file_get_contents(base_path('tests/data/video.mp4'))
         );
         
-        $file = factory('KBox\File')->create([
+        $file = factory(\KBox\File::class)->create([
             'path' => Storage::disk('local')->path($path),
             'mime_type' => 'video/mp4'
         ]);
@@ -243,7 +244,7 @@ class DmsUpdateCommandTest extends TestCase
         
         Storage::disk('local')->makeDirectory("2017/11/$uuid/");
         
-        $file = factory('KBox\File')->create([
+        $file = factory(\KBox\File::class)->create([
             'path' => Storage::disk('local')->path($path),
             'mime_type' => 'video/mp4',
             'uuid' => $uuid

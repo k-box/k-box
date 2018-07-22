@@ -18,8 +18,6 @@ abstract class Job
     */
     use Queueable;
     
-    
-    
     protected function fail()
     {
         \Log::warning('Job explicit Failure', ['job' => $this->job]);

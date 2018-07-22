@@ -15,7 +15,6 @@ class GroupManagementTest extends BrowserKitTestCase
 
     private $user = null;
     
-
     public function setUp()
     {
         parent::setUp();
@@ -182,7 +181,7 @@ class GroupManagementTest extends BrowserKitTestCase
     /**
      * @expectedException KBox\Exceptions\ForbiddenException
      */
-    public function testGroupUpdateForbidden($value='')
+    public function testGroupUpdateForbidden($value = '')
     {
         $user = $this->createAdminUser();
         
@@ -261,7 +260,6 @@ class GroupManagementTest extends BrowserKitTestCase
 
         $this->assertEquals(2, Group::byName('b')->count());
 
-        
         $this->service->copyGroup($user, $b, $g);
 
         $g->fresh();

@@ -81,8 +81,9 @@ class FileDownloadController extends Controller
             return $file->uuid === $components[0] &&
                    $file->hash === $components[1] &&
                    Carbon::now()->between(
-                    Carbon::createFromTimestamp($components[2]),
-                    Carbon::createFromTimestamp($components[3]));
+                       Carbon::createFromTimestamp($components[2]),
+                       Carbon::createFromTimestamp($components[3])
+                   );
         } catch (DecryptException $ex) {
             return false;
         } catch (Exception $ex) {

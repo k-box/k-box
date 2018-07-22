@@ -46,7 +46,7 @@ class DmsCollectionsCommand extends Command
      *
      * @return mixed
      */
-    public function fire()
+    public function handle()
     {
         $debug = $this->getOutput()->getVerbosity() > 1;
         
@@ -72,11 +72,8 @@ class DmsCollectionsCommand extends Command
             $this->printCollections($collections);
         }
         
-        
-
         return 0;
     }
-    
     
     private function printCollections($collections)
     {
@@ -104,7 +101,6 @@ class DmsCollectionsCommand extends Command
         }
     }
     
-
     /**
      * Get the console command arguments.
      *
@@ -131,11 +127,6 @@ class DmsCollectionsCommand extends Command
             // ['make-project', null, InputOption::VALUE_NONE, 'Makes the specified collection a project collection', null],
         ];
     }
-    
-    
-    
-    
-    
     
     /**
      * Traverse a directory to get all sub-directories

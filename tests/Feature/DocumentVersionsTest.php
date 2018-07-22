@@ -16,7 +16,7 @@ class DocumentVersionsTest extends TestCase
     {
         Storage::fake('local');
 
-        $document = factory('KBox\DocumentDescriptor')->create();
+        $document = factory(\KBox\DocumentDescriptor::class)->create();
 
         $response = $this->get("/documents/$document->id/versions/100");
 
@@ -28,11 +28,11 @@ class DocumentVersionsTest extends TestCase
         Storage::fake('local');
         $adapter = $this->withKlinkAdapterFake();
         
-        $document = factory('KBox\DocumentDescriptor')->create();
+        $document = factory(\KBox\DocumentDescriptor::class)->create();
         
         $last_version = $document->file;
 
-        $first_version = factory('KBox\File')->create([
+        $first_version = factory(\KBox\File::class)->create([
             'mime_type' => 'text/html',
         ]);
 
@@ -58,11 +58,11 @@ class DocumentVersionsTest extends TestCase
         Storage::fake('local');
         $adapter = $this->withKlinkAdapterFake();
         
-        $document = factory('KBox\DocumentDescriptor')->create();
+        $document = factory(\KBox\DocumentDescriptor::class)->create();
         
         $last_version = $document->file;
 
-        $first_version = factory('KBox\File')->create([
+        $first_version = factory(\KBox\File::class)->create([
             'mime_type' => 'text/html',
         ]);
 
@@ -87,15 +87,15 @@ class DocumentVersionsTest extends TestCase
         Storage::fake('local');
         $adapter = $this->withKlinkAdapterFake();
         
-        $document = factory('KBox\DocumentDescriptor')->create();
+        $document = factory(\KBox\DocumentDescriptor::class)->create();
         
         $last_version = $document->file;
 
-        $first_version = factory('KBox\File')->create([
+        $first_version = factory(\KBox\File::class)->create([
             'mime_type' => 'text/html',
         ]);
         
-        $middle_version = factory('KBox\File')->create([
+        $middle_version = factory(\KBox\File::class)->create([
             'mime_type' => 'text/html',
         ]);
 
@@ -121,13 +121,13 @@ class DocumentVersionsTest extends TestCase
     {
         Storage::fake('local');
         
-        $old_revision = factory('KBox\File')->create();
+        $old_revision = factory(\KBox\File::class)->create();
         
-        $mid_revision = factory('KBox\File')->create([
+        $mid_revision = factory(\KBox\File::class)->create([
             'revision_of' => $old_revision->id,
         ]);
         
-        $new_revision = factory('KBox\File')->create([
+        $new_revision = factory(\KBox\File::class)->create([
             'revision_of' => $mid_revision->id,
         ]);
 
@@ -142,15 +142,15 @@ class DocumentVersionsTest extends TestCase
         Storage::fake('local');
         $adapter = $this->withKlinkAdapterFake();
         
-        $document = factory('KBox\DocumentDescriptor')->create();
+        $document = factory(\KBox\DocumentDescriptor::class)->create();
         
         $last_version = $document->file;
 
-        $first_version = factory('KBox\File')->create([
+        $first_version = factory(\KBox\File::class)->create([
             'mime_type' => 'text/html',
         ]);
         
-        $middle_version = factory('KBox\File')->create([
+        $middle_version = factory(\KBox\File::class)->create([
             'mime_type' => 'text/html',
         ]);
 
@@ -177,15 +177,15 @@ class DocumentVersionsTest extends TestCase
         Storage::fake('local');
         $adapter = $this->withKlinkAdapterFake();
         
-        $document = factory('KBox\DocumentDescriptor')->create();
+        $document = factory(\KBox\DocumentDescriptor::class)->create();
         
         $last_version = $document->file;
 
-        $first_version = factory('KBox\File')->create([
+        $first_version = factory(\KBox\File::class)->create([
             'mime_type' => 'text/html',
         ]);
         
-        $middle_version = factory('KBox\File')->create([
+        $middle_version = factory(\KBox\File::class)->create([
             'mime_type' => 'text/html',
         ]);
 

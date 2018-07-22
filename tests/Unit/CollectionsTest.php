@@ -16,7 +16,7 @@ class CollectionsTest extends TestCase
     {
         $service = app('Klink\DmsDocuments\DocumentsService');
         
-        $user = tap(factory('KBox\User')->create(), function ($user) {
+        $user = tap(factory(\KBox\User::class)->create(), function ($user) {
             $user->addCapabilities(Capability::$PARTNER);
         });
     
@@ -45,14 +45,14 @@ class CollectionsTest extends TestCase
     {
         $service = app('Klink\DmsDocuments\DocumentsService');
         
-        $manager = tap(factory('KBox\User')->create(), function ($user) {
+        $manager = tap(factory(\KBox\User::class)->create(), function ($user) {
             $user->addCapabilities(Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH);
         });
-        $user = tap(factory('KBox\User')->create(), function ($user) {
+        $user = tap(factory(\KBox\User::class)->create(), function ($user) {
             $user->addCapabilities(Capability::$PARTNER);
         });
 
-        $project = factory('KBox\Project')->create([
+        $project = factory(\KBox\Project::class)->create([
             'user_id' => $manager->id
         ]);
 
@@ -82,14 +82,14 @@ class CollectionsTest extends TestCase
     {
         $service = app('Klink\DmsDocuments\DocumentsService');
         
-        $manager = tap(factory('KBox\User')->create(), function ($user) {
+        $manager = tap(factory(\KBox\User::class)->create(), function ($user) {
             $user->addCapabilities(Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH);
         });
-        $user = tap(factory('KBox\User')->create(), function ($user) {
+        $user = tap(factory(\KBox\User::class)->create(), function ($user) {
             $user->addCapabilities(Capability::$PARTNER);
         });
 
-        $project = factory('KBox\Project')->create([
+        $project = factory(\KBox\Project::class)->create([
             'user_id' => $manager->id
         ]);
         $project->users()->attach($user);
@@ -117,14 +117,14 @@ class CollectionsTest extends TestCase
     {
         $service = app('Klink\DmsDocuments\DocumentsService');
         
-        $manager = tap(factory('KBox\User')->create(), function ($user) {
+        $manager = tap(factory(\KBox\User::class)->create(), function ($user) {
             $user->addCapabilities(Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH);
         });
-        $user = tap(factory('KBox\User')->create(), function ($user) {
+        $user = tap(factory(\KBox\User::class)->create(), function ($user) {
             $user->addCapabilities(Capability::$PARTNER);
         });
 
-        $project = factory('KBox\Project')->create([
+        $project = factory(\KBox\Project::class)->create([
             'user_id' => $manager->id
         ]);
         $project->users()->attach($user);
@@ -137,7 +137,6 @@ class CollectionsTest extends TestCase
 
         $this->assertEquals(4, $project->collection->getDescendants()->count());
 
-        
         $trashed = $service->permanentlyDeleteGroup($collection_level_one, $user);
         $this->assertTrue($trashed);
         $this->assertEquals(1, $project->collection->getDescendants()->count());
@@ -147,14 +146,14 @@ class CollectionsTest extends TestCase
     {
         $service = app('Klink\DmsDocuments\DocumentsService');
         
-        $manager = tap(factory('KBox\User')->create(), function ($user) {
+        $manager = tap(factory(\KBox\User::class)->create(), function ($user) {
             $user->addCapabilities(Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH);
         });
-        $user = tap(factory('KBox\User')->create(), function ($user) {
+        $user = tap(factory(\KBox\User::class)->create(), function ($user) {
             $user->addCapabilities(Capability::$PARTNER);
         });
 
-        $project = factory('KBox\Project')->create([
+        $project = factory(\KBox\Project::class)->create([
             'user_id' => $manager->id
         ]);
         $project->users()->attach($user);
@@ -179,10 +178,10 @@ class CollectionsTest extends TestCase
     {
         $service = app('Klink\DmsDocuments\DocumentsService');
         
-        $creator = tap(factory('KBox\User')->create(), function ($user) {
+        $creator = tap(factory(\KBox\User::class)->create(), function ($user) {
             $user->addCapabilities(Capability::$PARTNER);
         });
-        $user = tap(factory('KBox\User')->create(), function ($user) {
+        $user = tap(factory(\KBox\User::class)->create(), function ($user) {
             $user->addCapabilities(Capability::$PARTNER);
         });
             
@@ -195,7 +194,6 @@ class CollectionsTest extends TestCase
 
         $this->assertEquals(4, $collection_root->getDescendants()->count());
 
-        
         // delete a collection close to the top
         try {
             $service->deleteGroup($user, $collection_level_one);
@@ -209,10 +207,10 @@ class CollectionsTest extends TestCase
     {
         $service = app('Klink\DmsDocuments\DocumentsService');
         
-        $creator = tap(factory('KBox\User')->create(), function ($user) {
+        $creator = tap(factory(\KBox\User::class)->create(), function ($user) {
             $user->addCapabilities(Capability::$PARTNER);
         });
-        $user = tap(factory('KBox\User')->create(), function ($user) {
+        $user = tap(factory(\KBox\User::class)->create(), function ($user) {
             $user->addCapabilities(Capability::$PARTNER);
         });
             

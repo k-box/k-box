@@ -3,6 +3,7 @@
 namespace KBox\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
 use Symfony\Component\Console\Input\InputOption;
 use KBox\User;
 
@@ -40,14 +41,13 @@ class DmsSessionChecker extends Command
      *
      * @return mixed
      */
-    public function fire()
+    public function handle()
     {
         $since = $this->option('since');
         
         $this->debug = $this->getOutput()->getVerbosity() > 1;
         
         $this->log("Gathering sessions info on <info>".$this->getLaravel()->environment()."</info>...");
-        
         
         $sessions_table_name = app()->config['session.table'];
         
@@ -62,7 +62,7 @@ class DmsSessionChecker extends Command
         
         $this->log('Database session support... <info>OK</info>');
         
-        $sessions = \DB::table($sessions_table_name)->where('last_activity', '>=', time() - ($since*60))->get()->all();
+        $sessions = DB::table($sessions_table_name)->where('last_activity', '>=', time() - ($since*60))->get()->all();
         
         $this->log('<info>'.count($sessions).'</info> Sessions active in the last '.$since.' minutes.');
 
@@ -109,7 +109,6 @@ class DmsSessionChecker extends Command
             ['since', 's', InputOption::VALUE_OPTIONAL, 'The number of minutes for considering a section as active.', 120],
         ];
     }
-    
     
     private function log($text)
     {

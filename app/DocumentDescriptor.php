@@ -184,32 +184,32 @@ class DocumentDescriptor extends Model
      */
     public function file()
     {
-        return $this->hasOne('\KBox\File', 'id', 'file_id')->withTrashed();
+        return $this->hasOne(\KBox\File::class, 'id', 'file_id')->withTrashed();
     }
 
     public function stars()
     {
-        return $this->hasMany('\KBox\Starred', 'document_id');
+        return $this->hasMany(\KBox\Starred::class, 'document_id');
     }
 
     public function institution()
     {
-        return $this->belongsTo('\KBox\Institution');
+        return $this->belongsTo(\KBox\Institution::class);
     }
 
     public function groups()
     {
-        return $this->belongsToMany('\KBox\Group', 'document_groups', 'document_id');
+        return $this->belongsToMany(\KBox\Group::class, 'document_groups', 'document_id');
     }
 
     public function shares()
     {
-        return $this->morphMany('KBox\Shared', 'shareable');
+        return $this->morphMany(\KBox\Shared::class, 'shareable');
     }
 
     public function owner()
     {
-        return $this->belongsTo('KBox\User', 'owner_id', 'id');
+        return $this->belongsTo(\KBox\User::class, 'owner_id', 'id');
     }
 
     /**
@@ -217,7 +217,7 @@ class DocumentDescriptor extends Model
      */
     public function duplicates()
     {
-        return $this->hasMany('KBox\DuplicateDocument', 'duplicate_document_id', 'id');
+        return $this->hasMany(\KBox\DuplicateDocument::class, 'duplicate_document_id', 'id');
     }
 
     /**
@@ -254,7 +254,7 @@ class DocumentDescriptor extends Model
      */
     public function hasPublicLink()
     {
-        return $this->shares()->where('sharedwith_type', 'KBox\PublicLink')->count() > 0;
+        return $this->shares()->where('sharedwith_type', \KBox\PublicLink::class)->count() > 0;
     }
     
     public function isStarred($user_id = null)
@@ -541,10 +541,10 @@ class DocumentDescriptor extends Model
     {
         $descr = KlinkDocumentDescriptor::make(
             $this,
-            $need_public ? KlinkVisibilityType::KLINK_PUBLIC : KlinkVisibilityType::KLINK_PRIVATE);
+            $need_public ? KlinkVisibilityType::KLINK_PUBLIC : KlinkVisibilityType::KLINK_PRIVATE
+        );
 
         if (! $need_public && ! $this->groups->isEmpty()) {
-
             // the document is in a project only if the root collection
             // of the project (or one of its children) is attached to the document
 
@@ -553,14 +553,13 @@ class DocumentDescriptor extends Model
             });
 
             $projects = $this->projects()->map(function ($el) {
-                return ! is_null($el) && is_a($el, 'KBox\Project') ? $el->id : null;
+                return ! is_null($el) && is_a($el, \KBox\Project::class) ? $el->id : null;
             });
             
             $descr->setProjects(array_filter($projects->toArray()));
             $descr->setCollections(array_filter($collections->toArray()));
         }
         
-
         return $descr;
     }
 
@@ -690,7 +689,6 @@ class DocumentDescriptor extends Model
 
         return false;
     }
-    
     
     public function setLastErrorAttribute($value)
     {

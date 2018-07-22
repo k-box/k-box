@@ -2,10 +2,10 @@
 
 namespace KBox\Http\Controllers\Administration;
 
-use Illuminate\Http\Request;
 use KBox\Http\Controllers\Controller;
 use KBox\Http\Requests\ContactsSaveRequest;
 use KBox\Option;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Manage the K-Box Identity configuration
@@ -60,7 +60,7 @@ class IdentityController extends Controller
     public function store(ContactsSaveRequest $request)
     {
         try {
-            $done = \DB::transaction(function () use ($request) {
+            $done = DB::transaction(function () use ($request) {
                 $fields = $request->only(['name','email','phone','website','image','address_street','address_locality','address_country','address_zip']);
 
                 foreach ($fields as $field => $value) {
@@ -70,7 +70,6 @@ class IdentityController extends Controller
                 return true;
             });
 
-            
             return redirect()->route('administration.identity.index')->with([
                 'flash_message' => trans('administration.identity.contact_info_updated')
             ]);

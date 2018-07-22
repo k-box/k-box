@@ -90,7 +90,6 @@ class GroupsController extends Controller
             return Group::getPersonalTree($user->id);
         });
         
-        
         if ($request->ajax() && $request->wantsJson()) {
             return new JsonResponse(compact('private_groups', 'personal_groups'), 200);
         }
@@ -131,7 +130,6 @@ class GroupsController extends Controller
         // }
         
         if ($request->has('group_context')) {
-            
             // preselect a parent collection
 
             $group = Group::findOrFail($request->input('group_context', 0));
@@ -235,8 +233,6 @@ class GroupsController extends Controller
             
             // get all sub-collections for making the correct search request -> on(...)
             
-            
-            
             return false;
         });
 
@@ -285,15 +281,6 @@ class GroupsController extends Controller
         'title' => trans('groups.panel_edit_title', ['name' => $selected_group->name]),
         'main_action' => trans('groups.save_btn'),
         'group' => $selected_group];
-
-        // if context info is available
-
-        // if(\Request::has('group_context')){
-
-        // 	$group = Group::findOrFail(\Request::input('group_context', 0));
-
-        // 	$view_args = array_merge($view_args, ['show_parent' => true, 'parent_label' => $group->name, 'parent_id' => $group->id]);
-        // }
 
         return view('panels.group', $view_args);
     }
@@ -357,7 +344,6 @@ class GroupsController extends Controller
             }
 
             if ($request->has('action') && $request->has('parent')) {
-                
                 //action move (default)
 
                 // $parent = $request->input('parent');

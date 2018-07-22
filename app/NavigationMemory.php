@@ -43,7 +43,7 @@ class NavigationMemory extends Model
     {
         
         // One to One
-        return $this->hasOne('KBox\NavigationMemory');
+        return $this->hasOne(\KBox\NavigationMemory::class);
 
         // One to Many
         // return $this->hasMany('NavigationMemory');

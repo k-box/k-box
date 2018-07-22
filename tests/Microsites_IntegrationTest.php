@@ -50,7 +50,6 @@ class Microsites_IntegrationTest extends BrowserKitTestCase
         ];
     }
     
-    
     public function invalid_microsite_creation_request()
     {
         // this parameters are the ones that will be manipulated to create an invalid request
@@ -111,7 +110,6 @@ class Microsites_IntegrationTest extends BrowserKitTestCase
         ];
     }
      
-    
     /**
      * Test the expected microsites routes are available
      *
@@ -120,10 +118,11 @@ class Microsites_IntegrationTest extends BrowserKitTestCase
      */
     public function testMicrositeRoutesExistence($route_name, $parameters)
     {
-        
         // you will see InvalidArgumentException if the route is not defined
         
         route($route_name, $parameters);
+        
+        $this->assertTrue(true, "Test complete without exceptions");
     }
     
     /**
@@ -149,7 +148,7 @@ class Microsites_IntegrationTest extends BrowserKitTestCase
      */
     public function testMicrositeCreateActionsOnProjectShowPage()
     {
-        $project = factory('KBox\Project')->create();
+        $project = factory(\KBox\Project::class)->create();
         
         $this->actingAs($project->manager()->first());
         
@@ -169,10 +168,9 @@ class Microsites_IntegrationTest extends BrowserKitTestCase
         $this->assertViewHas('project');
     }
     
-    
     public function testMicrositeManageActionsVisibilityOnProjectShowPage()
     {
-        $project = factory('KBox\Project')->create();
+        $project = factory(\KBox\Project::class)->create();
         
         $project_manager = $project->manager()->first();
         
@@ -192,7 +190,7 @@ class Microsites_IntegrationTest extends BrowserKitTestCase
     
     public function testMicrositeCreateInvokedWithoutProjectParameter()
     {
-        $project = factory('KBox\Project')->create();
+        $project = factory(\KBox\Project::class)->create();
         
         $project_manager = $project->manager()->first();
         
@@ -213,7 +211,7 @@ class Microsites_IntegrationTest extends BrowserKitTestCase
     {
         $user = $this->createAdminUser();
         
-        $project = factory('KBox\Project')->create(['user_id' => $user->id]);
+        $project = factory(\KBox\Project::class)->create(['user_id' => $user->id]);
         
         \Session::start();
         
@@ -228,10 +226,9 @@ class Microsites_IntegrationTest extends BrowserKitTestCase
         $this->dontSee(trans('microsites.errors.user_not_affiliated_to_an_institution'));
     }
     
-    
     public function testMicrositeCreateOnProjectWithExistingMicrosite()
     {
-        $project = factory('KBox\Project')->create();
+        $project = factory(\KBox\Project::class)->create();
         
         $project_manager = $project->manager()->first();
         
@@ -251,13 +248,11 @@ class Microsites_IntegrationTest extends BrowserKitTestCase
         $this->see(trans('microsites.errors.create_already_exists', ['project' => $project->name]));
     }
     
-    
     public function testMicrositeStoreWithValidData()
     {
-        $project = factory('KBox\Project')->create();
+        $project = factory(\KBox\Project::class)->create();
         
         $project_manager = $project->manager()->first();
-        
         
         $microsite_request = factory('Klink\DmsMicrosites\Microsite')->make([
             'project_id' => $project->id,
@@ -303,10 +298,9 @@ class Microsites_IntegrationTest extends BrowserKitTestCase
     
     public function testMicrositeStoreWithValidData_NoLogo()
     {
-        $project = factory('KBox\Project')->create();
+        $project = factory(\KBox\Project::class)->create();
         
         $project_manager = $project->manager()->first();
-        
         
         $microsite_request = factory('Klink\DmsMicrosites\Microsite')->make([
             'project_id' => $project->id,
@@ -356,13 +350,12 @@ class Microsites_IntegrationTest extends BrowserKitTestCase
      */
     public function testMicrositeStoreWithInvalidData($request_data, $attribute, $error_type)
     {
-        $project = factory('KBox\Project')->create();
+        $project = factory(\KBox\Project::class)->create();
         $project_manager = $project->manager()->first();
         
         \Session::start();
         
         $this->actingAs($project_manager);
-        
         
         $this->visit(route('microsites.create', ['project' => $project->id]));
         // $this->visit( route('projects.show', ['id' => $project->id ]) );
@@ -384,10 +377,8 @@ class Microsites_IntegrationTest extends BrowserKitTestCase
             ]
         ];
         
-        
         unset($microsite_request[$attribute]);
         $microsite_request = array_merge($microsite_request, $request_data);
-        
         
         $microsite_request['_token'] = csrf_token();
         
@@ -409,10 +400,9 @@ class Microsites_IntegrationTest extends BrowserKitTestCase
      */
     public function testMicrositeLanguageSwitch($default_lang, $switch_to)
     {
-        $project = factory('KBox\Project')->create();
+        $project = factory(\KBox\Project::class)->create();
         
         $project_manager = $project->manager()->first();
-        
         
         $microsite_request = factory('Klink\DmsMicrosites\Microsite')->make([
             'project_id' => $project->id,
@@ -470,7 +460,7 @@ class Microsites_IntegrationTest extends BrowserKitTestCase
     
     public function testMicrositeStoreOnPojectWithExistingMicrosite()
     {
-        $project = factory('KBox\Project')->create();
+        $project = factory(\KBox\Project::class)->create();
         
         $project_manager = $project->manager()->first();
         
@@ -506,10 +496,9 @@ class Microsites_IntegrationTest extends BrowserKitTestCase
         $this->assertSessionHasErrors(['error' => $message]);
     }
     
-    
     public function testMicrositeEditFromProjectShowPage()
     {
-        $project = factory('KBox\Project')->create();
+        $project = factory(\KBox\Project::class)->create();
         
         $project_manager = $project->manager()->first();
         
@@ -531,10 +520,9 @@ class Microsites_IntegrationTest extends BrowserKitTestCase
     
     public function testMicrositeUpdateWithValidData()
     {
-        $project = factory('KBox\Project')->create();
+        $project = factory(\KBox\Project::class)->create();
         
         $project_manager = $project->manager()->first();
-        
         
         $microsite_request = factory('Klink\DmsMicrosites\Microsite')->make([
             'project_id' => $project->id,
@@ -630,10 +618,9 @@ class Microsites_IntegrationTest extends BrowserKitTestCase
         $this->assertEquals('ru', $ru_page->language, "RU Page language has not been stored");
     }
     
-    
     public function testMicrositeDeleteWithValidData()
     {
-        $project = factory('KBox\Project')->create();
+        $project = factory(\KBox\Project::class)->create();
         
         $project_manager = $project->manager()->first();
         
@@ -646,10 +633,11 @@ class Microsites_IntegrationTest extends BrowserKitTestCase
         
         $this->actingAs($project_manager);
         
-        $this->delete(route('microsites.destroy', [
+        $this->delete(
+            route('microsites.destroy', [
                 'id' => $microsite->id,
                 '_token' => csrf_token()])
-             );
+        );
         
         $this->assertInstanceOf('Illuminate\Http\RedirectResponse', $this->response);
         
@@ -664,7 +652,7 @@ class Microsites_IntegrationTest extends BrowserKitTestCase
     {
         $user = $this->createUser($caps);
         
-        $project = factory('KBox\Project')->create();
+        $project = factory(\KBox\Project::class)->create();
         
         $project_manager = $project->manager()->first();
         
@@ -677,10 +665,11 @@ class Microsites_IntegrationTest extends BrowserKitTestCase
         
         $this->actingAs($user);
         
-        $this->delete(route('microsites.destroy', [
+        $this->delete(
+            route('microsites.destroy', [
                 'id' => $microsite->id,
                 '_token' => csrf_token()])
-             );
+        );
         
         if ($response_status === 403) {
             $this->assertViewName('errors.403');

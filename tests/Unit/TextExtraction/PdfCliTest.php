@@ -11,7 +11,7 @@ class PdfCliTest extends TestCase
     {
         if (empty(glob('./bin/pdftotext*'))) {
             $this->markTestSkipped(
-              'PDF to text dependency not installed.'
+                'PDF to text dependency not installed.'
             );
         }
 

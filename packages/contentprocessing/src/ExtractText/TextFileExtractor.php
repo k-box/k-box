@@ -3,7 +3,6 @@
 namespace Content\ExtractText;
 
 use Content\Contracts\ExtractText as ExtractTextContract;
-use Markdown;
 
 /**
  *
@@ -29,8 +28,11 @@ class TextFileExtractor implements ExtractTextContract
     {
         $content = file_get_contents($this->path);
                 
-        return $utf8_content = mb_convert_encoding($content, 'UTF-8',
-                        mb_detect_encoding($content, 'UTF-8, ISO-8859-1', true));
+        return $utf8_content = mb_convert_encoding(
+            $content,
+            'UTF-8',
+                        mb_detect_encoding($content, 'UTF-8, ISO-8859-1', true)
+        );
     }
 
     public function properties()

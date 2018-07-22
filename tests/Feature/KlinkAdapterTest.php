@@ -16,14 +16,13 @@ class KlinkAdapterTest extends TestCase
     {
         if (empty(getenv('DMS_CORE_ADDRESS'))) {
             $this->markTestSkipped(
-              'DMS_CORE_ADDRESS not configured for running integration tests.'
+                'DMS_CORE_ADDRESS not configured for running integration tests.'
             );
         }
 
         parent::setUp();
     }
 
-    
     public function test_adapter_report_succesfull_connection_test()
     {
         $test_results = KlinkAdapter::test(config('dms.core.address'));

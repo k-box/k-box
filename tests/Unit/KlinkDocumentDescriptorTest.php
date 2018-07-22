@@ -17,7 +17,7 @@ class KlinkDocumentDescriptorTest extends TestCase
 
     public function test_private_document_descriptor_can_be_converted_to_ksearch_data()
     {
-        $descriptor = factory('KBox\DocumentDescriptor')->make([
+        $descriptor = factory(\KBox\DocumentDescriptor::class)->make([
             // generating an author string that don't respect the format
             'authors' => 'Hello Author hello@author.com'
         ]);
@@ -51,12 +51,12 @@ class KlinkDocumentDescriptorTest extends TestCase
     {
         $streaming_url = 'https://streaming.service/play/123';
 
-        $file = factory('KBox\File')->create([
+        $file = factory(\KBox\File::class)->create([
             'path' => 'video.mp4',
             'mime_type' => 'video/mp4',
             ]);
             
-        $descriptor = factory('KBox\DocumentDescriptor')->create([
+        $descriptor = factory(\KBox\DocumentDescriptor::class)->create([
             'file_id' => $file->id,
             'mime_type' => 'video/mp4',
             'is_public' => true
@@ -90,7 +90,7 @@ class KlinkDocumentDescriptorTest extends TestCase
 
     public function test_copyright_is_added()
     {
-        $descriptor = factory('KBox\DocumentDescriptor')->make([
+        $descriptor = factory(\KBox\DocumentDescriptor::class)->make([
             'copyright_usage' => 'CC-BY-4.0',
             'copyright_owner' => collect([
                 'name' => 'copyright owner',
@@ -114,7 +114,7 @@ class KlinkDocumentDescriptorTest extends TestCase
     
     public function test_copyright_partial_owner_is_supported()
     {
-        $descriptor = factory('KBox\DocumentDescriptor')->make([
+        $descriptor = factory(\KBox\DocumentDescriptor::class)->make([
             'copyright_usage' => 'CC-BY-4.0',
             'copyright_owner' => collect([
                 'name' => 'copyright owner',
@@ -137,7 +137,7 @@ class KlinkDocumentDescriptorTest extends TestCase
     {
         Option::put(Option::COPYRIGHT_DEFAULT_LICENSE, 'PD');
 
-        $descriptor = factory('KBox\DocumentDescriptor')->make([
+        $descriptor = factory(\KBox\DocumentDescriptor::class)->make([
             'copyright_usage' => null,
             'copyright_owner' => null
         ]);
@@ -158,7 +158,7 @@ class KlinkDocumentDescriptorTest extends TestCase
     {
         Option::put(Option::COPYRIGHT_DEFAULT_LICENSE, null);
 
-        $descriptor = factory('KBox\DocumentDescriptor')->make([
+        $descriptor = factory(\KBox\DocumentDescriptor::class)->make([
             'copyright_usage' => null,
             'copyright_owner' => null
         ]);
@@ -177,7 +177,7 @@ class KlinkDocumentDescriptorTest extends TestCase
 
     public function test_mime_type_charset_is_sanitized()
     {
-        $descriptor = factory('KBox\DocumentDescriptor')->make([
+        $descriptor = factory(\KBox\DocumentDescriptor::class)->make([
             'mime_type' => 'text/html; charset UTF-8',
         ]);
 

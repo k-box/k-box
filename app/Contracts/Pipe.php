@@ -20,5 +20,5 @@ interface Pipe
      *     return $next($elaborated_content);
      * }
      */
-     public function handle($descriptor, Closure $next);
+    public function handle($descriptor, Closure $next);
 }

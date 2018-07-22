@@ -72,7 +72,6 @@ class OrphanFilesCommand extends Command
             return $revisions_count == 0;
         });
 
-        
         // next manage orphan files that are already in trash
 
         $preliminary_trashed_orphans = File::onlyTrashed()->with(['document' => function ($query) {
@@ -86,7 +85,6 @@ class OrphanFilesCommand extends Command
             return $revisions_count == 0 && $documents_count == 0;
         });
 
-        
         // add all orphans to a single Collection
         $orphans = collect($not_trashed_orphans->all())->merge($trashed_orphans);
 

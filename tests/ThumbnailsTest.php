@@ -3,19 +3,16 @@
 use Tests\BrowserKitTestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use KBox\Import;
-use KBox\Project;
 use KBox\Jobs\ThumbnailGenerationJob;
 use GuzzleHttp\Client;
 use Klink\DmsAdapter\KlinkDocumentUtils;
-use Illuminate\Foundation\Application;
 use KBox\Console\Commands\ThumbnailGenerationCommand;
 
 class ThumbnailsTest extends BrowserKitTestCase
 {
     use DatabaseTransactions;
     
-    
-    public function test_document_provider()
+    public function data_document_provider()
     {
         return [
             // true: if the thumbnail path is a default thumbnail
@@ -29,7 +26,7 @@ class ThumbnailsTest extends BrowserKitTestCase
         ];
     }
 
-    public function test_url_import_provider()
+    public function data_url_import_provider()
     {
         return [
             // true: if the thumbnail path is a default thumbnail
@@ -100,9 +97,8 @@ class ThumbnailsTest extends BrowserKitTestCase
         ];
     }
     
-    
     /**
-     * @dataProvider test_document_provider
+     * @dataProvider data_document_provider
      */
     public function testThumbnailGenerationJob($path, $expectedDefault)
     {
@@ -118,10 +114,9 @@ class ThumbnailsTest extends BrowserKitTestCase
             return 'A_simulated_file_content';
         });
         
-        
         $real_path = base_path($path);
         
-        $file = factory('KBox\File')->create([
+        $file = factory(\KBox\File::class)->create([
             'name' => basename($real_path),
             'hash' => KlinkDocumentUtils::generateDocumentHash($real_path),
             'path' => $real_path,
@@ -148,7 +143,7 @@ class ThumbnailsTest extends BrowserKitTestCase
     
     /**
      * Simulates an import from URL and build the thumbnail for that imports
-     * @dataProvider test_url_import_provider
+     * @dataProvider data_url_import_provider
      */
     public function testThumbnailGenerationFromUrlImport($url, $mimeType, $expectedDefault)
     {
@@ -183,7 +178,7 @@ class ThumbnailsTest extends BrowserKitTestCase
             $this->assertTrue($good, 'HTTP Download failed');
         }
         
-        $file = factory('KBox\File')->create([
+        $file = factory(\KBox\File::class)->create([
             'name' => basename($real_path),
             'hash' => KlinkDocumentUtils::generateDocumentHash($real_path),
             'path' => $real_path,
@@ -228,7 +223,7 @@ class ThumbnailsTest extends BrowserKitTestCase
     }
     
     /**
-     * @dataProvider test_document_provider
+     * @dataProvider data_document_provider
      */
     public function testThumbnailGenerationConsole($path, $unused)
     {
@@ -236,7 +231,7 @@ class ThumbnailsTest extends BrowserKitTestCase
         
         $real_path = base_path($path);
         
-        $file = factory('KBox\File')->create([
+        $file = factory(\KBox\File::class)->create([
             'name' => basename($real_path),
             'hash' => KlinkDocumentUtils::generateDocumentHash($real_path),
             'path' => $real_path,
@@ -244,8 +239,7 @@ class ThumbnailsTest extends BrowserKitTestCase
             'size' => filesize($real_path),
         ]);
         
-        
-        $document = factory('KBox\DocumentDescriptor')->create([
+        $document = factory(\KBox\DocumentDescriptor::class)->create([
             'owner_id' => $file->user_id,
             'file_id' => $file->id,
         ]);
@@ -258,7 +252,6 @@ class ThumbnailsTest extends BrowserKitTestCase
         $this->assertRegExp('/1 document/', $res);
         $this->assertRegExp('/100/', $res);
     }
-    
     
     /**
      * @expectedException Illuminate\Database\Eloquent\ModelNotFoundException

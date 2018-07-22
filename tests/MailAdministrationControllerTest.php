@@ -19,7 +19,7 @@ class MailAdministrationControllerTest extends BrowserKitTestCase
         Option::remove('mail.username');
         Option::remove('mail.password');
 
-        config(['mail.driver' => 'log']);
+        // config(['mail.driver' => 'log']);
 
         $adapter = $this->withKlinkAdapterFake();
 
@@ -120,7 +120,7 @@ class MailAdministrationControllerTest extends BrowserKitTestCase
         $this->assertTrue(Option::isMailEnabled());
         $this->assertEquals('test@klink.asia', Option::option('mail.from.address', false));
         $this->assertEquals('Test DMS', Option::option('mail.from.name', false));
-        $this->assertEquals('465', Option::option('mail.port', false));
+        $this->assertEquals('465', Option::option('mail.port', 0));
         $this->assertEquals('smtp.klink.asia', Option::option('mail.host', false));
         $this->assertEquals('user', Option::option('mail.username', false));
         $this->assertEquals(base64_encode('password'), Option::option('mail.password', false));

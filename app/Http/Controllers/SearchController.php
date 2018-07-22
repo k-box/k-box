@@ -55,15 +55,12 @@ class SearchController extends Controller
 
         $req = $this->searchRequestCreate($request);
         
-        
         $req->visibility(KlinkVisibilityType::KLINK_PUBLIC);
         
-
         $grand_total = $this->service->getTotalIndexedDocuments($req->visibility);
 
         $test = $all = $this->search($req);
         
-
         if ($request->wantsJson()) {
             if (! is_null($test)) {
                 return response()->json($test);
@@ -99,9 +96,9 @@ class SearchController extends Controller
      * Ajax based route for getting the autocomplete for a search query while the user is typing
      * @return Response
      */
-    public function autocomplete(Guard $auth)
+    public function autocomplete(Request $request, Guard $auth)
     {
-        $search_terms = e(\Request::input('s', null));
+        $search_terms = e($request->input('s', null));
 
         $recent = null;
         $starred = null;

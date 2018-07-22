@@ -24,7 +24,6 @@ class ProjectsPageTest extends BrowserKitTestCase
         ];
     }
     
-    
     public function routes_and_capabilities_provider()
     {
         return [
@@ -37,11 +36,6 @@ class ProjectsPageTest extends BrowserKitTestCase
         ];
     }
 
-    
-    
-    
-     
-    
     /**
      * Test the expected project routes are available
      *
@@ -50,10 +44,11 @@ class ProjectsPageTest extends BrowserKitTestCase
      */
     public function testProjectPageRoutesExistence($route_name, $parameters)
     {
-        
         // you will see InvalidArgumentException if the route is not defined
         
         route($route_name, $parameters);
+        
+        $this->assertTrue(true, "Test complete without exceptions");
     }
     
     /**
@@ -73,7 +68,7 @@ class ProjectsPageTest extends BrowserKitTestCase
             $user = $this->createUser($caps);
             
             if (strpos($route, 'show') !== false) {
-                $project = factory('KBox\Project')->create(['user_id' => $user->id]);
+                $project = factory(\KBox\Project::class)->create(['user_id' => $user->id]);
                 
                 $params = ['projects' => $project->id];
             } else {
@@ -117,7 +112,7 @@ class ProjectsPageTest extends BrowserKitTestCase
     {
         $this->markTestSkipped(
             'Needs to be reimplemented.'
-          );
+        );
 
         Flags::enable(Flags::UNIFIED_SEARCH);
 
@@ -162,14 +157,14 @@ class ProjectsPageTest extends BrowserKitTestCase
 
         $this->assertEquals(
             array_values($expected_projects->toArray()),
-            array_values($projects->pluck('id')->toArray()));
+            array_values($projects->pluck('id')->toArray())
+        );
         
-
         // Test: projectspage shows for each project:
-            // - The project manager, in the form of username
-            // - The number of members in the project
-            // - The total amount of files available in the project
-            // - The project creation date will be shown only in details view.
+        // - The project manager, in the form of username
+        // - The number of members in the project
+        // - The total amount of files available in the project
+        // - The project creation date will be shown only in details view.
 
         $this->see($project1->manager->name);
         $this->see($project2->manager->name);
@@ -182,7 +177,7 @@ class ProjectsPageTest extends BrowserKitTestCase
 
         // Trick get the facets view to test which columns are available in the elastic list
         $view = $this->response->original; // is a view
-        $composer = app('KBox\Http\Composers\DocumentsComposer');
+        $composer = app(\KBox\Http\Composers\DocumentsComposer::class);
         $composer->facets($view);
         $this->response->original = $view;
 
@@ -192,20 +187,21 @@ class ProjectsPageTest extends BrowserKitTestCase
 
         $this->assertArraySubset(
             ['properties.language', 'properties.mime_type', 'properties.tag', 'properties.collection'],
-            array_keys($columns));
+            array_keys($columns)
+        );
     }
 
     public function testProjectPageProjectFilterListing()
     {
         $this->markTestSkipped(
             'Needs to be reimplemented.'
-          );
+        );
 
         Flags::enable(Flags::UNIFIED_SEARCH);
 
         $mock = $this->withKlinkAdapterMock();
 
-        $mock->shouldReceive('institutions')->andReturn(factory('KBox\Institution')->make());
+        $mock->shouldReceive('institutions')->andReturn(factory(\KBox\Institution::class)->make());
         
         $mock->shouldReceive('isNetworkEnabled')->andReturn(false);
 
@@ -252,7 +248,6 @@ class ProjectsPageTest extends BrowserKitTestCase
 
             $fts = [$project1->collection->toKlinkGroup(), $personal->toKlinkGroup()];
             
-
             $facetItems = [];
             $facetItem = null;
 
@@ -289,7 +284,7 @@ class ProjectsPageTest extends BrowserKitTestCase
 
         // Trick get the facets view to test which columns are available in the elastic list
         $view = $this->response->original; // is a view
-        $composer = app('KBox\Http\Composers\DocumentsComposer');
+        $composer = app(\KBox\Http\Composers\DocumentsComposer::class);
         $composer->facets($view);
         $this->response->original = $view;
 
@@ -299,7 +294,8 @@ class ProjectsPageTest extends BrowserKitTestCase
         
         $this->assertArraySubset(
             ['properties.language', 'properties.mime_type', 'properties.tag', 'properties.collection'],
-            array_keys($columns));
+            array_keys($columns)
+        );
         
         $project_filters = collect($columns['properties.tag']['items'])->map(function ($el) {
             return $el->term;

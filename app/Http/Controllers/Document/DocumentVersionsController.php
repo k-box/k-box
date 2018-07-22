@@ -52,12 +52,12 @@ class DocumentVersionsController extends Controller
         $versions_uuid_to_index = $versions_index_to_uuid->flip();
 
         if (! $versions->has($version_uuid)) {
-            \App::abort(404, trans('errors.document_not_found'));
+            \abort(404, trans('errors.document_not_found'));
         }
 
         if ($versions->count() === 1) {
             // todo: return a custom error string
-            \App::abort(404, trans('errors.document_not_found'));
+            \abort(404, trans('errors.document_not_found'));
         }
 
         $version_to_remove = $versions->get($version_uuid);

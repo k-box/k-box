@@ -43,7 +43,7 @@ class RedirectIfForbidden
         if ($this->auth->check()) {
             $route_config = $request->route()->getAction();
 
-            $required_perm = isset($route_config['permission']) ? $route_config['permission'] : \Config::get('route-permissions.'.$route_config['as']);
+            $required_perm = isset($route_config['permission']) ? $route_config['permission'] : config('route-permissions.'.$route_config['as']);
 
             if (is_null($required_perm)) {
                 \Log::info('Null permission info', ['context' => 'RedirectIfForbidden middleware', 'param' => $request]);

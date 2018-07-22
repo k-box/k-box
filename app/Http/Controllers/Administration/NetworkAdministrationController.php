@@ -33,7 +33,6 @@ class NetworkAdministrationController extends Controller
     {
         $local = $this->adapter->canConnect('private');
       
-      
         $info = [
           'local_connection' => $local['status'] === 'ok' ? 'success' : 'failed',
           'local_connection_bool' => $local['status'] === 'ok',
@@ -52,7 +51,9 @@ class NetworkAdministrationController extends Controller
             $info = array_merge($info, $remote_info);
         }
 
-        return view('administration.network',
-        array_merge(['pagetitle' => trans('administration.menu.network')], $info));
+        return view(
+            'administration.network',
+            array_merge(['pagetitle' => trans('administration.menu.network')], $info)
+        );
     }
 }

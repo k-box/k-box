@@ -41,10 +41,10 @@ class CreateFilesTable extends Migration
              *
              *    use SoftDeletes;
              *
-             * 	  protected $dates = ['deleted_at'];
+             *    protected $dates = ['deleted_at'];
              *
-             * 	//...
-             * 	}
+             *  //...
+             *  }
              *
              */
             $table->softDeletes();

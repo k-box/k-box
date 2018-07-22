@@ -13,7 +13,6 @@ use PhpOffice\PhpPresentation\Shape\RichText\BreakElement;
 use PhpOffice\PhpPresentation\Shape\RichText\Paragraph;
 use PhpOffice\PhpPresentation\Shape\RichText\TextElement;
 use PhpOffice\PhpPresentation\Style\Alignment;
-use PhpOffice\PhpPresentation\Style\Color;
 use PhpOffice\PhpPresentation\Slide\Layout;
 use PhpOffice\PhpPresentation\Style\Font;
 use PhpOffice\PhpPresentation\Shape\Placeholder;
@@ -165,7 +164,6 @@ class SlideRenderer
     {
         $return = '';
         
-
         if ($oShape instanceof Drawing\Gd) {
             $return .= $this->renderDrawingGd($oShape);
         } elseif ($oShape instanceof Drawing) {
@@ -257,7 +255,6 @@ class SlideRenderer
                 $style .= 'width:'.$placeholder->getWidth().'px;height:'.$placeholder->getHeight().'px';
             }
     
-
             // $tooltip .= ' placeholder: '.$shape->getPlaceholder()->getType();
 
             if ($shape->getPlaceholder()->getType() == Placeholder::PH_TYPE_SLIDENUM) {
@@ -316,7 +313,6 @@ class SlideRenderer
 
                 $prefix_tag = $sub ? 'sub' : ($sup ? 'sup' : null);
 
-                
                 if ($oRichText->getFont()->getSize() > 10) {
                     $style[] = 'font-size:'.$oRichText->getFont()->getSize().'px';
                 }

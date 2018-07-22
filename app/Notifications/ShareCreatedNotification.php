@@ -67,9 +67,9 @@ class ShareCreatedNotification extends Notification
      */
     public function toMail($notifiable)
     {
-        $language = is_a($notifiable, 'KBox\User') ? $notifiable->optionLanguage(config('app.locale')) : config('app.locale');
+        $language = is_a($notifiable, \KBox\User::class) ? $notifiable->optionLanguage(config('app.locale')) : config('app.locale');
 
-        $is_collection = is_a($this->what, 'KBox\Group') ? true : false;
+        $is_collection = is_a($this->what, \KBox\Group::class) ? true : false;
         $item_title = $is_collection ? $this->what->name : $this->what->title;
         $share_link = rtrim(config('app.url'), '/').route('shares.show', ['id' => $this->share->token], false);
 

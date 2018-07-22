@@ -35,19 +35,19 @@ use Illuminate\Database\Eloquent\Relations\Relation;
 class Project extends Model
 {
     use LocalizableDateFields;
-  /*
+    /*
 
-      $table->bigIncrements('id');
-      $table->string('name');
-      $table->text('description')->nullable();
-      $table->string('avatar')->nullable();
+        $table->bigIncrements('id');
+        $table->string('name');
+        $table->text('description')->nullable();
+        $table->string('avatar')->nullable();
 
-      $table->bigInteger('user_id')->unsigned(); --> project manager
-      $table->bigInteger('collection_id')->unsigned(); --> root project collection
+        $table->bigInteger('user_id')->unsigned(); --> project manager
+        $table->bigInteger('collection_id')->unsigned(); --> root project collection
 
-      $table->timestamps();
+        $table->timestamps();
 
-   */
+     */
 
     /**
      * The database table used by the model.
@@ -63,13 +63,12 @@ class Project extends Model
      */
     protected $fillable = ['name', 'description', 'user_id', 'collection_id', 'avatar'];
     
-    
     /**
      * The root collection that stores the hierarchy of the project
      */
     public function collection()
     {
-        return $this->hasOne('KBox\Group', 'id', 'collection_id');
+        return $this->hasOne(\KBox\Group::class, 'id', 'collection_id');
     }
     
     /**
@@ -77,7 +76,7 @@ class Project extends Model
      */
     public function manager()
     {
-        return $this->belongsTo('KBox\User', 'user_id', 'id');
+        return $this->belongsTo(\KBox\User::class, 'user_id', 'id');
     }
     
     /**
@@ -85,7 +84,7 @@ class Project extends Model
      */
     public function users()
     {
-        return $this->belongsToMany('KBox\User', 'userprojects', 'project_id', 'user_id');
+        return $this->belongsToMany(\KBox\User::class, 'userprojects', 'project_id', 'user_id');
     }
 
     public function scopeManagedBy($query, $user)
@@ -144,9 +143,9 @@ class Project extends Model
             return true;
         }
 
-      // TODO: this can be optimized
+        // TODO: this can be optimized
 
-      $managed = $user->managedProjects()->get(['projects.id'])->pluck('id')->toArray();
+        $managed = $user->managedProjects()->get(['projects.id'])->pluck('id')->toArray();
 
         $added_to = $user->projects()->get(['projects.id'])->pluck('id')->toArray();
 

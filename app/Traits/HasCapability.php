@@ -3,6 +3,7 @@
 namespace KBox\Traits;
 
 use KBox\Capability;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Add support for checking capabilities and permission to the User Eloquent Model
@@ -21,7 +22,7 @@ trait HasCapability
      */
     public function capabilities()
     {
-        return $this->belongsToMany('KBox\Capability', 'capability_user')->withTimestamps();
+        return $this->belongsToMany(\KBox\Capability::class, 'capability_user')->withTimestamps();
     }
 
     // Testing capabilities ---------------------------------------------------
@@ -136,7 +137,6 @@ trait HasCapability
         return $this->can_all_capabilities(Capability::$DMS_MASTER);
     }
     
-    
     /**
      * Check if the user is a Project Manager
      *
@@ -196,7 +196,7 @@ trait HasCapability
 
         $that = $this;
 
-        return \DB::transaction(function () use ($that, $cap_instances) {
+        return DB::transaction(function () use ($that, $cap_instances) {
             $count = 1;
             
             foreach ($cap_instances as $cap) {

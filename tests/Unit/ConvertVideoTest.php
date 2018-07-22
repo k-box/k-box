@@ -20,7 +20,7 @@ class ConvertVideoTest extends TestCase
     {
         if (empty(glob('./bin/video-processing-cli*'))) {
             $this->markTestSkipped(
-              'The video processing cli is not installed.'
+                'The video processing cli is not installed.'
             );
         }
 
@@ -39,7 +39,7 @@ class ConvertVideoTest extends TestCase
 
         Storage::fake('local');
 
-        $descriptor = factory('KBox\DocumentDescriptor')->create();
+        $descriptor = factory(\KBox\DocumentDescriptor::class)->create();
 
         dispatch(new ConvertVideo($descriptor));
 

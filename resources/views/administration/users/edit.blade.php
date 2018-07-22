@@ -11,7 +11,7 @@
 
     <form  method="POST" class="c-form" action="{{route('administration.users.update', $user->id)}}">
 
-        <input type="hidden" name="_method" value="PUT">
+        {{ method_field('PUT') }}
 
         <div class="c-section">
             <h4 class="c-section__title">{{trans('administration.accounts.edit_account_title', ['name' => $user->name])}}</h4>

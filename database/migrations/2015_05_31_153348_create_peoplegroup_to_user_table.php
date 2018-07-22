@@ -35,6 +35,5 @@ class CreatePeoplegroupToUserTable extends Migration
     {
         
         Schema::dropIfExists('peoplegroup_to_user');
-        
     }
 }

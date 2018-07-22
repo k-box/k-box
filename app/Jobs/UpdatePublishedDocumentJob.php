@@ -4,7 +4,6 @@ namespace KBox\Jobs;
 
 use Illuminate\Bus\Queueable;
 use KBox\DocumentDescriptor;
-use KBox\Publication;
 use KBox\Option;
 use KBox\Facades\KlinkStreaming;
 use Illuminate\Queue\SerializesModels;

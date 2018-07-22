@@ -21,13 +21,11 @@ abstract class DocumentAccessController extends Controller
      */
     private $documentsService = null;
 
-    
     public function __construct(DocumentsService $documentsService)
     {
         $this->documentsService = $documentsService;
     }
 
-    
     protected function getDocument($request, $uuid, $versionUuid)
     {
         $doc = DocumentDescriptor::withTrashed()->whereUuid($uuid)->with('file')->first();

@@ -126,7 +126,6 @@ class PowerPoint2007 extends OriginalPowerPoint2007Reader
 
         $table = $oSlide->createTableShape($gridColumns->length);
 
-        
         $slideRow = null;
         $height = null;
         $width = null;

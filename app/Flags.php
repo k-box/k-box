@@ -24,7 +24,6 @@ final class Flags
      */
     const UNIFIED_SEARCH = 'unifiedsearch';
     
-
     /**
      * Check if a flag is enabled
      *

@@ -49,7 +49,7 @@ class UserOption extends Model
      */
     public function user()
     {
-        return $this->hasOne('KBox\User');
+        return $this->hasOne(\KBox\User::class);
     }
 
     /**

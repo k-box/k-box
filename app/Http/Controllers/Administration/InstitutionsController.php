@@ -22,47 +22,47 @@ class InstitutionsController extends Controller
   |
   */
 
-  /**
-   * Create a new controller instance.
-   *
-   * @return void
-   */
-  public function __construct()
-  {
-      $this->middleware('auth');
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
 
-      $this->middleware('capabilities');
-  }
+        $this->middleware('capabilities');
+    }
 
-  /**
-   * Show the list of ...
-   *
-   * @return Response
-   */
-  public function index(AuthGuard $auth)
-  {
-      $institutions = Institution::all();
+    /**
+     * Show the list of ...
+     *
+     * @return Response
+     */
+    public function index(AuthGuard $auth)
+    {
+        $institutions = Institution::all();
 
-      $data = ['institutions' => $institutions, 'pagetitle' => trans('administration.menu.institutions')];
+        $data = ['institutions' => $institutions, 'pagetitle' => trans('administration.menu.institutions')];
     
-      $data['current_institution'] = \Config::get('dms.institutionID');
+        $data['current_institution'] = config('dms.institutionID');
 
-      return view('administration.institutions.index', $data);
-  }
+        return view('administration.institutions.index', $data);
+    }
 
-  /**
-   * Display the specified user.
-   *
-   * @param  int  $id
-   * @return Response
-   */
-  public function show($id)
-  {
-      $inst = Institution::findOrFail($id);
+    /**
+     * Display the specified user.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function show($id)
+    {
+        $inst = Institution::findOrFail($id);
     
-      return view('administration.institutions.show', [
+        return view('administration.institutions.show', [
         'pagetitle' => $inst->name,
         'institution' => $inst,
         ]);
-  }
+    }
 }

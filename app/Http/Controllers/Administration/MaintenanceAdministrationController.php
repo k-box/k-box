@@ -21,17 +21,17 @@ class MaintenanceAdministrationController extends Controller
   |
   */
 
-  /**
-   * Create a new controller instance.
-   *
-   * @return void
-   */
-  public function __construct()
-  {
-      $this->middleware('auth');
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
 
-      $this->middleware('capabilities');
-  }
+        $this->middleware('capabilities');
+    }
 
     public function getIndex()
     {
@@ -39,7 +39,6 @@ class MaintenanceAdministrationController extends Controller
 
         $isInError = Option::option('dms.queuelistener.errorState', false);
 
-    
         $log = storage_path('logs/laravel-'.date('Y-m-d').'.log');
     
         $log_entries = null;
@@ -47,16 +46,14 @@ class MaintenanceAdministrationController extends Controller
             $log_entries = $this->tailCustom($log, 1000);
         }
     
-    
         return view('administration.maintenance', [
-      'pagetitle' => trans('administration.menu.maintenance'),
-      'log_entries' => $log_entries,
-      'queue_runner_status' => $active ? trans('administration.maintenance.queue_runner_started') : trans('administration.maintenance.queue_runner_stopped'),
-      'queue_runner_status_class' => $active ? 'success' : 'error',
-      'queue_runner_status_boolean' => $active,
-    ]);
+        'pagetitle' => trans('administration.menu.maintenance'),
+        'log_entries' => $log_entries,
+        'queue_runner_status' => $active ? trans('administration.maintenance.queue_runner_started') : trans('administration.maintenance.queue_runner_stopped'),
+        'queue_runner_status_class' => $active ? 'success' : 'error',
+        'queue_runner_status_boolean' => $active,
+        ]);
     }
-  
   
     public function tailCustom($filepath, $lines = 1, $adaptive = true)
     {

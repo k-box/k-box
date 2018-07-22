@@ -44,7 +44,7 @@ class LoginController extends Controller
     {
         $params = ['classes' => 'frontpage'];
         
-        if (Config::get('dms.are_guest_public_search_enabled')) {
+        if (config('dms.are_guest_public_search_enabled')) {
             $params['filter'] = network_name();
         }
 

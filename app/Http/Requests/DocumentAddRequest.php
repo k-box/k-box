@@ -14,8 +14,8 @@ class DocumentAddRequest extends Request
      */
     public function rules()
     {
-        $max_size = \Config::get('dms.max_upload_size');
-        $supported_file_types = \Config::get('dms.allowed_file_types');
+        $max_size = config('dms.max_upload_size');
+        $supported_file_types = config('dms.allowed_file_types');
 
         $tests = [
             'group' => 'sometimes|required|exists:groups,id',

@@ -17,7 +17,6 @@ class CollectionsTest extends BrowserKitTestCase
 {
     use DatabaseTransactions;
     
-    
     public function user_provider_admin_project()
     {
         return [
@@ -106,7 +105,6 @@ class CollectionsTest extends BrowserKitTestCase
         $this->assertResponseStatus(403);
     }
     
-    
     public function testCollectionListing()
     {
         $user1 = $this->createUser(Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH);
@@ -117,9 +115,9 @@ class CollectionsTest extends BrowserKitTestCase
         
         // $users = [$user1, $user2];
         
-        $projectA = factory('KBox\Project')->create(['user_id' => $user1->id]);
-        $projectB = factory('KBox\Project')->create(['user_id' => $user1->id]);
-        $projectC = factory('KBox\Project')->create(['user_id' => $user2->id]);
+        $projectA = factory(\KBox\Project::class)->create(['user_id' => $user1->id]);
+        $projectB = factory(\KBox\Project::class)->create(['user_id' => $user1->id]);
+        $projectC = factory(\KBox\Project::class)->create(['user_id' => $user2->id]);
         
         $service = app('Klink\DmsDocuments\DocumentsService');
         
@@ -175,7 +173,6 @@ class CollectionsTest extends BrowserKitTestCase
         $this->assertEquals(3, $collections_user_admin->projects->count());
         $this->assertEquals(0, $collections_user_admin->personal->count());
         
-        
         $grp3 = $service->createGroup($user2, 'Another Personal collection of user '.$user2->id);
         
         $collections_user2 = $service->getCollectionsAccessibleByUser($user2);
@@ -202,7 +199,6 @@ class CollectionsTest extends BrowserKitTestCase
 
         $user = $this->createUser($caps);
         
-
         $service = app('Klink\DmsDocuments\DocumentsService');
 
         $project = null;
@@ -223,7 +219,6 @@ class CollectionsTest extends BrowserKitTestCase
             }
         }
         
-
         $group = null;
         $childs = count($collection_names);
 
@@ -268,7 +263,7 @@ class CollectionsTest extends BrowserKitTestCase
         
         // create a project
         
-        $project = factory('KBox\Project')->create();
+        $project = factory(\KBox\Project::class)->create();
         
         $user = $project->manager()->first();
         
@@ -283,10 +278,9 @@ class CollectionsTest extends BrowserKitTestCase
         
         $this->assertTrue($accessible, 'Collection is not accessible by the creator');
         
-        
-        $projectA = factory('KBox\Project')->create(['user_id' => $user->id]);
-        $projectB = factory('KBox\Project')->create(['user_id' => $user->id]);
-        $projectC = factory('KBox\Project')->create(['user_id' => $user->id]);
+        $projectA = factory(\KBox\Project::class)->create(['user_id' => $user->id]);
+        $projectB = factory(\KBox\Project::class)->create(['user_id' => $user->id]);
+        $projectC = factory(\KBox\Project::class)->create(['user_id' => $user->id]);
         
         $collection2 = $service->createGroup($user, 'sub-sub-collection name', null, $collection, false);
         
@@ -295,7 +289,6 @@ class CollectionsTest extends BrowserKitTestCase
         $this->assertTrue($accessible, 'Collection is not accessible by the creator');
         
         $user_admin = $this->createAdminUser();
-        
         
         $collection3 = $service->createGroup($user, 'by admin', null, $project_collection, false);
         
@@ -330,15 +323,15 @@ class CollectionsTest extends BrowserKitTestCase
         
         $service = app('Klink\DmsDocuments\DocumentsService');
         
-        
         \Cache::shouldReceive('forget')
                     ->once()
                     ->with('dms_personal_collections'.$user->id)
                     ->andReturn(true);
         
         $grp1 = $service->createGroup($user, 'Personal collection of user '.$user->id);
+
+        $this->assertTrue(true, "Test complete without exceptions");
     }
-    
     
     public function testBulkCopyToCollection()
     {
@@ -347,11 +340,11 @@ class CollectionsTest extends BrowserKitTestCase
         $service = app('Klink\DmsDocuments\DocumentsService');
         
         // create one document
-        $doc = factory('KBox\DocumentDescriptor')->create([
+        $doc = factory(\KBox\DocumentDescriptor::class)->create([
             'owner_id' => $user->id
         ]);
         
-        $doc2 = factory('KBox\DocumentDescriptor')->create([
+        $doc2 = factory(\KBox\DocumentDescriptor::class)->create([
             'owner_id' => $user->id
         ]);
         
@@ -376,7 +369,6 @@ class CollectionsTest extends BrowserKitTestCase
         
         $this->assertEquals(1, $grp1->documents()->count());
         
-        
         // try to add a second document and again the first document
         
         $this->json('POST', route('documents.bulk.copyto'), [
@@ -391,7 +383,6 @@ class CollectionsTest extends BrowserKitTestCase
         $this->assertEquals(2, $grp1->documents()->count());
     }
     
-    
     public function testDmsCollectionsCleanDuplicatesCommand()
     {
         $user = $this->createAdminUser();
@@ -399,7 +390,7 @@ class CollectionsTest extends BrowserKitTestCase
         $service = app('Klink\DmsDocuments\DocumentsService');
         
         // create one document
-        $doc = factory('KBox\DocumentDescriptor')->create([
+        $doc = factory(\KBox\DocumentDescriptor::class)->create([
             'owner_id' => $user->id
         ]);
         
@@ -407,14 +398,12 @@ class CollectionsTest extends BrowserKitTestCase
         $grp1 = $service->createGroup($user, 'Personal collection of user '.$user->id);
         $grp2 = $service->createGroup($user, 'Another collection of user '.$user->id);
         
-        
         $service->addDocumentsToGroup($user, Collection::make([$doc]), $grp1, false);
         $service->addDocumentsToGroup($user, Collection::make([$doc]), $grp1, false);
         $service->addDocumentsToGroup($user, Collection::make([$doc]), $grp1, false);
         
         $this->assertEquals(3, $grp1->documents()->count());
         $this->assertEquals(0, $grp2->documents()->count());
-        
         
         $exitCode = \Artisan::call('collections:clean-duplicates', [
             'collection' => $grp1->id,
@@ -500,8 +489,6 @@ class CollectionsTest extends BrowserKitTestCase
         $this->assertTrue($doc->trashed());
     }
 
-    
-    
     public function testDocumentService_permanentlyDeleteGroup()
     {
         $user = $this->createUser(Capability::$PROJECT_MANAGER);
@@ -527,7 +514,6 @@ class CollectionsTest extends BrowserKitTestCase
 
         $exists_doc = Group::withTrashed()->find($group->id);
 
-        
         $this->assertNull($exists_doc);
 
         $after_delete_children = $group->getChildren();

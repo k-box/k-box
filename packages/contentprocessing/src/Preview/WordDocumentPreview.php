@@ -50,8 +50,10 @@ class WordDocumentPreview implements PreviewContract
         $content = str_replace('<body>', '', $content);
         $content = str_replace('</body>', '', $content);
 
-        return sprintf('<div class="preview__render preview__render--document">%1$s</div>',
-                $content);
+        return sprintf(
+            '<div class="preview__render preview__render--document">%1$s</div>',
+                $content
+        );
     }
 
     public function properties()

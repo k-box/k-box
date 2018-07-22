@@ -14,6 +14,7 @@ use KBox\File;
 use KBox\Institution;
 use Ramsey\Uuid\Uuid;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 
 class DmsUpdateCommand extends Command
 {
@@ -49,7 +50,7 @@ class DmsUpdateCommand extends Command
      *
      * @return mixed
      */
-    public function fire()
+    public function handle()
     {
         $this->line("Started DMS configuration for <info>".$this->getLaravel()->environment()."</info>...");
         
@@ -81,16 +82,6 @@ class DmsUpdateCommand extends Command
             if ($code > 0) {
                 return 20 + $code;
             }
-
-            if (! $this->option('no-optimize')) {
-                $this->write('  Optimizing installation...');
-                $up_exit_code = $this->launch('optimize');
-                
-                if ($up_exit_code > 0) {
-                    $this->line('  <error>ERROR '.$up_exit_code.'</error>');
-                    return 50 + $up_exit_code;
-                }
-            }
             
             $up_exit_code = $this->launch('route:cache');
             
@@ -107,7 +98,6 @@ class DmsUpdateCommand extends Command
             }
             
             $this->info('  OK');
-            
             
             $this->write('  Clearing cache...');
             $up_exit_code = $this->launch('cache:clear');
@@ -302,7 +292,7 @@ class DmsUpdateCommand extends Command
     {
         $this->write('  <comment>Installing the K-Box...</comment>');
 
-        $db_return = \DB::transaction(function () {
+        $db_return = DB::transaction(function () {
             if (! $this->isInstalled()) {
                 $this->log('    Performing database migration');
                 $migrate_result = $this->launch('migrate', ['--force' => true]);
@@ -326,7 +316,7 @@ class DmsUpdateCommand extends Command
             // set info on table that the procedure has been completed succesfully
 
             // create the db entry with the edition tag
-            Option::create(['key' => 'branch', 'value' => \Config::get('dms.edition')]);
+            Option::create(['key' => 'branch', 'value' => config('dms.edition')]);
 
             $this->write('  <comment>Checking default institution...</comment>');
             $count_generated = $this->createDefaultInstitution();
@@ -346,14 +336,11 @@ class DmsUpdateCommand extends Command
 
         $migrate_result = $this->launch('migrate', ['--force' => true]);
         
-        
         // update the database if needed
         
         if (Capability::syncCapabilities()) {
             $this->write('  <comment>The user\' capabilities have been upgraded. You might check it in the user\'s management.</comment>');
         }
-        
-
         
         // generate the UUID for the private DocumentDescriptor that don't have it
         $this->write('  <comment>Generating UUIDs for existing Files...</comment>');
@@ -366,7 +353,6 @@ class DmsUpdateCommand extends Command
         if ($count_generated > 0) {
             $this->write("  - <comment>Generated {$count_generated} UUIDs.</comment>");
         }
-        
         
         $this->write('  <comment>Filling upload_completed_at File attribute for existing files...</comment>');
         $count_generated = $this->fillFileUploadCompletedAtForExistingFiles();
@@ -403,12 +389,10 @@ class DmsUpdateCommand extends Command
         $b_option = Option::findByKey('branch');
 
         if (is_null($b_option)) {
-            
             // if empty => write db version
             
-            Option::create(['key' => 'branch', 'value' => \Config::get('dms.edition')]);
+            Option::create(['key' => 'branch', 'value' => config('dms.edition')]);
         } else {
-            
             // if project => do project to only upgrade
             // if standard => do standard to only upgrade
         }

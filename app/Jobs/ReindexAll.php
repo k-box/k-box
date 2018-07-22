@@ -5,6 +5,7 @@ namespace KBox\Jobs;
 use KBox\User;
 use KBox\Option;
 use KBox\DocumentDescriptor;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -68,7 +69,7 @@ class ReindexAll extends Job implements ShouldQueue
                 $pending =  $pending -1;
                 $completed = $completed +1;
 
-                \DB::transaction(function () use ($pending, $completed) {
+                DB::transaction(function () use ($pending, $completed) {
                     // update the status of the reindexing
                     Option::put('dms.reindex.pending', $pending);
                     Option::put('dms.reindex.completed', $completed);

@@ -7,7 +7,6 @@ use Illuminate\Contracts\View\View;
 class AllComposer
 {
 
-    
     /**
      * Create a new profile composer.
      *

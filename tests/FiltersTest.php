@@ -1,6 +1,5 @@
 <?php
 
-use KBox\User;
 use KBox\Capability;
 use KBox\Project;
 use Illuminate\Support\Collection;
@@ -18,9 +17,6 @@ class FiltersTest extends BrowserKitTestCase
 {
     use DatabaseTransactions;
     
-    
-    
-
     /**
      * Test that the collection column in filters is boxed to sub-collections
      * of the currently opened collection
@@ -29,7 +25,7 @@ class FiltersTest extends BrowserKitTestCase
     {
         $this->markTestSkipped(
             'Needs to be reimplemented.'
-          );
+        );
           
         $mock = $this->withKlinkAdapterMock();
 
@@ -86,7 +82,6 @@ class FiltersTest extends BrowserKitTestCase
             'collection_id' => $prj_grp->id,
         ]);
         
-        
         $service->addDocumentToGroup($user, $documents->first(), $prj_grp);
 
         $documents = $documents->each(function ($item, $key) {
@@ -126,7 +121,7 @@ class FiltersTest extends BrowserKitTestCase
         $url = route('documents.groups.show', ['id' => $collections->first()->id, 's' => '*']);
         $this->visit($url)->seePageIs($url);
         $view = $this->response->original; // is a view
-        $composer = app('KBox\Http\Composers\DocumentsComposer');
+        $composer = app(\KBox\Http\Composers\DocumentsComposer::class);
         $composer->facets($view);
         $this->response->original = $view;
 

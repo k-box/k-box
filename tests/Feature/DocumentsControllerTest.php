@@ -26,7 +26,7 @@ class DocumentsControllerTest extends TestCase
 
         $adapter = $this->withKlinkAdapterFake();
 
-        $user = tap(factory('KBox\User')->create(), function ($u) {
+        $user = tap(factory(\KBox\User::class)->create(), function ($u) {
             $u->addCapabilities(Capability::$ADMIN);
         });
 
@@ -72,7 +72,7 @@ class DocumentsControllerTest extends TestCase
 
         $adapter = $this->withKlinkAdapterFake();
 
-        $user = tap(factory('KBox\User')->create(), function ($u) {
+        $user = tap(factory(\KBox\User::class)->create(), function ($u) {
             $u->addCapabilities(Capability::$PARTNER);
         });
         
@@ -91,7 +91,7 @@ class DocumentsControllerTest extends TestCase
 
         $adapter = $this->withKlinkAdapterFake();
 
-        $user = tap(factory('KBox\User')->create(), function ($u) {
+        $user = tap(factory(\KBox\User::class)->create(), function ($u) {
             $u->addCapabilities(Capability::$PARTNER);
         });
         
@@ -104,7 +104,6 @@ class DocumentsControllerTest extends TestCase
         $response->assertDontSee(trans('documents.duplicates.badge'));
     }
 
-    
     public function test_duplicate_actions_are_presented_on_document_edit_page()
     {
         $this->disableExceptionHandling();
@@ -113,7 +112,7 @@ class DocumentsControllerTest extends TestCase
 
         $adapter = $this->withKlinkAdapterFake();
 
-        $user = tap(factory('KBox\User')->create(), function ($u) {
+        $user = tap(factory(\KBox\User::class)->create(), function ($u) {
             $u->addCapabilities(Capability::$PARTNER);
         });
         

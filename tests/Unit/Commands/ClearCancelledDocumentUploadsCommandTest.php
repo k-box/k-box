@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use KBox\File;
 use Tests\TestCase;
 use KBox\DocumentDescriptor;
+use Illuminate\Support\Facades\DB;
 use OneOffTech\TusUpload\TusUpload;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
@@ -16,7 +17,7 @@ class ClearCancelledDocumentUploadsCommandTest extends TestCase
 
     private function generateCancelledUploads($count = 3)
     {
-        $user = factory('KBox\User')->create();
+        $user = factory(\KBox\User::class)->create();
         
         $uploads = [];
 
@@ -77,13 +78,13 @@ class ClearCancelledDocumentUploadsCommandTest extends TestCase
     public function test_cancelled_uploads_are_removed()
     {
         // \Schema::disableForeignKeyConstraints();
-        // \DB::table('document_descriptors')->truncate();
-        // \DB::table('files')->truncate();
+        // DB::table('document_descriptors')->truncate();
+        // DB::table('files')->truncate();
         $previous_documents = DocumentDescriptor::withTrashed()->count();
         $previous_files = File::withTrashed()->count();
-        \DB::table('tus_uploads_queue')->truncate();
+        DB::table('tus_uploads_queue')->truncate();
 
-        $doc_that_should_remain = factory('KBox\DocumentDescriptor')->create();
+        $doc_that_should_remain = factory(\KBox\DocumentDescriptor::class)->create();
         $uploads = $this->generateCancelledUploads(3);
 
         $exitCode = Artisan::call('document:clear-cancelled', []);

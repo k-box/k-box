@@ -3,20 +3,19 @@
 namespace KBox\Exceptions;
 
 use Exception;
-use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Illuminate\Session\TokenMismatchException;
-use Illuminate\Http\JsonResponse;
-use Symfony\Component\Debug\Exception\FatalErrorException;
-use Klink\DmsAdapter\Exceptions\KlinkException;
 use ErrorException;
+use Illuminate\Http\JsonResponse;
 use GuzzleHttp\Exception\TransferException;
-use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Auth\AuthenticationException;
-
+use Illuminate\Session\TokenMismatchException;
 use Illuminate\Validation\ValidationException;
+use Klink\DmsAdapter\Exceptions\KlinkException;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\Debug\Exception\FatalErrorException;
+use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 class Handler extends ExceptionHandler
 {
@@ -45,6 +44,20 @@ class Handler extends ExceptionHandler
     public function report(Exception $e)
     {
         parent::report($e);
+    }
+
+    /**
+     * Convert a validation exception into a JSON response.
+     *
+     * This transform the validation exception using the Laravel 5.4 error response style
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Validation\ValidationException  $exception
+     * @return \Illuminate\Http\JsonResponse
+     */
+    protected function invalidJson($request, ValidationException $exception)
+    {
+        return response()->json($exception->errors(), $exception->status);
     }
 
     /**
@@ -86,7 +99,7 @@ class Handler extends ExceptionHandler
 
         // if($e instanceof HttpResponseException)
         // {
-            return parent::render($request, $e);
+        return parent::render($request, $e);
         // }
 
         // if(app()->environment('local')){
@@ -147,7 +160,6 @@ class Handler extends ExceptionHandler
         //         		return response(trans('errors.413_text'), 413);
         //         	}
         // 		}
-                
                 
         // 		return parent::render($request, $e);
         // 	}

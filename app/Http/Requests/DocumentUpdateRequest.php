@@ -29,7 +29,7 @@ class DocumentUpdateRequest extends Request
     {
         // $action = $this->route()->getAction();
         
-        $max_size = \Config::get('dms.max_upload_size');
+        $max_size = config('dms.max_upload_size');
 
         $selectable_licenses = Option::copyright_available_licenses();
         $valid_licenses = Rule::in($selectable_licenses->pluck('id')->toArray());

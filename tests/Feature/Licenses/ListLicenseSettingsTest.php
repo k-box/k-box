@@ -12,7 +12,7 @@ class ListLicenseSettingsTest extends TestCase
 
     public function test_available_licenses_are_presented()
     {
-        $user = factory('KBox\User')->create();
+        $user = factory(\KBox\User::class)->create();
 
         $user->addCapabilities(Capability::$ADMIN);
 

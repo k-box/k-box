@@ -60,7 +60,6 @@ class SearchResultsPaginator extends LengthAwarePaginator
         return $this;
     }
 
-    
     /**
      * Get the instance as an array.
      *
