@@ -2,29 +2,24 @@
 FROM docker.klink.asia/images/video-processing-cli:0.3.1 AS videocli
 # .. we just need this image so we can copy from it
 
-FROM node:8 AS frontend
-WORKDIR /app
-COPY . /app
-RUN \
-    npm install yarn && \
-    yarn config set cache-folder .yarn && \
-    yarn install && \
-    yarn run production
-
+FROM docker.klink.asia/main/docker-php:7.1 AS builder
 ## Installing the dependencies to be used in a later step.
 # Will generate three directories:
 # * /var/www/dms/bin/
 # * /var/www/dms/vendor/
-# * /var/www/dms/public/js/nls/
-FROM composer:1.6 AS dependencies
-COPY \
-    --chown=www-data:www-data \
-    . /app
+# * /var/www/dms/public/
+WORKDIR /app
+COPY . /app
 RUN \
     composer install --no-dev --prefer-dist &&\
     composer run install-content-cli &&\
     composer run install-language-cli &&\
     composer run install-streaming-client
+RUN \
+    npm install yarn && \
+    yarn config set cache-folder .yarn && \
+    yarn install && \
+    yarn run production
 
 ## Generating the real K-Box image
 FROM php:7.1-fpm AS php
@@ -125,22 +120,22 @@ COPY \
 
 ## Copy in the dependencies from the previous buildstep
 COPY \
-    --from=dependencies \
+    --from=builder \
     --chown=www-data:www-data \
     /app/vendor/ \
     /var/www/dms/vendor/
 
 COPY \
-    --from=dependencies \
+    --from=builder \
     --chown=www-data:www-data \
     /app/bin/ \
     /var/www/dms/bin/
 
 COPY \
-    --from=dependencies \
+    --from=builder \
     --chown=www-data:www-data \
-    /app/public/js/nls/ \
-    /var/www/dms/public/js/nls/
+    /app/public/ \
+    /var/www/dms/public/
 
 COPY \
     --from=videocli \
@@ -148,10 +143,10 @@ COPY \
     /video-processing-cli/ "/var/www/dms/bin/"
 
 ## Add frontend assets
-COPY \
-    --from=frontend \
-    --chown=www-data:www-data \
-    /app/public /var/www/dms/public
+# COPY \
+#     --from=frontend \
+#     --chown=www-data:www-data \
+#     /app/public /var/www/dms/public
 
 ENV KBOX_STORAGE "/var/www/dms/storage"
 
