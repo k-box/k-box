@@ -16,7 +16,6 @@ RUN \
     composer run install-language-cli &&\
     composer run install-streaming-client
 RUN \
-    npm install yarn && \
     yarn config set cache-folder .yarn && \
     yarn install && \
     yarn run production
