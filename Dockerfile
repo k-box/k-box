@@ -1,13 +1,18 @@
+##
+## K-Box Docker image
+## Build the K-Box Docker image. Uses a multi-step approach
+##
+
 ## Grabbing required binaries for the video processing part
 FROM docker.klink.asia/images/video-processing-cli:0.3.1 AS videocli
-# .. we just need this image so we can copy from it
+## .. we just need this image so we can copy from it
 
 FROM docker.klink.asia/main/docker-php:7.1 AS builder
 ## Installing the dependencies to be used in a later step.
-# Will generate three directories:
-# * /var/www/dms/bin/
-# * /var/www/dms/vendor/
-# * /var/www/dms/public/
+## Will generate three directories:
+## * /var/www/dms/bin/
+## * /var/www/dms/vendor/
+## * /var/www/dms/public/
 WORKDIR /app
 COPY . /app
 RUN \
@@ -140,12 +145,6 @@ COPY \
     --from=videocli \
     --chown=www-data:www-data \
     /video-processing-cli/ "/var/www/dms/bin/"
-
-## Add frontend assets
-# COPY \
-#     --from=frontend \
-#     --chown=www-data:www-data \
-#     /app/public /var/www/dms/public
 
 ENV KBOX_STORAGE "/var/www/dms/storage"
 
