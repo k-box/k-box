@@ -8,7 +8,7 @@ use KBox\Http\Controllers\Controller;
 
 class PluginsController extends Controller
 {
-        /**
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -72,5 +72,4 @@ class PluginsController extends Controller
             'flash_message' => trans('plugins.messages.disabled')
         ]);
     }
-
 }
