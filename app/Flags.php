@@ -24,6 +24,8 @@ final class Flags
      */
     const PLUGINS = 'plugins';
     
+    const PLUGIN_GEO = 'plugins.geo';
+    
     /**
      * Check if a flag is enabled
      *
