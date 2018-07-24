@@ -1735,6 +1735,54 @@
             "time": "2018-07-20T00:00:00+00:00"
         },
         {
+            "name": "k-box/kbox-plugin-geo",
+            "version": "dev-master",
+            "dist": {
+                "type": "path",
+                "url": "packages/geo",
+                "reference": "362f063b3a053bd84f906ee02588880973e2257e",
+                "shasum": null
+            },
+            "require": {
+                "php": ">=7.1"
+            },
+            "type": "kbox-plugin",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.1-dev"
+                },
+                "laravel": {
+                    "providers": [
+                        "KBox\\Geo\\Providers\\GeoServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "KBox\\Geo\\": "src"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Alessio Vertemati",
+                    "email": "alessio@oneofftech.xyz"
+                }
+            ],
+            "description": "Geo K-Box plugin",
+            "keywords": [
+                "geo",
+                "k-box",
+                "k-link",
+                "plugin"
+            ],
+            "transport-options": {
+                "symlink": true
+            }
+        },
+        {
             "name": "kitetail/zttp",
             "version": "v0.2.0",
             "source": {
@@ -6326,7 +6374,8 @@
             "authors": [
                 {
                     "name": "Chris Boulton",
-                    "homepage": "http://github.com/chrisboulton"
+                    "homepage": "http://github.com/chrisboulton",
+                    "role": "Original developer"
                 }
             ],
             "description": "A comprehensive library for generating differences between two hashable objects (strings or arrays).",

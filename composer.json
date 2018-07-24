@@ -23,6 +23,13 @@
             "options": {
                 "symlink": true
             }
+		},
+		{
+            "type": "path",
+            "url": "packages/geo",
+            "options": {
+                "symlink": true
+            }
         }
     ],
 
@@ -52,6 +59,7 @@
 		"rinvex/language": "^1.1",
 		"swiftmailer/swiftmailer": "~6.0",
 		"k-box/example-plugin":"*"
+		"k-box/kbox-plugin-geo": "*"
 	},
 	"require-dev": {
 		"barryvdh/laravel-ide-helper": "^2.3",
