@@ -9,7 +9,6 @@ use Carbon\Carbon;
 use KBox\DuplicateDocument;
 use KBox\DocumentDescriptor;
 use KBox\Events\UploadCompleted;
-use KBox\Jobs\ElaborateDocument;
 use KBox\Events\FileDuplicateFoundEvent;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -34,7 +33,9 @@ class UploadCompletedHandler implements ShouldQueue
 
             $this->duplicateCheck($descriptor, $event->user);
 
-            dispatch(new ElaborateDocument($descriptor));
+            // send the document descriptor
+            // to the elaboration queue
+            elaborate($descriptor);
         } catch (Exception $ex) {
             Log::error('Error while handling the UploadCompletedEvent.', ['event' => $event,'error' => $ex]);
             $event->descriptor->status = DocumentDescriptor::STATUS_ERROR;
