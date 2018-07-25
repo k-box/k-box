@@ -6,7 +6,6 @@
   - [License and Copyright](#copyright)
   - [Sharing](#sharing)
   - [Publication](#publication)
-- [My Collections activities](#my-collections-activities)
 - [Search](#search)
 - [Administration](#administration)
 - [Questions/Suggestions](#questions)
@@ -174,22 +173,6 @@ Editing process for public files resembles the process for private files. Please
 **24. How can I view a Project microsite?**
 
 Please go to the Projects page for overview over all accessible projects. Please right-click on the project of interest and select “Details” from the menu. The “View Microsite” button under “Micrositebeta” will lead you to its public page.
-
-
-### <a id="my-collections-activities"></a>My Collections activities
-
-**1. I want to organize my documents. How can I create collections?**
-
-You can organize your uploads in My Collections section. Please create collections through  “+” sign. Private collections are colored green for distinction from project collections (orange).
-
-**2. I want to create a structure. How can I do that?**
-
-Please right-click on the collection where you intend to create an internal structuring. Select create a sub-collection and give it a name. 
-Hit the arrow-like symbol on the collection to see the subcollections.
-
-**3. I want to share a file with another user. How can I do that?**
-
-Except for publication, sharing of personal files has same features as sharing Project files. Please refer to the described steps in the [sharing questions](#sharing-to-user) for further actions.
 
 
 ### <a id="search"></a>Search
