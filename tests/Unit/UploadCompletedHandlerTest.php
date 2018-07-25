@@ -6,14 +6,13 @@ use KBox\File;
 use Tests\TestCase;
 use KBox\Capability;
 use KBox\DocumentDescriptor;
-use KBox\Jobs\ElaborateDocument;
 use KBox\Events\UploadCompleted;
 use Tests\Concerns\ClearDatabase;
 use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\Queue;
 use KBox\Events\FileDuplicateFoundEvent;
 use KBox\Listeners\UploadCompletedHandler;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use KBox\DocumentsElaboration\Facades\DocumentElaboration;
 
 class UploadCompletedHandlerTest extends TestCase
 {
@@ -21,7 +20,7 @@ class UploadCompletedHandlerTest extends TestCase
 
     public function test_elaborate_document_is_dispatched()
     {
-        Queue::fake();
+        DocumentElaboration::fake();
         $descriptor = factory(DocumentDescriptor::class)->create();
         $user = $descriptor->owner;
 
@@ -31,14 +30,12 @@ class UploadCompletedHandlerTest extends TestCase
 
         $handler->handle($uploadCompleteEvent);
 
-        Queue::assertPushed(ElaborateDocument::class, function ($job) use ($descriptor) {
-            return $job->descriptor->id === $descriptor->id;
-        });
+        DocumentElaboration::assertQueued($descriptor);
     }
 
     public function test_descriptor_status_is_updated()
     {
-        Queue::fake();
+        DocumentElaboration::fake();
         $descriptor = factory(DocumentDescriptor::class)->create([
             'status' =>  DocumentDescriptor::STATUS_UPLOADING
         ]);

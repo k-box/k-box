@@ -242,3 +242,20 @@ if (! function_exists('array_from')) {
         return explode(',', $value);
     }
 }
+
+if (! function_exists('elaborate')) {
+    /**
+     * Trigger.
+     *
+     * @param  mixed  $job
+     * @return \KBox\DocumentsElaboration\DocumentElaborationManager
+     */
+    function elaborate($document = null)
+    {
+        if (is_null($document)) {
+            return app(\KBox\DocumentsElaboration\DocumentElaborationManager::class);
+        }
+
+        return app(\KBox\DocumentsElaboration\DocumentElaborationManager::class)->queue($document);
+    }
+}

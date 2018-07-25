@@ -11,7 +11,7 @@ class GenerateThumbnail extends Action
 
     public function run($descriptor)
     {
-        dispatch(new ThumbnailGenerationJob($descriptor->file));
+        dispatch_now(new ThumbnailGenerationJob($descriptor->file));
         
         return $descriptor;
     }
