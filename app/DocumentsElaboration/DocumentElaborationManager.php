@@ -9,13 +9,6 @@ use KBox\DocumentsElaboration\Jobs\ElaborateDocument;
 class DocumentElaborationManager
 {
     /**
-     * The application instance.
-     *
-     * @var \Illuminate\Foundation\Application
-     */
-    protected $app;
-
-    /**
      * The array of elaboration actions
      *
      * @var array
