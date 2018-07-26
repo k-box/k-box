@@ -7,15 +7,54 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.22.0] - 2018-07-26
+
 ### Added
 
- - German Translation
+ - German Translation ([#99](https://github.com/k-box/k-box/pull/99))
+ - Linting of shell scripts via [ShellCheck](https://www.shellcheck.net/) ([#83](https://github.com/k-box/k-box/pull/83))
+ - Language whitelist for document language recognition ([#42](https://github.com/k-box/k-box/issues/42) [#113](https://github.com/k-box/k-box/pull/113))
+ - "Do not reply" phrase to emails ([#105](https://github.com/k-box/k-box/pull/105))
 
 ### Changed
+
+- Configuration environment variable naming schema ([#83](https://github.com/k-box/k-box/pull/83))
+- `KBOX_APP_LOCAL_URL` default value, if used from Docker, is now http://kbox/. The new default value is aligned to the example docker compose file
+- `KBOX_PHP_POST_MAX_SIZE` and `KBOX_PHP_UPLOAD_MAX_FILESIZE` are automatically set based on the `KBOX_UPLOAD_LIMIT` value
+- Update K-Search Client to version 3.1.0
+- Use version 3.4 of the K-Search API, requires K-Search version 3.3.0 **breaking change**
+- Update Tus and K-Link Streaming Client packages to require GitHub published releases
+- Allow duplicated documents ([#40](https://github.com/k-box/k-box/issues/40) [#108](https://github.com/k-box/k-box/pull/108))
+- Full file path doc details panel ([#110](https://github.com/k-box/k-box/pull/110))
+
 ### Fixed
+
+- Recent do not show all available recently updated documents for a user ([#94](https://github.com/k-box/k-box/issues/94))
+- Filter showing label for pot files instead of ppt
+([#87](https://github.com/k-box/k-box/issues/87) [#93](https://github.com/k-box/k-box/pull/93))
+- Move project to personal collection leading to unreachable collections ([#102](https://github.com/k-box/k-box/pull/102))
+- Sub-collection trashing and deleting ([#101](https://github.com/k-box/k-box/pull/101))
+- Improve Russian localization ([#104](https://github.com/k-box/k-box/pull/104) [#111](https://github.com/k-box/k-box/pull/111) [#112](https://github.com/k-box/k-box/pull/112))
+- Language of a document wrongly displayed in the document details ([#42](https://github.com/k-box/k-box/issues/42) [#113](https://github.com/k-box/k-box/pull/113))
+
 ### Removed
 
+- Remove deprecated import from url feature ([#100](https://github.com/k-box/k-box/pull/100))
+
+### Deprecated
+
+- Configuration variables whose name starts with `KLINK_PHP_` ([#83](https://github.com/k-box/k-box/pull/83)), plus
+ - `KLINK_DMS_DIR`
+ - `DMS_USE_HTTPS`, should not be set manually
+ - `DMS_INSTITUTION_IDENTIFIER` is now deprecated, and as part of the Institution management removal will be removed in a future version
+ - `DMS_IDENTIFIER` is now deprecated. The variable will be ignored if set
+ - `KLINK_SETUP_WWWUSER` is now deprecated, the default user will be `www-data`
+ - `DMS_ENABLE_ACTIVITY_TRACKING` was not used, so it has been deprecated. The variable will be ignored if set
+ - `DMS_UPLOAD_FOLDER` was not used, so it has been deprecated
+ - `DMS_RECENT_TIMELIMIT` is now deprecated as it was not used
+
 ## [0.21.2] 2018-06-18
+
 
 ### Fixed
 
