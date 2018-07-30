@@ -25,32 +25,36 @@
             </thead>
             <tbody>
 
-                <tr>
-                    <td>
-                        <strong>Geo</strong> (version 0.1)
-                        <br/><span class="description">Enable the support for GeoJSON, KML, Shapefile via the connection to a GeoServer</span>
-                    </td>
-                    <td>Alessio Vertemati (OneOffTech)</td>
-                    <td>
-                        @if (flags()->isGeoPluginEnabled())
-                        
-                            <button disabled class="button" href="{{ route('administration.plugins.edit', 'geo') }}">{{trans('plugins.actions.settings')}}</button>
+                @foreach ($plugins as $plugin)
+                    
+                    <tr>
+                        <td>
+                            <strong>{{ $plugin->name }}</strong>
+                            <br/><span class="description">{{ $plugin->description }}</span>
+                        </td>
+                        <td>{{ collect($plugin->authors)->pluck('name')->implode(', ') }}</td>
+                        <td>
+                            @if ($plugin->enabled)
+                            
+                                {{-- <button disabled class="button" href="{{ route('administration.plugins.edit', $plugin->name) }}">{{trans('plugins.actions.settings')}}</button> --}}
 
-                            <button class="button button--danger" onclick="event.preventDefault();document.getElementById('plugin-disable-form').submit();">{{trans('plugins.actions.disable')}}</button>
-                            <form id="plugin-disable-form" action="{{ route('administration.plugins.destroy', 'geo') }}" method="POST" style="display: none;">
-                                {{ csrf_field() }}
-                                {{ method_field('DELETE') }}
-                            </form>
-                        @else
-                            <button class="button" onclick="event.preventDefault();document.getElementById('plugin-enable-form').submit();">{{trans('plugins.actions.enable')}}</button>
-                            <form id="plugin-enable-form" action="{{ route('administration.plugins.update', 'geo') }}" method="POST" style="display: none;">
-                                {{ csrf_field() }}
-                                {{ method_field('PUT') }}
-                            </form>
-						</div>
-                        @endif
-                    </td>
-                </tr>
+                                <button class="button button--danger" onclick="event.preventDefault();document.getElementById('plugin-disable-form').submit();">{{trans('plugins.actions.disable')}}</button>
+                                <form id="plugin-disable-form" action="{{ route('administration.plugins.destroy', $plugin->name) }}" method="POST" style="display: none;">
+                                    {{ csrf_field() }}
+                                    {{ method_field('DELETE') }}
+                                </form>
+                            @else
+                                <button class="button" onclick="event.preventDefault();document.getElementById('plugin-enable-form').submit();">{{trans('plugins.actions.enable')}}</button>
+                                <form id="plugin-enable-form" action="{{ route('administration.plugins.update', $plugin->name) }}" method="POST" style="display: none;">
+                                    {{ csrf_field() }}
+                                    {{ method_field('PUT') }}
+                                </form>
+                            </div>
+                            @endif
+                        </td>
+                    </tr>
+                @endforeach
+
             </tbody>
         </table>
 
