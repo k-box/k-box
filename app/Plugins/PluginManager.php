@@ -52,10 +52,8 @@ final class PluginManager
         if (! is_null($this->plugins)) {
             return $this->plugins;
         }
-
-        $this->getManifest();
         
-        return $this->plugins = $this->pluginManifest->plugins()->merge($this->manifest);
+        return $this->plugins = $this->pluginManifest->plugins()->merge($this->getManifest());
     }
     
     /**
@@ -187,7 +185,7 @@ final class PluginManager
         if (! $this->manifest) {
             return;
         }
-        $manifest = $this->manifest->all();
+        $manifest = $this->manifest->toArray();
 
         if (! is_writable(dirname($this->manifestPath))) {
             throw new Exception('The '.dirname($this->manifestPath).' directory must be present and writable.');

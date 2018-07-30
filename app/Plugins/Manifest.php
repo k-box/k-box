@@ -25,9 +25,9 @@ final class Manifest extends Fluent
      */
     public function __construct($attributes = [])
     {
-        parent::__construct(array_merge($attributes, [
+        parent::__construct(array_merge([
             'enabled' => false,
             'configuration' => [],
-        ]));
+        ], $attributes));
     }
 }
