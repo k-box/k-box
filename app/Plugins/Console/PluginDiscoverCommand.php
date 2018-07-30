@@ -31,7 +31,9 @@ class PluginDiscoverCommand extends Command
     {
         $manifest->build();
 
-        foreach (array_keys($manifest->manifest) as $plugin) {
+        $discovered = optional($manifest->plugins())->keys() ?? [];
+
+        foreach ($discovered as $plugin) {
             $this->line("Discovered Plugin: <info>{$plugin}</info>");
         }
 
