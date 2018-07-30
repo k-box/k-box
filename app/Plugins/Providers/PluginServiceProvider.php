@@ -61,11 +61,17 @@ class PluginServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton(PluginManager::class, $this->pluginManager);
+        $this->app->singleton(PluginManager::class, function ($app) {
+            return $this->pluginManager;
+        });
 
-        $this->app->singleton(PluginManifest::class, $this->pluginManifest);
+        $this->app->bind(PluginManifest::class, function ($app) {
+            return $this->pluginManifest;
+        });
 
-        $this->app->singleton(PluginsApplication::class, $this->pluginApplication);
+        $this->app->singleton(PluginsApplication::class, function ($app) {
+            return $this->pluginApplication;
+        });
 
         $this->pluginManager->register($this->pluginApplication);
     }
@@ -76,7 +82,7 @@ class PluginServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return [PluginManager::class];
+        return [];
     }
 
     private function registerConsoleCommands()
