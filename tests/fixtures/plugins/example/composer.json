@@ -1,0 +1,32 @@
+{
+    "name": "k-box/unittest-demo-plugin",
+    "type": "kbox-plugin",
+    "description": "Demo K-Box plugin",
+    "keywords": ["k-box", "k-link", "demo", "plugin"],
+    "license": "MIT",
+
+    "authors": [
+        {
+            "name": "Alessio Vertemati",
+            "email": "alessio@oneofftech.xyz"
+        }
+    ],
+    "require": {
+        "php": ">=7.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Tests\\Plugins\\Example\\": ""
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.1-dev"
+        },
+        "kbox": {
+            "providers": [
+                "Tests\\Plugins\\Example\\TestExamplePlugin"
+            ]
+        }
+    }
+}

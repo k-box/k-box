@@ -1,0 +1,6 @@
+{
+    "name": "package/name",
+    "type": "library",
+    "description": "A package",
+    "license": "MIT"
+}

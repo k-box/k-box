@@ -9,7 +9,21 @@
         {
             "type": "vcs",
             "url": "https://github.com/k-box/k-search-client-php"
-		}        
+		},
+		{
+            "type": "path",
+            "url": "plugins/example",
+            "options": {
+                "symlink": true
+            }
+        },
+		{
+            "type": "path",
+            "url": "tests/fixtures/plugins/example",
+            "options": {
+                "symlink": true
+            }
+        }
     ],
 
 	"require": {
@@ -36,7 +50,8 @@
 		"phpoffice/phpspreadsheet": "1.3.*",
 		"phpoffice/phpword": "~0.13.0",
 		"rinvex/language": "^1.1",
-		"swiftmailer/swiftmailer": "~6.0"
+		"swiftmailer/swiftmailer": "~6.0",
+		"k-box/example-plugin":"*"
 	},
 	"require-dev": {
 		"barryvdh/laravel-ide-helper": "^2.3",
@@ -49,7 +64,8 @@
 		"phpspec/phpspec": "~2.1",
 		"phpunit/phpunit": "~6.0",
 		"symfony/css-selector": "3.1.*",
-		"symfony/dom-crawler": "3.1.*"
+		"symfony/dom-crawler": "3.1.*",
+		"k-box/unittest-demo-plugin": "*"
 	},
 	"autoload": {
 		"classmap": [

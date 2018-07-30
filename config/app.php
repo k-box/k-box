@@ -230,6 +230,7 @@ return [
         KBox\Providers\RouteServiceProvider::class,
         KBox\Providers\ViewComposerServiceProvider::class,
         KBox\Providers\KlinkStreamingServiceProvider::class,
+        KBox\Plugins\Providers\PluginServiceProvider::class,
 
         MaterialIcons\MaterialIconsBridgeServiceProvider::class,
 
