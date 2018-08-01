@@ -50,7 +50,9 @@ class PluginServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerConsoleCommands();
-
+        
+        $this->registerRoutes();
+        
         $this->pluginManager->boot($this->pluginApplication);
     }
 
@@ -92,5 +94,10 @@ class PluginServiceProvider extends ServiceProvider
                 PluginDiscoverCommand::class,
             ]);
         }
+    }
+
+    private function registerRoutes()
+    {
+        $this->loadRoutesFrom(base_path('routes/plugins.php'));
     }
 }
