@@ -5,7 +5,7 @@ namespace KBox\Plugins;
 
 use KBox\Contracts\Plugin as PluginContract;
 
-abstract class PluginServiceProvider implements PluginContract
+abstract class Plugin implements PluginContract
 {
     /**
      * The application instance.

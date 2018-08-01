@@ -88,9 +88,9 @@ K-Box application for registering views, controllers, language files,...
 
 namespace MyPlugin\Example;
 
-use KBox\Plugins\PluginServiceProvider;
+use KBox\Plugins\Plugin;
 
-class ExamplePlugin extends PluginServiceProvider
+class ExamplePlugin extends Plugin
 {
     public function register()
     {
