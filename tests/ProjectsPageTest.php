@@ -3,7 +3,6 @@
 use Tests\BrowserKitTestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use KBox\User;
-use KBox\Flags;
 use KBox\Capability;
 use KBox\Traits\Searchable;
 use Klink\DmsAdapter\Fakes\FakeKlinkAdapter;
@@ -114,8 +113,6 @@ class ProjectsPageTest extends BrowserKitTestCase
             'Needs to be reimplemented.'
         );
 
-        Flags::enable(Flags::UNIFIED_SEARCH);
-
         $this->withKlinkAdapterFake();
 
         // Project listing, but links to collections
@@ -196,8 +193,6 @@ class ProjectsPageTest extends BrowserKitTestCase
         $this->markTestSkipped(
             'Needs to be reimplemented.'
         );
-
-        Flags::enable(Flags::UNIFIED_SEARCH);
 
         $mock = $this->withKlinkAdapterMock();
 

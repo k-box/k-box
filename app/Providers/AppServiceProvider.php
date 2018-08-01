@@ -4,8 +4,9 @@ namespace KBox\Providers;
 
 use Validator;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Response;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -42,6 +43,13 @@ class AppServiceProvider extends ServiceProvider
          */
         Response::macro('head', function ($headers) {
             return response('', 200, array_merge(['Content-Length' => 0], $headers));
+        });
+
+        /**
+         * Register the flags helper as a blade if statement
+         */
+        Blade::if('flag', function ($flag) {
+            return flags($flag);
         });
     }
 

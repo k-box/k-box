@@ -197,9 +197,13 @@ if (! function_exists('flags')) {
      *
      * @return KBox\Flags
      */
-    function flags()
+    function flags($key = null)
     {
-        return new \KBox\Flags();
+        if (is_null($key)) {
+            return new \KBox\Flags();
+        }
+
+        return \KBox\Flags::isEnabled($key);
     }
 }
 

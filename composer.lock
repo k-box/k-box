@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6f846f25cd5ed79edf771fe26d6ff087",
+    "content-hash": "80671865643aeb8fc4b9f2ec0742ad9e",
     "packages": [
         {
             "name": "avvertix/materialicons-laravel-bridge",
@@ -1607,6 +1607,55 @@
                 "xml"
             ],
             "time": "2018-06-01T12:10:12+00:00"
+        },
+        {
+            "name": "k-box/example-plugin",
+            "version": "dev-master",
+            "dist": {
+                "type": "path",
+                "url": "plugins/example",
+                "reference": "d3c74768c9f758a669e76cc100566bdd19f666e7",
+                "shasum": null
+            },
+            "require": {
+                "php": ">=7.1"
+            },
+            "type": "kbox-plugin",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.1-dev"
+                },
+                "kbox": {
+                    "providers": [
+                        "KBox\\Plugins\\Example\\ExamplePlugin"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "KBox\\Plugins\\Example\\": ""
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Alessio Vertemati",
+                    "email": "alessio@oneofftech.xyz"
+                }
+            ],
+            "description": "Example K-Box plugin",
+            "keywords": [
+                "demo",
+                "example",
+                "k-box",
+                "k-link",
+                "plugin"
+            ],
+            "transport-options": {
+                "symlink": true
+            }
         },
         {
             "name": "k-box/k-search-client-php",
@@ -5736,6 +5785,54 @@
             "time": "2015-12-15T10:42:16+00:00"
         },
         {
+            "name": "k-box/unittest-demo-plugin",
+            "version": "dev-master",
+            "dist": {
+                "type": "path",
+                "url": "tests/fixtures/plugins/example",
+                "reference": "7b3e313df411d2bc2ce71751f2850bbe7baf965f",
+                "shasum": null
+            },
+            "require": {
+                "php": ">=7.1"
+            },
+            "type": "kbox-plugin",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.1-dev"
+                },
+                "kbox": {
+                    "providers": [
+                        "Tests\\Plugins\\TestExamplePlugin"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Tests\\Plugins\\": ""
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Alessio Vertemati",
+                    "email": "alessio@oneofftech.xyz"
+                }
+            ],
+            "description": "Demo K-Box plugin",
+            "keywords": [
+                "demo",
+                "k-box",
+                "k-link",
+                "plugin"
+            ],
+            "transport-options": {
+                "symlink": true
+            }
+        },
+        {
             "name": "laravel/browser-kit-testing",
             "version": "v2.0.1",
             "source": {
@@ -7690,7 +7787,7 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=7.0.0",
+        "php": ">=7.1.0",
         "ext-fileinfo": "*"
     },
     "platform-dev": []

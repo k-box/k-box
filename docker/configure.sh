@@ -76,6 +76,12 @@ function startup_config () {
     chmod -R g+rw $KBOX_DIR/bootstrap/cache &&
     chmod -R g+rw $KBOX_DIR/storage/logs &&
 	echo "K-Box is now configured."
+
+    if [ ! -z "$KBOX_FLAGS" ]; then
+        # enabling the flags for experimental features
+        echo "K-Box is enabling the required flags..."
+        su -s /bin/sh -c "php artisan flags '$KBOX_FLAGS'" $KBOX_SETUP_USER
+    fi
 }
 
 function write_config() {

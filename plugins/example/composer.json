@@ -1,0 +1,32 @@
+{
+    "name": "k-box/example-plugin",
+    "type": "kbox-plugin",
+    "description": "Example K-Box plugin",
+    "keywords": ["k-box", "k-link", "example", "demo", "plugin"],
+    "license": "MIT",
+
+    "authors": [
+        {
+            "name": "Alessio Vertemati",
+            "email": "alessio@oneofftech.xyz"
+        }
+    ],
+    "require": {
+        "php": ">=7.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "KBox\\Plugins\\Example\\": ""
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.1-dev"
+        },
+        "kbox": {
+            "providers": [
+                "KBox\\Plugins\\Example\\ExamplePlugin"
+            ]
+        }
+    }
+}

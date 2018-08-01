@@ -247,6 +247,14 @@ return [
             'default' => ['update' => KBox\Capability::MANAGE_DMS],
             'available' => ['update' => KBox\Capability::MANAGE_DMS],
         ],
+
+        'plugins' => [
+            'index' => KBox\Capability::MANAGE_DMS,
+            'show' => KBox\Capability::MANAGE_DMS,
+            'edit' => KBox\Capability::MANAGE_DMS,
+            'update' => KBox\Capability::MANAGE_DMS,
+            'destroy' => KBox\Capability::MANAGE_DMS,
+        ],
     ],
 
  ];

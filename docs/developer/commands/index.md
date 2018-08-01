@@ -1,7 +1,7 @@
 # K-Box Command Line Tools
 
 > The usage of the command line options requires direct access to the running 
-> K-DMS instance.
+> K-Box instance.
 
 
 The K-Box command line suite of commands rely on the [Laravel Artisan CLI](https://laravel.com/docs/5.2/artisan).
@@ -37,6 +37,7 @@ Here are only listed the specific commands added by the K-Box:
   to a document descriptor
 - `video:elaborate`: Trigger the video elaboration for the specified documents
 - [`statistics`](./statistics-command.md): Generate some usage statistics of the K-Box
+- `flags`: enable or disable an experimental feature. See [K-Box Flags](../flags.md)
 
 For a complete list of available commands execute
 
@@ -46,10 +47,8 @@ php artisan
 
 in the root folder of the source code.
 
-All the commands have an integrated help reachable directly from the command line, e.g.
+For obtain help on the specific command you can execute the command with the `--help` option:
 
 ```
 php artisan dms:test --help
 ```
-
-The general use is to pass the `--help` option to each command.

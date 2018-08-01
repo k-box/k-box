@@ -20,9 +20,9 @@ final class Flags
     use HasEnums;
 
     /**
-     * The Unified Search flag
+     * The Plugins feature flag
      */
-    const UNIFIED_SEARCH = 'unifiedsearch';
+    const PLUGINS = 'plugins';
     
     /**
      * Check if a flag is enabled
@@ -144,5 +144,27 @@ final class Flags
     public function isUnifiedSearchEnabled()
     {
         return true; //self::isEnabled(self::UNIFIED_SEARCH);
+    }
+
+    public function __call($method, $arguments)
+    {
+        if (str_is('is*Enabled', $method)) {
+            $keys = self::constants();
+            $key = strtolower(str_before(str_after($method, 'is'), 'Enabled'));
+            if (self::isValidEnumKey(strtoupper($key))) {
+                return static::isEnabled($key);
+            }
+        }
+    }
+
+    public static function __callStatic($method, $arguments)
+    {
+        if (str_is('is*Enabled', $method)) {
+            $keys = self::constants();
+            $key = strtolower(str_before(str_after($method, 'is'), 'Enabled'));
+            if (self::isValidEnumKey(strtoupper($key))) {
+                return static::isEnabled($key);
+            }
+        }
     }
 }

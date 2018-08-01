@@ -8,24 +8,22 @@ use KBox\Flags;
 
 /**
  * Command for enabling or disabling feature flags.
- * Feature flags protects the work in progress of a feature we want
- * to apply only to specific instance
  */
-class DmsFlagsCommand extends Command
+class FlagsCommand extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'dms:flags {--enable : enable a flag option}{--disable : disable a flag option} {flag : the flag name}';
+    protected $signature = 'flags {--enable : enable a flag option}{--disable : disable a flag option} {flag* : the flag name}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Enable or Disable a feature flag';
+    protected $description = 'Enable or disable a feature flag';
 
     /**
      * Create a new command instance.
@@ -44,7 +42,7 @@ class DmsFlagsCommand extends Command
      */
     public function handle()
     {
-        $flag = $this->argument('flag');
+        $flags = array_wrap($this->argument('flag'));
 
         $enable = $this->option('enable');
 
@@ -55,17 +53,29 @@ class DmsFlagsCommand extends Command
         }
 
         if (! $enable && ! $disable) {
-            $is_now_enabled = Flags::toggle($flag);
+            $enable = true;
+        }
 
-            $this->line("Flag <comment>$flag</comment> is now <info>".($is_now_enabled ? 'enabled' : 'disabled')."</info>.");
-        } elseif ($enable) {
-            Flags::enable($flag);
-            $this->line("Flag <comment>$flag</comment> is now <info>enabled</info>.");
-        } elseif ($disable) {
-            Flags::disable($flag);
-            $this->line("Flag <comment>$flag</comment> is now <info>disabled</info>.");
+        foreach ($flags as $flag) {
+            if ($enable) {
+                $this->enable($flag);
+            } else {
+                $this->disable($flag);
+            }
         }
 
         return 0;
+    }
+
+    private function enable($flag)
+    {
+        Flags::enable($flag);
+        $this->line("Flag $flag enabled.");
+    }
+
+    private function disable($flag)
+    {
+        Flags::disable($flag);
+        $this->line("Flag $flag disabled.");
     }
 }

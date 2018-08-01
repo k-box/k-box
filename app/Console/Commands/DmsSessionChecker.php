@@ -23,7 +23,7 @@ class DmsSessionChecker extends Command
      * @var string
      */
     protected $description = 'Get the user\'s session status.';
-    
+
     private $debug = false;
 
     /**
