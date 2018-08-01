@@ -2,9 +2,9 @@
 
 namespace KBox\Plugins\Example;
 
-use KBox\Plugins\PluginServiceProvider;
+use KBox\Plugins\Plugin;
 
-class ExamplePlugin extends PluginServiceProvider
+class ExamplePlugin extends Plugin
 {
     public function register()
     {
