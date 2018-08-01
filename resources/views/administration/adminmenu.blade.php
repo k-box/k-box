@@ -52,7 +52,7 @@
 		{{trans('administration.menu.settings')}}
 	</a>
 
-	@flag(\KBox\Flags::PLUGINS))
+	@flag(\KBox\Flags::PLUGINS)
 	<a href="{{ route('administration.plugins.index') }}" class="navigation__item navigation__item--link @if(\Request::is('*plugins')) navigation__item--current @endif">
 			
 		@materialicon('hardware', 'device_hub', 'navigation__item__icon')

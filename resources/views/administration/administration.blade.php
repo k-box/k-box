@@ -79,7 +79,7 @@
 				</a>
 			</li>
 
-			@flag(\KBox\Flags::PLUGINS))
+			@flag(\KBox\Flags::PLUGINS)
 				<li class="navigation-admin__item"><a href="{{ route('administration.plugins.index') }}" class="navigation-admin__link @if(\Request::is('*plugins')) navigation--current @endif">	
 						@materialicon('hardware', 'device_hub', 'navigation-admin__item__icon')
 						
