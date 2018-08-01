@@ -6,7 +6,9 @@ namespace KBox\Plugins;
 use Illuminate\Support\Fluent;
 
 /**
- * The plugin manifest
+ * The plugin manifest.
+ *
+ * Define the plugin metadata and holds the status and configuration of a Plugin.
  *
  * @property string $name The plugin name
  * @property string $description The plugin description

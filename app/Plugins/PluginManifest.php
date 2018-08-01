@@ -5,7 +5,9 @@ namespace KBox\Plugins;
 use Illuminate\Foundation\PackageManifest;
 
 /**
- * The discovered plugins manifest
+ * The discovered plugins
+ *
+ * Discover plugins contained in the specified folder and store them in a cache
  */
 class PluginManifest extends PackageManifest
 {

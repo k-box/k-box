@@ -43,7 +43,7 @@ class PluginServiceProvider extends ServiceProvider
     }
 
     /**
-     * Bootstrap any application services.
+     * Bootstrap the plugin services.
      *
      * @return void
      */
@@ -57,7 +57,7 @@ class PluginServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register any application services.
+     * Register the plugin services.
      *
      * @return void
      */
@@ -77,6 +77,7 @@ class PluginServiceProvider extends ServiceProvider
 
         $this->pluginManager->register($this->pluginApplication);
     }
+    
     /**
      * Get the services provided by the provider.
      *

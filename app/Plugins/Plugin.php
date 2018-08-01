@@ -1,10 +1,16 @@
 <?php
 
-
 namespace KBox\Plugins;
 
 use KBox\Contracts\Plugin as PluginContract;
 
+/**
+ * A plugin.
+ *
+ * Extend this class to create your own plugin.
+ *
+ * @see \KBox\Contracts\Plugin
+ */
 abstract class Plugin implements PluginContract
 {
     /**
@@ -25,7 +31,13 @@ abstract class Plugin implements PluginContract
         $this->app = $app;
     }
 
+    /**
+     * @inheritDoc
+     */
     abstract public function boot();
 
+    /**
+     * @inheritDoc
+     */
     abstract public function register();
 }

@@ -1,16 +1,31 @@
 <?php
 
-
 namespace KBox\Plugins;
 
 use Exception;
 use Illuminate\Filesystem\Filesystem;
 use KBox\Plugins\Application as PluginsApplication;
 
+/**
+ * The Manager of the plugins
+ *
+ * Enable, Disable and manage the persistence of the plugin status.
+ * It also register and boot enabled plugins
+ */
 final class PluginManager
 {
+    /**
+     * The instance of the discovered plugin manifest loader
+     *
+     * @var \KBox\Plugins\PluginManifest
+     */
     private $pluginManifest;
     
+    /**
+     * The list of plugins
+     *
+     * @var \KBox\Plugins\Manifest[]
+     */
     private $plugins = null;
 
     /**
@@ -27,6 +42,11 @@ final class PluginManager
      */
     private $manifestPath;
 
+    /**
+     * The list of enabled plugins
+     *
+     * @var \KBox\Plugins\Manifest[]
+     */
     private $manifest = null;
 
     /**
@@ -46,6 +66,8 @@ final class PluginManager
 
     /**
      * The list of registered plugins
+     *
+     * @return KBox\Plugins\Manifest[]
      */
     public function plugins()
     {
@@ -58,6 +80,8 @@ final class PluginManager
     
     /**
      * The list of the enabled plugins
+     *
+     * @return KBox\Plugins\Manifest[]
      */
     public function enabled()
     {
@@ -68,6 +92,7 @@ final class PluginManager
      * Enable a plugin
      *
      * @param string $plugin The name of the plugin to enable
+     * @return void
      */
     public function enable($plugin)
     {
@@ -86,6 +111,7 @@ final class PluginManager
      * Disable a plugin
      *
      * @param string $plugin The name of the plugin to disable
+     * @return void
      */
     public function disable($plugin)
     {
@@ -136,6 +162,10 @@ final class PluginManager
         });
     }
 
+    /**
+     * @param \KBox\Plugins\Manifest $plugin
+     * @param \KBox\Plugins\Application $app
+     */
     private function registerPlugin($plugin, $app)
     {
         $provider = $plugin->providers[0];
@@ -143,6 +173,10 @@ final class PluginManager
         (new $provider($app))->register();
     }
 
+    /**
+     * @param \KBox\Plugins\Manifest $plugin
+     * @param \KBox\Plugins\Application $app
+     */
     private function bootPlugin($plugin, $app)
     {
         $provider = $plugin->providers[0];
@@ -151,7 +185,7 @@ final class PluginManager
     }
 
     /**
-     * Get the current package manifest.
+     * Get the current enabled plugin manifest.
      *
      * @return array
      */
