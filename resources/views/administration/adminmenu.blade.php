@@ -52,12 +52,14 @@
 		{{trans('administration.menu.settings')}}
 	</a>
 
+	@flag(\KBox\Flags::PLUGINS))
 	<a href="{{ route('administration.plugins.index') }}" class="navigation__item navigation__item--link @if(\Request::is('*plugins')) navigation__item--current @endif">
 			
 		@materialicon('hardware', 'device_hub', 'navigation__item__icon')
 		
 		{{trans('plugins.page_title')}}
 	</a>
+	@endflag
 
 	<a href="{{ route('administration.identity.index') }}" class="navigation__item navigation__item--link @if(\Request::is('*identity')) navigation__item--current @endif">
 		

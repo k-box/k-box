@@ -79,13 +79,14 @@
 				</a>
 			</li>
 
-			<li class="navigation-admin__item"><a href="{{ route('administration.plugins.index') }}" class="navigation-admin__link @if(\Request::is('*plugins')) navigation--current @endif">
-					
-					@materialicon('hardware', 'device_hub', 'navigation-admin__item__icon')
-					
-					{{trans('plugins.page_title')}}
-				</a>
-			</li>
+			@flag(\KBox\Flags::PLUGINS))
+				<li class="navigation-admin__item"><a href="{{ route('administration.plugins.index') }}" class="navigation-admin__link @if(\Request::is('*plugins')) navigation--current @endif">	
+						@materialicon('hardware', 'device_hub', 'navigation-admin__item__icon')
+						
+						{{trans('plugins.page_title')}}
+					</a>
+				</li>
+			@endflag
 			
 			<li class="navigation-admin__item"><a href="{{ route('administration.identity.index') }}" class="navigation-admin__link @if(\Request::is('*identity')) navigation--current @endif">
 					

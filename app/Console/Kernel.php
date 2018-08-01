@@ -32,7 +32,7 @@ class Kernel extends ConsoleKernel
         \KBox\Console\Commands\ImportJobPayloadFetcher::class,
         \KBox\Console\Commands\DocumentsCheckInstitutionCommand::class,
         \KBox\Console\Commands\DocumentsCheckDescriptorCommand::class,
-        \KBox\Console\Commands\DmsFlagsCommand::class,
+        \KBox\Console\Commands\FlagsCommand::class,
         \KBox\Console\Commands\Language\LanguageCheckCommand::class,
         \KBox\Console\Commands\OrphanFilesCommand::class,
         \KBox\Console\Commands\DocumentUpdatePropertiesCommand::class,
