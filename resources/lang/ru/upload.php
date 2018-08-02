@@ -24,6 +24,10 @@ return [
 
     'do_not_leave_the_page' => 'Пожалуйста, не закрывайте эту страницу до завершения процесса загрузки. Вы можете продолжать использовать ваш браузер открыв новую вкладку.',
 
+    'upload_spec_title' => 'Формат: '
+    'upload_spec_info1' => 'MP4 с кодеком H.264 и аудио AAC или MP3',
+    'upload_spec_info2' => 'Минимальное разрешение видео - 480x360 пикселей',
+    'upload_spec_info3' => 'Максимальное разрешение видео - 1920x1080 пикселей',
     'target' => [
     'personal' => 'в ваши <a href=":link" target="_blank" rel="noopener noreferrer">личные</a> файлы.',
     'collection' => 'в коллекцию <a href=":link" target="_blank" rel="noopener noreferrer">:name</a> в <strong>Моих коллекциях</strong>.',
