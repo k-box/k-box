@@ -31,13 +31,7 @@
     
     <p><em>{{ trans('upload.do_not_leave_the_page') }}</em></p>
 
-    <p>{{ trans('upload_spec_title') }}</p>
-
-    <ul>
-        <li>{{ trans('upload_spec_info1') }}</li>
-        <li>{{ trans('upload_spec_info2') }}</li>
-        <li>{{ trans('upload_spec_info3') }}</li>
-    </ul>
+    <p>{{ trans('upload_spec_info') }}</p>
 
     <div id="upload">
     </div>
