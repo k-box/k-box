@@ -28,7 +28,8 @@ return [
     ],
 
     'messages' => [
-        'enabled' => 'Plugin enabled. Tell your users to refresh the page.',
+        'enabled' => 'Plugin enabled',
         'disabled' => 'Plugin disabled',
+        'settings_saved'=> 'Plugin settings updated',
     ],
 ];

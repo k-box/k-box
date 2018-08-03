@@ -30,6 +30,10 @@
             "options": {
                 "symlink": true
             }
+		},
+		{
+            "type": "vcs",
+            "url": "https://github.com/OneOffTech/geoserver-client-php"
         }
     ],
 
@@ -59,7 +63,8 @@
 		"rinvex/language": "^1.1",
 		"swiftmailer/swiftmailer": "~6.0",
 		"k-box/example-plugin":"*",
-		"k-box/kbox-plugin-geo": "*"
+		"k-box/kbox-plugin-geo": "*",
+		"oneofftech/geoserver-client-php": "dev-datastores-api"
 	},
 	"require-dev": {
 		"barryvdh/laravel-ide-helper": "^2.3",
