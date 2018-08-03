@@ -29,4 +29,16 @@ class Application
     {
         $this->app = $app;
     }
+
+    /**
+     * Dynamically call the Laravel application instance.
+     *
+     * @param  string  $method
+     * @param  array   $parameters
+     * @return mixed
+     */
+    public function __call($method, $parameters)
+    {
+        return $this->app->$method(...$parameters);
+    }
 }
