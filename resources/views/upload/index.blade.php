@@ -31,7 +31,7 @@
     
     <p><em>{{ trans('upload.do_not_leave_the_page') }}</em></p>
 
-    <p>{{ trans('upload_spec_info') }}</p>
+    <p>{{ trans('upload.upload_spec_info') }}</p>
 
     <div id="upload">
     </div>
