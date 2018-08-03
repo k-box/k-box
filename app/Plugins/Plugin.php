@@ -40,4 +40,66 @@ abstract class Plugin implements PluginContract
      * @inheritDoc
      */
     abstract public function register();
+
+    /**
+     * Merge the given configuration with the existing configuration.
+     *
+     * @param  string  $path
+     * @param  string  $key
+     * @return void
+     */
+    protected function mergeConfigFrom($path, $key)
+    {
+        $config = $this->app->make('config')->get($key, []);
+
+        $this->app->make('config')->set($key, array_merge(require $path, $config));
+    }
+
+    /**
+     * Load the given routes file if routes are not already cached.
+     *
+     * @param  string  $path
+     * @return void
+     */
+    protected function loadRoutesFrom($path)
+    {
+        if (! $this->app->routesAreCached()) {
+            require $path;
+        }
+    }
+
+    /**
+     * Register a view file namespace.
+     *
+     * @param  string|array  $path
+     * @param  string  $namespace
+     * @return void
+     */
+    protected function loadViewsFrom($path, $namespace)
+    {
+        $this->app->make('view')->addNamespace($namespace, $path);
+    }
+
+    /**
+     * Register a translation file namespace.
+     *
+     * @param  string  $path
+     * @param  string  $namespace
+     * @return void
+     */
+    protected function loadTranslationsFrom($path, $namespace)
+    {
+        $this->app->make('translator')->addNamespace($namespace, $path);
+    }
+
+    /**
+     * Register a JSON translation file path.
+     *
+     * @param  string  $path
+     * @return void
+     */
+    protected function loadJsonTranslationsFrom($path)
+    {
+        $this->app->make('translator')->addJsonPath($path);
+    }
 }
