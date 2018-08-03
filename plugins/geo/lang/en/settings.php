@@ -21,5 +21,10 @@ return [
         'password' => 'The password to authenticate to the GeoServer',
         'workspace' => 'The GeoServer workspace to use (e.g. kbox)',
     ],
+
+    'connection' => [
+        'established' => 'GeoServer (:version) connection established.',
+        'failed' => 'Failed to connect to GeoServer. :error',
+    ],
     
 ];

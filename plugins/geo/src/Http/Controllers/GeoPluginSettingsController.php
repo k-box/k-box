@@ -39,8 +39,24 @@ class GeoPluginSettingsController extends Controller
     {
         $currentSettings = $this->service->config();
 
+        $connected = false;
+        $version = null;
+        $error = null;
+        if($this->service->isEnabled()){
+            try{
+                $connected = true;
+                $version = $this->service->connection()->version();
+            }catch(Exception $ex){
+                $error = $ex->getMessage();
+            }
+        }
+
         return view('geo::settings', array_merge([
             'pagetitle' => trans('geo::settings.page_title'),
+            'enabled' => $this->service->isEnabled(),
+            'connected' => $connected,
+            'version' => $version,
+            'error' => $error,
         ], $currentSettings));
     }
 

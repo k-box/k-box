@@ -76,10 +76,19 @@ final class GeoService
      */
     public function isEnabled()
     {
-        return false;
+        $conf = $this->config();
+        return is_array($conf) && count($conf) === 4;
     }
 
 
+    public function connection()
+    {
+        $conf = $this->config();
+        $authentication = new Authentication($conf['geoserver_username'], $conf['geoserver_password']);
+        $geoserver = GeoServer::build($conf['geoserver_url'], $conf['geoserver_workspace'], $authentication);
+
+        return $geoserver;
+    }
     
 
 

@@ -20,6 +20,10 @@
         <div class="c-section c-section--separated">
             <h4 class="c-section__title">@lang('geo::settings.page_title')</h4>
             <p class="c-section__description">@lang('geo::settings.description')</p>
+
+            @if($enabled)
+                <span class="badge @if($connected) success @else failed @endif">{{ $connected ? trans('geo::settings.connection.established', ['version' => $version]) : trans('geo::settings.connection.failed', ['error' => $error])}}</span>
+            @endif
         </div>
         <div class="c-section">
             <h4 class="c-section__title">@lang('geo::settings.geoserver.title')</h4>

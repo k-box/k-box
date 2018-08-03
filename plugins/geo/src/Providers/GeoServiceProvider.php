@@ -4,6 +4,8 @@ namespace KBox\Geo\Providers;
 
 use KBox\Plugins\Plugin;
 use Illuminate\Support\Facades\Route;
+use KBox\Geo\Actions\SyncWithGeoserver;
+use KBox\DocumentsElaboration\Facades\DocumentElaboration;
 
 class GeoServiceProvider extends Plugin
 {
@@ -38,15 +40,12 @@ class GeoServiceProvider extends Plugin
      */
     public function register()
     {
-        // $this->mergeConfigFrom(
-        //     __DIR__.'/../../config/geo.php',
-        //     'geo'
-        // );
-
         $this->app->singleton(GeoService::class, function ($app) {
             return new GeoService();
-            // config('licenses')
         });
+        
+        // register the custom step in the elaboration pipeline
+        DocumentElaboration::register(SyncWithGeoserver::class);
     }
 
 }
