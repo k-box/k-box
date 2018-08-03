@@ -4,6 +4,7 @@ namespace KBox\Plugins;
 
 use Exception;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Facades\Artisan;
 use KBox\Plugins\Application as PluginsApplication;
 
 /**
@@ -105,6 +106,10 @@ final class PluginManager
         }
 
         $this->write();
+
+        // re-cache the routes as the plugin
+        // might define custom routes
+        // Artisan::call('route:cache');
     }
     
     /**
@@ -124,6 +129,10 @@ final class PluginManager
         }
 
         $this->write();
+
+        // re-cache the routes as the plugin
+        // might have defined custom routes
+        // Artisan::call('route:cache');
     }
     
     /**
