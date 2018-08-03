@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Response;
+use KBox\DocumentsElaboration\DocumentElaborationManager;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -68,6 +69,10 @@ class AppServiceProvider extends ServiceProvider
             'Illuminate\Contracts\Auth\Registrar',
             \KBox\Services\Registrar::class
         );
+
+        $this->app->singleton(DocumentElaborationManager::class, function ($app) {
+            return new DocumentElaborationManager();
+        });
 
         // Loading workbench service provider only if running in console (aka Artisan) and the environment is set to 'development'
 
