@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "80671865643aeb8fc4b9f2ec0742ad9e",
+    "content-hash": "6a7984a4287cfe7824283853828f68da",
     "packages": [
         {
             "name": "avvertix/materialicons-laravel-bridge",
@@ -5838,7 +5838,7 @@
             "dist": {
                 "type": "path",
                 "url": "tests/fixtures/plugins/example",
-                "reference": "7b3e313df411d2bc2ce71751f2850bbe7baf965f",
+                "reference": "875f52dcd6f8e72a25d6322a0660c2bbd389d051",
                 "shasum": null
             },
             "require": {
@@ -5851,13 +5851,13 @@
                 },
                 "kbox": {
                     "providers": [
-                        "Tests\\Plugins\\TestExamplePlugin"
+                        "Tests\\Plugins\\Example\\TestExamplePlugin"
                     ]
                 }
             },
             "autoload": {
                 "psr-4": {
-                    "Tests\\Plugins\\": ""
+                    "Tests\\Plugins\\Example\\": ""
                 }
             },
             "license": [
