@@ -24,6 +24,15 @@ final class GeoService
 
 
 
+    /**
+     * Get / set the plugin configuration.
+     *
+     * If an array is passed as the key, we will assume you want to set an array of values.
+     *
+     * @param  array|string  $key
+     * @param  mixed  $default
+     * @return mixed|array
+     */
     public function config($key = null, $default = null)
     {
 
@@ -58,15 +67,14 @@ final class GeoService
     }
 
 
-
-
-
     /**
      * If the plugin services can be used.
      * 
      * Checks if the configuration is correct and can be used
+     * 
+     * @return bool
      */
-    public static function isEnabled()
+    public function isEnabled()
     {
         return false;
     }
