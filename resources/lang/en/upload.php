@@ -24,6 +24,8 @@ return [
 
     'do_not_leave_the_page' => 'Please do not leave this page during the upload process. You can open a new tab in your browser and keep browsing the K-Box there until the upload finished.',
 
+    'upload_spec_info' => 'Supported videos are mp4 encoded with H.264 codec between 480x360 and 1920x1080 pixels',
+
     'target' => [
         'personal' => 'to your <a href=":link" target="_blank" rel="noopener noreferrer">private</a> space.',
         'collection' => 'to the collection <a href=":link" target="_blank" rel="noopener noreferrer">:name</a> under <strong>My Collections</strong>.',
