@@ -26,7 +26,7 @@
 		},
 		{
             "type": "path",
-            "url": "packages/geo",
+            "url": "plugins/geo",
             "options": {
                 "symlink": true
             }

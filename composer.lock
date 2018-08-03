@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6a7984a4287cfe7824283853828f68da",
+    "content-hash": "ea6e5b4256d9ddcec57cbc54d155908f",
     "packages": [
         {
             "name": "avvertix/materialicons-laravel-bridge",
@@ -1739,8 +1739,8 @@
             "version": "dev-master",
             "dist": {
                 "type": "path",
-                "url": "packages/geo",
-                "reference": "362f063b3a053bd84f906ee02588880973e2257e",
+                "url": "plugins/geo",
+                "reference": "a3d25ecaf4190921c8cdb6e13284e628cac634ce",
                 "shasum": null
             },
             "require": {
@@ -1751,7 +1751,7 @@
                 "branch-alias": {
                     "dev-master": "0.1-dev"
                 },
-                "laravel": {
+                "kbox": {
                     "providers": [
                         "KBox\\Geo\\Providers\\GeoServiceProvider"
                     ]
