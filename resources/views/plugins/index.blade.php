@@ -36,7 +36,9 @@
                         <td>
                             @if ($plugin->enabled)
                             
-                                {{-- <button disabled class="button" href="{{ route('administration.plugins.edit', $plugin->name) }}">{{trans('plugins.actions.settings')}}</button> --}}
+                                @if (Route::has("plugins.$plugin->name.settings"))
+                                    <a class="button" href="{{ route("plugins.$plugin->name.settings") }}">{{trans('plugins.actions.settings')}}</a>
+                                @endif
 
                                 <button class="button button--danger" onclick="event.preventDefault();document.getElementById('plugin-disable-form-{{str_slug($plugin->name)}}').submit();">{{trans('plugins.actions.disable')}}</button>
                                 <form id="plugin-disable-form-{{str_slug($plugin->name)}}" action="{{ route('administration.plugins.destroy', $plugin->name) }}" method="POST" style="display: none;">
