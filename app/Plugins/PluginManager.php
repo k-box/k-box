@@ -109,7 +109,9 @@ final class PluginManager
 
         // re-cache the routes as the plugin
         // might define custom routes
-        // Artisan::call('route:cache');
+        if (! app()->runningUnitTests()) {
+            Artisan::call('route:cache');
+        }
     }
     
     /**
@@ -132,7 +134,9 @@ final class PluginManager
 
         // re-cache the routes as the plugin
         // might have defined custom routes
-        // Artisan::call('route:cache');
+        if (! app()->runningUnitTests()) {
+            Artisan::call('route:cache');
+        }
     }
     
     /**
