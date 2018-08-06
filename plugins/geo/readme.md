@@ -1,6 +1,6 @@
 # Geographical Extension
 
-This package provides support for geographical data, e.g. GeoJson, KML, Shapefile. 
+This plugin provides support for geographical data, e.g. GeoJson, KML, Shapefile. 
 The support is given using a [GeoServer](http://geoserver.org/) integration.
 
 In particular this package will offer:
@@ -9,5 +9,5 @@ In particular this package will offer:
 - Preview
 - Download
 
-> **This is highly experimental**, the integration is disabled by default. Can be enabled with `php artisan dms:flags --enable geo`
+> **This is highly experimental**, the plugin must be enabled from the Administration > Plugins section. Plugin support can be enabled with `php artisan flags plugins`
 
