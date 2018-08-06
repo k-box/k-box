@@ -37,6 +37,8 @@ class PluginManagerTest extends TestCase
     
     public function test_manager_enable_plugin()
     {
+        $this->withoutExceptionHandling();
+        
         $pluginManifest = 'plugins.php';
         $enabledPluginManifest = 'enabled-plugins.php';
         

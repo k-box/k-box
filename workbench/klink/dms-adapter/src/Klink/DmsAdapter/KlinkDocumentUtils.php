@@ -66,7 +66,8 @@ class KlinkDocumentUtils
         'text/csv' => 'spreadsheet',
         'message/rfc822' => 'email',
         'application/vnd.ms-outlook' => 'email',
-
+		'application/gpx+xml' => 'geodata',
+		'application/geo+json' => 'geodata',
 		);
 		
 	/**
@@ -213,8 +214,12 @@ class KlinkDocumentUtils
         // Other
         'mxf' => 'application/mxf',
         'json' => 'application/json', 
-        'xml|gml|gpx' => 'text/xml', // Plain XML, gml: Geographic Markup Language - v2 (GML2), gpx: GPS Exchange Format (GPX)
-        'shp|shx|sbn|dbf|aib|e02|e01|ovr|mxd|prt|jgw|tfw' => 'application/octet-stream', // Esri ArcGIS files
+		'xml|gml' => 'text/xml', // Plain XML, gml: Geographic Markup Language - v2 (GML2), gpx: 
+		
+		// Geographical data
+		'shp|shx|sbn|dbf|aib|e02|e01|ovr|mxd|prt|jgw|tfw' => 'application/octet-stream', // Esri ArcGIS files
+		'gpx' => 'application/gpx+xml', // GPS Exchange Format (GPX)
+		'geojson' => 'application/geo+json',
 		) ;
 
 

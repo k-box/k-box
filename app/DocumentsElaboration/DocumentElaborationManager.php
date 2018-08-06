@@ -51,8 +51,10 @@ class DocumentElaborationManager
      */
     public function register($action)
     {
+        if (in_array($action, $this->actions)) {
+            return $this;
+        }
         array_push($this->actions, $action);
-
         return $this;
     }
 

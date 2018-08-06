@@ -4,6 +4,7 @@ namespace KBox\Plugins;
 
 use Exception;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Facades\Artisan;
 use KBox\Plugins\Application as PluginsApplication;
 
 /**
@@ -105,6 +106,12 @@ final class PluginManager
         }
 
         $this->write();
+
+        // re-cache the routes as the plugin
+        // might define custom routes
+        if (! app()->runningUnitTests()) {
+            Artisan::call('route:cache');
+        }
     }
     
     /**
@@ -124,18 +131,45 @@ final class PluginManager
         }
 
         $this->write();
+
+        // re-cache the routes as the plugin
+        // might have defined custom routes
+        if (! app()->runningUnitTests()) {
+            Artisan::call('route:cache');
+        }
     }
     
     /**
-     * Get a configuration parameter of the plugin
+     * Get / set the specified configuration value for a plugin.
+     *
+     * If an array is passed as the key, we will assume you want to set an array of values.
      *
      * @param string $plugin The name of the plugin to get the configuration
-     * @param string $key The configuration key to retrieve
+     * @param string|array|null $key The configuration key to retrieve. Default null, retrieves all configuration keys for the given plugin
      * @param mixed $default The value to return in case the configuration key do not exists. Default null
      * @return mixed The configuration value
      */
-    public function config($plugin, $key, $default = null)
+    public function config($plugin, $key = null, $default = null)
     {
+        $instance = $this->plugins()->get($plugin);
+
+        $configuration = isset($instance['configuration']) ? $instance['configuration'] : [];
+
+        if (is_null($key)) {
+            return $configuration;
+        }
+            
+        if (is_array($key)) {
+            $instance['configuration'] = array_merge($configuration, $key);
+            $this->write();
+            return $instance['configuration'];
+        }
+        
+        if (isset($configuration[$key])) {
+            return $configuration[$key];
+        }
+
+        return $default;
     }
 
     /**

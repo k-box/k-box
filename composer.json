@@ -2,7 +2,7 @@
 	"name": "klink/kbox",
 	"description": "The K-Link K-Box.",
 	"keywords": ["K-Link", "document", "management", "K-Box"],
-	"license": "AGPL-3.0",
+	"license": "AGPL-3.0-only",
 	"type": "project",	
 	
 	"repositories": [
@@ -23,7 +23,14 @@
             "options": {
                 "symlink": true
             }
-        }
+		},
+		{
+            "type": "path",
+            "url": "plugins/geo",
+            "options": {
+                "symlink": true
+            }
+		}
     ],
 
 	"require": {
@@ -51,7 +58,9 @@
 		"phpoffice/phpword": "~0.13.0",
 		"rinvex/language": "^1.1",
 		"swiftmailer/swiftmailer": "~6.0",
-		"k-box/example-plugin":"*"
+		"k-box/example-plugin":"*",
+		"k-box/kbox-plugin-geo": "*",
+		"oneofftech/geoserver-client-php": "dev-master"
 	},
 	"require-dev": {
 		"barryvdh/laravel-ide-helper": "^2.3",

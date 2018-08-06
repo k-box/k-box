@@ -5,13 +5,19 @@ namespace Tests\Unit\DocumentsElaboration;
 use Tests\TestCase;
 use KBox\DocumentDescriptor;
 use Illuminate\Support\Facades\Queue;
+use Klink\DmsAdapter\Traits\SwapInstance;
 use KBox\DocumentsElaboration\Jobs\ElaborateDocument;
+use KBox\DocumentsElaboration\DocumentElaborationManager;
 use KBox\DocumentsElaboration\Facades\DocumentElaboration;
 
 class DocumentElaborationManagerTest extends TestCase
 {
+    use SwapInstance;
+
     public function test_manager_returns_configured_actions()
     {
+        $this->swap(DocumentElaborationManager::class, new DocumentElaborationManager());
+
         $actions = DocumentElaboration::actions();
 
         $this->assertEquals(config('elaboration.pipelines.default'), $actions);
@@ -19,6 +25,8 @@ class DocumentElaborationManagerTest extends TestCase
 
     public function test_action_can_be_registered()
     {
+        $this->swap(DocumentElaborationManager::class, new DocumentElaborationManager());
+
         $configured_actions = config('elaboration.pipelines.default');
 
         DocumentElaboration::register('Class');
@@ -33,6 +41,7 @@ class DocumentElaborationManagerTest extends TestCase
         Queue::fake();
 
         config(['elaboration.queue' => 'custom']);
+        $this->swap(DocumentElaborationManager::class, new DocumentElaborationManager());
 
         $descriptor = new DocumentDescriptor();
 

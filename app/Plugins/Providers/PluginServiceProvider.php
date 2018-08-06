@@ -99,6 +99,6 @@ class PluginServiceProvider extends ServiceProvider
 
     private function registerRoutes()
     {
-        $this->loadRoutesFrom(base_path('routes/plugins.php'));
+        // $this->loadRoutesFrom(base_path('routes/plugins.php'));
     }
 }

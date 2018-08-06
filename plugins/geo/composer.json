@@ -1,0 +1,32 @@
+{
+    "name": "k-box/kbox-plugin-geo",
+    "type": "kbox-plugin",
+    "description": "Geo K-Box plugin",
+    "keywords": ["k-box", "k-link", "geo", "plugin"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Alessio Vertemati",
+            "email": "alessio@oneofftech.xyz"
+        }
+    ],
+    "require": {
+        "php": ">=7.1",
+        "oneofftech/geoserver-client-php": "dev-master"
+    },
+    "autoload": {
+        "psr-4": {
+            "KBox\\Geo\\": "src"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.1-dev"
+        },
+        "kbox": {
+            "providers": [
+                "KBox\\Geo\\Providers\\GeoServiceProvider"
+            ]
+        }
+    }
+}

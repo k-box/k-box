@@ -84,6 +84,8 @@ Route::group(['as' => 'administration.', 'prefix' => 'administration'], function
     Route::get('/licenses', 'Administration\DocumentLicenses\DocumentLicensesController@index')->name('licenses.index');
     Route::put('/licenses/default', 'Administration\DocumentLicenses\DefaultDocumentLicensesController@update')->name('licenses.default.update');
     Route::put('/licenses/available', 'Administration\DocumentLicenses\AvailableDocumentLicensesController@update')->name('licenses.available.update');
+
+    Route::resource('/plugins', 'Plugins\PluginsController', ['only' => ['index'/*, 'show', 'edit'*/, 'update', 'destroy']]);
 });
 /*
 |--------------------------------------------------------------------------
