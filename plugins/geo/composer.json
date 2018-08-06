@@ -10,15 +10,9 @@
             "email": "alessio@oneofftech.xyz"
         }
     ],
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/OneOffTech/geoserver-client-php"
-        }
-    ],
     "require": {
         "php": ">=7.1",
-        "oneofftech/geoserver-client-php": "dev-datastores-api"
+        "oneofftech/geoserver-client-php": "dev-master"
     },
     "autoload": {
         "psr-4": {

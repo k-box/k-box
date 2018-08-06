@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4ead16eeca8abb1425c799903eb2dda4",
+    "content-hash": "3843c8f478f08e6385ec1766afc7e244",
     "packages": [
         {
             "name": "avvertix/materialicons-laravel-bridge",
@@ -1806,11 +1806,11 @@
             "dist": {
                 "type": "path",
                 "url": "plugins/geo",
-                "reference": "a3d25ecaf4190921c8cdb6e13284e628cac634ce",
+                "reference": "711c31a228d9f3ebd454d8a3acd428a625dc58d5",
                 "shasum": null
             },
             "require": {
-                "oneofftech/geoserver-client-php": "dev-datastores-api",
+                "oneofftech/geoserver-client-php": "dev-master",
                 "php": ">=7.1"
             },
             "type": "kbox-plugin",
@@ -2634,16 +2634,16 @@
         },
         {
             "name": "oneofftech/geoserver-client-php",
-            "version": "dev-datastores-api",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/OneOffTech/geoserver-client-php.git",
-                "reference": "ad034cfc83df5e9fac4f326edbba13f5146231db"
+                "reference": "c05603a6312c47d222fb160b3747580fbfaf3cb2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/OneOffTech/geoserver-client-php/zipball/ad034cfc83df5e9fac4f326edbba13f5146231db",
-                "reference": "ad034cfc83df5e9fac4f326edbba13f5146231db",
+                "url": "https://api.github.com/repos/OneOffTech/geoserver-client-php/zipball/c05603a6312c47d222fb160b3747580fbfaf3cb2",
+                "reference": "c05603a6312c47d222fb160b3747580fbfaf3cb2",
                 "shasum": ""
             },
             "require": {
@@ -2679,14 +2679,7 @@
                     "OneOffTech\\GeoServer\\": "src/"
                 }
             },
-            "autoload-dev": {
-                "psr-4": {
-                    "Tests\\": "tests/"
-                },
-                "files": [
-                    "tests/helpers.php"
-                ]
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "AGPL-3.0-only"
             ],
@@ -2698,11 +2691,7 @@
             ],
             "description": "A GeoServer API client",
             "homepage": "https://github.com/oneofftech/geoserver-client-php",
-            "support": {
-                "issues": "https://github.com/oneofftech/geoserver-client-php/issues",
-                "source": "https://github.com/oneofftech/geoserver-client-php"
-            },
-            "time": "2018-08-01T11:17:52+00:00"
+            "time": "2018-08-06T10:24:17+00:00"
         },
         {
             "name": "oneofftech/k-link-streaming-upload-client",
