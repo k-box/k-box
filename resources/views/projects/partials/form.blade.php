@@ -51,30 +51,17 @@
                 @endif
             
         </div>
+</div>        
         
-        
-
-        @if(isset($create))
-        <div id="add-members" class="c-form__field">
+<div id="add-members" class="c-form__field">
 
             @include('projects.partials.useradd', ['use_label' => true, 'hide_button' => true])
-
-        </div>
-        @endif
 
         <div class="c-form__buttons">
             <button type="submit" class="button button--primary">{{$submit_btn}}</button> {{trans('actions.or_alt')}} <a href="@if(isset($cancel_route)) {{$cancel_route}} @else{{route('documents.projects.index')}}@endif">{{trans('projects.labels.cancel')}}</a>
         </div>
     
 </div>
-
-@if(!isset($create))
-<div class="fieldbox" id="add-members">
-
-    @include('projects.partials.useradd')
-
- </div>
-@endif
 
 @if(!isset($create))
 
