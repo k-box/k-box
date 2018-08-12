@@ -12,6 +12,8 @@ use Klink\DmsAdapter\KlinkVisibilityType;
 use Klink\DmsAdapter\KlinkDocumentDescriptor;
 use Klink\DmsDocuments\DocumentsService;
 use OneOffTech\Licenses\Contracts\LicenseRepository;
+use KBox\Events\DocumentDescriptorDeleted;
+use KBox\Events\DocumentDescriptorRestored;
 
 /**
  * A Document Descriptor
@@ -169,6 +171,11 @@ class DocumentDescriptor extends Model
     
     protected $hidden = [ 'last_error' ];
     protected $append = [ 'publication' ];
+
+    protected $dispatchesEvents = [
+        'deleted' => DocumentDescriptorDeleted::class,
+        'restored' => DocumentDescriptorRestored::class,
+    ];
 
     /**
      * Return the name of the pivot table that handles the relation
