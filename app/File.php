@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Storage;
 use Dyrynda\Database\Support\GeneratesUuid;
 use Klink\DmsAdapter\KlinkDocumentUtils;
 use Illuminate\Support\Facades\Crypt;
+use KBox\Events\FileDeleted;
+use KBox\Events\FileRestored;
 
 /**
  * The representation of a File on disk
@@ -99,6 +101,11 @@ class File extends Model
     protected $casts = [
         'uuid' => 'uuid',
         'properties' => 'collection',
+    ];
+
+    protected $dispatchesEvents = [
+        'deleted' => FileDeleted::class,
+        'restored' => FileRestored::class,
     ];
 
     /**

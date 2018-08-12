@@ -2,6 +2,7 @@
 
 namespace KBox\Plugins;
 
+use Illuminate\Support\Facades\Event;
 use KBox\Contracts\Plugin as PluginContract;
 
 /**
@@ -101,5 +102,17 @@ abstract class Plugin implements PluginContract
     protected function loadJsonTranslationsFrom($path)
     {
         $this->app->make('translator')->addJsonPath($path);
+    }
+
+    /**
+     * Register an event listener
+     *
+     * @param  string  $event The event class name
+     * @param  string  $listener The listener class name
+     * @return void
+     */
+    protected function registerEventListener($event, $listener)
+    {
+        Event::listen($event, $listener);
     }
 }
