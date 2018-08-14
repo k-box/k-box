@@ -25,11 +25,11 @@ class KlinkAdapterSearchTest extends TestCase
     {
         parent::setUp();
 
-        if (empty(getenv('DMS_CORE_ADDRESS'))) {
+        // if (empty(getenv('DMS_CORE_ADDRESS'))) {
             $this->markTestSkipped(
                 'DMS_CORE_ADDRESS not configured for running integration tests.'
             );
-        }
+        // }
 
         // generate and index some data
         $this->adapter = app('klinkadapter');
