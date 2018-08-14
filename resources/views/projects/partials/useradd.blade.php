@@ -18,10 +18,7 @@
         @endforeach
                         
     </select>
-
-    
-
-    </div>
+     </div>
 
     @if(!isset($hide_button))
     <div>
