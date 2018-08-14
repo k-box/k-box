@@ -1,8 +1,8 @@
 <?php
 
 use Tests\BrowserKitTestCase;
-use Content\Preview\WordDocumentPreview;
-use Content\FileProperties;
+use KBox\Documents\Preview\WordDocumentPreview;
+use KBox\Documents\FileProperties;
 
 class WordDocumentPreviewTest extends BrowserKitTestCase
 {

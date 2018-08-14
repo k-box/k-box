@@ -9,7 +9,7 @@ use KBox\DuplicateDocument;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use KBox\Http\Controllers\Controller;
-use Klink\DmsDocuments\DocumentsService;
+use KBox\Documents\Services\DocumentsService;
 use Illuminate\Contracts\Auth\Guard as AuthGuard;
 
 class DuplicateDocumentsController extends Controller

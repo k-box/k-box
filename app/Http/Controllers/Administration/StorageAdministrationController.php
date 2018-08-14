@@ -6,7 +6,7 @@ use KBox\Option;
 use KBox\Jobs\ReindexAll;
 use Illuminate\Http\Request;
 use KBox\DocumentDescriptor;
-use Klink\DmsDocuments\StorageService;
+use KBox\Documents\Services\StorageService;
 use KBox\Http\Controllers\Controller;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 

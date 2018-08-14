@@ -3,7 +3,7 @@
 namespace Tests\Unit\TextExtraction;
 
 use Tests\TestCase;
-use Content\Pdf\PdfCli;
+use KBox\Documents\Pdf\PdfCli;
 
 class PdfCliTest extends TestCase
 {

@@ -1,9 +1,9 @@
 <?php
 
 use Tests\BrowserKitTestCase;
-use Content\Preview\PresentationPreview;
-use Content\FileProperties;
-use Content\Presentation\PresentationProperties;
+use KBox\Documents\Preview\PresentationPreview;
+use KBox\Documents\FileProperties;
+use KBox\Documents\Presentation\PresentationProperties;
 
 class PresentationPreviewTest extends BrowserKitTestCase
 {

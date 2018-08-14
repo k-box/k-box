@@ -1,8 +1,8 @@
 <?php
 
-namespace Content\ExtractText;
+namespace KBox\Documents\ExtractText;
 
-use Content\Contracts\ExtractText as ExtractTextContract;
+use KBox\Documents\Contracts\ExtractText as ExtractTextContract;
 
 /**
  *

@@ -30,7 +30,7 @@ class HomeController extends Controller
 
     /**
      * [$documents description]
-     * @var \Klink\DmsDocuments\DocumentsService
+     * @var \KBox\Documents\Services\DocumentsService
      */
     private $documents = null;
 
@@ -39,7 +39,7 @@ class HomeController extends Controller
      *
      * @return void
      */
-    public function __construct(\Klink\DmsAdapter\KlinkAdapter $adapterService, \Klink\DmsDocuments\DocumentsService $documentsService)
+    public function __construct(\Klink\DmsAdapter\KlinkAdapter $adapterService, \KBox\Documents\Services\DocumentsService $documentsService)
     {
         $this->middleware('auth');
 

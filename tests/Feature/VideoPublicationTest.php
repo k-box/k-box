@@ -8,7 +8,7 @@ use KBox\Publication;
 use KBox\Option;
 use KBox\Facades\KlinkStreaming;
 use Illuminate\Support\Facades\Storage;
-use Klink\DmsAdapter\KlinkDocumentUtils;
+use KBox\Documents\KlinkDocumentUtils;
 use KBox\Jobs\UpdatePublishedDocumentJob;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 

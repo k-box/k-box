@@ -213,7 +213,7 @@
 					@if($document->isFileUploadComplete())
 						<a href="{{DmsRouting::download($document)}}" target="_blank" download="{{ $document->title }}" class="button">
 							{{trans('panels.download_btn')}} 
-							({{Klink\DmsDocuments\DocumentsService::extension_from_file($document->file)}}, {{Klink\DmsDocuments\DocumentsService::human_filesize($document->file->size)}})
+							({{KBox\Documents\Services\DocumentsService::extension_from_file($document->file)}}, {{KBox\Documents\Services\DocumentsService::human_filesize($document->file->size)}})
 						</a>
 					@endif
 

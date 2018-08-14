@@ -21,7 +21,7 @@ use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use KBox\Traits\Searchable;
 use KBox\Events\UploadCompleted;
-use Klink\DmsAdapter\KlinkDocumentUtils;
+use KBox\Documents\KlinkDocumentUtils;
 use Klink\DmsAdapter\KlinkVisibilityType;
 use Klink\DmsAdapter\Exceptions\KlinkException;
 use KBox\Jobs\ReindexDocument;
@@ -52,7 +52,7 @@ class DocumentsController extends Controller
      *
      * @return void
      */
-    public function __construct(\Klink\DmsDocuments\DocumentsService $adapterService)
+    public function __construct(\KBox\Documents\Services\DocumentsService $adapterService)
     {
         $this->middleware('auth', ['except' => ['showByKlinkId']]);
 

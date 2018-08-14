@@ -1,7 +1,7 @@
 <?php
 
 use Tests\BrowserKitTestCase;
-use Content\Preview\MarkdownPreview;
+use KBox\Documents\Preview\MarkdownPreview;
 
 class MarkdownPreviewTest extends BrowserKitTestCase
 {

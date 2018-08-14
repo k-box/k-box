@@ -1,11 +1,11 @@
 <?php
 
-namespace Content\Services;
+namespace KBox\Documents\Services;
 
 use KBox\File;
 
 use Klink\DmsAdapter\Contracts\KlinkAdapter;
-use Klink\DmsAdapter\KlinkDocumentUtils;
+use KBox\Documents\KlinkDocumentUtils;
 use Log;
 use Exception;
 use Imagick;

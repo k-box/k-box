@@ -1,9 +1,9 @@
 <?php
 
-namespace Content\Providers;
+namespace KBox\Documents\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Content\Services\PreviewService;
+use KBox\Documents\Services\PreviewService;
 
 /**
  * Exposes the services related to the file preview

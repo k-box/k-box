@@ -1,6 +1,6 @@
 <?php
 
-namespace Klink\DmsDocuments;
+namespace KBox\Documents\Services;
 
 use Illuminate\Support\Facades\DB;
 use KBox\DocumentDescriptor;
@@ -19,15 +19,13 @@ use Illuminate\Support\Facades\Config;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use KBox\Exceptions\ForbiddenException;
-use KBox\Exceptions\FileNamingException;
 use Illuminate\Support\Collection;
 use Carbon\Carbon;
 use KBox\Exceptions\GroupAlreadyExistsException;
 use KBox\Exceptions\CollectionMoveException;
 use KBox\Jobs\ImportCommand;
-use KBox\Jobs\ThumbnailGenerationJob;
 use Klink\DmsAdapter\KlinkDocument;
-use Klink\DmsAdapter\KlinkDocumentUtils;
+use KBox\Documents\KlinkDocumentUtils;
 use Klink\DmsAdapter\KlinkVisibilityType;
 use Klink\DmsAdapter\Exceptions\KlinkException;
 use KBox\Jobs\ReindexDocument;
@@ -54,7 +52,6 @@ class DocumentsService
         $this->adapter = $adapter;
     }
 
-    
     /**
      * [getDocument description]
      * @param  string $documentID    [description]
@@ -66,9 +63,7 @@ class DocumentsService
         $cached = DocumentDescriptor::findByDocumentId($documentID);
 
         if (is_null($cached)) {
-            
             throw new \InvalidArgumentException("The specified document {$documentID} is invalid", 2);
-            
         }
 
         return $cached;
@@ -103,7 +98,7 @@ class DocumentsService
                 return $file->absolute_path;
             }
             
-            $instance = app()->make('Klink\DmsDocuments\FileContentExtractor');
+            $instance = app()->make('KBox\Documents\FileContentExtractor');
             
             return $instance->extract($file->mime_type, $file->absolute_path, $file->name);
         } catch (\Exception $ex) {
@@ -229,7 +224,7 @@ class DocumentsService
      * @throws InvalidArgumentException If the file type could not be indexed,
      */
     public function indexDocument(File $file, $visibility = 'public', User $owner = null, Group $group = null, $return_also_if_indexing_error = false)
-    {     
+    {
         if (is_null($owner)) {
             $owner = $file->user;
         }
@@ -333,7 +328,6 @@ class DocumentsService
         }
     }
 
-
     /**
      * Creates a File entry in the database
      *
@@ -345,7 +339,7 @@ class DocumentsService
      * @param string $size the file size in bytes
      * @param boolean $is_folder If the file actually refers to a folder. Default false
      * @param string $original_uri The original uri of the file location. Used in case of import from http. Default empty string
-     * @param string $thumbnail_path The path of the thumbnail for the file. Default null 
+     * @param string $thumbnail_path The path of the thumbnail for the file. Default null
      * @return \KBox\File
      */
     public function createFile($user, $name, $type, $path, $hash, $size, $is_folder = false, $original_uri = '', $thumbnail_path = null)
@@ -364,12 +358,12 @@ class DocumentsService
     }
     
     /**
-     * 
-     * 
+     *
+     *
      * @param \KBox\File $file
      * @param string $visibility
      * @param \KBox\Group|null $collection
-     * @return 
+     * @return
      */
     public function createDocumentDescriptor($file, $visibility = 'private', $collection = null)
     {
@@ -486,7 +480,6 @@ class DocumentsService
             try {
                 //if is both private and public reindex on every visibility
                 dispatch(new ReindexDocument($doc, $doc->visibility));
-                
             } catch (\Exception $kex) {
                 $errors[$doc->id] = $kex;
             }
@@ -618,7 +611,6 @@ class DocumentsService
             throw new ForbiddenException(trans('documents.messages.delete_forbidden'), 1);
         }
         
-        
         $transaction = DB::transaction(function () use ($descriptor) {
             \Log::info('Permanently deleting document', ['descriptor' => $descriptor]);
             
@@ -643,7 +635,6 @@ class DocumentsService
             
             $is_deleted = $file->forceDelete();
             
-            
             return true;
         });
         
@@ -661,7 +652,7 @@ class DocumentsService
             }
         }
 
-        if (! $group->is_private){
+        if (! $group->is_private) {
 
             // check if creator or manager of the project the collection was in
             $project = $group->getProject();
@@ -671,12 +662,11 @@ class DocumentsService
             }
 
             $is_creator = $user->id == $group->user_id;
-            $is_manager = !is_null($project) ? $project->user_id == $user->id : false;
+            $is_manager = ! is_null($project) ? $project->user_id == $user->id : false;
     
             if (! ($is_creator || $is_manager)) {
-                throw new ForbiddenException(trans( ! $is_manager ? 'groups.delete.forbidden_delete_project_collection_not_manager' : 'groups.delete.forbidden_delete_project_collection_not_creator', ['collection' => $group->name]));
+                throw new ForbiddenException(trans(! $is_manager ? 'groups.delete.forbidden_delete_project_collection_not_manager' : 'groups.delete.forbidden_delete_project_collection_not_creator', ['collection' => $group->name]));
             }
-
         }
 
         if ($group->is_private && ! $user->can_capability(Capability::MANAGE_OWN_GROUPS)) {
@@ -753,7 +743,7 @@ class DocumentsService
      *
      * @param  User           $user       The user
      * @param  int         	  $page       The page of the trash to be returned (in case of multipage return)
-     * @return TrashContentResponse                     The content of the trash
+     * @return KBox\Documents\TrashContentResponse                     The content of the trash
      */
     public function getUserTrash($user, $page = 1)
     {
@@ -777,7 +767,6 @@ class DocumentsService
             $private_trashed = Group::onlyTrashed()->private($user->id)->get();
             $trashed_collections = $trashed_collections->merge($private_trashed);
         }
-        
         
         // Get the project collections w.r.t. user capabilities
         if ($user_is_dms_manager) {
@@ -817,7 +806,6 @@ class DocumentsService
         
         return new TrashContentResponse($trashed_documents->get(), $trashed_collections, $paginator_instance);
     }
-    
     
     /**
      * Retrieves all the collections accessible by the specified User
@@ -872,7 +860,6 @@ class DocumentsService
             });
         }
 
-        
         $r = new \stdClass;
         $r->personal = ! is_null($personal_groups) ? $personal_groups : Collection::make([]);
         $r->projects = ! is_null($private_groups) ? $private_groups : Collection::make([]);
@@ -968,7 +955,6 @@ class DocumentsService
         }
     }
     
-
     /**
      * Get the document collections in which the document has been added and to which the user has access to.
      * In other words: private collections, project collections that are under a project managed by the user or on which the user has been added to.
@@ -1007,7 +993,6 @@ class DocumentsService
 
     // --- Groups related functions ----------------------------
 
-    
     // group operation are only available for private descriptor so only private descriptors are touched by operation on groups
 
     /**
@@ -1188,11 +1173,9 @@ class DocumentsService
                 $descendants = $group->getDescendants();
 
                 foreach ($descendants as $descendant) {
-
                     $that->removeDocumentsFromGroup($user, $descendant->documents, $descendant);
 
                     $descendant->delete();
-                    
                 }
             }
 
@@ -1395,9 +1378,6 @@ class DocumentsService
         
         \Cache::forget('dms_personal_collections'.$user->id);
 
-        
-        
-        
         return true;
     }
 
@@ -1435,7 +1415,7 @@ class DocumentsService
         
         \Cache::forget('dms_personal_collections'.$user->id);
 
-                // reindex all the documents in that group
+        // reindex all the documents in that group
 
         return true;
     }
@@ -1452,7 +1432,6 @@ class DocumentsService
 
         //$new_documents = $group->documents;
 
-        
         $this->addDocumentsToGroup($user, $documents, $destination, false);
 
         $this->removeDocumentsFromGroup($user, $documents, $origin, true);
@@ -1533,16 +1512,15 @@ class DocumentsService
 
     /**
      * Move a project collection (and its descendants) to a personal collection
-     * 
+     *
      * @param User $user The user that is performing the operation
      * @param Group $collection The collection that you want to move
      * @param Group $parent The new parent collection or null, in case will be a root
      * @throws \KBox\Exceptions\CollectionMoveException when the move operation is not possible
      */
-    public function moveProjectCollectionToPersonal(User $user, Group $collection, Group $parent = null )
+    public function moveProjectCollectionToPersonal(User $user, Group $collection, Group $parent = null)
     {
-
-        if($collection->user_id !== $user->id){
+        if ($collection->user_id !== $user->id) {
             throw new CollectionMoveException($collection, CollectionMoveException::REASON_NOT_ALL_SAME_USER);
         }
 
@@ -1552,33 +1530,29 @@ class DocumentsService
 
         $descendant_not_created_by_user = $collection->withDescendants()->where('user_id', '<>', $user->id)->get();
 
-        if(! $descendant_not_created_by_user->isEmpty()){
+        if (! $descendant_not_created_by_user->isEmpty()) {
             throw new CollectionMoveException($collection, CollectionMoveException::REASON_NOT_ALL_SAME_USER, $descendant_not_created_by_user);
         }
 
         DB::transaction(function () use ($user, $collection, $parent) {
-
             $this->makeGroupPrivate($user, $collection);
             
             $this->moveGroup($user, $collection, $parent);
-        
         });
 
         return $collection->fresh();
-
     }
 
     /**
      * Move a personal collection (and its descendants) to a project collection
-     * 
+     *
      * @param User $user The user that is performing the operation
      * @param Group $collection The collection that you want to move
      * @param Group $parent The new parent collection or null, in case will be a root
      * @throws \KBox\Exceptions\CollectionMoveException when the move operation is not possible
      */
-    public function movePersonalCollectionToProject(User $user, Group $collection, Group $parent = null )
+    public function movePersonalCollectionToProject(User $user, Group $collection, Group $parent = null)
     {
-
         if (! $this->isCollectionAccessible($user, $collection)) {
             throw new ForbiddenException(trans('groups.move.errors.no_access_to_collection'));
         }
@@ -1588,17 +1562,14 @@ class DocumentsService
         }
 
         DB::transaction(function () use ($user, $collection, $parent) {
-
             $this->makeGroupPublic($user, $collection);
             $this->moveGroup($user, $collection, $parent);
-        
         });
 
         return $collection->fresh();
-
     }
 
-        // --- Import related functions ----------------------------
+    // --- Import related functions ----------------------------
 
     public function importStatus(User $user)
     {
@@ -1684,7 +1655,7 @@ class DocumentsService
             $file->revision_of=null;
             $file->thumbnail_path=null;
             $file->uuid = $uuid;
-            $file->path = date('Y').'/'.date('m').'/'.$uuid.'/' . $temp_hash . '.html';
+            $file->path = date('Y').'/'.date('m').'/'.$uuid.'/'.$temp_hash.'.html';
             
             $file->user_id = $uploader->id;
             $file->original_uri = $url;
@@ -1821,16 +1792,13 @@ class DocumentsService
     public function importFile(UploadedFile $upload, User $uploader, $visibility = 'private', Group $group = null)
     {
         try {
-
-            return DB::transaction(function() use ($upload, $uploader, $visibility, $group){
-
+            return DB::transaction(function () use ($upload, $uploader, $visibility, $group) {
                 $file_model = $this->createFileFromUpload($upload, $uploader);
                 
                 $descriptor = $this->createDocumentDescriptor($file_model, $visibility, $group);
                 
                 return $descriptor;
             });
-
         } catch (\Exception $ex) {
             \Log::error('File copy error', ['context' => 'DocumentsService@importFile', 'upload' => $upload->getClientOriginalName(), 'owner' => $uploader->id, 'error' => $ex]);
 
@@ -1846,9 +1814,7 @@ class DocumentsService
     public function createFileFromUpload(UploadedFile $upload, User $uploader, File $revision_of = null)
     {
         try {
-
             return File::createFromUploadedFile($upload, $uploader, $revision_of);
-
         } catch (\Exception $ex) {
             \Log::error('Create File from UploadFile failed', ['context' => 'DocumentsService@createFileFromUpload', 'upload' => $upload->getClientOriginalName(), 'owner' => $uploader->id, 'error' => $ex]);
 
@@ -1997,30 +1963,30 @@ class DocumentsService
         $filename = preg_replace('/[\r\n\t -]+/', '-', $filename);
         $filename = trim($filename, '.-_');
     
-            // Split the filename into a base and extension[s]
-            $parts = explode('.', $filename);
+        // Split the filename into a base and extension[s]
+        $parts = explode('.', $filename);
     
-            // Return if only one extension
-            if (count($parts) <= 2) {
-                return $filename;
-            }
+        // Return if only one extension
+        if (count($parts) <= 2) {
+            return $filename;
+        }
     
-            // Process multiple extensions
-            $filename = array_shift($parts);
+        // Process multiple extensions
+        $filename = array_shift($parts);
         $extension = array_pop($parts);
-            // $mimes = get_allowed_mime_types();
+        // $mimes = get_allowed_mime_types();
     
-            /*
-             * Loop over any intermediate extensions. Postfix them with a trailing underscore
-             * if they are a 2 - 5 character long alpha string not in the extension whitelist.
-             */
-            foreach ((array) $parts as $part) {
-                $filename .= '.'.$part;
+        /*
+         * Loop over any intermediate extensions. Postfix them with a trailing underscore
+         * if they are a 2 - 5 character long alpha string not in the extension whitelist.
+         */
+        foreach ((array) $parts as $part) {
+            $filename .= '.'.$part;
     
-                if (preg_match("/^[a-zA-Z]{2,5}\d?$/", $part)) {
-                    $filename .= '_';
-                }
+            if (preg_match("/^[a-zA-Z]{2,5}\d?$/", $part)) {
+                $filename .= '_';
             }
+        }
         $filename .= '.'.$extension;
             
         return $filename;
@@ -2037,7 +2003,6 @@ class DocumentsService
      */
     public function extractFileNameFromUrl($url)
     {
-
         $parts = parse_url($url);
 
         $host = $parts['host'];

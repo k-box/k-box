@@ -85,7 +85,7 @@
 				{{trans('panels.meta.size')}}
 			</div>
 				
-				{{Klink\DmsDocuments\DocumentsService::human_filesize($item->properties->size)}}
+				{{KBox\Documents\Services\DocumentsService::human_filesize($item->properties->size)}}
 
 		</div>
 

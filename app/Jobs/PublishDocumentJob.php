@@ -8,7 +8,7 @@ use KBox\Option;
 use KBox\Facades\KlinkStreaming;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
-use Klink\DmsDocuments\DocumentsService;
+use KBox\Documents\Services\DocumentsService;
 use Klink\DmsAdapter\KlinkVisibilityType;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;

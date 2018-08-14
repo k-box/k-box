@@ -1,6 +1,6 @@
 <?php
 
-namespace Klink\DmsDocuments;
+namespace KBox\Documents;
 
 use Illuminate\Support\Collection;
 use Illuminate\Pagination\LengthAwarePaginator as Paginator;
@@ -20,8 +20,6 @@ class TrashContentResponse
         $this->collections = $collections;
         $this->paginator = $paginator;
     }
-    
-    
     
     /**
      * Return both documents and collections

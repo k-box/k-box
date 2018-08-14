@@ -65,7 +65,7 @@
 				{{trans('panels.download_btn')}} 
 	
 				@if(!is_null($item->file))
-					({{Klink\DmsDocuments\DocumentsService::extension_from_file($item->file)}}, {{Klink\DmsDocuments\DocumentsService::human_filesize($item->file->size)}})
+					({{KBox\Documents\Services\DocumentsService::extension_from_file($item->file)}}, {{KBox\Documents\Services\DocumentsService::human_filesize($item->file->size)}})
 				@endif
 			</a>
 		@elseif(starts_with($item->document_uri, 'http://msri-hub.ucentralasia.org/') || starts_with($item->document_uri, 'http://staging-uca.cloudapp.net/'))
@@ -245,7 +245,7 @@
 			</div>
 			
 				
-				{{Klink\DmsDocuments\DocumentsService::human_filesize($item->file->size)}}
+				{{KBox\Documents\Services\DocumentsService::human_filesize($item->file->size)}}
 
 		</div>
 

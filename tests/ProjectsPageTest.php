@@ -126,7 +126,7 @@ class ProjectsPageTest extends BrowserKitTestCase
         $project2 = $this->createProject();
         $project2->users()->attach($user->id);
 
-        $service = app('Klink\DmsDocuments\DocumentsService');
+        $service = app('KBox\Documents\Services\DocumentsService');
         $service->addDocumentToGroup($user, $document, $project1->collection);
         $document = $document->fresh();
 
@@ -212,7 +212,7 @@ class ProjectsPageTest extends BrowserKitTestCase
         
         $user = $this->createUser(Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH);
         
-        $service = app('Klink\DmsDocuments\DocumentsService');
+        $service = app('KBox\Documents\Services\DocumentsService');
 
         $document = $this->createDocument($user);
 

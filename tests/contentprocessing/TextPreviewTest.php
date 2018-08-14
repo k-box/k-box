@@ -1,7 +1,7 @@
 <?php
 
 use Tests\BrowserKitTestCase;
-use Content\Preview\TextPreview;
+use KBox\Documents\Preview\TextPreview;
 
 class TextPreviewTest extends BrowserKitTestCase
 {

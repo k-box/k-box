@@ -33,7 +33,7 @@ class FiltersTest extends BrowserKitTestCase
 
         $user = $this->createUser(Capability::$PROJECT_MANAGER);
 
-        $service = app('Klink\DmsDocuments\DocumentsService');
+        $service = app('KBox\Documents\Services\DocumentsService');
 
         $mock->shouldReceive('addDocument', 'updateDocument')->andReturnUsing(function ($doc) {
             $descr = $doc->getDescriptor();

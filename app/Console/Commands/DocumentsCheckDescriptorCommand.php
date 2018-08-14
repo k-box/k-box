@@ -5,8 +5,8 @@ namespace KBox\Console\Commands;
 use Illuminate\Console\Command;
 
 use KBox\DocumentDescriptor;
-use Klink\DmsDocuments\DocumentsService;
-use Klink\DmsAdapter\KlinkDocumentUtils;
+use KBox\Documents\Services\DocumentsService;
+use KBox\Documents\KlinkDocumentUtils;
 use KBox\Console\Traits\DebugOutput;
 
 class DocumentsCheckDescriptorCommand extends Command

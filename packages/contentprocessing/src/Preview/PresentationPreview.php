@@ -1,11 +1,11 @@
 <?php
 
-namespace Content\Preview;
+namespace KBox\Documents\Preview;
 
-use Content\Contracts\Preview as PreviewContract;
-use Content\Presentation\SlideRenderer;
-use Content\Presentation\Reader\PowerPoint2007;
-use Content\Presentation\PresentationProperties;
+use KBox\Documents\Contracts\Preview as PreviewContract;
+use KBox\Documents\Presentation\SlideRenderer;
+use KBox\Documents\Presentation\Reader\PowerPoint2007;
+use KBox\Documents\Presentation\PresentationProperties;
 
 use PhpOffice\PhpPresentation\IOFactory;
 use PhpOffice\PhpPresentation\DocumentLayout;

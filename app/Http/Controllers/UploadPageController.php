@@ -3,7 +3,7 @@
 namespace KBox\Http\Controllers;
 
 use KBox\Group;
-use Klink\DmsDocuments\DocumentsService;
+use KBox\Documents\Services\DocumentsService;
 
 class UploadPageController extends Controller
 {

@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Content\Presentation\Reader;
+namespace KBox\Documents\Presentation\Reader;
 
 use PhpOffice\PhpPresentation\Reader\PowerPoint2007 as OriginalPowerPoint2007Reader;
 

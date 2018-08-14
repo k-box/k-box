@@ -1,9 +1,9 @@
 <?php
 
-namespace Content\Providers;
+namespace KBox\Documents\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Content\Services\TextExtractionService;
+use KBox\Documents\Services\TextExtractionService;
 
 class TextExtractionServiceProvider extends ServiceProvider
 {

@@ -8,7 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 
 use KBox\File;
 
-use Content\Services\ThumbnailsService;
+use KBox\Documents\Services\ThumbnailsService;
 
 use Exception;
 
@@ -17,7 +17,7 @@ use Exception;
  *
  * It runs on the queue.
  *
- * @uses \Content\Services\ThumbnailsService
+ * @uses \KBox\Documents\Services\ThumbnailsService
  */
 class ThumbnailGenerationJob extends Job implements ShouldQueue
 {

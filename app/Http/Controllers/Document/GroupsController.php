@@ -22,7 +22,7 @@ class GroupsController extends Controller
 
     /**
      * [$adapter description]
-     * @var \Klink\DmsDocuments\DocumentsService
+     * @var \KBox\Documents\Services\DocumentsService
      */
     private $service = null;
 
@@ -31,7 +31,7 @@ class GroupsController extends Controller
      *
      * @return void
      */
-    public function __construct(\Klink\DmsDocuments\DocumentsService $service)
+    public function __construct(\KBox\Documents\Services\DocumentsService $service)
     {
         $this->middleware('auth');
 

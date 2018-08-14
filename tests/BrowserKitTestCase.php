@@ -113,7 +113,7 @@ abstract class BrowserKitTestCase extends BaseTestCase
 
     protected function createCollection(User $user, $is_personal = true, $childs = 0)
     {
-        $service = app('Klink\DmsDocuments\DocumentsService');
+        $service = app('KBox\Documents\Services\DocumentsService');
 
         $faker = app('Faker\Generator');
 
@@ -141,7 +141,7 @@ abstract class BrowserKitTestCase extends BaseTestCase
     {
         $group = is_a($parent, \KBox\Project::class) ? $parent->collection : $parent;
 
-        $service = app('Klink\DmsDocuments\DocumentsService');
+        $service = app('KBox\Documents\Services\DocumentsService');
 
         $faker = app('Faker\Generator');
 

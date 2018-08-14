@@ -3,7 +3,7 @@
 namespace Tests\Unit\TextExtraction;
 
 use Tests\TestCase;
-use Content\ExtractText\TextFileExtractor;
+use KBox\Documents\ExtractText\TextFileExtractor;
 
 class PlainFileTextExtractionTest extends TestCase
 {

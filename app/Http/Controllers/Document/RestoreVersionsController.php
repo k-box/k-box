@@ -8,7 +8,7 @@ use KBox\DocumentDescriptor;
 use KBox\Jobs\ReindexDocument;
 use Illuminate\Http\JsonResponse;
 use KBox\Http\Controllers\Controller;
-use Klink\DmsAdapter\KlinkDocumentUtils;
+use KBox\Documents\KlinkDocumentUtils;
 use Klink\DmsAdapter\KlinkVisibilityType;
 
 class RestoreVersionsController extends Controller

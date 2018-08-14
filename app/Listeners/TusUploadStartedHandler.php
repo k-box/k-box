@@ -4,8 +4,8 @@ namespace KBox\Listeners;
 
 use Log;
 use KBox\Group;
-use Klink\DmsDocuments\DocumentsService;
-use Klink\DmsAdapter\KlinkDocumentUtils;
+use KBox\Documents\Services\DocumentsService;
+use KBox\Documents\KlinkDocumentUtils;
 use OneOffTech\TusUpload\Events\TusUploadStarted;
 
 class TusUploadStartedHandler
@@ -13,7 +13,7 @@ class TusUploadStartedHandler
     /**
      *
      *
-     * @var \Klink\DmsDocuments\DocumentsService
+     * @var \KBox\Documents\Services\DocumentsService
      */
     private $documentsService = null;
 

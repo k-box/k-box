@@ -10,7 +10,7 @@ use KBox\Traits\LocalizableDateFields;
 use Dyrynda\Database\Support\GeneratesUuid;
 use Klink\DmsAdapter\KlinkVisibilityType;
 use Klink\DmsAdapter\KlinkDocumentDescriptor;
-use Klink\DmsDocuments\DocumentsService;
+use KBox\Documents\Services\DocumentsService;
 use OneOffTech\Licenses\Contracts\LicenseRepository;
 use KBox\Events\DocumentDescriptorDeleted;
 use KBox\Events\DocumentDescriptorRestored;

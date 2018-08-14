@@ -34,7 +34,7 @@ class BulkController extends Controller
 
     /**
      * [$service description]
-     * @var \Klink\DmsDocuments\DocumentsService
+     * @var \KBox\Documents\Services\DocumentsService
      */
     private $service = null;
 
@@ -43,7 +43,7 @@ class BulkController extends Controller
      *
      * @return void
      */
-    public function __construct(\Klink\DmsDocuments\DocumentsService $adapterService)
+    public function __construct(\KBox\Documents\Services\DocumentsService $adapterService)
     {
         $this->middleware('auth');
 

@@ -1,11 +1,11 @@
 <?php
 
-namespace Content\Preview;
+namespace KBox\Documents\Preview;
 
-use Content\Contracts\Preview as PreviewContract;
+use KBox\Documents\Contracts\Preview as PreviewContract;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 
-use Content\FileProperties;
+use KBox\Documents\FileProperties;
 
 /**
  * Spreadsheet preview

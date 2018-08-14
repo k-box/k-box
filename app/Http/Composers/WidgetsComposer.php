@@ -6,7 +6,7 @@ use Illuminate\Contracts\View\View;
 
 use KBox\User;
 use Carbon\Carbon;
-use Klink\DmsDocuments\StorageService;
+use KBox\Documents\Services\StorageService;
 use Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -14,7 +14,7 @@ class WidgetsComposer
 {
 
     /**
-     * @var \Klink\DmsDocuments\DocumentsService
+     * @var \KBox\Documents\Services\DocumentsService
      */
     private $documents = null;
 
@@ -24,7 +24,7 @@ class WidgetsComposer
      * @param  UserRepository  $users
      * @return void
      */
-    public function __construct(\Klink\DmsDocuments\DocumentsService $documentsService)
+    public function __construct(\KBox\Documents\Services\DocumentsService $documentsService)
     {
         $this->documents = $documentsService;
     }

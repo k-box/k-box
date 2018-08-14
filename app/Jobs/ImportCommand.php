@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\File as Storage;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Console\Output\OutputInterface;
 use Exception;
-use Klink\DmsAdapter\KlinkDocumentUtils;
+use KBox\Documents\KlinkDocumentUtils;
 use Klink\DmsAdapter\KlinkVisibilityType;
 use Klink\DmsAdapter\Exceptions\KlinkException;
 
@@ -74,7 +74,7 @@ class ImportCommand extends Job implements ShouldQueue
      *
      * Peforms import
      */
-    public function handle(\Klink\DmsDocuments\DocumentsService $documentsService)
+    public function handle(\KBox\Documents\Services\DocumentsService $documentsService)
     {
         try {
             Log::info('Executing ImportCommand', [

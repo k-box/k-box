@@ -24,7 +24,7 @@ class DocumentsCheckInstitutionCommandTest extends BrowserKitTestCase
         
         $command = new DocumentsCheckInstitutionCommand(
             app('Klink\DmsAdapter\KlinkAdapter'),
-            app('Klink\DmsDocuments\DocumentsService')
+            app('KBox\Documents\Services\DocumentsService')
         );
         
         $res = $this->runArtisanCommand($command, []);
@@ -38,7 +38,7 @@ class DocumentsCheckInstitutionCommandTest extends BrowserKitTestCase
         
         $command = new DocumentsCheckInstitutionCommand(
             app('Klink\DmsAdapter\KlinkAdapter'),
-            app('Klink\DmsDocuments\DocumentsService')
+            app('KBox\Documents\Services\DocumentsService')
         );
         
         $res = $this->runArtisanCommand($command, [
@@ -60,7 +60,7 @@ class DocumentsCheckInstitutionCommandTest extends BrowserKitTestCase
         
         $command = new DocumentsCheckInstitutionCommand(
             app('Klink\DmsAdapter\KlinkAdapter'),
-            app('Klink\DmsDocuments\DocumentsService')
+            app('KBox\Documents\Services\DocumentsService')
         );
         
         $res = $this->runArtisanCommand($command, [
@@ -100,7 +100,7 @@ class DocumentsCheckInstitutionCommandTest extends BrowserKitTestCase
         ]);
         
         if ($index_document) {
-            app('Klink\DmsDocuments\DocumentsService')->reindexDocument($doc, 'private');
+            app('KBox\Documents\Services\DocumentsService')->reindexDocument($doc, 'private');
         }
         
         return ['doc_id' => $doc->id, 'doc_institution' => $doc->institution_id, 'user_institution' => $institution->id];

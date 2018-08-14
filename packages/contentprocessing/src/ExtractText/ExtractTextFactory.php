@@ -1,12 +1,12 @@
 <?php
 
-namespace Content\ExtractText;
+namespace KBox\Documents\ExtractText;
 
 use SplFileInfo;
 use Exception;
 use Symfony\Component\Debug\Exception\FatalErrorException;
-use Content\Preview\Exception\UnsupportedFileException;
-use Content\ExtractText\Exceptions\TextExtractionException;
+use KBox\Documents\Preview\Exception\UnsupportedFileException;
+use KBox\Documents\ExtractText\Exceptions\TextExtractionException;
 
 /**
  * Load a file and select the text extractor for the specified file
@@ -42,7 +42,7 @@ class ExtractTextFactory
      * @param string $path the path of the file
      * @param string $extesion (optional) The file extension, if cannot be deducted from the $path.
      *                         If specified will be used to find the correct preview renderer
-     * @return Content\Contract\ExtractText
+     * @return KBox\Documents\Contract\ExtractText
      * @throws TextExtractionException if an error occurred when extracting the plain text from the file
      * @throws UnsupportedFileException if the file type is not supported
      */

@@ -1,6 +1,6 @@
 <?php
 
-namespace Content\ExtractText\Exceptions;
+namespace KBox\Documents\ExtractText\Exceptions;
 
 use Exception;
 

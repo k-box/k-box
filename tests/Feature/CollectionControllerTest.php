@@ -12,7 +12,7 @@ class CollectionControllerTest extends TestCase
     
     public function test_move_from_project_to_personal_is_permitted()
     {
-        $service = app('Klink\DmsDocuments\DocumentsService');
+        $service = app('KBox\Documents\Services\DocumentsService');
 
         $project = factory(\KBox\Project::class)->create();
 
@@ -43,7 +43,7 @@ class CollectionControllerTest extends TestCase
 
     public function test_move_from_project_to_personal_is_blocked_when_collections_are_created_by_different_users()
     {
-        $service = app('Klink\DmsDocuments\DocumentsService');
+        $service = app('KBox\Documents\Services\DocumentsService');
 
         $user = tap(factory(\KBox\User::class)->create(), function ($u) {
             $u->addCapabilities(Capability::$PARTNER);
@@ -77,7 +77,7 @@ class CollectionControllerTest extends TestCase
 
     public function test_move_from_personal_to_project_is_permitted()
     {
-        $service = app('Klink\DmsDocuments\DocumentsService');
+        $service = app('KBox\Documents\Services\DocumentsService');
 
         $project = factory(\KBox\Project::class)->create();
 

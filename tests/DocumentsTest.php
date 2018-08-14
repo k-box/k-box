@@ -6,7 +6,7 @@ use KBox\File;
 use KBox\Capability;
 use KBox\DocumentDescriptor;
 use KBox\Project;
-use Klink\DmsAdapter\KlinkDocumentUtils;
+use KBox\Documents\KlinkDocumentUtils;
 use Tests\BrowserKitTestCase;
 use Klink\DmsAdapter\KlinkVisibilityType;
 use Klink\DmsAdapter\Exceptions\KlinkException;
@@ -212,7 +212,7 @@ class DocumentsTest extends BrowserKitTestCase
             'hash' => $file->hash
         ]);
         
-        $service = app('Klink\DmsDocuments\DocumentsService');
+        $service = app('KBox\Documents\Services\DocumentsService');
         
         $group = $service->createGroup($user, 'Personal collection of user '.$user->id);
         
@@ -257,7 +257,7 @@ class DocumentsTest extends BrowserKitTestCase
             'copyright_owner' => collect(['name' => 'owner name', 'website' => 'https://something.com'])
         ]);
         
-        $service = app('Klink\DmsDocuments\DocumentsService');
+        $service = app('KBox\Documents\Services\DocumentsService');
         
         $group = $service->createGroup($user, 'Personal collection of user '.$user->id);
         
@@ -486,7 +486,7 @@ class DocumentsTest extends BrowserKitTestCase
             'is_public' => $visibility === 'private' ? false : true
         ]);
         
-        $service = app('Klink\DmsDocuments\DocumentsService');
+        $service = app('KBox\Documents\Services\DocumentsService');
         
         $group = $service->createGroup($user, 'Personal collection of user '.$user->id);
         
@@ -535,7 +535,7 @@ class DocumentsTest extends BrowserKitTestCase
             'copyright_owner' => collect(['name' => 'owner name', 'website' => 'https://something.com'])
         ]);
         
-        $service = app('Klink\DmsDocuments\DocumentsService');
+        $service = app('KBox\Documents\Services\DocumentsService');
         
         // first indexing, like the one after the upload
         $service->reindexDocument($doc, 'private');
@@ -579,7 +579,7 @@ class DocumentsTest extends BrowserKitTestCase
 
         $doc = $this->createDocument($user);
 
-        $service = app('Klink\DmsDocuments\DocumentsService');
+        $service = app('KBox\Documents\Services\DocumentsService');
 
         $is_deleted = $service->deleteDocument($user, $doc);
 
@@ -605,7 +605,7 @@ class DocumentsTest extends BrowserKitTestCase
 
         $doc = $this->createDocument($user);
 
-        $service = app('Klink\DmsDocuments\DocumentsService');
+        $service = app('KBox\Documents\Services\DocumentsService');
 
         $service->deleteDocument($user, $doc);
     }
@@ -644,7 +644,7 @@ class DocumentsTest extends BrowserKitTestCase
 
         $doc = $this->createDocument($user);
 
-        $service = app('Klink\DmsDocuments\DocumentsService');
+        $service = app('KBox\Documents\Services\DocumentsService');
 
         $service->deleteDocument($user, $doc); // put doc in trash
         $doc = DocumentDescriptor::withTrashed()->findOrFail($doc->id);
@@ -672,7 +672,7 @@ class DocumentsTest extends BrowserKitTestCase
 
         $doc = $this->createDocument($user);
 
-        $service = app('Klink\DmsDocuments\DocumentsService');
+        $service = app('KBox\Documents\Services\DocumentsService');
 
         $service->deleteDocument($user, $doc); // put doc in trash
 
@@ -817,7 +817,7 @@ class DocumentsTest extends BrowserKitTestCase
 
         $user = $this->createUser(Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH);
         
-        $service = app('Klink\DmsDocuments\DocumentsService');
+        $service = app('KBox\Documents\Services\DocumentsService');
 
         $project = null;
         $project_group = null;

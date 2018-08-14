@@ -88,7 +88,7 @@ class UploadCompletedHandlerTest extends TestCase
         Event::fake();
         $this->withKlinkAdapterFake();
         
-        $service = app('Klink\DmsDocuments\DocumentsService');
+        $service = app('KBox\Documents\Services\DocumentsService');
         
         $user = tap(factory(\KBox\User::class)->create(), function ($u) {
             $u->addCapabilities(Capability::$PARTNER);
@@ -131,7 +131,7 @@ class UploadCompletedHandlerTest extends TestCase
         Event::fake();
         $this->withKlinkAdapterFake();
         
-        $service = app('Klink\DmsDocuments\DocumentsService');
+        $service = app('KBox\Documents\Services\DocumentsService');
         
         $user = tap(factory(\KBox\User::class)->create(), function ($u) {
             $u->addCapabilities(Capability::$PROJECT_MANAGER);

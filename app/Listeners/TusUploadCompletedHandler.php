@@ -7,14 +7,14 @@ use KBox\File;
 use KBox\DocumentDescriptor;
 use KBox\Events\UploadCompleted;
 use Illuminate\Support\Facades\Storage;
-use Klink\DmsDocuments\DocumentsService;
+use KBox\Documents\Services\DocumentsService;
 use OneOffTech\TusUpload\Events\TusUploadCompleted;
-use Klink\DmsAdapter\KlinkDocumentUtils;
+use KBox\Documents\KlinkDocumentUtils;
 
 class TusUploadCompletedHandler
 {
     /**
-     * @var \Klink\DmsDocuments\DocumentsService
+     * @var \KBox\Documents\Services\DocumentsService
      */
     private $documentsService = null;
 

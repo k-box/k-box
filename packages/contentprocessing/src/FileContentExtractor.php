@@ -1,9 +1,8 @@
 <?php
 
-namespace Klink\DmsDocuments;
+namespace KBox\Documents;
 
 use KBox\File;
-use Klink\DmsAdapter\KlinkDocumentUtils;
 
 /**
  * Basic Textual content extractor from files that are not indexable by the K-Link Core
@@ -14,7 +13,6 @@ class FileContentExtractor
     public function __construct()
     {
     }
-    
     
     /**
      * Utility Function: retrieve the file content or path depending on the fact that the file is indexable.
@@ -66,11 +64,13 @@ class FileContentExtractor
     {
         $content = file_get_contents($path);
                 
-        return $utf8_content = mb_convert_encoding($content, 'UTF-8',
-                      mb_detect_encoding($content, 'UTF-8, ISO-8859-1', true));
+        return $utf8_content = mb_convert_encoding(
+            $content,
+            'UTF-8',
+                      mb_detect_encoding($content, 'UTF-8, ISO-8859-1', true)
+        );
     }
 
-   
     // File content extraction methods
     
     /**
@@ -86,7 +86,6 @@ class FileContentExtractor
         return $this->utf8_file_get_contents($path);
     }
     
-    
     /**
      * Extract the textual content from a Markdown file.
      *
@@ -99,7 +98,6 @@ class FileContentExtractor
     {
         return $this->utf8_file_get_contents($path);
     }
-    
     
     /**
      * Extract the textual content from a Rich Text Format (RTF) file.
@@ -137,7 +135,6 @@ class FileContentExtractor
         return join(PHP_EOL, array_map("trim", explode(PHP_EOL, $plaintext)));
     }
     
-    
     /**
      * Extract the textual content from a Keyhole Markup Language (KML) file.
      *
@@ -174,7 +171,6 @@ class FileContentExtractor
         
         return $names.PHP_EOL.$descriptions;
     }
-    
     
     /**
      * Extract the textual content from a compressed Keyhole Markup Language (KMZ) file.

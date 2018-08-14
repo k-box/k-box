@@ -1,8 +1,8 @@
 <?php
 
-namespace Content\Presentation;
+namespace KBox\Documents\Presentation;
 
-use Content\FileProperties;
+use KBox\Documents\FileProperties;
 
 /**
  * Presentation file properties

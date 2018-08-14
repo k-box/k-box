@@ -9,7 +9,7 @@ use KBox\DocumentDescriptor;
 use Illuminate\Http\Request;
 use KBox\Http\Controllers\Controller;
 use KBox\Exceptions\ForbiddenException;
-use Klink\DmsDocuments\DocumentsService;
+use KBox\Documents\Services\DocumentsService;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
@@ -17,7 +17,7 @@ abstract class DocumentAccessController extends Controller
 {
 
     /**
-     * @var Klink\DmsDocuments\DocumentsService
+     * @var KBox\Documents\Services\DocumentsService
      */
     private $documentsService = null;
 

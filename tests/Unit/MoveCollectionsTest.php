@@ -18,7 +18,7 @@ class MoveCollectionsTest extends TestCase
     {
         parent::setUp();
 
-        $this->documentService = app('Klink\DmsDocuments\DocumentsService');
+        $this->documentService = app('KBox\Documents\Services\DocumentsService');
     }
 
     public function test_move_from_project_to_personal_is_denied_if_user_not_member_of_project()

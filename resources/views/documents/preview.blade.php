@@ -89,7 +89,7 @@
 		@if($document->isFileUploadComplete())
 			<div class="file-properties__property">
 				<span class="file-properties__label">{{trans('panels.meta.size')}}</span>
-				<span class="file-properties__value">{{ isset($document) ? Klink\DmsDocuments\DocumentsService::human_filesize($document->file->size) : '' }}</span>
+				<span class="file-properties__value">{{ isset($document) ? KBox\Documents\Services\DocumentsService::human_filesize($document->file->size) : '' }}</span>
 			</div>
 		@endif
 

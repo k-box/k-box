@@ -7,15 +7,15 @@ use KBox\File;
 use KBox\DocumentDescriptor;
 use Illuminate\Http\Request;
 use KBox\Exceptions\ForbiddenException;
-use Content\Services\ThumbnailsService;
-use Klink\DmsDocuments\DocumentsService;
+use KBox\Documents\Services\ThumbnailsService;
+use KBox\Documents\Services\DocumentsService;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class DocumentThumbnailController extends DocumentAccessController
 {
     /**
-     * @var Content\Services\ThumbnailsService
+     * @var KBox\Documents\Services\ThumbnailsService
      */
     private $thumbnails = null;
 

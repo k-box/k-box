@@ -1,12 +1,12 @@
 <?php
 
-namespace Content\Preview;
+namespace KBox\Documents\Preview;
 
 use SplFileInfo;
 use Exception;
 use Symfony\Component\Debug\Exception\FatalErrorException;
-use Content\Preview\Exception\UnsupportedFileException;
-use Content\Preview\Exception\PreviewGenerationException;
+use KBox\Documents\Preview\Exception\UnsupportedFileException;
+use KBox\Documents\Preview\Exception\PreviewGenerationException;
 
 /**
  * Load a file and select the preview renderer
@@ -44,7 +44,7 @@ class PreviewFactory
      * @param string $path the path of the file
      * @param string $extesion (optional) The file extension, if cannot be deducted from the $path.
      *                         If specified will be used to find the correct preview renderer
-     * @return Content\Contract\Preview
+     * @return KBox\Documents\Contract\Preview
      * @throws PreviewGenerationException if an error occurred during the preview generation
      * @throws UnsupportedFileException if the file type is not supported
      */

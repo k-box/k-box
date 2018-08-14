@@ -1,6 +1,6 @@
 <?php
 
-namespace Content\Contracts;
+namespace KBox\Documents\Contracts;
 
 /**
  * Preview interface.

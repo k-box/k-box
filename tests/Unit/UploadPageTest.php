@@ -58,7 +58,7 @@ class UploadPageTest extends TestCase
 
         $project = factory(\KBox\Project::class)->create();
 
-        $service = app('Klink\DmsDocuments\DocumentsService');
+        $service = app('KBox\Documents\Services\DocumentsService');
         
         $collection = $service->createGroup($project->manager, 'That exact collection', null, $project->collection, false);
         

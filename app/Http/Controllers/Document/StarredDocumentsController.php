@@ -29,7 +29,7 @@ class StarredDocumentsController extends Controller
      *
      * @return void
      */
-    public function __construct(\Klink\DmsAdapter\Contracts\KlinkAdapter $adapterService, \Klink\DmsDocuments\DocumentsService $documentsService)
+    public function __construct(\Klink\DmsAdapter\Contracts\KlinkAdapter $adapterService, \KBox\Documents\Services\DocumentsService $documentsService)
     {
         $this->middleware('auth');
 

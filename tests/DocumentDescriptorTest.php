@@ -79,7 +79,7 @@ class DocumentDescriptorTest extends BrowserKitTestCase
         $file = factory(\KBox\File::class)->make();
         $inst = factory(\KBox\Institution::class)->make();
         
-        $service = app('Klink\DmsDocuments\DocumentsService');
+        $service = app('KBox\Documents\Services\DocumentsService');
 
         $mock->shouldReceive('institutions')->andReturn($inst);
         $mock->shouldReceive('addDocument')->andReturnUsing(function () {
@@ -104,7 +104,7 @@ class DocumentDescriptorTest extends BrowserKitTestCase
 
         $doc = factory(\KBox\DocumentDescriptor::class)->make();
         
-        $service = app('Klink\DmsDocuments\DocumentsService');
+        $service = app('KBox\Documents\Services\DocumentsService');
 
         $mock->shouldReceive('institutions')->andReturn(factory(\KBox\Institution::class)->make());
         $mock->shouldReceive('updateDocument')->andReturnUsing(function ($document) {

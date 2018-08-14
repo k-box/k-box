@@ -3,7 +3,7 @@
 namespace Tests\Unit\TextExtraction;
 
 use Tests\TestCase;
-use Content\ExtractText\PresentationExtractor;
+use KBox\Documents\ExtractText\PresentationExtractor;
 
 class PresentationTextExtractionTest extends TestCase
 {
