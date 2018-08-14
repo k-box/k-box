@@ -53,9 +53,9 @@
         </div>
 </div>        
         
-<div id="add-members" class="c-form__field">
-
-        <div class="fieldbox__heading">{{trans('projects.partials.useradd', ['use_label' => true, 'hide_button' => true])}}</div>
+<div id="add-members" class="fieldbox">
+       
+        @include{{trans('projects.partials.useradd', ['use_label' => true, 'hide_button' => true])}}
 
         <div class="c-form__buttons">
             <button type="submit" class="button button--primary">{{$submit_btn}}</button> {{trans('actions.or_alt')}} <a href="@if(isset($cancel_route)) {{$cancel_route}} @else{{route('documents.projects.index')}}@endif">{{trans('projects.labels.cancel')}}</a>
