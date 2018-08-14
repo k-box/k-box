@@ -11,7 +11,7 @@ services:
   mariadb:
     image: mariadb:10
     environment:
-      MYSQL_DATABASE: dms
+      MYSQL_DATABASE: dms_test
       MYSQL_USER: dms
       MYSQL_ROOT_PASSWORD: 2381a
       MYSQL_PASSWORD: dms
