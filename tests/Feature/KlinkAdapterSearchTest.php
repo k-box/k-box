@@ -110,7 +110,6 @@ class KlinkAdapterSearchTest extends TestCase
         $this->assertEquals($uuids->count(), $response->getTotalResults());
         $this->assertTrue($response->getSearchTime() >= 0);
         $this->assertEquals($uuids->count(), $response->getCurrentResultCount());
-        // $this->assertEmpty($response->getFacets());
         $this->assertContainsOnlyInstancesOf(KlinkSearchResultItem::class, $response->getResults());
     }
 }
