@@ -31,8 +31,7 @@ before_script:
   - phpenv config-rm xdebug.ini # disabling XDebug as currently we are not interested in code coverage report
   - sudo service mysql stop
   - docker-compose -f ./docker-compose.dev.example.yml up -d
-  - docker-compose -f ./docker-compose.dev.example.yml ps
-  - travis_retry php -f ./docker/db-connect-test.php -- -d dms_test -u dms -p dms -H 127.0.0.1
+  - php -f ./tests/wait.php
 
 script: 
   - ./vendor/bin/parallel-lint --exclude vendor .
