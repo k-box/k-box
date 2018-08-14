@@ -22,7 +22,7 @@ while (true) {
 
         fwrite(STDOUT, 'Docker container started!'.PHP_EOL);
         exit(0);
-    } catch (RequestException $exception) {
+    } catch (Exception $exception) {
         $elapsed = time() - $start;
 
         if ($elapsed > 30) {
