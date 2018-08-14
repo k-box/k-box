@@ -1,49 +1,61 @@
 ## Example Docker Compose for the K-Box required services during development
+## This docker compose can be used also to start the necessary services for integration tests
 
-## Main Database
-mariadb:
-  image: mariadb:10
-  environment:
-    MYSQL_DATABASE: dms
-    MYSQL_USER: dms
-    MYSQL_ROOT_PASSWORD: 2381a
-    MYSQL_PASSWORD: dms
-  volumes: 
-    - "/var/lib/mysql"
-  ports:
-    - "3306:3306"
+version: "2"
 
-## Database for unit tests
-mariadb_test:
-  image: mariadb:10
-  environment:
-    MYSQL_DATABASE: dms_test
-    MYSQL_USER: dms
-    MYSQL_ROOT_PASSWORD: 2381a
-    MYSQL_PASSWORD: dms
-  volumes: 
-    - "/var/lib/mysql"
-  ports:
-    - "3307:3306"
+networks:
+  internal:
+
+services:
+  ## Database
+  mariadb:
+    image: mariadb:10
+    environment:
+      MYSQL_DATABASE: dms_test
+      MYSQL_USER: dms
+      MYSQL_ROOT_PASSWORD: 2381a
+      MYSQL_PASSWORD: dms
+    volumes: 
+      - "/var/lib/mysql"
+    networks:
+      - internal
+    ports:
+      - "3306:3306"
+
+  ## Database for unit tests
+  # mariadb_test:
+  #   image: mariadb:10
+  #   environment:
+  #     MYSQL_DATABASE: dms_test
+  #     MYSQL_USER: dms
+  #     MYSQL_ROOT_PASSWORD: 2381a
+  #     MYSQL_PASSWORD: dms
+  #   volumes: 
+  #     - "/var/lib/mysql"
+  #   ports:
+  #     - "3307:3306"
 
 
-## K-Search
+  ## K-Search
 
-ksearch:
-  image: "docker.klink.asia/images/k-search:3.3.0-2"
-  ports:
-    - 8081:80
-  environment:
-    - SOLR_HOST=engine
-    - SOLR_NAME=k-search
-    - KLINK_REGISTRY_ENABLED=0
-  links:
-    - "engine:engine"
+  ksearch:
+    image: "docker.klink.asia/images/k-search:3.3.0-2"
+    ports:
+      - 8081:80
+    environment:
+      - SOLR_HOST=engine
+      - SOLR_NAME=k-search
+      - KLINK_REGISTRY_ENABLED=0
+    networks:
+      - internal
+    depends_on:
+      - engine
 
-engine:
-  image: "docker.klink.asia/images/k-search-engine:0.4.2"
-  volumes:
-    - "/opt/solr/k-search/k-search/data"
-  expose:
-    - "8983"
-
+  engine:
+    image: "docker.klink.asia/images/k-search-engine:0.4.2"
+    volumes:
+      - "/opt/solr/k-search/k-search/data"
+    expose:
+      - "8983"
+    networks:
+      - internal

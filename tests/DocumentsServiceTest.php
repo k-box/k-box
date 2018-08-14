@@ -41,6 +41,8 @@ class DocumentsServiceTest extends BrowserKitTestCase
      */
     public function testGetDocumentCollections($caps)
     {
+        $adapter = $this->withKlinkAdapterFake();
+        
         $service = app('Klink\DmsDocuments\DocumentsService');
 
         $user = $this->createUser($caps);

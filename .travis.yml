@@ -3,6 +3,9 @@ language: php
 php:
   - 7.1
 
+services:
+  - docker
+
 sudo: false
 
 branches:
@@ -15,12 +18,9 @@ cache:
   directories:
   - $HOME/.composer/cache
 
-services:
-  - mysql
-
-before_install:
-  - mysql -e 'CREATE DATABASE IF NOT EXISTS dms;'
-
+  env:
+  global:
+    - DMS_CORE_ADDRESS="http://127.0.0.1:8081/"
 
 install:
   - cp env.travis .env
@@ -29,6 +29,9 @@ install:
 
 before_script:
   - phpenv config-rm xdebug.ini # disabling XDebug as currently we are not interested in code coverage report
+  - sudo service mysql stop
+  - docker-compose -f ./docker-compose.dev.example.yml up -d
+  - php -f ./tests/wait.php
 
 script: 
   - ./vendor/bin/parallel-lint --exclude vendor .
@@ -46,6 +49,9 @@ script:
   - php artisan migrate --env=testing --force
   - php artisan db:seed --env=testing --force
   - vendor/bin/phpunit
+
+after_script:
+  - docker-compose -f ./docker-compose.dev.example.yml down
 
 notifications:
   email:

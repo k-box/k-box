@@ -7,7 +7,7 @@
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true"
          processIsolation="false"
-         stopOnFailure="true"
+         stopOnFailure="false"
          syntaxCheck="true"
          debug="true"
          verbose="true"
@@ -28,5 +28,6 @@
         <env name="SESSION_DRIVER" value="array"/>
         <env name="MAIL_DRIVER" value="log" />
         <env name="QUEUE_DRIVER" value="sync" />
+        <env name="DMS_CORE_ADDRESS" value="http://127.0.0.1:8081/" />
     </php>
 </phpunit>
