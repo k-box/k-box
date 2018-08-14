@@ -1,6 +1,6 @@
 ## Example Docker Compose for the K-Box required services during development
 
-## Main Database
+## Database
 mariadb:
   image: mariadb:10
   environment:
@@ -8,23 +8,23 @@ mariadb:
     MYSQL_USER: dms
     MYSQL_ROOT_PASSWORD: 2381a
     MYSQL_PASSWORD: dms
-  volumes: 
-    - "/var/lib/mysql"
+  # volumes: 
+  #   - "/var/lib/mysql"
   ports:
     - "3306:3306"
 
 ## Database for unit tests
-mariadb_test:
-  image: mariadb:10
-  environment:
-    MYSQL_DATABASE: dms_test
-    MYSQL_USER: dms
-    MYSQL_ROOT_PASSWORD: 2381a
-    MYSQL_PASSWORD: dms
-  volumes: 
-    - "/var/lib/mysql"
-  ports:
-    - "3307:3306"
+# mariadb_test:
+#   image: mariadb:10
+#   environment:
+#     MYSQL_DATABASE: dms_test
+#     MYSQL_USER: dms
+#     MYSQL_ROOT_PASSWORD: 2381a
+#     MYSQL_PASSWORD: dms
+#   volumes: 
+#     - "/var/lib/mysql"
+#   ports:
+#     - "3307:3306"
 
 
 ## K-Search
@@ -46,4 +46,3 @@ engine:
     - "/opt/solr/k-search/k-search/data"
   expose:
     - "8983"
-
