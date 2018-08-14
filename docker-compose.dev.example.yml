@@ -15,8 +15,10 @@ services:
       MYSQL_USER: dms
       MYSQL_ROOT_PASSWORD: 2381a
       MYSQL_PASSWORD: dms
-    # volumes: 
-    #   - "/var/lib/mysql"
+    volumes: 
+      - "/var/lib/mysql"
+    networks:
+      - internal
     ports:
       - "3306:3306"
 
@@ -44,8 +46,10 @@ services:
       - SOLR_HOST=engine
       - SOLR_NAME=k-search
       - KLINK_REGISTRY_ENABLED=0
-    links:
-      - "engine:engine"
+    networks:
+      - internal
+    depends_on:
+      - engine
 
   engine:
     image: "docker.klink.asia/images/k-search-engine:0.4.2"
@@ -53,3 +57,5 @@ services:
       - "/opt/solr/k-search/k-search/data"
     expose:
       - "8983"
+    networks:
+      - internal
