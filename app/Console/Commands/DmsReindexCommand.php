@@ -33,7 +33,7 @@ class DmsReindexCommand extends Command
      *
      * @return void
      */
-    public function __construct(\Klink\DmsDocuments\DocumentsService $adapterService)
+    public function __construct(\KBox\Documents\Services\DocumentsService $adapterService)
     {
         parent::__construct();
         $this->service = $adapterService;

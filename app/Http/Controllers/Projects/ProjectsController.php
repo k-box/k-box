@@ -9,7 +9,7 @@ use KBox\User;
 use KBox\Project;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\JsonResponse;
-use Klink\DmsDocuments\DocumentsService;
+use KBox\Documents\Services\DocumentsService;
 use KBox\Traits\AvatarUpload;
 use Illuminate\Support\Facades\DB;
 

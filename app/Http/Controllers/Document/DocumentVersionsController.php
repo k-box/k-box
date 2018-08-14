@@ -5,7 +5,7 @@ namespace KBox\Http\Controllers\Document;
 use KBox\DocumentDescriptor;
 use KBox\Jobs\ReindexDocument;
 use KBox\Http\Controllers\Controller;
-use Klink\DmsAdapter\KlinkDocumentUtils;
+use KBox\Documents\KlinkDocumentUtils;
 use Klink\DmsAdapter\KlinkVisibilityType;
 
 class DocumentVersionsController extends Controller

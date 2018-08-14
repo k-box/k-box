@@ -1,8 +1,9 @@
 <?php
 
-namespace Klink\DmsDocuments;
+namespace KBox\Documents\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use KBox\Documents\FileContentExtractor;
 
 class DmsDocumentsServiceProvider extends ServiceProvider
 {
@@ -32,14 +33,14 @@ class DmsDocumentsServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->singleton('documentsservice', function ($app) {
-            return new \Klink\DmsDocuments\DocumentsService;
+            return new \KBox\Documents\Services\DocumentsService;
         });
         
         $this->app->singleton(StorageService::class, function ($app) {
             return new StorageService();
         });
         
-        $this->app->singleton('Klink\DmsDocuments\FileContentExtractor', function ($app) {
+        $this->app->singleton('KBox\Documents\FileContentExtractor', function ($app) {
             return new FileContentExtractor();
         });
     }
@@ -51,6 +52,6 @@ class DmsDocumentsServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return ['\Klink\DmsDocuments\DocumentsService', '\Klink\DmsDocuments\StorageService', '\Klink\DmsDocuments\FileContentExtractor', '\Klink\DmsDocuments\TrashContentResponse'];
+        return ['\KBox\Documents\Services\DocumentsService', '\KBox\Documents\Services\StorageService', '\KBox\Documents\FileContentExtractor', '\KBox\Documents\TrashContentResponse'];
     }
 }

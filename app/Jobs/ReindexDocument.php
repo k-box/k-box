@@ -3,7 +3,7 @@
 namespace KBox\Jobs;
 
 use KBox\DocumentDescriptor;
-use Klink\DmsDocuments\DocumentsService;
+use KBox\Documents\Services\DocumentsService;
 
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
@@ -14,7 +14,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
  *
  * It runs on the queue.
  *
- * @uses \Klink\DmsDocuments\DocumentsService
+ * @uses \KBox\Documents\Services\DocumentsService
  */
 class ReindexDocument extends Job implements ShouldQueue
 {

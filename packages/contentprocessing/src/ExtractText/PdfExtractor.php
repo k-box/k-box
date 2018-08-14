@@ -1,9 +1,9 @@
 <?php
 
-namespace Content\ExtractText;
+namespace KBox\Documents\ExtractText;
 
-use Content\Pdf\PdfCli;
-use Content\Contracts\ExtractText as ExtractTextContract;
+use KBox\Documents\Pdf\PdfCli;
+use KBox\Documents\Contracts\ExtractText as ExtractTextContract;
 
 /**
  *

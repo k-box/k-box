@@ -1,9 +1,9 @@
 <?php
 
-namespace Content\ExtractText;
+namespace KBox\Documents\ExtractText;
 
 // use PhpOffice\PhpWord\IOFactory;
-use Content\Contracts\ExtractText as ExtractTextContract;
+use KBox\Documents\Contracts\ExtractText as ExtractTextContract;
 
 /**
  *

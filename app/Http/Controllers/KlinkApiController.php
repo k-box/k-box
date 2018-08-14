@@ -5,9 +5,9 @@ namespace KBox\Http\Controllers;
 use KBox\DocumentDescriptor;
 use KBox\File;
 use Illuminate\Http\Request;
-use Content\Services\ThumbnailsService;
-use Content\Services\PreviewService;
-use Klink\DmsDocuments\DocumentsService;
+use KBox\Documents\Services\ThumbnailsService;
+use KBox\Documents\Services\PreviewService;
+use KBox\Documents\Services\DocumentsService;
 
 /**
  * Controller for Klink API (/klink/{ID}/{Action}) pages

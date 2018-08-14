@@ -1,6 +1,6 @@
 <?php
 
-namespace Content\Pdf;
+namespace KBox\Documents\Pdf;
 
 use RuntimeException;
 use Symfony\Component\Process\Process;

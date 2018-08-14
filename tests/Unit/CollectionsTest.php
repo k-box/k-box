@@ -14,7 +14,7 @@ class CollectionsTest extends TestCase
 
     public function test_trashing_personal_collections_trash_also_descendants()
     {
-        $service = app('Klink\DmsDocuments\DocumentsService');
+        $service = app('KBox\Documents\Services\DocumentsService');
         
         $user = tap(factory(\KBox\User::class)->create(), function ($user) {
             $user->addCapabilities(Capability::$PARTNER);
@@ -43,7 +43,7 @@ class CollectionsTest extends TestCase
 
     public function test_trashing_project_collection_trash_also_descendants()
     {
-        $service = app('Klink\DmsDocuments\DocumentsService');
+        $service = app('KBox\Documents\Services\DocumentsService');
         
         $manager = tap(factory(\KBox\User::class)->create(), function ($user) {
             $user->addCapabilities(Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH);
@@ -80,7 +80,7 @@ class CollectionsTest extends TestCase
 
     public function test_manager_can_permanently_delete_collections_in_project()
     {
-        $service = app('Klink\DmsDocuments\DocumentsService');
+        $service = app('KBox\Documents\Services\DocumentsService');
         
         $manager = tap(factory(\KBox\User::class)->create(), function ($user) {
             $user->addCapabilities(Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH);
@@ -115,7 +115,7 @@ class CollectionsTest extends TestCase
 
     public function test_partner_can_permanently_delete_collections_in_project()
     {
-        $service = app('Klink\DmsDocuments\DocumentsService');
+        $service = app('KBox\Documents\Services\DocumentsService');
         
         $manager = tap(factory(\KBox\User::class)->create(), function ($user) {
             $user->addCapabilities(Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH);
@@ -144,7 +144,7 @@ class CollectionsTest extends TestCase
 
     public function test_partner_cannot_permanently_delete_collections_in_project()
     {
-        $service = app('Klink\DmsDocuments\DocumentsService');
+        $service = app('KBox\Documents\Services\DocumentsService');
         
         $manager = tap(factory(\KBox\User::class)->create(), function ($user) {
             $user->addCapabilities(Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH);
@@ -176,7 +176,7 @@ class CollectionsTest extends TestCase
 
     public function test_user_cannot_trash_my_personal_collection()
     {
-        $service = app('Klink\DmsDocuments\DocumentsService');
+        $service = app('KBox\Documents\Services\DocumentsService');
         
         $creator = tap(factory(\KBox\User::class)->create(), function ($user) {
             $user->addCapabilities(Capability::$PARTNER);
@@ -205,7 +205,7 @@ class CollectionsTest extends TestCase
 
     public function test_user_cannot_permanently_delete_my_trashed_personal_collection()
     {
-        $service = app('Klink\DmsDocuments\DocumentsService');
+        $service = app('KBox\Documents\Services\DocumentsService');
         
         $creator = tap(factory(\KBox\User::class)->create(), function ($user) {
             $user->addCapabilities(Capability::$PARTNER);

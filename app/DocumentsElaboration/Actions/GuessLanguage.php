@@ -6,9 +6,9 @@ use Log;
 use Exception;
 use KBox\Contracts\Action;
 use Rinvex\Language\LanguageLoader;
-use Content\Services\TextExtractionService;
+use KBox\Documents\Services\TextExtractionService;
 use OneOffTech\LanguageGuesser\LanguageGuesserFactory;
-use Content\Preview\Exception\UnsupportedFileException;
+use KBox\Documents\Preview\Exception\UnsupportedFileException;
 
 class GuessLanguage extends Action
 {

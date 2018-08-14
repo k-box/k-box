@@ -1,6 +1,6 @@
 <?php
 
-namespace Content\Contracts;
+namespace KBox\Documents\Contracts;
 
 /**
  * FileLoader interface.
@@ -22,7 +22,7 @@ interface FileLoader
     /**
      * The file properties
      *
-     * @return \Content\FileProperties
+     * @return \KBox\Documents\FileProperties
      */
     public function properties();
 

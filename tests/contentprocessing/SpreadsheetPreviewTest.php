@@ -1,8 +1,8 @@
 <?php
 
 use Tests\BrowserKitTestCase;
-use Content\Preview\SpreadsheetPreview;
-use Content\FileProperties;
+use KBox\Documents\Preview\SpreadsheetPreview;
+use KBox\Documents\FileProperties;
 
 class SpreadsheetPreviewTest extends BrowserKitTestCase
 {

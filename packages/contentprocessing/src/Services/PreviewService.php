@@ -1,8 +1,8 @@
 <?php
 
-namespace Content\Services;
+namespace KBox\Documents\Services;
 
-use Content\Preview\PreviewFactory;
+use KBox\Documents\Preview\PreviewFactory;
 
 /**
  * The service that can generate a document Preview.
@@ -18,7 +18,7 @@ class PreviewService
      * @param string $path the path of the file
      * @param string $extesion (optional) The file extension, if cannot be deducted from the $path.
      *                         If specified will be used to find the correct preview renderer
-     * @return Content\Contract\Preview
+     * @return KBox\Documents\Contract\Preview
      * @throws PreviewGenerationException if an error occurred during the preview generation
      * @throws UnsupportedFileException if the file type is not supported
      */

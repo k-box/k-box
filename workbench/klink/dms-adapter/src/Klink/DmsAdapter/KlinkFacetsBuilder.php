@@ -7,7 +7,7 @@ use BadMethodCallException;
 use InvalidArgumentException;
 use Klink\DmsAdapter\KlinkFacets;
 use Klink\DmsAdapter\KlinkFilters;
-use Klink\DmsAdapter\KlinkDocumentUtils;
+use KBox\Documents\KlinkDocumentUtils;
 use KSearchClient\Model\Search\Aggregation;
 
 /**

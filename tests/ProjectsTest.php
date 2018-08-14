@@ -214,7 +214,7 @@ class ProjectsTest extends BrowserKitTestCase
 
         $user = $this->createUser(Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH);
         
-        $service = app('Klink\DmsDocuments\DocumentsService');
+        $service = app('KBox\Documents\Services\DocumentsService');
 
         $document = $this->createDocument($user);
         $document2 = $this->createDocument($user);

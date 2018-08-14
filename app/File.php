@@ -9,7 +9,7 @@ use Illuminate\Http\UploadedFile;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Dyrynda\Database\Support\GeneratesUuid;
-use Klink\DmsAdapter\KlinkDocumentUtils;
+use KBox\Documents\KlinkDocumentUtils;
 use Illuminate\Support\Facades\Crypt;
 use KBox\Events\FileDeleted;
 use KBox\Events\FileRestored;

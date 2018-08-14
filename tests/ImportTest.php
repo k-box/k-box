@@ -37,7 +37,7 @@ class ImportTest extends BrowserKitTestCase
         
         $user = $this->createAdminUser();
         
-        $command = new DmsImportCommand(app('Klink\DmsDocuments\DocumentsService'));
+        $command = new DmsImportCommand(app('KBox\Documents\Services\DocumentsService'));
 
         $res = $this->runArtisanCommand($command, [
             'folder' => __DIR__.'/data/folder_for_import/',
@@ -106,7 +106,7 @@ class ImportTest extends BrowserKitTestCase
         
         $user = $this->createAdminUser();
         
-        $command = new DmsImportCommand(app('Klink\DmsDocuments\DocumentsService'));
+        $command = new DmsImportCommand(app('KBox\Documents\Services\DocumentsService'));
 
         $res = $this->runArtisanCommand($command, [
             'folder' => __DIR__.'/data/folder_for_import/',
@@ -183,7 +183,7 @@ class ImportTest extends BrowserKitTestCase
 
         $user = $this->createUser(Capability::$PARTNER);
         
-        $command = new DmsImportCommand(app('Klink\DmsDocuments\DocumentsService'));
+        $command = new DmsImportCommand(app('KBox\Documents\Services\DocumentsService'));
         
         $res = $this->runArtisanCommand($command, [
             'folder' => __DIR__.'/data/folder_for_import/',
@@ -199,7 +199,7 @@ class ImportTest extends BrowserKitTestCase
      */
     public function testImportFromSameFolderViaArtisanCommandWithWrongFolder()
     {
-        $command = new DmsImportCommand(app('Klink\DmsDocuments\DocumentsService'));
+        $command = new DmsImportCommand(app('KBox\Documents\Services\DocumentsService'));
         
         $res = $this->runArtisanCommand($command, [
             'folder' => './non-existing-folder/',
@@ -235,7 +235,7 @@ class ImportTest extends BrowserKitTestCase
         
         $job = new ImportCommand($user, $import);
 
-        $job->handle(app('Klink\DmsDocuments\DocumentsService'));
+        $job->handle(app('KBox\Documents\Services\DocumentsService'));
 
         $import = $import->fresh();
 

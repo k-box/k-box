@@ -50,7 +50,7 @@ class CollectionsTest extends BrowserKitTestCase
         
         // $user_not_owner = $this->createAdminUser();
         
-        $service = app('Klink\DmsDocuments\DocumentsService');
+        $service = app('KBox\Documents\Services\DocumentsService');
         
         $collection = $service->createGroup($user, 'Personal Collection Name');
 
@@ -67,7 +67,7 @@ class CollectionsTest extends BrowserKitTestCase
         
         $user = $this->createAdminUser();
         
-        $service = app('Klink\DmsDocuments\DocumentsService');
+        $service = app('KBox\Documents\Services\DocumentsService');
         
         $collection = $service->createGroup($user, 'Personal Collection Name');
 
@@ -90,7 +90,7 @@ class CollectionsTest extends BrowserKitTestCase
         
         $user_not_owner = $this->createUser(Capability::$PARTNER);
         
-        $service = app('Klink\DmsDocuments\DocumentsService');
+        $service = app('KBox\Documents\Services\DocumentsService');
         
         $collection = $service->createGroup($user, 'Personal Collection Name');
 
@@ -119,7 +119,7 @@ class CollectionsTest extends BrowserKitTestCase
         $projectB = factory(\KBox\Project::class)->create(['user_id' => $user1->id]);
         $projectC = factory(\KBox\Project::class)->create(['user_id' => $user2->id]);
         
-        $service = app('Klink\DmsDocuments\DocumentsService');
+        $service = app('KBox\Documents\Services\DocumentsService');
         
         $grp1 = $service->createGroup($user1, 'Personal collection of user '.$user1->id);
         $grp2 = $service->createGroup($user2, 'Personal collection of user '.$user2->id);
@@ -199,7 +199,7 @@ class CollectionsTest extends BrowserKitTestCase
 
         $user = $this->createUser($caps);
         
-        $service = app('Klink\DmsDocuments\DocumentsService');
+        $service = app('KBox\Documents\Services\DocumentsService');
 
         $project = null;
         $project_group = null;
@@ -259,7 +259,7 @@ class CollectionsTest extends BrowserKitTestCase
     
     public function testIsCollectionAccessible()
     {
-        $service = app('Klink\DmsDocuments\DocumentsService');
+        $service = app('KBox\Documents\Services\DocumentsService');
         
         // create a project
         
@@ -321,7 +321,7 @@ class CollectionsTest extends BrowserKitTestCase
     {
         $user = $this->createAdminUser();
         
-        $service = app('Klink\DmsDocuments\DocumentsService');
+        $service = app('KBox\Documents\Services\DocumentsService');
         
         \Cache::shouldReceive('forget')
                     ->once()
@@ -337,7 +337,7 @@ class CollectionsTest extends BrowserKitTestCase
     {
         $user = $this->createAdminUser();
         
-        $service = app('Klink\DmsDocuments\DocumentsService');
+        $service = app('KBox\Documents\Services\DocumentsService');
         
         // create one document
         $doc = factory(\KBox\DocumentDescriptor::class)->create([
@@ -387,7 +387,7 @@ class CollectionsTest extends BrowserKitTestCase
     {
         $user = $this->createAdminUser();
         
-        $service = app('Klink\DmsDocuments\DocumentsService');
+        $service = app('KBox\Documents\Services\DocumentsService');
         
         // create one document
         $doc = factory(\KBox\DocumentDescriptor::class)->create([
@@ -430,7 +430,7 @@ class CollectionsTest extends BrowserKitTestCase
 
         $this->assertEquals(3, $children->count(), 'Children count pre-condition');
 
-        $service = app('Klink\DmsDocuments\DocumentsService');
+        $service = app('KBox\Documents\Services\DocumentsService');
 
         $is_deleted = $service->deleteGroup($user, $group);
 
@@ -460,7 +460,7 @@ class CollectionsTest extends BrowserKitTestCase
 
         $doc = $this->createCollection($user);
 
-        $service = app('Klink\DmsDocuments\DocumentsService');
+        $service = app('KBox\Documents\Services\DocumentsService');
 
         $service->deleteGroup($user2, $doc);
     }
@@ -502,7 +502,7 @@ class CollectionsTest extends BrowserKitTestCase
 
         $this->assertEquals(3, $children->count(), 'Children count pre-condition');
 
-        $service = app('Klink\DmsDocuments\DocumentsService');
+        $service = app('KBox\Documents\Services\DocumentsService');
 
         $service->deleteGroup($user, $group); // put doc in trash
         
@@ -534,7 +534,7 @@ class CollectionsTest extends BrowserKitTestCase
 
         $group = $this->createCollection($user, false);
 
-        $service = app('Klink\DmsDocuments\DocumentsService');
+        $service = app('KBox\Documents\Services\DocumentsService');
 
         $service->deleteGroup($user, $group); // put doc in trash
 

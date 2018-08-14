@@ -5,13 +5,13 @@ namespace KBox\Http\Composers;
 use KBox\Group;
 use KBox\Capability;
 use Illuminate\Contracts\View\View;
-use Klink\DmsDocuments\DocumentsService;
+use KBox\Documents\Services\DocumentsService;
 
 class GroupsComposer
 {
 
     /**
-     * @var \Klink\DmsDocuments\DocumentsService
+     * @var \KBox\Documents\Services\DocumentsService
      */
     private $documents = null;
 

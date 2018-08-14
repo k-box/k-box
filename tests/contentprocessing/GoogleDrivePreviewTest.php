@@ -1,7 +1,7 @@
 <?php
 
 use Tests\BrowserKitTestCase;
-use Content\Preview\GoogleDrivePreview;
+use KBox\Documents\Preview\GoogleDrivePreview;
 
 class GoogleDrivePreviewTest extends BrowserKitTestCase
 {

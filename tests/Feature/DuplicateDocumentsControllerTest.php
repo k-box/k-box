@@ -67,7 +67,7 @@ class DuplicateDocumentsControllerTest extends TestCase
     {
         $this->disableExceptionHandling();
         
-        $service = app('Klink\DmsDocuments\DocumentsService');
+        $service = app('KBox\Documents\Services\DocumentsService');
 
         $adapter = $this->withKlinkAdapterFake();
 

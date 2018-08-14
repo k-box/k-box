@@ -241,7 +241,7 @@ class RecentDocumentsTest extends TestCase
         $project1 = factory(\KBox\Project::class)->create(['user_id' => $user2->id]);
         $project1->users()->attach($user->id);
         $doc = $this->createDocument($user2);
-        $service = app('Klink\DmsDocuments\DocumentsService');
+        $service = app('KBox\Documents\Services\DocumentsService');
         $service->addDocumentToGroup($user2, $doc, $project1->collection);
         $doc = $doc->fresh();
         $documents_user2->push($doc);
@@ -530,7 +530,7 @@ class RecentDocumentsTest extends TestCase
 
         // add two first level collections and a second level collection to the project
         // each one created by a different user
-        $service = app('Klink\DmsDocuments\DocumentsService');
+        $service = app('KBox\Documents\Services\DocumentsService');
 
         $collection_level_one = $service->createGroup($manager, 'collection_level_one', null, $project->collection, false);
         $collection_level_two = $service->createGroup($member_user, 'collection_level_two', null, $project->collection, false);

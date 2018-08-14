@@ -4,13 +4,13 @@ namespace KBox\Http\Composers;
 
 use KBox\DocumentDescriptor;
 use Illuminate\Contracts\View\View;
-use Klink\DmsDocuments\DocumentsService;
+use KBox\Documents\Services\DocumentsService;
 
 class DuplicateDocumentsComposer
 {
 
     /**
-     * @var \Klink\DmsDocuments\DocumentsService
+     * @var \KBox\Documents\Services\DocumentsService
      */
     private $documents = null;
     

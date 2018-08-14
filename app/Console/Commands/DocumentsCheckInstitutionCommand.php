@@ -7,7 +7,7 @@ use Illuminate\Console\Command;
 use KBox\DocumentDescriptor;
 use KBox\Institution;
 use Klink\DmsAdapter\Contracts\KlinkAdapter;
-use Klink\DmsDocuments\DocumentsService;
+use KBox\Documents\Services\DocumentsService;
 
 use KBox\Console\Traits\DebugOutput;
 

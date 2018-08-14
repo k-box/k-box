@@ -1,10 +1,10 @@
 <?php
 
-namespace Content\Providers;
+namespace KBox\Documents\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
-use Content\Services\ThumbnailsService;
+use KBox\Documents\Services\ThumbnailsService;
 
 /**
  * Register the {@see ThumbnailService}
@@ -47,6 +47,6 @@ class ThumbnailsServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return ['Content\Services\ThumbnailsService', 'thumbnails'];
+        return ['KBox\Documents\Services\ThumbnailsService', 'thumbnails'];
     }
 }

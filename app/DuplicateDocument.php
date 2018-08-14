@@ -94,7 +94,7 @@ class DuplicateDocument extends Model implements Htmlable
             return trans('documents.duplicates.message_me_owner', $args);
         }
 
-        $service = app('Klink\DmsDocuments\DocumentsService');
+        $service = app('KBox\Documents\Services\DocumentsService');
 
         $collections = $service->getDocumentCollections($this->duplicateOf, $this->user);
 

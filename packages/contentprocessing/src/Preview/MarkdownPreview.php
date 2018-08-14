@@ -1,8 +1,8 @@
 <?php
 
-namespace Content\Preview;
+namespace KBox\Documents\Preview;
 
-use Content\Contracts\Preview as PreviewContract;
+use KBox\Documents\Contracts\Preview as PreviewContract;
 use Markdown;
 
 /**
@@ -23,7 +23,7 @@ class MarkdownPreview implements PreviewContract
     {
         $this->path = $path;
 
-        $this->reader = app()->make('Klink\DmsDocuments\FileContentExtractor');
+        $this->reader = app()->make('KBox\Documents\FileContentExtractor');
 
         return $this;
     }

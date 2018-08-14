@@ -2,13 +2,13 @@
 
 namespace KBox\DocumentsElaboration\Actions;
 
-use Klink\DmsDocuments\DocumentsService;
+use KBox\Documents\Services\DocumentsService;
 use KBox\Contracts\Action;
 
 class AddToSearch extends Action
 {
     /**
-     * @var \Klink\DmsDocuments\DocumentsService
+     * @var \KBox\Documents\Services\DocumentsService
      */
     private $documentsService = null;
     

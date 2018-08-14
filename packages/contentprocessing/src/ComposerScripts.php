@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Content;
+namespace KBox\Documents;
 
 use PharData;
 use Composer\Factory;

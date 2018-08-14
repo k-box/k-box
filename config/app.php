@@ -189,14 +189,14 @@ return [
          */
         Klink\DmsAdapter\DmsAdapterServiceProvider::class,
         Klink\DmsSearch\DmsSearchServiceProvider::class,
-        Klink\DmsDocuments\DmsDocumentsServiceProvider::class,
+        KBox\Documents\Providers\DmsDocumentsServiceProvider::class,
 
         /**
          * Content previewing, reading and thumbnail related
          */
-        Content\Providers\ThumbnailsServiceProvider::class,
-        Content\Providers\PreviewServiceProvider::class,
-        Content\Providers\TextExtractionServiceProvider::class,
+        KBox\Documents\Providers\ThumbnailsServiceProvider::class,
+        KBox\Documents\Providers\PreviewServiceProvider::class,
+        KBox\Documents\Providers\TextExtractionServiceProvider::class,
             
         /**
          * Async Queue

@@ -4,7 +4,7 @@ namespace Tests\Unit\TextExtraction;
 
 use Tests\TestCase;
 use Illuminate\Support\Facades\Storage;
-use Content\ExtractText\PdfExtractor;
+use KBox\Documents\ExtractText\PdfExtractor;
 
 class PdfTextExtractionTest extends TestCase
 {

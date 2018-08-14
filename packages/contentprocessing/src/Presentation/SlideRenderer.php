@@ -1,6 +1,6 @@
 <?php
 
-namespace Content\Presentation;
+namespace KBox\Documents\Presentation;
 
 use ReflectionClass;
 use PhpOffice\PhpPresentation\Slide;

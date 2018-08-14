@@ -5,7 +5,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 use KBox\Import;
 use KBox\Jobs\ThumbnailGenerationJob;
 use GuzzleHttp\Client;
-use Klink\DmsAdapter\KlinkDocumentUtils;
+use KBox\Documents\KlinkDocumentUtils;
 use KBox\Console\Commands\ThumbnailGenerationCommand;
 
 class ThumbnailsTest extends BrowserKitTestCase
@@ -150,7 +150,7 @@ class ThumbnailsTest extends BrowserKitTestCase
         $mock = $this->withKlinkAdapterMock();
 
         $service = app('thumbnails');
-        $documentsService = app('Klink\DmsDocuments\DocumentsService');
+        $documentsService = app('KBox\Documents\Services\DocumentsService');
 
         $mock->shouldReceive('generateThumbnailOfWebSite', 'generateThumbnailFromContent')->never();
         

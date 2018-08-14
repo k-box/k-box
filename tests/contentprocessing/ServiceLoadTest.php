@@ -6,8 +6,8 @@ class ServiceLoadTest extends BrowserKitTestCase
 {
     public function testBasicExample()
     {
-        $service = app(Content\Services\PreviewService::class);
+        $service = app(KBox\Documents\Services\PreviewService::class);
 
-        $this->assertInstanceOf(Content\Services\PreviewService::class, $service);
+        $this->assertInstanceOf(KBox\Documents\Services\PreviewService::class, $service);
     }
 }

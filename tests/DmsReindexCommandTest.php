@@ -50,7 +50,7 @@ class DmsReindexCommandTest extends BrowserKitTestCase
 
         $plucked = $docs->pluck('id');
 
-        $command = new DmsReindexCommand(app('Klink\DmsDocuments\DocumentsService'));
+        $command = new DmsReindexCommand(app('KBox\Documents\Services\DocumentsService'));
         
         $res = $this->runArtisanCommand($command, [
             'documents' => $plucked,
@@ -78,7 +78,7 @@ class DmsReindexCommandTest extends BrowserKitTestCase
 
         $plucked = $docs->pluck('id');
 
-        $command = new DmsReindexCommand(app('Klink\DmsDocuments\DocumentsService'));
+        $command = new DmsReindexCommand(app('KBox\Documents\Services\DocumentsService'));
         
         $res = $this->runArtisanCommand($command, [
             'documents' => $plucked->toArray(),
@@ -102,7 +102,7 @@ class DmsReindexCommandTest extends BrowserKitTestCase
 
         $plucked = $docs->pluck('local_document_id');
 
-        $command = new DmsReindexCommand(app('Klink\DmsDocuments\DocumentsService'));
+        $command = new DmsReindexCommand(app('KBox\Documents\Services\DocumentsService'));
         
         $res = $this->runArtisanCommand($command, [
             'documents' => $plucked->toArray(),
@@ -121,7 +121,7 @@ class DmsReindexCommandTest extends BrowserKitTestCase
      */
     public function testReindexByLocalDocumentIdWithEmptyArgument()
     {
-        $command = new DmsReindexCommand(app('Klink\DmsDocuments\DocumentsService'));
+        $command = new DmsReindexCommand(app('KBox\Documents\Services\DocumentsService'));
         
         $res = $this->runArtisanCommand($command, [
             '--klink-id' => true
@@ -135,7 +135,7 @@ class DmsReindexCommandTest extends BrowserKitTestCase
      */
     public function testReindexByUserWithArguments()
     {
-        $command = new DmsReindexCommand(app('Klink\DmsDocuments\DocumentsService'));
+        $command = new DmsReindexCommand(app('KBox\Documents\Services\DocumentsService'));
         
         $res = $this->runArtisanCommand($command, [
             'documents' => [ '10' ],
@@ -156,7 +156,7 @@ class DmsReindexCommandTest extends BrowserKitTestCase
 
         $plucked = $docs->pluck('owner_id');
 
-        $command = new DmsReindexCommand(app('Klink\DmsDocuments\DocumentsService'));
+        $command = new DmsReindexCommand(app('KBox\Documents\Services\DocumentsService'));
         
         $res = $this->runArtisanCommand($command, [
             '--users' => $plucked->toArray()
@@ -197,7 +197,7 @@ class DmsReindexCommandTest extends BrowserKitTestCase
 
         $expected_docs_ids = $expected_docs->pluck('id')->toArray();
 
-        $command = new DmsReindexCommand(app('Klink\DmsDocuments\DocumentsService'));
+        $command = new DmsReindexCommand(app('KBox\Documents\Services\DocumentsService'));
         
         $res = $this->runArtisanCommand($command, [
             'documents' => $all_docs,
@@ -239,7 +239,7 @@ class DmsReindexCommandTest extends BrowserKitTestCase
 
         $expected_docs_ids = $expected_docs->pluck('id')->toArray();
 
-        $command = new DmsReindexCommand(app('Klink\DmsDocuments\DocumentsService'));
+        $command = new DmsReindexCommand(app('KBox\Documents\Services\DocumentsService'));
         
         $res = $this->runArtisanCommand($command, [
             'documents' => $all_docs,
@@ -284,7 +284,7 @@ class DmsReindexCommandTest extends BrowserKitTestCase
 
         $expected_docs_ids = $expected_docs->pluck('id')->toArray();
 
-        $command = new DmsReindexCommand(app('Klink\DmsDocuments\DocumentsService'));
+        $command = new DmsReindexCommand(app('KBox\Documents\Services\DocumentsService'));
         
         $res = $this->runArtisanCommand($command, [
             '--skip' => [$skip],
@@ -299,7 +299,7 @@ class DmsReindexCommandTest extends BrowserKitTestCase
      */
     public function testReindexNegativeSkipArgument()
     {
-        $command = new DmsReindexCommand(app('Klink\DmsDocuments\DocumentsService'));
+        $command = new DmsReindexCommand(app('KBox\Documents\Services\DocumentsService'));
         
         $res = $this->runArtisanCommand($command, [
             '--skip' => -4
@@ -313,7 +313,7 @@ class DmsReindexCommandTest extends BrowserKitTestCase
      */
     public function testReindexZeroTakeArgument()
     {
-        $command = new DmsReindexCommand(app('Klink\DmsDocuments\DocumentsService'));
+        $command = new DmsReindexCommand(app('KBox\Documents\Services\DocumentsService'));
         
         $res = $this->runArtisanCommand($command, [
             '--take' => 0
@@ -327,7 +327,7 @@ class DmsReindexCommandTest extends BrowserKitTestCase
      */
     public function testReindexNegativeTakeArgument()
     {
-        $command = new DmsReindexCommand(app('Klink\DmsDocuments\DocumentsService'));
+        $command = new DmsReindexCommand(app('KBox\Documents\Services\DocumentsService'));
         
         $res = $this->runArtisanCommand($command, [
             '--take' => -4
@@ -353,7 +353,7 @@ class DmsReindexCommandTest extends BrowserKitTestCase
 
         $plucked = $docs->pluck('id');
 
-        $command = new DmsReindexCommand(app('Klink\DmsDocuments\DocumentsService'));
+        $command = new DmsReindexCommand(app('KBox\Documents\Services\DocumentsService'));
         
         $res = $this->runArtisanCommand($command, [
             'documents' => $plucked->toArray(),

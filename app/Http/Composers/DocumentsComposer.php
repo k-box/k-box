@@ -14,14 +14,14 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Collection;
 use Klink\DmsAdapter\KlinkVisibilityType;
 use Klink\DmsAdapter\KlinkFacets;
-use Klink\DmsAdapter\KlinkDocumentUtils;
+use KBox\Documents\KlinkDocumentUtils;
 use OneOffTech\Licenses\Contracts\LicenseRepository;
 
 class DocumentsComposer
 {
 
     /**
-     * @var \Klink\DmsDocuments\DocumentsService
+     * @var \KBox\Documents\Services\DocumentsService
      */
     private $documents = null;
     
@@ -33,7 +33,7 @@ class DocumentsComposer
      * @param  UserRepository  $users
      * @return void
      */
-    public function __construct(\Klink\DmsDocuments\DocumentsService $documentsService, LicenseRepository $licenses)
+    public function __construct(\KBox\Documents\Services\DocumentsService $documentsService, LicenseRepository $licenses)
     {
         $this->documents = $documentsService;
         $this->licenses = $licenses;

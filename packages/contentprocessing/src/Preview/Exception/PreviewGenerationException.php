@@ -1,6 +1,6 @@
 <?php
 
-namespace Content\Preview\Exception;
+namespace KBox\Documents\Preview\Exception;
 
 use Exception;
 

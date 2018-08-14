@@ -43,7 +43,7 @@ class DocumentsServiceTest extends BrowserKitTestCase
     {
         $adapter = $this->withKlinkAdapterFake();
         
-        $service = app('Klink\DmsDocuments\DocumentsService');
+        $service = app('KBox\Documents\Services\DocumentsService');
 
         $user = $this->createUser($caps);
         
@@ -102,7 +102,7 @@ class DocumentsServiceTest extends BrowserKitTestCase
         $descr->save();
         $descr = $descr->fresh();
 
-        $service = app('Klink\DmsDocuments\DocumentsService');
+        $service = app('KBox\Documents\Services\DocumentsService');
 
         $ret = $service->reindexDocument($descr, 'private');
 
@@ -132,7 +132,7 @@ class DocumentsServiceTest extends BrowserKitTestCase
         $file->save();
         $file = $file->fresh();
 
-        $service = app('Klink\DmsDocuments\DocumentsService');
+        $service = app('KBox\Documents\Services\DocumentsService');
 
         $ret = $service->indexDocument($file, 'private', $user);
 
@@ -146,7 +146,7 @@ class DocumentsServiceTest extends BrowserKitTestCase
     {
         $fake = $this->withKlinkAdapterFake();
         
-        $service = app('Klink\DmsDocuments\DocumentsService');
+        $service = app('KBox\Documents\Services\DocumentsService');
 
         $user = $this->createAdminUser();
 

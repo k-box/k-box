@@ -28,7 +28,7 @@ class SharingController extends Controller
 
     /**
      * [$adapter description]
-     * @var Klink\DmsDocuments\DocumentsService
+     * @var KBox\Documents\Services\DocumentsService
      */
     private $service = null;
     
@@ -43,7 +43,7 @@ class SharingController extends Controller
      *
      * @return void
      */
-    public function __construct(\Klink\DmsDocuments\DocumentsService $adapterService, \Klink\DmsAdapter\Contracts\KlinkAdapter $adapter)
+    public function __construct(\KBox\Documents\Services\DocumentsService $adapterService, \Klink\DmsAdapter\Contracts\KlinkAdapter $adapter)
     {
         $this->middleware('auth');
 

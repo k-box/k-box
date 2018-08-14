@@ -20,7 +20,7 @@ class DocumentDownloadControllerTest extends TestCase
         $this->disableExceptionHandling();
         $this->withKlinkAdapterFake();
         
-        $service = app('Klink\DmsDocuments\DocumentsService');
+        $service = app('KBox\Documents\Services\DocumentsService');
 
         $project = factory(\KBox\Project::class)->create();
 
@@ -48,7 +48,7 @@ class DocumentDownloadControllerTest extends TestCase
     {
         $this->withKlinkAdapterFake();
         
-        $service = app('Klink\DmsDocuments\DocumentsService');
+        $service = app('KBox\Documents\Services\DocumentsService');
 
         $project = factory(\KBox\Project::class)->create();
 
@@ -132,7 +132,7 @@ class DocumentDownloadControllerTest extends TestCase
             $u->addCapabilities(Capability::$PARTNER);
         });
 
-        $service = app('Klink\DmsDocuments\DocumentsService');
+        $service = app('KBox\Documents\Services\DocumentsService');
 
         $document = factory(\KBox\DocumentDescriptor::class)->create(['owner_id' => $user->id, 'is_public' => true]);
 
@@ -203,7 +203,7 @@ class DocumentDownloadControllerTest extends TestCase
             $u->addCapabilities(Capability::$PARTNER);
         });
         
-        $service = app('Klink\DmsDocuments\DocumentsService');
+        $service = app('KBox\Documents\Services\DocumentsService');
 
         $document = factory(\KBox\DocumentDescriptor::class)->create(['owner_id' => $user->id]);
 

@@ -47,7 +47,7 @@
 	@component('components.list-item', 
 		[
 			'uuid' => $item->uuid,
-			'type' => \Klink\DmsAdapter\KlinkDocumentUtils::documentTypeFromMimeType($item->properties->mime_type),
+			'type' => \KBox\Documents\KlinkDocumentUtils::documentTypeFromMimeType($item->properties->mime_type),
 			'data_class' => "document",
 			'draggable' => false,
 			'selectable' => false,

@@ -3,22 +3,22 @@
 namespace Tests\Unit\TextExtraction;
 
 use Tests\TestCase;
-use Content\ExtractText\ExtractTextFactory;
-use Content\Contracts\ExtractText;
-use Content\Preview\Exception\UnsupportedFileException;
+use KBox\Documents\ExtractText\ExtractTextFactory;
+use KBox\Documents\Contracts\ExtractText;
+use KBox\Documents\Preview\Exception\UnsupportedFileException;
 
 class TextExtractionFactoryTest extends TestCase
 {
     public function file_class_provider()
     {
         return [
-            [__DIR__.'/data/csv1.csv', 'Content\ExtractText\TextFileExtractor'],
-            [__DIR__.'/data/text.txt', 'Content\ExtractText\TextFileExtractor'],
-            [__DIR__.'/data/markdown.md', 'Content\ExtractText\TextFileExtractor'],
-            [__DIR__.'/data/keyhole-markup.kml', 'Content\ExtractText\KmlExtractor'],
-            [__DIR__.'/data/a-pdf.pdf', 'Content\ExtractText\PdfExtractor'],
-            [__DIR__.'/data/example.docx', 'Content\ExtractText\WordExtractor'],
-            [__DIR__.'/data/presentation.pptx', 'Content\ExtractText\PresentationExtractor'],
+            [__DIR__.'/data/csv1.csv', 'KBox\Documents\ExtractText\TextFileExtractor'],
+            [__DIR__.'/data/text.txt', 'KBox\Documents\ExtractText\TextFileExtractor'],
+            [__DIR__.'/data/markdown.md', 'KBox\Documents\ExtractText\TextFileExtractor'],
+            [__DIR__.'/data/keyhole-markup.kml', 'KBox\Documents\ExtractText\KmlExtractor'],
+            [__DIR__.'/data/a-pdf.pdf', 'KBox\Documents\ExtractText\PdfExtractor'],
+            [__DIR__.'/data/example.docx', 'KBox\Documents\ExtractText\WordExtractor'],
+            [__DIR__.'/data/presentation.pptx', 'KBox\Documents\ExtractText\PresentationExtractor'],
         ];
     }
     

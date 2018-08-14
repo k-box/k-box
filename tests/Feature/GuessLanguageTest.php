@@ -3,7 +3,7 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
-use Klink\DmsAdapter\KlinkDocumentUtils;
+use KBox\Documents\KlinkDocumentUtils;
 use KBox\DocumentsElaboration\Actions\GuessLanguage;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 

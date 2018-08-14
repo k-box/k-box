@@ -1,12 +1,10 @@
 <?php
 
-namespace Klink\DmsDocuments;
+namespace KBox\Documents\Services;
 
 use KBox\DocumentDescriptor;
 use KBox\File;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Config;
-use Klink\DmsAdapter\KlinkFacetsBuilder;
 
 class StorageService
 {

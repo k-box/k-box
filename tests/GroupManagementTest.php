@@ -19,7 +19,7 @@ class GroupManagementTest extends BrowserKitTestCase
     {
         parent::setUp();
 
-        $this->service = $this->app->make('Klink\DmsDocuments\DocumentsService');
+        $this->service = $this->app->make('KBox\Documents\Services\DocumentsService');
     }
 
     /**

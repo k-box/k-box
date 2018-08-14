@@ -82,16 +82,15 @@
 		],
 		"psr-4": {
 			"KBox\\": "app/",
+			"KBox\\Documents\\": "packages/contentprocessing/src/",
             "Klink\\DmsMicrosites\\": "workbench/klink/dms-project-microsites/src/",
-			"Content\\": "packages/contentprocessing/src/",
 			"OneOffTech\\VideoProcessing\\": "packages/video-processing/src/",
 			"OneOffTech\\LanguageGuesser\\": "packages/language-guesser/src/",
 			"OneOffTech\\Licenses\\": "packages/licenses/src/"
 		},
 		"psr-0": {
             "Klink\\DmsAdapter\\": "workbench/klink/dms-adapter/src/",
-            "Klink\\DmsSearch\\": "workbench/klink/dms-search/src/",
-            "Klink\\DmsDocuments\\": "workbench/klink/dms-documents/src/"
+            "Klink\\DmsSearch\\": "workbench/klink/dms-search/src/"
         },
         "files" : [ "app/helpers.php" ]
 	},
@@ -123,7 +122,7 @@
             "OneOffTech\\LanguageGuesser\\ComposerScripts::postInstall"
         ],
         "install-content-cli": [
-            "Content\\ComposerScripts::postInstall"
+            "KBox\\Documents\\ComposerScripts::postInstall"
 		],
 		"install-streaming-client": "@composer run-script post-install-cmd -d ./vendor/oneofftech/k-link-streaming-upload-client"
 		

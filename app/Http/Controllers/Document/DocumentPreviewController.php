@@ -8,19 +8,19 @@ use Throwable;
 use KBox\File;
 use KBox\DocumentDescriptor;
 use Illuminate\Http\Request;
-use Content\Services\PreviewService;
+use KBox\Documents\Services\PreviewService;
 use KBox\Exceptions\ForbiddenException;
-use Klink\DmsAdapter\KlinkDocumentUtils;
-use Klink\DmsDocuments\DocumentsService;
+use KBox\Documents\KlinkDocumentUtils;
+use KBox\Documents\Services\DocumentsService;
 use Illuminate\Auth\AuthenticationException;
-use Content\Preview\Exception\UnsupportedFileException;
+use KBox\Documents\Preview\Exception\UnsupportedFileException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Content\Preview\Exception\PreviewGenerationException;
+use KBox\Documents\Preview\Exception\PreviewGenerationException;
 
 class DocumentPreviewController extends DocumentAccessController
 {
     /**
-     * @var Content\Services\PreviewService
+     * @var KBox\Documents\Services\PreviewService
      */
     private $previewService = null;
 

@@ -81,7 +81,7 @@ class DuplicateDocumentTest extends TestCase
 
     public function test_message_contains_collections()
     {
-        $service = app('Klink\DmsDocuments\DocumentsService');
+        $service = app('KBox\Documents\Services\DocumentsService');
 
         $this->withKlinkAdapterFake();
         

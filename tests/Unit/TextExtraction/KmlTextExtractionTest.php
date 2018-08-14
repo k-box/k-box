@@ -3,7 +3,7 @@
 namespace Tests\Unit\TextExtraction;
 
 use Tests\TestCase;
-use Content\ExtractText\KmlExtractor;
+use KBox\Documents\ExtractText\KmlExtractor;
 
 class KmlTextExtractionTest extends TestCase
 {
