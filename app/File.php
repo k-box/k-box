@@ -71,24 +71,24 @@ class File extends Model
      *
      * @var array
      */
-    private $previewSupportedMime = [
-        'application/pdf',
-        'image/png',
-        'image/gif',
-        'image/jpg',
-        'image/jpeg',
-        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-        'text/plain',
-        'application/rtf',
-        'text/x-markdown',
-        'text/csv',
-        'application/vnd.google-apps.document',
-        'application/vnd.google-apps.presentation',
-        'application/vnd.google-apps.spreadsheet',
-        'application/vnd.openxmlformats-officedocument.presentationml.presentation',
-        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-        'video/mp4',
-        ];
+    // private $previewSupportedMime = [
+    //     'application/pdf',
+    //     'image/png',
+    //     'image/gif',
+    //     'image/jpg',
+    //     'image/jpeg',
+    //     'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    //     'text/plain',
+    //     'application/rtf',
+    //     'text/x-markdown',
+    //     'text/csv',
+    //     'application/vnd.google-apps.document',
+    //     'application/vnd.google-apps.presentation',
+    //     'application/vnd.google-apps.spreadsheet',
+    //     'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+    //     'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    //     'video/mp4',
+    //     ];
 
     /**
      * The database table used by the model.
@@ -180,20 +180,20 @@ class File extends Model
      *
      * @return boolean true if the file is supported, false otherwise
      */
-    public function isKlinkSupported()
-    {
-        return KlinkDocumentUtils::isMimeTypeSupported($this->mime_type);
-    }
+    // public function isKlinkSupported()
+    // {
+    //     return KlinkDocumentUtils::isMimeTypeSupported($this->mime_type);
+    // }
     
-    /**
-     * Check if the file could be indexed into the K-Search
-     *
-     * @return boolean true if the file can be indexed, false otherwise
-     */
-    public function isIndexable()
-    {
-        return KlinkDocumentUtils::isMimeTypeIndexable($this->mime_type);
-    }
+    // /**
+    //  * Check if the file could be indexed into the K-Search
+    //  *
+    //  * @return boolean true if the file can be indexed, false otherwise
+    //  */
+    // public function isIndexable()
+    // {
+    //     return KlinkDocumentUtils::isMimeTypeIndexable($this->mime_type);
+    // }
     
     /**
      * Check if the file is a web page and has a remote URI
@@ -463,15 +463,15 @@ class File extends Model
         }
     }
 
-    /**
-     *
-     *
-     * @return boolean
-     */
-    public function canBePreviewed()
-    {
-        return in_array($this->attributes['mime_type'], $this->previewSupportedMime);
-    }
+    // /**
+    //  *
+    //  *
+    //  * @return boolean
+    //  */
+    // public function canBePreviewed()
+    // {
+    //     return in_array($this->attributes['mime_type'], $this->previewSupportedMime);
+    // }
 
     /**
      * Check if a file with a given hash exists
@@ -496,17 +496,17 @@ class File extends Model
         return File::fromHash($hash)->firstOrFail();
     }
 
-    /**
-     * Check if a file exists by a given hash and original source origin folder
-     *
-     * @param string $hash the file hash
-     * @param string $source_folder the file original source
-     * @return boolean
-     */
-    public static function existsByHashAndSourceFolder($hash, $source_folder)
-    {
-        return ! is_null(File::fromHash($hash)->fromOriginalUri($source_folder)->first());
-    }
+    // /**
+    //  * Check if a file exists by a given hash and original source origin folder
+    //  *
+    //  * @param string $hash the file hash
+    //  * @param string $source_folder the file original source
+    //  * @return boolean
+    //  */
+    // public static function existsByHashAndSourceFolder($hash, $source_folder)
+    // {
+    //     return ! is_null(File::fromHash($hash)->fromOriginalUri($source_folder)->first());
+    // }
 
     private function flatten_revisions(File $file, &$revisions = [])
     {
@@ -680,5 +680,18 @@ class File extends Model
 
             throw $ex;
         }
+    }
+
+    /**
+     * Create a file entry from a given upload
+     * 
+     * @param \Illuminate\Http\UploadedFile $file the uploaded file
+     * @param \KBox\User $uploader User that perfomed the upload
+     * @param \KBox\File $revision_of the previously uploaded version of the same file, if any. Default null.
+     * @return \KBox\File
+     */
+    public static function fromUpload(UploadedFile $file, User $uploader, File $revision_of = null)
+    {
+        return static::createFromUploadedFile($file, $uploader, $revision_of);
     }
 }

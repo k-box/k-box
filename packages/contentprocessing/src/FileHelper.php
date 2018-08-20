@@ -5,11 +5,14 @@ namespace KBox\Documents;
 use InvalidArgumentException;
 
 /**
-* Utility functions to handle specific operations on documents given the file path
- * @deprecated use FileHelper instead
+* Utility functions for working with files
 */
-class KlinkDocumentUtils
+final class FileHelper
 {
+
+    const DEFAULT_MIME_TYPE = 'application/octet-stream';
+    const DEFAULT_DOCUMENT_TYPE = DocumentType::BINARY;
+
     private static $mimeTypesToDocType = [
 
         'post' => 'web-page',
@@ -68,20 +71,6 @@ class KlinkDocumentUtils
         'application/vnd.ms-outlook' => 'email',
         'application/gpx+xml' => 'geodata',
         'application/geo+json' => 'geodata',
-        ];
-        
-    /**
-     * Array of mime types that are fully understood by the K-Link Core
-     */
-    private static $indexableMimeTypes = [
-
-        'application/msword',
-        'application/vnd.ms-excel',
-        'application/vnd.ms-powerpoint',
-        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-        'application/vnd.openxmlformats-officedocument.presentationml.presentation',
-        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-        'application/pdf',
         ];
 
     private static $fileExtensionToMimeType = [
@@ -227,7 +216,7 @@ class KlinkDocumentUtils
      * @param string $filePath The file path
      * @return string
      */
-    public static function generateDocumentHash($filePath)
+    public static function hash($filePath)
     {
         if (function_exists('mb_detect_encoding') && mb_detect_encoding($filePath) !== 'UTF-8') {
             $filePath = utf8_encode($filePath);
@@ -236,15 +225,6 @@ class KlinkDocumentUtils
         return hash_file('sha512', $filePath);
     }
 
-    /**
-     * Computes the SHA-512 hash for the specified content
-     * @param string $content
-     * @return string
-     */
-    public static function generateHash($content)
-    {
-        return hash('sha512', $content);
-    }
 
     public static function areDocumentsTheSame($fileOne, $fileTwo)
     {
@@ -252,21 +232,15 @@ class KlinkDocumentUtils
     }
 
     /**
-     * Convert the mime type to a document type
-     * @param string $mimeType
-     * @return string the correspondent
+     * Get a file mime type and document type
+     * @param string $path The path to the file
+     * @return array with mime type, as first element, and document type, as second
      */
-    public static function documentTypeFromMimeType($mimeType)
+    public static function type($path)
     {
-        if (str_contains($mimeType, ';')) {
-            $mimeType = substr($mimeType, 0, strpos($mimeType, ';'));
-        }
+        
 
-        if (array_key_exists($mimeType, self::$mimeTypesToDocType)) {
-            return self::$mimeTypesToDocType[$mimeType];
-        }
-
-        return "document";
+        return [static::DEFAULT_MIME_TYPE, static::DEFAULT_DOCUMENT_TYPE];
     }
 
     /**
@@ -281,28 +255,14 @@ class KlinkDocumentUtils
     }
     
     /**
-     * Check if the specified mime type is one of the supported mimetypes for indexing by the Core.
-     *
-     * @param string $mimeType the mime type to check for
-     * @return boolean true if supported, false otherwise
-     */
-    public static function isMimeTypeIndexable($mimeType)
-    {
-        return @array_key_exists($mimeType, self::$mimeTypesToDocType) && in_array($mimeType, self::$indexableMimeTypes);
-    }
-
-    public static function getDocumentTypes()
-    {
-        return @array_values(self::$mimeTypesToDocType);
-    }
-
-    /**
-     * Return the file extension that corresponds to the given mime type
+     * Return the file extension that corresponds to the given mime type and document type
+     * 
      * @param  string $mimeType the mime-type of the file
+     * @param  string $documentType the document-type of the file. Default null
      * @return string           the known file extension
      * @throws InvalidArgumentException If the mime type is unkwnown, null or empty
      */
-    public static function getExtensionFromMimeType($mimeType)
+    public static function getExtensionFromType($mimeType, $documentType = null)
     {
         $inverted = array_flip(self::$fileExtensionToMimeType);
         
@@ -367,49 +327,5 @@ class KlinkDocumentUtils
         return 'application/octet-stream';
     }
 
-    /**
-     * Encode a file, a string or a stream to base64
-     *
-     * @parameter string|resource $value the string to convert, the absolute file path or a stream (like the one coming from `fopen`)
-     * @return resource The stream containing the base64 encode of $value. Remember to close the stream once you have done.
-     * @throws UnexpectedValueException if $value is a closed stream
-     */
-    public static function getBase64Stream($value)
-    {
-        if (is_resource($value) && @get_resource_type($value) === 'stream') {
-            rewind($value);
-            
-            $fp = tmpfile();
-            stream_filter_append($fp, 'convert.base64-encode', STREAM_FILTER_WRITE);
-            stream_copy_to_stream($value, $fp);
-            
-            rewind($fp);
-            
-            return $fp;
-        } elseif (@get_resource_type($value) === 'Unknown') {
-            throw new \UnexpectedValueException('The original document stream is closed');
-        }
-        
-        if (@is_file($value)) {
-            $fp = tmpfile();
-            
-            $src = fopen($value, 'r');
-
-            stream_filter_append($fp, 'convert.base64-encode', STREAM_FILTER_WRITE);
-            stream_copy_to_stream($src, $fp);
-            rewind($fp);
-
-            fclose($src);
-
-            return $fp;
-        }
-        
-        $fp = tmpfile();
-
-        stream_filter_append($fp, 'convert.base64-encode', STREAM_FILTER_WRITE);
-        fwrite($fp, $value);
-        rewind($fp);
-
-        return $fp;
-    }
+    
 }
