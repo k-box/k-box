@@ -1,9 +1,5 @@
 
-@if(!isset($use_label))
 <div class="fieldbox__heading">{{trans('projects.labels.add_users')}}</div>
-@else 
-<label>{{trans('projects.labels.add_users')}}</label>
-@endif
 
 @if( $errors->has('users') )
     <span class="field-error">{{ implode(",", $errors->get('users'))  }}</span>
@@ -22,10 +18,7 @@
         @endforeach
                         
     </select>
-
-    
-
-    </div>
+     </div>
 
     @if(!isset($hide_button))
     <div>
