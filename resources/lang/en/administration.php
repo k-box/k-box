@@ -67,26 +67,26 @@ return [
 
         'capabilities' => [
 
-            'manage_dms' => 'User can access the K-Box administration panel',
+            'manage_dms' => 'User can access the Administration page',
             'manage_dms_users' => 'User can create/disable other K-Box users',
             'manage_dms_log' => 'User can see the K-Box log files',
             'manage_dms_backup' => 'User can perform the K-Box backups and restore',
             'change_document_visibility' => 'User can un-/publish documents',
             'edit_document' => 'User can edit documents',
             'delete_document' => 'User can trash documents',
-            'import_documents' => 'User can import documents from folders or external URL',
+            'import_documents' => 'User can import documents from folders or external URL',  //irrelevant
             'upload_documents' => 'User can upload documents',
-            'make_search' => 'User can access all the unpublished documents in accessible projects',
-            'manage_own_groups' => 'User can add/remove personal document collections',
-            'manage_institution_groups' => 'User can add/remove document collections in accessible projects',
-            'manage_project_collections' => 'User can add/remove project collections in accessible projects',
-            'manage_share' => 'User may directly share project documents with other K-Box users',
-            'receive_share' => 'User can see documents that have been shared with him',
+            'make_search' => 'User can access the Documents page', //in the past: User can access all the unpublished documents in accessible projects
+            'manage_own_groups' => 'User can add/remove personal collections',
+            'manage_institution_groups' => 'User can add/remove document collections in accessible projects', //hidden from users
+            'manage_project_collections' => 'User can access the Projects section', //in the past: User can add/remove project collections in accessible projects
+            'manage_share' => 'User may directly share project documents with other K-Box users', 
+            'receive_share' => 'User can access the Shared with me section',
             'manage_share_personal' => 'User may directly share personal documents with other K-Box users',
-            'manage_share_private' => 'User can share documents to groups of users defined at institution level',
-            'clean_trash' => 'User can permanently delete owned documents from the K-Box',
-            'manage_personal_people' => 'User can create/edit groups of users defined at personal level',
-            'manage_people' => 'User can create/edit groups of users defined at institution level',
+            'manage_share_private' => 'User can share documents to groups of users defined at institution level', //hidden from users
+            'clean_trash' => 'User can clear own Trash',
+            'manage_personal_people' => 'User can create/edit groups of users defined at personal level', //irrelevant
+            'manage_people' => 'User can create/edit groups of users defined at institution level', //irrelevant
 
         ],
         
