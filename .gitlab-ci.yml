@@ -105,6 +105,8 @@ unit_test:
     - mkdir ./storage/documents
     - composer install --prefer-dist
     - composer run install-video-cli
+    - ls -la ./bin/
+    - ls -la ./bin/bin
     - chmod +x ./bin/bin/packager-linux
     - composer run install-content-cli
     - composer run install-language-cli

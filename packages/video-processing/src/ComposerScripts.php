@@ -93,13 +93,13 @@ class ComposerScripts
                 $io->write('');
 
                 $executor = new ProcessExecutor($io);
-
-                $command_filename = $os!=='windows' ? './'.basename($fileName) : basename($fileName);
-
-                $command = $command_filename.' fetch:dependencies';
-
-                $exitCode = $executor->execute($command, $executorOutput, $folder);
                 
+                $command_filename = $os!=='windows' ? './'.basename($fileName) : basename($fileName);
+                
+                $command = $command_filename.' fetch:binaries';
+                
+                $exitCode = $executor->execute($command, $executorOutput, $folder);
+
                 $io->write($executorOutput);
 
                 if ($exitCode > 0) {
