@@ -74,6 +74,11 @@ final class DocumentType
     const VIDEO = 'video';
     
     /**
+     * Video file
+     */
+    const AUDIO = 'audio';
+    
+    /**
      * A Video that is a DVD file
      */
     const DVD_VIDEO = 'dvd-video';
@@ -176,6 +181,15 @@ final class DocumentType
         'video/x-ms-wmx' => self::VIDEO,
         'video/quicktime' => self::VIDEO,
         'video/x-matroska' => self::VIDEO,
+
+        'audio/mpeg' => self::AUDIO,
+        'audio/x-realaudio' => self::AUDIO,
+        'audio/wav' => self::AUDIO,
+        'audio/ogg' => self::AUDIO,
+        'audio/midi' => self::AUDIO,
+        'audio/x-ms-wma' => self::AUDIO,
+        'audio/x-ms-wax' => self::AUDIO,
+        'audio/x-matroska' => self::AUDIO,
         
         'message/rfc822' => self::EMAIL,
         'application/vnd.ms-outlook' => self::EMAIL,
