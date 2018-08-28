@@ -2,84 +2,44 @@
 
 namespace KBox\Documents;
 
+use Exception;
 use InvalidArgumentException;
 
 /**
-* Utility functions for working with files
-*/
+ * Utility functions for working with files on disk.
+ * 
+ * Please interact with the FileService instead of using the file helper directly, as 
+ * the FileService provides abstraction and extension support
+ */
 final class FileHelper
 {
 
+    /**
+     * The default mime type, if not recognized
+     *
+     * @var string
+     */
     const DEFAULT_MIME_TYPE = 'application/octet-stream';
+
+    /**
+     * The default document type, if not recognized
+     *
+     * @var string
+     */
     const DEFAULT_DOCUMENT_TYPE = DocumentType::BINARY;
 
-    private static $mimeTypesToDocType = [
-
-        'post' => 'web-page',
-        'page' => 'web-page',
-        'node' => 'web-page',
-        'text/html' => 'web-page',
-        'application/msword' => 'document',
-        'application/vnd.ms-excel' => 'spreadsheet',
-        'application/vnd.ms-powerpoint' => 'presentation',
-        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' => 'spreadsheet',
-        'application/vnd.openxmlformats-officedocument.presentationml.presentation' => 'presentation',
-        'application/vnd.openxmlformats-officedocument.wordprocessingml.document' => 'document',
-        'application/pdf' => 'document',
-        'text/uri-list' => 'uri-list',
-        'image/jpg' => 'image',
-        'image/jpeg' => 'image',
-        'image/gif' => 'image',
-        'image/png' => 'image',
-        'image/tiff' => 'image',
-        'text/plain' => 'text-document',
-        'application/rtf' => 'text-document',
-        'text/x-markdown' => 'text-document',
-        'application/vnd.google-apps.document' => 'document',
-        'application/vnd.google-apps.drawing' => 'image',
-        'application/vnd.google-apps.form' => 'form',
-        'application/vnd.google-apps.fusiontable' => 'spreadsheet',
-        'application/vnd.google-apps.presentation' => 'presentation',
-        'application/vnd.google-apps.spreadsheet' => 'spreadsheet',
-        'application/vnd.google-earth.kml+xml' => 'geodata',
-        'application/vnd.google-earth.kmz' => 'geodata',
-        'application/rar' => 'archive',
-        'application/zip' => 'archive',
-        'application/x-tar' => 'archive',
-        'application/x-bzip2' => 'archive',
-        'application/gzip' => 'archive',
-        'application/x-gzip' => 'archive',
-        'application/x-mimearchive' => 'web-page',
-        'video/x-ms-vob' => 'dvd',
-        'content/DVD' => 'dvd',
-        'video/x-ms-wmv' => 'video',
-        'video/x-ms-wmx' => 'video',
-        'video/x-ms-wm' => 'video',
-        'video/avi' => 'video',
-        'video/divx' => 'video',
-        'video/x-flv' => 'video',
-        'video/quicktime' => 'video',
-        'video/mpeg' => 'video',
-        'video/mp4' => 'video',
-        'video/ogg' => 'video',
-        'video/webm' => 'video',
-        'video/x-matroska' => 'video',
-        'video/3gpp' => 'video',
-        'video/3gpp2' => 'video',
-        'text/csv' => 'spreadsheet',
-        'message/rfc822' => 'email',
-        'application/vnd.ms-outlook' => 'email',
-        'application/gpx+xml' => 'geodata',
-        'application/geo+json' => 'geodata',
-        ];
-
+    /**
+     * File extensions to mime type map
+     *
+     * @var array
+     */
     private static $fileExtensionToMimeType = [
         // Image formats.
         'jpg|jpeg|jpe' => 'image/jpeg',
         'gif' => 'image/gif',
         'png' => 'image/png',
         'bmp' => 'image/bmp',
-        'tif|tiff' => 'image/tiff',
+        'tiff|tif' => 'image/tiff',
         'ico' => 'image/x-icon',
         // Video formats.
         'asf|asx' => 'video/x-ms-asf',
@@ -184,9 +144,6 @@ final class FileHelper
         'gtable' => 'application/vnd.google-apps.fusiontable',
         'gslides' => 'application/vnd.google-apps.presentation',
         'gsheet' => 'application/vnd.google-apps.spreadsheet',
-        // Google Earth files (aka Keyhole Markup Language)
-        'kml' => 'application/vnd.google-earth.kml+xml',
-        'kmz' => 'application/vnd.google-earth.kmz',
         // Mail messages
         'eml' => 'message/rfc822', // textual email message
         'msg' => 'application/vnd.ms-outlook', // Outlook Email Message
@@ -203,42 +160,58 @@ final class FileHelper
         'mxf' => 'application/mxf',
         'json' => 'application/json',
         'xml|gml' => 'text/xml', // Plain XML, gml: Geographic Markup Language - v2 (GML2), gpx:
-        
+        'bin' => 'application/octet-stream', // Plain Binary File
+        '' => 'application/octet-stream', // No Extension => Plain Binary File
         // Geographical data
         'shp|shx|sbn|dbf|aib|e02|e01|ovr|mxd|prt|jgw|tfw' => 'application/octet-stream', // Esri ArcGIS files
         'gpx' => 'application/gpx+xml', // GPS Exchange Format (GPX)
         'geojson' => 'application/geo+json',
-        ] ;
+        'geotiff' => [DocumentType::GEODATA => 'image/tiff'],
+        'kml' => 'application/vnd.google-earth.kml+xml', // Google Earth files (aka Keyhole Markup Language)
+        'kmz' => 'application/vnd.google-earth.kmz',
+    ];
 
     /**
-     * Computes the hash for uniquely identify the file
+     * Sometimes mime types are recognized differently according to the platform.
+     * This associative array tries to reduce the known variations of mime types
+     */
+    private static $normalizableMimeTypes = [
+        'application/x-zip-compressed' => 'application/zip',
+    ];
+    
+    /**
+     * Computes the hash of the file content
+     * 
      * Uses SHA-512 variant of SHA-2 (Secure hash Algorithm)
-     * @param string $filePath The file path
+     * 
+     * @param string $path The file path
      * @return string
      */
-    public static function hash($filePath)
+    public static function hash(string $path)
     {
-        if (function_exists('mb_detect_encoding') && mb_detect_encoding($filePath) !== 'UTF-8') {
-            $filePath = utf8_encode($filePath);
+        if (function_exists('mb_detect_encoding') && mb_detect_encoding($path) !== 'UTF-8') {
+            $path = utf8_encode($path);
         }
 
-        return hash_file('sha512', $filePath);
-    }
-
-
-    public static function areDocumentsTheSame($fileOne, $fileTwo)
-    {
-        return self::generateDocumentHash($fileOne) === self::generateDocumentHash($fileTwo);
+        return hash_file('sha512', $path);
     }
 
     /**
-     * Get a file mime type and document type
+     * Retrieve the mime type and document type of a file, given its path on disk
+     * 
      * @param string $path The path to the file
      * @return array with mime type, as first element, and document type, as second
      */
     public static function type($path)
     {
-        
+        try{
+
+            $mime = self::get_mime($path);
+            $doc = DocumentType::from($mime);
+
+            return [$mime, $doc];
+
+        } catch(Exception $ex){}
 
         return [static::DEFAULT_MIME_TYPE, static::DEFAULT_DOCUMENT_TYPE];
     }
@@ -250,8 +223,8 @@ final class FileHelper
      * @return boolean true if known, false otherwise
      */
     public static function isMimeTypeSupported($mimeType)
-    {
-        return @array_key_exists($mimeType, self::$mimeTypesToDocType);
+    {       
+        return @array_key_exists(self::normalizeMimeType($mimeType), array_flip(self::$fileExtensionToMimeType));
     }
     
     /**
@@ -264,25 +237,41 @@ final class FileHelper
      */
     public static function getExtensionFromType($mimeType, $documentType = null)
     {
-        $inverted = array_flip(self::$fileExtensionToMimeType);
-        
-        $comma = strpos($mimeType, ';');
-
-        if ($comma) {
-            $mimeType = substr($mimeType, 0, $comma);
-        }
-
-        $key = array_key_exists($mimeType, $inverted);
-
-        if ($key) {
-            $ext = $inverted[$mimeType];
-
-            $pos = strpos($ext, '|');
-            if ($pos !== false) {
-                $ext = substr($ext, 0, $pos);
+        $mimeType = self::normalizeMimeType(str_before($mimeType,';'));
+   
+        $possible_extensions = array_filter(self::$fileExtensionToMimeType, function($value, $key) use ($mimeType, $documentType) {
+            
+            if(is_array($value) && !is_null($documentType) &&  array_key_exists($documentType, $value)){
+                return $value[$documentType] === $mimeType;
             }
 
-            return $ext;
+            return $value === $mimeType;
+        }, ARRAY_FILTER_USE_BOTH );
+
+        $possible_extensions_count = count($possible_extensions);
+
+        if ($possible_extensions_count > 0) {
+            
+            $possible_extension = array_first(array_keys($possible_extensions));
+            
+            if(!is_null($documentType) && $possible_extensions_count > 1){
+                
+                $filtered_by_doc_type = array_keys(array_filter($possible_extensions, function($value, $key) use ($mimeType, $documentType) {
+                    
+                    if(is_array($value) && !is_null($documentType) &&  array_key_exists($documentType, $value)){
+                        return $value[$documentType] === $mimeType;
+                    }
+                    
+                    return false;
+                }, ARRAY_FILTER_USE_BOTH ));
+
+                if(count($filtered_by_doc_type) > 0){
+                    $possible_extension = array_first($filtered_by_doc_type);
+                }
+
+            }
+            
+            return str_before($possible_extension, '|');
         }
 
         throw new InvalidArgumentException("Unknown mime type.");
@@ -302,7 +291,7 @@ final class FileHelper
             }
         }
 
-        return 'application/octet-stream';
+        return self::DEFAULT_MIME_TYPE;
     }
 
     /**
@@ -314,7 +303,6 @@ final class FileHelper
      */
     public static function get_mime($file)
     {
-
         // we don't rely anymore to finfo_file function because for some docx created from LibreOffice the
         // mime type reported is Composite Document File V2 Document, which has totally no-sense
 
@@ -324,8 +312,20 @@ final class FileHelper
             return self::getMimeTypeFromExtension($extension);
         }
         
-        return 'application/octet-stream';
+        return self::DEFAULT_MIME_TYPE;
     }
 
-    
+    /**
+     * Sometimes different platforms return non standard mime types. 
+     * This function tries to migrate non standard mime types to 
+     * supported ones
+     * 
+     * @param string $mimeType
+     * @return string the normalized mime type 
+     */
+    public static function normalizeMimeType($mimeType)
+    {
+        return self::$normalizableMimeTypes[$mimeType] ?? $mimeType;
+    }
+
 }
