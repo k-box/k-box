@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\File as Storage;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Console\Output\OutputInterface;
 use Exception;
-use KBox\Documents\KlinkDocumentUtils;
+use KBox\Documents\Facades\Files;
 use Klink\DmsAdapter\KlinkVisibilityType;
 use Klink\DmsAdapter\Exceptions\KlinkException;
 
@@ -169,7 +169,7 @@ class ImportCommand extends Job implements ShouldQueue
                 }
             }
                 
-            $hash = KlinkDocumentUtils::generateDocumentHash($file);
+            $hash = Files::hash($file);
     
             $file_found = File::where('hash', $hash)->first();
             $file_already_exists = ! is_null($file_found);
@@ -177,7 +177,7 @@ class ImportCommand extends Job implements ShouldQueue
             if (! $file_already_exists) {
                 $file_m_time = @filemtime($file);
 
-                $mime = KlinkDocumentUtils::get_mime($file);
+                list($mime, $documentType) = Files::recognize($file);
     
                 $file_model = new File();
                 $file_model->name = basename($file);

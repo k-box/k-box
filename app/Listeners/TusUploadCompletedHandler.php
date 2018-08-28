@@ -6,10 +6,10 @@ use Log;
 use KBox\File;
 use KBox\DocumentDescriptor;
 use KBox\Events\UploadCompleted;
+use KBox\Documents\Facades\Files;
 use Illuminate\Support\Facades\Storage;
 use KBox\Documents\Services\DocumentsService;
 use OneOffTech\TusUpload\Events\TusUploadCompleted;
-use KBox\Documents\KlinkDocumentUtils;
 
 class TusUploadCompletedHandler
 {
@@ -63,7 +63,7 @@ class TusUploadCompletedHandler
             $extension = pathinfo($file->name, PATHINFO_EXTENSION);
 
             if (empty($extension)) {
-                $extension = KlinkDocumentUtils::getExtensionFromMimeType($file->mime_type);
+                $extension = Files::extensionFromType($file->mime_type);
             }
 
             $storage = Storage::disk('local');
@@ -84,7 +84,7 @@ class TusUploadCompletedHandler
 
             $file->path = $file_path;
 
-            $file->hash = KlinkDocumentUtils::generateDocumentHash($destination);
+            $file->hash = Files::hash($destination);
             
             $file->upload_completed_at = \Carbon\Carbon::now();
             

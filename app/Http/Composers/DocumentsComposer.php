@@ -14,7 +14,8 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Collection;
 use Klink\DmsAdapter\KlinkVisibilityType;
 use Klink\DmsAdapter\KlinkFacets;
-use KBox\Documents\KlinkDocumentUtils;
+use KBox\Documents\DocumentType;
+use KBox\Documents\Facade\Files;
 use OneOffTech\Licenses\Contracts\LicenseRepository;
 
 class DocumentsComposer
@@ -354,7 +355,7 @@ class DocumentsComposer
                             $f_items->label =  trans('languages.'.$f_items->value);
                         } elseif ($name == KlinkFacets::MIME_TYPE) {
                             try {
-                                $f_items->label =  trans_choice('documents.type.'.KlinkDocumentUtils::documentTypeFromMimeType($f_items->value), 1).' ('.KlinkDocumentUtils::getExtensionFromMimeType($f_items->value).')';
+                                $f_items->label =  trans_choice('documents.type.'.DocumentType::from($f_items->value), 1).' ('.Files::extensionFromType($f_items->value).')';
                             } catch (Exception $ex) {
                                 $f_items->label =  trans_choice('documents.type.document', 1).' ('.$f_items->value.')';
                             }

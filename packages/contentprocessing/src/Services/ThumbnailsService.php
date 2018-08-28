@@ -5,7 +5,7 @@ namespace KBox\Documents\Services;
 use KBox\File;
 
 use Klink\DmsAdapter\Contracts\KlinkAdapter;
-use KBox\Documents\KlinkDocumentUtils;
+use KBox\Documents\DocumentType;
 use Log;
 use Exception;
 use Imagick;
@@ -216,7 +216,7 @@ class ThumbnailsService
     /**
      * Get the default thumbnail associated to a mime type
      *
-     * @uses KlinkDocumentUtils::documentTypeFromMimeType
+     * @uses DocumentType::from
      *
      * @param string $mimeType the file mime type
      * @return string the path to the default image for that file mime type
@@ -228,7 +228,7 @@ class ThumbnailsService
         } elseif ($mimeType === 'text/uri-list') {
             $doc_type = 'web-page';
         } else {
-            $doc_type = KlinkDocumentUtils::documentTypeFromMimeType($mimeType);
+            $doc_type = DocumentType::from($mimeType);
         }
         
         $path = public_path('images/'.$doc_type.'.png');

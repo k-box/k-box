@@ -8,7 +8,7 @@ use KBox\Publication;
 use KBox\Option;
 use KBox\Facades\KlinkStreaming;
 use Illuminate\Support\Facades\Storage;
-use KBox\Documents\KlinkDocumentUtils;
+use KBox\Documents\Facades\Files;
 use KBox\Jobs\UpdatePublishedDocumentJob;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
@@ -39,11 +39,11 @@ class VideoPublicationTest extends TestCase
         );
 
         $user = factory(\KBox\User::class)->create();
-
+        list($mime) = Files::recognize($path);
         $file = factory(\KBox\File::class)->create([
             'hash' => hash_file('sha512', Storage::disk('local')->path($path)),
             'path' => $path,
-            'mime_type' => KlinkDocumentUtils::get_mime($path),
+            'mime_type' => $mime,
         ]);
 
         $descriptor = factory(\KBox\DocumentDescriptor::class)->create([
@@ -63,13 +63,13 @@ class VideoPublicationTest extends TestCase
             $path,
             file_get_contents(base_path('tests/data/video.mp4'))
         );
-
+        list($mime) = Files::recognize($path);
         $file = factory(\KBox\File::class)->create([
             'hash' => hash_file('sha512', Storage::disk('local')->path($path)),
             'path' => $path,
             'created_at' => Carbon::now()->subMinutes(2),
             'updated_at' => Carbon::now()->subMinutes(2),
-            'mime_type' => KlinkDocumentUtils::get_mime($path),
+            'mime_type' => $mime,
         ]);
 
         $descriptor = factory(\KBox\DocumentDescriptor::class)->create([
@@ -162,11 +162,11 @@ class VideoPublicationTest extends TestCase
         $original_publication = $descriptor->publication;
 
         // ADD a new file revision
-
+        list($mime) = Files::recognize($path);
         $file = factory(\KBox\File::class)->create([
             'hash' => hash_file('sha512', Storage::disk('local')->path($path)),
             'path' => $path,
-            'mime_type' => KlinkDocumentUtils::get_mime($path),
+            'mime_type' => $mime,
             'revision_of' => $descriptor->file_id
         ]);
 

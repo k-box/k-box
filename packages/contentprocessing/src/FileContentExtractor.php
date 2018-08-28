@@ -3,6 +3,7 @@
 namespace KBox\Documents;
 
 use KBox\File;
+use KBox\Documents\Facades\Files;
 
 /**
  * Basic Textual content extractor from files that are not indexable by the K-Link Core
@@ -27,7 +28,7 @@ class FileContentExtractor
      */
     public function extract($mimeType, $filePath, $default = null)
     {
-        $extension = KlinkDocumentUtils::getExtensionFromMimeType($mimeType);
+        $extension = Files::extensionFromType($mimeType);
         
         if (method_exists($this, $extension)) {
             try {

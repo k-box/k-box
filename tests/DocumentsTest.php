@@ -6,8 +6,8 @@ use KBox\File;
 use KBox\Capability;
 use KBox\DocumentDescriptor;
 use KBox\Project;
-use KBox\Documents\KlinkDocumentUtils;
 use Tests\BrowserKitTestCase;
+use KBox\Documents\Facades\Files;
 use Klink\DmsAdapter\KlinkVisibilityType;
 use Klink\DmsAdapter\Exceptions\KlinkException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -732,7 +732,7 @@ class DocumentsTest extends BrowserKitTestCase
         $new_path = base_path('tests/data/example-presentation-simple.pptx');
         $new_mime_type = 'application/vnd.openxmlformats-officedocument.presentationml.presentation';
         $new_document_type = 'presentation';
-        $new_hash = KlinkDocumentUtils::generateDocumentHash(base_path('tests/data/example-presentation-simple.pptx'));
+        $new_hash = Files::hash(base_path('tests/data/example-presentation-simple.pptx'));
 
         $this->actingAs($user);
         

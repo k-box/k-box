@@ -3,7 +3,7 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
-use KBox\Documents\KlinkDocumentUtils;
+use KBox\Documents\Facades\Files;
 use KBox\DocumentsElaboration\Actions\GuessLanguage;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
@@ -13,10 +13,11 @@ class GuessLanguageTest extends TestCase
 
     private function generateDescriptorForFile($path)
     {
+        list($mime) = Files::recognize($path);
         $file = factory(\KBox\File::class)->create([
             'hash' => hash_file('sha512', $path),
             'path' => $path,
-            'mime_type' => KlinkDocumentUtils::get_mime($path),
+            'mime_type' => $mime,
         ]);
         $descriptor = factory(\KBox\DocumentDescriptor::class)->create([
             'file_id' => $file->id,

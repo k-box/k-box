@@ -24,8 +24,9 @@ use Carbon\Carbon;
 use KBox\Exceptions\GroupAlreadyExistsException;
 use KBox\Exceptions\CollectionMoveException;
 use KBox\Jobs\ImportCommand;
+use KBox\Documents\Facades\Files;
 use Klink\DmsAdapter\KlinkDocument;
-use KBox\Documents\KlinkDocumentUtils;
+use Klink\DmsAdapter\KlinkDocumentUtils;
 use Klink\DmsAdapter\KlinkVisibilityType;
 use Klink\DmsAdapter\Exceptions\KlinkException;
 use KSearchClient\Exception\ErrorResponseException;
@@ -231,7 +232,7 @@ class DocumentsService
             $owner = $file->user;
         }
 
-        $document_type = KlinkDocumentUtils::documentTypeFromMimeType($file->mime_type);
+        $document_type = $file->document_type;
         $local_document_id = substr($file->hash, 0, 6);
 
         $attrs = [
@@ -373,7 +374,7 @@ class DocumentsService
         
         $owner = $file->user;
         
-        $document_type = KlinkDocumentUtils::documentTypeFromMimeType($file->mime_type);
+        $document_type = $file->document_type;
 
         $attrs = [
             'institution_id' => null,
@@ -2073,10 +2074,10 @@ class DocumentsService
     /**
      * Return the extension of the file
      */
-    public static function extension_from_file(\KBox\File $file)
+    public static function extension_from_file(File $file)
     {
         try {
-            return KlinkDocumentUtils::getExtensionFromMimeType($file->mime_type);
+            return Files::extensionFromType($file->mime_type, $file->document_type);
         } catch (\Exception $ex) {
             return '';
         }

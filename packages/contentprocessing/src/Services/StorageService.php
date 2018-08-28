@@ -2,10 +2,11 @@
 
 namespace KBox\Documents\Services;
 
-use KBox\DocumentDescriptor;
 use KBox\File;
+use KBox\DocumentDescriptor;
 use Illuminate\Support\Facades\Config;
 
+// todo: rename to StorageStatisticsService
 class StorageService
 {
     private $storage_data = null;

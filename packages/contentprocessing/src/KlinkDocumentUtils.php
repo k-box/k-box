@@ -213,28 +213,13 @@ class KlinkDocumentUtils
         // Other
         'mxf' => 'application/mxf',
         'json' => 'application/json',
-        'xml|gml' => 'text/xml', // Plain XML, gml: Geographic Markup Language - v2 (GML2), gpx:
+        'xml|gml' => 'text/xml', // Plain XML, gml: Geographic Markup Language - v2 (GML2)
         
         // Geographical data
         'shp|shx|sbn|dbf|aib|e02|e01|ovr|mxd|prt|jgw|tfw' => 'application/octet-stream', // Esri ArcGIS files
         'gpx' => 'application/gpx+xml', // GPS Exchange Format (GPX)
         'geojson' => 'application/geo+json',
         ] ;
-
-    /**
-     * Computes the hash for uniquely identify the file
-     * Uses SHA-512 variant of SHA-2 (Secure hash Algorithm)
-     * @param string $filePath The file path
-     * @return string
-     */
-    public static function generateDocumentHash($filePath)
-    {
-        if (function_exists('mb_detect_encoding') && mb_detect_encoding($filePath) !== 'UTF-8') {
-            $filePath = utf8_encode($filePath);
-        }
-
-        return hash_file('sha512', $filePath);
-    }
 
     /**
      * Computes the SHA-512 hash for the specified content
@@ -244,29 +229,6 @@ class KlinkDocumentUtils
     public static function generateHash($content)
     {
         return hash('sha512', $content);
-    }
-
-    public static function areDocumentsTheSame($fileOne, $fileTwo)
-    {
-        return self::generateDocumentHash($fileOne) === self::generateDocumentHash($fileTwo);
-    }
-
-    /**
-     * Convert the mime type to a document type
-     * @param string $mimeType
-     * @return string the correspondent
-     */
-    public static function documentTypeFromMimeType($mimeType)
-    {
-        if (str_contains($mimeType, ';')) {
-            $mimeType = substr($mimeType, 0, strpos($mimeType, ';'));
-        }
-
-        if (array_key_exists($mimeType, self::$mimeTypesToDocType)) {
-            return self::$mimeTypesToDocType[$mimeType];
-        }
-
-        return "document";
     }
 
     /**
@@ -291,125 +253,4 @@ class KlinkDocumentUtils
         return @array_key_exists($mimeType, self::$mimeTypesToDocType) && in_array($mimeType, self::$indexableMimeTypes);
     }
 
-    public static function getDocumentTypes()
-    {
-        return @array_values(self::$mimeTypesToDocType);
-    }
-
-    /**
-     * Return the file extension that corresponds to the given mime type
-     * @param  string $mimeType the mime-type of the file
-     * @return string           the known file extension
-     * @throws InvalidArgumentException If the mime type is unkwnown, null or empty
-     */
-    public static function getExtensionFromMimeType($mimeType)
-    {
-        $inverted = array_flip(self::$fileExtensionToMimeType);
-        
-        $comma = strpos($mimeType, ';');
-
-        if ($comma) {
-            $mimeType = substr($mimeType, 0, $comma);
-        }
-
-        $key = array_key_exists($mimeType, $inverted);
-
-        if ($key) {
-            $ext = $inverted[$mimeType];
-
-            $pos = strpos($ext, '|');
-            if ($pos !== false) {
-                $ext = substr($ext, 0, $pos);
-            }
-
-            return $ext;
-        }
-
-        throw new InvalidArgumentException("Unknown mime type.");
-    }
-
-    /**
-     * Gets the inferred mime type using the file extension
-     * @param  string $extension The file extension
-     * @return string            The mime type. returns `application/octet-stream` if the mime type is not known
-     * @throws InvalidArgumentException if $extension is null or empty.
-     */
-    public static function getMimeTypeFromExtension($extension)
-    {
-        foreach (self::$fileExtensionToMimeType as $exts => $mime) {
-            if (preg_match('!^('.$exts.')$!i', $extension)) {
-                return $mime;
-            }
-        }
-
-        return 'application/octet-stream';
-    }
-
-    /**
-     * Get the mime type of the specified file
-     *
-     * @param string $file the path of the file to get the mime type
-     * @return string|boolean the mime type or false in case of error
-     * @throws InvalidArgumentException if $file is empty or null
-     */
-    public static function get_mime($file)
-    {
-
-        // we don't rely anymore to finfo_file function because for some docx created from LibreOffice the
-        // mime type reported is Composite Document File V2 Document, which has totally no-sense
-
-        $extension = pathinfo($file, PATHINFO_EXTENSION);
-
-        if (! empty($extension)) {
-            return self::getMimeTypeFromExtension($extension);
-        }
-        
-        return 'application/octet-stream';
-    }
-
-    /**
-     * Encode a file, a string or a stream to base64
-     *
-     * @parameter string|resource $value the string to convert, the absolute file path or a stream (like the one coming from `fopen`)
-     * @return resource The stream containing the base64 encode of $value. Remember to close the stream once you have done.
-     * @throws UnexpectedValueException if $value is a closed stream
-     */
-    public static function getBase64Stream($value)
-    {
-        if (is_resource($value) && @get_resource_type($value) === 'stream') {
-            rewind($value);
-            
-            $fp = tmpfile();
-            stream_filter_append($fp, 'convert.base64-encode', STREAM_FILTER_WRITE);
-            stream_copy_to_stream($value, $fp);
-            
-            rewind($fp);
-            
-            return $fp;
-        } elseif (@get_resource_type($value) === 'Unknown') {
-            throw new \UnexpectedValueException('The original document stream is closed');
-        }
-        
-        if (@is_file($value)) {
-            $fp = tmpfile();
-            
-            $src = fopen($value, 'r');
-
-            stream_filter_append($fp, 'convert.base64-encode', STREAM_FILTER_WRITE);
-            stream_copy_to_stream($src, $fp);
-            rewind($fp);
-
-            fclose($src);
-
-            return $fp;
-        }
-        
-        $fp = tmpfile();
-
-        stream_filter_append($fp, 'convert.base64-encode', STREAM_FILTER_WRITE);
-        fwrite($fp, $value);
-        rewind($fp);
-
-        return $fp;
-    }
 }

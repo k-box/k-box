@@ -8,8 +8,10 @@ use OneOffTech\TusUpload\TusUpload;
 use Illuminate\Http\UploadedFile;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
+use KBox\Documents\Services\PreviewService;
 use Dyrynda\Database\Support\GeneratesUuid;
-use KBox\Documents\KlinkDocumentUtils;
+use KBox\Documents\Facades\Files;
+use Klink\DmsAdapter\KlinkDocumentUtils;
 use Illuminate\Support\Facades\Crypt;
 use KBox\Events\FileDeleted;
 use KBox\Events\FileDeleting;
@@ -30,6 +32,7 @@ use KBox\Events\FileRestored;
  * @property string $path the file location inside the storage disk
  * @property-read string $absolute_path the file absolute path on disk
  * @property-read string $absolute_thumbnail_path the thumbnail file absolute path on disk
+ * @property-read string $document_type the type of the file according to the K-Box categorization
  * @property string $original_uri the file original location, used only if the file was downloaded from a web server
  * @property int $revision_of the id of the previous version of the file
  * @property string $mime_type the file mime type
@@ -67,30 +70,6 @@ class File extends Model
     use SoftDeletes, GeneratesUuid;
 
     /**
-     * The mime types for which a preview is supported
-     *
-     * @var array
-     */
-    // private $previewSupportedMime = [
-    //     'application/pdf',
-    //     'image/png',
-    //     'image/gif',
-    //     'image/jpg',
-    //     'image/jpeg',
-    //     'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-    //     'text/plain',
-    //     'application/rtf',
-    //     'text/x-markdown',
-    //     'text/csv',
-    //     'application/vnd.google-apps.document',
-    //     'application/vnd.google-apps.presentation',
-    //     'application/vnd.google-apps.spreadsheet',
-    //     'application/vnd.openxmlformats-officedocument.presentationml.presentation',
-    //     'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-    //     'video/mp4',
-    //     ];
-
-    /**
      * The database table used by the model.
      *
      * @var string
@@ -117,7 +96,6 @@ class File extends Model
      */
     public function user()
     {
-        
         // One to One
         return $this->belongsTo(\KBox\User::class);
     }
@@ -180,20 +158,20 @@ class File extends Model
      *
      * @return boolean true if the file is supported, false otherwise
      */
-    // public function isKlinkSupported()
-    // {
-    //     return KlinkDocumentUtils::isMimeTypeSupported($this->mime_type);
-    // }
+    public function isKlinkSupported()
+    {
+        return KlinkDocumentUtils::isMimeTypeSupported($this->mime_type);
+    }
     
-    // /**
-    //  * Check if the file could be indexed into the K-Search
-    //  *
-    //  * @return boolean true if the file can be indexed, false otherwise
-    //  */
-    // public function isIndexable()
-    // {
-    //     return KlinkDocumentUtils::isMimeTypeIndexable($this->mime_type);
-    // }
+    /**
+     * Check if the file could be indexed into the K-Search
+     *
+     * @return boolean true if the file can be indexed, false otherwise
+     */
+    public function isIndexable()
+    {
+        return KlinkDocumentUtils::isMimeTypeIndexable($this->mime_type);
+    }
     
     /**
      * Check if the file is a web page and has a remote URI
@@ -250,7 +228,6 @@ class File extends Model
     public function scopeWithNullUuid($query)
     {
         return $query->withTrashed()
-                    //  ->whereUuid("00000000-0000-0000-0000-000000000000")
                      ->where('uuid', 0);
     }
     
@@ -421,6 +398,18 @@ class File extends Model
         }
         return Storage::disk('local')->path($path);
     }
+
+    /**
+     * Get document_type attribute value.
+     *
+     * @param  mixed  $value not taken into account
+     * @return string
+     */
+    public function getDocumentTypeAttribute($value = null)
+    {
+        list($mime, $documentType) = Files::recognize($this->path);
+        return $documentType;
+    }
     
     /**
      * Force a hard delete on a soft deleted model.
@@ -463,15 +452,16 @@ class File extends Model
         }
     }
 
-    // /**
-    //  *
-    //  *
-    //  * @return boolean
-    //  */
-    // public function canBePreviewed()
-    // {
-    //     return in_array($this->attributes['mime_type'], $this->previewSupportedMime);
-    // }
+    /**
+     * Check with the Preview Service if the file is supported
+     *
+     * @see \KBox\Documents\Services\PreviewService::isFileSupported
+     * @return boolean
+     */
+    public function canBePreviewed()
+    {
+        return app(PreviewService::class)->isFileSupported($this->path);
+    }
 
     /**
      * Check if a file with a given hash exists
@@ -495,18 +485,6 @@ class File extends Model
     {
         return File::fromHash($hash)->firstOrFail();
     }
-
-    // /**
-    //  * Check if a file exists by a given hash and original source origin folder
-    //  *
-    //  * @param string $hash the file hash
-    //  * @param string $source_folder the file original source
-    //  * @return boolean
-    //  */
-    // public static function existsByHashAndSourceFolder($hash, $source_folder)
-    // {
-    //     return ! is_null(File::fromHash($hash)->fromOriginalUri($source_folder)->first());
-    // }
 
     private function flatten_revisions(File $file, &$revisions = [])
     {
@@ -636,11 +614,12 @@ class File extends Model
             // double checking, guess the mime type and evaluate the mime type from
             // the list of known mime types, if different use the known one
             $guessed_mime_type = $upload->getMimeType();
-            $fallback_mime_type = KlinkDocumentUtils::get_mime($filename);
+            
+            list($fallback_mime_type, $documentType) = Files::recognize($filename);
             
             $mime = $fallback_mime_type === $guessed_mime_type ? $guessed_mime_type : $fallback_mime_type;
             
-            $hash_name = substr($upload->hashName(), 0, 40).'.'.KlinkDocumentUtils::getExtensionFromMimeType($mime); // because Laravel generates a 40 chars random name
+            $hash_name = substr($upload->hashName(), 0, 40).'.'.Files::extensionFromType($mime, $documentType); // because Laravel generates a 40 chars random name
 
             // move the file from the temp upload dir to the local storage
             $file_path = $upload->storeAs($destination_path, $hash_name, 'local');
@@ -649,7 +628,7 @@ class File extends Model
             // not using configuration value for local disk as during tests may vary if Storage::fake() is used
             $file_absolute_path = $storage->path($file_path);
 
-            $hash = KlinkDocumentUtils::generateDocumentHash($file_absolute_path);
+            $hash = Files::hash($file_absolute_path);
 
             $file_model->name = $filename;
             $file_model->uuid = $uuid;

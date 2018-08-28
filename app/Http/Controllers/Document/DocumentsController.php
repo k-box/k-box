@@ -21,7 +21,6 @@ use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use KBox\Traits\Searchable;
 use KBox\Events\UploadCompleted;
-use KBox\Documents\KlinkDocumentUtils;
 use Klink\DmsAdapter\KlinkVisibilityType;
 use Klink\DmsAdapter\Exceptions\KlinkException;
 use KBox\Jobs\ReindexDocument;
@@ -614,7 +613,7 @@ class DocumentsController extends Controller
 
                     $document->file_id = $file_model->id;
                     $document->mime_type = $file_model->mime_type;
-                    $document->document_type = KlinkDocumentUtils::documentTypeFromMimeType($file_model->mime_type);
+                    $document->document_type = $file_model->document_type;
                     $document->hash = $file_model->hash;
                     $uploaded_new_version = true;
                 } elseif ($request->hasFile('document')) {

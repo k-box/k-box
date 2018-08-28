@@ -57,9 +57,12 @@ class FileService
      * @return string           the known file extension
      * @throws InvalidArgumentException If the mime type is unkwnown, null or empty
      */
-    public static function extensionFromType($mimeType, $documentType = null)
+    public function extensionFromType($mimeType, $documentType = null)
     {
         return FileHelper::getExtensionFromType($mimeType, $documentType);
     }
+
+
+    
 
 }

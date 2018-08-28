@@ -5,7 +5,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 use KBox\Import;
 use KBox\Jobs\ThumbnailGenerationJob;
 use GuzzleHttp\Client;
-use KBox\Documents\KlinkDocumentUtils;
+use KBox\Documents\Facades\Files;
 use KBox\Console\Commands\ThumbnailGenerationCommand;
 
 class ThumbnailsTest extends BrowserKitTestCase
@@ -116,11 +116,13 @@ class ThumbnailsTest extends BrowserKitTestCase
         
         $real_path = base_path($path);
         
+        list($mime, $documentType) = Files::recognize($real_path);
+
         $file = factory(\KBox\File::class)->create([
             'name' => basename($real_path),
-            'hash' => KlinkDocumentUtils::generateDocumentHash($real_path),
+            'hash' => Files::hash($real_path),
             'path' => $real_path,
-            'mime_type' => KlinkDocumentUtils::get_mime($real_path),
+            'mime_type' => $mime,
             'size' => filesize($real_path),
         ]);
         
@@ -180,7 +182,7 @@ class ThumbnailsTest extends BrowserKitTestCase
         
         $file = factory(\KBox\File::class)->create([
             'name' => basename($real_path),
-            'hash' => KlinkDocumentUtils::generateDocumentHash($real_path),
+            'hash' => Files::hash($real_path),
             'path' => $real_path,
             'original_uri' => $url,
             'mime_type' => $mimeType,
@@ -230,12 +232,12 @@ class ThumbnailsTest extends BrowserKitTestCase
         $command = new ThumbnailGenerationCommand();
         
         $real_path = base_path($path);
-        
+        list($mime, $documentType) = Files::recognize($real_path);
         $file = factory(\KBox\File::class)->create([
             'name' => basename($real_path),
-            'hash' => KlinkDocumentUtils::generateDocumentHash($real_path),
+            'hash' => Files::hash($real_path),
             'path' => $real_path,
-            'mime_type' => KlinkDocumentUtils::get_mime($real_path),
+            'mime_type' => $mime,
             'size' => filesize($real_path),
         ]);
         

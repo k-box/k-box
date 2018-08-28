@@ -8,7 +8,6 @@ use KBox\DocumentDescriptor;
 use KBox\Jobs\ReindexDocument;
 use Illuminate\Http\JsonResponse;
 use KBox\Http\Controllers\Controller;
-use KBox\Documents\KlinkDocumentUtils;
 use Klink\DmsAdapter\KlinkVisibilityType;
 
 class RestoreVersionsController extends Controller
@@ -69,7 +68,7 @@ class RestoreVersionsController extends Controller
         // updating the document descriptor information
         $document->file_id = $version_to_restore->id;
         $document->mime_type = $version_to_restore->mime_type;
-        $document->document_type = KlinkDocumentUtils::documentTypeFromMimeType($version_to_restore->mime_type);
+        $document->document_type = $version_to_restore->document_type;
         $document->hash = $version_to_restore->hash;
         $document->save();
         

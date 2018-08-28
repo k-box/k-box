@@ -5,7 +5,8 @@ namespace KBox\Listeners;
 use Log;
 use KBox\Group;
 use KBox\Documents\Services\DocumentsService;
-use KBox\Documents\KlinkDocumentUtils;
+use KBox\Documents\Facades\Files;
+use KBox\Documents\FileHelper;
 use OneOffTech\TusUpload\Events\TusUploadStarted;
 
 class TusUploadStartedHandler
@@ -38,7 +39,7 @@ class TusUploadStartedHandler
         Log::info("Upload {$event->upload->request_id} started.");
         
         try {
-            $mime = $event->upload->mimetype ? $event->upload->mimetype : KlinkDocumentUtils::get_mime($event->upload->filename);
+            $mime = $event->upload->mimetype ? FileHelper::normalizeMimeType($event->upload->mimetype) : Files::recognize($event->upload->filename);
 
             // creating the File entry
 
