@@ -41,10 +41,6 @@ class ThumbnailsTest extends BrowserKitTestCase
     public function mime_type_provider()
     {
         return [
-
-            ['post', 'images/web-page.png'],
-            ['page', 'images/web-page.png'],
-            ['node', 'images/web-page.png'],
             ['text/html', 'images/web-page.png'],
             ['application/msword', 'images/document.png'],
             ['application/vnd.ms-excel', 'images/spreadsheet.png'],
@@ -73,8 +69,8 @@ class ThumbnailsTest extends BrowserKitTestCase
             ['application/rar', 'images/archive.png'],
             ['application/zip', 'images/archive.png'],
             ['application/x-mimearchive', 'images/web-page.png'],
-            ['video/x-ms-vob', 'images/dvd.png'],
-            ['content/DVD', 'images/dvd.png'],
+            ['video/x-ms-vob', 'images/dvd-video.png'],
+            ['content/DVD', 'images/dvd-video.png'],
             ['video/x-ms-wmv', 'images/video.png'],
             ['video/x-ms-wmx', 'images/video.png'],
             ['video/x-ms-wm', 'images/video.png'],
@@ -92,7 +88,7 @@ class ThumbnailsTest extends BrowserKitTestCase
             ['text/csv', 'images/spreadsheet.png'],
             ['message/rfc822', 'images/email.png'],
             ['application/vnd.ms-outlook', 'images/email.png'],
-            ['application/octet-stream', 'images/document.png'],
+            ['application/octet-stream', 'images/unknown.png'],
 
         ];
     }

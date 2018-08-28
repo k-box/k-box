@@ -223,14 +223,15 @@ class ThumbnailsService
      */
     private function getDefaultThumbnail($mimeType)
     {
-        if (strpos($mimeType, 'audio')!==false) {
-            $doc_type = 'music';
-        } elseif ($mimeType === 'text/uri-list') {
-            $doc_type = 'web-page';
-        } else {
-            $doc_type = DocumentType::from($mimeType);
-        }
+        $doc_type = DocumentType::from($mimeType);
         
+        if ($doc_type === DocumentType::WORD_DOCUMENT || $doc_type === DocumentType::PDF_DOCUMENT) {
+            $doc_type = DocumentType::DOCUMENT;
+        }
+        if ($doc_type === DocumentType::URI_LIST) {
+            $doc_type = DocumentType::WEB_PAGE;
+        }
+
         $path = public_path('images/'.$doc_type.'.png');
         
         if (@is_file($path)) {
