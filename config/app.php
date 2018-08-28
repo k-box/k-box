@@ -189,11 +189,11 @@ return [
          */
         Klink\DmsAdapter\DmsAdapterServiceProvider::class,
         Klink\DmsSearch\DmsSearchServiceProvider::class,
-        KBox\Documents\Providers\DmsDocumentsServiceProvider::class,
-
+        
         /**
-         * Content previewing, reading and thumbnail related
+         * Document service, file service, file content preview and thumbnail
          */
+        KBox\Documents\Providers\DocumentsServiceProvider::class,
         KBox\Documents\Providers\ThumbnailsServiceProvider::class,
         KBox\Documents\Providers\PreviewServiceProvider::class,
         KBox\Documents\Providers\TextExtractionServiceProvider::class,
