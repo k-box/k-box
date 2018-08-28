@@ -2,8 +2,6 @@
 
 namespace KBox\Documents;
 
-use InvalidArgumentException;
-
 /**
 * Utility functions to handle specific operations on documents given the file path
  * @deprecated use FileHelper instead
@@ -252,5 +250,4 @@ class KlinkDocumentUtils
     {
         return @array_key_exists($mimeType, self::$mimeTypesToDocType) && in_array($mimeType, self::$indexableMimeTypes);
     }
-
 }

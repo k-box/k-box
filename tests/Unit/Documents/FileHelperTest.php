@@ -5,21 +5,19 @@ namespace Tests\Unit\Documents;
 use Tests\TestCase;
 use KBox\Documents\FileHelper;
 use KBox\Documents\DocumentType;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class FileHelperTest extends TestCase
 {
     public function test_hash_calculation()
     {
-        $hash = FileHelper::hash(__DIR__ . '/../../data/example.pdf');
+        $hash = FileHelper::hash(__DIR__.'/../../data/example.pdf');
 
         $this->assertEquals('e9621798d0fe1b96e31f6286b4b9ad6e0c6c880d1fef00d3bc419d37fe419ef5ce3abdedfad1c5ae3b60b0b6ed33db4b1377792d279e1e96cf9b11cd19173ed5', $hash);
     }
 
     public function test_type_recognition()
     {
-        $file = __DIR__ . '/../../data/example.pdf';
+        $file = __DIR__.'/../../data/example.pdf';
 
         $type = FileHelper::type($file);
 
@@ -28,7 +26,7 @@ class FileHelperTest extends TestCase
 
     public function test_type_recognition_with_binary_file()
     {
-        $file = __DIR__ . '/../../data/example.bin';
+        $file = __DIR__.'/../../data/example.bin';
 
         $type = FileHelper::type($file);
 
@@ -37,7 +35,7 @@ class FileHelperTest extends TestCase
     
     public function test_type_recognition_with_file_without_extension_is_considered_binary()
     {
-        $file = __DIR__ . '/../../data/example';
+        $file = __DIR__.'/../../data/example';
 
         $type = FileHelper::type($file);
 

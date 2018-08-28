@@ -3,16 +3,14 @@
 namespace KBox\Documents;
 
 use KBox\Traits\HasEnums;
-use InvalidArgumentException;
 
 /**
  * The document types.
- * 
+ *
  * Define the list of document types for files added to the K-Box
  */
 final class DocumentType
 {
-
     use HasEnums;
 
     /**
@@ -214,7 +212,7 @@ final class DocumentType
     
     /**
      * Get the corresponding document type of a mime type
-     * 
+     *
      * @param string $mimeType
      * @return string the correspondent document type, or self::BINARY if unknown
      * @see self::documentTypeFromMimeType()

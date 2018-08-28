@@ -4,12 +4,9 @@ namespace Tests\Unit\Documents;
 
 use Tests\TestCase;
 use KBox\Documents\DocumentType;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class DocumentTypeTest extends TestCase
 {
-
     public function test_handles_character_encoding()
     {
         $docType = DocumentType::documentTypeFromMimeType('text/html;charset=utf8');

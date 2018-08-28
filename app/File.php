@@ -663,7 +663,7 @@ class File extends Model
 
     /**
      * Create a file entry from a given upload
-     * 
+     *
      * @param \Illuminate\Http\UploadedFile $file the uploaded file
      * @param \KBox\User $uploader User that perfomed the upload
      * @param \KBox\File $revision_of the previously uploaded version of the same file, if any. Default null.

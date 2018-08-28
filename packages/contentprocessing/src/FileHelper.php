@@ -7,8 +7,8 @@ use InvalidArgumentException;
 
 /**
  * Utility functions for working with files on disk.
- * 
- * Please interact with the FileService instead of using the file helper directly, as 
+ *
+ * Please interact with the FileService instead of using the file helper directly, as
  * the FileService provides abstraction and extension support
  */
 final class FileHelper
@@ -181,9 +181,9 @@ final class FileHelper
     
     /**
      * Computes the hash of the file content
-     * 
+     *
      * Uses SHA-512 variant of SHA-2 (Secure hash Algorithm)
-     * 
+     *
      * @param string $path The file path
      * @return string
      */
@@ -198,20 +198,19 @@ final class FileHelper
 
     /**
      * Retrieve the mime type and document type of a file, given its path on disk
-     * 
+     *
      * @param string $path The path to the file
      * @return array with mime type, as first element, and document type, as second
      */
     public static function type($path)
     {
-        try{
-
+        try {
             $mime = self::get_mime($path);
             $doc = DocumentType::from($mime);
 
             return [$mime, $doc];
-
-        } catch(Exception $ex){}
+        } catch (Exception $ex) {
+        }
 
         return [static::DEFAULT_MIME_TYPE, static::DEFAULT_DOCUMENT_TYPE];
     }
@@ -223,13 +222,13 @@ final class FileHelper
      * @return boolean true if known, false otherwise
      */
     public static function isMimeTypeSupported($mimeType)
-    {       
+    {
         return @array_key_exists(self::normalizeMimeType($mimeType), array_flip(self::$fileExtensionToMimeType));
     }
     
     /**
      * Return the file extension that corresponds to the given mime type and document type
-     * 
+     *
      * @param  string $mimeType the mime-type of the file
      * @param  string $documentType the document-type of the file. Default null
      * @return string           the known file extension
@@ -237,38 +236,33 @@ final class FileHelper
      */
     public static function getExtensionFromType($mimeType, $documentType = null)
     {
-        $mimeType = self::normalizeMimeType(str_before($mimeType,';'));
+        $mimeType = self::normalizeMimeType(str_before($mimeType, ';'));
    
-        $possible_extensions = array_filter(self::$fileExtensionToMimeType, function($value, $key) use ($mimeType, $documentType) {
-            
-            if(is_array($value) && !is_null($documentType) &&  array_key_exists($documentType, $value)){
+        $possible_extensions = array_filter(self::$fileExtensionToMimeType, function ($value, $key) use ($mimeType, $documentType) {
+            if (is_array($value) && ! is_null($documentType) &&  array_key_exists($documentType, $value)) {
                 return $value[$documentType] === $mimeType;
             }
 
             return $value === $mimeType;
-        }, ARRAY_FILTER_USE_BOTH );
+        }, ARRAY_FILTER_USE_BOTH);
 
         $possible_extensions_count = count($possible_extensions);
 
         if ($possible_extensions_count > 0) {
-            
             $possible_extension = array_first(array_keys($possible_extensions));
             
-            if(!is_null($documentType) && $possible_extensions_count > 1){
-                
-                $filtered_by_doc_type = array_keys(array_filter($possible_extensions, function($value, $key) use ($mimeType, $documentType) {
-                    
-                    if(is_array($value) && !is_null($documentType) &&  array_key_exists($documentType, $value)){
+            if (! is_null($documentType) && $possible_extensions_count > 1) {
+                $filtered_by_doc_type = array_keys(array_filter($possible_extensions, function ($value, $key) use ($mimeType, $documentType) {
+                    if (is_array($value) && ! is_null($documentType) &&  array_key_exists($documentType, $value)) {
                         return $value[$documentType] === $mimeType;
                     }
                     
                     return false;
-                }, ARRAY_FILTER_USE_BOTH ));
+                }, ARRAY_FILTER_USE_BOTH));
 
-                if(count($filtered_by_doc_type) > 0){
+                if (count($filtered_by_doc_type) > 0) {
                     $possible_extension = array_first($filtered_by_doc_type);
                 }
-
             }
             
             return str_before($possible_extension, '|');
@@ -316,16 +310,15 @@ final class FileHelper
     }
 
     /**
-     * Sometimes different platforms return non standard mime types. 
-     * This function tries to migrate non standard mime types to 
+     * Sometimes different platforms return non standard mime types.
+     * This function tries to migrate non standard mime types to
      * supported ones
-     * 
+     *
      * @param string $mimeType
-     * @return string the normalized mime type 
+     * @return string the normalized mime type
      */
     public static function normalizeMimeType($mimeType)
     {
         return self::$normalizableMimeTypes[$mimeType] ?? $mimeType;
     }
-
 }

@@ -6,8 +6,6 @@ use Illuminate\Support\ServiceProvider;
 use KBox\Documents\FileContentExtractor;
 use KBox\Documents\Services\FileService;
 use KBox\Documents\Services\DocumentsService;
-use KBox\Documents\Services\PreviewService;
-use KBox\Documents\Services\ThumbnailService;
 
 class DocumentsServiceProvider extends ServiceProvider
 {
@@ -26,7 +24,6 @@ class DocumentsServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        
     }
 
     /**
