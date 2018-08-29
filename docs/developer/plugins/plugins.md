@@ -104,6 +104,21 @@ class ExamplePlugin extends Plugin
 }
 ```
 
+
+### Thumbnail generators
+
+A plugin can register a custom thumbnail generator using the `registerThumbnailGenerator` method
+
+```php
+
+use MyPlugin\Thumbnail\ImageThumbnailGenerator;
+
+public function boot()
+{
+    $this->registerThumbnailGenerator(ImageThumbnailGenerator::class);
+}
+```
+
 ## Plugin discovery
 
 The Plugin discovery is not automate. To let the K-Box know of the presence of a plugin please run the following command

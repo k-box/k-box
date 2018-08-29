@@ -3,6 +3,7 @@
 namespace KBox\Plugins;
 
 use Illuminate\Support\Facades\Event;
+use KBox\Documents\Facades\Thumbnails;
 use KBox\Contracts\Plugin as PluginContract;
 
 /**
@@ -114,5 +115,16 @@ abstract class Plugin implements PluginContract
     protected function registerEventListener($event, $listener)
     {
         Event::listen($event, $listener);
+    }
+
+    /**
+     * Register a thumbnail generator
+     *
+     * @param  string  $generator The generator class name
+     * @return void
+     */
+    protected function registerThumbnailGenerator($generator)
+    {
+        Thumbnails::register($generator);
     }
 }

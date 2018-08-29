@@ -3,14 +3,12 @@
 namespace KBox\Documents\Services;
 
 use Log;
-use Imagick;
 use Exception;
 use KBox\File;
 use KBox\Documents\DocumentType;
 use KBox\Jobs\ThumbnailGenerationJob;
 use Illuminate\Support\Facades\Storage;
 use KBox\Documents\Thumbnail\ThumbnailImage;
-use OneOffTech\VideoProcessing\VideoProcessorFactory;
 use KBox\Documents\Thumbnail\ImageThumbnailGenerator;
 use KBox\Documents\Exceptions\UnsupportedFileException;
 use Symfony\Component\Debug\Exception\FatalThrowableError;
@@ -165,7 +163,7 @@ class ThumbnailsService
     /**
      * Check if a given File is supported by the configured thumbnail generators.
      * The check is performed at mime type level
-     * 
+     *
      * @param File $file The {@see File} to check
      * @return bool
      */
