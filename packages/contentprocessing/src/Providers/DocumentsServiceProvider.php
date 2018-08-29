@@ -33,6 +33,11 @@ class DocumentsServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->mergeConfigFrom(
+            __DIR__.'/../../config/contentprocessing.php',
+            'contentprocessing'
+        );
+        
         $this->app->singleton('documentsservice', function ($app) {
             return new DocumentsService();
         });

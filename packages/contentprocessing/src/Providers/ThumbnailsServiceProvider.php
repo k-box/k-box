@@ -35,8 +35,8 @@ class ThumbnailsServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton('thumbnails', function ($app) {
-            return new ThumbnailsService(app('klinkadapter'));
+        $this->app->singleton(ThumbnailsService::class, function ($app) {
+            return new ThumbnailsService();
         });
     }
 

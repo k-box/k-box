@@ -97,9 +97,9 @@ class DocumentThumbnailController extends DocumentAccessController
             $etag_suffix = '1';
         } else {
             if (empty($file->absolute_thumbnail_path)) {
-                $t_path = $this->thumbnails->generate($file);
+                $updated_file = $this->thumbnails->generate($file);
 
-                $response->setContent(file_get_contents($t_path));
+                $response->setContent(file_get_contents($updated_file->absolute_thumbnail_path));
             } elseif (@is_file($file->absolute_thumbnail_path)) {
                 $response->setContent(file_get_contents($file->absolute_thumbnail_path));
             } else {
