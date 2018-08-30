@@ -22,6 +22,15 @@ class ImageThumbnailsGenerationTest extends TestCase
             'mime_type' => $mimeType
         ]);
     }
+
+    public function test_png_file_is_supported()
+    {
+        $generator = new ImageThumbnailGenerator();
+
+        $file = $this->createFileForPath(__DIR__.'/../../data/project-avatar.png');
+
+        $this->assertTrue($generator->isSupported($file), "PNG file not supported for thumbnail generation");
+    }
   
     public function test_png_file_thumbnail_can_be_generated()
     {

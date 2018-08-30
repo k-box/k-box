@@ -52,7 +52,7 @@ class ThumbnailImage
      * @param  int   $width
      * @param  int   $height
      * @param  mixed $background
-     * @return \KBox\Documents\Thumbnail
+     * @return \KBox\Documents\ThumbnailImage
      */
     public static function create($width, $height, $background = null)
     {
@@ -60,10 +60,24 @@ class ThumbnailImage
     }
 
     /**
-     * Instantiate a thumbnail image from a file on the filesystem
+     * Instantiate a thumbnail image from:
+     *
+     * - string - Path of the image in filesystem.
+     * - string - URL of an image (allow_url_fopen must be enabled).
+     * - string - Binary image data.
+     * - string - Data-URL encoded image data.
+     * - string - Base64 encoded image data.
+     * - resource - PHP resource of type gd. (when using GD driver)
+     * - object - Imagick instance (when using Imagick driver)
+     * - object - Intervention\Image\Image instance
+     * - object - SplFileInfo instance
+     *
+     * @see http://image.intervention.io/api/make
+     * @param mixed $source
+     * @return \KBox\Documents\ThumbnailImage
      */
-    public static function load($path)
+    public static function load($source)
     {
-        return new self(ImageFacade::make($path));
+        return new self(ImageFacade::make($source));
     }
 }

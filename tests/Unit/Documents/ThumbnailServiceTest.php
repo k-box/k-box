@@ -10,6 +10,7 @@ use Klink\DmsAdapter\Traits\SwapInstance;
 use KBox\Documents\Facades\Thumbnails;
 use KBox\Documents\Thumbnail\ThumbnailImage;
 use KBox\Documents\Services\ThumbnailsService;
+use KBox\Documents\Thumbnail\PdfThumbnailGenerator;
 use KBox\Documents\Thumbnail\ImageThumbnailGenerator;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use KBox\Documents\Exceptions\UnsupportedFileException;
@@ -19,20 +20,6 @@ use KBox\Documents\Contracts\ThumbnailGenerator as ThumbnailGeneratorContract;
 class ThumbnailServiceTest extends TestCase
 {
     use DatabaseTransactions, SwapInstance;
-    
-    public function data_document_provider()
-    {
-        return [
-            // true: if the thumbnail path is a default thumbnail
-            // false: if the thumbnail path must not be a default thumbnail
-            [ 'tests/data/example.docx', true ],
-            [ 'tests/data/example.pdf', true ],
-            [ 'tests/data/example-presentation.pptx', true ],
-            [ 'tests/data/project-avatar.png', false ],
-            [ 'tests/data/folder_for_import/folder1/in-folder-1.md', true ],
-            [ 'tests/data/users.csv', true ],
-        ];
-    }
 
     public function mime_type_and_fallback_thumbnail_provider()
     {
@@ -95,7 +82,7 @@ class ThumbnailServiceTest extends TestCase
 
         $generators = Thumbnails::generators();
 
-        $this->assertEquals([ImageThumbnailGenerator::class], $generators);
+        $this->assertEquals([ImageThumbnailGenerator::class, PdfThumbnailGenerator::class], $generators);
     }
 
     public function test_generator_can_be_registered()

@@ -9,6 +9,7 @@ use KBox\Documents\DocumentType;
 use KBox\Jobs\ThumbnailGenerationJob;
 use Illuminate\Support\Facades\Storage;
 use KBox\Documents\Thumbnail\ThumbnailImage;
+use KBox\Documents\Thumbnail\PdfThumbnailGenerator;
 use KBox\Documents\Thumbnail\ImageThumbnailGenerator;
 use KBox\Documents\Exceptions\UnsupportedFileException;
 use Symfony\Component\Debug\Exception\FatalThrowableError;
@@ -61,6 +62,7 @@ class ThumbnailsService
      */
     private $generators = [
         ImageThumbnailGenerator::class,
+        PdfThumbnailGenerator::class,
     ];
 
     /**
@@ -187,6 +189,8 @@ class ThumbnailsService
             $thumbnail = $this->thumbnail($file);
 
             $thumbnail->save($thumb_save_path);
+            
+            $thumbnail->destroy();
         } catch (Exception $kex) {
             Log::error('Error generating thumbnail', ['param' => $file->toArray(), 'exception' => $kex]);
 
