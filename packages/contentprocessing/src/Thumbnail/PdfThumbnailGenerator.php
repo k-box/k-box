@@ -20,10 +20,13 @@ class PdfThumbnailGenerator implements ThumbnailGenerator
             throw new Exception('Failed to generate pdf thumbnail: imagemagick is not installed');
         }
 
+        dump('here');
         $image = new Imagick();
         $image->setBackgroundColor('white'); // do not create transparent thumbnails
         $image->setResolution(300, 300); // forcing resolution to 300dpi prevents mushy images
+        dump('here2');
         $image->readImage($file->absolute_path.'[0]'); // file.pdf[0] refers to the first page of the pdf
+        dump('here3');
         $image = $image->mergeImageLayers(Imagick::LAYERMETHOD_FLATTEN);
         $image->thumbnailImage(ThumbnailImage::DEFAULT_WIDTH, 0, false, true);
         $image->setImageFormat("png");
@@ -56,7 +59,7 @@ class PdfThumbnailGenerator implements ThumbnailGenerator
             return false;
         }
 
-        if (empty(Imagick::queryFormats("pdf"))) {
+        if (empty(Imagick::queryFormats("PDF"))) {
             return false;
         }
 

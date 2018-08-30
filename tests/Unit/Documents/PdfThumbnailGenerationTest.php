@@ -31,7 +31,7 @@ class PdfThumbnailGenerationTest extends TestCase
     {
         parent::setUp();
 
-        if (empty(Imagick::queryFormats("pdf"))) {
+        if (empty(Imagick::queryFormats("PDF"))) {
             $this->markTestSkipped(
                 'Imagick not available or PDF support not available.'
             );
