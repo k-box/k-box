@@ -42,13 +42,30 @@ class ImageThumbnailsGenerationTest extends TestCase
 
         $this->assertInstanceOf(ThumbnailImage::class, $image);
         $this->assertEquals(300, $image->width());
+        $this->assertEquals('image/png', $image->mime());
     }
   
     public function test_jpg_file_thumbnail_can_be_generated()
     {
+        $generator = new ImageThumbnailGenerator();
+
+        $file = $this->createFileForPath(__DIR__.'/../../data/example.jpg');
+
+        $image = $generator->generate($file);
+
+        $this->assertInstanceOf(ThumbnailImage::class, $image);
+        $this->assertEquals(300, $image->width());
     }
   
     public function test_gif_file_thumbnail_can_be_generated()
     {
+        $generator = new ImageThumbnailGenerator();
+
+        $file = $this->createFileForPath(__DIR__.'/../../data/example.gif');
+
+        $image = $generator->generate($file);
+
+        $this->assertInstanceOf(ThumbnailImage::class, $image);
+        $this->assertEquals(300, $image->width());
     }
 }
