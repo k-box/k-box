@@ -18,7 +18,7 @@ class ThumbnailsTest extends TestCase
             // true: if the thumbnail path is a default thumbnail
             // false: if the thumbnail path must not be a default thumbnail
             [ 'tests/data/example.docx', true ],
-            [ 'tests/data/example.pdf', true ],
+            [ 'tests/data/example.pdf', false ],
             [ 'tests/data/example-presentation.pptx', true ],
             [ 'tests/data/project-avatar.png', false ],
             [ 'tests/data/folder_for_import/folder1/in-folder-1.md', true ],
@@ -43,17 +43,11 @@ class ThumbnailsTest extends TestCase
      */
     public function test_thumbnail_generation_job_generates_thumbnail($path, $expectedDefault)
     {
-        // $mock = $this->withKlinkAdapterMock();
-
-        // $service = app('thumbnails');
-
-        // $mock->shouldReceive('generateThumbnailOfWebSite', 'generateThumbnailFromContent')->andReturnUsing(function ($uri, $save_path) use ($expectedDefault) {
-        //     if ($expectedDefault) {
-        //         throw new Exception('An exception to test default handling');
-        //     }
-
-        //     return 'A_simulated_file_content';
-        // });
+        if (ends_with($path, 'pdf') && strtolower(PHP_OS) === 'winnt') {
+            $this->markTestSkipped(
+                'Known bug on Windows with the imagick extension https://github.com/mkoppanen/imagick/issues/252.'
+            );
+        }
         
         $real_path = base_path($path);
         

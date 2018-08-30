@@ -47,6 +47,10 @@ class PdfThumbnailGenerationTest extends TestCase
         $this->assertTrue($generator->isSupported($file), "PDF file not supported for thumbnail generation");
     }
 
+    /**
+     * @requires OS Linux
+     *  Requirement is caused by https://github.com/mkoppanen/imagick/issues/252 that happens on Windows x64 with PHP 7.1
+     */
     public function test_pdf_file_thumbnail_can_be_generated()
     {
         $generator = new PdfThumbnailGenerator();

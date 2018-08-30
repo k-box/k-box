@@ -107,6 +107,7 @@ class ThumbnailServiceTest extends TestCase
             'image/gif',
             'image/jpg',
             'image/jpeg',
+            'application/pdf',
         ], $mimeTypes);
     }
 
