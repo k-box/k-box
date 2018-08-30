@@ -63,30 +63,30 @@ return [
         'streaming_service_url' => 'The URL of the video streaming service',
     ],
 
-    'made_public' => ':num document has been published over the :network|:num documents were made available in the :network.',
+    'made_public' => ':num file has been published over the :network|:num files were made available in the :network.',
         
-    'make_public_error' => 'The publish operation was not completed due to an error. :error',
+    'make_public_error' => 'Publishing was not completed due to an error. :error',
     'make_public_error_title' => 'Cannot publish in :network',
     
-    'make_public_success_text_alt' => 'The documents are now available in the :network',
+    'make_public_success_text_alt' => 'Files are now available in the :network',
     'make_public_success_title' => 'Publish completed',
 
     'making_public_title' => 'Publishing on :network...',
-    'making_public_text' => 'Please wait while the documents will be made available in the :network',
+    'making_public_text' => 'Please wait while files are being published in the :network',
 
     'make_public_change_title_not_available' => 'The option for changing title before Publish is not currently available.',
 
-    'make_public_all_collection_dialog_text' => 'You will make all the documents in this collection available on the :network.',
-    'make_public_inside_collection_dialog_text' => 'You will make all the documents inside ":item" available on the :network.',
+    'make_public_all_collection_dialog_text' => 'All files in this collection will be available on the :network.',
+    'make_public_inside_collection_dialog_text' => 'All files inside :item will be available on the :network.',
     
-    'make_public_dialog_title' => 'Publish ":item" on :network',
+    'make_public_dialog_title' => 'Publish :item on :network',
     'make_public_dialog_title_alt' => 'Publish on :network',
     
     
-    'make_public_empty_selection' => 'Please select the documents you want to make available in the :network.',
+    'make_public_empty_selection' => 'Please select files to be vailable in the :network.',
     
-    'make_public_dialog_text' => 'You will make ":item" available in the :network.',
-    'make_public_dialog_text_count' => 'You will make :count documents available on the :network.',
+    'make_public_dialog_text' => ':item will be available in the :network.',
+    'make_public_dialog_text_count' => ':count files will be available on the :network.',
 
-    'publication_error_copyright' => 'You are trying to publish a document that does not have a copyright owner. This information needs to be specified before publication.',
+    'publication_error_copyright' => 'File does not have a copyright owner. This information needs to be specified before publication.',
 ];

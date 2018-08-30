@@ -33,7 +33,7 @@ return [
     'shared_with_me_title' => 'Shared by Others',
     
     'shared_with_label' => 'Shared by you with',
-    'shared_by_label' => 'shared by',
+    'shared_by_label' => 'Shared by',
     
     'bulk_destroy' => 'Shares deleted|Some shares cannot be deleted<br/>:errors',
     'removed' => 'Access removed',
@@ -53,7 +53,7 @@ return [
     
     'link_copied_to_clipboard' => 'The link has been copied to your clipboard. You can use CTRL+V to paste the link somewhere else.',
 
-    'shared_on' => 'shared on',
+    'shared_on' => 'Shared on',
     
     'dialog' => [
         'title' => 'Share',
@@ -62,8 +62,8 @@ return [
         'share_created' => 'Share Created',
         'collection_shared' => 'Collection shared',
         'collection_shared_text' => 'The Collection has been shared',
-        'document_shared' => 'Document shared',
-        'document_shared_text' => 'The Document has been shared',
+        'document_shared' => 'File shared',
+        'document_shared_text' => 'File has been shared',
         'multiple_selection_not_supported' => 'Multiple selection is not supported yet. We are working on it.',
         'publish_multiple_selection_not_supported' => 'Not available for multiple selections.',
         'publish_collection_not_supported' => 'Publishing a collection is not supported yet. We are working on it. Meanwhile you can select several files and use the "Publish" button to make them public.',
@@ -81,29 +81,29 @@ return [
         'published' => 'Published on :network',
         'not_published' => 'Not published on :network',
         'publishing' => 'Publishing the document...',
-        'publishing_failed' => 'Publish operation failed.',
-        'unpublishing' => 'Making the document private...',
-        'publish_collection' => 'All the documents in the collection will be affected.',
-        'publish_already_in_progress' => 'A publication is already in progress.',
+        'publishing_failed' => 'Publishing failed.',
+        'unpublishing' => 'Making private...',
+        'publish_collection' => 'All documents in the collection will be affected.',
+        'publish_already_in_progress' => 'Publication already in progress.',
 
-        'document_is_shared' => 'The document is accessible by',
-        'collection_is_shared' => 'The collection is accessible by',
+        'document_is_shared' => 'File accessible by',
+        'collection_is_shared' => 'Collection is accessible by',
         'users_already_has_access' => ':num user|:num users',
         'users_already_has_access_alternate' => '{0}Only you|{1}:num user|[2,*]:num users',
         'users_already_has_access_with_public_link' => '{0}Only you and whoever has the public link|{1}Only you and whoever has the public link|[2,*]:num users and whoever has the public link',
-        'document_already_accessible_by_all_users' => 'The document is already accessible by all K-Box users.',
-        'collection_already_accessible_by_all_users' => 'The collection is already accessible by all K-Box users.',
+        'document_already_accessible_by_all_users' => 'File already accessible by all K-Box users.',
+        'collection_already_accessible_by_all_users' => 'Collection is already accessible by all K-Box users.',
 
         'add_users' => 'Add users',
         'select_users' => 'Enter username...',
 
         'access_by_direct_share' => 'Direct access',
         'access_by_project_membership' => 'Project ":project"',
-        'access_by_project_membership_hint' => 'You have access to the document because you are a member of ":project"',
+        'access_by_project_membership_hint' => 'Member of ":project"',
     ],
     'publiclinks' => [
         'public_link' => 'Public Link',
-        'already_exist' => 'A public link for :name already exists.',
+        'already_exist' => 'Public link for :name already exists.',
         'delete_forbidden_not_your' => 'You cannot delete a link you did not create.',
         'edit_forbidden_not_your' => 'You cannot modify a link you did not create.',
     ],

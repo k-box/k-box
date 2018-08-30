@@ -14,11 +14,11 @@ return [
 
     'descriptor' => [
 
-        'name' => 'name',
-        'added_by' => 'added by',
-        'language' => 'language',
-        'added_on' => 'added on',
-        'last_modified' => 'last modified',
+        'name' => 'Name',
+        'added_by' => 'Added by',
+        'language' => 'Language',
+        'added_on' => 'Added on',
+        'last_modified' => 'Last modified',
         'indexing_error' => 'The document has not been indexed in K-Link',
         'private' => 'Private',
         'shared' => 'Shared',

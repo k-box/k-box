@@ -26,7 +26,7 @@ return [
         
         'site_title' => 'The following website name will be shown to users',
         'description' => 'A short description of the purpose of your microsite used by the search engines.',
-        'slug' => 'Short, descriptive sequence of terms for the user-friendly version of the website URL path. This will help users to find and remember the website address. For instance, the slug of the <a href="https://pasture.klink.asia/projects/pasture-network/en" target="_blank">Regional Pasture Network</a> is everything that comes after https://pasture.klink.asia/dms/projects/.... Slug cannot start with "create".',
+        'slug' => 'Short, descriptive sequence of terms for the user-friendly version of the website URL path. This will help users to find and remember the website address. For instance, the slug of the <a href="https://pasture.klink.asia/projects/pasture-network/en" target="_blank">Regional Pasture Network</a> is everything that comes after https://pasture.klink.asia/projects/.... Slug cannot start with "create".',
         'logo' => 'The website logo must be of max size 280x80 pixels and hosted somewhere with a secure connection over HTTPS',
         'default_language' => 'The default language in which the website will be shown to its visitors, unless specified otherwise by their settings',
 

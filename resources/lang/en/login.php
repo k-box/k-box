@@ -17,7 +17,7 @@ return [
 
     'form' => [
         'email_label' => 'Email',
-        'email_placeholder' => 'Email (e.g., user@klink.local)',
+        'email_placeholder' => 'Email (e.g., user@klink.asia)',
         'password_label' => 'Password',
         'password_placeholder' => 'Password',
         'submit' => 'Login',

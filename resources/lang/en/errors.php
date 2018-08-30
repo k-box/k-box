@@ -20,19 +20,19 @@ return [
     ],
 
     'filealreadyexists' => [
-        'generic' => 'The document :name already exists in the K-Box with the title <strong>":title"</strong>.',
-        'incollection' => 'The document is already available in <a href=":collection_link"><strong>":collection"</strong></a> with the title <strong>":title"</strong>',
-        'incollection_by_you' => 'You have already uploaded this document as <strong>":title"</strong> in <a href=":collection_link"><strong>":collection"</strong></a>',
-        'by_you' => 'You have already uploaded this document as <strong>":title"</strong>',
-        'revision_of_document' => 'The document you are uploading is an existing revision of <strong>":title"</strong>, added by :user (:email)',
-        'revision_of_your_document' => 'The document is an existing revision of <strong>:title</strong>',
-        'by_user' => 'The document has already been added to the K-Box by :user (:email).',
-        'in_the_network' => 'The document is already available in <strong>:network</strong> as <strong>":title"</strong>. Added by :institution',
+        'generic' => 'File :name already exists in the K-Box with the title <strong>":title"</strong>.',
+        'incollection' => 'File is already available in <a href=":collection_link"><strong>":collection"</strong></a> with the title <strong>":title"</strong>',
+        'incollection_by_you' => 'You have already uploaded this file as <strong>":title"</strong> in <a href=":collection_link"><strong>":collection"</strong></a>',
+        'by_you' => 'You have already uploaded this file as <strong>":title"</strong>',
+        'revision_of_document' => 'File you are uploading is an existing revision of <strong>":title"</strong>, added by :user (:email)',
+        'revision_of_your_document' => 'This file is an existing revision of <strong>:title</strong>',
+        'by_user' => 'File has already been added to the K-Box by :user (:email).',
+        'in_the_network' => 'File is already available in <strong>:network</strong> as <strong>":title"</strong>. Added by :institution',
     ],
 
     'group_already_exists_exception' => [
-        'only_name' => 'The collection named ":name" already exists.',
-        'name_and_parent' => 'The collection ":name" already exists under ":parent".',
+        'only_name' => 'Collection named ":name" already exists.',
+        'name_and_parent' => 'Collection ":name" already exists under ":parent".',
     ],
     
     'generic_text' => 'Something unexpected has happened.',
@@ -45,11 +45,11 @@ return [
 
     'not_found' => 'The resource you are looking for cannot be found.',
     
-    'document_not_found' => 'The document you are looking for cannot be found or was deleted.',
+    'document_not_found' => 'The file you are looking for cannot be found or was deleted.',
 
-    'forbidden_exception' => 'You do not have access to the page.',
-    'forbidden_edit_document_exception' => 'You cannot edit the document.',
-    'forbidden_see_document_exception' => 'You cannot view the document as it is a personal file of another user.',
+    'forbidden_exception' => 'You do not have access to the page.', //was thrown when Clean_Trash was requested
+    'forbidden_edit_document_exception' => 'You cannot edit the file.',
+    'forbidden_see_document_exception' => 'You cannot view personal file of another user.',
     
     'kcore_connection_problem' => 'The connection to the K-Link Core cannot be established.',
 
@@ -80,10 +80,10 @@ return [
     '404_text' => '<strong>The page</strong><br/>you are looking for<br/><strong>does not exist</strong> anymore.',
     
     '401_title' => 'You cannot view the page - K-Box',
-    '401_text' => 'You <strong>cannot</strong> view the page<br/>. Please acquire the <strong>access</strong> permissions first.',
+    '401_text' => 'You <strong>cannot</strong> view the page.<br/> Please acquire the <strong>access</strong> permissions first.',
     
     '403_title' => 'You do not have the permission to view the page',
-    '403_text' => 'You <strong>cannot</strong> view the page<br/>. Please acquire the <strong>access</strong> permissions first.',
+    '403_text' => 'You <strong>cannot</strong> view the page.<br/> Please acquire the <strong>access</strong> permissions first.',
 
     '405_title' => 'Method Not Allowed on the K-Box',
     '405_text' => 'Do not call me like this again.',

@@ -35,14 +35,14 @@ return [
     'menu_public_klink' => 'Сеть K-Link',
     
     'menu_public' => ':network',
-    'menu_public_hint' => 'Узнайте какие документы доступны в :network',
+    'menu_public_hint' => 'Узнайте какие файлы доступны в :network',
 
     'make_public' => 'Опубликовать',
     'publish_to_short' => 'Опубликовать',
     'publish_to_long' => 'Опубликовать доступ в :network',
 
     
-    'publish_to_hint' => 'Выберите документы для предоставления к ним доступа в :network',
+    'publish_to_hint' => 'Выберите файлы для предоставления к ним доступа в :network',
     
 
     'publish_btn' => 'Опубликовать',
@@ -64,9 +64,9 @@ return [
         'streaming_service_url' => 'Адресная строка видео стриминга',
     ],
 
-    'made_public' => ':num документ опубликован в :network|:num документа опубликовано в :network.|:num документов опубликовано в :network.',
+    'made_public' => ':num файл опубликован в :network|:num файла опубликовано в :network.|:num файлов опубликовано в :network.',
         
-    'make_public_error' => 'Операция предоставления открытого доступа не была завершена в связи с ошибкой. :error',
+    'make_public_error' => 'Операция не была завершена в связи с ошибкой. :error',
     'make_public_error_title' => 'Невозможно добавить в :network',
     
     'make_public_success_text_alt' => 'Документы находятся в открытом доступе в :network',
@@ -77,18 +77,18 @@ return [
 
     'make_public_change_title_not_available' => 'Изменение названия до публикации файла недоступно.',
 
-    'make_public_all_collection_dialog_text' => 'Вы сделаете все документы данной коллекции открытыми для :network',
-    'make_public_inside_collection_dialog_text' => 'Вы сделаете все документы коллекции  ":item" открытыми для :network',
+    'make_public_all_collection_dialog_text' => 'Все файлы данной коллекции будут открытыми для :network',
+    'make_public_inside_collection_dialog_text' => 'Все файлы коллекции :item будут открытыми для :network',
     
-    'make_public_dialog_title' => 'Опубликовать ":item" в :network',
+    'make_public_dialog_title' => 'Опубликовать :item в :network',
     'make_public_dialog_title_alt' => 'Опубликовать в :network',
     
     
-    'make_public_empty_selection' => 'Пожалуйста, выберите документы для публикации в :network.',
+    'make_public_empty_selection' => 'Выберите документы для публикации в :network.',
         
-    'make_public_dialog_text' => 'Документ ":item" будет в открытом доступе в :network',
-    'make_public_dialog_text_count' => 'Вы сделаете :count документов открытыми в :network',
+    'make_public_dialog_text' => ':item будет в открытом доступе в :network',
+    'make_public_dialog_text_count' => 'Вы сделаете :count файлов открытыми в :network',
     
-    'publication_error_copyright' => 'Вы пытаетесь опубликовать документ без указания авторства, пожалуйста, заполните необходимые поля перед публикацией документа',
+    'publication_error_copyright' => 'Документ без указания авторства. Заполните необходимые поля перед публикацией',
 
 ];
