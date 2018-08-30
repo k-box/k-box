@@ -12,6 +12,7 @@ use KBox\Documents\Thumbnail\ThumbnailImage;
 use KBox\Documents\Services\ThumbnailsService;
 use KBox\Documents\Thumbnail\PdfThumbnailGenerator;
 use KBox\Documents\Thumbnail\ImageThumbnailGenerator;
+use KBox\Documents\Thumbnail\VideoThumbnailGenerator;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use KBox\Documents\Exceptions\UnsupportedFileException;
 use KBox\Jobs\ThumbnailGenerationJob;
@@ -82,7 +83,11 @@ class ThumbnailServiceTest extends TestCase
 
         $generators = Thumbnails::generators();
 
-        $this->assertEquals([ImageThumbnailGenerator::class, PdfThumbnailGenerator::class], $generators);
+        $this->assertEquals([
+            ImageThumbnailGenerator::class,
+            PdfThumbnailGenerator::class,
+            VideoThumbnailGenerator::class,
+        ], $generators);
     }
 
     public function test_generator_can_be_registered()
@@ -108,6 +113,7 @@ class ThumbnailServiceTest extends TestCase
             'image/jpg',
             'image/jpeg',
             'application/pdf',
+            'video/mp4',
         ], $mimeTypes);
     }
 
@@ -152,10 +158,6 @@ class ThumbnailServiceTest extends TestCase
         $this->assertTrue(@is_file($path));
         
         $this->assertTrue(@is_file($full_expected_path));
-    }
-    
-    public function test_thumbnail_generation_is_not_performed_if_a_generation_task_is_already_running()
-    {
     }
     
     public function test_thumbnail_generation_job_is_dispatched()

@@ -21,7 +21,6 @@ class VideoThumbnailGenerator implements ThumbnailGenerator
         $out = $videoProcessor->thumbnail($file->absolute_path);
                 
         $thumb_path = str_finish(dirname($file->absolute_path), '/').str_replace_last('.mp4', '.png', basename($file->absolute_path));
-        dump($out, $thumb_path);
 
         return ThumbnailImage::load($thumb_path)->widen(ThumbnailImage::DEFAULT_WIDTH);
     }

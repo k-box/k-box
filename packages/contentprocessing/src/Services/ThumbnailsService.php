@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Storage;
 use KBox\Documents\Thumbnail\ThumbnailImage;
 use KBox\Documents\Thumbnail\PdfThumbnailGenerator;
 use KBox\Documents\Thumbnail\ImageThumbnailGenerator;
+use KBox\Documents\Thumbnail\VideoThumbnailGenerator;
 use KBox\Documents\Exceptions\UnsupportedFileException;
 use Symfony\Component\Debug\Exception\FatalThrowableError;
 use KBox\Documents\Exceptions\ThumbnailGeneratorNotFoundException;
@@ -63,6 +64,7 @@ class ThumbnailsService
     private $generators = [
         ImageThumbnailGenerator::class,
         PdfThumbnailGenerator::class,
+        VideoThumbnailGenerator::class,
     ];
 
     /**
