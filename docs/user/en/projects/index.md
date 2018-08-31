@@ -7,15 +7,11 @@ A project is created and maintained by a Project Manager (sometimes also called 
 
 ## Projects section
 
-The management of the projects is performed from the _Project_ section, which is accessible from the navigation menu if your profile has the Project Management capabilities.
+The management of the projects is performed from the _Projects_ page. If your profile has the Project Management capabilities, you will see the _New Project_ button
 
 ![navigation menu](./img/dms-projects-section.JPG)
 
-The page will list the projects you created. The first time you enter that section you might see an empty list of projects, like the one in the figure below
-
-![Projects section](./img/dms-projects-empty.JPG)
-
-On the left of the screen there is the projects list, while the area on the right is used to show the details of the selected project.
+The page lists the created, managed and accessible projects. 
 
 ## Create a new Project
 
@@ -27,23 +23,21 @@ You are redirected to the project creation page (figure below).
 
 ![Create Project Create](./img/dms-projects-create.JPG)
 
-The project must have a name and at least one user other than the project manager.
+The project must have a name. 
 
-The project description can contain free text that describes the project.
+The project description can contain free text that describes the project, with or without an avatar.
 
-The _Add users to the project_ field can have multiple values and offers username autocomplete.
+The _Add users to the project_ field can have more than one user at once and offers username autocomplete.
 
 ![Create Project User Selection](./img/dms-projects-user-dropdown.JPG)
 
-If you click inside the field a dropdown list will popup. The list will only contains the users that can be added, in other words all the users that are not already in the project and don't have a Guest profile. From the list also the Project Manager is removed because it is added automatically on save.
+If you click inside the field a dropdown list will popup. The list will only contains the users that can be added, in other words all the users that are not already in the project and don't have a Guest profile. 
 
 ![Create Project User Search](./img/dms-projects-user-dropdown-search.JPG)
 
 The user list field has search capabilities, if you start writing the name of a user the dropdown list gets filtered. Keep in mind that the search is performed by checking if the written characters are contained in the username in the same order you wrote.
 
-After inserting the project name and at least one user you can press the _Create Project_ button that is at the very bottom of the page.
-
-If the creation completes without problems you will be redirected to the project details page 
+After inserting the project name, press the _Create Project_ button that is at the very bottom of the page.
 
 ## Project details
 
@@ -51,18 +45,16 @@ This page shows at a glance the members of the project and the personalization o
 
 ![Project Details](./img/dms-project-show.JPG)
 
-This page is showed when you select a project from the list on the left sidebar.
+This page is showed when you select _Details_ from the right-click menu of a project.
 
 In this page the members of the project are listed in alphabetical order with the respective Institution affiliation.
 
 
 ## Edit an existing project
 
-From the Project details page you can edit all the project details and manage the members list.
+To edit a project press the _Edit_ button that is listed in the right-click menu. 
 
-To edit a project press the _Edit_ button that is on top of the project details page (you can reach a project details page by clicking on a project from list on the left of the projects page).
-
-After clicking on the _Edit_ button the page will change in the project editing mode, like the picture below. To exit from the edit mode you have to click on the _Exit edit mode_ button on the top right of the page.
+After clicking on the _Edit_ button the page will change to the project editing mode, like the picture below. 
 
 The picture below shows the Project Details and Add user section of the editing page of a Project.
 
