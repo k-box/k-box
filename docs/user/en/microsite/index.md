@@ -1,13 +1,8 @@
-
 # Microsites
 
 With the usage of Microsite(beta) you can create a single page website for your project. On that page you can put text, images and links.
 
-Microsites are attached to Projects. You can only create a Microsite for an existing Project. A microsite can be seen as a public page that do not require login to be viewed.
-
-
-Microsites are in currently beta phase so each release of the K-Box can introduce breaking changes.
-
+Microsites are attached to Projects. You can only create a Microsite for an existing Project. A microsite can be seen as a public page that does not require login to be viewed.
 
 ## Viewing a Microsite
 
@@ -17,7 +12,7 @@ Microsites are reachable through a URL hosted on the K-Link K-Box. The URL is in
 https://{dms-domain}/projects/{project-slug}
 ```
 
-where `{dms-domain}` is the domain from which you access the K-Box (e.g. `dms.klink.asia/dms`), while `{project-slug}` is the project friendly name, 
+where `{dms-domain}` is the domain from which you access the K-Box (e.g. `dms.klink.asia/`), while `{project-slug}` is the project friendly name, 
 usually is the project name with eventual spaces substituted with dashes. For example if a project name is _Project A_ the default slug is `project-a`. 
 The slug is configurable, for more info please check the [Creating a Microsite section](#creating-a-microsite).
 
@@ -30,19 +25,21 @@ The current Microsite page layout is similar to the one showed in the figure bel
 
 On the top navigation bar you can find
 
-- the logo, which is a picture whose height cannot be more than 80 pixels
-- the search bar
-- the language switcher
-- login and go to project link, these links are mutually exclusive, the login button is showed only if the user is not logged-in in the K-Box. 
+-  logo, which is a picture with maximum height of 80 pixels
+-  search bar
+-  language switcher
+-  login and go to project link.
+
+These links are mutually exclusive. The login button is showed only if user is not logged-in to K-Box. 
 
 
 ### Search from the Microsite
 
-The Microsite offer a search box that let your user search the K-Link Public Network or the Project.
+The Microsite offers a search box that lets your user search the accessible Public Network.
 
 ![microsite difference in search for logged-in users and guests](./img/microsite-login-vs-guest.jpg)
 
-As pictured above the search will be perfomed on the K-Link Public Network if the user is not logged in the K-Box.
+As pictured above, search will be perfomed on the Public Network - in this case, on the K-Link Network - if user is not logged in.
 
 
 ### Multiple Languages
@@ -52,23 +49,20 @@ The Microsite can be viewed in two languages:
 - English
 - Russian
 
-The content localized in both languages must be written by the Microsite creator.
+The content for both languages must be written by the Microsite creator.
 
-The language switcher will enable the user to see the preferred version of the site. If the web browser is configured to send language preferences 
-the microsite will choose the language to show based on that preference (if the language is available).
-
-Also the creator of the microsite can specify the default language to be showed to the users.
-
+The creator of the microsite can specify the default language to be showed to the users. The language switcher will enable the user to see the preferred version of the site. If the web browser is configured to send language preferences (English or Russian), 
+the microsite will choose the language accordingly.
 
 ## Creating a Microsite
 
-The creation can only be performed by the Project Administrator through the Project management page that is under the Projects section (from the main navigation of the K-Box).
+Microsites can be created by Project Administrators through the Project details panel.
 
-On the Project management page, of the project you want to have a microsite, you can press the button _Create Microsite_ (picture below) to start creating the Microsite.
+On the Project details panel, you can press the button _Create Microsite_ (picture below) to start creating one.
 
 ![microsite create button](./img/microsite-create-1.JPG)
 
-The page showed in the next picture will be showed. From that page you can configure every aspect of the Microsite.
+From the Microsite creation page you can configure its every aspect.
 
 ![microsite content and configuration](./img/microsite-create-2.png)
 
@@ -113,7 +107,7 @@ The Microsite content support the [Markdown syntax](https://daringfireball.net/p
 
 ### Notes
 
-- currently microsites are updated 1 hour after your changes, if you need a faster refresh please contact the support
+- currently microsites are updated 20 mins after your changes, if you need a faster refresh please contact the support
 
 ## Editing a Microsite
 
@@ -126,15 +120,13 @@ For further details please refer to the [Creating a Microsite section](#creating
 
 ## Deleting a Microsite
 
-You can delete a Microsite at any point in time. The removal of the microsite will permanently delete all the content (in any languages) and remove the public access to page.
+You can delete a Microsite at any point in time. Its removal will permanently delete all content (in any languages) and remove the public access to the page.
 
 **This operation cannot be undone.**
 
-The deletion of a microsite can be performed only by the Project Administrator through the the Project management page.
-
-Once you are in the project page that contain the microsite you want to delete press the _Delete Microsite_ button. A confirmation dialog, like the one pictured below, will be showed.
+The deletion of a microsite can be performed only by the Project Administrator, by pressing the _Delete Microsite_ button. A confirmation dialog, like the one pictured below, will be showed.
 
 ![microsite delete](./img/microsite-delete.png) 
 
-Once you hit _Yes Delete it!_ the Microsite will be permanently deleted and the URL will not be reachable anymore.
+Once you hit _Remove_ the Microsite will be permanently deleted and the URL will not be reachable anymore.
 
