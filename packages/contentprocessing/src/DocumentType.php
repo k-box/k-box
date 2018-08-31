@@ -74,7 +74,7 @@ final class DocumentType
     const VIDEO = 'video';
     
     /**
-     * Video file
+     * Audio file
      */
     const AUDIO = 'audio';
     
