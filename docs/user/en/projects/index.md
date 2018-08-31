@@ -54,6 +54,8 @@ In this page the members of the project are listed in alphabetical order with th
 
 To edit a project press the _Edit_ button that is listed in the right-click menu. 
 
+![Project Edit - details-menu](./img/dms-project-details-menu.PNG)
+
 After clicking on the _Edit_ button the page will change to the project editing mode, like the picture below. 
 
 The picture below shows the Project Details and Add user section of the editing page of a Project.
@@ -66,7 +68,6 @@ The add users to the project section can be used to add new members to the proje
 
 At the bottom of the edit page you can see the _Current members list_ that shows the users already added to the project and enable the removal of those users.
 
-![Project Edit - current members part](./img/dms-projects-edit-2.JPG)
 
 ## Deleting a project
 
