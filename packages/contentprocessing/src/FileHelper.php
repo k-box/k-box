@@ -174,9 +174,24 @@ final class FileHelper
     /**
      * Sometimes mime types are recognized differently according to the platform.
      * This associative array tries to reduce the known variations of mime types
+     *
+     * @var array
      */
     private static $normalizableMimeTypes = [
         'application/x-zip-compressed' => 'application/zip',
+    ];
+    
+    /**
+     * Mime types recognized by the underlying OS that should be discarded.
+     * This list is compiled based on previous evaluation and
+     * user submitted bug reports
+     *
+     * @var array
+     */
+    private static $discardMimeTypes = [
+        'application/CDFV2-corrupt',
+        'application/CDFV2-encrypted',
+        'application/CDFV2',
     ];
     
     /**
@@ -279,6 +294,10 @@ final class FileHelper
      */
     public static function getMimeTypeFromExtension($extension)
     {
+        if (empty($extension)) {
+            throw new InvalidArgumentException("Extension must be a non-empty string");
+        }
+
         foreach (self::$fileExtensionToMimeType as $exts => $mime) {
             if (preg_match('!^('.$exts.')$!i', $extension)) {
                 return $mime;
@@ -292,21 +311,54 @@ final class FileHelper
      * Get the mime type of the specified file
      *
      * @param string $file the path of the file to get the mime type
-     * @return string|boolean the mime type or false in case of error
+     * @return string the mime type or false in case of error
      * @throws InvalidArgumentException if $file is empty or null
      */
     public static function get_mime($file)
     {
-        // we don't rely anymore to finfo_file function because for some docx created from LibreOffice the
-        // mime type reported is Composite Document File V2 Document, which has totally no-sense
+        // Get the mime type from the OS
+        $fileinfoMimeType = null;
+        try {
+            $fileinfoMimeType = self::normalizeMimeType(mime_content_type($file));
+    
+            if (self::isMimeTypeToDiscard($fileinfoMimeType)) {
+                $fileinfoMimeType = null;
+            }
+        } catch (Exception $ex) {
+        }
 
-        $extension = pathinfo($file, PATHINFO_EXTENSION);
+        // Get the mime type based on the file extension
+        $extensionMimeType = null;
+        try {
+            $extension = pathinfo($file, PATHINFO_EXTENSION);
 
-        if (! empty($extension)) {
-            return self::getMimeTypeFromExtension($extension);
+            if (! empty($extension)) {
+                $extensionMimeType = self::getMimeTypeFromExtension($extension);
+            }
+        } catch (InvalidArgumentException $ex) {
+        }
+
+        // Verify if the two methods recognized the same
+        // as in the past some docx created from LibreOffice were
+        // reported as Composite Document File V2 Document from the OS
+        
+        if (is_null($fileinfoMimeType) && is_null($extensionMimeType)) {
+            return self::DEFAULT_MIME_TYPE;
         }
         
-        return self::DEFAULT_MIME_TYPE;
+        if (is_null($fileinfoMimeType) && ! is_null($extensionMimeType)) {
+            return $extensionMimeType;
+        }
+        
+        if (! is_null($fileinfoMimeType) && is_null($extensionMimeType)) {
+            return $fileinfoMimeType;
+        }
+        
+        if ($fileinfoMimeType !== $extensionMimeType) {
+            return $extensionMimeType;
+        }
+
+        return $fileinfoMimeType;
     }
 
     /**
@@ -320,5 +372,16 @@ final class FileHelper
     public static function normalizeMimeType($mimeType)
     {
         return self::$normalizableMimeTypes[$mimeType] ?? $mimeType;
+    }
+
+    /**
+     * Check if the mime type needs to be discarded according to the discard policy
+     *
+     * @param string $mimeType
+     * @return bool
+     */
+    private static function isMimeTypeToDiscard($mimeType)
+    {
+        return in_array($mimeType, self::$discardMimeTypes);
     }
 }
