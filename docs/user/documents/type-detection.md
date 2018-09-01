@@ -1,6 +1,6 @@
-# Type identification
+# Type detection
 
-Files added to the K-Box are subject to identification. With identification we refer 
+Files added to the K-Box are subject to detection. With detection we refer 
 to the process of getting the [_mime type_](https://www.iana.org/assignments/media-types/media-types.xhtml) 
 and the _document type_ of the file. The pair _mime type_ and _document type_ is used to identify if 
 the various processing actions supports the uploaded file. For example if a thumbnail or a preview can 
@@ -8,7 +8,7 @@ be generated.
 
 ## Mime Type
 
-The [mime type](https://tools.ietf.org/html/rfc2046) is defined by standard bodies. The identification is 
+The [mime type](https://tools.ietf.org/html/rfc2046) is defined by standard bodies. The detection is 
 performed by a library that uses the [file magic number](https://en.wikipedia.org/wiki/File_format#Magic_number) 
 and a known list of extensions to mime type. The normalization with the list is performed to reduce differences 
 between the file library between Operating Systems.
@@ -16,7 +16,7 @@ between the file library between Operating Systems.
 ## Document Type
 
 Each file is assigned a document type. The document type is a generic categorization of the documents created 
-for filtering and identification purposes.
+for filtering and description purposes.
 
 This is usually a word describing in a generic way what the document is about, e.g. image, video...
 

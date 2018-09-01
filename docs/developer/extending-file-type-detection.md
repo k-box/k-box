@@ -1,13 +1,13 @@
-# Extending File Type identification
+# Extending File Type detection
 
-The file type identification is managed by the File Service (`KBox\Documents\Services\FileService`). 
+The file type detection is managed by the File Service (`KBox\Documents\Services\FileService`). 
 In particular by the `recognize($path)` method.
 
 > A Facade to rapidly used the service is also available `KBox\Documents\Facades\Files`
 
-## Identification process
+## Detection process
 
-The identification process starts with a file available on a storage disk.
+The detection process starts with a file available on a storage disk.
 
 1. The file is processed by the default type identifier
  - A mime type an document type are returned
@@ -25,7 +25,7 @@ The identification process starts with a file available on a storage disk.
    identifier will be used
 
 
-## Extending the type identification
+## Extending the type detection
 
 The K-Box can be extended to support new mime types or to better identify both the document type
 and mime type of an already identifiable mime type.
@@ -38,12 +38,12 @@ could identify it with the appropriate <`application/geo+json`, `GEODATA`> mime 
 
 **Adding a new type**
 
-Adding a new mime type identification can be done via the `register` method on the `FileService` or `Files` facade.
+Adding a new mime type detection can be done via the `register` method on the `FileService` or `Files` facade.
 
 It require to specify:
 
 - the mimetype
-- the [Document Type](../user/documents/type-identification.md#document-type) associated with it
+- the [Document Type](../user/documents/type-detection.md#document-type) associated with it
 - the file extension normally used for that file type
 - the type identifier class that is able to identify the mime type from a file
 

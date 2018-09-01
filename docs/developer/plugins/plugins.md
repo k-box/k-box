@@ -1,6 +1,6 @@
 # K-Box Plugin system
 
-> **This is an highly experimental and uncomplete feature**
+> **This is an highly experimental feature** and is protected by a the [`plugins` feature flag](../flags.md)
 
 
 ## What is a plugin
@@ -104,6 +104,10 @@ class ExamplePlugin extends Plugin
 }
 ```
 
+#### Digging Deeper into Plugins
+
+- [Define Plugin Settings](./settings.md)
+- [Listening application events from Plugins](./events.md)
 
 ### Thumbnail generators
 
