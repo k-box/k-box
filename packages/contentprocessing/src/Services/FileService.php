@@ -193,20 +193,20 @@ class FileService
      */
     public function extensionFromType($mimeType, $documentType = null)
     {
-        $extension = null;
+        $default = null;
 
         try {
-            $extension = FileHelper::getExtensionFromType($mimeType, $documentType);
+            $default = FileHelper::getExtensionFromType($mimeType, $documentType);
         } catch (InvalidArgumentException $ex) {
         }
 
         $extension = data_get($this->extensionTypeMap, "$mimeType.$documentType", null);
         
-        if (is_null($extension)) {
+        if (is_null($default) && is_null($extension)) {
             throw new InvalidArgumentException("Unknown extension for mime type [{$mimeType}].");
         }
 
-        return $extension;
+        return $extension ?? $default;
     }
 
     private function getIdentifiersFor($mimeType)
