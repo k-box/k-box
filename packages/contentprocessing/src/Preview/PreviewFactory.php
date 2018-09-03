@@ -38,6 +38,15 @@ class PreviewFactory
 
     ];
 
+    const BROWSER_SUPPORTED_PREVIEWS = [
+        'png',
+        'jpg',
+        'jpeg',
+        'gif',
+        'pdf',
+        'mp4',
+    ];
+
     /**
      * Load a file and return the correspondent preview renderer
      *
@@ -85,6 +94,6 @@ class PreviewFactory
             return true;
         }
 
-        return false;
+        return in_array($extension, self::BROWSER_SUPPORTED_PREVIEWS);
     }
 }
