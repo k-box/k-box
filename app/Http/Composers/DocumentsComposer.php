@@ -356,7 +356,7 @@ class DocumentsComposer
                         } elseif ($name == KlinkFacets::MIME_TYPE) {
                             try {
                                 $documentType = DocumentType::from($f_items->value);
-                                if($documentType == DocumentType::WORD_DOCUMENT || $documentType == DocumentType::PDF_DOCUMENT){
+                                if ($documentType == DocumentType::WORD_DOCUMENT || $documentType == DocumentType::PDF_DOCUMENT) {
                                     $documentType == DocumentType::DOCUMENT;
                                 }
                                 $f_items->label =  trans_choice("documents.type.$documentType", 1).' ('.Files::extensionFromType($f_items->value).')';
