@@ -1,38 +1,36 @@
 # Introduction
 
-K-Box. It is a system meant to
-structure documents in an organization.
+K-Box. It is a system meant to structure documents in an organization.
 
-Thanks to features such as collections or *project*, it helps organizing and
-sharing presentations, images and other types of documents produced by
-collaborators inside and outside a structure.
+Thanks to features such as _collections_ or *project*, it helps organizing and sharing presentations, 
+images and other types of documents produced by collaborators inside and outside an organization.
 
 # Documents
-When you are on the `Documents` tab, you can access a few menu on the left part
-of the screen. These menus help to quickly access documents important to you.
+When you are on the `Documents` page, you can access the left-hand navigation menu. 
+These menus help to quickly access documents important to you.
 
 ## Recent
 ![Recent documents menu](img/recent-docs.png)  
 
-By clicking on this link, the list part on the right will display all the docs
-you recently modified or added.
+By clicking on this link, the list part on the right will display all the documents recently modified or added by you and your colleagues 
+in accessible project and private collections. 
 
 ## Starred
 ![Starred documents menu](img/starred-docs.png)  
 
-By clicking on this link, the list part on the right will display all the docs
-you starred. Starring is a good way to maintain an easy access on the docs you
+By clicking on this link, the list part on the right will display all the files
+you starred. Starring is a good way to maintain an easy access on the files you
 care about.
 
 ## Meta-data
-When a document is uploaded information about it is gathered. It is called
+When a document is uploaded, information about it is gathered. It is called
 meta-data. The information available is usually:
-* The collections to which the document is associated
+* Collections to which the document is assigned
 * Its author or authors
 * Its main contact
 * Its language
-* The date it was added
-* The user who uploaded it
+* Date it was added
+* Uploader
 
 By clicking on a doc, it is possible to consult this information:
 
