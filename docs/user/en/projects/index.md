@@ -73,6 +73,6 @@ At the bottom of the edit page you can see the _Current members list_ that shows
 
 Currently a project cannot be deleted.
 
-## Microsites
+## [Microsites](../microsite/index.md)
 
 A project can have a single website. Check the [Microsite section](../microsite/index.md) for more info.
