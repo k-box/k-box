@@ -15,7 +15,7 @@ use Illuminate\Support\Collection;
 use Klink\DmsAdapter\KlinkVisibilityType;
 use Klink\DmsAdapter\KlinkFacets;
 use KBox\Documents\DocumentType;
-use KBox\Documents\Facade\Files;
+use KBox\Documents\Facades\Files;
 use OneOffTech\Licenses\Contracts\LicenseRepository;
 
 class DocumentsComposer
