@@ -355,7 +355,11 @@ class DocumentsComposer
                             $f_items->label =  trans('languages.'.$f_items->value);
                         } elseif ($name == KlinkFacets::MIME_TYPE) {
                             try {
-                                $f_items->label =  trans_choice('documents.type.'.DocumentType::from($f_items->value), 1).' ('.Files::extensionFromType($f_items->value).')';
+                                $documentType = DocumentType::from($f_items->value);
+                                if($documentType == DocumentType::WORD_DOCUMENT || $documentType == DocumentType::PDF_DOCUMENT){
+                                    $documentType == DocumentType::DOCUMENT;
+                                }
+                                $f_items->label =  trans_choice("documents.type.$documentType", 1).' ('.Files::extensionFromType($f_items->value).')';
                             } catch (Exception $ex) {
                                 $f_items->label =  trans_choice('documents.type.document', 1).' ('.$f_items->value.')';
                             }
