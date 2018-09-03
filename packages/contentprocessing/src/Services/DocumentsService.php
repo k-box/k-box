@@ -28,7 +28,9 @@ use Klink\DmsAdapter\KlinkDocument;
 use KBox\Documents\KlinkDocumentUtils;
 use Klink\DmsAdapter\KlinkVisibilityType;
 use Klink\DmsAdapter\Exceptions\KlinkException;
+use KSearchClient\Exception\ErrorResponseException;
 use KBox\Jobs\ReindexDocument;
+use KBox\Documents\TrashContentResponse;
 
 class DocumentsService
 {
@@ -565,6 +567,18 @@ class DocumentsService
 
             \Cache::flush();
         } catch (KlinkException $kex) {
+            if ($kex->getCode() != 404) {
+                $descriptor->status = DocumentDescriptor::STATUS_ERROR;
+
+                $descriptor->save();
+
+                \Cache::flush();
+
+                \Log::error('Error deleting document from K-Link', ['context' => 'DocumentsService', 'param' => $descriptor, 'exception' => $kex]);
+
+                throw $kex;
+            }
+        } catch (ErrorResponseException $kex) {
             if ($kex->getCode() != 404) {
                 $descriptor->status = DocumentDescriptor::STATUS_ERROR;
 
