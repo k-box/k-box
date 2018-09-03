@@ -48,10 +48,10 @@ To collapse the list of sub-collections, simply click on the chevron arrow
 located at the left of the project or collection name. If the chevron points toward the right, the collection is collapsed. If it points towards the bottom,
 the collection is expanded.
 
-# Help
+# [Help](./help.md)
 A help section containing a list of the most frequently asked questions is
 available when clicking on the *Help* menu, located at the bottom right corner.
 
 ![Help menu](img/help-menu.png )  
 
-# Projects
+# [Projects](./projects/index.md)
