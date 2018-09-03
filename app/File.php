@@ -12,6 +12,7 @@ use Dyrynda\Database\Support\GeneratesUuid;
 use KBox\Documents\KlinkDocumentUtils;
 use Illuminate\Support\Facades\Crypt;
 use KBox\Events\FileDeleted;
+use KBox\Events\FileDeleting;
 use KBox\Events\FileRestored;
 
 /**
@@ -105,6 +106,7 @@ class File extends Model
 
     protected $dispatchesEvents = [
         'deleted' => FileDeleted::class,
+        'deleting' => FileDeleting::class,
         'restored' => FileRestored::class,
     ];
 

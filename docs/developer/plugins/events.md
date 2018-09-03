@@ -56,4 +56,5 @@ public function boot()
 - `KBox\Events\DocumentDescriptorDeleted`: a document descriptor is trashed or permanently deleted
 - `KBox\Events\DocumentDescriptorRestored`: a document descriptor has been restores from the trash
 - `KBox\Events\FileDeleted`: a file is trashed or permanently deleted
+- `KBox\Events\FileDeleting`: a file will be trashed or permanently deleted. This fires before a file is deleted
 - `KBox\Events\FileRestored`: a file has been restores from the trash
