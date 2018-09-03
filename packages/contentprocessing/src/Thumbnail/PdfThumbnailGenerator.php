@@ -6,6 +6,7 @@ use Imagick;
 use KBox\File;
 use KBox\Documents\DocumentType;
 use KBox\Documents\Contracts\ThumbnailGenerator;
+use Symfony\Component\Debug\Exception\FatalErrorException;
 
 /**
  * Pdf Thumbnail Generator
@@ -56,7 +57,13 @@ class PdfThumbnailGenerator implements ThumbnailGenerator
             return false;
         }
 
-        if (empty(Imagick::queryFormats("PDF"))) {
+        try {
+            if (empty(Imagick::queryFormats("PDF"))) {
+                return false;
+            }
+        } catch (FatalErrorException $ex) {
+            return false;
+        } catch (Exception $ex) {
             return false;
         }
 
