@@ -6,7 +6,6 @@ use Tests\BrowserKitTestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 use KBox\Console\Commands\DocumentsCheckDescriptorCommand;
-use KBox\Documents\KlinkDocumentUtils;
 use KBox\Traits\RunCommand;
 
 /*
@@ -42,7 +41,7 @@ class DocumentsCheckDescriptorCommandTest extends BrowserKitTestCase
         $file = $doc->file;
 
         $new_mime_type = $file->mime_type;
-        $new_document_type = KlinkDocumentUtils::documentTypeFromMimeType($file->mime_type);
+        $new_document_type = $file->document_type;
         $new_hash = $file->hash;
 
         $command = new DocumentsCheckDescriptorCommand(app('KBox\Documents\Services\DocumentsService'));

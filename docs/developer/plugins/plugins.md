@@ -1,6 +1,6 @@
 # K-Box Plugin system
 
-> **This is an highly experimental and uncomplete feature**
+> **This is an highly experimental feature** and is protected by a the [`plugins` feature flag](../flags.md)
 
 
 ## What is a plugin
@@ -101,6 +101,25 @@ class ExamplePlugin extends Plugin
     {
         // ...
     }
+}
+```
+
+#### Digging Deeper into Plugins
+
+- [Define Plugin Settings](./settings.md)
+- [Listening application events from Plugins](./events.md)
+
+### Thumbnail generators
+
+A plugin can register a custom thumbnail generator using the `registerThumbnailGenerator` method
+
+```php
+
+use MyPlugin\Thumbnail\ImageThumbnailGenerator;
+
+public function boot()
+{
+    $this->registerThumbnailGenerator(ImageThumbnailGenerator::class);
 }
 ```
 

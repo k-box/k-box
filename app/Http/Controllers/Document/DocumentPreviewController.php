@@ -8,9 +8,9 @@ use Throwable;
 use KBox\File;
 use KBox\DocumentDescriptor;
 use Illuminate\Http\Request;
+use KBox\Documents\Facades\Files;
 use KBox\Documents\Services\PreviewService;
 use KBox\Exceptions\ForbiddenException;
-use KBox\Documents\KlinkDocumentUtils;
 use KBox\Documents\Services\DocumentsService;
 use Illuminate\Auth\AuthenticationException;
 use KBox\Documents\Preview\Exception\UnsupportedFileException;
@@ -59,7 +59,7 @@ class DocumentPreviewController extends DocumentAccessController
     {
         /* File */ $file = $version ?? $doc->file;
             
-        $extension = KlinkDocumentUtils::getExtensionFromMimeType($file->mime_type);
+        $extension = Files::extensionFromType($file->mime_type, $file->document_type);
 
         $render = null;
         $preview = null;
@@ -85,7 +85,7 @@ class DocumentPreviewController extends DocumentAccessController
             'document' => $doc,
             'file' => $file,
             'version' => $version,
-            'type' =>  KlinkDocumentUtils::documentTypeFromMimeType($file->mime_type),
+            'type' =>  $file->document_type,
             'mime_type' =>  $file->mime_type,
             'render' => $render,
             'extension' => $extension,

@@ -2,16 +2,19 @@
 
 namespace KBox\Documents\Services;
 
-use KBox\File;
-
-use Klink\DmsAdapter\Contracts\KlinkAdapter;
-use KBox\Documents\KlinkDocumentUtils;
 use Log;
 use Exception;
-use Imagick;
+use KBox\File;
+use KBox\Documents\DocumentType;
+use KBox\Jobs\ThumbnailGenerationJob;
+use Illuminate\Support\Facades\Storage;
+use KBox\Documents\Thumbnail\ThumbnailImage;
+use KBox\Documents\Thumbnail\PdfThumbnailGenerator;
+use KBox\Documents\Thumbnail\ImageThumbnailGenerator;
+use KBox\Documents\Thumbnail\VideoThumbnailGenerator;
+use KBox\Documents\Exceptions\UnsupportedFileException;
 use Symfony\Component\Debug\Exception\FatalThrowableError;
-use OneOffTech\VideoProcessing\VideoProcessorFactory;
-use Klink\DmsAdapter\KlinkImageResize;
+use KBox\Documents\Exceptions\ThumbnailGeneratorNotFoundException;
 
 /**
  * The service responsible for the generation of the {@see File}
@@ -22,169 +25,212 @@ use Klink\DmsAdapter\KlinkImageResize;
  */
 class ThumbnailsService
 {
+    /**
+     * Default thumbnail folder on disk for each file
+     * @var string
+     */
     const THUMBNAILS_FOLDER_NAME = 'thumbnails';
+
+    /**
+     * Default thumbnail image format
+     * @var string
+     */
     const THUMBNAIL_IMAGE_FORMAT = 'image/png';
+
+    /**
+     * Default thumbnail image extension
+     * @var string
+     */
     const THUMBNAIL_IMAGE_EXTENSION = '.png';
+
+    /**
+     * Default thumbnail image size. Define both width and height
+     * @var int
+     */
     const THUMBNAIL_SIZE = 300;
+
+    /**
+     * The queue to dispatch jobs on
+     *
+     * @var string
+     */
+    protected $queue = null;
+
+    /**
+     * The configured thumbnail generators
+     *
+     * @var array
+     */
+    private $generators = [
+        ImageThumbnailGenerator::class,
+        PdfThumbnailGenerator::class,
+        VideoThumbnailGenerator::class,
+    ];
 
     /**
      * Supported file mime types.
      *
-     * If the file mime type is not here, a tentative, default thumbnail
-     * is returned
-     */
-    private static $supportedMime = [
-        'application/pdf',
-        'image/png',
-        'image/gif',
-        'image/jpg',
-        'image/jpeg',
-        'text/html', // must be an external http/https url
-        // 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-        // 'text/plain',
-        // 'application/rtf',
-        // 'text/x-markdown',
-        'application/vnd.openxmlformats-officedocument.presentationml.presentation',
-        'video/mp4'
-        ];
-
-    /**
-     * The adapter to use when the remote thumbnail API
-     * service is needed
+     * The list is generated from the configured generators
      *
-     * @var \Klink\DmsAdapter\Contracts\KlinkAdapter
+     * @var array|null
      */
-    private $adapter = null;
+    private $supportedMimeTypes = null;
 
-    /**
-     * Create a new ThumbnailsService instance.
-     *
-     * @param \KlinkAdapter $adapter The reference K-Link Core with the thumbnail service endpoint
-     * @return void
-     */
-    public function __construct(KlinkAdapter $adapter)
+    public function __construct()
     {
-        $this->adapter = $adapter;
+        $this->queue = config('contentprocessing.queue');
     }
 
     /**
-     * Generate a thumbnail for a given {@see File}
+     * Return the list of configured generators
      *
-     * The generated thumbnail is saved on disk and its path is
-     * added to the file thumbnail_path attribute. If a file
-     * already has a thumbnail path, that file will be returned.
+     * @return array<string>
+     */
+    public function generators()
+    {
+        return $this->generators;
+    }
+
+    /**
+     * Return the list of supported mime type
      *
-     * If the thumbnail cannot be generated a default thumbnail
-     * for the specific document type is returned.
+     * @return array<string>
+     */
+    public function supportedMimeTypes()
+    {
+        if (! is_null($this->supportedMimeTypes)) {
+            return $this->supportedMimeTypes;
+        }
+
+        $mimeTypes = collect($this->generators)->map(function ($generator) {
+            return (new $generator())->supportedMimeTypes();
+        })->flatten()->toArray();
+
+        return $this->supportedMimeTypes = $mimeTypes;
+    }
+
+    /**
+     * Register a thumbnail generator
+     *
+     * @param string $generator the thumbnail class
+     * @return ThumbnailsService
+     */
+    public function register(string $generator)
+    {
+        if (in_array($generator, $this->generators)) {
+            return $this;
+        }
+        array_push($this->generators, $generator);
+        
+        // clean the cache of supported mime types since there
+        // was a change in the generators list
+        $this->supportedMimeTypes = null;
+        
+        return $this;
+    }
+
+    private function generatorFor(File $file)
+    {
+        if (! $this->isSupported($file)) {
+            throw UnsupportedFileException::file($file);
+        }
+
+        // get the first generator that support the file
+        $generator = collect($this->generators)->first(function ($generator) use ($file) {
+            return (new $generator())->isSupported($file);
+        });
+
+        if (is_null($generator)) {
+            throw ThumbnailGeneratorNotFoundException::for($file);
+        }
+
+        return new $generator();
+    }
+
+    /**
+     * Generate an in-memory thumbnail representation for the given file
+     *
+     * @param File $file
+     * @return ThumbnailImage
+     */
+    public function thumbnail(File $file) : ThumbnailImage
+    {
+        if (! $this->isSupported($file)) {
+            throw UnsupportedFileException::file($file);
+        }
+
+        $generator = $this->generatorFor($file);
+
+        return $generator->generate($file);
+    }
+
+    /**
+     * Check if a given File is supported by the configured thumbnail generators.
+     * The check is performed at mime type level
+     *
+     * @param File $file The {@see File} to check
+     * @return bool
+     */
+    public function isSupported(File $file)
+    {
+        return in_array($file->mime_type, $this->supportedMimeTypes());
+    }
+
+    /**
+     * Immediately generate a file thumbnail and save it to the specified path
      *
      * @param File $file The {@see File} you want the thumbnail for.
-     * @param boolean $force Override the already generated thumbnail. Default false.
-     * @return string The path (on disk) of the thumbnail image.
+     * @return File
      * @throws Exception In case after the thumbnail generation its location is not a valid file
      */
-    public function generate(File $file, $force = false)
+    public function generate(File $file)
     {
-        if (! is_null($file->thumbnail_path) && ! $force) {
-            return $file->absolute_thumbnail_path;
-        }
-        
-        // get file mime type
-        $charset_pos = strpos($file->mime_type, ';');
-        $mime = $charset_pos !== false ? trim(substr($file->mime_type, 0, $charset_pos)) : $file->mime_type;
-
-        Log::info("Processing thumbnail generation for file {$file->id} ({$mime})...");
-
-        $default_path = $this->getDefaultThumbnail($mime);
-
-        // check if the mimetype is included in the supported list
-
-        if (! in_array($mime, self::$supportedMime)) {
-            Log::warning("File {$file->id} with mime type {$mime} not supported. Returning default thumbnail.");
-
-            $file->thumbnail_path = $default_path;
-
-            $file->save();
-
-            return $default_path;
-        }
-
         $thumb_save_path = $this->getSavePath($file);
     
         try {
-            if ($mime === 'image/jpg' || $mime === 'image/jpeg' || $mime === 'image/png') {
-                $thumb_save_path = $this->generateImageThumbnail($mime, $file->absolute_path, $thumb_save_path);
-            } elseif ($mime === 'application/pdf') {
-                $thumb_save_path = $this->generatePdfThumbnail($mime, $file->absolute_path, $thumb_save_path);
-            } elseif ($mime === 'video/mp4') {
-                $videoProcessor = app()->make(VideoProcessorFactory::class)->make();
-                
-                $out = $videoProcessor->thumbnail($file->absolute_path);
+            $thumbnail = $this->thumbnail($file);
 
-                $thumb_save_path = dirname($file->absolute_path).'/'.str_replace('.mp4', '.png', basename($file->absolute_path));
-            } else {
-                $thumb_save_path = $this->getDefaultThumbnail($mime);
-            }
+            $thumbnail->save($thumb_save_path);
+            
+            $thumbnail->destroy();
         } catch (Exception $kex) {
             Log::error('Error generating thumbnail', ['param' => $file->toArray(), 'exception' => $kex]);
 
-            $thumb_save_path = $this->getDefaultThumbnail($mime);
+            $thumb_save_path = $this->fallback($file);
         } catch (ErrorException $kex) {
             Log::error('Error generating thumbnail', ['param' => $file->toArray(), 'exception' => $kex]);
 
-            $thumb_save_path = $this->getDefaultThumbnail($mime);
+            $thumb_save_path = $this->fallback($file);
         } catch (FatalThrowableError $kex) {
             Log::error('Error generating thumbnail', ['param' => $file->toArray(), 'exception' => $kex]);
 
-            $thumb_save_path = $this->getDefaultThumbnail($mime);
+            $thumb_save_path = $this->fallback($file);
         }
 
         if (! is_file($thumb_save_path)) {
             Log::error("Thumbnail file $thumb_save_path is not a valid file.", ['param' => $file->toArray()]);
-            throw new Exception('Thumbnail not saved');
+            
+            return $file;
         }
-
-        // saving back everything
 
         $file->thumbnail_path = $thumb_save_path;
 
         $file->save();
 
-        return $thumb_save_path;
+        return $file;
     }
 
-    private function generateImageThumbnail($mime, $filePath, $savePath)
+    /**
+     * Queue a thumbnail generation job to be executed in an asynchrounous way
+     *
+     * @param File $file The {@see File} you want the thumbnail for.
+     * @return ThumbnailsService
+     */
+    public function queue(File $file)
     {
-        $image = new KlinkImageResize();
-        
-        $image->load($filePath);
-        $image->resizeToWidth(self::THUMBNAIL_SIZE);
-        $fileContent = $image->get(IMAGETYPE_PNG);
-        
-        file_put_contents($savePath, $fileContent);
+        dispatch((new ThumbnailGenerationJob($file))->onQueue($this->queue));
 
-        return $savePath;
-    }
-
-    private function generatePdfThumbnail($mime, $filePath, $savePath)
-    {
-        // check if imagemagick is installed
-        if (! extension_loaded('imagick') && ! class_exists('Imagick')) {
-            throw new Exception('Failed to generate pdf thumbnail: imagemagick is not installed');
-        }
-
-        $image = new Imagick();
-        $image->setBackgroundColor('white'); // do not create transparent thumbnails
-        $image->setResolution(300, 300); // forcing resolution to 300dpi prevents mushy images
-        $image->readImage($filePath.'[0]'); // file.pdf[0] refers to the first page of the pdf
-        $image = $image->mergeImageLayers(\Imagick::LAYERMETHOD_FLATTEN);
-
-        $image->thumbnailImage(self::THUMBNAIL_SIZE, 0, false, true);
-
-        $image->setImageFormat("png"); // save as png, TODO: respect THUMBNAIL_IMAGE_EXTENSION
-        $image->writeImage($savePath);
-        $image->clear(); // free memory
-
-        return $savePath;
+        return $this;
     }
 
     /**
@@ -214,24 +260,34 @@ class ThumbnailsService
     }
 
     /**
+     * Get the fallback thumbnail for the given file
+     *
+     * @param File $file
+     * @return string the fallback image path with respect to the public storage disk
+     */
+    public function fallback(File $file)
+    {
+        return $this->defaultFor($file->document_type);
+    }
+
+    /**
      * Get the default thumbnail associated to a mime type
      *
-     * @uses KlinkDocumentUtils::documentTypeFromMimeType
+     * @uses DocumentType::from
      *
      * @param string $mimeType the file mime type
      * @return string the path to the default image for that file mime type
      */
-    private function getDefaultThumbnail($mimeType)
+    public function defaultFor($documentType)
     {
-        if (strpos($mimeType, 'audio')!==false) {
-            $doc_type = 'music';
-        } elseif ($mimeType === 'text/uri-list') {
-            $doc_type = 'web-page';
-        } else {
-            $doc_type = KlinkDocumentUtils::documentTypeFromMimeType($mimeType);
+        if ($documentType === DocumentType::WORD_DOCUMENT || $documentType === DocumentType::PDF_DOCUMENT) {
+            $documentType = DocumentType::DOCUMENT;
         }
-        
-        $path = public_path('images/'.$doc_type.'.png');
+        if ($documentType === DocumentType::URI_LIST) {
+            $documentType = DocumentType::WEB_PAGE;
+        }
+
+        $path = public_path("images/$documentType.png");
         
         if (@is_file($path)) {
             return $path;

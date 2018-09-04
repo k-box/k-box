@@ -10,8 +10,19 @@ See [Configuration.md](./configuration.md)
 
 ## Command Line
 
-See the section [Commands](./commands/index.md). 
+See the section [Commands](./commands/index.md).
 
+
+## Digging Deeper
+
+- [Facades](./facades.md)
+- [Document elaboration](./document-elaboration.md)
+
+
+## Plugins and Extensions
+
+- [Plugins](./plugins/plugins.md)
+- [Extending File Type detection](./extending-file-type-detection.md)
 
 ## Support and Maintenance
 

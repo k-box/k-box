@@ -160,11 +160,11 @@
 
 @elseif($document->isFileUploadComplete())
 
-	@if($type=='image')
+	@if($type==\KBox\Documents\DocumentType::IMAGE)
 	
 		<img src="{{DmsRouting::download($document, $version)}}" alt="{{$document->title}}">
 
-	@elseif($type=='video')
+	@elseif($type==\KBox\Documents\DocumentType::VIDEO)
 
 		@if($document->status === \KBox\DocumentDescriptor::STATUS_COMPLETED)
 
@@ -185,7 +185,7 @@
 
 		@endif
 	
-	@elseif($type=='document' && $extension === 'pdf')
+	@elseif($type==\KBox\Documents\DocumentType::PDF_DOCUMENT)
 
 		<iframe src="{{DmsRouting::embed($document, $version)}}" frameborder="0"></iframe>
 	

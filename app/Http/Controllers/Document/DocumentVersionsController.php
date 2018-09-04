@@ -5,7 +5,6 @@ namespace KBox\Http\Controllers\Document;
 use KBox\DocumentDescriptor;
 use KBox\Jobs\ReindexDocument;
 use KBox\Http\Controllers\Controller;
-use KBox\Documents\KlinkDocumentUtils;
 use Klink\DmsAdapter\KlinkVisibilityType;
 
 class DocumentVersionsController extends Controller
@@ -96,7 +95,7 @@ class DocumentVersionsController extends Controller
             // updating the document descriptor information
             $document->file_id = $version_to_apply->id;
             $document->mime_type = $version_to_apply->mime_type;
-            $document->document_type = KlinkDocumentUtils::documentTypeFromMimeType($version_to_apply->mime_type);
+            $document->document_type = $version_to_apply->document_type;
             $document->hash = $version_to_apply->hash;
             $document->save();
 

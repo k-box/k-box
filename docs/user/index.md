@@ -22,9 +22,11 @@ The K-Box (web) Application is the user facing part, while the K-Search offers t
 - [First use](./first-use.md)
 - [Troubles, check the known source of problems](./maintenance/troubleshooting.md)
 
-## Internals
+## Digging Deeper
 
 - [Duplicate documents management](./documents/duplicates.md)
+- [File type detection](./documents/type-detection.md)
+- [Develop for the K-Box](../developer/index.md)
 
 ## Browser support
 
