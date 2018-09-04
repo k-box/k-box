@@ -43,6 +43,8 @@ class ThumbnailsTest extends TestCase
      */
     public function test_thumbnail_generation_job_generates_thumbnail($path, $expectedDefault)
     {
+        $this->withoutExceptionHandling();
+        
         if (ends_with($path, 'pdf') && strtolower(PHP_OS) === 'winnt') {
             $this->markTestSkipped(
                 'Known bug on Windows with the imagick extension https://github.com/mkoppanen/imagick/issues/252.'
