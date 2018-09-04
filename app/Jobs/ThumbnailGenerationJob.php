@@ -56,6 +56,7 @@ class ThumbnailGenerationJob extends Job implements ShouldQueue
         try {
             $service->generate($this->file);
         } catch (Exception $ex) {
+            dump('Thumbnail generation exception', $ex);
             Log::error('Thumbnail generation Job error', [
                 'file' => $this->file->toArray(),
                 'force' => $this->force,
