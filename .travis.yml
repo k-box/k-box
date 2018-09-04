@@ -22,6 +22,9 @@ cache:
   global:
     - DMS_CORE_ADDRESS="http://127.0.0.1:8081/"
 
+before_install:
+  - sudo apt-get install -y libmagickwand-dev
+
 install:
   - cp env.travis .env
   - cp env.travis testing.env
@@ -31,6 +34,8 @@ before_script:
   - phpenv config-rm xdebug.ini # disabling XDebug as currently we are not interested in code coverage report
   - pecl channel-update pecl.php.net
   - yes | pecl install imagick # install imagemagick for thumbnail generation of files https://github.com/travis-ci/travis-ci/issues/781#issuecomment-332473065
+  - php -r "var_dump(extension_loaded('imagick'), class_exists('Imagick'));"
+  - php -r "var_dump(\Imagick::queryFormats('PDF'));"
   - sudo service mysql stop
   - docker-compose -f ./docker-compose.dev.example.yml up -d
   - php -f ./tests/wait.php
