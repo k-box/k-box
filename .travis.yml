@@ -29,6 +29,7 @@ install:
 
 before_script:
   - phpenv config-rm xdebug.ini # disabling XDebug as currently we are not interested in code coverage report
+  - pecl install imagick # install imagemagick for thumbnail generation of files
   - sudo service mysql stop
   - docker-compose -f ./docker-compose.dev.example.yml up -d
   - php -f ./tests/wait.php
