@@ -106,8 +106,6 @@ class ThumbnailsService
             return (new $generator())->supportedMimeTypes();
         })->flatten()->toArray();
 
-        dump("Supported mime types", $mimeTypes);
-
         return $this->supportedMimeTypes = $mimeTypes;
     }
 
@@ -160,7 +158,7 @@ class ThumbnailsService
         if (! $this->isSupported($file)) {
             throw UnsupportedFileException::file($file);
         }
-        dump("Attempting to generate thumbnail for $file");
+
         $generator = $this->generatorFor($file);
 
         return $generator->generate($file);

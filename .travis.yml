@@ -35,14 +35,12 @@ before_script:
   - phpenv config-rm xdebug.ini # disabling XDebug as currently we are not interested in code coverage report
   - pecl channel-update pecl.php.net
   - yes | pecl install imagick # install imagemagick for thumbnail generation of files https://github.com/travis-ci/travis-ci/issues/781#issuecomment-332473065
-  - php -r "var_dump(extension_loaded('imagick'), class_exists('Imagick'));"
-  - php -r "var_dump(\Imagick::queryFormats('PDF'));"
   - sudo service mysql stop
   - docker-compose -f ./docker-compose.dev.example.yml up -d
   - php -f ./tests/wait.php
 
 script: 
-  - ./vendor/bin/parallel-lint --exclude vendor .
+  - ./vendor/bin/parallel-lint -j 20 --exclude vendor .
   - shellcheck ./docker/*.sh
   - php artisan view:clear
   - ./vendor/bin/php-cs-fixer fix --dry-run

@@ -29,8 +29,6 @@ class PdfThumbnailGenerator implements ThumbnailGenerator
         $image->thumbnailImage(ThumbnailImage::DEFAULT_WIDTH, 0, false, true);
         $image->setImageFormat("png");
 
-        dump('thumbnail image generated');
-
         return ThumbnailImage::load($image)->widen(ThumbnailImage::DEFAULT_WIDTH);
     }
 
@@ -64,14 +62,11 @@ class PdfThumbnailGenerator implements ThumbnailGenerator
                 return false;
             }
         } catch (FatalErrorException $ex) {
-            dump($ex);
             return false;
         } catch (Exception $ex) {
-            dump($ex);
             return false;
         }
 
-        dump('PDF imagick support confirmed');
         return true;
     }
 }
