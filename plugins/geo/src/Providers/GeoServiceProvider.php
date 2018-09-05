@@ -2,8 +2,10 @@
 
 namespace KBox\Geo\Providers;
 
+use KBox\Geo\GeoService;
 use KBox\Plugins\Plugin;
 use KBox\Events\FileDeleting;
+use KBox\Plugins\PluginManager;
 use KBox\Documents\DocumentType;
 use KBox\Documents\Facades\Files;
 use Illuminate\Support\Facades\Route;
@@ -52,7 +54,7 @@ class GeoServiceProvider extends Plugin
     public function register()
     {
         $this->app->singleton(GeoService::class, function ($app) {
-            return new GeoService();
+            return new GeoService(app(PluginManager::class));
         });
         
         // register the custom step in the elaboration pipeline

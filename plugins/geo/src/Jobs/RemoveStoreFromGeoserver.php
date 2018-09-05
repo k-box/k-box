@@ -3,6 +3,8 @@
 namespace KBox\Geo\Jobs;
 
 use Log;
+use KBox\Geo\GeoType;
+use KBox\Geo\GeoService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
@@ -33,15 +35,15 @@ class RemoveStoreFromGeoserver implements ShouldQueue
      *
      * @return void
      */
-    public function handle()
+    public function handle(GeoService $service)
     {
         Log::info("Deleting [{$this->name}] [{$this->type}] from geoserver");
             
         if($this->type === GeoType::VECTOR){
-            $this->service->connection()->deleteDatastore($this->name);
+            $service->connection()->deleteDatastore($this->name);
         }
         else {
-            $this->service->connection()->deleteCoveragestore($this->name);
+            $service->connection()->deleteCoveragestore($this->name);
         }
         
         Log::info("Delete [{$this->name}] [{$this->type}] from geoserver completed");
