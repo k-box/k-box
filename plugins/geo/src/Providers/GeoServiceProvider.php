@@ -3,10 +3,12 @@
 namespace KBox\Geo\Providers;
 
 use KBox\Plugins\Plugin;
+use KBox\Events\FileDeleting;
 use KBox\Documents\DocumentType;
 use KBox\Documents\Facades\Files;
 use Illuminate\Support\Facades\Route;
 use KBox\Geo\Actions\SyncWithGeoserver;
+use KBox\Geo\Listeners\RemoveFileFromGeoserver;
 use KBox\Geo\TypeIdentifiers\KmlTypeIdentifier;
 use KBox\Geo\TypeIdentifiers\GpxTypeIdentifier;
 use KBox\Geo\TypeIdentifiers\GeoJsonTypeIdentifier;
@@ -37,6 +39,9 @@ class GeoServiceProvider extends Plugin
 
         // Views loading
         $this->loadViewsFrom(__DIR__.'/../../views', 'geo');
+
+        // registering event listeners
+        $this->registerEventListener(FileDeleting::class, RemoveFileFromGeoserver::class);
     }
 
     /**
