@@ -114,7 +114,7 @@ final class GeoService
 
         $data = GeoFile::fromFile($file);
 
-        Log::info("Uploading $file->uuid to geoserver", compact('data'));
+        Log::info("Uploading $file->uuid to geoserver", $data->toArray());
 
         // TODO: maybe is not supported by geoserver and therefore require conversion
             

@@ -53,6 +53,26 @@ class GeoFile extends BaseGeoFile
         return $this->$property;
     }
 
+
+    public function toArray()
+    {
+        return [
+            $this->file,
+            $this->mimeType,
+            $this->extension,
+            $this->normalizedExtension,
+            $this->normalizedMimeType,
+            $this->format,
+            $this->type,
+            $this->name,
+        ];
+    }
+
+    public function __toString()
+    {
+        return join(',', $this->toArray());
+    }
+
     /**
      * Create a Geo file instance from a File instance
      *
