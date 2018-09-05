@@ -2,7 +2,9 @@
 
 namespace KBox\Geo;
 
+use Log;
 use Exception;
+use KBox\File;
 use KBox\Plugins\PluginManager;
 use OneOffTech\GeoServer\GeoServer;
 use OneOffTech\GeoServer\Auth\Authentication;
@@ -88,6 +90,35 @@ final class GeoService
         $geoserver = GeoServer::build($conf['geoserver_url'], $conf['geoserver_workspace'], $authentication);
 
         return $geoserver;
+    }
+
+
+    /**
+     * Check if the given file is supported
+     * 
+     * @param File $file
+     * @return bool
+     */
+    public function isSupported(File $file)
+    {
+        return GeoFile::isSupported($file->absolute_path);
+    }
+
+
+    /**
+     * Upload a file to the geoserver
+     */
+    public function upload(File $file)
+    {
+        // $data = GeoFile::from($descriptor->file->absolute_path)->name($descriptor->uuid);
+
+        $data = GeoFile::fromFile($file);
+
+        Log::info("Uploading $file->uuid to geoserver", compact('data'));
+
+        // TODO: maybe is not supported by geoserver and therefore require conversion
+            
+        return $this->connection()->upload($data);
     }
     
 

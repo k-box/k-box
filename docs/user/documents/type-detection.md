@@ -53,4 +53,4 @@ geographic data to be plotted on a map.
 
 ## Adding new type or extending the type identification system
 
-See [Extending file type identification](../../developer/extending-file-type-identification.md) in the developer section.
+See [Extending file type identification](../../developer/extending-file-type-detection.md) in the developer section.

@@ -39,14 +39,17 @@ class SyncWithGeoserver extends Action
     {
         Log::info("Checking if $descriptor->uuid is a geographic file.");
 
-        if($this->service->isEnabled() && GeoFile::isSupported($descriptor->file->absolute_path)){
-            $data = GeoFile::from($descriptor->file->absolute_path)->name($descriptor->uuid);
+        if($this->service->isEnabled() && $this->service->isSupported($descriptor->file)){
 
-            Log::info("Uploading $descriptor->uuid to geoserver", compact('data'));
+            Log::info("Uploading [$descriptor->uuid:{$descriptor->file->uuid}] to geoserver");
             
-            $feature = $this->service->connection()->upload($data);
+            $details = $this->service->upload($descriptor->file);
+
+            // TODO:
+            // Eventually add additional properties to the DocumentDescriptor here, as the upload 
+            // method returns some more details of the file
             
-            Log::info("Upload of $descriptor->uuid completed", compact('feature'));
+            Log::info("Upload of [$descriptor->uuid:{$descriptor->file->uuid}] completed", compact('details'));
         }
 
         return $descriptor;

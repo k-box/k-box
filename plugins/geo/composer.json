@@ -12,7 +12,9 @@
     ],
     "require": {
         "php": ">=7.1",
-        "oneofftech/geoserver-client-php": "dev-master"
+        "ext-zip": "*",
+        "oneofftech/geoserver-client-php": "dev-master",
+        "justinrainbow/json-schema": "^5.2"
     },
     "autoload": {
         "psr-4": {

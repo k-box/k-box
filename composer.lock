@@ -2708,12 +2708,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/OneOffTech/geoserver-client-php.git",
-                "reference": "c05603a6312c47d222fb160b3747580fbfaf3cb2"
+                "reference": "a73202bbbf6a30d5879f3ea73314aaca01d92885"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/OneOffTech/geoserver-client-php/zipball/c05603a6312c47d222fb160b3747580fbfaf3cb2",
-                "reference": "c05603a6312c47d222fb160b3747580fbfaf3cb2",
+                "url": "https://api.github.com/repos/OneOffTech/geoserver-client-php/zipball/a73202bbbf6a30d5879f3ea73314aaca01d92885",
+                "reference": "a73202bbbf6a30d5879f3ea73314aaca01d92885",
                 "shasum": ""
             },
             "require": {
@@ -2761,7 +2761,7 @@
             ],
             "description": "A GeoServer API client",
             "homepage": "https://github.com/oneofftech/geoserver-client-php",
-            "time": "2018-08-06T10:24:17+00:00"
+            "time": "2018-09-05T07:28:48+00:00"
         },
         {
             "name": "oneofftech/k-link-streaming-upload-client",
