@@ -37,7 +37,7 @@ class RemoveStoreFromGeoserver implements ShouldQueue
     {
         Log::info("Deleting [{$this->name}] [{$this->type}] from geoserver");
             
-        if($data->type === GeoType::VECTOR){
+        if($this->type === GeoType::VECTOR){
             $this->service->connection()->deleteDatastore($this->name);
         }
         else {
