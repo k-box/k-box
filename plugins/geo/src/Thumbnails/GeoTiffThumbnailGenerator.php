@@ -8,7 +8,7 @@ use KBox\Documents\DocumentType;
 use KBox\Documents\Contracts\ThumbnailGenerator;
 use Symfony\Component\Debug\Exception\FatalErrorException;
 
-class GeoTiffThumbnailGenerator extends TypeIdentifier
+class GeoTiffThumbnailGenerator implements ThumbnailGenerator
 {
     public function generate(File $file) : ThumbnailImage
     {
