@@ -186,6 +186,62 @@ class FileService
     }
 
     /**
+     * Guess the mime type and document type of a file based on the file extension
+     *
+     * @param string $path The path to the file
+     * @return array with mime type as first element, and document type as second
+     */
+    public function guessTypeFromExtension($path)
+    {
+        try {
+            $extension = pathinfo($path, PATHINFO_EXTENSION);
+
+            $mime = FileHelper::getMimeTypeFromExtension($extension);
+            $doc = DocumentType::from($mime);
+    
+            return [$mime, $doc];
+        } catch (Exception $ex) {
+        }
+    
+        return [static::DEFAULT_MIME_TYPE, static::DEFAULT_DOCUMENT_TYPE];
+         
+        // $absolute_path = @is_file($path) ? $path : Storage::path($path);
+
+        // \Log::warning('FileService recognize called', [$path, $absolute_path]);
+
+        // $default = tap(new TypeIdentification(), function ($identification) use ($absolute_path) {
+        //     list($resolvedMime, $resolvedDocument) = FileHelper::type($absolute_path);
+        //     $identification->mimeType = $resolvedMime;
+        //     $identification->documentType = $resolvedDocument;
+        // });
+
+        // $identifiers = $this->getIdentifiersFor($default->mimeType);
+        
+        // $identifications = $this->executeIdentifiers($identifiers, $absolute_path, $default);
+        
+        // if (! $identifications->isEmpty()) {
+        //     $maxPriority = $identifications->max('priority');
+        //     $maxPriorityIdentifications = $identifications->where('priority', $maxPriority);
+
+        //     if ($maxPriorityIdentifications->count() == 1) {
+        //         return $maxPriorityIdentifications->first()['result']->toArray();
+        //     }
+
+        //     $groupedByIdentifiedType = $identifications->groupBy(function ($item, $key) {
+        //         return $item['result']->__toString();
+        //     });
+
+        //     $mostProbableType = $groupedByIdentifiedType->mapWithKeys(function ($value, $key) {
+        //         return [$value->count() => $key];
+        //     })->max();
+
+        //     return $groupedByIdentifiedType->get($mostProbableType)->first()['result']->toArray();
+        // }
+
+        // return $default->toArray();
+    }
+
+    /**
      * Return the file extension that corresponds to the given mime type and document type
      *
      * @param  string $mimeType the mime-type of the file
