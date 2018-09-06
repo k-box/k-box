@@ -29,9 +29,9 @@ class GeoServiceProviderTest extends TestCase
         
         $this->assertContains([
             "accept" => [
-                0 => "application/zip",
-                1 => "application/vnd.google-earth.kml+xml",
-                2 => "application/vnd.google-earth.kmz",
+                "application/zip",
+                "application/vnd.google-earth.kml+xml",
+                "application/vnd.google-earth.kmz",
               ],
               "priority" => 1,
               "mime" => "application/vnd.google-earth.kml+xml",
@@ -42,9 +42,9 @@ class GeoServiceProviderTest extends TestCase
         
         $this->assertContains([
             "accept" => [
-                0 => "application/zip",
-                1 => "application/vnd.google-earth.kml+xml",
-                2 => "application/vnd.google-earth.kmz",
+                "application/zip",
+                "application/vnd.google-earth.kml+xml",
+                "application/vnd.google-earth.kmz",
               ],
               "priority" => 1,
               "mime" => "application/vnd.google-earth.kmz",
@@ -55,8 +55,8 @@ class GeoServiceProviderTest extends TestCase
         
         $this->assertContains([
             "accept" => [
-                0 => "application/xml",
-                1 => "application/gpx+xml",
+                "application/xml",
+                "application/gpx+xml",
               ],
               "priority" => 1,
               "mime" => "application/gpx+xml",
@@ -67,41 +67,37 @@ class GeoServiceProviderTest extends TestCase
 
         $this->assertContains([
             "accept" => [
-              0 => "application/octet-stream",
-              1 => "image/tiff",
-              2 => "application/zip"
+              "application/octet-stream",
+              "application/zip"
             ],
             "priority" => 5,
             "mime" => "application/octet-stream",
             "doc" => "geodata",
             "extension" => "shp",
-            "identifier" => "KBox\Geo\TypeIdentifiers\GeoserverTypeIdentifier"
+            "identifier" => "KBox\Geo\TypeIdentifiers\ShapefileTypeIdentifier"
         ], Files::identifiers());
 
         $this->assertContains([
             "accept" => [
-              0 => "application/octet-stream",
-              1 => "image/tiff",
-              2 => "application/zip"
+              "image/tiff",
             ],
             "priority" => 5,
             "mime" => "image/tiff",
             "doc" => "geodata",
             "extension" => "tiff",
-            "identifier" => "KBox\Geo\TypeIdentifiers\GeoserverTypeIdentifier"
+            "identifier" => "KBox\Geo\TypeIdentifiers\GeoTiffTypeIdentifier"
           ], Files::identifiers());
 
         $this->assertContains([
             "accept" => [
-              0 => "application/octet-stream",
-              1 => "image/tiff",
-              2 => "application/zip"
+              "application/octet-stream",
+              "application/zip"
             ],
             "priority" => 5,
             "mime" => "application/zip",
             "doc" => "geodata",
             "extension" => "zip",
-            "identifier" => "KBox\Geo\TypeIdentifiers\GeoserverTypeIdentifier"
+            "identifier" => "KBox\Geo\TypeIdentifiers\ShapefileTypeIdentifier"
           ], Files::identifiers());
     }
 }

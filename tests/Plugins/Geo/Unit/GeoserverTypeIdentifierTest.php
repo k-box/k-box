@@ -3,9 +3,10 @@
 namespace Tests\Plugins\Geo\Unit;
 
 use Tests\TestCase;
-use KBox\Geo\TypeIdentifiers\GeoserverTypeIdentifier;
 use KBox\Documents\DocumentType;
 use KBox\Documents\TypeIdentification;
+use KBox\Geo\TypeIdentifiers\GeoTiffTypeIdentifier;
+use KBox\Geo\TypeIdentifiers\ShapefileTypeIdentifier;
 
 class GeoserverTypeIdentifierTest extends TestCase
 {
@@ -13,7 +14,7 @@ class GeoserverTypeIdentifierTest extends TestCase
     {
         $path = base_path('tests/data/shapefile.shp');
 
-        $identification = (new GeoserverTypeIdentifier())->identify($path, new TypeIdentification('application/octet-stream', DocumentType::BINARY));
+        $identification = (new ShapefileTypeIdentifier())->identify($path, new TypeIdentification('application/octet-stream', DocumentType::BINARY));
 
         $this->assertInstanceOf(TypeIdentification::class, $identification);
         $this->assertEquals(DocumentType::GEODATA, $identification->documentType);
@@ -24,7 +25,7 @@ class GeoserverTypeIdentifierTest extends TestCase
     {
         $path = base_path('tests/data/shapefile.zip');
 
-        $identification = (new GeoserverTypeIdentifier())->identify($path, new TypeIdentification('application/octet-stream', DocumentType::BINARY));
+        $identification = (new ShapefileTypeIdentifier())->identify($path, new TypeIdentification('application/octet-stream', DocumentType::BINARY));
 
         $this->assertInstanceOf(TypeIdentification::class, $identification);
         $this->assertEquals(DocumentType::GEODATA, $identification->documentType);
@@ -35,7 +36,7 @@ class GeoserverTypeIdentifierTest extends TestCase
     {
         $path = base_path('tests/data/geotiff.tiff');
 
-        $identification = (new GeoserverTypeIdentifier())->identify($path, new TypeIdentification('image/tiff', DocumentType::IMAGE));
+        $identification = (new GeoTiffTypeIdentifier())->identify($path, new TypeIdentification('image/tiff', DocumentType::IMAGE));
 
         $this->assertInstanceOf(TypeIdentification::class, $identification);
         $this->assertEquals(DocumentType::GEODATA, $identification->documentType);
