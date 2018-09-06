@@ -173,6 +173,7 @@ class ThumbnailsService
      */
     public function isSupported(File $file)
     {
+        \Log::warning('Thumbnail service isSupported', [$file->mime_type, $this->supportedMimeTypes()]);
         return in_array($file->mime_type, $this->supportedMimeTypes());
     }
 

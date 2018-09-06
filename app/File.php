@@ -407,7 +407,7 @@ class File extends Model
      */
     public function getDocumentTypeAttribute($value = null)
     {
-        list($mime, $documentType) = Files::recognize($this->path);
+        list($mime, $documentType) = Files::recognize($this->absolute_path);
         return $documentType;
     }
     

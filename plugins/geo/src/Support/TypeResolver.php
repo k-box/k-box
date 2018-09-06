@@ -4,6 +4,7 @@ namespace KBox\Geo\Support;
 
 use KBox\Geo\GeoType;
 use KBox\Geo\GeoFormat;
+use Illuminate\Support\Facades\Storage;
 use OneOffTech\GeoServer\Support\ZipReader;
 use JsonSchema\Validator as JsonSchemaValidator;
 use OneOffTech\GeoServer\Support\TypeResolver as GeoServerTypeResolver;
@@ -84,13 +85,14 @@ final class TypeResolver
      */
     public static function identify($path)
     {
-        list($format, $defaultType, $mimeType) = GeoServerTypeResolver::identify($path);
+        $absolute_path = @is_file($path) ? $path : Storage::path($path);
+        list($format, $defaultType, $mimeType) = GeoServerTypeResolver::identify($absolute_path);
 
         if ($mimeType === 'application/json' || $mimeType === 'text/plain') {
 
             // check if is a GeoJSON, but enclosed in a plain json/text file
             $validator = new JsonSchemaValidator;
-            $content = json_decode(file_get_contents($path));
+            $content = json_decode(file_get_contents($absolute_path));
             $schema = json_decode(file_get_contents(__DIR__ . '/../../schemas/geojson.json'));
 
             $result = $validator->validate($content, $schema);
@@ -105,7 +107,7 @@ final class TypeResolver
 
             // Check if KMZ, By definition in https://developers.google.com/kml/documentation/kmzarchives
             // a KMZ contains only a main KML file that ends with .kml extension
-            $containsKml = ZipReader::containsFile($path, '.kml');
+            $containsKml = ZipReader::containsFile($absolute_path, '.kml');
 
             if ($containsKml) {
                 $format = GeoFormat::KMZ;
@@ -117,7 +119,7 @@ final class TypeResolver
             // could be KML or GPX
 
             // check if KML tag is present
-            $data = join('', TextReader::readLines($path, 2));
+            $data = join('', TextReader::readLines($absolute_path, 2));
 
             if (strpos($data, '<kml') !== false) {
                 $format = GeoFormat::KML;
