@@ -9,10 +9,12 @@ use KBox\Plugins\PluginManager;
 use KBox\Documents\DocumentType;
 use KBox\Documents\Facades\Files;
 use Illuminate\Support\Facades\Route;
+use KBox\Documents\Facades\Thumbnails;
 use KBox\Geo\Actions\SyncWithGeoserver;
 use KBox\Geo\Listeners\RemoveFileFromGeoserver;
 use KBox\Geo\TypeIdentifiers\KmlTypeIdentifier;
 use KBox\Geo\TypeIdentifiers\GpxTypeIdentifier;
+use KBox\Geo\Thumbnails\GeoTiffThumbnailGenerator;
 use KBox\Geo\TypeIdentifiers\GeoJsonTypeIdentifier;
 use KBox\Geo\TypeIdentifiers\GeoTiffTypeIdentifier;
 use KBox\Geo\TypeIdentifiers\ShapefileTypeIdentifier;
@@ -62,6 +64,8 @@ class GeoServiceProvider extends Plugin
         DocumentElaboration::register(SyncWithGeoserver::class);
 
         $this->registerFileTypes();
+        
+        $this->registerThumbnailGenerators();
     }
 
     private function registerFileTypes()
@@ -73,5 +77,10 @@ class GeoServiceProvider extends Plugin
         Files::register('application/octet-stream', DocumentType::GEODATA, 'shp', ShapefileTypeIdentifier::class);
         Files::register('application/zip', DocumentType::GEODATA, 'zip', ShapefileTypeIdentifier::class);
         Files::register('image/tiff', DocumentType::GEODATA, 'tiff', GeoTiffTypeIdentifier::class);
+    }
+
+    private function registerThumbnailGenerators()
+    {
+        Thumbnails::register(GeoTiffThumbnailGenerator::class);
     }
 }
