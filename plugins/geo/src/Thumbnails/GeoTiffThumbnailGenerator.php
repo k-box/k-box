@@ -5,6 +5,7 @@ namespace KBox\Geo\Thumbnails;
 use Imagick;
 use KBox\File;
 use KBox\Documents\DocumentType;
+use KBox\Documents\Thumbnail\ThumbnailImage;
 use KBox\Documents\Contracts\ThumbnailGenerator;
 use Symfony\Component\Debug\Exception\FatalErrorException;
 
