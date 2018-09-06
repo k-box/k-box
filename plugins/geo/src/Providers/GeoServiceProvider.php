@@ -14,7 +14,8 @@ use KBox\Geo\Listeners\RemoveFileFromGeoserver;
 use KBox\Geo\TypeIdentifiers\KmlTypeIdentifier;
 use KBox\Geo\TypeIdentifiers\GpxTypeIdentifier;
 use KBox\Geo\TypeIdentifiers\GeoJsonTypeIdentifier;
-use KBox\Geo\TypeIdentifiers\GeoserverTypeIdentifier;
+use KBox\Geo\TypeIdentifiers\GeoTiffTypeIdentifier;
+use KBox\Geo\TypeIdentifiers\ShapefileTypeIdentifier;
 use KBox\DocumentsElaboration\Facades\DocumentElaboration;
 
 class GeoServiceProvider extends Plugin
@@ -69,8 +70,8 @@ class GeoServiceProvider extends Plugin
         Files::register('application/vnd.google-earth.kml+xml', DocumentType::GEODATA, 'kml', KmlTypeIdentifier::class);
         Files::register('application/vnd.google-earth.kmz', DocumentType::GEODATA, 'kmz', KmlTypeIdentifier::class);
         Files::register('application/gpx+xml', DocumentType::GEODATA, 'gpx', GpxTypeIdentifier::class);
-        Files::register('application/octet-stream', DocumentType::GEODATA, 'shp', GeoserverTypeIdentifier::class);
-        Files::register('image/tiff', DocumentType::GEODATA, 'tiff', GeoserverTypeIdentifier::class);
-        Files::register('application/zip', DocumentType::GEODATA, 'zip', GeoserverTypeIdentifier::class);
+        Files::register('application/octet-stream', DocumentType::GEODATA, 'shp', ShapefileTypeIdentifier::class);
+        Files::register('application/zip', DocumentType::GEODATA, 'zip', ShapefileTypeIdentifier::class);
+        Files::register('image/tiff', DocumentType::GEODATA, 'tiff', GeoTiffTypeIdentifier::class);
     }
 }

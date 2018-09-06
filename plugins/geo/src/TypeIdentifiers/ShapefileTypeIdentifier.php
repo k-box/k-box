@@ -10,9 +10,9 @@ use KBox\Geo\Support\TypeResolver;
 use KBox\Documents\TypeIdentification;
 use KBox\Documents\Exceptions\UnsupportedFileException;
 
-class GeoserverTypeIdentifier extends TypeIdentifier
+class ShapefileTypeIdentifier extends TypeIdentifier
 {
-    public $accept = ["application/octet-stream", "image/tiff", "application/zip"];
+    public $accept = ["application/octet-stream", "application/zip"];
 
     public $priority = 5;
 
@@ -20,7 +20,7 @@ class GeoserverTypeIdentifier extends TypeIdentifier
     {
         list($format, $type, $mimeType) = TypeResolver::identify($path);
 
-        if ($format === GeoFormat::GEOTIFF || $format === GeoFormat::SHAPEFILE || $format === GeoFormat::SHAPEFILE_ZIP) {
+        if ($format === GeoFormat::SHAPEFILE || $format === GeoFormat::SHAPEFILE_ZIP) {
             return new TypeIdentification($mimeType, DocumentType::GEODATA);
         }
 

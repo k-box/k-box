@@ -159,7 +159,7 @@ class FileService
 
         $identifiers = $this->getIdentifiersFor($default->mimeType);
         
-        $identifications = $this->executeIdentifiers($identifiers, $path, $default);
+        $identifications = $this->executeIdentifiers($identifiers, $absolute_path, $default);
         
         if (! $identifications->isEmpty()) {
             $maxPriority = $identifications->max('priority');
@@ -211,7 +211,11 @@ class FileService
 
     private function getIdentifiersFor($mimeType)
     {
-        return $this->identifiers->whereIn('accept', ['*', $mimeType]);
+        $matching = $this->identifiers->filter(function ($item) use ($mimeType) {
+            $accepted = array_wrap(data_get($item, 'accept'));
+            return in_array('*', $accepted) || in_array($mimeType, $accepted);
+        });
+        return $matching;
     }
 
     private function executeIdentifiers($identifiers, $path, $default)
