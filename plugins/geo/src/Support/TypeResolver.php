@@ -86,6 +86,7 @@ final class TypeResolver
     public static function identify($path)
     {
         $absolute_path = @is_file($path) ? $path : Storage::path($path);
+        \Log::warning('TypeResolver::identify', [$path, $absolute_path]);
         list($format, $defaultType, $mimeType) = GeoServerTypeResolver::identify($absolute_path);
 
         if ($mimeType === 'application/json' || $mimeType === 'text/plain') {

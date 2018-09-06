@@ -151,6 +151,8 @@ class FileService
     {
         $absolute_path = @is_file($path) ? $path : Storage::path($path);
 
+        \Log::warning('FileService recognize called', [$path, $absolute_path]);
+
         $default = tap(new TypeIdentification(), function ($identification) use ($absolute_path) {
             list($resolvedMime, $resolvedDocument) = FileHelper::type($absolute_path);
             $identification->mimeType = $resolvedMime;

@@ -18,6 +18,7 @@ class GeoTiffTypeIdentifier extends TypeIdentifier
 
     public function identify(string $path, TypeIdentification $default) : TypeIdentification
     {
+        \Log::warning('geotiff identifier called', func_get_args());
         list($format, $type, $mimeType) = TypeResolver::identify($path);
 
         if ($format === GeoFormat::GEOTIFF) {
