@@ -35,6 +35,19 @@ class GeoTiffThumbnailGeneratorTest extends TestCase
         }
     }
 
+    public function test_tiff_is_supported()
+    {
+        $path = base_path('tests/data/geotiff.tiff');
+
+        $generator = new GeoTiffThumbnailGenerator();
+
+        $file = $this->createFileForPath($path);
+
+        $isSupported = $generator->isSupported($file);
+
+        $this->assertTrue($isSupported, "tiff not supported");
+    }
+
     public function test_tiff_thumbnail_is_generated()
     {
         $path = base_path('tests/data/geotiff.tiff');

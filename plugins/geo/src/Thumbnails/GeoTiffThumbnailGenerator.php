@@ -33,7 +33,7 @@ class GeoTiffThumbnailGenerator implements ThumbnailGenerator
         if (! $this->isImagickSupportAvailable()) {
             return false;
         }
-        return in_array($file->mime_type, $this->supportedMimeTypes()) && ($file->document_type === DocumentType::IMGE || $file->document_type === DocumentType::GEODATA);
+        return in_array($file->mime_type, $this->supportedMimeTypes()) && ($file->document_type === DocumentType::IMAGE || $file->document_type === DocumentType::GEODATA);
     }
 
     public function supportedMimeTypes()
