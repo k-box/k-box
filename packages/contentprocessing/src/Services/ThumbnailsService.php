@@ -105,7 +105,7 @@ class ThumbnailsService
         $mimeTypes = collect($this->generators)->map(function ($generator) {
             return (new $generator())->supportedMimeTypes();
         })->flatten()->toArray();
-
+        
         return $this->supportedMimeTypes = $mimeTypes;
     }
 

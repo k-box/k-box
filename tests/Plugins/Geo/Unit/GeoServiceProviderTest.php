@@ -5,6 +5,7 @@ namespace Tests\Plugins\Geo\Unit;
 use Tests\TestCase;
 use KBox\Geo\Providers\GeoServiceProvider;
 use KBox\Documents\Facades\Files;
+use KBox\Documents\Facades\Thumbnails;
 
 class GeoServiceProviderTest extends TestCase
 {
@@ -99,5 +100,14 @@ class GeoServiceProviderTest extends TestCase
             "extension" => "zip",
             "identifier" => "KBox\Geo\TypeIdentifiers\ShapefileTypeIdentifier"
           ], Files::identifiers());
+    }
+
+    public function test_thumbnail_generators_are_registered()
+    {
+        $provider = new GeoServiceProvider(app());
+
+        $provider->register();
+
+        $this->assertContains('image/tiff', Thumbnails::supportedMimeTypes());
     }
 }
