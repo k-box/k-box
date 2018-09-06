@@ -164,7 +164,7 @@ class FileServiceTest extends TestCase
 
         Files::register("ateam/head", DocumentType::NOTE, "head", TestingMultipleAcceptedTypeIdentifier::class);
 
-        $type = Files::recognize(Storage::disk('local')->path($path));
+        $type = Files::recognize($path);
 
         $this->assertEquals(['ateam/head', DocumentType::NOTE], $type);
     }

@@ -614,9 +614,10 @@ class File extends Model
             // double checking, guess the mime type and evaluate the mime type from
             // the list of known mime types, if different use the known one
             $guessed_mime_type = $upload->getMimeType();
-            
-            list($fallback_mime_type, $documentType) = Files::recognize($filename);
-            
+
+            \Log::warning('Upload before Files::recognize', [$upload->getPathname(), $guessed_mime_type]);
+            list($fallback_mime_type, $documentType) = Files::recognize($upload->getPathname());
+            \Log::warning('Upload after Files::recognize', compact('fallback_mime_type', 'documentType'));
             $mime = $fallback_mime_type === $guessed_mime_type ? $guessed_mime_type : $fallback_mime_type;
             
             $hash_name = substr($upload->hashName(), 0, 40).'.'.Files::extensionFromType($mime, $documentType); // because Laravel generates a 40 chars random name
