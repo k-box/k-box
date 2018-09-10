@@ -7,4 +7,4 @@ In this section, the following aspects are covered:
 - [Users management](./users.md)
 - [Project management](../projects/index.md)
 - [Identity](./identity.md)
-- [Licenses](./documents/licenses.md)
+- [Licenses](.../documents/licenses.md)
