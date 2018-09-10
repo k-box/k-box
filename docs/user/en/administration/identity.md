@@ -1,10 +1,7 @@
-# Overview
+# Identity
 
 _Only users with permissions of project manager and higher can perform operations described below. Please contact your Project Administrator via email, indicating your interest in any of the points._
 
-In this section, the following aspects are covered:
+Organizations can share information about their projects, using [Microsites](../microsite/index.md). 
 
-- [Users management]()
-- [Project management](../projects/index.md)
-- [Identity]()
-- [Licenses](.../documents/licenses.md)
+The ownership over K-Box can be expressed through the [Contacts](./contacts.md) page
