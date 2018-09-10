@@ -10,4 +10,4 @@ meta-data. The information available is usually:
 
 By clicking on a doc, it is possible to consult this information:
 
-![Document meta-data](img/document-meta.png)
+![Document meta-data](../en/img/document-meta.png)
