@@ -5,3 +5,4 @@ This page provides an overview of:
  - [Upload and Edit files](./upload-edit.md)
  - Share
  - Publication
+ - Licenses
