@@ -16,13 +16,17 @@ A document `D1` (uploaded by user `U`) is considered a duplicate, of `D2`, if:
 In all other cases the upload is allowed. As an example you can re-upload a previous version of an existing document or two users can upload the same file in their personal space.
 
 
-### What to do after a duplicate is found
+### What to do when duplicate is reported?
 
-When a duplicate is found, the edit page of the newly uploaded copy will show a "Duplicate" section. In that section the list of duplicates, with uploader and collection is reported.
+####  <a id="resolve"></a>Resolve
 
-From the duplicate list you can decide if the existing one should be the only copy in the system. You can also ignore the duplication notice.
+_Note: This is only possible by the uploader of the duplicate_
+
+Click on file to get to document details panel. Select "Duplicates" and "Resolve duplicate using this, already existing, document".
 
 In case a duplicate is resolved by using the existing document, eventual collections applied to the duplicate are applied also to the existing document.
 
-> The owner of the existing document will not change. According to your permission levels the owner will be able to deny you the access to the document at any given time
+The owner of the existing document will not change. According to your permission levels the owner will be able to deny you the access to the document at any given time
 
+#### Ignore
+ You can also disregard the duplication notice.
