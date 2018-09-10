@@ -22,20 +22,6 @@ By clicking on this link, the list part on the right will display all the files
 you starred. Starring is a good way to maintain an easy access on the files you
 care about.
 
-## Meta-data
-When a document is uploaded, information about it is gathered. It is called
-meta-data. The information available is usually:
-* Collections to which the document is assigned
-* Its author or authors
-* Its main contact
-* Its language
-* Date it was added
-* Uploader
-
-By clicking on a doc, it is possible to consult this information:
-
-![Document meta-data](img/document-meta.png)
-
 ## Navigate in collections
 
 In order to go from a collection to another, you simply need to click on the
