@@ -1,5 +1,7 @@
 ## Upload
 
+To add a new document, select the collection or sub-collection in which the document will be stored.
+
 There are several options for uploading a file into K-Box.
 
 1. For videos use the "Create or Add"  → “Video uploader" option
