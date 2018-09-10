@@ -17,7 +17,7 @@ There are several options for uploading a file into K-Box:
 
 The K-Box offer special support for mp4 video files encoded with H.264 codec (with AAC or MP3 audio). The minimum supported resolution is 480x360 pixels. The maximum supported resolution is 1920x1080 pixels.
  
-## Edit meta-data
+## <a id="edit"></a>Edit meta-data
 
 By clicking on a document, you access its [meta-information](./meta-data.md).
 
