@@ -39,9 +39,9 @@ final class PreviewService extends ExtendableFileElaborationService
             throw UnsupportedFileException::file($file);
         }
 
-        $generator = $this->driverFor($file);
+        $driver = $this->driverFor($file);
 
-        return $generator->render($file);
+        return $driver->preview($file);
     }
 
     /**

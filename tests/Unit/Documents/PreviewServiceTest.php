@@ -7,7 +7,7 @@ use Tests\TestCase;
 use KBox\Documents\Facades\Previews;
 use KBox\Documents\Services\PreviewService;
 use KBox\Documents\Contracts\PreviewDriver;
-use KBox\Documents\Contracts\Previewable;
+use Illuminate\Contracts\Support\Renderable;
 use KBox\Documents\Exceptions\UnsupportedFileException;
 use KBox\Documents\Exceptions\InvalidDriverException;
 
@@ -85,7 +85,7 @@ class PreviewServiceTest extends TestCase
 
         $preview = Previews::preview($file);
 
-        $this->assertInstanceOf(Previewable::class, $preview);
+        $this->assertInstanceOf(Renderable::class, $preview);
     }
     
     public function test_unsupported_exception_thrown_if_file_not_supported()
@@ -100,7 +100,7 @@ class PreviewServiceTest extends TestCase
     }
 }
 
-class TestPreviewable implements Previewable
+class TestPreviewable implements Renderable
 {
     private $file;
 
@@ -117,7 +117,7 @@ class TestPreviewable implements Previewable
 
 class TestPreviewDriver implements PreviewDriver
 {
-    public function render(File $file) : Previewable
+    public function preview(File $file) : Renderable
     {
         return new TestPreviewable($file);
     }

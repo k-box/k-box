@@ -3,6 +3,7 @@
 namespace KBox\Documents\Contracts;
 
 use KBox\File;
+use Illuminate\Contracts\Support\Renderable;
 
 /**
  * Preview Driver interface.
@@ -13,12 +14,12 @@ use KBox\File;
 interface PreviewDriver
 {
     /**
-     * Render a File into a viewable preview
+     * Creates a File preview into a renderable object
      *
      * @param KBox\File $file the file to generate the preview for
      * @return KBox\Documents\Contracts\Previewable
      */
-    public function render(File $file) : Previewable;
+    public function preview(File $file) : Renderable;
 
     /**
      * Check if a given File is supported by the preview driver
