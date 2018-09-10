@@ -39,7 +39,7 @@ _Filters_
 
 The filters for public networks will also include licensing information.
 
-![Filters](./img/license-filters.PNG)
+![Filters](./img/license-filters.png)
 
 ### When should I indicate a license or copyright owner information?
 
