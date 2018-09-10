@@ -46,9 +46,9 @@ return [
     'password_section' => 'Сырсөздү өзгөртүү',
     'language_section' => 'Интерфейстин тилин өзгөртүү',
 
-    'starred_count_label' => 'Тандалмада документ :number ',
-    'documents_count_label' => 'Жүктөлгөн документ :number ',
-    'collections_count_label' => 'Коллекция түзүлгөн :number ',
+    'starred_count_label' => 'Тандалмада документтер :number ',
+    'documents_count_label' => 'Жүктөлгөн документтер :number ',
+    'collections_count_label' => 'Коллекция түзүлдү :number ',
     'shared_count_label' => 'Бөлүшкөн документтер :number',
 
 ];
