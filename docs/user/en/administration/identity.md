@@ -5,3 +5,7 @@ _Only users with permissions of project manager and higher can perform operation
 Organizations can share information about their projects, using [Microsites](../microsite/index.md). 
 
 The ownership over K-Box can be expressed through the [Contacts](./contacts.md) page
+
+## Previous: [Overview](./intro.md)            
+
+## Next: [Licenses](.../documents/licenses.md)

@@ -4,7 +4,7 @@ _Only users with permissions of project manager and higher can perform operation
 
 In this section, the following aspects are covered:
 
-- [Users management]()
+- [Users management](./users.md)
 - [Project management](../projects/index.md)
-- [Identity]()
+- [Identity](./identity.md)
 - [Licenses](.../documents/licenses.md)
