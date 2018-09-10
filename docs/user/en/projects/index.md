@@ -68,7 +68,6 @@ The add users to the project section can be used to add new members to the proje
 
 At the bottom of the edit page you can see the _Current members list_ that shows the users already added to the project and enable the removal of those users.
 
-
 ## Deleting a project
 
 Currently a project cannot be deleted.
@@ -76,3 +75,5 @@ Currently a project cannot be deleted.
 ## [Microsites](../microsite/index.md)
 
 A project can have a single website. Check the [Microsite section](../microsite/index.md) for more info.
+
+## [Work with documents](.../documents/work-with-documents.md)

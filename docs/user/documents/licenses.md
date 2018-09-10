@@ -19,3 +19,5 @@ The copyright owner and license information should be indicated as soon as a wor
 ### Custom license
 
 If you miss a license, which is not listed under available options, contact K-Box Administrator and provide as much information as possible about it.
+
+## Previous: [Overview](./work-with-documents.md)            

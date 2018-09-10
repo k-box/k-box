@@ -5,7 +5,7 @@ There are several options for uploading a file into K-Box.
 1. For videos use the "Create or Add"  → “Video uploader" option
 2. For any other file, use “Create or Add” → “File” or simply drag and drop 
 
-### Supported video formats
+#### Supported video formats
 
 The K-Box offer special support for mp4 video files encoded with H.264 codec (with AAC or MP3 audio). The minimum supported resolution is 480x360 pixels. The maximum supported resolution is 1920x1080 pixels.
  
@@ -20,3 +20,6 @@ Click on your file to get an overview of all assigned collections. To add a file
 
 Hit the “X” symbol to remove collection.
 
+## Previous: [Overview](./work-with-documents.md)            
+
+## Next: [Share](./share.md)

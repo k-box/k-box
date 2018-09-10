@@ -11,3 +11,7 @@ meta-data. The information available is usually:
 By clicking on a doc, it is possible to consult this information:
 
 ![Document meta-data](../en/img/document-meta.png)
+
+## Previous: [Overview](./work-with-documents.md)            
+
+## Next: [Upload and Edit files](./upload-edit.md)
