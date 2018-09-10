@@ -12,7 +12,7 @@ The K-Box offer special support for mp4 video files encoded with H.264 codec (wi
 ## Edit file meta-data
 
 Click on the file to get to get to its details panel. 
-Select "Edit" to change title, author, language, version, [resolve duplicates]() or assign license to your file.
+Select "Edit" to change title, author, language, version, [resolve duplicates](https://git.klink.asia/main/k-box/blob/Update-Help-Project-section/docs/user/documents/duplicates.md#resolve) or assign license to your file.
 
 ## Organization of files
 
