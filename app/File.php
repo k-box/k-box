@@ -453,14 +453,14 @@ class File extends Model
     }
 
     /**
-     * Check with the Preview Service if the file is supported
+     * Check the file can be previewed
      *
-     * @see \KBox\Documents\Services\PreviewService::isFileSupported
+     * @see \KBox\Documents\Services\PreviewService::isSupported
      * @return boolean
      */
     public function canBePreviewed()
     {
-        return app(PreviewService::class)->isFileSupported($this->path);
+        return app(PreviewService::class)->isSupported($this);
     }
 
     /**
