@@ -15,7 +15,7 @@ These menus help to quickly access documents important to you.
 By clicking on this link, the list part on the right will display all the documents recently modified or added by you and your colleagues 
 in accessible project and private collections. 
 
-## Starred
+## <a id="starred"></a>Starred
 ![Starred documents menu](img/starred-docs.png)  
 
 By clicking on this link, the list part on the right will display all the files

@@ -1,4 +1,5 @@
 # Microsites
+_Only users with permissions of project manager and higher can perform operations described below. Please contact your Project Administrator via email, indicating your interest in any of the points._
 
 With the usage of Microsite(beta) you can create a single page website for your project. On that page you can put text, images and links.
 
@@ -130,3 +131,6 @@ The deletion of a microsite can be performed only by the Project Administrator, 
 
 Once you hit _Remove_ the Microsite will be permanently deleted and the URL will not be reachable anymore.
 
+## Previous: [Overview](../administration/intro.md)            
+
+## Next: [Contacts](../administration/contacts.md)
