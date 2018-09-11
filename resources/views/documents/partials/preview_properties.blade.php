@@ -33,9 +33,9 @@
 			'user_can_edit_public_groups' => false,
 			'user_can_edit_private_groups' => false,
 			'document_id' =>  $document->id,
-			'collections' => $groups,
-			'use_groups_page' => $use_groups_page,
-			'is_in_collection' => isset($is_in_collection) && $is_in_collection 
+			'collections' => $groups ?? null,
+			'use_groups_page' => $use_groups_page ?? false,
+			'is_in_collection' => $is_in_collection ?? false
 		])
 	</div>
 	

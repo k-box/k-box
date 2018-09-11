@@ -92,17 +92,17 @@ class DocumentPreviewController extends DocumentAccessController
             $preview_errors = trans('documents.preview.not_supported');
         } catch (PreviewGenerationException $pex) {
             Log::error('Preview Generation, failure', ['error' => $pex, 'file' => $file]);
-            $preview_errors = trans('documents.preview.error', ['document' => $document->title]);
+            $preview_errors = trans('documents.preview.error', ['document' => $doc->title]);
         } catch (Exception $pex) {
             Log::error('Preview Generation, failure', ['error' => $pex, 'file' => $file]);
-            $preview_errors = trans('documents.preview.error', ['document' => $document->title]);
+            $preview_errors = trans('documents.preview.error', ['document' => $doc->title]);
         } catch (Throwable $pex) {
             Log::error('Preview Generation, failure', ['error' => $pex, 'file' => $file]);
-            $preview_errors = trans('documents.preview.error', ['document' => $document->title]);
+            $preview_errors = trans('documents.preview.error', ['document' => $doc->title]);
         }
 
         return view('documents.preview', array_merge($view_data, [
-            'preview_errors' => $errors,
+            'preview_errors' => $preview_errors,
         ]));
     }
 }
