@@ -12,7 +12,7 @@ return [
 
     'collections' => [
         'title'        => 'Коллекция',
-        'personal_title' => 'Менин коллекцияларым',
+        'personal_title' => 'Коллекцияларым',
         'private_title' => 'Проекттер',
         'description'   => 'Коллекция аркылуу документтериңиз өз жайында болот',
         
