@@ -1,23 +1,35 @@
 <?php
 
-use Tests\BrowserKitTestCase;
-use KBox\Documents\Preview\SpreadsheetPreview;
-use KBox\Documents\FileProperties;
+namespace Tests\Unit\Documents\PreviewDriver;
 
-class SpreadsheetPreviewTest extends BrowserKitTestCase
+use Tests\TestCase;
+use KBox\File;
+use KBox\Documents\FileHelper;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
+use KBox\Documents\Preview\SpreadsheetPreview;
+
+class SpreadsheetPreviewTest extends TestCase
 {
+    use DatabaseTransactions;
+
+    protected function createFileForPath($path)
+    {
+        list($mimeType) = FileHelper::type($path);
+
+        return factory(File::class)->create([
+            'path' => $path,
+            'mime_type' => $mimeType
+        ]);
+    }
+    
     public function testConvertCsvToHtml()
     {
         $path = __DIR__.'/data/csv1.csv';
 
-        $preview = (new SpreadsheetPreview())->load($path);
-        $html = $preview->html();
+        $preview = (new SpreadsheetPreview())->preview($this->createFileForPath($path));
+        $html = $preview->render();
 
         $this->assertInstanceOf(SpreadsheetPreview::class, $preview);
-        $this->assertNotNull($preview->css());
-        $this->assertNotNull($preview->properties());
-        $this->assertInstanceOf(FileProperties::class, $preview->properties());
-        $this->assertNotNull($html);
         $this->assertNotEmpty($html);
         $this->assertContains('second', $html);
         $this->assertContains('line', $html);
@@ -28,14 +40,10 @@ class SpreadsheetPreviewTest extends BrowserKitTestCase
     {
         $path = __DIR__.'/data/spreadsheet.xlsx';
 
-        $preview = (new SpreadsheetPreview())->load($path);
-        $html = $preview->html();
+        $preview = (new SpreadsheetPreview())->preview($this->createFileForPath($path));
+        $html = $preview->render();
 
         $this->assertInstanceOf(SpreadsheetPreview::class, $preview);
-        $this->assertNotNull($preview->css());
-        $this->assertNotNull($preview->properties());
-        $this->assertInstanceOf(FileProperties::class, $preview->properties());
-        $this->assertNotNull($html);
         $this->assertNotEmpty($html);
         $this->assertContains('preview__render preview__render--spreadsheet', $html);
     }

@@ -246,6 +246,7 @@ return [
         'google_file_disclaimer_alt' => 'This is a Google Drive file and cannot be previewed here.',
         'open_in_google_drive_btn' => 'Open in Google Drive',
         'video_not_ready' => 'The video is being processed. It will be available within seconds.',
+        'file_not_ready' => 'The file is being processed by the K-Box. During file processing the preview is not available, please check back later.',
     ],
 
     'versions' => [

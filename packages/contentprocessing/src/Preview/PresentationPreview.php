@@ -2,7 +2,6 @@
 
 namespace KBox\Documents\Preview;
 
-use KBox\Documents\Contracts\Preview as PreviewContract;
 use KBox\Documents\Presentation\SlideRenderer;
 use KBox\Documents\Presentation\Reader\PowerPoint2007;
 use KBox\Documents\Presentation\PresentationProperties;
@@ -10,11 +9,13 @@ use KBox\Documents\Presentation\PresentationProperties;
 use PhpOffice\PhpPresentation\IOFactory;
 use PhpOffice\PhpPresentation\DocumentLayout;
 use PhpOffice\PhpPresentation\PhpPresentation;
+use KBox\File;
+use Illuminate\Contracts\Support\Renderable;
 
 /**
  *
  */
-class PresentationPreview implements PreviewContract
+class PresentationPreview extends BasePreviewDriver implements Renderable
 {
     private $path = null;
 
@@ -33,7 +34,7 @@ class PresentationPreview implements PreviewContract
     {
     }
 
-    public function load($path)
+    protected function load($path)
     {
         $this->path = $path;
         // $pptReader = IOFactory::createReader('PowerPoint2007');
@@ -43,12 +44,14 @@ class PresentationPreview implements PreviewContract
         return $this;
     }
 
-    public function css()
+    public function preview(File $file) : Renderable
     {
-        return null;
+        $this->load($file->absolute_path);
+
+        return $this;
     }
 
-    public function html()
+    public function render()
     {
 
         // Fetch slides
@@ -82,7 +85,7 @@ class PresentationPreview implements PreviewContract
     /**
      * The hierarchy of the presentation
      */
-    public function getNavigation()
+    protected function getNavigation()
     {
         $this->load();
 
@@ -112,7 +115,7 @@ class PresentationPreview implements PreviewContract
      *
      * @return PresentationProperties
      */
-    public function properties()
+    protected function properties()
     {
         $properties = $this->presentation->getDocumentProperties();
 
@@ -137,7 +140,12 @@ class PresentationPreview implements PreviewContract
 
     public function supportedMimeTypes()
     {
-        return [];
+        return [
+            'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+            'application/vnd.openxmlformats-officedocument.presentationml.slideshow',
+            'application/vnd.openxmlformats-officedocument.presentationml.template',
+            'application/vnd.oasis.opendocument.presentation',
+        ];
     }
 
     protected function toClassName($string)

@@ -65,20 +65,18 @@ class DocumentPreviewController extends DocumentAccessController
         $preview = null;
 
         try {
-            if ($doc->isFileUploadComplete()) {
-                $preview = $this->previewService->load($file->absolute_path, $extension);
+            if ($doc->isFileUploadComplete() && $doc->status === DocumentDescriptor::STATUS_COMPLETED) {
+                $preview = $this->previewService->preview($file);
 
-                $properties = $preview->properties();
-
-                $render = $preview->html();
+                $render = $preview->render();
             }
         } catch (UnsupportedFileException $pex) {
         } catch (PreviewGenerationException $pex) {
-            \Log::error('KlinkApiController - Preview Generation, using PreviewService, failure', ['error' => $pex, 'file' => $file]);
+            Log::error('Preview Generation, failure', ['error' => $pex, 'file' => $file]);
         } catch (Exception $pex) {
-            \Log::error('KlinkApiController - Preview Generation, using PreviewService, failure', ['error' => $pex, 'file' => $file]);
+            Log::error('Preview Generation, failure', ['error' => $pex, 'file' => $file]);
         } catch (Throwable $pex) {
-            \Log::error('KlinkApiController - Preview Generation, using PreviewService, failure', ['error' => $pex, 'file' => $file]);
+            Log::error('Preview Generation, failure', ['error' => $pex, 'file' => $file]);
         }
 
         return view('documents.preview', [
@@ -88,8 +86,9 @@ class DocumentPreviewController extends DocumentAccessController
             'type' =>  $file->document_type,
             'mime_type' =>  $file->mime_type,
             'render' => $render,
+            'previewable' => $preview,
             'extension' => $extension,
-            'body_classes' => 'preview '.$file->mime_type,
+            'body_classes' => "preview $file->mime_type",
             'filename_for_download' => $version ? $version->name : $doc->title,
             'pagetitle' => trans('documents.preview.page_title', ['document' => $doc->title]),
         ]);

@@ -2,14 +2,15 @@
 
 namespace KBox\Documents\Preview;
 
-use KBox\Documents\Contracts\Preview as PreviewContract;
 use PhpOffice\PhpWord\IOFactory;
 use KBox\Documents\FileProperties;
+use KBox\File;
+use Illuminate\Contracts\Support\Renderable;
 
 /**
  * Word processing document preview
  */
-class WordDocumentPreview implements PreviewContract
+class WordDocumentPreview extends BasePreviewDriver implements Renderable
 {
     private $path = null;
 
@@ -38,12 +39,14 @@ class WordDocumentPreview implements PreviewContract
         return $this;
     }
 
-    public function css()
+    public function preview(File $file) : Renderable
     {
-        return null;
+        $this->load($file->absolute_path);
+
+        return $this;
     }
 
-    public function html()
+    public function render()
     {
         $content = $this->writer->getWriterPart('Body')->write();
         
@@ -77,6 +80,9 @@ class WordDocumentPreview implements PreviewContract
 
     public function supportedMimeTypes()
     {
-        return [];
+        return [
+            'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            'application/vnd.openxmlformats-officedocument.wordprocessingml.template',
+        ];
     }
 }

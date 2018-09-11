@@ -10,6 +10,12 @@ use Illuminate\Contracts\Support\Renderable;
 use KBox\Documents\Contracts\PreviewDriver;
 use KBox\Documents\Exceptions\InvalidDriverException;
 use KBox\Documents\Exceptions\UnsupportedFileException;
+use KBox\Documents\Preview\GoogleDrivePreview;
+use KBox\Documents\Preview\MarkdownPreview;
+use KBox\Documents\Preview\PresentationPreview;
+use KBox\Documents\Preview\WordDocumentPreview;
+use KBox\Documents\Preview\TextPreview;
+use KBox\Documents\Preview\SpreadsheetPreview;
 
 /**
  * Preview service
@@ -24,7 +30,14 @@ final class PreviewService extends ExtendableFileElaborationService
      *
      * @var array
      */
-    protected $drivers = [];
+    protected $drivers = [
+        TextPreview::class,
+        MarkdownPreview::class,
+        WordDocumentPreview::class,
+        PresentationPreview::class,
+        SpreadsheetPreview::class,
+        GoogleDrivePreview::class,
+    ];
 
     /**
      * Generate a File preview

@@ -10,6 +10,12 @@ use KBox\Documents\Contracts\PreviewDriver;
 use Illuminate\Contracts\Support\Renderable;
 use KBox\Documents\Exceptions\UnsupportedFileException;
 use KBox\Documents\Exceptions\InvalidDriverException;
+use KBox\Documents\Preview\GoogleDrivePreview;
+use KBox\Documents\Preview\MarkdownPreview;
+use KBox\Documents\Preview\PresentationPreview;
+use KBox\Documents\Preview\WordDocumentPreview;
+use KBox\Documents\Preview\TextPreview;
+use KBox\Documents\Preview\SpreadsheetPreview;
 
 class PreviewServiceTest extends TestCase
 {
@@ -51,7 +57,14 @@ class PreviewServiceTest extends TestCase
 
         $drivers = Previews::drivers();
 
-        $this->assertEquals([], $drivers);
+        $this->assertEquals([
+            TextPreview::class,
+            MarkdownPreview::class,
+            WordDocumentPreview::class,
+            PresentationPreview::class,
+            SpreadsheetPreview::class,
+            GoogleDrivePreview::class,
+        ], $drivers);
     }
 
     public function test_driver_can_be_registered()
@@ -71,7 +84,26 @@ class PreviewServiceTest extends TestCase
     {
         $mimeTypes = Previews::supportedMimeTypes();
 
-        $this->assertEquals([], $mimeTypes);
+        $this->assertEquals([
+            'text/plain',
+            'text/x-markdown',
+            'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            'application/vnd.openxmlformats-officedocument.wordprocessingml.template',
+            'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+            'application/vnd.openxmlformats-officedocument.presentationml.slideshow',
+            'application/vnd.openxmlformats-officedocument.presentationml.template',
+            'application/vnd.oasis.opendocument.presentation',
+            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            'application/vnd.openxmlformats-officedocument.spreadsheetml.template',
+            'text/csv',
+            'text/tab-separated-values',
+            'application/vnd.google-apps.document',
+            'application/vnd.google-apps.drawing',
+            'application/vnd.google-apps.form',
+            'application/vnd.google-apps.fusiontable',
+            'application/vnd.google-apps.presentation',
+            'application/vnd.google-apps.spreadsheet',
+        ], $mimeTypes);
     }
 
     public function test_generator_usage()

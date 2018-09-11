@@ -1,21 +1,37 @@
 <?php
 
-use Tests\BrowserKitTestCase;
-use KBox\Documents\Preview\GoogleDrivePreview;
+namespace Tests\Unit\Documents\PreviewDriver;
 
-class GoogleDrivePreviewTest extends BrowserKitTestCase
+use Tests\TestCase;
+use KBox\File;
+use KBox\Documents\FileHelper;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
+use KBox\Documents\Preview\GoogleDrivePreview;
+use Illuminate\Contracts\Support\Renderable;
+
+class GoogleDrivePreviewTest extends TestCase
 {
-    public function testConvertGDocToHtml()
+    use DatabaseTransactions;
+
+    protected function createFileForPath($path)
+    {
+        list($mimeType) = FileHelper::type($path);
+
+        return factory(File::class)->create([
+            'path' => $path,
+            'mime_type' => $mimeType
+        ]);
+    }
+
+    public function test_preview_gdoc()
     {
         $path = __DIR__.'/data/example-file.gdoc';
 
-        $preview = (new GoogleDrivePreview())->load($path);
-        $html = $preview->html();
+        $preview = (new GoogleDrivePreview())->preview($this->createFileForPath($path));
+        $html = $preview->render();
 
         $this->assertInstanceOf(GoogleDrivePreview::class, $preview);
-        $this->assertNull($preview->css());
-        $this->assertNull($preview->properties());
-        $this->assertNotNull($html);
+        $this->assertInstanceOf(Renderable::class, $preview);
         $this->assertNotEmpty($html);
         $this->assertContains('https://docs.google.com/open?id=FAKE_ID', $html);
         $this->assertContains(trans('documents.preview.open_in_google_drive_btn'), $html);
@@ -23,17 +39,15 @@ class GoogleDrivePreviewTest extends BrowserKitTestCase
         $this->assertContains('preview__render preview__render--googledrive', $html);
     }
     
-    public function testConvertGSlidesToHtml()
+    public function test_preview_gslides()
     {
         $path = __DIR__.'/data/example-presentation.gslides';
 
-        $preview = (new GoogleDrivePreview())->load($path);
-        $html = $preview->html();
+        $preview = (new GoogleDrivePreview())->preview($this->createFileForPath($path));
+        $html = $preview->render();
 
         $this->assertInstanceOf(GoogleDrivePreview::class, $preview);
-        $this->assertNull($preview->css());
-        $this->assertNull($preview->properties());
-        $this->assertNotNull($html);
+        $this->assertInstanceOf(Renderable::class, $preview);
         $this->assertNotEmpty($html);
         $this->assertContains('https://docs.google.com/open?id=FAKE_ID', $html);
         $this->assertContains(trans('documents.preview.open_in_google_drive_btn'), $html);
@@ -41,17 +55,15 @@ class GoogleDrivePreviewTest extends BrowserKitTestCase
         $this->assertContains('preview__render preview__render--googledrive', $html);
     }
     
-    public function testConvertGSheetToHtml()
+    public function test_preview_gsheet()
     {
         $path = __DIR__.'/data/example-spreadsheet.gsheet';
 
-        $preview = (new GoogleDrivePreview())->load($path);
-        $html = $preview->html();
+        $preview = (new GoogleDrivePreview())->preview($this->createFileForPath($path));
+        $html = $preview->render();
 
         $this->assertInstanceOf(GoogleDrivePreview::class, $preview);
-        $this->assertNull($preview->css());
-        $this->assertNull($preview->properties());
-        $this->assertNotNull($html);
+        $this->assertInstanceOf(Renderable::class, $preview);
         $this->assertNotEmpty($html);
         $this->assertContains('https://docs.google.com/open?id=FAKE_ID', $html);
         $this->assertContains(trans('documents.preview.open_in_google_drive_btn'), $html);

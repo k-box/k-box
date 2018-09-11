@@ -2,14 +2,15 @@
 
 namespace KBox\Documents\Preview;
 
-use KBox\Documents\Contracts\Preview as PreviewContract;
+use KBox\File;
+use Illuminate\Contracts\Support\Renderable;
 use Markdown;
 
 /**
  * Markdown preview.
  * Read markdown text files
  */
-class MarkdownPreview implements PreviewContract
+class MarkdownPreview extends BasePreviewDriver implements Renderable
 {
     private $path = null;
 
@@ -19,7 +20,7 @@ class MarkdownPreview implements PreviewContract
     {
     }
 
-    public function load($path)
+    protected function load($path)
     {
         $this->path = $path;
 
@@ -28,12 +29,14 @@ class MarkdownPreview implements PreviewContract
         return $this;
     }
 
-    public function css()
+    public function preview(File $file) : Renderable
     {
-        return null;
+        $this->load($file->absolute_path);
+
+        return $this;
     }
 
-    public function html()
+    public function render()
     {
         $content = $this->reader->extract('text/x-markdown', $this->path);
                  
@@ -42,13 +45,10 @@ class MarkdownPreview implements PreviewContract
         return sprintf('<div class="preview__render preview__render--text">%1$s</div>', $content);
     }
 
-    public function properties()
-    {
-        return null;
-    }
-
     public function supportedMimeTypes()
     {
-        return [];
+        return [
+            'text/x-markdown'
+        ];
     }
 }
