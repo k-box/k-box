@@ -39,7 +39,7 @@ The user list field has search capabilities, if you start writing the name of a 
 
 After inserting the project name, press the _Create Project_ button that is at the very bottom of the page.
 
-## Project details
+## <a id="prjDetails"></a>Project details
 
 This page shows at a glance the members of the project and the personalization options, like the Microsite (Check the [Microsite section](../microsite/index.md) for more info).
 
