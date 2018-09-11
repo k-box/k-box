@@ -9,5 +9,5 @@ In this section, the following aspects are covered:
 - [Identity](./identity.md)
 - [Licenses](.../documents/licenses.md)
 
-## Previous: [Start](.../landing-page.md)
+## Previous: [Start](https://git.klink.asia/main/k-box/blob/Update-Help-Project-section/docs/user/landing-page.md)
 ## Next: [Users management](./users.md)
