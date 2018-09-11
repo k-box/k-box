@@ -18,7 +18,6 @@ class GeoFile extends BaseGeoFile
 {
     public function __construct($path)
     {
-        parent::__construct($path);
         $this->file = new SplFileInfo($path);
 
         list($format, $type, $mimeType) = TypeResolver::identify($path);

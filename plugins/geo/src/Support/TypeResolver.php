@@ -6,6 +6,7 @@ use KBox\Geo\GeoType;
 use KBox\Geo\GeoFormat;
 use Illuminate\Support\Facades\Storage;
 use OneOffTech\GeoServer\Support\ZipReader;
+use OneOffTech\GeoServer\Support\TextReader;
 use JsonSchema\Validator as JsonSchemaValidator;
 use OneOffTech\GeoServer\Support\TypeResolver as GeoServerTypeResolver;
 
@@ -20,13 +21,10 @@ use OneOffTech\GeoServer\Support\TypeResolver as GeoServerTypeResolver;
 final class TypeResolver
 {
     protected static $mimeTypes = [
-        // GeoFormat::SHAPEFILE => 'application/octet-stream', // shapefile
-        // GeoFormat::SHAPEFILE_ZIP => 'application/zip', // shapefile in ZIP container
         GeoFormat::GEOJSON => 'application/geo+json', // geojson
         GeoFormat::KML => 'application/vnd.google-earth.kml+xml', // Keyhole Markup Language
         GeoFormat::KMZ => 'application/vnd.google-earth.kmz', // KML in ZIP container
         GeoFormat::GPX => 'application/gpx+xml', // GPS eXchange Format
-        // GeoFormat::GEOTIFF => 'image/tiff', // geotiff
     ];
     
     protected static $mimeTypeToFormat = [
@@ -37,25 +35,18 @@ final class TypeResolver
     ];
 
     protected static $typesMap = [
-        // GeoFormat::SHAPEFILE => GeoType::VECTOR,
-        // GeoFormat::SHAPEFILE_ZIP => GeoType::VECTOR,
-        // GeoFormat::GEOJSON => GeoType::VECTOR,
+        GeoFormat::GEOJSON => GeoType::VECTOR,
         GeoFormat::KML => GeoType::VECTOR,
         GeoFormat::KMZ => GeoType::VECTOR,
         GeoFormat::GPX => GeoType::VECTOR,
         GeoFormat::GEOTIFF => GeoType::RASTER,
 
         GeoType::VECTOR => [
-            // GeoFormat::SHAPEFILE,
-            // GeoFormat::SHAPEFILE_ZIP,
             GeoFormat::GEOJSON,
             GeoFormat::KML,
             GeoFormat::KMZ,
             GeoFormat::GPX,
         ],
-        // GeoType::RASTER => [
-        //     GeoFormat::GEOTIFF,
-        // ]
     ];
 
     /**
