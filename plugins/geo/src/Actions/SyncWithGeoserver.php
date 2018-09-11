@@ -6,6 +6,7 @@ use Log;
 use Exception;
 use KBox\Geo\GeoService;
 use OneOffTech\GeoServer\GeoFile;
+use OneOffTech\GeoServer\GeoType;
 use OneOffTech\GeoServer\Exception\GeoServerClientException;
 
 use KBox\Contracts\Action;
@@ -41,15 +42,28 @@ class SyncWithGeoserver extends Action
 
         if($this->service->isEnabled() && $this->service->isSupported($descriptor->file)){
 
-            Log::info("Uploading [$descriptor->uuid:{$descriptor->file->uuid}] to geoserver");
-            
-            $details = $this->service->upload($descriptor->file);
+            $file = $descriptor->file;
 
-            // TODO:
-            // Eventually add additional properties to the DocumentDescriptor here, as the upload 
-            // method returns some more details of the file
+            Log::info("Uploading [$descriptor->uuid:{$file->uuid}] to geoserver");
             
-            Log::info("Upload of [$descriptor->uuid:{$descriptor->file->uuid}] completed", compact('details'));
+            $details = $this->service->upload($file);
+            
+            Log::info("Upload of [$descriptor->uuid:{$file->uuid}] completed", compact('details'));
+            
+            Log::info("Saving properties returned by GeoServer for: [$descriptor->uuid:{$file->uuid}]");
+        
+            // the default layer name, also useful for the WMS service is the store name
+            $baseLayer = $details->store['name'] ?? [];
+                    
+            $file->properties = [
+                'coordinateSystem' => $details->srs ?? ($details->boundingBox->crs ?? $details->nativeCRS),
+                'boundingBox' => $details->boundingBox,
+                'layers' => array_wrap($baseLayer),
+                'type' => $details->type(), //vector or raster
+                'nameInGeoserver' => $details->name,
+            ];
+            
+            $file->save();
         }
 
         return $descriptor;
