@@ -12,24 +12,24 @@ class TextExtractionFactoryTest extends TestCase
     public function file_class_provider()
     {
         return [
-            [__DIR__.'/data/csv1.csv', 'KBox\Documents\ExtractText\TextFileExtractor'],
-            [__DIR__.'/data/text.txt', 'KBox\Documents\ExtractText\TextFileExtractor'],
-            [__DIR__.'/data/markdown.md', 'KBox\Documents\ExtractText\TextFileExtractor'],
-            [__DIR__.'/data/keyhole-markup.kml', 'KBox\Documents\ExtractText\KmlExtractor'],
-            [__DIR__.'/data/a-pdf.pdf', 'KBox\Documents\ExtractText\PdfExtractor'],
-            [__DIR__.'/data/example.docx', 'KBox\Documents\ExtractText\WordExtractor'],
-            [__DIR__.'/data/presentation.pptx', 'KBox\Documents\ExtractText\PresentationExtractor'],
+            [__DIR__.'/../../data/csv1.csv', 'KBox\Documents\ExtractText\TextFileExtractor'],
+            [__DIR__.'/../../data/text.txt', 'KBox\Documents\ExtractText\TextFileExtractor'],
+            [__DIR__.'/../../data/markdown.md', 'KBox\Documents\ExtractText\TextFileExtractor'],
+            [__DIR__.'/../../data/keyhole-markup.kml', 'KBox\Documents\ExtractText\KmlExtractor'],
+            [__DIR__.'/../../data/a-pdf.pdf', 'KBox\Documents\ExtractText\PdfExtractor'],
+            [__DIR__.'/../../data/example.docx', 'KBox\Documents\ExtractText\WordExtractor'],
+            [__DIR__.'/../../data/presentation.pptx', 'KBox\Documents\ExtractText\PresentationExtractor'],
         ];
     }
     
     public function unsupported_file_class_provider()
     {
         return [
-            [__DIR__.'/data/googe-drive-doc.gdoc'],
-            [__DIR__.'/data/googe-drive-presentation.gslides'],
-            [__DIR__.'/data/googe-drive-spreadsheet.gsheet'],
-            [__DIR__.'/data/compressed.zip'],
-            [__DIR__.'/data/keyhole-markup.kmz'],
+            [__DIR__.'/../../data/googe-drive-doc.gdoc'],
+            [__DIR__.'/../../data/googe-drive-presentation.gslides'],
+            [__DIR__.'/../../data/googe-drive-spreadsheet.gsheet'],
+            [__DIR__.'/../../data/compressed.zip'],
+            [__DIR__.'/../../data/keyhole-markup.kmz'],
         ];
     }
     

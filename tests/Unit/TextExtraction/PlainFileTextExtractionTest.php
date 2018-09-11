@@ -11,7 +11,7 @@ class PlainFileTextExtractionTest extends TestCase
     {
         $extractor = new TextFileExtractor();
 
-        $file = realpath(__DIR__.'/../../data/example.txt');
+        $file = base_path('tests/data/example.txt');
 
         $this->assertEquals('A text file example for testing the full text search integration', $extractor->load($file)->text());
     }
@@ -20,7 +20,7 @@ class PlainFileTextExtractionTest extends TestCase
     {
         $extractor = new TextFileExtractor();
 
-        $file = realpath(__DIR__.'/../../contentprocessing/data/markdown.md');
+        $file = base_path('tests/data/markdown.md');
 
         $this->assertEquals(file_get_contents($file), $extractor->load($file)->text());
     }
@@ -29,7 +29,7 @@ class PlainFileTextExtractionTest extends TestCase
     {
         $extractor = new TextFileExtractor();
 
-        $file = realpath(__DIR__.'/../../contentprocessing/data/csv1.csv');
+        $file = base_path('tests/data/csv1.csv');
 
         $this->assertEquals(file_get_contents($file), $extractor->load($file)->text());
     }
