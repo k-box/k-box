@@ -86,7 +86,7 @@ return [
         'publish_collection' => 'Коллекциядагы баардык документтер жарыяланат',
         'publish_already_in_progress' => 'Документтерди жарыялоо башталды',
 
-        'document_is_shared' => 'Көрө алат:',
+        'document_is_shared' => 'Ким көрө алат:',
         'collection_is_shared' => 'Көрө алат:',
         'users_already_has_access' => ':num колдонуучу',
         'users_already_has_access_alternate' => '{0} Сиз гана|{1} :num колдонуучу|',
