@@ -85,7 +85,7 @@ return [
     'publish_documents' => 'Жарыялоо',
     'make_private' => 'Жабык калтыруу',
 
-    'create_add_dropdown' => 'Түзүү же жүктөө',
+    'create_add_dropdown' => 'Жүктөө',
 
     'trash_btn' => 'Корзинага',
     'trash_btn_alt' => 'Корзинага',
