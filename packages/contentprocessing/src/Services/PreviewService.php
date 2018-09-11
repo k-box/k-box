@@ -16,6 +16,9 @@ use KBox\Documents\Preview\PresentationPreview;
 use KBox\Documents\Preview\WordDocumentPreview;
 use KBox\Documents\Preview\TextPreview;
 use KBox\Documents\Preview\SpreadsheetPreview;
+use KBox\Documents\Preview\ImagePreviewDriver;
+use KBox\Documents\Preview\VideoPreviewDriver;
+use KBox\Documents\Preview\PdfPreviewDriver;
 
 /**
  * Preview service
@@ -33,6 +36,9 @@ final class PreviewService extends ExtendableFileElaborationService
     protected $drivers = [
         TextPreview::class,
         MarkdownPreview::class,
+        PdfPreviewDriver::class,
+        ImagePreviewDriver::class,
+        VideoPreviewDriver::class,
         WordDocumentPreview::class,
         PresentationPreview::class,
         SpreadsheetPreview::class,

@@ -65,58 +65,6 @@
 
 				@endif
 
-{{-- 
-
-	@if($type==\KBox\Documents\DocumentType::IMAGE)
-	
-		<img src="{{DmsRouting::download($document, $version)}}" alt="{{$document->title}}">
-
-	@elseif($type==\KBox\Documents\DocumentType::VIDEO)
-
-		@if($document->status === \KBox\DocumentDescriptor::STATUS_COMPLETED)
-
-			<video id="the-player" 
-				data-dash="{{ route('video.play', ['uuid' => $document->file->uuid, 'resource' => 'mpd']) }}"
-				data-source="{{ DmsRouting::download($document, $version) }}"
-				data-source-type="{{ $document->mime_type }}"
-				controls preload="none"
-				poster="{{ DmsRouting::thumbnail($document, $version) }}">
-
-			</video>
-
-		@else 
-
-			<div class="c-message c-message--warning">
-				<p>{{ trans('documents.preview.video_not_ready') }}</p>
-			</div>
-
-		@endif
-	
-	@elseif($type==\KBox\Documents\DocumentType::PDF_DOCUMENT)
-
-		<iframe src="{{DmsRouting::embed($document, $version)}}" frameborder="0"></iframe>
-	
-	@elseif(isset($render) && !empty($render))
-	
-			{!!$render!!}
-	
-	@else
-	
-		<div class="preview__error">
-	
-			<h4>{{trans('documents.preview.error', ['document' => $document->title])}}</h4>
-		
-		
-			<a class="button button-primary" href="{{DmsRouting::download($document, $version)}}" download="{{ $filename_for_download }}">
-				{{trans('panels.download_btn')}}
-			</a>
-		
-		</div>
-	
-	@endif
-
-@endif --}}
-
             </div>
 		</div>
 		

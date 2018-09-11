@@ -14,36 +14,14 @@ use KBox\Documents\Preview\GoogleDrivePreview;
 use KBox\Documents\Preview\MarkdownPreview;
 use KBox\Documents\Preview\PresentationPreview;
 use KBox\Documents\Preview\WordDocumentPreview;
+use KBox\Documents\Preview\ImagePreviewDriver;
+use KBox\Documents\Preview\VideoPreviewDriver;
+use KBox\Documents\Preview\PdfPreviewDriver;
 use KBox\Documents\Preview\TextPreview;
 use KBox\Documents\Preview\SpreadsheetPreview;
 
 class PreviewServiceTest extends TestCase
 {
-    // public function file_class_provider()
-    // {
-    //     return [
-    //         [__DIR__.'/data/presentation.pptx', 'KBox\Documents\Preview\PresentationPreview'],
-    //         [__DIR__.'/data/spreadsheet.xlsx', 'KBox\Documents\Preview\SpreadsheetPreview'],
-    //         [__DIR__.'/data/example.docx', 'KBox\Documents\Preview\WordDocumentPreview'],
-    //         [__DIR__.'/data/csv1.csv', 'KBox\Documents\Preview\SpreadsheetPreview'],
-    //         [__DIR__.'/data/text.txt', 'KBox\Documents\Preview\TextPreview'],
-    //         [__DIR__.'/data/markdown.md', 'KBox\Documents\Preview\MarkdownPreview'],
-    //         [__DIR__.'/data/googe-drive-doc.gdoc', 'KBox\Documents\Preview\GoogleDrivePreview'],
-    //         [__DIR__.'/data/googe-drive-presentation.gslides', 'KBox\Documents\Preview\GoogleDrivePreview'],
-    //         [__DIR__.'/data/googe-drive-spreadsheet.gsheet', 'KBox\Documents\Preview\GoogleDrivePreview'],
-    //     ];
-    // }
-
-    // public function unsupported_file_class_provider()
-    // {
-    //     return [
-    //         [__DIR__.'/data/compressed.zip'],
-    //         [__DIR__.'/data/a-pdf.pdf'],
-    //         [__DIR__.'/data/keyhole-markup.kml'],
-    //         [__DIR__.'/data/keyhole-markup.kmz'],
-    //     ];
-    // }
-    
     public function test_invalid_driver_cannot_be_registered()
     {
         $this->expectException(InvalidDriverException::class);
@@ -60,6 +38,9 @@ class PreviewServiceTest extends TestCase
         $this->assertEquals([
             TextPreview::class,
             MarkdownPreview::class,
+            PdfPreviewDriver::class,
+            ImagePreviewDriver::class,
+            VideoPreviewDriver::class,
             WordDocumentPreview::class,
             PresentationPreview::class,
             SpreadsheetPreview::class,
@@ -87,6 +68,11 @@ class PreviewServiceTest extends TestCase
         $this->assertEquals([
             'text/plain',
             'text/x-markdown',
+            'application/pdf',
+            'image/jpeg',
+            'image/gif',
+            'image/png',
+            'video/mp4',
             'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
             'application/vnd.openxmlformats-officedocument.wordprocessingml.template',
             'application/vnd.openxmlformats-officedocument.presentationml.presentation',
