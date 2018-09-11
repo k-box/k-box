@@ -296,7 +296,7 @@ return [
         'upload_dialog_title' => 'Жүктөө',
         'page_title' => 'Жүктөө',
         'dragdrop_not_supported' => 'Файлды алып-ташуу функциясын браузериңиз колдобойт',
-        'dragdrop_not_supported_text' => 'Сураныч, "Түзүү же Кошуу" кнопкасын колдонуңуз',
+        'dragdrop_not_supported_text' => 'Сураныч, «Жүктөө» кнопкасын колдонуңуз',
         'remove_btn' => "Корзинага",
         'cancel_btn' => 'Жүктөөнү токтотуу',
         'cancel_question' => 'Жүктөөнү токтотууну каалайсызбы?',
