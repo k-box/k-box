@@ -7,7 +7,7 @@ use KBox\Documents\ExtractText\ExtractTextFactory;
 /**
  * The service that can generate a document Preview.
  *
- * This class is only used to expose the static PreviewFactory as a dependency injection service
+ * This class is only used to expose the static ExtractTextFactory as a dependency injection service
  */
 class TextExtractionService
 {

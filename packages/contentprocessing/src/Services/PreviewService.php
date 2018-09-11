@@ -5,20 +5,19 @@ namespace KBox\Documents\Services;
 use KBox\File;
 use ReflectionClass;
 use ReflectionException;
-use KBox\Documents\Preview\PreviewFactory;
-use Illuminate\Contracts\Support\Renderable;
-use KBox\Documents\Contracts\PreviewDriver;
-use KBox\Documents\Exceptions\InvalidDriverException;
-use KBox\Documents\Exceptions\UnsupportedFileException;
-use KBox\Documents\Preview\GoogleDrivePreview;
-use KBox\Documents\Preview\MarkdownPreview;
-use KBox\Documents\Preview\PresentationPreview;
-use KBox\Documents\Preview\WordDocumentPreview;
 use KBox\Documents\Preview\TextPreview;
+use KBox\Documents\Preview\MarkdownPreview;
+use KBox\Documents\Contracts\PreviewDriver;
+use KBox\Documents\Preview\PdfPreviewDriver;
+use Illuminate\Contracts\Support\Renderable;
+use KBox\Documents\Preview\GoogleDrivePreview;
 use KBox\Documents\Preview\SpreadsheetPreview;
 use KBox\Documents\Preview\ImagePreviewDriver;
 use KBox\Documents\Preview\VideoPreviewDriver;
-use KBox\Documents\Preview\PdfPreviewDriver;
+use KBox\Documents\Preview\PresentationPreview;
+use KBox\Documents\Preview\WordDocumentPreview;
+use KBox\Documents\Exceptions\InvalidDriverException;
+use KBox\Documents\Exceptions\UnsupportedFileException;
 
 /**
  * Preview service
@@ -74,28 +73,4 @@ final class PreviewService extends ExtendableFileElaborationService
             throw InvalidDriverException::classNotImplements($driverClass, PreviewDriver::class);
         }
     }
-
-    // /**
-    //  * Load a file and return the correspondent preview renderer
-    //  *
-    //  * @param string $path the path of the file
-    //  * @param string $extesion (optional) The file extension, if cannot be deducted from the $path.
-    //  *                         If specified will be used to find the correct preview renderer
-    //  * @return KBox\Documents\Contract\Preview
-    //  */
-    // public function load($path, $extension = null)
-    // {
-    //     return PreviewFactory::load($path, $extension);
-    // }
-
-    // /**
-    //  * Check if a file is supported by the preview system
-    //  *
-    //  * @param string $path the path of the file
-    //  * @return bool true if the file is supported by the preview service, false otherwise
-    //  */
-    // public function isFileSupported($path)
-    // {
-    //     return PreviewFactory::isFileSupported($path);
-    // }
 }

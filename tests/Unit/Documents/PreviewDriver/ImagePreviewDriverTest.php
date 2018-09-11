@@ -26,7 +26,7 @@ class ImagePreviewDriverTest extends TestCase
     
     public function test_jpg_can_be_previewed()
     {
-        $path = __DIR__.'/data/example.jpg';
+        $path = base_path('tests/data/example.jpg');
 
         $file = $this->createFileForPath($path);
 
@@ -50,7 +50,7 @@ class ImagePreviewDriverTest extends TestCase
     
     public function test_gif_can_be_previewed()
     {
-        $path = __DIR__.'/data/example.gif';
+        $path = base_path('tests/data/example.gif');
 
         $file = $this->createFileForPath($path);
 
@@ -74,7 +74,7 @@ class ImagePreviewDriverTest extends TestCase
     
     public function test_png_can_be_previewed()
     {
-        $path = __DIR__.'/data/project-avatar.png';
+        $path = base_path('tests/data/project-avatar.png');
 
         $file = $this->createFileForPath($path);
 

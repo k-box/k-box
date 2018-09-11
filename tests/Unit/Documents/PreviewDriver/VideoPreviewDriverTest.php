@@ -26,7 +26,7 @@ class VideoPreviewDriverTest extends TestCase
     
     public function test_video_can_be_previewed()
     {
-        $path = __DIR__.'/data/video.mp4';
+        $path = base_path('tests/data/video.mp4');
 
         $file = $this->createFileForPath($path);
 

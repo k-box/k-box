@@ -24,7 +24,7 @@ class SpreadsheetPreviewTest extends TestCase
     
     public function testConvertCsvToHtml()
     {
-        $path = __DIR__.'/data/csv1.csv';
+        $path = base_path('tests/data/csv1.csv');
 
         $preview = (new SpreadsheetPreview())->preview($this->createFileForPath($path));
         $html = $preview->render();
@@ -38,7 +38,7 @@ class SpreadsheetPreviewTest extends TestCase
     
     public function testConvertXslxToHtml()
     {
-        $path = __DIR__.'/data/spreadsheet.xlsx';
+        $path = base_path('tests/data/spreadsheet.xlsx');
 
         $preview = (new SpreadsheetPreview())->preview($this->createFileForPath($path));
         $html = $preview->render();

@@ -24,7 +24,7 @@ class TextPreviewTest extends TestCase
     
     public function testConvertToHtml()
     {
-        $path = __DIR__.'/data/text.txt';
+        $path = base_path('tests/data/text.txt');
 
         $preview = (new TextPreview())->preview($this->createFileForPath($path));
         $html = $preview->render();

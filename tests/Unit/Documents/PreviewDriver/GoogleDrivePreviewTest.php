@@ -25,7 +25,7 @@ class GoogleDrivePreviewTest extends TestCase
 
     public function test_preview_gdoc()
     {
-        $path = __DIR__.'/data/example-file.gdoc';
+        $path = base_path('tests/data/example-file.gdoc');
 
         $preview = (new GoogleDrivePreview())->preview($this->createFileForPath($path));
         $html = $preview->render();
@@ -41,7 +41,7 @@ class GoogleDrivePreviewTest extends TestCase
     
     public function test_preview_gslides()
     {
-        $path = __DIR__.'/data/example-presentation.gslides';
+        $path = base_path('tests/data/example-presentation.gslides');
 
         $preview = (new GoogleDrivePreview())->preview($this->createFileForPath($path));
         $html = $preview->render();
@@ -57,7 +57,7 @@ class GoogleDrivePreviewTest extends TestCase
     
     public function test_preview_gsheet()
     {
-        $path = __DIR__.'/data/example-spreadsheet.gsheet';
+        $path = base_path('tests/data/example-spreadsheet.gsheet');
 
         $preview = (new GoogleDrivePreview())->preview($this->createFileForPath($path));
         $html = $preview->render();

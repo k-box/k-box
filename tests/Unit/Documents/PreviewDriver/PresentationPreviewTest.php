@@ -26,7 +26,7 @@ class PresentationPreviewTest extends TestCase
     
     public function testConvertPptxToHtml()
     {
-        $path = __DIR__.'/data/presentation.pptx';
+        $path = base_path('tests/data/presentation.pptx');
 
         $preview = (new PresentationPreview())->preview($this->createFileForPath($path));
         $html = $preview->render();

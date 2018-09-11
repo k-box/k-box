@@ -25,7 +25,7 @@ class MarkdownPreviewTest extends TestCase
     
     public function test_markdown_can_be_previewed()
     {
-        $path = __DIR__.'/data/markdown.md';
+        $path = base_path('tests/data/markdown.md');
 
         $preview = (new MarkdownPreview())->preview($this->createFileForPath($path));
         $html = $preview->render();

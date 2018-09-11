@@ -24,7 +24,7 @@ class WordDocumentPreviewTest extends TestCase
     
     public function testConvertDocxToHtml()
     {
-        $path = __DIR__.'/data/example.docx';
+        $path = base_path('tests/data/example.docx');
 
         $preview = (new WordDocumentPreview())->preview($this->createFileForPath($path));
         $html = $preview->render();

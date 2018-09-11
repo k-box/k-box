@@ -26,7 +26,7 @@ class PdfPreviewDriverTest extends TestCase
     
     public function test_pdf_can_be_previewed()
     {
-        $path = __DIR__.'/data/example.pdf';
+        $path = base_path('tests/data/example.pdf');
 
         $file = $this->createFileForPath($path);
 
