@@ -149,3 +149,6 @@ Third, the exposed ports needs to be removed:
 ```
 
 After changing the configuration you should restart the K-Box service so Traefik will be notified. At this point Traefik will take care of generating the SSL certificate.
+
+## Previous: [Overview](../intro-dev.md)
+## Next: [Troubleshooting](./maintenance/troubleshooting.md)

@@ -45,3 +45,6 @@ cat storage/logs/laravel-2018-03-01.log
 ## View application logs from the User Interface
 
 The last 1000 lines of the current daily [application log](#application-log) can be viewed directly from the K-Box User Interface, from the  `Administration > Maintenance and Events` page. 
+
+## Previous: [Overview](../intro-dev.md)
+## Next: [Backup](./maintenance/backup.md)

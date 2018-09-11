@@ -10,3 +10,6 @@ This section covers the following aspects:
 - [Troubleshooting](./troubleshooting.md)
 - [Logging](./logging.md)
 - [Backup](./backup.md)
+
+## Previous: [Start](../landing-page.md)
+## Next: [K-Box overview](../index.md)

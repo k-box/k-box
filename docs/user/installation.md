@@ -93,6 +93,5 @@ There are some handy commands you can use to manage your K-Box:
 
 For more information see complete [documentation on Docker Compose](https://docs.docker.com/compose/reference/up/).
 
-## Next
-
-- [Running behind a reverse proxy](./reverse-proxy.md)
+## Previous: [Overview](../intro-dev.md)
+## Next: [Deploy configuration](./deploy-configuration.md)
