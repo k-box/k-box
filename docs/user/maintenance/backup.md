@@ -127,4 +127,4 @@ A possible _hot_ and _cold_ flow could be the following:
 
 If incremental backups, encryption, or you want to try a different tool, we suggest [Restic](https://restic.net/).
 
-## Previous: [Overview](../intro-dev.md)
+## Previous: [Overview](./intro-dev.md)
