@@ -110,8 +110,6 @@ final class GeoService
      */
     public function upload(File $file)
     {
-        // $data = GeoFile::from($descriptor->file->absolute_path)->name($descriptor->uuid);
-
         $data = GeoFile::fromFile($file);
 
         Log::info("Uploading $file->uuid to geoserver", $data->toArray());
@@ -119,6 +117,25 @@ final class GeoService
         // TODO: maybe is not supported by geoserver and therefore require conversion
             
         return $this->connection()->upload($data);
+    }
+    
+    public function exist(File $file)
+    {
+        $data = GeoFile::fromFile($file);
+            
+        return $this->connection()->exist($data);
+    }
+
+    /**
+     * Thumbnail a file to the geoserver
+     */
+    public function thumbnail(File $file)
+    {
+        $data = GeoFile::fromFile($file);
+
+        Log::info("Generating thumbnail for $file->uuid using geoserver...");
+            
+        return $this->connection()->thumbnail($data);
     }
     
 

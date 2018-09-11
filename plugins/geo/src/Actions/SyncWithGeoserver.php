@@ -7,6 +7,7 @@ use Exception;
 use KBox\Geo\GeoService;
 use OneOffTech\GeoServer\GeoFile;
 use OneOffTech\GeoServer\GeoType;
+use KBox\Jobs\ThumbnailGenerationJob;
 use OneOffTech\GeoServer\Exception\GeoServerClientException;
 
 use KBox\Contracts\Action;
@@ -64,6 +65,17 @@ class SyncWithGeoserver extends Action
             ];
             
             $file->save();
+
+            // Dispatch again the thumbnail generation for shapefile as
+            // geoserver upload is required to use the thumbnail feature
+            if($details->type() === GeoType::VECTOR && $file->mime_type === 'application/octet-stream'){
+                try{
+                    dispatch_now(new ThumbnailGenerationJob($file));
+                }catch(Exception $ex)
+                {
+                    Log::error('Thumbnail generation after geoserver file upload failed', ['error' => $ex]);
+                }
+            }
         }
 
         return $descriptor;

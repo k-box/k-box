@@ -2,6 +2,7 @@
 
 namespace KBox\Geo\Thumbnails;
 
+use Log;
 use Imagick;
 use KBox\File;
 use KBox\Documents\DocumentType;
@@ -46,7 +47,7 @@ class GeoTiffThumbnailGenerator implements ThumbnailGenerator
     private function isImagickSupportAvailable()
     {
         if (! extension_loaded('imagick') && ! class_exists('Imagick')) {
-            \Log::warning('imagemagick class not found', [$ex]);
+            Log::warning('imagemagick class not found');
             return false;
         }
 
@@ -55,10 +56,10 @@ class GeoTiffThumbnailGenerator implements ThumbnailGenerator
                 return false;
             }
         } catch (FatalErrorException $ex) {
-            \Log::error('imagemagick support check for tiff', [$ex]);
+            Log::error('imagemagick support check for tiff', [$ex]);
             return false;
         } catch (Exception $ex) {
-            \Log::error('imagemagick support check for tiff', [$ex]);
+            Log::error('imagemagick support check for tiff', [$ex]);
             return false;
         }
 
