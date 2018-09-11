@@ -2,39 +2,75 @@
 
 namespace KBox\Documents\Services;
 
-use KBox\Documents\Preview\PreviewFactory;
+use KBox\File;
+use ReflectionClass;
+use ReflectionException;
+use KBox\Documents\Preview\TextPreview;
+use KBox\Documents\Preview\MarkdownPreview;
+use KBox\Documents\Contracts\PreviewDriver;
+use KBox\Documents\Preview\PdfPreviewDriver;
+use Illuminate\Contracts\Support\Renderable;
+use KBox\Documents\Preview\GoogleDrivePreview;
+use KBox\Documents\Preview\SpreadsheetPreview;
+use KBox\Documents\Preview\ImagePreviewDriver;
+use KBox\Documents\Preview\VideoPreviewDriver;
+use KBox\Documents\Preview\PresentationPreview;
+use KBox\Documents\Preview\WordDocumentPreview;
+use KBox\Documents\Exceptions\InvalidDriverException;
+use KBox\Documents\Exceptions\UnsupportedFileException;
 
 /**
- * The service that can generate a document Preview.
+ * Preview service
  *
- * This class is only used to expose the static PreviewFactory as a dependency injection service
+ * Generate a file preview and manages the preview drivers
  */
-class PreviewService
+final class PreviewService extends ExtendableFileElaborationService
 {
 
     /**
-     * Load a file and return the correspondent preview renderer
+     * The default preview drivers
      *
-     * @param string $path the path of the file
-     * @param string $extesion (optional) The file extension, if cannot be deducted from the $path.
-     *                         If specified will be used to find the correct preview renderer
-     * @return KBox\Documents\Contract\Preview
+     * @var array
+     */
+    protected $drivers = [
+        TextPreview::class,
+        MarkdownPreview::class,
+        PdfPreviewDriver::class,
+        ImagePreviewDriver::class,
+        VideoPreviewDriver::class,
+        WordDocumentPreview::class,
+        PresentationPreview::class,
+        SpreadsheetPreview::class,
+        GoogleDrivePreview::class,
+    ];
+
+    /**
+     * Generate a File preview
+     *
+     * @return Illuminate\Contracts\Support\Renderable
      * @throws PreviewGenerationException if an error occurred during the preview generation
      * @throws UnsupportedFileException if the file type is not supported
      */
-    public function load($path, $extension = null)
+    public function preview(File $file): Renderable
     {
-        return PreviewFactory::load($path, $extension);
+        if (! $this->isSupported($file)) {
+            throw UnsupportedFileException::file($file);
+        }
+
+        $driver = $this->driverFor($file);
+
+        return $driver->preview($file);
     }
 
     /**
-     * Check if a file is supported by the preview system
-     *
-     * @param string $path the path of the file
-     * @return bool true if the file is supported by the preview service, false otherwise
+     * Validate the driver class
      */
-    public function isFileSupported($path)
+    protected function validateDriver($driverClass)
     {
-        return PreviewFactory::isFileSupported($path);
+        try {
+            (new ReflectionClass($driverClass))->isSubclassOf(PreviewDriver::class);
+        } catch (ReflectionException $ex) {
+            throw InvalidDriverException::classNotImplements($driverClass, PreviewDriver::class);
+        }
     }
 }

@@ -2,24 +2,21 @@
 
 namespace KBox\Documents\Preview;
 
-use KBox\Documents\Contracts\Preview as PreviewContract;
-use Exception;
+use KBox\File;
+use KBox\Documents\Preview\Exception\PreviewGenerationException;
+use Illuminate\Contracts\Support\Renderable;
 
 /**
  * GoogleDrive preview.
  * Read Google Drive pointer files: .gdoc, .gslides, .gsheet
  */
-class GoogleDrivePreview implements PreviewContract
+class GoogleDrivePreview extends BasePreviewDriver implements Renderable
 {
     private $path = null;
 
     private $reader = null;
     
-    public function __construct()
-    {
-    }
-
-    public function load($path)
+    protected function load($path)
     {
         $this->path = $path;
 
@@ -28,12 +25,14 @@ class GoogleDrivePreview implements PreviewContract
         return $this;
     }
 
-    public function css()
+    public function preview(File $file) : Renderable
     {
-        return null;
+        $this->load($file->absolute_path);
+
+        return $this;
     }
 
-    public function html()
+    public function render()
     {
         $content = $this->reader->openAsText($this->path);
 
@@ -48,21 +47,18 @@ class GoogleDrivePreview implements PreviewContract
             );
         }
 
-        throw new Exception('Unable to gather Google Drive link from the file');
-    }
-
-    public function getNavigation()
-    {
-        return '';
-    }
-
-    public function properties()
-    {
-        return null;
+        throw new PreviewGenerationException('Unable to gather Google Drive link from the file');
     }
 
     public function supportedMimeTypes()
     {
-        return [];
+        return [
+            'application/vnd.google-apps.document',
+            'application/vnd.google-apps.drawing',
+            'application/vnd.google-apps.form',
+            'application/vnd.google-apps.fusiontable',
+            'application/vnd.google-apps.presentation',
+            'application/vnd.google-apps.spreadsheet',
+        ];
     }
 }

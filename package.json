@@ -31,6 +31,7 @@
     "jquery": "~3.2.1",
     "jquery-serializejson": "~2.8.1",
     "jquery-unveil": "~1.3.2",
+    "leaflet": "^1.3.4",
     "lodash": "~4.17.4",
     "nprogress": "~0.2.0",
     "object.observe": "~0.2.6",

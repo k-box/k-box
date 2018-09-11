@@ -1,0 +1,1 @@
+<iframe src="{{DmsRouting::embed($document, $file)}}" frameborder="0"></iframe>

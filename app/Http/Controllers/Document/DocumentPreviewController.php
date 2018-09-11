@@ -8,7 +8,6 @@ use Throwable;
 use KBox\File;
 use KBox\DocumentDescriptor;
 use Illuminate\Http\Request;
-use KBox\Documents\Facades\Files;
 use KBox\Documents\Services\PreviewService;
 use KBox\Exceptions\ForbiddenException;
 use KBox\Documents\Services\DocumentsService;
@@ -43,7 +42,7 @@ class DocumentPreviewController extends DocumentAccessController
             
             return $this->previewDocument($document, $file);
         } catch (AuthenticationException $ex) {
-            Log::warning('KlinkApiController, requested a document that is not public and user is not authenticated', ['url' => $request->url()]);
+            Log::warning('Preview a document that is not public and user is not authenticated', ['url' => $request->url()]);
 
             session()->put('url.dms.intended', $request->url());
 
@@ -58,40 +57,52 @@ class DocumentPreviewController extends DocumentAccessController
     private function previewDocument(DocumentDescriptor $doc, File $version = null)
     {
         /* File */ $file = $version ?? $doc->file;
-            
-        $extension = Files::extensionFromType($file->mime_type, $file->document_type);
 
         $render = null;
         $preview = null;
+        $preview_errors = null;
 
-        try {
-            if ($doc->isFileUploadComplete()) {
-                $preview = $this->previewService->load($file->absolute_path, $extension);
-
-                $properties = $preview->properties();
-
-                $render = $preview->html();
-            }
-        } catch (UnsupportedFileException $pex) {
-        } catch (PreviewGenerationException $pex) {
-            \Log::error('KlinkApiController - Preview Generation, using PreviewService, failure', ['error' => $pex, 'file' => $file]);
-        } catch (Exception $pex) {
-            \Log::error('KlinkApiController - Preview Generation, using PreviewService, failure', ['error' => $pex, 'file' => $file]);
-        } catch (Throwable $pex) {
-            \Log::error('KlinkApiController - Preview Generation, using PreviewService, failure', ['error' => $pex, 'file' => $file]);
-        }
-
-        return view('documents.preview', [
+        $view_data = [
             'document' => $doc,
             'file' => $file,
             'version' => $version,
-            'type' =>  $file->document_type,
-            'mime_type' =>  $file->mime_type,
-            'render' => $render,
-            'extension' => $extension,
-            'body_classes' => 'preview '.$file->mime_type,
             'filename_for_download' => $version ? $version->name : $doc->title,
             'pagetitle' => trans('documents.preview.page_title', ['document' => $doc->title]),
-        ]);
+            'body_classes' => "preview",
+        ];
+
+        try {
+            if ($doc->isFileUploadComplete() && $doc->status === DocumentDescriptor::STATUS_COMPLETED) {
+                $preview = $this->previewService->preview($file);
+
+                if (method_exists($preview, 'with')) {
+                    $preview->with($view_data);
+                }
+
+                return view('documents.preview', array_merge($view_data, [
+                    'previewable' => $preview,
+                    'filename_for_download' => $version ? $version->name : $doc->title,
+                    ]));
+            }
+                
+            return view('documents.preview', array_merge($view_data, [
+                'preview_errors' => trans('documents.preview.file_not_ready')
+            ]));
+        } catch (UnsupportedFileException $pex) {
+            $preview_errors = trans('documents.preview.not_supported');
+        } catch (PreviewGenerationException $pex) {
+            Log::error('Preview Generation, failure', ['error' => $pex, 'file' => $file]);
+            $preview_errors = trans('documents.preview.error', ['document' => $doc->title]);
+        } catch (Exception $pex) {
+            Log::error('Preview Generation, failure', ['error' => $pex, 'file' => $file]);
+            $preview_errors = trans('documents.preview.error', ['document' => $doc->title]);
+        } catch (Throwable $pex) {
+            Log::error('Preview Generation, failure', ['error' => $pex, 'file' => $file]);
+            $preview_errors = trans('documents.preview.error', ['document' => $doc->title]);
+        }
+
+        return view('documents.preview', array_merge($view_data, [
+            'preview_errors' => $preview_errors,
+        ]));
     }
 }

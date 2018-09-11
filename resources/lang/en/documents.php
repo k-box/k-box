@@ -242,10 +242,12 @@ return [
         'page_title' => 'Previewing :document',
         'error' => 'Sorry, we were unable to load the preview of ":document".',
         'not_available' => 'The preview cannot be showed for this document.',
+        'not_supported' => 'A preview cannot be offered for this file. The file format is currently not supported.',
         'google_file_disclaimer' => ':document is a Google Drive file. We cannot show the preview here. You have to open it in Google Drive.',
         'google_file_disclaimer_alt' => 'This is a Google Drive file and cannot be previewed here.',
         'open_in_google_drive_btn' => 'Open in Google Drive',
         'video_not_ready' => 'The video is being processed. It will be available within seconds.',
+        'file_not_ready' => 'The file is being processed by the K-Box. During file processing the preview is not available, please check back later.',
     ],
 
     'versions' => [

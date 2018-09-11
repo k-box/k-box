@@ -1,0 +1,1 @@
+<img src="{{DmsRouting::download($document, $file)}}" alt="{{$document->title}}">
