@@ -42,6 +42,7 @@ The Microsite offers a search box that lets your user search the accessible Publ
 
 As pictured above, search will be perfomed on the Public Network - in this case, on the K-Link Network - if user is not logged in.
 
+Learn more about search [here](.../documents/search.md)
 
 ### Multiple Languages
 

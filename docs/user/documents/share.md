@@ -10,7 +10,7 @@ K-Box sharing options are available through the Sharing window, that can be acce
 |Access within K-Box   |Add document to K-Box Project           |All members of the [Project](../en/projects/index.md#prjDetails)/collection*     |
 |Access within K-Box   |Add specific user to file in K-Box      |All K-Box members with explicit share access to file* |         
 |Access outside K-Box  |Set _Who has Access_ to **Anyone with link can access**| All recipients of file link|
-|Access outside K-Box  |Publish document in K-Link Network        | Any visitor of the K-Link Network |
+|Access outside K-Box  |Publish document in K-Link Network        | Any visitor of the [K-Link Network](https://k-link.technology/network.html) |
 
 \* The list of users having access to the document is available in the same sharing dialog window.
 

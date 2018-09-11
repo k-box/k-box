@@ -4,7 +4,6 @@ Projects helps you create communities of user that shares a common goal. Project
 
 A project is created and maintained by a Project Manager (sometimes also called Project Administrator).
 
-
 ## Projects section
 
 The management of the projects is performed from the _Projects_ page. If your profile has the Project Management capabilities, you will see the _New Project_ button
