@@ -7,3 +7,6 @@ This page provides an overview of:
  - [Search](./search.md)
  - [Publication](./publish.md)
  - [License and Copyright](./licenses.md)
+
+## Previous: [Start](../landing-page.md)
+## Next: [Meta-data](./meta-data.md)

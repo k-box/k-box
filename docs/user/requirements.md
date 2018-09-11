@@ -35,5 +35,5 @@ in addition all components stores log information
 
 The used storage space varies according to the usage of the K-Box itself.
 
-## Previous: [Overview](../intro-dev.md)
+## Previous: [Overview](./maintenance/intro-dev.md)
 ## Next: [Installation](./installation.md)

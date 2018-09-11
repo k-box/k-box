@@ -6,3 +6,5 @@ Please selection you are interested in:
 - [Work with documents](./documents/work-with-documents.md)
 - [K-Box Administration](./en/administration/intro.md)
 - [K-Box deployment and maintenance](./maintenance/intro-dev.md)
+
+## Next: [Getting started](./en/getting-started.md)

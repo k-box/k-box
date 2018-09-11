@@ -8,3 +8,6 @@ In this section, the following aspects are covered:
 - [Project management](../projects/index.md)
 - [Identity](./identity.md)
 - [Licenses](.../documents/licenses.md)
+
+## Previous: [Start](.../landing-page.md)
+## Next: [Users management](./users.md)
