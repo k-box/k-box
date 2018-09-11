@@ -56,7 +56,7 @@ return [
     'shared_on' => 'Дата',
     
     'dialog' => [
-        'title' => 'Бөлүшүү орнотуулары',
+        'title' => 'Бөлүшүү',
         'subtitle_single' => ':what', // only one element to share
         'subtitle_multiple' => ':what жана башка :count файл', // X and 1 other|X and 2 others
         'share_created' => 'Бөлүндү',
