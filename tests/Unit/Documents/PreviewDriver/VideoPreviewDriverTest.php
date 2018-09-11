@@ -24,7 +24,7 @@ class VideoPreviewDriverTest extends TestCase
         ]);
     }
     
-    public function test_markdown_can_be_previewed()
+    public function test_video_can_be_previewed()
     {
         $path = __DIR__.'/data/video.mp4';
 
