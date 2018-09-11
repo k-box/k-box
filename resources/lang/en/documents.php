@@ -78,6 +78,7 @@ return [
         'video' => 'video|videos',
         'archive' => 'archive|archives',
         'PDF' => 'PDF|PDFs',
+        'binary' => 'Binary file|Binary files',
     ],
 
     'empty_msg' => 'No documents in <strong>:context</strong>',
