@@ -9,18 +9,18 @@ return [
 
     'close_btn' => 'Жабуу',
 
-    'sharing_settings_btn' => 'Бөлүшүү орнотуулары',
+    'sharing_settings_btn' => 'Бөлүшүү',
 
     'meta' => [
 
         'institution' => 'Уюм',
         'main_contact' => 'Байланыш киши',
-        'language' => 'Тил',
-        'added_on' => 'Кошулган',
+        'language' => 'Тили',
+        'added_on' => 'Жүктөлдү',
         'deleted_on' => 'Өчүрүлгөн',
-        'uploaded_by' => 'Жүктөлдү',
+        'uploaded_by' => 'Жүктөгөн',
         'size' => 'Көлөмү',
-        'authors' => 'Автор'
+        'authors' => 'Автору'
 
     ],
 
@@ -36,7 +36,7 @@ return [
     'version_btn' => 'Версиялар',
     'version_btn_title' => 'Документтин версиясын өзгөртүү',
 
-    'info_section_title' => 'Жалпы маалымат',
+    'info_section_title' => 'Маалымат',
     'share_section_title' => 'Бөлүшүү',
     'groups_section_title' => 'Коллекциялар',
     'version_section_title' => 'Документтердин версиялары',
