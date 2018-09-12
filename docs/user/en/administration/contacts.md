@@ -4,9 +4,11 @@ _Only users with permissions of K-Box administrator can perform operations descr
 
 K-Box administrators can configure all institutional details of the K-Box owner. To do so, 
 
-**Step 1:** go to “Administration” page 
+**Step 1:** go to _Administration_ page 
 
-**Step 2:** select “Identity” and fill in the fields. 
+![Admin](./img/admin-page.PNG)
+
+**Step 2:** select _Identity_ and fill in the fields. 
 
 ![Identity](../img/identity.png)
 
