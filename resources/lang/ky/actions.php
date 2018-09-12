@@ -143,7 +143,7 @@ return [
     'remove' => 'Өчүрүү',
     
     'sort_by' => [
-        'label' => 'Иргөө',
+        'label' => 'Тандоо',
         'oldest_first' => 'Эң биринчилер',
         'newest_first' => 'Эң акыркылар',
     ],
