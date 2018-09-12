@@ -14,10 +14,15 @@ According to the agreement, author transfers copyright to the publisher and will
 A concrete example of the policy is presented on the [Elsevier](https://www.elsevier.com/about/our-business/policies/copyright) website.
 
 Users can provide the following information about the copyright owner:
+
     • name
+
     • email
+
     • website
+
     • address
+
 Information about the copyright owner is applied independently from the selected license. 
 
 ### <a id="license"></a>License
@@ -26,10 +31,10 @@ License provides information about the terms and conditions for a document/work 
 
 At the moment, one can select the following options for their contents in the K-Box:
 
-    1. All rights reserved
-    2. Public Domain
-    3. Creative Commons 4.0 (and its derivatives)
-    4. No license information available
+1. All rights reserved
+2. Public Domain
+3. Creative Commons 4.0 (and its derivatives)
+4. No license information available
 
 _Details panel_
 License and copyright information are presented on the document details panel (for both private and public documents).
