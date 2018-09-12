@@ -6,5 +6,5 @@ In order to go from a collection to another, click on the relevant name in the l
 
 To collapse the list of sub-collections, click on the arrow located at the left of the project or collection name.
 
-## Previous: Work with documents
-## Next: Projects
+## Previous: [Work with documents](../documents/work-with-documents.md)
+## Next: [Projects](./projects/index.md)
