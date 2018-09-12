@@ -60,7 +60,7 @@ return [
         'you_and_direct' => 'Сиз жана :num колдонуучу (ачык шилтеме)',
         'only_project_members' => ':projects проекттин баардык мүчөлөрү',
         'only_shares' => ':num колдонуучу',
-        'project_members_and_shares' => ':projects проекттин баардык мүчөлөрү жана :num колдонуучу',
+        'project_members_and_shares' => ':projects проекттин баардык мүчөлөрү жана :num башка колдонуучу',
         
         'internal' => 'Каттоосу бар колдонуучулар',
         'network' => 'Документ ачык (:network тармака жарыяланган)',
