@@ -1,3 +1,5 @@
+#### Previous: [Start](../landing-page.md)
+
 # Overview
 
 This page provides an overview of: 
@@ -8,5 +10,4 @@ This page provides an overview of:
  - [Publication](./publish.md)
  - [License and Copyright](./licenses.md)
 
-## Previous: [Start](../landing-page.md)
-## Next: [Meta-data](./meta-data.md)
+#### Next: [Meta-data](./meta-data.md)

@@ -7,4 +7,4 @@ Please selection you are interested in:
 - [K-Box Administration](./en/administration/intro.md)
 - [K-Box deployment and maintenance](./maintenance/intro-dev.md)
 
-## Next: [Getting started](./en/getting-started.md)
+#### Next: [Getting started](./en/getting-started.md)

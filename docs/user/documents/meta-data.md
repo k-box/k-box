@@ -1,3 +1,5 @@
+#### Previous: [Overview](./work-with-documents.md)            
+
 ## Meta-data
 When a document is uploaded, information about it is gathered. It is called
 meta-data. The information available is usually:
@@ -12,6 +14,4 @@ By clicking on a doc, it is possible to consult this information:
 
 ![Document meta-data](../en/img/document-meta.png)
 
-## Previous: [Overview](./work-with-documents.md)            
-
-## Next: [Upload and Edit files](./upload-edit.md)
+#### Next: [Upload and Edit files](./upload-edit.md)

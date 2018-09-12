@@ -1,3 +1,5 @@
+#### Previous: [Meta-data](./meta-data.md)
+
 ## Upload
 
 To add a new document, select the collection or sub-collection in which the document will be stored.
@@ -34,6 +36,4 @@ Click on your file to get an overview of all assigned collections. To add a file
 
 Hit the “X” symbol to remove collection.
 
-## Previous: [Overview](./work-with-documents.md)            
-
-## Next: [Share](./share.md)
+#### Next: [Share](./share.md)

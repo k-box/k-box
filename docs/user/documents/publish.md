@@ -1,3 +1,5 @@
+#### Previous: [Search](./search.md)
+
 # Publication
 
 ### K-Link Network
@@ -16,5 +18,5 @@ _Note: Only users with permissions of project manager can perform this operation
 
 One can unpublish files only from the same K-Box they are physically stored in. In order to do that, please go the sharing settings of the file and hit the “lock” icon. As soon as the icon changed from “globe” to “lock”, your file is private  again.
 
-## Previous: [Overview](./work-with-documents.md)            
+#### Back to: [Overview](./work-with-documents.md)            
 

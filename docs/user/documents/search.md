@@ -1,3 +1,5 @@
+#### Previous: [Share](./share.md)
+
 # Search
 
 You can search anywhere in the K-Box, except Trash. The scope depends on location search is triggered in. Hence, if a sub-collection is currently selected, your search will run only within this sub-collection. From the Projects page, your search goes through all available projects.
@@ -16,6 +18,4 @@ You can of course combine all those operators in order to get more relevant sear
 
 Star your file clicking next to its title and it will appear in [Starred](https://git.klink.asia/main/k-box/docs/user/en/getting-started.md#starred). This functionality is limited to files hosted on your K-Box.
 
-## Previous: [Overview](./work-with-documents.md)            
-
-## Next: [Publication](./publish.md)
+#### Next: [Publication](./publish.md)

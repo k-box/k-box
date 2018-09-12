@@ -1,3 +1,5 @@
+#### Previous: [Upload and Edit files](./upload-edit.md)
+
 # Sharing
 K-Box sharing options are available through the Sharing window, that can be accessed through:
 
@@ -14,6 +16,4 @@ K-Box sharing options are available through the Sharing window, that can be acce
 
 \* The list of users having access to the document is available in the same sharing dialog window.
 
-## Previous: [Overview](./work-with-documents.md)            
-
-## Next: [Search](./search.md)
+#### Next: [Search](./search.md)
