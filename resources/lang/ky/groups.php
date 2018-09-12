@@ -41,8 +41,8 @@ return [
         'collection_name_placeholder' => 'Коллекциянын атын жазыңыз',
         'collection_name_label' => 'Аты',
 
-        'parent_label' => 'Жогорку коллекция',
-        'parent_project_label' => 'Проектин коллекциясы',
+        'parent_label' => '<strong>:parent</strong> коллекциянын ичинде',
+        'parent_project_label' => '<strong>:parent</strong> долбоордун ичинде',
 
         'make_public' => 'Коллекцияны проектин мүчүлөрү үчүн ачык кылуу',
         'make_private' => 'Коллекцияны жеке кылуу',
