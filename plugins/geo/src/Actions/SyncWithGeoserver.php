@@ -68,7 +68,7 @@ class SyncWithGeoserver extends Action
 
             // Dispatch again the thumbnail generation for shapefile as
             // geoserver upload is required to use the thumbnail feature
-            if($details->type() === GeoType::VECTOR && $file->mime_type === 'application/octet-stream'){
+            if($details->type() === GeoType::VECTOR && in_array($file->mime_type, ['application/octet-stream', 'application/zip'])){
                 try{
                     dispatch_now(new ThumbnailGenerationJob($file));
                 }catch(Exception $ex)
