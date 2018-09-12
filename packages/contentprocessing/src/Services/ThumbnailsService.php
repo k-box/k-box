@@ -105,7 +105,7 @@ class ThumbnailsService
         $mimeTypes = collect($this->generators)->map(function ($generator) {
             return (new $generator())->supportedMimeTypes();
         })->flatten()->toArray();
-
+        
         return $this->supportedMimeTypes = $mimeTypes;
     }
 
@@ -173,6 +173,7 @@ class ThumbnailsService
      */
     public function isSupported(File $file)
     {
+        \Log::warning('Thumbnail service isSupported', [$file->mime_type, $this->supportedMimeTypes()]);
         return in_array($file->mime_type, $this->supportedMimeTypes());
     }
 

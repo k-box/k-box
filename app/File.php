@@ -407,7 +407,7 @@ class File extends Model
      */
     public function getDocumentTypeAttribute($value = null)
     {
-        list($mime, $documentType) = Files::recognize($this->path);
+        list($mime, $documentType) = Files::recognize($this->absolute_path);
         return $documentType;
     }
     
@@ -614,8 +614,8 @@ class File extends Model
             // double checking, guess the mime type and evaluate the mime type from
             // the list of known mime types, if different use the known one
             $guessed_mime_type = $upload->getMimeType();
-            
-            list($fallback_mime_type, $documentType) = Files::recognize($filename);
+
+            list($fallback_mime_type, $documentType) = Files::guessTypeFromExtension($filename);
             
             $mime = $fallback_mime_type === $guessed_mime_type ? $guessed_mime_type : $fallback_mime_type;
             
@@ -630,10 +630,12 @@ class File extends Model
 
             $hash = Files::hash($file_absolute_path);
 
+            list($recognizedMimeType, $recognizedDocumentType) = Files::recognize($file_absolute_path);
+
             $file_model->name = $filename;
             $file_model->uuid = $uuid;
             $file_model->hash = $hash;
-            $file_model->mime_type=$mime;
+            $file_model->mime_type=$recognizedMimeType;
             $file_model->size = $storage->size($file_path);
             $file_model->thumbnail_path = null;
             $file_model->path = $file_path;

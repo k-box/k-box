@@ -6,6 +6,8 @@ use Log;
 use Exception;
 use KBox\Geo\GeoService;
 use OneOffTech\GeoServer\GeoFile;
+use OneOffTech\GeoServer\GeoType;
+use KBox\Jobs\ThumbnailGenerationJob;
 use OneOffTech\GeoServer\Exception\GeoServerClientException;
 
 use KBox\Contracts\Action;
@@ -39,14 +41,41 @@ class SyncWithGeoserver extends Action
     {
         Log::info("Checking if $descriptor->uuid is a geographic file.");
 
-        if($this->service->isEnabled() && GeoFile::isSupported($descriptor->file->absolute_path)){
-            $data = GeoFile::from($descriptor->file->absolute_path)->name($descriptor->uuid);
+        if($this->service->isEnabled() && $this->service->isSupported($descriptor->file)){
 
-            Log::info("Uploading $descriptor->uuid to geoserver", compact('data'));
+            $file = $descriptor->file;
+
+            Log::info("Uploading [$descriptor->uuid:{$file->uuid}] to geoserver");
             
-            $feature = $this->service->connection()->upload($data);
+            $details = $this->service->upload($file);
             
-            Log::info("Upload of $descriptor->uuid completed", compact('feature'));
+            Log::info("Upload of [$descriptor->uuid:{$file->uuid}] completed", compact('details'));
+            
+            Log::info("Saving properties returned by GeoServer for: [$descriptor->uuid:{$file->uuid}]");
+        
+            // the default layer name, also useful for the WMS service is the store name
+            $baseLayer = $details->store['name'] ?? [];
+                    
+            $file->properties = [
+                'coordinateSystem' => $details->srs ?? ($details->boundingBox->crs ?? $details->nativeCRS),
+                'boundingBox' => $details->boundingBox,
+                'layers' => array_wrap($baseLayer),
+                'type' => $details->type(), //vector or raster
+                'nameInGeoserver' => $details->name,
+            ];
+            
+            $file->save();
+
+            // Dispatch again the thumbnail generation for shapefile as
+            // geoserver upload is required to use the thumbnail feature
+            if($details->type() === GeoType::VECTOR && in_array($file->mime_type, ['application/octet-stream', 'application/zip'])){
+                try{
+                    dispatch_now(new ThumbnailGenerationJob($file));
+                }catch(Exception $ex)
+                {
+                    Log::error('Thumbnail generation after geoserver file upload failed', ['error' => $ex]);
+                }
+            }
         }
 
         return $descriptor;

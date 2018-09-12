@@ -151,9 +151,27 @@ class FileServiceTest extends TestCase
         $this->assertEquals(['ateam/head', DocumentType::NOTE], $type);
     }
     
+    public function test_identifier_with_multiple_accept_values_is_supported()
+    {
+        Storage::fake('local');
+
+        $path = 'example.txt';
+
+        Storage::disk('local')->put(
+            $path,
+            file_get_contents(base_path('tests/data/example.txt'))
+        );
+
+        Files::register("ateam/head", DocumentType::NOTE, "head", TestingMultipleAcceptedTypeIdentifier::class);
+
+        $type = Files::recognize($path);
+
+        $this->assertEquals(['ateam/head', DocumentType::NOTE], $type);
+    }
+    
     public function test_registered_extension_is_used_when_converting_mime_type_to_extension()
     {
-        Files::register("ateam/head", DocumentType::NOTE, "head", TestingMimeTypeIdentifier::class);
+        Files::register("ateam/head", DocumentType::NOTE, "head", TestingMultipleAcceptedTypeIdentifier::class);
 
         $extension = Files::extensionFromType("ateam/head", DocumentType::NOTE);
 
@@ -212,6 +230,18 @@ class TestingFourthAllTypeIdentifier extends TypeIdentifier
 class TestingMimeTypeIdentifier extends TypeIdentifier
 {
     public $accept = "*";
+
+    public $priority = 10;
+
+    public function identify(string $path, TypeIdentification $default) : TypeIdentification
+    {
+        return new TypeIdentification('ateam/head', DocumentType::NOTE);
+    }
+}
+
+class TestingMultipleAcceptedTypeIdentifier extends TypeIdentifier
+{
+    public $accept = ["text/plain", "ateam/head"];
 
     public $priority = 10;
 

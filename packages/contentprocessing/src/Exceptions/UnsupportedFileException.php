@@ -34,4 +34,15 @@ class UnsupportedFileException extends Exception
     {
         return new self("The file [{$file->name}] with mime type [{$file->mime_type}] is not supported for thumbnail generation");
     }
+    
+    /**
+     * Create a new Unsupported file exception for the given file path
+     *
+     * @param string $path
+     * @return UnsupportedFileException
+     */
+    public static function path(string $path)
+    {
+        return new self("The file [{$path}] cannot be recognized");
+    }
 }
