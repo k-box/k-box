@@ -1,3 +1,5 @@
+## Previous: [Start](../landing-page.md)
+
 # Documents
 
 On the main page, you can access the left-hand navigation menu:
@@ -10,5 +12,4 @@ On the main page, you can access the left-hand navigation menu:
 - [Shared with me](./shared-with-me.md)
 - [Trash](./trash.md)
 
-## Previous: [Start](../landing-page.md)
 ## Next: [Work with documents](../documents/work-with-documents.md)
