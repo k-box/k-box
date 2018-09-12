@@ -2,6 +2,8 @@
 
 On the main page, you can access the left-hand navigation menu:
 
+![Left navigation menu](./img/left-nav-menu.png)
+
 - [Private](./private.md)
 - [Recent](./recent.md)
 - [Starred](./starred.md)
