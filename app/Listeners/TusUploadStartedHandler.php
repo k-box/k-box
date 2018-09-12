@@ -39,7 +39,7 @@ class TusUploadStartedHandler
         Log::info("Upload {$event->upload->request_id} started.");
         
         try {
-            list($recognizedMimeType) = Files::recognize($event->upload->filename);
+            list($recognizedMimeType) = Files::guessTypeFromExtension($event->upload->filename);
             $mime = $event->upload->mimetype ? FileHelper::normalizeMimeType($event->upload->mimetype) : $recognizedMimeType;
 
             // creating the File entry
