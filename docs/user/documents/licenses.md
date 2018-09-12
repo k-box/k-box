@@ -1,3 +1,5 @@
+#### Previous: [Identity](../administration/identity.md)            
+
 # License and Copyright
 
 We value everyone work, so we are slowly introducing a more fine-grained control over the Copyright Owner information and the ability to specify what other users can do with your work ([license](#license)).
@@ -51,4 +53,4 @@ Copyright and license information can be changed from the [_Edit_](https://git.k
 
 If you miss a license, which is not listed under available options, contact K-Box Administrator and provide as much information as possible about it.
 
-## Previous: [Overview](./work-with-documents.md)            
+#### Next: [Overview](./work-with-documents.md)            

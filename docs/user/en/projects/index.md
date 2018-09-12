@@ -1,3 +1,5 @@
+#### Previous: [Users management](./users.md)
+
 # Projects
 
 Projects helps you create communities of user that shares a common goal. Projects can contain documents and collections and are accessible only by authorized users.
@@ -77,7 +79,6 @@ A project can have a single website. Check the [Microsite section](../microsite/
 
 ## [Work with documents](.../documents/work-with-documents.md)
 
-## Previous: [Overview](../intro.md) 
-## Next: [Identity](../administration/identity.md)
+#### Next: [Identity](../administration/identity.md)
 
 
