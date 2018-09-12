@@ -46,6 +46,7 @@ class ShapefileThumbnailGenerator implements ThumbnailGenerator
     {
         return [
             'application/octet-stream',
+            'application/zip',
         ];
     }
 }
