@@ -39,7 +39,7 @@ return [
 
     'facets' => [
         'institutionId' => 'Уюм',
-        'language' => "Тил",
+        'language' => "Тили",
         'documentType' => "Документтин түрү",
         'documentGroups' => "Коллекциялар",
         'projectId' => 'Долбоор',
