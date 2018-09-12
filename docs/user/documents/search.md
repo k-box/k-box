@@ -16,6 +16,6 @@ You can of course combine all those operators in order to get more relevant sear
 
 ### Search tip
 
-Star your file clicking next to its title and it will appear in [Starred](https://git.klink.asia/main/k-box/docs/user/en/getting-started.md#starred). This functionality is limited to files hosted on your K-Box.
+Star your file clicking next to its title and it will appear in [Starred](https://git.klink.asia/main/k-box/docs/user/en/starred.md). This functionality is limited to files hosted on your K-Box.
 
 #### Next: [Publication](./publish.md)
