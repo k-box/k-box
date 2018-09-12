@@ -1,4 +1,4 @@
-#### Previous: [Users management](./users.md)
+#### Previous: [Users management](../administration/users.md)
 
 # Projects
 
@@ -73,11 +73,13 @@ At the bottom of the edit page you can see the _Current members list_ that shows
 
 Currently a project cannot be deleted.
 
-## [Microsites](../microsite/index.md)
+## Microsites
 
 A project can have a single website. Check the [Microsite section](../microsite/index.md) for more info.
 
-## [Work with documents](.../documents/work-with-documents.md)
+## Work with documents
+
+For more information about the K-Box, check the [Documents](https://git.klink.asia/main/k-box/blob/Update-Help-Project-section/docs/user/en/getting-started.md) or [Work with documents](https://git.klink.asia/main/k-box/blob/Update-Help-Project-section/docs/user/documents/work-with-documents.md) pages
 
 #### Next: [Identity](../administration/identity.md)
 

@@ -8,4 +8,4 @@ Organizations can share information about their projects, using [Microsites](../
 
 The ownership over K-Box can be expressed through the [Contacts](./contacts.md) page
 
-#### Next: [Licenses](.../documents/licenses.md)
+#### Next: [Licenses](https://git.klink.asia/main/k-box/blob/Update-Help-Project-section/docs/user/documents/licenses.md)
