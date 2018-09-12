@@ -15,7 +15,7 @@ return [
     'descriptor' => [
         
         'name' => 'Аты',
-        'added_by' => 'Кошулган',
+        'added_by' => 'Жүктөдү',
         'language' => 'Тили',
         'added_on' => 'Кошулган',
         'last_modified' => 'Өзгөртүлдү',
