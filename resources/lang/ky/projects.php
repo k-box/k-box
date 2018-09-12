@@ -45,7 +45,7 @@ return [
         'users_in_project' => 'Кошулган мүчөлөр (:count)',
         
         'managed_by' => 'Администратор',
-        'created_on' => 'Түзүлгөн',
+        'created_on' => 'Түзүлдү',
         'user_count_label' => 'Катышуучулар',
         'user_count' => ':count катышуучу',
         'documents_count_label' => 'Документтер',
