@@ -1,3 +1,5 @@
+#### Previous: [Start](../landing-page.md)
+
 # Overview
 
 This section covers the following aspects:
@@ -11,5 +13,4 @@ This section covers the following aspects:
 - [Logging](./logging.md)
 - [Backup](./backup.md)
 
-## Previous: [Start](../landing-page.md)
-## Next: [K-Box overview](../index.md)
+#### Next: [K-Box overview](../index.md)

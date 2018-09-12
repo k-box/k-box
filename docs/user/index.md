@@ -1,3 +1,6 @@
+#### Previous: [Overview](./maintenance/intro-dev.md)
+
+
 ---
 Title: Overview
 Description: Introduction to the K-Box
@@ -40,5 +43,4 @@ The supported browser are:
 - IE10
 - IE9 (on best effort)
 
-## Previous: [Overview](./maintenance/intro-dev.md)
-## Next: [Requirements](./requirements.md)
+#### Next: [Requirements](./requirements.md)

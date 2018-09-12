@@ -1,3 +1,5 @@
+#### Previous: [K-Box overview](../index.md)
+
 ---
 Title: Requirements
 Description: Hardware and Software prerequisites
@@ -35,5 +37,4 @@ in addition all components stores log information
 
 The used storage space varies according to the usage of the K-Box itself.
 
-## Previous: [Overview](./maintenance/intro-dev.md)
-## Next: [Installation](./installation.md)
+#### Next: [Installation](./installation.md)

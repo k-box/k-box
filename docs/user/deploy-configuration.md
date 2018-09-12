@@ -1,3 +1,5 @@
+#### Previous: [Installation](./installation.md)
+
 ---
 Title: Deployment configuration
 Description: What can be configured of the K-Box at deploy time
@@ -82,5 +84,4 @@ KBOX_APP_URL: "https://my.box.tld/"
 
 The K-Box offers various configuration options at deployment time and runtime. Please refer to [](../developer/configuration.md)
 
-## Previous: [Overview](./maintenance/intro-dev.md)
-## Next: [Reverse proxy](./reverse-proxy.md)
+#### Next: [Reverse proxy](./reverse-proxy.md)

@@ -1,3 +1,5 @@
+#### Previous: [Deploy configuration](./deploy-configuration.md)
+
 ---
 Title: Reverse proxy
 Description: How to deploy the K-Box behind a proxy
@@ -150,5 +152,4 @@ Third, the exposed ports needs to be removed:
 
 After changing the configuration you should restart the K-Box service so Traefik will be notified. At this point Traefik will take care of generating the SSL certificate.
 
-## Previous: [Overview](./maintenance/intro-dev.md)
-## Next: [Troubleshooting](./maintenance/troubleshooting.md)
+#### Next: [Troubleshooting](./maintenance/troubleshooting.md)
