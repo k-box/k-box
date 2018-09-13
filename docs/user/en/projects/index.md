@@ -2,13 +2,15 @@
 
 # Projects
 
-Projects helps you create communities of user that shares a common goal. Projects can contain documents and collections and are accessible only by authorized users.
+Projects help to create communities of users who share a common goal. Projects can contain documents and collections, 
+accessible by authorized users, unless explicitly stated otherwise.
 
-A project is created and maintained by a Project Manager and K-Box Administrator.
+Projects are created and maintained by Project Managers and K-Box Administrators.
 
 ## Projects section
 
-The management of the projects is performed from the _Projects_ page. If your profile has the Project Management capabilities, you will see the _New Project_ button
+Project management is performed from the _Projects_ page. If your profile has Project Management capabilities, 
+you will see the _New Project_ button
 
 ![navigation menu](./img/dms-projects-section.JPG)
 
@@ -16,15 +18,16 @@ The page lists the created, managed and accessible projects.
 
 ## Create a new Project
 
-To create a new project press the button _New Project_ that is on the top right of the page
+To create a project, press the button _New Project_ that is on the top right of the page:
 
 ![Create Project Button](./img/dms-projects-new-btn.JPG)
 
-After inserting the project name, description and users press the _Create Project_.
+After inserting the project name, description and users, press the _Create Project_ to save your changes.
 
 ## <a id="prjDetails"></a>Project details
 
-This page shows members of the project and the personalization options, like the Microsite (Check the [Microsite section](../microsite/index.md) for more info).
+This page shows project members and personalization options, such as
+the [Microsite](../microsite/index.md).
 
 ![Project Details](./img/dms-project-show.JPG)
 
@@ -32,7 +35,7 @@ This page is showed when you select _Details_ from the right-click menu of a pro
 
 ## Edit an existing project
 
-To edit a project press the _Edit_ button that is listed in the right-click menu. 
+To edit a project, press the _Edit_ button that is listed in the right-click menu. 
 
 ![Project Edit - details-menu](./img/dms-project-details-menu.PNG)
 
