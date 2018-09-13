@@ -40,6 +40,8 @@ _Details panel_
 
 License and copyright information are presented on the document details panel (for both private and public documents).
 
+![license](./img/doc-details-license.PNG)
+
 A short line with the logo of the license, the copyright owner, and the license name serve as an introductory element.
 Information about copyright and license will be presented right below the title and the star counter on the document details and preview pages. 
 
