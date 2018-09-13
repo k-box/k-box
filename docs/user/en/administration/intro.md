@@ -9,6 +9,6 @@ In this section, the following aspects are covered:
 - [Users management](./users.md)
 - [Project management](../projects/index.md)
 - [Identity](./identity.md)
-- [Licenses](.../documents/licenses.md)
+- [Licenses](https://git.klink.asia/main/k-box/blob/Update-Help-Project-section/docs/user/documents/licenses.md)
 
 #### Next: [Users management](./users.md)
