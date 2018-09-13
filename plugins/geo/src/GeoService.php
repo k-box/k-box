@@ -139,6 +139,12 @@ final class GeoService
     }
     
 
+    public function wmsBaseUrl()
+    {
+        $conf = $this->config();
+
+        return sprintf("%s/%s/wms", $conf['geoserver_url'], $conf['geoserver_workspace']);
+    }
 
     /**
      * Test if the given configuration is valid

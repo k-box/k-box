@@ -8,9 +8,11 @@ use KBox\Events\FileDeleting;
 use KBox\Plugins\PluginManager;
 use KBox\Documents\DocumentType;
 use KBox\Documents\Facades\Files;
+use KBox\Documents\Facades\Previews;
 use Illuminate\Support\Facades\Route;
 use KBox\Documents\Facades\Thumbnails;
 use KBox\Geo\Actions\SyncWithGeoserver;
+use KBox\Geo\Previews\GeodataPreviewDriver;
 use KBox\Geo\Listeners\RemoveFileFromGeoserver;
 use KBox\Geo\TypeIdentifiers\KmlTypeIdentifier;
 use KBox\Geo\TypeIdentifiers\GpxTypeIdentifier;
@@ -67,6 +69,8 @@ class GeoServiceProvider extends Plugin
         $this->registerFileTypes();
         
         $this->registerThumbnailGenerators();
+        
+        $this->registerPreviewDrivers();
     }
 
     private function registerFileTypes()
@@ -84,5 +88,10 @@ class GeoServiceProvider extends Plugin
     {
         Thumbnails::register(GeoTiffThumbnailGenerator::class);
         Thumbnails::register(ShapefileThumbnailGenerator::class);
+    }
+
+    private function registerPreviewDrivers()
+    {
+        Previews::register(GeodataPreviewDriver::class);
     }
 }
