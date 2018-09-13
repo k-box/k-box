@@ -37,6 +37,7 @@ At the moment, one can select the following options for their contents in the K-
 4. No license information available
 
 _Details panel_
+
 License and copyright information are presented on the document details panel (for both private and public documents).
 
 A short line with the logo of the license, the copyright owner, and the license name serve as an introductory element.
