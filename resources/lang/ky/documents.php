@@ -303,4 +303,28 @@ return [
         'outside_project_target_area' => 'Сураныч, файлды жүктөө үчүн, аны проектке алып таштаңыз',
         'empty_file_error' => 'Бош документ. Сураныч, ичинде маалымат болгон файлды жүктөңүз',
     ],
+
+    'duplicates' => [
+        'badge' => 'Бул башка документтин көчүрмөсү',
+        'duplicates_btn' => 'Көчүрмөлөр',
+        'duplicates_btn_hint' => 'Көчүрмөлөрдү көрүү',
+        'duplicates_description' => 'Көчүрмө ушул документке караштуу:',
+
+        'in_trash' => 'Корзинада',
+
+        'message_me_owner' => 'Жүктөгөн документиңиз <a href=":duplicate_link" target="_blank" rel="noopener noreferrer">:duplicate_title</a> бул документтин <a href=":existing_link" target="_blank" rel="noopener noreferrer">:existing_title</a> көчүрмөсү.',
+        'message_with_owner' => 'Сиз жүктөгөн документ <a href=":duplicate_link" target="_blank" rel="noopener noreferrer">:duplicate_title</a> бул документтин <a href=":existing_link" target="_blank" rel="noopener noreferrer">:existing_title</a> көчүрмөсү (:owner жүктөгөн).',
+        'message_in_collection' => 'Сиз жүктөгөн документ <a href=":duplicate_link" target="_blank" rel="noopener noreferrer">:duplicate_title</a> бул документтин <a href=":existing_link" target="_blank" rel="noopener noreferrer">:existing_title</a> көчүрмөсү (:collections коллекцияга :owner жүктөгөн).',
+        
+        'resolve_duplicate_button' => 'Көчүрмөнү өчүрүү',
+
+        'processing' => 'Көчүрмө өчүрүлүп жатат...',
+
+        'errors' => [
+            'title' => 'Көчүрмө өчүрүлгөн жок',
+            'generic' => 'Көчүрмө өчүрүлгөн жок',
+            'already_resolved' => 'Өчүрүү катасы чечилди',
+            'resolve_with_trashed_document' => 'Өчүрүү катасы чечилди',
+        ],
+    ],
 ];
