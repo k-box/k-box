@@ -3,15 +3,15 @@
 # Sharing
 K-Box sharing options are available through the Sharing window, that can be accessed through:
 
-1. _Share_ button on the top navigation bar 
+_Share_ button on the top navigation bar 
 
 ![share-nav](./img/share-nav.PNG)
 
-2. _Share_ option in the right-hand menu
+or _Share_ option in the right-hand menu
 
 ![share-menu](./img/share-menu.PNG)
 
-3. _Sharing settings_ on details panel
+or _Sharing settings_ on details panel
 
 ![share-panel](./img/share-panel.PNG)
 
