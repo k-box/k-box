@@ -37,7 +37,7 @@ This page is showed when you select _Details_ from the right-click menu of a pro
 
 To edit a project, press the _Edit_ button that is listed in the right-click menu. 
 
-![Project Edit - details-menu](./img/dms-project-details-menu.PNG)
+![Project Edit - details-menu](./img/prj-edit-button.PNG)
 
 Save your changes, when finished. 
 
