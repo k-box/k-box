@@ -20,19 +20,6 @@ The slug is configurable, for more info please check the [Creating a Microsite s
 The URL of the microsite must be given to the users by the Project Administrator because there is no page that lists all 
 the Microsite available on the K-Box (both for logged-in and guest users).
 
-The current Microsite page layout is similar to the one showed in the figure below.
-
-![microsite layout](./img/microsite-layout.png)
-
-On the top navigation bar you can find
-
--  logo, which is a picture with maximum height of 80 pixels
--  search bar
--  language switcher
--  login and go to project link.
-
-These links are mutually exclusive. The login button is showed only if user is not logged-in to K-Box. 
-
 
 ### Search from the Microsite
 
@@ -40,21 +27,7 @@ The Microsite offers a search box that lets your user search the accessible Publ
 
 ![microsite difference in search for logged-in users and guests](./img/microsite-login-vs-guest.jpg)
 
-As pictured above, search will be perfomed on the Public Network - in this case, on the K-Link Network - if user is not logged in.
-
 Learn more about search [here](.../documents/search.md)
-
-### Multiple Languages
-
-The Microsite can be viewed in two languages:
-
-- English
-- Russian
-
-The content for both languages must be written by the Microsite creator.
-
-The creator of the microsite can specify the default language to be showed to the users. The language switcher will enable the user to see the preferred version of the site. If the web browser is configured to send language preferences (English or Russian), 
-the microsite will choose the language accordingly.
 
 ## Creating a Microsite
 
@@ -65,41 +38,6 @@ On the Project details panel, you can press the button _Create Microsite_ (pictu
 ![microsite create button](./img/microsite-create-1.JPG)
 
 From the Microsite creation page you can configure its every aspect.
-
-![microsite content and configuration](./img/microsite-create-2.png)
-
-### Microsite configuration parameters
-
-There are several configuration parameters needed to create a Microsite
-
-**Site name** (required)
-
-The title of the Microsite that will be showed to the users. The default value is the Project name.
-
-**Site human friendly slug** (required)
-
-The friendly site name to be used in the URL of the microsite. The default value is a lower case version without spaces of the Project name.
-
-A slug cannot have spaces or start with the `create` word.
-
-**The website logo**
-
-This will be the logo of the microsite and will be showed on the header. The image must be hosted on an HTTPS enabled website without authentication. 
-Currently is not possible to host the image on the K-Box itself.
-
-The image can be of any image type supported by browsers (git, jpg, png), but must not exceed the size of 350x80 pixels.
-
-**Site description**
-
-The description of the Microsite. This will not be showed to the users, but will be used only as a metadescription for search engines
-
-**Site default language** (required)
-
-Altought the microsite can be localized in Russian and English a default language must be specified. The default language will show the content to the users that have no 
-preferences of the language set on the browser.
-
-The list of default languages contains more languages than the available content translations, use only English or Russian otherwise your site will not be showed correctly.
-
 
 ### Microsite content
 
@@ -129,8 +67,6 @@ You can delete a Microsite at any point in time. Its removal will permanently de
 The deletion of a microsite can be performed only by the Project Administrator, by pressing the _Delete Microsite_ button. A confirmation dialog, like the one pictured below, will be showed.
 
 ![microsite delete](./img/microsite-delete.png) 
-
-Once you hit _Remove_ the Microsite will be permanently deleted and the URL will not be reachable anymore.
 
 ## Previous: [Overview](../administration/intro.md)            
 
