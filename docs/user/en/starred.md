@@ -2,11 +2,11 @@
 
 # Starred
 
-Display all the files you starred.
+Displaya all files you have starred.
 
 ![Starred documents menu](img/starred-docs.png)
 
-Star your file clicking next to its title and it will appear in Starred.
+Star your file clicking next to its title and it will be saved in Starred.
 
 ![add to starred](./img/add-to-starred.png) 
 
