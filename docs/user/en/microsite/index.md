@@ -23,7 +23,7 @@ For example if a project name is _Project A_ the default slug is `project-a`.
 
 The Microsite offers a search box that lets your user search the accessible Public Network.
 
-![microsite difference in search for logged-in users and guests](./img/microsite-login-vs-guest.jpg)
+![search-microsite](./img/search-microsite.png)
 
 Learn more about search [here](.../documents/search.md)
 
