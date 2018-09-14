@@ -1,12 +1,16 @@
 #### Previous: [Start](../landing-page.md)
 
-# Documents
+# Overview
 
-On the main page, you can access the left-hand navigation menu:
+By default, the K-Box interface opens to your Personal documents page. 
+
+![Main page](./img/main-page.png)
+
+You can access the left-hand navigation menu where documents categorized:
 
 ![Left navigation menu](./img/left-nav-menu.png)
 
-- [Private](./private.md)
+- [Personal](./personal.md)
 - [Recent](./recent.md)
 - [Starred](./starred.md)
 - [Shared with me](./shared-with-me.md)
