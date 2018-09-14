@@ -10,7 +10,7 @@ meta-data. The information available is usually:
 * Date it was added
 * Uploader
 
-By clicking on a doc, it is possible to consult this information:
+By clicking on a file, it is possible to consult this information:
 
 ![Document meta-data](../en/img/document-meta.png)
 
