@@ -2,7 +2,7 @@
 
 # Starred
 
-Displaya all files you have starred.
+Displays all files you have starred.
 
 ![Starred documents menu](img/starred-docs.png)
 
