@@ -20,10 +20,10 @@
             format: 'image/png',
             transparent: true,
             maxZoom: 54,
-            srs: L.CRS.EPSG4326,
+            // L.CRS.EPSG3857 is automatically set as CRS, as the map instance is configured with that
             minZoom: 0,
             styles: '{{ $styles }}',
-            version: '1.1.0',
+            version: '1.1.1',
             layers: "{{ $layers }}",
             attribution: '{{ $attribution }}'
         });
@@ -47,10 +47,9 @@
         };
         
         var map = L.map('map', {
-            crs: L.CRS.EPSG4326,
-            // center: {{ $mapCenter ?? "[52.5200, 13.4050]" }},
+            crs: L.CRS.EPSG3857, // spherical mercator projection https://leafletjs.com/reference-1.3.4.html#crs
             zoom: {{ $mapZoom ?? 11 }},
-            layers: [defaultBaseMap, file]
+            layers: [defaultBaseMap, file],
         });
 
         @if(isset($mapBoundings) && !empty($mapBoundings))
