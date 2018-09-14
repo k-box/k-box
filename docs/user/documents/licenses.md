@@ -15,13 +15,10 @@ A concrete example of the policy is presented on the [Elsevier](https://www.else
 
 Users can provide the following information about the copyright owner:
 
-    • name
-
-    • email
-
-    • website
-
-    • address
+* name
+* email
+* website
+* address
 
 Information about the copyright owner is applied independently from the selected license. 
 
