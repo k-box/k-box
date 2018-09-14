@@ -16,4 +16,4 @@ You can access the left-hand navigation menu where documents categorized:
 - [Shared with me](./shared-with-me.md)
 - [Trash](./trash.md)
 
-#### Next: [Work with documents](../documents/work-with-documents.md)
+#### Next: [Personal](./personal.md)
