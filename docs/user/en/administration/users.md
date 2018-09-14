@@ -25,4 +25,4 @@ Assign accounts based on their permissions:
 |**Partner** | Can additionally upload, edit and share files. Has access to shared Projects and Private space page | User can access all the unpublished documents in accessible projects.  User can add/remove project collections in accessible projects |
 |**Project administrator**| Can additionally add/remove members, un-/publish content from project | All highlighted |
 
-#### Next: [Projects](../projects/index.md)
+#### Next: [Licenses](https://git.klink.asia/main/k-box/blob/Update-Help-Project-section/docs/user/documents/licenses.md)

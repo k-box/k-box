@@ -1,4 +1,4 @@
-#### Previous: [Identity](../en/administration/identity.md)            
+#### Previous: [Users management](./users.md)        
 
 # License and Copyright
 
@@ -61,4 +61,4 @@ Copyright and license information can be changed from the [_Edit_](https://git.k
 
 If you miss a license, which is not listed under available options, contact K-Box Administrator and provide as much information as possible about it.
 
-#### Back to: [Overview](./work-with-documents.md)            
+#### Next: [Identity](../en/administration/identity.md)            
