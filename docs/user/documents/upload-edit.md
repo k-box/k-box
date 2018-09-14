@@ -7,11 +7,11 @@ To add a new document, select the collection or sub-collection in which the docu
 
 There are several options for uploading a file into K-Box:
 
-1. For videos use the "Create or Add"  → “Video uploader" option
+For _videos_ use the "Create or Add"  → “Video uploader" option
 
 ![Upload](./img/dms-upload-file-selector.png)
 
-2. For any other file, use “Create or Add” → “File” or simply drag and drop 
+For _any other file_, use “Create or Add” → “File” or simply drag and drop 
 
 ![Upload](./img/dms-upload.png)
 
