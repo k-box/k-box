@@ -75,4 +75,9 @@
     
     </form>
 
+    <div class="c-section">
+        <h4><a class="c-section__title" href="{{route('plugins.k-box-kbox-plugin-geo.mapproviders')}}">{{ trans('geo::settings.providers.title') }}</a></h4>
+        <p class="c-section__description">@lang('geo::settings.providers.description')</p>
+    </div>
+
 @stop

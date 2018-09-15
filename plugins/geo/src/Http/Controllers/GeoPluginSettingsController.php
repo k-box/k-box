@@ -25,8 +25,6 @@ class GeoPluginSettingsController extends Controller
     {
         $this->middleware('auth');
 
-        // $this->middleware('capabilities');
-
         $this->service = $service;
     }
 
@@ -89,9 +87,6 @@ class GeoPluginSettingsController extends Controller
         return redirect()->route('plugins.k-box-kbox-plugin-geo.settings')->with([
             'flash_message' => trans('plugins.messages.settings_saved')
         ]);
-        // return redirect()->route('plugins.k-box-kbox-plugin-geo.settings')->withInput()->with([
-        //     'flash_message' => trans('plugins.messages.settings_saved')
-        // ]);
     }
 
 }

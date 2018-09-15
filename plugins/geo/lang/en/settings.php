@@ -26,5 +26,36 @@ return [
         'established' => 'GeoServer (:version) connection established.',
         'failed' => 'Failed to connect to GeoServer. :error',
     ],
+
+    'providers' => [
+        'title' => 'Map Providers',
+        'description' => 'Configure the providers of the base maps used for map visualizations',
+
+        'attributes' => [
+            'id' => 'id',
+            'id_description' => '...',
+
+            'default' => 'default',
+            'default_description' => '...',
+
+            'subdomains' => 'subdomains',
+            'subdomains_description' => '...',
+
+            'type' => 'type',
+            'type_description' => '...',
+
+            'label' => 'label',
+            'label_description' => '...',
+
+            'url' => 'url',
+            'url_description' => '...',
+
+            'attribution' => 'attribution',
+            'attribution_description' => '...',
+
+            'maxZoom' => 'maxZoom',
+            'maxZoom_description' => '...',
+        ],
+    ],
     
 ];
