@@ -62,6 +62,9 @@ class GeoServiceProvider extends Plugin
         $this->app->singleton(GeoService::class, function ($app) {
             return new GeoService(app(PluginManager::class));
         });
+
+        // Register the plugin default configuration as application configuration
+        $this->mergeConfigFrom(__DIR__.'/../../config/default.php', GeoService::PLUGIN_ID);
         
         // register the custom step in the elaboration pipeline
         DocumentElaboration::register(SyncWithGeoserver::class);

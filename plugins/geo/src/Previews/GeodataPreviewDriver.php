@@ -22,8 +22,14 @@ class GeodataPreviewDriver extends MapPreviewDriver
 
     public function preview(File $file) : Renderable
     {
-        $this->view_data['file'] = $file;
+        parent::preview($file);
 
+        // Get the configured map providers
+        $mapConfig = $this->geoservice->config('map');
+        $this->view_data['providers'] = $mapConfig['providers'];
+        $this->view_data['defaultProvider'] = $mapConfig['providers'][$mapConfig['default']]['label'] ?? $mapConfig['default'];
+
+        // Get the WMS base url for the file
         $this->view_data['wmsBaseUrl'] = $this->geoservice->wmsBaseUrl();
 
         // latitude, longitude

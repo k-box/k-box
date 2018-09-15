@@ -10,11 +10,25 @@ use Illuminate\Contracts\Support\Renderable;
  */
 class MapPreviewDriver extends BasePreviewDriver implements Renderable
 {
+    const DEFAULT_PROVIDERS = [
+        "osm" => [
+            'type' => 'tile',
+            'label' => "Open Street Maps",
+            'url' => 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+            'attribution' => '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+            'maxZoom' => 19,
+        ],
+    ];
+
+    const DEFAULT_PROVIDER = "Open Street Maps";
+
     protected $view_data = [];
 
     public function preview(File $file) : Renderable
     {
         $this->view_data['file'] = $file;
+        $this->view_data['providers'] = self::DEFAULT_PROVIDERS;
+        $this->view_data['defaultProvider'] = self::DEFAULT_PROVIDER;
         return $this;
     }
 

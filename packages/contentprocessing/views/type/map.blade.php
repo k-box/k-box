@@ -1,6 +1,5 @@
 <div id="map" style="width: 100%;height: 100%;">
 
-
 </div>
 
 <script>
@@ -8,12 +7,23 @@
 
         L.Icon.Default.prototype.options.imagePath = "/images/";
 
-        var defaultBaseMap = L.tileLayer('https://tile-{s}.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
-                id: "hot-osm",
-                maxZoom: 20,
-                subdomains: "abc",
-                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors. Tiles courtesy of <a href="http://hot.openstreetmap.org/" target="_blank">Humanitarian OpenStreetMap Team</a>'
-            });
+        var baseMaps = {
+
+            @foreach ($providers as $providerId => $provider)
+
+                "{{ $provider['label'] ?? $providerId }}" : L.tileLayer{{ $provider['type'] === 'wms' ? '.wms' : '' }}("{{$provider['url']}}", {
+                    id : "{{ $providerId }}",
+                    @if(isset($provider['maxZoom'])) maxZoom: "{{$provider['maxZoom']}}", @endif
+                    @if(isset($provider['layers'])) layers: "{{$provider['layers']}}", @endif
+                    @if(isset($provider['subdomains'])) subdomains: "{{$provider['subdomains']}}", @endif
+                    attribution: '{!! $provider['attribution'] ?? '' !!}',
+                }),
+    
+            @endforeach
+
+        };
+
+        var defaultBaseMap = baseMaps['{{$defaultProvider}}'];
 
         var file = L.tileLayer.wms('{{ $wmsBaseUrl }}', {
             id: "my",
@@ -27,20 +37,6 @@
             layers: "{{ $layers }}",
             attribution: '{{ $attribution }}'
         });
-
-        var baseMaps = {
-            "OpenStreetMaps": L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                id: "osm",
-                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-                maxZoom: 19
-            }),
-            "Humanitarian OpenStreetMaps": defaultBaseMap,
-            "Mundialis (Topographic OSM)": L.tileLayer.wms('http://ows.mundialis.de/services/service?', {
-                id: "mun",
-                layers: "TOPO-OSM-WMS",
-                attribution: '&copy; <a href="https://www.mundialis.de/en/ows-mundialis/" target="_blank">mundialis GmbH & Co. KG</a>'
-            })
-        };
 
         var overlayMaps = {
             "{{$file->name}}": file

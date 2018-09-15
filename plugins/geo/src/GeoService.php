@@ -83,6 +83,11 @@ final class GeoService
     }
 
 
+    /**
+     * Get the underlying geoserver connection
+     * 
+     * @return \OneOffTech\GeoServer\GeoServer
+     */
     public function connection()
     {
         $conf = $this->config();
@@ -127,7 +132,8 @@ final class GeoService
     }
 
     /**
-     * Thumbnail a file to the geoserver
+     * Generate the thumbnail of a file
+     * 
      */
     public function thumbnail(File $file)
     {
@@ -139,6 +145,9 @@ final class GeoService
     }
     
 
+    /**
+     * Get the Geoserver WMS service base url
+     */
     public function wmsBaseUrl()
     {
         $conf = $this->config();
