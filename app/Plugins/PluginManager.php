@@ -152,8 +152,12 @@ final class PluginManager
     public function config($plugin, $key = null, $default = null)
     {
         $instance = $this->plugins()->get($plugin);
+        
+        $defaultConfiguration = config($plugin) ?? [];
 
-        $configuration = isset($instance['configuration']) ? $instance['configuration'] : [];
+        $savedConfiguration = $instance['configuration'] ?? [];
+
+        $configuration = array_merge($defaultConfiguration, $savedConfiguration);
 
         if (is_null($key)) {
             return $configuration;
