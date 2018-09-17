@@ -1,4 +1,4 @@
-#### Previous: [K-Box overview](../index.md)
+#### Previous: [K-Box overview](./index.md)
 
 ---
 Title: Requirements

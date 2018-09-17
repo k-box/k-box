@@ -1,4 +1,4 @@
-#### Previous: [Troubleshooting](./maintenance/troubleshooting.md)
+#### Previous: [Troubleshooting](./troubleshooting.md)
 
 ---
 Title: Logging
