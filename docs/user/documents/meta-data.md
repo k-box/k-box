@@ -1,4 +1,4 @@
-#### Previous: [Overview](./work-with-documents.md)            
+#### Previous: [Work with documents: Overview](./work-with-documents.md)            
 
 ## Meta-data
 When a document is uploaded, information about it is gathered. It is called

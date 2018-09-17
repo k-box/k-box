@@ -1,4 +1,4 @@
-#### Previous: [Start](../landing-page.md)
+#### Back to: [Start](../landing-page.md)
 
 # Work with documents: Overview
 
