@@ -1,4 +1,4 @@
-#### Previous: [Private](./private.md)
+#### Previous: [Personal](./personal.md)
 
 # Recent 
 
