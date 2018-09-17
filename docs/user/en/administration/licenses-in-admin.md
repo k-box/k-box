@@ -1,4 +1,4 @@
-#### Previous: [Licenses](./licenses-in-admin.md)        
+#### Previous: [Users management](./users.md)        
 
 # License and Copyright
 
