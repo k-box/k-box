@@ -1,4 +1,4 @@
-#### Previous: [Work with documents](../documents/work-with-documents.md)
+#### Previous: [Work with documents: Overview](../documents/work-with-documents.md)
 
 # Navigate in collections
 
