@@ -78,8 +78,11 @@ final class GeoService
      */
     public function isEnabled()
     {
-        $conf = $this->config();
-        return is_array($conf) && count($conf) === 4;
+        $configuration = $this->config();
+
+        $conf = collect($configuration)->only(['geoserver_username','geoserver_password','geoserver_url','geoserver_workspace'])->filter();
+
+        return $conf->count() === 4;
     }
 
 
