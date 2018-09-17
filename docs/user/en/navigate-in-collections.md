@@ -9,4 +9,4 @@ In order to go from a collection to another, click on the relevant name in the l
 To collapse the list of sub-collections, click on the arrow located at the left of the project or collection name.
 
 
-#### Next: [Projects](./projects/index.md)
+#### Next: [K-Box Administration: Overview](./administration/intro.md)
