@@ -1,4 +1,4 @@
-#### Previous: [Reverse proxy](./reverse-proxy.md)
+#### Previous: [Reverse proxy](../reverse-proxy.md)
 ---
 Title: Troubleshooting
 Description: Problems? We might have a solution already covered!
