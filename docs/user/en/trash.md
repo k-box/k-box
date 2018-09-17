@@ -6,5 +6,5 @@ Contains all your trashed documents.
 
 ![Trash](./img/trash.png)
 
-#### Back to: [Overview](./getting-started.md)
+#### Back to: [Getting started: Overview](./getting-started.md)
 #### Next: [Work with documents](../documents/work-with-documents.md)
