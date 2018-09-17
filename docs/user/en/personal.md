@@ -1,4 +1,4 @@
-#### Previous: [Overview](./getting-started.md)
+#### Previous: [Getting started: Overview](./getting-started.md)
 
 # Personal
 
