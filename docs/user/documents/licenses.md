@@ -1,4 +1,4 @@
-#### Previous: [Users management](./users.md)        
+#### Previous: [Publication](./publish.md)        
 
 # License and Copyright
 
