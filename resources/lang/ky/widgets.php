@@ -38,7 +38,7 @@ return [
         'graph_labels' => [
             'documents' => 'Документтер',
             'images' => 'Сүрөттөр',
-            'videos' => 'Видео',
+            'videos' => 'Видеолор',
             'other' => 'Башка'
         ],
  
