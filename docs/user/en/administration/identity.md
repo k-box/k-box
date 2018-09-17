@@ -1,4 +1,4 @@
-#### Previous: [Licenses](https://git.klink.asia/main/k-box/blob/Update-Help-Project-section/docs/user/documents/licenses.md)
+#### Previous: [Licenses](./licenses-in-admin.md)
         
 # Identity
 
