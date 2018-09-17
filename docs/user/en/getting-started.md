@@ -2,7 +2,7 @@
 
 # Overview
 
-By default, the K-Box interface opens to your Personal documents page. 
+By default, the K-Box interface opens in your Personal section on Documents page. 
 
 ![Main page](./img/main-page.png)
 
