@@ -1,6 +1,6 @@
 #### Previous: [Start](../landing-page.md)
 
-# Overview
+# Getting started: Overview
 
 By default, the K-Box interface opens in your Personal section on Documents page. 
 
