@@ -1,4 +1,4 @@
-#### Previous: [Work with documents: Overview](../documents/work-with-documents.md)
+#### Back to: [Start](../landing-page.md)
 
 # Navigate in collections
 
