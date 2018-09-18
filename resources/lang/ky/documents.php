@@ -139,7 +139,7 @@ return [
         'authors_help' => 'Авторлор үтүр мене бөлүнүп, <code>аты фамилиясы &lt;mail@something.com&gt;</code> форматта көрсөтүлүш керек',
         'authors_placeholder' => 'Документтин авторлору (аты, фамилиясы <mail@something.com>)',
         
-        'language_label' => 'Тил',
+        'language_label' => 'Тили',
 
         'last_edited' => '<strong>:time</strong> өзгөртүлдү',
         'created_on' => '<strong>:time</strong> кошулду',
