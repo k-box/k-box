@@ -34,7 +34,6 @@ return [
         'providers' => [
             "hum_osm" => [
                 'label' => "Humanitarian Open Street Maps",
-                'default' => true,
                 'url' => 'https://tile-{s}.openstreetmap.fr/hot/{z}/{x}/{y}.png',
                 'type' => 'tile',
                 'maxZoom' => 20,

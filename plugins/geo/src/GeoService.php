@@ -68,6 +68,17 @@ final class GeoService
 
     }
 
+    /**
+     * Get the default configuration of the plugin, as it was not changed
+     * 
+     * @param  string  $key The configuration key to retrieve. Default null, all configuration options are retrieved
+     * @return mixed
+     */
+    public function defaultConfig($key = null)
+    {
+        return $this->manager->defaultConfig(self::PLUGIN_ID, $key);
+    }
+
 
     /**
      * If the plugin services can be used.
