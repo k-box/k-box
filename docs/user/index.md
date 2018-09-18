@@ -22,7 +22,6 @@ The K-Box (web) Application is the user facing part, while the K-Search offers t
 
 - [**Requirements**](./requirements.md)
 - [**Installation**](./installation.md)
-- [First use](./first-use.md)
 - [Troubles, check the known source of problems](./maintenance/troubleshooting.md)
 
 ## Digging Deeper
