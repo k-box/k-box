@@ -6,6 +6,7 @@ use KBox\User;
 use Tests\TestCase;
 use KBox\Capability;
 use KBox\Geo\GeoService;
+use KBox\Plugins\PluginManager;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
@@ -18,6 +19,8 @@ class GeoMapProvidersTest extends TestCase
     protected function setUp()
     {
         parent::setUp();
+
+        app(PluginManager::class)->enable('k-box-kbox-plugin-geo');
 
         $service = app(GeoService::class);
 

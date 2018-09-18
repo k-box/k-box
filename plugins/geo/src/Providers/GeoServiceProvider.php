@@ -33,13 +33,13 @@ class GeoServiceProvider extends Plugin
     public function boot()
     {
 
-        // if (! $this->app->routesAreCached()) {
-            // Route::middleware('web')
-            //     ->namespace('KBox\Geo\Http\Controllers')
-            //     ->prefix('geoplugin')
-            //     ->as('plugins.k-box-kbox-plugin-geo.')
-            //     ->group(__DIR__.'/../../routes/routes.php');
-        // }
+        if (! $this->app->routesAreCached()) {
+            Route::middleware('web')
+                ->namespace('KBox\Geo\Http\Controllers')
+                ->prefix('geoplugin')
+                ->as('plugins.k-box-kbox-plugin-geo.')
+                ->group(__DIR__.'/../../routes/routes.php');
+        }
 
         // Translation loading
         $this->loadTranslationsFrom(__DIR__.'/../../lang', 'geo');
@@ -64,12 +64,6 @@ class GeoServiceProvider extends Plugin
 
         // Register the plugin default configuration as application configuration
         $this->mergeConfigFrom(__DIR__.'/../../config/default.php', GeoService::PLUGIN_ID);
-
-        Route::middleware('web')
-                ->namespace('KBox\Geo\Http\Controllers')
-                ->prefix('geoplugin')
-                ->as('plugins.k-box-kbox-plugin-geo.')
-                ->group(__DIR__.'/../../routes/routes.php');
         
         // register the custom step in the elaboration pipeline
         DocumentElaboration::register(SyncWithGeoserver::class);
