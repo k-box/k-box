@@ -54,6 +54,27 @@ return [
                 'type' => 'wms',
                 'url' => 'http://ows.mundialis.de/services/service?',
             ],
+            "sentinel_3857" => [
+                'label' => "Sentinel-2 cloudless by EOX",
+                'layers' => "s2cloudless_3857,overlay_bright_3857",
+                'attribution' => '<a href="https://s2maps.eu">Sentinel-2 cloudless – https://s2maps.eu</a> by <a href="https://eox.at/">EOX IT Services GmbH</a> (Contains modified Copernicus Sentinel data 2016 & 2017)',
+                'type' => 'wms',
+                'url' => 'https://tiles.maps.eox.at/?',
+            ],
+            "sentinel_2017_3857" => [
+                'label' => "Sentinel-2 cloudless layer for 2017 by EOX",
+                'layers' => "s2cloudless-2017_3857",
+                'attribution' => '<a href="https://s2maps.eu">Sentinel-2 cloudless – https://s2maps.eu</a> by <a href="https://eox.at/">EOX IT Services GmbH</a> (Contains modified Copernicus Sentinel data 2016 & 2017)',
+                'type' => 'wms',
+                'url' => 'https://tiles.maps.eox.at/?',
+            ],
+            "sentinel_terrain_3857" => [
+                'label' => "Sentinel Terrain by EOX",
+                'layers' => "terrain_3857,overlay_bright_3857",
+                'attribution' => '<a href="https://s2maps.eu">Sentinel-2 cloudless – https://s2maps.eu</a> by <a href="https://eox.at/">EOX IT Services GmbH</a> (Contains modified Copernicus Sentinel data 2016 & 2017)',
+                'type' => 'wms',
+                'url' => 'https://tiles.maps.eox.at/?',
+            ],
         ]
     ]
     
