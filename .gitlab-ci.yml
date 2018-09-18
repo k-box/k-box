@@ -114,7 +114,6 @@ unit_test:
     - php artisan route:clear
     - php artisan migrate --env=testing --force
     - php artisan db:seed --env=testing --force
-    - php artisan route:list
     - vendor/bin/phpunit
     - php artisan lang:check --report=translations.txt
   tags:
