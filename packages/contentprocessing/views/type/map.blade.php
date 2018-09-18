@@ -56,6 +56,6 @@
 
         L.control.layers(baseMaps, overlayMaps).addTo(map);
 
-        window.preview = map;
+        window.MapInstance = map;
 	});
 </script>
