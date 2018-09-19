@@ -6,7 +6,8 @@
         "title": {
             "en": "License information is not available. According to the international law, all rights are reserved",
             "ru": "Информация о лицензии недоступна. Согласно международным стандартам, все права защищены",
-            "fr": "Aucune information disponible concernant la licence. Conformément au droit international, tous les droits sont réservés"
+            "fr": "Aucune information disponible concernant la licence. Conformément au droit international, tous les droits sont réservés",
+            "ky": "Лицензия жөнүндө маалымат жок. Эл аралык укука карата, баардык укутар корголгон"
         },
         "icon": "copy.svg",
         "description": "not-explicit.md",
@@ -19,6 +20,7 @@
         "title": {
             "en": "All rights reserved",
             "de": "Alle Rechte vorbehalten",
+            "ky": "Автордук укуктар корголгон",
             "ru": "Все права защищены",
             "tg": "All rights reserved",
             "fr": "Tous droits réservés"
@@ -34,6 +36,7 @@
         "title": {
             "en": "Public Domain",
             "de": "Public Domain",
+            "ky": "Коомдук кенч",
             "ru": "Всеобщее достояние",
             "tg": "Public Domain",
             "fr": "Domaine public"
@@ -53,6 +56,7 @@
         "short_title": "CC BY 4.0",
         "title": {
             "en": "Creative Commons Attribution 4.0 International",
+            "ky": "Creative Commons Автордукту белгилөө менен 4.0 Эл аралык",
             "ru": "Creative Commons С указанием авторства 4.0 Всемирная",
             "de": "Creative Commons Namensnennung 4.0 International",
             "fr": "Creative Commons Attribution 4.0 International"
@@ -89,6 +93,7 @@
         "short_title": "CC BY-NC-ND 4.0",
         "title": {
             "en": "Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International",
+            "ky": "Creative Commons Автордукту белгилөө менен-Коммерциялык эмес-Туунду жок 4.0 Эл аралык",
             "ru": "Creative Commons С указанием авторства-Некоммерческая-Без производных 4.0 Всемирная",
             "de": "Creative Commons Attribution-Nicht kommerziell-Keine Bearbeitungen 4.0 International",
             "fr": "Creative Commons Attribution - Utilisation non commerciale - Pas d’Œuvre dérivée 4.0 International"
@@ -107,6 +112,7 @@
         "short_title": "CC BY-NC-SA 4.0",
         "title": {
             "en": "Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International",
+            "ky": "Creative Commons Автордукту белгилөө менен-Коммерциялык эмес-Шарттарын сактоо менен 4.0 Эл аралык",
             "ru": "Creative Commons С указанием авторства-Некоммерческая-С сохранением условий 4.0 Всемирная",
             "de": "Creative Commons Namensnennung-Nicht kommerziell-Share Alike 4.0 International",
             "fr": "Creative Commons Attribution - Utilisation non commerciale - Partage dans les mêmes conditions 4.0 International"
@@ -125,6 +131,7 @@
         "short_title": "CC BY-ND 4.0",
         "title": {
             "en": "Creative Commons Attribution-NoDerivatives 4.0 International",
+            "ky": "Автордукту белгилөө менен-Туунду жок 4.0 Эл аралык",
             "ru": "Creative Commons С указанием авторства-Без производных 4.0 Всемирная",
             "de": "Creative Commons Namensnennung-Keine Bearbeitungen 4.0 International",
             "fr": "Creative Commons Attribution - Pas d'Œuvre dérivée 4.0 International"
@@ -143,6 +150,7 @@
         "short_title": "CC BY-SA 4.0",
         "title": {
             "en": "Creative Commons Attribution-ShareAlike 4.0 International",
+            "ky": "Автордукту белгилөө менен-Шарттарын сактоо менен 4.0 Эл аралык",
             "ru": "Creative Commons С указанием авторства-С сохранением условий 4.0 Всемирная",
             "de": "Creative Commons Namensnennung-ShareAlike 4.0 International",
             "fr": "Creative Commons Attribution - Partage dans les mêmes conditions 4.0 International"
