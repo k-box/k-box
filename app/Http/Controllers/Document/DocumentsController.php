@@ -26,6 +26,7 @@ use Klink\DmsAdapter\Exceptions\KlinkException;
 use KBox\Jobs\ReindexDocument;
 use KBox\Jobs\UpdatePublishedDocumentJob;
 use Illuminate\Support\Facades\DB;
+use KBox\Documents\Properties\Presenter;
 
 class DocumentsController extends Controller
 {
@@ -368,6 +369,7 @@ class DocumentsController extends Controller
 
         return view('panels.document', [
             'item' => $document,
+            'properties' => new Presenter($document->file->properties),
             'access' => $access,
             'access_by_count' => isset($access_count_total) ? $access_count_total : 0
         ]);

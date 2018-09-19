@@ -83,4 +83,11 @@
 		<span class="file-properties__value">{{ isset($document) ? $document->user_uploader : '' }}</span>
 	</div>
 
+	
+	@if(isset($properties) && method_exists($properties, 'toHtml'))
+	
+		{{ $properties }}
+
+	@endif
+
 </div>
