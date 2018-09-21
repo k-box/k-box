@@ -25,7 +25,7 @@ class Presenter implements Htmlable
 
     /**
      * Get the HTML representation
-     * 
+     *
      * @return string
      */
     public function toHtml()
@@ -35,7 +35,7 @@ class Presenter implements Htmlable
 
     /**
      * Create a properties presented instance
-     * 
+     *
      * @param File|Collection $properties
      * @return Presenter
      */

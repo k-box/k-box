@@ -412,6 +412,21 @@ class File extends Model
     }
     
     /**
+     * Get the properties attribute
+     *
+     * @return \KBox\FileProperties
+     */
+    public function getPropertiesAttribute($value = null)
+    {
+        // transform the stored properties from json to collection
+        // and encapsulate them in the FileProperties hierarchy
+
+        $raw = $this->castAttribute('properties', $value);
+
+        return FileProperties::fromCollection($raw);
+    }
+    
+    /**
      * Force a hard delete on a soft deleted model.
      * Deleted also the physical file from the disk
      *
