@@ -127,20 +127,30 @@ final class GeoService
     /**
      * Upload a file to the geoserver
      */
-    public function upload(File $file)
+    public function upload($file)
     {
-        $data = GeoFile::fromFile($file);
+        $data = $this->asGeoFile($file);
 
-        Log::info("Uploading $file->uuid to geoserver", $data->toArray());
+        Log::info("Uploading to geoserver", $data->toArray());
 
         // TODO: maybe is not supported by geoserver and therefore require conversion
             
         return $this->connection()->upload($data);
     }
+
+    /**
+     * Wrap a File instance into a GeoFile
+     * 
+     * @return GeoFile
+     */
+    public function asGeoFile($file)
+    {
+        return $file instanceof GeoFile ? $file : GeoFile::fromFile($file);
+    }
     
     public function exist(File $file)
     {
-        $data = GeoFile::fromFile($file);
+        $data = $this->asGeoFile($file);
             
         return $this->connection()->exist($data);
     }
@@ -151,7 +161,7 @@ final class GeoService
      */
     public function thumbnail(File $file)
     {
-        $data = GeoFile::fromFile($file);
+        $data = $this->asGeoFile($file);
 
         Log::info("Generating thumbnail for $file->uuid using geoserver...");
             
