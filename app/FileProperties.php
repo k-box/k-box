@@ -55,7 +55,7 @@ class FileProperties extends Fluent
 
     /**
      * Get an attribute from the container.
-     * 
+     *
      * If a class property with the same name exists, the property is preferred
      *
      * @param  string  $key
@@ -64,7 +64,7 @@ class FileProperties extends Fluent
      */
     public function get($key, $default = null)
     {
-        if(property_exists($this, $key)){
+        if (property_exists($this, $key)) {
             return $this->$key;
         }
 
@@ -73,7 +73,7 @@ class FileProperties extends Fluent
 
     /**
      * Merge additional properties
-     * 
+     *
      * @param Collection|array $additional
      * @return $this
      */
@@ -100,7 +100,7 @@ class FileProperties extends Fluent
 
     /**
      * Dump the content of the properties for debug
-     * 
+     *
      * @uses the dump() helper
      * @return $this
      */
