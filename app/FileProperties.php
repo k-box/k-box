@@ -98,6 +98,11 @@ class FileProperties extends Fluent
         return array_prepend($this->attributes, get_class($this), '@class');
     }
 
+    public function getClass()
+    {
+        return $this->get('@class', get_class($this));
+    }
+
     /**
      * Dump the content of the properties for debug
      *
