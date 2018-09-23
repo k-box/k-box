@@ -266,6 +266,29 @@ class FileTest extends TestCase
         $this->assertEquals('rue 1,1', $file->properties->{"address.street"});
         $this->assertEquals('rue 1,1', $file->properties->get('address.street'));
     }
+
+    public function test_custom_file_properties_can_be_extended()
+    {
+        $uuid = (new File)->resolveUuid();
+
+        $properties = (new CustomFileProperties(['author' => 'Jules', 'address' => ['street' => 'rue 1,1']]))->merge(['phone' => '5050505']);
+        
+        $file = (new File)->forceFill([
+            'name' => 'something.txt',
+            'hash' => 'abcdefgh',
+            'path' => '2017/09/something.txt',
+            'uuid' => $uuid->getBytes(),
+            'properties' => $properties
+        ]);
+
+        $this->assertNotEmpty($file->properties);
+        $this->assertInstanceOf(CustomFileProperties::class, $file->properties);
+        $this->assertEquals('Jules', $file->properties->author);
+        $this->assertEquals('Jules', $file->properties->get('author'));
+        $this->assertEquals('rue 1,1', $file->properties->{"address.street"});
+        $this->assertEquals('rue 1,1', $file->properties->get('address.street'));
+        $this->assertEquals('5050505', $file->properties->phone);
+    }
 }
 
 class CustomFileProperties extends FileProperties
