@@ -11,7 +11,7 @@ use KBox\Documents\Facades\Files;
 use KBox\Documents\Facades\Previews;
 use Illuminate\Support\Facades\Route;
 use KBox\Documents\Facades\Thumbnails;
-use KBox\Geo\Actions\SyncWithGeoserver;
+use KBox\Geo\Actions\ProcessGeodata;
 use KBox\Geo\Previews\GeodataPreviewDriver;
 use KBox\Geo\Listeners\RemoveFileFromGeoserver;
 use KBox\Geo\TypeIdentifiers\KmlTypeIdentifier;
@@ -66,7 +66,7 @@ class GeoServiceProvider extends Plugin
         $this->mergeConfigFrom(__DIR__.'/../../config/default.php', GeoService::PLUGIN_ID);
         
         // register the custom step in the elaboration pipeline
-        DocumentElaboration::register(SyncWithGeoserver::class);
+        DocumentElaboration::register(ProcessGeodata::class);
 
         $this->registerFileTypes();
         

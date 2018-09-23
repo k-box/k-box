@@ -66,7 +66,7 @@ class DocumentPreviewController extends DocumentAccessController
         $view_data = [
             'document' => $doc,
             'file' => $file,
-            'properties' => new Presenter($document->file->properties),
+            'properties' => new Presenter($doc->file->properties),
             'version' => $version,
             'filename_for_download' => $version ? $version->name : $doc->title,
             'pagetitle' => trans('documents.preview.page_title', ['document' => $doc->title]),

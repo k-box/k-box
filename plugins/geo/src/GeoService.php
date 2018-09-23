@@ -8,6 +8,7 @@ use KBox\File;
 use KBox\Plugins\PluginManager;
 use OneOffTech\GeoServer\GeoServer;
 use OneOffTech\GeoServer\Auth\Authentication;
+use KBox\Geo\Exceptions\GeoServerUnsupportedFileException;
 use OneOffTech\GeoServer\Exception\GeoServerClientException;
 
 final class GeoService
@@ -16,6 +17,15 @@ final class GeoService
      * The plugin identifier
      */
     const PLUGIN_ID = 'k-box-kbox-plugin-geo';
+
+    /**
+     * Formats supported natively by Geoserver
+     */
+    const GEOSERVER_SUPPORTED_FILES = [
+        GeoFormat::SHAPEFILE_ZIP,
+        GeoFormat::SHAPEFILE,
+        GeoFormat::GEOTIFF,
+    ];
 
     private $manager = null;
 
@@ -134,7 +144,11 @@ final class GeoService
         Log::info("Uploading to geoserver", $data->toArray());
 
         // TODO: maybe is not supported by geoserver and therefore require conversion
-            
+
+        if(!in_array($data->format,self::GEOSERVER_SUPPORTED_FILES)){
+            throw new GeoServerUnsupportedFileException("File with format [$data->format] is not natively supported by Geoserver. Use " . implode(',', self::GEOSERVER_SUPPORTED_FILES));
+        }
+        
         return $this->connection()->upload($data);
     }
 

@@ -34,13 +34,13 @@ class GeodataPreviewDriver extends MapPreviewDriver
 
         // latitude, longitude
         // in the geoserver they seems to be inverted!
-        $boundingBox = collect($file->properties->get('boundingBox', []));
+        $boundingBox = collect($file->properties->get('boundings.geoserver', []));
         
         if($boundingBox->count() === 5){
+            // Y === Longitude, X = latitude
             $bounds = sprintf('[[%1$s, %2$s], [%3$s, %4$s]]', $boundingBox->get('minY'), $boundingBox->get('minX'), $boundingBox->get('maxY'), $boundingBox->get('maxX'));
             $center = sprintf('[%s,%s]', ($boundingBox->get('minY') + $boundingBox->get('maxY')) / 2, ($boundingBox->get('minX') + $boundingBox->get('maxX')) / 2);
         }
-
         $this->view_data['mapCenter'] = $center ?? '';
         $this->view_data['mapBoundings'] = $bounds ?? '';
         $this->view_data['layers'] = join(',', $file->properties->get('layers', [])); "kbox:9dde0eca-1e4a-4d5e-9320-e41e1bba750b";

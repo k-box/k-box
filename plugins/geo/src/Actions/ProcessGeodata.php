@@ -8,12 +8,18 @@ use KBox\Geo\GeoService;
 use OneOffTech\GeoServer\GeoFile;
 use OneOffTech\GeoServer\GeoType;
 use KBox\Jobs\ThumbnailGenerationJob;
+use KBox\Geo\Exceptions\GeoServerUnsupportedFileException;
 use OneOffTech\GeoServer\Exception\GeoServerClientException;
 
 use KBox\Contracts\Action;
 
-class SyncWithGeoserver extends Action
+/**
+ * Process geographical files to extract properties and
+ * send them to the configured Geoserver
+ */
+class ProcessGeodata extends Action
 {
+
     /**
      * @var \KBox\Geo\GeoService
      */
@@ -43,26 +49,37 @@ class SyncWithGeoserver extends Action
 
         if($this->service->isEnabled() && $this->service->isSupported($descriptor->file)){
 
+            Log::info("$descriptor->uuid is a geographic file.");
+
             $file = $descriptor->file;
+
+            $geofile = $this->service->asGeoFile($file);
 
             Log::info("Uploading [$descriptor->uuid:{$file->uuid}] to geoserver");
             
-            $details = $this->service->upload($file);
+            try {
+                $details = $this->service->upload($geofile);
+
+                Log::info("Upload of [$descriptor->uuid:{$file->uuid}] completed", compact('details'));
+                
+            }catch(GeoServerUnsupportedFileException $ex){
+                $details = null;
+                
+                Log::warning("Upload of [$descriptor->uuid:{$file->uuid}] to geoserver not supported. {$ex->getMessage()}");
+            }
             
-            Log::info("Upload of [$descriptor->uuid:{$file->uuid}] completed", compact('details'));
-            
-            Log::info("Saving properties returned by GeoServer for: [$descriptor->uuid:{$file->uuid}]");
+            Log::info("Saving geo properties for: [$descriptor->uuid:{$file->uuid}]");
         
             // the default layer name, also useful for the WMS service is the store name
-            $baseLayer = $details->store['name'] ?? [];
+            $baseLayer = optional($details)->store['name'] ?? [];
+            $geoserverCrs = optional($details)->srs ?? (optional($details)->boundingBox->crs ?? optional($details)->nativeCRS);
                     
-            $file->properties = [
-                'coordinateSystem' => $details->srs ?? ($details->boundingBox->crs ?? $details->nativeCRS),
-                'boundingBox' => $details->boundingBox,
+            $file->properties = $geofile->properties()->merge([
+                'crs.geoserver' => $geoserverCrs ?? '',
+                'boundings.geoserver' => optional($details)->boundingBox ?? [],
                 'layers' => array_wrap($baseLayer),
-                'type' => $details->type(), //vector or raster
-                'nameInGeoserver' => $details->name,
-            ];
+                'geoserver.store' => optional($details)->name,
+            ]);
             
             $file->save();
 
