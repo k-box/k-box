@@ -52,22 +52,6 @@ class GdalTest extends TestCase
             [-84.0696504,33.9418858]]]]), $info->{"boundings.geojson"});
     }
     
-    public function test_shapefile_vector_info()
-    {
-        $this->markTestSkipped('Vector properties not yet implemented.');
-
-        // requires that the shapefile is not inside a zip container
-        // requires that the shapefile shx is present
-        $file = base_path("tests/data/shapefile/shapefile.shp");
-
-        $gdal = new Gdal();
-
-        $info = $gdal->info($file);
-
-        $this->assertInstanceOf(GeoProperties::class, $info);
-        $this->assertEquals('vector', $info->type);
-    }
-    
     public function test_geojson_vector_info()
     {
         $this->markTestSkipped('Vector properties not yet implemented.');
@@ -113,7 +97,7 @@ class GdalTest extends TestCase
     public function test_kmz_vector_info()
     {
         $this->markTestSkipped('Vector properties not yet implemented.');
-        
+
         $file = base_path("tests/data/kmz.kmz");
 
         $gdal = new Gdal();
