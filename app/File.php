@@ -423,7 +423,7 @@ class File extends Model
 
         $raw = $this->castAttribute('properties', $value);
 
-        return FileProperties::fromCollection($raw);
+        return $raw ? FileProperties::fromCollection($raw) : new FileProperties();
     }
     
     /**
