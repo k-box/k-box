@@ -77,7 +77,7 @@ class ProcessGeodata extends Action
             $file->properties = $geofile->properties()->merge([
                 'crs.geoserver' => $geoserverCrs ?? '',
                 'boundings.geoserver' => optional($details)->boundingBox ?? [],
-                'geoserver.layers' => isset($baseLayer) ? array_wrap($baseLayer) : [],
+                'geoserver.layers' => array_wrap($baseLayer),
                 'geoserver.store' => optional($details)->name,
             ]);
             
