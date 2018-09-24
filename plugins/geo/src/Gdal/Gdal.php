@@ -68,7 +68,7 @@ final class Gdal
      */
     public function info($path) : GeoProperties
     {
-        return $this->driver()->info($path)->dump();
+        return $this->driver()->info($path);
     }
 
     /**

@@ -64,22 +64,13 @@ final class WindowsDriver extends Driver
     {
         $geoFile = GeoFile::from($path);
 
-        dump($geoFile->mimeType,$geoFile->format,$geoFile->type);
-
-        $result = $this->execute($geoFile->type === GeoType::RASTER ? self::RASTER_INFO_EXECUTABLE : self::VECTOR_INFO_EXECUTABLE, [$path], $geoFile->type === GeoType::RASTER ? ['-json', '-proj4'] : ['-al', '-so']);
+        $result = $this->execute($geoFile->type === GeoType::RASTER ? self::RASTER_INFO_EXECUTABLE : self::VECTOR_INFO_EXECUTABLE, [$path], $geoFile->type === GeoType::RASTER ? ['-json', '-proj4'] : ['-al', '-so', '-nomd']);
         
         if($geoFile->type === GeoType::RASTER){
             return GeoProperties::fromGdalOutput($result);
         }
 
-        return new GeoProperties();
+        return GeoProperties::fromOgrOutput($result);
     }
 
-
-    // $tmpfilename = tempnam($temporaryFolder ?? sys_get_temp_dir(), $this->name);
-    // $handle = fopen($tmpfilename, "w+b");
-    // fwrite($handle, $this->content());
-    // fclose($handle);
-
-    // return GeoFile::from($tmpfilename)->name($this->name);
 }
