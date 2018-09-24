@@ -2,7 +2,7 @@
 
 # Trash
 
-Contains all your trashed documents.
+Contains all your trashed files.
 
 ![Trash](./img/trash.png)
 

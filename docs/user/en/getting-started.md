@@ -6,7 +6,7 @@ By default, the K-Box interface opens in your Personal section on Documents page
 
 ![Main page](./img/main-page.png)
 
-You can access the left-hand navigation menu where documents are categorized:
+You can access the left-hand navigation menu where files are categorized:
 
 ![Left navigation menu](./img/left-nav-menu.png)
 

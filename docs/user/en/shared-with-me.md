@@ -2,7 +2,7 @@
 
 # Shared with me
 
-All documents [shared](../documents/share.md) with you by other users.
+All files [shared](../documents/share.md) with you by other users.
 
 ![Shared with me](./img/shared-with-me.png)
 
