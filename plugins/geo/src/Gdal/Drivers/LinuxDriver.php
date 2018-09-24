@@ -15,32 +15,31 @@ use Symfony\Component\Process\Exception\ProcessFailedException;
  * 
  * Abstract the invokation of the GDAL based on tasks
  */
-final class WindowsDriver extends Driver
+final class LinuxDriver extends Driver
 {
 
-    const RASTER_INFO_EXECUTABLE = 'gdalinfo.exe';
+    const RASTER_INFO_EXECUTABLE = 'gdalinfo';
     
-    const VECTOR_INFO_EXECUTABLE = 'ogrinfo.exe';
+    const VECTOR_INFO_EXECUTABLE = 'ogrinfo';
 
     protected function execute($command, $inputs = [], $options = [])
     {
-        $sdk_root = base_path(self::BIN_FOLDER);
+        // $sdk_root = base_path(self::BIN_FOLDER);
 
-        $env = [
-            "PATH" => "$sdk_root\bin;$sdk_root\bin\gdal\python\osgeo;$sdk_root\bin\proj\apps;$sdk_root\bin\gdal\apps;$sdk_root\bin\ms\apps;$sdk_root\bin\gdal\csharp;$sdk_root\bin\ms\csharp;$sdk_root\bin\curl;",
-            "GDAL_DATA" => "$sdk_root\bin\gdal-data",
-            "GDAL_DRIVER_PATH" => "$sdk_root\bin\gdal\plugins",
-            "PYTHONPATH" => "$sdk_root\bin\gdal\python;$sdk_root\bin\ms\python",
-            "PROJ_LIB" => "$sdk_root\bin\proj\SHARE",
-        ];
+        // $env = [
+        //     "PATH" => "$sdk_root\bin;$sdk_root\bin\gdal\python\osgeo;$sdk_root\bin\proj\apps;$sdk_root\bin\gdal\apps;$sdk_root\bin\ms\apps;$sdk_root\bin\gdal\csharp;$sdk_root\bin\ms\csharp;$sdk_root\bin\curl;",
+        //     "GDAL_DATA" => "$sdk_root\bin\gdal-data",
+        //     "GDAL_DRIVER_PATH" => "$sdk_root\bin\gdal\plugins",
+        //     "PYTHONPATH" => "$sdk_root\bin\gdal\python;$sdk_root\bin\ms\python",
+        //     "PROJ_LIB" => "$sdk_root\bin\proj\SHARE",
+        // ];
 
         $arguments = array_map(function($in){
             return "\"$in\"";
         }, $inputs);
         $this->process = $process = new Process(
             sprintf('"%1$s" %3$s %2$s', $command, implode(" ", $arguments), implode(" ", $options)),
-            $sdk_root,
-            $env
+            base_path()
         );
         
         $process->setTimeout(40);

@@ -4,6 +4,7 @@ namespace KBox\Geo\Gdal;
 
 use KBox\Geo\GeoProperties;
 use KBox\Geo\Gdal\Drivers\WindowsDriver;
+use KBox\Geo\Gdal\Drivers\LinuxDriver;
 
 /**
  * GDAL library wrapper
@@ -111,7 +112,8 @@ final class Gdal
      */
     private function driver()
     {   
-        return $this->driver ?? ($this->driver = new WindowsDriver());
+        $driverName = '\\KBox\\Geo\\Gdal\\Drivers\\' . (strtolower(PHP_OS) === 'winnt' ? 'Windows' : 'Linux') . 'Driver';
+        return $this->driver ?? ($this->driver = new $driverName());
     }
 
 }
