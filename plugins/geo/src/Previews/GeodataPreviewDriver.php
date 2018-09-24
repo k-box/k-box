@@ -43,9 +43,9 @@ class GeodataPreviewDriver extends MapPreviewDriver
         }
         $this->view_data['mapCenter'] = $center ?? '';
         $this->view_data['mapBoundings'] = $bounds ?? '';
-        $this->view_data['layers'] = join(',', $file->properties->get('layers', [])); "kbox:9dde0eca-1e4a-4d5e-9320-e41e1bba750b";
+        $this->view_data['layers'] = join(',', $file->properties->get('geoserver.layers', []));
         $this->view_data['styles'] = "";
-        $this->view_data['attribution'] = "$file->name kbox:9dde0eca-1e4a-4d5e-9320-e41e1bba750b";
+        $this->view_data['attribution'] = "$file->name {$file->properties->get('geoserver.store', '')}";
 
         return $this;
     }

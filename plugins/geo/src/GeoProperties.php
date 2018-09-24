@@ -26,7 +26,7 @@ use Spinen\Geometry\GeometryFacade as Geometry;
  */
 final class GeoProperties extends FileProperties
 {
-    protected $exclude = ['layers', 'boundingBox', 'boundings.geoserver'];
+    protected $exclude = ['layers', 'boundingBox', 'boundings.geoserver', 'geoserver.layers'];
     
 
     private static function parseCrsWkt($wkt)

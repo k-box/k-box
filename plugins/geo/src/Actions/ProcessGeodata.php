@@ -72,12 +72,12 @@ class ProcessGeodata extends Action
         
             // the default layer name, also useful for the WMS service is the store name
             $baseLayer = optional($details)->store['name'] ?? [];
-            $geoserverCrs = optional($details)->srs ?? (optional($details)->boundingBox->crs ?? optional($details)->nativeCRS);
+            $geoserverCrs = $details->typo() === 'raster' ? optional($details)->nativeCRS : (optional($details)->srs ?? optional($details)->boundingBox->crs);
                     
             $file->properties = $geofile->properties()->merge([
                 'crs.geoserver' => $geoserverCrs ?? '',
                 'boundings.geoserver' => optional($details)->boundingBox ?? [],
-                'layers' => array_wrap($baseLayer),
+                'geoserver.layers' => isset($baseLayer) ? array_wrap($baseLayer) : [],
                 'geoserver.store' => optional($details)->name,
             ]);
             
