@@ -12,18 +12,17 @@ stages:
 cache:
   key: "kbox"
   paths:
-  - .composer-cache/
-  - .yarn/
-  - node_modules/
+    - .composer-cache/
+    - .yarn/
+    - node_modules/
 
 variables:
-    CONTAINER_RELEASE_IMAGE_BASE: $CI_REGISTRY/images/k-box
-    CONTAINER_RELEASE_LEGACY_IMAGE_BASE: $CI_REGISTRY/images/dms
+  CONTAINER_RELEASE_IMAGE_BASE: $CI_REGISTRY/images/k-box
+  CONTAINER_RELEASE_LEGACY_IMAGE_BASE: $CI_REGISTRY/images/dms
 
 ## Making sure that the composer cache folder is the one we have in the CI cache
 before_script:
   - export COMPOSER_CACHE_DIR=`pwd`/.composer-cache
-
 
 ## Composer Install script
 ## performs composer install with dev dependencies and syntax check
@@ -67,7 +66,7 @@ frontend:
   artifacts:
     expire_in: 1 day
     paths:
-    - public/
+      - public/
 
 laravel:
   image: "docker.klink.asia/main/docker-php:7.1-alpine"
@@ -83,9 +82,9 @@ laravel:
   artifacts:
     expire_in: 1 day
     paths:
-    - bin/
-    - vendor/
-    - public/js/nls/
+      - bin/
+      - vendor/
+      - public/js/nls/
 
 ## Testing
 
@@ -123,8 +122,8 @@ unit_test:
     expire_in: 1 week
     when: on_failure
     paths:
-    - storage/
-    - translations.txt
+      - storage/
+      - translations.txt
 
 ## Release the docker image
 
@@ -167,11 +166,8 @@ tagged_release:
   only:
     - tags
 
-## Deploy on review environments
-
-# ## the test.klink.asia instance with the new image
-test_klink_asia_deploy:
-  environment: Review
+## Deploy on canary environments
+.canary_deploy: &canary_deploy
   when: manual
   stage: deploy
   tags:
@@ -180,40 +176,29 @@ test_klink_asia_deploy:
   script:
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
     - docker pull $CI_REGISTRY_IMAGE:${CI_COMMIT_REF_NAME#v}
-    - cd ${REVIEW_DOCKER_FOLDER}
-    - docker tag $CI_REGISTRY_IMAGE:${CI_COMMIT_REF_NAME#v} $REVIEW_DOCKER_IMAGE
-    - docker-compose down && docker-compose up -d
+    - cd $DEPLOY_FOLDER
+    - docker tag $CI_REGISTRY_IMAGE:${CI_COMMIT_REF_NAME#v} $DEPLOY_IMAGE
+    - docker-compose down -v && docker-compose up -d
 
-## the next.dms.klink.asia instance with the new image
-next_dms_klink_asia_deploy:
-  environment: Staging
-  when: manual
-  stage: deploy
-  tags:
-    - shell
-    - deploy
+canary_manfred_deploy:
+  <<: *canary_deploy
+  environment: "Canary Manfred"
   variables:
-    DOCKER_LOCATION: "/opt/next-dms-klink-asia"
-  script: 
-    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
-    - docker pull $CI_REGISTRY_IMAGE:${CI_COMMIT_REF_NAME#v}
-    - cd ${DOCKER_LOCATION}
-    - docker tag $CI_REGISTRY_IMAGE:${CI_COMMIT_REF_NAME#v} dms-migration-environment
-    - docker-compose down
-    - docker run --rm -v /opt/dms_klink_asia/klink-docker/mnt/:/old/:ro -v /opt/next-dms-klink-asia/data/:/new/:rw debian sh -c "rm -rf /new/* && cp -pr /old/mariadb/ /old/dms-storage/ /new/" # hacky way of removing the old files and copying over the files from the current DMS preview
-    - docker-compose up -d
+    DEPLOY_FOLDER: $CANARY_M_FOLDER
+    DEPLOY_IMAGE: $CANARY_M_IMAGE
 
-## the instance on test.slmtj.net
-test_slmtj_net_deploy:
-  environment: Integration
-  when: manual
-  stage: deploy
-  tags:
-    - shell
-    - deploy
-  script:
-    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
-    - docker pull $CI_REGISTRY_IMAGE:${CI_COMMIT_REF_NAME#v}
-    - cd ${INTEGRATION_DOCKER_FOLDER}
-    - docker tag $CI_REGISTRY_IMAGE:${CI_COMMIT_REF_NAME#v} $INTEGRATION_DOCKER_IMAGE
-    - docker-compose down && docker-compose up -d
+canary_filomena_deploy:
+  <<: *canary_deploy
+  environment: "Canary Filomena"
+  variables:
+    DEPLOY_FOLDER: $CANARY_F_FOLDER
+    DEPLOY_IMAGE: $CANARY_F_IMAGE
+
+canary_try_deploy:
+  <<: *canary_deploy
+  environment: "Staging on try.kbox.net"
+  variables:
+    DEPLOY_FOLDER: $STAGING_T_FOLDER
+    DEPLOY_IMAGE: $STAGING_T_IMAGE
+  only:
+    - tags
