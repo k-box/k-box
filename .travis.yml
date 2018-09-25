@@ -26,6 +26,7 @@ before_install:
   - sudo apt-get install -y libmagickwand-dev
   - sudo apt-get install -y ghostscript
   - sudo apt-get install -y gdal-bin
+  - ogrinfo --version
 
 install:
   - cp env.travis .env
