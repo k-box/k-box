@@ -22,7 +22,7 @@ final class LinuxDriver extends Driver
     
     const VECTOR_INFO_EXECUTABLE = 'ogrinfo';
 
-    const VECTOR_CONVERT_EXECUTABLE = 'ogr2ogr.exe';
+    const VECTOR_CONVERT_EXECUTABLE = 'ogr2ogr';
 
     protected function execute($command, $inputs = [], $options = [])
     {
