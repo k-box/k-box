@@ -33,7 +33,7 @@ return [
 
         'providers' => [
             "hum_osm" => [
-                'label' => "Humanitarian Open Street Maps",
+                'label' => "Humanitarian OpenStreetMap",
                 'url' => 'https://tile-{s}.openstreetmap.fr/hot/{z}/{x}/{y}.png',
                 'type' => 'tile',
                 'maxZoom' => 20,
@@ -42,7 +42,7 @@ return [
             ],
             "osm" => [
                 'type' => 'tile',
-                'label' => "Open Street Maps",
+                'label' => "OpenStreetMap",
                 'url' => 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
                 'attribution' => '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
                 'maxZoom' => 19,
