@@ -4,6 +4,7 @@ namespace KBox\Geo\Thumbnails;
 
 use Log;
 use Imagick;
+use Exception;
 use KBox\File;
 use ImagickException;
 use KBox\Geo\Gdal\Gdal;

@@ -119,18 +119,4 @@ class GeoJsonGpxKmlThumbnailGeneratorTest extends TestCase
         $this->assertInstanceOf(ThumbnailImage::class, $image);
         $this->assertEquals(300, $image->width());
     }
-
-    public function test_gpx_thumbnail_is_generated()
-    {
-        $path = base_path('tests/data/gpx.gpx');
-
-        $generator = new GeoJsonGpxKmlThumbnailGenerator();
-
-        $file = $this->createFileForPath($path);
-
-        $image = $generator->generate($file);
-
-        $this->assertInstanceOf(ThumbnailImage::class, $image);
-        $this->assertEquals(300, $image->width());
-    }
 }
