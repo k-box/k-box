@@ -72,7 +72,9 @@ class ProcessGeodata extends Action
         
             // the default layer name, also useful for the WMS service is the store name
             $baseLayer = optional($details)->store['name'] ?? [];
-            $geoserverCrs = optional($details)->type() === 'raster' ? optional($details)->nativeCRS : (optional($details)->srs ?? optional($details)->boundingBox->crs);
+            if($details){
+                $geoserverCrs = $details->type() === 'raster' ? $details->nativeCRS : ($details->srs ?? $details->boundingBox->crs);
+            }
                     
             $properties = $geofile->properties();
             $file->properties = $properties->merge([
@@ -87,7 +89,7 @@ class ProcessGeodata extends Action
 
             // Dispatch again the thumbnail generation for shapefile as
             // geoserver upload is required to use the thumbnail feature
-            if($details->type() === GeoType::VECTOR && in_array($file->mime_type, ['application/octet-stream', 'application/zip'])){
+            if($properties->type === GeoType::VECTOR && in_array($file->mime_type, ['application/octet-stream', 'application/zip'])){
                 try{
                     dispatch_now(new ThumbnailGenerationJob($file));
                 }catch(Exception $ex)
