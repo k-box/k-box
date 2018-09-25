@@ -5,6 +5,7 @@ namespace KBox\Geo\Thumbnails;
 use Log;
 use Imagick;
 use KBox\File;
+use KBox\Geo\Gdal\Gdal;
 use KBox\Documents\DocumentType;
 use KBox\Documents\Thumbnail\ThumbnailImage;
 use KBox\Documents\Contracts\ThumbnailGenerator;
