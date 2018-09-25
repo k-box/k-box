@@ -94,10 +94,9 @@ final class Gdal
             return $this->driver()->convert($path, $tmpfilename, $format, $crs);
         }
         
-        // Gdal requires a folder to convert a file into a shapefile as at least 3 files will be produced
-
+        // Gdal requires a folder to convert a file into a shapefile, as at least 3 files will be produced
         // then we zip everything and return the ZIP as temporary file
-        $tmpFolder = str_replace_last('.tmp', '', $tmpfilename);
+        $tmpFolder = str_replace_last('.', '', $tmpfilename);
         @mkdir($tmpFolder);
 
         $folderInfo = $this->driver()->convert($path, $tmpFolder, $format, $crs);
