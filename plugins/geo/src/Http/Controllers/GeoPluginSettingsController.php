@@ -3,6 +3,7 @@
 namespace KBox\Geo\Http\Controllers;
 
 use Exception;
+use KBox\Geo\Gdal\Gdal;
 use KBox\Geo\GeoService;
 use Illuminate\Http\Request;
 use KBox\Plugins\PluginManager;
@@ -49,12 +50,19 @@ class GeoPluginSettingsController extends Controller
             }
         }
 
+        try{
+            $gdal_version = (new Gdal())->version();
+        }catch(Exception $ex){
+            
+        }
+
         return view('geo::settings', array_merge([
             'pagetitle' => trans('geo::settings.page_title'),
             'enabled' => $this->service->isEnabled(),
             'connected' => $connected,
             'version' => $version,
             'error' => $error,
+            'gdal_version' => $gdal_version ?? null,
         ], $currentSettings));
     }
 

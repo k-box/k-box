@@ -24,6 +24,12 @@
             @if($enabled)
                 <span class="badge @if($connected) success @else failed @endif">{{ $connected ? trans('geo::settings.connection.established', ['version' => $version]) : trans('geo::settings.connection.failed', ['error' => $error])}}</span>
             @endif
+            
+            @if($gdal_version)
+                <span class="badge success">{{ trans('geo::settings.gdal.available', ['version' => $gdal_version]) }}</span>
+            @else
+                <span class="badge failed">{{ trans('geo::settings.gdal.not_available') }}</span>
+            @endif
         </div>
         <div class="c-section">
             <h4 class="c-section__title">@lang('geo::settings.geoserver.title')</h4>

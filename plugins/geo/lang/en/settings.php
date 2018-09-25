@@ -22,6 +22,11 @@ return [
         'workspace' => 'The GeoServer workspace to use (e.g. kbox)',
     ],
 
+    'gdal' => [
+        'available' => 'Gdal library installed. (:version)',
+        'not_available' => 'Gdal library not available, some features might not work.',
+    ],
+
     'connection' => [
         'established' => 'GeoServer (:version) connection established.',
         'failed' => 'Failed to connect to GeoServer. :error',
