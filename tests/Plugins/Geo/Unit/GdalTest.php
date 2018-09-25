@@ -44,13 +44,7 @@ class GdalTest extends TestCase
         $this->assertEquals(658, $info->get('dimension.height'));
         $this->assertEquals("NAD83/GeorgiaEast", $info->get('crs.label'));
         $this->assertEquals([], $info->layers);
-        // $this->assertEquals(json_encode(["type" => "Polygon",
-        //     "coordinates" => [[
-        //     [-84.0696504,33.9418858],
-        //     [-84.0680441,33.8695934],
-        //     [-83.9928359,33.8707312],
-        //     [-83.9943787,33.9430266],
-        //     [-84.0696504,33.9418858]]]]), $info->{"boundings.geojson"});
+        $this->assertEquals("POLYGON ((-84.0696504 33.9418858, -84.0680441 33.8695934, -83.9928359 33.8707312, -83.9943787 33.9430266, -84.0696504 33.9418858))", app('geometry')->parseGeoJson($info->{"boundings.geojson"})->toWkt());
     }
     
     public function test_geojson_vector_info()
@@ -64,7 +58,7 @@ class GdalTest extends TestCase
         $this->assertInstanceOf(GeoProperties::class, $info);
         $this->assertEquals('vector', $info->type);
         $this->assertEquals("WGS84", $info->get('crs.label'));
-        $this->assertEquals(["geojson"], $info->layers);
+        $this->assertNotEmpty($info->layers);
         $this->assertEquals("POLYGON((-80.870885 35.215151,-80.703248 35.215151,-80.703248 35.401487,-80.870885 35.215151))", $info->{"boundings.wkt"});
         $this->assertEquals("(-80.870885, 35.215151) - (-80.703248, 35.401487)", $info->{"boundings.original"});
         $this->assertNotEmpty($info->{"boundings.geojson"});
@@ -81,7 +75,7 @@ class GdalTest extends TestCase
         $this->assertInstanceOf(GeoProperties::class, $info);
         $this->assertEquals('vector', $info->type);
         $this->assertEquals("WGS84", $info->get('crs.label'));
-        $this->assertEquals(["track_points"], $info->layers);
+        $this->assertNotEmpty($info->layers);
         $this->assertEquals("POLYGON((-122.326897 47.644548,-122.326897 47.644548,-122.326897 47.644548,-122.326897 47.644548))", $info->{"boundings.wkt"});
         $this->assertEquals("(-122.326897, 47.644548) - (-122.326897, 47.644548)", $info->{"boundings.original"});
         $this->assertNotEmpty($info->{"boundings.geojson"});
@@ -98,7 +92,7 @@ class GdalTest extends TestCase
         $this->assertInstanceOf(GeoProperties::class, $info);
         $this->assertEquals('vector', $info->type);
         $this->assertEquals("WGS84", $info->get('crs.label'));
-        $this->assertEquals(["Highlighted Icon"], $info->layers);
+        $this->assertNotEmpty($info->layers);
         $this->assertEquals("POLYGON((-122.085655 37.422431,-122.085655 37.422431,-122.085655 37.422431,-122.085655 37.422431))", $info->{"boundings.wkt"});
         $this->assertEquals("(-122.085655, 37.422431) - (-122.085655, 37.422431)", $info->{"boundings.original"});
         $this->assertNotEmpty($info->{"boundings.geojson"});
@@ -114,7 +108,7 @@ class GdalTest extends TestCase
 
         $this->assertInstanceOf(GeoProperties::class, $info);
         $this->assertEquals('vector', $info->type);
-        $this->assertEquals(["weather"], $info->layers);
+        $this->assertNotEmpty($info->layers);
         $this->assertEquals("POLYGON((-218.526285 -57.474374,196.504859 -57.474374,196.504859 72.085834,-218.526285 -57.474374))", $info->{"boundings.wkt"});
         $this->assertEquals("(-218.526285, -57.474374) - (196.504859, 72.085834)", $info->{"boundings.original"});
         $this->assertNotEmpty($info->{"boundings.geojson"});
