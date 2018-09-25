@@ -74,10 +74,10 @@ abstract class Driver
             throw new Exception("Raster file conversion not supported.");
         }
 
-        $options = ["-f '$format'"];
+        $options = ["-f \"$format\""];
 
         if(!is_null($crs)){
-            $options[] = "-t_srs '$crs'";
+            $options[] = "-t_srs \"$crs\"";
         }
 
         $result = $this->execute(static::VECTOR_CONVERT_EXECUTABLE, [$destination, $path], $options);
