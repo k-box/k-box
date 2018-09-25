@@ -75,6 +75,7 @@ class ProcessGeodata extends Action
             $geoserverCrs = $details->type() === 'raster' ? optional($details)->nativeCRS : (optional($details)->srs ?? optional($details)->boundingBox->crs);
                     
             $file->properties = $geofile->properties()->merge([
+                'type' => $details->type(), //although it might be already set, we add it twice in case Gdal extraction fails
                 'crs.geoserver' => $geoserverCrs ?? '',
                 'boundings.geoserver' => optional($details)->boundingBox ?? [],
                 'geoserver.layers' => array_wrap($baseLayer),
