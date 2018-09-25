@@ -8,7 +8,9 @@ use KBox\Geo\GeoService;
 use OneOffTech\GeoServer\GeoFile;
 use OneOffTech\GeoServer\GeoType;
 use KBox\Jobs\ThumbnailGenerationJob;
+use KBox\Geo\Exceptions\FileConversionException;
 use KBox\Geo\Exceptions\GeoServerUnsupportedFileException;
+use OneOffTech\GeoServer\Exception\ErrorResponseException;
 use OneOffTech\GeoServer\Exception\GeoServerClientException;
 
 use KBox\Contracts\Action;
@@ -66,6 +68,16 @@ class ProcessGeodata extends Action
                 $details = null;
                 
                 Log::warning("Upload of [$descriptor->uuid:{$file->uuid}] to geoserver not supported. {$ex->getMessage()}");
+
+            }catch(FileConversionException $ex){
+                $details = null;
+                
+                Log::error("Conversion to shapefile before upload to geoserver failed for [$descriptor->uuid:{$file->uuid}]. {$ex->getMessage()}");
+
+            }catch(ErrorResponseException $ex){
+                $details = null;
+                
+                Log::error("Upload to geoserver failed for [$descriptor->uuid:{$file->uuid}]. {$ex->getMessage()}");
             }
             
             Log::info("Saving geo properties for: [$descriptor->uuid:{$file->uuid}]");

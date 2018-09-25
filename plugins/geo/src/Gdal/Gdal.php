@@ -2,6 +2,8 @@
 
 namespace KBox\Geo\Gdal;
 
+use ZipArchive;
+use SplFileInfo;
 use KBox\Geo\GeoProperties;
 use KBox\Geo\Gdal\Drivers\WindowsDriver;
 use KBox\Geo\Gdal\Drivers\LinuxDriver;
@@ -88,19 +90,30 @@ final class Gdal
         // of the converted file is stored
         $tmpfilename = tempnam($temporaryFolder ?? sys_get_temp_dir(), basename($path));
 
-        return $this->driver()->convert($path, $tmpfilename, $format, $crs);
-    }
+        if($format !== self::FORMAT_SHAPEFILE){
+            return $this->driver()->convert($path, $tmpfilename, $format, $crs);
+        }
+        
+        // Gdal requires a folder to convert a file into a shapefile as at least 3 files will be produced
 
-    /**
-     * Re-Project a file to a different coordinate system
-     * 
-     * @param string $path the file absolute path
-     * @param string $targetCoordinate the target coordinate reference system
-     * @param string $sourceCoordinate the source coordinate reference system. Default null, will be inferred from the file
-     * @return mixed
-     */
-    public function transform($path, $targetCoordinate, $sourceCoordinate = null)
-    {
+        // then we zip everything and return the ZIP as temporary file
+        $tmpFolder = str_replace_last('.tmp', '', $tmpfilename);
+        @mkdir($tmpFolder);
+
+        $folderInfo = $this->driver()->convert($path, $tmpFolder, $format, $crs);
+
+        $za = new ZipArchive;
+        $za->open($tmpfilename, ZipArchive::CREATE);
+
+        $filesToAdd = glob("$tmpFolder/**");
+
+        foreach ($filesToAdd as $file) {
+            $za->addFile($file);
+        }
+
+        $za->close();
+
+        return new SplFileInfo($tmpfilename);
 
     }
 

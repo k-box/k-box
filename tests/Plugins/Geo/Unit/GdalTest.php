@@ -6,6 +6,8 @@ use SplFileInfo;
 use Tests\TestCase;
 use KBox\Geo\Gdal\Gdal;
 use KBox\Geo\GeoProperties;
+use OneOffTech\GeoServer\GeoFile;
+use OneOffTech\GeoServer\GeoFormat;
 use Spinen\Geometry\Geometries\Polygon;
 
 class GdalTest extends TestCase
@@ -137,5 +139,22 @@ class GdalTest extends TestCase
         $magicNumber = current(unpack('a', $data)).current(unpack('a', $data2)).current(unpack('a', $data3)).current(unpack('a', $data4));
 
         $this->assertEquals('%PDF', $magicNumber);
+    }
+
+    public function test_convert_to_shapefile()
+    {
+        $file = base_path("tests/data/kmz.kmz");
+
+        $gdal = new Gdal();
+
+        $shapefile = $gdal->convert($file, Gdal::FORMAT_SHAPEFILE);
+        
+        $this->assertInstanceOf(SplFileInfo::class, $shapefile);
+
+        // read the file magic number to check if is a real pdf
+        $geofile = GeoFile::load($shapefile->getRealPath());
+        
+        $this->assertEquals('application/zip', $geofile->mimeType);
+        $this->assertEquals(GeoFormat::SHAPEFILE_ZIP, $geofile->format);
     }
 }

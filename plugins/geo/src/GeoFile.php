@@ -10,6 +10,7 @@ use KBox\Geo\Gdal\Gdal;
 use KBox\Geo\GeoProperties;
 use KBox\Geo\Support\TypeResolver;
 use OneOffTech\GeoServer\GeoFile as BaseGeoFile;
+use KBox\Geo\Exceptions\FileConversionException;
 use OneOffTech\GeoServer\Exception\UnsupportedFileException;
 
 /**
@@ -56,9 +57,18 @@ class GeoFile extends BaseGeoFile
      * 
      * @return GeoFile
      */
-    public function convert($format)
+    public function convert($format, $crs = null)
     {
+        try{
 
+            $tmpFile = (new Gdal())->convert($this->file->getRealPath(), $format, $crs);
+
+            return new static($tmpFile->getRealPath());
+
+        }catch(Exception $ex){
+            Log::error('GeoFile convert error', ['error' => $ex]);
+            throw new FileConversionException("File cannot be converted from format [$this->format] to [$format] automatically");
+        }
     }
 
     /**

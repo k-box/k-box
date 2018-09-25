@@ -5,9 +5,11 @@ namespace KBox\Geo;
 use Log;
 use Exception;
 use KBox\File;
+use KBox\Geo\Gdal\Gdal;
 use KBox\Plugins\PluginManager;
 use OneOffTech\GeoServer\GeoServer;
 use OneOffTech\GeoServer\Auth\Authentication;
+use KBox\Geo\Exceptions\FileConversionException;
 use KBox\Geo\Exceptions\GeoServerUnsupportedFileException;
 use OneOffTech\GeoServer\Exception\GeoServerClientException;
 
@@ -143,10 +145,17 @@ final class GeoService
 
         Log::info("Uploading to geoserver", $data->toArray());
 
-        // TODO: maybe is not supported by geoserver and therefore require conversion
-
+        // If the file is not natively supported and is a vector file, we attempt to convert it
         if(!in_array($data->format,self::GEOSERVER_SUPPORTED_FILES)){
-            throw new GeoServerUnsupportedFileException("File with format [$data->format] is not natively supported by Geoserver. Use " . implode(',', self::GEOSERVER_SUPPORTED_FILES));
+
+            if($data->type !== GeoType::VECTOR){
+                throw new GeoServerUnsupportedFileException("File with format [$data->format] is not natively supported by Geoserver. Use " . implode(',', self::GEOSERVER_SUPPORTED_FILES));
+            }
+
+            Log::info("Performing on the flight conversion to shapefile", $data->toArray());
+
+            $data = $data->convert(Gdal::FORMAT_SHAPEFILE)->name($data->name);
+
         }
         
         return $this->connection()->upload($data);

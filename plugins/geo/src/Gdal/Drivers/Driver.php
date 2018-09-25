@@ -6,6 +6,7 @@ use Exception;
 use SplFileInfo;
 use KBox\Geo\GeoFile;
 use KBox\Geo\GeoType;
+use KBox\Geo\Gdal\Gdal;
 use KBox\Geo\GeoProperties;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 
@@ -74,11 +75,23 @@ abstract class Driver
             throw new Exception("Raster file conversion not supported.");
         }
 
+        $alternateLayerName = md5(basename($path));
+
         $options = ["-f \"$format\""];
+
+        if($format === Gdal::FORMAT_SHAPEFILE){
+            $options[] = "-append";
+            $options[] = "-nln {$alternateLayerName}";
+            $options[] = "-nlt GEOMETRY";
+            $options[] = "-skipfailure";
+        }
 
         if(!is_null($crs)){
             $options[] = "-t_srs \"$crs\"";
         }
+
+
+        \Log::info('conversion to shapefile', compact('options', 'path', 'destination'));
 
         $result = $this->execute(static::VECTOR_CONVERT_EXECUTABLE, [$destination, $path], $options);
 
