@@ -2,6 +2,8 @@
 
 namespace KBox\Geo\Gdal\Drivers;
 
+use Exception;
+use SplFileInfo;
 use KBox\Geo\GeoFile;
 use KBox\Geo\GeoType;
 use KBox\Geo\GeoProperties;
@@ -52,6 +54,35 @@ abstract class Driver
         }
 
         return GeoProperties::fromOgrOutput($result);
+    }
+
+
+    /**
+     * Convert a vector geographic file into a different format
+     * 
+     * @param string $path
+     * @param string $destination
+     * @param string $format
+     * @param string $crs
+     * @return SplFileInfo the destination file instance
+     */
+    public function convert($path, $destination, $format, $crs = null)
+    {
+        $geoFile = GeoFile::from($path);
+
+        if($geoFile->type === GeoType::RASTER){
+            throw new Exception("Raster file conversion not supported.");
+        }
+
+        $options = ["-f '$format'"];
+
+        if(!is_null($crs)){
+            $options[] = "-t_srs '$crs'";
+        }
+
+        $result = $this->execute(static::VECTOR_CONVERT_EXECUTABLE, [$destination, $path], $options);
+
+        return new SplFileInfo($destination);
     }
 
 

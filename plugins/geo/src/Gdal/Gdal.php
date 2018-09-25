@@ -15,6 +15,8 @@ final class Gdal
 {
 
     const FORMAT_GEOJSON = "GeoJSON";
+    
+    const FORMAT_PDF = "PDF";
 
     const FORMAT_SHAPEFILE = "ESRI Shapefile";
 
@@ -76,22 +78,17 @@ final class Gdal
      * Convert a file into a different format
      * 
      * @param string $path the file absolute path
-     * @param string $format the target format
-     * @return mixed
+     * @param string $format the target file format. See FORMAT constants in this class for available formats
+     * @param string $crs the target coordinate reference system. Default null, no coordinate conversion
+     * @return SplFileInfo a temporary file that contains the conversion result. Unlink the file when not anymore necessary.
      */
-    public function convert($path, $format)
+    public function convert($path, $format, $crs = null)
     {
+        // creating a temporary filename where the content 
+        // of the converted file is stored
+        $tmpfilename = tempnam($temporaryFolder ?? sys_get_temp_dir(), basename($path));
 
-        // shapefile to GeoJSON
-        // ogr2ogr \
-        // -f 'GeoJSON' \
-        // -t_srs 'EPSG:4326' \
-        // $NEWDIR$FILENEW $FILE
-
-        // GeoJSON to shapefile
-        // ogr2ogr \
-        // -f "ESRI Shapefile" \
-        // $NEWDIR$FILENEW $FILE
+        return $this->driver()->convert($path, $tmpfilename, $format, $crs);
     }
 
     /**

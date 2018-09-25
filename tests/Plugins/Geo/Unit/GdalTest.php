@@ -2,6 +2,7 @@
 
 namespace Tests\Plugins\Geo\Unit;
 
+use SplFileInfo;
 use Tests\TestCase;
 use KBox\Geo\Gdal\Gdal;
 use KBox\Geo\GeoProperties;
@@ -117,5 +118,29 @@ class GdalTest extends TestCase
         $this->assertEquals("POLYGON((-218.526285 -57.474374,196.504859 -57.474374,196.504859 72.085834,-218.526285 -57.474374))", $info->{"boundings.wkt"});
         $this->assertEquals("(-218.526285, -57.474374) - (196.504859, 72.085834)", $info->{"boundings.original"});
         $this->assertNotEmpty($info->{"boundings.geojson"});
+    }
+
+    public function test_convert_to_pdf()
+    {
+        $file = base_path("tests/data/kmz.kmz");
+
+        $gdal = new Gdal();
+
+        $pdf = $gdal->convert($file, Gdal::FORMAT_PDF);
+        
+        $this->assertInstanceOf(SplFileInfo::class, $pdf);
+
+        // read the file magic number to check if is a real pdf
+        $handle = fopen($pdf->getRealPath(), 'rb');
+        $data = fread($handle, 1);
+        $data2 = fread($handle, 1);
+        $data3 = fread($handle, 1);
+        $data4 = fread($handle, 1);
+        fclose($handle);
+        unlink($pdf->getRealPath());
+
+        $magicNumber = current(unpack('a', $data)).current(unpack('a', $data2)).current(unpack('a', $data3)).current(unpack('a', $data4));
+
+        $this->assertEquals('%PDF', $magicNumber);
     }
 }

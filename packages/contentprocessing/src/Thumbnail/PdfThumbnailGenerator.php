@@ -51,7 +51,7 @@ class PdfThumbnailGenerator implements ThumbnailGenerator
         ];
     }
 
-    private function isImagickSupportAvailable()
+    protected function isImagickSupportAvailable()
     {
         if (! extension_loaded('imagick') && ! class_exists('Imagick')) {
             return false;

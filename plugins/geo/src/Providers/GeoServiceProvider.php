@@ -21,6 +21,7 @@ use KBox\Geo\TypeIdentifiers\GeoJsonTypeIdentifier;
 use KBox\Geo\TypeIdentifiers\GeoTiffTypeIdentifier;
 use KBox\Geo\Thumbnails\ShapefileThumbnailGenerator;
 use KBox\Geo\TypeIdentifiers\ShapefileTypeIdentifier;
+use KBox\Geo\Thumbnails\GeoJsonGpxKmlThumbnailGenerator;
 use KBox\DocumentsElaboration\Facades\DocumentElaboration;
 
 class GeoServiceProvider extends Plugin
@@ -90,6 +91,7 @@ class GeoServiceProvider extends Plugin
     {
         Thumbnails::register(GeoTiffThumbnailGenerator::class);
         Thumbnails::register(ShapefileThumbnailGenerator::class);
+        Thumbnails::register(GeoJsonGpxKmlThumbnailGenerator::class);
     }
 
     private function registerPreviewDrivers()
