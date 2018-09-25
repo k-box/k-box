@@ -26,7 +26,7 @@ This plugin provides support for geographical data, e.g. GeoJson, KML, Shapefile
 The plugin requires 
 
 - a working [GeoServer](http://geoserver.org/) instance v2.13.0 or above
-- [GDAL 2.3.1](https://www.gdal.org/index.html) or above (See [Gdal Installation](#gdal-installation) for more details)
+- [GDAL 2.1.0](https://www.gdal.org/index.html) or above (See [Gdal Installation](#gdal-installation) for more details)
 
 ## Specific Geoserver configurations
 
@@ -37,7 +37,7 @@ The plugin requires
 
 The [GDAL library](https://www.gdal.org/index.html) is required to pre-process and convert geographic files.
 
-As of now only Linux and Windows versions are supported
+As of now only Linux and Windows versions are supported.
 
 ### Linux
 
