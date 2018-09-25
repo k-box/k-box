@@ -24,7 +24,7 @@ class GeoJsonGpxKmlThumbnailGenerator extends PdfThumbnailGenerator
             throw new Exception('Failed to generate GeoJsonGpxKml thumbnail: imagemagick is not installed');
         }
 
-        $pdf = (new Gdal())->convert($path, GDAL::FORMAT_PDF);
+        $pdf = (new Gdal())->convert($file->absolute_path, GDAL::FORMAT_PDF);
 
         $image = new Imagick();
         $image->setBackgroundColor('white');
