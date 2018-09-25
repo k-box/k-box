@@ -5,6 +5,7 @@ namespace KBox\Geo\Thumbnails;
 use Log;
 use Imagick;
 use KBox\File;
+use ImagickException;
 use KBox\Geo\Gdal\Gdal;
 use KBox\Documents\DocumentType;
 use KBox\Documents\Thumbnail\ThumbnailImage;
@@ -21,20 +22,26 @@ class GeoJsonGpxKmlThumbnailGenerator extends PdfThumbnailGenerator
         // Convert PDF to PNG using Imagemagick
 
         if (! $this->isImagickSupportAvailable()) {
-            throw new Exception('Failed to generate GeoJsonGpxKml thumbnail: imagemagick is not installed');
+            throw new Exception("Failed to generate [$file->mime_type] thumbnail: imagemagick is not installed");
         }
 
         $pdf = (new Gdal())->convert($file->absolute_path, GDAL::FORMAT_PDF);
 
-        $image = new Imagick();
-        $image->setBackgroundColor('white');
-        $image->setResolution(300, 300);
-        @$image->readImage($pdf->getRealPath());
-        $image = $image->mergeImageLayers(Imagick::LAYERMETHOD_FLATTEN);
-        $image->thumbnailImage(ThumbnailImage::DEFAULT_WIDTH, 0, false, true);
-        $image->setImageFormat("png");
+        try{
+            $image = new Imagick();
+            $image->setBackgroundColor('white');
+            $image->setResolution(300, 300);
+            @$image->readImage($pdf->getRealPath());
+            $image = $image->mergeImageLayers(Imagick::LAYERMETHOD_FLATTEN);
+            $image->thumbnailImage(ThumbnailImage::DEFAULT_WIDTH, 0, false, true);
+            $image->setImageFormat("png");
+        } catch (ImagickException $ex){
 
-        unlink($pdf->getRealPath());
+            throw new Exception("Failed to generate [$file->mime_type] thumbnail. {$ex->getMessage()}");
+
+        } finally {
+            @unlink($pdf->getRealPath());
+        }
 
         return ThumbnailImage::load($image)->widen(ThumbnailImage::DEFAULT_WIDTH);
 
