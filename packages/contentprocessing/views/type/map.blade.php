@@ -57,7 +57,7 @@
         });
 
         @if(isset($boundings) && !empty($boundings))
-            map.fitBounds({{$boundings}});
+            map.fitBounds({{$boundings}}, {maxZoom: 18});
         @elseif(isset($geojson) && $geojson)
             map.fitBounds(file.getBounds());
         @else 
