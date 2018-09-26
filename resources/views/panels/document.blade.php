@@ -282,6 +282,13 @@
 			@endif
 
 		</div>
+
+		
+		@if(isset($properties) && method_exists($properties, 'toHtml'))
+		
+			{{ $properties }}
+
+		@endif
 		
 	</div>
 </div>

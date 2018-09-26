@@ -1,7 +1,6 @@
 
 // -- require js configuration
 
-
 // -- theese modules are already included in the vendor big js
 
 define('jquery', [], function() {
@@ -53,6 +52,5 @@ define('context', [], function() {
 require(['jquery', 'DMS'], function($, DMS){
 
   DMS.initialize();
-  // console.info('DMS initialized.');
 
 });

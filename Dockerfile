@@ -46,6 +46,7 @@ RUN apt-get update -yqq && \
         gettext \
         supervisor \
         cron \
+        gdal-bin \
         libmagickwand-dev \
     && docker-php-ext-install -j$(nproc) iconv mcrypt \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \

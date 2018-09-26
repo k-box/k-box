@@ -40,7 +40,8 @@ elixir(function(mix) {
             "/sweetalert2/dist/sweetalert2.css",
             "/hint.css/hint.base.css",
             "/select2/dist/css/select2.css",
-            "/plyr/dist/plyr.css"
+            "/plyr/dist/plyr.css",
+            "/leaflet/dist/leaflet.css"
         ], elixir.config.cssOutput + "/vendor.css", elixir.config.npmDir)
     	.scripts([
                 'lodash/lodash.min.js',
@@ -82,6 +83,12 @@ elixir(function(mix) {
                 "/axios/dist/axios.min.js"
             ],
             elixir.config.jsOutput +'/modules/axios.js', //output dir
+            elixir.config.npmDir //base dir
+        )
+        .scripts([
+                "/leaflet/dist/leaflet.js"
+            ],
+            elixir.config.jsOutput +'/modules/leaflet.js', //output dir
             elixir.config.npmDir //base dir
         )
     	// Copy pure JS modules to public folder

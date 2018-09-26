@@ -8,9 +8,11 @@ use KBox\Events\FileDeleting;
 use KBox\Plugins\PluginManager;
 use KBox\Documents\DocumentType;
 use KBox\Documents\Facades\Files;
+use KBox\Documents\Facades\Previews;
 use Illuminate\Support\Facades\Route;
 use KBox\Documents\Facades\Thumbnails;
-use KBox\Geo\Actions\SyncWithGeoserver;
+use KBox\Geo\Actions\ProcessGeodata;
+use KBox\Geo\Previews\GeodataPreviewDriver;
 use KBox\Geo\Listeners\RemoveFileFromGeoserver;
 use KBox\Geo\TypeIdentifiers\KmlTypeIdentifier;
 use KBox\Geo\TypeIdentifiers\GpxTypeIdentifier;
@@ -19,6 +21,7 @@ use KBox\Geo\TypeIdentifiers\GeoJsonTypeIdentifier;
 use KBox\Geo\TypeIdentifiers\GeoTiffTypeIdentifier;
 use KBox\Geo\Thumbnails\ShapefileThumbnailGenerator;
 use KBox\Geo\TypeIdentifiers\ShapefileTypeIdentifier;
+use KBox\Geo\Thumbnails\GeoJsonGpxKmlThumbnailGenerator;
 use KBox\DocumentsElaboration\Facades\DocumentElaboration;
 
 class GeoServiceProvider extends Plugin
@@ -32,7 +35,6 @@ class GeoServiceProvider extends Plugin
     {
 
         if (! $this->app->routesAreCached()) {
-
             Route::middleware('web')
                 ->namespace('KBox\Geo\Http\Controllers')
                 ->prefix('geoplugin')
@@ -60,13 +62,18 @@ class GeoServiceProvider extends Plugin
         $this->app->singleton(GeoService::class, function ($app) {
             return new GeoService(app(PluginManager::class));
         });
+
+        // Register the plugin default configuration as application configuration
+        $this->mergeConfigFrom(__DIR__.'/../../config/default.php', GeoService::PLUGIN_ID);
         
         // register the custom step in the elaboration pipeline
-        DocumentElaboration::register(SyncWithGeoserver::class);
+        DocumentElaboration::register(ProcessGeodata::class);
 
         $this->registerFileTypes();
         
         $this->registerThumbnailGenerators();
+        
+        $this->registerPreviewDrivers();
     }
 
     private function registerFileTypes()
@@ -84,5 +91,11 @@ class GeoServiceProvider extends Plugin
     {
         Thumbnails::register(GeoTiffThumbnailGenerator::class);
         Thumbnails::register(ShapefileThumbnailGenerator::class);
+        Thumbnails::register(GeoJsonGpxKmlThumbnailGenerator::class);
+    }
+
+    private function registerPreviewDrivers()
+    {
+        Previews::register(GeodataPreviewDriver::class);
     }
 }

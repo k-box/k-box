@@ -2,11 +2,15 @@
 
 namespace KBox\Geo;
 
-use SplFileInfo;
-
+use Log;
+use Exception;
 use KBox\File;
-use OneOffTech\GeoServer\GeoFile as BaseGeoFile;
+use SplFileInfo;
+use KBox\Geo\Gdal\Gdal;
+use KBox\Geo\GeoProperties;
 use KBox\Geo\Support\TypeResolver;
+use OneOffTech\GeoServer\GeoFile as BaseGeoFile;
+use KBox\Geo\Exceptions\FileConversionException;
 use OneOffTech\GeoServer\Exception\UnsupportedFileException;
 
 /**
@@ -46,10 +50,42 @@ class GeoFile extends BaseGeoFile
         return file_get_contents($this->file->getRealPath());
     }
 
-
-    public function __get($property)
+    /**
+     * Convert a geofile to another format
+     * 
+     * The conversion is performed on the flight in a temporary folder
+     * 
+     * @return GeoFile
+     */
+    public function convert($format, $crs = null)
     {
-        return $this->$property;
+        try{
+
+            $tmpFile = (new Gdal())->convert($this->file->getRealPath(), $format, $crs);
+
+            return new static($tmpFile->getRealPath());
+
+        }catch(Exception $ex){
+            Log::error('GeoFile convert error', ['error' => $ex]);
+            throw new FileConversionException("File cannot be converted from format [$this->format] to [$format] automatically");
+        }
+    }
+
+    /**
+     * Obtain geographic file metadata
+     * 
+     * @return GeoProperties
+     */
+    public function properties()
+    {
+        try{
+
+            return (new Gdal())->info($this->file->getRealPath());
+
+        }catch(Exception $ex){
+            Log::warning('Extract properties form GeoFile using Gdal failed', ['error' => $ex]);
+            return new GeoProperties();
+        }
     }
 
 

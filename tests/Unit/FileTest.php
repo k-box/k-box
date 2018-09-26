@@ -5,6 +5,7 @@ namespace Tests\Unit;
 use KBox\File;
 use Tests\TestCase;
 use Carbon\Carbon;
+use KBox\FileProperties;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Storage;
 
@@ -224,7 +225,7 @@ class FileTest extends TestCase
         $this->assertTrue($created_at->eq($expire_at->subMinutes(10)));
     }
 
-    public function test_file_properties_are_saved()
+    public function test_array_based_file_properties_are_saved()
     {
         $uuid = (new File)->resolveUuid();
         
@@ -233,10 +234,63 @@ class FileTest extends TestCase
             'hash' => 'abcdefgh',
             'path' => '2017/09/something.txt',
             'uuid' => $uuid->getBytes(),
-            'properties' => ['author' => 'Jules']
+            'properties' => ['author' => 'Jules', 'address' => ['street' => 'rue 1,1']]
         ]);
 
         $this->assertNotEmpty($file->properties);
-        $this->assertInstanceOf(\Illuminate\Support\Collection::class, $file->properties);
+        $this->assertInstanceOf(FileProperties::class, $file->properties);
+        $this->assertEquals('Jules', $file->properties->author);
+        $this->assertEquals('Jules', $file->properties->get('author'));
+        $this->assertEquals('rue 1,1', $file->properties->{"address.street"});
+        $this->assertEquals('rue 1,1', $file->properties->get('address.street'));
     }
+
+    public function test_custom_file_properties_are_saved()
+    {
+        $uuid = (new File)->resolveUuid();
+
+        $properties = new CustomFileProperties(['author' => 'Jules', 'address' => ['street' => 'rue 1,1']]);
+        
+        $file = (new File)->forceFill([
+            'name' => 'something.txt',
+            'hash' => 'abcdefgh',
+            'path' => '2017/09/something.txt',
+            'uuid' => $uuid->getBytes(),
+            'properties' => $properties
+        ]);
+
+        $this->assertNotEmpty($file->properties);
+        $this->assertInstanceOf(CustomFileProperties::class, $file->properties);
+        $this->assertEquals('Jules', $file->properties->author);
+        $this->assertEquals('Jules', $file->properties->get('author'));
+        $this->assertEquals('rue 1,1', $file->properties->{"address.street"});
+        $this->assertEquals('rue 1,1', $file->properties->get('address.street'));
+    }
+
+    public function test_custom_file_properties_can_be_extended()
+    {
+        $uuid = (new File)->resolveUuid();
+
+        $properties = (new CustomFileProperties(['author' => 'Jules', 'address' => ['street' => 'rue 1,1']]))->merge(['phone' => '5050505']);
+        
+        $file = (new File)->forceFill([
+            'name' => 'something.txt',
+            'hash' => 'abcdefgh',
+            'path' => '2017/09/something.txt',
+            'uuid' => $uuid->getBytes(),
+            'properties' => $properties
+        ]);
+
+        $this->assertNotEmpty($file->properties);
+        $this->assertInstanceOf(CustomFileProperties::class, $file->properties);
+        $this->assertEquals('Jules', $file->properties->author);
+        $this->assertEquals('Jules', $file->properties->get('author'));
+        $this->assertEquals('rue 1,1', $file->properties->{"address.street"});
+        $this->assertEquals('rue 1,1', $file->properties->get('address.street'));
+        $this->assertEquals('5050505', $file->properties->phone);
+    }
+}
+
+class CustomFileProperties extends FileProperties
+{
 }

@@ -5,9 +5,12 @@ namespace KBox\Geo;
 use Log;
 use Exception;
 use KBox\File;
+use KBox\Geo\Gdal\Gdal;
 use KBox\Plugins\PluginManager;
 use OneOffTech\GeoServer\GeoServer;
 use OneOffTech\GeoServer\Auth\Authentication;
+use KBox\Geo\Exceptions\FileConversionException;
+use KBox\Geo\Exceptions\GeoServerUnsupportedFileException;
 use OneOffTech\GeoServer\Exception\GeoServerClientException;
 
 final class GeoService
@@ -16,6 +19,15 @@ final class GeoService
      * The plugin identifier
      */
     const PLUGIN_ID = 'k-box-kbox-plugin-geo';
+
+    /**
+     * Formats supported natively by Geoserver
+     */
+    const GEOSERVER_SUPPORTED_FILES = [
+        GeoFormat::SHAPEFILE_ZIP,
+        GeoFormat::SHAPEFILE,
+        GeoFormat::GEOTIFF,
+    ];
 
     private $manager = null;
 
@@ -68,6 +80,17 @@ final class GeoService
 
     }
 
+    /**
+     * Get the default configuration of the plugin, as it was not changed
+     * 
+     * @param  string  $key The configuration key to retrieve. Default null, all configuration options are retrieved
+     * @return mixed
+     */
+    public function defaultConfig($key = null)
+    {
+        return $this->manager->defaultConfig(self::PLUGIN_ID, $key);
+    }
+
 
     /**
      * If the plugin services can be used.
@@ -78,11 +101,19 @@ final class GeoService
      */
     public function isEnabled()
     {
-        $conf = $this->config();
-        return is_array($conf) && count($conf) === 4;
+        $configuration = $this->config();
+
+        $conf = collect($configuration)->only(['geoserver_username','geoserver_password','geoserver_url','geoserver_workspace'])->filter();
+
+        return $conf->count() === 4;
     }
 
 
+    /**
+     * Get the underlying geoserver connection
+     * 
+     * @return \OneOffTech\GeoServer\GeoServer
+     */
     public function connection()
     {
         $conf = $this->config();
@@ -108,30 +139,52 @@ final class GeoService
     /**
      * Upload a file to the geoserver
      */
-    public function upload(File $file)
+    public function upload($file)
     {
-        $data = GeoFile::fromFile($file);
+        $data = $this->asGeoFile($file);
 
-        Log::info("Uploading $file->uuid to geoserver", $data->toArray());
+        Log::info("Uploading to geoserver", $data->toArray());
 
-        // TODO: maybe is not supported by geoserver and therefore require conversion
-            
+        // If the file is not natively supported and is a vector file, we attempt to convert it
+        if(!in_array($data->format,self::GEOSERVER_SUPPORTED_FILES)){
+
+            if($data->type !== GeoType::VECTOR){
+                throw new GeoServerUnsupportedFileException("File with format [$data->format] is not natively supported by Geoserver. Use " . implode(',', self::GEOSERVER_SUPPORTED_FILES));
+            }
+
+            Log::info("Performing on the flight conversion to shapefile", $data->toArray());
+
+            $data = $data->convert(Gdal::FORMAT_SHAPEFILE)->name($data->name);
+
+        }
+        
         return $this->connection()->upload($data);
+    }
+
+    /**
+     * Wrap a File instance into a GeoFile
+     * 
+     * @return GeoFile
+     */
+    public function asGeoFile($file)
+    {
+        return $file instanceof GeoFile ? $file : GeoFile::fromFile($file);
     }
     
     public function exist(File $file)
     {
-        $data = GeoFile::fromFile($file);
+        $data = $this->asGeoFile($file);
             
         return $this->connection()->exist($data);
     }
 
     /**
-     * Thumbnail a file to the geoserver
+     * Generate the thumbnail of a file
+     * 
      */
     public function thumbnail(File $file)
     {
-        $data = GeoFile::fromFile($file);
+        $data = $this->asGeoFile($file);
 
         Log::info("Generating thumbnail for $file->uuid using geoserver...");
             
@@ -139,6 +192,15 @@ final class GeoService
     }
     
 
+    /**
+     * Get the Geoserver WMS service base url
+     */
+    public function wmsBaseUrl()
+    {
+        $conf = $this->config();
+
+        return sprintf("%s/%s/wms", $conf['geoserver_url'], $conf['geoserver_workspace']);
+    }
 
     /**
      * Test if the given configuration is valid

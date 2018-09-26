@@ -3,6 +3,7 @@
 namespace KBox\Geo\Jobs;
 
 use Log;
+use Exception;
 use KBox\Geo\GeoType;
 use KBox\Geo\GeoService;
 use Illuminate\Bus\Queueable;
@@ -38,14 +39,20 @@ class RemoveStoreFromGeoserver implements ShouldQueue
     public function handle(GeoService $service)
     {
         Log::info("Deleting [{$this->name}] [{$this->type}] from geoserver");
+
+        try{
+
+            if($this->type === GeoType::VECTOR){
+                $service->connection()->deleteDatastore($this->name);
+            }
+            else {
+                $service->connection()->deleteCoveragestore($this->name);
+            }
             
-        if($this->type === GeoType::VECTOR){
-            $service->connection()->deleteDatastore($this->name);
+            Log::info("Delete [{$this->name}] [{$this->type}] from geoserver completed");
+            
+        }catch(Exception $ex){            
+            Log::warning("Delete [{$this->name}] [{$this->type}] from geoserver was not performed. {$ex->getMessage()}");
         }
-        else {
-            $service->connection()->deleteCoveragestore($this->name);
-        }
-        
-        Log::info("Delete [{$this->name}] [{$this->type}] from geoserver completed");
     }
 }

@@ -8,6 +8,7 @@ use Throwable;
 use KBox\File;
 use KBox\DocumentDescriptor;
 use Illuminate\Http\Request;
+use KBox\Documents\Properties\Presenter;
 use KBox\Documents\Services\PreviewService;
 use KBox\Exceptions\ForbiddenException;
 use KBox\Documents\Services\DocumentsService;
@@ -65,6 +66,7 @@ class DocumentPreviewController extends DocumentAccessController
         $view_data = [
             'document' => $doc,
             'file' => $file,
+            'properties' => Presenter::for($doc->file->properties),
             'version' => $version,
             'filename_for_download' => $version ? $version->name : $doc->title,
             'pagetitle' => trans('documents.preview.page_title', ['document' => $doc->title]),

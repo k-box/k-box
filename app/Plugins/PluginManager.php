@@ -152,8 +152,12 @@ final class PluginManager
     public function config($plugin, $key = null, $default = null)
     {
         $instance = $this->plugins()->get($plugin);
+        
+        $defaultConfiguration = config($plugin) ?? [];
 
-        $configuration = isset($instance['configuration']) ? $instance['configuration'] : [];
+        $savedConfiguration = $instance['configuration'] ?? [];
+
+        $configuration = array_merge($defaultConfiguration, $savedConfiguration);
 
         if (is_null($key)) {
             return $configuration;
@@ -170,6 +174,28 @@ final class PluginManager
         }
 
         return $default;
+    }
+
+    /**
+     * Get the default configuration for a plugin.
+     *
+     * @param string $plugin The name of the plugin to get the configuration
+     * @param string|null $key The configuration key to retrieve. Default null, retrieves all configuration keys for the given plugin
+     * @return mixed The configuration value
+     */
+    public function defaultConfig($plugin, $key = null)
+    {
+        $configuration = config($plugin) ?? [];
+
+        if (is_null($key)) {
+            return $configuration;
+        }
+
+        if (isset($configuration[$key])) {
+            return $configuration[$key];
+        }
+
+        return [];
     }
 
     /**

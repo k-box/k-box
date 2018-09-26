@@ -3,6 +3,7 @@
 namespace KBox\Geo\Http\Controllers;
 
 use Exception;
+use KBox\Geo\Gdal\Gdal;
 use KBox\Geo\GeoService;
 use Illuminate\Http\Request;
 use KBox\Plugins\PluginManager;
@@ -24,8 +25,6 @@ class GeoPluginSettingsController extends Controller
     public function __construct(GeoService $service)
     {
         $this->middleware('auth');
-
-        // $this->middleware('capabilities');
 
         $this->service = $service;
     }
@@ -51,12 +50,19 @@ class GeoPluginSettingsController extends Controller
             }
         }
 
+        try{
+            $gdal_version = (new Gdal())->version();
+        }catch(Exception $ex){
+            
+        }
+
         return view('geo::settings', array_merge([
             'pagetitle' => trans('geo::settings.page_title'),
             'enabled' => $this->service->isEnabled(),
             'connected' => $connected,
             'version' => $version,
             'error' => $error,
+            'gdal_version' => $gdal_version ?? null,
         ], $currentSettings));
     }
 
@@ -89,9 +95,6 @@ class GeoPluginSettingsController extends Controller
         return redirect()->route('plugins.k-box-kbox-plugin-geo.settings')->with([
             'flash_message' => trans('plugins.messages.settings_saved')
         ]);
-        // return redirect()->route('plugins.k-box-kbox-plugin-geo.settings')->withInput()->with([
-        //     'flash_message' => trans('plugins.messages.settings_saved')
-        // ]);
     }
 
 }

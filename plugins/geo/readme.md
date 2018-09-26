@@ -26,8 +26,29 @@ This plugin provides support for geographical data, e.g. GeoJson, KML, Shapefile
 The plugin requires 
 
 - a working [GeoServer](http://geoserver.org/) instance v2.13.0 or above
+- [GDAL 2.1.0](https://www.gdal.org/index.html) or above (See [Gdal Installation](#gdal-installation) for more details)
 
 ## Specific Geoserver configurations
 
 - For the beta and development period, the WMS service of the GeoServer must be browsable without authentication
+
+
+## GDAL installation
+
+The [GDAL library](https://www.gdal.org/index.html) is required to pre-process and convert geographic files.
+
+As of now only Linux and Windows versions are supported.
+
+### Linux
+
+Install the library using the package manager, as indicated on the [Gdal Download page](https://trac.osgeo.org/gdal/wiki/DownloadingGdalBinaries)
+
+### Windows
+
+The Gdal project do not offer precompiled Windows binaries, but a compiled version can be found in the [GisInternals map server release](http://www.gisinternals.com/release.php). 
+
+To install download the latest package available in zip format, e.g. [`release-1911-x64-gdal-2-3-1-mapserver-7-2-0/release-1911-x64-gdal-2-3-1-mapserver-7-2-0.zip`](http://download.gisinternals.com/sdk/downloads/release-1911-x64-gdal-2-3-1-mapserver-7-2-0.zip).
+
+Once downloaded, extract the content of the zip file in the `plugins/geo/bin` directory.
+
 
