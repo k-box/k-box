@@ -1,0 +1,28 @@
+# Start
+
+Please select section you are interested in:
+
+- [Getting started](./en/getting-started.md)
+- [Working with K-Box](./documents/work-with-documents.md)
+ - [Search](./search.md)
+ - [Upload](./upload-edit.md)
+ - [Edit](./upload-edit.md)
+  - [Meta-data](./meta-data)
+  - [Licenses and Copyright](./licenses.md) 
+ - [Share](./share.md)
+ - [Publish](./publish)
+ - [Delete]()
+- [K-Box Administration](./en/administration/intro.md)
+ - [Users management](./administration/users.md)
+ - [Project management](./projects.md)
+ - [Mail confuguration](./work-with-kbox/admin/mail.md)
+ - [Network configuration](./work-with-kbox/admin/network.md)
+- [K-Box deployment and maintenance](./maintenance/intro-dev.md)
+ - [K-Box overview](../maintenance/index.md)
+ - [Requirements](../requirements.md)
+ - [Installation](../installation.md)
+ - [Deployment configuration](../deploy-configuration.md)
+ - [Reverse proxy](../reverse-proxy.md)
+ - [Troubleshooting](../maintenance/troubleshooting.md)
+ - [Logging](../maintenance/logging.md)
+ - [Backup](../maintenance/backup.md)
