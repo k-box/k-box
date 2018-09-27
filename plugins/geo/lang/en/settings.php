@@ -38,6 +38,7 @@ return [
 
         'provider_created' => 'Map Provider ":name" created',
         'provider_updated' => 'Map Provider ":name" updated',
+        'default_provider_updated' => 'Default Provider changed to ":name"',
 
         'create_title' => 'Create Provider',
         'create_description' => 'Create a new map provider',
@@ -90,6 +91,9 @@ return [
             'type' => [
                 'not_changeable' => "Provider type [:current] cannot be changed to [:new]",
             ],
+            'default_map' => [
+                'in' => 'The selected map is not available in the system',
+            ]
         ],
     ],
     

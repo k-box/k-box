@@ -219,4 +219,49 @@ class GeoMapProvidersTest extends TestCase
 
         $response->assertSessionHasErrors(['type']);
     }
+
+    public function test_default_map_provider_can_be_changed()
+    {
+        $service = app(GeoService::class);
+
+        $initial = $service->config('map')['default'];
+        
+        $user = factory(User::class)->create();
+        
+        $user->addCapabilities(Capability::$ADMIN);
+        
+        $url = route('plugins.k-box-kbox-plugin-geo.mapproviders.default.update');
+        
+        $response = $this->actingAs($user)->from(route('plugins.k-box-kbox-plugin-geo.mapproviders'))->put($url, [
+            "default" => "sentinel_3857",
+        ]);
+
+        $response->assertRedirect(route('plugins.k-box-kbox-plugin-geo.mapproviders'));
+
+        $settings = app(GeoService::class)->config('map')['default'];
+
+        $this->assertNotEquals($initial, $settings);
+        $this->assertEquals("sentinel_3857", $settings);
+    }
+
+    public function test_default_map_provider_cannot_be_changed_to_unexisting_map_provider()
+    {
+        $service = app(GeoService::class);
+
+        $initial = $service->config('map')['default'];
+        
+        $user = factory(User::class)->create();
+        
+        $user->addCapabilities(Capability::$ADMIN);
+        
+        $url = route('plugins.k-box-kbox-plugin-geo.mapproviders.default.update');
+        
+        $response = $this->actingAs($user)->from(route('plugins.k-box-kbox-plugin-geo.mapproviders'))->put($url, [
+            "default" => "unexisting",
+        ]);
+
+        $response->assertRedirect(route('plugins.k-box-kbox-plugin-geo.mapproviders'));
+
+        $response->assertSessionHasErrors(['default']);
+    }
 }
