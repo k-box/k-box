@@ -62,7 +62,7 @@ services:
 
   ## The K-Box container
   kbox:
-    image: "docker.klink.asia/images/k-box:0.22.0"
+    image: "docker.klink.asia/images/k-box:0.23.0"
     environment:
       ## K-Box access
       KBOX_APP_URL: "http://localhost:8080/"
@@ -76,7 +76,6 @@ services:
       KBOX_DB_NAME: dms  # must be the same as MYSQL_DATABASE
       KBOX_DB_USERNAME: dms  # must be the same as MYSQL_USER
       KBOX_DB_PASSWORD: "b2510859c83414e0cbefd26284b9171d"  # must be the same as MYSQL_PASSWORD
-      KLINK_CORE_ID: "KLINK" # deprecated, but still required in version 0.20.x
       KBOX_SEARCH_SERVICE_URL: "http://ksearch.local/"
     depends_on:
       - ksearch

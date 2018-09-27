@@ -1,4 +1,4 @@
-# Geographical Extension
+# Geographic Data Extension
 
 This plugin provides support for geographical data, e.g. GeoJson, KML, Shapefile. 
 
@@ -9,16 +9,16 @@ This plugin provides support for geographical data, e.g. GeoJson, KML, Shapefile
 * [x] Shapefile
 * [x] Shapefile in a zip container
 * [x] GeoTIFF
-* [ ] GeoJSON
-* [ ] KML and KMZ
-* [ ] GPX
+* [x] GeoJSON
+* [x] KML and KMZ
+* [x] GPX
 
 ## Offered features
 
 * [x] File upload and detection of geographical files
 * [x] Thumbnail generation
 * [x] Metadata extraction
-* [ ] Delivery of WMS endpoints for each file for preview
+* [x] Delivery of WMS endpoints for each file for preview
 * [ ] Conversion of files between formats for download
 
 ## Requirements
