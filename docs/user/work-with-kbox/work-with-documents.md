@@ -1,5 +1,3 @@
-#### Back to: [Start](../landing-page.md)
-
 # Work with documents: Overview
 
 This page provides an overview of: 
@@ -9,5 +7,3 @@ This page provides an overview of:
  - [Search](./search.md)
  - [Publication](./publish.md)
  - [License and Copyright](./licenses.md)
-
-#### Next: [Meta-data](./meta-data.md)
