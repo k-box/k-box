@@ -39,6 +39,7 @@ return [
                 'maxZoom' => 18,
                 'subdomains' => "abc",
                 'attribution' => '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors. Tiles courtesy of <a href="http://hot.openstreetmap.org/" target="_blank">Humanitarian OpenStreetMap Team</a>',
+                'enable' => true,
             ],
             "osm" => [
                 'type' => 'tile',
@@ -46,6 +47,7 @@ return [
                 'url' => 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
                 'attribution' => '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
                 'maxZoom' => 18,
+                'enable' => true,
             ],
             "mundialis_topo" => [
                 'label' => "Mundialis (Topographic OSM)",
@@ -53,6 +55,7 @@ return [
                 'attribution' => '&copy; <a href="https://www.mundialis.de/en/ows-mundialis/" target="_blank">Mundialis GmbH & Co. KG</a>',
                 'type' => 'wms',
                 'url' => 'http://ows.mundialis.de/services/service?',
+                'enable' => true,
             ],
             "sentinel_3857" => [
                 'label' => "Sentinel-2 cloudless by EOX",
@@ -60,6 +63,7 @@ return [
                 'attribution' => '<a href="https://s2maps.eu">Sentinel-2 cloudless – https://s2maps.eu</a> by <a href="https://eox.at/">EOX IT Services GmbH</a> (Contains modified Copernicus Sentinel data 2016 & 2017)',
                 'type' => 'wms',
                 'url' => 'https://tiles.maps.eox.at/?',
+                'enable' => true,
             ],
             "sentinel_2017_3857" => [
                 'label' => "Sentinel-2 cloudless layer for 2017 by EOX",
@@ -67,6 +71,7 @@ return [
                 'attribution' => '<a href="https://s2maps.eu">Sentinel-2 cloudless – https://s2maps.eu</a> by <a href="https://eox.at/">EOX IT Services GmbH</a> (Contains modified Copernicus Sentinel data 2016 & 2017)',
                 'type' => 'wms',
                 'url' => 'https://tiles.maps.eox.at/?',
+                'enable' => false,
             ],
             "sentinel_terrain_3857" => [
                 'label' => "Sentinel Terrain by EOX",
@@ -74,6 +79,7 @@ return [
                 'attribution' => '<a href="https://s2maps.eu">Sentinel-2 cloudless – https://s2maps.eu</a> by <a href="https://eox.at/">EOX IT Services GmbH</a> (Contains modified Copernicus Sentinel data 2016 & 2017)',
                 'type' => 'wms',
                 'url' => 'https://tiles.maps.eox.at/?',
+                'enable' => false,
             ],
         ]
     ]

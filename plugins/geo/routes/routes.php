@@ -18,6 +18,8 @@ Route::get('/providers/create', 'GeoPluginMapProvidersController@create')->name(
 
 Route::put('/providers/default', 'GeoPluginDefaultMapProviderController@update')->name('mapproviders.default.update');
 
+Route::put('/providers/enable', 'GeoPluginEnableDisableMapProviderController@update')->name('mapproviders.enable.update');
+
 Route::put('/providers/{id}', 'GeoPluginMapProvidersController@update')->name('mapproviders.update');
 
 Route::get('/providers/{id}/edit', 'GeoPluginMapProvidersController@edit')->name('mapproviders.edit');

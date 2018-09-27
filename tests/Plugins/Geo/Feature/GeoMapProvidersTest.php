@@ -47,8 +47,9 @@ class GeoMapProvidersTest extends TestCase
             "label" => "Humanitarian Open Street Maps",
             "url" => "https://tile-{s}.openstreetmap.fr/hot/{z}/{x}/{y}.png",
             "type" => "tile",
-            "maxZoom" => 20,
+            "maxZoom" => 18,
             "subdomains" => "abc",
+            "enable" => true,
             "attribution" => '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors. Tiles courtesy of <a href="http://hot.openstreetmap.org/" target="_blank">Humanitarian OpenStreetMap Team</a>'
         ],
         "osm" => [
@@ -56,7 +57,8 @@ class GeoMapProvidersTest extends TestCase
             "label" => "Open Street Maps",
             "url" => "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
             "attribution" => '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-            "maxZoom" => 19,
+            "maxZoom" => 18,
+            "enable" => true,
         ],
         "mundialis_topo" => [
             "label" => "Mundialis (Topographic OSM)",
@@ -64,6 +66,7 @@ class GeoMapProvidersTest extends TestCase
             "attribution" => '&copy; <a href="https://www.mundialis.de/en/ows-mundialis/" target="_blank">Mundialis GmbH & Co. KG</a>',
             "type" => "wms",
             "url" => "http://ows.mundialis.de/services/service?",
+            "enable" => true,
         ]
     ];
 
@@ -263,5 +266,53 @@ class GeoMapProvidersTest extends TestCase
         $response->assertRedirect(route('plugins.k-box-kbox-plugin-geo.mapproviders'));
 
         $response->assertSessionHasErrors(['default']);
+    }
+
+    public function test_map_provider_can_be_enabled()
+    {
+        $service = app(GeoService::class);
+
+        $initial = $service->config('map')['providers'];
+        
+        $user = factory(User::class)->create();
+        
+        $user->addCapabilities(Capability::$ADMIN);
+        
+        $url = route('plugins.k-box-kbox-plugin-geo.mapproviders.enable.update');
+        
+        $response = $this->actingAs($user)->from(route('plugins.k-box-kbox-plugin-geo.mapproviders'))->put($url, [
+            "provider" => "sentinel_2017_3857",
+            "enable" => true,
+        ]);
+
+        $response->assertRedirect(route('plugins.k-box-kbox-plugin-geo.mapproviders'));
+
+        $settings = $service->config('map')['providers'];
+
+        $this->assertTrue($settings["sentinel_2017_3857"]['enable'], "Provider was not enabled");
+    }
+
+    public function test_map_provider_can_be_disabled()
+    {
+        $service = app(GeoService::class);
+
+        $initial = $service->config('map')['providers'];
+        
+        $user = factory(User::class)->create();
+        
+        $user->addCapabilities(Capability::$ADMIN);
+        
+        $url = route('plugins.k-box-kbox-plugin-geo.mapproviders.enable.update');
+        
+        $response = $this->actingAs($user)->from(route('plugins.k-box-kbox-plugin-geo.mapproviders'))->put($url, [
+            "provider" => "sentinel_2017_3857",
+            "enable" => false,
+        ]);
+
+        $response->assertRedirect(route('plugins.k-box-kbox-plugin-geo.mapproviders'));
+
+        $settings = $service->config('map')['providers'];
+
+        $this->assertFalse($settings["sentinel_2017_3857"]['enable'], "Provider was not disabled");
     }
 }

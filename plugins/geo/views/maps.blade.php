@@ -27,6 +27,7 @@
             <thead class="c-table__head">
                 <tr>
                     <th style="width:5%">{{trans('geo::settings.providers.attributes.default')}}</th>
+                    <th style="width:5%">{{trans('geo::settings.providers.attributes.enabled')}}</th>
                     <th style="width:10%">{{trans('geo::settings.providers.attributes.id')}}</th>
                     <th style="width:30%">{{trans('geo::settings.providers.attributes.label')}}</th>
                     <th style="width:5%">{{trans('geo::settings.providers.attributes.type')}}</th>
@@ -50,6 +51,25 @@
                                     {{ csrf_field() }}
                                     {{ method_field('PUT') }}
                                     <input type="hidden" name="default" value="{{$providerId}}">
+                                </form>
+                            @endif
+                        </td>
+                        <td>
+                            @if( $provider['enable'] ?? false )
+                                <button class="button button--ghost" onclick="event.preventDefault();document.getElementById('provider-enable-{{$providerId}}').submit();">@materialicon('toggle', 'check_box')</button>
+                                <form id="provider-enable-{{$providerId}}" action="{{ route('plugins.k-box-kbox-plugin-geo.mapproviders.enable.update') }}" method="POST" style="display: none;">
+                                    {{ csrf_field() }}
+                                    {{ method_field('PUT') }}
+                                    <input type="hidden" name="provider" value="{{$providerId}}">
+                                    <input type="hidden" name="enable" value="{{false}}">
+                                </form>
+                            @else 
+                                <button class="button button--ghost" onclick="event.preventDefault();document.getElementById('provider-enable-{{$providerId}}').submit();">@materialicon('toggle', 'check_box_outline_blank')</button>
+                                <form id="provider-enable-{{$providerId}}" action="{{ route('plugins.k-box-kbox-plugin-geo.mapproviders.enable.update') }}" method="POST" style="display: none;">
+                                    {{ csrf_field() }}
+                                    {{ method_field('PUT') }}
+                                    <input type="hidden" name="provider" value="{{$providerId}}">
+                                    <input type="hidden" name="enable" value="{{true}}">
                                 </form>
                             @endif
                         </td>
