@@ -16,7 +16,7 @@ class KlinkAdapterPrivateDataManagementTest extends TestCase
     protected function setUp()
     {
         parent::setUp();
-        dump(getenv('DMS_CORE_ADDRESS'), config('dms.core.address'));
+        
         if (empty(getenv('DMS_CORE_ADDRESS'))) {
             $this->markTestSkipped(
                 'DMS_CORE_ADDRESS not configured for running integration tests.'
