@@ -39,7 +39,7 @@ services:
   ## K-Search
 
   ksearch:
-    image: "docker.klink.asia/images/k-search:3.3.0-2"
+    image: "docker.klink.asia/images/k-search:3.5.0-1"
     ports:
       - 8081:80
     environment:
@@ -52,7 +52,7 @@ services:
       - engine
 
   engine:
-    image: "docker.klink.asia/images/k-search-engine:0.4.2"
+    image: "docker.klink.asia/images/k-search-engine:1.0.1"
     volumes:
       - "/opt/solr/k-search/k-search/data"
     expose:

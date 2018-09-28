@@ -44,17 +44,25 @@ class DocumentElaborationManager
     /**
      * Register a new elaboration action
      *
-     * The new action is added at the end.
+     * By default the new action is added at the end. Specify a $before action class if you want to add the issue in a different place
      *
      * @param string $action The class of the action to add
+     * @param string $before The class of the action that should be preceed by $action
      * @return DocumentElaborationManager
      */
-    public function register($action)
+    public function register($action, $before = null)
     {
         if (in_array($action, $this->actions)) {
             return $this;
         }
-        array_push($this->actions, $action);
+
+        if (is_null($before) || ! in_array($before, $this->actions)) {
+            array_push($this->actions, $action);
+        } else {
+            $index = array_search($before, $this->actions);
+            array_splice($this->actions, $index, 0, $action);
+        }
+
         return $this;
     }
 

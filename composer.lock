@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f688f4b3202e04926f841ee61c5a8b98",
+    "content-hash": "6f74cc21061b95ac90d3e90cabfad7f3",
     "packages": [
         {
             "name": "avvertix/materialicons-laravel-bridge",
@@ -1796,16 +1796,16 @@
         },
         {
             "name": "k-box/k-search-client-php",
-            "version": "v3.1.0",
+            "version": "v3.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/k-box/k-search-client-php.git",
-                "reference": "20bbe096c99e3a451766a237ca59ae28fa83a6cd"
+                "reference": "4706f4caa30c142023611f99c6281b58951b9cd9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/k-box/k-search-client-php/zipball/20bbe096c99e3a451766a237ca59ae28fa83a6cd",
-                "reference": "20bbe096c99e3a451766a237ca59ae28fa83a6cd",
+                "url": "https://api.github.com/repos/k-box/k-search-client-php/zipball/4706f4caa30c142023611f99c6281b58951b9cd9",
+                "reference": "4706f4caa30c142023611f99c6281b58951b9cd9",
                 "shasum": ""
             },
             "require": {

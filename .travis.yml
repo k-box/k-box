@@ -18,7 +18,7 @@ cache:
   directories:
   - $HOME/.composer/cache
 
-  env:
+env:
   global:
     - DMS_CORE_ADDRESS="http://127.0.0.1:8081/"
 
@@ -40,13 +40,14 @@ before_script:
   - pecl channel-update pecl.php.net
   - yes | pecl install imagick # install imagemagick for thumbnail generation of files https://github.com/travis-ci/travis-ci/issues/781#issuecomment-332473065
   - sudo service mysql stop
-  - docker-compose -f ./docker-compose.dev.example.yml up -d
-  - php -f ./tests/wait.php
+  - docker-compose -f ./docker-compose.dev.example.yml up -d  
 
 script: 
   - ./vendor/bin/parallel-lint -j 20 --exclude vendor .
   - shellcheck ./docker/*.sh
   - php artisan view:clear
+  - php artisan config:clear
+  - php artisan route:clear
   - ./vendor/bin/php-cs-fixer fix --dry-run
   - mkdir ./storage/documents
   - composer run install-video-cli
@@ -54,8 +55,7 @@ script:
   - composer run install-content-cli
   - composer run install-language-cli
   - composer run install-streaming-client
-  - php artisan config:clear
-  - php artisan route:clear
+  - php -f ./tests/wait.php
   - php artisan migrate --env=testing --force
   - php artisan db:seed --env=testing --force
   - vendor/bin/phpunit

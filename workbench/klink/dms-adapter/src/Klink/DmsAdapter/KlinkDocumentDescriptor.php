@@ -127,13 +127,14 @@ final class KlinkDocumentDescriptor
 	{
 		// grab the information of the data type to be used to express properties on the search
 
-		$file_properties = $this->descriptor->isMine() && $this->descriptor->file->properties ? (collect(array_dot($this->descriptor->file->properties)) ?? collect()) : collect();
+		$file_properties = $this->descriptor->isMine() ? $this->descriptor->file->properties : collect();
 		$data_type = $this->descriptor->mime_type === 'video/mp4' ? self::DATA_TYPE_VIDEO : self::DATA_TYPE_DOCUMENT;
 		$data = new Data();
         $data->hash = $this->descriptor->hash;
         $data->type = $data_type;
         $data->url = $this->buildDownloadUrl();
-        $data->uuid = $this->descriptor->uuid;
+		$data->uuid = $this->descriptor->uuid;
+		$data->geo_location = $file_properties->get('boundings.geojson', null); // add location information if expressed in the file properties
 		
 		$user_owner = $this->descriptor->user_owner;
 		$authors = empty($this->descriptor->authors) ? [$this->descriptor->user_owner] : explode(',', $this->descriptor->authors);
