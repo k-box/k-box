@@ -1,4 +1,3 @@
-#### Previous: [Requirements](./requirements.md)
 ---
 Title: Installation
 Description: How to install the K-Box
@@ -93,5 +92,3 @@ There are some handy commands you can use to manage your K-Box:
 **Please note**: Make sure you execute all these commands inside the directory you placed the `docker-compose.yml` file.
 
 For more information see complete [documentation on Docker Compose](https://docs.docker.com/compose/reference/up/).
-
-#### Next: [Deploy configuration](./deploy-configuration.md)

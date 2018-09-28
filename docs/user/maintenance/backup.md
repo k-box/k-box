@@ -1,5 +1,3 @@
-#### [Logging](./logging.md)
-
 ---
 Title: Backup
 Description: How to perform a K-Box backup
@@ -128,5 +126,3 @@ A possible _hot_ and _cold_ flow could be the following:
 ### Alternatives to `cp` and `rsync`
 
 If incremental backups, encryption, or you want to try a different tool, we suggest [Restic](https://restic.net/).
-
-#### Back to: [Overview](./intro-dev.md)

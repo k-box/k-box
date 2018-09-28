@@ -2,6 +2,10 @@
 
 # Search
 
+In the upper left corner you can search among accessible files.
+
+![search](../img/search.png)
+
 You can search anywhere in the K-Box, except Trash. The scope depends on location search is triggered in. Hence, if a sub-collection is currently selected, your search will run only within this sub-collection. From the Projects page, your search goes through all available projects.
 
 Use comprehensive keywords, following naming convention and boolean operators for better search:
@@ -16,6 +20,4 @@ You can of course combine all those operators in order to get more relevant sear
 
 ### Search tip
 
-Star your file clicking next to its title and it will appear in [Starred](https://git.klink.asia/main/k-box//blob/Update-Help-Project-section/docs/user/en/starred.md). This functionality is limited to files hosted on your K-Box.
-
-#### Next: [Publication](./publish.md)
+Star your file clicking next to its title and it will appear in [Starred](./starred.md). This functionality is limited to files hosted on your K-Box.

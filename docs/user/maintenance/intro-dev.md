@@ -1,10 +1,8 @@
-#### Previous: [Start](../landing-page.md)
-
-# Overview
+# K-Box deployment and maintenance
 
 This section covers the following aspects:
 
-- [K-Box overview](../index.md)
+- [Overview](../index.md)
 - [Requirements](../requirements.md)
 - [Installation](../installation.md)
 - [Deployment configuration](../deploy-configuration.md)
@@ -12,5 +10,3 @@ This section covers the following aspects:
 - [Troubleshooting](./troubleshooting.md)
 - [Logging](./logging.md)
 - [Backup](./backup.md)
-
-#### Next: [K-Box overview](../index.md)

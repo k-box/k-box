@@ -1,4 +1,4 @@
-# Work with documents: Overview
+# Overview
 
 This page provides an overview of: 
  - [Meta-data](./meta-data.md)

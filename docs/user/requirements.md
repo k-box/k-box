@@ -1,5 +1,3 @@
-#### Previous: [K-Box overview](./index.md)
-
 ---
 Title: Requirements
 Description: Hardware and Software prerequisites
@@ -36,5 +34,3 @@ Beside the storage required to download the code and to save the documents, the 
 in addition all components stores log information
 
 The used storage space varies according to the usage of the K-Box itself.
-
-#### Next: [Installation](./installation.md)
