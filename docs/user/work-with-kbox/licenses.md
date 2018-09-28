@@ -1,6 +1,6 @@
 # License and Copyright
 
-We value everyone work, so we are slowly introducing a more fine-grained control over the Copyright Owner information and the ability to specify what other users can do with your work ([license](#license)).
+We value everyone's work, so we are slowly introducing a more fine-grained control over the Copyright Owner information and the ability to specify what other users can do with your work ([license](#license)).
 Without the explicit indication of the licenses, there is a danger of infringing the ownership rights for the content on K-Link Network and the K-Boxes. In order to protect K-Link users and participating organizations against lawsuits, it is important to state the copyrights and license to inform users about the potential allowed uses for the contents. 
 
 ### Copyright owner
