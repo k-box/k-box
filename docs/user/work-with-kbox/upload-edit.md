@@ -25,7 +25,11 @@ Select "Edit" to change title, author, language, version, [resolve duplicates](.
 
 
 ## Edit file
-If you want to edit a document, you can download it, edit it offline and upload it again, by using the button _Upload a new version_ on the metadata page. Note that if you upload an already existing document (by drag-and-dropping or by using the Upload a new version), your file will be identified as a [_duplicate_](./duplicates.md#resolve). 
+If you want to edit a document, you can download it, edit it offline and upload it again, by using the button _Upload a new version_ on the metadata page. 
+
+![upload new version](../img/new-ver.png)
+
+Note that if you upload an already existing document (by drag-and-dropping or by using the Upload a new version), your file will be identified as a [_duplicate_](./duplicates.md). 
 
 ## Delete file
 
@@ -33,10 +37,14 @@ If you want to delete file, do a right click on the selected file and click on "
 
 ![delete](../img/delete.png)
 
+You can also restore or fully remove files from Trash section.
+
+![trash](../img/trash.png)
+
 
 ## Organization of files
 
-You can organize your files in accessible projects, in "My Collections" and [other sections](./getting-started.md). Private collections are colored green for distinction from project collections (orange). Please do right-click on the collection where you intend to create an internal structuring, select "New Collection". Hit the arrow-like symbol on the collection to see the subcollections.
+You can organize your files in accessible projects, in "My Collections" and [other sections](./getting-started.md#files-navigation). Private collections are colored green for distinction from project collections (orange). Please do right-click on the collection where you intend to create an internal structuring, select "New Collection". Hit the arrow-like symbol on the collection to see the subcollections.
 
 ![browse collection](../img/browse-collections.png)
 

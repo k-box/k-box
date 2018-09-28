@@ -10,13 +10,19 @@ In the upper menu you can select all files, create new collection or upload a ne
 
 ![upper menu](../img/upper-menu.png) 
 
+#### Search
+
 In the upper left corner you can search among your files.
 
 ![search](../img/search.png)
 
+#### Personal preferences
+
 Personal settings in the upper right corner under the first letter of your name.
 
 ![personal settings](../img/personal-settings.png)
+
+#### Files navigation
 
 You can access the left-hand navigation menu where files are categorized into Personal, Recent, Starred, Shared with me, Trash. Besides that you can find accessible projects and your personal files organized in the collections
 
