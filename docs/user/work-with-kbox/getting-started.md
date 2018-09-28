@@ -10,34 +10,14 @@ In the upper menu you can select all files, create new collection or upload a ne
 
 ![upper menu](../img/upper-menu.png) 
 
-You can access the left-hand navigation menu where files are categorized:
+In the upper left corner you can search among your files.
 
-![Left navigation menu](./img/left-nav-bar.png)
+![search](../img/search.png)
 
-#### Personal
+Personal settings in the upper right corner under the first letter of your name.
 
-Your personal files. Can be seen by K-Box administrator.
+![personal settings](../img/personal-settings.png)
 
-#### Recent
+You can access the left-hand navigation menu where files are categorized into Personal, Recent, Starred, Shared with me, Trash. Besides that you can find accessible projects and your personal files organized in the collections
 
-Displays all the files recently modified or added by you and your colleagues in accessible project and personal collections.
-
-#### Starred
-
-Displays all files you have starred.
-
-#### Shared with me
-
-All files [shared](./share.md) with you by other users.
-
-#### Trash
-
-Contains all your trashed files.
-
-#### Projects
-
-Projects can contain documents and collections, accessible by authorized users.
-
-#### My collections
-
-Your personal files organized in the collections
+![Left navigation menu](../img/left-nav-bar.png)
