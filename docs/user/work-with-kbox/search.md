@@ -6,6 +6,10 @@ In the upper left corner you can search among accessible files.
 
 You can search anywhere in the K-Box, except Trash. The scope depends on location search is triggered in. Hence, if a sub-collection is currently selected, your search will run only within this sub-collection. From the Projects page, your search goes through all available projects.
 
+Use filters for more accurate search.
+
+![filters](../img/filters.png)
+
 Use comprehensive keywords, following naming convention and boolean operators for better search:
 
 - `OR`: find documents which contain either one of the keywords. When no operator is entered, the `OR` operator is assumed by the system. E.g. `Markhor report 2014` keyword combination is understood by the system as: `Markhor OR report OR 2014`
