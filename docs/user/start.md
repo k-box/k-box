@@ -7,8 +7,6 @@ Please select section you are interested in:
  - [Search](./work-with-kbox/search.md)
  - [Upload](./work-with-kbox/upload-edit.md)
  - [Edit](./work-with-kbox/upload-edit.md)
-   - [Meta-data](./work-with-kbox/meta-data)
-   - [Licenses and Copyright](./work-with-kbox/licenses.md) 
  - [Share](./work-with-kbox/share.md)
  - [Publish](./work-with-kbox/publish)
  - [Delete]()
