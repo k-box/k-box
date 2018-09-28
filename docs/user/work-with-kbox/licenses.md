@@ -54,4 +54,4 @@ Copyright and license information can be changed from the [Edit](./upload-edit.m
 
 ### Custom license
 
-If you miss a license, which is not listed under available options, contact K-Box Administrator and provide as much information as possible about it.          
+Should you be missing a license, contact K-Box Administrator and provide as much information as possible about it.          
