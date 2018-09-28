@@ -1,5 +1,3 @@
-#### Previous: [Share](./share.md)
-
 # Search
 
 In the upper left corner you can search among accessible files.
