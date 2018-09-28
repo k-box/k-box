@@ -17,6 +17,7 @@ use KBox\Geo\Listeners\RemoveFileFromGeoserver;
 use KBox\Geo\TypeIdentifiers\KmlTypeIdentifier;
 use KBox\Geo\TypeIdentifiers\GpxTypeIdentifier;
 use KBox\Geo\Thumbnails\GeoTiffThumbnailGenerator;
+use KBox\DocumentsElaboration\Actions\AddToSearch;
 use KBox\Geo\TypeIdentifiers\GeoJsonTypeIdentifier;
 use KBox\Geo\TypeIdentifiers\GeoTiffTypeIdentifier;
 use KBox\Geo\Thumbnails\ShapefileThumbnailGenerator;
@@ -67,7 +68,7 @@ class GeoServiceProvider extends Plugin
         $this->mergeConfigFrom(__DIR__.'/../../config/default.php', GeoService::PLUGIN_ID);
         
         // register the custom step in the elaboration pipeline
-        DocumentElaboration::register(ProcessGeodata::class);
+        DocumentElaboration::register(ProcessGeodata::class, AddToSearch::class);
 
         $this->registerFileTypes();
         
