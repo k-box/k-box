@@ -26,7 +26,7 @@ class GeodataPreviewDriver extends MapPreviewDriver
 
         // Get the configured map providers
         $mapConfig = $this->geoservice->config('map');
-        $this->view_data['providers'] = $mapConfig['providers'];
+        $this->view_data['providers'] = collect($mapConfig['providers'])->where('enable', true)->toArray();
         $this->view_data['defaultProvider'] = $mapConfig['providers'][$mapConfig['default']]['label'] ?? $mapConfig['default'];
 
         // Get the WMS base url for the file

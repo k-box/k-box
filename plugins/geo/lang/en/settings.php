@@ -38,6 +38,9 @@ return [
 
         'provider_created' => 'Map Provider ":name" created',
         'provider_updated' => 'Map Provider ":name" updated',
+        'default_provider_updated' => 'Default Provider changed to ":name"',
+        'providers_enabled' => 'No providers enabled|{1}Provider ":name" enabled|[2,*]Enabled ":name" and :count other providers',
+        'providers_disabled' => 'No providers disabled|{1}Provider ":name" disabled|[2,*]Disabled ":name" and :count other providers',
 
         'create_title' => 'Create Provider',
         'create_description' => 'Create a new map provider',
@@ -54,6 +57,7 @@ return [
             'id' => 'id',
 
             'default' => 'default',
+            'enabled' => 'enabled',
 
             'subdomains' => 'Subdomains',
             'subdomains_description' => 'For tile based providers, the tiles can be served from different domains to speed the loading time. In the url this is usually expressed with the {s} placeholder.',
@@ -90,6 +94,9 @@ return [
             'type' => [
                 'not_changeable' => "Provider type [:current] cannot be changed to [:new]",
             ],
+            'default_map' => [
+                'in' => 'The selected map is not available in the system',
+            ]
         ],
     ],
     
