@@ -6,7 +6,13 @@ For each upload the SHA-2 hash is calculated and compared against existing docum
 
 Even if the file already exists in the system, the upload is allowed (See [#40](https://github.com/k-box/k-box/issues/40)). K-Box version 0.21 or below would have denied the upload with an error.
 
-When the upload completes the duplicate is highlighted, with the help of a badge. In addition after 30 minutes of the first duplicate is found, a notification will be sent to the uploader, i.e. the user that performed the file upload, with the list of identified duplicates.
+When the upload completes the duplicate is highlighted, with the help of a badge. 
+
+![duplicates](../../img/duplicate.png)
+
+In addition after 30 minutes of the first duplicate is found, a notification will be sent to the uploader, i.e. the user that performed the file upload, with the list of identified duplicates.
+
+![duplicates message](../../img/duplicate-message.png)
 
 A document `D1` (uploaded by user `U`) is considered a duplicate, of `D2`, if:
 
