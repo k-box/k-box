@@ -3,7 +3,7 @@
 Please select section you are interested in:
 
 - [Getting started](./work-with-kbox/getting-started.md)
-- [Working with K-Box](./work-with-kbox/work-with-documents.md)
+- Working with K-Box
  - [Search](./work-with-kbox/search.md)
  - [Organize](./work-with-kbox/upload-edit.md#organization-of-files)
  - [Upload](./work-with-kbox/upload-edit.md)
