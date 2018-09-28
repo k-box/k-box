@@ -15,7 +15,7 @@ Please select section you are interested in:
 - K-Box Administration
  - [Users](./work-with-kbox/admin/users.md)
  - [Projects](./work-with-kbox/admin/projects.md)
- - [MNotifications](./work-with-kbox/admin/mail.md)
+ - [Notifications](./work-with-kbox/admin/mail.md)
  - [K-Link](./work-with-kbox/admin/network.md)
 - K-Box deployment and maintenance
  - [Overview](./index.md)
