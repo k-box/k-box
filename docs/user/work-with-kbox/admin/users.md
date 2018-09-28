@@ -5,7 +5,7 @@ To add new user, please follow the steps:
 
 Step 1: From the “Administration” panel select “Accounts”
 
-![Admin](.../img/admin-page.PNG)
+![Admin](../img/admin-page.PNG)
 
 Step 2: Click on “Create user”
 

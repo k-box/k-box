@@ -12,12 +12,12 @@ Please select section you are interested in:
  - [Publish](./work-with-kbox/publish.md)
  - [Delete](./work-with-kbox/upload-edit.md#delete-file)
  - [License and Copyright](./work-with-kbox/licenses.md)
-- [K-Box Administration](./work-with-kbox/admin/intro.md)
+- K-Box Administration
  - [Users management](./work-with-kbox/admin/users.md)
  - [Project management](./work-with-kbox/admin/projects.md)
  - [Mail confuguration](./work-with-kbox/admin/mail.md)
  - [Network configuration](./work-with-kbox/admin/network.md)
-- [K-Box deployment and maintenance](./maintenance/intro-dev.md)
+- K-Box deployment and maintenance
  - [Overview](./index.md)
  - [Requirements](./requirements.md)
  - [Installation](./installation.md)
