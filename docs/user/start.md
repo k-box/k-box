@@ -5,12 +5,12 @@ Please select section you are interested in:
 - [Getting started](./work-with-kbox/getting-started.md)
 - Working with K-Box
  - [Search](./work-with-kbox/search.md)
- - [Organize](./work-with-kbox/upload-edit.md#organization-of-files)
- - [Upload](./work-with-kbox/upload-edit.md)
- - [Edit](./work-with-kbox/upload-edit.md#edit-meta-data)
+ - [Organize](./work-with-kbox/files-organization.md)
+ - [Upload](./work-with-kbox/upload.md)
+ - [Edit](./work-with-kbox/edit.md)
  - [Share](./work-with-kbox/share.md)
  - [Publish](./work-with-kbox/publish.md)
- - [Delete](./work-with-kbox/upload-edit.md#delete-file)
+ - [Delete](./work-with-kbox/delete.md)
  - [License and Copyright](./work-with-kbox/licenses.md)
 - K-Box Administration
  - [Users](./work-with-kbox/admin/users.md)
