@@ -2,7 +2,7 @@
 
 ### K-Link Network
 
-K-Link technology allows users to organize themselves in public or closed networks for easier sharing of relevant information and documents. Examples are the [K-Link](https://klink.asia/) and [SLM Tajikistan](https://slmtj.net/) networks.
+K-Link technology allows users to organize themselves in public or closed networks for easier sharing of relevant information and files. Examples are the [K-Link](https://klink.asia/) and [SLM Tajikistan](https://slmtj.net/) networks.
 
 ### To publish
 

@@ -33,12 +33,12 @@ At the moment, one can select the following options for their contents in the K-
 
 _Details panel_
 
-License and copyright information are presented on the document details panel (for both private and public documents).
+License and copyright information are presented on the file details panel (for both private and public documents).
 
 ![license](../img/doc-details-license.PNG)
 
 A short line with the logo of the license, the copyright owner, and the license name serve as an introductory element.
-Information about copyright and license will be presented right below the title and the star counter on the document details and preview pages. 
+Information about copyright and license will be presented right below the title and the star counter on the file details and preview pages. 
 
 _Filters_
 
@@ -50,7 +50,7 @@ The filters for public networks will also include licensing information.
 
 The copyright owner and license information should be indicated as soon as a work is shared, or disseminated with other users through K-Box. It is strongly recommended to add that information before a work is shared in a public space.
 
-Copyright and license information can be changed from the [_Edit_](./upload-edit.md#edit) page
+Copyright and license information can be changed from the [Edit](./upload-edit.md#edit-meta-data) page
 
 ### Custom license
 

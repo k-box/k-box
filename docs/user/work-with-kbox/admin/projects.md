@@ -1,6 +1,6 @@
 # Projects
 
-Projects help to create communities of users who share a common goal. Projects can contain documents and collections, 
+Projects help to create communities of users who share a common goal. Projects can contain files and collections, 
 accessible by authorized users, unless explicitly stated otherwise.
 
 Projects are created and maintained by Project Managers and K-Box Administrators.
