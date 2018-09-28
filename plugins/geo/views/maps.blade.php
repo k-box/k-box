@@ -61,7 +61,7 @@
                                     {{ csrf_field() }}
                                     {{ method_field('PUT') }}
                                     <input type="hidden" name="provider" value="{{$providerId}}">
-                                    <input type="hidden" name="enable" value="{{false}}">
+                                    <input type="hidden" name="enable" value="0">
                                 </form>
                             @else 
                                 <button class="button button--ghost" onclick="event.preventDefault();document.getElementById('provider-enable-{{$providerId}}').submit();">@materialicon('toggle', 'check_box_outline_blank')</button>
@@ -69,7 +69,7 @@
                                     {{ csrf_field() }}
                                     {{ method_field('PUT') }}
                                     <input type="hidden" name="provider" value="{{$providerId}}">
-                                    <input type="hidden" name="enable" value="{{true}}">
+                                    <input type="hidden" name="enable" value="1">
                                 </form>
                             @endif
                         </td>
