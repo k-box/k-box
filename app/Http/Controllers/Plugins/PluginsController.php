@@ -20,6 +20,8 @@ class PluginsController extends Controller
         $this->middleware('auth');
 
         $this->middleware('capabilities');
+        
+        $this->middleware('flags:plugins');
 
         $this->manager = $manager;
     }

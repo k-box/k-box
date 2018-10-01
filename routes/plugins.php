@@ -8,7 +8,7 @@ use KBox\Http\Controllers\Plugins\PluginsController;
 |--------------------------------------------------------------------------
 */
 
-Route::group(['as' => 'administration.', 'prefix' => 'administration'], function () {
+Route::group(['as' => 'administration.', 'prefix' => 'administration', 'middleware' => ['flags:plugins']], function () {
 
     // Plugins related routes
     Route::resource('/plugins', PluginsController::class, ['only' => ['index'/*, 'show', 'edit'*/, 'update', 'destroy']]);

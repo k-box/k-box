@@ -58,6 +58,7 @@ class Kernel extends HttpKernel
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'guest' => \KBox\Http\Middleware\RedirectIfAuthenticated::class,
         'capabilities' => \KBox\Http\Middleware\RedirectIfForbidden::class,
+        'flags' => \KBox\Http\Middleware\VerifyFlag::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
     ];
 }
