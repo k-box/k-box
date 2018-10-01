@@ -1,7 +1,6 @@
 # Mail
 
-The Mail administration section allows to configure how the K-Box sends emails. The K-Box relies on 
-emails for user notification, password sending and password resets.
+The Mail administration section allows to configure how the K-Box sends emails. The K-Box relies on emails for user notification, password sending and password resets.
 
 In order to send emails from the K-Box an email SMTP server is needed. 
 
@@ -13,7 +12,7 @@ The configuration can be specified via User Interface or deployment configuratio
 
 If you are the K-Box administrator and you log-in for the first time a message, like the one in the next picture, is presented.
 
-![](./img/dms-admin-mail-first-login.PNG)
+![Email configuration notification](../../img/dms-admin-mail-first-login.PNG)
 
 The message inform you that some (or all) the email configuration parameters are not specified.
 
@@ -23,7 +22,7 @@ Is important to specify those parameters to make sure users will receive account
 
 The mail configuration is available via the _Administration > Mail_ page. On the first login the page might look like the picture below.
 
-![](./img/dms-mail-configuration.PNG)
+![mail config page](../../img/dms-mail-configuration.PNG)
 
 The emails are sent via an external provider. The provider should expose a SMTP (Simple Mail Transport Protocol) server.
 
