@@ -3,6 +3,7 @@
 namespace Tests\Feature\Plugins;
 
 use KBox\User;
+use KBox\Flags;
 use Tests\TestCase;
 use KBox\Capability;
 use KBox\Plugins\PluginManager;
@@ -57,6 +58,8 @@ class PluginsControllerTest extends TestCase
 
     public function test_discovered_plugins_are_presented()
     {
+        Flags::enable(Flags::PLUGINS);
+        
         $user = tap(factory(User::class)->create(), function ($u) {
             $u->addCapabilities(Capability::$ADMIN);
         });
