@@ -93,6 +93,8 @@ class ViewComposerServiceProvider extends ServiceProvider
         view()->composer('documents.starred', 'KBox\Http\Composers\DocumentsComposer@layout');
         view()->composer('documents.sharedwithme', 'KBox\Http\Composers\DocumentsComposer@shared');
         view()->composer('documents.menu', 'KBox\Http\Composers\DocumentsComposer@menu');
+
+        view()->composer('geo::documents.geo', 'KBox\Http\Composers\DocumentsComposer@layout');
         
         view()->composer('documents.trash', 'KBox\Http\Composers\DocumentsComposer@layout');
 

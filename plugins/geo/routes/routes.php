@@ -23,3 +23,5 @@ Route::put('/providers/enable', 'GeoPluginEnableDisableMapProviderController@upd
 Route::put('/providers/{id}', 'GeoPluginMapProvidersController@update')->name('mapproviders.update');
 
 Route::get('/providers/{id}/edit', 'GeoPluginMapProvidersController@edit')->name('mapproviders.edit');
+
+Route::get('/documents', 'GeoDocumentsController@index')->name('geodocuments');

@@ -257,4 +257,14 @@ return [
         ],
     ],
 
+    /**
+     * GeoPlugin route permission
+     */
+
+    'plugins' => [
+        'k-box-kbox-plugin-geo' => [
+            'geodocuments' => KBox\Capability::MAKE_SEARCH,
+        ],
+    ],
+
  ];
