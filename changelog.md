@@ -7,6 +7,43 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.23.0] - 2018-10-01
+
+### Added
+
+- Kyrgyz localization ([#120](https://github.com/k-box/k-box/pull/120))
+- Extensibility to the Document Elaboration pipeline ([#116](https://github.com/k-box/k-box/pull/116))
+- Basic Plugin architecture. Can be enabled by using the `plugins` flag ([#118](https://github.com/k-box/k-box/pull/118))
+- Add `File` and `DocumentDescriptor` delete and restore events ([#128](https://github.com/k-box/k-box/pull/128))  
+- Ability to register new file types ([#130](https://github.com/k-box/k-box/pull/130))
+- Thumbnails drivers with extension support ([#130](https://github.com/k-box/k-box/pull/130))
+- Preview drivers with extension support ([#131](https://github.com/k-box/k-box/pull/131))
+- Preliminary extension for visualizing the File properties, extracted from the file metadata, on the UI ([#133](https://github.com/k-box/k-box/pull/133))
+- Static definition of document types ([#130](https://github.com/k-box/k-box/pull/130))
+- [Geographic Data Plugin](./plugins/geo/changelog.md)
+- Reusable map preview component ([#133](https://github.com/k-box/k-box/pull/133))
+
+### Changed
+
+- K-Search 3.5.0 and K-Search Engine 1.0.1 are now required. **Requires reindex**
+- Update Laravel framework to version 5.5
+- Improve Document Elaboration pipeline usage ([#116](https://github.com/k-box/k-box/pull/116))
+- File type detection now uses a combination of mime type extraction and custom detection drivers ([#130](https://github.com/k-box/k-box/pull/130))
+- File properties are now handled via the FileProperties hierarchy ([#133](https://github.com/k-box/k-box/pull/133))
+
+### Fixed
+
+- Video format and resolution on upload page ([#119](https://github.com/k-box/k-box/pull/119))
+- The user field on project create and edit pages has now the same interface ([#127](https://github.com/k-box/k-box/pull/127))
+- Fix trashing of files not added to the search engine ([#129](https://github.com/k-box/k-box/pull/129))
+
+### Removed
+
+- The code namespaces `\Klink\DmsDocuments` and `\Content` were removed in favor of the `\KBox\Documents` namespaces ([#123](https://github.com/k-box/k-box/pull/123))
+
+### Deprecated
+
+
 ## [0.22.0] - 2018-07-26
 
 ### Added
