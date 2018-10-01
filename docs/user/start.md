@@ -12,6 +12,7 @@ Please select section you are interested in:
  - [Publish](./work-with-kbox/publish.md)
  - [Delete](./work-with-kbox/delete.md)
  - [License and Copyright](./work-with-kbox/licenses.md)
+ - [Learn about Errors](./work-with-kbox/errors.md)
 - K-Box Administration
  - [Users](./work-with-kbox/admin/users.md)
  - [Projects](./work-with-kbox/admin/projects.md)
