@@ -134,7 +134,7 @@ final class KlinkDocumentDescriptor
         $data->type = $data_type;
         $data->url = $this->buildDownloadUrl();
 		$data->uuid = $this->descriptor->uuid;
-		$data->geo_location = $file_properties->get('boundings.geojson', null); // add location information if expressed in the file properties
+		$data->geo_location = $file_properties->get('boundings.geojson', Geometries::boundingBoxFromGeoserver($file_properties->get('boundings.geoserver', null))); // add location information if expressed in the file properties
 		
 		$user_owner = $this->descriptor->user_owner;
 		$authors = empty($this->descriptor->authors) ? [$this->descriptor->user_owner] : explode(',', $this->descriptor->authors);

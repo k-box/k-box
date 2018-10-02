@@ -5,6 +5,7 @@ namespace KBox\Geo\Actions;
 use Log;
 use Exception;
 use KBox\Geo\GeoService;
+use Klink\DmsAdapter\Geometries;
 use OneOffTech\GeoServer\GeoFile;
 use OneOffTech\GeoServer\GeoType;
 use KBox\Jobs\ThumbnailGenerationJob;
@@ -88,15 +89,21 @@ class ProcessGeodata extends Action
                 $geoserverCrs = $details->type() === 'raster' ? $details->nativeCRS : ($details->srs ?? $details->boundingBox->crs);
             }
                     
-            $properties = $geofile->properties();
-            $file->properties = $properties->merge([
+            $properties = $geofile->properties()->merge([
                 'type' => $properties->type ?? optional($details)->type(), //although it might be already set, we add it twice in case Gdal extraction fails
                 'crs.geoserver' => $geoserverCrs ?? '',
                 'boundings.geoserver' => optional($details)->boundingBox ?? [],
                 'geoserver.layers' => array_wrap($baseLayer),
                 'geoserver.store' => optional($details)->name,
             ]);
-            
+
+            // Gdal bounding box extraction might fail, so if we have a succesfull geoserver upload we use the Geoserver calculated bounding box
+            if(empty($properties->get('boudings.geojson'))){
+                $properties['boudings.geojson'] = Geometries::boundingBoxFromGeoserver($file_properties->get('boundings.geoserver', null));
+            }
+
+            $file->properties = $properties;
+
             $file->save();
 
             // Dispatch again the thumbnail generation for shapefile as
