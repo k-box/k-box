@@ -101,10 +101,11 @@ final class RoutingHelpers
             
             $active = [];
 
-            $active_filters = collect($current_active_filters)->except('geo_location')->toArray();
+            $active_filters = $current_active_filters;
 
             foreach ($active_filters as $key => $values) {
                 $values = array_unique($values);
+                $term = is_array($term) ? implode(',', $term) : $term;
                 
                 if ($selected && $facet===$key && in_array($term, $values)) {
                     $diff = array_diff($values, [$term]);
