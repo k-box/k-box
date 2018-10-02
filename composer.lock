@@ -4234,12 +4234,12 @@
             "version": "v1.1.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/rinvex/language.git",
+                "url": "https://github.com/rinvex/renamed-language.git",
                 "reference": "455453618a8445939b9e010683a3f182c2e25e60"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rinvex/language/zipball/455453618a8445939b9e010683a3f182c2e25e60",
+                "url": "https://api.github.com/repos/rinvex/renamed-language/zipball/455453618a8445939b9e010683a3f182c2e25e60",
                 "reference": "455453618a8445939b9e010683a3f182c2e25e60",
                 "shasum": ""
             },
