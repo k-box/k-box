@@ -1,6 +1,6 @@
 ## Organization of files
 
-You can organize your files in accessible projects, in "My Collections" and [other sections](./getting-started.md#files-navigation). Private collections are colored green for distinction from project collections (orange). Please do right-click on the collection where you intend to create an internal structuring, select "New Collection". Hit the arrow-like symbol on the collection to see the subcollections.
+The files are being organized in accessible projects and [other sections](./getting-started.md#files-navigation). Users can organize files in My Collections according to their preference. Private collections are colored green for distinction from project collections (orange). Please do right-click on the collection where you intend to create an internal structuring, select "New Collection". Hit the arrow-like symbol on the collection to see the subcollections.
 
 ![browse collection](../img/browse-collections.png)
 
