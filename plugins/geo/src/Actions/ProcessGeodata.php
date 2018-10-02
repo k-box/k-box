@@ -99,7 +99,7 @@ class ProcessGeodata extends Action
 
             // Gdal bounding box extraction might fail, so if we have a succesfull geoserver upload we use the Geoserver calculated bounding box
             if(empty($properties->get('boudings.geojson'))){
-                $properties['boudings.geojson'] = Geometries::boundingBoxFromGeoserver($file_properties->get('boundings.geoserver', null));
+                $properties['boudings.geojson'] = Geometries::boundingBoxFromGeoserver($properties->get('boundings.geoserver', null));
             }
 
             $file->properties = $properties;
