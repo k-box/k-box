@@ -6,6 +6,7 @@ use KBox\File;
 use proj4php\Wkt;
 use KBox\FileProperties;
 use Vicchi\GeoJson\Rewind;
+use OneOffTech\GeoServer\Models\BoundingBox;
 use OneOffTech\GeoServer\GeoType as BaseGeoType;
 use Spinen\Geometry\GeometryFacade as Geometry;
 use KSearchClient\Model\Data\GeographicGeometry;
@@ -22,6 +23,10 @@ final class Geometries
     {
         if(is_null($geoserverBbox)){
             return null;
+        }
+
+        if($geoserverBbox instanceof BoundingBox){
+            $geoserverBbox = $geoserverBbox->toArray();
         }
 
         list('minX' => $west, 'minY' => $south, 'maxX' => $east, 'maxY' => $north) = $geoserverBbox;
