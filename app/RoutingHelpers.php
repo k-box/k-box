@@ -101,7 +101,9 @@ final class RoutingHelpers
             
             $active = [];
 
-            foreach ($current_active_filters as $key => $values) {
+            $active_filters = collect($current_active_filters)->except('geo_location')->toArray();
+
+            foreach ($active_filters as $key => $values) {
                 $values = array_unique($values);
                 
                 if ($selected && $facet===$key && in_array($term, $values)) {

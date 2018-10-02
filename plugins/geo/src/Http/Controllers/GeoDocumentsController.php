@@ -9,11 +9,13 @@ use KBox\Traits\Searchable;
 use KBox\DocumentDescriptor;
 use Illuminate\Http\Request;
 use KBox\Documents\DocumentType;
+use Klink\DmsAdapter\Geometries;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Contracts\Auth\Guard;
 use KBox\Http\Controllers\Controller;
 use Klink\DmsAdapter\Contracts\KlinkAdapter;
 use KBox\Documents\Services\DocumentsService;
+use KSearchClient\Model\Search\BoundingBoxFilter;
 
 class GeoDocumentsController extends Controller
 {
@@ -40,8 +42,6 @@ class GeoDocumentsController extends Controller
 
         $this->middleware('flags:plugins');
 
-        // TODO: verify geo plugin enabled and user with personal data search capability
-
         $this->service = $adapterService;
         $this->documentsService = $documentsService;
     }
@@ -59,16 +59,13 @@ class GeoDocumentsController extends Controller
         
         $req->visibility('private');
 
-        // request bounding box
-        // request geo only using world bounding box
+        $req->spatialFilter(BoundingBoxFilter::worldBounds()); // add with low priority the World filter to make sure to present only data with geolocation
         
         $documents = $this->getGeodataDocuments($user);
 
         $results = $this->search($req, function ($_request) use ($documents) {
-            if ($_request->isPageRequested() && ! $_request->isSearchRequested()) {
-                $_request->setForceFacetsRequest();
-                return $documents->get();
-            }
+            
+            $_request->setForceFacetsRequest();
 
             $_request->in($documents->get()->pluck('uuid')->all());
 

@@ -3,12 +3,14 @@
 namespace Klink\DmsSearch;
 
 use Illuminate\Http\Request;
+use Klink\DmsAdapter\Geometries;
 use Illuminate\Support\Collection;
 use BadMethodCallException;
 use Klink\DmsAdapter\KlinkFacets;
 use Klink\DmsAdapter\KlinkFilters;
 use Klink\DmsAdapter\KlinkFacetsBuilder;
 use Klink\DmsAdapter\KlinkVisibilityType;
+use KSearchClient\Model\Search\BoundingBoxFilter;
 
 /**
  * Search Request builder.
@@ -32,6 +34,9 @@ class SearchRequest
     protected $limit = 12;
     
     protected $filters = null;
+    
+    protected $spatial_filters = null;
+    
     /**
      * Tells what filters are added directly by the user
      */
@@ -111,7 +116,6 @@ class SearchRequest
                     $filters[$klinkValue] = explode(',', str_replace(' ','+',$request->input($dashed_value, '')));
                 }
 
-                // isValidEnumKey
             }
 
             $instance->setIsSearchRequest($request->has('fs') || $request->input('s') || ! empty($filters));
@@ -274,6 +278,18 @@ class SearchRequest
 
         return $this;
     }
+    
+    /**
+     * Specify a spatial filter
+     */
+    public function spatialFilter($value)
+    {
+        $filter = $value instanceof BoundingBoxFilter ? $value : new BoundingBoxFilter(Geometries::boundingBoxFromArray(array_from($value)));
+        
+        $this->spatial_filters = $filter;
+        
+        return $this;
+    }
 
     /**
      * Get the filter values for a specific filter
@@ -421,6 +437,30 @@ class SearchRequest
         return $filters;
     }
 
+    /**
+     * Build the geo_location_filter according to the request
+     * 
+     */
+    public function buildSpatialFilters()
+    {
+        $filters = $this->filters ?? [];
+        $spatial_filters = $this->spatial_filters ?? null;
+
+        if (isset($filters[KlinkFilters::GEO_LOCATION])) {
+            $spatial_filters = $filters[KlinkFilters::GEO_LOCATION];
+        }
+
+        if(is_null($spatial_filters)){
+            return null;
+        }
+
+        if(!is_null($spatial_filters) && $spatial_filters instanceof BoundingBoxFilter){
+			return $spatial_filters;
+        }
+
+        return new BoundingBoxFilter(Geometries::boundingBoxFromArray(is_array($spatial_filters) ? $spatial_filters : array_from($spatial_filters)));
+    }
+
     
     // http://i.giphy.com/ujUdrdpX7Ok5W.gif
     
@@ -448,6 +488,7 @@ class SearchRequest
             'page' => $this->page,
             'limit' => $this->limit,
             'filters' => $this->filters,
+            'spatial_filters' => $this->spatial_filters,
             'facets' => $this->facets,
             'on_collections' => $this->on_collections,
             'in_documents' => $this->in_documents,

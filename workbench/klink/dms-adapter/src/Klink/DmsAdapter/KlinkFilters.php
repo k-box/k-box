@@ -13,4 +13,6 @@ class KlinkFilters extends KlinkFacets
 	const UUID = 'uuid';
 	
     const HASH = 'hash';
+    
+    const GEO_LOCATION = 'geo_location';
 }
