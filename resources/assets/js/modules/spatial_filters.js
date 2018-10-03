@@ -7,11 +7,13 @@ define("modules/spatial_filters", ["require", "modernizr", "jquery", "DMS", "mod
     var _mapLoaded = false;
     var currentFilter = null;
     var otherFilters = null;
+    var searchTerms = null;
 
     function applyFilter(bbox){
 
         var geoFilter = {geo_location: bbox};
-        var filters = bbox ? $.extend(geoFilter, otherFilters) : otherFilters;
+        var preExisting = $.extend(otherFilters, searchTerms);
+        var filters = bbox ? $.extend(geoFilter, preExisting) : preExisting;
 
         DMS.navigate("geoplugin/documents", filters);
     }
@@ -96,6 +98,7 @@ define("modules/spatial_filters", ["require", "modernizr", "jquery", "DMS", "mod
             if(options){
                 currentFilter = options.filter || null;
                 otherFilters = options.otherFilters || null;
+                searchTerms = options.searchTerms || null;
             }
 
             console.log("initializing map");
