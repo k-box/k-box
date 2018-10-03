@@ -1,38 +1,12 @@
-define("modules/spatial_filters", ["require", "modernizr", "jquery", "DMS", "modules/leaflet", "modules/leaflet-draw", 'language'], 
-    function (_require, _modernizr, $, DMS, L, LDraw, Lang) {
+define("modules/spatial_filters", ["require", "modernizr", "jquery", "DMS", "modules/leaflet"],
+    function (_require, _modernizr, $, DMS, L) {
     
-	console.log('loading spatial-filters module...');
-
-
-
-    function getParameterByName(name, url) {
-        if (!url) url = window.location.search || window.location.href;
-        name = name.replace(/[\[\]]/g, "\\$&");
-        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-            results = regex.exec(url);
-        if (!results) return null;
-        if (!results[2]) return '';
-        return decodeURIComponent(results[2].replace(/\+/g, " "));
-    }
-
+    console.log('loading spatial-filters module...');
+    
     var _pageArea = $("#page");
     var _mapLoaded = false;
     var currentFilter = null;
     var otherFilters = null;
-
-    var geojsonFeature = {
-        "type": "Feature",
-        "properties": {
-            "name": "Coors Field",
-            "amenity": "Baseball Stadium",
-            "popupContent": "This is where the Rockies play!"
-        },
-        "geometry": {
-            "type": "Point",
-            "coordinates": [-104.99404, 39.75621]
-        }
-    };
-
 
     function applyFilter(bbox){
 
@@ -114,7 +88,7 @@ define("modules/spatial_filters", ["require", "modernizr", "jquery", "DMS", "mod
         _mapLoaded = true;
     }
 
-	var module = {
+    var module = {
 
         init: function(options)
         {
@@ -129,7 +103,9 @@ define("modules/spatial_filters", ["require", "modernizr", "jquery", "DMS", "mod
             _pageArea.on('spatialfilters:open', function(evt){
                 
                 if(!_mapLoaded){
-                    loadMap();
+                    _require(["modules/leaflet-draw"], function(){
+                        loadMap();
+                    });
                 }
             });
             _pageArea.on('spatialfilters:close', function(evt){
@@ -142,5 +118,5 @@ define("modules/spatial_filters", ["require", "modernizr", "jquery", "DMS", "mod
 
     window.SpatialFilters = module;
     
-	return module;
+    return module;    
 });
