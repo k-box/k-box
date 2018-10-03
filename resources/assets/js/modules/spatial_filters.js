@@ -37,7 +37,7 @@ define("modules/spatial_filters", ["require", "modernizr", "jquery", "DMS", "mod
     function applyFilter(bbox){
 
         var geoFilter = {geo_location: bbox};
-        var filters = $.extend(geoFilter, otherFilters);
+        var filters = bbox ? $.extend(geoFilter, otherFilters) : otherFilters;
 
         DMS.navigate("geoplugin/documents", filters);
     }
@@ -71,6 +71,11 @@ define("modules/spatial_filters", ["require", "modernizr", "jquery", "DMS", "mod
 
         var drawnItems = new L.FeatureGroup();
         map.addLayer(drawnItems);
+        
+        if(currentFilter){
+            var rectangle = L.rectangle(currentFilter, {weight: 1})
+            drawnItems.addLayer(rectangle);
+        }
 
         var drawControl = new L.Control.Draw({
             position: 'topleft',
@@ -90,21 +95,21 @@ define("modules/spatial_filters", ["require", "modernizr", "jquery", "DMS", "mod
 
         map.addControl(drawControl);
 
-        // L.geoJSON(geojsonFeature).addTo(map);
-
         map.on(L.Draw.Event.CREATED, function (e) {
-            var type = e.layerType,
-                layer = e.layer;
-            // Do whatever else you need to. (save to db; add to map etc)
+            var layer = e.layer;
+
             drawnItems.addLayer(layer);
-            console.log(layer.getBounds().toBBoxString());
 
             applyFilter(layer.getBounds().toBBoxString());
-         });
+        });
 
-         map.on(L.Draw.Event.DELETED, function(e){
-            console.log(e);
-         } );
+        map.on(L.Draw.Event.EDITSTOP, function (e) {
+            applyFilter(drawnItems.getBounds().toBBoxString());
+        });
+
+        map.on(L.Draw.Event.DELETED, function(e){
+            applyFilter();
+        } );
 
         _mapLoaded = true;
     }
@@ -117,8 +122,6 @@ define("modules/spatial_filters", ["require", "modernizr", "jquery", "DMS", "mod
             if(options){
                 currentFilter = options.filter || null;
                 otherFilters = options.otherFilters || null;
-
-                console.log(options);
             }
 
             console.log("initializing map");
