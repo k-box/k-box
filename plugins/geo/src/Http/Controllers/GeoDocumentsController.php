@@ -86,7 +86,7 @@ class GeoDocumentsController extends Controller
             'search_terms' => $req->term,
             'facets' => $results->facets(),
             'filters' => $results->filters(),
-            'spatial_filters' => $this->arrayAsLatLngBounds($results->filters()['geo_location'] ?? null) ?? 'null',
+            'spatial_filters' => Geometries::arrayAsLatLngBounds($results->filters()['geo_location'] ?? null) ?? 'null',
             'other_filters' => $this->processOtherFilters(collect($results->filters())->except('geo_location')),
         ]);
     }
@@ -97,18 +97,6 @@ class GeoDocumentsController extends Controller
             
             return [$key => is_array($value) ? implode(',', $value) : $value];
         });
-    }
-
-    private function arrayAsLatLngBounds($array)
-    {
-        if(is_null($array)){
-            return null;
-        }
-        list($west, $south, $east, $north) = $array;
-        
-        $bounds = sprintf('[[%2$s, %1$s], [%4$s, %3$s]]', $west, $south, $east, $north);
-
-        return $bounds;
     }
 
     private function getGeodataDocuments(User $user)

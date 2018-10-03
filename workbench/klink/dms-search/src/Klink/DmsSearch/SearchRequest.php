@@ -439,7 +439,6 @@ class SearchRequest
 
     /**
      * Build the geo_location_filter according to the request
-     * 
      */
     public function buildSpatialFilters()
     {
@@ -475,7 +474,7 @@ class SearchRequest
             return $this->_toFacetsBuilder();
         }
         
-        throw new BadMethodCallException(sprintf('No attribute can be get using "%s".', $name), 1);
+        throw new BadMethodCallException(sprintf('No attribute named "%s".', $name), 1);
     }
     
     

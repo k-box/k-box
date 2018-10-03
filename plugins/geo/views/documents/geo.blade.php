@@ -42,6 +42,8 @@
 		Documents.initUploadService();
 	@endif
 
+	$('.dz-message').hide();
+
 	require(['modules/spatial_filters'], function(SF){
 
 		SF.init({

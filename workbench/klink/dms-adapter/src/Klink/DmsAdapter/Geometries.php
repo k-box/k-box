@@ -27,9 +27,12 @@ final class Geometries
 
         if($geoserverBbox instanceof BoundingBox){
             $geoserverBbox = $geoserverBbox->toArray();
+            list($west, $south, $east, $north) = $geoserverBbox;
+        }
+        else {
+            list('minX' => $west, 'minY' => $south, 'maxX' => $east, 'maxY' => $north) = $geoserverBbox;
         }
 
-        list('minX' => $west, 'minY' => $south, 'maxX' => $east, 'maxY' => $north) = $geoserverBbox;
 
         $lowLeft = [$west, $south];
         $topLeft = [$west, $north];
@@ -65,11 +68,26 @@ final class Geometries
 
         return GeographicGeometry::polygon(static::ensurePolygonCoordinatesRespectGeoJson([
             $lowLeft,
-            $topLeft,
-            $topRight,
             $lowRight,
+            $topRight,
+            $topLeft,
             $lowLeft,
         ]))->__toString();
+    }
+
+    /**
+     * Convert an array describing a bounding box to a leaftlet LatLng bounding box
+     */
+    public static function arrayAsLatLngBounds($array)
+    {
+        if(is_null($array)){
+            return null;
+        }
+        list($west, $south, $east, $north) = $array;
+        
+        $bounds = sprintf('[[%2$s, %1$s], [%4$s, %3$s]]', $west, $south, $east, $north);
+
+        return $bounds;
     }
 
     /**
