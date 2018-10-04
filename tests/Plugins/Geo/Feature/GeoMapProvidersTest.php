@@ -44,20 +44,20 @@ class GeoMapProvidersTest extends TestCase
     
     const DEFAULT_PROVIDERS = [
         "hum_osm" => [
-            "label" => "Humanitarian Open Street Maps",
+            "label" => "HumanitarianOpenStreetMap",
             "url" => "https://tile-{s}.openstreetmap.fr/hot/{z}/{x}/{y}.png",
             "type" => "tile",
-            "maxZoom" => 18,
+            "maxZoom" => 20,
             "subdomains" => "abc",
             "enable" => true,
             "attribution" => '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors. Tiles courtesy of <a href="http://hot.openstreetmap.org/" target="_blank">Humanitarian OpenStreetMap Team</a>'
         ],
         "osm" => [
             "type" => "tile",
-            "label" => "Open Street Maps",
+            "label" => "OpenStreetMap",
             "url" => "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
             "attribution" => '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-            "maxZoom" => 18,
+            "maxZoom" => 20,
             "enable" => true,
         ],
         "mundialis_topo" => [
