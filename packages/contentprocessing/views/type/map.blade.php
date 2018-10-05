@@ -34,7 +34,7 @@
                 id: "my",
                 format: 'image/png',
                 transparent: true,
-                maxZoom: 18,
+                maxZoom: 20,
                 // L.CRS.EPSG3857 is automatically set as CRS, as the map instance is configured with that
                 minZoom: 0,
                 styles: '{{ $styles }}',
@@ -54,11 +54,11 @@
             crs: L.CRS.EPSG3857, // spherical mercator projection https://leafletjs.com/reference-1.3.4.html#crs
             zoom: {{ $mapZoom ?? 11 }},
             layers: layers,
-            maxZoom: 18,
+            maxZoom: 20,
         });
 
         @if(isset($boundings) && !empty($boundings))
-            map.fitBounds({{$boundings}}, {maxZoom: 18});
+            map.fitBounds({{$boundings}}, {maxZoom: 20});
         @elseif(isset($geojson) && $geojson)
             map.fitBounds(file.getBounds());
         @else 
