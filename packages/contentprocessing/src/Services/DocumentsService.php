@@ -123,10 +123,6 @@ class DocumentsService
         $original_hash = $klink_descriptor->hash();
 
         $content = $this->getFileContentForIndexing($file);
-
-        if (! is_file($content)) {
-            $klink_descriptor->setHash(KlinkDocumentUtils::generateHash($content));
-        }
         
         $document = new KlinkDocument($klink_descriptor, $content);
         
@@ -171,10 +167,6 @@ class DocumentsService
         $content = $this->getFileContentForIndexing($file);
 
         $original_hash = $klink_descriptor->hash();
-
-        if (! is_file($content)) {
-            $klink_descriptor->setHash(KlinkDocumentUtils::generateHash($content));
-        }
         
         $document = new KlinkDocument($klink_descriptor, $content);
         
