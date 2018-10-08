@@ -69,12 +69,10 @@ final class GeoProperties extends FileProperties
             $projection = static::parseCrsWkt(optional($coordinateSystem)['wkt'] ?? '');
         }
 
-        \Log::info('Geo Properties GDAL output', ['output' => $decoded->toArray()]);
-
         $bounding = $decoded->get('wgs84Extent', null);
 
         if(isset($bounding['coordinates'])){
-            $bounding['coordinates'] = Geometries::ensurePolygonCoordinatesRespectGeoJson($bounding['coordinates']);
+            $revised_bounding = ['type' => 'Polygon', 'coordinates' => Geometries::ensurePolygonCoordinatesRespectGeoJson($bounding['coordinates'])];
         }
 
         $attributes = collect([
@@ -89,7 +87,7 @@ final class GeoProperties extends FileProperties
             ],
             'layers' => [],
             'boundings' => [
-                'geojson' =>  json_encode($bounding),
+                'geojson' =>  json_encode($revised_bounding ?? $bounding),
                 'wkt' => null,
                 'original' => json_encode($decoded->get('wgs84Extent', null)),
             ],
@@ -105,8 +103,6 @@ final class GeoProperties extends FileProperties
         
         $parsed = [];
         $key = null;
-
-        \Log::info('Geo Properties OGR output', ['output' => $lines->toArray()]);
         
         foreach ($lines as $line) {
             if(str_contains($line, ':')){
