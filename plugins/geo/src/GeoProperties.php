@@ -71,6 +71,12 @@ final class GeoProperties extends FileProperties
 
         \Log::info('Geo Properties GDAL output', ['output' => $decoded->toArray()]);
 
+        $bounding = $decoded->get('wgs84Extent', null);
+
+        if(isset($bounding['coordinates'])){
+            $bounding['coordinates'] = Geometries::ensurePolygonCoordinatesRespectGeoJson($bounding['coordinates']);
+        }
+
         $attributes = collect([
             'type' => GeoType::RASTER,
             'dimension' => [
@@ -83,7 +89,7 @@ final class GeoProperties extends FileProperties
             ],
             'layers' => [],
             'boundings' => [
-                'geojson' =>  json_encode($decoded->get('wgs84Extent', null)),
+                'geojson' =>  json_encode($bounding),
                 'wkt' => null,
                 'original' => json_encode($decoded->get('wgs84Extent', null)),
             ],
