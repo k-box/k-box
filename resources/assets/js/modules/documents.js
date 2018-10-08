@@ -1621,6 +1621,10 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
         
         openClose: function(evt, vm){
             module._filtersVisible = !module._filtersVisible;
+
+            if(module._filtersVisible && module._mapFiltersVisible){
+                module._mapFiltersVisible = false;
+            }
             
             _bindPageArea.sync();
             
@@ -1636,6 +1640,10 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
         
         openCloseMap: function(evt, vm){
             module._mapFiltersVisible = !module._mapFiltersVisible;
+
+            if(module._filtersVisible && module._mapFiltersVisible){
+                module._filtersVisible = false;
+            }
             
             _bindPageArea.sync();
 
