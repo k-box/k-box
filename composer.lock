@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6f74cc21061b95ac90d3e90cabfad7f3",
+    "content-hash": "be96474363c6527df38fb46a4e0838f2",
     "packages": [
         {
             "name": "avvertix/materialicons-laravel-bridge",
@@ -2773,12 +2773,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/OneOffTech/k-link-streaming-upload-client.git",
-                "reference": "84f057959b25871685af321fa5d5df88048411bf"
+                "reference": "6fcc8937df0ef57957b6bcdd8b4ba9cbdab2818a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/OneOffTech/k-link-streaming-upload-client/zipball/84f057959b25871685af321fa5d5df88048411bf",
-                "reference": "84f057959b25871685af321fa5d5df88048411bf",
+                "url": "https://api.github.com/repos/OneOffTech/k-link-streaming-upload-client/zipball/6fcc8937df0ef57957b6bcdd8b4ba9cbdab2818a",
+                "reference": "6fcc8937df0ef57957b6bcdd8b4ba9cbdab2818a",
                 "shasum": ""
             },
             "require": {
@@ -2794,7 +2794,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "0.1.x-dev"
+                    "dev-master": "0.2.x-dev"
                 }
             },
             "autoload": {
@@ -2813,20 +2813,20 @@
                 }
             ],
             "description": "Upload videos to a K-Link Streaming Service",
-            "time": "2018-03-30T17:36:50+00:00"
+            "time": "2018-10-08T08:39:13+00:00"
         },
         {
             "name": "oneofftech/laravel-tus-upload",
-            "version": "v0.4.0",
+            "version": "v0.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/OneOffTech/laravel-tus-upload.git",
-                "reference": "0ae1b6de76406595cc679cc434b39cb8b84ddff6"
+                "reference": "7901de73e7b4daa860ec380ddde25256c8160553"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/OneOffTech/laravel-tus-upload/zipball/0ae1b6de76406595cc679cc434b39cb8b84ddff6",
-                "reference": "0ae1b6de76406595cc679cc434b39cb8b84ddff6",
+                "url": "https://api.github.com/repos/OneOffTech/laravel-tus-upload/zipball/7901de73e7b4daa860ec380ddde25256c8160553",
+                "reference": "7901de73e7b4daa860ec380ddde25256c8160553",
                 "shasum": ""
             },
             "require": {
@@ -2848,7 +2848,7 @@
             "type": "project",
             "extra": {
                 "brach-alias": {
-                    "dev-master": "0.4.x-dev"
+                    "dev-master": "0.5.x-dev"
                 },
                 "laravel": {
                     "providers": [
@@ -2878,7 +2878,7 @@
                 "tus",
                 "upload"
             ],
-            "time": "2018-04-27T16:11:59+00:00"
+            "time": "2018-10-08T09:52:29+00:00"
         },
         {
             "name": "paragonie/random_compat",
@@ -4234,12 +4234,12 @@
             "version": "v1.1.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/rinvex/language.git",
+                "url": "https://github.com/rinvex/renamed-language.git",
                 "reference": "455453618a8445939b9e010683a3f182c2e25e60"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rinvex/language/zipball/455453618a8445939b9e010683a3f182c2e25e60",
+                "url": "https://api.github.com/repos/rinvex/renamed-language/zipball/455453618a8445939b9e010683a3f182c2e25e60",
                 "reference": "455453618a8445939b9e010683a3f182c2e25e60",
                 "shasum": ""
             },
@@ -4297,6 +4297,7 @@
                 "rinvex",
                 "scripts"
             ],
+            "abandoned": "rinvex/languages",
             "time": "2017-03-07T18:16:26+00:00"
         },
         {
