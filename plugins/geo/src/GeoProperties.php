@@ -5,6 +5,7 @@ namespace KBox\Geo;
 use KBox\File;
 use proj4php\Wkt;
 use KBox\FileProperties;
+use Klink\DmsAdapter\Geometries;
 use OneOffTech\GeoServer\GeoType as BaseGeoType;
 use Spinen\Geometry\GeometryFacade as Geometry;
 
@@ -36,7 +37,7 @@ final class GeoProperties extends FileProperties
         return $parsedWkt ? $parsedWkt->srsCode : '';
     }
 
-    private static function parseExtentToWkt($extent)
+    private static function parseExtentToGeoJson($extent)
     {
 
         $re = '/\((-?[\d\.]*),\s?(-?[\d\.]*)\)/';
@@ -46,8 +47,11 @@ final class GeoProperties extends FileProperties
         if(count($matches) !== 2){
             return '';
         }
+        \Log::warning("matches ...", compact('matches'));
 
-        return "POLYGON(({$matches[0][1]} {$matches[0][2]},{$matches[1][1]} {$matches[0][2]},{$matches[1][1]} {$matches[1][2]},{$matches[0][1]} {$matches[0][2]}))";
+        $boundingArray = [$matches[0][1], $matches[0][2], $matches[1][1], $matches[1][2]];
+
+        return Geometries::boundingBoxFromArray($boundingArray);
     }
 
     public static function fromGdalOutput(string $output)
@@ -65,6 +69,7 @@ final class GeoProperties extends FileProperties
             $projection = static::parseCrsWkt(optional($coordinateSystem)['wkt'] ?? '');
         }
 
+        \Log::info('Geo Properties GDAL output', ['output' => $decoded->toArray()]);
 
         $attributes = collect([
             'type' => GeoType::RASTER,
@@ -94,6 +99,8 @@ final class GeoProperties extends FileProperties
         
         $parsed = [];
         $key = null;
+
+        \Log::info('Geo Properties OGR output', ['output' => $lines->toArray()]);
         
         foreach ($lines as $line) {
             if(str_contains($line, ':')){
@@ -109,7 +116,7 @@ final class GeoProperties extends FileProperties
 
         $projection = static::parseCrsWkt($parsed['layer-srs-wkt'] ?? '');
 
-        $wktExtent = static::parseExtentToWkt($parsed['extent']);
+        $geojsonExtent = static::parseExtentToGeoJson($parsed['extent']);
 
         $attributes = collect([
             'type' => GeoType::VECTOR,
@@ -119,8 +126,8 @@ final class GeoProperties extends FileProperties
             ],
             'layers' => array_wrap($parsed['layer-name']),
             'boundings' => [
-                'geojson' => app('geometry')->parseWkt($wktExtent)->toGeoJson(),
-                'wkt' => $wktExtent,
+                'geojson' => $geojsonExtent,
+                'wkt' => null,
                 'original' => $parsed['extent'],
             ],
         ]);
