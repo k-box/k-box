@@ -17,8 +17,8 @@ use OneOffTech\GeoServer\Exception\GeoServerClientException;
 use KBox\Contracts\Action;
 
 /**
- * Process geographical files to extract properties and
- * send them to the configured Geoserver
+ * Process geographical files. 
+ * Extract properties and send files to the configured Geoserver
  */
 class ProcessGeodata extends Action
 {
