@@ -111,4 +111,36 @@ final class Geometries
         return $coordinates;
     }
 
+    /**
+     * Make sure to limit coordinates that are outside of the acceptable range
+     * 
+     * The current acceptable range is equal to BoundingBoxFilter::worldBounds()
+     * 
+     * @param array $coordinates an array describing the bounding box coordinates
+     * @return array
+     */
+    public static function ensureCoordinatesWithinAcceptableRange(array $coordinates)
+    {
+        list($west, $south, $east, $north) = $coordinates;
+
+        if($west <= -180){
+            $west = -179.99;
+        }
+
+        if($east >= 180){
+            $east = 179.99;
+        }
+
+        if($south <= -90){
+            $south = -89.99;
+        }
+
+        if($north >= 90){
+            $north = 89.99;
+        }
+
+        return [$west, $south, $east, $north];
+
+    }
+
 }

@@ -457,7 +457,9 @@ class SearchRequest
 			return $spatial_filters;
         }
 
-        return new BoundingBoxFilter(Geometries::boundingBoxFromArray(is_array($spatial_filters) ? $spatial_filters : array_from($spatial_filters)));
+        $coordinates = Geometries::ensureCoordinatesWithinAcceptableRange(is_array($spatial_filters) ? $spatial_filters : array_from($spatial_filters));
+
+        return new BoundingBoxFilter(Geometries::boundingBoxFromArray($coordinates));
     }
 
     
