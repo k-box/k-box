@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.23.1] - 2018-10-09
+
+### Fixed
+
+-  Fix file not downloadable after publication to K-Link ([#143](https://github.com/k-box/k-box/pull/143))
+
+### Changed
+
+- Update streaming service client and Tus libraries ([#142](https://github.com/k-box/k-box/pull/142))
+- Change default map maximum zoom to 20 ([#141](https://github.com/k-box/k-box/pull/141))
+
 ## [0.23.0] - 2018-10-01
 
 ### Added
