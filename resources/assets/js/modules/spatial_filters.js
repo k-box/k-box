@@ -27,7 +27,7 @@ define("modules/spatial_filters", ["require", "modernizr", "jquery", "DMS", "mod
             zoom: 4,
             minZoom: 3,
             maxZoom: 20,
-            maxBounds: L.latLngBounds([[-180, 90], [180,-90]]),
+            maxBounds: L.latLngBounds([[90, -180], [-90, 180]]),
             maxBoundsViscosity: 0.8
         })
         
