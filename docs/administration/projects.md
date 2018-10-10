@@ -10,7 +10,7 @@ Projects are created and maintained by Project Managers and K-Box Administrators
 Project management is performed from the _Projects_ page. If your profile has Project Management capabilities, 
 you will see the _New Project_ button
 
-![navigation menu](.././images/dms-projects-section.JPG)
+![navigation menu](../user/images/dms-projects-section.jpg)
 
 The page lists the created, managed and accessible projects. 
 
@@ -18,7 +18,7 @@ The page lists the created, managed and accessible projects.
 
 To create a project, press the button _New Project_ that is on the top right of the page:
 
-![Create Project Button](.././images/dms-projects-new-btn.JPG)
+![Create Project Button](../user/images/dms-projects-new-btn.jpg)
 
 After inserting the project name, description and users, press the _Create Project_ to save your changes.
 
@@ -26,7 +26,7 @@ After inserting the project name, description and users, press the _Create Proje
 
 This page shows project members and personalization options.
 
-![Project Details](.././images/dms-project-show.JPG)
+![Project Details](../user/images/dms-project-show.jpg)
 
 This page is showed when you select _Details_ from the right-click menu of a project.
 
@@ -34,7 +34,7 @@ This page is showed when you select _Details_ from the right-click menu of a pro
 
 To edit a project, press the _Edit_ button that is listed in the right-click menu. 
 
-![Project Edit - details-menu](.././images/prj-edit-button.PNG)
+![Project Edit - details-menu](../user/images/prj-edit-button.png)
 
 Save your changes, when finished. 
 
@@ -44,6 +44,6 @@ Currently a project cannot be deleted.
 
 ## Work with K-Box
 
-For more information about the K-Box, check the [Getting started](../getting-started.md) or [Work with K-Box](../work-with-documents.md) pages.  
+For more information about the K-Box, check the [user documentation](../user/) folder.  
 
 

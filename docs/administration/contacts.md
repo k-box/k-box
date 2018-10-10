@@ -6,10 +6,10 @@ K-Box administrators can configure all institutional details of the K-Box owner.
 
 **Step 1:** go to _Administration_ page 
 
-![Admin](../images/admin-page.PNG)
+![Admin](../images/admin-page.png)
 
 **Step 2:** select _Identity_ and fill in the fields. 
 
-![Identity](./images/identity.png)
+![Identity](../images/identity.png)
 
 When you are finished, click “Save settings” at the bottom of the page.

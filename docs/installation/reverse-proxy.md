@@ -6,7 +6,7 @@ Description: How to deploy the K-Box behind a proxy
 The K-Box can be exposed behind a reverse proxy. It is actually suggested to do so, as the K-Box configuration do not natively support secure connections. 
 In addition, you might have more services on your domain and on your server, therefore you might want to expose the K-Box on a path on on a sub-domain using the same server that is managing a website.
 
-Different reverse proxies exists, [NGINX](https://www.nginx.com/), [HAProxy](www.haproxy.org/), [Traefik](https://traefik.io/), for naming a few. 
+Different reverse proxies exists, [NGINX](https://www.nginx.com/), [HAProxy](https://www.haproxy.org/), [Traefik](https://traefik.io/), for naming a few. 
 We selected Traefik for our example because it plays well with the Docker based installation, is Open Source and supports HTTPS certificate generation via [Let's Encrypt](https://letsencrypt.org/).
 
 ### Using Traefik
