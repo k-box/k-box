@@ -12,7 +12,7 @@ The configuration can be specified via User Interface or deployment configuratio
 
 If you are the K-Box administrator and you log-in for the first time a message, like the one in the next picture, is presented.
 
-![Email configuration notification](../user/images/dms-admin-mail-first-login.png)
+![Email configuration notification](./user/images/dms-admin-mail-first-login.png)
 
 The message inform you that some (or all) the email configuration parameters are not specified.
 
