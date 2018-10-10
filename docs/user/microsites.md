@@ -24,7 +24,7 @@ The Microsite offers a search box that lets your user search the accessible Publ
 
 ![search-microsite](./images/search-microsite.png)
 
-Learn more about search [here](.../documents/search.md)
+Learn more about search [here](./search.md)
 
 ## Creating a Microsite
 

@@ -2,7 +2,7 @@
 
 The trash contains every document and collection you delete. It gives you a second chance to not loose your documents.
 
-![Trash](./images/dms-trash.JPG)
+![Trash](./images/dms-trash.PNG)
 
 
 The picture above shows an example of the trash content.
@@ -16,7 +16,7 @@ When you trash a collection also the sub-collections are trashed.
 
 You can permanently delete a single document or a collection by using the mouse right click menu (also called context menu). There you can find the action _Permanently Delete_, like in the picture below.
 
-![Trash, element context menu](./images/dms-trash-context-menu.JPG)
+![Trash, element context menu](./images/dms-trash-context-menu.PNG)
 
 The current release cannot permanently delete a selection of collections and documents at the same time.
 

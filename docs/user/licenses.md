@@ -50,7 +50,7 @@ The filters for public networks will also include licensing information.
 
 The copyright owner and license information should be indicated as soon as a work is shared, or disseminated with other users through K-Box. It is strongly recommended to add that information before a work is shared in a public space.
 
-Copyright and license information can be changed from the [Edit](./upload-edit.md#edit-meta-data) page
+Copyright and license information can be changed from the [Edit](./edit.md) page
 
 ### Custom license
 

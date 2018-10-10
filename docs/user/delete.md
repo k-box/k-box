@@ -4,6 +4,6 @@ If you want to delete file, do a right click on the selected file and click on "
 
 ![delete](./images/delete.png)
 
-You can also restore or fully remove files from [Trash](./getting-started.md#files-navigation) section.
+You can also restore or fully remove files from [Trash](./trash.md) section.
 
 ![trash](./images/trash.png)
