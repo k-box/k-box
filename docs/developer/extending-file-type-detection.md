@@ -43,7 +43,7 @@ Adding a new mime type detection can be done via the `register` method on the `F
 It require to specify:
 
 - the mimetype
-- the [Document Type](../user/documents/type-detection.md#document-type) associated with it
+- the [Document Type](../user/document-types.md#document-type) associated with it
 - the file extension normally used for that file type
 - the type identifier class that is able to identify the mime type from a file
 

@@ -4,15 +4,15 @@
 
 Web-based management system for documents and videos with a comfortable full content search. It connects easily to the K-Link services.
 
-![K-Box Logo](./docs/files/k-box-logo.png)
+![K-Box Logo](./public/k-box-logo.png)
 
-Please **[visit the website](http://k-link.technology)** for more information!
+**[Visit the K-Link.technology website](http://k-link.technology)** for more information!
 
 If you find any issues with this application, please report them at the [issue tracker](./issues). Contributions are both encouraged and appreciated. If you would like to contribute, please check the website for more information.
 
 The upstream repository is at: https://github.com/k-box/k-box
 
-![](./docs/files/k-box-screenshot.png)
+![](./public/k-box-screenshot.png)
 
 ## Installation
 
@@ -42,7 +42,7 @@ The K-Box consists of different components:
 
 | Name | Image | Based on | Description |
 |------|-------|----------|-------------|
-| [K-Box](./docs/website.md) application | `kbox` | PHP and Laravel 5 | The interface of the knowledge management system |
+| [K-Box](./docs/index.md) application | `kbox` | PHP and Laravel 5 | The interface of the knowledge management system |
 | [K-Search API](https://github.com/k-box/k-search) | `ksearch` | PHP and Symfony 4 | Full text search component used for K-Link and K-Box |
 | [K-Search Engine](https://github.com/k-box/k-search-engine) | `engine` | Apache SOLR | Open Source search engine pre-configured for the K-Search |
 | Database | `database` | MariaDB | A database for the use of the K-Box web application. |

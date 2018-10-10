@@ -2,7 +2,7 @@
 
 Like most of services that manages data we are showing you a message to highlight the introduction of the _Service Policy_.  
 
-![Service Policy banner](./img/document-policy-notice.JPG)
+![Service Policy banner](./images/document-policy-notice.JPG)
 
 The picture above shows how the message appears on the screen after the login.
 
@@ -20,4 +20,4 @@ Closing the message will not prevent you to upload files or sharing documents, b
 
 You could read the complete policy at any time, by clicking the _Service Policy_ link on the footer.
 
-![Service Policy banner](./img/footer-with-service-policy.JPG)
+![Service Policy banner](./images/footer-with-service-policy.JPG)

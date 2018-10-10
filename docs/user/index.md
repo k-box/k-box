@@ -1,40 +1,29 @@
----
-Title: Overview
-Description: Introduction to the K-Box
----
+# User documentation
 
-The K-Box is a web application designed for handling document management inside an Organization.
+K-Box is a web-based Free and Open Source Data Management Tool. It offers a flexible approach for managing documents and for disseminating them.
 
-## How it works
+By default, the K-Box interface opens in your Personal section on Documents page. 
 
-The K-Box architecture is based on components:
+![Main page](./images/main-page.png)
 
-1. The K-Box Application
-2. The database
-3. The [K-Search](https://github.com/k-box/k-search) engine
+In the upper menu you can select all files, create new collection or upload a new file, share and trash selected files and also choose view option.
 
-The K-Box (web) Application is the user facing part, while the K-Search offers the full text based retrieval of documents uploaded in the K-Box Application.
+![upper menu](./images/upper-menu.png) 
 
-## Getting started
+#### [Search](./search.md)
 
-- [**Requirements**](./requirements.md)
-- [**Installation**](./installation.md)
-- [Troubles, check the known source of problems](./maintenance/troubleshooting.md)
+In the upper left corner you can search among your files.
 
-## Digging Deeper
+![search](./images/search.png)
 
-- [Duplicate documents management](./documents/duplicates.md)
-- [File type detection](./documents/type-detection.md)
-- [Develop for the K-Box](../developer/index.md)
+#### Personal preferences
 
-## Browser support
+Personal settings in the upper right corner under the first letter of your name.
 
-The supported browser are:
+![personal settings](./images/personal-settings.png)
 
-- Microsoft Edge
-- Chrome (desktop, latest) 
-- Firefox (desktop, latest) 
-- Safari (desktop, latest) 
-- IE11
-- IE10
-- IE9 (on best effort)
+#### Files navigation
+
+You can access the left-hand navigation menu where files are categorized into Personal, Recent, Starred, Shared with me, Trash. Besides that you can find accessible projects and your personal files [organized](./upload-edit.md#organization-of-files) in the collections.
+
+![Left navigation menu](./images/left-nav-bar.png)

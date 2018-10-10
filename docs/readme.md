@@ -4,7 +4,7 @@ This folder contains the K-Box documentation.
 
 The documentation targets users, IT person, and developers.
 
-- [User](./user/)
+- [User](./user/index.md)
 - [Release Notes](./release-note/index.md)
  - [Latest version (0.23)](./release-note/release-note-0.23.md)
 - [Developer](./developer/index.md)
@@ -13,6 +13,10 @@ The documentation targets users, IT person, and developers.
 
 The `release-note` folder contains the presentation of the features included in a release.
 Release notes are created only for Major and Minor releases, patch releases are only documented as part of the [changelog](../changelog.md) file.
+
+The `administration` folder contains documentation related to K-Box instance management.
+
+The `installation` folder contains documentation on how to install a K-Box on your server.
 
 The `user` folder contains documentation related to the usage of the K-Box from the user perspective.
 
@@ -23,15 +27,11 @@ _example structure_
 
 ```
 |-- docs
+    |-- administration
+    |-- installation
     |-- user
-        |-- installation.md
-        |-- Administration
-            |-- user.md
     |-- developer
-        |-- developer-environment.md
-        |-- database.md
-        |-- frontend.md
-        |-- localization.md
+    |-- release-note
 ```
 
 ## How to contribute
@@ -42,8 +42,7 @@ The documentation consists in [Markdown](https://daringfireball.net/projects/mar
 
 **Language rules**
 
-The documentation must have an English version.
-
+The documentation must be written in English.
 
 **Format**
 
@@ -80,3 +79,7 @@ When naming folder please use
 - lower case,
 - no spaces,
 - `-` for word separation
+
+**Images**
+
+Images can be used within the documentation. Image files must reside in a folder called `images` as sub-folder of the one that contains the file you want to insert the image into.
