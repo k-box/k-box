@@ -14,7 +14,7 @@ The selector for changing the visualization is on the colored band on the top ri
 
 The details view is the most compact layout available and shows one document per line as it enables to see all the document details for almost every document in the page (12 documents are displayed on each page).
 
-![Details View](./images/details-view.PNG)
+![Details View](./images/details-view.png)
 
 The information are represented in columns. From the left of the picture
 
@@ -30,7 +30,7 @@ The information are represented in columns. From the left of the picture
 
 The tiles layout uses one line per document, but with an expanded style
 
-![Tiles View](./images/tiles-view.PNG)
+![Tiles View](./images/tiles-view.png)
 
 In this view is also available the thumbnail of the document, which is an image that describes the content of the document. For multipage documents is always taken from the first page.
 
@@ -40,7 +40,7 @@ The icons and information showed are the same of the details view, but with diff
 
 The grid view put emphasis on the document thumbnails. The number of elements per line varies from one to six (depending on the browser window size)
 
-![Grid View](./images/grid-view.PNG)
+![Grid View](./images/grid-view.png)
 
 ## Icons
 
