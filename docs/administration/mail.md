@@ -12,7 +12,7 @@ The configuration can be specified via User Interface or deployment configuratio
 
 If you are the K-Box administrator and you log-in for the first time a message, like the one in the next picture, is presented.
 
-![Email configuration notification](../user/images/dms-admin-mail-first-login.png)
+![Email configuration notification](../user/images/dms-admin-mail-first-login.PNG)
 
 The message inform you that some (or all) the email configuration parameters are not specified.
 
@@ -22,7 +22,7 @@ Is important to specify those parameters to make sure users will receive account
 
 The mail configuration is available via the _Administration > Mail_ page. On the first login the page might look like the picture below.
 
-![mail config page](../user/images/dms-mail-configuration.png)
+![mail config page](../user/images/dms-mail-configuration.PNG)
 
 The emails are sent via an external provider. The provider should expose a SMTP (Simple Mail Transport Protocol) server.
 
