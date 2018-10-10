@@ -33,6 +33,7 @@ class PluginManagerTest extends TestCase
         $this->assertEquals(1, $manager->plugins()->count());
         $this->assertEquals(0, $manager->enabled()->count());
         $this->assertFalse($manifest->plugins()->first()->enabled);
+        $this->assertFalse($manager->isEnabled('k-box-unittest-demo-plugin'));
     }
     
     public function test_manager_enable_plugin()
@@ -62,6 +63,7 @@ class PluginManagerTest extends TestCase
         $this->assertEquals('k-box-unittest-demo-plugin', $manager->enabled()->first()->name);
         $this->assertTrue($manager->enabled()->first()->enabled);
         $this->assertTrue($manager->plugins()->first()->enabled);
+        $this->assertTrue($manager->isEnabled('k-box-unittest-demo-plugin'));
     }
     
     public function test_enabling_non_existent_plugin_does_not_generate_errors()

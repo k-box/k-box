@@ -28,9 +28,9 @@
 		
 		
 		</div>
-		
-		
 	</div>
+
+	@yield('additional_filter_panels')
 	
 	@if(auth()->check())
 		<div class="filter__buttons">
@@ -44,6 +44,11 @@
 				<button class="button" rv-on-click="openClose">
 					@materialicon('content', 'filter_list', 'button__icon'){{trans('actions.filters.filter')}}
 				</button>
+
+				
+				@yield('additional_filters')
+				
+
 				@if(isset($filters) && !empty($filters))
 					<a href="{{$clear_filter_url}}" class="button">
 						@materialicon('content', 'clear', 'button__icon'){{trans('actions.filters.clear_filters')}}
@@ -51,6 +56,8 @@
 				@endif
 				
 			</div>
+
+			
 
 		</div>
 	@endif

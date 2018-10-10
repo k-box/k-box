@@ -184,7 +184,7 @@ class SearchService
                     'path'  => $request->url,
                     'query' => $request->query,
                 ]);
-            
+                
             return $pagination;
         }
         

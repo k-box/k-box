@@ -1614,12 +1614,17 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
         
         _filtersVisible: false,
         
+        
         isVisible: function(){            
             return module._filtersVisible;
         },
         
         openClose: function(evt, vm){
             module._filtersVisible = !module._filtersVisible;
+
+            if(module._filtersVisible && module._mapFiltersVisible){
+                module._mapFiltersVisible = false;
+            }
             
             _bindPageArea.sync();
             
@@ -1627,6 +1632,26 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
             
         },
         
+        _mapFiltersVisible: false,
+
+        isMapVisible: function(){            
+            return module._mapFiltersVisible;
+        },
+        
+        openCloseMap: function(evt, vm){
+            module._mapFiltersVisible = !module._mapFiltersVisible;
+
+            if(module._filtersVisible && module._mapFiltersVisible){
+                module._filtersVisible = false;
+            }
+            
+            _bindPageArea.sync();
+
+            _pageArea.trigger('spatialfilters:' + (module._mapFiltersVisible ? 'open' : 'close') );
+            
+            evt.preventDefault();
+            
+        },
         
 
 	};

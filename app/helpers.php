@@ -1,5 +1,6 @@
 <?php
 
+use KBox\Plugins\PluginManager;
 
 if (! function_exists('css_asset')) {
     /**
@@ -261,5 +262,24 @@ if (! function_exists('elaborate')) {
         }
 
         return app(\KBox\DocumentsElaboration\DocumentElaborationManager::class)->queue($document);
+    }
+}
+
+if (! function_exists('plugins')) {
+    /**
+     * Helper for accessing the PluginManager.
+     *
+     * If a plugin Id is specified, the helper return true if the plugin is enabled
+     *
+     * @param  string  $plugin The plugin identifier. Default null
+     * @return \KBox\Plugins\PluginManager|bool An instance of the plugin manager, if $plugin is null, the status of the plugin otherwise
+     */
+    function plugins($plugin = null)
+    {
+        if (is_null($plugin)) {
+            return app(PluginManager::class);
+        }
+
+        return app(PluginManager::class)->isEnabled($plugin);
     }
 }

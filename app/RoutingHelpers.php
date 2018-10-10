@@ -101,8 +101,11 @@ final class RoutingHelpers
             
             $active = [];
 
-            foreach ($current_active_filters as $key => $values) {
+            $active_filters = $current_active_filters;
+
+            foreach ($active_filters as $key => $values) {
                 $values = array_unique($values);
+                $term = is_array($term) ? implode(',', $term) : $term;
                 
                 if ($selected && $facet===$key && in_array($term, $values)) {
                     $diff = array_diff($values, [$term]);

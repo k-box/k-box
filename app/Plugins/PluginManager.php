@@ -90,6 +90,17 @@ final class PluginManager
     }
 
     /**
+     * Check if a plugin is enabled
+     *
+     * @param string $plugin The plugin identifier
+     * @return bool
+     */
+    public function isEnabled($plugin)
+    {
+        return optional($this->enabled()->get($plugin))->enabled ?? false;
+    }
+
+    /**
      * Enable a plugin
      *
      * @param string $plugin The name of the plugin to enable

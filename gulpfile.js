@@ -41,7 +41,8 @@ elixir(function(mix) {
             "/hint.css/hint.base.css",
             "/select2/dist/css/select2.css",
             "/plyr/dist/plyr.css",
-            "/leaflet/dist/leaflet.css"
+            "/leaflet/dist/leaflet.css",
+            "/leaflet-draw/dist/leaflet.draw.css"
         ], elixir.config.cssOutput + "/vendor.css", elixir.config.npmDir)
     	.scripts([
                 'lodash/lodash.min.js',
@@ -89,6 +90,12 @@ elixir(function(mix) {
                 "/leaflet/dist/leaflet.js"
             ],
             elixir.config.jsOutput +'/modules/leaflet.js', //output dir
+            elixir.config.npmDir //base dir
+        )
+        .scripts([
+                "/leaflet-draw/dist/leaflet.draw.js"
+            ],
+            elixir.config.jsOutput +'/modules/leaflet-draw.js', //output dir
             elixir.config.npmDir //base dir
         )
     	// Copy pure JS modules to public folder

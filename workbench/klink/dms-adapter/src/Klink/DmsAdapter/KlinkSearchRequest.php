@@ -2,8 +2,10 @@
 
 namespace Klink\DmsAdapter;
 
-use KSearchClient\Model\Search\SearchParams;
 use Klink\DmsSearch\SearchRequest;
+use KSearchClient\Model\Search\SearchParams;
+use KSearchClient\Model\Data\GeographicGeometry;
+use KSearchClient\Model\Search\BoundingBoxFilter;
 
 /**
  * Convert a \Klink\DmsSearch\SearchRequest to a \KSearchClient\Model\Search\SearchParams
@@ -51,7 +53,7 @@ class KlinkSearchRequest
 		}
 
 
-		$filters_collection = collect($filters);
+		$filters_collection = collect($filters)->except(KlinkFilters::GEO_LOCATION); // remove the geo filter as must be specified in another property
 
 		$compacted_filters = $filters_collection->map(function ($filter_values, $filter_name) {
 
@@ -71,7 +73,9 @@ class KlinkSearchRequest
 		return $filter_string;
 	}
 
-
+	/**
+	 * Transform the request into the SearchParams class expected by the K-Search API
+	 */
 	public function toSearchParams()
 	{
         $params = new SearchParams();
@@ -79,7 +83,9 @@ class KlinkSearchRequest
 		$params->offset = $this->request->limit * ($this->request->page - 1);
 		$params->limit = $this->request->limit;
 		$params->filters = $this->convertToSolrFilterQuery($this->request->buildFilters());
+		$params->geo_location_filter = $this->request->buildSpatialFilters();
 		$params->aggregations = $this->request->buildAggregations();
+		
 		return $params;
 	}
 

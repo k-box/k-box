@@ -8,8 +8,8 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    "hum_osm" => "Humanitarian Open Street Maps",
-    "osm" => "Open Street Maps",
+    "hum_osm" => "Humanitarian OpenStreetMaps",
+    "osm" => "OpenStreetMaps",
     "mundialis_topo" => "Mundialis (Topographic OSM)",
     
 ];
