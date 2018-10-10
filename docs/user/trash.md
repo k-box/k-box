@@ -2,7 +2,7 @@
 
 The trash contains every document and collection you delete. It gives you a second chance to not loose your documents.
 
-![Trash](./images/dms-trash.PNG)
+![Trash](./images/dms-trash.png)
 
 
 The picture above shows an example of the trash content.
