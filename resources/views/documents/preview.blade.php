@@ -5,6 +5,9 @@
 
 @overwrite
 
+@push('meta')
+<link rel="alternate" type="application/json+oembed" href="{{ route('oembed', ['url' => DmsRouting::preview($document, $version), 'format' => 'json']) }}" title="{{ $document->title }}">
+@endpush
 
 @section('content')
 
