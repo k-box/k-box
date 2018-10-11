@@ -67,9 +67,12 @@
                 </p>
                 @endif
                 <p>&nbsp;</p>
+
+                @section('actions')
                 <div>
                     <a class="button" href="{{ redirect()->back()->getTargetUrl() }}">{{ trans('errors.go_back_btn') }}</a>
                 </div>
+                @show
 			</div>
 		</div>
         

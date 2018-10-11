@@ -123,6 +123,12 @@ Route::get('/d/thumbnail/{uuid}/{versionUuid?}', [
     'as' => 'documents.thumbnail',
 ]);
 
+// Embed route to be used by the OEmbed feature
+Route::get('/d/embed/{uuid}/{versionUuid?}', [
+    'uses' => 'Document\DocumentEmbedController@show',
+    'as' => 'documents.embed',
+]);
+
 Route::group(['as' => 'documents.', 'prefix' => 'documents'], function () {
     Route::resource('groups', 'Document\GroupsController');
 
