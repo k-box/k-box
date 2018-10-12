@@ -1,3 +1,7 @@
+---
+Title: Mail
+Description: admin related documentation
+---
 # Mail
 
 The Mail administration section allows to configure how the K-Box sends emails. The K-Box relies on emails for user notification, password sending and password resets.

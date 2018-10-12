@@ -1,3 +1,7 @@
+---
+Title: Join a network
+Description: admin related documentation
+---
 # Join a network
 
 The K-Link K-Box has the ability to connect to a network of partners through the K-Link Network protocol.

@@ -1,3 +1,7 @@
+---
+Title:Projects
+Description: admin related documentation
+---
 # Projects
 
 Projects help to create communities of users who share a common goal. Projects can contain files and collections, 

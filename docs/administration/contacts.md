@@ -1,3 +1,7 @@
+---
+Title: Contacts page
+Description: admin related documentation
+---
 # Contacts page
 
 _Only users with permissions of K-Box administrator can perform operations described below. Please contact your K-Box Administrator via email, indicating your interest in any of the points._
