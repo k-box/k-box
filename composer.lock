@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "be96474363c6527df38fb46a4e0838f2",
+    "content-hash": "40362e2aed0bc6cd3e283cf8768215a9",
     "packages": [
         {
             "name": "avvertix/materialicons-laravel-bridge",
@@ -4230,16 +4230,16 @@
             "time": "2018-07-19T23:38:55+00:00"
         },
         {
-            "name": "rinvex/language",
+            "name": "rinvex/languages",
             "version": "v1.1.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/rinvex/renamed-language.git",
+                "url": "https://github.com/rinvex/languages.git",
                 "reference": "455453618a8445939b9e010683a3f182c2e25e60"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rinvex/renamed-language/zipball/455453618a8445939b9e010683a3f182c2e25e60",
+                "url": "https://api.github.com/repos/rinvex/languages/zipball/455453618a8445939b9e010683a3f182c2e25e60",
                 "reference": "455453618a8445939b9e010683a3f182c2e25e60",
                 "shasum": ""
             },
@@ -4297,7 +4297,6 @@
                 "rinvex",
                 "scripts"
             ],
-            "abandoned": "rinvex/languages",
             "time": "2017-03-07T18:16:26+00:00"
         },
         {

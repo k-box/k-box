@@ -60,7 +60,7 @@
 		"phpoffice/phppresentation": "^0.8.0",
 		"phpoffice/phpspreadsheet": "1.3.*",
 		"phpoffice/phpword": "~0.13.0",
-		"rinvex/language": "^1.1",
+		"rinvex/languages": "^1.1",
 		"swiftmailer/swiftmailer": "~6.0"
 	},
 	"require-dev": {
