@@ -1,3 +1,8 @@
+---
+Title: Search
+Description: User documentation
+---
+
 # Search
 
 In the upper left corner you can search among accessible files.
