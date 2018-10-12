@@ -57,7 +57,7 @@ Internet Explorer 11. Internet Explorer version 9 and 10 are supported on best-e
 
 ## Developers
 
-- [Develop for the K-Box](../developer/index.md)
+- [Develop for the K-Box](./developer/index.md)
 
 ## K-Box Architecture
 
