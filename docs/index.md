@@ -1,29 +1,19 @@
 ---
 Title: K-Box Documentation
-Description: Welcome to the K-Box Documentation
+Description: user-related information
 ---
+
+# K-Box Documentation
 
 The K-Box is a web application designed for handling document management inside an Organization.
 
 > Last version: **0.23** ([Release notes](./release-note/release-note-0.23.md))
 
-## Browser support
+#### Browser support
 
-K-Box supports the latest versions of modern browsers (Microsoft Edge, Chrome, Firefox, Safari and Opera).
-In addition supports Internet Explorer 11. Internet Explorer version 9 and 10 are supported on best-effort.
+K-Box supports the latest versions of modern browsers (Microsoft Edge, Chrome, Firefox, Safari and Opera) as well as
+Internet Explorer 11. Internet Explorer version 9 and 10 are supported on best-effort.
 
-
-## K-Box Architecture
-
-The K-Box architecture is based on components:
-
-1. The K-Box Application
-2. The database
-3. The [K-Search](https://github.com/k-box/k-search) and its [engine](https://github.com/k-box/k-search-engine/)
-
-The K-Box (web) Application is the user facing part, while the K-Search offers the full text based retrieval of documents.
-
-> For more information take a look on the [K-Link Technology website](https://k-link.technology/technology.html#k-box)
 
 ## Installation
 
@@ -68,3 +58,15 @@ The K-Box (web) Application is the user facing part, while the K-Search offers t
 ## Developers
 
 - [Develop for the K-Box](../developer/index.md)
+
+## K-Box Architecture
+
+The K-Box architecture is based on components:
+
+1. The K-Box Application
+2. The database
+3. The [K-Search](https://github.com/k-box/k-search) and its [engine](https://github.com/k-box/k-search-engine/)
+
+The K-Box (web) Application is the user facing part, while the K-Search offers the full text based retrieval of documents.
+
+> For more information take a look on the [K-Link Technology website](https://k-link.technology/technology.html#k-box)
