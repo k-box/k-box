@@ -1,6 +1,6 @@
 ---
 Title: K-Box Documentation
-Description: user-related information
+Description: The landing page with content
 ---
 
 # K-Box Documentation
