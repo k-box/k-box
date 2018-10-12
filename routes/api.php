@@ -16,3 +16,6 @@ use Illuminate\Http\Request;
 // Route::middleware('auth:api')->get('/user', function (Request $request) {
 //     return $request->user();
 // });
+
+// OEmbed Endpoint route. See https://oembed.com/
+Route::middleware('throttle:60,1')->get('/oembed', 'OembedController@show')->name('oembed');

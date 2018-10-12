@@ -47,28 +47,31 @@ define(function () {
 
     }
 
-    detailsBtn.addEventListener('click', function(e){
+    if(detailsBtn){
 
-        if(!sidebarOpen){
-
-            detailsBtn.classList.add(DETAILS_BUTTON_EXPANDED_CLASS);
-            sidebar.classList.add(SIDEBAR_VISIBLE_CLASS);
-            preview.classList.add(PREVIEW_STATE_SIDEBAR_OPEN);
-            previewArea.style.width = previewAreaOriginalWidth - 344 +"px";
-            
-            sidebarOpen = true;
-        }
-        else {
-            
-            detailsBtn.classList.remove(DETAILS_BUTTON_EXPANDED_CLASS);
-            preview.classList.remove(PREVIEW_STATE_SIDEBAR_OPEN);
-            sidebar.classList.remove(SIDEBAR_VISIBLE_CLASS);
-            previewArea.style.width = "";
-
-            sidebarOpen = false;
-        }
-
-    });
+        detailsBtn.addEventListener('click', function(e){
+    
+            if(!sidebarOpen){
+    
+                detailsBtn.classList.add(DETAILS_BUTTON_EXPANDED_CLASS);
+                sidebar.classList.add(SIDEBAR_VISIBLE_CLASS);
+                preview.classList.add(PREVIEW_STATE_SIDEBAR_OPEN);
+                previewArea.style.width = previewAreaOriginalWidth - 344 +"px";
+                
+                sidebarOpen = true;
+            }
+            else {
+                
+                detailsBtn.classList.remove(DETAILS_BUTTON_EXPANDED_CLASS);
+                preview.classList.remove(PREVIEW_STATE_SIDEBAR_OPEN);
+                sidebar.classList.remove(SIDEBAR_VISIBLE_CLASS);
+                previewArea.style.width = "";
+    
+                sidebarOpen = false;
+            }
+    
+        });
+    }
 
     $("[data-action=showCopyrightUsageDescription]").click(function () {
         handleLicenseDetailsShowHide();

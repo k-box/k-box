@@ -82,6 +82,9 @@ return [
     '401_title' => 'You cannot view the page - K-Box',
     '401_text' => 'You <strong>cannot</strong> view the page.<br/> Please acquire the <strong>access</strong> permissions first.',
     
+    'login_title' => 'Please login - K-Box',
+    'login_text' => 'You need to be logged-in to view the document.',
+    
     '403_title' => 'You do not have the permission to view the page',
     '403_text' => 'You <strong>cannot</strong> view the page.<br/> Please acquire the <strong>access</strong> permissions first.',
 
