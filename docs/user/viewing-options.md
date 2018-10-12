@@ -1,3 +1,7 @@
+---
+Title: Documents Viewing Options
+Description: user documentation
+---
 # Documents Viewing Options
 
 The K-Box has three different ways of showing the documents list

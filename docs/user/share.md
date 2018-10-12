@@ -1,3 +1,8 @@
+---
+Title: Sharing
+Description: user documentation
+---
+
 # Sharing
 K-Box sharing options are available through the Sharing window, that can be accessed through:
 

@@ -1,3 +1,8 @@
+---
+Title: Upload
+Description: user documentation
+---
+
 ## Upload
 
 To add a new file, select the collection or sub-collection in which the document will be stored.

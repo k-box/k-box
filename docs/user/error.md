@@ -1,3 +1,8 @@
+---
+Title: Learn about errors
+Description: user documentation
+---
+
 **1. I have uploaded same document more than once.**
 
 Yes, that is possible. Whenever more duplicates are added to projects, uploader will see a respective badge signaling duplication. 

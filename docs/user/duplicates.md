@@ -1,3 +1,8 @@
+---
+Title: Duplicates
+Description: user documentation
+---
+
 ## Duplicate documents
 
 The K-Box is capable of identifiyng exact file duplicates after their upload (See [#40](https://github.com/k-box/k-box/issues/40)).

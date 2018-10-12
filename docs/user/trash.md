@@ -1,3 +1,7 @@
+---
+Title: Trash
+Description: user documentation
+---
 # Trash
 
 The trash contains every document and collection you delete. It gives you a second chance to not loose your documents.

@@ -1,3 +1,7 @@
+---
+Title: Service policy
+Description: user documentation
+---
 # Service policy
 
 Like most of services that manages data we are showing you a message to highlight the introduction of the _Service Policy_.  

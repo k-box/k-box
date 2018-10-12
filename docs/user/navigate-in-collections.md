@@ -1,3 +1,7 @@
+---
+Title: Navigate in collection
+Description: user documentation
+---
 # Navigate in collections
 
 In order to go from a collection to another, click on the relevant name in the left panel. If the collection contains sub-collections, the first level will appear automatically.

@@ -1,3 +1,8 @@
+---
+Title: Edit
+Description: user documentation
+---
+
 ## Edit meta-data
 
 By clicking on a document, you access its [meta-information](./meta-data.md).

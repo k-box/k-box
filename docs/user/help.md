@@ -1,3 +1,8 @@
+---
+Title: Help
+Description: user documentation
+---
+
 # Help
 
 ## Help widget

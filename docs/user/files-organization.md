@@ -1,3 +1,8 @@
+---
+Title: File organization
+Description: user documentation
+---
+
 ## Organization of files
 
 The files are being organized in accessible projects and [other sections](./index.md#files-navigation). Users can organize files in My Collections according to their preference. Private collections are colored green for distinction from project collections (orange). Please do right-click on the collection where you intend to create an internal structuring, select "New Collection". Hit the arrow-like symbol on the collection to see the subcollections.

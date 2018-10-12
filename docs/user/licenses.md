@@ -1,3 +1,8 @@
+---
+Title: License and copyright
+Description: user documentation
+---
+
 # License and Copyright
 
 We value everyone's work, so we are slowly introducing a more fine-grained control over the Copyright Owner information and the ability to specify what other users can do with your work ([license](#license)).

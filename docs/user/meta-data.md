@@ -1,3 +1,7 @@
+---
+Title: Meta-data
+Description: user documentation
+---
 ## Meta-data
 
 When a document is uploaded, information about it is gathered. It is called

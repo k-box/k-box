@@ -1,3 +1,8 @@
+---
+Title: Document Types
+Description: user documentation
+---
+
 # Type detection
 
 Files added to the K-Box are subject to detection. With detection we refer 
