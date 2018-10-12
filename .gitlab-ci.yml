@@ -18,7 +18,6 @@ cache:
 
 variables:
   CONTAINER_RELEASE_IMAGE_BASE: $CI_REGISTRY/images/k-box
-  CONTAINER_RELEASE_LEGACY_IMAGE_BASE: $CI_REGISTRY/images/dms
 
 ## Making sure that the composer cache folder is the one we have in the CI cache
 before_script:
@@ -136,6 +135,7 @@ branch_release:
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
     - docker build -t $CI_REGISTRY_IMAGE:${CI_COMMIT_REF_NAME#v} .
     - docker push $CI_REGISTRY_IMAGE:${CI_COMMIT_REF_NAME#v}
+    - docker rmi $CI_REGISTRY_IMAGE:${CI_COMMIT_REF_NAME#v}
   tags:
     - shell
   except:
@@ -148,19 +148,12 @@ tagged_release:
     - sed -i "s/BUILDVERSION/${CI_COMMIT_REF_NAME}/g" ./config/dms.php
     - sed -i "s/BUILDCODE/${CI_COMMIT_SHA}/g" ./config/dms.php
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
-    - docker build -t $CI_REGISTRY_IMAGE:${CI_COMMIT_REF_NAME#v} .
-    - docker push $CI_REGISTRY_IMAGE:${CI_COMMIT_REF_NAME#v}
+    - docker build -t $CONTAINER_RELEASE_IMAGE_BASE:${CI_COMMIT_REF_NAME#v} .
     - docker login -u $REGISTRY_RELEASE_USERNAME -p $REGISTRY_RELEASE_PASSWORD $CI_REGISTRY
-    - docker tag $CI_REGISTRY_IMAGE:${CI_COMMIT_REF_NAME#v} "$CONTAINER_RELEASE_IMAGE_BASE:${CI_COMMIT_REF_NAME#v}"
-    - docker tag $CI_REGISTRY_IMAGE:${CI_COMMIT_REF_NAME#v} "$CONTAINER_RELEASE_IMAGE_BASE:latest"
-    - docker tag $CI_REGISTRY_IMAGE:${CI_COMMIT_REF_NAME#v} "$CONTAINER_RELEASE_LEGACY_IMAGE_BASE:${CI_COMMIT_REF_NAME#v}"
-    - docker tag $CI_REGISTRY_IMAGE:${CI_COMMIT_REF_NAME#v} "$CONTAINER_RELEASE_LEGACY_IMAGE_BASE:latest"
-    # legacy image registry
-    - docker push "$CONTAINER_RELEASE_LEGACY_IMAGE_BASE:latest"
-    - docker push "$CONTAINER_RELEASE_LEGACY_IMAGE_BASE:${CI_COMMIT_REF_NAME#v}"
-    # new image registry
+    - docker tag $CONTAINER_RELEASE_IMAGE_BASE:${CI_COMMIT_REF_NAME#v} "$CONTAINER_RELEASE_IMAGE_BASE:latest"
     - docker push "$CONTAINER_RELEASE_IMAGE_BASE:latest"
     - docker push "$CONTAINER_RELEASE_IMAGE_BASE:${CI_COMMIT_REF_NAME#v}"
+    - docker rmi "$CONTAINER_RELEASE_IMAGE_BASE:${CI_COMMIT_REF_NAME#v}"
   tags:
     - shell
   only:
