@@ -1,3 +1,9 @@
+---
+Title: First encounter 
+Description: User documentation
+---
+
+
 # User documentation
 
 K-Box is a web-based Free and Open Source Data Management Tool. It offers a flexible approach for managing documents and for disseminating them.
