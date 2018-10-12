@@ -17,15 +17,15 @@ Internet Explorer 11. Internet Explorer version 9 and 10 are supported on best-e
 
 ## Installation
 
-- [**Requirements**](./installation/requirements.md)
-- [**Installation**](./installation/installation.md)
+- [Requirements](./installation/requirements.md)
+- [Installation](./installation/installation.md)
 - [Deployment configuration](./installation/deploy-configuration.md)
 - [Reverse proxy](./installation/reverse-proxy.md)
 
 
 ## Daily usage
 
-- [**First encounter**](./user/index.md)
+- [First encounter](./user/index.md)
 - [Search](./user/search.md)
 - [Organize](./user/files-organization.md)
 - [Upload](./user/upload.md)
