@@ -35,7 +35,9 @@ class GeoTiffThumbnailGenerator implements ThumbnailGenerator
 
             } catch (Exception $ex){
 
-                throw new Exception("Failed to generate geotiff thumbnail. {$ex->getMessage()}");
+                Log::error("Failed to re-scale geotiff for thumbnail generation", ['ex' => $ex]);
+
+                return $this->thumbnailUsingImagick($file->absolute_path);
     
             } finally {
                 @unlink($png->getRealPath());
@@ -86,12 +88,7 @@ class GeoTiffThumbnailGenerator implements ThumbnailGenerator
         if (! $this->isImagickSupportAvailable()) {
             return false;
         }
-
-        if (! (new Gdal())->isInstalled()) {
-            return false;
-        }
-        
-        return in_array($file->mime_type, $this->supportedMimeTypes()) && $file->document_type === DocumentType::GEODATA;
+        return in_array($file->mime_type, $this->supportedMimeTypes()) && ($file->document_type === DocumentType::IMAGE || $file->document_type === DocumentType::GEODATA);
     }
 
     public function supportedMimeTypes()
