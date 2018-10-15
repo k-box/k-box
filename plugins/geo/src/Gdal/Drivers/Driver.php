@@ -72,7 +72,7 @@ abstract class Driver
         $geoFile = GeoFile::from($path);
 
         if($geoFile->type === GeoType::RASTER){
-            throw new Exception("Raster file conversion not supported.");
+            throw new Exception("Raster file conversion not supported. Use convertRaster().");
         }
 
         $alternateLayerName = md5(basename($path));
@@ -94,6 +94,46 @@ abstract class Driver
         \Log::info('conversion to shapefile', compact('options', 'path', 'destination'));
 
         $result = $this->execute(static::VECTOR_CONVERT_EXECUTABLE, [$destination, $path], $options);
+
+        return new SplFileInfo($destination);
+    }
+
+    /**
+     * Convert a raster geographic file into a different format
+     * 
+     * @param string $path
+     * @param string $destination
+     * @param string $format
+     * @param array $options Parameter to pass to the gdal_translate binary
+     * @return SplFileInfo the destination file instance
+     */
+    public function convertRaster($path, $destination, $format, $options = [])
+    {
+        $geoFile = GeoFile::from($path);
+
+        if($geoFile->type === GeoType::VECTOR){
+            throw new Exception("Vector file conversion not supported. Use convert().");
+        }
+
+        $alternateLayerName = md5(basename($path));
+
+        $options = array_merge(["-of \"$format\""], $options);
+
+        // if($format === Gdal::FORMAT_SHAPEFILE){
+        //     $options[] = "-append";
+        //     $options[] = "-nln {$alternateLayerName}";
+        //     $options[] = "-nlt GEOMETRY";
+        //     $options[] = "-skipfailure";
+        // }
+
+        // if(!is_null($crs)){
+        //     $options[] = "-t_srs \"$crs\"";
+        // }
+
+
+        \Log::info('raster file conversion', compact('options', 'path', 'destination'));
+
+        $result = $this->execute(static::RASTER_CONVERT_EXECUTABLE, [$path, $destination], $options);
 
         return new SplFileInfo($destination);
     }

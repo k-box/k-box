@@ -5,6 +5,8 @@ namespace KBox\Geo\Thumbnails;
 use Log;
 use Imagick;
 use KBox\File;
+use ImagickException;
+use KBox\Geo\Gdal\Gdal;
 use KBox\Documents\DocumentType;
 use KBox\Documents\Thumbnail\ThumbnailImage;
 use KBox\Documents\Contracts\ThumbnailGenerator;
@@ -18,13 +20,27 @@ class GeoTiffThumbnailGenerator implements ThumbnailGenerator
             throw new Exception('Failed to generate tiff thumbnail: imagemagick is not installed');
         }
 
-        $image = new Imagick();
-        $image->setBackgroundColor('white'); // do not create transparent thumbnails
-        $image->setResolution(300, 300); // forcing resolution to 300dpi prevents mushy images
-        @$image->readImage($file->absolute_path); // file.pdf[0] refers to the first page of the pdf
-        $image = $image->mergeImageLayers(Imagick::LAYERMETHOD_FLATTEN);
-        $image->thumbnailImage(ThumbnailImage::DEFAULT_WIDTH, 0, false, true);
-        $image->setImageFormat("png");
+        $png = (new Gdal())->convertRaster($file->absolute_path, GDAL::FORMAT_PNG, [
+            '-ot Byte',
+            '-scale',
+            '-outsize 300 0'
+        ]);
+
+        try{
+            $image = new Imagick();
+            $image->setBackgroundColor('white');
+            $image->setResolution(300, 300);
+            @$image->readImage($png->getRealPath());
+            $image = $image->mergeImageLayers(Imagick::LAYERMETHOD_FLATTEN);
+            $image->thumbnailImage(ThumbnailImage::DEFAULT_WIDTH, 0, false, true);
+            $image->setImageFormat("png");
+        } catch (ImagickException $ex){
+
+            throw new Exception("Failed to generate geotiff thumbnail. {$ex->getMessage()}");
+
+        } finally {
+            @unlink($png->getRealPath());
+        }
 
         return ThumbnailImage::load($image)->widen(ThumbnailImage::DEFAULT_WIDTH);
     }
@@ -34,7 +50,12 @@ class GeoTiffThumbnailGenerator implements ThumbnailGenerator
         if (! $this->isImagickSupportAvailable()) {
             return false;
         }
-        return in_array($file->mime_type, $this->supportedMimeTypes()) && ($file->document_type === DocumentType::IMAGE || $file->document_type === DocumentType::GEODATA);
+
+        if (! (new Gdal())->isInstalled()) {
+            return false;
+        }
+        
+        return in_array($file->mime_type, $this->supportedMimeTypes()) && $file->document_type === DocumentType::GEODATA;
     }
 
     public function supportedMimeTypes()

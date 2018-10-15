@@ -33,6 +33,12 @@ class GeoTiffThumbnailGeneratorTest extends TestCase
                 'Imagick not available or TIFF support not available.'
             );
         }
+
+        if (! (new Gdal())->isInstalled()) {
+            $this->markTestSkipped(
+                'GDal library not installed the system.'
+            );
+        }
     }
 
     public function test_tiff_is_supported()
