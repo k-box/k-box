@@ -4,11 +4,12 @@ namespace Tests\Plugins\Geo\Unit;
 
 use Imagick;
 use KBox\File;
+use Tests\TestCase;
+use KBox\Geo\Gdal\Gdal;
 use KBox\Documents\FileHelper;
 use KBox\Documents\Thumbnail\ThumbnailImage;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Tests\TestCase;
 use KBox\Geo\Thumbnails\GeoTiffThumbnailGenerator;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class GeoTiffThumbnailGeneratorTest extends TestCase
 {
