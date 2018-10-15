@@ -119,20 +119,6 @@ abstract class Driver
 
         $options = array_merge(["-of \"$format\""], $options);
 
-        // if($format === Gdal::FORMAT_SHAPEFILE){
-        //     $options[] = "-append";
-        //     $options[] = "-nln {$alternateLayerName}";
-        //     $options[] = "-nlt GEOMETRY";
-        //     $options[] = "-skipfailure";
-        // }
-
-        // if(!is_null($crs)){
-        //     $options[] = "-t_srs \"$crs\"";
-        // }
-
-
-        \Log::info('raster file conversion', compact('options', 'path', 'destination'));
-
         $result = $this->execute(static::RASTER_CONVERT_EXECUTABLE, [$path, $destination], $options);
 
         return new SplFileInfo($destination);

@@ -27,7 +27,7 @@ use Spinen\Geometry\GeometryFacade as Geometry;
  */
 final class GeoProperties extends FileProperties
 {
-    protected $exclude = ['layers', 'boundingBox', 'boundings.geoserver', 'geoserver.layers'];
+    protected $exclude = ['layers', 'boundingBox', 'boundings.geoserver', 'geoserver.layers', 'bands'];
     
 
     private static function parseCrsWkt($wkt)
@@ -47,7 +47,6 @@ final class GeoProperties extends FileProperties
         if(count($matches) !== 2){
             return '';
         }
-        \Log::warning("matches ...", compact('matches'));
 
         $boundingArray = [$matches[0][1], $matches[0][2], $matches[1][1], $matches[1][2]];
 
@@ -91,8 +90,9 @@ final class GeoProperties extends FileProperties
                 'wkt' => null,
                 'original' => json_encode($decoded->get('wgs84Extent', null)),
             ],
+            'bands' => $decoded->get('bands', [])
         ]);
-
+        
         return static::fromCollection($attributes);
     }
 
