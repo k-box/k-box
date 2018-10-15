@@ -315,4 +315,64 @@ class GeoMapProvidersTest extends TestCase
 
         $this->assertFalse($settings["sentinel_2017_3857"]['enable'], "Provider was not disabled");
     }
+
+    public function test_map_provider_can_be_removed()
+    {
+        $service = app(GeoService::class);
+
+        $initial = $service->config('map')['providers'];
+        
+        $user = factory(User::class)->create();
+        
+        $user->addCapabilities(Capability::$ADMIN);
+
+        $url = route('plugins.k-box-kbox-plugin-geo.mapproviders.delete', ['id' => "sentinel_3857"]);
+        
+        $response = $this->actingAs($user)->from(route('plugins.k-box-kbox-plugin-geo.mapproviders'))->delete($url);
+
+        $response->assertRedirect(route('plugins.k-box-kbox-plugin-geo.mapproviders'));
+
+        $settings = app(GeoService::class)->config('map')['providers'];
+
+        $this->assertNotEquals($initial, $settings);
+        $this->assertFalse(isset($settings["sentinel_3857"]), "sentinel_3857 provider still there after delete request");
+    }
+
+    public function test_unexisting_map_provider_cannot_be_removed()
+    {
+        $service = app(GeoService::class);
+
+        $initial = $service->config('map')['providers'];
+        
+        $user = factory(User::class)->create();
+        
+        $user->addCapabilities(Capability::$ADMIN);
+
+        $url = route('plugins.k-box-kbox-plugin-geo.mapproviders.delete', ['id' => "a_provider_not_created"]);
+        
+        $response = $this->actingAs($user)->from(route('plugins.k-box-kbox-plugin-geo.mapproviders'))->delete($url);
+
+        $response->assertRedirect(route('plugins.k-box-kbox-plugin-geo.mapproviders'));
+
+        $response->assertSessionHasErrors(['error']);
+    }
+
+    public function test_default_map_provider_cannot_be_removed()
+    {
+        $service = app(GeoService::class);
+
+        $initial = $service->config('map')['default'];
+        
+        $user = factory(User::class)->create();
+        
+        $user->addCapabilities(Capability::$ADMIN);
+        
+        $url = route('plugins.k-box-kbox-plugin-geo.mapproviders.delete', ['id' => $initial]);
+        
+        $response = $this->actingAs($user)->from(route('plugins.k-box-kbox-plugin-geo.mapproviders'))->delete($url);
+
+        $response->assertRedirect(route('plugins.k-box-kbox-plugin-geo.mapproviders'));
+
+        $response->assertSessionHasErrors(['error']);
+    }
 }

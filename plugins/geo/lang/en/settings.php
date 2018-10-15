@@ -41,6 +41,8 @@ return [
         'default_provider_updated' => 'Default Provider changed to ":name"',
         'providers_enabled' => 'No providers enabled|{1}Provider ":name" enabled|[2,*]Enabled ":name" and :count other providers',
         'providers_disabled' => 'No providers disabled|{1}Provider ":name" disabled|[2,*]Disabled ":name" and :count other providers',
+        'provider_deleted' => 'Map Provider ":name" deleted',
+        'provider_delete_denied_is_default' => 'Could not delete the default provider ":name". Please change the default provider first.',
 
         'create_title' => 'Create Provider',
         'create_description' => 'Create a new map provider',

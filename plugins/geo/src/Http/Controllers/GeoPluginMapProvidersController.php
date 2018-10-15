@@ -153,4 +153,35 @@ class GeoPluginMapProvidersController extends Controller
             'flash_message' => trans('geo::settings.providers.provider_updated', ['name' => $request->input('label', '')])
         ]);
     }
+
+
+    public function destroy($id, Request $request)
+    {
+        $mapSettings = $this->service->config('map');
+        $providerSettings = $mapSettings['providers'][$id] ?? null;
+        $label = $providerSettings['label'];
+
+        if(is_null($providerSettings)){
+            return redirect()->back()
+                        ->withInput()
+                        ->withErrors(['error' => trans('geo::settings.validation.id.not_found')]);
+        }
+        
+        if($id === $mapSettings['default']){
+            return redirect()->back()
+                        ->withInput()
+                        ->withErrors(['error' => trans('geo::settings.providers.provider_delete_denied_is_default', ['name' => $label])]);
+        }
+        
+
+        // remove the provider
+        
+        unset($mapSettings['providers'][$id]);
+
+        $this->service->config(['map' => $mapSettings]); // save the new configuration
+        
+        return redirect()->route('plugins.k-box-kbox-plugin-geo.mapproviders')->with([
+            'flash_message' => trans('geo::settings.providers.provider_deleted', ['name' => $label])
+        ]);
+    }
 }

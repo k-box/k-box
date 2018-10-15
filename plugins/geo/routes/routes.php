@@ -24,4 +24,6 @@ Route::put('/providers/{id}', 'GeoPluginMapProvidersController@update')->name('m
 
 Route::get('/providers/{id}/edit', 'GeoPluginMapProvidersController@edit')->name('mapproviders.edit');
 
+Route::delete('/providers/{id}', 'GeoPluginMapProvidersController@destroy')->name('mapproviders.delete');
+
 Route::get('/documents', 'GeoDocumentsController@index')->name('geodocuments');
