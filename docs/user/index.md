@@ -1,42 +1,35 @@
 ---
-Title: Overview
-Description: Introduction to the K-Box
+Title: First encounter 
+Description: User documentation
 ---
 
-The K-Box is a web application designed for handling document management inside an Organization.
 
-## How it works
+# User documentation
 
-The K-Box architecture is based on components:
+K-Box is a web-based Free and Open Source Data Management Tool. It offers a flexible approach for managing documents and for disseminating them.
 
-1. The K-Box Application
-2. The database
-3. The [K-Search](https://github.com/k-box/k-search) engine
+By default, the K-Box interface opens in your Personal section on Documents page. 
 
-The K-Box (web) Application is the user facing part, while the K-Search offers the full text based retrieval of documents uploaded in the K-Box Application.
+![Main page](./images/main-page.png)
 
-## Getting started
+In the upper menu you can select all files, create new collection or upload a new file, share and trash selected files and also choose view option.
 
-- [**Requirements**](./requirements.md)
-- [**Installation**](./installation.md)
-- [First use](./first-use.md)
-- [Troubles, check the known source of problems](./maintenance/troubleshooting.md)
+![upper menu](./images/upper-menu.png) 
 
-## Digging Deeper
+#### [Search](./search.md)
 
-- [Duplicate documents management](./documents/duplicates.md)
-- [File type detection](./documents/type-detection.md)
-- [Develop for the K-Box](../developer/index.md)
+In the upper left corner you can search among your files.
 
-## Browser support
+![search](./images/search.png)
 
-The supported browser are:
+#### Personal preferences
 
-- Microsoft Edge
-- Chrome (desktop, latest) 
-- Firefox (desktop, latest) 
-- Safari (desktop, latest) 
-- IE11
-- IE10
-- IE9 (on best effort)
+Personal settings in the upper right corner under the first letter of your name.
 
+![personal settings](./images/personal-settings.png)
+
+#### Files navigation
+
+You can access the left-hand navigation menu where files are categorized into [Personal](./personal.md), [Recent](./recent.md), [Starred](./starred.md), [Shared with me](./shared-with-me.md), [Trash](./trash.md). Besides that you can find accessible projects and your personal files [organized](./files-organization.md) in the collections.
+
+![Left navigation menu](./images/left-nav-bar.png)
