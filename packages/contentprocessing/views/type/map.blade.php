@@ -67,6 +67,13 @@
 
         L.control.layers(baseMaps, overlayMaps).addTo(map);
 
+
+        require(['modules/leaflet-control-opacity'], function(LCO){
+            
+            L.control.opacity(overlayMaps, {collapsed: false, position: 'bottomleft'}).addTo(map);
+
+        });
+
         window.MapInstance = map;
 	});
 </script>

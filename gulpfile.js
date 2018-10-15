@@ -42,7 +42,8 @@ elixir(function(mix) {
             "/select2/dist/css/select2.css",
             "/plyr/dist/plyr.css",
             "/leaflet/dist/leaflet.css",
-            "/leaflet-draw/dist/leaflet.draw.css"
+            "/leaflet-draw/dist/leaflet.draw.css",
+            "/leaflet.control.opacity/dist/L.Control.Opacity.css"
         ], elixir.config.cssOutput + "/vendor.css", elixir.config.npmDir)
     	.scripts([
                 'lodash/lodash.min.js',
@@ -96,6 +97,12 @@ elixir(function(mix) {
                 "/leaflet-draw/dist/leaflet.draw.js"
             ],
             elixir.config.jsOutput +'/modules/leaflet-draw.js', //output dir
+            elixir.config.npmDir //base dir
+        )
+        .scripts([
+                "/leaflet.control.opacity/dist/L.Control.Opacity.js"
+            ],
+            elixir.config.jsOutput +'/modules/leaflet-control-opacity.js', //output dir
             elixir.config.npmDir //base dir
         )
     	// Copy pure JS modules to public folder
