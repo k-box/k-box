@@ -12,6 +12,7 @@ This plugin provides support for geographical data, e.g. GeoJson, KML, Shapefile
 * [x] GeoJSON
 * [x] KML and KMZ
 * [x] GPX
+* [x] [GeoPackage 1.2](http://www.geopackage.org/spec120/)
 
 ## Offered features
 

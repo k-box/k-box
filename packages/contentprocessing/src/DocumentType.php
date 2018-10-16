@@ -198,6 +198,7 @@ final class DocumentType
         'application/geo+json' => self::GEODATA,
         'application/vnd.google-earth.kmz' => self::GEODATA,
         'application/vnd.google-earth.kml+xml' => self::GEODATA,
+        'application/geopackage+sqlite3' => self::GEODATA,
         
         'text/calendar' => self::CALENDAR,
         

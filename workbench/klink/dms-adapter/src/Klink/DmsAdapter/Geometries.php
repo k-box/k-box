@@ -5,7 +5,7 @@ namespace Klink\DmsAdapter;
 use KBox\File;
 use proj4php\Wkt;
 use KBox\FileProperties;
-use Vicchi\GeoJson\Rewind;
+use KBox\Geo\Support\GeoJsonRewind;
 use OneOffTech\GeoServer\Models\BoundingBox;
 use OneOffTech\GeoServer\GeoType as BaseGeoType;
 use Spinen\Geometry\GeometryFacade as Geometry;
@@ -99,13 +99,8 @@ final class Geometries
      */
     public static function ensurePolygonCoordinatesRespectGeoJson($coordinates)
     {
-        if(class_exists(Rewind::class)){
-            $source = [
-                'type' => 'Polygon',
-                'coordinates' => $coordinates
-            ];
-            $output = Rewind::rewind($source);
-            return $output['coordinates'];
+        if(class_exists(GeoJsonRewind::class)){
+            return GeoJsonRewind::rewindCoordinates($coordinates);
         }
         
         return $coordinates;

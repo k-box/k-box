@@ -104,6 +104,7 @@ class GeodataPreviewDriver extends MapPreviewDriver
         return [
             'application/vnd.google-earth.kml+xml',
             'application/vnd.google-earth.kmz',
+            'application/geopackage+sqlite3',
             'application/octet-stream',
             'application/geo+json',
             'application/gpx+xml',

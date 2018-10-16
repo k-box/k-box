@@ -25,13 +25,15 @@ final class TypeResolver
         GeoFormat::KML => 'application/vnd.google-earth.kml+xml', // Keyhole Markup Language
         GeoFormat::KMZ => 'application/vnd.google-earth.kmz', // KML in ZIP container
         GeoFormat::GPX => 'application/gpx+xml', // GPS eXchange Format
+        GeoFormat::GEOPACKAGE => 'application/geopackage+sqlite3', // GPS eXchange Format
     ];
     
     protected static $mimeTypeToFormat = [
         'application/geo+json' => GeoFormat::GEOJSON ,
         'application/vnd.google-earth.kml+xml' => GeoFormat::KML ,
         'application/vnd.google-earth.kmz' => GeoFormat::KMZ ,
-        'application/gpx+xml' => GeoFormat::GPX ,
+        'application/gpx+xml' => GeoFormat::GPX,
+        'application/geopackage+sqlite3' => GeoFormat::GEOPACKAGE,
     ];
 
     protected static $typesMap = [
@@ -39,6 +41,7 @@ final class TypeResolver
         GeoFormat::KML => GeoType::VECTOR,
         GeoFormat::KMZ => GeoType::VECTOR,
         GeoFormat::GPX => GeoType::VECTOR,
+        GeoFormat::GEOPACKAGE => GeoType::VECTOR,
         GeoFormat::GEOTIFF => GeoType::RASTER,
 
         GeoType::VECTOR => [
@@ -46,6 +49,7 @@ final class TypeResolver
             GeoFormat::KML,
             GeoFormat::KMZ,
             GeoFormat::GPX,
+            GeoFormat::GEOPACKAGE,
         ],
     ];
 
@@ -60,6 +64,7 @@ final class TypeResolver
         GeoFormat::KMZ => 'kmz',
         GeoFormat::GPX => 'gpx',
         GeoFormat::GEOTIFF => 'geotiff',
+        GeoFormat::GEOPACKAGE => 'gpkg',
     ];
 
     /**

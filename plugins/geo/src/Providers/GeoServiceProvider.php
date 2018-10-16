@@ -21,7 +21,9 @@ use KBox\DocumentsElaboration\Actions\AddToSearch;
 use KBox\Geo\TypeIdentifiers\GeoJsonTypeIdentifier;
 use KBox\Geo\TypeIdentifiers\GeoTiffTypeIdentifier;
 use KBox\Geo\Thumbnails\ShapefileThumbnailGenerator;
+use KBox\Geo\Thumbnails\GeoPackageThumbnailGenerator;
 use KBox\Geo\TypeIdentifiers\ShapefileTypeIdentifier;
+use KBox\Geo\TypeIdentifiers\GeoPackageTypeIdentifier;
 use KBox\Geo\Thumbnails\GeoJsonGpxKmlThumbnailGenerator;
 use KBox\DocumentsElaboration\Facades\DocumentElaboration;
 
@@ -79,20 +81,22 @@ class GeoServiceProvider extends Plugin
 
     private function registerFileTypes()
     {
-        Files::register('application/geo+json', DocumentType::GEODATA, 'geojson', GeoJsonTypeIdentifier::class);
         Files::register('application/vnd.google-earth.kml+xml', DocumentType::GEODATA, 'kml', KmlTypeIdentifier::class);
         Files::register('application/vnd.google-earth.kmz', DocumentType::GEODATA, 'kmz', KmlTypeIdentifier::class);
-        Files::register('application/gpx+xml', DocumentType::GEODATA, 'gpx', GpxTypeIdentifier::class);
+        Files::register('application/geopackage+sqlite3', DocumentType::GEODATA, 'gpkg', GeoPackageTypeIdentifier::class);
         Files::register('application/octet-stream', DocumentType::GEODATA, 'shp', ShapefileTypeIdentifier::class);
+        Files::register('application/geo+json', DocumentType::GEODATA, 'geojson', GeoJsonTypeIdentifier::class);
+        Files::register('application/gpx+xml', DocumentType::GEODATA, 'gpx', GpxTypeIdentifier::class);
         Files::register('application/zip', DocumentType::GEODATA, 'zip', ShapefileTypeIdentifier::class);
         Files::register('image/tiff', DocumentType::GEODATA, 'tiff', GeoTiffTypeIdentifier::class);
     }
 
     private function registerThumbnailGenerators()
     {
-        Thumbnails::register(GeoTiffThumbnailGenerator::class);
-        Thumbnails::register(ShapefileThumbnailGenerator::class);
         Thumbnails::register(GeoJsonGpxKmlThumbnailGenerator::class);
+        Thumbnails::register(GeoPackageThumbnailGenerator::class);
+        Thumbnails::register(ShapefileThumbnailGenerator::class);
+        Thumbnails::register(GeoTiffThumbnailGenerator::class);
     }
 
     private function registerPreviewDrivers()

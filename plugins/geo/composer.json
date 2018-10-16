@@ -13,11 +13,10 @@
     "require": {
         "php": ">=7.1",
         "ext-zip": "*",
-        "oneofftech/geoserver-client-php": "dev-master",
+        "oneofftech/geoserver-client-php": "0.1.*",
         "justinrainbow/json-schema": "^5.2",
         "proj4php/proj4php": "^2.0",
-        "spinen/laravel-geometry": "~1.0",
-        "vicchi/geojson-rewind": "~1.0"
+        "spinen/laravel-geometry": "~1.0"
     },
     "autoload": {
         "psr-4": {
