@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "40362e2aed0bc6cd3e283cf8768215a9",
+    "content-hash": "0df9ee74e447f4a63fcfb243a9f6f06f",
     "packages": [
         {
             "name": "avvertix/materialicons-laravel-bridge",
@@ -1877,13 +1877,13 @@
             "dist": {
                 "type": "path",
                 "url": "plugins/geo",
-                "reference": "3c02b315f5128824e0c7d4a7d821e410528c0ad0",
+                "reference": "81d8db29ac4fe5b0892521d0d05b116acabf3752",
                 "shasum": null
             },
             "require": {
                 "ext-zip": "*",
                 "justinrainbow/json-schema": "^5.2",
-                "oneofftech/geoserver-client-php": "dev-master",
+                "oneofftech/geoserver-client-php": "0.1.*",
                 "php": ">=7.1",
                 "proj4php/proj4php": "^2.0",
                 "spinen/laravel-geometry": "~1.0"
@@ -2709,16 +2709,16 @@
         },
         {
             "name": "oneofftech/geoserver-client-php",
-            "version": "dev-master",
+            "version": "v0.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/OneOffTech/geoserver-client-php.git",
-                "reference": "fcafde9696a674e2a1f6e038e80cf43c81a3d75b"
+                "reference": "7d617734f537b6901b072ef69e2fdfd9f3308b79"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/OneOffTech/geoserver-client-php/zipball/fcafde9696a674e2a1f6e038e80cf43c81a3d75b",
-                "reference": "fcafde9696a674e2a1f6e038e80cf43c81a3d75b",
+                "url": "https://api.github.com/repos/OneOffTech/geoserver-client-php/zipball/7d617734f537b6901b072ef69e2fdfd9f3308b79",
+                "reference": "7d617734f537b6901b072ef69e2fdfd9f3308b79",
                 "shasum": ""
             },
             "require": {
@@ -2765,7 +2765,7 @@
             ],
             "description": "A GeoServer API client",
             "homepage": "https://github.com/oneofftech/geoserver-client-php",
-            "time": "2018-09-13T09:46:14+00:00"
+            "time": "2018-10-16T11:27:27+00:00"
         },
         {
             "name": "oneofftech/k-link-streaming-upload-client",
@@ -8198,9 +8198,7 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {
-        "oneofftech/geoserver-client-php": 20
-    },
+    "stability-flags": [],
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {

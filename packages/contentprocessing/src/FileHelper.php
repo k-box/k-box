@@ -162,10 +162,12 @@ final class FileHelper
         'xml|gml' => 'text/xml', // Plain XML, gml: Geographic Markup Language - v2 (GML2), gpx:
         'bin' => 'application/octet-stream', // Plain Binary File
         '' => 'application/octet-stream', // No Extension => Plain Binary File
+        'sqlite' => 'application/vnd.sqlite3',
         // Geographical data
         'shp|shx|sbn|dbf|aib|e02|e01|ovr|mxd|prt|jgw|tfw' => 'application/octet-stream', // Esri ArcGIS files
         'gpx' => 'application/gpx+xml', // GPS Exchange Format (GPX)
         'geojson' => 'application/geo+json',
+        'gpkg' => 'application/geopackage+sqlite3', // GeoPackage www.geopackage.org/spec120/
         'geotiff' => [DocumentType::GEODATA => 'image/tiff'],
         'kml' => 'application/vnd.google-earth.kml+xml', // Google Earth files (aka Keyhole Markup Language)
         'kmz' => 'application/vnd.google-earth.kmz',

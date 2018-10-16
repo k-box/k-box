@@ -103,7 +103,7 @@ final class GeoProperties extends FileProperties
         
         $parsed = [];
         $key = null;
-        
+
         foreach ($lines as $line) {
             if(str_contains($line, ':')){
                 $key = str_slug(str_before($line, ':'));

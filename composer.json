@@ -53,7 +53,7 @@
 		"laravel/framework": "5.5.*",
 		"laravel/tinker": "~1.0",
 		"league/csv": "^8.0",
-		"oneofftech/geoserver-client-php": "dev-master",
+		"oneofftech/geoserver-client-php": "0.1.*",
 		"oneofftech/k-link-streaming-upload-client": "0.2.*",
 		"oneofftech/laravel-tus-upload": "0.5.*",
 		"php-http/guzzle6-adapter": "^1.1",
