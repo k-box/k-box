@@ -27,7 +27,10 @@ final class GeoService
         GeoFormat::SHAPEFILE_ZIP,
         GeoFormat::SHAPEFILE,
         GeoFormat::GEOTIFF,
-        GeoFormat::GEOPACKAGE,
+        // GeoFormat::GEOPACKAGE, 
+        /* although GeoPackage is supported, we disable direct upload of a geopackage as
+           layer names are not respecting the given name. This will create layers that can
+           generate conflicts with other uploaded files */
     ];
 
     private $manager = null;
