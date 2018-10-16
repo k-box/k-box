@@ -27,6 +27,7 @@ final class GeoService
         GeoFormat::SHAPEFILE_ZIP,
         GeoFormat::SHAPEFILE,
         GeoFormat::GEOTIFF,
+        GeoFormat::GEOPACKAGE,
     ];
 
     private $manager = null;
