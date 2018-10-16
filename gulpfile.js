@@ -105,6 +105,12 @@ elixir(function(mix) {
             elixir.config.jsOutput +'/modules/leaflet-control-opacity.js', //output dir
             elixir.config.npmDir //base dir
         )
+        .scripts([
+                "/leaflet.wms/dist/leaflet.wms.js"
+            ],
+            elixir.config.jsOutput +'/modules/leaflet-wms.js', //output dir
+            elixir.config.npmDir //base dir
+        )
     	// Copy pure JS modules to public folder
     	.copyJsModules()
     	.previewJsModules();
