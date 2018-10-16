@@ -24,6 +24,8 @@ final class LinuxDriver extends Driver
 
     const VECTOR_CONVERT_EXECUTABLE = 'ogr2ogr';
 
+    const RASTER_CONVERT_EXECUTABLE = 'gdal_translate';
+
     protected function execute($command, $inputs = [], $options = [])
     {
         $arguments = array_map(function($in){

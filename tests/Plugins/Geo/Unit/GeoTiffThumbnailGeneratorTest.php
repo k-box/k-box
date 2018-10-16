@@ -4,11 +4,12 @@ namespace Tests\Plugins\Geo\Unit;
 
 use Imagick;
 use KBox\File;
+use Tests\TestCase;
+use KBox\Geo\Gdal\Gdal;
 use KBox\Documents\FileHelper;
 use KBox\Documents\Thumbnail\ThumbnailImage;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Tests\TestCase;
 use KBox\Geo\Thumbnails\GeoTiffThumbnailGenerator;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class GeoTiffThumbnailGeneratorTest extends TestCase
 {
@@ -31,6 +32,12 @@ class GeoTiffThumbnailGeneratorTest extends TestCase
         if (! extension_loaded('imagick') || (extension_loaded('imagick') && empty(Imagick::queryFormats("TIFF")))) {
             $this->markTestSkipped(
                 'Imagick not available or TIFF support not available.'
+            );
+        }
+
+        if (! (new Gdal())->isInstalled()) {
+            $this->markTestSkipped(
+                'GDal library not installed the system.'
             );
         }
     }

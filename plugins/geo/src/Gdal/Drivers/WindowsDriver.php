@@ -23,6 +23,8 @@ final class WindowsDriver extends Driver
     const VECTOR_INFO_EXECUTABLE = 'ogrinfo.exe';
     
     const VECTOR_CONVERT_EXECUTABLE = 'ogr2ogr.exe';
+    
+    const RASTER_CONVERT_EXECUTABLE = 'gdal_translate.exe';
 
     protected function execute($command, $inputs = [], $options = [])
     {

@@ -21,6 +21,8 @@ final class Gdal
     const FORMAT_PDF = "PDF";
 
     const FORMAT_SHAPEFILE = "ESRI Shapefile";
+    
+    const FORMAT_PNG = "PNG";
 
 
     /**
@@ -77,7 +79,7 @@ final class Gdal
     }
 
     /**
-     * Convert a file into a different format
+     * Convert a vector file into a different format
      * 
      * @param string $path the file absolute path
      * @param string $format the target file format. See FORMAT constants in this class for available formats
@@ -114,6 +116,23 @@ final class Gdal
 
         return new SplFileInfo($tmpfilename);
 
+    }
+
+    /**
+     * Convert a raster file into a different format
+     * 
+     * @param string $path the file absolute path
+     * @param string $format the target file format. See FORMAT constants in this class for available formats
+     * @param array $options the options to pass to the conversion program
+     * @return SplFileInfo a temporary file that contains the conversion result. Unlink the file when not anymore necessary.
+     */
+    public function convertRaster($path, $format, $options = [])
+    {
+        // creating a temporary filename where the content 
+        // of the converted file is stored
+        $tmpfilename = tempnam($temporaryFolder ?? sys_get_temp_dir(), basename($path));
+
+        return $this->driver()->convertRaster($path, $tmpfilename, $format, $options);
     }
 
     /**

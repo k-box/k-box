@@ -157,4 +157,32 @@ class GdalTest extends TestCase
         $this->assertEquals('application/zip', $geofile->mimeType);
         $this->assertEquals(GeoFormat::SHAPEFILE_ZIP, $geofile->format);
     }
+
+    public function test_convert_tiff_to_png()
+    {
+        $file = base_path("tests/data/geotiff.tiff");
+
+        $gdal = new Gdal();
+
+        $png = $gdal->convertRaster($file, Gdal::FORMAT_PNG, [
+            '-ot Byte',
+            '-scale',
+            '-outsize 300 0'
+        ]);
+        
+        $this->assertInstanceOf(SplFileInfo::class, $png);
+
+        // read the file magic number to check if is a real png
+        $handle = fopen($png->getRealPath(), 'rb');
+        $data = fread($handle, 1);
+        $data2 = fread($handle, 1);
+        $data3 = fread($handle, 1);
+        $data4 = fread($handle, 1);
+        fclose($handle);
+        unlink($png->getRealPath());
+
+        $magicNumber = current(unpack('a', $data2)).current(unpack('a', $data3)).current(unpack('a', $data4));
+
+        $this->assertEquals('PNG', trim($magicNumber));
+    }
 }
