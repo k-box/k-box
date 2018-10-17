@@ -54,21 +54,27 @@ define("modules/map-feature-info", ["jquery"],
                 var point = internal._map.latLngToContainerPoint(latlng, internal._map.getZoom());
                 var size = internal._map.getSize();
                 
-                var infoParams = {
+                var params = {
                     request: 'GetFeatureInfo',
-                    FEATURE_COUNT: '50',
+                    service: 'WMS',
+                    srs: 'EPSG:4326',
+                    styles: layer.wmsParams.styles,
+                    transparent: layer.wmsParams.transparent,
+                    version: layer.wmsParams.version,
+                    format: layer.wmsParams.format,
+                    layers: layer.wmsParams.layers,
                     query_layers: layer.wmsParams.layers,
                     info_format: 'application/json',
-                    X: Math.round(point.x),
-                    Y: Math.round(point.y),
-                    // bbox: internal._map.getBounds().toBBoxString(),
+                    bbox: internal._map.getBounds().toBBoxString(),
                     height: size.y,
                     width: size.x,
-                    // tilesOrigin // used for tile based WMS
-                    // tiled: true //
+                    exceptions: "application/json"
                 };
-                console.log(infoParams);
-                return L.extend({}, layer.wmsParams, infoParams);
+
+                params[params.version === '1.3.0' ? 'i' : 'x'] = point.x;
+                params[params.version === '1.3.0' ? 'j' : 'y'] = point.y;
+
+                return params;
             },
 
             'parseFeatureInfo': function (result, url) {
