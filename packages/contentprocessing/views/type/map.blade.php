@@ -3,8 +3,8 @@
 </div>
 
 <script>
-	require(['modules/leaflet'], function(L){
-
+	require(['modules/leaflet', 'modules/leaflet-wms'], function(L, LWMS){
+        window.L = L;
         L.Icon.Default.prototype.options.imagePath = "/images/";
 
         var baseMaps = {
@@ -25,55 +25,54 @@
 
         var defaultBaseMap = baseMaps['{{$defaultProvider}}'];
 
-        var file = null;
+        require(['modules/leaflet-wms'], function(LWMS){
+            var file = null;
 
-        @if(isset($geojson) && $geojson)
-            file = L.geoJSON({!! $geojson !!});
-        @elseif(isset($geoserver) && $geoserver)
-            file = L.tileLayer.wms('{{ $geoserver }}', {
-                id: "my",
-                format: 'image/png',
-                transparent: true,
-                maxZoom: 20,
-                // L.CRS.EPSG3857 is automatically set as CRS, as the map instance is configured with that
-                minZoom: 0,
-                styles: '{{ $styles }}',
-                version: '1.1.1',
-                layers: "{{ $layers }}",
-                attribution: '{{ $attribution }}'
-            });
-        @endif
+            @if(isset($geojson) && $geojson)
+                file = L.geoJSON({!! $geojson !!});
+            @elseif(isset($geoserver) && $geoserver)
+                file = {{ $disableTiling ? 'new LWMS.Overlay' : 'L.tileLayer.wms'}}('{{ $geoserver }}', {
+                    id: "my",
+                    format: 'image/png',
+                    transparent: true,
+                    maxZoom: 20,
+                    // L.CRS.EPSG3857 is automatically set as CRS, as the map instance is configured with that
+                    minZoom: 0,
+                    styles: '{{ $styles }}',
+                    version: '1.1.1',
+                    layers: "{{ $layers }}",
+                    attribution: '{{ $attribution }}',
+                });
+            @endif
 
-        var overlayMaps = file ? {
-            "{{$file->name}}": file
-        } : {};
+            var overlayMaps = file ? {
+                "{{$file->name}}": file
+            } : {};
 
-        var layers = file ? [defaultBaseMap, file] : [defaultBaseMap];
-        
-        var map = L.map('map', {
-            crs: L.CRS.EPSG3857, // spherical mercator projection https://leafletjs.com/reference-1.3.4.html#crs
-            zoom: {{ $mapZoom ?? 11 }},
-            layers: layers,
-            maxZoom: 20,
-        });
-
-        @if(isset($boundings) && !empty($boundings))
-            map.fitBounds({{$boundings}}, {maxZoom: 20});
-        @elseif(isset($geojson) && $geojson)
-            map.fitBounds(file.getBounds());
-        @else 
-            map.setView({{ $center ?? "[52.5200, 13.4050]" }});
-        @endif
-
-        L.control.layers(baseMaps, overlayMaps).addTo(map);
-
-
-        require(['modules/leaflet-control-opacity'], function(LCO){
+            var layers = file ? [defaultBaseMap, file] : [defaultBaseMap];
             
-            L.control.opacity(overlayMaps, {collapsed: false, position: 'bottomleft'}).addTo(map);
+            var map = L.map('map', {
+                crs: L.CRS.EPSG3857, // spherical mercator projection https://leafletjs.com/reference-1.3.4.html#crs
+                zoom: {{ $mapZoom ?? 11 }},
+                layers: layers,
+                maxZoom: 20,
+            });
 
+            @if(isset($boundings) && !empty($boundings))
+                map.fitBounds({{$boundings}}, {maxZoom: 20});
+            @elseif(isset($geojson) && $geojson)
+                map.fitBounds(file.getBounds());
+            @else 
+                map.setView({{ $center ?? "[52.5200, 13.4050]" }});
+            @endif
+
+            L.control.layers(baseMaps, overlayMaps).addTo(map);
+
+            require(['modules/leaflet-control-opacity'], function(LCO){
+                
+                L.control.opacity(overlayMaps, {collapsed: false, position: 'bottomleft'}).addTo(map);
+
+            });
         });
-
-        window.MapInstance = map;
 	});
 </script>

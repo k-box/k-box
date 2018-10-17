@@ -54,8 +54,25 @@ class GeodataPreviewDriver extends MapPreviewDriver
         $this->view_data['attribution'] = "$file->name {$file->properties->get('geoserver.store', '')}";
         $this->view_data['geojson'] = !$canBeFoundOnGeoserver ? $this->getFileContentAsGeoJson($file) : null;
         $this->view_data['geoserver'] = $canBeFoundOnGeoserver ? $this->geoservice->wmsBaseUrl() : null;
+        $this->view_data['disableTiling'] = $canBeFoundOnGeoserver ? $this->requiresBandStretching($file) : false;
 
         return $this;
+    }
+
+    
+    /**
+     * Check the bands metadata to see if there is at least one band whose type is not Byte
+     */
+    private function requiresBandStretching($file)
+    {
+        $bands = $file->properties->bands ?? [];
+
+        // check if there are bands with type different than Byte
+        $filtered_bands = array_filter($bands, function($band){
+            return isset($band['type']) && $band['type'] !== 'Byte';
+        });
+
+        return !empty($filtered_bands);
     }
 
     private function geoserverBoundingsToLeaflet($boundingBox)

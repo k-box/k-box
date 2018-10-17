@@ -14,8 +14,6 @@ require.config({
             nls: 'localization'
         }
     }
-
-    
 });
 
 
@@ -62,6 +60,10 @@ define('plyr', [], function() {
 
 define('Handlebars', [], function() {
     return window.Handlebars;
+});
+
+define('leaflet', ["modules/leaflet"], function(L) {
+    return L;
 });
 
 // -- Global initializations
