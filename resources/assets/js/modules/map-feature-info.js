@@ -31,12 +31,11 @@ define("modules/map-feature-info", ["jquery"],
             _popup: null,
 
             handleMapClick: function (evt) {
-                // TODO: Check if possible to discard the event if outside the layer boundaries
                 this.getInfo(evt.latlng, this._layer);
             },
 
             getInfo: function (latlng, layers) {
-                var params = this.getFeatureInfoParams(latlng, layers);
+                var params = this.buildParameters(latlng, layers);
                 var url = this._url + L.Util.getParamString(params, this._url);
 
                 ajax(url, done);
@@ -46,11 +45,13 @@ define("modules/map-feature-info", ["jquery"],
                         return;
                     }
                     var text = this.parseFeatureInfo(result, url);
-                    this.showFeatureInfo(latlng, text);
+                    if(text){
+                        this.show(latlng, text);
+                    }
                 }
             },
 
-            getFeatureInfoParams: function (latlng, layer) {
+            buildParameters: function (latlng, layer) {
                 var point = internal._map.latLngToContainerPoint(latlng, internal._map.getZoom());
                 var size = internal._map.getSize();
                 
@@ -77,12 +78,24 @@ define("modules/map-feature-info", ["jquery"],
                 return params;
             },
 
-            'parseFeatureInfo': function (result, url) {
+            parseFeatureInfo: function (result, url) {
+
+                if(!result.type){
+                    return JSON.stringify(result);
+                }
                 
-                return JSON.stringify(result);
+                if(result.type !== "FeatureCollection"){
+                    return JSON.stringify(result);
+                }
+
+                if(result.features && result.features.length > 0){
+                    return JSON.stringify(result);
+                }
+
+                return null;
             },
 
-            'showFeatureInfo': function (latlng, info) {
+            show: function (latlng, info) {
                 
                 if (!internal._map) {
                     return;
@@ -96,7 +109,6 @@ define("modules/map-feature-info", ["jquery"],
         var module = {
 
             init: function (L, map, layer) {
-                console.info("FeatureInfo.init called", map, layer);
                 internal._map = map;
                 internal._L = L;
                 internal._layer = layer;
