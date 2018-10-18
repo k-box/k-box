@@ -59,6 +59,7 @@
 
         @if(isset($boundings) && !empty($boundings))
             map.fitBounds({{$boundings}}, {maxZoom: 20});
+            var polygon = L.rectangle({{$boundings}}, {stroke: false, fillOpacity: 0}).addTo(map);
         @elseif(isset($geojson) && $geojson)
             map.fitBounds(file.getBounds());
         @else 
