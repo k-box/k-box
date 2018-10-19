@@ -226,12 +226,13 @@
     opacity: 0.57
 }
 
-.file-properties__property {
+.file-properties__property, .file-properties .c-panel__meta {
     margin: 8px 0;
 }
 
-.file-properties__label{
+.file-properties__label, .file-properties .c-panel__label {
     display: block;
+    color: #fff;
     opacity: 0.57;
 }
 
