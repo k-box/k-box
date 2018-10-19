@@ -796,7 +796,21 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
             if(args.filter ==='public' || args.filter ==='private'){
                 module.context.visibility = args.filter; 
             }
-            module._filtersVisible = !$.isArray(module.context.filters);
+
+            // filters array, ok
+
+            if($.isPlainObject(module.context.filters) && Object.keys(module.context.filters).length > 0){
+                
+                module._filtersVisible = module.context.filters.geo_location ? false : true;
+
+                if(module.context.filters.geo_location){
+                    module._mapFiltersVisible = !module._mapFiltersVisible;
+                }
+            }
+            else {
+                module._filtersVisible = false;
+            }
+
             _updateBinds();
 
             // If the highlight parameter is present, 
