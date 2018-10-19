@@ -261,6 +261,10 @@ return [
         'documents.duplicates.errors.generic',
         'documents.duplicates.errors.already_resolved',
         'documents.duplicates.errors.resolve_with_trashed_document',
+
+        // preview
+        'preview.map.lat_lng_location_hint',
+        'preview.map.value_label',
     ],
 
 ];
