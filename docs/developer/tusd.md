@@ -2,7 +2,7 @@
 
 ## Architecture
 
-The tus server and clients comes from https://git.klink.asia/alessio.vertemati/laravel-tus-upload
+The tus server and clients comes from https://github.com/OneOffTech/laravel-tus-upload
 
 The package exposes a Gate, called `upload-via-tus` to which the upload request is passed for getting approval. The Gate implementation is in the `AuthServiceProvider`.
 

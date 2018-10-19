@@ -36,7 +36,6 @@ class DocumentsServiceTest extends BrowserKitTestCase
     }
 
     /**
-     * cover issue https://git.klink.asia/klinkdms/dms/issues/569
      * @dataProvider user_provider_no_guest
      */
     public function testGetDocumentCollections($caps)
@@ -109,9 +108,6 @@ class DocumentsServiceTest extends BrowserKitTestCase
         $this->assertInstanceOf(DocumentDescriptor::class, $ret);
     }
 
-    /**
-     * issue https://git.klink.asia/klinkdms/dms/issues/690
-     */
     public function testFallbackDocumentIndexingAfterForceHashCheckOnKCore()
     {
         $this->withKlinkAdapterFake();
@@ -123,7 +119,6 @@ class DocumentsServiceTest extends BrowserKitTestCase
             'user_id' => $user->id,
             'original_uri' => ''
         ]);
-        ;
 
         // change the document to a complete non-sense mime-type to
         // force a fallback text extraction

@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-The format is based on [Keep a Changelog](http://keepachangelog.com/en/0.3.0/) 
+The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) 
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
@@ -257,7 +257,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - UUID field to File model and database table
 - `File::createFromUploadedFile()` for generating and persisting a File instance based on a file upload
 - `File::$absolute_path` to retrieve the absolute path of the file
-- Video Processing Package to enable the usage of the [Video Processing CLI](https://git.klink.asia/main/video-processing-cli)
+- Video Processing Package to enable the usage of the [Video Processing CLI](https://github.com/OneOffTech/video-processing-cli)
 - `ElaborateVideo` action to the upload elaboration pipeline
 - Thumbnail generation for mp4 video files
 - Deprecation notice on the Institution administration feature
@@ -425,7 +425,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
  - container exposes port 80
  - removed connection check to the K-Core. If the K-Core is not started the documents 
    section of the K-DMS will throw error
- - removed dependency on [empty-page](https://git.klink.asia/klinkdocumentation/empty-page)
 - K-Box Contact details editing without requiring a connection to the K-Link Network
 
 ### Changed
