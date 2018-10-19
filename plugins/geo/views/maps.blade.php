@@ -23,15 +23,13 @@
             </a>
         </div>
 
-        <table class="c-table">
+        <table class="c-table" style="margin-top:12px">
             <thead class="c-table__head">
                 <tr>
-                    <th style="width:5%">{{trans('geo::settings.providers.attributes.default')}}</th>
-                    <th style="width:5%">{{trans('geo::settings.providers.attributes.enabled')}}</th>
-                    <th style="width:10%">{{trans('geo::settings.providers.attributes.id')}}</th>
-                    <th style="width:30%">{{trans('geo::settings.providers.attributes.label')}}</th>
-                    <th style="width:5%">{{trans('geo::settings.providers.attributes.type')}}</th>
-                    <th style="width:40%">{{trans('geo::settings.providers.attributes.url')}}</th>
+                    <th style="width:6%">{{trans('geo::settings.providers.attributes.default')}}</th>
+                    <th style="width:8%">{{trans('geo::settings.providers.attributes.enabled')}}</th>
+                    <th style="width:45%">{{trans('geo::settings.providers.attributes.label')}}</th>
+                    <th style="width:15%">{{trans('geo::settings.providers.attributes.type')}}</th>
                     <th>&nbsp;</th>
                 </tr>
             </thead>
@@ -73,10 +71,8 @@
                                 </form>
                             @endif
                         </td>
-                        <td><code>{{ $providerId }}</code></td>
                         <td>{{ $provider['label'] ?? '' }}</td>
                         <td>{{ $provider['type'] }}</td>
-                        <td>{{ $provider['url'] }}</td>
                         <td>
                             <a class="button" href="{{route('plugins.k-box-kbox-plugin-geo.mapproviders.edit', ['id' => $providerId])}}">
                                 @lang('actions.edit')
