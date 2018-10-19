@@ -4,7 +4,7 @@
   "name": "k-box",
   "repository": {
     "type": "vcs",
-    "url": "https://git.klink.asia/main/k-box"
+    "url": "https://github.com/k-box/k-box/"
   },
   "license": "AGPL-3.0",
   "devDependencies": {
