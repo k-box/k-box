@@ -7,13 +7,15 @@
 
     @foreach ($properties as $label => $value)
 
-        <div class="c-panel__meta">
-            <div class="c-panel__label">
-                {{ $label ?? '' }}
-            </div>
+        @if($value)
+            <div class="c-panel__meta">
+                <div class="c-panel__label">
+                    {{ $label ?? '' }}
+                </div>
 
-            {{ $value ?? '' }}
-        </div>
+                {{ $value ?? '' }}
+            </div>
+        @endif
 
     @endforeach
 </div>
