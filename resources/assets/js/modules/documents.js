@@ -1976,8 +1976,7 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
                     },
                     
                    accept: function(file, done) {
-                       
-                        if( !file.type && file.size%4096 == 0){
+                        if( !file.type && file.name.indexOf(".") === -1 && file.size == 4096){
                             // Firefox way is so different than the others that I don't support it
                             done( {error: Lang.trans('documents.upload.folders_dragdrop_not_supported')});
                         }
