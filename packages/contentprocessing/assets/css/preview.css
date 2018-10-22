@@ -234,6 +234,7 @@
     display: block;
     color: #fff;
     opacity: 0.57;
+    width: 100%
 }
 
 .file-properties__value{
