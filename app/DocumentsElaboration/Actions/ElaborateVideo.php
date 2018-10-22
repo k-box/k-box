@@ -13,9 +13,10 @@ class ElaborateVideo extends Action
 
     public function run($descriptor)
     {
-        if (VideoProcessorFactory::isInstalled()) {
+        $file = $descriptor->file;
+        if (VideoProcessorFactory::isInstalled() && $file->isVideo() && $file->size <= (200 * 1024 * 1024)) {
             Log::info("Elaborate video action queued for $descriptor->uuid");
-            dispatch_now(new ConvertVideo($descriptor));
+            dispatch(new ConvertVideo($descriptor));
         }
         
         return $descriptor;
