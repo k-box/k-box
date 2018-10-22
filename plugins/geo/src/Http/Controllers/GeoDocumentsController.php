@@ -77,6 +77,8 @@ class GeoDocumentsController extends Controller
             return response()->json($results);
         }
 
+        $filters = $results->filters();
+
         return view('geo::documents.geo', [
             'pagetitle' => trans('geo::section.page_title'),
             'filter' => trans('geo::section.page_title'),
@@ -85,9 +87,9 @@ class GeoDocumentsController extends Controller
             'pagination' => $results,
             'search_terms' => $req->term,
             'facets' => $results->facets(),
-            'filters' => $results->filters(),
-            'spatial_filters' => Geometries::arrayAsLatLngBounds($results->filters()['geo_location'] ?? null) ?? 'null',
-            'other_filters' => $this->processOtherFilters(collect($results->filters())->except('geo_location')),
+            'filters' => $filters,
+            'spatial_filters' => Geometries::arrayAsLatLngBounds($filters['geo_location'] ?? null) ?? 'null',
+            'other_filters' => $this->processOtherFilters(collect($filters)->except('geo_location')),
         ]);
     }
 

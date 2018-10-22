@@ -91,6 +91,15 @@ define("modules/spatial_filters", ["require", "modernizr", "jquery", "DMS", "mod
         _mapLoaded = true;
     }
 
+    function requireMap()
+    {
+        if(!_mapLoaded){
+            _require(["modules/leaflet-draw"], function(){
+                loadMap();
+            });
+        }
+    }
+
     var module = {
 
         init: function(options)
@@ -103,14 +112,13 @@ define("modules/spatial_filters", ["require", "modernizr", "jquery", "DMS", "mod
             }
 
             console.log("initializing map");
+
+            if(options.autoload){
+                requireMap();
+            }
             
             _pageArea.on('spatialfilters:open', function(evt){
-                
-                if(!_mapLoaded){
-                    _require(["modules/leaflet-draw"], function(){
-                        loadMap();
-                    });
-                }
+                requireMap();
             });
             _pageArea.on('spatialfilters:close', function(evt){
                 

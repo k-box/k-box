@@ -46,10 +46,13 @@
 
 	require(['modules/spatial_filters'], function(SF){
 
+		console.log(Documents);
+
 		SF.init({
 			filter: {!! $spatial_filters !!},
 			otherFilters: {!! json_encode($other_filters) !!},
-			searchTerms: @if($search_terms) {"s": "{{ $search_terms }}"} @else null @endif
+			searchTerms: @if($search_terms) {"s": "{{ $search_terms }}"} @else null @endif,
+			autoload: Documents._mapFiltersVisible
 		});
 
 	});
