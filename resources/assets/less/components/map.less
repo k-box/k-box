@@ -25,3 +25,36 @@
 .leaflet-control-layers-list{
 	cursor: default;
 }
+
+.leaflet-popup {
+	z-index: 100;
+}
+
+.leaflet-popup-pane {
+	z-index: 600;
+}
+
+.map__features {
+	width: 300px;
+	max-width: 400px;
+	max-height: 200px;
+	overflow: auto;
+	font-size: 14px;
+	white-space: pre-line;
+	word-wrap: break-word;
+}
+
+.map__feature {
+	padding: 4px;
+	margin-bottom: 6px;
+	display: block;
+}
+
+.map__feature:nth-child(even) {
+	background-color: @brand-light-gray;
+}
+
+.map__feature-label {
+	color: lighten(@brand-dark-gray, 20%);
+	display: block;
+}

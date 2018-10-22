@@ -24,6 +24,9 @@ final class Geometries
         if(is_null($geoserverBbox)){
             return null;
         }
+        if(empty($geoserverBbox)){
+            return null;
+        }
 
         if($geoserverBbox instanceof BoundingBox){
             $geoserverBbox = $geoserverBbox->toArray();
