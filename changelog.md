@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.23.2] - 2018-10-22
+
+### Fixed
+
+- Excessive system resource usage while handling resumable uploads
+
+### Changed
+
+- The video processing is prevented on files whose size is above 200 MB
+
 ## [0.23.1] - 2018-10-09
 
 ### Fixed
