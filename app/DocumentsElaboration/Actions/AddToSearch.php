@@ -2,8 +2,10 @@
 
 namespace KBox\DocumentsElaboration\Actions;
 
+use Klink\DmsAdapter\Exceptions\KlinkException;
 use KBox\Documents\Services\DocumentsService;
 use KBox\Contracts\Action;
+use Log;
 
 class AddToSearch extends Action
 {
@@ -26,8 +28,15 @@ class AddToSearch extends Action
 
     public function run($descriptor)
     {
-        // here we use reindexDocument as currently there is no index function that
-        // takes an existing DocumentDescriptor
-        return $this->documentsService->reindexDocument($descriptor, 'private', true);
+        try {
+            
+            // here we use reindexDocument as currently there is no index function that
+            // takes an existing DocumentDescriptor
+            return $this->documentsService->reindexDocument($descriptor, 'private', true);
+        } catch (KlinkException $ex) {
+            Log::error("Add to search failed for $descriptor->uuid", ['error' => $ex]);
+
+            return $descriptor;
+        }
     }
 }
