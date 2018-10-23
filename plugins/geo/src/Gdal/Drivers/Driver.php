@@ -84,6 +84,7 @@ abstract class Driver
             $options[] = "-nln {$alternateLayerName}";
             $options[] = "-nlt GEOMETRY";
             $options[] = "-skipfailure";
+            $options[] = "-lco ENCODING=UTF-8";
         }
 
         if(!is_null($crs)){
