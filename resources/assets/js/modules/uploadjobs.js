@@ -1,6 +1,6 @@
 define("modules/uploadjobs", ["jquery", "DMS", "modules/minimalbind", "sweetalert", 'language', 'Handlebars', "lodash"], function ($, _DMS, _rivets, _alert, Lang, Handlebars, _) {
 
-    var Uploader = new window.TusUploader({autoUpload: false, chunkSize:50000});
+    var Uploader = new window.TusUploader({autoUpload: false, chunkSize:5242880});
 
     Handlebars.registerHelper('status', function(status) {
         switch (status) {

@@ -157,14 +157,19 @@ function wait_command () {
 function normalize_line_endings() {
 
     cp $KBOX_DIR/vendor/oneofftech/laravel-tus-upload/hooks/linux/pre-create $KBOX_DIR/vendor/oneofftech/laravel-tus-upload/hooks/linux/pre-create-original \
-    && cp $KBOX_DIR/vendor/oneofftech/laravel-tus-upload/hooks/linux/post-receive $KBOX_DIR/vendor/oneofftech/laravel-tus-upload/hooks/linux/post-receive-original \
     && cp $KBOX_DIR/vendor/oneofftech/laravel-tus-upload/hooks/linux/post-finish $KBOX_DIR/vendor/oneofftech/laravel-tus-upload/hooks/linux/post-finish-original \
     && cp $KBOX_DIR/vendor/oneofftech/laravel-tus-upload/hooks/linux/post-terminate $KBOX_DIR/vendor/oneofftech/laravel-tus-upload/hooks/linux/post-terminate-original \
 
     tr -d '\r' < $KBOX_DIR/vendor/oneofftech/laravel-tus-upload/hooks/linux/pre-create-original > $KBOX_DIR/vendor/oneofftech/laravel-tus-upload/hooks/linux/pre-create
-    tr -d '\r' < $KBOX_DIR/vendor/oneofftech/laravel-tus-upload/hooks/linux/post-receive-original > $KBOX_DIR/vendor/oneofftech/laravel-tus-upload/hooks/linux/post-receive
     tr -d '\r' < $KBOX_DIR/vendor/oneofftech/laravel-tus-upload/hooks/linux/post-finish-original > $KBOX_DIR/vendor/oneofftech/laravel-tus-upload/hooks/linux/post-finish
     tr -d '\r' < $KBOX_DIR/vendor/oneofftech/laravel-tus-upload/hooks/linux/post-terminate-original > $KBOX_DIR/vendor/oneofftech/laravel-tus-upload/hooks/linux/post-terminate
+
+    ## Limiting PHP resource usage by not processing the post-receive hook. 
+    ## This will make the K-Box unaware of the upload status, but will 
+    ## prevent uncontrolled php process creation if the chunk size is very small
+    # tr -d '\r' < $KBOX_DIR/vendor/oneofftech/laravel-tus-upload/hooks/linux/post-receive-original > $KBOX_DIR/vendor/oneofftech/laravel-tus-upload/hooks/linux/post-receive
+    # && cp $KBOX_DIR/vendor/oneofftech/laravel-tus-upload/hooks/linux/post-receive $KBOX_DIR/vendor/oneofftech/laravel-tus-upload/hooks/linux/post-receive-original \
+    mv $KBOX_DIR/vendor/oneofftech/laravel-tus-upload/hooks/linux/post-receive $KBOX_DIR/vendor/oneofftech/laravel-tus-upload/hooks/linux/post-receive.prevented
 
     chgrp -R $KBOX_SETUP_USER $KBOX_DIR/vendor/oneofftech/laravel-tus-upload/hooks/linux/ \
     && chmod -R +x $KBOX_DIR/vendor/oneofftech/laravel-tus-upload/hooks/linux/

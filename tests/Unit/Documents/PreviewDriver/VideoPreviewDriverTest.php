@@ -44,7 +44,6 @@ class VideoPreviewDriverTest extends TestCase
         $this->assertNotNull($html);
         $this->assertNotEmpty($html);
         $this->assertContains('video', $html);
-        $this->assertContains('data-dash', $html);
         $this->assertContains('data-source', $html);
         $this->assertContains($document->uuid, $html);
         $this->assertContains($file->uuid, $html);

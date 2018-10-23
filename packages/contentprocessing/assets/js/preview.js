@@ -81,22 +81,27 @@ define(function () {
 
     function initPlayer(video) {
         // Create a Player instance.
-        var manifestUri = $(video).data('dash').trim();
+        var manifestUri = $(video).data('dash');
 
         console.log('dash manifest', manifestUri);
 
-        var player = new shaka.Player(video);
+        if(manifestUri){
+            // try to load DASH manifest if available
 
-        // Listen for error events.
-        player.addEventListener('error', onErrorEvent);
+            var player = new shaka.Player(video);
+    
+            // Listen for error events.
+            player.addEventListener('error', onErrorEvent);
+    
+            // Try to load a manifest.
+            // This is an asynchronous process.
+            player.load(manifestUri.trim()).then(function () {
+                // This runs if the asynchronous load is successful.
+                console.log('The video has now been loaded!');
+    
+            }).catch(onError);  // onError is executed if the asynchronous load fails.
+        }
 
-        // Try to load a manifest.
-        // This is an asynchronous process.
-        player.load(manifestUri).then(function () {
-            // This runs if the asynchronous load is successful.
-            console.log('The video has now been loaded!');
-
-        }).catch(onError);  // onError is executed if the asynchronous load fails.
     }
 
     function onErrorEvent(event) {
@@ -124,9 +129,11 @@ define(function () {
         var players = plyr.setup(selector);
         
         shaka.polyfill.installAll();
+
+        var manifestUri = $(selector).data('dash');
         
         // Check to see if the browser supports the basic APIs Shaka needs.
-        if (shaka.Player.isBrowserSupported()) {
+        if (shaka.Player.isBrowserSupported() && manifestUri) {
             // Everything looks good!
             initPlayer(selector);
 
