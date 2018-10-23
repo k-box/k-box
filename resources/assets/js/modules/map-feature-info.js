@@ -98,7 +98,7 @@ define("modules/map-feature-info", ["jquery", "language"],
 
                 var properties = [];
                 $.each(feature.properties, function(label, property){
-                    var value = "";
+                    var value = "-";
                     
                     if($.isArray(property) || $.isPlainObject(property)){
                         value = JSON.stringify(property);
