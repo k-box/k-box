@@ -51,7 +51,7 @@ class GeodataPreviewDriver extends MapPreviewDriver
         $this->view_data['boundings'] = $bounds ?? null;
         $this->view_data['layers'] = join(',', $file->properties->get('geoserver.layers', []));
         $this->view_data['styles'] = "";
-        $this->view_data['attribution'] = "$file->name {$file->properties->get('geoserver.store', '')}";
+        $this->view_data['attribution'] = "$file->name";
         $this->view_data['geojson'] = !$canBeFoundOnGeoserver ? $this->getFileContentAsGeoJson($file) : null;
         $this->view_data['geoserver'] = $canBeFoundOnGeoserver ? $this->geoservice->wmsBaseUrl() : null;
         $this->view_data['disableTiling'] = $canBeFoundOnGeoserver ? $this->requiresBandStretching($file) : false;

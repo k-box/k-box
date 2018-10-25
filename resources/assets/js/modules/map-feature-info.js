@@ -106,21 +106,19 @@ define("modules/map-feature-info", ["jquery", "language"],
 
                 var properties = [];
                 $.each(feature.properties, function(label, property){
-                    if(property){
-                        var value = "";
-                        
-                        if($.isArray(property) || $.isPlainObject(property)){
-                            value = JSON.stringify(property);
-                        }
-                        else if($.isNumeric(property)){
-                            value = property;
-                        }
-                        else {
-                            value = property.replace(/\\n/gi, "<br/>");
-                        }
-                        
-                        properties.push('<div class="map__feature"><span class="map__feature-label">' + label + '</span> ' + value + '</div>');
+                    var value = "-";
+                    
+                    if($.isArray(property) || $.isPlainObject(property)){
+                        value = JSON.stringify(property);
                     }
+                    else if($.isNumeric(property)){
+                        value = property;
+                    }
+                    else if(property) {
+                        value = property.replace(/\\n/gi, "<br/>");
+                    }
+                    
+                    properties.push('<div class="map__feature"><span class="map__feature-label">' + label + '</span> ' + value + '</div>');
                 }.bind(this));
 
                 return properties.join('');
