@@ -27,3 +27,5 @@ Route::get('/providers/{id}/edit', 'GeoPluginMapProvidersController@edit')->name
 Route::delete('/providers/{id}', 'GeoPluginMapProvidersController@destroy')->name('mapproviders.delete');
 
 Route::get('/documents', 'GeoDocumentsController@index')->name('geodocuments');
+
+Route::get('/wms', 'WebMapServiceController@show')->name('wms');

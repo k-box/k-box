@@ -53,7 +53,7 @@ class GeodataPreviewDriver extends MapPreviewDriver
         $this->view_data['styles'] = "";
         $this->view_data['attribution'] = "$file->name";
         $this->view_data['geojson'] = !$canBeFoundOnGeoserver ? $this->getFileContentAsGeoJson($file) : null;
-        $this->view_data['geoserver'] = $canBeFoundOnGeoserver ? $this->geoservice->wmsBaseUrl() : null;
+        $this->view_data['geoserver'] = $canBeFoundOnGeoserver ? route('plugins.k-box-kbox-plugin-geo.wms') : null;
         $this->view_data['disableTiling'] = $canBeFoundOnGeoserver ? $this->requiresBandStretching($file) : false;
 
         return $this;
