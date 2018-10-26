@@ -35,7 +35,9 @@
         <div class="preview__actions">
 		
 			@auth
-				<a class="preview__button js-preview-edit-button"  title="{{trans('panels.edit_btn_title')}}" href="{{ route('documents.edit', $document->id)}}">{{ trans('panels.edit_btn') }}</a>
+				@if(isset($user_can_edit) && $user_can_edit)
+					<a class="preview__button js-preview-edit-button"  title="{{trans('panels.edit_btn_title')}}" href="{{ route('documents.edit', $document->id)}}">{{ trans('panels.edit_btn') }}</a>
+				@endif
 			@endauth
 			
             <a class="preview__button js-preview-download-button"  href="{{DmsRouting::download($document, $version)}}" download="{{ $filename_for_download }}">{{ trans('panels.download_btn') }}</a>
