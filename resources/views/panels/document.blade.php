@@ -135,7 +135,7 @@
 
 @endif
 
-	@if($is_user_logged)
+	@auth
 
 		<div class="meta collections">
 			<h4 class="c-panel__section">{{trans('panels.groups_section_title')}}</h4>
@@ -152,7 +152,7 @@
 
 		</div>
         
-    @endif
+    @endauth
     
     @if($is_user_logged && $item->isMine())
 
@@ -174,121 +174,8 @@
 
 		</div>
 
-		
-
 	@endif
 
-	<div class="meta info">
+	@include('documents.partials.properties', ['document' => $item])
 
-		<h4 class="c-panel__section">{{trans('panels.info_section_title')}}</h4>
-
-
-		<div class="c-panel__meta">
-			<div class="c-panel__label">
-				{{trans('panels.meta.authors')}}
-			</div>
-			
-				
-				{{$item->authors}}
-
-			
-		</div>
-		<div class="c-panel__meta">
-			<div class="c-panel__label">
-				{{trans('panels.meta.main_contact')}}
-			</div>
-			
-				
-				{{$item->user_owner}}
-
-			
-		</div>
-		<div class="c-panel__meta">
-			<div class="c-panel__label">
-				{{trans('panels.meta.language')}}
-			</div>
-			
-			{{!empty($item->language) && in_array($item->language, config('dms.language_whitelist')) ? trans('languages.' . $item->language) : trans('languages.no_language')}}
-			
-		</div>
-		<div class="c-panel__meta">
-			<div class="c-panel__label">
-				{{trans('panels.meta.added_on')}}
-			</div>
-			
-				
-				{{$item->getCreatedAt(true)}}
-
-			
-		</div>
-
-		@if($item->trashed())
-
-		<div class="c-panel__meta">
-			<div class="c-panel__label">
-				{{trans('panels.meta.deleted_on')}}
-			</div>
-			
-				
-				{{$item->getDeletedAt(true)}}
-
-			
-		</div>
-
-		@endif
-
-		@if(!is_null($item->file))
-
-		<div class="c-panel__meta">
-			<div class="c-panel__label">
-				{{trans('panels.meta.size')}}
-			</div>
-			
-				
-				{{KBox\Documents\Services\DocumentsService::human_filesize($item->file->size)}}
-
-		</div>
-
-		@endif
-
-
-		
-
-		<div class="c-panel__meta">
-			<div class="c-panel__label">
-				{{trans('panels.meta.uploaded_by')}}
-			</div>
-			
-			@if($item->owner)
-
-				{{ $item->owner->name }}
-
-				@if($item->owner->organization_name)
-					@if($item->owner->organization_website)
-
-						(<a href="{{$item->owner->organization_website}}">{{ $item->owner->organization_name }}</a>)
-
-					@else
-
-						({{ $item->owner->organization_name }})
-
-					@endif
-				@endif
-			
-			@else
-				
-				{{ $item->user_uploader }}
-
-			@endif
-
-		</div>
-
-		
-		@if(isset($properties) && method_exists($properties, 'toHtml'))
-		
-			{{ $properties }}
-
-		@endif
-		
-	</div>
 </div>
