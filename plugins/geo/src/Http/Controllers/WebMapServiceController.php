@@ -58,8 +58,6 @@ class WebMapServiceController extends Controller
         }
 
         if (! ($doc->isPublished() || $doc->hasPendingPublications() || $doc->hasPublicLink()) && is_null($user)) {
-            Log::warning('WebMapServiceController, requested a document that is not public and user is not authenticated', ['url' => $request->url()]);
-
             throw new AuthenticationException();
         }
         if ($doc->trashed()) {
