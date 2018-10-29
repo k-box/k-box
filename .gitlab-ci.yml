@@ -21,6 +21,8 @@ variables:
 
 ## Making sure that the composer cache folder is the one we have in the CI cache
 before_script:
+  - export IMAGE_TAG="${CI_COMMIT_REF_NAME#v}_${CI_COMMIT_SHA:0:10}"
+  - echo $IMAGE_TAG
   - export COMPOSER_CACHE_DIR=`pwd`/.composer-cache
 
 ## Composer Install script
@@ -98,6 +100,7 @@ unit_test:
     MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
     MYSQL_PASSWORD: dms
   script:
+    - mv /usr/local/etc/php/conf.d/docker-php-ext-xdebug.{ini,disabled}
     - cp env.ci .env
     - cp env.ci testing.env
     - mkdir ./storage/documents
@@ -130,12 +133,13 @@ unit_test:
 branch_release:
   stage: release
   script:
+    - echo $IMAGE_TAG
     - sed -i "s/BUILDVERSION/${CI_COMMIT_REF_NAME}/g" ./config/dms.php
     - sed -i "s/BUILDCODE/${CI_COMMIT_SHA}/g" ./config/dms.php
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
-    - docker build -t $CI_REGISTRY_IMAGE:${CI_COMMIT_REF_NAME#v} .
-    - docker push $CI_REGISTRY_IMAGE:${CI_COMMIT_REF_NAME#v}
-    - docker rmi $CI_REGISTRY_IMAGE:${CI_COMMIT_REF_NAME#v}
+    - docker build -t $CI_REGISTRY_IMAGE:${IMAGE_TAG} .
+    - docker push $CI_REGISTRY_IMAGE:${IMAGE_TAG}
+    - docker rmi $CI_REGISTRY_IMAGE:${IMAGE_TAG}
   tags:
     - shell
   except:
@@ -145,15 +149,16 @@ branch_release:
 tagged_release:
   stage: release
   script:
+    - echo $IMAGE_TAG
     - sed -i "s/BUILDVERSION/${CI_COMMIT_REF_NAME}/g" ./config/dms.php
     - sed -i "s/BUILDCODE/${CI_COMMIT_SHA}/g" ./config/dms.php
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
-    - docker build -t $CONTAINER_RELEASE_IMAGE_BASE:${CI_COMMIT_REF_NAME#v} .
+    - docker build -t $CONTAINER_RELEASE_IMAGE_BASE:${IMAGE_TAG} .
     - docker login -u $REGISTRY_RELEASE_USERNAME -p $REGISTRY_RELEASE_PASSWORD $CI_REGISTRY
-    - docker tag $CONTAINER_RELEASE_IMAGE_BASE:${CI_COMMIT_REF_NAME#v} "$CONTAINER_RELEASE_IMAGE_BASE:latest"
+    - docker tag $CONTAINER_RELEASE_IMAGE_BASE:${IMAGE_TAG} "$CONTAINER_RELEASE_IMAGE_BASE:latest"
     - docker push "$CONTAINER_RELEASE_IMAGE_BASE:latest"
-    - docker push "$CONTAINER_RELEASE_IMAGE_BASE:${CI_COMMIT_REF_NAME#v}"
-    - docker rmi "$CONTAINER_RELEASE_IMAGE_BASE:${CI_COMMIT_REF_NAME#v}"
+    - docker push "$CONTAINER_RELEASE_IMAGE_BASE:${IMAGE_TAG}"
+    - docker rmi "$CONTAINER_RELEASE_IMAGE_BASE:${IMAGE_TAG}"
   tags:
     - shell
   only:
@@ -168,9 +173,9 @@ tagged_release:
     - deploy
   script:
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
-    - docker pull $CI_REGISTRY_IMAGE:${CI_COMMIT_REF_NAME#v}
+    - docker pull $CI_REGISTRY_IMAGE:${IMAGE_TAG}
     - cd $DEPLOY_FOLDER
-    - docker tag $CI_REGISTRY_IMAGE:${CI_COMMIT_REF_NAME#v} $DEPLOY_IMAGE
+    - docker tag $CI_REGISTRY_IMAGE:${IMAGE_TAG} $DEPLOY_IMAGE
     - docker-compose down -v && docker-compose up -d
 
 canary_manfred_deploy:
