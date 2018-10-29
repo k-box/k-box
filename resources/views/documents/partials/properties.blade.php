@@ -3,11 +3,13 @@
 
 	<h4 class="c-panel__section">{{trans('panels.info_section_title')}}</h4>
 
-	<div class="c-panel__meta">
-		<div class="c-panel__label">{{trans('panels.meta.uploaded_by')}}</div>
-		
-		{{ optional($document->owner)->name ?? '-' }}
-	</div>
+	@auth	
+		<div class="c-panel__meta">
+			<div class="c-panel__label">{{trans('panels.meta.uploaded_by')}}</div>
+			
+			{{ optional($document->owner)->name ?? '-' }}
+		</div>
+	@endauth
 
 	<div class="c-panel__meta">
 		<div class="c-panel__label">{{trans('panels.meta.added_on')}}</div>
