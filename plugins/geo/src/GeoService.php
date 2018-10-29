@@ -5,6 +5,7 @@ namespace KBox\Geo;
 use Log;
 use Exception;
 use KBox\File;
+use GuzzleHttp\Client;
 use KBox\Geo\Gdal\Gdal;
 use KBox\Plugins\PluginManager;
 use OneOffTech\GeoServer\GeoServer;
@@ -204,6 +205,32 @@ final class GeoService
         $conf = $this->config();
 
         return sprintf("%s/%s/wms", $conf['geoserver_url'], $conf['geoserver_workspace']);
+    }
+
+
+    public function proxyWmsRequest($parameters)
+    {
+        $wmsUrl = $this->wmsBaseUrl();
+
+        $client = new Client([
+            // Base URI is used with relative requests
+            'base_uri' => $wmsUrl,
+            // You can set any number of default request options.
+            'timeout'  => 2.0,
+        ]);
+
+        
+        $guzzle = $client->request('GET', $wmsUrl, ['query' => $parameters, 'auth' => [$this->config('geoserver_username'), $this->config('geoserver_password')]]);
+// dd($guzzle, (string)$guzzle->getBody());
+        // create a Guzzle Client
+        // Add authentication
+        // issue a WMS request
+
+        $response = response()->make($guzzle->getBody(), $guzzle->getStatusCode());
+        $response->header('Content-Type', $guzzle->getHeader('Content-Type'));
+        $response->header('Content-Length', $guzzle->getHeader('Content-Length'));
+
+        return $response;
     }
 
     /**
