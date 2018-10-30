@@ -8,13 +8,13 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    'page_title' => 'Настройки географического расширение K-Box',
+    'page_title' => 'Настройки географического расширения K-Box',
 
     'description' => 'Настройки географического расширения',
 
     'geoserver' => [
         'title' => 'Соединение с GeoServer',
-        'description' => 'GeoServer используется для хранения, просмотра и конвертации географических файлов',
+        'description' => 'GeoServer используется для хранения, просмотра и конвертации файлов географических данных',
 
         'url' => 'URL (например, https://domain.com/geoserver/)',
         'username' => 'Логин',
@@ -39,7 +39,7 @@ return [
         'provider_created' => 'Карта ":name" создана',
         'provider_updated' => 'Карта ":name" обновлена',
         'default_provider_updated' => '":name" задана как основная',
-        'providers_enabled' => 'Карты не включены|{1}Карта ":name" включена|[2,*]Включена ":name" и :count других',
+        'providers_enabled' => 'Карты не включены|{1}Карта ":name" активна|[2,*]Включена ":name" и :count других',
         'providers_disabled' => 'Нет отключенных карт|{1}Карта ":name" отключена|[2,*]Отключена ":name" и :count других',
         'provider_deleted' => 'Карта ":name" удалена',
         'provider_delete_denied_is_default' => 'Невозможно удалить основную карту ":name". Для этого задайте другую карту как основную.',
@@ -59,7 +59,7 @@ return [
             'id' => 'id',
 
             'default' => 'Основная',
-            'enabled' => 'Включенная',
+            'enabled' => 'Активные',
 
             'subdomains' => 'Поддомены',
             'subdomains_description' => 'For tile based providers, the tiles can be served from different domains to speed the loading time. In the url this is usually expressed with the {s} placeholder.',
