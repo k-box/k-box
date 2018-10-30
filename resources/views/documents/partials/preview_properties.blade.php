@@ -1,5 +1,5 @@
         
-			<div class="file-properties">
+<div class="file-properties">
 	@if(isset($stars_count) && !$document->trashed())
 
 		<div class="stars">
@@ -25,69 +25,21 @@
 		@include('documents.partials.license', ['license' => $document->copyright_usage, 'owner' => $document->copyright_owner])
 	</div>
 		
-
-	<div class="file-properties__property">
-		<span class="file-properties__label">{{trans('panels.groups_section_title')}}</span>
-		@include('documents.partials.collections', [
-			'document_is_trashed' => $document->trashed(),
-			'user_can_edit_public_groups' => false,
-			'user_can_edit_private_groups' => false,
-			'document_id' =>  $document->id,
-			'collections' => $groups ?? null,
-			'use_groups_page' => $use_groups_page ?? false,
-			'is_in_collection' => $is_in_collection ?? false
-		])
-	</div>
-	
-	<div class="file-properties__property">
-		<span class="file-properties__label">{{trans('panels.meta.authors')}}</span>
-		<span class="file-properties__value">{{ isset($document) ? $document->authors : '' }}</span>
-	</div>
-	
-	<div class="file-properties__property">
-		<span class="file-properties__label">{{trans('panels.meta.institution')}}</span>
-		<span class="file-properties__value">{{ isset($document) && !is_null($document->institution) ? $document->institution->name : '' }}</span>
-	</div>
-	
-	<div class="file-properties__property">
-		<span class="file-properties__label">{{trans('panels.meta.main_contact')}}</span>
-		<span class="file-properties__value">{{ isset($document) ? $document->user_owner : '' }}</span>
-	</div>
-	
-	<div class="file-properties__property">
-		<span class="file-properties__label">{{trans('panels.meta.language')}}</span>
-		<span class="file-properties__value">{{ isset($document) && !empty($document->language) ? trans('languages.' . $document->language) : trans('languages.no_language') }}</span>
-	</div>
-	
-	<div class="file-properties__property">
-		<span class="file-properties__label">{{trans('panels.meta.added_on')}}</span>
-		<span class="file-properties__value">{{ isset($document) ? $document->getCreatedAt(true) : '' }}</span>
-	</div>
-
-	@if($document->trashed())
+	@auth
 		<div class="file-properties__property">
-			<span class="file-properties__label">{{trans('panels.meta.deleted_on')}}</span>
-			<span class="file-properties__value">{{ isset($document) ? $document->getDeletedAt(true) : '' }}</span>
+			<span class="file-properties__label">{{trans('panels.groups_section_title')}}</span>
+			@include('documents.partials.collections', [
+				'document_is_trashed' => $document->trashed(),
+				'user_can_edit_public_groups' => false,
+				'user_can_edit_private_groups' => false,
+				'document_id' =>  $document->id,
+				'collections' => $groups ?? null,
+				'use_groups_page' => $use_groups_page ?? false,
+				'is_in_collection' => $is_in_collection ?? false
+				])
 		</div>
-	@endif
-
-	@if($document->isFileUploadComplete())
-		<div class="file-properties__property">
-			<span class="file-properties__label">{{trans('panels.meta.size')}}</span>
-			<span class="file-properties__value">{{ isset($document) ? KBox\Documents\Services\DocumentsService::human_filesize($document->file->size) : '' }}</span>
-		</div>
-	@endif
-
-	<div class="file-properties__property">
-		<span class="file-properties__label">{{trans('panels.meta.uploaded_by')}}</span>
-		<span class="file-properties__value">{{ isset($document) ? $document->user_uploader : '' }}</span>
-	</div>
-
+	@endauth
 	
-	@if(isset($properties) && method_exists($properties, 'toHtml'))
+	@include('documents.partials.properties')
 	
-		{{ $properties }}
-
-	@endif
-
 </div>

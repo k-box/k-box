@@ -33,7 +33,13 @@
         </div>
 
         <div class="preview__actions">
-        
+		
+			@auth
+				@if(isset($user_can_edit) && $user_can_edit)
+					<a class="preview__button js-preview-edit-button"  title="{{trans('panels.edit_btn_title')}}" href="{{ route('documents.edit', $document->id)}}">{{ trans('panels.edit_btn') }}</a>
+				@endif
+			@endauth
+			
             <a class="preview__button js-preview-download-button"  href="{{DmsRouting::download($document, $version)}}" download="{{ $filename_for_download }}">{{ trans('panels.download_btn') }}</a>
             
             <button class="preview__button preview__button--expandable js-preview-details-button"><span class="preview__button-close">{{ trans('preview::actions.close') }}</span>{{ trans('preview::actions.details') }}</button>

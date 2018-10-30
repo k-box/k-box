@@ -216,7 +216,7 @@ class DocumentDescriptor extends Model
 
     public function owner()
     {
-        return $this->belongsTo(\KBox\User::class, 'owner_id', 'id');
+        return $this->belongsTo(\KBox\User::class, 'owner_id', 'id')->withTrashed();
     }
 
     /**
