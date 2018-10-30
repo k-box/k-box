@@ -33,7 +33,7 @@ return [
     ],
 
     'providers' => [
-        'title' => 'Карты',
+        'title' => 'Поставщики карт',
         'description' => 'Настройте базовые карты',
 
         'provider_created' => 'Карта ":name" создана',
