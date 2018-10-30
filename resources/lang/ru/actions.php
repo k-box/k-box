@@ -127,7 +127,7 @@ return [
         'no_btn' => 'Нет',
         'ok_btn' => 'OK',
         
-        'delete_btn' => 'Да',
+        'delete_btn' => 'Удалить',
         'remove_btn' => 'Да',
         'trash_btn' => 'Да',
         'move_btn' => 'Да',

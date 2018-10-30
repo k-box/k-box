@@ -17,8 +17,8 @@ return [
     'experimental_notice' => 'Плагины - экспериментальная функция',
 
     'table' => [
-        'name_column' => 'Плагин',
-        'creator_column' => 'Создано',
+        'name_column' => 'Название',
+        'creator_column' => 'Автор',
     ],
 
     'actions' => [
