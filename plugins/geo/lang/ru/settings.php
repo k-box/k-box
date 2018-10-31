@@ -33,22 +33,22 @@ return [
     ],
 
     'providers' => [
-        'title' => 'Карты',
-        'description' => 'Настройте базовые карты',
+        'title' => 'Провайдеры карт',
+        'description' => 'Настройте провайдеров базовых карт для визуализации',
 
-        'provider_created' => 'Карта ":name" создана',
-        'provider_updated' => 'Карта ":name" обновлена',
-        'default_provider_updated' => '":name" задана как основная',
-        'providers_enabled' => 'Карты не включены|{1}Карта ":name" активна|[2,*]Включена ":name" и :count других',
-        'providers_disabled' => 'Нет отключенных карт|{1}Карта ":name" отключена|[2,*]Отключена ":name" и :count других',
-        'provider_deleted' => 'Карта ":name" удалена',
-        'provider_delete_denied_is_default' => 'Невозможно удалить основную карту ":name". Для этого задайте другую карту как основную.',
+        'provider_created' => 'Провайдер ":name" создан',
+        'provider_updated' => 'Провайдер ":name" обновлен',
+        'default_provider_updated' => '":name" задан как основной',
+        'providers_enabled' => 'Провайдеры не включены|{1}Провайдер ":name" активен|[2,*]Включен ":name" и :count других',
+        'providers_disabled' => 'Нет отключенных провайдеров|{1}Провайдер ":name" отключен|[2,*]Отключен ":name" и :count других',
+        'provider_deleted' => 'Провайдер ":name" удален',
+        'provider_delete_denied_is_default' => 'Нельзя удалить основного провайдера ":name"',
 
-        'create_title' => 'Создать карту',
+        'create_title' => 'Создать провайдера',
         'create_description' => 'Создать новую карту',
 
         'edit_title' => 'Изменить ":name"',
-        'edit_description' => 'Изменить карту',
+        'edit_description' => 'Изменить провайдера',
 
         'types' => [
             'tile' => 'Плиточная карта',
@@ -64,11 +64,11 @@ return [
             'subdomains' => 'Поддомены',
             'subdomains_description' => 'В случае плиточных карт, для повышения скорости загрузки, плитки могут обслуживаться с разных доменов. Обычно это обозначено {s} в URL.',
 
-            'type' => 'Тип карты',
+            'type' => 'Тип провайдера',
             'type_description' => 'Плиточная карта или Web Map Service (WMS)',
 
             'label' => 'Название',
-            'label_description' => 'Название должно быть уникальным среди остальных карт',
+            'label_description' => 'Название должно быть уникальным среди остальных провайдеров',
 
             'url' => 'URL',
             'url_description' => 'URL карты',
@@ -82,24 +82,24 @@ return [
             'layers' => 'Слои',
             'layers_description' => 'Доступно только для Web Map Services',
         ],
-
-        'validation' => [
-            'url' => [
-                'regex' => 'Начните URL с http:// или https://, например, https://tile.openstreetmaps.com/{x}/{y}/{z}.png',
-            ],
-            'label' => [
-                'not_in' => "Имя [:label] уже занято. Оно должно быть уникальным.",
-            ],
-            'id' => [
-                'not_found' => 'Поставщик не найден',
-            ],
-            'type' => [
-                'not_changeable' => "Тип поставщика [:current] не может быть изменен на [:new]",
-            ],
-            'default_map' => [
-                'in' => 'Выбранная карта недоступна в системе',
-            ]
+    ],
+        
+    'validation' => [
+        'url' => [
+            'regex' => 'Начните URL с http:// или https://, например, https://tile.openstreetmaps.com/{x}/{y}/{z}.png',
         ],
+        'label' => [
+            'not_in' => "Имя [:label] уже занято. Оно должно быть уникальным",
+        ],
+        'id' => [
+            'not_found' => 'Провайдер не найден',
+        ],
+        'type' => [
+            'not_changeable' => "Тип провайдера [:current] не может быть изменен на [:new]",
+        ],
+        'default_map' => [
+            'in' => 'Выбранная карта недоступна в системе',
+        ]
     ],
     
 ];
