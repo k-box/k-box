@@ -51,8 +51,8 @@ return [
         'edit_description' => 'Изменить карту',
 
         'types' => [
-            'tile' => 'Tiled map provider',
-            'wms' => 'Web Map Service (WMS) provider',
+            'tile' => 'Плиточная карта',
+            'wms' => 'Web Map Service (WMS)',
         ],
 
         'attributes' => [
@@ -62,10 +62,10 @@ return [
             'enabled' => 'Активные',
 
             'subdomains' => 'Поддомены',
-            'subdomains_description' => 'For tile based providers, the tiles can be served from different domains to speed the loading time. In the url this is usually expressed with the {s} placeholder.',
+            'subdomains_description' => 'В случае плиточных карт, для повышения скорости загрузки, плитки могут обслуживаться с разных доменов. Обычно это обозначено {s} в URL.',
 
             'type' => 'Тип карты',
-            'type_description' => 'If is a tile based map or a map served by a Web Map Service (WMS)',
+            'type_description' => 'Плиточная карта или Web Map Service (WMS)',
 
             'label' => 'Название',
             'label_description' => 'Название должно быть уникальным среди остальных карт',
