@@ -48,7 +48,7 @@
 		"jenssegers/agent": "^2.5",
 		"jenssegers/date": "^3.2",
 		"k-box/example-plugin": "*",
-		"k-box/k-search-client-php": "3.2.*",
+		"k-box/k-search-client-php": "3.3.*",
 		"k-box/kbox-plugin-geo": "*",
 		"laravel/framework": "5.5.*",
 		"laravel/tinker": "~1.0",
