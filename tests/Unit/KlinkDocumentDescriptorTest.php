@@ -79,7 +79,7 @@ class KlinkDocumentDescriptorTest extends TestCase
 
         $this->assertEmpty($data->authors);
         $this->assertEquals(url('/'), $data->uploader->url);
-        $this->assertEquals(sha1($descriptor->owner->id.$descriptor->owner->name), $data->uploader->name);
+        $this->assertEquals(sha1($descriptor->owner->id), $data->uploader->name);
     }
 
     public function test_publishing_video_has_streaming_properties()
