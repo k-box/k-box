@@ -15,6 +15,6 @@ return [
     "dimension" => "Размер",
     "dimension_pixels" => ":width&times;:height pixels",
     "layers" => "Слои",
-    "geoserver.store" => "Сохранить в GeoServer",
+    "geoserver.store" => "В GeoServer",
     
 ];

@@ -58,7 +58,7 @@ return [
         'attributes' => [
             'id' => 'id',
 
-            'default' => 'Основная',
+            'default' => 'Основной',
             'enabled' => 'Активные',
 
             'subdomains' => 'Поддомены',
