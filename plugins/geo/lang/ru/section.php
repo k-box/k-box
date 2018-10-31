@@ -9,7 +9,7 @@ return [
     */
 
     "page_title" => "Географические данные",
-    "page_hint" => "Файлы географических данных в K-Box (Shapefile, GeoJSON, KML,...)",
+    "page_hint" => "Файлы географических данных (Shapefile, GeoJSON, KML,...)",
     
     "filters" => [
         'spatial' => 'Пространственные фильтры',
