@@ -31,7 +31,7 @@ services:
 
   ## The Search Engine API
   ksearch:
-    image: "docker.klink.asia/images/k-search:3.5.0-1"
+    image: "docker.klink.asia/images/k-search:3.6.0-1"
     environment:
       ## Further datails about K-Search configuration in https://github.com/k-box/k-search
       ## Solr search configuration

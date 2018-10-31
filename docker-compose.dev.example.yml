@@ -39,7 +39,7 @@ services:
   ## K-Search
 
   ksearch:
-    image: "docker.klink.asia/images/k-search:3.5.0-1"
+    image: "docker.klink.asia/images/k-search:3.6.0-1"
     ports:
       - 8081:80
     environment:
