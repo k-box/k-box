@@ -78,6 +78,7 @@ return [
         'video' => 'видео|видеоҳо',
         'archive' => 'бойгони|бойгониҳо',
         'PDF' => 'PDF|PDFҳо',
+        'binary' => 'Binary file|Binary files',
     ],
 
     'empty_msg' => 'Санад вучуд надорад <strong>:context</strong>',
@@ -242,10 +243,12 @@ return [
         'page_title' => 'Пешнамоиши :document',
         'error' => 'Мутаассифона, мо натавонистем, ки пешнамоиши “:document”. нишон дихем',
         'not_available' => 'Барои ин санад пешнамоиш нишон дода намешавад.',
+        'not_supported' => 'A preview cannot be offered for this file. The file format is currently not supported.',
         'google_file_disclaimer' => ':document файли Google Drive аст, пешнамоиш имкон надорад, ин санадро дар Google Drive кушоед.',
         'google_file_disclaimer_alt' => 'Ин файли Google Drive аст, пешнамоиш дар ин чо нишон дода намешавад.',
         'open_in_google_drive_btn' => 'Дар Google Drive кушоед',
         'video_not_ready' => 'Видео кор мекунад. Он дар давоми сонияҳо дастрас хоҳад шуд.',
+        'file_not_ready' => 'The file is being processed by the K-Box. During file processing the preview is not available, please check back later.',
     ],
 
     'versions' => [
@@ -316,5 +319,29 @@ return [
         'cancel_question' => 'Оё шумо боварӣ доред, ки ин воридкуниро бекор кунед?',  //for future use
         'outside_project_target_area' => 'Лутфан файли худро ба тарафи Лоиҳа кашед то ворид шавад.',
         'empty_file_error' => 'Файли холӣ, лутфан файлеро, ки ақаллан як калима дорад, вокрид кунед.',
+    ],
+
+    'duplicates' => [
+        'badge' => 'This is a duplicate of an existing document',
+        'duplicates_btn' => 'Duplicates',
+        'duplicates_btn_hint' => 'See and manage duplicates',
+        'duplicates_description' => 'This document is a possible duplicate of',
+
+        'in_trash' => 'in Trash',
+
+        'message_me_owner' => 'The document you uploaded as <a href=":duplicate_link" target="_blank" rel="noopener noreferrer">:duplicate_title</a> is a duplicate of your document <a href=":existing_link" target="_blank" rel="noopener noreferrer">:existing_title</a>.',
+        'message_with_owner' => 'The document you uploaded as <a href=":duplicate_link" target="_blank" rel="noopener noreferrer">:duplicate_title</a> is a duplicate of <a href=":existing_link" target="_blank" rel="noopener noreferrer">:existing_title</a> (uploaded by :owner).',
+        'message_in_collection' => 'The document you uploaded as <a href=":duplicate_link" target="_blank" rel="noopener noreferrer">:duplicate_title</a> is a duplicate of <a href=":existing_link" target="_blank" rel="noopener noreferrer">:existing_title</a> (uploaded by :owner in :collections).',
+        
+        'resolve_duplicate_button' => 'Resolve duplicate using this, already existing, document',
+
+        'processing' => 'Resolving duplicate using existing document...',
+
+        'errors' => [
+            'title' => 'Duplicate resolution not completed',
+            'generic' => 'There was a problem on our end and the duplicate was not resolved',
+            'already_resolved' => 'The conflict was already resolved',
+            'resolve_with_trashed_document' => 'The conflict was already resolved',
+        ],
     ],
 ];

@@ -109,8 +109,12 @@ return [
         
         'cannot_delete_general_error' => 'Унсурҳои мушаххасшуда сабт карда нашуд. Ҳеҷ чиз нест карда шудааст.',
         
+        'forbidden_trash_personal_collection' => 'You did not create :collection, therefore you cannot trash it.',
+        'forbidden_delete_personal_collection' => 'You did not create :collection, therefore you cannot delete it.',
         'forbidden_delete_collection' => 'Коллексия  :collection дур карда намешавад. Шумо ичозати амалиет гузаронидан аз болои ин коллексия надоред.',
         'forbidden_delete_project_collection' => 'Коллексия :collection дур карда намешавад чунки ин дар лоихае мебошад, ки Шумо ичозати тахрир карданро онро надоред.',
+        'forbidden_delete_project_collection_not_creator' => 'You are not the creator of the collection :collection, therefore you cannot delete it.',
+        'forbidden_delete_project_collection_not_manager' => 'You are not the manager of the project that contained :collection, therefore you cannot delete it.',
     ],
     
     'move' => [
@@ -128,6 +132,13 @@ return [
         'move_to_project_text' => 'Шумо холо коллексияи шахсиро ба Лоиха мекучонед. Ин амал ":collection", ва хамаи субколлексияхои онро ба тамоми истифодабарандагони Лоиха намоен мекунад.',
         'move_to_personal_title' => 'Коллексияро Хусуси мекунед?',
         'move_to_personal_text' => 'Шумо холо коллексияро аз Лоиха ба коллексияи Шахси мекучонед. Коллексияи ":collection" ба дигар истифодабарандагони лоиха намоен намешавад.',
+
+        'errors' => [
+            'personal_not_all_same_user' => 'Cannot move ":collection" to your personal. You are not the creator of :collection_cause',
+            'personal_not_all_same_user_empty_cause' => 'Cannot move ":collection" to your personal as you are not the creator of it',
+            'no_project_collection_permission' => 'You do not have the necessary permission to move a project collection',
+            'no_access_to_collection' => 'You do not have access to the collection',
+        ],
     ],
     
     'access' => [

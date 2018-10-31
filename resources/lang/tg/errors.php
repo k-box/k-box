@@ -81,6 +81,9 @@ return [
     
     '401_title' => 'Шумо метавонед саҳифаи K-Link-ро бинед',
     '401_text' => 'Ой! Шумо <strong>наметавонед</strong> ба ин саҳифа ворид шавед<br/>чунки<strong>Иҷозатнома</strong> дар ин сатх надоред.',
+
+    'login_title' => 'Please login - K-Box',
+    'login_text' => 'You need to be logged-in to view the document.',
     
     '403_title' => 'Шумо иҷозати вуруд ба саҳифаро надоред',
     '403_text' => 'Ой! Шумо <strong>наметавонед</strong> ба ин саҳифа ворид шаваед<br/>чунки Шумо<strong>Иҷозатнома</strong> дар ин сатх надоред.',

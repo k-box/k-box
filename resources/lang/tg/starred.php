@@ -28,4 +28,6 @@ return [
         'invalidargumentexception' => 'Мутаассифона, ситорача илова карда наметавонам. (:exception)',
     ],
 
+    'starred_in_trash' => 'This document is in the trash',
+    
 ];

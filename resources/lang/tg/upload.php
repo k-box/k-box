@@ -24,6 +24,8 @@ return [
 
     'do_not_leave_the_page' => 'Лутфан ин саҳифаро дар ҷараёни боркуни тарк накунед.Барои истифодаи K-Box кабати нав дар браузери худ боз кунед ва K-Бокс-ро то ба охир расидани боркуни дар он чо истифода кунед.',
 
+    'upload_spec_info' => 'Supported videos are mp4 encoded with H.264 codec between 480x360 and 1920x1080 pixels',
+
     'target' => [
         'personal' => 'ба<a href=":link" target="_blank" rel="noopener noreferrer">чои шахсии</a> шумо.',
         'collection' => 'ба коллексияи <a href=":link" target="_blank" rel="noopener noreferrer">:name</a> зери <strong>Коллексияи ман</strong>.',
