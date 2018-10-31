@@ -157,7 +157,7 @@ final class KlinkDocumentDescriptor
 
 		// The uploader must be anonymized, therefore if set we use 
 		// the SHA-1 of the identifier and the name combined
-		$uploader->name = $this->descriptor->owner ? sha1($this->descriptor->owner->getKey() . $this->descriptor->owner->name) : null;
+		$uploader->name = $this->descriptor->owner ? sha1($this->descriptor->owner->getKey()) : null;
 		$uploader->url = url('/');
 		
         $data->uploader = $uploader;
