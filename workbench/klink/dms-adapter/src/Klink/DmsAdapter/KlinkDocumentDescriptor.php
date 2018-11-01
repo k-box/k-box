@@ -24,6 +24,7 @@ final class KlinkDocumentDescriptor
 {
 	const DATA_TYPE_DOCUMENT = Data::DATA_TYPE_DOCUMENT;
 	const DATA_TYPE_VIDEO = Data::DATA_TYPE_VIDEO;
+	const AUTHORS_REGEXP = '/(.*)\s(<?\S*@\S*>?)/m'; // format: name followed by a space and then the email address (optionally within angle brackets)
 	
 	/**
 	 * visibility
@@ -136,44 +137,28 @@ final class KlinkDocumentDescriptor
 		$data->uuid = $this->descriptor->uuid;
 		$data->geo_location = Geometries::boundingBoxFromGeoserver($file_properties->get('boundings.geoserver', null)) ?? $file_properties->get('boundings.geojson', null); // add location information if expressed in the file properties
 		
-		$user_owner = $this->descriptor->user_owner;
-		$authors = empty($this->descriptor->authors) ? [$this->descriptor->user_owner] : explode(',', $this->descriptor->authors);
+		$authors = array_from($this->descriptor->authors ?? []);
 		
 		$processed_authors = array_filter(array_map(function($author_string){
-			$author_string = str_replace('&lt;', '<', str_replace('&gt;', '>',$author_string ));
-			$splitted = explode('<', $author_string);
-
-			if(count($splitted) !== 2){
+			preg_match_all(self::AUTHORS_REGEXP, $author_string, $matches, PREG_SET_ORDER, 0);
+			
+			if(count($matches) !== 1){
 				return false;
 			}
 			$author = new Author();
-			$author->name = trim($splitted[0]);
-			$author->email = rtrim(trim($splitted[1]), '>');
+			$author->name = trim($matches[0][1]);
+			$author->email = ltrim(rtrim($matches[0][2], '>'), '<');
 			return $author;
 		}, $authors));
 
-		if(empty($processed_authors)){
-			$processed_authors[] = tap(new Author, function($a) use($user_owner){
-				$splitted = explode('<', $user_owner);
-				$a->name = trim($splitted[0]);
-				$a->email = rtrim(trim($splitted[1]), '>');
-			});
-		}
-
-		// Author is a required field, so if no authors are inserted by humans I will add the owner as an author. 
         $data->authors = $processed_authors;
 		
 		$uploader = new Uploader();
 
-		if($this->descriptor->owner){
-			$uploader->name = !empty($this->descriptor->owner->organization_name) ? $this->descriptor->owner->organization_name : $this->descriptor->user_owner;
-			$uploader->url = !empty($this->descriptor->owner->organization_website) ? $this->descriptor->owner->organization_website : url('/');
-		}
-		else {
-			$uploader->name = $this->descriptor->user_owner;
-			$uploader->url = url('/');
-		}
-		
+		// The uploader must be anonymized, therefore if set we use 
+		// the SHA-1 of the identifier and the name combined
+		$uploader->name = $this->descriptor->owner ? sha1($this->descriptor->owner->getKey()) : null;
+		$uploader->url = url('/');
 		
         $data->uploader = $uploader;
 

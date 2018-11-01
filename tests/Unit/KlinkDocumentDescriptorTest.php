@@ -19,7 +19,7 @@ class KlinkDocumentDescriptorTest extends TestCase
     {
         $descriptor = factory(\KBox\DocumentDescriptor::class)->make([
             // generating an author string that don't respect the format
-            'authors' => 'Hello Author hello@author.com'
+            'authors' => 'Hello Author hello@author.com,Hello Author2 <hello@author2.com>'
         ]);
 
         $klink_descriptor = $descriptor->toKlinkDocumentDescriptor();
@@ -43,8 +43,43 @@ class KlinkDocumentDescriptorTest extends TestCase
         $this->assertEquals($descriptor->thumbnail_uri, $data->properties->thumbnail);
 
         $this->assertNotNull($data->authors);
-        $this->assertCount(1, $data->authors);
         $this->assertContainsOnlyInstancesOf(Author::class, $data->authors);
+        $this->assertCount(2, $data->authors);
+
+        $authors = $data->authors;
+        $this->assertEquals('Hello Author', $authors[0]->name);
+        $this->assertEquals('hello@author.com', $authors[0]->email);
+        $this->assertEquals('Hello Author2', $authors[1]->name);
+        $this->assertEquals('hello@author2.com', $authors[1]->email);
+    }
+
+    public function test_private_document_descriptor_is_anonymized()
+    {
+        $descriptor = factory(\KBox\DocumentDescriptor::class)->make();
+
+        $klink_descriptor = $descriptor->toKlinkDocumentDescriptor();
+
+        $this->assertInstanceOf(KlinkDocumentDescriptor::class, $klink_descriptor);
+        $this->assertEquals('private', $klink_descriptor->visibility());
+        $this->assertEquals('private', $klink_descriptor->getVisibility());
+        $this->assertEquals($descriptor->uuid, $klink_descriptor->uuid());
+        $this->assertEquals($descriptor->uuid, $klink_descriptor->getKlinkId());
+
+        $data = $klink_descriptor->toData();
+        $this->assertInstanceOf(Data::class, $data);
+
+        $this->assertEquals('document', $data->type);
+        $this->assertEquals($descriptor->uuid, $data->uuid);
+        $this->assertEquals($descriptor->hash, $data->hash);
+        $this->assertRegExp('/http(.*)\/files\/(.*)\?t=(.*)/', $data->url);
+        $this->assertStringStartsWith('http:', $data->url);
+        $this->assertEquals($descriptor->title, $data->properties->title);
+        $this->assertEquals($descriptor->mime_type, $data->properties->mime_type);
+        $this->assertEquals($descriptor->thumbnail_uri, $data->properties->thumbnail);
+
+        $this->assertEmpty($data->authors);
+        $this->assertEquals(url('/'), $data->uploader->url);
+        $this->assertEquals(sha1($descriptor->owner->id), $data->uploader->name);
     }
 
     public function test_publishing_video_has_streaming_properties()
