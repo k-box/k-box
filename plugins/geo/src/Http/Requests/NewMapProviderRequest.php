@@ -44,6 +44,7 @@ class NewMapProviderRequest extends FormRequest
     public function messages()
     {
         return [
+            'label.not_in' => trans('geo::settings.validation.label.not_in', ['label' => $this->input('label')]),
             'url.regex' => trans('geo::settings.validation.url.regex'),
         ];
     }
