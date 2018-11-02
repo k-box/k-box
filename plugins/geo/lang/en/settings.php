@@ -82,24 +82,24 @@ return [
             'layers' => 'Layers',
             'layers_description' => 'The layers to use, that are given by the map provider. This option applies only to Web Map Services',
         ],
-
-        'validation' => [
-            'url' => [
-                'regex' => 'The url must start with http:// or https://, e.g. https://tile.openstreetmaps.com/{x}/{y}/{z}.png',
-            ],
-            'label' => [
-                'not_in' => "The provider name must be unique. [:label] is already taken.",
-            ],
-            'id' => [
-                'not_found' => 'Provider cannot be found',
-            ],
-            'type' => [
-                'not_changeable' => "Provider type [:current] cannot be changed to [:new]",
-            ],
-            'default_map' => [
-                'in' => 'The selected map is not available in the system',
-            ]
+    ],
+        
+    'validation' => [
+        'url' => [
+            'regex' => 'The url must start with http:// or https://, e.g. https://tile.openstreetmaps.com/{x}/{y}/{z}.png',
         ],
+        'label' => [
+            'not_in' => "The provider name must be unique. [:label] is already taken.",
+        ],
+        'id' => [
+            'not_found' => 'Provider cannot be found',
+        ],
+        'type' => [
+            'not_changeable' => "Provider type [:current] cannot be changed to [:new]",
+        ],
+        'default_map' => [
+            'in' => 'The selected map is not available in the system',
+        ]
     ],
     
 ];
