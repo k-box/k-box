@@ -62,18 +62,6 @@ class SupportPagesController extends Controller
     }
 
     /**
-     * Renders the help of the document import
-     */
-    public function importhelp()
-    {
-        $help_file_content = file_get_contents(base_path('resources/assets/pages/import.md'));
-
-        $page_text = \Markdown::convertToHtml($help_file_content);
-
-        return view('static.page', ['page_title' => trans('pages.help'), 'page_content' => $page_text]);
-    }
-
-    /**
      * Renders the browser update explanation page
      */
     public function browserupdate()
