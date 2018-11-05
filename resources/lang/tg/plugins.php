@@ -12,24 +12,24 @@ return [
     |
     */
 
-    'page_title' => 'Plugins',
+    'page_title' => 'Плагинхо',
 
-    'experimental_notice' => 'The plugin feature is experimental.',
+    'experimental_notice' => 'Ин плагин таҷрибавӣ аст,.',
 
     'table' => [
-        'name_column' => 'Plugin',
-        'creator_column' => 'Created by',
+        'name_column' => 'Плагин',
+        'creator_column' => 'Cохта шуд аз тарафи',
     ],
 
     'actions' => [
-        'enable' => 'Enable',
-        'disable' => 'Disable',
-        'settings' => 'Plugin Settings',
+        'enable' => 'Фаъол',
+        'disable' => 'Ғайрифаъол',
+        'settings' => 'Танзимоти Плагин',
     ],
 
     'messages' => [
-        'enabled' => 'Plugin enabled',
-        'disabled' => 'Plugin disabled',
-        'settings_saved'=> 'Plugin settings updated',
+        'enabled' => 'Плагин фаъол шуд',
+        'disabled' => 'Плагин Ғайрифаъол шуд',
+        'settings_saved'=> ' Танзимоти плагин аз нав шуд',
     ],
 ];

@@ -58,9 +58,9 @@ return [
             'institution' => 'Ташкилот',
             'select_institution' => ' Ташкилоти истифодабаранда интихоб кунед ...',
 
-            'generate_password' => 'Generate user\'s password',
-            'send_password' => 'Send password to user via E-mail',
-            'no_password_sending' => 'Type a password for the selected user. No email server is configured, K-Box cannot generate and send passwords directly via E-mail.',
+            'generate_password' => 'Пароли корбаро эҷод кунед',
+            'send_password' => 'Паролро ба истифодабаранда тавассути почтаи электронӣ ирсол кун',
+            'no_password_sending' => 'Барои истифодабарандаи интихобшуда паролро нависед. Ягон сервери почтаи электронӣ танзим карда нашудааст, K-Box наметавонад бевосита тавассути почтаи электронӣ паролҳоро эҷод ва ирсол кунад.',
 
         ],
 
@@ -113,8 +113,8 @@ return [
         ],
 
         'created_msg' => 'Истифодабаранда сохта шуда, парол ба почтаи истифодабаранда фиристода шуд',
-        'created_password_sent_msg' => 'User was successfully created. The password has been sent directly to the user\'s E-mail',
-        'created_no_mail_msg' => 'User created. We could not send the password to the user\'s E-mail',
+        'created_password_sent_msg' => 'Истифодабаранда сохта шуда, парол ба почтаи истифодабаранда фиристода шуд',
+        'created_no_mail_msg' => 'Истифодабаранда таъсис дода шуд. Мо наметавонем паролро ба почтаи электрониаш фирисем',
         'edit_disabled_msg' => 'Шумо имкониятҳои аккаунти худро тағйир додан надоред. Танзимоти метавонад тавассути<a href=":profile_url">саҳифаи профили</a>тагйир шавад.',
         'disabled_msg' => 'Истифодабаранда :name фаъол нест',
         'enabled_msg' => 'Истифодабаранда :name фаъол шуд',

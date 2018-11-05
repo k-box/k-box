@@ -8,98 +8,100 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    'page_title' => 'K-Box Geographic Extension Settings',
+    'page_title' => 'Танзими кисмати ҷуғрофии K-Box',
 
-    'description' => 'This page contains the settings to customize the behavior of the Geographic Extension',
+    'description' => 'Ин саҳифа барои танзим кардани рафтори кисмати ҷуғрофӣро дар бар мегирад',
 
     'geoserver' => [
-        'title' => 'GeoServer connection',
-        'description' => 'The parameter used to connect to a GeoServer instance. GeoServer is used to store, preview and convert geographic files',
+        'title' => 'Пайвасткунии GeoServer',
+        'description' => 'Параметри барои пайвастшавӣ ба GeoServer истифода мешавад. GeoServer барои нигоҳдорӣ, пешнамоиш ва тағир додани файлҳои ҷуғрофӣ истифода мешавад',
 
-        'url' => 'The address of the geoserver instance (e.g. https://domain.com/geoserver/)',
-        'username' => 'The username to authenticate to the GeoServer',
-        'password' => 'The password to authenticate to the GeoServer',
-        'workspace' => 'The GeoServer workspace to use (e.g. kbox)',
+        'url' => 'Суроғаи geoserver (мисол. https://domain.com/geoserver/)',
+        'username' => 'Номи истифодабарандаи GeoServer тасдиқ кунед',
+        'password' => 'Пароли истифодабаранди GeoServer тасдиқ кунед',
+        'workspace' => 'Коргоҳи GeoServer барои истифода (мисол. kbox)',
     ],
 
     'gdal' => [
-        'available' => 'Gdal library installed. (:version)',
-        'not_available' => 'Gdal library not available, some features might not work.',
+        'available' => 'Китобхонаи Gdal насб карда шудааст. (:version)',
+        'not_available' => 'Китобхонаи Gdal дастрас нест, базе кисмхояш мукин кор накунанд.',
     ],
 
     'connection' => [
-        'established' => 'GeoServer (:version) connection established.',
-        'failed' => 'Failed to connect to GeoServer. :error',
+        'established' => 'GeoServer (:version) пайваст карда шудааст.',
+        'failed' => 'Ба GeoServer пайваст нашуд. :error',
     ],
 
     'providers' => [
-        'title' => 'Map Providers',
-        'description' => 'Configure the providers of the base maps used for map visualizations',
+        'title' => 'Таҳиягари харита',
 
-        'provider_created' => 'Map Provider ":name" created',
-        'provider_updated' => 'Map Provider ":name" updated',
-        'default_provider_updated' => 'Default Provider changed to ":name"',
-        'providers_enabled' => 'No providers enabled|{1}Provider ":name" enabled|[2,*]Enabled ":name" and :count other providers',
-        'providers_disabled' => 'No providers disabled|{1}Provider ":name" disabled|[2,*]Disabled ":name" and :count other providers',
-        'provider_deleted' => 'Map Provider ":name" deleted',
-        'provider_delete_denied_is_default' => 'Could not delete the default provider ":name". Please change the default provider first.',
+        'description' => 'Таҳиягарикунандагони харитаҳои асосиро,ки барои нишон додани харитаҳо истифода мешаванд, танзим кунед',
 
-        'create_title' => 'Create Provider',
-        'create_description' => 'Create a new map provider',
+        'provider_created' => 'Таҳиягари харита ":name"',
+        'provider_updated' => 'Таҳиягари харита ":name" навсозӣ кард',
+        'default_provider_updated' => ' Таҳиягари аслӣ ба ":name" тағйир ёфт',
+        'providers_enabled' => 'Таҳиягари харита фаъол карда нушудааст|{1}Provider ":name" enabled|[2,*]Enabled ":name" ва :count дигар таҳиягарон',
+        'providers_disabled' => 'Таҳиягари харита гайрфаъол нушудааст|{1}Provider ":name" disabled|[2,*]Disabled ":name" ва :count дигар таҳиягарон',
+        'provider_deleted' => 'Таҳиягари харита ":name" нест карда шуд',
+        'provider_delete_denied_is_default' => 'Таҳиягари харита асоси нест карда намешавад ":name". Лутфан аввал таҳиягари харитаи асосиро иваз кун.',
 
-        'edit_title' => 'Edit provider ":name"',
-        'edit_description' => 'Edit a map provider',
+        'create_title' => 'Таҳиягари харитаро соз',
+        'create_description' => 'Таҳиягари навро соз',
+
+        'edit_title' => 'Таҳрири таҳиягари харита  ":name"',
+        'edit_description' => 'аҳрири таҳиягари харита',
 
         'types' => [
-            'tile' => 'Tiled map provider',
-            'wms' => 'Web Map Service (WMS) provider',
+            'tile' => 'Таҳиягари харитахои порчаги',
+            'wms' => 'Web Map Service (WMS)',
         ],
 
         'attributes' => [
             'id' => 'id',
 
-            'default' => 'default',
-            'enabled' => 'enabled',
+            'default' => 'асоси',
 
-            'subdomains' => 'Subdomains',
-            'subdomains_description' => 'For tile based providers, the tiles can be served from different domains to speed the loading time. In the url this is usually expressed with the {s} placeholder.',
+            'enabled' => 'фаъол',
 
-            'type' => 'Map provider type',
-            'type_description' => 'If is a tile based map or a map served by a Web Map Service (WMS)',
+            'subdomains' => 'Субдоменҳо',
+            'subdomains_description' => 'Барои таҳиягари харитахои порчаги, порчахо метавонанд аз доменхои гуногун гирифта шаванд то ки суръати боркуниро тезонад . Дар url одатан ин бо ишораи {s} чойгир мешавад.',
 
-            'label' => 'Name',
-            'label_description' => 'The name to assign to this provider. It must be unique accross all already defined providers',
+            'type' => 'Намуди таҳиягари харита',
+            'type_description' => 'Агар аз намуди харитаи порчаги ва е аз тарафи Web Map Service (WMS) тахия шудааст',
+
+            'label' => 'Ном',
+            'label_description' => 'Номи ба ин таҳиягар таъин шуда. Аз номи хамаи таҳиягарони муаяйншуда бояд фарк кунад',
 
             'url' => 'Url',
-            'url_description' => 'The URL format for loading the map',
+            'url_description' => 'URL формат барои боркардани харита',
 
-            'attribution' => 'Attribution',
-            'attribution_description' => 'The attribution string that will be presented to the users when the provider is selected. This usually includes copyright and license notices',
+            'attribution' => 'Шарҳ',
+            'attribution_description' => 'Дар сатри Шарм, ки ба истифодабарандагон хангами интихоби провайдери пешниҳод карда мешавад. Ин одатан огоҳиҳои ҳуқуқи муаллифӣ ва иҷозатномадиҳиро дар бар мегирад',
 
-            'maxZoom' => 'Maximum zoom level',
-            'maxZoom_description' => 'The maximum zoom level supported by this provider',
-            
-            'layers' => 'Layers',
-            'layers_description' => 'The layers to use, that are given by the map provider. This option applies only to Web Map Services',
+            'maxZoom' => 'Сатхи максималии наздиккуни',
+            'maxZoom_description' => 'Сатхи максималии наздиккуни, ки аз тарафи таҳиягари харита ичозат дода мешавад ',
+
+            'layers' => 'қабатҳо',
+            'layers_description' => 'Кабатҳои барои истифода, ки аз тарафи таҳиягари харита пешниход шуданд. Ин факат хангоми истифодаи Web Map Services чори мешавад',
         ],
-        
+
     ],
-    
+
     'validation' => [
         'url' => [
-            'regex' => 'The url must start with http:// or https://, e.g. https://tile.openstreetmaps.com/{x}/{y}/{z}.png',
+            'regex' => 'Url бояд бо http:// or https:// сар шавад, мисол. https://tile.openstreetmaps.com/{x}/{y}/{z}.png',
         ],
         'label' => [
-            'not_in' => "The provider name must be unique. [:label] is already taken.",
+            'not_in' => "Номи таҳиягар бояд такрор нашавад. [:label] is already taken.",
         ],
         'id' => [
-            'not_found' => 'Provider cannot be found',
+            'not_found' => 'Таҳиягар пайдо нашуд',
         ],
         'type' => [
-            'not_changeable' => "Provider type [:current] cannot be changed to [:new]",
+            'not_changeable' => "Намуди таҳиягар [:current] ба [:new] иваз карда намешавад",
         ],
         'default_map' => [
-            'in' => 'The selected map is not available in the system',
+            'in' => 'Харитаи интихобшуда дар система дастрас нест',
         ]
     ],
     

@@ -47,9 +47,9 @@ return [
     ],
 
     'duplicatesnotification' => [
-        'subject' => 'We found some duplicates in your recent uploads',
-        'greetings' => 'During the periodic document check, we found that some of your documents are duplicates of existing ones. If you are fine with the duplication ignore this message.',
-        'action' => 'See the duplicates from your recent documents',
+        'subject' => 'Мо дар боргузории охирони Шумо якчанд санади такрори ёфтем',
+        'greetings' => 'Ҳангоми санҷиши такрори, мо муайян кардем, ки баъзе аз санадҳои шумотакрори санадхои мавчудбуда мебошанд. Агар такори ин санадхо ба шумо писанд аст ба ин паём аҳамият надиҳед.',
+        'action' => 'Такрори санадхои охирини худро бинед',
     ],
 
 ];

@@ -78,7 +78,7 @@ return [
         'video' => 'видео|видеоҳо',
         'archive' => 'бойгони|бойгониҳо',
         'PDF' => 'PDF|PDFҳо',
-        'binary' => 'Binary file|Binary files',
+        'binary' => 'Файли бинари|Файлҳои бинари',
     ],
 
     'empty_msg' => 'Санад вучуд надорад <strong>:context</strong>',
@@ -243,12 +243,12 @@ return [
         'page_title' => 'Пешнамоиши :document',
         'error' => 'Мутаассифона, мо натавонистем, ки пешнамоиши “:document”. нишон дихем',
         'not_available' => 'Барои ин санад пешнамоиш нишон дода намешавад.',
-        'not_supported' => 'A preview cannot be offered for this file. The file format is currently not supported.',
+        'not_supported' => 'Барои ин санад пешнамоиш нишон дода намешавад. Ин намуди санад ҳоло дастгирӣ намешавад.',
         'google_file_disclaimer' => ':document файли Google Drive аст, пешнамоиш имкон надорад, ин санадро дар Google Drive кушоед.',
         'google_file_disclaimer_alt' => 'Ин файли Google Drive аст, пешнамоиш дар ин чо нишон дода намешавад.',
         'open_in_google_drive_btn' => 'Дар Google Drive кушоед',
         'video_not_ready' => 'Видео кор мекунад. Он дар давоми сонияҳо дастрас хоҳад шуд.',
-        'file_not_ready' => 'The file is being processed by the K-Box. During file processing the preview is not available, please check back later.',
+        'file_not_ready' => 'Файл аз тарики K-Box коркард мешавад. Ҳангоми коркарди файл, пешнамоиш мавҷуд нест, лутфан якчанд дақиқа баъдтар бознигаред.',
     ],
 
     'versions' => [
@@ -322,26 +322,26 @@ return [
     ],
 
     'duplicates' => [
-        'badge' => 'This is a duplicate of an existing document',
-        'duplicates_btn' => 'Duplicates',
-        'duplicates_btn_hint' => 'See and manage duplicates',
-        'duplicates_description' => 'This document is a possible duplicate of',
+        'badge' => 'Ин cанад алакай мавҷуда аст',
+        'duplicates_btn' => 'Нусхаи дуюм',
+        'duplicates_btn_hint' => 'Азназаргузарони ва идоракунии нусхахои такрорӣ',
+        'duplicates_description' => 'Санад мавчуда шояд такрори ин санад бошад',
 
-        'in_trash' => 'in Trash',
+        'in_trash' => 'дар қуттии партов',
 
-        'message_me_owner' => 'The document you uploaded as <a href=":duplicate_link" target="_blank" rel="noopener noreferrer">:duplicate_title</a> is a duplicate of your document <a href=":existing_link" target="_blank" rel="noopener noreferrer">:existing_title</a>.',
-        'message_with_owner' => 'The document you uploaded as <a href=":duplicate_link" target="_blank" rel="noopener noreferrer">:duplicate_title</a> is a duplicate of <a href=":existing_link" target="_blank" rel="noopener noreferrer">:existing_title</a> (uploaded by :owner).',
-        'message_in_collection' => 'The document you uploaded as <a href=":duplicate_link" target="_blank" rel="noopener noreferrer">:duplicate_title</a> is a duplicate of <a href=":existing_link" target="_blank" rel="noopener noreferrer">:existing_title</a> (uploaded by :owner in :collections).',
-        
-        'resolve_duplicate_button' => 'Resolve duplicate using this, already existing, document',
+        'message_me_owner' => 'Санаде, ки шумо бор кардед <a href=":duplicate_link" target="_blank" rel="noopener noreferrer">:duplicate_title</a> такрори санади <a href=":existing_link" target="_blank" rel="noopener noreferrer">:existing_title</a> мебошад.',
+        'message_with_owner' => 'Санаде, ки шумо бор кардед <a href=":duplicate_link" target="_blank" rel="noopener noreferrer">:duplicate_title</a> такрори санади <a href=":existing_link" target="_blank" rel="noopener noreferrer">:existing_title</a> мебошад (боргузорӣ карда шуд аз тарафи :owner).',
+        'message_in_collection' => 'The document you uploaded as <a href=":duplicate_link" target="_blank" rel="noopener noreferrer">:duplicate_title</a> такрори санади <a href=":existing_link" target="_blank" rel="noopener noreferrer">:existing_title</a> мебошад (боргузорӣ карда шуд аз тарафи :owner дар :collections).',
 
-        'processing' => 'Resolving duplicate using existing document...',
+        'resolve_duplicate_button' => ' Ин санад алакай вучуд дорад. Санади мавчудбударо истифода кун ва аз нусхахои такрорӣ худдорӣ кун',
+
+        'processing' => 'Истифодаи санади мавчудбуда ва худдорӣ аз нусхахои такрорӣ …',
 
         'errors' => [
-            'title' => 'Duplicate resolution not completed',
-            'generic' => 'There was a problem on our end and the duplicate was not resolved',
-            'already_resolved' => 'The conflict was already resolved',
-            'resolve_with_trashed_document' => 'The conflict was already resolved',
+            'title' => 'Ичозати нусхахои такрорӣ ичро нашудааст ',
+            'generic' => 'Аз тарафи мо мушкили сар зад ва ба нусхахои такрорӣ ичозат дода нашуд',
+            'already_resolved' => 'Мушкили Хали худро ефт.',
+            'resolve_with_trashed_document' => 'Мушкили алакай хал шуд',
         ],
     ],
 ];

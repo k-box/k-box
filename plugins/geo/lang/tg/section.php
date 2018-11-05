@@ -8,11 +8,11 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    "page_title" => "Geographic Data",
-    "page_hint" => "Explore geographic files added to the K-Box (e.g. Shapefile, GeoJSON, KML,...)",
+    "page_title" => "Маълумоти ҷуғрофӣ",
+    "page_hint" => "Файлхои ҷуғрофӣ, ки ба K-Box ворид шуданд, омузед (мисол Shapefile, GeoJSON, KML,...)",
     
     "filters" => [
-        'spatial' => 'Spatial filters',
+        'spatial' => 'Филтрҳои фазои',
     ],
     
 ];
