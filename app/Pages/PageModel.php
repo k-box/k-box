@@ -3,25 +3,30 @@
 namespace KBox\Pages;
 
 use Markdown;
+use Symfony\Component\Yaml\Yaml;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\YamlFrontMatter\YamlFrontMatter;
 use Illuminate\Database\Eloquent\Concerns\HasAttributes;
 use Illuminate\Database\Eloquent\Concerns\HasTimestamps;
+use Illuminate\Database\Eloquent\Concerns\HidesAttributes;
 
 /**
  *
  *
- * @property string $title
- * @property string $description
- * @property array $authors
- * @property string $created_at
- * @property string $updated_at
- * @property
+ * @property string $id The slug of the page
+ * @property string $language The page language
+ * @property string $title The page title
+ * @property string $description The page description
+ * @property array $authors The array of users that authored the page
+ * @property string $created_at The creation date
+ * @property string $updated_at The last update date
+ * @property string $content The raw body of the page
+ * @property string $html The page content rendered as HTML
  */
 abstract class PageModel
 {
-    use HasAttributes, HasTimestamps;
+    use HasAttributes, HasTimestamps, HidesAttributes;
 
     const PRIVACY_POLICY_FULL = 'privacy-full';
     const PRIVACY_POLICY_SUMMARY = 'privacy';
@@ -229,10 +234,19 @@ abstract class PageModel
     {
         return $value ?? ($this->title ? str_slug($this->title) : null);
     }
+    
+    public function getLanguageAttribute($value)
+    {
+        return $value ?? config('app.fallback_locale');
+    }
 
     protected function prepareFileContent()
     {
-        return '$contents';
+        $yaml = Yaml::dump($this->attributesToArray());
+        
+        $frontmatter = "---\n$yaml---";
+
+        return "$frontmatter\n{$this->content}";
     }
 
     protected function getFileContentAsHtml()

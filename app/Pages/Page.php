@@ -23,5 +23,8 @@ class Page extends PageModel
         'updated_at' => 'datetime',
     ];
 
+    protected $hidden = ['content'];
+    protected $appends = ['language'];
+
     protected $dateFormat = 'Y-m-d H:i:s.u';
 }

@@ -32,7 +32,13 @@ class PageTest extends TestCase
     {
         Storage::fake('app');
 
-        $page = Page::create(['id' => 'a-page', 'title' => 'A Page', 'description' => 'A descriptive text', 'authors' => 1]);
+        $page = Page::create([
+            'id' => 'a-page',
+            'title' => 'A Page',
+            'description' => 'A descriptive text',
+            'authors' => 1,
+            'content' => '## page content'
+        ]);
 
         $this->assertInstanceOf(Page::class, $page);
         $this->assertFalse($page->exists());
@@ -44,6 +50,7 @@ class PageTest extends TestCase
         $this->assertInstanceOf(Carbon::class, $page->created_at);
         $this->assertInstanceOf(Carbon::class, $page->updated_at);
         $this->assertEquals($page->id, $page->getKey());
+        $this->assertEquals('## page content', $page->content);
 
         $page->save();
         
@@ -51,6 +58,24 @@ class PageTest extends TestCase
 
         $this->assertFalse($page->isDirty());
         $this->assertTrue($page->exists());
+
+        $created_at = $page->created_at->format('Y-m-d H:i:s.u');
+        $updated_at = $page->updated_at->format('Y-m-d H:i:s.u');
+        $expected_content = <<<EOD
+---
+id: a-page
+title: 'A Page'
+description: 'A descriptive text'
+authors:
+    - 1
+updated_at: '$updated_at'
+created_at: '$created_at'
+language: en
+---
+## page content
+EOD;
+
+        $this->assertEquals($expected_content, Storage::disk('app')->get('pages/a-page.en.md'));
     }
     
     public function test_page_key_is_title_slug()
