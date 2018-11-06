@@ -249,15 +249,25 @@ abstract class PageModel
         return "$frontmatter\n{$this->content}";
     }
 
-    protected function getFileContentAsHtml()
+    protected function getFileContent()
     {
         $object = YamlFrontMatter::parse($this->getStorage()->get($this->getFilePath()));
-        return Markdown::convertToHtml($object->body());
+        return trim($object->body());
+    }
+
+    protected function getFileContentAsHtml()
+    {
+        return Markdown::convertToHtml($this->getFileContent());
     }
 
     public function getHtmlAttribute($value)
     {
         return $this->getFileContentAsHtml();
+    }
+    
+    public function getContentAttribute($value)
+    {
+        return $value ?? $this->getFileContent();
     }
 
     /**
@@ -349,21 +359,11 @@ abstract class PageModel
 
         return $model;
     }
-    
-    /**
-     * Create a new Eloquent Collection instance.
-     *
-     * @param  array  $models
-     * @return \Illuminate\Database\Eloquent\Collection
-     */
-    public function newCollection(array $models = [])
-    {
-        return new Collection($models);
-    }
 
     protected static function getFinder()
     {
-        return new Finder(new static, self::$disk, self::$pathInDisk);
+        $model = new static;
+        return new Finder($model, static::$disk, $model->getStoragePath());
     }
 
     /**

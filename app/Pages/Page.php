@@ -3,14 +3,8 @@
 namespace KBox\Pages;
 
 /**
+ * A content page
  *
- *
- * @property string $title
- * @property string $description
- * @property array $authors
- * @property string $created_at
- * @property string $updated_at
- * @property
  */
 class Page extends PageModel
 {
