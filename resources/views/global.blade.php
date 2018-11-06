@@ -7,7 +7,7 @@
         	@if( isset($pagetitle) ) {{ $pagetitle }} &ndash; @endif 
         	{{ config('app.name') }}
         </title>
-        <meta name="description" content="{{ config('app.name') }}">
+        <meta name="description" content="{{ $pagedescription ?? config('app.name') }}">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
 		<link rel="stylesheet" href="{{ css_asset("css/vendor.css") }}">

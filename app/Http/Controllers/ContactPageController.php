@@ -9,11 +9,6 @@ use KBox\Option;
  */
 class ContactPageController extends Controller
 {
-    public function __construct()
-    {
-        // $this->middleware('guest');
-    }
-
     public function index()
     {
         $is_configured = Option::areContactsConfigured();

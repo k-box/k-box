@@ -384,9 +384,11 @@ Auth::routes();
 
 Route::get('contact', ['as' => 'contact', 'uses' => 'ContactPageController@index']);
 
-Route::get('privacy', ['as' => 'privacy', 'uses' => 'SupportPagesController@privacy']);
+Route::get('privacy/full', ['as' => 'privacy.full', 'uses' => 'Pages\PrivacyFullPageController@index']);
 
-Route::get('terms', ['as' => 'terms', 'uses' => 'SupportPagesController@terms']);
+Route::get('privacy', ['as' => 'privacy.summary', 'uses' => 'Pages\PrivacySummaryPageController@index']);
+
+Route::get('terms', ['as' => 'terms', 'uses' => 'Pages\TermsPageController@index']);
 
 Route::get('help', ['as' => 'help', 'uses' => 'SupportPagesController@help']);
 

@@ -2,6 +2,7 @@
 
 namespace KBox\Pages;
 
+use Markdown;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\YamlFrontMatter\YamlFrontMatter;
@@ -40,7 +41,8 @@ abstract class PageModel
      */
     const UPDATED_AT = 'updated_at';
 
-    protected $disk = 'app';
+    protected static $disk = 'app';
+    protected static $pathInDisk = 'pages';
 
     protected $primaryKey = 'id';
 
@@ -110,6 +112,16 @@ abstract class PageModel
     public function getKey()
     {
         return $this->getAttribute($this->primaryKey);
+    }
+
+    public function getQualifiedKeyName()
+    {
+        return $this->primaryKey;
+    }
+
+    public function getQualifiedLanguageName()
+    {
+        return $this->languageKey;
     }
 
     public function getRelationValue($key)
@@ -223,6 +235,17 @@ abstract class PageModel
         return '$contents';
     }
 
+    protected function getFileContentAsHtml()
+    {
+        $object = YamlFrontMatter::parse($this->getStorage()->get($this->getFilePath()));
+        return Markdown::convertToHtml($object->body());
+    }
+
+    public function getHtmlAttribute($value)
+    {
+        return $this->getFileContentAsHtml();
+    }
+
     /**
      * Return true if the Page exists in the storage
      */
@@ -233,12 +256,12 @@ abstract class PageModel
 
     protected function getStorage()
     {
-        return Storage::disk($this->disk);
+        return Storage::disk(static::$disk);
     }
 
     protected function getStoragePath()
     {
-        $directory = 'pages';
+        $directory = static::$pathInDisk;
 
         $this->getStorage()->makeDirectory($directory);
 
@@ -285,7 +308,6 @@ abstract class PageModel
         return true;
     }
 
-
     /**
      * Create a new instance of the given model.
      *
@@ -304,6 +326,15 @@ abstract class PageModel
 
         return $model;
     }
+
+    public function newInstanceFromFile($path)
+    {
+        $model = new static();
+
+        $model->fillFromFileMeta($path);
+
+        return $model;
+    }
     
     /**
      * Create a new Eloquent Collection instance.
@@ -316,14 +347,21 @@ abstract class PageModel
         return new Collection($models);
     }
 
+    protected static function getFinder()
+    {
+        return new Finder(new static, self::$disk, self::$pathInDisk);
+    }
+
     /**
-     * Find a page given its slug
+     * Find a page
      *
      * @param string $page
+     * @param string $language
      * @return Page|null
      */
-    public static function find($page)
+    public static function find($page, $language = null)
     {
+        return static::getFinder()->find($page, $language);
     }
 
     /**
@@ -333,6 +371,7 @@ abstract class PageModel
      */
     public static function all()
     {
+        return static::getFinder()->get();
     }
 
     /**
@@ -342,14 +381,14 @@ abstract class PageModel
      */
     public static function create($attributes = [])
     {
-        $instance = new Page($attributes);
+        $instance = new static($attributes);
 
         return $instance;
     }
 
     public static function createFromFile($path)
     {
-        $instance = new Page();
+        $instance = new static();
 
         $instance->fillFromFileMeta($path);
 

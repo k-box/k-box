@@ -113,4 +113,109 @@ EOD;
         $this->assertInstanceOf(Carbon::class, $page->created_at);
         $this->assertInstanceOf(Carbon::class, $page->updated_at);
     }
+
+    public function test_all_pages_in_storage_can_be_listed()
+    {
+        Storage::fake('app');
+
+        $disk = Storage::disk('app');
+
+        $disk->makeDirectory('pages');
+
+        $content_en = <<<'EOD'
+---
+id: a-page
+language: en
+title: A Page
+description: A descriptive text
+authors: 1
+---
+EOD;
+        $content_ru = <<<'EOD'
+---
+id: a-page
+language: ru
+title: A Page
+description: A descriptive text
+authors: 1
+---
+EOD;
+        $disk->put('pages/a-page.en.md', $content_en);
+        $disk->put('pages/a-page.ru.md', $content_ru);
+
+        $pages = Page::all();
+
+        $this->assertContainsOnlyInstancesOf(Page::class, $pages);
+        $this->assertCount(2, $pages);
+    }
+
+    public function test_find_single_page()
+    {
+        Storage::fake('app');
+
+        $disk = Storage::disk('app');
+
+        $disk->makeDirectory('pages');
+
+        $content_en = <<<'EOD'
+---
+id: a-page
+language: en
+title: A Page
+description: A descriptive text
+authors: 1
+---
+EOD;
+        $content_ru = <<<'EOD'
+---
+id: a-page
+language: ru
+title: A Page
+description: A descriptive text
+authors: 1
+---
+EOD;
+        $disk->put('pages/a-page.en.md', $content_en);
+        $disk->put('pages/a-page.ru.md', $content_ru);
+
+        $page = Page::find('a-page', 'en');
+
+        $this->assertInstanceOf(Page::class, $page);
+        $this->assertEquals('en', $page->language);
+    }
+
+    public function test_find_page()
+    {
+        Storage::fake('app');
+
+        $disk = Storage::disk('app');
+
+        $disk->makeDirectory('pages');
+
+        $content_en = <<<'EOD'
+---
+id: a-page
+language: en
+title: A Page
+description: A descriptive text
+authors: 1
+---
+EOD;
+        $content_ru = <<<'EOD'
+---
+id: a-page
+language: ru
+title: A Page
+description: A descriptive text
+authors: 1
+---
+EOD;
+        $disk->put('pages/a-page.en.md', $content_en);
+        $disk->put('pages/a-page.ru.md', $content_ru);
+
+        $pages = Page::find('a-page');
+
+        $this->assertContainsOnlyInstancesOf(Page::class, $pages);
+        $this->assertCount(2, $pages);
+    }
 }
