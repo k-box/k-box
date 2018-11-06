@@ -7,6 +7,25 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.24.0] - 2018-11-07
+
+### Added
+
+- Geographic data section for searching geographic files with the use of spatial filter ([#140](https://github.com/k-box/k-box/pull/140)), ([#157](https://github.com/k-box/k-box/pull/157))
+- Add oEmbed support for documents ([#145](https://github.com/k-box/k-box/pull/145))
+
+### Changed
+
+- Uniform properties listing across detail panels ([#159](https://github.com/k-box/k-box/pull/159)) 
+- GDPR clean personal data from detail panels ([#165](https://github.com/k-box/k-box/pull/165)) 
+- Anonymize IP address in access log ([#167](https://github.com/k-box/k-box/pull/167)) 
+- Geographic Extension plugin to version [0.2.0](./plugins/geo/changelog.md#020---2018-11-07)
+
+### Fixed
+
+- Reduce impact of file indexing failures on elaboration pipeline 
+- Avoid populating Authors and Uploader with user personal data when indexing ([#166](https://github.com/k-box/k-box/pull/166)) 
+
 ## [0.23.2] - 2018-10-22
 
 ### Fixed
