@@ -251,6 +251,9 @@ abstract class PageModel
 
     protected function getFileContent()
     {
+        if(!$this->getStorage()->exists($this->getFilePath())){
+            return '';
+        }
         $object = YamlFrontMatter::parse($this->getStorage()->get($this->getFilePath()));
         return trim($object->body());
     }
