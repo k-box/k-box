@@ -18,7 +18,8 @@ class RoutesTest extends BrowserKitTestCase
         return [
             [ 'frontpage' ],
             [ 'contact' ],
-            [ 'privacy' ],
+            [ 'privacy.summary' ],
+            [ 'privacy.full' ],
             [ 'terms' ],
             [ 'help' ],
             [ 'browserupdate' ],
