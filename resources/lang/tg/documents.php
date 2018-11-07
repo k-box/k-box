@@ -78,6 +78,7 @@ return [
         'video' => 'видео|видеоҳо',
         'archive' => 'бойгони|бойгониҳо',
         'PDF' => 'PDF|PDFҳо',
+        'binary' => 'Файли бинари|Файлҳои бинари',
     ],
 
     'empty_msg' => 'Санад вучуд надорад <strong>:context</strong>',
@@ -242,10 +243,12 @@ return [
         'page_title' => 'Пешнамоиши :document',
         'error' => 'Мутаассифона, мо натавонистем, ки пешнамоиши “:document”. нишон дихем',
         'not_available' => 'Барои ин санад пешнамоиш нишон дода намешавад.',
+        'not_supported' => 'Барои ин санад пешнамоиш нишон дода намешавад. Ин намуди санад ҳоло дастгирӣ намешавад.',
         'google_file_disclaimer' => ':document файли Google Drive аст, пешнамоиш имкон надорад, ин санадро дар Google Drive кушоед.',
         'google_file_disclaimer_alt' => 'Ин файли Google Drive аст, пешнамоиш дар ин чо нишон дода намешавад.',
         'open_in_google_drive_btn' => 'Дар Google Drive кушоед',
         'video_not_ready' => 'Видео кор мекунад. Он дар давоми сонияҳо дастрас хоҳад шуд.',
+        'file_not_ready' => 'Файл аз тарики K-Box коркард мешавад. Ҳангоми коркарди файл, пешнамоиш мавҷуд нест, лутфан якчанд дақиқа баъдтар бознигаред.',
     ],
 
     'versions' => [
@@ -316,5 +319,29 @@ return [
         'cancel_question' => 'Оё шумо боварӣ доред, ки ин воридкуниро бекор кунед?',  //for future use
         'outside_project_target_area' => 'Лутфан файли худро ба тарафи Лоиҳа кашед то ворид шавад.',
         'empty_file_error' => 'Файли холӣ, лутфан файлеро, ки ақаллан як калима дорад, вокрид кунед.',
+    ],
+
+    'duplicates' => [
+        'badge' => 'Ин cанад алакай мавҷуда аст',
+        'duplicates_btn' => 'Нусхаи дуюм',
+        'duplicates_btn_hint' => 'Азназаргузарони ва идоракунии нусхахои такрорӣ',
+        'duplicates_description' => 'Санад мавчуда шояд такрори ин санад бошад',
+
+        'in_trash' => 'дар қуттии партов',
+
+        'message_me_owner' => 'Санаде, ки шумо бор кардед <a href=":duplicate_link" target="_blank" rel="noopener noreferrer">:duplicate_title</a> такрори санади <a href=":existing_link" target="_blank" rel="noopener noreferrer">:existing_title</a> мебошад.',
+        'message_with_owner' => 'Санаде, ки шумо бор кардед <a href=":duplicate_link" target="_blank" rel="noopener noreferrer">:duplicate_title</a> такрори санади <a href=":existing_link" target="_blank" rel="noopener noreferrer">:existing_title</a> мебошад (боргузорӣ карда шуд аз тарафи :owner).',
+        'message_in_collection' => 'The document you uploaded as <a href=":duplicate_link" target="_blank" rel="noopener noreferrer">:duplicate_title</a> такрори санади <a href=":existing_link" target="_blank" rel="noopener noreferrer">:existing_title</a> мебошад (боргузорӣ карда шуд аз тарафи :owner дар :collections).',
+
+        'resolve_duplicate_button' => ' Ин санад алакай вучуд дорад. Санади мавчудбударо истифода кун ва аз нусхахои такрорӣ худдорӣ кун',
+
+        'processing' => 'Истифодаи санади мавчудбуда ва худдорӣ аз нусхахои такрорӣ …',
+
+        'errors' => [
+            'title' => 'Ичозати нусхахои такрорӣ ичро нашудааст ',
+            'generic' => 'Аз тарафи мо мушкили сар зад ва ба нусхахои такрорӣ ичозат дода нашуд',
+            'already_resolved' => 'Мушкили Хали худро ефт.',
+            'resolve_with_trashed_document' => 'Мушкили алакай хал шуд',
+        ],
     ],
 ];
