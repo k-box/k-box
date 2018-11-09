@@ -9,7 +9,7 @@ return [
     */
 
     "page_title" => "Маълумоти ҷуғрофӣ",
-    "page_hint" => "Файлхои ҷуғрофӣ, ки ба K-Box ворид шуданд, омузед (мисол Shapefile, GeoJSON, KML,...)",
+    "page_hint" => "Файлхои ҷуғрофӣ, ки ба K-Box ворид шуданд (мисол Shapefile, GeoJSON, KML,...)",
     
     "filters" => [
         'spatial' => 'Филтрҳои фазои',
