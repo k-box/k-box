@@ -7,7 +7,7 @@ use Tests\TestCase;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class PrivacyFullPageControllerTest extends TestCase
+class PrivacyLegalPageControllerTest extends TestCase
 {
     use DatabaseTransactions;
 
@@ -21,7 +21,7 @@ class PrivacyFullPageControllerTest extends TestCase
 
         $content_en = <<<'EOD'
 ---
-id: privacy-full
+id: privacy-legal
 language: en
 title: privacy
 description: The privacy description
@@ -32,8 +32,8 @@ authors: 1
 EOD;
         $expected_content_en = Markdown::convertToHtml('## Content');
 
-        $disk->put('pages/privacy-full.en.md', $content_en);
-        $url = route('privacy.full');
+        $disk->put('pages/privacy-legal.en.md', $content_en);
+        $url = route('privacy.legal');
 
         $response = $this->get($url);
         
@@ -54,7 +54,7 @@ EOD;
 
         $content = <<<'EOD'
 ---
-id: privacy-full
+id: privacy-legal
 language: en
 title: privacy
 description: The privacy description
@@ -65,8 +65,8 @@ authors: 1
 EOD;
         $expected_content = Markdown::convertToHtml('## Content');
 
-        $disk->put('pages/privacy-full.en.md', $content);
-        $url = route('privacy.full');
+        $disk->put('pages/privacy-legal.en.md', $content);
+        $url = route('privacy.legal');
 
         $response = $this->withHeaders([
             'ACCEPT_LANGUAGE' => 'de,en;q=0.5',
@@ -83,7 +83,7 @@ EOD;
     {
         Storage::fake('app');
 
-        $url = route('privacy.full');
+        $url = route('privacy.legal');
 
         $response = $this->get($url);
         

@@ -384,7 +384,7 @@ Auth::routes();
 
 Route::get('contact', ['as' => 'contact', 'uses' => 'ContactPageController@index']);
 
-Route::get('privacy/full', ['as' => 'privacy.full', 'uses' => 'Pages\PrivacyFullPageController@index']);
+Route::get('privacy/legal', ['as' => 'privacy.legal', 'uses' => 'Pages\PrivacyLegalPageController@index']);
 
 Route::get('privacy', ['as' => 'privacy.summary', 'uses' => 'Pages\PrivacySummaryPageController@index']);
 

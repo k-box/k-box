@@ -28,7 +28,7 @@ abstract class PageModel
 {
     use HasAttributes, HasTimestamps, HidesAttributes;
 
-    const PRIVACY_POLICY_FULL = 'privacy-full';
+    const PRIVACY_POLICY_LEGAL = 'privacy-legal';
     const PRIVACY_POLICY_SUMMARY = 'privacy';
     const TERMS_OF_SERVICE = 'terms';
 

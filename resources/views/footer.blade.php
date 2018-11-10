@@ -13,7 +13,7 @@
 			
 			<a href="{{ route('terms') }}">{{trans('pages.service_policy')}}</a>
 			
-			<a href="{{ route('privacy.full') }}">{{trans('pages.privacy')}}</a>
+			<a href="{{ route('privacy.legal') }}">{{trans('pages.privacy')}}</a>
 
 			<a href="{{ route('contact') }}">{{trans('pages.contact')}}</a>
 
