@@ -4,7 +4,9 @@ namespace Tests\Unit;
 
 use Tests\TestCase;
 use KBox\Pages\Page;
+use KBox\Events\PageChanged;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Storage;
 
 class PageTest extends TestCase
@@ -12,6 +14,7 @@ class PageTest extends TestCase
     public function test_pages_can_be_created()
     {
         Storage::fake('app');
+        Event::fake();
 
         $page = Page::create(['description' => 'A descriptive text', 'authors' => 1]);
 
@@ -26,11 +29,13 @@ class PageTest extends TestCase
         $this->assertInstanceOf(Carbon::class, $page->created_at);
         $this->assertInstanceOf(Carbon::class, $page->updated_at);
         $this->assertEquals($page->id, $page->getKey());
+        Event::assertNotDispatched(PageChanged::class);
     }
     
     public function test_pages_can_be_created_and_saved()
     {
         Storage::fake('app');
+        Event::fake();
 
         $page = Page::create([
             'id' => 'a-page',
@@ -76,6 +81,10 @@ language: en
 EOD;
 
         $this->assertEquals($expected_content, Storage::disk('app')->get('pages/a-page.en.md'));
+
+        Event::assertDispatched(PageChanged::class, function ($e) use ($page) {
+            return $e->page->id === $page->id;
+        });
     }
     
     public function test_page_key_is_title_slug()

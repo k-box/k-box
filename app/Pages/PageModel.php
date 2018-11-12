@@ -3,6 +3,7 @@
 namespace KBox\Pages;
 
 use Markdown;
+use KBox\Events\PageChanged;
 use Symfony\Component\Yaml\Yaml;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Model;
@@ -313,6 +314,8 @@ abstract class PageModel
     
             $this->syncOriginal();
             $this->exists = true;
+
+            event(new PageChanged($this));
         }
 
         return true;
