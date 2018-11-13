@@ -248,7 +248,7 @@ return [
         'google_file_disclaimer_alt' => 'Ин файли Google Drive аст, пешнамоиш дар ин чо нишон дода намешавад.',
         'open_in_google_drive_btn' => 'Дар Google Drive кушоед',
         'video_not_ready' => 'Видео кор мекунад. Он дар давоми сонияҳо дастрас хоҳад шуд.',
-        'file_not_ready' => 'Файл аз тарики K-Box коркард мешавад. Ҳангоми коркарди файл, пешнамоиш мавҷуд нест, лутфан якчанд дақиқа баъдтар бознигаред.',
+        'file_not_ready' => 'Файл аз тарики K-Box коркард мешавад. Ҳангоми коркарди файл, пешнамоиш дастрас нест, лутфан якчанд дақиқа баъдтар бознигаред.',
     ],
 
     'versions' => [
@@ -322,20 +322,20 @@ return [
     ],
 
     'duplicates' => [
-        'badge' => 'Ин cанад алакай мавҷуда аст',
+        'badge' => 'Ин cанад алакай мавҷуд аст',
         'duplicates_btn' => 'Нусхаи дуюм',
         'duplicates_btn_hint' => 'Азназаргузарони ва идоракунии нусхахои такрорӣ',
-        'duplicates_description' => 'Санад мавчуда шояд такрори ин санад бошад',
+        'duplicates_description' => 'Санад мавчуд аст, шояд ин санад такрор шудаст',
 
-        'in_trash' => 'дар қуттии партов',
+        'in_trash' => 'Дар қуттии партов',
 
         'message_me_owner' => 'Санаде, ки шумо бор кардед <a href=":duplicate_link" target="_blank" rel="noopener noreferrer">:duplicate_title</a> такрори санади <a href=":existing_link" target="_blank" rel="noopener noreferrer">:existing_title</a> мебошад.',
         'message_with_owner' => 'Санаде, ки шумо бор кардед <a href=":duplicate_link" target="_blank" rel="noopener noreferrer">:duplicate_title</a> такрори санади <a href=":existing_link" target="_blank" rel="noopener noreferrer">:existing_title</a> мебошад (боргузорӣ карда шуд аз тарафи :owner).',
-        'message_in_collection' => 'The document you uploaded as <a href=":duplicate_link" target="_blank" rel="noopener noreferrer">:duplicate_title</a> такрори санади <a href=":existing_link" target="_blank" rel="noopener noreferrer">:existing_title</a> мебошад (боргузорӣ карда шуд аз тарафи :owner дар :collections).',
+        'message_in_collection' => 'Санаде, ки шумо бор кардед <a href=":duplicate_link" target="_blank" rel="noopener noreferrer">:duplicate_title</a> такрори санади <a href=":existing_link" target="_blank" rel="noopener noreferrer">:existing_title</a> мебошад (боргузорӣ карда шуд аз тарафи :owner дар :collections).',
 
-        'resolve_duplicate_button' => ' Ин санад алакай вучуд дорад. Санади мавчудбударо истифода кун ва аз нусхахои такрорӣ худдорӣ кун',
+        'resolve_duplicate_button' => 'Ин санад алакай вучуд дорад. Санади мавчудбударо истифода кун ва аз нусхахои такрорӣ худдорӣ кун',
 
-        'processing' => 'Истифодаи санади мавчудбуда ва худдорӣ аз нусхахои такрорӣ …',
+        'processing' => 'Истифодаи санади мавчудбуда ва худдорӣ аз нусхахои такрорӣ...',
 
         'errors' => [
             'title' => 'Ичозати нусхахои такрорӣ ичро нашудааст ',

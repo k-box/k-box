@@ -10,7 +10,7 @@ return [
 
     "section" => "Маълумоти ҷуғрофӣ",
     
-    "crs" => "Системаи координаты",
+    "crs" => "Системаи координати",
     "type" => "Формат",
     "dimension" => "Андоза",
     "dimension_pixels" => ":width&times;:height пиксел",
