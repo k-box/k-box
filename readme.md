@@ -20,7 +20,7 @@ K-Box can be installed on most operating systems. The setup is heavily based on 
 
 ### Prerequisites
 
-- Check the [system requirements](./docs/user/requirements.md).
+- Check the [system requirements](./docs/installation/requirements.md).
 - Use an operating system [supported by Docker](https://docs.docker.com/install/#server) (ideally GNU/Linux; we use [Debian](https://debian.org))
 - Make sure you have installed the latest version of [Docker](https://docs.docker.com/install/linux/docker-ce/debian/) and [Docker Compose](https://docs.docker.com/compose/install/).
 
