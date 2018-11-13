@@ -4,7 +4,7 @@
 ##
 
 ## Grabbing required binaries for the video processing part
-FROM docker.klink.asia/images/video-processing-cli:0.4.1 AS videocli
+FROM docker.klink.asia/images/video-processing-cli:0.5.1 AS videocli
 ## .. we just need this image so we can copy from it
 
 FROM docker.klink.asia/main/docker-php:7.1 AS builder
