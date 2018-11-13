@@ -8,6 +8,7 @@ use KBox\Consent;
 use KBox\Consents;
 use Tests\TestCase;
 use KBox\Capability;
+use Spatie\Activitylog\Models\Activity;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class PrivacyConsentDialogTest extends TestCase
