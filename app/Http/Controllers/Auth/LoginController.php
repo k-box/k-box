@@ -4,6 +4,7 @@ namespace KBox\Http\Controllers\Auth;
 
 use Config;
 use KBox\Option;
+use KBox\HomeRoute;
 use Illuminate\Http\Request;
 use KBox\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
@@ -71,7 +72,7 @@ class LoginController extends Controller
     {
         $user = $this->auth->user();
         
-        return $user->homeRoute();
+        return HomeRoute::get($user);
     }
 
     /**
@@ -90,6 +91,6 @@ class LoginController extends Controller
             session()->put('url.intended', $dms_intended);
         }
 
-        return redirect()->intended($user->homeRoute());
+        return redirect()->intended(HomeRoute::get($user));
     }
 }

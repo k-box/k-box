@@ -3,6 +3,7 @@
 namespace KBox\Http\Middleware;
 
 use Closure;
+use KBox\HomeRoute;
 use Illuminate\Support\Facades\Auth;
 
 class RedirectIfAuthenticated
@@ -28,7 +29,7 @@ class RedirectIfAuthenticated
                 session()->put('url.intended', $dms_intended);
             }
 
-            return redirect()->intended($auth_user->homeRoute());
+            return redirect()->intended(HomeRoute::get($auth_user));
         }
 
         return $next($request);

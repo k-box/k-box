@@ -2,6 +2,7 @@
 
 namespace KBox\Http\Composers;
 
+use KBox\HomeRoute;
 use Illuminate\Contracts\View\View;
 
 class HeadersComposer
@@ -39,7 +40,7 @@ class HeadersComposer
         if ($is_logged) {
             $logged_in_user = \Auth::user();
             $view->with('current_user', $logged_in_user->id);
-            $view->with('current_user_home_route', $logged_in_user->homeRoute());
+            $view->with('current_user_home_route', HomeRoute::get($logged_in_user));
             $view->with('current_user_name', $logged_in_user->name);
             $view->with('current_user_avatar', $logged_in_user->avatar);
 

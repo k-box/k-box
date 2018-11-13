@@ -8,6 +8,7 @@ use KBox\Traits\HasCapability;
 use KBox\Traits\UserOptionsAccessor;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
+use Spatie\Activitylog\Traits\CausesActivity;
 use KBox\Notifications\ResetPasswordNotification;
 
 /**
@@ -51,7 +52,7 @@ use KBox\Notifications\ResetPasswordNotification;
  */
 class User extends Authenticatable
 {
-    use Notifiable, HasCapability, SoftDeletes, UserOptionsAccessor;
+    use Notifiable, HasCapability, SoftDeletes, UserOptionsAccessor, CausesActivity;
 
     const OPTION_LIST_TYPE = "list_style";
   
@@ -388,34 +389,6 @@ class User extends Authenticatable
         }
     }
 
-    /**
-     * Determine the route to show after the login
-     *
-     * @return string the route url
-     */
-    public function homeRoute()
-    {
-        $search = $this->can_capability(Capability::MAKE_SEARCH);
-        $see_share = $this->can_capability(Capability::RECEIVE_AND_SEE_SHARE);
-        $partner = $this->can_all_capabilities(Capability::$PARTNER);
-    
-        if ($this->isDMSManager()) {
-            return route('documents.index');
-        } elseif ($this->isContentManager() ||
-                $this->can_capability(Capability::UPLOAD_DOCUMENTS) ||
-                $this->can_capability(Capability::EDIT_DOCUMENT)) {
-            //documents manager redirect to documents
-            return route('documents.index');
-        } elseif ($search && ! $see_share) {
-            return route('search');
-        } elseif (! $search && $see_share) {
-            return route('shares.index');
-        } else {
-            //poor child redirect to search
-            return route('search');
-        }
-    }
-    
     /**
      * Send the password reset notification.
      *

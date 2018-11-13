@@ -398,6 +398,18 @@ Route::get('help/licenses', ['as' => 'help.licenses', 'uses' => 'LicensesHelpCon
 
 /*
 |--------------------------------------------------------------------------
+| Consent routes
+|--------------------------------------------------------------------------
+|
+| Handle consent dialog requests and management.
+|
+*/
+
+Route::get('/consent/privacy', ['as' => 'consent.dialog.privacy.show', 'uses' => 'PrivacyConsentDialogController@show']);
+Route::put('/consent/privacy', ['as' => 'consent.dialog.privacy.update', 'uses' => 'PrivacyConsentDialogController@update']);
+
+/*
+|--------------------------------------------------------------------------
 | Microsites
 |--------------------------------------------------------------------------
 |

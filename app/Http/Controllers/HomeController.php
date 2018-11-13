@@ -2,8 +2,8 @@
 
 namespace KBox\Http\Controllers;
 
+use KBox\HomeRoute;
 use Illuminate\Contracts\Auth\Guard;
-use Log;
 
 /**
  * @deprecated
@@ -58,9 +58,7 @@ class HomeController extends Controller
         if ($auth->check()) {
             $auth_user = $auth->user();
 
-            Log::warning('HomeController: Redirect from /home to somewhere, depending on user homeRoute');
-            
-            return redirect($auth_user->homeRoute());
+            return redirect(HomeRoute::get($auth_user));
         } else {
             return view('welcome');
         }
