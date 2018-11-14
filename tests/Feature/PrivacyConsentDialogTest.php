@@ -8,7 +8,9 @@ use KBox\Consent;
 use KBox\Consents;
 use Tests\TestCase;
 use KBox\Capability;
+use KBox\Pages\Page;
 use Spatie\Activitylog\Models\Activity;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class PrivacyConsentDialogTest extends TestCase
@@ -17,11 +19,23 @@ class PrivacyConsentDialogTest extends TestCase
 
     public function test_consent_dialog_is_presented_if_user_did_not_accept_privacy_policy()
     {
+        Storage::fake('app');
+
         $user = tap(factory(User::class)->create([
             'email' => 'jane@example.com',
             'password' => bcrypt('jane-super-secret')
         ]), function ($u) {
             $u->addCapabilities(Capability::$PARTNER);
+        });
+
+        $page = tap(Page::create([
+            'id' => Page::PRIVACY_POLICY_LEGAL,
+            'title' => 'Example legal privacy policy',
+            'description' => 'A descriptive text',
+            'authors' => 1,
+            'content' => '## page content'
+        ]), function ($page) {
+            $page->save();
         });
 
         $expected_url = '/consent/privacy';

@@ -2,6 +2,8 @@
 
 namespace KBox;
 
+use KBox\Pages\Page;
+
 /**
  * Get the Home route for the specified user
  *
@@ -21,7 +23,7 @@ class GetHomeRoute
         $see_share = $user->can_capability(Capability::RECEIVE_AND_SEE_SHARE);
         $partner = $user->can_all_capabilities(Capability::$PARTNER);
 
-        if (! Consent::isGiven($user, Consents::PRIVACY)) {
+        if (! Consent::isGiven($user, Consents::PRIVACY) && ! Page::find(Page::PRIVACY_POLICY_LEGAL)->isEmpty()) {
             // if user did not agree to the privacy policy
             // we must show the consent screen
             return route('consent.dialog.privacy.show');
