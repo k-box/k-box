@@ -5,6 +5,7 @@ namespace KBox\Pages;
 use Markdown;
 use KBox\Events\PageChanged;
 use Symfony\Component\Yaml\Yaml;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\YamlFrontMatter\YamlFrontMatter;
@@ -30,7 +31,7 @@ abstract class PageModel
     use HasAttributes, HasTimestamps, HidesAttributes;
 
     const PRIVACY_POLICY_LEGAL = 'privacy-legal';
-    const PRIVACY_POLICY_SUMMARY = 'privacy';
+    const PRIVACY_POLICY_SUMMARY = 'privacy-summary';
     const TERMS_OF_SERVICE = 'terms';
 
     /**
@@ -377,11 +378,17 @@ abstract class PageModel
      *
      * @param string $page
      * @param string $language
-     * @return Page|null
+     * @return \Illuminate\Support\Collection|Page|null
      */
     public static function find($page, $language = null)
     {
-        return static::getFinder()->find($page, $language);
+        $found = static::getFinder()->find($page, $language);
+
+        if ($found instanceof Collection && is_null($language)) {
+            return $found->isEmpty() ? null : $found;
+        }
+
+        return $found;
     }
 
     /**
