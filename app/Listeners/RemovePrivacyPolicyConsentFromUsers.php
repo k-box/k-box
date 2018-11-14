@@ -2,6 +2,9 @@
 
 namespace KBox\Listeners;
 
+use Log;
+use KBox\Consent;
+use KBox\Consents;
 use KBox\Events\PrivacyPolicyUpdated;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -16,16 +19,6 @@ class RemovePrivacyPolicyConsentFromUsers implements ShouldQueue
     use InteractsWithQueue;
 
     /**
-     * Create the event listener.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        //
-    }
-
-    /**
      * Handle the event.
      *
      * @param  object  $event
@@ -33,6 +26,7 @@ class RemovePrivacyPolicyConsentFromUsers implements ShouldQueue
      */
     public function handle(PrivacyPolicyUpdated $event)
     {
-        //
+        Log::info("Cleaning Privacy consents");
+        Consent::where('consent_topic', Consents::PRIVACY)->delete();
     }
 }
