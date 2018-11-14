@@ -1,5 +1,5 @@
 <div class="avatar @if(isset($inline) && $inline) avatar--inline @endif">
-	@if(isset($url))
+	@if(isset($url) && $url)
 	<a href="{{ $url }}" title="{{ $alt or '' }}">
 	@endif
 
@@ -7,7 +7,7 @@
 
 	@endcomponent
 
-	@if(isset($url))
+	@if(isset($url) && $url)
 	</a>
 	@endif
 </div>

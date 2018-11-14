@@ -5,6 +5,7 @@ namespace KBox\Http\Controllers;
 use KBox\Consent;
 use KBox\Consents;
 use KBox\HomeRoute;
+use KBox\Pages\Page;
 use Illuminate\Http\Request;
 
 class PrivacyConsentDialogController extends Controller
@@ -28,6 +29,18 @@ class PrivacyConsentDialogController extends Controller
             // the page do not make sense
             return redirect()->to(HomeRoute::get($user));
         }
+        
+        $page = Page::find(Page::PRIVACY_POLICY_LEGAL, app()->getLocale()) ?? Page::find(Page::PRIVACY_POLICY_LEGAL, config('app.fallback_locale'));
+        
+        if (! $page) {
+            // no privacy policy to show, skipping
+            return redirect()->to(HomeRoute::get($user));
+        }
+
+        return view('consents.privacy', [
+            'pagetitle' => trans('consent.privacy.dialog_title'),
+            'privacy_content' => $page->html
+        ]);
     }
 
     /**

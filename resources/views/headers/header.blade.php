@@ -19,7 +19,7 @@
 
 			<div class="header__navigation">
 
-				@include('menu')
+				@includeWhen((!isset($hide_menu) || (isset($hide_menu) && !$hide_menu)),'menu')
 
 				@include('dashboard.notifications_counter')
 
@@ -27,7 +27,7 @@
 					@component('avatar.avatar', [
 						'name' => $current_user_name, 
 						'image' => $current_user_avatar,
-						'url' => route('profile.index'),
+						'url' => $profile_url ?? route('profile.index'),
 						'alt' => trans('profile.go_to_profile')
 						])
 
