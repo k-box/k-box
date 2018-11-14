@@ -38,6 +38,7 @@ Here are only listed the specific commands added by the K-Box:
 - `video:elaborate`: Trigger the video elaboration for the specified documents
 - [`statistics`](./statistics-command.md): Generate some usage statistics of the K-Box
 - `flags`: enable or disable an experimental feature. See [K-Box Flags](../flags.md)
+- [`privacy:load`](./privacy-load.md): create the privacy policy from the template
 
 For a complete list of available commands execute
 
