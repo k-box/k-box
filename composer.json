@@ -135,7 +135,7 @@
 		"preferred-install": "dist",
 		"sort-packages": true, 
 		"optimize-autoloader": true,
-		"video-cli-download-url": "https://github.com/OneOffTech/video-processing-cli/releases/download/v0.5.1/video-processing-cli",
+		"video-cli-download-url": "https://github.com/OneOffTech/video-processing-cli/releases/download/v0.5.2/video-processing-cli",
 		"language-guesser-binary": "https://github.com/avvertix/franc-bin/releases/download/v0.1.0/franc-bin"
 	},
 	"minimum-stability": "dev",
