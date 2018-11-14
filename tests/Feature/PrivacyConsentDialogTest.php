@@ -118,7 +118,7 @@ class PrivacyConsentDialogTest extends TestCase
         ]);
 
         $response->assertRedirect($expected_url);
-        $this->assertTrue(Consent::isGiven($user, Consents::PRIVACY), "Expected consent not given");
+        $this->assertTrue(Consent::isGiven(Consents::PRIVACY, $user), "Expected consent not given");
 
         $activity = Activity::all()->last();
 

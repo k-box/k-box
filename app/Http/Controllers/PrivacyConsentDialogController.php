@@ -23,7 +23,7 @@ class PrivacyConsentDialogController extends Controller
     {
         $user = $request->user();
 
-        if (Consent::isGiven($user, Consents::PRIVACY)) {
+        if (Consent::isGiven(Consents::PRIVACY, $user)) {
             // if user did agree to the privacy policy
             // the page do not make sense
             return redirect()->to(HomeRoute::get($user));

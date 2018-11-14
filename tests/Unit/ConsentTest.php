@@ -22,7 +22,7 @@ class ConsentTest extends TestCase
 
         Consent::agree($user, Consents::PRIVACY);
 
-        $this->assertTrue(Consent::isGiven($user, Consents::PRIVACY), "Expected consent not given");
+        $this->assertTrue(Consent::isGiven(Consents::PRIVACY, $user), "Expected consent not given");
 
         $activity = Activity::all()->last();
 
@@ -44,7 +44,7 @@ class ConsentTest extends TestCase
 
         Consent::withdraw($user, Consents::PRIVACY);
 
-        $this->assertFalse(Consent::isGiven($user, Consents::PRIVACY), "Expected consent was not removed from database");
+        $this->assertFalse(Consent::isGiven(Consents::PRIVACY, $user), "Expected consent was not removed from database");
 
         $activity = Activity::all()->last();
         

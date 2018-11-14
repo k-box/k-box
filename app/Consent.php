@@ -94,16 +94,22 @@ class Consent extends Model
     /**
      * Shortcut for checking if the user gave a specific consent
      *
-     * @param \KBox\User $user
-     * @param int $consent
+     * @param int $consent The consent you want to check
+     * @param \KBox\User|null $user the user that should have given the consent. Default null, the currently authenticated user will be used
      * @return bool
      */
-    public static function isGiven(User $user, $consent)
+    public static function isGiven($consent, ?User $user = null)
     {
         if (! Consents::isValidEnumValue($consent)) {
             throw new InvalidArgumentException("Invalid consent topic specified. Given $consent");
         }
+        
+        $user_id = optional($user)->getKey() ?? optional(auth()->user())->getKey();
+        
+        if (! $user_id) {
+            throw new InvalidArgumentException("User not specified when verifying consent.");
+        }
 
-        return static::where('user_id', $user->getKey())->where('consent_topic', $consent)->exists();
+        return static::where('user_id', $user_id)->where('consent_topic', $consent)->exists();
     }
 }
