@@ -117,7 +117,7 @@ unit_test:
     - php artisan route:clear
     - php artisan migrate --env=testing --force
     - php artisan db:seed --env=testing --force
-    - vendor/bin/phpunit --verbose --debug
+    - vendor/bin/phpunit
     - php artisan lang:check --report=translations.txt
   tags:
     - docker
