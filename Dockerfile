@@ -68,10 +68,10 @@ RUN locale-gen "en_US.UTF-8" \
 ### The installation procedure is heavily inspired from https://github.com/nginxinc/docker-nginx
 RUN set -e; \
 	NGINX_GPGKEY=573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62; \
-	NGINX_VERSION=1.14.0-1~stretch; \
+	NGINX_VERSION=1.14.1-1~stretch; \
 	found=''; \
 	apt-get update; \
-	apt-get install -y gnupg; \
+	apt-get install --no-install-recommends --no-install-suggests -y gnupg1 apt-transport-https ca-certificates; \
 	for server in \
 		ha.pool.sks-keyservers.net \
 		hkp://keyserver.ubuntu.com:80 \
