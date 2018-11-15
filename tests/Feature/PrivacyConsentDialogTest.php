@@ -32,6 +32,7 @@ class PrivacyConsentDialogTest extends TestCase
             'id' => Page::PRIVACY_POLICY_LEGAL,
             'title' => 'Example legal privacy policy',
             'description' => 'A descriptive text',
+            'language' => 'en',
             'authors' => 1,
             'content' => '## page content'
         ]), function ($page) {
