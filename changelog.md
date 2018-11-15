@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
-## [0.24.0] - 2018-11-13
+## [0.24.0] - 2018-11-15
 
 ### Added
 
@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - GDPR clean personal data from detail panels ([#165](https://github.com/k-box/k-box/pull/165)) 
 - Anonymize IP address in access log ([#167](https://github.com/k-box/k-box/pull/167)) 
 - Geographic Extension plugin to version [0.2.0](./plugins/geo/changelog.md#020---2018-11-07)
+- Update Video Processing CLI to version 0.5.3 ([#174](https://github.com/k-box/k-box/pull/174))
 
 ### Fixed
 
