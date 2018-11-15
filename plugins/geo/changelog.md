@@ -7,6 +7,23 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.2.0] - 2018-11-13
+
+### Added
+
+- Ability to delete map providers ([#147](https://github.com/k-box/k-box/pull/147))
+- GeoPackage v1.2 format support ([#152](https://github.com/k-box/k-box/pull/152)) 
+- Add control for layer opacity ([#150](https://github.com/k-box/k-box/pull/150)) 
+- Search of Geographic data ([#140](https://github.com/k-box/k-box/pull/140))
+- GeoServer WMS request proxy ([#164](https://github.com/k-box/k-box/pull/164)) 
+- Ability to display feature information when clicking on a map preview ([#154](https://github.com/k-box/k-box/pull/154))
+
+### Fixed
+
+- Improve GeoTiff preview of greyscale image ([#153](https://github.com/k-box/k-box/pull/153)) 
+- Improve GeoTiff thumbnail of greyscale image ([#149](https://github.com/k-box/k-box/pull/149)) 
+- Improve UTF-8 support ([#162](https://github.com/k-box/k-box/pull/162)) 
+
 ## [0.1.0] - 2018-10-01
 
 ### Added

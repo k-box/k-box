@@ -6,7 +6,7 @@ The documentation targets users, IT person, and developers.
 
 - [User](./user/index.md)
 - [Release Notes](./release-note/index.md)
- - [Latest version (0.23)](./release-note/release-note-0.23.md)
+ - [Latest version (0.24)](./release-note/release-note-0.24.md)
 - [Developer](./developer/index.md)
 
 ## Structure
