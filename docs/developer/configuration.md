@@ -114,6 +114,7 @@ The K-Box Docker image has specific configuration options, expressed via environ
 | `KBOX_ADMIN_PASSWORD`          |          | string  |                 | The password of the default administrator account |
 | `KBOX_UPLOAD_LIMIT`            |          | number  | 204800          | The maximum file upload size, in KB |
 | `KBOX_FLAGS`                   |          | string  |                 | The space separated list of [flags](./flags.md) to enable |
+| `KBOX_LOAD_PRIVACY`            |          | boolean | false           | Set it to true to trigger the privacy policy creation from templates |
 
 > In addition to these specific variables, all static configuration variables prefixed with `KBOX_` can also be configured as part of the Docker environment variables
 
