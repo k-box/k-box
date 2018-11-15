@@ -21,7 +21,7 @@ class PrivacySummaryPageControllerTest extends TestCase
 
         $content_en = <<<'EOD'
 ---
-id: privacy
+id: privacy-summary
 language: en
 title: privacy
 description: The privacy description
@@ -32,7 +32,7 @@ authors: 1
 EOD;
         $expected_content_en = Markdown::convertToHtml('## Content');
 
-        $disk->put('pages/privacy.en.md', $content_en);
+        $disk->put('pages/privacy-summary.en.md', $content_en);
         $url = route('privacy.summary');
 
         $response = $this->get($url);
@@ -54,7 +54,7 @@ EOD;
 
         $content = <<<'EOD'
 ---
-id: privacy
+id: privacy-summary
 language: en
 title: privacy
 description: The privacy description
@@ -65,7 +65,7 @@ authors: 1
 EOD;
         $expected_content = Markdown::convertToHtml('## Content');
 
-        $disk->put('pages/privacy.en.md', $content);
+        $disk->put('pages/privacy-summary.en.md', $content);
         $url = route('privacy.summary');
 
         $response = $this->withHeaders([
