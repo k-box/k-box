@@ -72,7 +72,7 @@
 
 </header>
 
-@include('dashboard.terms_notice')
+@includeWhen(!isset($hide_alerts) || (isset($hide_alerts) && !$hide_alerts), 'dashboard.terms_notice')
 
 <div class="c-message c-message--warning outdated js-outdated" id="js-outdated">
 	
