@@ -40,6 +40,7 @@ class Kernel extends ConsoleKernel
         \KBox\Console\Commands\VideoElaborateCommand::class,
         \KBox\Console\Commands\StatisticsCommand::class,
         \KBox\Console\Commands\PrivacyLoadCommand::class,
+        \KBox\Console\Commands\TermsLoadCommand::class,
     ];
 
     /**
