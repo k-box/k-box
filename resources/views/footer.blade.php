@@ -3,7 +3,7 @@
 	<p>
 		
 	&copy; 2014-{{date('Y')}} K-Link.
-	<span class="version hint--top" data-hint="{{\App::environment()}} {{ config('dms.build') }}">{{ config('app.name') }} {{ config('dms.version') }}</span>.
+	<span class="version hint--top" data-hint="{{ config('dms.build') }}">{{ config('app.name') }} {{ config('dms.version') }}</span>.
 
 	@if(!isset($not_show_links))
 
@@ -11,9 +11,9 @@
 			
 			<a href="{{ route('help') }}">{{trans('pages.help')}}</a>
 			
-			<a href="{{ route('terms') }}">{{trans('pages.service_policy')}}</a>
+			<a href="{{ route('terms') }}">{{trans('pages.terms')}}</a>
 			
-			<a href="{{ route('privacy.legal') }}">{{trans('pages.privacy')}}</a>
+			<a href="{{ route('privacy.summary') }}">{{trans('pages.privacy')}}</a>
 
 			<a href="{{ route('contact') }}">{{trans('pages.contact')}}</a>
 
