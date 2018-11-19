@@ -11,9 +11,9 @@
 			
 			<a href="{{ route('help') }}">{{trans('pages.help')}}</a>
 			
-			<a href="{{ route('terms') }}">{{trans('pages.terms')}}</a>
-			
 			<a href="{{ route('privacy.summary') }}">{{trans('pages.privacy')}}</a>
+
+			<a href="{{ route('terms') }}">{{trans('pages.terms')}}</a>
 
 			<a href="{{ route('contact') }}">{{trans('pages.contact')}}</a>
 
