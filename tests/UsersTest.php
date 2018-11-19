@@ -36,11 +36,6 @@ class UsersTest extends BrowserKitTestCase
             [Capability::$PROJECT_MANAGER, User::OPTION_LANGUAGE, ['en', 'ru']],
             [Capability::$PARTNER, User::OPTION_LANGUAGE, ['en', 'ru']],
             [Capability::$GUEST, User::OPTION_LANGUAGE, ['en', 'ru']],
-            
-            [Capability::$ADMIN, User::OPTION_TERMS_ACCEPTED, ['1', true]],
-            [Capability::$PROJECT_MANAGER, User::OPTION_TERMS_ACCEPTED, ['1', true]],
-            [Capability::$PARTNER, User::OPTION_TERMS_ACCEPTED, ['1', true]],
-            [Capability::$GUEST, User::OPTION_TERMS_ACCEPTED, ['1', true]],
 
             [Capability::$ADMIN, User::OPTION_PERSONAL_IN_PROJECT_FILTERS, ['1', true]],
             [Capability::$PROJECT_MANAGER, User::OPTION_PERSONAL_IN_PROJECT_FILTERS, ['1', true]],
@@ -75,36 +70,6 @@ class UsersTest extends BrowserKitTestCase
             
             $this->assertEquals($user->getOption($option)->value, $value);
         }
-    }
-    
-    /**
-     * @dataProvider capabilities
-     */
-    public function testTermsMessageShow($cap)
-    {
-        $this->withKlinkAdapterFake();
-        
-        $user = $this->createUser($cap);
-        
-        $this->actingAs($user);
-        
-        $this->visit(route('documents.index'));
-        
-        // check if showed
-
-        $this->see(trans('notices.terms_of_use', ['policy_link' => route('terms')]));
-        
-        // save the option
-        
-        $user->setOption(User::OPTION_TERMS_ACCEPTED, true);
-        
-        // reload
-        
-        $this->visit(route('documents.index'));
-        
-        // check if not showed
-        
-        $this->dontSee(trans('notices.terms_of_use', ['policy_link' => route('terms')]));
     }
 
     public function testOptionPersonalInProjectFilters()
