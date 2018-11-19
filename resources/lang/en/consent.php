@@ -15,8 +15,8 @@ return [
     'disagree_logout' => 'Disagree and logout',
 
     'privacy' => [
-        'dialog_title' => 'Our Privacy Policy changed',
-        'dialog_description' => 'We made some changes to the K-Box service privacy policy. Please take a moment to review it',
+        'dialog_title' => 'We need your confirmation',
+        'dialog_description' => 'Please review carefully our new privacy policy including all information on how we treat and your rights related to your data.',
     ],
     
     'notification' => [
