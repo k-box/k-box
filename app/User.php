@@ -58,8 +58,6 @@ class User extends Authenticatable
   
     const OPTION_LANGUAGE = "language";
   
-    const OPTION_TERMS_ACCEPTED = "terms_accepted";
-  
     const OPTION_PERSONAL_IN_PROJECT_FILTERS = "show_personal_in_project_filters";
   
     const OPTION_ITEMS_PER_PAGE = "items_per_page";
@@ -286,18 +284,6 @@ class User extends Authenticatable
         $opt = $this->getOption(self::OPTION_LIST_TYPE, null);
 
         return  (! is_null($opt)) ? $opt->value : 'cards';
-    }
-  
-    /**
-     * Get if the user has accepted the terms
-     *
-     * @return bool true if the user accepted the terms of use. Default false
-     */
-    public function optionTermsAccepted()
-    {
-        $opt = $this->getOption(self::OPTION_TERMS_ACCEPTED, null);
-
-        return  (! is_null($opt)) ? $opt->value : false;
     }
 
     /**

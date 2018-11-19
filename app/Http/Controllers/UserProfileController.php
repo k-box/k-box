@@ -97,12 +97,6 @@ class UserProfileController extends Controller
 
             $user->save();
         }
-        
-        if ($request->has(User::OPTION_TERMS_ACCEPTED)) {
-            $user->setOption(User::OPTION_TERMS_ACCEPTED, filter_var($request->get(User::OPTION_TERMS_ACCEPTED), FILTER_VALIDATE_BOOLEAN));
-
-            $user->save();
-        }
 
         if ($request->has(User::OPTION_PERSONAL_IN_PROJECT_FILTERS)) {
             $user->setOption(User::OPTION_PERSONAL_IN_PROJECT_FILTERS, filter_var($request->get(User::OPTION_PERSONAL_IN_PROJECT_FILTERS), FILTER_VALIDATE_BOOLEAN));

@@ -5,7 +5,6 @@
         'hide_menu' => true,
         'current_user_home_route' => route('consent.dialog.privacy.show'),
         'profile_url' => false,
-        'hide_alerts' => true,
     ])
 
 @overwrite
