@@ -36,7 +36,29 @@
             <h2>{{ trans('consent.privacy.dialog_title') }}</h2>
             <p>{{ trans('consent.privacy.dialog_description') }}</p>
 
-            {!! $privacy_content !!}
+            @if(!is_null($summary_content))
+
+                <div class="box">
+                    {!! $summary_content !!}
+                </div>
+
+                <p>
+                    <a href="#legal">{{ trans('consent.privacy.show_full_text') }}</a>
+                </p>
+
+                <div class="box hide-if-not-target" id="legal">
+                    {!! $privacy_content !!}
+                </div>
+
+            @else 
+
+                <div class="box" id="legal">
+                    {!! $privacy_content !!}
+                </div>
+
+            @endif
+
+            
 
             <div class="c-form__field">
                 <button class="button button--primary" type="submit">{{ trans('consent.agree') }}</button>

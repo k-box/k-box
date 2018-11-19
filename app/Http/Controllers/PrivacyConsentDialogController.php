@@ -30,16 +30,18 @@ class PrivacyConsentDialogController extends Controller
             return redirect()->to(HomeRoute::get($user));
         }
         
-        $page = Page::find(Page::PRIVACY_POLICY_LEGAL, app()->getLocale()) ?? Page::find(Page::PRIVACY_POLICY_LEGAL, config('app.fallback_locale'));
+        $legal = Page::find(Page::PRIVACY_POLICY_LEGAL, app()->getLocale()) ?? Page::find(Page::PRIVACY_POLICY_LEGAL, config('app.fallback_locale'));
+        $summary = Page::find(Page::PRIVACY_POLICY_SUMMARY, app()->getLocale()) ?? Page::find(Page::PRIVACY_POLICY_SUMMARY, config('app.fallback_locale'));
         
-        if (! $page) {
+        if (! $legal) {
             // no privacy policy to show, skipping
             return redirect()->to(HomeRoute::get($user));
         }
 
         return view('consents.privacy', [
             'pagetitle' => trans('consent.privacy.dialog_title'),
-            'privacy_content' => $page->html
+            'privacy_content' => $legal->html,
+            'summary_content' => $summary ? $summary->html : null
         ]);
     }
 

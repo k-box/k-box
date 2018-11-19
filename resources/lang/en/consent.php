@@ -17,6 +17,7 @@ return [
     'privacy' => [
         'dialog_title' => 'We need your confirmation',
         'dialog_description' => 'Please review carefully our new privacy policy including all information on how we treat and your rights related to your data.',
+        'show_full_text' => 'Show me the full legal text',
     ],
     
     'notification' => [
