@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.2.1] - 2018-11-20
+
+### Fixed
+
+- Authorization handling in WMS proxy request if file is in collection ([#179](https://github.com/k-box/k-box/pull/179))
+
 ## [0.2.0] - 2018-11-13
 
 ### Added
