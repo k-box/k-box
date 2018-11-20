@@ -68,7 +68,7 @@ class WebMapServiceController extends Controller
         $is_in_collection = false;
 
         if (! is_null($collections) && ! $collections->isEmpty() && ! is_null($user)) {
-            $serv = $this->documentsService;
+            $serv = $this->documents;
 
             $filtered = $collections->filter(function ($c) use ($serv, $user) {
                 return $serv->isCollectionAccessible($user, $c);
