@@ -95,7 +95,7 @@ return [
         'document_already_accessible_by_all_users' => 'Документ уже доступен для всех пользователей системы.',
         'collection_already_accessible_by_all_users' => 'Коллекция уже открыта для всех пользователей системы.',
 
-        'add_users' => 'Добавить пользователя',
+        'add_users' => 'Добавить',
         'select_users' => 'Введите имя...',
 
         'access_by_direct_share' => 'Прямой доступ',
