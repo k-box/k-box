@@ -2,7 +2,7 @@
 
 # K-Box
 
-Web-based management system for documents and videos with a comfortable full content search. It connects easily to the K-Link services.
+The digital tool for projects in the field: Web-based application to manage documents, images, videos and geodata. It contains a full content search, a translated interface into several languages and it connects easily to the K-Link services.
 
 ![K-Box Logo](./public/k-box-logo.png)
 
