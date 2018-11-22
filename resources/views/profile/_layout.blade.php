@@ -10,7 +10,7 @@
 
 @section('content')
 
-	<div class="c-column c-column--short">
+	<div class="sidebar">
 
 		<div class="navigation navigation--secondary">
 		
@@ -50,8 +50,7 @@
 
 	</div>
 
-	<div class="c-column c-column--medium">
-
+	<div class="sidebar__spaced">
 
 			@include('errors.list')
 
