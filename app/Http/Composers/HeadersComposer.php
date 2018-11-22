@@ -58,7 +58,7 @@ class HeadersComposer
                        ! str_contains($route_name, 'contact') &&
                        ! str_contains($route_name, 'help') && ! starts_with($route_name, 'terms') && ! str_contains($route_name, 'import') && ! str_contains($route_name, 'trash') &&
                        ! starts_with($route_name, 'projects')  && ! str_contains($route_name, 'people.index') &&
-                       ! str_contains($route_name, 'profile.index') && ! str_contains($route_name, 'people.show') &&
+                       ! str_contains($route_name, 'profile.') && ! str_contains($route_name, 'people.show') &&
                        ! starts_with($route_name, 'consent') &&
                        ! starts_with($route_name, 'password') && ! starts_with($route_name, 'microsite'));
 
