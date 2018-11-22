@@ -22,12 +22,12 @@ return [
     
     'notification' => [
         'dialog_title' => 'E-Mail notifications',
-        'dialog_description' => 'Would you like to receive notifications',
+        'dialog_description' => 'Would you like to receive notifications per E-Mail?',
     ],
     
     'statistics' => [
         'dialog_title' => 'Usage statistics',
-        'dialog_description' => 'Would you allow us to collect anonymous usage statics when using the K-Box',
+        'dialog_description' => 'Would you allow us to collect anonymous usage statistics when using the K-Box?',
     ],
     
 
