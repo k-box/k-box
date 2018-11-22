@@ -27,7 +27,7 @@ return [
     
     'statistics' => [
         'dialog_title' => 'Usage statistics',
-        'dialog_description' => 'Would you allow us to collect anonymous usage statics when using the K-Box',
+        'dialog_description' => 'Would you allow us to collect anonymous usage statistics when using the K-Box',
     ],
     
 
