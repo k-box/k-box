@@ -279,14 +279,21 @@ Route::get('s/{link}', [
 |
 */
 
-// used to store document layout and other options via async requests
-Route::post('profile/options', [
-      'uses' => 'UserProfileController@update',
-      'as' => 'profile.update',
-]);
+Route::prefix('profile')->name('profile.')->group(function () {
+    Route::get('/', 'UserProfileController@index')->name('index');
+    Route::put('/', 'UserProfileController@update')->name('update');
 
-// the profile page
-Route::resource('profile', 'UserProfileController', ['only' => ['index', 'store']]);
+    Route::get('privacy', 'UserPrivacyController@index')->name('privacy.index');
+    Route::put('privacy', 'UserPrivacyController@update')->name('privacy.update');
+    Route::get('password', 'UserPasswordController@index')->name('password.index');
+    Route::put('password', 'UserPasswordController@update')->name('password.update');
+    Route::get('email', 'UserEmailController@index')->name('email.index');
+    Route::put('email', 'UserEmailController@update')->name('email.update');
+    Route::put('language', 'ChangeUserLanguagePreferenceController')->name("language.update");
+    
+    // used to store document layout and other options via async requests
+    Route::put('options', 'UserOptionsController@update')->name('options.update');
+});
 
 /*
 |--------------------------------------------------------------------------

@@ -13,6 +13,8 @@ return [
 
     'page_title' => ':name\'s profile',
 
+    'profile' => 'Profile',
+    
     'go_to_profile' => 'View your profile',
     
     'messages' => [
@@ -21,6 +23,10 @@ return [
         'info_changed' => 'User information changed.',
         'password_changed' => 'Password changed.',
         'language_changed' => 'Language updated.',
+    ],
+
+    'errors' => [
+        'username_already_taken' => 'The username is already taken. Maybe try a variation of it.',
     ],
 
     'labels' => [
@@ -50,5 +56,21 @@ return [
     'documents_count_label' => ':number document uploaded|:number documents uploaded',
     'collections_count_label' => ':number document collection|:number document collections',
     'shared_count_label' => ':number share created|:number shares created',
+    
+    'account_settings' => 'Account Settings',
+
+    'privacy' => [
+        'privacy' => 'Privacy',
+        'section_name' => 'Change your privacy preferences',
+        'section_description' => '',
+
+        'activity' => [
+            'consent_given' => 'The consent was given by you on :date',
+            'consent_withdrawn_by_system' => 'The consent was withdrawn by a privacy policy change on :date',
+            'consent_withdrawn_by_user' => 'You withdrawn the consent on :date',
+        ],
+
+        'update_privacy_preferences' => 'Update privacy preferences',
+    ],
 
 ];

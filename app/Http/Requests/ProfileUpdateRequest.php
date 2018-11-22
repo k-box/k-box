@@ -15,7 +15,7 @@ class ProfileUpdateRequest extends Request
      */
     public function authorize()
     {
-        return true;
+        return auth()->check();
     }
 
     /**
@@ -26,14 +26,16 @@ class ProfileUpdateRequest extends Request
     public function rules()
     {
         return [
-            'name' => 'sometimes|required|string',
-            'email' => 'sometimes|required|email|unique:users,email',
-            'password' => 'sometimes|required|min:8',
-            'password_confirm' => 'required_with:password|same:password',
+            'name' => 'sometimes|required|string|unique:users,name',
             'organization_name' => 'sometimes|nullable|string',
             'organization_website' => 'sometimes|nullable|url',
-            '_change' => 'required|in:pass,mail,info,language',
-            User::OPTION_LANGUAGE => 'sometimes|required|in:en,ru,tg,fr,de,ky'
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'name.unique' => trans('profile.errors.username_already_taken'),
         ];
     }
 }

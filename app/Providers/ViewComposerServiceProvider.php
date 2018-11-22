@@ -18,7 +18,7 @@ class ViewComposerServiceProvider extends ServiceProvider
     {
         view()->composer('global', \KBox\Http\Composers\AllComposer::class);
         view()->composer('search', \KBox\Http\Composers\HeadersComposer::class);
-        view()->composer('profile.user', \KBox\Http\Composers\HeadersComposer::class);
+        view()->composer('profile._layout', \KBox\Http\Composers\HeadersComposer::class);
         
         $this->registerHeadersComposer();
         

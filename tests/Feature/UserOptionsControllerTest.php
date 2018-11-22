@@ -1,15 +1,13 @@
 <?php
 
-use KBox\User;
-use KBox\Capability;
+namespace Tests\Feature;
 
-use Tests\BrowserKitTestCase;
+use KBox\User;
+use Tests\TestCase;
+use KBox\Capability;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-/**
- * Tests user handling
-*/
-class UsersTest extends BrowserKitTestCase
+class UserOptionsControllerTest extends TestCase
 {
     use DatabaseTransactions;
     
@@ -32,11 +30,6 @@ class UsersTest extends BrowserKitTestCase
             [Capability::$PARTNER, User::OPTION_LIST_TYPE, ['details','tiles','cards']],
             [Capability::$GUEST, User::OPTION_LIST_TYPE, ['details','tiles','cards']],
             
-            [Capability::$ADMIN, User::OPTION_LANGUAGE, ['en', 'ru']],
-            [Capability::$PROJECT_MANAGER, User::OPTION_LANGUAGE, ['en', 'ru']],
-            [Capability::$PARTNER, User::OPTION_LANGUAGE, ['en', 'ru']],
-            [Capability::$GUEST, User::OPTION_LANGUAGE, ['en', 'ru']],
-
             [Capability::$ADMIN, User::OPTION_PERSONAL_IN_PROJECT_FILTERS, ['1', true]],
             [Capability::$PROJECT_MANAGER, User::OPTION_PERSONAL_IN_PROJECT_FILTERS, ['1', true]],
             [Capability::$PARTNER, User::OPTION_PERSONAL_IN_PROJECT_FILTERS, ['1', true]],
@@ -54,19 +47,19 @@ class UsersTest extends BrowserKitTestCase
      */
     public function testUserProfileOptions($cap, $option, $values)
     {
-        $user = $this->createUser($cap);
-        
-        \Session::start(); // Start a session for the current test
+        $user = tap(factory(User::class)->create(), function ($u) use ($cap) {
+            $u->addCapabilities($cap);
+        });
         
         $this->actingAs($user);
         
         foreach ($values as $value) {
-            $this->post(route('profile.update'), [
+            $response = $this->put(route('profile.options.update'), [
                 $option => $value,
                 '_token' => csrf_token()
             ]);
             
-            $this->assertResponseStatus(200);
+            $response->assertRedirect(route('profile.index'));
             
             $this->assertEquals($user->getOption($option)->value, $value);
         }
@@ -74,14 +67,18 @@ class UsersTest extends BrowserKitTestCase
 
     public function testOptionPersonalInProjectFilters()
     {
-        $user = $this->createAdminUser();
+        $user = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$ADMIN);
+        });
 
         $this->assertFalse($user->optionPersonalInProjectFilters());
     }
 
     public function testOptionItemsPerPage()
     {
-        $user = $this->createAdminUser();
+        $user = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$ADMIN);
+        });
 
         $this->assertEquals(config('dms.items_per_page'), $user->optionItemsPerPage());
 

@@ -27,7 +27,8 @@ class UserOptionUpdateRequest extends Request
     {
         return [
             User::OPTION_LIST_TYPE => 'sometimes|required|in:details,tiles,cards',
-            User::OPTION_LANGUAGE => 'sometimes|required|in:en,ru,tg'
+            User::OPTION_PERSONAL_IN_PROJECT_FILTERS => 'sometimes|required|boolean',
+            User::OPTION_ITEMS_PER_PAGE => 'sometimes|required|integer|min:1',
         ];
     }
 }

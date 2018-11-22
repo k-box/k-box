@@ -243,6 +243,16 @@ class User extends Authenticatable
     }
 
     /**
+     * The consents given by the user
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function consents()
+    {
+        return $this->hasMany(Consent::class);
+    }
+
+    /**
      * Generates a random eight characters password.
      *
      * @return string an eight character password (not hashed)

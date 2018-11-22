@@ -678,7 +678,7 @@ window.DMS = (function(_$, _nprogress, _rivets, _alert){
 
 			Options: {
 				saveListStyle: function(style, success, error){
-					module.Ajax.post(module.Paths.USER_PROFILE_OPTIONS, {list_style: style}, success, error);
+					module.Ajax.put(module.Paths.USER_PROFILE_OPTIONS, {list_style: style}, success, error);
 				}
 			},
 			ProjectAvatar: {

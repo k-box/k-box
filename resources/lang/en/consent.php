@@ -21,13 +21,13 @@ return [
     ],
     
     'notification' => [
-        'dialog_title' => 'Would you like to receive notifications',
-        'dialog_description' => '',
+        'dialog_title' => 'E-Mail notifications',
+        'dialog_description' => 'Would you like to receive notifications',
     ],
     
     'statistics' => [
-        'dialog_title' => 'Would you allow us to collect anonymous usage statics when using the K-Box',
-        'dialog_description' => '',
+        'dialog_title' => 'Usage statistics',
+        'dialog_description' => 'Would you allow us to collect anonymous usage statics when using the K-Box',
     ],
     
 
