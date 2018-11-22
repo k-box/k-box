@@ -411,9 +411,12 @@ Route::get('help/licenses', ['as' => 'help.licenses', 'uses' => 'LicensesHelpCon
 | Handle consent dialog requests and management.
 |
 */
-
-Route::get('/consent/privacy', ['as' => 'consent.dialog.privacy.show', 'uses' => 'PrivacyConsentDialogController@show']);
-Route::put('/consent/privacy', ['as' => 'consent.dialog.privacy.update', 'uses' => 'PrivacyConsentDialogController@update']);
+Route::prefix('consent')->name('consent.dialog.')->group(function () {
+    Route::get('privacy', ['as' => 'privacy.show', 'uses' => 'PrivacyConsentDialogController@show']);
+    Route::put('privacy', ['as' => 'privacy.update', 'uses' => 'PrivacyConsentDialogController@update']);
+    Route::get('others', ['as' => 'others.show', 'uses' => 'OthersConsentDialogController@show']);
+    Route::put('others', ['as' => 'others.update', 'uses' => 'OthersConsentDialogController@update']);
+});
 
 /*
 |--------------------------------------------------------------------------

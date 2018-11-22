@@ -86,13 +86,14 @@ class PrivacyConsentDialogTest extends TestCase
         $response->assertRedirect($expected_url);
     }
 
-    public function test_consent_dialog_redirects_if_user_gave_consent()
+    public function test_consent_dialog_redirects_if_user_gave_consent_and_no_other_consents_are_pending()
     {
         $user = tap(factory(User::class)->create(), function ($u) {
             $u->addCapabilities(Capability::$PARTNER);
         });
 
         Consent::agree($user, Consents::PRIVACY);
+        Consent::agree($user, Consents::NOTIFICATION);
 
         $url = route('consent.dialog.privacy.show');
         $expected_url = route('documents.index');
@@ -110,6 +111,8 @@ class PrivacyConsentDialogTest extends TestCase
         $user = tap(factory(User::class)->create(), function ($u) {
             $u->addCapabilities(Capability::$PARTNER);
         });
+
+        Consent::agree($user, Consents::NOTIFICATION);
 
         $url = route('consent.dialog.privacy.update');
         $expected_url = route('documents.index');
@@ -131,5 +134,22 @@ class PrivacyConsentDialogTest extends TestCase
         $this->assertEquals($user->getKey(), $activity->causer->getKey());
         $this->assertEquals($user->getKey(), $activity->subject->user_id);
         $this->assertEquals(Consents::PRIVACY, $activity->subject->consent_topic);
+    }
+
+    public function test_agree_to_privacy_redirect_to_others_consent_dialog()
+    {
+        $user = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$PARTNER);
+        });
+
+        $url = route('consent.dialog.privacy.update');
+        $expected_url = route('consent.dialog.others.show');
+
+        $response = $this->actingAs($user)->put($url, [
+            'agree' => 'privacy',
+        ]);
+
+        $response->assertRedirect($expected_url);
+        $this->assertTrue(Consent::isGiven(Consents::PRIVACY, $user), "Expected consent not given");
     }
 }
