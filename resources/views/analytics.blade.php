@@ -1,6 +1,6 @@
 
 @auth
-  @if(analytics_token() !== false)
+  @if(analytics_token() !== false && \KBox\Consent::isGiven(\KBox\Consents::STATISTIC))
 
   <!-- Piwik -->
   <script type="text/javascript">
