@@ -7,7 +7,7 @@ use KBox\Consents;
 use KBox\HomeRoute;
 use Illuminate\Http\Request;
 
-class OthersConsentDialogController extends Controller
+class StatisticConsentDialogController extends Controller
 {
     public function __construct()
     {
@@ -23,18 +23,18 @@ class OthersConsentDialogController extends Controller
     {
         $user = $request->user();
 
-        if (Consent::isGiven(Consents::NOTIFICATION, $user) || Consent::isGiven(Consents::STATISTIC, $user)) {
+        if (Consent::isGiven(Consents::STATISTIC, $user)) {
             return redirect()->to(HomeRoute::get($user));
         }
 
-        return view('consents.others', [
-            'pagetitle' => trans('consent.privacy.dialog_title'),
+        return view('consents.statistic', [
+            'pagetitle' => trans('consent.statistics.dialog_title'),
             'skip_to' => HomeRoute::get($user)
         ]);
     }
 
     /**
-     * Update the user's privacy consent.
+     * Update the user's statistic collection consent.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
@@ -43,17 +43,10 @@ class OthersConsentDialogController extends Controller
     public function update(Request $request)
     {
         $this->validate($request, [
-            'notifications' => 'sometimes|required|boolean',
-            'statistics' => 'sometimes|required|boolean',
+            'statistics' => 'required|boolean',
         ]);
 
         $user = $request->user();
-
-        if ($request->has('notifications')) {
-            $action = (integer)$request->input('notifications', 0) === 1 ? 'agree' : 'withdraw';
-
-            Consent::{$action}($user, Consents::NOTIFICATION);
-        }
 
         if ($request->has('statistics')) {
             $action = (integer)$request->input('statistics', 0) === 1 ? 'agree' : 'withdraw';

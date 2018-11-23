@@ -414,8 +414,10 @@ Route::get('help/licenses', ['as' => 'help.licenses', 'uses' => 'LicensesHelpCon
 Route::prefix('consent')->name('consent.dialog.')->group(function () {
     Route::get('privacy', ['as' => 'privacy.show', 'uses' => 'PrivacyConsentDialogController@show']);
     Route::put('privacy', ['as' => 'privacy.update', 'uses' => 'PrivacyConsentDialogController@update']);
-    Route::get('others', ['as' => 'others.show', 'uses' => 'OthersConsentDialogController@show']);
-    Route::put('others', ['as' => 'others.update', 'uses' => 'OthersConsentDialogController@update']);
+    Route::get('notification', ['as' => 'notification.show', 'uses' => 'NotificationConsentDialogController@show']);
+    Route::put('notification', ['as' => 'notification.update', 'uses' => 'NotificationConsentDialogController@update']);
+    Route::get('statistic', ['as' => 'statistic.show', 'uses' => 'StatisticConsentDialogController@show']);
+    Route::put('statistic', ['as' => 'statistic.update', 'uses' => 'StatisticConsentDialogController@update']);
 });
 
 /*
