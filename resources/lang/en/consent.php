@@ -23,20 +23,20 @@ return [
     ],
     
     'others' => [
-        'dialog_title' => 'One last thing from you',
-        'dialog_description' => 'The K-Box offers different services, we want to get your preferences about E-Mail notifications and statistics collection.',
+        'dialog_title' => 'One question',
+        'dialog_description' => 'The K-Box offers some functionality we want to ask you for your permission. In case you deny, you will still be able to use the K-Box.',
     ],
     
     'notification' => [
         'dialog_title' => 'E-Mail notifications',
-        'dialog_description' => 'Would you like to receive notifications per E-Mail?',
-        'agree_label' => 'I agree to receive E-Mail communications',
+        'dialog_description' => 'Receive notifications per E-Mail of any interactions of other users with you and your documents.',
+        'agree_label' => 'I agree to receive notification E-Mails',
     ],
     
     'statistics' => [
         'dialog_title' => 'Usage statistics',
-        'dialog_description' => 'Would you allow us to collect anonymous usage statistics when using the K-Box?',
-        'agree_label' => 'I agree that the K-Box provider can use my anonymized usage statistics',
+        'dialog_description' => 'Help us to improve the system and allow to collect statistics on your browsing and usage of the application.',
+        'agree_label' => 'I agree that the K-Box provider may create statistics based on my browsing and usage of the application',
     ],
     
 
