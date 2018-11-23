@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use Auth;
 use KBox\User;
+use KBox\Flags;
 use KBox\Consent;
 use KBox\Consents;
 use Tests\TestCase;
@@ -142,9 +143,28 @@ class PrivacyConsentDialogTest extends TestCase
         $user = tap(factory(User::class)->create(), function ($u) {
             $u->addCapabilities(Capability::$PARTNER);
         });
-
+        
+        Flags::enable(Flags::CONSENT_NOTIFICATIONS);
+        
         $url = route('consent.dialog.privacy.update');
         $expected_url = route('consent.dialog.notification.show');
+
+        $response = $this->actingAs($user)->put($url, [
+            'agree' => 'privacy',
+        ]);
+
+        $response->assertRedirect($expected_url);
+        $this->assertTrue(Consent::isGiven(Consents::PRIVACY, $user), "Expected consent not given");
+    }
+    
+    public function test_agree_to_privacy_redirect_to_statistic_consent_if_notification_is_disabled()
+    {
+        $user = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$PARTNER);
+        });
+
+        $url = route('consent.dialog.privacy.update');
+        $expected_url = route('consent.dialog.statistic.show');
 
         $response = $this->actingAs($user)->put($url, [
             'agree' => 'privacy',

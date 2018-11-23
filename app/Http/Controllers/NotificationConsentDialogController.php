@@ -21,6 +21,10 @@ class NotificationConsentDialogController extends Controller
      */
     public function show(Request $request)
     {
+        if (flags()->isDisabled('consent_notifications')) {
+            return redirect()->route('consent.dialog.statistic.show');
+        }
+
         $user = $request->user();
 
         $notification_given = Consent::isGiven(Consents::NOTIFICATION, $user);

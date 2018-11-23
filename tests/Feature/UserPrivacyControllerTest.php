@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use KBox\User;
+use KBox\Flags;
 use KBox\Consent;
 use KBox\Consents;
 use Tests\TestCase;
@@ -19,6 +20,8 @@ class UserPrivacyControllerTest extends TestCase
         $user = tap(factory(User::class)->create(), function ($u) {
             $u->addCapabilities(Capability::$ADMIN);
         });
+
+        Flags::enable(Flags::CONSENT_NOTIFICATIONS);
 
         Consent::agree($user, Consents::PRIVACY);
         Consent::agree($user, Consents::NOTIFICATION);
@@ -48,6 +51,8 @@ class UserPrivacyControllerTest extends TestCase
             $u->addCapabilities(Capability::$ADMIN);
         });
 
+        Flags::enable(Flags::CONSENT_NOTIFICATIONS);
+
         Consent::withdraw($user, Consents::NOTIFICATION);
 
         $response = $this->actingAs($user)->put(route('profile.privacy.update'), [
@@ -70,6 +75,8 @@ class UserPrivacyControllerTest extends TestCase
             $u->addCapabilities(Capability::$ADMIN);
         });
 
+        Flags::enable(Flags::CONSENT_NOTIFICATIONS);
+
         Consent::agree($user, Consents::NOTIFICATION);
 
         $response = $this->actingAs($user)->put(route('profile.privacy.update'), [
@@ -91,6 +98,8 @@ class UserPrivacyControllerTest extends TestCase
         $user = tap(factory(User::class)->create(), function ($u) {
             $u->addCapabilities(Capability::$ADMIN);
         });
+
+        Flags::enable(Flags::CONSENT_NOTIFICATIONS);
 
         Consent::withdraw($user, Consents::STATISTIC);
 

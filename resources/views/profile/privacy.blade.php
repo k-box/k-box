@@ -7,6 +7,7 @@
 	<h4>{{trans('profile.privacy.section_name')}}</h4>
 	<span class="description">{{trans('profile.privacy.section_description')}}</span>
 
+	@flag('consent_notifications')
 	<div class="c-form__field">
 
 		<div class="c-form__column">
@@ -29,8 +30,9 @@
 		@if( $errors->has('notifications') )
 			<span class="field-error">{{ implode(",", $errors->get('notifications'))  }}</span>
 		@endif
-		
+
 	</div>
+	@endflag
 
 	<div class="c-form__field c-section--top-separated">
 		<div class="c-form__column">

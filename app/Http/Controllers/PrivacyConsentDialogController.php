@@ -62,7 +62,7 @@ class PrivacyConsentDialogController extends Controller
 
         Consent::agree($user, Consents::PRIVACY);
         
-        if (! Consent::isGiven(Consents::NOTIFICATION, $user)) {
+        if (! Consent::isGiven(Consents::NOTIFICATION, $user) && flags('consent_notifications')) {
             return redirect()->route('consent.dialog.notification.show');
         }
         

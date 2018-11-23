@@ -3,7 +3,7 @@
 @section('header')
     @include('headers.header', [
         'hide_menu' => true,
-        'current_user_home_route' => route('consent.dialog.privacy.show'),
+        'current_user_home_route' => $skip_to,
         'profile_url' => false,
     ])
 
