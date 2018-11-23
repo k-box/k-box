@@ -51,4 +51,19 @@ return [
     'collections_count_label' => '{0} коллекций нет|{1} :number коллекция|{2,4} :number коллекции |{5,*} :number коллекций',
     'shared_count_label' => '{0} прямых доступов не создано|{1} :number документ с прямым доступом|{2,4} :number документа с прямым доступом|{5,*} :number документов с прямым доступом',
 
+    'account_settings' => 'Настройки аккаунта',
+
+    'privacy' => [
+        'privacy' => 'Конфиденциальность',
+        'section_name' => 'Изменить настройки конфиденциальности',
+        'section_description' => '',
+
+        'activity' => [
+            'consent_given' => 'Вы дали согласие :date',
+            'consent_withdrawn_by_system' => 'Согласие было отозвано из-за изменения политики конфиденциальности :date',
+            'consent_withdrawn_by_user' => 'Вы отозвали согласие :date',
+        ],
+
+    ],    'update_privacy_preferences' => 'Обновить настройки конфиденциальности',
+
 ];
