@@ -325,6 +325,11 @@ table {
     margin-bottom: @base-padding/2;
 }
 
+.c-form__column {
+    float: left;
+    width: 80px;
+}
+
 // a configuration section
 
 .c-section {
@@ -654,4 +659,11 @@ table {
         width: calc(~"50% - 8px - 340px");
     }
 
+}
+
+.hide-if-not-target:not(:target) {
+	display: none;
+}
+.hide-if-not-target:target {
+	display: block;
 }

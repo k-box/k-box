@@ -28,6 +28,9 @@ KBOX_ADMIN_PASSWORD=${KBOX_ADMIN_PASSWORD:-${KLINK_DMS_ADMIN_PASSWORD:-}}
 ## Search service endpoint
 KBOX_SEARCH_SERVICE_URL=${KBOX_SEARCH_SERVICE_URL:-${KLINK_DMS_CORE_ADDRESS:-http://ksearch.local/}}
 
+## Trigger privacy policy creation from templates
+KBOX_LOAD_PRIVACY=${KBOX_LOAD_PRIVACY:-false}
+
 ## Variables required by the configure script
 ## The Institution identifier (deprecated)
 KLINK_CORE_ID=${KLINK_CORE_ID:-KLINK}
@@ -77,10 +80,16 @@ function startup_config () {
     chmod -R g+rw $KBOX_DIR/storage/logs &&
 	echo "K-Box is now configured."
 
-    if [ ! -z "$KBOX_FLAGS" ]; then
+    if [ -n "$KBOX_FLAGS" ]; then
         # enabling the flags for experimental features
         echo "K-Box is enabling the required flags..."
         su -s /bin/sh -c "php artisan flags '$KBOX_FLAGS'" $KBOX_SETUP_USER
+    fi
+    
+    if [ -n "$KBOX_LOAD_PRIVACY" ] && [ "$KBOX_LOAD_PRIVACY" == true ]; then
+        # trigger the privacy policy creation from templates
+        echo "K-Box is creating the privacy policy from templates..."
+        su -s /bin/sh -c "php artisan privacy:load" $KBOX_SETUP_USER
     fi
 }
 

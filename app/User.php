@@ -8,6 +8,7 @@ use KBox\Traits\HasCapability;
 use KBox\Traits\UserOptionsAccessor;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
+use Spatie\Activitylog\Traits\CausesActivity;
 use KBox\Notifications\ResetPasswordNotification;
 
 /**
@@ -51,13 +52,11 @@ use KBox\Notifications\ResetPasswordNotification;
  */
 class User extends Authenticatable
 {
-    use Notifiable, HasCapability, SoftDeletes, UserOptionsAccessor;
+    use Notifiable, HasCapability, SoftDeletes, UserOptionsAccessor, CausesActivity;
 
     const OPTION_LIST_TYPE = "list_style";
   
     const OPTION_LANGUAGE = "language";
-  
-    const OPTION_TERMS_ACCEPTED = "terms_accepted";
   
     const OPTION_PERSONAL_IN_PROJECT_FILTERS = "show_personal_in_project_filters";
   
@@ -244,6 +243,16 @@ class User extends Authenticatable
     }
 
     /**
+     * The consents given by the user
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function consents()
+    {
+        return $this->hasMany(Consent::class);
+    }
+
+    /**
      * Generates a random eight characters password.
      *
      * @return string an eight character password (not hashed)
@@ -285,18 +294,6 @@ class User extends Authenticatable
         $opt = $this->getOption(self::OPTION_LIST_TYPE, null);
 
         return  (! is_null($opt)) ? $opt->value : 'cards';
-    }
-  
-    /**
-     * Get if the user has accepted the terms
-     *
-     * @return bool true if the user accepted the terms of use. Default false
-     */
-    public function optionTermsAccepted()
-    {
-        $opt = $this->getOption(self::OPTION_TERMS_ACCEPTED, null);
-
-        return  (! is_null($opt)) ? $opt->value : false;
     }
 
     /**
@@ -388,34 +385,6 @@ class User extends Authenticatable
         }
     }
 
-    /**
-     * Determine the route to show after the login
-     *
-     * @return string the route url
-     */
-    public function homeRoute()
-    {
-        $search = $this->can_capability(Capability::MAKE_SEARCH);
-        $see_share = $this->can_capability(Capability::RECEIVE_AND_SEE_SHARE);
-        $partner = $this->can_all_capabilities(Capability::$PARTNER);
-    
-        if ($this->isDMSManager()) {
-            return route('documents.index');
-        } elseif ($this->isContentManager() ||
-                $this->can_capability(Capability::UPLOAD_DOCUMENTS) ||
-                $this->can_capability(Capability::EDIT_DOCUMENT)) {
-            //documents manager redirect to documents
-            return route('documents.index');
-        } elseif ($search && ! $see_share) {
-            return route('search');
-        } elseif (! $search && $see_share) {
-            return route('shares.index');
-        } else {
-            //poor child redirect to search
-            return route('search');
-        }
-    }
-    
     /**
      * Send the password reset notification.
      *

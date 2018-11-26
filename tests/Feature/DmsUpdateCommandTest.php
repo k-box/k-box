@@ -9,6 +9,8 @@ use KBox\Option;
 use KBox\Institution;
 use KBox\Publication;
 use KBox\File;
+use KBox\User;
+use KBox\UserOption;
 use Ramsey\Uuid\Uuid;
 use Illuminate\Support\Facades\Storage;
 use KBox\Console\Commands\DmsUpdateCommand;
@@ -265,5 +267,19 @@ class DmsUpdateCommandTest extends TestCase
 
         Storage::disk('local')->assertExists("2017/11/$file->uuid/$file->uuid.mp4");
         Storage::disk('local')->assertMissing("2017/11/$file->uuid/$file->uuid/$file->uuid.mp4");
+    }
+
+    public function test_verify_that_terms_accepted_user_option_is_removed()
+    {
+        $this->withKlinkAdapterMock();
+
+        $user = factory(User::class)->create();
+        $user->options()->save(new UserOption(['key' => 'terms_accepted', 'value' => 'a-value']));
+
+        $command = new DmsUpdateCommand();
+
+        $updated = $this->invokePrivateMethod($command, 'clearTermsAcceptedUserOption');
+
+        $this->assertNull($user->getOption('terms_accepted'));
     }
 }

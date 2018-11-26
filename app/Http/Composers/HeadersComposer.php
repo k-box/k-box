@@ -2,6 +2,7 @@
 
 namespace KBox\Http\Composers;
 
+use KBox\HomeRoute;
 use Illuminate\Contracts\View\View;
 
 class HeadersComposer
@@ -39,7 +40,7 @@ class HeadersComposer
         if ($is_logged) {
             $logged_in_user = \Auth::user();
             $view->with('current_user', $logged_in_user->id);
-            $view->with('current_user_home_route', $logged_in_user->homeRoute());
+            $view->with('current_user_home_route', HomeRoute::get($logged_in_user));
             $view->with('current_user_name', $logged_in_user->name);
             $view->with('current_user_avatar', $logged_in_user->avatar);
 
@@ -57,7 +58,8 @@ class HeadersComposer
                        ! str_contains($route_name, 'contact') &&
                        ! str_contains($route_name, 'help') && ! starts_with($route_name, 'terms') && ! str_contains($route_name, 'import') && ! str_contains($route_name, 'trash') &&
                        ! starts_with($route_name, 'projects')  && ! str_contains($route_name, 'people.index') &&
-                       ! str_contains($route_name, 'profile.index') && ! str_contains($route_name, 'people.show') &&
+                       ! str_contains($route_name, 'profile.') && ! str_contains($route_name, 'people.show') &&
+                       ! starts_with($route_name, 'consent') &&
                        ! starts_with($route_name, 'password') && ! starts_with($route_name, 'microsite'));
 
         $view->with('show_search', $show_search);

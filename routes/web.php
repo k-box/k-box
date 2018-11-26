@@ -279,14 +279,21 @@ Route::get('s/{link}', [
 |
 */
 
-// used to store document layout and other options via async requests
-Route::post('profile/options', [
-      'uses' => 'UserProfileController@update',
-      'as' => 'profile.update',
-]);
+Route::prefix('profile')->name('profile.')->group(function () {
+    Route::get('/', 'UserProfileController@index')->name('index');
+    Route::put('/', 'UserProfileController@update')->name('update');
 
-// the profile page
-Route::resource('profile', 'UserProfileController', ['only' => ['index', 'store']]);
+    Route::get('privacy', 'UserPrivacyController@index')->name('privacy.index');
+    Route::put('privacy', 'UserPrivacyController@update')->name('privacy.update');
+    Route::get('password', 'UserPasswordController@index')->name('password.index');
+    Route::put('password', 'UserPasswordController@update')->name('password.update');
+    Route::get('email', 'UserEmailController@index')->name('email.index');
+    Route::put('email', 'UserEmailController@update')->name('email.update');
+    Route::put('language', 'ChangeUserLanguagePreferenceController')->name("language.update");
+    
+    // used to store document layout and other options via async requests
+    Route::put('options', 'UserOptionsController@update')->name('options.update');
+});
 
 /*
 |--------------------------------------------------------------------------
@@ -384,15 +391,34 @@ Auth::routes();
 
 Route::get('contact', ['as' => 'contact', 'uses' => 'ContactPageController@index']);
 
-Route::get('privacy', ['as' => 'privacy', 'uses' => 'SupportPagesController@privacy']);
+Route::get('privacy/legal', ['as' => 'privacy.legal', 'uses' => 'Pages\PrivacyLegalPageController@index']);
 
-Route::get('terms', ['as' => 'terms', 'uses' => 'SupportPagesController@terms']);
+Route::get('privacy', ['as' => 'privacy.summary', 'uses' => 'Pages\PrivacySummaryPageController@index']);
+
+Route::get('terms', ['as' => 'terms', 'uses' => 'Pages\TermsPageController@index']);
 
 Route::get('help', ['as' => 'help', 'uses' => 'SupportPagesController@help']);
 
 Route::get('help/browserupdate', ['as' => 'browserupdate', 'uses' => 'SupportPagesController@browserupdate']);
 
 Route::get('help/licenses', ['as' => 'help.licenses', 'uses' => 'LicensesHelpController@index']);
+
+/*
+|--------------------------------------------------------------------------
+| Consent routes
+|--------------------------------------------------------------------------
+|
+| Handle consent dialog requests and management.
+|
+*/
+Route::prefix('consent')->name('consent.dialog.')->group(function () {
+    Route::get('privacy', ['as' => 'privacy.show', 'uses' => 'PrivacyConsentDialogController@show']);
+    Route::put('privacy', ['as' => 'privacy.update', 'uses' => 'PrivacyConsentDialogController@update']);
+    Route::get('notification', ['as' => 'notification.show', 'uses' => 'NotificationConsentDialogController@show']);
+    Route::put('notification', ['as' => 'notification.update', 'uses' => 'NotificationConsentDialogController@update']);
+    Route::get('statistic', ['as' => 'statistic.show', 'uses' => 'StatisticConsentDialogController@show']);
+    Route::put('statistic', ['as' => 'statistic.update', 'uses' => 'StatisticConsentDialogController@update']);
+});
 
 /*
 |--------------------------------------------------------------------------

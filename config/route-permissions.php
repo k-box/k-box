@@ -13,17 +13,6 @@
 return [
 
     /**
-     * User's profile page
-     */
-//
-//    'profile' => array(
-//		'index' => KBox\Capability::MAKE_SEARCH,
-//		'store' => KBox\Capability::MAKE_SEARCH,
-//		'update' => KBox\Capability::MAKE_SEARCH,
-//		'show' => KBox\Capability::MAKE_SEARCH,
-//	),
-
-    /**
      * Search routes
      */
     

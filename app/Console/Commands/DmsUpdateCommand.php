@@ -13,6 +13,7 @@ use KBox\DocumentDescriptor;
 use KBox\File;
 use KBox\Institution;
 use Ramsey\Uuid\Uuid;
+use KBox\UserOption;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 
@@ -383,6 +384,9 @@ class DmsUpdateCommand extends Command
         if ($count_migrated > 0) {
             $this->write("  - <comment>Migrated {$count_migrated} publications.</comment>");
         }
+        
+        $this->write('  <comment>Clearing terms_accepted User option...</comment>');
+        $this->clearTermsAcceptedUserOption();
 
         // check the installed db branch
         
@@ -579,5 +583,10 @@ class DmsUpdateCommand extends Command
         });
 
         return $counter;
+    }
+
+    private function clearTermsAcceptedUserOption()
+    {
+        UserOption::where('key', 'terms_accepted')->delete();
     }
 }

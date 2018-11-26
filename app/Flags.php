@@ -27,6 +27,11 @@ final class Flags
     const PLUGIN_GEO = 'plugins.geo';
     
     /**
+     * Feature flag for notifications consent
+     */
+    const CONSENT_NOTIFICATIONS = 'consent_notifications';
+    
+    /**
      * Check if a flag is enabled
      *
      * @param string $flag the flag name
