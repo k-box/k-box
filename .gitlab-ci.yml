@@ -173,11 +173,12 @@ tagged_release:
     - deploy
   script:
     - DEPLOY_TAG=$([ -z "${CI_COMMIT_TAG}" ] && echo "${IMAGE_TAG}" || echo "${CLEANED_CI_COMMIT_REF_NAME}")
-    - echo "Deploying ${DEPLOY_TAG}..."
+    - DEPLOY_REGISTRY=$([ -z "${CI_COMMIT_TAG}" ] && echo "${CI_REGISTRY_IMAGE}" || echo "${CONTAINER_RELEASE_IMAGE_BASE}")
+    - echo "Deploying ${DEPLOY_REGISTRY} - ${DEPLOY_TAG}..."
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
-    - docker pull $CI_REGISTRY_IMAGE:${DEPLOY_TAG}
+    - docker pull $DEPLOY_REGISTRY:${DEPLOY_TAG}
     - cd $DEPLOY_FOLDER
-    - docker tag $CI_REGISTRY_IMAGE:${DEPLOY_TAG} $DEPLOY_IMAGE
+    - docker tag $DEPLOY_REGISTRY:${DEPLOY_TAG} $DEPLOY_IMAGE
     - docker-compose down -v && docker-compose up -d
 
 canary_manfred_deploy:
