@@ -220,15 +220,14 @@ class DocumentsController extends Controller
             'pagetitle' => trans('documents.menu.shared'),
             'shared_with_me' => $with_me,
             'current_visibility' => 'private',
-            // 'shared_by_me' => $by_me,
             'can_share' => $can_share_with_personal || $can_share_with_private,
             'context' => 'shared',
             'filter' => trans('documents.menu.shared'),
             'pagination' => $with_me,
             'order' => $order,
             'search_terms' => $req->term,
-            'facets' => $with_me->facets(),
-            'filters' => $with_me->filters(),
+            'facets' => $with_me !== null && ! $all_shared->isEmpty() ? $with_me->facets() : [],
+            'filters' => $with_me !== null && ! $all_shared->isEmpty() ? $with_me->filters() : [],
             'empty_message' => trans('share.empty_message')]);
     }
 
