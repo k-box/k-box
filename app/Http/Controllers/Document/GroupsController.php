@@ -366,6 +366,9 @@ class GroupsController extends Controller
                 } elseif ($request->has('private') && ! $group->is_private && ! ! $request->input('private')) {
                     // make private
                     $group = $this->service->moveProjectCollectionToPersonal($user, $group, $parent_group);
+                } elseif ($request->input('action') === 'move' && $parent_group && $group->is_private === $parent_group->is_private) {
+                    // move group under different parent
+                    $group = $this->service->moveGroup($user, $group, $parent_group);
                 }
             }
 
