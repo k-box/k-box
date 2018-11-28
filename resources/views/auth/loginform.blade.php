@@ -8,7 +8,7 @@
 		@if( isset($errors) && $errors->has('email') )
 			<span class="field-error">{{ implode(",", isset($errors) && $errors->get('email') ? $errors->get('email') : [])  }}</span>
 		@endif
-		<input type="email" class="c-form__input c-form__input--larger" required id="email" name="email" tabindex="1" placeholder="{{trans('login.form.email_placeholder')}}" value="@if(isset($email)){{$email}}@endif" />
+		<input type="email" class="c-form__input c-form__input--larger" required id="email" name="email" tabindex="1" value="@if(isset($email)){{$email}}@endif" />
 	</div>
 
 	<div class="c-form__field">
@@ -16,7 +16,7 @@
 		@if( isset($errors) && $errors->has('password') )
 			<span class="field-error">{{ implode(",", isset($errors) && $errors->get('password') ? $errors->get('password') : [])  }}</span>
 		@endif
-		<input type="password" class="c-form__input c-form__input--larger" required name="password" tabindex="2" id="password" placeholder="{{trans('login.form.password_placeholder')}}" />
+		<input type="password" class="c-form__input c-form__input--larger" required name="password" tabindex="2" id="password" />
 		<a href="{{ url('/password/reset') }}" tabindex="4" class="white">({{trans('passwords.forgot.link')}})</a>
 	</div>
 
