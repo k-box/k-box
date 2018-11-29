@@ -30,6 +30,16 @@ final class Flags
      * Feature flag for notifications consent
      */
     const CONSENT_NOTIFICATIONS = 'consent_notifications';
+
+    /**
+     * Change the home route to be the projects page
+     */
+    const HOME_ROUTE_PROJECTS = 'home_projects';
+
+    /**
+     * Change the home route to be recent
+     */
+    const HOME_ROUTE_RECENT = 'home_recent';
     
     /**
      * Check if a flag is enabled

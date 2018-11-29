@@ -21,7 +21,7 @@ class GetHomeRoute
     {
         $search = $user->can_capability(Capability::MAKE_SEARCH);
         $see_share = $user->can_capability(Capability::RECEIVE_AND_SEE_SHARE);
-        $partner = $user->can_all_capabilities(Capability::$PARTNER);
+        $uploader = $user->can_all_capabilities([Capability::UPLOAD_DOCUMENTS, Capability::EDIT_DOCUMENT]);
 
         if (! Consent::isGiven(Consents::PRIVACY, $user) && ! optional(Page::find(Page::PRIVACY_POLICY_LEGAL))->isEmpty()) {
             // if user did not agree to the privacy policy
@@ -29,19 +29,19 @@ class GetHomeRoute
             return route('consent.dialog.privacy.show');
         }
     
-        if ($user->isDMSManager()) {
+        if ($uploader) {
+            if (flags(Flags::HOME_ROUTE_PROJECTS)) {
+                return route('documents.projects.index');
+            }
+
+            if (flags(Flags::HOME_ROUTE_RECENT)) {
+                return route('documents.recent');
+            }
+
             return route('documents.index');
-        } elseif ($user->isContentManager() ||
-                $user->can_capability(Capability::UPLOAD_DOCUMENTS) ||
-                $user->can_capability(Capability::EDIT_DOCUMENT)) {
-            //documents manager redirect to documents
-            return route('documents.index');
-        } elseif ($search && ! $see_share) {
-            return route('search');
         } elseif (! $search && $see_share) {
             return route('shares.index');
         } else {
-            //poor child redirect to search
             return route('search');
         }
     }
