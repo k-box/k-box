@@ -128,10 +128,8 @@ class ProjectsPageTest extends TestCase
         $this->assertNotEmpty($projects, 'empty project list');
         $this->assertCount(2, $projects, 'project count');
 
-        $this->assertEquals(
-            [$managed_project->id, $project->id],
-            array_values($projects->pluck('id')->toArray())
-        );
+        $this->assertContains($managed_project->id, array_values($projects->pluck('id')->toArray()));
+        $this->assertContains($project->id, array_values($projects->pluck('id')->toArray()));
 
         $response->assertViewHas('pagetitle', trans('projects.page_title'));
         $response->assertViewHas('current_visibility', 'private');
