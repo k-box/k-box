@@ -7,7 +7,6 @@ use KBox\Project;
 use Tests\TestCase;
 use KBox\Capability;
 use KBox\Traits\Searchable;
-use Klink\DmsAdapter\Fakes\FakeKlinkAdapter;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 /**
@@ -40,7 +39,7 @@ class ProjectsPageTest extends TestCase
 
     private function createUser($capabilities, $userParams = [])
     {
-        return tap(factory(\KBox\User::class)->create($userParams))->addCapabilities($capabilities);
+        return tap(factory(User::class)->create($userParams))->addCapabilities($capabilities);
     }
 
     /**
@@ -75,7 +74,7 @@ class ProjectsPageTest extends TestCase
             $user = $this->createUser($caps);
             
             if (strpos($route, 'show') !== false) {
-                $project = factory(\KBox\Project::class)->create(['user_id' => $user->id]);
+                $project = factory(Project::class)->create(['user_id' => $user->id]);
                 
                 $params = ['projects' => $project->id];
             } else {
@@ -90,7 +89,6 @@ class ProjectsPageTest extends TestCase
                 $response->assertStatus(200);
                 $response->assertViewIs($viewname);
             } else {
-                
                 $response->assertViewIs('errors.'.$expected_return_code);
             }
         }

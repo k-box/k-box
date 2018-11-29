@@ -46,7 +46,6 @@ class ProjectsPageController extends Controller
         $all_projects_ids = $this->getUserAccessibleProjects($user);
 
         $results = $this->search($req, function ($_request) use ($all_projects_ids) {
-
             $all_projects = $all_projects_ids->toArray();
 
             if ($_request->getFilter('properties.tags')->isEmpty()) {
@@ -86,7 +85,6 @@ class ProjectsPageController extends Controller
 
         return view('documents.projects.projectspage', $view_parameters);
     }
-
 
     private function getUserAccessibleProjects(User $user)
     {
