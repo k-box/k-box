@@ -183,22 +183,28 @@ class DocumentsController extends Controller
         $req = $this->searchRequestCreate($request);
         
         $req->visibility('private');
+
+        $group_ids = $auth_user->involvedingroups()->get(['peoplegroup_id'])->pluck('peoplegroup_id')->toArray();
+
+        $all_shared = new Collection();
+
+        if ($can_see_share) {
+            $all_in_groups = Shared::sharedWithGroups($group_ids)->orderBy('created_at', $order)->get();
+
+            $all_single = Shared::sharedWithMe($auth_user)->with(['shareable', 'sharedwith'])->orderBy('created_at', $order)->get();
+
+            $all_shared = $all_single->merge($all_in_groups)->unique();
+        }
         
-        $with_me = $this->search($req, function ($_request) use ($auth_user, $can_share_with_personal, $can_share_with_private, $can_see_share, $order) {
-            if (! $can_see_share) {
-                return new Collection();
+        $with_me = $this->search($req, function ($_request) use ($all_shared) {
+            $shared_docs = $all_shared->pluck('shareable.uuid')->filter();
+            try {
+                $shared_docs = $shared_docs->merge($all_shared->where('shareable_type', Group::class)->map(function ($shared_collection) {
+                    return $shared_collection->shareable->documents->map->uuid;
+                })->flatten()->filter());
+            } catch (Exception $exi) {
             }
             
-            $group_ids = $auth_user->involvedingroups()->get(['peoplegroup_id'])->pluck('peoplegroup_id')->toArray();
-                    
-            $all_in_groups = Shared::sharedWithGroups($group_ids)->orderBy('created_at', $order)->get();
-                
-            $all_single = Shared::sharedWithMe($auth_user)->with(['shareable', 'sharedwith'])->orderBy('created_at', $order)->get();
-            
-            $all_shared = $all_single->merge($all_in_groups)->unique();
-            
-            $shared_docs = $all_shared->pluck('shareable.uuid')->all();
-
             $_request->in($shared_docs);
             
             if ($_request->isPageRequested()) {
@@ -214,15 +220,14 @@ class DocumentsController extends Controller
             'pagetitle' => trans('documents.menu.shared'),
             'shared_with_me' => $with_me,
             'current_visibility' => 'private',
-            // 'shared_by_me' => $by_me,
             'can_share' => $can_share_with_personal || $can_share_with_private,
             'context' => 'shared',
             'filter' => trans('documents.menu.shared'),
             'pagination' => $with_me,
             'order' => $order,
             'search_terms' => $req->term,
-            'facets' => $with_me->facets(),
-            'filters' => $with_me->filters(),
+            'facets' => $with_me !== null && ! $all_shared->isEmpty() ? $with_me->facets() : [],
+            'filters' => $with_me !== null && ! $all_shared->isEmpty() ? $with_me->filters() : [],
             'empty_message' => trans('share.empty_message')]);
     }
 
