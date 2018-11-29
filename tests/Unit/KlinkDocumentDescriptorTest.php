@@ -82,6 +82,34 @@ class KlinkDocumentDescriptorTest extends TestCase
         $this->assertEquals(sha1($descriptor->owner->id), $data->uploader->name);
     }
 
+    public function test_document_descriptor_can_be_converted_to_public_descriptor()
+    {
+        $descriptor = factory(\KBox\DocumentDescriptor::class)->create();
+
+        $klink_descriptor = $descriptor->toKlinkDocumentDescriptor(true);
+
+        $this->assertInstanceOf(KlinkDocumentDescriptor::class, $klink_descriptor);
+        $this->assertEquals('public', $klink_descriptor->visibility());
+        $this->assertEquals('public', $klink_descriptor->getVisibility());
+        $this->assertEquals($descriptor->uuid, $klink_descriptor->uuid());
+        $this->assertEquals($descriptor->uuid, $klink_descriptor->getKlinkId());
+
+        $data = $klink_descriptor->toData();
+        $this->assertInstanceOf(Data::class, $data);
+
+        $this->assertEquals('document', $data->type);
+        $this->assertEquals($descriptor->uuid, $data->uuid);
+        $this->assertEquals($descriptor->hash, $data->hash);
+        $this->assertEquals(route('documents.preview', ['id' => $descriptor->uuid]), $data->url);
+        $this->assertEquals($descriptor->title, $data->properties->title);
+        $this->assertEquals($descriptor->mime_type, $data->properties->mime_type);
+        $this->assertEquals(route('documents.thumbnail', ['id' => $descriptor->uuid]), $data->properties->thumbnail);
+
+        $this->assertEmpty($data->authors);
+        $this->assertEquals(url('/'), $data->uploader->url);
+        $this->assertEquals(sha1($descriptor->owner->id), $data->uploader->name);
+    }
+
     public function test_publishing_video_has_streaming_properties()
     {
         $streaming_url = 'https://streaming.service/play/123';
