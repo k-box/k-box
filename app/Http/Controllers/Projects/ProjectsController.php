@@ -132,7 +132,7 @@ class ProjectsController extends Controller
     {
         try {
             $user = $auth->user();
-            
+
             $manager = $request->has('manager') ? User::findOrFail($request->get('manager')) : $user;
 
             $avatar = $this->avatarStore($request, $manager->id);
