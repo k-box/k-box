@@ -140,6 +140,7 @@ class Capability extends Model
         self::DELETE_DOCUMENT,
         self::MANAGE_OWN_GROUPS,
         self::MANAGE_PROJECT_COLLECTIONS,
+        self::CREATE_PROJECTS,
         self::MANAGE_DMS,
         self::MANAGE_USERS,
         self::MANAGE_LOG,
