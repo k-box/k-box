@@ -388,6 +388,9 @@ class DmsUpdateCommand extends Command
         $this->write('  <comment>Clearing terms_accepted User option...</comment>');
         $this->clearTermsAcceptedUserOption();
 
+        $this->write('  <comment>Upgrading project managers capabilities...</comment>');
+        $this->ensureCreateProjectsCapabilityIsSet();
+
         // check the installed db branch
         
         $b_option = Option::findByKey('branch');
@@ -539,7 +542,7 @@ class DmsUpdateCommand extends Command
     private function updatePublications()
     {
         $public_descriptors = DocumentDescriptor::where('is_public', true)->doesntHave('publications')->get();
-        // dump($public_descriptors->toArray());
+        
         $counter = 0;
         
         $public_descriptors->each(function ($descriptor) use (&$counter) {
@@ -588,5 +591,32 @@ class DmsUpdateCommand extends Command
     private function clearTermsAcceptedUserOption()
     {
         UserOption::where('key', 'terms_accepted')->delete();
+    }
+
+    /**
+     * Ensures that the create_projects capability is added to
+     * pre-existing project managers
+     */
+    private function ensureCreateProjectsCapabilityIsSet()
+    {
+        $c_option = Option::findByKey('u_cap_cr_prj');
+
+        if (! is_null($c_option)) {
+            return ;
+        }
+
+        $capabilities_to_search = collect(Capability::$PROJECT_MANAGER)->reject(function ($value, $key) {
+            return $value === Capability::CREATE_PROJECTS;
+        })->toArray();
+
+        User::with('capabilities')->chunk(100, function ($users) use ($capabilities_to_search) {
+            foreach ($users as $user) {
+                if ($user->can_all_capabilities($capabilities_to_search)) {
+                    $user->addCapability(Capability::CREATE_PROJECTS);
+                }
+            }
+        });
+
+        Option::create(['key' => 'u_cap_cr_prj', 'value' => ''.config('dms.version')]);
     }
 }

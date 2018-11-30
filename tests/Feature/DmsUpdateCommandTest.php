@@ -6,6 +6,7 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use KBox\DocumentDescriptor;
 use KBox\Option;
+use KBox\Capability;
 use KBox\Institution;
 use KBox\Publication;
 use KBox\File;
@@ -281,5 +282,49 @@ class DmsUpdateCommandTest extends TestCase
         $updated = $this->invokePrivateMethod($command, 'clearTermsAcceptedUserOption');
 
         $this->assertNull($user->getOption('terms_accepted'));
+    }
+
+    public function test_create_project_capability_is_added_only_when_upgrading()
+    {
+        $this->withKlinkAdapterMock();
+
+        $user = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$PROJECT_MANAGER_LIMITED);
+        });
+        $user_to_touch = tap(factory(User::class)->create(), function ($u) {
+            $caps = collect(Capability::$PROJECT_MANAGER)->reject(function ($value, $key) {
+                return $value === Capability::CREATE_PROJECTS;
+            });
+            $u->addCapabilities($caps->values()->toArray());
+        });
+
+        $command = new DmsUpdateCommand();
+
+        $updated = $this->invokePrivateMethod($command, 'ensureCreateProjectsCapabilityIsSet');
+
+        $this->assertNotNull(Option::findByKey('u_cap_cr_prj'));
+
+        $this->assertTrue($user_to_touch->fresh()->can_all_capabilities(Capability::$PROJECT_MANAGER));
+        $this->assertFalse($user->can_all_capabilities(Capability::$PROJECT_MANAGER));
+    }
+
+    public function test_create_project_capability_is_not_added_a_second_time()
+    {
+        $this->withKlinkAdapterMock();
+
+        Option::create(['key' => 'u_cap_cr_prj', 'value' => ''.config('dms.version')]);
+
+        $user = tap(factory(User::class)->create(), function ($u) {
+            $caps = collect(Capability::$PROJECT_MANAGER)->reject(function ($value, $key) {
+                return $value === Capability::CREATE_PROJECTS;
+            });
+            $u->addCapabilities($caps->values()->toArray());
+        });
+
+        $command = new DmsUpdateCommand();
+
+        $updated = $this->invokePrivateMethod($command, 'ensureCreateProjectsCapabilityIsSet');
+
+        $this->assertFalse($user->fresh()->can_all_capabilities(Capability::$PROJECT_MANAGER));
     }
 }
