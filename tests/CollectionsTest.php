@@ -22,7 +22,7 @@ class CollectionsTest extends BrowserKitTestCase
         return [
             [Capability::$ADMIN],
             [Capability::$PROJECT_MANAGER],
-            [Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH],
+            [Capability::$PROJECT_MANAGER_LIMITED],
         ];
     }
 
@@ -107,9 +107,9 @@ class CollectionsTest extends BrowserKitTestCase
     
     public function testCollectionListing()
     {
-        $user1 = $this->createUser(Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH);
+        $user1 = $this->createUser(Capability::$PROJECT_MANAGER_LIMITED);
         
-        $user2 = $this->createUser(Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH);
+        $user2 = $this->createUser(Capability::$PROJECT_MANAGER_LIMITED);
         
         $user_admin = $this->createAdminUser();
         

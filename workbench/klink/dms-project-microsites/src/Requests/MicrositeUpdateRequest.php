@@ -58,7 +58,7 @@ class MicrositeUpdateRequest extends Request
       
         $user = $this->user();
         
-        if (! $user->can_capability(Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH)) {
+        if (! $user->can_capability(Capability::$PROJECT_MANAGER_LIMITED)) {
             return false;
         }
         

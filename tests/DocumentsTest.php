@@ -819,7 +819,7 @@ class DocumentsTest extends BrowserKitTestCase
 
         $project_collection_names = ['Project Root', 'Project First Level', 'Second Level'];
 
-        $user = $this->createUser(Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH);
+        $user = $this->createUser(Capability::$PROJECT_MANAGER_LIMITED);
         
         $service = app('KBox\Documents\Services\DocumentsService');
 

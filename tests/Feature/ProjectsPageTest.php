@@ -29,7 +29,7 @@ class ProjectsPageTest extends TestCase
     {
         return [
             [ Capability::$ADMIN, ['documents.projects.index' => 'documents.projects.projectspage', 'documents.projects.show' => 'documents.projects.detail'], 200 ],
-            [ Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH, ['documents.projects.index' => 'documents.projects.projectspage', 'documents.projects.show' => 'documents.projects.detail'], 200 ],
+            [ Capability::$PROJECT_MANAGER_LIMITED, ['documents.projects.index' => 'documents.projects.projectspage', 'documents.projects.show' => 'documents.projects.detail'], 200 ],
             [ Capability::$PROJECT_MANAGER, ['documents.projects.index' => 'documents.projects.projectspage', 'documents.projects.show' => 'documents.projects.detail'], 200 ],
             [ Capability::$DMS_MASTER, ['documents.projects.index' => 'documents.projects.projectspage', 'documents.projects.show' => 'documents.projects.detail'], 403 ],
             [ Capability::$PARTNER, ['documents.projects.index' => 'documents.projects.projectspage', 'documents.projects.show' => 'documents.projects.detail'], 200 ],
@@ -98,7 +98,7 @@ class ProjectsPageTest extends TestCase
     {
         $this->withKlinkAdapterFake();
 
-        $user = $this->createUser(Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH);
+        $user = $this->createUser(Capability::$PROJECT_MANAGER_LIMITED);
 
         $generated_url = route('documents.projects.index');
 
@@ -111,7 +111,7 @@ class ProjectsPageTest extends TestCase
     {
         $this->withKlinkAdapterFake();
 
-        $user = $this->createUser(Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH);
+        $user = $this->createUser(Capability::$PROJECT_MANAGER_LIMITED);
 
         $managed_project = factory(Project::class)->create(['user_id' => $user->id]);
         $project = factory(Project::class)->create();

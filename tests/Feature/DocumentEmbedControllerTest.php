@@ -71,7 +71,7 @@ class DocumentEmbedControllerTest extends TestCase
     public function test_embed_is_loaded_for_shared_document()
     {
         $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH);
+            $u->addCapabilities(Capability::$PROJECT_MANAGER_LIMITED);
         });
         $user_accessing_the_document = tap(factory(User::class)->create(), function ($u) {
             $u->addCapabilities(Capability::$PARTNER);

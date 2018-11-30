@@ -46,7 +46,7 @@ class CollectionsTest extends TestCase
         $service = app('KBox\Documents\Services\DocumentsService');
         
         $manager = tap(factory(\KBox\User::class)->create(), function ($user) {
-            $user->addCapabilities(Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH);
+            $user->addCapabilities(Capability::$PROJECT_MANAGER_LIMITED);
         });
         $user = tap(factory(\KBox\User::class)->create(), function ($user) {
             $user->addCapabilities(Capability::$PARTNER);
@@ -83,7 +83,7 @@ class CollectionsTest extends TestCase
         $service = app('KBox\Documents\Services\DocumentsService');
         
         $manager = tap(factory(\KBox\User::class)->create(), function ($user) {
-            $user->addCapabilities(Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH);
+            $user->addCapabilities(Capability::$PROJECT_MANAGER_LIMITED);
         });
         $user = tap(factory(\KBox\User::class)->create(), function ($user) {
             $user->addCapabilities(Capability::$PARTNER);
@@ -118,7 +118,7 @@ class CollectionsTest extends TestCase
         $service = app('KBox\Documents\Services\DocumentsService');
         
         $manager = tap(factory(\KBox\User::class)->create(), function ($user) {
-            $user->addCapabilities(Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH);
+            $user->addCapabilities(Capability::$PROJECT_MANAGER_LIMITED);
         });
         $user = tap(factory(\KBox\User::class)->create(), function ($user) {
             $user->addCapabilities(Capability::$PARTNER);
@@ -147,7 +147,7 @@ class CollectionsTest extends TestCase
         $service = app('KBox\Documents\Services\DocumentsService');
         
         $manager = tap(factory(\KBox\User::class)->create(), function ($user) {
-            $user->addCapabilities(Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH);
+            $user->addCapabilities(Capability::$PROJECT_MANAGER_LIMITED);
         });
         $user = tap(factory(\KBox\User::class)->create(), function ($user) {
             $user->addCapabilities(Capability::$PARTNER);

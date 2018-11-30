@@ -135,7 +135,7 @@ $factory->define(KBox\Project::class, function (Faker\Generator $faker, $argumen
     $user = isset($arguments['user_id']) ? KBox\User::findOrFail($arguments['user_id']) : factory(KBox\User::class)->create();
     
     if (!isset($arguments['user_id'])) {
-        $user->addCapabilities(KBox\Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH);
+        $user->addCapabilities(KBox\Capability::$PROJECT_MANAGER_LIMITED);
     }
     
     $project_title = $faker->sentence;

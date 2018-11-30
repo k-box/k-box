@@ -82,7 +82,7 @@ class RecentDocumentsTest extends TestCase
     {
         $this->withKlinkAdapterFake();
 
-        $user = $this->createUser(Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH);
+        $user = $this->createUser(Capability::$PROJECT_MANAGER_LIMITED);
 
         $url = route('documents.recent', ['range' => $range]);
 
@@ -105,7 +105,7 @@ class RecentDocumentsTest extends TestCase
     {
         $this->withKlinkAdapterFake();
 
-        $user = $this->createUser(Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH);
+        $user = $this->createUser(Capability::$PROJECT_MANAGER_LIMITED);
         $this->actingAs($user);
 
         $documents = $this->createRecentDocuments($items_per_page+1, $user);
@@ -134,7 +134,7 @@ class RecentDocumentsTest extends TestCase
         $items_per_page = 0;
         $this->withKlinkAdapterFake();
 
-        $user = $this->createUser(Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH);
+        $user = $this->createUser(Capability::$PROJECT_MANAGER_LIMITED);
 
         $url = route('documents.recent').'?n='.$items_per_page ;
 
@@ -149,7 +149,7 @@ class RecentDocumentsTest extends TestCase
         $items_per_page = -1;
         $this->withKlinkAdapterFake();
 
-        $user = $this->createUser(Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH);
+        $user = $this->createUser(Capability::$PROJECT_MANAGER_LIMITED);
 
         $url = route('documents.recent').'?n='.$items_per_page ;
 
@@ -171,7 +171,7 @@ class RecentDocumentsTest extends TestCase
     {
         $this->withKlinkAdapterFake();
 
-        $user = $this->createUser(Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH);
+        $user = $this->createUser(Capability::$PROJECT_MANAGER_LIMITED);
 
         $created_at = Carbon::now();
 
@@ -221,7 +221,7 @@ class RecentDocumentsTest extends TestCase
         $this->withKlinkAdapterFake();
 
         $user = $this->createUser(Capability::$PARTNER);
-        $user2 = $this->createUser(Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH);
+        $user2 = $this->createUser(Capability::$PROJECT_MANAGER_LIMITED);
 
         $documents = collect(); // documents created by $user
         $documents_user2 = collect();  // documents created by $user2
@@ -297,7 +297,7 @@ class RecentDocumentsTest extends TestCase
         // prepare some fake results
         $adapter->setSearchResults('private', KlinkSearchResults::fake($searchRequest, []));
 
-        $user = $this->createUser(Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH);
+        $user = $this->createUser(Capability::$PROJECT_MANAGER_LIMITED);
         
         $url = route('documents.recent').'?s=hello';
 
@@ -368,7 +368,7 @@ class RecentDocumentsTest extends TestCase
         $this->disableExceptionHandling();
         $adapter = $this->withKlinkAdapterFake();
 
-        $manager = tap(factory(\KBox\User::class)->create())->addCapabilities(Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH);
+        $manager = tap(factory(\KBox\User::class)->create())->addCapabilities(Capability::$PROJECT_MANAGER_LIMITED);
         $user = tap(factory(\KBox\User::class)->create())->addCapabilities(Capability::$PARTNER);
 
         $project = factory(\KBox\Project::class)->create([
@@ -519,7 +519,7 @@ class RecentDocumentsTest extends TestCase
     {
         // $target_user = $this->createUser(Capability::$PARTNER);
         $member_user = $this->createUser(Capability::$PARTNER);
-        $manager = $this->createUser(Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH);
+        $manager = $this->createUser(Capability::$PROJECT_MANAGER_LIMITED);
 
         $project = factory(\KBox\Project::class)->create([
             'user_id' => $manager->id

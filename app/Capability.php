@@ -220,10 +220,10 @@ class Capability extends Model
         self::SHARE_WITH_PRIVATE ];
         
     /**
-     *
+     * A limited version of $PROJECT_MANAGER that cannot clean the trash or create projects
      * @var array
      */
-    public static $PROJECT_MANAGER_NO_CLEAN_TRASH = [
+    public static $PROJECT_MANAGER_LIMITED = [
         self::MAKE_SEARCH,
         self::UPLOAD_DOCUMENTS,
         self::IMPORT_DOCUMENTS,

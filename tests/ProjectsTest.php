@@ -26,7 +26,7 @@ class ProjectsTest extends BrowserKitTestCase
     {
         return [
             [ Capability::$ADMIN, ['projects.index', 'projects.show', 'projects.create', 'projects.edit'], 200 ],
-            [ Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH, ['projects.index', 'projects.show', 'projects.create', 'projects.edit'], 200 ],
+            [ Capability::$PROJECT_MANAGER_LIMITED, ['projects.index', 'projects.show', 'projects.create', 'projects.edit'], 200 ],
             [ Capability::$PROJECT_MANAGER, ['projects.index', 'projects.show', 'projects.create', 'projects.edit'], 200 ],
             [ Capability::$DMS_MASTER, ['projects.index', 'projects.show', 'projects.create', 'projects.edit'], 403 ],
             [ Capability::$PARTNER, ['projects.index', 'projects.show', 'projects.create', 'projects.edit'], 403 ],
@@ -105,7 +105,7 @@ class ProjectsTest extends BrowserKitTestCase
      */
     public function testProjectCreate($omit_title = false, $omit_description = false, $omit_user = false)
     {
-        $user = $this->createUser(Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH);
+        $user = $this->createUser(Capability::$PROJECT_MANAGER_LIMITED);
 
         $expected_available_users = $this->createUsers(Capability::$PARTNER, 4);
 
@@ -193,7 +193,7 @@ class ProjectsTest extends BrowserKitTestCase
 
     public function testProjectIsAccessibleBy()
     {
-        $user = $this->createUser(Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH);
+        $user = $this->createUser(Capability::$PROJECT_MANAGER_LIMITED);
 
         // manages project1
         $project1 = $this->createProject(['user_id' => $user->id]);
@@ -212,7 +212,7 @@ class ProjectsTest extends BrowserKitTestCase
     {
         $this->withKlinkAdapterFake();
 
-        $user = $this->createUser(Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH);
+        $user = $this->createUser(Capability::$PROJECT_MANAGER_LIMITED);
         
         $service = app('KBox\Documents\Services\DocumentsService');
 
