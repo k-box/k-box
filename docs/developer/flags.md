@@ -9,6 +9,12 @@ Flag status is stored in the database.
 
 - `plugins`: this feature is about a [plugin system](./plugins/plugins.md)
 
+
+_temporary flags for A/B testing_
+
+- `home_projects`: Make the Projects page the default route after the user login
+- `home_recent`: Make the Recent page the default route after the user 
+
 ## Enable a feature flag
 
 Flags can be enabled at runtime using the `flags` command. Once enabled a flag state is persisted in the database.
