@@ -1,13 +1,15 @@
 <?php
 
-use Tests\BrowserKitTestCase;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use KBox\User;
 use KBox\Project;
 use KBox\Capability;
+use Tests\BrowserKitTestCase;
+use Tests\Concerns\ClearDatabase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class ProjectsTest extends BrowserKitTestCase
 {
-    use DatabaseTransactions;
+    use DatabaseTransactions, ClearDatabase;
     
     public function expected_routes_provider()
     {
@@ -26,7 +28,8 @@ class ProjectsTest extends BrowserKitTestCase
     {
         return [
             [ Capability::$ADMIN, ['projects.index', 'projects.show', 'projects.create', 'projects.edit'], 200 ],
-            [ Capability::$PROJECT_MANAGER_LIMITED, ['projects.index', 'projects.show', 'projects.create', 'projects.edit'], 200 ],
+            [ Capability::$PROJECT_MANAGER_LIMITED, ['projects.index', 'projects.show'], 200 ],
+            [ Capability::$PROJECT_MANAGER_LIMITED, ['projects.create', 'projects.edit'], 403 ],
             [ Capability::$PROJECT_MANAGER, ['projects.index', 'projects.show', 'projects.create', 'projects.edit'], 200 ],
             [ Capability::$DMS_MASTER, ['projects.index', 'projects.show', 'projects.create', 'projects.edit'], 403 ],
             [ Capability::$PARTNER, ['projects.index', 'projects.show', 'projects.create', 'projects.edit'], 403 ],
@@ -105,7 +108,7 @@ class ProjectsTest extends BrowserKitTestCase
      */
     public function testProjectCreate($omit_title = false, $omit_description = false, $omit_user = false)
     {
-        $user = $this->createUser(Capability::$PROJECT_MANAGER_LIMITED);
+        $user = $this->createUser(Capability::$PROJECT_MANAGER);
 
         $expected_available_users = $this->createUsers(Capability::$PARTNER, 4);
 

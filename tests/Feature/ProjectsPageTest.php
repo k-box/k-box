@@ -139,4 +139,30 @@ class ProjectsPageTest extends TestCase
         $response->assertSee($managed_project->getCreatedAt());
         $response->assertSee($project->getCreatedAt());
     }
+
+    public function test_create_project_button_visible_if_user_cannot_create_projects()
+    {
+        $this->withKlinkAdapterFake();
+
+        $user = $this->createUser(Capability::$PROJECT_MANAGER);
+
+        $url = route('documents.projects.index');
+
+        $response = $this->actingAs($user)->get($url);
+
+        $response->assertSeeText(trans('projects.new_button'));
+    }
+
+    public function test_create_project_button_not_visible_if_user_cannot_create_projects()
+    {
+        $this->withKlinkAdapterFake();
+
+        $user = $this->createUser(Capability::$PROJECT_MANAGER_LIMITED);
+
+        $url = route('documents.projects.index');
+
+        $response = $this->actingAs($user)->get($url);
+
+        $response->assertDontSeeText(trans('projects.new_button'));
+    }
 }
