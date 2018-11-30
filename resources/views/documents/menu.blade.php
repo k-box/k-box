@@ -1,19 +1,9 @@
 
 <div class="navigation navigation--secondary">
 
-	@if($can_see_private)
-
-		<a href="{{route('documents.index')}}/private" class="navigation__item navigation__item--link @if(\Request::is('*private') || \Request::is('documents')) navigation__item--current @endif">
-			@materialicon('action', 'account_balance', 'navigation__item__icon'){{trans('documents.menu.private')}}
-		</a>		
-
-	@else 
-
-		<a href="{{route('documents.index')}}/personal" class="navigation__item navigation__item--link @if(\Request::is('*personal') || \Request::is('documents')) navigation__item--current @endif">
-			@materialicon('action', 'lock', 'navigation__item__icon'){{trans('documents.menu.personal')}}
-		</a>
-	
-	@endif
+	<a href="{{route('documents.index')}}" class="navigation__item navigation__item--link @if(\Request::is('documents')) navigation__item--current @endif">
+		@materialicon('action', 'lock', 'navigation__item__icon'){{trans('documents.menu.personal')}}
+	</a>
 
 	@if( isset($is_klink_public_enabled) && $is_klink_public_enabled)
 	

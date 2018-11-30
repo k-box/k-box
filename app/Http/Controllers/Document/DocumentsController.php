@@ -69,47 +69,20 @@ class DocumentsController extends Controller
     public function index(AuthGuard $auth, Request $request, $visibility = 'private')
     {
         $user = $auth->user();
-
-        if (! $user->isDMSManager() && $visibility==='private') {
-            $visibility = 'personal';
-        }
         
-        $filtered_ids = false;
-        $pagination = false;
-        $showing_only_local_public = false;
-        
-        $is_personal = $visibility === 'personal' ? true : false;
-        if ($is_personal) {
-            $visibility = 'private';
-        }
-
         $req = $this->searchRequestCreate($request);
         
-        $req->visibility($visibility);
+        $req->visibility('private');
+
+        $all_query = DocumentDescriptor::local()->private()->ofUser($user->id);
+        $personal_doc_id = $all_query->get()->map->uuid;
         
-        $results = $this->search($req, function ($_request) use ($is_personal, $user) {
-            if ($_request->visibility === KlinkVisibilityType::KLINK_PUBLIC) {
-                // if public => return direct search because we want them to see the public network
-                return false;
-            }
+        $results = $this->search($req, function ($_request) use ($all_query, $personal_doc_id) {
             
-            if ($is_personal) {
-                $personal_doc_id = DocumentDescriptor::local()->private()->ofUser($user->id)->get()->map->uuid;
-                
-                $_request->in($personal_doc_id);
-            }
+            $_request->in($personal_doc_id);
             
             if ($_request->isPageRequested() && ! $_request->isSearchRequested()) {
-                $all_query = DocumentDescriptor::local();
-                
                 $_request->setForceFacetsRequest();
-            
-                if ($_request->visibility === KlinkVisibilityType::KLINK_PRIVATE) {
-                    $all_query = $all_query->private();
-                    if ($is_personal) {
-                        $all_query = $all_query->ofUser($user->id);
-                    }
-                }
                 
                 return $all_query->orderBy('title', 'ASC');
             }
@@ -117,22 +90,19 @@ class DocumentsController extends Controller
             return false; // force to execute a search on the core instead on the database
         });
 
-        // Adding user's root groups and institution level groups to the result
-        // $groups = Group::roots()->private($auth->user()->id)->orPublic()->get();
-
         return view('documents.documents', [
-            'pagetitle' => (is_null($visibility) ? '': ($visibility === 'public' ? network_name().' ' : trans('documents.menu.'.($is_personal ? 'personal' : $visibility)).' ')).trans('documents.page_title'),
+            'pagetitle' => trans('documents.menu.personal').' - '.trans('documents.page_title'),
             'documents' => $results ? $results->getCollection() : collect(),
-            'context' => is_null($visibility) ? 'all' : $visibility,
+            'context' => 'private',
             'pagination' => $results,
             'is_search_failed' => $results === null,
             'search_terms' => $req->term,
-            'facets' => $results !== null ? $results->facets() : [],
-            'filters' => $results !== null ? $results->filters() : [],
-            'current_visibility' => $is_personal ? 'private' : $visibility,
-            'is_personal' => $is_personal,
-            'hint' => $showing_only_local_public ? trans('documents.messages.local_public_only') : false,
-            'filter' => $visibility === 'public' ? network_name() : trans('documents.menu.'.($is_personal ? 'personal' : $visibility))
+            'facets' => $results !== null && ! $personal_doc_id->isEmpty() ? $results->facets() : [],
+            'filters' => $results !== null && ! $personal_doc_id->isEmpty() ? $results->filters() : [],
+            'current_visibility' => 'private',
+            'is_personal' => true,
+            'hint' => false,
+            'filter' => trans('documents.menu.personal')
             ]);
     }
 
@@ -150,19 +120,6 @@ class DocumentsController extends Controller
             'filter' => trans('documents.menu.trash'),
             'empty_message' => trans('documents.trash.empty_trash')
         ]);
-    }
-
-    public function notIndexed(AuthGuard $auth)
-    {
-        $all_query = DocumentDescriptor::local();
-
-        //		if(!$auth->user()->isContentManager()){
-        //			$all_query = $all_query->ofUser($auth->user()->id);
-        //		}
-
-        $all = $all_query->notIndexed()->get();
-
-        return view('documents.documents', ['pagetitle' => trans('documents.menu.not_indexed'), 'documents' => $all, 'context' => 'notindexed', 'filter' => trans('documents.menu.not_indexed'), 'empty_message' => 'All the documents has been correctly added to K-Link.']);
     }
 
     public function sharedWithMe(AuthGuard $auth, Request $request)

@@ -145,10 +145,6 @@ Route::group(['as' => 'documents.', 'prefix' => 'documents'], function () {
         'uses' => 'Document\BulkController@emptytrash',
         'as' => 'bulk.emptytrash',
     ]);
-    Route::get('/notindexed', [
-            'uses' => 'Document\DocumentsController@notIndexed',
-            'as' => 'notindexed',
-        ]);
 
     Route::get('/shared-with-me', [
             'uses' => 'Document\DocumentsController@sharedWithMe',
@@ -172,10 +168,15 @@ Route::group(['as' => 'documents.', 'prefix' => 'documents'], function () {
             'as' => 'by-klink-id',
         ])->where(['local_id' => '(?!edit)[A-Za-z0-9]+', 'institution' => '[A-Za-z0-9]+']);
 
+    Route::get('/public', [
+            'uses' => 'Document\PublicDocumentsController@index',
+            'as' => 'public_visibility',
+        ]);
+
     Route::get('/{visibility}', [
             'uses' => 'Document\DocumentsController@index',
             'as' => 'visibility',
-        ])->where(['visibility' => '(public|private|personal)']);
+        ])->where(['visibility' => '(private|personal)']);
     
     Route::get('/public/{uuid}', [
             'uses' => 'NetworkDocumentsController@show',
