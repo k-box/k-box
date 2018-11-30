@@ -2,8 +2,9 @@
 
 namespace KBox\Http\Controllers\Projects;
 
-use Illuminate\Http\Request as IlluminateRequest;
+use KBox\User;
 use KBox\Project;
+use Illuminate\Http\Request;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\JsonResponse;
 use KBox\Traits\Searchable;
@@ -35,19 +36,17 @@ class ProjectsPageController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Guard $auth, IlluminateRequest $request)
+    public function index(Guard $auth, Request $request)
     {
         $user = $auth->user();
 
         $req = $this->searchRequestCreate($request);
         $req->visibility('private'); // always set visibility to private
         
-        $results = $this->search($req, function ($_request) use ($user) {
-            $managed = $user->managedProjects()->get(['projects.id']);
+        $all_projects_ids = $this->getUserAccessibleProjects($user);
 
-            $added_to = $user->projects()->get(['projects.id']);
-
-            $all_projects = $managed->merge($added_to)->pluck('id')->toArray();
+        $results = $this->search($req, function ($_request) use ($all_projects_ids) {
+            $all_projects = $all_projects_ids->toArray();
 
             if ($_request->getFilter('properties.tags')->isEmpty()) {
                 $_request->inProject($all_projects);
@@ -72,10 +71,9 @@ class ProjectsPageController extends Controller
             'pagination' => $results,
             'search_terms' => $req->term,
             'is_search_requested' => $req->isSearchRequested(),
-            'facets' => $results->facets(),
-            'filters' => $results->filters(),
+            'facets' => $results && ! $all_projects_ids->isEmpty() ? $results->facets() : [],
+            'filters' => $results && ! $all_projects_ids->isEmpty() ? $results->filters() : [],
             'current_visibility' => 'private',
-            // 'empty_message' => $req->isSearchRequested() ? trans('documents.messages.no_documents') : trans('documents.messages.no_projects'),
             'filter' => trans('projects.all_projects') // in the search field placeholder
         ];
 
@@ -88,13 +86,22 @@ class ProjectsPageController extends Controller
         return view('documents.projects.projectspage', $view_parameters);
     }
 
+    private function getUserAccessibleProjects(User $user)
+    {
+        $managed = $user->managedProjects()->get(['projects.id']);
+
+        $added_to = $user->projects()->get(['projects.id']);
+
+        return $managed->merge($added_to)->pluck('id');
+    }
+
     /**
      * Display the specified resource.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Guard $auth, \Request $request, $id)
+    public function show(Guard $auth, Request $request, $id)
     {
         try {
             $user = $auth->user();
