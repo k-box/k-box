@@ -89,6 +89,11 @@ class Capability extends Model
      * The user can create/edit/remove collections under a project
      */
     const MANAGE_PROJECT_COLLECTIONS = 'manage_project_collections';
+    
+    /**
+     * The user can create a project
+     */
+    const CREATE_PROJECTS = 'create_projects';
 
     /**
      * User may share private documents with a single or a personal group of users
@@ -193,11 +198,12 @@ class Capability extends Model
         self::SHARE_WITH_PRIVATE ];
         
     /**
-     *
+     * A full project manager that can create projects and empty the trash
      * @var array
      */
     public static $PROJECT_MANAGER = [
         self::MAKE_SEARCH,
+        self::CREATE_PROJECTS,
         self::UPLOAD_DOCUMENTS,
         self::IMPORT_DOCUMENTS,
         self::MANAGE_OWN_GROUPS,
