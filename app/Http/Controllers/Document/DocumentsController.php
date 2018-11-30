@@ -78,7 +78,6 @@ class DocumentsController extends Controller
         $personal_doc_id = $all_query->get()->map->uuid;
         
         $results = $this->search($req, function ($_request) use ($all_query, $personal_doc_id) {
-            
             $_request->in($personal_doc_id);
             
             if ($_request->isPageRequested() && ! $_request->isSearchRequested()) {
