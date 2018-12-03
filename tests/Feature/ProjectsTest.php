@@ -37,7 +37,7 @@ class ProjectsTest extends TestCase
             [ Capability::$PROJECT_MANAGER_LIMITED, 'projects.index', 200 ],
             [ Capability::$PROJECT_MANAGER_LIMITED, 'projects.show', 200 ],
             [ Capability::$PROJECT_MANAGER_LIMITED, 'projects.create', 403 ],
-            [ Capability::$PROJECT_MANAGER_LIMITED, 'projects.edit', 403 ],
+            [ Capability::$PROJECT_MANAGER_LIMITED, 'projects.edit', 200 ],
             [ Capability::$PROJECT_MANAGER, 'projects.index', 200 ],
             [ Capability::$PROJECT_MANAGER, 'projects.show', 200 ],
             [ Capability::$PROJECT_MANAGER, 'projects.create', 200 ],

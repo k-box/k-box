@@ -138,9 +138,9 @@ return [
         'create' => ['all' => KBox\Capability::$PROJECT_MANAGER],
         'store' => ['all' => KBox\Capability::$PROJECT_MANAGER],
         'show' => ['all' => KBox\Capability::$PROJECT_MANAGER_LIMITED],
-        'edit' => ['all' => KBox\Capability::$PROJECT_MANAGER],
-        'update' => ['all' => KBox\Capability::$PROJECT_MANAGER],
-        'destroy' => ['all' => KBox\Capability::$PROJECT_MANAGER],
+        'edit' => ['all' => KBox\Capability::$PROJECT_MANAGER_LIMITED],
+        'update' => ['all' => KBox\Capability::$PROJECT_MANAGER_LIMITED],
+        'destroy' => ['all' => KBox\Capability::$PROJECT_MANAGER_LIMITED],
 
         'avatar' => [
             'index' => KBox\Capability::RECEIVE_AND_SEE_SHARE,
