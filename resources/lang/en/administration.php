@@ -161,6 +161,8 @@ return [
         'naming_policy_msg_activated' => 'Naming convention enabled',
         'naming_policy_msg_deactivated' => 'Naming convention disabled',
 
+        'all_files' => 'All Files',
+
     ],
 
     'network' => [

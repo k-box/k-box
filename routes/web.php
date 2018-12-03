@@ -69,6 +69,8 @@ Route::group(['as' => 'administration.', 'prefix' => 'administration'], function
     Route::get('/storage/reindexall', 'Administration\StorageAdministrationController@getReindexAll')->name('storage.reindexstatus');
     Route::post('/storage/reindexall', 'Administration\StorageAdministrationController@postReindexAll')->name('storage.reindexall');
     Route::post('/storage/naming', 'Administration\StorageAdministrationController@postNaming')->name('storage.naming');
+    
+    Route::get('/storage/files', 'Administration\AllFilesController@index')->name('storage.files');
 
     Route::get('/maintenance', 'Administration\MaintenanceAdministrationController@getIndex')->name('maintenance.index');
 
