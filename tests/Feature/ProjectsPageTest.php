@@ -29,7 +29,7 @@ class ProjectsPageTest extends TestCase
     {
         return [
             [ Capability::$ADMIN, ['documents.projects.index' => 'documents.projects.projectspage', 'documents.projects.show' => 'documents.projects.detail'], 200 ],
-            [ Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH, ['documents.projects.index' => 'documents.projects.projectspage', 'documents.projects.show' => 'documents.projects.detail'], 200 ],
+            [ Capability::$PROJECT_MANAGER_LIMITED, ['documents.projects.index' => 'documents.projects.projectspage', 'documents.projects.show' => 'documents.projects.detail'], 200 ],
             [ Capability::$PROJECT_MANAGER, ['documents.projects.index' => 'documents.projects.projectspage', 'documents.projects.show' => 'documents.projects.detail'], 200 ],
             [ Capability::$DMS_MASTER, ['documents.projects.index' => 'documents.projects.projectspage', 'documents.projects.show' => 'documents.projects.detail'], 403 ],
             [ Capability::$PARTNER, ['documents.projects.index' => 'documents.projects.projectspage', 'documents.projects.show' => 'documents.projects.detail'], 200 ],
@@ -98,7 +98,7 @@ class ProjectsPageTest extends TestCase
     {
         $this->withKlinkAdapterFake();
 
-        $user = $this->createUser(Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH);
+        $user = $this->createUser(Capability::$PROJECT_MANAGER_LIMITED);
 
         $generated_url = route('documents.projects.index');
 
@@ -111,7 +111,7 @@ class ProjectsPageTest extends TestCase
     {
         $this->withKlinkAdapterFake();
 
-        $user = $this->createUser(Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH);
+        $user = $this->createUser(Capability::$PROJECT_MANAGER_LIMITED);
 
         $managed_project = factory(Project::class)->create(['user_id' => $user->id]);
         $project = factory(Project::class)->create();
@@ -138,5 +138,31 @@ class ProjectsPageTest extends TestCase
         $response->assertSee($project->manager->name);
         $response->assertSee($managed_project->getCreatedAt());
         $response->assertSee($project->getCreatedAt());
+    }
+
+    public function test_create_project_button_visible_if_user_cannot_create_projects()
+    {
+        $this->withKlinkAdapterFake();
+
+        $user = $this->createUser(Capability::$PROJECT_MANAGER);
+
+        $url = route('documents.projects.index');
+
+        $response = $this->actingAs($user)->get($url);
+
+        $response->assertSeeText(trans('projects.new_button'));
+    }
+
+    public function test_create_project_button_not_visible_if_user_cannot_create_projects()
+    {
+        $this->withKlinkAdapterFake();
+
+        $user = $this->createUser(Capability::$PROJECT_MANAGER_LIMITED);
+
+        $url = route('documents.projects.index');
+
+        $response = $this->actingAs($user)->get($url);
+
+        $response->assertDontSeeText(trans('projects.new_button'));
     }
 }

@@ -76,13 +76,10 @@ class UserAdministrationController extends Controller
         $user_types = [
         'guest' => Capability::$GUEST,
         'partner' => Capability::$PARTNER,
-        'project_admin' => Capability::$QUALITY_CONTENT_MANAGER,
+        'project_admin' => Capability::$PROJECT_MANAGER_LIMITED,
         'klinker' => Capability::$QUALITY_CONTENT_MANAGER,
         'admin' => Capability::$ADMIN,
         ];
-      
-        //   Option::isMailEnabled() && Option::isMailUsingLogDriver() => use the password field
-        //   Option::isMailUsingSmtpDriver()
       
         $type_resolutor = [];
       

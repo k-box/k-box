@@ -141,7 +141,7 @@
 
 		@endif
 
-	@elseif(auth()->check() && auth()->user()->isProjectManager())
+	@elseif(auth()->check() && auth()->user()->can_capability(\KBox\Capability::CREATE_PROJECTS))
 
 		<a href="{{route('projects.create')}}" class="action__button">
 			@materialicon('content', 'add_circle_outline'){{trans('projects.new_button')}}

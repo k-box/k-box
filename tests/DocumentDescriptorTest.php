@@ -134,7 +134,7 @@ class DocumentDescriptorTest extends BrowserKitTestCase
      */
     public function testConversionToPrivateKlinkDocumentDescriptor($visibility)
     {
-        $user = $this->createUser(Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH);
+        $user = $this->createUser(Capability::$PROJECT_MANAGER_LIMITED);
 
         $document = $this->createDocument($user);
         $document2 = $this->createDocument($user);

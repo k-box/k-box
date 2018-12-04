@@ -43,7 +43,7 @@ class Microsites_IntegrationTest extends BrowserKitTestCase
     {
         return [
             [Capability::$ADMIN, 200],
-            [Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH, 200],
+            [Capability::$PROJECT_MANAGER_LIMITED, 200],
             [Capability::$DMS_MASTER, 403],
             [Capability::$PARTNER, 403],
             [Capability::$GUEST, 403],

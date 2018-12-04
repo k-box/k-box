@@ -71,7 +71,7 @@ class DocumentDownloadControllerTest extends TestCase
     public function test_download_for_shared_document()
     {
         $user = tap(factory(\KBox\User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH);
+            $u->addCapabilities(Capability::$PROJECT_MANAGER_LIMITED);
         });
         $user_accessing_the_document = tap(factory(\KBox\User::class)->create(), function ($u) {
             $u->addCapabilities(Capability::$PARTNER);

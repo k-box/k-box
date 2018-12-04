@@ -146,7 +146,7 @@ trait HasCapability
      */
     public function isProjectManager()
     {
-        return $this->can_all_capabilities(Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH);
+        return $this->can_all_capabilities(Capability::$PROJECT_MANAGER_LIMITED);
     }
 
     // Adding and removing capabilities ---------------------------------------

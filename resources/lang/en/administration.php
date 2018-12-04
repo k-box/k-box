@@ -80,6 +80,7 @@ return [
             'manage_own_groups' => 'User can add/remove personal collections',
             'manage_institution_groups' => 'User can add/remove document collections in accessible projects', //hidden from users
             'manage_project_collections' => 'User can access the Projects section', //in the past: User can add/remove project collections in accessible projects
+            'create_projects' => 'User can create Projects',
             'manage_share' => 'User may directly share project documents with other K-Box users', 
             'receive_share' => 'User can access the Shared with me section',
             'manage_share_personal' => 'User may directly share personal documents with other K-Box users',

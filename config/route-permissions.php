@@ -134,29 +134,29 @@ return [
     ],
     
     'projects' => [
-        'index' => ['all' => KBox\Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH],
-        'create' => ['all' => KBox\Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH],
-        'store' => ['all' => KBox\Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH],
-        'show' => ['all' => KBox\Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH],
-        'edit' => ['all' => KBox\Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH],
-        'update' => ['all' => KBox\Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH],
-        'destroy' => ['all' => KBox\Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH],
+        'index' => ['all' => KBox\Capability::$PROJECT_MANAGER_LIMITED],
+        'create' => [KBox\Capability::CREATE_PROJECTS],
+        'store' => [KBox\Capability::CREATE_PROJECTS],
+        'show' => ['all' => KBox\Capability::$PROJECT_MANAGER_LIMITED],
+        'edit' => ['all' => KBox\Capability::$PROJECT_MANAGER_LIMITED],
+        'update' => ['all' => KBox\Capability::$PROJECT_MANAGER_LIMITED],
+        'destroy' => ['all' => KBox\Capability::$PROJECT_MANAGER_LIMITED],
 
         'avatar' => [
             'index' => KBox\Capability::RECEIVE_AND_SEE_SHARE,
-            'store' => ['all' => KBox\Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH],
-            'destroy' => ['all' => KBox\Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH],
+            'store' => ['all' => KBox\Capability::$PROJECT_MANAGER_LIMITED],
+            'destroy' => ['all' => KBox\Capability::$PROJECT_MANAGER_LIMITED],
         ]
     ],
     
     'microsites' => [
-        'index' => ['all' => KBox\Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH],
-        'create' => ['all' => KBox\Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH],
-        'store' => ['all' => KBox\Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH],
-        'show' => ['all' => KBox\Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH],
-        'edit' => ['all' => KBox\Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH],
-        'update' => ['all' => KBox\Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH],
-        'destroy' => ['all' => KBox\Capability::$PROJECT_MANAGER_NO_CLEAN_TRASH],
+        'index' => ['all' => KBox\Capability::$PROJECT_MANAGER_LIMITED],
+        'create' => ['all' => KBox\Capability::$PROJECT_MANAGER_LIMITED],
+        'store' => ['all' => KBox\Capability::$PROJECT_MANAGER_LIMITED],
+        'show' => ['all' => KBox\Capability::$PROJECT_MANAGER_LIMITED],
+        'edit' => ['all' => KBox\Capability::$PROJECT_MANAGER_LIMITED],
+        'update' => ['all' => KBox\Capability::$PROJECT_MANAGER_LIMITED],
+        'destroy' => ['all' => KBox\Capability::$PROJECT_MANAGER_LIMITED],
     ],
 
     'import' => KBox\Capability::IMPORT_DOCUMENTS,
