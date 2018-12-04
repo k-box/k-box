@@ -34,7 +34,7 @@ return [
         'all' => 'All',
         'public' => 'K-Link Public',
         'private' => 'Private',
-        'personal' => 'Personal',
+        'personal' => 'My Uploads',
         'starred' => 'Starred',
         'shared' => 'Shared with me',
         'recent' => 'Recent',

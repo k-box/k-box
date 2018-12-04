@@ -34,7 +34,7 @@ return [
         'all' => 'Все',
         'public' => 'K-Link сеть',
         'private' => 'Закрытые',
-        'personal' => 'Личные',
+        'personal' => 'Мои загрузки',
         'starred' => 'Избранное',
         'shared' => 'Совместные',
         'recent' => 'Недавние',

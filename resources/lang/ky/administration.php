@@ -154,6 +154,8 @@ return [
         'naming_policy_msg_activated' => 'Документтердин аталышынын эрежеси иштетилди',
         'naming_policy_msg_deactivated' => 'Документтердин аталышынын эрежеси өчүрүлдү',
 
+        'all_files' => 'Баардык файлдар',
+
     ],
 
     'network' => [

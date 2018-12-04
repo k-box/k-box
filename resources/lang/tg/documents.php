@@ -34,7 +34,7 @@ return [
         'all' => 'Ҳама',
         'public' => 'K-Link Public',
         'private' => 'Хусусӣ',
-        'personal' => 'Шахсӣ',
+        'personal' => 'My Uploads',
         'starred' => 'Ситорачадор',
         'shared' => 'Муштарак',
         'recent' => 'Oхирон',

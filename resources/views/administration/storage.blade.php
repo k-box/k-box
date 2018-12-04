@@ -10,6 +10,8 @@
 
 
 <div id="storageActions">
+    <a class="action__button" href="{{route('administration.storage.files')}}">{{ trans('administration.storage.all_files') }}</a>
+
     <a href="{{ route('administration.storage.reindexall') }}" rv-on-click="reindexAll" rv-disabled="cannotReindex" class="action__button">
         @materialicon('action', 'cached'){{ trans('administration.storage.reindexall_btn') }}
     </a>
@@ -67,11 +69,14 @@
 
         <form  method="post" class="c-form" action="{{route('administration.storage.naming')}}">
 
+<div class="c-section">
+
+
             {{ csrf_field() }}
 
-            <h3>{{trans('administration.storage.naming_policy_title')}}</h3>
+            <h4 class="c-section__title">{{trans('administration.storage.naming_policy_title')}}</h4>
 
-            <p class="description">{{trans('administration.storage.naming_policy_description')}}</p>
+            <p class="c-section__description">{{trans('administration.storage.naming_policy_description')}}</p>
 
             <p>
 
@@ -109,7 +114,7 @@
             @endif
 
             </p>
-
+</div>
         </form>
 
         

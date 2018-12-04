@@ -17,7 +17,7 @@
 		{{trans('administration.menu.institutions')}}
 	</a>
 
-	<a href="{{ route('administration.storage.index') }}" class="navigation__item navigation__item--link @if(\Request::is('*storage')) navigation__item--current @endif">
+	<a href="{{ route('administration.storage.index') }}" class="navigation__item navigation__item--link @if(\Request::is('*storage*')) navigation__item--current @endif">
 			
 		@materialicon('action', 'dns', 'navigation__item__icon')
 		
