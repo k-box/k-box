@@ -9,6 +9,7 @@ use KBox\Consents;
 use KBox\HomeRoute;
 use Tests\TestCase;
 use KBox\Capability;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class GetHomeRouteTest extends TestCase
@@ -56,11 +57,32 @@ class GetHomeRouteTest extends TestCase
      */
     public function test_user_home_route_is_returned($capabilities, $route)
     {
+        Storage::fake('app');
+
         $user = tap(factory(User::class)->create(['name' => 'canary']), function ($u) use ($capabilities) {
             $u->addCapabilities($capabilities);
         });
 
         Consent::agree($user, Consents::PRIVACY);
+
+        $real = HomeRoute::get($user);
+        $expected = route($route);
+
+        $this->assertEquals($expected, $real);
+    }
+    
+    /**
+     * @dataProvider expected_route_for_capabilities
+     */
+    public function test_user_home_route_is_returned_if_consent_not_given_and_page_dont_exists($capabilities, $route)
+    {
+        Storage::fake('app');
+        
+        $user = tap(factory(User::class)->create(['name' => 'canary']), function ($u) use ($capabilities) {
+            $u->addCapabilities($capabilities);
+        });
+
+        Consent::withdraw($user, Consents::PRIVACY);
 
         $real = HomeRoute::get($user);
         $expected = route($route);

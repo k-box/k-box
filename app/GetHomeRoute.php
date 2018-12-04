@@ -23,7 +23,9 @@ class GetHomeRoute
         $see_share = $user->can_capability(Capability::RECEIVE_AND_SEE_SHARE);
         $uploader = $user->can_all_capabilities([Capability::UPLOAD_DOCUMENTS, Capability::EDIT_DOCUMENT]);
 
-        if (! Consent::isGiven(Consents::PRIVACY, $user) && ! optional(Page::find(Page::PRIVACY_POLICY_LEGAL))->isEmpty()) {
+        $privacyPageExists = optional(Page::find(Page::PRIVACY_POLICY_LEGAL))->isNotEmpty() ?? false;
+
+        if (! Consent::isGiven(Consents::PRIVACY, $user) && $privacyPageExists) {
             // if user did not agree to the privacy policy
             // we must show the consent screen
             return route('consent.dialog.privacy.show');
