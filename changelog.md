@@ -7,6 +7,29 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.25.0] - 2018-12-04
+
+### Added
+
+- Privacy: support for privacy policy and consent management following EU 2016/679 (GDPR) ([#176](https://github.com/k-box/k-box/pull/176))
+- Capability for project creation ([#192](https://github.com/k-box/k-box/pull/192))
+
+### Changed
+
+- Remove placeholder text from login screen ([#183](https://github.com/k-box/k-box/pull/183))
+- Generate url when indexing files ([#187](https://github.com/k-box/k-box/pull/187))
+- Rename "Personal" document section to "My Uploads" ([#193](https://github.com/k-box/k-box/pull/193))
+- Admin users now see "My Uploads" under documents, instead of "Private" ([#193](https://github.com/k-box/k-box/pull/193))
+- Moved all files access under storage administration ([#193](https://github.com/k-box/k-box/pull/193))
+
+### Fixed
+
+- Fix document icon appearing over the sidebar on mobile ([#184](https://github.com/k-box/k-box/pull/184))
+- Fix regression when moving collections ([#185](https://github.com/k-box/k-box/pull/185))
+- Fix error searching in shared with me section ([#186](https://github.com/k-box/k-box/pull/186))
+- Fix project filters populated without projects ([#189](https://github.com/k-box/k-box/pull/189))
+- Fix navigation drawer button appearing on login page ([#191](https://github.com/k-box/k-box/pull/191))
+
 ## [0.24.1] - 2018-11-20
 
 ### Changed
