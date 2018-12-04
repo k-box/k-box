@@ -135,8 +135,8 @@ return [
     
     'projects' => [
         'index' => ['all' => KBox\Capability::$PROJECT_MANAGER_LIMITED],
-        'create' => ['all' => KBox\Capability::$PROJECT_MANAGER],
-        'store' => ['all' => KBox\Capability::$PROJECT_MANAGER],
+        'create' => [KBox\Capability::CREATE_PROJECTS],
+        'store' => [KBox\Capability::CREATE_PROJECTS],
         'show' => ['all' => KBox\Capability::$PROJECT_MANAGER_LIMITED],
         'edit' => ['all' => KBox\Capability::$PROJECT_MANAGER_LIMITED],
         'update' => ['all' => KBox\Capability::$PROJECT_MANAGER_LIMITED],
