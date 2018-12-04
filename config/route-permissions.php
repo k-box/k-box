@@ -31,6 +31,7 @@ return [
         'sharedwithme' => [KBox\Capability::RECEIVE_AND_SEE_SHARE, KBox\Capability::SHARE_WITH_PERSONAL, KBox\Capability::SHARE_WITH_PRIVATE],
         'show' => KBox\Capability::$CONTENT_MANAGER,
         'by-klink-id' => KBox\Capability::$CONTENT_MANAGER,
+        'public_visibility' => KBox\Capability::MAKE_SEARCH,
         'visibility' => KBox\Capability::MAKE_SEARCH,
         'create' => KBox\Capability::UPLOAD_DOCUMENTS,
         'store' => KBox\Capability::UPLOAD_DOCUMENTS,
