@@ -52,7 +52,8 @@ class KlinkDocumentTest extends TestCase
 
         $data = $document->getDescriptor()->toData();
         
-        $this->assertEquals('https://some.location/1', $data->url);
+        $this->assertNotEquals('https://some.location/1', $data->url);
+        $this->assertEquals(route('documents.preview', ['id' => $descriptor->uuid]), $data->url);
     }
     
     public function test_document_data_returns_null_for_supported_data()

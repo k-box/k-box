@@ -520,7 +520,7 @@ class DocumentDescriptor extends Model
 
     public function getDocumentUriAttribute($value = null)
     {
-        if (! $value) {
+        if ($this->file_id) {
             return route('documents.preview', ['uuid' => $this->uuid]);
         }
 
@@ -529,7 +529,7 @@ class DocumentDescriptor extends Model
 
     public function getThumbnailUriAttribute($value = null)
     {
-        if (! $value) {
+        if ($this->file_id) {
             return route('documents.thumbnail', ['uuid' => $this->uuid]);
         }
 
