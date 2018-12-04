@@ -155,6 +155,8 @@ return [
         'naming_policy_msg_activated' => 'Правила наименования включены',
         'naming_policy_msg_deactivated' => 'Правила наименования выключены',
 
+        'all_files' => 'Все файлы',
+
     ],
 
     'network' => [

@@ -34,7 +34,7 @@ return [
         'all' => 'Баары',
         'public' => 'K-Link тармагы',
         'private' => 'Баары',
-        'personal' => 'My Uploads',
+        'personal' => 'Жүктөөлөрүм',
         'starred' => 'Тандалма',
         'shared' => 'Бөлүшкөн',
         'recent' => 'Акыркы',
