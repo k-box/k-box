@@ -22,10 +22,10 @@ return [
          */
 
         'disclaimer' => 'Бул катты каттоо жөнүндө маалыматтарды камтыйт. Сураныч, коопсуз жерге сактап коюнуз.',
-        'welcome' => 'Кош келеңиз, :name,',
-        'credentials' => 'Сиздин уюмдун K-Box менен колдонуу <br/> колдонуучу атын <strong>:mail</strong><br/>жана пароль <strong>:password</strong>',
+        'welcome' => 'Кош келипсиз :name,',
+        'credentials' => 'K-Box-го кирүү үчүн ушул <br/> почтаны <strong>:mail</strong><br/>жана паролду <strong>:password</strong> колдонуңуз.',
         'credentials_alt' => 'Сиздин уюмдун K-Box төмөнкүдөй маалыматтарды колдоно аласыз',
-        'username' => 'Колдонуучунун аты **:mail**',
+        'username' => 'Почта **:mail**',
         'password' => 'пароль `:password`',
 
 
