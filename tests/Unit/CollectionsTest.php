@@ -233,4 +233,32 @@ class CollectionsTest extends TestCase
             $this->assertEquals(trans('groups.delete.forbidden_trash_personal_collection', ['collection' => $collection_level_one->name]), $ex->getMessage());
         }
     }
+
+    public function test_user_cannot_trash_shared_collection()
+    {
+        $service = app('KBox\Documents\Services\DocumentsService');
+        
+        $creator = tap(factory(\KBox\User::class)->create(), function ($user) {
+            $user->addCapabilities(Capability::$PARTNER);
+        });
+        $user = tap(factory(\KBox\User::class)->create(), function ($user) {
+            $user->addCapabilities(Capability::$PARTNER);
+        });
+        
+        $collection = $service->createGroup($creator, 'collection_level_one', null, null);
+
+        $share = $collection->shares()->create([
+            'user_id' => $creator->id,
+            'sharedwith_id' => $user->id,
+            'sharedwith_type' => get_class($user),
+            'token' => hash('sha256', 'token_content'),
+        ]);
+        
+        try {
+            $service->deleteGroup($user, $collection);
+            $this->fail('Expected exception, but trash continued');
+        } catch (ForbiddenException $ex) {
+            $this->assertEquals(trans('groups.delete.forbidden_delete_shared_collection', ['collection' => $collection->name]), $ex->getMessage());
+        }
+    }
 }

@@ -110,6 +110,7 @@ return [
         'cannot_delete_general_error' => 'Cannot delete the specified elements. Nothing has been deleted.',
         
         'forbidden_trash_personal_collection' => 'You did not create :collection, therefore you cannot trash it.',
+        'forbidden_delete_shared_collection' => '":collection" has been shared with you, therefore you cannot trash it.',
         'forbidden_delete_personal_collection' => 'You did not create :collection, therefore you cannot delete it.',
         'forbidden_delete_collection' => 'The collection :collection cannot be deleted. You are not allowed to operate on Collections.',
         'forbidden_delete_project_collection' => 'The collection :collection cannot be deleted as it is in a project where you do not have the edit permissions.',
