@@ -1,8 +1,8 @@
 ---
-Title: Personal
+Title: My Uploads
 Description: user documentation
 ---
-# Personal
+# My Uploads
 
 Your personal files. Can be seen by K-Box administrator.
 
