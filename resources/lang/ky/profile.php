@@ -13,6 +13,8 @@ return [
 
     'page_title' => ':name',
 
+    'profile' => 'Профиль',
+
     'go_to_profile' => 'Профилди көрүү',
 
     'messages' => [
