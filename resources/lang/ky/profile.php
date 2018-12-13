@@ -14,7 +14,7 @@ return [
     'page_title' => ':name',
 
     'go_to_profile' => 'Профилди көрүү',
-    
+
     'messages' => [
         'mail_changed' => 'Электрондук почта өзгөртүлдү',
         'name_changed' => 'Колдонуучунун аты өзгөртүлдү',
@@ -48,7 +48,21 @@ return [
 
     'starred_count_label' => 'Тандалмада документтер :number ',
     'documents_count_label' => 'Жүктөлгөн документтер :number ',
-    'collections_count_label' => 'Коллекция түзүлдү :number ',
+    'collections_count_label' => 'Түзүлгөн коллекциялар :number ',
     'shared_count_label' => 'Бөлүшкөн документтер :number',
+
+        'privacy' => [
+        'privacy' => 'Конфиденциалдуулук',
+        'section_name' => 'Конфиденциалдуулук тандоолоруңузду өзгөртүү',
+        'section_description' => '',
+
+        'activity' => [
+            'consent_given' => 'Сиз ушул датасында макулдук бердиңиз :date',
+            'consent_withdrawn_by_system' => 'Конфиденциалдуулук саясаттын өзгөрүүсүнө карата, макулдук жокко чыгарылган ушул датасында :date',
+            'consent_withdrawn_by_user' => 'Макулдук жокко чыгарылган ушул датасында :date',
+        ],
+
+        'update_privacy_preferences' => 'Конфиденциалдуулук тандоолорду жаңыртуу',
+    ],
 
 ];
