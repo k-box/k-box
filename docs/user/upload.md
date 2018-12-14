@@ -16,7 +16,6 @@ For _videos_ use the "Create or Add"  → “Upload Video" option
 
 For _any other file_, use “Create or Add” → “Upload Document” or simply drag and drop 
 
-![Upload](./images/dms-upload.png)
 
 #### Supported video formats
 
