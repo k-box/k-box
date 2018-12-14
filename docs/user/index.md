@@ -30,6 +30,6 @@ Personal settings in the upper right corner under the first letter of your name.
 
 #### Files navigation
 
-You can access the left-hand navigation menu where files are categorized into [My Uploads](./personal.md), [Recent](./recent.md), [Starred](./starred.md), [Shared with me](./shared-with-me.md), [Trash](./trash.md). Besides that you can find accessible projects and your personal files [organized](./files-organization.md) in the collections.
+You can access the left-hand navigation menu where files are categorized into [My Uploads](./personal.md), [Recent](./recent.md), [Starred](./starred.md), [Shared with me](./shared-with-me.md), Geographic Data and [Trash](./trash.md). Besides that you can find accessible projects and your personal files [organized](./files-organization.md) in the collections.
 
 ![Left navigation menu](./images/left-nav-bar.png)
