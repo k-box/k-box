@@ -17,6 +17,7 @@ return [
         'simple' => 'Ошибка загрузки :description',
         'filenamepolicy' => 'Файл :filename не отвечает правилам названия документов.',
         'filealreadyexists' => 'Файл :filename уже существует.',
+        'file_not_uploaded' => 'Файл не загружен, размер файла должен быть меньше :max_size.',
     ],
     
         'filealreadyexists' => [
