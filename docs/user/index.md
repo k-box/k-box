@@ -8,7 +8,7 @@ Description: User documentation
 
 K-Box is a web-based Free and Open Source Data Management Tool. It offers a flexible approach for managing documents and for disseminating them.
 
-By default, the K-Box interface opens in your Personal section on Documents page. 
+By default, the K-Box interface opens in My Uploads section on Documents page. 
 
 ![Main page](./images/main-page.png)
 
