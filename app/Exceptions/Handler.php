@@ -11,6 +11,7 @@ use Illuminate\Session\TokenMismatchException;
 use Illuminate\Validation\ValidationException;
 use Klink\DmsAdapter\Exceptions\KlinkException;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Http\Exceptions\PostTooLargeException;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -95,6 +96,14 @@ class Handler extends ExceptionHandler
             }
 
             return redirect()->guest('login');
+        }
+
+        if ($e instanceof PostTooLargeException) {
+            if ($request->expectsJson()) {
+                return response()->json(['error' => trans('errors.413_text')], 413);
+            }
+
+            return trans('errors.413_text');
         }
 
         // if($e instanceof HttpResponseException)
