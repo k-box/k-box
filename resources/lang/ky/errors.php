@@ -17,6 +17,7 @@ return [
         'simple' => 'Жүктөө учурунда ката :description кетти',
         'filenamepolicy' => 'Файл :filename документ аталыш эрежелерине туура келбейт',
         'filealreadyexists' => 'Файл :filename системага жүктөлгөн',
+        'file_not_uploaded' => 'Файл жүктөлгөн жок, көлөмү :max_size чоң болбош керек',
     ],
     
         'filealreadyexists' => [
