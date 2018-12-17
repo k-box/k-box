@@ -5,3 +5,5 @@ The geographic data section list all uploaded files in projects/collection you h
 This section is only available if the administration enabled the [Geographic Plugin](https://git.klink.asia/main/k-box/blob/update-help-page/plugins/geo/readme.md). 
 
 ![geodata](./images/geodata.png)
+
+Using Spatial filters, you can retrieve all available geographical files in a specific area. For that, draw (and also edit/delete) a rectangle by clicking on the respective icon on the left side of the map.
