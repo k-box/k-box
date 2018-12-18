@@ -309,13 +309,16 @@ class Group extends Entity implements GroupInterface
 
             $alreadyTrashed = $parent->getTrashedChildren()->where('name', $this->name)->first();
 
-            // what if $alreadyTrashed is personal, but of another user
-            $canBeMerged = $this->is_private === $alreadyTrashed->is_private && ($this->is_private && $alreadyTrashed->user_id === $this->user_id);
-            
-            if ($canBeMerged) {
-                $alreadyTrashed->merge($this);
+            if ($alreadyTrashed) {
     
-                return $this->forceDelete();
+                // what if $alreadyTrashed is personal, but of another user
+                $canBeMerged = $this->is_private === $alreadyTrashed->is_private && ($this->is_private && $alreadyTrashed->user_id === $this->user_id);
+                
+                if ($canBeMerged) {
+                    $alreadyTrashed->merge($this);
+        
+                    return $this->forceDelete();
+                }
             }
         }
 
@@ -336,17 +339,19 @@ class Group extends Entity implements GroupInterface
             // restore it from the trash
             $alreadyExisting = $parent->getChildren()->where('name', $this->name)->first();
 
-            // what if $alreadyExisting is personal, but of another user
-            $canBeMerged = $this->is_private === $alreadyExisting->is_private && ($this->is_private && $alreadyExisting->user_id === $this->user_id);
-
-            if ($canBeMerged) {
-                $this->getTrashedChildren()->each->restoreFromTrash();
-                
-                $alreadyExisting->merge($this);
-
-                $this->forceDelete();
-
-                return $alreadyExisting->fresh();
+            if ($alreadyExisting) {
+                // what if $alreadyExisting is personal, but of another user
+                $canBeMerged = $this->is_private === $alreadyExisting->is_private && ($this->is_private && $alreadyExisting->user_id === $this->user_id);
+    
+                if ($canBeMerged) {
+                    $this->getTrashedChildren()->each->restoreFromTrash();
+                    
+                    $alreadyExisting->merge($this);
+    
+                    $this->forceDelete();
+    
+                    return $alreadyExisting->fresh();
+                }
             }
         }
         
