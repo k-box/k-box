@@ -96,12 +96,12 @@ return [
     
     'delete' => [
         
-        'dialog_title' => 'Өчүр :collection?',
+        'dialog_title' => 'Өчүр ":collection"?',
         'dialog_title_alt' => 'Коллекцияны өчүрүүнү каалайсызбы?',
-        'dialog_text' => ':collection коллекцияны өчүрөсүз. Ичиндеги документтер өчүрүлбөйт.',
+        'dialog_text' => '":collection" коллекциясын өчүрөсүз. Ичиндеги документтер өчүрүлбөйт.',
         'dialog_text_alt' => 'Тандалган коллекцияны өчүрөсүз. Ичиндеги документтер өчүрүлбөйт.',
         
-        'deleted_dialog_title' => ':collection коллекциясы өчүрүлдү',
+        'deleted_dialog_title' => '":collection" коллекциясы өчүрүлдү',
         'deleted_dialog_title_alt' => 'Өчүрүлдү',
         
         'cannot_delete_dialog_title' => '":collection" коллекцияны өчүрүү мүмкүн эмес',
@@ -110,10 +110,10 @@ return [
         'cannot_delete_general_error' => 'Өчүрүлгөн жок',
         
         'forbidden_trash_personal_collection' => '":collection" коллекциясын башка колдонуучу түзгөн, өчүрүүгө мүмкүн эмес',
-        'forbidden_delete_shared_collection' => '":collection" коллекциясы менен башка колдонуучу бөлүшкөн, өчүрүүгө мүмкүн эмес',
+        'forbidden_delete_shared_collection' => 'Башка колдонуучу ":collection" коллекциясы менен бөлүшкөн, өчүрүүгө мүмкүн эмес',
         'forbidden_delete_personal_collection' => '":collection" коллекциясын башка колдонуучу түзгөн, өчүрүүгө мүмкүн эмес',
         'forbidden_delete_collection' => ':collection коллекцияны өчүрүүгө укугуңуз жок',
-        'forbidden_delete_project_collection' => ':collection коллекцияны өчүрүү мүмкүн эмес',
+        'forbidden_delete_project_collection' => ':collection коллекциясын өчүрүү мүмкүн эмес',
         'forbidden_delete_project_collection_not_creator' => '":collection" коллекциясын башка колдонуучу түзгөн, өчүрүүгө мүмкүн эмес',
         'forbidden_delete_project_collection_not_manager' => '":collection" коллекциясын долбоордун менеджери өчүрө алат',
     ],
