@@ -8,7 +8,7 @@ Description: User documentation
 
 K-Box is a web-based Free and Open Source Data Management Tool. It offers a flexible approach for managing documents and for disseminating them.
 
-By default, the K-Box interface opens in your Personal section on Documents page. 
+By default, the K-Box interface opens in [My Uploads](./personal.md) section on Documents page. 
 
 ![Main page](./images/main-page.png)
 
@@ -30,6 +30,6 @@ Personal settings in the upper right corner under the first letter of your name.
 
 #### Files navigation
 
-You can access the left-hand navigation menu where files are categorized into [Personal](./personal.md), [Recent](./recent.md), [Starred](./starred.md), [Shared with me](./shared-with-me.md), [Trash](./trash.md). Besides that you can find accessible projects and your personal files [organized](./files-organization.md) in the collections.
+You can access the left-hand navigation menu where files are categorized into [My Uploads](./personal.md), [Recent](./recent.md), [Starred](./starred.md), [Shared with me](./shared-with-me.md), [Geographic Data](./geodata.md) and [Trash](./trash.md). Besides that you can find accessible projects and your personal files [organized](./files-organization.md) in the collections.
 
 ![Left navigation menu](./images/left-nav-bar.png)

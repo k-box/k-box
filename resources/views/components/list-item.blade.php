@@ -59,7 +59,7 @@
         @endif
 
 
-        <a href="{{ $url }}" class="item__link" rel="noopener" target="_blank" title="{{ $name }}">
+        <a href="{{ $url }}" class="item__link @if($type==='group') js-tree-item-inner @endif" rel="noopener" target="_blank" title="{{ $name }}">
             {{ $name }}
         </a>
         

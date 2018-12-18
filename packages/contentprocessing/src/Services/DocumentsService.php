@@ -1160,6 +1160,10 @@ class DocumentsService
             throw new ForbiddenException(trans('groups.delete.forbidden_delete_collection', ['collection' => $group->name]));
         }
 
+        if ($group->shares()->count() > 0 && $user->id != $group->user_id) {
+            throw new ForbiddenException(trans('groups.delete.forbidden_delete_shared_collection', ['collection' => $group->name]));
+        }
+
         if ($group->is_private && $user->id != $group->user_id) {
             throw new ForbiddenException(trans('groups.delete.forbidden_trash_personal_collection', ['collection' => $group->name]));
         }
