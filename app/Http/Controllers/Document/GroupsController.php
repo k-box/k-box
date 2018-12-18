@@ -430,7 +430,7 @@ class GroupsController extends Controller
             $force = $request->input('force', false);
             
             if ($force && ! $user->can_capability(Capability::CLEAN_TRASH)) {
-                \Log::warning('User tried to force delete a document without permission', ['user' => $user->id, 'document' => $id]);
+                \Log::warning('User tried to force delete a collection without permission', ['user' => $user->id, 'document' => $id]);
                 throw new ForbiddenException(trans('documents.messages.delete_force_forbidden'), 2);
             }
 

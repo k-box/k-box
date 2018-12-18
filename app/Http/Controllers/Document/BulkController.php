@@ -251,8 +251,8 @@ class BulkController extends Controller
 
                 if (! empty($grps)) {
                     foreach ($grps as $grp) {
-                        $g = Group::withTrashed()->findOrFail($grp);
-                        $g->restore();
+                        $g = Group::onlyTrashed()->findOrFail($grp);
+                        $g->restoreFromTrash();
                     }
                 }
 
