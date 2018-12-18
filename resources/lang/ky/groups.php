@@ -104,13 +104,13 @@ return [
         'deleted_dialog_title' => '":collection" коллекциясы өчүрүлдү',
         'deleted_dialog_title_alt' => 'Өчүрүлдү',
         
-        'cannot_delete_dialog_title' => '":collection" коллекцияны өчүрүү мүмкүн эмес',
+        'cannot_delete_dialog_title' => '":collection" коллекциясын өчүрүү мүмкүн эмес',
         'cannot_delete_dialog_title_alt' => 'Өчүрүлгөн жок',
         
         'cannot_delete_general_error' => 'Өчүрүлгөн жок',
         
         'forbidden_trash_personal_collection' => '":collection" коллекциясын башка колдонуучу түзгөн, өчүрүүгө мүмкүн эмес',
-        'forbidden_delete_shared_collection' => 'Башка колдонуучу ":collection" коллекциясы менен бөлүшкөн, өчүрүүгө мүмкүн эмес',
+        'forbidden_delete_shared_collection' => 'Башка колдонуучу ":collection" коллекциясын бөлүшкөн, өчүрүүгө мүмкүн эмес',
         'forbidden_delete_personal_collection' => '":collection" коллекциясын башка колдонуучу түзгөн, өчүрүүгө мүмкүн эмес',
         'forbidden_delete_collection' => ':collection коллекцияны өчүрүүгө укугуңуз жок',
         'forbidden_delete_project_collection' => ':collection коллекциясын өчүрүү мүмкүн эмес',
