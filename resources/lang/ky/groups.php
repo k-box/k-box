@@ -109,8 +109,13 @@ return [
         
         'cannot_delete_general_error' => 'Өчүрүлгөн жок',
         
+        'forbidden_trash_personal_collection' => '":collection" коллекциясын башка колдонуучу түзгөн, өчүрүүгө мүмкүн эмес',
+        'forbidden_delete_shared_collection' => '":collection" коллекциясы менен башка колдонуучу бөлүшкөн, өчүрүүгө мүмкүн эмес',
+        'forbidden_delete_personal_collection' => '":collection" коллекциясын башка колдонуучу түзгөн, өчүрүүгө мүмкүн эмес',
         'forbidden_delete_collection' => ':collection коллекцияны өчүрүүгө укугуңуз жок',
         'forbidden_delete_project_collection' => ':collection коллекцияны өчүрүү мүмкүн эмес',
+        'forbidden_delete_project_collection_not_creator' => '":collection" коллекциясын башка колдонуучу түзгөн, өчүрүүгө мүмкүн эмес',
+        'forbidden_delete_project_collection_not_manager' => '":collection" коллекциясын долбоордун менеджери өчүрө алат',
     ],
     
     'move' => [

@@ -110,6 +110,7 @@ return [
         'cannot_delete_general_error' => 'Невозможно удалить выбранные элементы. Удаление не успешно.',
         
         'forbidden_trash_personal_collection' => 'Вы не можете удалить коллекцию :collection, её создал другой пользователь',
+        'forbidden_delete_shared_collection' => 'Вы не можете удалить коллекцию ":collection", ею поделился другой пользователь',
         'forbidden_delete_personal_collection' => 'Вы не можете удалить коллекцию :collection, её создал другой пользователь',
         'forbidden_delete_collection' => 'Невозможно удалить :collection. У вас отсутствуют пользовательские права на совершение данной операции.',
         'forbidden_delete_project_collection' => ':collection не может быть удалена. Данная коллекция находится в проекте, где у вас отсутствуют полномочия редактирования.',
