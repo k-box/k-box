@@ -311,12 +311,15 @@ class CollectionsTest extends TestCase
 
         // create a collection with same name under same parent
         $the_new_one = $service->createGroup($creator, 'collection_level_one', null, $collection_root);
+        $the_new_three = $service->createGroup($creator, 'collection_level_three', null, $the_new_one);
 
         // trash it
         $service->deleteGroup($creator, $the_new_one);
 
         $this->assertNull($the_new_one->fresh(), "New collection is not gone");
         $this->assertNotNull($collection_level_one->fresh(), "Old trashed collection was expected to be still defined");
+        $this->assertNull($the_new_three->fresh());
+        $this->assertNotNull($collection_level_three->fresh());
     }
 
     public function test_trash_collection_with_same_name_of_trashed_one_respect_users()
@@ -342,13 +345,16 @@ class CollectionsTest extends TestCase
 
         // create a collection with same name under same parent
         $the_new_one = $service->createGroup($user, 'collection_level_one', null, $collection_root);
+        $the_new_three = $service->createGroup($user, 'collection_level_three', null, $the_new_one);
 
         // trash it
         $service->deleteGroup($user, $the_new_one);
 
         $this->assertNotNull($the_new_one->fresh(), "New collection is gone");
         $this->assertTrue($the_new_one->fresh()->trashed(), "New collection is not trashed");
-        $this->assertNotNull($collection_level_one->fresh(), "Old trashed collection was expected to be still defined");
+        $this->assertTrue($the_new_three->fresh()->trashed(), "New collection is not trashed");
+        $this->assertNotNull($collection_level_one->fresh());
+        $this->assertNotNull($collection_level_three->fresh());
     }
 
     public function test_merge_collection()

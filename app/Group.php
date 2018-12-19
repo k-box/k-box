@@ -301,27 +301,31 @@ class Group extends Entity implements GroupInterface
      */
     public function trash()
     {
-        $parent = $this->getParent();
+        $parent = static::withTrashed()->find($this->parent_id); //getParent();
+
         if ($parent && $parent->hasTrashedChildren()) {
             // if the parent has trashed children and within those there is one with the same name
             // we need to merge the childrens and permanently trash this collection instead of
             // simply move it to the trash, as it will fail due to the uniqueness constraint
 
             $alreadyTrashed = $parent->getTrashedChildren()->where('name', $this->name)->first();
-
+            
             if ($alreadyTrashed) {
-    
                 // what if $alreadyTrashed is personal, but of another user
                 $canBeMerged = $this->is_private === $alreadyTrashed->is_private && ($this->is_private && $alreadyTrashed->user_id === $this->user_id);
                 
                 if ($canBeMerged) {
-                    $alreadyTrashed->merge($this);
+                    $this->merge($alreadyTrashed);
+
+                    $this->getChildren()->each->trash();
         
                     return $this->forceDelete();
                 }
             }
         }
 
+        $this->getChildren()->each->trash();
+        
         return $this->delete();
     }
 

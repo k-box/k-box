@@ -1186,7 +1186,7 @@ class DocumentsService
                 foreach ($descendants as $descendant) {
                     $that->removeDocumentsFromGroup($user, $descendant->documents, $descendant);
 
-                    $descendant->trash();
+                    // $descendant->trash();
                 }
             }
 
