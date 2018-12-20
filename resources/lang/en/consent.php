@@ -13,7 +13,7 @@ return [
 
     'agree' => 'Agree',
     'disagree_logout' => 'Disagree and logout',
-    'skip' => 'Skip this step',
+    'skip' => 'Skip',
     'save' => 'Save my preferences',
 
     'privacy' => [

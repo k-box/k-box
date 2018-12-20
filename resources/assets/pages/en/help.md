@@ -240,7 +240,7 @@ Most likely the conditions listed under [sharing](#sharing) are not fullfiled. Y
 
 **9. I see duplicates. Why?**
 
-The duplicates are allowed. When uploaded into Projects, K-Box identifies them. Only the uploader of w duplicate can resolve them. 
+The duplicates are allowed. When uploaded into Projects, K-Box identifies them. Only the uploader of duplicate can resolve them. 
 
 ### <a id="contact-us"></a>Contact us
 

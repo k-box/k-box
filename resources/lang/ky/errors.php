@@ -75,7 +75,7 @@ return [
     '503_text' => '<strong>K-Box</strong> <br/><strong>техникалык тейлөөдө</strong><br/>',
 
     '500_title' => 'Ката - K-Box',
-    '500_text' => '<strong>Күтүлбөгөн</strong><br/> жана жаман <strong>ката кетти</strong>,<br/>',
+    '500_text' => '<strong>Күтүлбөгөн</strong><br/> <strong>ката кетти</strong><br/>',
 
     '404_title' => 'K-Box-до табылган жок',
     '404_text' => '<br/>Бул <br/><strong>баракча</strong> <strong>өчүрүлгөн</strong>',

@@ -42,7 +42,7 @@ return [
             'institution_column' => 'Уюм',
 
         ],
-        
+
         'edit_account_title' => ':name өзгөртүү',
 
         'labels' => [
@@ -85,7 +85,7 @@ return [
             'manage_people' => 'Уюм дэңгээлинде түзүлгөн колдонуучу группаларын түзүү жана өзгөртүү',
 
         ],
-        
+
         'types' => [
 
             'guest' => 'Конок',
@@ -110,7 +110,7 @@ return [
         'disabled_msg' => 'Колдонуучу :name өчүрүлдү',
         'enabled_msg' => 'Колдонуучу :name кайра жандырылды',
         'updated_msg' => 'Колдонуучу жаңыланды',
-        'mail_subject' => 'Сиздин каттооңуз даяр',
+        'mail_subject' => 'Сиздин аккаунтуңуз даяр',
         'reset_sent' => 'Сырсөздү жаңыртуу боюнача кат :name (:email) почтага жөнөтүлдү',
         'reset_not_sent' => 'Сырсөздү жаңыртуу боюнача катты бул почтага :email. :error жөнөтүү мүмкүн эмес',
         'reset_not_sent_invalid_user' => 'Колдонуучуну :email табуу мүмкүн эмес',
@@ -163,7 +163,7 @@ return [
         'klink_net_title' => 'K-Link сетевое соединение',
         'ksearch' => 'K-Search менен байланышуу',
         'ksearch_description' => 'Бул жерде K-Box менен K-Search байланыш абалы көрсөтүлгөн',
-        
+
         'network' => '":network" менен байланышуу',
         'network_description' => 'Бул жерде K-Box менен жеткиликтүү тармактардын байланыш абалы көрсөтүлгөн',
 
@@ -204,9 +204,9 @@ return [
         'encryption_label' => 'Почта серверинде TLS Encryption шифрлөө протоколу болушу милдетүү',
         'username_label' => 'SMTP Server колдонуучусу',
         'password_label' => 'SMTP Server паролу',
-        'log_driver_used' => 'Логинг колдонулуп жатат.Сервер орнотууларын өзгөртүүгө мүмкүн эмес.', //"log driving" to be checked. I'm too tired of translations to do it today 
+        'log_driver_used' => 'Логинг колдонулуп жатат.Сервер орнотууларын өзгөртүүгө мүмкүн эмес.', //"log driving" to be checked. I'm too tired of translations to do it today
         'log_driver_go_to_log' => 'Почта адрестери K-Boxтун лог файлында сакталып калат. Көрүү үчүн<a href=":link">Администрация > Обслуживание и События</a> ачыңыз.',
-   
+
     ],
     'update' => [],
     'maintenance' => [
@@ -217,13 +217,13 @@ return [
         'queue_runner_stopped' => 'Жүргүзүлгөн жок',
 
         'queue_runner_not_running_description' => 'Тапшырма аткаруу сервери жүргүзүлгөн жок. Документтер жана каттар индексациялоосу ылайыксыз жүрүшү мүмкүн.',
-        
+
         'logs_widget_title' => 'Акыркы log жазуулары',
     ],
-    
+
     // Institution pages in the administration area
     'institutions' => [
-        
+
         'edit_title' => ':name аталышынын өзгөртүү',
         'create_title' => 'Түзүү',
         'create_institutions_btn' => 'Түзүү',
@@ -235,7 +235,7 @@ return [
         'deleted' => 'Уюм :name өчүрүлдү',
         'delete_confirm' => ':name уюм тармактан чыгарылсынбы?',
         'deprecated' => 'Уюмдарды башкаруу жакын арада өзгөрүлөт. Ошондуктан, уюмдарды кошуу, өзгөртүү жана алып салуу мүмкүнчүлүктөрү чектелген.',
-                
+
         'labels' => [
             'klink_id' => 'Идентификатор (K-Link тармагында)',
             'name' => 'Аталышы',
@@ -251,16 +251,16 @@ return [
             'create' => 'Түзүү'
         ],
     ],
-    
+
     'settings' => [
         'viewing_section' => 'Кароо',
         'viewing_section_help' => 'Сиз документтин кароо түрүн тандасыңыз болот',
         'save_btn' => 'Сактоо',
         'saved' => 'Орнотуулар жаңыланды',
         'save_error' => 'Орнотууларды сактоого мүмкүн эмес :error',
-        
+
         'map_visualization_chk' => 'Картаны жандыруу',
-        
+
         // Settings to enable/disable K-Link Public integration
         // 'klinkpublic_section' => 'Открытая сеть K-Link ',
         // 'klinkpublic_section_help' => 'Настроить доступ к Открытой сети K-Link',
@@ -269,19 +269,19 @@ return [
         // 'klinkpublic_username' => 'Пользователь, используемый для опознования в Открытой сети K-Link ',
         // 'klinkpublic_password' => 'Пароль, используемый для опознования в Открытой сети K-Link ',
         // 'klinkpublic_url' => 'URL, используемый для исходного узла Открытой сети K-Link ',
-        
+
         // Settings to enable/disable UserVoice ticket integration
         'support_section' => 'Колдоо кызматы',
         'support_section_help' => 'K-Link колдоо кызматын сатып алгын болсоңуз, аутентификациялоо маркерин жазыңыз, колдонуучулар суроо-талап кылып жана жардам алууга мүмкүнчүлүгү пайда болот.',
         'support_token_field' => 'Маркер',
         'support_save_btn' => 'Сактоо',
-        
+
         'analytics_section' => 'Аналитика',
         'analytics_section_help' => 'K-Link аналитикасына мүмкүндүк алуу үчүн аутентификациялоо маркерин жазыңыз',
         'analytics_token_field' => 'Токен',
         'analytics_save_btn' => 'Сактоо',
-        
-    ],    
+
+    ],
         'identity' => [
         'page_title' => 'Реквизиттер',
         'description' => 'Бул маалымат "Байланыш" баракчасында көрсөтүлөт',
@@ -297,7 +297,7 @@ return [
         'no_licenses' => 'Лицензиялар жок',
         'view_license' => 'Лицензияны көрүү',
         'default_configuration_notice' => 'Автордук укукту коргоо боюнча орнотуулар "Бардык укуктар корголгон" деп сакталды. Эффективдүү кызматташууга жеңилирээк лицензия ылайыктуу болушу мүмкүн.',
-        
+
         'default' => [
             'title' => 'Стандарттык лицензия',
             'description' => 'Жаңы жүктөлгөн файлдарга колдоно турган лицензияны тандаңыз.',
@@ -321,4 +321,3 @@ return [
     ],
 
 ];
-
