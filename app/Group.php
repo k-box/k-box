@@ -341,11 +341,13 @@ class Group extends Entity implements GroupInterface
             // if the parent has children and within those there is one with the same name
             // we need to merge the childrens and permanently trash this collection instead of
             // restore it from the trash
-            $alreadyExisting = $parent->getChildren()->where('name', $this->name)->first();
-
+            $alreadyExisting = $parent->children(['*'])->where('name', $this->name)->where('is_private', $this->is_private)->first();
+            
             if ($alreadyExisting) {
                 // what if $alreadyExisting is personal, but of another user
-                $canBeMerged = $this->is_private === $alreadyExisting->is_private && ($this->is_private && $alreadyExisting->user_id === $this->user_id);
+                $isUserPrivate = $this->is_private && $alreadyExisting->user_id === $this->user_id;
+                $hasSameVisibility = $this->is_private === $alreadyExisting->is_private;
+                $canBeMerged = $hasSameVisibility || ($hasSameVisibility && $isUserPrivate);
     
                 if ($canBeMerged) {
                     $this->getTrashedChildren()->each->restoreFromTrash();

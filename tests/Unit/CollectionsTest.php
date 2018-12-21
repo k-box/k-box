@@ -2,7 +2,9 @@
 
 namespace Tests\Unit;
 
+use KBox\User;
 use KBox\Group;
+use KBox\Project;
 use Tests\TestCase;
 use KBox\Capability;
 use KBox\Exceptions\ForbiddenException;
@@ -443,11 +445,59 @@ class CollectionsTest extends TestCase
 
         $this->assertNotNull($the_new_one, "New collection is gone");
         $this->assertNull($collection_level_one->fresh(), "Old trashed collection was expected to be permanently removed");
+        $this->assertTrue($the_new_one->is_private);
         $this->assertEquals($restoredCollection->id, $the_new_one->id);
 
         $restoredDescendants = $restoredCollection->getDescendants()->pluck('id')->toArray();
 
         $this->assertContains($collection_level_three->id, $restoredDescendants);
         $this->assertContains($collection_level_four->id, $restoredDescendants);
+        
+        $this->assertTrue($collection_level_three->fresh()->is_private);
+        $this->assertTrue($collection_level_four->fresh()->is_private);
+    }
+
+    public function test_trashed_project_collection_can_be_restored()
+    {
+        $service = app('KBox\Documents\Services\DocumentsService');
+        
+        $creator = tap(factory(User::class)->create(), function ($user) {
+            $user->addCapabilities(Capability::$PROJECT_MANAGER);
+        });
+        $user = tap(factory(User::class)->create(), function ($user) {
+            $user->addCapabilities(Capability::$PARTNER);
+        });
+
+        $project = factory(Project::class)->create(['user_id' => $creator->id]);
+
+        //create a hierarchy
+        $collection_level_one = $service->createGroup($creator, 'collection_level_one', null, $project->collection, false);
+        $collection_level_two = $service->createGroup($creator, 'collection_level_two', null, $project->collection, false);
+        $collection_level_three = $service->createGroup($user, 'collection_level_three', null, $collection_level_one, false);
+        $collection_level_four = $service->createGroup($user, 'collection_level_four', null, $collection_level_three, false);
+
+        // let's trash it
+        $service->deleteGroup($creator, $collection_level_one);
+
+        // create a collection with same name under same parent
+        $the_new_one = $service->createGroup($user, 'collection_level_one', null, $project->collection, false);
+
+        // restore trashed collection
+        $restoredCollection = $collection_level_one->restoreFromTrash();
+
+        $the_new_one = $the_new_one->fresh();
+
+        $this->assertNotNull($the_new_one, "New collection is gone");
+        $this->assertNull($collection_level_one->fresh(), "Old trashed collection was expected to be permanently removed");
+        $this->assertFalse($the_new_one->is_private);
+        $this->assertEquals($restoredCollection->id, $the_new_one->id);
+
+        $restoredDescendants = $restoredCollection->getDescendants()->pluck('id')->toArray();
+
+        $this->assertContains($collection_level_three->id, $restoredDescendants);
+        $this->assertContains($collection_level_four->id, $restoredDescendants);
+        
+        $this->assertFalse($collection_level_three->fresh()->is_private);
+        $this->assertFalse($collection_level_four->fresh()->is_private);
     }
 }
