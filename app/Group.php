@@ -308,18 +308,21 @@ class Group extends Entity implements GroupInterface
             // we need to merge the childrens and permanently trash this collection instead of
             // simply move it to the trash, as it will fail due to the uniqueness constraint
 
-            $alreadyTrashed = $parent->getTrashedChildren()->where('name', $this->name)->first();
+            $alreadyTrashed = $parent->getTrashedChildren()->where('name', $this->name)->where('is_private', $this->is_private)->first();
             
             if ($alreadyTrashed) {
                 // what if $alreadyTrashed is personal, but of another user
-                $canBeMerged = $this->is_private === $alreadyTrashed->is_private && ($this->is_private && $alreadyTrashed->user_id === $this->user_id);
+                $isUserPrivate = $this->is_private && $alreadyTrashed->user_id === $this->user_id;
+                $hasSameVisibility = $this->is_private === $alreadyTrashed->is_private;
+                $canBeMerged = $hasSameVisibility || ($hasSameVisibility && $isUserPrivate);
                 
                 if ($canBeMerged) {
                     $this->merge($alreadyTrashed);
 
                     $this->getChildren()->each->trash();
         
-                    return $this->forceDelete();
+                    $alreadyTrashed->forceDelete();
+                    return $this->delete();
                 }
             }
         }
