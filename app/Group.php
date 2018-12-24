@@ -262,6 +262,114 @@ class Group extends Entity implements GroupInterface
         $instance = new static;
         return $instance->closure;
     }
+
+    public function getTrashedChildren()
+    {
+        return $this->children(['*'])->onlyTrashed()->get();
+    }
+    
+    public function hasTrashedChildren()
+    {
+        return $this->children(['*'])->onlyTrashed()->count() > 0;
+    }
+
+    /**
+     * Merge the specified $collection into the current instance.
+     *
+     * Move the children (including trashed ones) of $collection under the current instance
+     *
+     * @param Group $collection the collection to be merged
+     * @return Group
+     */
+    public function merge(Group $collection)
+    {
+        if ($collection->children(['*'])->withTrashed()->count() === 0) {
+            // not using the shortcut hasChildren because
+            // does not take into account the trashed collections
+            return $this;
+        }
+
+        $collection->children(['*'])->withTrashed()->each(function ($child) {
+            $child->moveTo(0, $this);
+        });
+
+        return $this;
+    }
+
+    /**
+     * Trash the collection
+     */
+    public function trash()
+    {
+        $parent = static::withTrashed()->find($this->parent_id); //getParent();
+
+        if ($parent && $parent->hasTrashedChildren()) {
+            // if the parent has trashed children and within those there is one with the same name
+            // we need to merge the childrens and permanently trash this collection instead of
+            // simply move it to the trash, as it will fail due to the uniqueness constraint
+
+            $alreadyTrashed = $parent->getTrashedChildren()->where('name', $this->name)->where('is_private', $this->is_private)->first();
+            
+            if ($alreadyTrashed) {
+                // what if $alreadyTrashed is personal, but of another user
+                $isUserPrivate = $this->is_private && $alreadyTrashed->user_id === $this->user_id;
+                $hasSameVisibility = $this->is_private === $alreadyTrashed->is_private;
+                $canBeMerged = $hasSameVisibility || ($hasSameVisibility && $isUserPrivate);
+                
+                if ($canBeMerged) {
+                    $this->merge($alreadyTrashed);
+
+                    $this->getChildren()->each->trash();
+        
+                    $alreadyTrashed->forceDelete();
+                    return $this->delete();
+                }
+            }
+        }
+
+        $this->getChildren()->each->trash();
+        
+        return $this->delete();
+    }
+
+    /**
+     * Restore from trash
+     *
+     * @return Group the restored collection. It can be different if a collection exists in the original position
+     */
+    public function restoreFromTrash()
+    {
+        $parent = $this->getParent();
+        if ($parent && $parent->hasChildren()) {
+            // if the parent has children and within those there is one with the same name
+            // we need to merge the childrens and permanently trash this collection instead of
+            // restore it from the trash
+            $alreadyExisting = $parent->children(['*'])->where('name', $this->name)->where('is_private', $this->is_private)->first();
+            
+            if ($alreadyExisting) {
+                // what if $alreadyExisting is personal, but of another user
+                $isUserPrivate = $this->is_private && $alreadyExisting->user_id === $this->user_id;
+                $hasSameVisibility = $this->is_private === $alreadyExisting->is_private;
+                $canBeMerged = $hasSameVisibility || ($hasSameVisibility && $isUserPrivate);
+    
+                if ($canBeMerged) {
+                    $this->getTrashedChildren()->each->restoreFromTrash();
+                    
+                    $alreadyExisting->merge($this);
+    
+                    $this->forceDelete();
+    
+                    return $alreadyExisting->fresh();
+                }
+            }
+        }
+        
+        $this->restore();
+        
+        $this->getTrashedChildren()->each->restoreFromTrash();
+        
+        return $this->fresh();
+    }
     
     public static function boot()
     {

@@ -1186,12 +1186,12 @@ class DocumentsService
                 foreach ($descendants as $descendant) {
                     $that->removeDocumentsFromGroup($user, $descendant->documents, $descendant);
 
-                    $descendant->delete();
+                    // $descendant->trash();
                 }
             }
 
             // mark the group as deleted
-            return $group->delete();
+            return $group->trash();
         });
         
         \Cache::forget('dms_personal_collections'.$user->id);

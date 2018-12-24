@@ -27,7 +27,7 @@ Internet Explorer 11. Internet Explorer version 9 and 10 are supported on best-e
 
 - [First encounter](./user/index.md)
 - [Search](./user/search.md)
-- [Organize](./user/files-organization.md)
+- [Organize](./user/collections.md)
 - [Upload](./user/upload.md)
 - [Edit](./user/edit.md)
 - [Share](./user/share.md)
