@@ -194,7 +194,7 @@ function create_admin () {
         return 0
     fi
 
-    if [ -z "$KBOX_ADMIN_USERNAME" ] &&  [ ! -z "$KBOX_ADMIN_PASSWORD" ]; then
+    if [ -z "$KBOX_ADMIN_USERNAME" ] &&  [ -n "$KBOX_ADMIN_PASSWORD" ]; then
         # username not set, but password set => error
         echo "**************"
         echo "Admin email not specified. Please specify an email address using the variable KBOX_ADMIN_USERNAME"
@@ -202,7 +202,7 @@ function create_admin () {
         return 240
     fi
     
-    if [ ! -z "$KBOX_ADMIN_USERNAME" ] &&  [ -z "$KBOX_ADMIN_PASSWORD" ]; then
+    if [ -n "$KBOX_ADMIN_USERNAME" ] &&  [ -z "$KBOX_ADMIN_PASSWORD" ]; then
         # username set, but empty password => the user needs to be created after the setup
         echo "**************"
         echo "Skipping creation of default administrator. Use php artisan create-admin after the startup is complete."
