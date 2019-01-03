@@ -35,3 +35,10 @@ _If you are a developer or you maintain a K-Box installation, please have a look
 ### Upgrade
 
 This K-Box version **requires K-Search 3.6.0** and rely on changes introduced in that version at the K-Link level. A reindex is suggested to make sure that all published files are reachable using the new URL formats.
+
+### Patch release 0.25.1
+
+- Fixed deleting shared collection result in unexisting page being displayed
+- Fixed upload error message not properly displayed when file size is too large
+- Fixed creating a collection with the same name as a trashed collection
+- Improved English, Russian and Kyrgyz localization

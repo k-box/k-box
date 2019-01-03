@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.25.1] - 2019-01-03
+
+### Fixed
+
+- Deleting shared collection result in unexisting page being displayed ([#194](https://github.com/k-box/k-box/pull/194))
+- Upload error message not properly displayed when file size is too large ([#195](https://github.com/k-box/k-box/pull/195))
+- Creating a collection with the same name as a trashed collection ([#198](https://github.com/k-box/k-box/pull/198))
+
+### Changed
+
+- Improved English, Russian and Kyrgyz localization ([#197](https://github.com/k-box/k-box/pull/197))
+
 ## [0.25.0] - 2018-12-04
 
 ### Added
