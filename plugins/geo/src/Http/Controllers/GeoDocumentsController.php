@@ -126,7 +126,7 @@ class GeoDocumentsController extends Controller
 
         if (! $user_is_dms_manager) {
             // documents updated in a project I have access to
-            $documents_in_projects = $user->projects()->orWhere('projects.user_id', $user->id)->get()->reduce(function ($carry, $prj) use ($from, $to, $order) {
+            $documents_in_projects = $user->projects()->orWhere('projects.user_id', $user->id)->get()->reduce(function ($carry, $prj) {
                 return $carry->merge($prj->documents()
                     ->distinct()
                     ->select('id'));
