@@ -45,12 +45,14 @@ function startup_config () {
 
     if [ -z "$KBOX_PHP_POST_MAX_SIZE" ]; then
         # calculating the post max size based on the upload limit
-        KBOX_PHP_POST_MAX_SIZE="${KBOX_UPLOAD_LIMIT+20048}K"
+        KBOX_PHP_POST_MAX_SIZE_CALCULATION=$((KBOX_UPLOAD_LIMIT+20048))
+        KBOX_PHP_POST_MAX_SIZE="${KBOX_PHP_POST_MAX_SIZE_CALCULATION}K"
     fi
 
     if [ -z "$KBOX_PHP_UPLOAD_MAX_FILESIZE" ]; then
         # calculating the upload max filesize based on the upload limit
-        KBOX_PHP_UPLOAD_MAX_FILESIZE="${KBOX_UPLOAD_LIMIT+2048}K"
+        KBOX_PHP_UPLOAD_MAX_FILESIZE_CALCULATION=$((KBOX_UPLOAD_LIMIT+2048))
+        KBOX_PHP_UPLOAD_MAX_FILESIZE="${KBOX_PHP_UPLOAD_MAX_FILESIZE_CALCULATION}K"
     fi
     
     # Set post and upload size for php if customized for the specific deploy
@@ -154,7 +156,7 @@ function wait_command () {
 
     for i in $(seq "$retry_times"); do
         echo "- Waiting for ${command} ... Retry $i"
-        if [[ "$command" ]]; then
+        if [[ "$command" -eq 0 ]]; then
             return 0
         else
             sleep "$sleep_seconds"
