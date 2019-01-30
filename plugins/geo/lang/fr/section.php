@@ -8,11 +8,11 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    "page_title" => "Geographic Data",
-    "page_hint" => "Explore geographic files added to the K-Box (e.g. Shapefile, GeoJSON, KML,...)",
+    "page_title" => "Données Géographiques",
+    "page_hint" => "Explorez les données géographiques stockées dans la K-Box (ex. Shapefile, GeoJSON, KML,...)",
     
     "filters" => [
-        'spatial' => 'Spatial filters',
+        'spatial' => 'Filtres spatiaux',
     ],
     
 ];
