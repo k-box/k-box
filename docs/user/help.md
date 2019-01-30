@@ -5,23 +5,8 @@ Description: user documentation
 
 # Help
 
-## Help widget
+You can always get in touch with the remote support team if you encounter a bug or an issue. Just send a request to support@klink.asia or leave a comment on https://klink.uservoice.com/.
 
-### Display
-K-Box offers the possibility to display a [uservoice](https://www.uservoice.com/)
-widget on every page for users to communicate to a help desk while browsing.
+## K-Box help section
 
-![Support wodget](./images/support-widget.png)  
-
-### Configuration
-It requires to fill the _Support Token_ field in the _Administration_ > _Settings section_
-
-![Support configuration](./images/support-configuration.png)  
-
-## Help section
-
-Documentation is available at any time. If you have a doubt about a feature, you
-can access the Help section by simply clicking on the *Help* link at the bottom
-right corner of the page.
-
-![Help link](./images/help-link.png)
+Documentation is available at any time. If you have a doubt about a feature, you can access the Help section by simply clicking on the *Help* link at the bottom right corner of any K-Box page.

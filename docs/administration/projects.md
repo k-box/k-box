@@ -36,7 +36,7 @@ This page is showed when you select _Details_ from the right-click menu of a pro
 
 ## Edit an existing project
 
-To edit a project, press the _Edit_ button that is listed in the right-click menu. 
+To edit a project, press the _Edit_ button that is listed in the right-click menu. On the project edit page you can add and remove users from project. 
 
 ![Project Edit - details-menu](../user/images/prj-edit-button.PNG)
 

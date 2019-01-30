@@ -24,7 +24,7 @@ In the upper left corner you can search among your files.
 
 #### Personal preferences
 
-Personal settings in the upper right corner under the first letter of your name.
+By clicking on the avatar (which might be represented using the initials of your name) you can access your profile, where you can update contact information, password and the language in which you wish to use the K-Box (currently English, French, German, Kyrgyz, Russian, Tajik).
 
 ![personal settings](./images/personal-settings.png)
 

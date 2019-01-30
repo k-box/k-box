@@ -9,6 +9,6 @@ _Only users with permissions of project manager and higher can perform operation
 In this section, the following aspects are covered:
 
 - [Users management](./users.md)
-- [Licenses](../user/licenses.md)
+- [Licenses](./admin_licenses.md)
 - [Identity](./identity.md)
 - [Project management](./projects.md)
