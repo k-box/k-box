@@ -8,13 +8,13 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    "section" => "Geographic information",
+    "section" => "Information géographique",
     
-    "crs" => "Coordinate Reference System",
+    "crs" => "Système de Coordonnées Géographiques",
     "type" => "Format",
     "dimension" => "Dimension",
     "dimension_pixels" => ":width&times;:height pixels",
-    "layers" => "Layers",
-    "geoserver.store" => "Store in GeoServer",
+    "layers" => "Couches",
+    "geoserver.store" => "Store dans GeoServer",
     
 ];
