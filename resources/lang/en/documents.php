@@ -40,7 +40,7 @@ return [
         'recent' => 'Recent',
         'trash' => 'Trash',
         'not_indexed' => 'Not Indexed',
-        'recent_hint' => 'Here you will find recently modified documents you own',
+        'recent_hint' => 'Here you will find recently modified documents',
         'starred_hint' => 'Here you will find all your starred documents',
     ],
 
