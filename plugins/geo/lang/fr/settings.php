@@ -8,97 +8,97 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    'page_title' => 'K-Box Geographic Extension Settings',
+    'page_title' => 'Paramètres de l\'extension géographique',
 
-    'description' => 'This page contains the settings to customize the behavior of the Geographic Extension',
+    'description' => 'Cette page contient les paramètres pour modifier le comportement de l\'extension géographique',
 
     'geoserver' => [
-        'title' => 'GeoServer connection',
-        'description' => 'The parameter used to connect to a GeoServer instance. GeoServer is used to store, preview and convert geographic files',
+        'title' => 'Connexion au GeoServer',
+        'description' => 'Paramètres nécessaires pour la connexion au Geoserver. GeoServer est utilisé pour stocker, visualiser et convertir des fichiers gégraphiques (GIS)',
 
-        'url' => 'The address of the geoserver instance (e.g. https://domain.com/geoserver/)',
-        'username' => 'The username to authenticate to the GeoServer',
-        'password' => 'The password to authenticate to the GeoServer',
-        'workspace' => 'The GeoServer workspace to use (e.g. kbox)',
+        'url' => 'Adresse du serveur Geoserver (ex. https://domain.com/geoserver/)',
+        'username' => 'Nom d\'utilisateur pour le Geoserver',
+        'password' => 'Mot de passe pour le Geoserver',
+        'workspace' => 'GeoServer workspace(ex. kbox)',
     ],
 
     'gdal' => [
-        'available' => 'Gdal library installed. (:version)',
-        'not_available' => 'Gdal library not available, some features might not work.',
+        'available' => 'Gdal librairie installée. (:version)',
+        'not_available' => 'Gdal librairie non-disponible, certaines fonctions peuvent ne pas fonctionner.',
     ],
 
     'connection' => [
-        'established' => 'GeoServer (:version) connection established.',
-        'failed' => 'Failed to connect to GeoServer. :error',
+        'established' => 'Connexion au GeoServer (:version) réussie.',
+        'failed' => 'Connexion au Geoserver échouée . :error',
     ],
 
     'providers' => [
         'title' => 'Map Providers',
-        'description' => 'Configure the providers of the base maps used for map visualizations',
+        'description' => 'Configurez les cartes de base utilisées comme fonds de carte pour la visualisation',
 
-        'provider_created' => 'Map Provider ":name" created',
-        'provider_updated' => 'Map Provider ":name" updated',
-        'default_provider_updated' => 'Default Provider changed to ":name"',
-        'providers_enabled' => 'No providers enabled|{1}Provider ":name" enabled|[2,*]Enabled ":name" and :count other providers',
-        'providers_disabled' => 'No providers disabled|{1}Provider ":name" disabled|[2,*]Disabled ":name" and :count other providers',
-        'provider_deleted' => 'Map Provider ":name" deleted',
-        'provider_delete_denied_is_default' => 'Could not delete the default provider ":name". Please change the default provider first.',
+        'provider_created' => 'Map Provider ":name" créé',
+        'provider_updated' => 'Map Provider ":name" modifié',
+        'default_provider_updated' => 'Nouveau provider par défaut ":name"',
+        'providers_enabled' => 'Aucun provider activé|{1}Provider ":name" activé|[2,*]activé ":name" et :count autres providers',
+        'providers_disabled' => 'Aucun provider désactivé|{1}Provider ":name" désactivé|[2,*]désactivé ":name" et :count autres providers',
+        'provider_deleted' => 'Map Provider ":name" supprimé',
+        'provider_delete_denied_is_default' => 'Le provider par défaut ":name" n\'a pas pu être supprimé. Veuillez d\'abord indiquer un autre provider par défaut.',
 
-        'create_title' => 'Create Provider',
-        'create_description' => 'Create a new map provider',
+        'create_title' => 'Créer un provider',
+        'create_description' => 'Créer un nouveau map provider',
 
-        'edit_title' => 'Edit provider ":name"',
-        'edit_description' => 'Edit a map provider',
+        'edit_title' => 'Modifier le provider ":name"',
+        'edit_description' => 'EModifier un map provider',
 
         'types' => [
-            'tile' => 'Tiled map provider',
+            'tile' => 'Tiled Map Service (TMS) provider',
             'wms' => 'Web Map Service (WMS) provider',
         ],
 
         'attributes' => [
             'id' => 'id',
 
-            'default' => 'default',
-            'enabled' => 'enabled',
+            'default' => 'défaut',
+            'enabled' => 'activé',
 
             'subdomains' => 'Subdomains',
-            'subdomains_description' => 'For tile based providers, the tiles can be served from different domains to speed the loading time. In the url this is usually expressed with the {s} placeholder.',
+            'subdomains_description' => 'Pour les TMS providers, les tuiles peuvent être servies depuis différents domaines pour accélérer les temps de chargement. Dans l\'URL ceci est généralment spécifié par le symbole {s}.',
 
-            'type' => 'Map provider type',
-            'type_description' => 'If is a tile based map or a map served by a Web Map Service (WMS)',
+            'type' => 'Type de Map provider',
+            'type_description' => 'TMS ou WMS?',
 
-            'label' => 'Name',
-            'label_description' => 'The name to assign to this provider. It must be unique accross all already defined providers',
+            'label' => 'Nom',
+            'label_description' => 'Le nom à donner à ce provider. Doit être unique parmi tous les providers listés',
 
             'url' => 'Url',
-            'url_description' => 'The URL format for loading the map',
+            'url_description' => 'L\'URL pour charger la carte',
 
             'attribution' => 'Attribution',
-            'attribution_description' => 'The attribution string that will be presented to the users when the provider is selected. This usually includes copyright and license notices',
+            'attribution_description' => 'Le texte d\'attribution à afficher quand le provider est sélectionné. Cela contient en général les droits d\'auteur et les informations de license',
 
-            'maxZoom' => 'Maximum zoom level',
-            'maxZoom_description' => 'The maximum zoom level supported by this provider',
+            'maxZoom' => 'Niveau de zoom maximum',
+            'maxZoom_description' => 'Le niveau de zoom maximum supporté par ce provider',
             
-            'layers' => 'Layers',
-            'layers_description' => 'The layers to use, that are given by the map provider. This option applies only to Web Map Services',
+            'layers' => 'Couches',
+            'layers_description' => 'Les couches à utiliser, données par le map provider. Uniquement pour les WMS',
         ],
     ],
         
     'validation' => [
         'url' => [
-            'regex' => 'The url must start with http:// or https://, e.g. https://tile.openstreetmaps.com/{x}/{y}/{z}.png',
+            'regex' => 'L\'URL doit commencer avec http:// ou https://, ex. https://tile.openstreetmaps.com/{x}/{y}/{z}.png',
         ],
         'label' => [
-            'not_in' => "The provider name must be unique. [:label] is already taken.",
+            'not_in' => "Le nom du provider doit être unique. [:label] est déjà utilisé.",
         ],
         'id' => [
-            'not_found' => 'Provider cannot be found',
+            'not_found' => 'Provider non trouvé',
         ],
         'type' => [
-            'not_changeable' => "Provider type [:current] cannot be changed to [:new]",
+            'not_changeable' => "Le type du provider [:current] ne peut pas être changé en [:new]",
         ],
         'default_map' => [
-            'in' => 'The selected map is not available in the system',
+            'in' => 'La carte sélectionnée n\'est pas disponible dans le système',
         ]
     ],
     
