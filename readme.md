@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/k-box/k-box.svg?branch=master)](https://travis-ci.org/k-box/k-box) [![latest version](https://img.shields.io/badge/version-0.25.1-blue.svg)](docs/release-note/release-note-0.25.md)
 
-# K-Box 
+# K-Box
 
 The digital tool for projects in the field: Web-based application to manage documents, images, videos and geodata. It contains a full content search, a translated interface into several languages and it connects easily to the K-Link services.
 
