@@ -1,10 +1,25 @@
 ---
 Title: Users management
-Description: admin related documentation
+Description: user accounts management
 ---
 
 # Users management
-_Only users with permissions of project manager and higher can perform operations described below. Please contact your Project Administrator via email, indicating your interest in any of the points._
+
+## Account types
+
+The K-Box user management is based on [permissions](./permissions.md). 
+To facilitate the user creation the permissions are grouped into four roles:
+
+1. Guest: Can preview and download files. Has access only to the "Shared with me" page
+2. Partner: Is based on Guest and additionally upload, edit and share files. Has access to shared Projects and Personal space
+3. Project Manager: Can manage projects and publish (or unpublish) data to the K-Link
+4. K-Box Administrator: Has all permissions and can manage users and the K-Box configuration
+
+> For all the available permissions, please refer to the [Permissions List](./permissions.md)
+
+## Create user
+
+_Only administrators can perform operations described below. Please contact your Project Administrator via email, indicating your interest in any of the points._
 
 To add new user, please follow the steps: 
 
@@ -16,14 +31,4 @@ Step 2: Click on “Create user”
 
 Step 3: Fill in the fields. Select account type and customize permissions, if needed
 
-When you are finished, click “Create” at the bottom of the page.
-
-### Account types and their permissions
-
-Assign accounts based on their permissions:
-
-|Type        |Description                           |Required permissions                             |
-|------------|--------------------------------------|-------------------------------------------------|
-|**Guest**   | Can preview and download files. Has access only to the "Shared with me" page | User can see documents that have been shared with him |
-|**Partner** | Can additionally upload, edit and share files. Has access to shared Projects and Private space page | User can access all the unpublished documents in accessible projects.  User can add/remove project collections in accessible projects |
-|**Project administrator**| Can additionally add/remove members, un-/publish content from project | All highlighted |
+Once done, click “Create” at the bottom of the page.
