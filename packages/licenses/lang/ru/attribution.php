@@ -10,7 +10,7 @@ return [
 
     'copyright' => 'Все права защищены',
 
-    'publicdomain' => 'Общественное достояние',
+    'publicdomain' => 'Всеобщее достояние',
 
     'licensed' => 'Лицензировано :license.',
     'licensed_alt' => 'Лицензировано',

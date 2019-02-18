@@ -40,7 +40,7 @@ return [
         'recent' => 'Letzte',
         'trash' => 'Papierkorb',
         'not_indexed' => 'Nicht indiziert',
-        'recent_hint' => 'Hier befinden sich all ihre zuletzt modifizierten Dokumente',
+        'recent_hint' => 'Hier befinden sich alle zuletzt modifizierten Dokumente',
         'starred_hint' => 'Hier befinden sich all ihre markierten Dokumente',
     ],
 

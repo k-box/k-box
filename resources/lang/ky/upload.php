@@ -28,9 +28,9 @@ return [
 
     'target' => [
     'personal' => '<a href=":link" target="_blank" rel="noopener noreferrer">жеке</a> файлдарыңызга',
-    'collection' => '<a href=":link" target="_blank" rel="noopener noreferrer">:name</a> коллекциясына',
-    'project' => '<a href=":link" target="_blank" rel="noopener noreferrer">:name</a> долбоорго.',
-    'project_collection' => '<a href=":project_link" target="_blank" rel="noopener noreferrer">:project_name</a> долбоордогу <a href=":link" target="_blank" rel="noopener noreferrer">:name</a> коллекцияга',
+    'collection' => '<a href=":link" target="_blank" rel="noopener noreferrer">:name</a> коллекциясына жүктөлөт',
+    'project' => '<a href=":link" target="_blank" rel="noopener noreferrer">:name</a> долбооруна жүктөлөт',
+    'project_collection' => '<a href=":project_link" target="_blank" rel="noopener noreferrer">:project_name</a> долбоорундагы <a href=":link" target="_blank" rel="noopener noreferrer">:name</a> коллекциясына жүктөлөт',
     'error' => 'Коллекцияны көрө албайсыз',
     ],
 

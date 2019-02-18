@@ -5,7 +5,7 @@ Description: user documentation
 
 ## Upload
 
-To add a new file, select the collection or sub-collection in which the document will be stored.
+To add a new file, select the collection or sub-collection in which the file will be stored.
 
 
 There are several options for uploading a file into K-Box:

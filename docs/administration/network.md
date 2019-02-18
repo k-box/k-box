@@ -10,7 +10,7 @@ By default the K-Box is not connected to any network.
 The network management is under `Administration > Settings`. On that page you will see the _Join a Network_ section.
 
 
-![](./images/dms-network.JPG)
+![](../user/images/dms-network.JPG)
 
 
 Joining a network allows publishing documents to organizations and searching through documents that other organizations have published on the network. 

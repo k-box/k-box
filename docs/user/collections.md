@@ -37,11 +37,12 @@ Projects are shared spaces. They do support creating collections inside too. Col
 You can create collection in two ways:
 
 1. From the action bar, using the "Create or add" menu
+
+![The "Create or Add" menu](./images/dms-upload-file-selector.png)
+
 2. Using the right click (or context) menu on the sidebar
 
 For private collections there is also a _plus_ button near the "My Collections" label you can use to create a root collection.
-
-![The "Create or Add" menu](./images/dms-upload-file-selector.png)
 
 ![The sidebar where collections are presented and can be created](./images/left-menu.png)
 
