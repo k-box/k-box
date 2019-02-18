@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.25.2] - 2019-02-18
+
+### Changed
+
+- Update Geo plugin to version [0.2.2](./plugins/geo/changelog.md#022---2010-02-18)
+- Improved English, French, German, Russian and Kyrgyz localization
+
+### Fixed
+
+- Automatic php max upload and post size calculation ([#200](https://github.com/k-box/k-box/pull/200))
+
+
 ## [0.25.1] - 2019-01-03
 
 ### Fixed

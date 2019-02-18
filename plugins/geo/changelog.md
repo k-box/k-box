@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.2.2] - 2019-02-18
+
+### Fixed
+
+- Geographic documents loading error when using partner account ([#201](https://github.com/k-box/k-box/pull/201))
+
+
 ## [0.2.1] - 2018-11-20
 
 ### Fixed
