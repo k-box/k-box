@@ -42,3 +42,14 @@ This K-Box version **requires K-Search 3.6.0** and rely on changes introduced in
 - Fixed upload error message not properly displayed when file size is too large
 - Fixed creating a collection with the same name as a trashed collection
 - Improved English, Russian and Kyrgyz localization
+
+### Patch release 0.25.2
+
+- Update Geo plugin to version 0.2.2
+- Improved English, French, German, Russian and Kyrgyz localization
+- Automatic php max upload and post size calculation
+
+### Patch release 0.25.3
+
+- Update Geo plugin to version 0.2.3
+- Fixed Geographic data section loading error

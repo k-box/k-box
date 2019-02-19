@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.25.3] - 2019-02-19
+
+### Changed
+
+- Update Geo plugin to version [0.2.3](./plugins/geo/changelog.md#023---2010-02-19)
+
 ## [0.25.2] - 2019-02-18
 
 ### Changed
