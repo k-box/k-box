@@ -107,29 +107,28 @@ class GeoDocumentsController extends Controller
 
         $document_ids = collect();
 
-        // private documents directly updated
-        $personal_documents = DocumentDescriptor::local()
+        // private/personal documents + shared
+        $personal_and_shared_documents = DocumentDescriptor::local()
             ->private()
+            ->where('document_type', DocumentType::GEODATA)
             ->when(! $user_is_dms_manager, function ($query) use ($user) {
                 return $query->ofUser($user->id);
             })
+            ->union(Shared::sharedWithMe($user)
+                ->where('shareable_type', '=', DocumentDescriptor::class)
+                ->select('shareable_id as id'))
             ->distinct()->select('id');
         
-        $document_ids = $document_ids->merge($personal_documents->get());
-
-        // last shared from other users
-        $shared_documents = Shared::sharedWithMe($user)
-            ->where('shareable_type', '=', DocumentDescriptor::class)
-            ->select('shareable_id as id');
-
-        $document_ids = $document_ids->merge($shared_documents->get());
+        $document_ids = $document_ids->merge($personal_and_shared_documents->get());
 
         if (! $user_is_dms_manager) {
             // documents updated in a project I have access to
+
             $documents_in_projects = $user->projects()->orWhere('projects.user_id', $user->id)->get()->reduce(function ($carry, $prj) {
                 return $carry->merge($prj->documents()
+                    ->where('document_type', DocumentType::GEODATA)
                     ->distinct()
-                    ->select('id'));
+                    ->select('id')->get());
             }, collect());
 
             $document_ids = $document_ids->merge($documents_in_projects);
