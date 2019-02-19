@@ -18,7 +18,7 @@ _3. that have lead to the incorrect behavior_
 
 Version of your K-Box: 
 
-URL of the page where the problem has occured:
+URL of the page where the problem has occurred:
 
 Type and version of your browser: 
 
