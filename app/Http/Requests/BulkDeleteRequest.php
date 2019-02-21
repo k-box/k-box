@@ -27,7 +27,7 @@ class BulkDeleteRequest extends Request
         return [
             'groups' => 'required_without_all:documents|exists:groups,id',
             'documents' => 'required_without_all:groups|exists:document_descriptors,id',
-            'context' => 'sometimes|required|in:public,private,all,group,starred,trash,shared,recent',
+            'context' => 'sometimes|required|in:public,private,all,group,starred,trash,shared,recent,projectspage',
             'force' => 'sometimes|required|boolean'
         ];
     }
