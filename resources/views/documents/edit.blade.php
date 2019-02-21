@@ -171,15 +171,10 @@
 				</button>
 			@endif
 
-			@if($document->isMine() && $document->isIndexed() && $can_make_public && network_enabled())
-
-			<div class="c-form__field">
-
-				@if($can_share || $can_make_public)
-				<button class="button js-open-share-dialog" data-id="{{$document->id}}">@materialicon('social','people', 'button__icon'){{ trans('panels.sharing_settings_btn') }}</button>
-				@endif
-			</div>
-
+			@if($document->isMine() && ($can_share || $can_make_public && network_enabled()))
+				<div class="c-form__field">
+					<button class="button js-open-share-dialog" data-id="{{$document->id}}">@materialicon('social','people', 'button__icon'){{ trans('panels.sharing_settings_btn') }}</button>
+				</div>
 			@endif
 			
 
