@@ -171,6 +171,7 @@ tagged_release:
   tags:
     - shell
     - deploy
+  dependencies: []
   script:
     - DEPLOY_TAG=$([ -z "${CI_COMMIT_TAG}" ] && echo "${IMAGE_TAG}" || echo "${CLEANED_CI_COMMIT_REF_NAME}")
     - DEPLOY_REGISTRY=$([ -z "${CI_COMMIT_TAG}" ] && echo "${CI_REGISTRY_IMAGE}" || echo "${CONTAINER_RELEASE_IMAGE_BASE}")
