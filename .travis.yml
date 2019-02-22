@@ -40,7 +40,7 @@ before_script:
   - pecl channel-update pecl.php.net
   - yes | pecl install imagick # install imagemagick for thumbnail generation of files https://github.com/travis-ci/travis-ci/issues/781#issuecomment-332473065
   - sudo service mysql stop
-  - docker-compose -f ./docker-compose.dev.example.yml up -d  
+  - docker-compose -f ./tests/docker-compose.yml up -d  
 
 script: 
   - ./vendor/bin/parallel-lint -j 20 --exclude vendor .
@@ -61,7 +61,7 @@ script:
   - vendor/bin/phpunit
 
 after_script:
-  - docker-compose -f ./docker-compose.dev.example.yml down
+  - docker-compose -f ./tests/docker-compose.yml down
 
 notifications:
   email:

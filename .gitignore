@@ -24,3 +24,4 @@ typings/*
 .settings/
 .vscode/
 docker-compose.yml
+!tests/docker-compose.yml
