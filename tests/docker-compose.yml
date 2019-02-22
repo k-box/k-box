@@ -26,7 +26,7 @@ services:
     networks:
       - internal
     ports:
-      - "8080:80"
+      - "8081:80"
 
   database:
     image: mariadb:10
