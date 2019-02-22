@@ -31,7 +31,7 @@ services:
   database:
     image: mariadb:10
     environment:
-      MYSQL_DATABASE: dms
+      MYSQL_DATABASE: dms_test
       MYSQL_USER: dms
       MYSQL_ROOT_PASSWORD: "unsafe"
       MYSQL_PASSWORD: "dms"
