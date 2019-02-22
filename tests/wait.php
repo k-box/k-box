@@ -5,7 +5,7 @@
  */
 $dbname = 'dms_test';
 $dbuser = 'dms';
-$dbpass = 'dms';
+$dbpass = 'unsafe';
 $dbhost = '127.0.0.1';
 
 $start = time();
