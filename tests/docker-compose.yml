@@ -1,0 +1,41 @@
+##
+## Docker Compose file for running integration tests
+##
+
+version: '3'
+
+networks:
+  internal:
+
+services:
+  engine:
+    image: "oneofftech/k-search-engine:${KSEARCH_ENGINE_TAG:-latest}"
+    environment:
+      KLINK_SOLR_MYHOST: engine
+    networks:
+      - internal
+
+  ksearch:
+    image: "oneofftech/k-search:${KSEARCH_TAG:-develop}"
+    environment:
+      - SOLR_HOST=engine # this is the external address of Solr
+      - SOLR_CORE=k-search # this is the Solr index name
+      - KLINK_REGISTRY_ENABLED=0 # = no authentication
+    depends_on:
+      - engine
+    networks:
+      - internal
+    ports:
+      - "8081:80"
+
+  database:
+    image: mariadb:10
+    environment:
+      MYSQL_DATABASE: dms_test
+      MYSQL_USER: dms
+      MYSQL_ROOT_PASSWORD: "unsafe"
+      MYSQL_PASSWORD: "dms"
+    networks:
+      - internal
+    ports:
+      - "3306:3306"
