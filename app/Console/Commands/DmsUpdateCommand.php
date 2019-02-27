@@ -391,6 +391,9 @@ class DmsUpdateCommand extends Command
         $this->write('  <comment>Upgrading project managers capabilities...</comment>');
         $this->ensureCreateProjectsCapabilityIsSet();
 
+        $this->write('  <comment>Remove deleted capabilities...</comment>');
+        $this->removeDeletedCapabilities();
+
         // check the installed db branch
         
         $b_option = Option::findByKey('branch');
@@ -591,6 +594,31 @@ class DmsUpdateCommand extends Command
     private function clearTermsAcceptedUserOption()
     {
         UserOption::where('key', 'terms_accepted')->delete();
+    }
+
+    private function removeDeletedCapabilities()
+    {
+        $capabilies_to_remove = [
+            Capability::MANAGE_USERS,
+            Capability::MANAGE_LOG,
+            Capability::MANAGE_BACKUP,
+        ];
+
+        // Detach capabilities from users
+        User::whereHas('capabilities', function ($query) use ($capabilies_to_remove) {
+            $query->whereIn('key', array_values($capabilies_to_remove));
+        })->with('capabilities')->chunk(100, function ($users) use ($capabilies_to_remove) {
+            foreach ($users as $user) {
+                foreach ($capabilies_to_remove as $capability) {
+                    if ($user->can_capability($capability)) {
+                        $user->removeCapability($capability);
+                    }
+                }
+            }
+        });
+
+        // Remove capabilities from the database
+        Capability::whereIn('key', array_values($capabilies_to_remove))->delete();
     }
 
     /**
