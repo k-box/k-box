@@ -67,10 +67,7 @@ return [
 
         'capabilities' => [
 
-            'manage_dms' => 'User can access the Administration page',
-            'manage_dms_users' => 'User can create/disable other K-Box users',
-            'manage_dms_log' => 'User can see the K-Box log files',
-            'manage_dms_backup' => 'User can perform the K-Box backups and restore',
+            'manage_dms' => 'User can access the Administration area',
             'change_document_visibility' => 'User can un-/publish documents',
             'edit_document' => 'User can edit documents',
             'delete_document' => 'User can trash documents',

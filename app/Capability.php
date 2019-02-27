@@ -24,22 +24,25 @@ class Capability extends Model
     // Collection of contants for the names of the capabilities
 
     /**
-     * Enable the access to the administration dashboard
+     * Enable the access to administration area
      */
-    const MANAGE_DMS = 'manage_dms';
+    const MANAGE_KBOX = 'manage_dms';
 
     /**
      * Add the ability to create, edit and remove Users from the DMS
+     * @deprecated included in self::MANAGE_KBOX
      */
     const MANAGE_USERS = 'manage_dms_users';
 
     /**
      * Access and manage the DMS logs
+     * @deprecated included in self::MANAGE_KBOX
      */
     const MANAGE_LOG = 'manage_dms_log';
 
     /**
      * Access and Manage DMS backups (reserved for future use)
+     * @deprecated included in self::MANAGE_KBOX
      */
     const MANAGE_BACKUP = 'manage_dms_backup';
 
@@ -141,26 +144,13 @@ class Capability extends Model
         self::MANAGE_OWN_GROUPS,
         self::MANAGE_PROJECT_COLLECTIONS,
         self::CREATE_PROJECTS,
-        self::MANAGE_DMS,
-        self::MANAGE_USERS,
-        self::MANAGE_LOG,
-        self::MANAGE_BACKUP,
+        self::MANAGE_KBOX,
         self::RECEIVE_AND_SEE_SHARE,
         self::CLEAN_TRASH,
         self::MANAGE_PEOPLE_GROUPS,
         self::MANAGE_PERSONAL_PEOPLE_GROUPS,
         self::SHARE_WITH_PERSONAL,
         self::SHARE_WITH_PRIVATE ];
-
-    /**
-     *
-     * @var array
-     */
-    public static $DMS_MASTER = [
-        self::MANAGE_DMS,
-        self::MANAGE_USERS,
-        self::MANAGE_LOG,
-        self::MANAGE_BACKUP ];
 
     /**
      *

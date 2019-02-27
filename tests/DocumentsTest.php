@@ -25,7 +25,7 @@ class DocumentsTest extends BrowserKitTestCase
     {
         return [
             [Capability::$ADMIN, true],
-            [Capability::$DMS_MASTER, false],
+            [[Capability::MANAGE_KBOX], false],
             [Capability::$PROJECT_MANAGER, true],
             [Capability::$PARTNER, false],
             [Capability::$GUEST, false],

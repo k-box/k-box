@@ -21,25 +21,9 @@ Capabilities name and function from the code point of view
     ////////////////////////////////////////////////////////////////////////
 
     /**
-     * Enable the access to the administration dashboard
+     * Enable the access to the administration area
      */
-    const MANAGE_DMS = 'manage_dms';
-
-    /**
-     * Add the ability to create, edit and remove Users from the DMS
-     */
-    const MANAGE_USERS = 'manage_dms_users';
-
-    /**
-     * Access and manage the DMS logs
-     */
-    const MANAGE_LOG = 'manage_dms_log';
-
-    /**
-     * Access and Manage DMS backups
-     */
-    const MANAGE_BACKUP = 'manage_dms_backup';
-
+    const MANAGE_KBOX = 'manage_dms';
     
     /**
      * The user can edit a document
@@ -127,7 +111,7 @@ Capabilities name and function from the code point of view
         self::DELETE_DOCUMENT,
         self::MANAGE_OWN_GROUPS,
         self::MANAGE_INSTITUTION_GROUPS,
-        self::MANAGE_DMS,
+        self::MANAGE_KBOX,
         self::MANAGE_USERS,
         self::MANAGE_LOG,
         self::MANAGE_BACKUP,
@@ -139,7 +123,7 @@ Capabilities name and function from the code point of view
         self::SHARE_WITH_PRIVATE );
 
     static $DMS_MASTER = array( 
-        self::MANAGE_DMS,
+        self::MANAGE_KBOX,
         self::MANAGE_USERS,
         self::MANAGE_LOG,
         self::MANAGE_BACKUP );

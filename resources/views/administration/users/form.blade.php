@@ -85,9 +85,11 @@
         <ul class="checkbox-list">
         <?php $olds = old('capabilities', []); ?>
         @foreach($capabilities as $capability)
+            @if(isset($type_resolutor[$capability->key]))
             <li class="{{ implode(' ', $type_resolutor[$capability->key])}}"><input type="checkbox" class="{{ implode(' ', $type_resolutor[$capability->key])}}" id="cap-{{$capability->key}}" name="capabilities[]" value="{{$capability->key}}" 
                     @if(isset($user) && in_array($capability->key, $caps) || in_array($capability->key, $olds)) checked @endif >
                     <label for="cap-{{$capability->key}}"> {{trans('administration.accounts.capabilities.' . $capability->key)}}</label></li>
+            @endif
         @endforeach
         </ul>
     </div>

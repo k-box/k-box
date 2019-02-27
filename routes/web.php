@@ -40,7 +40,7 @@ Route::group(['as' => 'administration.', 'prefix' => 'administration'], function
     Route::get('/', [
         'as' => 'index',
         'uses' => 'Administration\AdministrationDashboardController@index',
-        'permission' => KBox\Capability::MANAGE_DMS]);
+        'permission' => KBox\Capability::MANAGE_KBOX]);
 
     Route::get('users/{id}/remove', [
     'as' => 'users.remove',

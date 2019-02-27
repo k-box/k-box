@@ -64,9 +64,6 @@ return [
         'capabilities' => [
 
             'manage_dms' => 'Доступ к администрированию',
-            'manage_dms_users' => 'Создание/удаление учетных записей',
-            'manage_dms_log' => 'Просмотр логов',
-            'manage_dms_backup' => 'Совершение резервного копирования и восстановления K-Box',
             'change_document_visibility' => 'Публикация документов',
             'edit_document' => 'Изменение деталей документов',
             'delete_document' => 'Перемещение документов в Корзину',

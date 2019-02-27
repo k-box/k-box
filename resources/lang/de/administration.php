@@ -64,9 +64,6 @@ return [
         'capabilities' => [
 
             'manage_dms' => 'Nutzer kann den administrativen Bereich der K-Box verwenden',
-            'manage_dms_users' => 'Nutzer kann weitere K-Box Benutzer anlegen und löschen',
-            'manage_dms_log' => 'Nutzer kann die Systemlogs der K-box betrachten',
-            'manage_dms_backup' => 'Nutzer kann K-Box Sicherungen anlegen, und wiederherstellen',
             'change_document_visibility' => 'Nutzer kann Dokumente (de-)publizieren',
             'edit_document' => 'Nutzer kann Dokumente bearbeiten',
             'delete_document' => 'Nutzer kann Dokumente löschen',

@@ -18,13 +18,7 @@ class CapabilitiesTableSeeder extends Seeder
 
         DB::table('capabilities')->delete();
 
-        Capability::create([ 'key' => Capability::MANAGE_DMS ]);
-
-        Capability::create([ 'key' => Capability::MANAGE_USERS ]);
-
-        Capability::create([ 'key' => Capability::MANAGE_LOG ]);
-
-        Capability::create([ 'key' => Capability::MANAGE_BACKUP ]);
+        Capability::create([ 'key' => Capability::MANAGE_KBOX ]);
 
         // Document management capabilities
 

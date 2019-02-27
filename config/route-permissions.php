@@ -169,33 +169,33 @@ return [
 
     'administration' => [
 
-        'index' => KBox\Capability::MANAGE_DMS,
+        'index' => KBox\Capability::MANAGE_KBOX,
 
         'storage' => [
-            'index' => KBox\Capability::MANAGE_DMS,
-            'reindexall' => KBox\Capability::MANAGE_DMS,
-            'reindexstatus' => KBox\Capability::MANAGE_DMS,
-            'naming' => KBox\Capability::MANAGE_DMS,
-            'files' => KBox\Capability::MANAGE_DMS,
+            'index' => KBox\Capability::MANAGE_KBOX,
+            'reindexall' => KBox\Capability::MANAGE_KBOX,
+            'reindexstatus' => KBox\Capability::MANAGE_KBOX,
+            'naming' => KBox\Capability::MANAGE_KBOX,
+            'files' => KBox\Capability::MANAGE_KBOX,
         ],
 
         'network' => [
-            'index' => KBox\Capability::MANAGE_DMS,
+            'index' => KBox\Capability::MANAGE_KBOX,
         ],
 
         'maintenance' => [
-            'index' => KBox\Capability::MANAGE_DMS,
+            'index' => KBox\Capability::MANAGE_KBOX,
         ],
 
         'mail' => [
-            'index' => KBox\Capability::MANAGE_DMS,
-            'store' => KBox\Capability::MANAGE_DMS,
-            'test' => KBox\Capability::MANAGE_DMS,
+            'index' => KBox\Capability::MANAGE_KBOX,
+            'store' => KBox\Capability::MANAGE_KBOX,
+            'test' => KBox\Capability::MANAGE_KBOX,
         ],
         
         'identity' => [
-            'index' => KBox\Capability::MANAGE_DMS,
-            'store' => KBox\Capability::MANAGE_DMS,
+            'index' => KBox\Capability::MANAGE_KBOX,
+            'store' => KBox\Capability::MANAGE_KBOX,
         ],
 
         'users' => [
@@ -219,32 +219,32 @@ return [
         ],
         
         'institutions' => [
-            'index' => KBox\Capability::MANAGE_DMS,
-            'show' => KBox\Capability::MANAGE_DMS,
+            'index' => KBox\Capability::MANAGE_KBOX,
+            'show' => KBox\Capability::MANAGE_KBOX,
         ],
         
         'settings' => [
-            'index' => KBox\Capability::MANAGE_DMS,
-            'create' => KBox\Capability::MANAGE_DMS,
-            'store' => KBox\Capability::MANAGE_DMS,
-            'show' => KBox\Capability::MANAGE_DMS,
-            'edit' => KBox\Capability::MANAGE_DMS,
-            'update' => KBox\Capability::MANAGE_DMS,
-            'destroy' => KBox\Capability::MANAGE_DMS,
+            'index' => KBox\Capability::MANAGE_KBOX,
+            'create' => KBox\Capability::MANAGE_KBOX,
+            'store' => KBox\Capability::MANAGE_KBOX,
+            'show' => KBox\Capability::MANAGE_KBOX,
+            'edit' => KBox\Capability::MANAGE_KBOX,
+            'update' => KBox\Capability::MANAGE_KBOX,
+            'destroy' => KBox\Capability::MANAGE_KBOX,
         ],
 
         'licenses' => [
-            'index' => KBox\Capability::MANAGE_DMS,
-            'default' => ['update' => KBox\Capability::MANAGE_DMS],
-            'available' => ['update' => KBox\Capability::MANAGE_DMS],
+            'index' => KBox\Capability::MANAGE_KBOX,
+            'default' => ['update' => KBox\Capability::MANAGE_KBOX],
+            'available' => ['update' => KBox\Capability::MANAGE_KBOX],
         ],
 
         'plugins' => [
-            'index' => KBox\Capability::MANAGE_DMS,
-            'show' => KBox\Capability::MANAGE_DMS,
-            'edit' => KBox\Capability::MANAGE_DMS,
-            'update' => KBox\Capability::MANAGE_DMS,
-            'destroy' => KBox\Capability::MANAGE_DMS,
+            'index' => KBox\Capability::MANAGE_KBOX,
+            'show' => KBox\Capability::MANAGE_KBOX,
+            'edit' => KBox\Capability::MANAGE_KBOX,
+            'update' => KBox\Capability::MANAGE_KBOX,
+            'destroy' => KBox\Capability::MANAGE_KBOX,
         ],
     ],
 

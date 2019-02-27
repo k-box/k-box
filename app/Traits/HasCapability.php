@@ -128,19 +128,19 @@ trait HasCapability
     /**
      * Check if the user can perform DMS Management operations
      *
-     * Test if the user has all the @see \KBox\Capability::$DMS_MASTER capabilities
+     * Test if the user has all the @see \KBox\Capability::MANAGE_KBOX capabilities
      *
      * @return boolean true if can manage the DMS configuration, false otherwise
      */
     public function isDMSManager()
     {
-        return $this->can_all_capabilities(Capability::$DMS_MASTER);
+        return $this->can_capability(Capability::MANAGE_KBOX);
     }
     
     /**
      * Check if the user is a Project Manager
      *
-     * Test if the user has all the @see \KBox\Capability::$DMS_MASTER capabilities
+     * Test if the user has all the @see \KBox\Capability::$PROJECT_MANAGER_LIMITED capabilities
      *
      * @return boolean true if the user is a project manager, false otherwise
      */
