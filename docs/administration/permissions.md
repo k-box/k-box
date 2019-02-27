@@ -19,4 +19,4 @@ The next table summarize the permission associated to each user [role](./users.m
 |"User can clear own Trash" | User see "Empty Trash" option on Trash section. By using "Empty Trash" option user can permanently delete all files from Trash. ||| x | x | x |
 |"User can share documents to groups of users defined at institution level"|legacy option will be removed in a future version ||| x | x | x |
 |"User can create Projects" | This permission, coupled with "User can access the Projects section", allow user create new projects in "Projects" section ||| x | x | x |
-|"User can access the Administration page" <br></br> <br>"User can create/disable other K-Box users"</br> <br></br> <br>"User can see the K-Box log files"</br> <br></br> <br>"User can perform the K-Box backups and restore"</br> | These four permissions define a K-Box Administrator. ||||| x |
+|"User can access the Administration area" | This permission define a K-Box Administrator. ||||| x |
