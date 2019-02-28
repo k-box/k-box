@@ -591,10 +591,6 @@ class DocumentsService
         $is_deleted = $descriptor->delete();
         
         $destroy_count = File::destroy($file_id);
-        
-        // remove also the import
-        
-        Import::fromFile($file_id)->delete();
 
         return $is_deleted && ($destroy_count == 1);
     }
