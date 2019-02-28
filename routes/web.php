@@ -40,22 +40,22 @@ Route::group(['as' => 'administration.', 'prefix' => 'administration'], function
     Route::get('/', [
         'as' => 'index',
         'uses' => 'Administration\AdministrationDashboardController@index',
-        'permission' => KBox\Capability::MANAGE_DMS]);
+        'permission' => KBox\Capability::MANAGE_KBOX]);
 
     Route::get('users/{id}/remove', [
     'as' => 'users.remove',
     'uses' => 'Administration\UserAdministrationController@remove',
-    'permission' => KBox\Capability::MANAGE_USERS]);
+    'permission' => KBox\Capability::MANAGE_KBOX]);
 
     Route::get('users/{id}/restore', [
     'as' => 'users.restore',
     'uses' => 'Administration\UserAdministrationController@restore',
-    'permission' => KBox\Capability::MANAGE_USERS]);
+    'permission' => KBox\Capability::MANAGE_KBOX]);
     
     Route::get('users/{id}/resetpsw', [
     'as' => 'users.resetpassword',
     'uses' => 'Administration\UserAdministrationController@resetPassword',
-    'permission' => KBox\Capability::MANAGE_USERS]);
+    'permission' => KBox\Capability::MANAGE_KBOX]);
 
     Route::resource('/users', 'Administration\UserAdministrationController');
 

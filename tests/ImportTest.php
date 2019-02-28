@@ -20,7 +20,7 @@ class ImportTest extends BrowserKitTestCase
     {
         return [
             [Capability::$ADMIN, 200],
-            [Capability::$DMS_MASTER, 403],
+            [[Capability::MANAGE_KBOX], 403],
             [Capability::$PROJECT_MANAGER, 200],
             [Capability::$PARTNER, 403],
             [Capability::$GUEST, 403],

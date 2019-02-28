@@ -64,9 +64,6 @@ return [
         'capabilities' => [
 
             'manage_dms' => 'L\'utilisateur peut accéder à la console d\'administration de K-Box',
-            'manage_dms_users' => 'L\'utilisateur peut créer/désactiver des utilisateurs K-Box',
-            'manage_dms_log' => 'L\'utilisateur peut voir les journaux K-Box',
-            'manage_dms_backup' => 'L\'utilisateur peut  effectuer des sauvegardes et restauration de K-Box',
             'change_document_visibility' => 'L\'utilisateur peut publier et dépublier des documents',
             'edit_document' => 'L\'utilisateur peut modifier des documents',
             'delete_document' => 'L\'utilisateur peut mettre des documents à la corbeille',

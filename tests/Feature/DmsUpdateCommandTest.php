@@ -327,4 +327,34 @@ class DmsUpdateCommandTest extends TestCase
 
         $this->assertFalse($user->fresh()->can_all_capabilities(Capability::$PROJECT_MANAGER));
     }
+
+    public function test_deleted_capabilities_are_removed()
+    {
+        $this->withKlinkAdapterMock();
+
+        Capability::firstOrCreate([ 'key' => Capability::MANAGE_USERS ]);
+        Capability::firstOrCreate([ 'key' => Capability::MANAGE_LOG ]);
+        Capability::firstOrCreate([ 'key' => Capability::MANAGE_BACKUP ]);
+
+        $user = factory(User::class)->create();
+        $user->addCapabilities([
+            Capability::MANAGE_KBOX,
+            Capability::MANAGE_USERS,
+            Capability::MANAGE_LOG,
+            Capability::MANAGE_BACKUP,
+        ]);
+
+        $command = new DmsUpdateCommand();
+
+        $updated = $this->invokePrivateMethod($command, 'removeDeletedCapabilities');
+
+        $this->assertTrue($user->can_capability(Capability::MANAGE_KBOX));
+        $this->assertFalse($user->can_capability(Capability::MANAGE_USERS));
+        $this->assertFalse($user->can_capability(Capability::MANAGE_LOG));
+        $this->assertFalse($user->can_capability(Capability::MANAGE_BACKUP));
+
+        $this->assertNull(Capability::where('key', Capability::MANAGE_USERS)->first());
+        $this->assertNull(Capability::where('key', Capability::MANAGE_LOG)->first());
+        $this->assertNull(Capability::where('key', Capability::MANAGE_BACKUP)->first());
+    }
 }

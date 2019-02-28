@@ -64,9 +64,6 @@ return [
         'capabilities' => [
 
             'manage_dms' => 'K-Box башкаруу бетин көрүү',
-            'manage_dms_users' => 'K-Box колдонуучуларын түзүү жана өчүрүү',
-            'manage_dms_log' => 'K-Box log файлдарын көрүү',
-            'manage_dms_backup' => 'K-Box резервдик көчүрмөлөө жана калыбына келтирүү',
             'change_document_visibility' => 'Документтерди жарыялоо',
             'edit_document' => 'Документ жөнүндө маалыматты өзгөртүү',
             'delete_document' => 'Документтерди өчүрүү',
