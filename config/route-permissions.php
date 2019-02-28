@@ -199,23 +199,23 @@ return [
         ],
 
         'users' => [
-            'index' => KBox\Capability::MANAGE_USERS,
-            'create' => KBox\Capability::MANAGE_USERS,
-            'store' => KBox\Capability::MANAGE_USERS,
-            'show' => KBox\Capability::MANAGE_USERS,
-            'edit' => KBox\Capability::MANAGE_USERS,
-            'update' => KBox\Capability::MANAGE_USERS,
-            'destroy' => KBox\Capability::MANAGE_USERS,
+            'index' => KBox\Capability::MANAGE_KBOX,
+            'create' => KBox\Capability::MANAGE_KBOX,
+            'store' => KBox\Capability::MANAGE_KBOX,
+            'show' => KBox\Capability::MANAGE_KBOX,
+            'edit' => KBox\Capability::MANAGE_KBOX,
+            'update' => KBox\Capability::MANAGE_KBOX,
+            'destroy' => KBox\Capability::MANAGE_KBOX,
         ],
         
         'messages' => [
-            'index' => KBox\Capability::MANAGE_USERS,
-            'create' => KBox\Capability::MANAGE_USERS,
-            'store' => KBox\Capability::MANAGE_USERS,
-            'show' => KBox\Capability::MANAGE_USERS,
-            'edit' => KBox\Capability::MANAGE_USERS,
-            'update' => KBox\Capability::MANAGE_USERS,
-            'destroy' => KBox\Capability::MANAGE_USERS,
+            'index' => KBox\Capability::MANAGE_KBOX,
+            'create' => KBox\Capability::MANAGE_KBOX,
+            'store' => KBox\Capability::MANAGE_KBOX,
+            'show' => KBox\Capability::MANAGE_KBOX,
+            'edit' => KBox\Capability::MANAGE_KBOX,
+            'update' => KBox\Capability::MANAGE_KBOX,
+            'destroy' => KBox\Capability::MANAGE_KBOX,
         ],
         
         'institutions' => [
