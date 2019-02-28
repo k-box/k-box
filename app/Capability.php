@@ -63,10 +63,10 @@ class Capability extends Model
 
     /**
      * Can perform import.
-     * 
-     * The feature has been removed, this capability constant is here 
+     *
+     * The feature has been removed, this capability constant is here
      * only for backward compatibility with the update procedure
-     * 
+     *
      * @deprecated the feature has been removed
      */
     const IMPORT_DOCUMENTS = 'import_documents';

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * KBox\Import
- * 
+ *
  * @deprecated The Import entity is here only for backward compatibility. It will be removed in a future version
  *
  * @property int $id

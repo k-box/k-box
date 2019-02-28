@@ -149,7 +149,6 @@ return [
         'destroy' => ['all' => KBox\Capability::$PROJECT_MANAGER_LIMITED],
     ],
 
-
     /**
      * Administration routes
      */
