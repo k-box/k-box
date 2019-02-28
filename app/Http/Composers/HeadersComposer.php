@@ -56,7 +56,7 @@ class HeadersComposer
         $show_search = (! $is_logged && $is_klink_public_enabled && ! starts_with($route_name, 'password') && ! str_contains($route_name, 'help') && ! starts_with($route_name, 'terms') && ! str_contains($route_name, 'contact')) ||
                         ($is_logged && ! is_null($route_name) && ! starts_with($route_name, 'admin') &&
                        ! str_contains($route_name, 'contact') &&
-                       ! str_contains($route_name, 'help') && ! starts_with($route_name, 'terms') && ! str_contains($route_name, 'import') && ! str_contains($route_name, 'trash') &&
+                       ! str_contains($route_name, 'help') && ! starts_with($route_name, 'terms') && ! str_contains($route_name, 'trash') &&
                        ! starts_with($route_name, 'projects')  && ! str_contains($route_name, 'people.index') &&
                        ! str_contains($route_name, 'profile.') && ! str_contains($route_name, 'people.show') &&
                        ! starts_with($route_name, 'consent') &&

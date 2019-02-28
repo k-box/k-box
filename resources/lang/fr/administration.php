@@ -67,7 +67,6 @@ return [
             'change_document_visibility' => 'L\'utilisateur peut publier et dépublier des documents',
             'edit_document' => 'L\'utilisateur peut modifier des documents',
             'delete_document' => 'L\'utilisateur peut mettre des documents à la corbeille',
-            'import_documents' => 'L\'utilisateur peut importer des documents depuis des dossiers ou URLs distantes',
             'upload_documents' => 'L\'utilisateur peut mettre en ligne des documents',
             'make_search' => 'L\'utilisateur peut  accéder à tous les documents non publiés se trouvant dans des projets accessibles',
             'manage_own_groups' => 'L\'utilisateur peut ajouter/supprimer des collections de documents personnels',

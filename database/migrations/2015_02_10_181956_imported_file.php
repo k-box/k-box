@@ -13,35 +13,18 @@ class ImportedFile extends Migration
      */
     public function up()
     {
-        Schema::create('import', function (Blueprint $table) {
-            $table->bigIncrements('id');
-                        
-            $table->bigInteger('bytes_expected')->unsigned();
-            $table->bigInteger('bytes_received')->unsigned();
-
-            /**
-             * The user that has put a star on the document
-             */
-            $table->bigInteger('user_id')->unsigned();
-
-            /**
-             * The document that has been starred
-             */
-            $table->bigInteger('file_id')->unsigned();
-
-            $table->timestamps();
-                        
-            $table->integer('status');
-
-            /**
-             * Uniqueness contraint: the user cannot put more than one star on the same document
-             */
-            $table->unique(['user_id', 'file_id']);
-
-            $table->foreign('user_id')->references('id')->on('users');
-
-            $table->foreign('file_id')->references('id')->on('files');
-        });
+        // Schema::create('import', function (Blueprint $table) {
+        //     $table->bigIncrements('id');
+        //     $table->bigInteger('bytes_expected')->unsigned();
+        //     $table->bigInteger('bytes_received')->unsigned();
+        //     $table->bigInteger('user_id')->unsigned();
+        //     $table->bigInteger('file_id')->unsigned();
+        //     $table->timestamps();
+        //     $table->integer('status');
+        //     $table->unique(['user_id', 'file_id']);
+        //     $table->foreign('user_id')->references('id')->on('users');
+        //     $table->foreign('file_id')->references('id')->on('files');
+        // });
     }
 
     /**
@@ -51,6 +34,8 @@ class ImportedFile extends Migration
      */
     public function down()
     {
-        Schema::drop('import');
+        // this is kept for compatibility with existing
+        // deployments migrations
+        Schema::dropIfExists('import');
     }
 }

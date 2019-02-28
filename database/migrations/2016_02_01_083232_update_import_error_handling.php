@@ -12,14 +12,14 @@ class UpdateImportErrorHandling extends Migration
      */
     public function up()
     {
-        Schema::table('import', function (Blueprint $table) {
+        // Schema::table('import', function (Blueprint $table) {
             
-            // Stores the message to be showed to the user
-            $table->mediumText('message')->nullable();
+        //     // Stores the message to be showed to the user
+        //     $table->mediumText('message')->nullable();
             
-            // Stores the detailed error or information payload if available
-            $table->text('payload')->nullable();
-        });
+        //     // Stores the detailed error or information payload if available
+        //     $table->text('payload')->nullable();
+        // });
     }
 
     /**
@@ -29,9 +29,8 @@ class UpdateImportErrorHandling extends Migration
      */
     public function down()
     {
-        Schema::table('import', function (Blueprint $table) {
-            $table->dropColumn('message');
-            $table->dropColumn('payload');
-        });
+        // this is kept for compatibility with existing
+        // deployments migrations
+        Schema::dropIfExists('import');
     }
 }

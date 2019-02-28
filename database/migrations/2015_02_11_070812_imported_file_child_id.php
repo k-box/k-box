@@ -13,10 +13,10 @@ class ImportedFileChildId extends Migration
      */
     public function up()
     {
-        Schema::table('import', function (Blueprint $table) {
-            $table->foreign('parent_id')->references('id')->on('import');
-            $table->bigInteger('parent_id')->unsigned()->nullable();
-        });
+        // Schema::table('import', function (Blueprint $table) {
+        //     $table->foreign('parent_id')->references('id')->on('import');
+        //     $table->bigInteger('parent_id')->unsigned()->nullable();
+        // });
     }
 
     /**
@@ -26,8 +26,8 @@ class ImportedFileChildId extends Migration
      */
     public function down()
     {
-        Schema::table('import', function (Blueprint $table) {
-            $table->dropColumn('parent_id');
-        });
+        // this is kept for compatibility with existing
+        // deployments migrations
+        Schema::dropIfExists('import');
     }
 }

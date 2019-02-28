@@ -12,10 +12,10 @@ class AddImportJobPayload extends Migration
      */
     public function up()
     {
-        Schema::table('import', function (Blueprint $table) {
-            // the original payload of the Job to enable an import retry
-            $table->text('job_payload')->nullable();
-        });
+        // Schema::table('import', function (Blueprint $table) {
+        //     // the original payload of the Job to enable an import retry
+        //     $table->text('job_payload')->nullable();
+        // });
     }
 
     /**
@@ -25,8 +25,8 @@ class AddImportJobPayload extends Migration
      */
     public function down()
     {
-        Schema::table('import', function (Blueprint $table) {
-            $table->dropColumn('job_payload');
-        });
+        // this is kept for compatibility with existing
+        // deployments migrations
+        Schema::dropIfExists('import');
     }
 }

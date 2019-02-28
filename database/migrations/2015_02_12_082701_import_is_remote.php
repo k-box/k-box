@@ -13,9 +13,9 @@ class ImportIsRemote extends Migration
      */
     public function up()
     {
-        Schema::table('import', function (Blueprint $table) {
-            $table->boolean('is_remote');
-        });
+        // Schema::table('import', function (Blueprint $table) {
+        //     $table->boolean('is_remote');
+        // });
     }
 
     /**
@@ -25,8 +25,8 @@ class ImportIsRemote extends Migration
      */
     public function down()
     {
-        Schema::table('import', function (Blueprint $table) {
-            $table->dropColumn('is_remote');
-        });
+        // this is kept for compatibility with existing
+        // deployments migrations
+        Schema::dropIfExists('import');
     }
 }

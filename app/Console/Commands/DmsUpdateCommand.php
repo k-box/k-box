@@ -602,6 +602,7 @@ class DmsUpdateCommand extends Command
             Capability::MANAGE_USERS,
             Capability::MANAGE_LOG,
             Capability::MANAGE_BACKUP,
+            Capability::IMPORT_DOCUMENTS,
         ];
 
         // Detach capabilities from users

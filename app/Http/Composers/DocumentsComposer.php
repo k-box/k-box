@@ -45,8 +45,6 @@ class DocumentsComposer
         if (\Auth::check()) {
             $auth_user = \Auth::user();
 
-            $view->with('can_import', $auth_user->can_capability(Capability::IMPORT_DOCUMENTS));
-
             $view->with('can_upload', $auth_user->can_capability(Capability::UPLOAD_DOCUMENTS));
             
             $view->with('can_create_collection', $auth_user->can_capability(Capability::MANAGE_OWN_GROUPS) || $auth_user->can_capability(Capability::MANAGE_PROJECT_COLLECTIONS));

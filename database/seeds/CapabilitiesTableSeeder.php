@@ -28,8 +28,6 @@ class CapabilitiesTableSeeder extends Seeder
 
         Capability::create([ 'key' => Capability::DELETE_DOCUMENT ]);
 
-        Capability::create([ 'key' => Capability::IMPORT_DOCUMENTS ]);
-
         Capability::create([ 'key' => Capability::UPLOAD_DOCUMENTS ]);
 
         Capability::create([ 'key' => Capability::CLEAN_TRASH ]);

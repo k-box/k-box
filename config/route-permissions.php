@@ -81,17 +81,6 @@ return [
 
         ],
 
-        'import' => [
-
-            'index' => KBox\Capability::IMPORT_DOCUMENTS,
-            'store' => KBox\Capability::IMPORT_DOCUMENTS,
-            'clearcompleted' => KBox\Capability::IMPORT_DOCUMENTS,
-            'destroy' => KBox\Capability::IMPORT_DOCUMENTS,
-            'update' => KBox\Capability::IMPORT_DOCUMENTS,
-            // 'status' => KBox\Capability::IMPORT_DOCUMENTS,
-
-        ],
-
         'projects' => [
 
             'index' => KBox\Capability::MANAGE_PROJECT_COLLECTIONS,
@@ -160,8 +149,6 @@ return [
         'destroy' => ['all' => KBox\Capability::$PROJECT_MANAGER_LIMITED],
     ],
 
-    'import' => KBox\Capability::IMPORT_DOCUMENTS,
-    'import-refresh' => KBox\Capability::IMPORT_DOCUMENTS,
 
     /**
      * Administration routes

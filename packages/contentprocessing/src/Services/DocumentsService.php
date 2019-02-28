@@ -10,7 +10,6 @@ use KBox\Shared;
 use KBox\Group;
 use KBox\GroupType;
 use KBox\Capability;
-use KBox\Import;
 use KBox\Option;
 use KBox\Project;
 use Illuminate\Support\Facades\Queue;
@@ -1582,218 +1581,6 @@ class DocumentsService
 
     // --- Import related functions ----------------------------
 
-    public function importStatus(User $user)
-    {
-        $imports_completed = Import::completed($user->id)->with('file')->get();
-
-        $imports_progress = Import::notCompleted($user->id)->with('file')->get();
-        
-        $imports_error = Import::withError($user->id)->get();
-
-        $only_progress = $imports_progress->count();
-
-        $only_completed = $imports_completed->count();
-        
-        $only_error = $imports_error->count();
-
-        $total = $only_completed + $only_progress;
-        
-        $resp = [
-            'status' => [
-                'global' => trans_choice('import.import_status_general', $only_progress, ['num' => $only_progress]), // > 0 ? "$only_progress import in progress" : 'Import completed',
-                'details' => trans('import.import_status_details', ['total' => $total, 'completed'=> $only_completed, 'executing' => $only_progress]) ,
-                'progress_percentage' => $total > 0 ? round($only_completed/$total*100)."%" : "0%",
-            ],
-            'imports' => $imports_progress->merge($imports_completed),
-            'imports_total' => $total,
-            'imports_completed' => $only_completed + $only_error,
-            'imports_progress' => $only_progress,
-        ];
-
-        return $resp;
-    }
-
-    /**
-     * Enqueue imports from url.
-     *
-     * Before that checks is a file from the same origin is already in the system, no matter who uploaded it.
-     *
-     * A "Fail First" approach is followed. All security checks are performed before the actual async job will be enqueued so if an exception is thrown is
-     * guaranteed that all the input has been rejected (no partial import to handle)
-     *
-     * @throws InvalidArgumentException if the @see $url parameter is not a valid url or is an empty string. Also in this case the whole procedure is stopped
-     *
-     * @param string $urls the url list as one url for line, line ending could be ; of new line
-     * @param \KBox\User $uploader the user that has started the import process
-     * @return array with 'count' and 'messages' keys with th number of added jobs
-     */
-    public function importFromUrl($urls, User $uploader)
-    {
-
-        // extraction and validity check
-
-        $urls = preg_split("/[;\n\r]+/", $urls);
-
-        $urls = array_map(function ($el) {
-            // cleaning required: strip whitespaces and anchor
-
-            $pos = strpos($el, '#');
-
-            if ($pos !== false) {
-                $el = substr($el, 0, $pos);
-            }
-
-            return str_replace(' ', '%20', trim($el));
-        }, $urls);
-
-        //ok, now it's time to import (aka enqueue)
-        
-        $temp_hash = 'aaa';
-
-        foreach ($urls as $url) {
-            $temp_hash = md5($url);
-
-            $filename = $this->extractFileNameFromUrl($url);
-
-            $file = new File();
-
-            $uuid = $file->resolveUuid()->toString();
-
-            $file->name= $filename; // could be edited during the async process
-            $file->hash=$temp_hash; // edited during the async process
-            $file->mime_type=''; // edited during the async process
-            $file->size= 0; // edited during the async process
-            $file->revision_of=null;
-            $file->thumbnail_path=null;
-            $file->uuid = $uuid;
-            $file->path = date('Y').'/'.date('m').'/'.$uuid.'/'.$temp_hash.'.html';
-            
-            $file->user_id = $uploader->id;
-            $file->original_uri = $url;
-            $file->is_folder = false;//if remote, the root should not be a directory
-            $file->upload_started_at = \Carbon\Carbon::now();
-            
-            $file->save();
-
-            $import = new Import();
-            $import->bytes_expected = 0;
-            $import->bytes_received = 0;
-            $import->is_remote = true;
-            $import->file_id = $file->id;
-            $import->status = Import::STATUS_QUEUED;
-            $import->user_id = $uploader->id;
-            $import->parent_id = null;
-            $import->status_message = Import::MESSAGE_QUEUED;
-            $import->save();
-            
-            Queue::push(new ImportCommand($uploader, $import));
-        }
-
-        $count = count($urls);
-
-        return [
-            'count' => $count,
-            'message' => $count.' web address added to the import queue'
-        ];
-    }
-
-    /**
-     * Enqueue imports from folder (local or shared).
-     *
-     * Before that checks is a file from the same origin is already in the system, no matter who uploaded it.
-     *
-     * A "Fail First" approach is followed. All security checks are performed before the actual async job will be enqueued so if an exception is thrown is
-     * guaranteed that all the input has been rejected (no partial import to handle)
-     *
-     * @throws InvalidArgumentException if the @see $paths parameter contains invalid paths or is an empty string. Also in this case the whole procedure is stopped
-     *
-     * @param string $paths the paths list as one path for line, line separator could be ; of new line
-     * @param \KBox\User $uploader the user that has started the import process
-     *
-     * @param boolean $copy set to true will perform the copy of all files from the original folder to the DMS documents folder, set to false if the file don't need to be copied but only inserted into the db (default true)
-     *
-     * @return array with 'count' and 'messages' keys with th number of added jobs
-     */
-    public function importFromFolder($paths, User $uploader, $copy = true, $recursive = true)
-    {
-        // $paths = preg_split( "/[;\n\r]+/", $paths );
-
-        if (! $copy) {
-            throw new \NotImplementedException("The NO-COPY, but sync version is not yet ready", 23000);
-        }
-
-        if (! $recursive) {
-            throw new \NotImplementedException("The NO-RECURSION option is not available in this build", 42000);
-        }
-
-        // get the common ancestor to all the paths so we have starting path for folder names (and for recreating folder structure)
-
-        $root_folder_name = basename($paths);
-
-        $root_folder_name_pos = strrpos($paths, $root_folder_name);
-
-        $root_folder_path = substr($paths, 0, $root_folder_name_pos);
-
-        // when you will realize why this is the right code you'll became mad (note the little r in strpos) (of course can be optimized, but if you think that you haven't got the point)
-
-        // ok let's grab all the sub folders
-
-        $dirs = [$paths];
-
-        $subdirs = $this->directories($paths);
-
-        $dirs = array_merge($dirs, $subdirs);
-
-        \Log::info('importFromFolder', ['context' => 'DocumentsService', 'dirs' => $dirs]);
-
-        foreach ($dirs as $directory) {
-            $filename = str_replace('\\', '/', substr($directory, $root_folder_name_pos));
-
-            // \Log::info('importFromFolder', array('context' => 'DocumentsService', 'filename' => $filename, 'path' => $this->constructLocalPathForFolderImport($filename)));
-
-            $file = new File();
-            $file->name= $filename; // the directory name
-            $file->hash=md5($directory); // temp for the directory
-            $file->mime_type='';
-            $file->size= 0; // directory size is unknown and will not be calculated
-            $file->revision_of=null;
-            $file->thumbnail_path=null;
-
-            $file->path = $this->constructLocalPathForFolderImport($filename);
-            
-            $file->user_id = $uploader->id;
-            $file->original_uri = $directory;
-            $file->is_folder = true;
-            $file->save();
-
-            $import = new Import();
-            $import->bytes_expected = 0;
-            $import->bytes_received = 0; // will be updated by the queue
-            $import->is_remote = false;
-            $import->file_id = $file->id;
-            $import->status = Import::STATUS_QUEUED;
-            $import->user_id = $uploader->id;
-            $import->parent_id = null;
-            $import->status_message = Import::MESSAGE_QUEUED;
-            $import->save();
-
-            // only folders will be enqueued, the files in that folders will be grabbed during the async import
-
-            // create the corresponding group
-
-            $group = $this->createGroupsFromFolderPath($uploader, str_replace(realpath(Config::get('dms.upload_folder')), '', $file->absolute_path), true);
-            
-            Queue::push(new ImportCommand($uploader, $import, $group, $copy));
-        }
-
-        $count = count($dirs);
-
-        return [
-            'count' => $count,
-            'message' => $count.' folders added to the import queue'
-        ];
-    }
-
     /**
      * Handle the "import" operation needed for and uploaded file using a form based approach
      *
@@ -1833,23 +1620,23 @@ class DocumentsService
         }
     }
 
-    public function constructLocalPathForFolderImport($folder_name)
-    {
-        $is_dir = Storage::exists($folder_name);
+    // public function constructLocalPathForFolderImport($folder_name)
+    // {
+    //     $is_dir = Storage::exists($folder_name);
 
-        if (! $is_dir) {
-            // create containing folder
-            $is_dir = Storage::makeDirectory($folder_name, 0755, true);
+    //     if (! $is_dir) {
+    //         // create containing folder
+    //         $is_dir = Storage::makeDirectory($folder_name, 0755, true);
 
-            if (! $is_dir) {
-                \Log::error('Cannot create folder ', ['context' => 'DocumentsService', 'param' => $folder_name]);
-            }
-        }
+    //         if (! $is_dir) {
+    //             \Log::error('Cannot create folder ', ['context' => 'DocumentsService', 'param' => $folder_name]);
+    //         }
+    //     }
         
-        $abso_path = Config::get('dms.upload_folder').$folder_name;
+    //     $abso_path = Config::get('dms.upload_folder').$folder_name;
 
-        return /* the absolute path */ $abso_path;
-    }
+    //     return /* the absolute path */ $abso_path;
+    // }
 
     // --- Document Management facilities ----------------------
     

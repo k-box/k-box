@@ -71,7 +71,6 @@ return [
             'change_document_visibility' => 'User can un-/publish documents',
             'edit_document' => 'User can edit documents',
             'delete_document' => 'User can trash documents',
-            'import_documents' => 'User can import documents from folders or external URL',  //irrelevant
             'upload_documents' => 'User can upload documents',
             'make_search' => 'User can access the Documents page', //in the past: User can access all the unpublished documents in accessible projects
             'manage_own_groups' => 'User can add/remove personal collections',

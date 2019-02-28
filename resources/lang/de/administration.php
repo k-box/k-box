@@ -67,7 +67,6 @@ return [
             'change_document_visibility' => 'Nutzer kann Dokumente (de-)publizieren',
             'edit_document' => 'Nutzer kann Dokumente bearbeiten',
             'delete_document' => 'Nutzer kann Dokumente löschen',
-            'import_documents' => 'Nutzer kann Dokumente aus Ordnern oder externen URLs importieren',
             'upload_documents' => 'Nutzer kann Dokumente hochladen',
             'make_search' => 'Nutzer kann auf alle unpublizierten Dokumente in zugänglichen Projekten zugreifen',
             'manage_own_groups' => 'Nutzer kann persönliche Sammlungen hinzufügen/entfernen',

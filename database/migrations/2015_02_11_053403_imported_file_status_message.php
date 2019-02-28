@@ -13,9 +13,9 @@ class ImportedFileStatusMessage extends Migration
      */
     public function up()
     {
-        Schema::table('import', function (Blueprint $table) {
-            $table->string('status_message')->default('');
-        });
+        // Schema::table('import', function (Blueprint $table) {
+        //     $table->string('status_message')->default('');
+        // });
     }
 
     /**
@@ -25,8 +25,8 @@ class ImportedFileStatusMessage extends Migration
      */
     public function down()
     {
-        Schema::table('import', function (Blueprint $table) {
-            $table->dropColumn('status_message');
-        });
+        // this is kept for compatibility with existing
+        // deployments migrations
+        Schema::dropIfExists('import');
     }
 }

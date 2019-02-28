@@ -18,10 +18,6 @@
 
 	<div class="action-group">
 
-		<a href="{{route('documents.import')}}" class="button">
-			{{trans('actions.import')}}
-		</a>
-
 	</div>
 
 	<div class="separator"></div>

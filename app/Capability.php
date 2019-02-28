@@ -62,7 +62,12 @@ class Capability extends Model
     const CHANGE_DOCUMENT_VISIBILITY = 'change_document_visibility';
 
     /**
-     * Can perform import
+     * Can perform import.
+     * 
+     * The feature has been removed, this capability constant is here 
+     * only for backward compatibility with the update procedure
+     * 
+     * @deprecated the feature has been removed
      */
     const IMPORT_DOCUMENTS = 'import_documents';
 
@@ -125,6 +130,7 @@ class Capability extends Model
     
     /**
      * Create/edit/remove groups of people at the user's personal level
+     * @deprecated
      */
     const MANAGE_PERSONAL_PEOPLE_GROUPS = 'manage_personal_people';
 
@@ -137,7 +143,6 @@ class Capability extends Model
     public static $ADMIN = [
         self::MAKE_SEARCH,
         self::UPLOAD_DOCUMENTS,
-        self::IMPORT_DOCUMENTS,
         self::EDIT_DOCUMENT,
         self::CHANGE_DOCUMENT_VISIBILITY,
         self::DELETE_DOCUMENT,
@@ -175,7 +180,6 @@ class Capability extends Model
     public static $QUALITY_CONTENT_MANAGER = [
         self::MAKE_SEARCH,
         self::UPLOAD_DOCUMENTS,
-        self::IMPORT_DOCUMENTS,
         self::MANAGE_OWN_GROUPS,
         self::MANAGE_PROJECT_COLLECTIONS,
         self::DELETE_DOCUMENT,
@@ -196,7 +200,6 @@ class Capability extends Model
         self::MAKE_SEARCH,
         self::CREATE_PROJECTS,
         self::UPLOAD_DOCUMENTS,
-        self::IMPORT_DOCUMENTS,
         self::MANAGE_OWN_GROUPS,
         self::MANAGE_PROJECT_COLLECTIONS,
         self::DELETE_DOCUMENT,
@@ -216,7 +219,6 @@ class Capability extends Model
     public static $PROJECT_MANAGER_LIMITED = [
         self::MAKE_SEARCH,
         self::UPLOAD_DOCUMENTS,
-        self::IMPORT_DOCUMENTS,
         self::MANAGE_OWN_GROUPS,
         self::MANAGE_PROJECT_COLLECTIONS,
         self::DELETE_DOCUMENT,

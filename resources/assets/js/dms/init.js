@@ -247,7 +247,6 @@ window.DMS = (function(_$, _nprogress, _rivets, _alert){
 		Paths : {
 			STARRED: 'documents/starred',
 			SEARCH: 'search',
-			IMPORT: 'documents/import',
 			DOCUMENTS: 'documents',
 			PUBLISHED_DOCUMENTS: 'published-documents',
 			DUPLICATE_DOCUMENTS: 'duplicate-documents',
