@@ -101,12 +101,6 @@ return [
         'capabilities' => [
             'required' => 'Vous devez spécifier au moins une permission.',
         ],
-        'folder_import' => [
-            'required_if' => 'Vous devez spécifier un dossier valide pour commencer l\'import.',
-        ],
-        'remote_import' => [
-            'required_if' => 'Vous devez spécifier une URL valide pour commencer l\'import.',
-        ],
         'users' => [
             'required' => 'Veuillez sélectionner au moins un utilisateur.',
         ],
