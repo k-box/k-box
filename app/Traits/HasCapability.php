@@ -110,7 +110,7 @@ trait HasCapability
      */
     public function isPartner()
     {
-        return $this->can_all_capabilities(Capability::$PARTNER) && ! $this->can_capability(Capability::MANAGE_PEOPLE_GROUPS);
+        return $this->can_all_capabilities(Capability::$PARTNER);
     }
 
     /**

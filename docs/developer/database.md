@@ -26,7 +26,7 @@ Here the list of the main tables is proposed and described:
 - *options*: stores the global K-Box [dynamic configuration](./configuration)
 - *user_options*: stores the user configuration options
 - *recent_searches*: stores a users recent searches
-- *peoplegroup*: stores the groups of users
+- *peoplegroup*: stores the groups of users (**deprecated**)
 - *password_resets*: stores the password reset requests
 - *migrations*: stores the executed migrations over the database
 

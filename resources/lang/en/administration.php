@@ -82,8 +82,6 @@ return [
             'manage_share_personal' => 'User may directly share personal documents with other K-Box users',
             'manage_share_private' => 'User can share documents to groups of users defined at institution level', //hidden from users
             'clean_trash' => 'User can clear own Trash',
-            'manage_personal_people' => 'User can create/edit groups of users defined at personal level', //irrelevant
-            'manage_people' => 'User can create/edit groups of users defined at institution level', //irrelevant
 
         ],
         

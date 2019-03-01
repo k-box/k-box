@@ -264,7 +264,6 @@ window.DMS = (function(_$, _nprogress, _rivets, _alert){
 			USER_PROFILE_OPTIONS: 'profile/options',
 			MICROSITE: "microsites/{ID}",
 			
-			PEOPLE: 'people',
 			LICENSE_HELP: 'help/licenses',
 
 			fullUrl: function(path){
@@ -649,30 +648,6 @@ window.DMS = (function(_$, _nprogress, _rivets, _alert){
 				},
 				
 				
-			},
-			
-			PeopleGroup: {
-				addUser: function(groupId, userId, success, error){
-					module.Ajax.put(module.Paths.PEOPLE + '/' + groupId, {user:userId, action:'add'}, success, error);
-				},
-				addGroup: function(name, success, error){
-					module.Ajax.post(module.Paths.PEOPLE, {name:name}, success, error);
-				},
-				removeUser: function(groupId, userId, success, error){
-					module.Ajax.put(module.Paths.PEOPLE + '/' + groupId, {user:userId, action:'remove'}, success, error);
-				},
-				removeGroup: function(groupId, success, error){
-					module.Ajax.del(module.Paths.PEOPLE + '/' + groupId, success, error);
-				},				
-				renameGroup: function(groupId, name, success, error){
-					module.Ajax.put(module.Paths.PEOPLE + '/' + groupId, {name:name}, success, error);
-				},
-				makePersonal: function(groupId, success, error){
-					module.Ajax.put(module.Paths.PEOPLE + '/' + groupId, {make_personal:0}, success, error);
-				},
-				makeInstitutional: function(groupId, success, error){
-					module.Ajax.put(module.Paths.PEOPLE + '/' + groupId, {make_institutional:1}, success, error);
-				}
 			},
 
 			Options: {

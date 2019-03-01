@@ -13,8 +13,6 @@ The next table summarize the permission associated to each user [role](./users.m
 |"User can access the Projects section" | If added to projects, user see them in "Projects" section || x | x | x | x |
 |"User can edit documents" | User can change file's title, abstract, language, copyright information, and add/remove authors || x | x | x | x |
 |User can un-/publish documents" | If K-Box connected to network, user can see "Publish" option in right-click menu and can make files public in the network ||| x | x | x |
-|"User can create/edit groups of users defined at institution level"|legacy option will be removed in a future version ||| x | x | x |
-|"User can create/edit groups of users defined at personal level"| legacy option will be removed in a future version ||| x | x | x | x |
 |"User can clear own Trash" | User see "Empty Trash" option on Trash section. By using "Empty Trash" option user can permanently delete all files from Trash. ||| x | x | x |
 |"User can share documents to groups of users defined at institution level"|legacy option will be removed in a future version ||| x | x | x |
 |"User can create Projects" | This permission, coupled with "User can access the Projects section", allow user create new projects in "Projects" section ||| x | x | x |

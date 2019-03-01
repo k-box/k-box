@@ -125,12 +125,13 @@ class Capability extends Model
     
     /**
      * Create/edit/remove groups of people at the institution level
+     * @deprecated feature is being removed
      */
     const MANAGE_PEOPLE_GROUPS = 'manage_people';
     
     /**
      * Create/edit/remove groups of people at the user's personal level
-     * @deprecated
+     * @deprecated feature is being removed
      */
     const MANAGE_PERSONAL_PEOPLE_GROUPS = 'manage_personal_people';
 
@@ -152,8 +153,6 @@ class Capability extends Model
         self::MANAGE_KBOX,
         self::RECEIVE_AND_SEE_SHARE,
         self::CLEAN_TRASH,
-        self::MANAGE_PEOPLE_GROUPS,
-        self::MANAGE_PERSONAL_PEOPLE_GROUPS,
         self::SHARE_WITH_PERSONAL,
         self::SHARE_WITH_PRIVATE ];
 
@@ -185,8 +184,6 @@ class Capability extends Model
         self::DELETE_DOCUMENT,
         self::EDIT_DOCUMENT,
         self::CHANGE_DOCUMENT_VISIBILITY,
-        self::MANAGE_PEOPLE_GROUPS,
-        self::MANAGE_PERSONAL_PEOPLE_GROUPS,
         self::RECEIVE_AND_SEE_SHARE,
         self::CLEAN_TRASH,
         self::SHARE_WITH_PERSONAL,
@@ -205,8 +202,6 @@ class Capability extends Model
         self::DELETE_DOCUMENT,
         self::EDIT_DOCUMENT,
         self::CHANGE_DOCUMENT_VISIBILITY,
-        self::MANAGE_PEOPLE_GROUPS,
-        self::MANAGE_PERSONAL_PEOPLE_GROUPS,
         self::RECEIVE_AND_SEE_SHARE,
         self::CLEAN_TRASH,
         self::SHARE_WITH_PERSONAL,
@@ -224,8 +219,6 @@ class Capability extends Model
         self::DELETE_DOCUMENT,
         self::EDIT_DOCUMENT,
         self::CHANGE_DOCUMENT_VISIBILITY,
-        self::MANAGE_PEOPLE_GROUPS,
-        self::MANAGE_PERSONAL_PEOPLE_GROUPS,
         self::RECEIVE_AND_SEE_SHARE,
         self::SHARE_WITH_PERSONAL,
         self::SHARE_WITH_PRIVATE ];

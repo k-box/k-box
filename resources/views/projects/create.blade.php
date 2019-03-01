@@ -48,9 +48,7 @@
 @section('scripts')
 
 	<script>
-	// require(['modules/people'], function(People){
-	
-	// });
+
 	</script>
 
 @stop

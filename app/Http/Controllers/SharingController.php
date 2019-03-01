@@ -63,14 +63,6 @@ class SharingController extends Controller
     {
         $user = $auth->user();
         
-        // 		$group_ids = $user->involvedingroups()->get(array('peoplegroup_id'))->pluck('peoplegroup_id')->toArray();
-//
-        // 		$all_in_groups = Shared::sharedWithGroups($group_ids)->get();
-//
-        // 		$all_single = Shared::sharedWithMe($user)->with(array('shareable', 'sharedwith'))->get();
-//
-        // 		$all = $all_single->merge($all_in_groups)->unique();
-        
         $order = $request->input('o', 'd') === 'a' ? 'ASC' : 'DESC';
         
         $req = $this->searchRequestCreate($request);
@@ -302,7 +294,6 @@ class SharingController extends Controller
     {
 
         // with_users
-        // with_people
         // groups
         // documents
 
@@ -310,8 +301,7 @@ class SharingController extends Controller
             $user = $auth->user();
 
             $users_to_share_with = $request->input('with_users', []);
-            $people_to_share_with = $request->input('with_people', []);
-
+            
             $groups = $request->has('groups') ? $request->input('groups') : [];
 
             $documents = $request->has('documents') ? $request->input('documents') : [];
@@ -322,9 +312,7 @@ class SharingController extends Controller
             
             $user_dest = User::whereIn('id', $users_to_share_with)->get();
             
-            $people_dest = PeopleGroup::whereIn('id', $people_to_share_with)->get();
-            
-            $shares_list = $this->createShare($groups_to_share->merge($documents_to_share), $user_dest->merge($people_dest), $user);
+            $shares_list = $this->createShare($groups_to_share->merge($documents_to_share), $user_dest, $user);
 
             return ['status' => 'ok', 'message' => trans_choice('share.share_created_msg', $shares_list->count(), ['num' => $shares_list->count()])];
         });

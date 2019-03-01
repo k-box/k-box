@@ -77,8 +77,6 @@ return [
             'manage_share_personal' => 'L\'utilisateur peut directement partager des documents personnels avec d\'autres utilisateurs K-Box',
             'manage_share_private' => 'L\'utilisateur peut partager des documents avec des groupes d\'utilisateurs définis au niveau de l\'institution',
             'clean_trash' => 'L\'utilisateur peut supprimer ses propres documents de manière définitive',
-            'manage_personal_people' => 'L\'utilisateur peut créer/éditer des groupes d\'utilisateurs définis au niveau personnel',
-            'manage_people' => 'L\'utilisateur peut créer/éditer des groupes d\'utilisateurs définis au niveau de l\'institution',
 
         ],
         

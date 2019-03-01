@@ -49,12 +49,5 @@ class CapabilitiesTableSeeder extends Seeder
         Capability::create([ 'key' => Capability::SHARE_WITH_PRIVATE ]);
         
         Capability::create([ 'key' => Capability::RECEIVE_AND_SEE_SHARE ]);
-        
-        
-        // People groups capabilities
-        
-        Capability::create([ 'key' => Capability::MANAGE_PEOPLE_GROUPS ]);
-        
-        Capability::create([ 'key' => Capability::MANAGE_PERSONAL_PEOPLE_GROUPS ]);
     }
 }
