@@ -28,10 +28,8 @@ use KBox\Notifications\ResetPasswordNotification;
  * @property-read \Illuminate\Database\Eloquent\Collection|\KBox\Capability[] $capabilities
  * @property-read \Illuminate\Database\Eloquent\Collection|\KBox\DocumentDescriptor[] $documents
  * @property-read \Franzose\ClosureTable\Extensions\Collection|\KBox\Group[] $groups
- * @property-read \Illuminate\Database\Eloquent\Collection|\KBox\PeopleGroup[] $involvedingroups
  * @property-read \Illuminate\Database\Eloquent\Collection|\KBox\Project[] $managedProjects
  * @property-read \Illuminate\Database\Eloquent\Collection|\KBox\UserOption[] $options
- * @property-read \Illuminate\Database\Eloquent\Collection|\KBox\PeopleGroup[] $peoplegroups
  * @property-read \Illuminate\Database\Eloquent\Collection|\KBox\Project[] $projects
  * @property-read \Illuminate\Database\Eloquent\Collection|\KBox\RecentSearch[] $searches
  * @property-read \Illuminate\Database\Eloquent\Collection|\KBox\Shared[] $shares
@@ -149,30 +147,6 @@ class User extends Authenticatable
     public function groups()
     {
         return $this->hasMany(\KBox\Group::class);
-    }
-  
-    /**
-     * Groups of people created by the user
-     *
-     * @deprecated feature is being removed
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function peoplegroups()
-    {
-        return $this->hasMany(\KBox\PeopleGroup::class);
-    }
-  
-    /**
-     * Groups of people the user is inserted into
-     *
-     * @deprecated feature is being removed
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
-    public function involvedingroups()
-    {
-        return $this->belongsToMany(\KBox\PeopleGroup::class, 'peoplegroup_to_user', 'user_id', 'peoplegroup_id');
     }
 
     /**

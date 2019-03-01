@@ -106,7 +106,7 @@ class Shared extends Model
      * Get shared by user, with who and what
      *
      * @param  User $user the user
-     * @param  User|PeopleGroup $with the target of the share
+     * @param  User $with the target of the share
      * @param  DocumentDescriptor|Group $what what has been shared
      * @return \Illuminate\Database\Eloquent\Builder
      */
@@ -148,20 +148,6 @@ class Shared extends Model
         }
 
         return $query->where('user_id', $user);
-    }
-    
-    public function scopeSharedWithGroup($query, $user)
-    {
-        if (class_basename(get_class($user)) === 'PeopleGroup') {
-            $user = $user->id;
-        }
-
-        return $query->where('sharedwith_id', $user)->where('sharedwith_type', \KBox\PeopleGroup::class);
-    }
-    
-    public function scopeSharedWithGroups($query, $group_ids)
-    {
-        return $query->whereIn('sharedwith_id', $group_ids)->where('sharedwith_type', \KBox\PeopleGroup::class);
     }
 
     /**

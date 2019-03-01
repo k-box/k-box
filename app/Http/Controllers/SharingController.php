@@ -5,7 +5,6 @@ namespace KBox\Http\Controllers;
 use Illuminate\Http\Request;
 use KBox\DocumentDescriptor;
 use KBox\Group;
-use KBox\PeopleGroup;
 use KBox\Capability;
 use KBox\Shared;
 use KBox\User;
@@ -70,13 +69,9 @@ class SharingController extends Controller
         $req->visibility('private');
         
         $all = $this->search($req, function ($_request) use ($user, $order) {
-            $group_ids = $user->involvedingroups()->get(['peoplegroup_id'])->pluck('peoplegroup_id')->toArray();
-                    
-            $all_in_groups = Shared::sharedWithGroups($group_ids)->orderBy('created_at', $order)->get();
-            
             $all_single = Shared::sharedWithMe($user)->orderBy('created_at', $order)->with(['shareable', 'sharedwith'])->get();
             
-            $all_shared = $all_single->merge($all_in_groups)->unique();
+            $all_shared = $all_single->unique();
             
             $shared_docs = $all_shared->pluck('shareable.uuid')->all();
             $shared_files_in_groups = array_flatten(array_filter($all_shared->map(function ($g) {
@@ -412,7 +407,7 @@ class SharingController extends Controller
      * Really create a share
      *
      * @param $what Group||Descriptor
-     * @param $with User||PeopleGroup
+     * @param $with User
     */
     private function createShare(Collection $what, Collection $with, User $by)
     {

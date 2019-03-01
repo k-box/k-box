@@ -140,16 +140,10 @@ class DocumentsController extends Controller
         
         $req->visibility('private');
 
-        $group_ids = $auth_user->involvedingroups()->get(['peoplegroup_id'])->pluck('peoplegroup_id')->toArray();
-
         $all_shared = new Collection();
 
         if ($can_see_share) {
-            $all_in_groups = Shared::sharedWithGroups($group_ids)->orderBy('created_at', $order)->get();
-
-            $all_single = Shared::sharedWithMe($auth_user)->with(['shareable', 'sharedwith'])->orderBy('created_at', $order)->get();
-
-            $all_shared = $all_single->merge($all_in_groups)->unique();
+            $all_shared = $all_single->unique();
         }
         
         $with_me = $this->search($req, function ($_request) use ($all_shared) {
