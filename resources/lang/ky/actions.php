@@ -96,15 +96,6 @@ return [
 
     'create_collection_btn' => 'Коллекция түзүү',
     
-    'create_people_group' => 'Жаңы группа',
-    
-    'rename_people_group' => 'Группанын атын өзгөртүү',
-    
-    'delete_people_group' => 'Группаны өчүрүү',
-    
-    'make_institutional_people_group' => 'Институттук жасоо',
-    'make_personal_people_group' => 'Жеке сактоо',
-    
     'filters' => [
         'filter' => 'Чыпка',
         'clear_filters' => 'Чыпкалары тазалоо',
@@ -131,7 +122,7 @@ return [
         'trash_btn' => 'Ооба',
         'move_btn' => 'Ооба',
         
-        // showed when on a dialog, like the one in people group creation, the input field is empty, but a value is required
+        // showed when on a dialog when the input field is empty, but a value is required
         'input_required' => 'Бир нерсени жазыныз',
         
         

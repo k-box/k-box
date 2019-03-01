@@ -96,15 +96,6 @@ return [
 
     'create_collection_btn' => 'Создать коллекцию',
     
-    'create_people_group' => 'Новая группа',
-    
-    'rename_people_group' => 'Изменить название группы',
-    
-    'delete_people_group' => 'Удалить группу',
-    
-    'make_institutional_people_group' => 'Сделать институциональным',
-    'make_personal_people_group' => 'Сохранить личным',
-    
     'filters' => [
         'filter' => 'Фильтры',
         'clear_filters' => 'Очистить фильтры',
@@ -131,7 +122,7 @@ return [
         'trash_btn' => 'Да',
         'move_btn' => 'Да',
         
-        // showed when on a dialog, like the one in people group creation, the input field is empty, but a value is required
+        // showed when on a dialog when the input field is empty, but a value is required
         'input_required' => 'Напишите что-нибудь',
         
         

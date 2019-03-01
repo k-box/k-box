@@ -48,52 +48,6 @@ return [
         'make_private' => 'Сделать эту коллекцию Личной',
     ],
     
-    
-    
-    'people' => [
-        
-        'page_title' => 'Группы',
-            
-        'no_users' => 'Невозможно добавить пользователей в эту группу. Пожалуйста, свяжитесь с вашим администратором или удостоверьтесь, что пользователи могут создавать и получать совместный доступ к документам.',
-        
-        'available_users' => 'Доступные пользователи',
-        'available_users_hint' => 'Перетащите пользователя с этого списка в группу для его добавления.',
-        
-        'remove_user' => 'Убрать с группы',
-        
-        'saving' => 'Сохранение...',
-        
-        'invalidargumentexception' => 'Извините, опреация не может быть выполнена. :exception',
-        
-        'group_name_already_exists' => 'Группа с таким названием уже существует.',
-        'create_group_dialog_title' => 'Создать Группу',
-        'create_group_dialog_text' => 'Название группы:',
-        'create_group_dialog_placeholder' => 'Классная группа',
-        'create_group_error_title' => 'Создание группы не было успешным.',
-        'create_group_generic_error_text' => 'Невозможно создать группу. На данный момент, это все, что мы знаем.',
-        
-        'cannot_add_user_dialog_title' => 'Невозможно добавить пользователя',
-        'cannot_add_user_dialog_text' => 'Невозможно добавить пользователя в группу. Произошла непредвиденная ошибка.',
-        
-        'user_already_exists' => 'Пользователь ":name" уже состоит в группе',
-        
-        'delete_dialog_title' => 'Удалить ":name"?',
-        'delete_dialog_text' => 'Вы хотите безвозвратно удалить группу ":name"? (данное действие не может быть отмененно)',
-        'delete_error_title' => 'Невозможно удалить группу',
-        'delete_generic_error_text' => 'Невозможно удалить группу.',
-        
-        'remove_user_dialog_title' => 'снять ":name"?',
-        'remove_user_dialog_text' => 'Снять ":name" с ":group"?',
-        'remove_user_error_title' => 'Невозможно снять пользователя с группы',
-        'remove_user_generic_error_text' => 'Невозможно снять пользователя.',
-        
-        'rename_dialog_title' => 'Переименовать ":name"?',
-        'rename_dialog_text' => 'Название группы:',
-        'rename_error_title' => 'Не удалось переименовать группу.',
-        'rename_generic_error_text' => 'Невозможно переименовать группу',
-    ],
-    
-    
     'delete' => [
         
         'dialog_title' => 'Удалить :collection?',
