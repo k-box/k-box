@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
  * KBox\PeopleGroup
  *
  * @deprecated feature is being removed
- * 
+ *
  * @property int $id
  * @property int $user_id
  * @property \Carbon\Carbon $created_at

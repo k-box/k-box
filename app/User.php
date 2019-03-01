@@ -155,7 +155,7 @@ class User extends Authenticatable
      * Groups of people created by the user
      *
      * @deprecated feature is being removed
-     * 
+     *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function peoplegroups()
@@ -165,7 +165,7 @@ class User extends Authenticatable
   
     /**
      * Groups of people the user is inserted into
-     * 
+     *
      * @deprecated feature is being removed
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
