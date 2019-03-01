@@ -65,7 +65,6 @@ return [
 
     ],
 
-    'import' => 'Import',
     'upload' => 'Upload Document',
     'upload_video' => 'Upload Video',
     'upload_alt' => 'Upload',

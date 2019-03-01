@@ -65,7 +65,6 @@ return [
 
     ],
 
-    'import' => 'Импорт',
     'upload' => 'Документ жүктөө',
     'upload_video' => 'Видео жүктөө',
     'upload_alt' => 'Жүктөө',

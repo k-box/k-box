@@ -59,8 +59,7 @@
 		@if($context!=='trash' && $context!=='shared' && $context!=='starred' &&
 			!$is_search_requested && (
 			isset($can_create_collection) && $can_create_collection ||
-			isset($can_upload) && $can_upload ||
-			isset($can_import) && $can_import
+			isset($can_upload) && $can_upload
 		))
 
 		<div class="action-group">
@@ -93,14 +92,6 @@
 
 							<li><a href="#{{route('documents.create')}}" class="dropdown-el" id="upload_trigger">
 								<span class="btn-icon icon-file-white icon-file-white-ic_file_upload_white_24dp"></span>{{trans('actions.upload')}}
-							</a></li>
-
-						@endif
-
-						@if(isset($can_import) && $can_import)
-
-							<li><a href="{{route('documents.import')}}" class="dropdown-el">
-								{{trans('actions.import')}}
 							</a></li>
 
 						@endif

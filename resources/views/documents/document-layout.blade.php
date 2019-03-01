@@ -66,8 +66,7 @@
 
 		@if($context!=='trash' && $context!=='shared' && $context!=='starred' && (
 			isset($can_create_collection) && $can_create_collection ||
-			isset($can_upload) && $can_upload ||
-			isset($can_import) && $can_import
+			isset($can_upload) && $can_upload
 		))
 
 		

@@ -42,18 +42,6 @@ class UpdateForeignCapabilitiesDocumentsTable extends Migration
             $table->foreign('document_id')->references('id')->on('document_descriptors')->unsigned()->onDelete('cascade');
             $table->foreign('group_id')->references('id')->on('groups')->unsigned()->onDelete('cascade');
         });
-        
-        
-        Schema::table('import', function (Blueprint $table) {
-            $table->dropForeign('import_file_id_foreign');
-            $table->dropForeign('import_parent_id_foreign');
-            $table->dropForeign('import_user_id_foreign');
-            
-            $table->foreign('user_id')->references('id')->on('users')->unsigned()->onDelete('cascade');
-            $table->foreign('file_id')->references('id')->on('files')->unsigned()->onDelete('cascade');
-            
-            $table->foreign('parent_id')->references('id')->on('import')->unsigned()->onDelete('cascade');
-        });
     }
 
     /**
@@ -87,16 +75,6 @@ class UpdateForeignCapabilitiesDocumentsTable extends Migration
             $table->foreign('document_id')->references('id')->on('document_descriptors');
 
             $table->foreign('group_id')->references('id')->on('groups');
-        });
-        
-        Schema::table('import', function (Blueprint $table) {
-            $table->dropForeign('import_file_id_foreign');
-            $table->dropForeign('import_parent_id_foreign');
-            $table->dropForeign('import_user_id_foreign');
-            
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('file_id')->references('id')->on('files');
-            $table->foreign('parent_id')->references('id')->on('import');
         });
     }
 }

@@ -117,19 +117,6 @@ $factory->define(KBox\Starred::class, function (Faker\Generator $faker) {
     ];
 });
 
-$factory->define(KBox\Import::class, function (Faker\Generator $faker) {
-    return [
-        'bytes_expected' => 0,
-        'bytes_received' => 0,
-        'is_remote' => true,
-        'file_id' => 'factory:KBox\File',
-        'status' => KBox\Import::STATUS_QUEUED,
-        'user_id' => 'factory:KBox\User',
-        'parent_id' => null,
-        'status_message' => KBox\Import::MESSAGE_QUEUED
-    ];
-});
-
 $factory->define(KBox\Project::class, function (Faker\Generator $faker, $arguments = []) {
     
     $user = isset($arguments['user_id']) ? KBox\User::findOrFail($arguments['user_id']) : factory(KBox\User::class)->create();

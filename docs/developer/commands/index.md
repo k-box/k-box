@@ -19,12 +19,8 @@ Here are only listed the specific commands added by the K-Box:
   to the admin interface.
 - `dms:sync`: Performs a synchronization of the documents from the DMS that do not 
   exists on the Core.
-- [`dms:import`](./import-command.md): Import collections, projects and documents 
-  from a folder on a the filesystem
 - `dms:lang-publish`: Publish Javascript language files for RequireJS i18n plugin
 - [`users:import`](./user-import-command.md): Import users from a CSV file
-- [`import:fetch-payload`](./import-fetch-payload.md): Take the failed job payload and 
-  associate it to the given import
 - [`documents:check-affiliation`](./documents-check-affiliation.md): Check if all the 
   documents has the same institution of the first uploader. The command assumes that 
   the user affiliation has not been changed since the upload of the document

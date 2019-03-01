@@ -101,12 +101,6 @@ return [
         'capabilities' => [
             'required' => 'Sie müssen mindestens eine Berechtigung angeben.',
         ],
-        'folder_import' => [
-            'required_if' => 'Sie müssen einen gültigen Ordner angeben, um mit dem Import zu beginnen.',
-        ],
-        'remote_import' => [
-            'required_if' => 'Sie müssen eine gültige URL angeben, um mit dem Import zu beginnen.',
-        ],
         'users' => [
             'required' => 'Bitte zumindest einen Nutzer auswählen.',
         ],

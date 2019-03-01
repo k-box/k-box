@@ -60,12 +60,6 @@ return [
         'prevent_edit' => 'Vous ne pouvez pas modifier :name',
     ],
 
-    'import' => [
-        'folder_not_readable' => 'Le dossier :folder n\'est pas lisible. Veuillez contrôler que vous avez les droits de lecture.',
-        'url_already_exists' => 'Un fichier possédant la même adress url (:url) a déjà été importé.',
-        'download_error' => 'Le document ":url" ne peut pas être téléchargé. :error',
-    ],
-
     'group_edit_institution' => "Vous ne pouvez pas modifier des groupes au niveau de l\'institution.",
     'group_edit_project' => "Vous ne pouvez pas modifier des collections de projet.",
     'group_edit_else' => "Vous ne pouvez pas modifier les groupes de quelqu\'un d\'autre.",

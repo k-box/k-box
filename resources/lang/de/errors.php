@@ -60,12 +60,6 @@ return [
         'prevent_edit' => 'Sie können :name nicht bearbeiten',
     ],
 
-    'import' => [
-        'folder_not_readable' => 'Der Ordner :folder ist nicht lesbar. Stellen sie sicher das sie die erforderlichen Berechtigungen besitzen.',
-        'url_already_exists' => 'Eine Datei wurde bereits von der selben URL (:url) importiert.',
-        'download_error' => 'Das Dokument ":url" konnte nicht geladen werden. :error',
-    ],
-
     'group_edit_institution' => "Sie können Gruppen auf Institutionsebene nicht bearbeiten.",
     'group_edit_project' => "Sie können Projektsammlungen nicht bearbeiten.",
     'group_edit_else' => "Sie können fremde Gruppen nicht bearbeiten.",

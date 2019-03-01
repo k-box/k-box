@@ -23,15 +23,8 @@ define("modules/admin-storage", ["jquery", "DMS", "modules/minimalbind", "sweeta
 
         };
 
-        var _import_list = [];
-
 
         function _handleFormSubmit(form, vm){
-
-            // var old_status = vm.status.global,
-            //     old_details = vm.status.details,
-            //     old_importing = vm.isImporting;
-
             vm.status.status = "Preparing Reindexing All documents...";
             vm.isReindexing = true;
             vm.cannotReindex = true;

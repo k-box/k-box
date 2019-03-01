@@ -335,6 +335,7 @@ class DmsUpdateCommandTest extends TestCase
         Capability::firstOrCreate([ 'key' => Capability::MANAGE_USERS ]);
         Capability::firstOrCreate([ 'key' => Capability::MANAGE_LOG ]);
         Capability::firstOrCreate([ 'key' => Capability::MANAGE_BACKUP ]);
+        Capability::firstOrCreate([ 'key' => Capability::IMPORT_DOCUMENTS ]);
 
         $user = factory(User::class)->create();
         $user->addCapabilities([
@@ -342,6 +343,7 @@ class DmsUpdateCommandTest extends TestCase
             Capability::MANAGE_USERS,
             Capability::MANAGE_LOG,
             Capability::MANAGE_BACKUP,
+            Capability::IMPORT_DOCUMENTS,
         ]);
 
         $command = new DmsUpdateCommand();
@@ -352,9 +354,11 @@ class DmsUpdateCommandTest extends TestCase
         $this->assertFalse($user->can_capability(Capability::MANAGE_USERS));
         $this->assertFalse($user->can_capability(Capability::MANAGE_LOG));
         $this->assertFalse($user->can_capability(Capability::MANAGE_BACKUP));
+        $this->assertFalse($user->can_capability(Capability::IMPORT_DOCUMENTS));
 
         $this->assertNull(Capability::where('key', Capability::MANAGE_USERS)->first());
         $this->assertNull(Capability::where('key', Capability::MANAGE_LOG)->first());
         $this->assertNull(Capability::where('key', Capability::MANAGE_BACKUP)->first());
+        $this->assertNull(Capability::where('key', Capability::IMPORT_DOCUMENTS)->first());
     }
 }

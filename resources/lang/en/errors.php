@@ -61,11 +61,6 @@ return [
         'prevent_edit' => 'You cannot edit :name',
     ],
 
-    'import' => [
-        'folder_not_readable' => 'The folder :folder is not readable. Make sure you have the read permissions.',
-        'url_already_exists' => 'A file from the same website url (:url) has already been imported.',
-        'download_error' => 'The document ":url" cannot be downloaded. :error',
-    ],
 
     'group_edit_institution' => "You cannot edit institution level groups.",
     'group_edit_project' => "You cannot edit project collections.",

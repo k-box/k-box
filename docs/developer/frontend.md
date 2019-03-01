@@ -200,7 +200,6 @@ Store the constants that defines the DMS routes for the backend API services.
 
 - `DMS.Paths.STARRED`: 'documents/starred' endpoint route
 - `DMS.Paths.SEARCH`: 'search' endpoint route
-- `DMS.Paths.IMPORT`: 'documents/import' endpoint route
 - `DMS.Paths.DOCUMENTS`: 'documents' endpoint route
 - `DMS.Paths.UPLOAD_FALLBACK`: 'documents/create' endpoint route
 - `DMS.Paths.GROUPS`: 'documents/groups' endpoint route
