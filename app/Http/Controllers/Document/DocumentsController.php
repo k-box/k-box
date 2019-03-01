@@ -143,6 +143,8 @@ class DocumentsController extends Controller
         $all_shared = new Collection();
 
         if ($can_see_share) {
+            $all_single = Shared::sharedWithMe($auth_user)->with(['shareable', 'sharedwith'])->orderBy('created_at', $order)->get();
+            
             $all_shared = $all_single->unique();
         }
         
