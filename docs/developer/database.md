@@ -12,7 +12,6 @@ Here the list of the main tables is proposed and described:
 - *document_descriptors*: stores the document descriptors of the uploaded documents and the public document descriptor reference of starred public documents
 - *starred*: stores the starred document descriptors for each user
 - *files*: store the files metadata and link the logical representation to the filesystem
-- *import*: stores the documents imports
 - *groups*: stores the collections:
  - `is_private` attribute indicate if the collection is Personal to the user or not. If not, w.r.t. K-Box edition, can be Institutional or Project
  - `color`: is a 6 digit field that stores the Hex Color value without the leading `#` character
@@ -26,7 +25,6 @@ Here the list of the main tables is proposed and described:
 - *options*: stores the global K-Box [dynamic configuration](./configuration)
 - *user_options*: stores the user configuration options
 - *recent_searches*: stores a users recent searches
-- *peoplegroup*: stores the groups of users (**deprecated**)
 - *password_resets*: stores the password reset requests
 - *migrations*: stores the executed migrations over the database
 
