@@ -34,7 +34,7 @@ These few commands allow you to quickly install a K-Box **locally** on your comp
 * Create the administrator: `docker-compose exec kbox php artisan create-admin admin@kbox.local` 
 * Visit your K-Box: [http://localhost:8080](http://localhost:8080/) (you can login to the K-Box with the username `admin@kbox.local` and the chosen password).
 
-For installation on a server in the Internet or more configuration options, see the documentation on [installation of the K-Box](./docs/user/installation.md).
+For installation on a server in the Internet or more configuration options, see the documentation on [installation of the K-Box](./docs/installation/installation.md).
 
 ## Components
 
