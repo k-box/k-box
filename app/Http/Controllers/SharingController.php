@@ -233,7 +233,7 @@ class SharingController extends Controller
             $q->where('key', '=', Capability::RECEIVE_AND_SEE_SHARE);
         })->get();
         
-        $can_share = $me->can_capability(Capability::SHARE_WITH_PRIVATE) || $me->can_capability(Capability::SHARE_WITH_USERS);
+        $can_share = $me->can_capability(Capability::SHARE_WITH_USERS);
         $can_make_public = $me->can_capability(Capability::CHANGE_DOCUMENT_VISIBILITY);
         $is_project_manager = $me->isProjectManager();
 

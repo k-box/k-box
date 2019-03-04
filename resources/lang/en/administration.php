@@ -80,7 +80,6 @@ return [
             'manage_share' => 'User may directly share project documents with other K-Box users', 
             'receive_share' => 'User can access the Shared with me section',
             'manage_share_personal' => 'User may directly share personal documents with other K-Box users',
-            'manage_share_private' => 'User can share documents to groups of users defined at institution level', //hidden from users
             'clean_trash' => 'User can clear own Trash',
 
         ],

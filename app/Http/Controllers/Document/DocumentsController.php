@@ -128,9 +128,7 @@ class DocumentsController extends Controller
         
         $auth_user = $auth->user();
         
-        $can_share_with_personal = $auth_user->can_capability(Capability::SHARE_WITH_USERS);
-
-        $can_share_with_private = $auth_user->can_capability(Capability::SHARE_WITH_PRIVATE);
+        $can_share = $auth_user->can_capability(Capability::SHARE_WITH_USERS);
             
         $can_see_share = $auth_user->can_capability(Capability::RECEIVE_AND_SEE_SHARE);
 
@@ -172,7 +170,7 @@ class DocumentsController extends Controller
             'pagetitle' => trans('documents.menu.shared'),
             'shared_with_me' => $with_me,
             'current_visibility' => 'private',
-            'can_share' => $can_share_with_personal || $can_share_with_private,
+            'can_share' => $can_share,
             'context' => 'shared',
             'filter' => trans('documents.menu.shared'),
             'pagination' => $with_me,

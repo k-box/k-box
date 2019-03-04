@@ -348,6 +348,7 @@ class DmsUpdateCommandTest extends TestCase
             Capability::IMPORT_DOCUMENTS,
             Capability::MANAGE_PEOPLE_GROUPS,
             Capability::MANAGE_PERSONAL_PEOPLE_GROUPS,
+            Capability::SHARE_WITH_PRIVATE,
         ]);
 
         $command = new DmsUpdateCommand();
@@ -361,6 +362,7 @@ class DmsUpdateCommandTest extends TestCase
         $this->assertFalse($user->can_capability(Capability::IMPORT_DOCUMENTS));
         $this->assertFalse($user->can_capability(Capability::MANAGE_PEOPLE_GROUPS));
         $this->assertFalse($user->can_capability(Capability::MANAGE_PERSONAL_PEOPLE_GROUPS));
+        $this->assertFalse($user->can_capability(Capability::SHARE_WITH_PRIVATE));
 
         $this->assertNull(Capability::where('key', Capability::MANAGE_USERS)->first());
         $this->assertNull(Capability::where('key', Capability::MANAGE_LOG)->first());
@@ -368,5 +370,6 @@ class DmsUpdateCommandTest extends TestCase
         $this->assertNull(Capability::where('key', Capability::IMPORT_DOCUMENTS)->first());
         $this->assertNull(Capability::where('key', Capability::MANAGE_PEOPLE_GROUPS)->first());
         $this->assertNull(Capability::where('key', Capability::MANAGE_PERSONAL_PEOPLE_GROUPS)->first());
+        $this->assertNull(Capability::where('key', Capability::SHARE_WITH_PRIVATE)->first());
     }
 }

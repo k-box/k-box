@@ -110,6 +110,7 @@ class Capability extends Model
     
     /**
      * User may share private documents with a single or a people group of users
+     * @deprecated see self::SHARE_WITH_USERS
      */
     const SHARE_WITH_PRIVATE = 'manage_share_private';
     
@@ -154,7 +155,7 @@ class Capability extends Model
         self::RECEIVE_AND_SEE_SHARE,
         self::CLEAN_TRASH,
         self::SHARE_WITH_USERS,
-        self::SHARE_WITH_PRIVATE ];
+    ];
 
     /**
      *
@@ -187,7 +188,7 @@ class Capability extends Model
         self::RECEIVE_AND_SEE_SHARE,
         self::CLEAN_TRASH,
         self::SHARE_WITH_USERS,
-        self::SHARE_WITH_PRIVATE ];
+    ];
         
     /**
      * A full project manager that can create projects and empty the trash
@@ -205,7 +206,7 @@ class Capability extends Model
         self::RECEIVE_AND_SEE_SHARE,
         self::CLEAN_TRASH,
         self::SHARE_WITH_USERS,
-        self::SHARE_WITH_PRIVATE ];
+    ];
         
     /**
      * A limited version of $PROJECT_MANAGER that cannot clean the trash or create projects
@@ -221,7 +222,7 @@ class Capability extends Model
         self::CHANGE_DOCUMENT_VISIBILITY,
         self::RECEIVE_AND_SEE_SHARE,
         self::SHARE_WITH_USERS,
-        self::SHARE_WITH_PRIVATE ];
+    ];
 
     /**
      *
