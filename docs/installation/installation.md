@@ -5,7 +5,7 @@ Description: How to install the K-Box
 
 # Installation
 
-The K-Box and it's components are available as a [Docker](https://www.docker.com/) images.
+The K-Box and its components are available as [Docker](https://www.docker.com/) images.
 
 This guide will walk you through the installation and configuration of a K-Box instance on a Linux based OS.
 
