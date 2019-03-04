@@ -44,7 +44,7 @@ class CapabilitiesTableSeeder extends Seeder
 
         // Share capabilities
         
-        Capability::create([ 'key' => Capability::SHARE_WITH_PERSONAL ]);
+        Capability::create([ 'key' => Capability::SHARE_WITH_USERS ]);
         
         Capability::create([ 'key' => Capability::SHARE_WITH_PRIVATE ]);
         

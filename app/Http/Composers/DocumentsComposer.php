@@ -53,7 +53,7 @@ class DocumentsComposer
             
             $view->with('can_clean_trash', $auth_user->can_capability(Capability::CLEAN_TRASH));
             
-            $view->with('can_share', $auth_user->can_capability([Capability::SHARE_WITH_PERSONAL, Capability::SHARE_WITH_PRIVATE]));
+            $view->with('can_share', $auth_user->can_capability([Capability::SHARE_WITH_USERS, Capability::SHARE_WITH_PRIVATE]));
 
             $view->with('can_manage_documents', $auth_user->isContentManager());
             
@@ -165,7 +165,7 @@ class DocumentsComposer
                 $view->with('user_can_edit_private_groups', $auth_user->can_capability(Capability::MANAGE_OWN_GROUPS));
                 $view->with('user_can_edit_public_groups', $auth_user->can_capability(Capability::MANAGE_PROJECT_COLLECTIONS));
 
-                $view->with('can_share', $auth_user->can_capability([Capability::SHARE_WITH_PERSONAL, Capability::SHARE_WITH_PRIVATE]));
+                $view->with('can_share', $auth_user->can_capability([Capability::SHARE_WITH_USERS, Capability::SHARE_WITH_PRIVATE]));
 
                 // if($document->isMine()){
                 // // the document is shared by me
@@ -473,7 +473,7 @@ class DocumentsComposer
         if (\Auth::check()) {
             $auth_user = \Auth::user();
 
-            $view->with('can_share_with_personal', $auth_user->can_capability(Capability::SHARE_WITH_PERSONAL));
+            $view->with('can_share_with_personal', $auth_user->can_capability(Capability::SHARE_WITH_USERS));
 
             $view->with('can_share_with_private', $auth_user->can_capability(Capability::SHARE_WITH_PRIVATE));
             

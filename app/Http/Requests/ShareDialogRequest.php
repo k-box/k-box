@@ -15,7 +15,7 @@ class ShareDialogRequest extends Request
     public function authorize()
     {
         $user = auth()->user();
-        return $user->can_capability(Capability::SHARE_WITH_PRIVATE) || $user->can_capability(Capability::SHARE_WITH_PERSONAL);
+        return $user->can_capability(Capability::SHARE_WITH_PRIVATE) || $user->can_capability(Capability::SHARE_WITH_USERS);
     }
 
     /**

@@ -128,7 +128,7 @@ class DocumentsController extends Controller
         
         $auth_user = $auth->user();
         
-        $can_share_with_personal = $auth_user->can_capability(Capability::SHARE_WITH_PERSONAL);
+        $can_share_with_personal = $auth_user->can_capability(Capability::SHARE_WITH_USERS);
 
         $can_share_with_private = $auth_user->can_capability(Capability::SHARE_WITH_PRIVATE);
             
