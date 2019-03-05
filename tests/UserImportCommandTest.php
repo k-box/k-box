@@ -111,10 +111,10 @@ class UserImportCommandTest extends BrowserKitTestCase
         // check if user6,7 are listed with errors
         // user6 -> add_to_project error
         // user6 -> role is partner and has also Project manager field
-        $this->assertRegExp('/([\|\s]*)user-6([\s\w\S\W.]*)6    | The selected role is invalid. - The selected manage projects is invalid. - The selected add to projects is invalid\./', $res);
+        $this->assertRegExp('/([\|\s]*)user-6([\s\w\S\W.]*)5    | The selected role is invalid. - The selected manage projects is invalid. - The selected add to projects is invalid\./', $res);
         
         // user7 -> add_to_project error
-        $this->assertRegExp('/([\|\s]*)user-7([\s\w\S\W.]*)7    \| The selected add to projects is invalid\./', $res);
+        $this->assertRegExp('/([\|\s]*)user-7([\s\w\S\W.]*)6    \| The selected add to projects is invalid\./', $res);
     }
     
     public function testDmsUserImportCommandWithValidFileWithThreeColumns()
