@@ -75,10 +75,7 @@ return [
             'manage_share' => 'Nutzer kann Projektdokumente direkt mit anderen K-Boxes teilen',
             'receive_share' => 'Nutzer kann Dokumente sehen, die mit ihm geteilt wurden',
             'manage_share_personal' => 'Nutzer kann persönliche Dokumente direkt mit anderen K-Boxes teilen',
-            'manage_share_private' => 'Nutzer kann Dokumente mit Nutzergruppen seiner Institution teilen',
             'clean_trash' => 'Nutzer kann Dokumente auf der K-Box permanent löschen',
-            'manage_personal_people' => 'Nutzer kann Nutzergruppen erstellen/bearbeiten',
-            'manage_people' => 'Nutzer kann institutionelle Nutzergruppen erstellen/bearbeiten',
 
         ],
 

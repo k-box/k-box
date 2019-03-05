@@ -45,7 +45,6 @@ class RoutesTest extends BrowserKitTestCase
             [ 'documents.sharedwithme' ],
             [ 'documents.starred.index' ],
             [ 'documents.trash' ],
-            [ 'people.index' ],
             [ 'profile.index' ],
             [ 'projects.index' ],
             [ 'projects.create' ],

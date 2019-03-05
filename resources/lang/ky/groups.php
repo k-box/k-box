@@ -48,52 +48,6 @@ return [
         'make_private' => 'Коллекцияны жеке кылуу',
     ],
     
-    
-    
-    'people' => [
-        
-        'page_title' => 'Группалар',
-            
-        'no_users' => 'Колдонуучуларды группага кошуу мүмкүн эмес. Сураныч администратор менен байланышыңыз',
-        
-        'available_users' => 'Жеткиликтүү колдонуучулар',
-        'available_users_hint' => 'Группага кошуу үчүн колдонуучуну бул тизмеден алып группа таштаңыз',
-        
-        'remove_user' => 'Группадан алып салуу',
-        
-        'saving' => 'Сактоо...',
-        
-        'invalidargumentexception' => 'Извините, опреация не может быть выполнена. :exception',
-        
-        'group_name_already_exists' => 'Группа с таким названием уже существует.',
-        'create_group_dialog_title' => 'Группаны түзүү',
-        'create_group_dialog_text' => 'Группанын аты:',
-        'create_group_dialog_placeholder' => 'Классная группа',
-        'create_group_error_title' => 'Группа түзүлгөн жок',
-        'create_group_generic_error_text' => 'Группаны түзүү мүмкүн эмес',
-        
-        'cannot_add_user_dialog_title' => 'Ката',
-        'cannot_add_user_dialog_text' => 'Колдонуучуну кошууга мүмкүн эмес',
-        
-        'user_already_exists' => 'Колдонуучуну ":name" группада бар',
-        
-        'delete_dialog_title' => '":name" өчүрүүнү каалайсызбы?',
-        'delete_dialog_text' => '":name" группаны таптакыр өчүрүүнү каалайсызбы?',
-        'delete_error_title' => 'Группаны өчүрүү мүмкүн эмес',
-        'delete_generic_error_text' => 'Группаны өчүрүү мүмкүн эмес',
-        
-        'remove_user_dialog_title' => '":name" алып салууну каалайсызбы?',
-        'remove_user_dialog_text' => '":name" колдонуучуну ":group" группадан алып салууну каалайсызбы?',
-        'remove_user_error_title' => 'Колдонуучуну группадан алып салуу мүмкүн эмес',
-        'remove_user_generic_error_text' => 'Колдонуучуну группадан алып салуу мүмкүн эмес',
-        
-        'rename_dialog_title' => '":name" атын өзгөртүүнү каалайсызбы?',
-        'rename_dialog_text' => 'Группанын аты:',
-        'rename_error_title' => 'Группанын аты өзгөртүлгөн жок',
-        'rename_generic_error_text' => 'Группанын атын өзгөртүү мүмкүн эмес',
-    ],
-    
-    
     'delete' => [
         
         'dialog_title' => 'Өчүр ":collection"?',

@@ -4,7 +4,6 @@ namespace KBox\Http\Controllers\Projects;
 
 use KBox\Http\Requests\ProjectRequest;
 use KBox\Http\Controllers\Controller;
-use KBox\PeopleGroup;
 use KBox\User;
 use KBox\Project;
 use Illuminate\Contracts\Auth\Guard;
@@ -101,7 +100,6 @@ class ProjectsController extends Controller
             'pagetitle' => trans('projects.edit_page_title', ['name' => $prj->name]),
             'available_users' => $available_users,
             'manager_id' => $user->id,
-            'groups' => PeopleGroup::all(),
             // 'available_users_encoded' => json_encode($available_users),
             'project' => $prj,
             'project_users' => $current_members,
@@ -118,7 +116,6 @@ class ProjectsController extends Controller
             'pagetitle' => trans('projects.create_page_title'),
             'available_users' => $available_users,
             'manager_id' => $user->id,
-            // 'groups' => PeopleGroup::all(),
             // 'available_users_encoded' => json_encode($available_users)
         ]);
     }

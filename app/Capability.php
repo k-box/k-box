@@ -104,12 +104,13 @@ class Capability extends Model
     const CREATE_PROJECTS = 'create_projects';
 
     /**
-     * User may share private documents with a single or a personal group of users
+     * User may share documents with a user
      */
-    const SHARE_WITH_PERSONAL = 'manage_share_personal';
+    const SHARE_WITH_USERS = 'manage_share_personal';
     
     /**
      * User may share private documents with a single or a people group of users
+     * @deprecated see self::SHARE_WITH_USERS
      */
     const SHARE_WITH_PRIVATE = 'manage_share_private';
     
@@ -125,12 +126,13 @@ class Capability extends Model
     
     /**
      * Create/edit/remove groups of people at the institution level
+     * @deprecated feature is being removed
      */
     const MANAGE_PEOPLE_GROUPS = 'manage_people';
     
     /**
      * Create/edit/remove groups of people at the user's personal level
-     * @deprecated
+     * @deprecated feature is being removed
      */
     const MANAGE_PERSONAL_PEOPLE_GROUPS = 'manage_personal_people';
 
@@ -152,10 +154,8 @@ class Capability extends Model
         self::MANAGE_KBOX,
         self::RECEIVE_AND_SEE_SHARE,
         self::CLEAN_TRASH,
-        self::MANAGE_PEOPLE_GROUPS,
-        self::MANAGE_PERSONAL_PEOPLE_GROUPS,
-        self::SHARE_WITH_PERSONAL,
-        self::SHARE_WITH_PRIVATE ];
+        self::SHARE_WITH_USERS,
+    ];
 
     /**
      *
@@ -167,7 +167,7 @@ class Capability extends Model
         self::UPLOAD_DOCUMENTS,
         self::DELETE_DOCUMENT,
         self::MANAGE_OWN_GROUPS,
-        self::SHARE_WITH_PERSONAL,
+        self::SHARE_WITH_USERS,
         self::MANAGE_PROJECT_COLLECTIONS,
         self::CHANGE_DOCUMENT_VISIBILITY,
         self::EDIT_DOCUMENT, ];
@@ -185,12 +185,10 @@ class Capability extends Model
         self::DELETE_DOCUMENT,
         self::EDIT_DOCUMENT,
         self::CHANGE_DOCUMENT_VISIBILITY,
-        self::MANAGE_PEOPLE_GROUPS,
-        self::MANAGE_PERSONAL_PEOPLE_GROUPS,
         self::RECEIVE_AND_SEE_SHARE,
         self::CLEAN_TRASH,
-        self::SHARE_WITH_PERSONAL,
-        self::SHARE_WITH_PRIVATE ];
+        self::SHARE_WITH_USERS,
+    ];
         
     /**
      * A full project manager that can create projects and empty the trash
@@ -205,12 +203,10 @@ class Capability extends Model
         self::DELETE_DOCUMENT,
         self::EDIT_DOCUMENT,
         self::CHANGE_DOCUMENT_VISIBILITY,
-        self::MANAGE_PEOPLE_GROUPS,
-        self::MANAGE_PERSONAL_PEOPLE_GROUPS,
         self::RECEIVE_AND_SEE_SHARE,
         self::CLEAN_TRASH,
-        self::SHARE_WITH_PERSONAL,
-        self::SHARE_WITH_PRIVATE ];
+        self::SHARE_WITH_USERS,
+    ];
         
     /**
      * A limited version of $PROJECT_MANAGER that cannot clean the trash or create projects
@@ -224,11 +220,9 @@ class Capability extends Model
         self::DELETE_DOCUMENT,
         self::EDIT_DOCUMENT,
         self::CHANGE_DOCUMENT_VISIBILITY,
-        self::MANAGE_PEOPLE_GROUPS,
-        self::MANAGE_PERSONAL_PEOPLE_GROUPS,
         self::RECEIVE_AND_SEE_SHARE,
-        self::SHARE_WITH_PERSONAL,
-        self::SHARE_WITH_PRIVATE ];
+        self::SHARE_WITH_USERS,
+    ];
 
     /**
      *
@@ -240,7 +234,7 @@ class Capability extends Model
         self::EDIT_DOCUMENT,
         self::DELETE_DOCUMENT,
         self::RECEIVE_AND_SEE_SHARE,
-        self::SHARE_WITH_PERSONAL ];
+        self::SHARE_WITH_USERS ];
 
     /**
      *
@@ -252,7 +246,7 @@ class Capability extends Model
         self::UPLOAD_DOCUMENTS,
         self::DELETE_DOCUMENT,
         self::MANAGE_OWN_GROUPS,
-        self::SHARE_WITH_PERSONAL,
+        self::SHARE_WITH_USERS,
         self::MANAGE_PROJECT_COLLECTIONS,
         self::EDIT_DOCUMENT, ];
 

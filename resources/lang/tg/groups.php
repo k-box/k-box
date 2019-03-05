@@ -48,52 +48,6 @@ return [
         'make_private' => 'Ин коллексияро хамчун Шахси ишора кунед',
     ],
     
-    
-    
-    'people' => [
-        
-        'page_title' => 'Гурӯҳҳо',
-            
-        'no_users' => 'Истифодабарандаро ба гурӯҳ илова карда наметавонед, лутфан бо администратор муроҷиат кунед ё тасдиқ кунед, ки истифодабарандагон метавонанд мубодилотро гиранд ва бинанд.',
-        
-        'available_users' => 'Истифодабарандагони дастрас',
-        'available_users_hint' => 'Истифодабаранда аз ин ҷо ба гурӯҳе, ки хохед дохил кунед.',
-        
-        'remove_user' => 'Аз гурӯҳ хорич кунед',
-        
-        'saving' => 'Сабт…',
-        
-        'invalidargumentexception' => 'Мутаассифона, амалиёт иҷро намешавад. :exception',
-        
-        'group_name_already_exists' => 'Гурӯҳи бо ҳамин ном аллакай вуҷуд дорад',
-        'create_group_dialog_title' => 'Гурӯҳро созед',
-        'create_group_dialog_text' => 'Номи гурӯҳ:',
-        'create_group_dialog_placeholder' => 'Гурӯҳи олӣ',
-        'create_group_error_title' => 'Сохтани гурӯҳ амали нашуд',
-        'create_group_generic_error_text' => 'Гурӯҳ наметавонад сохта шавад инро ҳамаи мо медонем.',
-        
-        'cannot_add_user_dialog_title' => 'Истифодабарандаро илова карда наметавонад',
-        'cannot_add_user_dialog_text' => 'Истифодабаранда наметавонад ба гурӯҳ илова карда шавад. Хатои ғайричашмдошт рух дод.',
-        
-        'user_already_exists' => 'Истифодабаранда ":name" алакай дар гурух вучуд дорад',
-        
-        'delete_dialog_title' => 'Дур кун ":name"?',
-        'delete_dialog_text' => 'Гурухи ":name" ба таври доими дур мекунед?',
-        'delete_error_title' => 'Гурӯҳро нест кардан наметавонанд',
-        'delete_generic_error_text' => 'Гурух дур карда намешавад, инро ҳамаи мо медонем',
-        
-        'remove_user_dialog_title' => 'Дур мекунед ":name"?',
-        'remove_user_dialog_text' => 'Дур кун ":name" аз гурухи ":group"?',
-        'remove_user_error_title' => 'Истифодабарандаро аз гурух дур карда наметавонад',
-        'remove_user_generic_error_text' => 'Истифодабарандаро дур карда наметавонад. инро ҳамаи мо медонем',
-        
-        'rename_dialog_title' => 'Аз нав номгузории ":name" ?',
-        'rename_dialog_text' => 'номи гурух:',
-        'rename_error_title' => 'Аз нав номгузори амали нашуд',
-        'rename_generic_error_text' => 'Гурух аз нав номгузори нашуд.',
-    ],
-    
-    
     'delete' => [
         
         'dialog_title' => 'Дур мекунед :collection?',

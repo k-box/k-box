@@ -96,15 +96,6 @@ return [
 
     'create_collection_btn' => 'Créer une collection',
     
-    'create_people_group' => 'Nouveau Groupe',
-    
-    'rename_people_group' => 'Changer le nom du groupe',
-    
-    'delete_people_group' => 'Effacer le groupe',
-    
-    'make_institutional_people_group' => 'Rendre institutionnel',
-    'make_personal_people_group' => 'Garder personnel',
-    
     'filters' => [
         'filter' => 'Filtres',
         'clear_filters' => 'Effacer les filtres',
@@ -131,7 +122,7 @@ return [
         'trash_btn' => 'Oui, à la corbeille!',
         'move_btn' => 'Oui, déplacer!',
         
-        // showed when on a dialog, like the one in people group creation, the input field is empty, but a value is required
+        // showed when on a dialog when the input field is empty, but a value is required
         'input_required' => 'Vous devez écrire quelque chose!',
         
         

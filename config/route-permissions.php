@@ -28,7 +28,7 @@ return [
         'recent' => KBox\Capability::MAKE_SEARCH,
         'trash' => KBox\Capability::$CONTENT_MANAGER,
         'notindexed' => KBox\Capability::$CONTENT_MANAGER,
-        'sharedwithme' => [KBox\Capability::RECEIVE_AND_SEE_SHARE, KBox\Capability::SHARE_WITH_PERSONAL, KBox\Capability::SHARE_WITH_PRIVATE],
+        'sharedwithme' => [KBox\Capability::RECEIVE_AND_SEE_SHARE, KBox\Capability::SHARE_WITH_USERS],
         'show' => KBox\Capability::$CONTENT_MANAGER,
         'by-klink-id' => KBox\Capability::$CONTENT_MANAGER,
         'public_visibility' => KBox\Capability::MAKE_SEARCH,
@@ -96,31 +96,21 @@ return [
 
     'shares' => [
         'index' => KBox\Capability::RECEIVE_AND_SEE_SHARE,
-        'create' => [KBox\Capability::SHARE_WITH_PERSONAL, KBox\Capability::SHARE_WITH_PRIVATE],
-        'store' => [KBox\Capability::SHARE_WITH_PERSONAL, KBox\Capability::SHARE_WITH_PRIVATE],
+        'create' => KBox\Capability::SHARE_WITH_USERS,
+        'store' => KBox\Capability::SHARE_WITH_USERS,
         'show' => KBox\Capability::RECEIVE_AND_SEE_SHARE,
         'group' => KBox\Capability::RECEIVE_AND_SEE_SHARE,
-        'edit' => [KBox\Capability::SHARE_WITH_PERSONAL, KBox\Capability::SHARE_WITH_PRIVATE],
-        'update' => [KBox\Capability::SHARE_WITH_PERSONAL, KBox\Capability::SHARE_WITH_PRIVATE],
-        'destroy' => [KBox\Capability::SHARE_WITH_PERSONAL, KBox\Capability::SHARE_WITH_PRIVATE],
-        'deletemultiple' => [KBox\Capability::SHARE_WITH_PERSONAL, KBox\Capability::SHARE_WITH_PRIVATE],
+        'edit' => KBox\Capability::SHARE_WITH_USERS,
+        'update' => KBox\Capability::SHARE_WITH_USERS,
+        'destroy' => KBox\Capability::SHARE_WITH_USERS,
+        'deletemultiple' => KBox\Capability::SHARE_WITH_USERS,
     ],
     
     'links' => [
-        'store' => KBox\Capability::SHARE_WITH_PERSONAL,
+        'store' => KBox\Capability::SHARE_WITH_USERS,
         'show' => KBox\Capability::RECEIVE_AND_SEE_SHARE,
-        'update' => [KBox\Capability::SHARE_WITH_PERSONAL, KBox\Capability::SHARE_WITH_PRIVATE],
-        'destroy' => [KBox\Capability::SHARE_WITH_PERSONAL, KBox\Capability::SHARE_WITH_PRIVATE],
-    ],
-    
-    'people' => [
-        'index' => [KBox\Capability::MANAGE_PEOPLE_GROUPS, KBox\Capability::MANAGE_PERSONAL_PEOPLE_GROUPS],
-        'create' => [KBox\Capability::MANAGE_PEOPLE_GROUPS, KBox\Capability::MANAGE_PERSONAL_PEOPLE_GROUPS],
-        'store' => [KBox\Capability::MANAGE_PEOPLE_GROUPS, KBox\Capability::MANAGE_PERSONAL_PEOPLE_GROUPS],
-        'show' => [KBox\Capability::MANAGE_PEOPLE_GROUPS, KBox\Capability::MANAGE_PERSONAL_PEOPLE_GROUPS],
-        'edit' => [KBox\Capability::MANAGE_PEOPLE_GROUPS, KBox\Capability::MANAGE_PERSONAL_PEOPLE_GROUPS],
-        'update' => [KBox\Capability::MANAGE_PEOPLE_GROUPS, KBox\Capability::MANAGE_PERSONAL_PEOPLE_GROUPS],
-        'destroy' => [KBox\Capability::MANAGE_PEOPLE_GROUPS, KBox\Capability::MANAGE_PERSONAL_PEOPLE_GROUPS],
+        'update' => KBox\Capability::SHARE_WITH_USERS,
+        'destroy' => KBox\Capability::SHARE_WITH_USERS,
     ],
     
     'projects' => [

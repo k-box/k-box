@@ -48,52 +48,6 @@ return [
         'make_private' => 'Mache diese Sammlung privat',
     ],
 
-
-
-    'people' => [
-
-        'page_title' => 'Gruppen',
-
-        'no_users' => 'Nutzer können nicht zur Gruppe hinzugefügt werden, bitte kontaktieren sie ihren Administrator oder überprüfen sie, dass Nutzer geteilte Dokumente betrachten dürfen.',
-
-        'available_users' => 'Verfügbare Nutzer',
-        'available_users_hint' => 'Ziehen Sie einen Nutzer in eine Gruppe, um ihn hinzuzufügen.',
-
-        'remove_user' => 'Aus der Gruppe entfernen',
-
-        'saving' => 'Speichern...',
-
-        'invalidargumentexception' => 'Entschuldigung, die Aktion kann nicht ausgeführt werden. :exception',
-
-        'group_name_already_exists' => 'Eine Gruppe mit dem selben Namen existiert bereits',
-        'create_group_dialog_title' => 'Gruppe erstellen',
-        'create_group_dialog_text' => 'name der Gruppe:',
-        'create_group_dialog_placeholder' => 'Fantastische Gruppe',
-        'create_group_error_title' => 'Gruppenerstellung fehlgeschlagen',
-        'create_group_generic_error_text' => 'Die Gruppe konnte nicht erstellt werden, das ist alles was wir wissen.',
-
-        'cannot_add_user_dialog_title' => 'Konnte Nutzer nicht hinzufügen',
-        'cannot_add_user_dialog_text' => 'Der Nutzer konnte nicht zur Gruppe hinzugefügt werden. Ein unerwarteter Fehler ist aufgetreten.',
-
-        'user_already_exists' => 'Nutzer ":name" existiert bereits in der Gruppe',
-
-        'delete_dialog_title' => '":name" löschen?',
-        'delete_dialog_text' => 'Gruppe ":name" permanent löschen? (kann nicht rückgängig gemacht werden)',
-        'delete_error_title' => 'Kann Gruppe nicht löschen',
-        'delete_generic_error_text' => 'Die Gruppe konnte nicht gelöscht werden, das ist alles was wir wissen.',
-
-        'remove_user_dialog_title' => '":name" entfernen?',
-        'remove_user_dialog_text' => '":name" aus ":group" entfernen?',
-        'remove_user_error_title' => 'Kann den Benutzer nicht aus der Gruppe entfernen',
-        'remove_user_generic_error_text' => 'Der Nutzer konnte nicht entfernt werden, das ist alles was wir wissen.',
-
-        'rename_dialog_title' => '":name" umbenennen in?',
-        'rename_dialog_text' => 'name der Gruppe:',
-        'rename_error_title' => 'Umbenennen der Gruppe fehlgeschlagen',
-        'rename_generic_error_text' => 'Die Gruppe kann nicht umbenannt werden, das ist alles was wir wissen.',
-    ],
-
-
     'delete' => [
 
         'dialog_title' => ':collection löschen?',

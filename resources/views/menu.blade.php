@@ -31,14 +31,7 @@
 		</a>
 	
 	@endif
-	
-	@if(isset($show_groups_link) && $show_groups_link)
-		
-		<a href="{{ route('people.index') }}" class="navigation__item navigation__item--link @if(\Request::is('people*'))navigation__item--current @endif">
-			{{trans('groups.people.page_title')}}
-		</a>
-	
-	@endif --}}
+	--}}
 	
 	@if(isset($show_admin_link) && $show_admin_link)
 		

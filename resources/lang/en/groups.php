@@ -48,52 +48,6 @@ return [
         'make_private' => 'Make this Collection personal',
     ],
     
-    
-    
-    'people' => [
-        
-        'page_title' => 'Groups',
-            
-        'no_users' => 'No User can be added to the group. Please contact your administrator or verify that the users can receive and see shares.',
-        
-        'available_users' => 'Available Users',
-        'available_users_hint' => 'Drag a user from here to a group to add that user to the group.',
-        
-        'remove_user' => 'Remove from group',
-        
-        'saving' => 'Saving...',
-        
-        'invalidargumentexception' => 'The operation cannot be performed. :exception',
-        
-        'group_name_already_exists' => 'A group with the same name already exists',
-        'create_group_dialog_title' => 'Create Group',
-        'create_group_dialog_text' => 'the name of the group:',
-        'create_group_dialog_placeholder' => 'Awesome group',
-        'create_group_error_title' => 'Group creation failed',
-        'create_group_generic_error_text' => 'The group cannot be created and is all we know.',
-        
-        'cannot_add_user_dialog_title' => 'Cannot add user',
-        'cannot_add_user_dialog_text' => 'The user cannot be added to the group. An unexpected error occurred.',
-        
-        'user_already_exists' => 'User ":name" already exists in the group',
-        
-        'delete_dialog_title' => 'Delete ":name"?',
-        'delete_dialog_text' => 'Remove the group ":name" permanently? This operation cannot be undone later.',
-        'delete_error_title' => 'Cannot delete group',
-        'delete_generic_error_text' => 'The group cannot be deleted.',
-        
-        'remove_user_dialog_title' => 'Remove ":name"?',
-        'remove_user_dialog_text' => 'Remove ":name" from ":group"?',
-        'remove_user_error_title' => 'Cannot remove user from group',
-        'remove_user_generic_error_text' => 'The user cannot be removed.',
-        
-        'rename_dialog_title' => 'Rename ":name" to?',
-        'rename_dialog_text' => 'the name of the group:',
-        'rename_error_title' => 'Group rename failed',
-        'rename_generic_error_text' => 'The group cannot be renamed.',
-    ],
-    
-    
     'delete' => [
         
         'dialog_title' => 'Delete :collection?',

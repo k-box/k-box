@@ -152,8 +152,6 @@ class ViewComposerServiceProvider extends ServiceProvider
                 $show_admin_link = $user->isDMSManager();
                 $show_doc_link = $user->isContentManager() || $user->can_capability(Capability::UPLOAD_DOCUMENTS) || $user->can_capability(Capability::EDIT_DOCUMENT);
 
-                $people_group = $user->can_capability([Capability::MANAGE_PEOPLE_GROUPS, Capability::MANAGE_PERSONAL_PEOPLE_GROUPS]);
-
                 $show_shared_link = ! $show_doc_link && $user->can_capability(Capability::RECEIVE_AND_SEE_SHARE) && $user->can_capability(Capability::MAKE_SEARCH);
                 
                 $show_search_link = ! $show_doc_link && $user->can_capability(Capability::RECEIVE_AND_SEE_SHARE) && $user->can_capability(Capability::MAKE_SEARCH);
@@ -162,8 +160,6 @@ class ViewComposerServiceProvider extends ServiceProvider
                 
                 $view->with('show_doc_link', $show_doc_link);
                 $view->with('show_projects_link', $user->isProjectManager());
-                
-                $view->with('show_groups_link', $people_group);
                 
                 $view->with('show_shared_link', $show_shared_link);
                 $view->with('show_search_link', $show_search_link);

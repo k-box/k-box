@@ -5,7 +5,6 @@ namespace KBox\Http\Controllers;
 use Illuminate\Http\Request;
 use KBox\DocumentDescriptor;
 use KBox\Group;
-use KBox\PeopleGroup;
 use KBox\Capability;
 use KBox\Shared;
 use KBox\User;
@@ -63,14 +62,6 @@ class SharingController extends Controller
     {
         $user = $auth->user();
         
-        // 		$group_ids = $user->involvedingroups()->get(array('peoplegroup_id'))->pluck('peoplegroup_id')->toArray();
-//
-        // 		$all_in_groups = Shared::sharedWithGroups($group_ids)->get();
-//
-        // 		$all_single = Shared::sharedWithMe($user)->with(array('shareable', 'sharedwith'))->get();
-//
-        // 		$all = $all_single->merge($all_in_groups)->unique();
-        
         $order = $request->input('o', 'd') === 'a' ? 'ASC' : 'DESC';
         
         $req = $this->searchRequestCreate($request);
@@ -78,13 +69,9 @@ class SharingController extends Controller
         $req->visibility('private');
         
         $all = $this->search($req, function ($_request) use ($user, $order) {
-            $group_ids = $user->involvedingroups()->get(['peoplegroup_id'])->pluck('peoplegroup_id')->toArray();
-                    
-            $all_in_groups = Shared::sharedWithGroups($group_ids)->orderBy('created_at', $order)->get();
-            
             $all_single = Shared::sharedWithMe($user)->orderBy('created_at', $order)->with(['shareable', 'sharedwith'])->get();
             
-            $all_shared = $all_single->merge($all_in_groups)->unique();
+            $all_shared = $all_single->unique();
             
             $shared_docs = $all_shared->pluck('shareable.uuid')->all();
             $shared_files_in_groups = array_flatten(array_filter($all_shared->map(function ($g) {
@@ -246,7 +233,7 @@ class SharingController extends Controller
             $q->where('key', '=', Capability::RECEIVE_AND_SEE_SHARE);
         })->get();
         
-        $can_share = $me->can_capability(Capability::SHARE_WITH_PRIVATE) || $me->can_capability(Capability::SHARE_WITH_PERSONAL);
+        $can_share = $me->can_capability(Capability::SHARE_WITH_USERS);
         $can_make_public = $me->can_capability(Capability::CHANGE_DOCUMENT_VISIBILITY);
         $is_project_manager = $me->isProjectManager();
 
@@ -302,7 +289,6 @@ class SharingController extends Controller
     {
 
         // with_users
-        // with_people
         // groups
         // documents
 
@@ -310,8 +296,7 @@ class SharingController extends Controller
             $user = $auth->user();
 
             $users_to_share_with = $request->input('with_users', []);
-            $people_to_share_with = $request->input('with_people', []);
-
+            
             $groups = $request->has('groups') ? $request->input('groups') : [];
 
             $documents = $request->has('documents') ? $request->input('documents') : [];
@@ -322,9 +307,7 @@ class SharingController extends Controller
             
             $user_dest = User::whereIn('id', $users_to_share_with)->get();
             
-            $people_dest = PeopleGroup::whereIn('id', $people_to_share_with)->get();
-            
-            $shares_list = $this->createShare($groups_to_share->merge($documents_to_share), $user_dest->merge($people_dest), $user);
+            $shares_list = $this->createShare($groups_to_share->merge($documents_to_share), $user_dest, $user);
 
             return ['status' => 'ok', 'message' => trans_choice('share.share_created_msg', $shares_list->count(), ['num' => $shares_list->count()])];
         });
@@ -424,7 +407,7 @@ class SharingController extends Controller
      * Really create a share
      *
      * @param $what Group||Descriptor
-     * @param $with User||PeopleGroup
+     * @param $with User
     */
     private function createShare(Collection $what, Collection $with, User $by)
     {

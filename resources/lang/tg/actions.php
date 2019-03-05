@@ -96,15 +96,6 @@ return [
 
     'create_collection_btn' => 'Коллексияро созед',
     
-    'create_people_group' => 'Гурӯҳи нав',
-    
-    'rename_people_group' => 'Номи гурӯҳро иваз кунед',
-    
-    'delete_people_group' => 'Гурухро дур кунед',
-    
-    'make_institutional_people_group' => 'Институтсионалӣ кунед',
-    'make_personal_people_group' => 'Шахсӣ нигоҳ доред ',
-    
     'filters' => [
         'filter' => 'Филтрҳо',
         'clear_filters' => 'Филтрҳо тоза кунед',
@@ -131,7 +122,7 @@ return [
         'trash_btn' => 'Бале, ба кутии партов партоед!',
         'move_btn' => 'Бале, Ҷойивазкунед!',
         
-        // showed when on a dialog, like the one in people group creation, the input field is empty, but a value is required
+        // showed when on a dialog when the input field is empty, but a value is required
         'input_required' => 'Шумо бояд чизе нависед!',
         
         

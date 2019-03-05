@@ -48,52 +48,6 @@ return [
         'make_private' => 'Rendre cette collection personnelle',
     ],
     
-    
-    
-    'people' => [
-        
-        'page_title' => 'Groupes',
-            
-        'no_users' => 'Aucun utilisateur ne peut être ajouté à un groupe. Veuillez contacter votre administrateur ou vérifier que les utilisateurs peuvent recevoir et voir les partages.',
-        
-        'available_users' => 'Utilisateurs disponibles',
-        'available_users_hint' => 'Glissez un utilisateur d\'ici vers un groupe pour l\'ajouter à ce groupe.',
-       
-        'remove_user' => 'Supprimer du groupe',
-        
-        'saving' => 'Enregistrement en cours...',
-        
-        'invalidargumentexception' => 'Désolé, cette opération ne peut être effectuée. :exception',
-        
-        'group_name_already_exists' => 'Un groupe avec le même nom existe déjà',
-        'create_group_dialog_title' => 'Créer un groupe',
-        'create_group_dialog_text' => 'le nom du groupe:',
-        'create_group_dialog_placeholder' => 'Super groupe',
-        'create_group_error_title' => 'La création du groupe a échoué',
-        'create_group_generic_error_text' => 'Le groupe ne peut pas être créé et c\'est tout ce que nous savons.',
-        
-        'cannot_add_user_dialog_title' => 'Impossible de créer l\'utilisateur',
-        'cannot_add_user_dialog_text' => 'L\'utilisateur ne peut pas être ajouté au groupe. Une erreur inattendue s\'est produite.',
-        
-        'user_already_exists' => 'L\'utilisateur ":name" existe déjà dans ce groupe',
-        
-        'delete_dialog_title' => 'Effacer ":name"?',
-        'delete_dialog_text' => 'Supprimer le groupe ":name" de façon permanente? (cette opération ne peut pas être annulée)',
-        'delete_error_title' => 'Impossible d\'effacer le groupe',
-        'delete_generic_error_text' => 'Le groupe ne peut pas être effacé et c\'est tout ce que nous savons.',
-        
-        'remove_user_dialog_title' => 'Supprimer ":name"?',
-        'remove_user_dialog_text' => 'Supprimer ":name" de ":group"?',
-        'remove_user_error_title' => 'Impossible de supprimer l\'utilisateur de ce groupe',
-        'remove_user_generic_error_text' => 'L\'utilisateur ne peut pas être supprimé et c\'est tout ce que nous savons.',
-        
-        'rename_dialog_title' => 'Renommer ":name"?',
-        'rename_dialog_text' => 'le nom du groupe:',
-        'rename_error_title' => 'Le renommage du groupe a échoué',
-        'rename_generic_error_text' => 'Le groupe ne peut pas être renommé et c\'est tout ce que nous savons.',
-    ],
-    
-    
     'delete' => [
         
         'dialog_title' => 'Effacer :collection?',

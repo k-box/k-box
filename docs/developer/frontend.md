@@ -210,7 +210,6 @@ Store the constants that defines the DMS routes for the backend API services.
 - `DMS.Paths.STORAGE_REINDEX_ALL`: 'administration/storage/reindex-all' endpoint route
 - `DMS.Paths.USER_PROFILE_OPTIONS`: 'profile/options' endpoint route
 - `DMS.Paths.MAP_SEARCH`: 'visualizationdata' endpoint route. This is used only by the map visualization
-- `DMS.Paths.PEOPLE`: 'people' endpoint route
 
 `DMS.Paths.fullUrl(path:String) : String`
 
@@ -327,25 +326,6 @@ Handle operation inside the shared section
 `openGroup(id)`
 
 `remove(id, success, error)`
-
-
-`DMS.Services.PeopleGroup`
-
-Handle People Groups
-
-`addGroup(name, success, error)`
-
-`addUser(groupId, userId, success, error)`
-
-`removeUser(groupId, userId, success, error)`
-
-`removeGroup(groupId, success, error)`
-
-`renameGroup(groupId, name, success, error)`
-
-`makePersonal(groupId, success, error)`
-
-`makeInstitutional(groupId, success, error)`
 
 
 `DMS.Services.Options`
