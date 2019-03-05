@@ -61,7 +61,7 @@ class UserImportCommandTest extends BrowserKitTestCase
     {
         $user = $this->createAdminUser();
         
-        \Mail::shouldReceive('queue')->times(4)->withAnyArgs();
+        \Mail::shouldReceive('queue')->times(5)->withAnyArgs();
         
         // create a Project called "test"
         $test = factory(\KBox\Project::class)->create(['name' => 'test']);
