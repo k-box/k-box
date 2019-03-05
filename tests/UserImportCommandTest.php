@@ -111,25 +111,13 @@ class UserImportCommandTest extends BrowserKitTestCase
         // check if user1 is added to "test"
         $this->assertNotNull($test->users()->where('users.id', $user1->id)->first(), 'user1 not added to "test"');
         
-        // check if user4,6,7 are listed with errors
-        // user4 -> add_to_project error
-        
-        $this->assertRegExp('/([\|\s]*)user-4([\s\w\S\W.]*)4    \| The selected add to projects is invalid\./', $res);
-        
+        // check if user6,7 are listed with errors
         // user6 -> add_to_project error
         // user6 -> role is partner and has also Project manager field
         $this->assertRegExp('/([\|\s]*)user-6([\s\w\S\W.]*)6    | The selected role is invalid. - The selected manage projects is invalid. - The selected add to projects is invalid\./', $res);
         
         // user7 -> add_to_project error
         $this->assertRegExp('/([\|\s]*)user-7([\s\w\S\W.]*)7    \| The selected add to projects is invalid\./', $res);
-
-        // +----------+-------------------+----------+--------------------+-------------------+------+---------------------------------------------------------------------------------------------------------------------+
-        // | username | email             | role     | manage_projects    | add_to_projects   | line | error                                                                                                               |
-        // +----------+-------------------+----------+--------------------+-------------------+------+---------------------------------------------------------------------------------------------------------------------+
-        // | user-4   | user-4@klink.asia | k-linker |                    | panco,pillo,pluto | 4    | The selected add to projects is invalid.                                                                            |
-        // | user-6   | user-6@klink.asia | partner  | Cannot Be PrjAdmin | Another Project   | 6    | The selected role is invalid. - The selected manage projects is invalid. - The selected add to projects is invalid. |
-        // | user-7   | user-7@klink.asia | partner  |                    | Another Project   | 7    | The selected add to projects is invalid.                                                                            |
-        // +----------+-------------------+----------+--------------------+-------------------+------+---------------------------------------------------------------------------------------------------------------------+
     }
     
     public function testDmsUserImportCommandWithValidFileWithThreeColumns()

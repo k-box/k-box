@@ -153,7 +153,7 @@ class DmsUserImportCommand extends Command
             
             $validator = Validator::make($row, $this->data_row_validation_rules);
             
-            $validator->sometimes('role', 'not_in:partner,guest,k-linker,klinker', function ($input) {
+            $validator->sometimes('role', 'not_in:partner,guest', function ($input) {
                 return ! empty($input->manage_projects);
             });
             
