@@ -42,7 +42,7 @@ class DmsUserImportCommand extends Command
     protected $data_row_validation_rules = [
         'username' => 'required|max:255',
         'email' => 'required|email|max:255|unique:users',
-        'role' => 'sometimes|in:guest,partner,projectadmin,project-admin,admin,klinker,k-linker',
+        'role' => 'sometimes|in:guest,partner,projectadmin,project-admin,admin',
         'manage_projects' => 'nullable|sometimes|array|exists:projects,name',
         'add_to_projects' => 'nullable|sometimes|array|exists:projects,name',
     ];
@@ -73,8 +73,6 @@ class DmsUserImportCommand extends Command
             'projectadmin' => Capability::$PROJECT_MANAGER,
             'project-admin' => Capability::$PROJECT_MANAGER,
             'admin' => Capability::$ADMIN,
-            'klinker' => Capability::$CONTENT_MANAGER,
-            'k-linker' => Capability::$CONTENT_MANAGER,
         ];
     }
 

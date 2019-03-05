@@ -79,7 +79,7 @@ class WebMapServiceController extends Controller
 
         $is_shared = $doc->hasPublicLink() ? true : (! is_null($user) ? $doc->shares()->sharedWithMe($user)->count() > 0 : false);
 
-        $owner = ! is_null($user) && ! is_null($doc->owner) ? $doc->owner->id === $user->id || $user->isContentManager() : (is_null($doc->owner) ? true : false);
+        $owner = ! is_null($user) && ! is_null($doc->owner) ? $doc->owner->id === $user->id || $user->isPartner() : (is_null($doc->owner) ? true : false);
 
         if (! ($is_in_collection || $is_shared || $doc->isPublic() || $owner || $doc->hasPendingPublications())) {
             throw new ForbiddenException('not shared, not in collection, not public or private of the user');

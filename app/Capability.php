@@ -160,6 +160,7 @@ class Capability extends Model
     /**
      *
      * @var array
+     * @deprecated
      */
     public static $CONTENT_MANAGER = [
         self::MAKE_SEARCH,
@@ -171,25 +172,7 @@ class Capability extends Model
         self::MANAGE_PROJECT_COLLECTIONS,
         self::PUBLISH_TO_KLINK,
         self::EDIT_DOCUMENT, ];
-        
-    /**
-     *
-     * @deprecated Corresponds to the Project Manager in the Project Edition
-     * @var array
-     */
-    public static $QUALITY_CONTENT_MANAGER = [
-        self::MAKE_SEARCH,
-        self::UPLOAD_DOCUMENTS,
-        self::MANAGE_OWN_GROUPS,
-        self::MANAGE_PROJECT_COLLECTIONS,
-        self::DELETE_DOCUMENT,
-        self::EDIT_DOCUMENT,
-        self::CHANGE_DOCUMENT_VISIBILITY,
-        self::RECEIVE_AND_SEE_SHARE,
-        self::CLEAN_TRASH,
-        self::SHARE_WITH_USERS,
-    ];
-        
+                
     /**
      * A full project manager that can create projects and empty the trash
      * @var array

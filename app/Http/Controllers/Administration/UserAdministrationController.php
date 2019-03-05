@@ -77,7 +77,6 @@ class UserAdministrationController extends Controller
         'guest' => Capability::$GUEST,
         'partner' => Capability::$PARTNER,
         'project_admin' => Capability::$PROJECT_MANAGER_LIMITED,
-        'klinker' => Capability::$QUALITY_CONTENT_MANAGER,
         'admin' => Capability::$ADMIN,
         ];
       
@@ -96,7 +95,7 @@ class UserAdministrationController extends Controller
         }
 
         // make the caps in order from the basic account type to the best account type
-        $perms = array_flip(array_unique(array_merge(Capability::$GUEST, Capability::$PARTNER, Capability::$CONTENT_MANAGER, Capability::$QUALITY_CONTENT_MANAGER, Capability::$ADMIN)));
+        $perms = array_flip(array_unique(array_merge(Capability::$GUEST, Capability::$PARTNER, Capability::$ADMIN)));
 
         $caps = Capability::all();
 
@@ -183,11 +182,7 @@ class UserAdministrationController extends Controller
         $user_types = [
         'guest' => Capability::$GUEST,
         'partner' => Capability::$PARTNER,
-        // 'content_manager' => Capability::$CONTENT_MANAGER,
-        // 'quality_content_manager' => Capability::$QUALITY_CONTENT_MANAGER,
-        
-        'project_admin' => Capability::$PROJECT_MANAGER,
-        'klinker' => Capability::$PROJECT_MANAGER,
+        'project_admin' => Capability::$PROJECT_MANAGER_LIMITED,
         'admin' => Capability::$ADMIN,
         ];
       
@@ -206,7 +201,7 @@ class UserAdministrationController extends Controller
         }
       
         // make the caps in order from the basic account type to the best account type
-        $perms = array_flip(array_unique(array_merge(Capability::$GUEST, Capability::$PARTNER, Capability::$CONTENT_MANAGER, Capability::$QUALITY_CONTENT_MANAGER, Capability::$ADMIN)));
+        $perms = array_flip(array_unique(array_merge(Capability::$GUEST, Capability::$PARTNER, Capability::$ADMIN)));
       
         $caps = Capability::all();
       

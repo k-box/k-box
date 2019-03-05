@@ -83,7 +83,7 @@ class StarredTest extends BrowserKitTestCase
     {
         $this->withKlinkAdapterFake();
         
-        $user = $this->createUser(Capability::$CONTENT_MANAGER);
+        $user = $this->createUser(Capability::$PARTNER);
         
         $expected_count = Starred::count() + 1;
         
@@ -109,7 +109,7 @@ class StarredTest extends BrowserKitTestCase
     
     public function testRemoveStar()
     {
-        $user = $this->createUser(Capability::$CONTENT_MANAGER);
+        $user = $this->createUser(Capability::$PARTNER);
         
         $expected_count = Starred::count();
         
