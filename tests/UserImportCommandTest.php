@@ -121,7 +121,7 @@ class UserImportCommandTest extends BrowserKitTestCase
     {
         $user = $this->createAdminUser();
         
-        \Mail::shouldReceive('queue')->times(7)->withAnyArgs();
+        \Mail::shouldReceive('queue')->times(6)->withAnyArgs();
         
         $command = new DmsUserImportCommand();
         
