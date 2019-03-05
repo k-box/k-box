@@ -150,7 +150,7 @@ class ViewComposerServiceProvider extends ServiceProvider
                 $user = \Auth::user();
                 
                 $show_admin_link = $user->isDMSManager();
-                $show_doc_link = $user->isContentManager() || $user->can_capability(Capability::UPLOAD_DOCUMENTS) || $user->can_capability(Capability::EDIT_DOCUMENT);
+                $show_doc_link = $user->isPartner() || $user->can_capability(Capability::UPLOAD_DOCUMENTS) || $user->can_capability(Capability::EDIT_DOCUMENT);
 
                 $show_shared_link = ! $show_doc_link && $user->can_capability(Capability::RECEIVE_AND_SEE_SHARE) && $user->can_capability(Capability::MAKE_SEARCH);
                 

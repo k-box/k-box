@@ -68,7 +68,7 @@ return [
         'capabilities' => [
 
             'manage_dms' => 'User can access the Administration area',
-            'change_document_visibility' => 'User can un-/publish documents',
+            'publish_to_klink' => 'User can un-/publish documents',
             'edit_document' => 'User can edit documents',
             'delete_document' => 'User can trash documents',
             'upload_documents' => 'User can upload documents',
@@ -88,11 +88,8 @@ return [
 
             'guest' => 'Guest',
             'partner' => 'Partner',
-            'content_manager' => 'Content Manager',
-            'quality_content_manager' => 'Quality Content Manager',
             'project_admin' => 'Project Administrator',
             'admin' => 'K-Box Administrator',
-            'klinker' => 'K-Linker',
 
         ],
 

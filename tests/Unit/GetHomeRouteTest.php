@@ -21,7 +21,6 @@ class GetHomeRouteTest extends TestCase
         return [
             [Capability::$ADMIN, 'documents.index'],
             [Capability::$UPLOADER, 'documents.index'],
-            [Capability::$CONTENT_MANAGER, 'documents.index'],
             [Capability::$PROJECT_MANAGER, 'documents.index'],
             [Capability::$PROJECT_MANAGER_LIMITED, 'documents.index'],
             [Capability::$PARTNER, 'documents.index'],
@@ -35,7 +34,6 @@ class GetHomeRouteTest extends TestCase
         return [
             [Capability::$ADMIN, Flags::HOME_ROUTE_PROJECTS, 'documents.projects.index'],
             [Capability::$UPLOADER, Flags::HOME_ROUTE_PROJECTS, 'documents.projects.index'],
-            [Capability::$CONTENT_MANAGER, Flags::HOME_ROUTE_PROJECTS, 'documents.projects.index'],
             [Capability::$PROJECT_MANAGER, Flags::HOME_ROUTE_PROJECTS, 'documents.projects.index'],
             [Capability::$PROJECT_MANAGER_LIMITED, Flags::HOME_ROUTE_PROJECTS, 'documents.projects.index'],
             [Capability::$PARTNER, Flags::HOME_ROUTE_PROJECTS, 'documents.projects.index'],
@@ -43,7 +41,6 @@ class GetHomeRouteTest extends TestCase
             [[], Flags::HOME_ROUTE_PROJECTS, 'search'],
             [Capability::$ADMIN, Flags::HOME_ROUTE_RECENT, 'documents.recent'],
             [Capability::$UPLOADER, Flags::HOME_ROUTE_RECENT, 'documents.recent'],
-            [Capability::$CONTENT_MANAGER, Flags::HOME_ROUTE_RECENT, 'documents.recent'],
             [Capability::$PROJECT_MANAGER, Flags::HOME_ROUTE_RECENT, 'documents.recent'],
             [Capability::$PROJECT_MANAGER_LIMITED, Flags::HOME_ROUTE_RECENT, 'documents.recent'],
             [Capability::$PARTNER, Flags::HOME_ROUTE_RECENT, 'documents.recent'],

@@ -524,7 +524,7 @@ class DocumentsService
             throw new ForbiddenException(trans('documents.messages.delete_forbidden'), 1);
         }
 
-        if ($descriptor->isPublic() && ! $user->can_capability(Capability::CHANGE_DOCUMENT_VISIBILITY)) {
+        if ($descriptor->isPublic() && ! $user->can_capability(Capability::PUBLISH_TO_KLINK)) {
             \Log::warning('User tried to delete a public document without permission', ['user' => $user->id, 'document' => $id]);
             throw new ForbiddenException(trans('documents.messages.delete_public_forbidden'), 2);
         }

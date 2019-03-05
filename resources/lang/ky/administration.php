@@ -64,7 +64,7 @@ return [
         'capabilities' => [
 
             'manage_dms' => 'K-Box башкаруу бетин көрүү',
-            'change_document_visibility' => 'Документтерди жарыялоо',
+            'publish_to_klink' => 'Документтерди жарыялоо',
             'edit_document' => 'Документ жөнүндө маалыматты өзгөртүү',
             'delete_document' => 'Документтерди өчүрүү',
             'upload_documents' => 'Документтерди жүктөө',
@@ -83,11 +83,8 @@ return [
 
             'guest' => 'Конок',
             'partner' => 'Өнөктөш',
-            'content_manager' => 'Контент менеджер',
-            'quality_content_manager' => 'Сапат боюнча контент менеджер',
             'project_admin' => 'Долбоор администратору',
             'admin' => 'K-Box администратору',
-            'klinker' => 'K-Link колдонуучу',
 
         ],
 

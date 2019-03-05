@@ -22,7 +22,7 @@ class CapabilitiesTableSeeder extends Seeder
 
         // Document management capabilities
 
-        Capability::create([ 'key' => Capability::CHANGE_DOCUMENT_VISIBILITY ]);
+        Capability::create([ 'key' => Capability::PUBLISH_TO_KLINK ]);
 
         Capability::create([ 'key' => Capability::EDIT_DOCUMENT ]);
 

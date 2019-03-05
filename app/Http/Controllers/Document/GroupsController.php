@@ -71,9 +71,6 @@ class GroupsController extends Controller
      */
     public function index(AuthGuard $auth, Request $request)
     {
-
-        // ok famo una prova creiamo dei gruppi e associamoli a un doc e vediamo che succede
-
         $user = $auth->user();
 
         if ($user->isContentManager()) {
@@ -82,15 +79,14 @@ class GroupsController extends Controller
             $all = Group::roots()->private($user->id)->get();
         }
         
-        $private_groups = \Cache::remember('dms_institution_collections', 60, function () {
-            return Group::getTreeWhere('is_private', '=', false);
-        });
-        
-        $personal_groups = \Cache::remember('dms_personal_collections'.$user->id, 60, function () use ($user) {
-            return Group::getPersonalTree($user->id);
-        });
-        
-        if ($request->ajax() && $request->wantsJson()) {
+        if ($request->wantsJson()) {
+            $private_groups = \Cache::remember('dms_institution_collections', 60, function () {
+                return Group::getTreeWhere('is_private', '=', false);
+            });
+            
+            $personal_groups = \Cache::remember('dms_personal_collections'.$user->id, 60, function () use ($user) {
+                return Group::getPersonalTree($user->id);
+            });
             return new JsonResponse(compact('private_groups', 'personal_groups'), 200);
         }
 

@@ -80,7 +80,6 @@ The role column must contain a particular string in order to be understood by th
 
 - `guest` : the user will have a Guest account
 - `partner`: the user will have a Partner account
-- `klinker` or `k-linker`: the user will be a K-Linker
 - `projectadmin` or `project-admin`: the user will manage projects
 - `admin`: the user will be a K-Box administrator
 

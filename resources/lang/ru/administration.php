@@ -64,7 +64,7 @@ return [
         'capabilities' => [
 
             'manage_dms' => 'Доступ к администрированию',
-            'change_document_visibility' => 'Публикация документов',
+            'publish_to_klink' => 'Публикация документов',
             'edit_document' => 'Изменение деталей документов',
             'delete_document' => 'Перемещение документов в Корзину',
             'upload_documents' => 'Загрузка документов',
