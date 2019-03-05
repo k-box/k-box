@@ -74,7 +74,6 @@ class UserAdministrationController extends Controller
     public function create()
     {
         $user_types = [
-        'guest' => Capability::$GUEST,
         'partner' => Capability::$PARTNER,
         'project_admin' => Capability::$PROJECT_MANAGER_LIMITED,
         'admin' => Capability::$ADMIN,
@@ -95,7 +94,7 @@ class UserAdministrationController extends Controller
         }
 
         // make the caps in order from the basic account type to the best account type
-        $perms = array_flip(array_unique(array_merge(Capability::$GUEST, Capability::$PARTNER, Capability::$ADMIN)));
+        $perms = array_flip(array_unique(array_merge(Capability::$PARTNER, Capability::$ADMIN)));
 
         $caps = Capability::all();
 
@@ -180,7 +179,6 @@ class UserAdministrationController extends Controller
         $user = User::findOrFail($id);
       
         $user_types = [
-        'guest' => Capability::$GUEST,
         'partner' => Capability::$PARTNER,
         'project_admin' => Capability::$PROJECT_MANAGER_LIMITED,
         'admin' => Capability::$ADMIN,
@@ -201,7 +199,7 @@ class UserAdministrationController extends Controller
         }
       
         // make the caps in order from the basic account type to the best account type
-        $perms = array_flip(array_unique(array_merge(Capability::$GUEST, Capability::$PARTNER, Capability::$ADMIN)));
+        $perms = array_flip(array_unique(array_merge(Capability::$PARTNER, Capability::$ADMIN)));
       
         $caps = Capability::all();
       

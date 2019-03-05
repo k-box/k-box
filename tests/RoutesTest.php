@@ -60,7 +60,7 @@ class RoutesTest extends BrowserKitTestCase
             [[Capability::MANAGE_KBOX], 403],
             [Capability::$PROJECT_MANAGER, 200],
             [Capability::$PARTNER, 200],
-            [Capability::$GUEST, 403],
+            [[Capability::RECEIVE_AND_SEE_SHARE], 403],
         ];
     }
 

@@ -17,7 +17,7 @@ class SharingControllerTest extends BrowserKitTestCase
             [[Capability::MANAGE_KBOX], 403],
             [Capability::$PROJECT_MANAGER, 200],
             [Capability::$PARTNER, 200],
-            [Capability::$GUEST, 403],
+            [[Capability::RECEIVE_AND_SEE_SHARE], 403],
         ];
     }
 
@@ -30,8 +30,8 @@ class SharingControllerTest extends BrowserKitTestCase
             [Capability::$PROJECT_MANAGER, 'descriptor', 'documents.sharedwithme'],
             [Capability::$PARTNER, 'collection', 'documents.groups.show'],
             [Capability::$PARTNER, 'descriptor', 'documents.sharedwithme'],
-            [Capability::$GUEST, 'collection', 'shares.group'],
-            [Capability::$GUEST, 'descriptor', 'shares.index'],
+            [[Capability::RECEIVE_AND_SEE_SHARE], 'collection', 'shares.group'],
+            [[Capability::RECEIVE_AND_SEE_SHARE], 'descriptor', 'shares.index'],
         ];
     }
 

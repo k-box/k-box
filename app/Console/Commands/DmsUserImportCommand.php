@@ -42,7 +42,7 @@ class DmsUserImportCommand extends Command
     protected $data_row_validation_rules = [
         'username' => 'required|max:255',
         'email' => 'required|email|max:255|unique:users',
-        'role' => 'sometimes|in:guest,partner,projectadmin,project-admin,admin',
+        'role' => 'sometimes|in:partner,projectadmin,project-admin,admin',
         'manage_projects' => 'nullable|sometimes|array|exists:projects,name',
         'add_to_projects' => 'nullable|sometimes|array|exists:projects,name',
     ];
@@ -68,7 +68,6 @@ class DmsUserImportCommand extends Command
         parent::__construct();
         
         $this->role_mapping = [
-            'guest' => Capability::$GUEST,
             'partner' => Capability::$PARTNER,
             'projectadmin' => Capability::$PROJECT_MANAGER,
             'project-admin' => Capability::$PROJECT_MANAGER,
@@ -153,7 +152,7 @@ class DmsUserImportCommand extends Command
             
             $validator = Validator::make($row, $this->data_row_validation_rules);
             
-            $validator->sometimes('role', 'not_in:partner,guest', function ($input) {
+            $validator->sometimes('role', 'not_in:partner', function ($input) {
                 return ! empty($input->manage_projects);
             });
             

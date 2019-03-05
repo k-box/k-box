@@ -50,10 +50,6 @@ class ProjectsTest extends TestCase
             [ Capability::$PARTNER, 'projects.show', 403 ],
             [ Capability::$PARTNER, 'projects.create', 403 ],
             [ Capability::$PARTNER, 'projects.edit', 403 ],
-            [ Capability::$GUEST, 'projects.index', 403 ],
-            [ Capability::$GUEST, 'projects.show', 403 ],
-            [ Capability::$GUEST, 'projects.create', 403 ],
-            [ Capability::$GUEST, 'projects.edit', 403 ],
         ];
     }
 

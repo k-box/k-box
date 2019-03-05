@@ -81,7 +81,6 @@ return [
         
         'types' => [
 
-            'guest' => 'Invité',
             'partner' => 'Partenaire',
             'project_admin' => 'Administrateur de projet',
             'admin' => 'Administrateur K-Box',

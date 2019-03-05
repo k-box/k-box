@@ -164,8 +164,7 @@ Add them as members from project's Edit page.
 **3. What account to assign to new user?** 
 
 Assign the account based on the permissions:
-- **guest** – can preview and download files. Has access to the "Shared with me" page exclusively;
-- **partner** – can additionally upload, edit and share files. Has access to shared Projects and Private space page;
+- **partner** – can upload, edit and share files. Has access to shared Projects and Private space page;
 - **project administrator** – can additionally add/remove members, un-/publish content from project.
 
 **4. Are there permissions I definitely should provide users with?**

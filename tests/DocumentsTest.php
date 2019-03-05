@@ -28,7 +28,6 @@ class DocumentsTest extends BrowserKitTestCase
             [[Capability::MANAGE_KBOX], false],
             [Capability::$PROJECT_MANAGER, true],
             [Capability::$PARTNER, false],
-            [Capability::$GUEST, false],
         ];
     }
 
@@ -605,7 +604,7 @@ class DocumentsTest extends BrowserKitTestCase
      */
     public function testDocumentService_deleteDocument_forbidden()
     {
-        $user = $this->createUser(Capability::$GUEST);
+        $user = $this->createUser([Capability::RECEIVE_AND_SEE_SHARE]);
 
         $doc = $this->createDocument($user);
 

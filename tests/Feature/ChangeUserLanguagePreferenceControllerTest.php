@@ -17,7 +17,7 @@ class ChangeUserLanguagePreferenceControllerTest extends TestCase
             [Capability::$ADMIN, 'ru'],
             [Capability::$PROJECT_MANAGER, 'de'],
             [Capability::$PARTNER, 'tg'],
-            [Capability::$GUEST, 'en'],
+            [Capability::$PARTNER, 'en'],
         ];
     }
 

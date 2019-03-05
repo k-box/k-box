@@ -15,16 +15,6 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 class DocumentsServiceTest extends BrowserKitTestCase
 {
     use DatabaseTransactions;
-    
-    public function user_provider_with_guest()
-    {
-        return [
-            [Capability::$ADMIN, 'admin'],
-            [Capability::$PROJECT_MANAGER, 'project_manager'],
-            [Capability::$PARTNER, 'partner'],
-            [Capability::$GUEST, 'guest'],
-        ];
-    }
 
     public function user_provider_no_guest()
     {

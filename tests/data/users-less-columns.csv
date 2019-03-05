@@ -1,6 +1,5 @@
 User (Name, Last Name);Email;Role (Guest, Partner, Project Administrator, K-Box Administrator)
 user-11;user-11@klink.asia;Partner
-user-12;user-12@klink.asia;Guest
 user-13;user-13@klink.asia;ProjectAdmin
 user-14;user-14@klink.asia;Admin
 user-15;user-15@klink.asia;Admin

@@ -82,7 +82,6 @@ return [
         
         'types' => [
 
-            'guest' => 'Гость',
             'partner' => 'Партнер',
             'content_manager' => 'Контент менеджер',
             'quality_content_manager' => 'Качественный Контент Менеджер',

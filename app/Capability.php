@@ -232,13 +232,6 @@ class Capability extends Model
         self::SHARE_WITH_USERS,
         self::MANAGE_PROJECT_COLLECTIONS,
         self::EDIT_DOCUMENT, ];
-
-    /**
-     *
-     * @var array
-     */
-    public static $GUEST = [
-        self::RECEIVE_AND_SEE_SHARE ];
         
     /**
      * Capability keys that changed and needs to

@@ -17,12 +17,12 @@ class IdentityControllerTest extends BrowserKitTestCase
             [[Capability::MANAGE_KBOX], 'administration.identity.index', 'get', 200],
             [Capability::$PROJECT_MANAGER, 'administration.identity.index', 'get', 403],
             [Capability::$PARTNER, 'administration.identity.index', 'get', 403],
-            [Capability::$GUEST, 'administration.identity.index', 'get', 403],
+            [[Capability::RECEIVE_AND_SEE_SHARE], 'administration.identity.index', 'get', 403],
             [Capability::$ADMIN, 'administration.identity.store', 'post', 302],
             [[Capability::MANAGE_KBOX], 'administration.identity.store', 'post', 302],
             [Capability::$PROJECT_MANAGER, 'administration.identity.store', 'post', 403],
             [Capability::$PARTNER, 'administration.identity.store', 'post', 403],
-            [Capability::$GUEST, 'administration.identity.store', 'post', 403],
+            [[Capability::RECEIVE_AND_SEE_SHARE], 'administration.identity.store', 'post', 403],
         ];
     }
 

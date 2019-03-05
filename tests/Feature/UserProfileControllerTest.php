@@ -17,7 +17,7 @@ class UserProfileControllerTest extends TestCase
             [Capability::$ADMIN],
             [Capability::$PROJECT_MANAGER],
             [Capability::$PARTNER],
-            [Capability::$GUEST],
+            [[Capability::RECEIVE_AND_SEE_SHARE]],
         ];
     }
 
