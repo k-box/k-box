@@ -49,7 +49,7 @@ class DocumentsComposer
             
             $view->with('can_create_collection', $auth_user->can_capability(Capability::MANAGE_OWN_GROUPS) || $auth_user->can_capability(Capability::MANAGE_PROJECT_COLLECTIONS));
             
-            $view->with('can_make_public', $auth_user->can_capability(Capability::CHANGE_DOCUMENT_VISIBILITY));
+            $view->with('can_make_public', $auth_user->can_capability(Capability::PUBLISH_TO_KLINK));
             
             $view->with('can_clean_trash', $auth_user->can_capability(Capability::CLEAN_TRASH));
             

@@ -64,7 +64,7 @@ return [
         'capabilities' => [
 
             'manage_dms' => 'Nutzer kann den administrativen Bereich der K-Box verwenden',
-            'change_document_visibility' => 'Nutzer kann Dokumente (de-)publizieren',
+            'publish_to_klink' => 'Nutzer kann Dokumente (de-)publizieren',
             'edit_document' => 'Nutzer kann Dokumente bearbeiten',
             'delete_document' => 'Nutzer kann Dokumente löschen',
             'upload_documents' => 'Nutzer kann Dokumente hochladen',
@@ -83,11 +83,8 @@ return [
 
             'guest' => 'Gast',
             'partner' => 'Partner',
-            'content_manager' => 'Content Manager',
-            'quality_content_manager' => 'Quality Content Manager',
             'project_admin' => 'Projektadministrator',
             'admin' => 'K-Box Admin',
-            'klinker' => 'K-Linker',
 
         ],
 

@@ -416,7 +416,7 @@ class DocumentsController extends Controller
             $view_params = [
                     'document' => $document,
                     'file' => $document->file,
-                    'can_make_public' => ! $document->trashed() && $user->can_capability(Capability::CHANGE_DOCUMENT_VISIBILITY),
+                    'can_make_public' => ! $document->trashed() && $user->can_capability(Capability::PUBLISH_TO_KLINK),
                     'can_edit_groups' => ! $document->trashed() && $user->can_capability([Capability::MANAGE_OWN_GROUPS, Capability::MANAGE_PROJECT_COLLECTIONS]),
                     'can_upload_file' => ! $document->trashed() && $user->can_capability(Capability::UPLOAD_DOCUMENTS),
                     'can_edit_document' => ! $document->trashed() && $user->can_capability([Capability::EDIT_DOCUMENT, Capability::DELETE_DOCUMENT]),
@@ -649,7 +649,7 @@ class DocumentsController extends Controller
 
             // TODO: if is a reference to a public document remove it if is not starred, shared or in a collection
             
-            if ($descriptor->isPublic() && ! $user->can_capability(Capability::CHANGE_DOCUMENT_VISIBILITY)) {
+            if ($descriptor->isPublic() && ! $user->can_capability(Capability::PUBLISH_TO_KLINK)) {
                 \Log::warning('User tried to delete a public document without permission', ['user' => $user->id, 'document' => $id]);
                 throw new ForbiddenException(trans('documents.messages.delete_public_forbidden'), 2);
             }

@@ -234,7 +234,7 @@ class SharingController extends Controller
         })->get();
         
         $can_share = $me->can_capability(Capability::SHARE_WITH_USERS);
-        $can_make_public = $me->can_capability(Capability::CHANGE_DOCUMENT_VISIBILITY);
+        $can_make_public = $me->can_capability(Capability::PUBLISH_TO_KLINK);
         $is_project_manager = $me->isProjectManager();
 
         // TODO: check if the document is in a personal collection only, or in a project collection

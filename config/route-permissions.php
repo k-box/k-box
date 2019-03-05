@@ -39,8 +39,8 @@ return [
         'update' => KBox\Capability::EDIT_DOCUMENT,
         'destroy' => KBox\Capability::DELETE_DOCUMENT,
         
-        'publish' => KBox\Capability::CHANGE_DOCUMENT_VISIBILITY,
-        'unpublish' => KBox\Capability::CHANGE_DOCUMENT_VISIBILITY,
+        'publish' => KBox\Capability::PUBLISH_TO_KLINK,
+        'unpublish' => KBox\Capability::PUBLISH_TO_KLINK,
 
         'version' => [
 
@@ -55,8 +55,8 @@ return [
             'remove' => KBox\Capability::DELETE_DOCUMENT,
             'emptytrash' => KBox\Capability::CLEAN_TRASH,
             'copyto' => KBox\Capability::$CONTENT_MANAGER,
-            'makepublic' => KBox\Capability::CHANGE_DOCUMENT_VISIBILITY,
-            'makeprivate' => KBox\Capability::CHANGE_DOCUMENT_VISIBILITY,
+            'makepublic' => KBox\Capability::PUBLISH_TO_KLINK,
+            'makeprivate' => KBox\Capability::PUBLISH_TO_KLINK,
 
         ],
 

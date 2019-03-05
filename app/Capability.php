@@ -59,7 +59,7 @@ class Capability extends Model
     /**
      * The use can change a document visibility from private to public
      */
-    const CHANGE_DOCUMENT_VISIBILITY = 'change_document_visibility';
+    const PUBLISH_TO_KLINK = 'publish_to_klink';
 
     /**
      * Can perform import.
@@ -146,7 +146,7 @@ class Capability extends Model
         self::MAKE_SEARCH,
         self::UPLOAD_DOCUMENTS,
         self::EDIT_DOCUMENT,
-        self::CHANGE_DOCUMENT_VISIBILITY,
+        self::PUBLISH_TO_KLINK,
         self::DELETE_DOCUMENT,
         self::MANAGE_OWN_GROUPS,
         self::MANAGE_PROJECT_COLLECTIONS,
@@ -169,7 +169,7 @@ class Capability extends Model
         self::MANAGE_OWN_GROUPS,
         self::SHARE_WITH_USERS,
         self::MANAGE_PROJECT_COLLECTIONS,
-        self::CHANGE_DOCUMENT_VISIBILITY,
+        self::PUBLISH_TO_KLINK,
         self::EDIT_DOCUMENT, ];
         
     /**
@@ -202,10 +202,10 @@ class Capability extends Model
         self::MANAGE_PROJECT_COLLECTIONS,
         self::DELETE_DOCUMENT,
         self::EDIT_DOCUMENT,
-        self::CHANGE_DOCUMENT_VISIBILITY,
         self::RECEIVE_AND_SEE_SHARE,
         self::CLEAN_TRASH,
         self::SHARE_WITH_USERS,
+        self::PUBLISH_TO_KLINK,
     ];
         
     /**
@@ -219,7 +219,7 @@ class Capability extends Model
         self::MANAGE_PROJECT_COLLECTIONS,
         self::DELETE_DOCUMENT,
         self::EDIT_DOCUMENT,
-        self::CHANGE_DOCUMENT_VISIBILITY,
+        self::PUBLISH_TO_KLINK,
         self::RECEIVE_AND_SEE_SHARE,
         self::SHARE_WITH_USERS,
     ];
@@ -258,25 +258,15 @@ class Capability extends Model
         self::RECEIVE_AND_SEE_SHARE ];
         
     /**
-     * Mappings from Standard Edition to Project edition
+     * Capability keys that changed and needs to
+     * be upgraded
      *
-     * @deprecated
      * @var array
      */
     public static $OLD_NEW_MAPPING = [
-          'manage_institution_documents' => [
-              self::CHANGE_DOCUMENT_VISIBILITY,
-              self::EDIT_DOCUMENT,
-              self::DELETE_DOCUMENT],
-          'manage_institution_documents_visibility' => [
-              self::CHANGE_DOCUMENT_VISIBILITY],
-          'manage_own_documents' => [
-              self::EDIT_DOCUMENT,
-              self::DELETE_DOCUMENT],
-          'manage_own_documents_visibility' => [
-              self::CHANGE_DOCUMENT_VISIBILITY],
-          'manage_institution_groups' => [
-              self::MANAGE_PROJECT_COLLECTIONS],
+        'change_document_visibility' => [
+            self::PUBLISH_TO_KLINK
+        ],
     ];
 
     /**

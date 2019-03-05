@@ -64,7 +64,7 @@ return [
         'capabilities' => [
 
             'manage_dms' => 'L\'utilisateur peut accéder à la console d\'administration de K-Box',
-            'change_document_visibility' => 'L\'utilisateur peut publier et dépublier des documents',
+            'publish_to_klink' => 'L\'utilisateur peut publier et dépublier des documents',
             'edit_document' => 'L\'utilisateur peut modifier des documents',
             'delete_document' => 'L\'utilisateur peut mettre des documents à la corbeille',
             'upload_documents' => 'L\'utilisateur peut mettre en ligne des documents',
@@ -83,11 +83,8 @@ return [
 
             'guest' => 'Invité',
             'partner' => 'Partenaire',
-            'content_manager' => 'Gestionnaire de contenu',
-            'quality_content_manager' => 'Gestionnaire de qualité de contenu',
             'project_admin' => 'Administrateur de projet',
             'admin' => 'Administrateur K-Box',
-            'klinker' => 'K-Linker',
 
         ],
 
