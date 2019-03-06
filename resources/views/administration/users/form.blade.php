@@ -104,17 +104,30 @@
     
     <script>
         
-        require(["jquery", 'lodash'], function(_$, __){
+        require(["jquery", 'lodash'], function(_$){
 
           var list = _$('.checkbox-list');
-          
+          var timeout = null;
+
           _$('.user-grab').on('mouseover', function(evt){
              
              var tp = _$(this).data('type');
+
+             if(timeout){
+                clearTimeout(timeout);
+            }
              
              list.find('.highlighted').removeClass('highlighted');
              list.find('.' + tp +'').addClass('highlighted');
              
+            timeout = setTimeout(function (){
+                list.find('.highlighted').removeClass('highlighted');
+
+                if(timeout){
+                    clearTimeout(timeout);
+                }
+            }, 2000);
+
              evt.preventDefault();
              return false; 
           });
