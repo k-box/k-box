@@ -25,7 +25,6 @@ class UserImportCommandTest extends BrowserKitTestCase
             [[Capability::MANAGE_KBOX], false],
             [Capability::$PROJECT_MANAGER, true],
             [Capability::$PARTNER, false],
-            [Capability::$GUEST, false],
         ];
     }
 
@@ -61,7 +60,7 @@ class UserImportCommandTest extends BrowserKitTestCase
     {
         $user = $this->createAdminUser();
         
-        \Mail::shouldReceive('queue')->times(5)->withAnyArgs();
+        \Mail::shouldReceive('queue')->times(4)->withAnyArgs();
         
         // create a Project called "test"
         $test = factory(\KBox\Project::class)->create(['name' => 'test']);
@@ -87,17 +86,15 @@ class UserImportCommandTest extends BrowserKitTestCase
         $res = $output->fetch();
         
         $user1 = User::findByEmail('user-1@klink.asia');
-        $user2 = User::findByEmail('user-2@klink.asia');
+        
         $user3 = User::findByEmail('user-3@klink.asia');
         $user5 = User::findByEmail('user-5@klink.asia');
         
         $this->assertNotNull($user1);
-        $this->assertNotNull($user2);
         $this->assertNotNull($user3);
         $this->assertNotNull($user5);
         
         $this->assertTrue($user1->can_all_capabilities(Capability::$PARTNER));
-        $this->assertTrue($user2->can_all_capabilities(Capability::$GUEST));
         $this->assertTrue($user3->isProjectManager());
         $this->assertTrue($user5->isDMSAdmin());
         
@@ -114,17 +111,17 @@ class UserImportCommandTest extends BrowserKitTestCase
         // check if user6,7 are listed with errors
         // user6 -> add_to_project error
         // user6 -> role is partner and has also Project manager field
-        $this->assertRegExp('/([\|\s]*)user-6([\s\w\S\W.]*)6    | The selected role is invalid. - The selected manage projects is invalid. - The selected add to projects is invalid\./', $res);
+        $this->assertRegExp('/([\|\s]*)user-6([\s\w\S\W.]*)5    | The selected role is invalid. - The selected manage projects is invalid. - The selected add to projects is invalid\./', $res);
         
         // user7 -> add_to_project error
-        $this->assertRegExp('/([\|\s]*)user-7([\s\w\S\W.]*)7    \| The selected add to projects is invalid\./', $res);
+        $this->assertRegExp('/([\|\s]*)user-7([\s\w\S\W.]*)6    \| The selected add to projects is invalid\./', $res);
     }
     
     public function testDmsUserImportCommandWithValidFileWithThreeColumns()
     {
         $user = $this->createAdminUser();
         
-        \Mail::shouldReceive('queue')->times(7)->withAnyArgs();
+        \Mail::shouldReceive('queue')->times(6)->withAnyArgs();
         
         $command = new DmsUserImportCommand();
         
@@ -144,7 +141,6 @@ class UserImportCommandTest extends BrowserKitTestCase
 
         $users = User::whereIn('email', [
             'user-11@klink.asia',
-            'user-12@klink.asia',
             'user-13@klink.asia',
             'user-14@klink.asia',
             'user-15@klink.asia',
@@ -152,7 +148,7 @@ class UserImportCommandTest extends BrowserKitTestCase
             'user-17@klink.asia',
         ])->get();
         
-        $this->assertEquals(7, $users->count());
+        $this->assertEquals(6, $users->count());
     }
     
     /**

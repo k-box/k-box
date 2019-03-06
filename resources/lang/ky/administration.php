@@ -81,7 +81,6 @@ return [
 
         'types' => [
 
-            'guest' => 'Конок',
             'partner' => 'Өнөктөш',
             'project_admin' => 'Долбоор администратору',
             'admin' => 'K-Box администратору',

@@ -86,7 +86,6 @@ return [
         
         'types' => [
 
-            'guest' => 'Меҳмон',
             'partner' => 'Шарик',
             'project_admin' => 'Администратори лоиҳаи',
             'admin' => 'Администратори K-Box',

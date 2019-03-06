@@ -35,10 +35,10 @@ class ProjectAvatarsTest extends BrowserKitTestCase
             [ [Capability::MANAGE_KBOX], 'projects.avatar.destroy', 403 ],
             [ Capability::$PARTNER, 'projects.avatar.store', 403 ],
             [ Capability::$PARTNER, 'projects.avatar.destroy', 403 ],
-            [ Capability::$GUEST, 'projects.avatar.store', 403 ],
-            [ Capability::$GUEST, 'projects.avatar.destroy', 403 ],
+            [ [Capability::RECEIVE_AND_SEE_SHARE], 'projects.avatar.store', 403 ],
+            [ [Capability::RECEIVE_AND_SEE_SHARE], 'projects.avatar.destroy', 403 ],
             [ Capability::$PARTNER, 'projects.avatar.index', 200 ],
-            [ Capability::$GUEST, 'projects.avatar.index', 200 ],
+            [ [Capability::RECEIVE_AND_SEE_SHARE], 'projects.avatar.index', 200 ],
         ];
     }
     

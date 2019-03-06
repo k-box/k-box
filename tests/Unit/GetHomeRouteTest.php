@@ -24,7 +24,7 @@ class GetHomeRouteTest extends TestCase
             [Capability::$PROJECT_MANAGER, 'documents.index'],
             [Capability::$PROJECT_MANAGER_LIMITED, 'documents.index'],
             [Capability::$PARTNER, 'documents.index'],
-            [Capability::$GUEST, 'shares.index'],
+            [[Capability::RECEIVE_AND_SEE_SHARE], 'shares.index'],
             [[], 'search'],
         ];
     }
@@ -37,14 +37,14 @@ class GetHomeRouteTest extends TestCase
             [Capability::$PROJECT_MANAGER, Flags::HOME_ROUTE_PROJECTS, 'documents.projects.index'],
             [Capability::$PROJECT_MANAGER_LIMITED, Flags::HOME_ROUTE_PROJECTS, 'documents.projects.index'],
             [Capability::$PARTNER, Flags::HOME_ROUTE_PROJECTS, 'documents.projects.index'],
-            [Capability::$GUEST, Flags::HOME_ROUTE_PROJECTS, 'shares.index'],
+            [[Capability::RECEIVE_AND_SEE_SHARE], Flags::HOME_ROUTE_PROJECTS, 'shares.index'],
             [[], Flags::HOME_ROUTE_PROJECTS, 'search'],
             [Capability::$ADMIN, Flags::HOME_ROUTE_RECENT, 'documents.recent'],
             [Capability::$UPLOADER, Flags::HOME_ROUTE_RECENT, 'documents.recent'],
             [Capability::$PROJECT_MANAGER, Flags::HOME_ROUTE_RECENT, 'documents.recent'],
             [Capability::$PROJECT_MANAGER_LIMITED, Flags::HOME_ROUTE_RECENT, 'documents.recent'],
             [Capability::$PARTNER, Flags::HOME_ROUTE_RECENT, 'documents.recent'],
-            [Capability::$GUEST, Flags::HOME_ROUTE_RECENT, 'shares.index'],
+            [[Capability::RECEIVE_AND_SEE_SHARE], Flags::HOME_ROUTE_RECENT, 'shares.index'],
             [[], Flags::HOME_ROUTE_RECENT, 'search'],
         ];
     }

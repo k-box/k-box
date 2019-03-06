@@ -28,17 +28,17 @@ class UserOptionsControllerTest extends TestCase
             [Capability::$ADMIN, User::OPTION_LIST_TYPE, ['details','tiles','cards']],
             [Capability::$PROJECT_MANAGER, User::OPTION_LIST_TYPE, ['details','tiles','cards']],
             [Capability::$PARTNER, User::OPTION_LIST_TYPE, ['details','tiles','cards']],
-            [Capability::$GUEST, User::OPTION_LIST_TYPE, ['details','tiles','cards']],
+            [[Capability::RECEIVE_AND_SEE_SHARE], User::OPTION_LIST_TYPE, ['details','tiles','cards']],
             
             [Capability::$ADMIN, User::OPTION_PERSONAL_IN_PROJECT_FILTERS, ['1', true]],
             [Capability::$PROJECT_MANAGER, User::OPTION_PERSONAL_IN_PROJECT_FILTERS, ['1', true]],
             [Capability::$PARTNER, User::OPTION_PERSONAL_IN_PROJECT_FILTERS, ['1', true]],
-            [Capability::$GUEST, User::OPTION_PERSONAL_IN_PROJECT_FILTERS, ['1', true]],
+            [[Capability::RECEIVE_AND_SEE_SHARE], User::OPTION_PERSONAL_IN_PROJECT_FILTERS, ['1', true]],
 
             [Capability::$ADMIN, User::OPTION_ITEMS_PER_PAGE, ['1', 12, 24, 50, 100]],
             [Capability::$PROJECT_MANAGER, User::OPTION_ITEMS_PER_PAGE, ['1', 12, 24, 50, 100]],
             [Capability::$PARTNER, User::OPTION_ITEMS_PER_PAGE, ['1', 12, 24, 50, 100]],
-            [Capability::$GUEST, User::OPTION_ITEMS_PER_PAGE, ['1', 12, 24, 50, 100]],
+            [[Capability::RECEIVE_AND_SEE_SHARE], User::OPTION_ITEMS_PER_PAGE, ['1', 12, 24, 50, 100]],
         ];
     }
 

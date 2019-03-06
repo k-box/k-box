@@ -78,7 +78,6 @@ The column name comparison is performed in a case insensitive way, which means t
 
 The role column must contain a particular string in order to be understood by the command, acceptable values are here listed:
 
-- `guest` : the user will have a Guest account
 - `partner`: the user will have a Partner account
 - `projectadmin` or `project-admin`: the user will manage projects
 - `admin`: the user will be a K-Box administrator

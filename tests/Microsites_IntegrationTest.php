@@ -46,7 +46,7 @@ class Microsites_IntegrationTest extends BrowserKitTestCase
             [Capability::$PROJECT_MANAGER_LIMITED, 200],
             [[Capability::MANAGE_KBOX], 403],
             [Capability::$PARTNER, 403],
-            [Capability::$GUEST, 403],
+            [[Capability::RECEIVE_AND_SEE_SHARE], 403],
         ];
     }
     
