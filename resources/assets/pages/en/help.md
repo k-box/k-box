@@ -167,28 +167,16 @@ Assign the account based on the permissions:
 - **partner** – can upload, edit and share files. Has access to shared Projects and Private space page;
 - **project administrator** – can additionally add/remove members, un-/publish content from project.
 
-**4. Are there permissions I definitely should provide users with?**
-
-Guests:
-- User can see documents that have been shared with him
-
-Partner:
-- User can access all the unpublished documents in accessible projects
-- User can add/remove project collections in accessible projects
-
-Project manager:
-- all highlighted
-
-**5. What is a microsite?**
+**4. What is a microsite?**
 
 A one-pager for visitors to learn about your project. Can be compared with a Project business card. Example, [Regional Pasture Network microsite](https://pasture.klink.asia/projects/pasture-network/en)
 
-**6. What are the advantages of a microsite compared to normal website?** 
+**5. What are the advantages of a microsite compared to normal website?** 
 
 1.  Microsite is hosted on your K-Box. No additional infrastructure needs to be managed;
 2.  K-Link search is already integrated.
 
-**7. How to create a Project microsite?** 
+**6. How to create a Project microsite?** 
 
 Right-click on the project of interest on the Projects page and select “Details” option. Go to “Micrositebeta” and “Create microsite” button. Fill the respective fields on the new page and click to “Publish the Microsite” to finish.
 
