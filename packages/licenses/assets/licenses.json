@@ -4,10 +4,12 @@
         "name": "No explicit license",
         "short_title": "No explicit license",
         "title": {
-            "en": "License information is not available. According to the international law, all rights are reserved",
-            "ru": "Информация о лицензии недоступна. Согласно международным стандартам, все права защищены",
-            "fr": "Aucune information disponible concernant la licence. Conformément au droit international, tous les droits sont réservés",
-            "ky": "Лицензия жөнүндө маалымат жок. Эл аралык укука карата, баардык укутар корголгон"
+            "en": "No license. All rights reserved.",
+            "de": "Keine Lizenz. Alle Rechte vorbehalten",
+            "ru": "Лицензии нет. Все права защищены.",
+            "fr": "Pas de licence. Tous les droits sont réservés.",
+            "tg": "Литсензия нест. Ҳамаи ҳуқуқ маҳфуз аст.",
+            "ky": "Лицензия жок. Бардык укутар корголгон."
         },
         "icon": "copy.svg",
         "description": "not-explicit.md",
