@@ -47,14 +47,14 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Guest public searches
+    | Guest K-Link searches
     |--------------------------------------------------------------------------
     |
-    | Tell if the DMS will allow guest user to perform public search over K-Link
+    | Tell if the K-Box will allows K-Link search for non-logged in users
     |
     | @var boolean
     */
-    'are_guest_public_search_enabled' => env('KBOX_ENABLE_GUEST_NETWORK_SEARCH', env('DMS_ARE_GUEST_PUBLIC_SEARCH_ENABLED', true)),
+    'are_guest_public_search_enabled' => env('KBOX_ENABLE_GUEST_NETWORK_SEARCH', env('DMS_ARE_GUEST_PUBLIC_SEARCH_ENABLED', false)),
 
     'core' => [
 
