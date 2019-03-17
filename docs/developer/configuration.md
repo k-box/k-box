@@ -32,7 +32,7 @@ The next table shows the K-Box specific configuration parameters:
 | `KBOX_DB_HOST` (`DB_HOST`)            |          | string  | 127.0.0.1     | The database sever host |
 | `KBOX_DB_TABLE_PREFIX` (`DB_TABLE_PREFIX`) |     | string  | kdms_         | The table prefix for each database table. To increse the security of the installation set you own value |
 | `KBOX_SEARCH_SERVICE_URL`             | ✓        | url     |               | The URL of the K-Search that will deliver the full text search service. |
-| `KBOX_ENABLE_GUEST_NETWORK_SEARCH`    |           | boolean | true          | Enable guests to search over the configures K-Link Network |
+| `KBOX_ENABLE_GUEST_NETWORK_SEARCH`    |           | boolean | false          | Enable guests to search over the configured K-Link |
 | `KBOX_UPLOAD_LIMIT` (`UPLOAD_LIMIT`)  |           | integer | 204800         | Maximum allowed file size for upload. Expressed in KB |
 | `KBOX_MAIL_ENCRYPTION`                |           | string  | tls           | The mail encryption to use. Set to an empty string to allow insecure connections |
 | `KBOX_MAIL_DRIVER`                    |           | string  | smtp          | The Email driver. See [Configuring E-Mail](../user/en/administration/settings/mail.md) |

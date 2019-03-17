@@ -47,6 +47,10 @@ class SearchController extends Controller
      */
     public function index(Guard $auth, Request $request)
     {
+        if (! $auth->check() && ! config('dms.are_guest_public_search_enabled')) {
+            abort(403);
+        }
+
         $is_klink_public_enabled = ! ! Option::option(Option::PUBLIC_CORE_ENABLED, false);
 
         if (! $is_klink_public_enabled) {
