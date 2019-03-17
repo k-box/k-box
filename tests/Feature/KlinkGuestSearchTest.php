@@ -33,8 +33,19 @@ class KlinkGuestSearchTest extends TestCase
 
     public function test_search_not_presented_on_login_page_if_klink_not_configured()
     {
-        Option::option(Option::PUBLIC_CORE_ENABLED, false);
+        Option::put(Option::PUBLIC_CORE_ENABLED, false);
         config(['dms.are_guest_public_search_enabled' => true]);
+        
+        $response = $this->get('/login');
+
+        $response->assertViewHas('show_search', false);
+        $response->assertDontSee('name="s"');
+    }
+
+    public function test_search_not_presented_on_login_page_when_klink_enabled()
+    {
+        Option::put(Option::PUBLIC_CORE_ENABLED, true);
+        config(['dms.are_guest_public_search_enabled' => false]);
         
         $response = $this->get('/login');
 

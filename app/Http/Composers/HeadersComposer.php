@@ -51,7 +51,7 @@ class HeadersComposer
 
         $route_name = \Route::currentRouteName();
 
-        $is_klink_public_enabled = network_enabled();
+        $is_klink_public_enabled = config('dms.are_guest_public_search_enabled') && network_enabled();
 
         $show_search = (! $is_logged && $is_klink_public_enabled && ! starts_with($route_name, 'password') && ! str_contains($route_name, 'help') && ! starts_with($route_name, 'terms') && ! str_contains($route_name, 'contact')) ||
                         ($is_logged && ! is_null($route_name) && ! starts_with($route_name, 'admin') &&
