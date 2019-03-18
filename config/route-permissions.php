@@ -71,7 +71,6 @@ return [
 
         'groups' => [
 
-            'index' => KBox\Capability::$CONTENT_MANAGER,
             'create' => KBox\Capability::$CONTENT_MANAGER,
             'edit' => KBox\Capability::$CONTENT_MANAGER,
             'update' => KBox\Capability::$CONTENT_MANAGER,

@@ -40,65 +40,6 @@ class GroupsController extends Controller
         $this->service = $service;
     }
 
-    private function echoTree($tree)
-    {
-        echo '<pre>';
-
-        foreach ($tree as $first_level) {
-            echo '|- '.$first_level->name.'<br/>';
-
-            if ($first_level->hasChildren()) {
-                foreach ($first_level->getChildren() as $second_level) {
-                    echo '|  |- '.$second_level->name.'<br/>';
-
-                    if ($second_level->hasChildren()) {
-                        foreach ($second_level->getChildren() as $third_level) {
-                            echo '|  |  |- '.$third_level->name.'<br/>';
-                        }
-                    }
-                }
-            }
-            echo '|<br/>';
-        }
-
-        echo '</pre>';
-    }
-
-    /**
-     * Display a listing of groups.
-     *
-     * @return Response
-     */
-    public function index(AuthGuard $auth, Request $request)
-    {
-        $user = $auth->user();
-
-        if ($user->isContentManager()) {
-            $all = Group::getTree();
-        } else {
-            $all = Group::roots()->private($user->id)->get();
-        }
-        
-        if ($request->wantsJson()) {
-            $private_groups = \Cache::remember('dms_institution_collections', 60, function () {
-                return Group::getTreeWhere('is_private', '=', false);
-            });
-            
-            $personal_groups = \Cache::remember('dms_personal_collections'.$user->id, 60, function () use ($user) {
-                return Group::getPersonalTree($user->id);
-            });
-            return new JsonResponse(compact('private_groups', 'personal_groups'), 200);
-        }
-
-        return view('groups.manage', [
-            'pagetitle' => trans('groups.collections.title'),
-            'context' => 'groups-manage',
-            'filter' => trans('groups.collections.title'),
-            'groups' => $all,
-            'groups_count' => $all->count(),
-            'empty_message' => trans('groups.empty_msg')]);
-    }
-
     /**
      * Show the form for creating a new resource.
      *

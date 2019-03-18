@@ -132,7 +132,11 @@ Route::get('/d/embed/{uuid}/{versionUuid?}', [
 ]);
 
 Route::group(['as' => 'documents.', 'prefix' => 'documents'], function () {
-    Route::resource('groups', 'Document\GroupsController');
+    Route::resource(
+        'groups',
+        'Document\GroupsController',
+        ['exclude' => ['index']]
+    );
 
     Route::get('/recent/{range?}', [
             'uses' => 'Document\RecentDocumentsController@index',
