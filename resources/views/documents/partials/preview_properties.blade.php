@@ -39,6 +39,15 @@
 				])
 		</div>
 	@endauth
+
+	@if(!empty($document->abstract))
+
+		<div class="meta abstract">
+			<h4 class="c-panel__section">{{trans('panels.abstract_section_title')}}</h4>
+			{!! $document->abstract_html !!}
+		</div>
+
+	@endif
 	
 	@include('documents.partials.properties')
 	

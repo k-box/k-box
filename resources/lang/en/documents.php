@@ -147,6 +147,7 @@ return [
 
         'abstract_label' => 'Abstract',
         'abstract_placeholder' => 'Document abstract',
+        'abstract_help' => '<a href="https://daringfireball.net/projects/markdown/syntax" target="_blank" rel="noopener">Markdown</a> format supported',
 
         'authors_label' => 'Authors',
         'authors_help' => 'Authors must be specified like <code>name surname &lt;mail@something.com&gt;</code>',

@@ -130,7 +130,7 @@
 
 <div class="meta abstract">
 	<h4 class="c-panel__section">{{trans('panels.abstract_section_title')}}</h4>
-	{{$item->abstract}}
+	{!! $item->abstract_html !!}
 </div>
 
 @endif

@@ -121,9 +121,9 @@
 			@if( isset($errors) && $errors->has('abstract') )
 	            <span class="field-error">{{ implode(",", $errors->get('abstract'))  }}</span>
 	        @endif
-  			<textarea class="c-form__input c-form__input--larger" placeholder="{{trans('documents.edit.abstract_placeholder')}}" id="abstract" name="abstract" @if(!$document->isMine() || !$can_edit_document) disabled @endif>
+  			<textarea class="c-form__input c-form__input--width-2/3 c-form__input--height-3" placeholder="{{trans('documents.edit.abstract_placeholder')}}" id="abstract" name="abstract" @if(!$document->isMine() || !$can_edit_document) disabled @endif>
 {{old('abstract', isset($document) ? $document->abstract : '')}}</textarea>
-
+			<span class="description">{!! trans('documents.edit.abstract_help') !!}</span>
 		</div>
 		<div class="c-form__field">
   			<label for="authors">{{trans('documents.edit.authors_label')}}</label>
