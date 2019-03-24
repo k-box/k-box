@@ -26,19 +26,17 @@ class UserRequest extends Request
 
             $tests['email'] = 'required|email|unique:users,email';
             $tests['capabilities'] = 'required|array|exists:capabilities,key';
+            $tests['password'] = 'sometimes|nullable|string|min:8';
 
-            if ($password_sending_available) {
-                $tests['password'] = 'sometimes|nullable|required_without:generate_password|string|min:8';
-                $tests['generate_password'] = 'required_without:password|boolean';
-                $tests['send_password'] = 'sometimes|nullable|boolean|required_if:generate_password,1';
+            if ($password_sending_available && empty($this->input('password', null))) {
+                $tests['send_password'] = 'required|boolean|accepted';
             } else {
-                $tests['password'] = 'required|string|min:8';
+                $tests['send_password'] = 'sometimes|nullable|boolean';
             }
         } else {
             $tests['capabilities'] = 'sometimes|required|array|exists:capabilities,key';
             $tests['email'] = 'required|email';
         }
-
         return $tests;
     }
 

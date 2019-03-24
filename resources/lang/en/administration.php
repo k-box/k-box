@@ -62,6 +62,7 @@ return [
             'generate_password' => 'Generate user\'s password',
             'send_password' => 'Send password to user via E-mail',
             'no_password_sending' => 'Type a password for the selected user. No email server is configured, K-Box cannot generate and send passwords directly via E-mail.',
+            'empty_means_generated_password' => 'Password will be generated if left empty',
 
         ],
 

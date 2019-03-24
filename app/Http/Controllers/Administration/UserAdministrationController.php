@@ -124,16 +124,19 @@ class UserAdministrationController extends Controller
     {
         $mail_configured = ! Option::isMailEnabled() || (Option::isMailEnabled() && Option::isMailUsingLogDriver());
 
-        $password = User::generatePassword();
-        $given_password = $request->input('password', null);
-        $use_given_password = ! empty($given_password) && ! $request->input('generate_password', false);
+        $password = $request->input('password', null);
+
+        if (empty($password)) {
+            $password = User::generatePassword();
+        }
+        
         $send_password = $mail_configured && $request->input('send_password', false);
 
-        $user = DB::transaction(function () use ($request, $password, $given_password, $use_given_password) {
+        $user = DB::transaction(function () use ($request, $password) {
             $user = User::create([
               'name' => $request->get('name'),
               'email' => trim($request->get('email')),
-              'password' => Hash::make($use_given_password ? $given_password : $password),
+              'password' => Hash::make($password),
               'institution_id' => null
             ]);
     
@@ -143,8 +146,8 @@ class UserAdministrationController extends Controller
         });
 
         try {
-            if ($send_password || (! $send_password && ! $use_given_password)) {
-                $user->notify(new UserCreatedNotification($user, $use_given_password ? $given_password : $password));
+            if ($send_password) {
+                $user->notify(new UserCreatedNotification($user, $password));
             }
         } catch (Exception $ex) {
             return redirect()->route('administration.users.index')->with([
