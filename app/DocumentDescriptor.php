@@ -2,6 +2,7 @@
 
 namespace KBox;
 
+use Markdown;
 use KBox\Traits\Publishable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -534,6 +535,15 @@ class DocumentDescriptor extends Model
         }
 
         return $value;
+    }
+
+    public function getAbstractHtmlAttribute($value = null)
+    {
+        if (empty($this->abstract)) {
+            return '';
+        }
+
+        return Markdown::convertToHtml($this->abstract);
     }
 
     // --- convert to/from KlinkDocumentDescriptor
