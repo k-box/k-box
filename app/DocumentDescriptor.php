@@ -706,6 +706,52 @@ class DocumentDescriptor extends Model
 
         return false;
     }
+
+    /**
+     * Check if the document can be edited by a user
+     *
+     * @param \KBox\User $user
+     * @return bool
+     */
+    public function isEditableBy($user)
+    {
+        if (is_null($user) || ! is_a($user, User::class)) {
+            return false;
+        }
+
+        if (! $this->isAccessibleBy($user)) {
+            return false;
+        }
+
+        $has_edit_capability = $user->can_capability(Capability::EDIT_DOCUMENT);
+
+        if (! $has_edit_capability) {
+            return false;
+        }
+
+        $collections = $this->groups;
+        $is_in_collection = false;
+
+        if (! is_null($collections) && ! $collections->isEmpty()) {
+            $serv = app(DocumentsService::class);
+
+            $filtered = $collections->filter(function ($c) use ($serv, $user) {
+                return $serv->isCollectionAccessible($user, $c);
+            });
+            
+            $is_in_collection = ! $filtered->isEmpty();
+        }
+
+        $is_shared = $this->shares()->sharedWithMe($user)->count() > 0 ?: false;
+
+        $owner = ! is_null($this->owner) ? $this->owner->id === $user->id || $user->isContentManager() : (is_null($this->owner) ? true : false);
+
+        if ($is_in_collection || $is_shared || $owner) {
+            return true;
+        }
+
+        return false;
+    }
     
     public function setLastErrorAttribute($value)
     {

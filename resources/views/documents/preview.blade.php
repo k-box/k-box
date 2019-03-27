@@ -35,7 +35,7 @@
         <div class="preview__actions">
 		
 			@auth
-				@if(isset($user_can_edit) && $user_can_edit)
+				@if(isset($show_edit_button) && $show_edit_button)
 					<a class="preview__button js-preview-edit-button"  title="{{trans('panels.edit_btn_title')}}" href="{{ route('documents.edit', $document->id)}}">{{ trans('panels.edit_btn') }}</a>
 				@endif
 			@endauth

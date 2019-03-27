@@ -317,4 +317,51 @@ class DocumentPreviewControllerTest extends TestCase
         $response->assertViewIs('documents.preview');
         $this->assertTrue($response->data('file')->is($first_version));
     }
+
+    public function test_edit_button_present_on_public_document_if_user_can_edit()
+    {
+        $user = tap(factory(\KBox\User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$PROJECT_MANAGER);
+        });
+
+        $document = factory(\KBox\DocumentDescriptor::class)->create(['owner_id' => $user->id, 'is_public' => true]);
+        
+        Publication::unguard(); // as fields are not mass assignable
+        
+        $document->publications()->create([
+            'published_at' => Carbon::now()
+        ]);
+        
+        $url = route('documents.preview', ['uuid' => $document->uuid]);
+
+        $response = $this->actingAs($user)->get($url);
+
+        $response->assertViewIs('documents.preview');
+        $response->assertViewHas('show_edit_button', true);
+    }
+
+    public function test_edit_button_not_present_on_public_document_if_user_cannot_edit()
+    {
+        $user = tap(factory(\KBox\User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$PROJECT_MANAGER);
+        });
+        $user_accessing_the_document = tap(factory(\KBox\User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$PARTNER);
+        });
+
+        $document = factory(\KBox\DocumentDescriptor::class)->create(['owner_id' => $user->id, 'is_public' => true]);
+        
+        Publication::unguard(); // as fields are not mass assignable
+        
+        $document->publications()->create([
+            'published_at' => Carbon::now()
+        ]);
+        
+        $url = route('documents.preview', ['uuid' => $document->uuid]);
+
+        $response = $this->actingAs($user_accessing_the_document)->get($url);
+
+        $response->assertViewIs('documents.preview');
+        $response->assertViewHas('show_edit_button', false);
+    }
 }

@@ -6,7 +6,6 @@ use Log;
 use Exception;
 use Throwable;
 use KBox\File;
-use KBox\Capability;
 use KBox\DocumentDescriptor;
 use Illuminate\Http\Request;
 use KBox\Documents\Properties\Presenter;
@@ -72,7 +71,7 @@ class DocumentPreviewController extends DocumentAccessController
             'filename_for_download' => $version ? $version->name : $doc->title,
             'pagetitle' => trans('documents.preview.page_title', ['document' => $doc->title]),
             'body_classes' => "preview",
-            'user_can_edit' => optional(auth()->user())->can_capability(Capability::EDIT_DOCUMENT) ?? false,
+            'show_edit_button' => $doc->isEditableBy(auth()->user()),
         ];
 
         try {
