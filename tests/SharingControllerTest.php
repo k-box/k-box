@@ -207,7 +207,7 @@ class SharingControllerTest extends BrowserKitTestCase
         $this->visit(route('shares.create', [
             'collections' => [],
             'documents' => [$document->id]
-        ]));
+        ]))->see(trans('share.dialog.linkshare_public'));
 
         $this->assertViewHas('is_network_enabled', false);
         $this->assertViewHas('can_make_public', false);
@@ -278,7 +278,7 @@ class SharingControllerTest extends BrowserKitTestCase
         $this->visit(route('shares.create', [
             'collections' => [$collection->id],
             'documents' => [],
-        ]));
+        ]))->dontSee(trans('share.dialog.linkshare_public'));
 
         $this->assertViewHas('is_network_enabled', false);
         $this->assertViewHas('can_make_public', false);
