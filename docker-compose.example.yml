@@ -31,7 +31,7 @@ services:
 
   ## The Search Engine API
   ksearch:
-    image: "docker.klink.asia/images/k-search:3.6.0-1"
+    image: "docker.klink.asia/images/k-search:3.6.0-2"
     environment:
       ## Further datails about K-Search configuration in https://github.com/k-box/k-search
       ## Solr search configuration
@@ -62,7 +62,7 @@ services:
 
   ## The K-Box container
   kbox:
-    image: "docker.klink.asia/images/k-box:0.25.2"
+    image: "docker.klink.asia/images/k-box:0.26.0"
     environment:
       ## K-Box access
       KBOX_APP_URL: "http://localhost:8080/"

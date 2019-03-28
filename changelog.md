@@ -7,6 +7,38 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.26.0] - 2019-03-29
+
+### Added
+
+- Support Markdown format in document abstract ([#232](https://github.com/k-box/k-box/pull/232))
+- Enable to trash files when seeing search results on the projects page ([#214](https://github.com/k-box/k-box/pull/214))
+
+### Changed
+
+- Changed the text used when a license is not selected
+- Make K-Link guest search disabled by default ([#231](https://github.com/k-box/k-box/pull/231))
+- Unify administration capabilities ([#220](https://github.com/k-box/k-box/pull/220))
+  - Rename `Capability::MANAGE_DMS` to `Capability::MANAGE_KBOX`
+- Rename the permission `change_document_visibility` to `publish_to_klink` ([#226](https://github.com/k-box/k-box/pull/226))
+
+### Fixed
+
+- Prevent share with link option to appear for collections ([#234](https://github.com/k-box/k-box/pull/234))
+- Fix use explicit password during account creation ([#233](https://github.com/k-box/k-box/pull/233))
+- Auto remove permission highlight after 2 seconds ([#228](https://github.com/k-box/k-box/pull/228))
+- Fix share button hidden while document is indexing or without K-Link connection ([#213](https://github.com/k-box/k-box/pull/213))
+
+### Removed
+
+- Remove unused navigation memories tables ([#229](https://github.com/k-box/k-box/pull/229))
+- Remove guest user role ([#227](https://github.com/k-box/k-box/pull/227))
+- Remove K-Linker role ([#226](https://github.com/k-box/k-box/pull/226))
+- Remove deprecated people group feature ([#223](https://github.com/k-box/k-box/pull/223))
+- Remove import capability ([#221](https://github.com/k-box/k-box/pull/221))
+- Remove unused collections listing page
+
+
 ## [0.25.3] - 2019-02-19
 
 ### Changed
