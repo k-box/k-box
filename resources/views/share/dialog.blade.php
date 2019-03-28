@@ -52,7 +52,9 @@
 						<select name="linktype" id="linktype" class="js-link-type c-form__input c-form__input--full-width">
 
 							<option value="internal" @unless($public_link) selected @endif>{{ trans('share.dialog.linkshare_members_only') }}</option>
-							<option value="public" @if($public_link) selected @endif>{{ trans('share.dialog.linkshare_public') }}</option>
+							@unless($has_groups)
+								<option value="public" @if($public_link) selected @endif>{{ trans('share.dialog.linkshare_public') }}</option>
+							@endunless
 						
 						</select>
 
