@@ -1,14 +1,18 @@
 <?php
 
-use KBox\RoutingHelpers;
+namespace Tests\Unit;
 
-use Tests\BrowserKitTestCase;
+use KBox\User;
+use Tests\TestCase;
+use KBox\Capability;
+use KBox\RoutingHelpers;
+use KBox\DocumentDescriptor;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 /*
  * Test the RoutingHelpers class
 */
-class RoutingHelpersTest extends BrowserKitTestCase
+class RoutingHelpersTest extends TestCase
 {
     use DatabaseTransactions;
     
@@ -27,7 +31,7 @@ class RoutingHelpersTest extends BrowserKitTestCase
     /**
      * @dataProvider filter_search_data_provider
      */
-    public function testFilterSearch($empty_url, $current_active_filters, $facet, $term, $selected, $expected_url)
+    public function test_filter_search($empty_url, $current_active_filters, $facet, $term, $selected, $expected_url)
     {
         $url = RoutingHelpers::filterSearch($empty_url, $current_active_filters, $facet, $term, $selected);
 
@@ -36,8 +40,10 @@ class RoutingHelpersTest extends BrowserKitTestCase
 
     public function test_document_download_url_generation()
     {
-        $user = $this->createAdminUser();
-        $document = $this->createDocument($user);
+        $user = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$ADMIN);
+        });
+        $document = factory(DocumentDescriptor::class)->create(['owner_id' => $user->id]);
 
         $url = RoutingHelpers::download($document);
 
@@ -50,8 +56,10 @@ class RoutingHelpersTest extends BrowserKitTestCase
     
     public function test_document_embed_url_generation()
     {
-        $user = $this->createAdminUser();
-        $document = $this->createDocument($user);
+        $user = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$ADMIN);
+        });
+        $document = factory(DocumentDescriptor::class)->create(['owner_id' => $user->id]);
 
         $url = RoutingHelpers::embed($document);
 
@@ -64,8 +72,10 @@ class RoutingHelpersTest extends BrowserKitTestCase
 
     public function test_document_preview_url_generation()
     {
-        $user = $this->createAdminUser();
-        $document = $this->createDocument($user);
+        $user = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$ADMIN);
+        });
+        $document = factory(DocumentDescriptor::class)->create(['owner_id' => $user->id]);
 
         $url = RoutingHelpers::preview($document);
 
@@ -78,8 +88,10 @@ class RoutingHelpersTest extends BrowserKitTestCase
 
     public function test_document_thumbnail_url_generation()
     {
-        $user = $this->createAdminUser();
-        $document = $this->createDocument($user);
+        $user = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$ADMIN);
+        });
+        $document = factory(DocumentDescriptor::class)->create(['owner_id' => $user->id]);
 
         $url = RoutingHelpers::thumbnail($document);
 

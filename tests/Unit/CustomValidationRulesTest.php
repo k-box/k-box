@@ -1,9 +1,12 @@
 <?php
 
-use Tests\BrowserKitTestCase;
+namespace Tests\Unit;
+
+use Tests\TestCase;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class CustomValidationRulesTest extends BrowserKitTestCase
+class CustomValidationRulesTest extends TestCase
 {
     use DatabaseTransactions;
     

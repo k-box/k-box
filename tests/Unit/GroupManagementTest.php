@@ -1,12 +1,17 @@
 <?php
 
-use KBox\Group;
+namespace Tests\Unit;
 
-use Tests\BrowserKitTestCase;
+use KBox\User;
+use KBox\Group;
+use Tests\TestCase;
+use KBox\Capability;
 use Tests\Concerns\ClearDatabase;
+use KBox\Exceptions\ForbiddenException;
+use KBox\Documents\Services\DocumentsService;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class GroupManagementTest extends BrowserKitTestCase
+class GroupManagementTest extends TestCase
 {
     use ClearDatabase;
     use DatabaseTransactions;
@@ -19,7 +24,7 @@ class GroupManagementTest extends BrowserKitTestCase
     {
         parent::setUp();
 
-        $this->service = $this->app->make('KBox\Documents\Services\DocumentsService');
+        $this->service = $this->app->make(DocumentsService::class);
     }
 
     /**
@@ -84,31 +89,6 @@ class GroupManagementTest extends BrowserKitTestCase
         return trim($toString);
     }
 
-    private function echoTree($childs = null, $level = 0)
-    {
-
-        // $tree = is_null($childs) ? Group::getRoots() : $childs;
-
-        // if($level==0){
-        // 	echo PHP_EOL;
-        // }
-
-        // foreach ($tree as $first_level) {
-
-        // 	echo str_pad('', $level*3, " ", STR_PAD_RIGHT) . '|- ' . $first_level->name . PHP_EOL;
-
-        // 	if($first_level->hasChildren()){
-        // 		$this->echoTree($first_level->getChildren(), $level+1);
-                
-        // 	}
-            
-        // }
-
-        // if($level==0){
-        // 	echo PHP_EOL;
-        // }
-    }
-
     /**
      * Test group creation
      *
@@ -116,13 +96,14 @@ class GroupManagementTest extends BrowserKitTestCase
      */
     public function testGroupCreation()
     {
-        $this->clearDatabase();
         /*
               A            F
             B   C        C   G
                D  E
         */
-        $user = $this->createAdminUser();
+        $user = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$ADMIN);
+        });
         $tree = $this->createTestGroupTree($user, $this->service);
 
         $this->assertEquals(8, Group::all()->count());
@@ -160,7 +141,9 @@ class GroupManagementTest extends BrowserKitTestCase
 
     public function testGroupUpdate()
     {
-        $user = $this->createAdminUser();
+        $user = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$ADMIN);
+        });
         
         $a = $this->service->createGroup($user, 'a');
 
@@ -178,12 +161,11 @@ class GroupManagementTest extends BrowserKitTestCase
         $this->assertEquals('Benny', $b->name);
     }
 
-    /**
-     * @expectedException KBox\Exceptions\ForbiddenException
-     */
     public function testGroupUpdateForbidden($value = '')
     {
-        $user = $this->createAdminUser();
+        $user = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$ADMIN);
+        });
         
         $a = $this->service->createGroup($user, 'a');
 
@@ -191,12 +173,16 @@ class GroupManagementTest extends BrowserKitTestCase
 
         $c = $this->service->createGroup($user, 'c', null, $a);
 
+        $this->expectException(ForbiddenException::class);
+
         $b = $this->service->updateGroup($user, $b, ['name' => 'c']);
     }
 
     public function testGroupCreationFromFolder()
     {
-        $user = $this->createAdminUser();
+        $user = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$ADMIN);
+        });
         
         $group = $this->service->createGroupsFromFolderPath($user, '/pretty/path/for/example/');
 
@@ -211,7 +197,9 @@ class GroupManagementTest extends BrowserKitTestCase
     
     public function testGroupCreationFromFolderWithSingleFolder()
     {
-        $user = $this->createAdminUser();
+        $user = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$ADMIN);
+        });
         
         $group = $this->service->createGroupsFromFolderPath($user, 'example/');
 
@@ -220,14 +208,12 @@ class GroupManagementTest extends BrowserKitTestCase
 
     public function testGroupCreationFromFolderTwice()
     {
-        $this->clearDatabase();
-
-        $user = $this->createAdminUser();
+        $user = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$ADMIN);
+        });
         
         $group = $this->service->createGroupsFromFolderPath($user, '/pretty/path/for/example/');
         $group = $this->service->createGroupsFromFolderPath($user, '/pretty/path/for/example/');
-
-        $this->echoTree();
 
         $this->assertEquals(1, Group::getRoots()->count(), 'more than one root');
     }
@@ -237,13 +223,11 @@ class GroupManagementTest extends BrowserKitTestCase
      */
     public function testGroupCopyBaseCases()
     {
-        $this->clearDatabase();
-        
-        $user = $this->createAdminUser();
+        $user = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$ADMIN);
+        });
 
         $tree = $this->createTestGroupTree($user, $this->service);
-
-        $this->echoTree();
 
         $f = $tree['f'];
         $b = $tree['b'];
@@ -253,8 +237,6 @@ class GroupManagementTest extends BrowserKitTestCase
         $this->service->copyGroup($user, $b, null);
 
         $b->fresh();
-
-        $this->echoTree();
 
         $this->assertTrue(Group::getRoots()->contains('name', 'b'));
 
@@ -268,15 +250,11 @@ class GroupManagementTest extends BrowserKitTestCase
 
         $this->assertEquals(3, Group::byName('b')->count());
 
-        $this->echoTree();
-
         $bRoot = Group::getRoots()->where('name', 'b')->first();
 
         $this->service->copyGroup($user, $f, $bRoot);
 
         $f->fresh();
-
-        $this->echoTree();
 
         $this->assertTrue($bRoot->getChildren()->contains('name', 'f'), 'Children of B contains F');
         $this->assertEquals(1, $bRoot->countChildren(), 'Final B descendants count');
@@ -284,11 +262,11 @@ class GroupManagementTest extends BrowserKitTestCase
 
     public function testGroupCopyAdvancedCases()
     {
-        $user = $this->createAdminUser();
+        $user = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$ADMIN);
+        });
         
         $tree = $this->createTestGroupTree($user, $this->service);
-
-        $this->echoTree();
 
         $f = $tree['f'];
         $c = $tree['c'];
@@ -297,8 +275,6 @@ class GroupManagementTest extends BrowserKitTestCase
         $this->service->copyGroup($user, $c, $f, true);
 
         $f->fresh();
-
-        $this->echoTree();
 
         $this->assertTrue($f->getChildren()->contains('name', 'c'), 'Children of F contains C');
         
@@ -310,11 +286,11 @@ class GroupManagementTest extends BrowserKitTestCase
      */
     public function testGroupMovesBaseCases()
     {
-        $user = $this->createAdminUser();
+        $user = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$ADMIN);
+        });
         
         $tree = $this->createTestGroupTree($user, $this->service);
-
-        $this->echoTree();
 
         $b = $tree['b'];
         $e = $tree['e'];
@@ -330,15 +306,11 @@ class GroupManagementTest extends BrowserKitTestCase
 
         $this->assertTrue($b->isRoot());
 
-        $this->echoTree();
-
         // Move E under B
 
         $this->service->moveGroup($user, $e, $b);
 
         $e->fresh();
-
-        $this->echoTree();
 
         $this->assertEquals('b', $e->getParent()->name);
         $this->assertTrue($b->getChildren()->contains('name', 'e'));
@@ -349,8 +321,6 @@ class GroupManagementTest extends BrowserKitTestCase
 
         $f->fresh();
 
-        $this->echoTree();
-
         $this->assertEquals('e', $f->getParent()->name);
         $this->assertEquals($original_children_count, $f->countChildren());
     }
@@ -360,7 +330,9 @@ class GroupManagementTest extends BrowserKitTestCase
      */
     public function testGroupMovesAdvancedCases()
     {
-        $user = $this->createAdminUser();
+        $user = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$ADMIN);
+        });
 
         $tree = $this->createTestGroupTree($user, $this->service);
 
@@ -373,8 +345,6 @@ class GroupManagementTest extends BrowserKitTestCase
 
         $f->fresh();
 
-        $this->echoTree();
-
         // Move C under F (merge existing)
 
         $this->service->moveGroup($user, $c, $f, true);
@@ -382,47 +352,48 @@ class GroupManagementTest extends BrowserKitTestCase
         $a->fresh();
         $f->fresh();
 
-        $this->echoTree();
-
         $this->assertEquals(2, $f->getFirstChild()->countChildren(), 'Final F descendants count');
         $this->assertTrue($f->getChildren()->contains('name', 'c'));
         $this->assertEquals(1, $a->countChildren());
     }
 
-    /**
-     * Test the raise of forbidden exception in case of existing subtree in the new position
-     * @expectedException KBox\Exceptions\ForbiddenException
-     */
     public function testGroupMoveForbidden()
     {
-        $user = $this->createAdminUser();
+        $user = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$ADMIN);
+        });
 
         $tree = $this->createTestGroupTree($user, $this->service);
         
         $f = $tree['f'];
         $c = $tree['c'];
+
+        $this->expectException(ForbiddenException::class);
 
         $this->service->moveGroup($user, $c, $f);
     }
 
-    /**
-     * @expectedException KBox\Exceptions\ForbiddenException
-     */
     public function testGroupCopyForbidden()
     {
-        $user = $this->createAdminUser();
+        $user = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$ADMIN);
+        });
 
         $tree = $this->createTestGroupTree($user, $this->service);
         
         $f = $tree['f'];
         $c = $tree['c'];
+
+        $this->expectException(ForbiddenException::class);
 
         $this->service->copyGroup($user, $c, $f);
     }
 
     public function testCanCopyOrMoveGroup()
     {
-        $user = $this->createAdminUser();
+        $user = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$ADMIN);
+        });
 
         $tree = $this->createTestGroupTree($user, $this->service);
         

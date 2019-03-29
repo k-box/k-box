@@ -1,15 +1,21 @@
 <?php
 
-use Tests\BrowserKitTestCase;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use OneOffTech\TusUpload\Events\TusUploadCancelled;
-use OneOffTech\TusUpload\TusUpload;
-use KBox\Listeners\TusUploadCancelledHandler;
-use Carbon\Carbon;
-use KBox\DocumentDescriptor;
-use KBox\File;
+namespace Tests\Unit;
 
-class TusUploadCancelledListenerTest extends BrowserKitTestCase
+use KBox\User;
+use KBox\File;
+use Carbon\Carbon;
+use Tests\TestCase;
+use KBox\Capability;
+use KBox\DocumentDescriptor;
+use KBox\Events\UploadCompleted;
+use OneOffTech\TusUpload\TusUpload;
+use Illuminate\Support\Facades\Event;
+use KBox\Listeners\TusUploadCompletedHandler;
+use OneOffTech\TusUpload\Events\TusUploadCompleted;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
+
+class TusUploadCompletedListenerTest extends TestCase
 {
     use DatabaseTransactions;
 
@@ -42,7 +48,7 @@ class TusUploadCancelledListenerTest extends BrowserKitTestCase
             'upload_token_expires_at' => Carbon::now()->addHour(),
         ]);
 
-        $upload->cancelled = true;
+        $upload->completed = true;
         $upload->save();
         
         $file = File::forceCreate([
@@ -52,6 +58,7 @@ class TusUploadCancelledListenerTest extends BrowserKitTestCase
             'size' => $upload->size,
             'thumbnail_path' => null,
             'path' => '',
+            'uuid' => (new File)->resolveUuid()->toString(),
             'user_id' => $user->id,
             'original_uri' => '',
             'is_folder' => false,
@@ -76,31 +83,41 @@ class TusUploadCancelledListenerTest extends BrowserKitTestCase
             'status' => DocumentDescriptor::STATUS_UPLOADING
         ]);
 
-        return new TusUploadCancelled($upload->fresh());
+        return new TusUploadCompleted($upload->fresh());
     }
 
-    public function test_document_descriptor_is_updated()
+    public function test_document_descriptor_status_changed_and_upload_complete_event_is_raised()
     {
         $this->withKlinkAdapterFake();
 
-        $user = $this->createAdminUser();
+        Event::fake();
+
+        $user = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$ADMIN);
+        });
 
         $request_id = 'REQUEST';
 
-        $cancelled_event = $this->createEvent($user, $request_id);
+        $completed_event = $this->createEvent($user, $request_id);
 
-        $listener = app(TusUploadCancelledHandler::class);
+        $listener = app(TusUploadCompletedHandler::class);
 
-        $listener->handle($cancelled_event);
+        $listener->handle($completed_event);
 
         $file = File::where('request_id', $request_id)->first();
 
         $this->assertNotNull($file);
-        $this->assertNotNull($file->upload_cancelled_at);
-        $this->assertTrue($file->upload_cancelled);
+        $this->assertNotNull($file->upload_completed_at);
+        $this->assertTrue($file->upload_completed);
+        $this->assertTrue(file_exists($file->absolute_path));
+        unlink($file->absolute_path);
         $this->assertNotNull($file->document);
         
         $document = $file->document;
-        $this->assertEquals(DocumentDescriptor::STATUS_UPLOAD_CANCELLED, $document->status);
+        $this->assertEquals(DocumentDescriptor::STATUS_UPLOAD_COMPLETED, $document->status);
+
+        Event::assertDispatched(UploadCompleted::class, function ($e) use ($document) {
+            return $e->descriptor->id === $document->id;
+        });
     }
 }

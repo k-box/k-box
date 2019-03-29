@@ -1198,17 +1198,17 @@ class DocumentsService
     public function moveGroup(User $user, Group $group, Group $moveBelow = null, $merge = false)
     {
         $that = $this;
-        return DB::transaction(function () use ($user, $group, $moveBelow, $merge, $that) {
+        // base, move a leaf or a child in a totally new place (no-existing group with same details exists)
 
-            // base, move a leaf or a child in a totally new place (no-existing group with same details exists)
+        $group_collection = is_null($moveBelow) ? Group::getRoots() : $moveBelow->getChildren();
 
-            $group_collection = is_null($moveBelow) ? Group::getRoots() : $moveBelow->getChildren();
+        $is_there_already = ! $group_collection->where('name', $group->name)->where('user_id', $user->id)->isEmpty();
 
-            $is_there_already = ! $group_collection->where('name', $group->name)->where('user_id', $user->id)->isEmpty();
+        if ($is_there_already && ! $merge) {
+            throw new ForbiddenException("A group with same name already exists. Please select merge option if you want to proceed.", 10);
+        }
 
-            if ($is_there_already && ! $merge) {
-                throw new ForbiddenException("A group with same name already exists. Please select merge option if you want to proceed.", 10);
-            }
+        return DB::transaction(function () use ($user, $group, $moveBelow, $merge, $that, $group_collection, $is_there_already) {
 
             // move to a root and no existing root with same name
 
@@ -1266,19 +1266,16 @@ class DocumentsService
     public function copyGroup(User $user, Group $group, Group $copyUnder = null, $merge = false)
     {
         $that = $this;
-        return DB::transaction(function () use ($user, $group, $copyUnder, $merge, $that) {
-            $group_collection = is_null($copyUnder) ? Group::getRoots() : $copyUnder->getChildren();
-
-            $is_there_already = ! $group_collection->where('name', $group->name)->where('user_id', $user->id)->isEmpty();
-
-            // $is_there_already = !is_null($existing_group) && $existing_group->user_id == $user->id; // existing group for same user? (this will break the uniqueness constraint on db if exists)
-
-            if ($is_there_already && ! $merge) {
-                throw new ForbiddenException("A group with same name already exists. Please select merge option if you want to proceed.", 10);
-            }
-
+        $group_collection = is_null($copyUnder) ? Group::getRoots() : $copyUnder->getChildren();
+        
+        $is_there_already = ! $group_collection->where('name', $group->name)->where('user_id', $user->id)->isEmpty();
+        
+        if ($is_there_already && ! $merge) {
+            throw new ForbiddenException("A group with same name already exists. Please select merge option if you want to proceed.", 10);
+        }
+        return DB::transaction(function () use ($user, $group, $copyUnder, $merge, $that, $group_collection, $is_there_already) {
+            
             // copy to a root and no existing root with same name
-
             if (! $is_there_already && is_null($copyUnder)) {
                 // no ther roots have the same name
 
