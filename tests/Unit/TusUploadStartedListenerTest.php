@@ -1,16 +1,20 @@
 <?php
 
-use Tests\BrowserKitTestCase;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use OneOffTech\TusUpload\Events\TusUploadStarted;
+namespace Tests\Unit;
+
+use KBox\User;
+use KBox\File;
+use Carbon\Carbon;
+use KBox\GroupType;
+use Tests\TestCase;
+use KBox\Capability;
+use KBox\DocumentDescriptor;
 use OneOffTech\TusUpload\TusUpload;
 use KBox\Listeners\TusUploadStartedHandler;
-use Carbon\Carbon;
-use KBox\DocumentDescriptor;
-use KBox\File;
-use KBox\GroupType;
+use OneOffTech\TusUpload\Events\TusUploadStarted;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class TusUploadStartedListenerTest extends BrowserKitTestCase
+class TusUploadStartedListenerTest extends TestCase
 {
     use DatabaseTransactions;
 
@@ -34,7 +38,9 @@ class TusUploadStartedListenerTest extends BrowserKitTestCase
     {
         $this->withKlinkAdapterFake();
 
-        $user = $this->createAdminUser();
+        $user = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$ADMIN);
+        });
 
         $request_id = 'REQUEST';
 
@@ -56,7 +62,9 @@ class TusUploadStartedListenerTest extends BrowserKitTestCase
     {
         $this->withKlinkAdapterFake();
 
-        $user = $this->createAdminUser();
+        $user = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$ADMIN);
+        });
 
         $request_id = 'REQUEST';
 

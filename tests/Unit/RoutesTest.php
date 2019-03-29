@@ -1,15 +1,16 @@
 <?php
 
-use KBox\User;
-use KBox\Capability;
+namespace Tests\Unit;
 
-use Tests\BrowserKitTestCase;
+use KBox\User;
+use Tests\TestCase;
+use KBox\Capability;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 /*
  * Basic tests of GET routes that requires the user to be authenticated or not
 */
-class RoutesTest extends BrowserKitTestCase
+class RoutesTest extends TestCase
 {
     use DatabaseTransactions;
     
@@ -69,15 +70,15 @@ class RoutesTest extends BrowserKitTestCase
      * @dataProvider routes_provider
      * @return void
      */
-    public function testFreeRoutes($name)
+    public function test_routes_without_login_are_reachable($name)
     {
         $this->withKlinkAdapterFake();
         
         $url = route($name);
         
-        $this->visit($url)->seePageIs($url);
+        $response = $this->get($url);
         
-        $this->assertResponseOk();
+        $response->assertSuccessful();
     }
     
     /**
@@ -86,12 +87,12 @@ class RoutesTest extends BrowserKitTestCase
      * @dataProvider protected_routes_provider
      * @return void
      */
-    public function testRedirectToLogin($name)
+    public function test_routes_that_require_login_redirects($name)
     {
         $url = route($name);
         
-        $this->visit($url)->seePageIs(route('frontpage'));
-        
-        $this->assertResponseOk();
+        $response = $this->get($url);
+
+        $response->assertRedirect(route('frontpage'));
     }
 }
