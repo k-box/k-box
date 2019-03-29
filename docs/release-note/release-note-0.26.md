@@ -83,7 +83,7 @@ We recommend to have a full database backup before doing the upgrade.
 The `KBOX_ENABLE_GUEST_NETWORK_SEARCH` configuration default value has been changed to `false`.
 This means that not logged-in users will not be able to search on the connected K-Link.
 If you didn't use this feature in the past, this change will not affect you. Now this
-feature is not enabled by default and you must explictly activate it.
+feature is not enabled by default and you must explicitly activate it.
 
 ### Deprecations
 
