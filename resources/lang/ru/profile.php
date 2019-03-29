@@ -25,6 +25,10 @@ return [
         'language_changed' => 'Язык был изменен.',
     ],
 
+    'errors' => [
+        'username_already_taken' =>  'Имя занято, попробуйте другое.',
+    ],
+
     'labels' => [
         'nicename' => 'Имя',
         'nicename_hint' => 'Предпочитаемое имя пользователя',

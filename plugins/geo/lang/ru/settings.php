@@ -89,7 +89,7 @@ return [
             'regex' => 'Начните URL с http:// или https://, например, https://tile.openstreetmaps.com/{x}/{y}/{z}.png',
         ],
         'label' => [
-            'not_in' => "Имя [:label] уже занято. Оно должно быть уникальным",
+            'not_in' => "Имя [:label] уже занято, выберите другое.",
         ],
         'id' => [
             'not_found' => 'Провайдер не найден',
