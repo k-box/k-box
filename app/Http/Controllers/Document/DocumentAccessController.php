@@ -32,7 +32,7 @@ abstract class DocumentAccessController extends Controller
 
         $file_version = null; // will contain the file instance to use in case $version is not null, null means the latest
 
-        if (is_null($doc->file)) {
+        if (is_null($doc) || is_null(optional($doc)->file)) {
             throw new ModelNotFoundException();
         }
 
