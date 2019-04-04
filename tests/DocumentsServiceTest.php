@@ -68,9 +68,6 @@ class DocumentsServiceTest extends BrowserKitTestCase
         $this->assertEquals($user->isDMSManager() ? 4 : 3, $collections->count());
     }
 
-    /**
-     * issue https://git.klink.asia/klinkdms/dms/issues/690
-     */
     public function testFallbackDocumentReIndexingAfterForceHashCheckOnKCore()
     {
         $this->withKlinkAdapterFake();

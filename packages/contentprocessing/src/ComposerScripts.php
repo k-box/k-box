@@ -11,7 +11,7 @@ use Composer\Downloader\TransportException;
 class ComposerScripts
 {
     // const DOWNLOAD_URL = 'https://www.xpdfreader.com/dl/';
-    const DOWNLOAD_URL = 'https://git.klink.asia/alessio.vertemati/k-box-dependency-cache/raw/master/';
+    const DOWNLOAD_URL = 'https://git.oneofftech.xyz/alessio.vertemati/k-box-dependency-cache/raw/master/';
     /**
      * Maps the OS family (according to PHP) to the required file
      */
