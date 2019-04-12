@@ -47,10 +47,12 @@ class ResetPasswordNotification extends Notification
      */
     public function toMail($notifiable)
     {
+        $language = $notifiable && is_a($notifiable, \KBox\User::class) ? $notifiable->optionLanguage(config('app.locale')) : config('app.locale');
+
         return (new MailMessage)
-            ->line('You are receiving this email because we received a password reset request for your account.')
-            ->action('Reset Password', url('password/reset', $this->token))
-            ->salutation(trans('messaging.mail.do_not_reply'))
-            ->line('If you did not request a password reset, no further action is required.');
+            ->line(trans('mail.password_reset.you_are_receiving_because', [], '', $language)) // the [] is the argument that carries the placeholders substitution
+            ->action(trans('mail.password_reset.reset_password', [], '', $language), url('password/reset', $this->token))
+            ->salutation(trans('messaging.mail.do_not_reply', [], '', $language))
+            ->line(trans('mail.password_reset.no_further_action', [], '', $language));
     }
 }

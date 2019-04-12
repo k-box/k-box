@@ -14,6 +14,7 @@ return [
     'logo_text' => 'K-Box',
     'footer_disclaimer' => "You are receiving this E-mail because you are a member of <a href=\":url\">:instance</a>",
     'footer_help' => "<a href=\":url\">Help</a>",
+    'trouble_clicking_action' => 'If you’re having trouble clicking the ":action" button, copy and paste the URL below into your web browser: [:action_url](:action_url)',
 
     'welcome' => [
 
@@ -36,6 +37,7 @@ return [
     
     'password_reset_subject' => 'You requested a password reset for your K-Box account',
 
+
     'sharecreated' => [
         /**
          * Strings for the mails.shares.created email template. Used when a share to a document is created
@@ -50,6 +52,13 @@ return [
         'subject' => 'We found some duplicates in your recent uploads',
         'greetings' => 'During the periodic document check, we found that some of your documents are duplicates of existing ones. If you are fine with the duplication ignore this message.',
         'action' => 'See the duplicates from your recent documents',
+    ],
+
+        'password_reset' => [
+            'reset_password' => 'Reset Password',
+            'you_are_receiving_because' => 'You are receiving this email because we received a password reset request for your account.',
+            'no_further_action' => 'If you did not request a password reset, no further action is required',
+            
     ],
 
 ];

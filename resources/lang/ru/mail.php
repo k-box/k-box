@@ -13,6 +13,7 @@ return [
     'logo_text' => 'K-Box',
     'footer_disclaimer' => "Вы получили это сообщение, потому что являетесь участником <a href=\":url\">:instance</a>",
     'footer_help' => "<a href=\":url\">Помощь</a>",
+    'trouble_clicking_action' => 'Если у вас вас возникли трудности с нажатием на кнопку ":action", скопируйте и вставьте ссылку в ваш браузер: [:action_url](:action_url)',
 
 
     'welcome' => [
@@ -47,5 +48,11 @@ return [
         'title_label' => 'Название',
     ],
 
+    'password_reset' => [
+        'reset_password' => 'Сбросить пароль',
+        'you_are_receiving_because' => 'Вы получили это сообщение потому что мы получили запрос от вашего аккаунта на сброс пароля.',
+        'no_further_action' => 'Если вы не запрашивали сброс пароля, никаких дальнейших действий не требуется.',
+        
+    ],
     
 ];
