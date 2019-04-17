@@ -51,12 +51,12 @@
 		"k-box/example-plugin": "*",
 		"k-box/k-search-client-php": "3.3.*",
 		"k-box/kbox-plugin-geo": "*",
-		"laravel/framework": "5.6.*",
+		"laravel/framework": "5.7.*",
 		"laravel/tinker": "^1.0",
 		"league/csv": "^9.0",
 		"oneofftech/geoserver-client-php": "0.2.*",
 		"oneofftech/k-link-streaming-upload-client": "^0.3.0@dev",
-		"oneofftech/laravel-tus-upload": "0.5.*",
+		"oneofftech/laravel-tus-upload": "0.6.*",
 		"php-http/guzzle6-adapter": "^1.1",
 		"phpoffice/phppresentation": "^0.9.0",
 		"phpoffice/phpspreadsheet": "1.6.*",
@@ -67,6 +67,7 @@
 		"swiftmailer/swiftmailer": "~6.0"
 	},
 	"require-dev": {
+		"beyondcode/laravel-dump-server": "^1.0",
 		"barryvdh/laravel-ide-helper": "^2.6",
 		"friendsofphp/php-cs-fixer": "^2.3",
 		"fzaninotto/faker": "^1.4",
@@ -112,15 +113,15 @@
 	},
 	"scripts": {
 		"post-root-package-install": [ 
-            "php -r \"file_exists('.env') || copy('.env.example', '.env');\"" 
+            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\"" 
          ], 
 		"post-create-project-cmd": [
-			"@php artisan key:generate"
+			"@php artisan key:generate --ansi"
         ],
         "post-autoload-dump": [
 			"Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
-            "@php artisan package:discover",
-			"php artisan dms:lang-publish"
+            "@php artisan package:discover --ansi",
+			"@php artisan dms:lang-publish"
         ],
         "install-video-cli": [
             "OneOffTech\\VideoProcessing\\ComposerScripts::postInstall"

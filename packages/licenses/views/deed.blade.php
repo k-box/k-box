@@ -4,7 +4,7 @@
 <div class="license-help">
 
     <div class="license__owner">
-        {{ $owner or '' }}
+        {{ $owner ?? '' }}
     </div>
         
     <div class="license__description">

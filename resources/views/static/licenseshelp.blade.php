@@ -30,7 +30,7 @@
 						<h4>{{ $license->title }}</h4>
 					
 						
-						<div style="flex-basis:160px;text-align:right">{!! $license->icon or '' !!}</div>
+						<div style="flex-basis:160px;text-align:right">{!! $license->icon ?? '' !!}</div>
 					</div>
 					<div>
 						
