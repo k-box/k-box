@@ -4,6 +4,7 @@ namespace KBox;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
+use Illuminate\Support\Str;
 use KBox\Traits\HasCapability;
 use KBox\Traits\UserOptionsAccessor;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -237,7 +238,7 @@ class User extends Authenticatable
      */
     public static function generatePassword()
     {
-        return str_random(8);
+        return Str::random(8);
     }
 
     /**

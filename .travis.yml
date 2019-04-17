@@ -23,10 +23,10 @@ env:
     - DMS_CORE_ADDRESS="http://127.0.0.1:8081/"
 
 before_install:
+  - sudo add-apt-repository ppa:ubuntugis/ppa --yes
   - sudo apt-get update -q
   - sudo apt-get install -y libmagickwand-dev
   - sudo apt-get install -y ghostscript
-  - sudo add-apt-repository ppa:ubuntugis/ppa --yes
   - sudo apt-get install -y gdal-bin
   - ogrinfo --version
 
