@@ -92,7 +92,7 @@ laravel:
 
 unit_test:
   stage: test
-  image: "edbizarro/gitlab-ci-pipeline-php:7.1"
+  image: "docker.klink.asia/main/docker-php:7.1"
   services:
     - mariadb:10.0
   variables:
@@ -111,6 +111,7 @@ unit_test:
     - composer run install-content-cli
     - composer run install-language-cli
     - composer run install-streaming-client
+    - php artisan view:clear
     - php artisan config:clear
     - php artisan route:clear
     - php artisan migrate --env=testing --force

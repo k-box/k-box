@@ -12,7 +12,7 @@ class FileHelperTest extends TestCase
     {
         $hash = FileHelper::hash(__DIR__.'/../../data/example.pdf');
 
-        $this->assertEquals('e9621798d0fe1b96e31f6286b4b9ad6e0c6c880d1fef00d3bc419d37fe419ef5ce3abdedfad1c5ae3b60b0b6ed33db4b1377792d279e1e96cf9b11cd19173ed5', $hash);
+        $this->assertEquals('f8ed72e302b0d0b5146191143d71c6e57d40af09d575331f2ff08be91cdff372ce3e4818a819042d010f7fada5d77e04f8bf08357d21c59069746faaf460cc8e', $hash);
     }
 
     public function test_type_recognition()

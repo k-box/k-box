@@ -67,7 +67,9 @@ Thumbnails::register(PngThumbnailGenerator::class);
 Some default thumbnail generator requires [ImageMagick](https://www.imagemagick.org/script/index.php).
 You can install it as a [PECL extension](https://pecl.php.net/package/imagick).
 
-For Windows installation you might want to follow [this guide](https://mlocati.github.io/articles/php-windows-imagick.html)
+For Windows installation you might want to follow [this guide](https://mlocati.github.io/articles/php-windows-imagick.html).
+In addition ghostscript is required to generate PDF thumbnails. Therefore you need to
+download a [Ghostscript release](https://github.com/ArtifexSoftware/ghostpdl-downloads/releases) (tried with version 9.25)
 
 ### Testing
 
