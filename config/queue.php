@@ -28,14 +28,6 @@ return [
 
     'connections' => [
             
-        //https://github.com/barryvdh/laravel-async-queue
-        'async' => [
-            'driver' => 'async',
-            'table'  => 'jobs',
-            'queue'  => 'default',
-            'retry_after' => 90,
-        ],
-            
         'sync' => [
             'driver' => 'sync',
         ],

@@ -182,11 +182,6 @@ return [
         KBox\Documents\Providers\TextExtractionServiceProvider::class,
             
         /**
-         * Async Queue
-         */
-        Barryvdh\Queue\AsyncServiceProvider::class,
-
-        /**
          * For closure table implementation
          */
         Franzose\ClosureTable\ClosureTableServiceProvider::class,
