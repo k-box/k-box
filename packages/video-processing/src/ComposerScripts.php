@@ -1,6 +1,5 @@
 <?php
 
-
 namespace OneOffTech\VideoProcessing;
 
 use Composer\Factory;

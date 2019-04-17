@@ -56,7 +56,7 @@ class UserImportCommandTest extends BrowserKitTestCase
         $this->runCommand($command, ['file' => './data/totally-non-existing-file.csv']);
     }
     
-    public function testDmsUserImportCommandWithValidFile()
+    public function testDmsUserImportCommandWithValidFileAndFiveColumns()
     {
         $user = $this->createAdminUser();
         
@@ -94,9 +94,9 @@ class UserImportCommandTest extends BrowserKitTestCase
         $this->assertNotNull($user3);
         $this->assertNotNull($user5);
         
-        $this->assertTrue($user1->can_all_capabilities(Capability::$PARTNER));
-        $this->assertTrue($user3->isProjectManager());
-        $this->assertTrue($user5->isDMSAdmin());
+        $this->assertTrue($user1->can_all_capabilities(Capability::$PARTNER), "User 1 is not partner");
+        $this->assertTrue($user3->can_all_capabilities(Capability::$PROJECT_MANAGER_LIMITED), "User 3 is not project manager");
+        $this->assertTrue($user5->isDMSAdmin(), "User 5 is not an admin");
         
         $lead_by = Project::findOrFail($lead_by->id); // get a refreshed version of the model, otherwise the change cannot be tested
         

@@ -41,6 +41,7 @@
 		"doctrine/dbal": "^2.5",
 		"dyrynda/laravel-efficient-uuid": "^2.0",
 		"dyrynda/laravel-model-uuid": "~4.0",
+		"fideloper/proxy": "^4.0",
 		"franzose/closure-table": "~5.1.0",
 		"graham-campbell/markdown": "~10.3",
 		"guzzlehttp/guzzle": "~6.2.0",

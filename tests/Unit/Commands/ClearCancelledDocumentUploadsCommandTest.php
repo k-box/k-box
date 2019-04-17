@@ -87,7 +87,7 @@ class ClearCancelledDocumentUploadsCommandTest extends TestCase
         $doc_that_should_remain = factory(\KBox\DocumentDescriptor::class)->create();
         $uploads = $this->generateCancelledUploads(3);
 
-        $exitCode = Artisan::call('document:clear-cancelled', []);
+        $exitCode = Artisan::call('documents:clear-cancelled', []);
 
         $this->assertEquals(0, $exitCode);
         $this->assertEquals(0, TusUpload::count());

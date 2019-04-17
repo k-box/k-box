@@ -14,7 +14,7 @@ class Kernel extends HttpKernel
      */
     protected $middleware = [
         \KBox\Http\Middleware\PortRedirectMiddleware::class,
-        \Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode::class,
+        \KBox\Http\Middleware\CheckForMaintenanceMode::class,
         \KBox\Http\Middleware\TrustedProxyMiddleware::class,
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \KBox\Http\Middleware\TrimStrings::class,
@@ -55,10 +55,12 @@ class Kernel extends HttpKernel
         'auth' => \Illuminate\Auth\Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,
+        'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
-        'guest' => \KBox\Http\Middleware\RedirectIfAuthenticated::class,
         'capabilities' => \KBox\Http\Middleware\RedirectIfForbidden::class,
         'flags' => \KBox\Http\Middleware\VerifyFlag::class,
+        'guest' => \KBox\Http\Middleware\RedirectIfAuthenticated::class,
+        'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
     ];
 }

@@ -56,7 +56,7 @@ class SpreadsheetPreview extends BasePreviewDriver implements Renderable
     {
         return sprintf(
             '<div class="preview__render preview__render--spreadsheet">%1$s</div>',
-                $this->writer->generateSheetData()
+            $this->writer->generateSheetData()
         );
     }
 

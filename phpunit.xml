@@ -7,11 +7,7 @@
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true"
          processIsolation="false"
-         stopOnFailure="true"
-         syntaxCheck="true"
-         debug="true"
-         verbose="true"
-         tap ="true">
+         verbose="true">
     <testsuites>
         <testsuite name="Application Test Suite">
             <directory>./tests/</directory>
@@ -24,10 +20,11 @@
 
 
         <env name="APP_ENV" value="testing"/>
+        <env name="BCRYPT_ROUNDS" value="4"/>
         <env name="CACHE_DRIVER" value="array"/>
         <env name="SESSION_DRIVER" value="array"/>
-        <env name="MAIL_DRIVER" value="log" />
-        <env name="QUEUE_DRIVER" value="sync" />
+        <env name="QUEUE_DRIVER" value="sync"/>
+        <env name="MAIL_DRIVER" value="array"/>
         <!-- <env name="DMS_CORE_ADDRESS" value="http://127.0.0.1:8081/" /> -->
     </php>
 </phpunit>

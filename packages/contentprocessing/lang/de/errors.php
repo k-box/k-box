@@ -1,6 +1,5 @@
 <?php
 
-
 return [
 
     'unsupported_file' => 'Die Datei :file im Format :format wird nicht unterstützt.',

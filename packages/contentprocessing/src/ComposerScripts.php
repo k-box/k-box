@@ -1,6 +1,5 @@
 <?php
 
-
 namespace KBox\Documents;
 
 use PharData;

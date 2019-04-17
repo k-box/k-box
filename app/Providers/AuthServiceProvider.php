@@ -1,6 +1,5 @@
 <?php
 
-
 namespace KBox\Providers;
 
 use Illuminate\Support\Facades\Gate;

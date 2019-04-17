@@ -1,6 +1,5 @@
 <?php
 
-
 namespace OneOffTech\VideoProcessing\Contracts;
 
 interface VideoProcessor

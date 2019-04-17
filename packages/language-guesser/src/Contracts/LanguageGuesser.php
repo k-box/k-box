@@ -1,6 +1,5 @@
 <?php
 
-
 namespace OneOffTech\LanguageGuesser\Contracts;
 
 interface LanguageGuesser

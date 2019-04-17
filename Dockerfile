@@ -7,7 +7,7 @@
 FROM docker.klink.asia/images/video-processing-cli:0.5.3 AS videocli
 ## .. we just need this image so we can copy from it
 
-FROM docker.klink.asia/main/docker-php:7.1 AS builder
+FROM edbizarro/gitlab-ci-pipeline-php:7.1 AS builder
 ## Installing the dependencies to be used in a later step.
 ## Will generate three directories:
 ## * /var/www/dms/bin/
@@ -51,7 +51,7 @@ RUN apt-get update -yqq && \
     && docker-php-ext-install -j$(nproc) iconv mcrypt \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-install -j$(nproc) gd \
-    && docker-php-ext-install bz2 zip exif pdo_mysql \
+    && docker-php-ext-install bz2 zip exif pdo_mysql bcmath pcntl OPcache \
     && pecl install imagick \
     && docker-php-ext-enable imagick \
     && apt-get clean \

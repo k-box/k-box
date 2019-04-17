@@ -11,7 +11,7 @@ return [
     | by the framework. A "local" driver, as well as a variety of cloud
     | based drivers are available for your choosing. Just store away!
     |
-    | Supported: "local", "s3", "rackspace"
+    | Supported: "local", "ftp", "sftp", "s3", "rackspace"
     |
     */
 
@@ -65,13 +65,14 @@ return [
             'visibility' => 'public',
         ],
 
-        's3' => [
-            'driver' => 's3',
-            'key' => env('AWS_KEY'),
-            'secret' => env('AWS_SECRET'),
-            'region' => env('AWS_REGION'),
-            'bucket' => env('AWS_BUCKET'),
-        ],
+        // 's3' => [
+        //     'driver' => 's3',
+        //     'key' => env('AWS_KEY'),
+        //     'secret' => env('AWS_SECRET'),
+        //     'region' => env('AWS_REGION'),
+        //     'bucket' => env('AWS_BUCKET'),
+        //     'url' => env('AWS_URL'),
+        // ],
 
     ],
 

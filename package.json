@@ -8,8 +8,8 @@
   },
   "license": "AGPL-3.0",
   "devDependencies": {
-    "gulp": "^3.9.0",
-    "laravel-elixir": "avvertix/elixir#6.0.0"
+    "gulp": "^3.9.1",
+    "laravel-elixir": "avvertix/elixir#master"
   },
   "scripts": {
     "dev": "npm run development",

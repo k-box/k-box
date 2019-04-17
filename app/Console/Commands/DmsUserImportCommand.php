@@ -69,8 +69,8 @@ class DmsUserImportCommand extends Command
         
         $this->role_mapping = [
             'partner' => Capability::$PARTNER,
-            'projectadmin' => Capability::$PROJECT_MANAGER,
-            'project-admin' => Capability::$PROJECT_MANAGER,
+            'projectadmin' => Capability::$PROJECT_MANAGER_LIMITED,
+            'project-admin' => Capability::$PROJECT_MANAGER_LIMITED,
             'admin' => Capability::$ADMIN,
         ];
     }
@@ -101,12 +101,13 @@ class DmsUserImportCommand extends Command
 
         $csv = Reader::createFromPath($file);
         $csv->setDelimiter($delimiter);
+        $csv->setHeaderOffset(0);
         
         // check if the file is formatted properly
         
         $this->debugLine('Reading headers from file...');
         
-        $headers = $csv->fetchOne();
+        $headers = $csv->getHeader();
         
         $headers_count = count($headers);
         
@@ -135,7 +136,7 @@ class DmsUserImportCommand extends Command
         
         $validator = null;
         
-        $data = $csv->setOffset(1)->fetchAssoc(array_keys($this->expected_columns), function ($row, $rowOffset) use ($validator, $value_delimiter) {
+        $data = collect($csv->getRecords(array_keys($this->expected_columns)))->map(function ($row, $rowOffset) use ($validator, $value_delimiter) {
             $this->debugLine('Reading file line '.$rowOffset);
             
             if (isset($row['role'])) {

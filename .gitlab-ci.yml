@@ -12,7 +12,7 @@ stages:
 cache:
   key: "kbox"
   paths:
-    - .composer-cache/
+    - .composer/
     - .yarn/
     - node_modules/
 
@@ -24,7 +24,7 @@ before_script:
   - export IMAGE_TAG="${CI_COMMIT_REF_NAME#v}_${CI_COMMIT_SHA:0:10}"
   - export CLEANED_CI_COMMIT_REF_NAME="${CI_COMMIT_REF_NAME#v}"
   - echo $IMAGE_TAG
-  - export COMPOSER_CACHE_DIR=`pwd`/.composer-cache
+  - export COMPOSER_CACHE_DIR=`pwd`/.composer
 
 ## Composer Install script
 ## performs composer install with dev dependencies and syntax check
@@ -43,7 +43,7 @@ before_script:
 
 test-syntax:7.1:
   <<: *composer_install
-  image: "docker.klink.asia/main/docker-php:7.1-alpine"
+  image: "edbizarro/gitlab-ci-pipeline-php:7.1"
   tags:
     - docker
 
@@ -56,26 +56,26 @@ test-shell-syntax:
   tags:
     - docker
 
-frontend:
-  image: node:8.11
-  stage: build_frontend
-  tags:
-    - docker
-  script:
-    - yarn config set cache-folder .yarn
-    - yarn
-    - yarn run production
-  artifacts:
-    expire_in: 1 day
-    paths:
-      - public/
+# frontend:
+#   image: node:8.11
+#   stage: build_frontend
+#   tags:
+#     - docker
+#   script:
+#   artifacts:
+#     expire_in: 1 day
+#     paths:
+#       - public/
 
 laravel:
-  image: "docker.klink.asia/main/docker-php:7.1-alpine"
+  image: "edbizarro/gitlab-ci-pipeline-php:7.1"
   tags:
     - docker
   stage: build_laravel
   script:
+    - yarn config set cache-folder .yarn
+    - yarn
+    - yarn run production
     - cp env.ci .env
     - composer install --no-dev --prefer-dist
     - composer run install-content-cli
@@ -86,13 +86,13 @@ laravel:
     paths:
       - bin/
       - vendor/
-      - public/js/nls/
+      - public/
 
 ## Testing
 
 unit_test:
   stage: test
-  image: "docker.klink.asia/main/docker-php:7.1"
+  image: "edbizarro/gitlab-ci-pipeline-php:7.1"
   services:
     - mariadb:10.0
   variables:
@@ -101,14 +101,12 @@ unit_test:
     MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
     MYSQL_PASSWORD: dms
   script:
-    - mv /usr/local/etc/php/conf.d/docker-php-ext-xdebug.{ini,disabled}
+    - php -r "print_r(imagick::getVersion());"
     - cp env.ci .env
     - cp env.ci testing.env
     - mkdir ./storage/documents
     - composer install --prefer-dist
     - composer run install-video-cli
-    - ls -la ./bin/
-    - ls -la ./bin/bin
     - chmod +x ./bin/bin/packager-linux
     - composer run install-content-cli
     - composer run install-language-cli

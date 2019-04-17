@@ -68,7 +68,7 @@ class FileContentExtractor
         return $utf8_content = mb_convert_encoding(
             $content,
             'UTF-8',
-                      mb_detect_encoding($content, 'UTF-8, ISO-8859-1', true)
+            mb_detect_encoding($content, 'UTF-8, ISO-8859-1', true)
         );
     }
 

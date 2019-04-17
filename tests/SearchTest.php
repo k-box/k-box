@@ -1,6 +1,5 @@
 <?php
 
-
 use Tests\BrowserKitTestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 

@@ -3,9 +3,9 @@
 ## Prerequisites
 
 - [Git](https://git-scm.com/)
-- [PHP](https://php.net/), `>= 7.0.21` (tested on PHP 7.0 and 7.1)
+- [PHP](https://php.net/), `>= 7.1.3`
 - [Composer](https://getcomposer.org/download/)
-- [Node.JS](https://nodejs.org/en/), `>= 8.11.1, < 9.0.0`
+- [Node.JS](https://nodejs.org/en/), `>= 11.14.0`
 - [Yarn](https://yarnpkg.com/en/), follow the [installation guide](https://yarnpkg.com/en/docs/install)
 
 In addition the following services should be reachable
