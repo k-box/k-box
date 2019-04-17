@@ -101,7 +101,7 @@ unit_test:
     MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
     MYSQL_PASSWORD: dms
   script:
-    - php -r "print_r(imagick::getVersion());"
+    - php --ri imagick
     - cp env.ci .env
     - cp env.ci testing.env
     - mkdir ./storage/documents

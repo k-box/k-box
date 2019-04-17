@@ -23,10 +23,10 @@ env:
     - DMS_CORE_ADDRESS="http://127.0.0.1:8081/"
 
 before_install:
+  - sudo apt-get update -q
   - sudo apt-get install -y libmagickwand-dev
   - sudo apt-get install -y ghostscript
   - sudo add-apt-repository ppa:ubuntugis/ppa --yes
-  - sudo apt-get update -q
   - sudo apt-get install -y gdal-bin
   - ogrinfo --version
 
@@ -38,7 +38,8 @@ install:
 before_script:
   - phpenv config-rm xdebug.ini # disabling XDebug as currently we are not interested in code coverage report
   - pecl channel-update pecl.php.net
-  - yes | pecl install imagick # install imagemagick for thumbnail generation of files https://github.com/travis-ci/travis-ci/issues/781#issuecomment-332473065
+  - yes | pecl install imagick-3.4.3 # install imagemagick for thumbnail generation of files https://github.com/travis-ci/travis-ci/issues/781#issuecomment-332473065
+  - php --ri imagick
   - sudo service mysql stop
   - docker-compose -f ./tests/docker-compose.yml up -d  
 
