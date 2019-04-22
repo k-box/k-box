@@ -149,7 +149,7 @@
 		
     @unless(isset($shared_on) && isset($shared_on_diff) && $shared_on && $shared_on_diff)
         <span class="item__detail list__column modified-date" title="{{trans('documents.descriptor.last_modified')}} {{$modified_at}}">
-            {{ $modified_at_diff or $modified_at }}
+            {{ $modified_at_diff ?? $modified_at }}
         </span>
     @endif
     
