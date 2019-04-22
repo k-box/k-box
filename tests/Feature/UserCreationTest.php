@@ -23,8 +23,8 @@ class UserCreationTest extends TestCase
         return array_merge([
             'email' => 'test@klink.asia',
             'name' => 'Test User',
-            // 'password' => null,
-            'send_password' => true,
+            'password' => '',
+            'send_password' => '1',
             'capabilities' => ['receive_share'],
         ], $params);
     }

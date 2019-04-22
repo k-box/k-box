@@ -25,7 +25,7 @@
         <env name="CACHE_DRIVER" value="array"/>
         <env name="SESSION_DRIVER" value="array"/>
         <env name="QUEUE_DRIVER" value="sync"/>
-        <env name="MAIL_DRIVER" value="array"/>
+        <env name="MAIL_DRIVER" value="log"/>
         <!-- <env name="DMS_CORE_ADDRESS" value="http://127.0.0.1:8081/" /> -->
     </php>
 </phpunit>
