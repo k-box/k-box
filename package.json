@@ -38,11 +38,11 @@
     "lodash": "~4.17.4",
     "nprogress": "~0.2.0",
     "object.observe": "~0.2.6",
-    "plyr": "^2.0.13",
+    "plyr": "~3.5.3",
     "promise-polyfill": "^6.0.2",
     "requirejs": "~2.3.3",
     "select2": "~4.0.3",
-    "shaka-player": "^2.2.1",
+    "shaka-player": "^2.4.7",
     "sweetalert2": "6.11.5"
   }
 }
