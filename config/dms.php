@@ -56,6 +56,18 @@ return [
     */
     'are_guest_public_search_enabled' => env('KBOX_ENABLE_GUEST_NETWORK_SEARCH', env('DMS_ARE_GUEST_PUBLIC_SEARCH_ENABLED', false)),
 
+    /*
+    |--------------------------------------------------------------------------
+    | Enable self User Registration
+    |--------------------------------------------------------------------------
+    |
+    | Let the K-Box accept user registrations
+    |
+    | @var boolean
+    | @default false
+    */
+    'registration' => env('KBOX_USER_REGISTRATION', false),
+
     'core' => [
 
         /*

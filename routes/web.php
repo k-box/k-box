@@ -373,7 +373,10 @@ Route::get('stream/{uuid}/{resource?}', [
 
 // Login and Logout
 
-Auth::routes();
+Auth::routes([
+    'verify' => true,
+    'register' => config('dms.registration')
+]);
 
 /*
 |--------------------------------------------------------------------------

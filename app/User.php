@@ -2,15 +2,15 @@
 
 namespace KBox;
 
-use Illuminate\Foundation\Auth\User as Authenticatable;
-
 use Illuminate\Support\Str;
 use KBox\Traits\HasCapability;
 use KBox\Traits\UserOptionsAccessor;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Activitylog\Traits\CausesActivity;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use KBox\Notifications\ResetPasswordNotification;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
 /**
  * The User model
@@ -49,7 +49,7 @@ use KBox\Notifications\ResetPasswordNotification;
  * @method static \Illuminate\Database\Query\Builder|\KBox\User whereUpdatedAt($value)
  * @mixin \Eloquent
  */
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use Notifiable, HasCapability, SoftDeletes, UserOptionsAccessor, CausesActivity;
 
@@ -83,6 +83,15 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = ['password', 'remember_token'];
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+    ];
 
     /**
      * Scope a query to include only users with the

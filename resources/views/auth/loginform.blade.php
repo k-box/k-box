@@ -17,7 +17,12 @@
 			<span class="field-error">{{ implode(",", isset($errors) && $errors->get('password') ? $errors->get('password') : [])  }}</span>
 		@endif
 		<input type="password" class="c-form__input c-form__input--larger" required name="password" tabindex="2" id="password" />
-		<a href="{{ url('/password/reset') }}" tabindex="4" class="white">({{trans('passwords.forgot.link')}})</a>
+
+		@if (Route::has('password.request'))
+			<a  tabindex="4" class="white" href="{{ route('password.request') }}">
+				{{trans('passwords.forgot.link')}}
+			</a>
+		@endif
 	</div>
 
 	
@@ -26,10 +31,19 @@
 
 	<div class="c-form__buttons">
 		<input type="submit" id="login-submit" name="login-submit" class="button"  tabindex="3" value="{{trans('login.form.submit')}}">
-
+		
 		<label style="display:inline-block;margin-left:16px">
 			<input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> {{ trans('login.form.remember_me') }}
 		</label>
 	</div>
-
+		
+		
+		
+	<div class="c-form__buttons">
+		@if (Route::has('register'))
+			{{ trans('auth.no_account') }}&nbsp;<a  tabindex="4" class="white" href="{{ route('register') }}">
+				{{ trans('auth.register') }}
+			</a>
+		@endif
+	</div>
 </form>

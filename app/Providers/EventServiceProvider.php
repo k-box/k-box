@@ -8,6 +8,7 @@ use KBox\Events\ShareCreated;
 use KBox\Events\PageChanged;
 use KBox\Events\UploadCompleted;
 use KBox\Events\PrivacyPolicyUpdated;
+use Illuminate\Auth\Events\Registered;
 use KBox\Listeners\ShareCreatedHandler;
 use KBox\Events\FileDuplicateFoundEvent;
 use KBox\Listeners\UploadCompletedHandler;
@@ -20,6 +21,7 @@ use OneOffTech\TusUpload\Events\TusUploadCompleted;
 use OneOffTech\TusUpload\Events\TusUploadCancelled;
 use KBox\Notifications\DuplicateDocumentsNotification;
 use KBox\Listeners\RemovePrivacyPolicyConsentFromUsers;
+use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -30,6 +32,9 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
+        Registered::class => [
+            SendEmailVerificationNotification::class,
+        ],
         ShareCreated::class => [
             ShareCreatedHandler::class,
         ],

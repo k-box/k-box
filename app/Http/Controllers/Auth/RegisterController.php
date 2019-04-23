@@ -3,8 +3,9 @@
 namespace KBox\Http\Controllers\Auth;
 
 use KBox\User;
-use Illuminate\Support\Facades\Hash;
+use KBox\Capability;
 use KBox\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
@@ -48,34 +49,31 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
-        // return Validator::make($data, [
-        //     'name' => 'required|string|max:255',
-        //     'email' => 'required|string|email|max:255|unique:users',
-        //     'password' => 'required|string|min:6|confirmed',
-        // ]);
+        return Validator::make($data, [
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:6', 'confirmed'],
+            // 'accept_terms' => [''],
+            // 'honeypot' => [''],
+        ]);
     }
 
     /**
      * Create a new user instance after a valid registration.
      *
      * @param  array  $data
-     * @return User
+     * @return \KBox\User
      */
     protected function create(array $data)
     {
-        // return User::create([
-        //     'name' => $data['name'],
-        //     'email' => $data['email'],
-        //     'password' => Hash::make($data['password']),
-        // ]);
-    }
+        $user = User::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => Hash::make($data['password']),
+        ]);
 
-    public function showRegistrationForm()
-    {
-        return redirect('login');
-    }
+        $user->addCapabilities(Capability::$PARTNER);
 
-    public function register()
-    {
+        return $user;
     }
 }

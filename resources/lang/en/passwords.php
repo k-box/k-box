@@ -25,7 +25,7 @@ return [
 
         'title' => 'Forgot your password?',
 
-        'instructions' => 'To reset your password please specify your E-Mail address. A mail with a reset link will be sended to your E-Mail account.',
+        'instructions' => 'To reset your password please specify your E-Mail address. A mail with a reset link will be sent to your E-Mail address.',
 
         'submit' => 'Request a Password Reset',
 
