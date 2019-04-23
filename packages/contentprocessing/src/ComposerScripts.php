@@ -1,6 +1,5 @@
 <?php
 
-
 namespace KBox\Documents;
 
 use PharData;
@@ -10,21 +9,21 @@ use Composer\Downloader\TransportException;
 
 class ComposerScripts
 {
-    // const DOWNLOAD_URL = 'https://www.xpdfreader.com/dl/';
-    const DOWNLOAD_URL = 'https://git.oneofftech.xyz/alessio.vertemati/k-box-dependency-cache/raw/master/';
+    const DOWNLOAD_URL = 'https://xpdfreader-dl.s3.amazonaws.com/';
+
     /**
      * Maps the OS family (according to PHP) to the required file
      */
     private static $file_for_os = [
-        'windows' => 'xpdf-tools-win-4.00.zip',
-        'linux' => 'xpdf-tools-linux-4.00.tar.gz',
-        'darwin' => 'xpdf-tools-mac-4.00.tar.gz'
+        'windows' => 'xpdf-tools-win-4.01.01.zip',
+        'linux' => 'xpdf-tools-linux-4.01.01.tar.gz',
+        'darwin' => 'xpdf-tools-mac-4.01.01.tar.gz'
     ];
 
     private static $version = [
-        'windows' => 'xpdf-tools-win-4.00',
-        'linux' => 'xpdf-tools-linux-4.00',
-        'darwin' => 'xpdf-tools-mac-4.00'
+        'windows' => 'xpdf-tools-win-4.01.01',
+        'linux' => 'xpdf-tools-linux-4.01.01',
+        'darwin' => 'xpdf-tools-mac-4.01.01'
     ];
 
     private static $architecture = 'bin64';

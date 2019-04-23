@@ -244,6 +244,10 @@ function init_empty_dir() {
         mkdir -p "${dir_to_init}/framework/cache"
         echo "-- [framework/cache] created."
     fi
+    if [ ! -d "${dir_to_init}/framework/cache/data" ]; then
+        mkdir -p "${dir_to_init}/framework/cache/data"
+        echo "-- [framework/cache/data] created."
+    fi
     if [ ! -d "${dir_to_init}/framework/sessions" ]; then
         mkdir -p "${dir_to_init}/framework/sessions"
         echo "-- [framework/sessions] created."

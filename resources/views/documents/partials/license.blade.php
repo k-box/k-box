@@ -9,7 +9,7 @@
         @component('license::attribution')
 
             @slot('icon')
-                {!! $license->icon or '' !!}
+                {!! $license->icon ?? '' !!}
             @endslot
             
             @slot('owner')

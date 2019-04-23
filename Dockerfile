@@ -7,15 +7,23 @@
 FROM docker.klink.asia/images/video-processing-cli:0.5.3 AS videocli
 ## .. we just need this image so we can copy from it
 
-FROM docker.klink.asia/main/docker-php:7.1 AS builder
+FROM edbizarro/gitlab-ci-pipeline-php:7.1 AS builder
 ## Installing the dependencies to be used in a later step.
 ## Will generate three directories:
 ## * /var/www/dms/bin/
 ## * /var/www/dms/vendor/
 ## * /var/www/dms/public/
-WORKDIR /app
-COPY . /app
+
+COPY --chown=php:php . /var/www/html
 RUN \
+    mkdir bin &&\
+    mkdir -p "storage/app/projects/avatars" &&\
+    mkdir -p "storage/documents" &&\
+    mkdir -p "storage/framework/cache" &&\
+    mkdir -p "storage/framework/cache/data" &&\
+    mkdir -p "storage/framework/sessions" &&\
+    mkdir -p "storage/framework/views" &&\
+    mkdir -p "storage/logs" &&\
     composer install --no-dev --prefer-dist &&\
     composer run install-content-cli &&\
     composer run install-language-cli &&\
@@ -47,11 +55,13 @@ RUN apt-get update -yqq && \
         supervisor \
         cron \
         gdal-bin \
+        ghostscript \
         libmagickwand-dev \
     && docker-php-ext-install -j$(nproc) iconv mcrypt \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-install -j$(nproc) gd \
-    && docker-php-ext-install bz2 zip exif pdo_mysql \
+    && docker-php-ext-install bz2 zip exif pdo_mysql bcmath pcntl opcache \
+    && pecl channel-update pecl.php.net \
     && pecl install imagick \
     && docker-php-ext-enable imagick \
     && apt-get clean \
@@ -68,7 +78,7 @@ RUN locale-gen "en_US.UTF-8" \
 ### The installation procedure is heavily inspired from https://github.com/nginxinc/docker-nginx
 RUN set -e; \
 	NGINX_GPGKEY=573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62; \
-	NGINX_VERSION=1.14.1-1~stretch; \
+	NGINX_VERSION=1.14.2-1~stretch; \
 	found=''; \
 	apt-get update; \
 	apt-get install --no-install-recommends --no-install-suggests -y gnupg1 apt-transport-https ca-certificates; \
@@ -115,9 +125,6 @@ COPY docker/db-connect-test.php /usr/local/bin/db-connect-test.php
 RUN chmod +x /usr/local/bin/configure.sh && \
     chmod +x /usr/local/bin/start.sh
 
-
-COPY deploy-screens/index.html /var/www/html/index.html
-
 ## Copy the application code
 COPY \
     --chown=www-data:www-data \
@@ -127,19 +134,19 @@ COPY \
 COPY \
     --from=builder \
     --chown=www-data:www-data \
-    /app/vendor/ \
+    /var/www/html/vendor/ \
     /var/www/dms/vendor/
 
 COPY \
     --from=builder \
     --chown=www-data:www-data \
-    /app/bin/ \
+    /var/www/html/bin/ \
     /var/www/dms/bin/
 
 COPY \
     --from=builder \
     --chown=www-data:www-data \
-    /app/public/ \
+    /var/www/html/public/ \
     /var/www/dms/public/
 
 COPY \

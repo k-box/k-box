@@ -55,7 +55,7 @@ class WordDocumentPreview extends BasePreviewDriver implements Renderable
 
         return sprintf(
             '<div class="preview__render preview__render--document">%1$s</div>',
-                $content
+            $content
         );
     }
 

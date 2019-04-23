@@ -1,6 +1,5 @@
 <?php
 
-
 namespace KBox\Plugins;
 
 use Illuminate\Support\Fluent;

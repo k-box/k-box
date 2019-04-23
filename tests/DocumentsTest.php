@@ -6,6 +6,7 @@ use KBox\File;
 use KBox\Capability;
 use KBox\DocumentDescriptor;
 use KBox\Project;
+use Illuminate\Support\Str;
 use Tests\BrowserKitTestCase;
 use KBox\Documents\Facades\Files;
 use Klink\DmsAdapter\KlinkVisibilityType;
@@ -288,7 +289,7 @@ class DocumentsTest extends BrowserKitTestCase
         
         // create a document
         
-        $user_password = str_random(10);
+        $user_password = Str::random(10);
         
         $user = $this->createUser($cap, [ //Capability::$PROJECT_MANAGER
             'password' => bcrypt($user_password)
@@ -336,7 +337,7 @@ class DocumentsTest extends BrowserKitTestCase
         
         // create a document
         
-        $user_password = str_random(10);
+        $user_password = Str::random(10);
         
         $user = $this->createUser($cap, [ //Capability::$PROJECT_MANAGER
             'password' => bcrypt($user_password)
@@ -380,7 +381,7 @@ class DocumentsTest extends BrowserKitTestCase
         
         // create a document
         
-        $user_password = str_random(10);
+        $user_password = Str::random(10);
         
         $user = $this->createUser($cap, [ //Capability::$PROJECT_MANAGER
             'password' => bcrypt($user_password)
@@ -428,7 +429,7 @@ class DocumentsTest extends BrowserKitTestCase
         
         // create a document
         
-        $user_password = str_random(10);
+        $user_password = Str::random(10);
         
         $owner = $this->createUser($cap, [ //Capability::$PROJECT_MANAGER
             'password' => bcrypt($user_password)

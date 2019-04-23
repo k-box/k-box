@@ -8,7 +8,7 @@
     @endif
 
     <span>
-        {{ $owner or '' }}<br/>
+        {{ $owner ?? '' }}<br/>
             
         {{ $slot }}
     </span>

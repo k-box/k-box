@@ -118,10 +118,10 @@ class DuplicateDocumentTest extends TestCase
 
         $expected = trans('documents.duplicates.message_in_collection', [
             'duplicate_link' => RoutingHelpers::preview($duplicate->document),
-            'duplicate_title' => $duplicate->document->title,
+            'duplicate_title' => e($duplicate->document->title),
             'existing_link' => RoutingHelpers::preview($duplicate->duplicateOf),
-            'existing_title' => $duplicate->duplicateOf->title,
-            'owner' => $manager->name,
+            'existing_title' => e($duplicate->duplicateOf->title),
+            'owner' => e($manager->name),
             'collections' => '<a href="'.route('documents.groups.show', [ 'id' => $project->collection->id, 'highlight' => $descriptor->id]).'">'.$project->collection->name.'</a>',
         ]);
 

@@ -11,12 +11,14 @@
 |
 */
 
+use Illuminate\Support\Str;
+
 $factory->define(KBox\User::class, function (Faker\Generator $faker) {
     
     return [
         'name' => $faker->name,
         'email' => $faker->email,
-        'password' => bcrypt(str_random(10)),
+        'password' => bcrypt(Str::random(10)),
         'institution_id' => null
     ];
 });
@@ -26,7 +28,7 @@ $factory->defineAs(KBox\User::class, 'admin', function (Faker\Generator $faker) 
     return [
         'name' => 'admin',
         'email' => 'admin@klink.local',
-        'password' => bcrypt(str_random(10)),
+        'password' => bcrypt(Str::random(10)),
         'institution_id' => null
     ];
 });
@@ -57,7 +59,7 @@ $factory->define(KBox\File::class, function (Faker\Generator $faker) {
 
 $factory->define(KBox\Institution::class, function (Faker\Generator $faker) {
     return [
-        'klink_id' => str_random(4),
+        'klink_id' => Str::random(4),
         'email' => $faker->email,
         'url' => $faker->url,
         'type' => 'Organization',

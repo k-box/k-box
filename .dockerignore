@@ -1,11 +1,12 @@
 
 .git*
+.gitlab/*
 bower.json
 phpspec.yml
 .php_cs
 phpunit.xml
+node_modules/
 tests/*
-node_modules
 env*
 .env
 .gitlab-ci.yml
@@ -13,10 +14,11 @@ server.php
 testing.env
 contributing.md
 .bowerrc
-.gitlab/*
 .vscode
 .dockerignore
 Dockerfile
 storage/
+deploy-screens/
+docs/
+bin/
 php-cs-fixer.phar
-server.php

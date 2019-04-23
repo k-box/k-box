@@ -4,7 +4,7 @@ namespace OneOffTech\VideoProcessing\Drivers;
 
 use RuntimeException;
 use OneOffTech\VideoProcessing\Exceptions\VideoProcessingFailedException;
-use Symfony\Component\Process\ProcessBuilder;
+use Symfony\Component\Process\Process;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 
 class VideoCli
@@ -51,17 +51,10 @@ class VideoCli
             throw new RuntimeException("Invalid Video CLI path [{$driver}].");
         }
 
-        $builder = (new ProcessBuilder())
-                ->setPrefix(realpath($driver))
-                ->setWorkingDirectory(realpath(base_path(self::VIDEO_PROCESSING_CLI_FOLDER)));
+        $arguments = array_merge([realpath($driver)], $this->options->toWorkerArguments());
+        $cwd = realpath(base_path(self::VIDEO_PROCESSING_CLI_FOLDER));
 
-        $arguments = $this->options->toWorkerArguments();
-
-        foreach ($arguments as $argument) {
-            $builder->add($argument);
-        }
-
-        $this->process = $process = $builder->getProcess();
+        $this->process = $process = new Process($arguments, $cwd);
         
         // pass the inputs
         

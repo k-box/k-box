@@ -86,6 +86,8 @@ class GeoJsonGpxKmlThumbnailGeneratorTest extends TestCase
 
         $file = $this->createFileForPath($path);
 
+        \Log::info("Is $path readable?", ['readable' => is_readable($path), 'file' => $file]);
+
         $image = $generator->generate($file);
 
         $this->assertInstanceOf(ThumbnailImage::class, $image);

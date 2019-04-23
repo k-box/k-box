@@ -2,21 +2,22 @@
 
 namespace KBox\Http\Middleware;
 
-use Closure;
+use Illuminate\Http\Request;
+use Fideloper\Proxy\TrustProxies as Middleware;
 
-class TrustedProxyMiddleware
+class TrustedProxyMiddleware extends Middleware
 {
     /**
-     * Add local addresses as trusted proxies to the request
+     * The trusted proxies for this application.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
-     * @return mixed
+     * @var array
      */
-    public function handle($request, Closure $next)
-    {
-        $request->setTrustedProxies(['*', '127.0.0.1', '172.17.2.136', '172.16.0.0/12']);
+    protected $proxies = ['*', '127.0.0.1', '172.17.2.136', '172.16.0.0/12'];
 
-        return $next($request);
-    }
+    /**
+     * The headers that should be used to detect proxies.
+     *
+     * @var int
+     */
+    protected $headers = Request::HEADER_X_FORWARDED_ALL;
 }

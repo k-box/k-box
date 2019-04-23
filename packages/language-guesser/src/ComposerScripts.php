@@ -1,6 +1,5 @@
 <?php
 
-
 namespace OneOffTech\LanguageGuesser;
 
 use Composer\Factory;

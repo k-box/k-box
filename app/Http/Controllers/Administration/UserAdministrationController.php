@@ -2,6 +2,7 @@
 
 namespace KBox\Http\Controllers\Administration;
 
+use Log;
 use KBox\Capability;
 use KBox\Http\Controllers\Controller;
 use KBox\Http\Requests\UserRequest;
@@ -122,7 +123,7 @@ class UserAdministrationController extends Controller
      */
     public function store(UserRequest $request)
     {
-        $mail_configured = ! Option::isMailEnabled() || (Option::isMailEnabled() && Option::isMailUsingLogDriver());
+        $mail_configured = Option::isMailEnabled();
 
         $password = $request->input('password', null);
 
@@ -150,6 +151,8 @@ class UserAdministrationController extends Controller
                 $user->notify(new UserCreatedNotification($user, $password));
             }
         } catch (Exception $ex) {
+            Log::error("User created notification cannot be sent", compact('ex'));
+
             return redirect()->route('administration.users.index')->with([
                 'flash_message' => trans('administration.accounts.created_no_mail_msg')
             ]);

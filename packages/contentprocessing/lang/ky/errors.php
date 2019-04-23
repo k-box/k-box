@@ -1,6 +1,5 @@
 <?php
 
-
 return [
     
     'unsupported_file' => ':format форматы учурда колдонбойт (:file файлы)',

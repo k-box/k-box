@@ -45,12 +45,6 @@ class ThumbnailsTest extends TestCase
     {
         $this->withoutExceptionHandling();
         
-        if (ends_with($path, 'pdf') && strtolower(PHP_OS) === 'winnt') {
-            $this->markTestSkipped(
-                'Known bug on Windows with the imagick extension https://github.com/mkoppanen/imagick/issues/252.'
-            );
-        }
-        
         $real_path = base_path($path);
         
         list($mime, $documentType) = Files::recognize($real_path);

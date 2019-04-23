@@ -126,8 +126,8 @@ define(function () {
 
         selector = typeof selector === 'string' ? document.querySelector(selector) : selector;
 
-        var players = plyr.setup(selector);
-        
+        var player = new Plyr(selector);
+
         shaka.polyfill.installAll();
 
         var manifestUri = $(selector).data('dash');
@@ -143,16 +143,16 @@ define(function () {
 
             var video = $(selector);
 
-            players[0].source({
+            player.source = {
                 type:       'video',
                 sources: [{
                     src:    video.data('source').trim(),
                     type:   video.data('sourceType').trim()
                 }]
-              });
+              };
         }
 
-        return players[0];
+        return player;
     }
 
 

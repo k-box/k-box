@@ -94,7 +94,7 @@ class PluginsControllerTest extends TestCase
         
         $manager = resolve(PluginManager::class);
         $this->assertEquals(1, $manager->enabled()->count());
-        $this->assertNotNull('k-box-unittest-demo-plugin', $manager->enabled()->get('k-box-unittest-demo-plugin'));
+        $this->assertNotNull($manager->enabled()->get('k-box-unittest-demo-plugin'));
     }
 
     public function test_plugin_controller_can_disable_plugins()
