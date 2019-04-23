@@ -1,85 +1,90 @@
 @extends('global')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ trans('auth.register') }}</div>
 
-                <div class="card-body">
-                    <form method="POST" action="{{ route('register') }}">
-                        @csrf
+    <div class="c-login">
 
-                        <div class="form-group row">
-                            <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Name') }}</label>
+		<picture class="c-login__background">
 
-                            <div class="col-md-6">
-                                <input id="name" type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" value="{{ old('name') }}" required autofocus>
+			<source media="(max-width: 640px)"
+					srcset="{{asset('images/land-medium.jpg')}}">
 
-                                @if ($errors->has('name'))
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('name') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
+			<source media="(max-width: 1280px)"
+					srcset="{{asset('images/land-large.jpg')}}">
 
-                        <div class="form-group row">
-                            <label for="email" class="col-md-4 col-form-label text-md-right">{{trans('login.form.email_label')}}</label>
+			<img src="{{asset('images/land.jpg')}}">
 
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" required>
+		</picture>
 
-                                @if ($errors->has('email'))
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
+		
+		<div class="c-login__spacer">
+		</div>
+		
+		<div class="c-login__form">
+            
+            <form action="{{ route('register') }}" class="c-form c-form--space" method="POST">
 
-                        <div class="form-group row">
-                            <label for="password" class="col-md-4 col-form-label text-md-right">{{trans('login.form.password_label')}}</label>
+                @csrf
+            
+                <h2 class="">{{ trans('auth.register') }}</h2>
 
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>
-
-                                @if ($errors->has('password'))
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('password') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Confirm Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
-                            </div>
-                        </div>
-
-                        <div class="form-group row mb-0">
-                            <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="button">
-                                    {{ trans('auth.register') }}
-                                </button>
-                            </div>
-                        </div>
-
-                        <div class="c-form__buttons">
-                            @if (Route::has('login'))
-                                {{ trans('auth.have_account') }}&nbsp;<a  tabindex="4" class="" href="{{ route('login') }}">
-                                    {{ trans('auth.login') }}
-                                </a>
-                            @endif
-                        </div>
-                    </form>
+                <div class="c-form__field">
+                    <label for="name">{{trans('auth.name_label')}}</label>
+                    @if( isset($errors) && $errors->has('name') )
+                        <span class="field-error">{{ $errors->first('name')  }}</span>
+                    @endif
+                    <input type="text" class="c-form__input c-form__input--larger" required autofocus id="name" name="name" tabindex="1" value="{{ old('name') }}" />
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
+
+                <div class="c-form__field">
+                    <label for="email" class="">{{trans('login.form.email_label')}}</label>
+
+                    @if ( isset($errors) && $errors->has('email'))
+                        <span class="field-error" role="alert">
+                            {{ $errors->first('email') }}
+                        </span>
+                    @endif
+                    <input id="email" type="email" class="c-form__input c-form__input--larger" name="email" tabindex="2" value="{{ old('email') }}" required>
+                </div>
+
+                <div class="c-form__field">
+                    <label for="password" class="">{{trans('login.form.password_label')}}</label>
+
+                    @if ( isset($errors) && $errors->has('password'))
+                        <span class="field-error" role="alert">
+                            {{ $errors->first('password') }}
+                        </span>
+                    @endif
+
+                    <input id="password" type="password" class="c-form__input c-form__input--larger"  tabindex="3" name="password" required>
+                    <span class="description">{{ trans('profile.labels.password_description') }}</span>
+                </div>
+
+                <div class="c-form__field">
+                    <label for="password-confirm" class="">{{ trans('profile.labels.password_confirm') }}</label>
+
+                    <input id="password-confirm" type="password" class="c-form__input c-form__input--larger" name="password_confirmation"  tabindex="4" required>
+                </div>
+
+                <div class="c-form__field">
+                    <div class="col-md-6 offset-md-4">
+                        <button type="submit" class="button"  tabindex="5">
+                            {{ trans('auth.register') }}
+                        </button>
+                    </div>
+                </div>
+
+                <div class="c-form__buttons">
+                    @if (Route::has('login'))
+                        {{ trans('auth.have_account') }}&nbsp;<a  tabindex="6" class="" href="{{ route('login') }}">
+                            {{ trans('auth.login') }}
+                        </a>
+                    @endif
+                </div>
+
+            </form>
+		</div>
+		
+	</div>
+
 @endsection

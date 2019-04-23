@@ -1,5 +1,5 @@
 
-<form action="{{ url('/login') }}" class="c-form c-form--space" method="POST">
+<form action="{{ route('login') }}" class="c-form c-form--space" method="POST">
 	
 	<h2 class="">{{ $welcome_string }}</h2>
 
