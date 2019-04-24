@@ -10,6 +10,7 @@ use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\JsonResponse;
 use KBox\Documents\Services\DocumentsService;
 use KBox\Traits\AvatarUpload;
+use KBox\Exceptions\ForbiddenException;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -90,9 +91,13 @@ class ProjectsController extends Controller
         
         $user = $auth->user();
 
+        if ($prj->manager->id !== $user->id && ! $user->isDMSManager()) {
+            throw new ForbiddenException();
+        }
+
         $current_members = $prj->users()->orderBy('name', 'ASC')->get();
 
-        $skip = $current_members->merge([$prj->manager]);
+        $skip = $current_members->merge(! $user->isDMSManager() ? [$prj->manager, $user] : [$prj->manager])->filter();
 
         $available_users = $this->getAvailableUsers($skip);
 
