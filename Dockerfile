@@ -7,7 +7,7 @@
 FROM docker.klink.asia/images/video-processing-cli:0.5.3 AS videocli
 ## .. we just need this image so we can copy from it
 
-FROM edbizarro/gitlab-ci-pipeline-php:7.1 AS builder
+FROM docker.klink.asia/main/docker-php:7.1 AS builder
 ## Installing the dependencies to be used in a later step.
 ## Will generate three directories:
 ## * /var/www/dms/bin/
