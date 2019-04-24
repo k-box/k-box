@@ -19,9 +19,12 @@ return [
     'email_label' => 'E-Mail',
     'password_label' => 'Password',
     'login' => 'Login',
-    'register' => 'Create an account',
+    'remember_me' => 'Remember Me',
+    'register' => 'Register',
+
+    'create_account' => 'Create an account',
     'no_account' => 'Don\'t have an account?',
     'have_account' => 'Already have an account?',
-    'remember_me' => 'Remember Me',
+    'have_login_and_password' => 'Already have login and password?', // used on the password reset page to navigate back to the login page
 
 ];

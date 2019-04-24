@@ -5,7 +5,15 @@
 
 	<form action="{{ route('login') }}" class="c-form c-form--space" method="POST">
 		
-		<h2 class="">{{ $welcome_string }}</h2>
+		<h2 class="mb-1">{{ $welcome_string }}</h2>
+
+		@if (Route::has('register'))
+			<div class="mb-4">
+				{{ trans('auth.no_account') }}&nbsp;<a  tabindex="4" class="" href="{{ route('register') }}">
+					{{ trans('auth.register') }}
+				</a>
+			</div>
+		@endif
 
 		<div class="c-form__field">
 			<label for="email">{{trans('login.form.email_label')}}</label>
@@ -15,7 +23,7 @@
 			<input type="email" class="c-form__input c-form__input--larger" required id="email" name="email" tabindex="1" value="@if(isset($email)){{$email}}@endif" />
 		</div>
 
-		<div class="c-form__field">
+		<div class="c-form__field  mb-4">
 			<label for="password">{{trans('login.form.password_label')}} </label>
 			@if( isset($errors) && $errors->has('password') )
 				<span class="field-error">{{ implode(",", isset($errors) && $errors->get('password') ? $errors->get('password') : [])  }}</span>
@@ -43,12 +51,6 @@
 			
 			
 			
-		<div class="c-form__buttons">
-			@if (Route::has('register'))
-				{{ trans('auth.no_account') }}&nbsp;<a  tabindex="4" class="" href="{{ route('register') }}">
-					{{ trans('auth.register') }}
-				</a>
-			@endif
-		</div>
+		
 	</form>
 @stop

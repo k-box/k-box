@@ -6,15 +6,23 @@
 
         @csrf
     
-        <h2 class="">{{ trans('auth.register') }}</h2>
+        <h2 class="mb-1">{{ trans('auth.create_account') }}</h2>
 
-        <div class="c-form__field">
+        @if (Route::has('login'))
+            <div class="mb-4">
+                {{ trans('auth.have_account') }}&nbsp;<a  tabindex="6" class="" href="{{ route('login') }}">
+                    {{ trans('auth.login') }}
+                </a>
+            </div>
+        @endif
+
+        {{-- <div class="c-form__field">
             <label for="name">{{trans('auth.name_label')}}</label>
             @if( isset($errors) && $errors->has('name') )
                 <span class="field-error">{{ $errors->first('name')  }}</span>
             @endif
             <input type="text" class="c-form__input c-form__input--larger" required autofocus id="name" name="name" tabindex="1" value="{{ old('name') }}" />
-        </div>
+        </div> --}}
 
         <div class="c-form__field">
             <label for="email" class="">{{trans('login.form.email_label')}}</label>
@@ -40,28 +48,19 @@
             <span class="description">{{ trans('profile.labels.password_description') }}</span>
         </div>
 
-        <div class="c-form__field">
+        <div class="c-form__field mb-4">
             <label for="password-confirm" class="">{{ trans('profile.labels.password_confirm') }}</label>
 
             <input id="password-confirm" type="password" class="c-form__input c-form__input--larger" name="password_confirmation"  tabindex="4" required>
         </div>
 
         <div class="c-form__field">
-            <div class="col-md-6 offset-md-4">
+            <div class="">
                 <button type="submit" class="button"  tabindex="5">
                     {{ trans('auth.register') }}
                 </button>
             </div>
         </div>
-
-        <div class="c-form__buttons">
-            @if (Route::has('login'))
-                {{ trans('auth.have_account') }}&nbsp;<a  tabindex="6" class="" href="{{ route('login') }}">
-                    {{ trans('auth.login') }}
-                </a>
-            @endif
-        </div>
-
     </form>
 
 @endsection
