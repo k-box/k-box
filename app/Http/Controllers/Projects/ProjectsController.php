@@ -92,15 +92,14 @@ class ProjectsController extends Controller
 
         $current_members = $prj->users()->orderBy('name', 'ASC')->get();
 
-        $skip = $current_members->merge([$user]);
+        $skip = $current_members->merge([$prj->manager]);
 
         $available_users = $this->getAvailableUsers($skip);
 
         return view('projects.edit', [
             'pagetitle' => trans('projects.edit_page_title', ['name' => $prj->name]),
             'available_users' => $available_users,
-            'manager_id' => $user->id,
-            // 'available_users_encoded' => json_encode($available_users),
+            'manager_id' => optional($prj->manager)->id,
             'project' => $prj,
             'project_users' => $current_members,
         ]);
@@ -116,7 +115,6 @@ class ProjectsController extends Controller
             'pagetitle' => trans('projects.create_page_title'),
             'available_users' => $available_users,
             'manager_id' => $user->id,
-            // 'available_users_encoded' => json_encode($available_users)
         ]);
     }
     

@@ -186,6 +186,31 @@ class ProjectsTest extends TestCase
 
         $this->assertEquals($expected_available_users->pluck('id')->toArray(), $available_users->pluck('id')->toArray());
     }
+    
+    public function test_admin_should_bet_able_to_add_itself_as_project_member()
+    {
+        $project = factory(Project::class)->create();
+        
+        $user = $project->manager()->first();
+
+        $admin = $this->createUser(Capability::$ADMIN);
+
+        $expected_available_users = collect([$this->createUser(Capability::$PARTNER), $admin])->sortBy('name');
+
+        $response = $this->actingAs($admin)->get(route('projects.edit', ['id' => $project->id]));
+
+        $response->assertStatus(200);
+
+        $response->assertViewIs('projects.edit');
+
+        $response->assertViewHas('manager_id', $user->id);
+
+        $response->assertViewHas('available_users');
+
+        $available_users = $response->data('available_users');
+
+        $this->assertEquals($expected_available_users->pluck('id')->toArray(), $available_users->pluck('id')->toArray());
+    }
 
     public function test_project_is_accessible_by_user()
     {
