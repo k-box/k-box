@@ -4,6 +4,7 @@ namespace KBox\Http\Controllers\Auth;
 
 use KBox\User;
 use KBox\Capability;
+use Illuminate\Support\Str;
 use KBox\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -29,7 +30,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/';
+    protected $redirectTo = '/email/verify';
 
     /**
      * Create a new controller instance.
@@ -49,11 +50,15 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
-        return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
+        $val = Validator::make($data, [
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:6', 'confirmed'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            
+            // We choose to not require a user name, but if specified we accept it
+            'name' => ['sometimes', 'nullable', 'string', 'max:255'],
         ]);
+
+        return $val;
     }
 
     /**
@@ -65,7 +70,7 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         $user = User::create([
-            'name' => $data['name'],
+            'name' => $data['name'] ?? Str::before($data['email'], '@'),
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
