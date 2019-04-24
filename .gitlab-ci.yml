@@ -43,7 +43,7 @@ before_script:
 
 test-syntax:7.1:
   <<: *composer_install
-  image: "edbizarro/gitlab-ci-pipeline-php:7.1"
+  image: "docker.klink.asia/main/docker-php:7.1"
   tags:
     - docker
 
@@ -68,7 +68,7 @@ test-shell-syntax:
 #       - public/
 
 laravel:
-  image: "edbizarro/gitlab-ci-pipeline-php:7.1"
+  image: "docker.klink.asia/main/docker-php:7.1"
   tags:
     - docker
   stage: build_laravel
