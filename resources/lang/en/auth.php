@@ -21,6 +21,7 @@ return [
     'login' => 'Login',
     'remember_me' => 'Remember Me',
     'register' => 'Register',
+    'logout' => 'Logout',
 
     'create_account' => 'Create an account',
     'no_account' => 'Don\'t have an account?',

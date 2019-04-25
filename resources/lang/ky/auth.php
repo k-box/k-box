@@ -13,12 +13,9 @@ return [
     |
     */
 
-    'failed' => 'Logininformationen sind ungültig.',
-    'throttle' => 'Zu viele Loginversuche. Bitte probieren sie es in :seconds Sekunden erneut.',
-
-    'email_label' => 'E-Mail',
-    'password_label' => 'Passwort',
-    'login' => 'Anmelden',
-    'remember_me' => 'Angemeldet bleiben',
-    'logout' => 'Abmelden',
+    'email_label' => 'Почта',
+    'password_label' => 'Пароль',
+    'login' => 'Кирүү',
+    'remember_me' => 'Эстеп калуу',
+    'logout' => 'Чыгуу',
 ];

@@ -14,6 +14,11 @@ return [
     */
 
     'failed' => 'Логин и пароль не найдены',
-    'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
 
+    'email_label' => 'Почта',
+    'password_label' => 'Пароль',
+    'login' => 'Войти',
+    'remember_me' => 'Запомнить',
+
+    'logout' => 'Выйти',
 ];

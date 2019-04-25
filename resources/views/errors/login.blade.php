@@ -15,7 +15,7 @@
 
 @section('actions')
 <div>
-	<a class="button" target="_blank" noreferrer href="{{ url('/') }}">{{ trans('login.form.submit') }}</a>
+	<a class="button" target="_blank" noreferrer href="{{ url('/') }}">{{ trans('auth.login') }}</a>
 </div>
 @endsection
 

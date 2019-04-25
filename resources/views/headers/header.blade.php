@@ -38,7 +38,7 @@
 					<div class="header__profile__card">
 						<div class="header__profile__name">{{$current_user_name}}</div>
 						<div>
-						<button class="button" onclick="event.preventDefault();document.getElementById('logout-form').submit();">{{trans('login.logout')}}</button>
+						<button class="button" onclick="event.preventDefault();document.getElementById('logout-form').submit();">{{trans('auth.logout')}}</button>
 						<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
 							{{ csrf_field() }}
 						</form>

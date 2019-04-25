@@ -25,7 +25,7 @@
         </div> --}}
 
         <div class="c-form__field">
-            <label for="email" class="">{{trans('login.form.email_label')}}</label>
+            <label for="email" class="">{{trans('auth.email_label')}}</label>
 
             @if ( isset($errors) && $errors->has('email'))
                 <span class="field-error" role="alert">
@@ -36,7 +36,7 @@
         </div>
 
         <div class="c-form__field">
-            <label for="password" class="">{{trans('login.form.password_label')}}</label>
+            <label for="password" class="">{{trans('auth.password_label')}}</label>
 
             @if ( isset($errors) && $errors->has('password'))
                 <span class="field-error" role="alert">

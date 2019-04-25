@@ -16,7 +16,7 @@
 		@endif
 
 		<div class="c-form__field">
-			<label for="email">{{trans('login.form.email_label')}}</label>
+			<label for="email">{{trans('auth.email_label')}}</label>
 			@if( isset($errors) && $errors->has('email') )
 				<span class="field-error">{{ implode(",", isset($errors) && $errors->get('email') ? $errors->get('email') : [])  }}</span>
 			@endif
@@ -24,7 +24,7 @@
 		</div>
 
 		<div class="c-form__field  mb-4">
-			<label for="password">{{trans('login.form.password_label')}} </label>
+			<label for="password">{{trans('auth.password_label')}} </label>
 			@if( isset($errors) && $errors->has('password') )
 				<span class="field-error">{{ implode(",", isset($errors) && $errors->get('password') ? $errors->get('password') : [])  }}</span>
 			@endif
@@ -42,10 +42,10 @@
 		{{ csrf_field() }}
 
 		<div class="c-form__buttons">
-			<input type="submit" id="login-submit" name="login-submit" class="button"  tabindex="3" value="{{trans('login.form.submit')}}">
+			<input type="submit" id="login-submit" name="login-submit" class="button"  tabindex="3" value="{{trans('auth.login')}}">
 			
 			<label style="display:inline-block;margin-left:16px">
-				<input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> {{ trans('login.form.remember_me') }}
+				<input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> {{ trans('auth.remember_me') }}
 			</label>
 		</div>
 			

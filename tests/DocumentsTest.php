@@ -319,7 +319,7 @@ class DocumentsTest extends BrowserKitTestCase
         $this->type($user->email, 'email');
         $this->type($user_password, 'password');
         
-        $this->press(trans('login.form.submit'));
+        $this->press(trans('auth.login'));
         
         // see document page
         
@@ -411,7 +411,7 @@ class DocumentsTest extends BrowserKitTestCase
         $this->type($user->email, 'email');
         $this->type($user_password, 'password');
         
-        $this->press(trans('login.form.submit'));
+        $this->press(trans('auth.login'));
         
         // see document page
         
@@ -463,7 +463,7 @@ class DocumentsTest extends BrowserKitTestCase
         $this->type($user->email, 'email');
         $this->type($user_password, 'password');
         
-        $this->press(trans('login.form.submit'));
+        $this->press(trans('auth.login'));
         
         // see document page
         
