@@ -8,11 +8,13 @@ use KBox\Events\ShareCreated;
 use KBox\Events\PageChanged;
 use KBox\Events\EmailChanged;
 use KBox\Events\UploadCompleted;
+use Illuminate\Auth\Events\Verified;
 use KBox\Events\PrivacyPolicyUpdated;
 use Illuminate\Auth\Events\Registered;
 use KBox\Listeners\ShareCreatedHandler;
 use KBox\Events\FileDuplicateFoundEvent;
 use Illuminate\Auth\Events\PasswordReset;
+use KBox\Listeners\TrackEmailVerification;
 use KBox\Listeners\UploadCompletedHandler;
 use KBox\Listeners\TrackEmailChangeAction;
 use KBox\Listeners\TusUploadStartedHandler;
@@ -44,6 +46,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         EmailChanged::class => [
             TrackEmailChangeAction::class,
+        ],
+        Verified::class => [
+            TrackEmailVerification::class,
         ],
         ShareCreated::class => [
             ShareCreatedHandler::class,
