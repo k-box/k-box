@@ -6,6 +6,7 @@ use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvi
 
 use KBox\Events\ShareCreated;
 use KBox\Events\PageChanged;
+use KBox\Events\EmailChanged;
 use KBox\Events\UploadCompleted;
 use KBox\Events\PrivacyPolicyUpdated;
 use Illuminate\Auth\Events\Registered;
@@ -13,6 +14,7 @@ use KBox\Listeners\ShareCreatedHandler;
 use KBox\Events\FileDuplicateFoundEvent;
 use Illuminate\Auth\Events\PasswordReset;
 use KBox\Listeners\UploadCompletedHandler;
+use KBox\Listeners\TrackEmailChangeAction;
 use KBox\Listeners\TusUploadStartedHandler;
 use KBox\Listeners\TrackPasswordResetAction;
 use KBox\Listeners\TusUploadCompletedHandler;
@@ -39,6 +41,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         PasswordReset::class => [
             TrackPasswordResetAction::class,
+        ],
+        EmailChanged::class => [
+            TrackEmailChangeAction::class,
         ],
         ShareCreated::class => [
             ShareCreatedHandler::class,

@@ -383,6 +383,18 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         $this->notify(new ResetPasswordNotification($token));
     }
+
+    /**
+     * Mark the given user's email as not verified.
+     *
+     * @return bool
+     */
+    public function markEmailAsNotVerified()
+    {
+        return $this->forceFill([
+            'email_verified_at' => null,
+        ])->save();
+    }
     
     public static function boot()
     {

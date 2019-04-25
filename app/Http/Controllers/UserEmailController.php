@@ -4,6 +4,7 @@ namespace KBox\Http\Controllers;
 
 use KBox\User;
 use Illuminate\Http\Request;
+use KBox\Events\EmailChanged;
 
 /**
  * Change user email
@@ -26,16 +27,23 @@ class UserEmailController extends Controller
     public function update(Request $request)
     {
         $this->validate($request, [
-            'email' => 'sometimes|required|email|unique:users,email',
+            'email' => 'required|email|unique:users,email',
         ]);
 
         $user = $request->user();
+
+        $before = $user->email;
 
         $user->email = e($request->get('email'));
 
         $user->save();
 
-        return redirect()->route('profile.email.index')->with([
+        event(new EmailChanged($user, $before, $user->email));
+
+        $user->markEmailAsNotVerified();
+        $user->sendEmailVerificationNotification();
+
+        return redirect()->route('verification.notice')->with([
             'flash_message' => trans('profile.messages.mail_changed')
         ]);
     }

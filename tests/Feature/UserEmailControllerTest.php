@@ -5,6 +5,10 @@ namespace Tests\Feature;
 use KBox\User;
 use Tests\TestCase;
 use KBox\Capability;
+use KBox\Events\EmailChanged;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Notification;
+use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class UserEmailControllerTest extends TestCase
@@ -38,8 +42,12 @@ class UserEmailControllerTest extends TestCase
     
     public function test_user_can_change_email()
     {
+        Notification::fake();
+        Event::fake();
+
         $user = tap(factory(User::class)->create(), function ($u) {
             $u->addCapabilities(Capability::$PARTNER);
+            $u->markEmailAsVerified();
         });
 
         $current_email = $user->email;
@@ -50,11 +58,23 @@ class UserEmailControllerTest extends TestCase
             '_token' => csrf_token()
         ]);
             
-        $response->assertRedirect(route('profile.email.index'));
+        $response->assertRedirect(route('verification.notice'));
 
         $response->assertSessionHas('flash_message', trans('profile.messages.mail_changed'));
 
         $this->assertNotEquals($current_email, $user->fresh()->email);
+        $this->assertFalse($user->fresh()->hasVerifiedEmail(), "email verification status not reset");
+
+        Event::assertDispatched(EmailChanged::class, function ($e) use ($user, $current_email, $new_email) {
+            return $e->user->id === $user->id &&
+                   $e->from === $current_email &&
+                   $e->to === $new_email;
+        });
+
+        Notification::assertSentTo(
+            [$user],
+            VerifyEmail::class
+        );
     }
     
     public function test_change_refused_if_new_email_do_not_pass_validation()
