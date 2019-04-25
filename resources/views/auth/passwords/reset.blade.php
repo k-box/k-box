@@ -1,74 +1,53 @@
-@extends('global')
+@extends('layout.login')
 
-@section('breadcrumbs')
-
-	{{trans('passwords.reset.title')}}
-
-@stop
 
 @push('title')
     @lang('passwords.reset.title') &ndash; 
 @endpush
 
-@section('content')
+@section('form')
 
-<div class="row">
+	<form method="post" class="c-form c-form--space" action="{{ route('password.update') }}">
 
-	<div class="twelve columns">
+		<h2 class="mb-1">{{trans('passwords.reset.title')}}</h2>
 
+		<p class="mb-4">{{trans('passwords.reset.instructions')}}</p>
 
+		{{ csrf_field() }}
 
-	<form method="post" action="{{ url('/password/reset') }}">
+		<input type="hidden" name="token" value="{{ $token }}"> 
 
-	   {{ csrf_field() }}
-
-	   <input type="hidden" name="token" value="{{ $token }}"> 
-
-	   <p>{{trans('passwords.reset.instructions')}}</p>
-
-	   <p>
+		<div class="c-form__field mb-4">
 			<label for="email">{{trans('auth.email_label')}}</label>
 			@if( isset($errors) && $errors->has('email') )
 				<span class="field-error">{{ implode(",", isset($errors) && $errors->get('email') ? $errors->get('email') : [])  }}</span>
 			@endif
-			<input type="email" required id="email" name="email" value="{{old('email')}}" />
-		</p>
+			<input type="email" class="c-form__input c-form__input--larger" required id="email" name="email" value="{{old('email')}}" />
+		</div>
 
-				
+		<div class="c-form__field mb-4">
+						
+			<label for="password">{{trans('profile.labels.password')}}</label>
+			<p class="description">{{trans('profile.labels.password_description')}}</p>
+			@if( $errors->has('password') )
+				<span class="field-error">{{ implode(",", $errors->get('password') ? $errors->get('password') : [])  }}</span>
+			@endif
+			<input type="password" class="c-form__input c-form__input--larger" name="password" />
+		</div>
 
-	   <p>
-				        
-	        <label>{{trans('profile.labels.password')}}</label>
-	        @if( $errors->has('password') )
-	            <span class="field-error">{{ implode(",", $errors->get('password') ? $errors->get('password') : [])  }}</span>
-	        @endif
-	        <input type="password" name="password" />
-	        <p class="description">{{trans('profile.labels.password_description')}}</p>
-	    </p>
+		<div class="c-form__field mb-4">
+			
+			<label for="password_confirmation">{{trans('profile.labels.password_confirm')}}</label>
+			@if( $errors->has('password_confirm') )
+				<span class="field-error">{{ implode(",", $errors->get('password_confirm'))  }}</span>
+			@endif
+			<input type="password" class="c-form__input c-form__input--larger" name="password_confirmation" />
+		</div>
 
-	    <p>
-	        
-	        <label>{{trans('profile.labels.password_confirm')}}</label>
-	        @if( $errors->has('password_confirm') )
-	            <span class="field-error">{{ implode(",", $errors->get('password_confirm'))  }}</span>
-	        @endif
-	        <input type="password" name="password_confirmation" />
-	    </p>
-
-	    <p>
-			<button type="submit" class="button-primary">{{trans('passwords.reset.submit')}}</button>
-		</p>
+		<div class="c-form__field mb-4">
+			<button type="submit" class="button button--primary">{{trans('passwords.reset.submit')}}</button>
+		</div>
 
 	</form>
-
-
-
-	
-
-
-	</div>
-	
-
-</div>
 
 @stop
