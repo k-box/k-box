@@ -37,7 +37,7 @@ class ProjectsTest extends TestCase
             [ Capability::$PROJECT_MANAGER_LIMITED, 'projects.index', 200 ],
             [ Capability::$PROJECT_MANAGER_LIMITED, 'projects.show', 200 ],
             [ Capability::$PROJECT_MANAGER_LIMITED, 'projects.create', 403 ],
-            [ Capability::$PROJECT_MANAGER_LIMITED, 'projects.edit', 200 ],
+            [ Capability::$PROJECT_MANAGER_LIMITED, 'projects.edit', 403 ],
             [ Capability::$PROJECT_MANAGER, 'projects.index', 200 ],
             [ Capability::$PROJECT_MANAGER, 'projects.show', 200 ],
             [ Capability::$PROJECT_MANAGER, 'projects.create', 200 ],
@@ -185,6 +185,44 @@ class ProjectsTest extends TestCase
         $available_users = $response->data('available_users');
 
         $this->assertEquals($expected_available_users->pluck('id')->toArray(), $available_users->pluck('id')->toArray());
+    }
+    
+    public function test_admin_should_be_able_to_add_itself_as_project_member()
+    {
+        $project = factory(Project::class)->create();
+        
+        $user = $project->manager()->first();
+
+        $admin = $this->createUser(Capability::$ADMIN);
+
+        $expected_available_users = collect([$this->createUser(Capability::$PARTNER), $admin])->sortBy('name');
+
+        $response = $this->actingAs($admin)->get(route('projects.edit', ['id' => $project->id]));
+
+        $response->assertStatus(200);
+
+        $response->assertViewIs('projects.edit');
+
+        $response->assertViewHas('manager_id', $user->id);
+
+        $response->assertViewHas('available_users');
+
+        $available_users = $response->data('available_users');
+
+        $this->assertEquals($expected_available_users->pluck('id')->toArray(), $available_users->pluck('id')->toArray());
+    }
+    
+    public function test_other_project_manager_should_not_be_able_to_add_itself_as_project_member()
+    {
+        $project = factory(Project::class)->create();
+        
+        $user = $project->manager()->first();
+
+        $prjmanager = $this->createUser(Capability::$PROJECT_MANAGER);
+
+        $response = $this->actingAs($prjmanager)->get(route('projects.edit', ['id' => $project->id]));
+
+        $response->assertStatus(403);
     }
 
     public function test_project_is_accessible_by_user()

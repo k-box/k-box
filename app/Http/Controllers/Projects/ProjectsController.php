@@ -10,6 +10,7 @@ use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\JsonResponse;
 use KBox\Documents\Services\DocumentsService;
 use KBox\Traits\AvatarUpload;
+use KBox\Exceptions\ForbiddenException;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -90,17 +91,20 @@ class ProjectsController extends Controller
         
         $user = $auth->user();
 
+        if ($prj->manager->id !== $user->id && ! $user->isDMSManager()) {
+            throw new ForbiddenException();
+        }
+
         $current_members = $prj->users()->orderBy('name', 'ASC')->get();
 
-        $skip = $current_members->merge([$user]);
+        $skip = $current_members->merge(! $user->isDMSManager() ? [$prj->manager, $user] : [$prj->manager])->filter();
 
         $available_users = $this->getAvailableUsers($skip);
 
         return view('projects.edit', [
             'pagetitle' => trans('projects.edit_page_title', ['name' => $prj->name]),
             'available_users' => $available_users,
-            'manager_id' => $user->id,
-            // 'available_users_encoded' => json_encode($available_users),
+            'manager_id' => optional($prj->manager)->id,
             'project' => $prj,
             'project_users' => $current_members,
         ]);
@@ -116,7 +120,6 @@ class ProjectsController extends Controller
             'pagetitle' => trans('projects.create_page_title'),
             'available_users' => $available_users,
             'manager_id' => $user->id,
-            // 'available_users_encoded' => json_encode($available_users)
         ]);
     }
     
