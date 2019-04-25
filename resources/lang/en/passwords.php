@@ -37,7 +37,7 @@ return [
 
         'title' => 'Reset your account password',
 
-        'instructions' => 'Please specify a new 8 character long password.',
+        'instructions' => 'Please specify the email address of the account and a new 8 character long password.',
 
         'submit' => 'Reset the Password',
 
