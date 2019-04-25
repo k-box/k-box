@@ -8,10 +8,16 @@
 
 	@if(Session::has('status'))
 
-		<div class="alert success">
+		<div class="alert info">
 			{{session('status')}}
 		</div>
-
+		
+	@elseif( isset($errors) && $errors->has('email') )
+		
+		<div class="alert info">
+			{{ trans('passwords.sent') }}
+		</div>
+		
 	@endif
 
 	<form method="post" class="c-form c-form--space" action="{{ route('password.email') }}">
@@ -24,9 +30,7 @@
 		
 		<div class="c-form__field mb-4">
 			<label for="email">{{trans('auth.email_label')}}</label>
-			@if( isset($errors) && $errors->has('email') )
-				<span class="field-error">{{ implode(",", isset($errors) && $errors->get('email') ? $errors->get('email') : [])  }}</span>
-			@endif
+			
 			<input type="email" class="c-form__input c-form__input--larger" required id="email" tabindex="1" name="email" value="" autofocus />
 		</div>
 
