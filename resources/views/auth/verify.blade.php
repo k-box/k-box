@@ -1,28 +1,28 @@
-@extends('global')
+@extends('layout.login')
 
 @push('title')
-    {{ __('Verify Your Email Address') }} &ndash; 
+    {{ trans('mail.verify.verify_email') }} &ndash; 
 @endpush
 
-@section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Verify Your Email Address') }}</div>
+@section('form')
 
-                <div class="card-body">
-                    @if (session('resent'))
-                        <div class="alert alert-success" role="alert">
-                            {{ __('A fresh verification link has been sent to your email address.') }}
-                        </div>
-                    @endif
+    <div class="c-form c-form--space">
+        <h2 class="mb-1">{{ trans('mail.verify.verify_email') }}</h2>
 
-                    {{ __('Before proceeding, please check your email for a verification link.') }}
-                    {{ __('If you did not receive the email') }}, <a href="{{ route('verification.resend') }}">{{ __('click here to request another') }}</a>.
+        <div class="c-form__field">
+            @if (session('resent'))
+                <div class="alert success" role="alert">
+                    {{ trans('mail.verify.email_resent') }}
                 </div>
-            </div>
+            @endif
+
+            <p class="mb-2">
+                {{ trans('mail.verify.before_proceeding') }}
+            </p>
+            <p>
+                {{ trans('mail.verify.if_not_received') }}, <a href="{{ route('verification.resend') }}">{{ trans('mail.verify.request_another') }}</a>.
+            </p>
         </div>
     </div>
-</div>
+
 @stop
