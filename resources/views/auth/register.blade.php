@@ -60,7 +60,7 @@
 
         <div class="c-form__field">
             <div class="">
-                <button type="submit" class="button"  tabindex="5">
+                <button type="submit" class="button button--primary"  tabindex="5">
                     {{ trans('auth.register') }}
                 </button>
             </div>

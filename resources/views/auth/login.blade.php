@@ -42,7 +42,7 @@
 		{{ csrf_field() }}
 
 		<div class="c-form__buttons">
-			<input type="submit" id="login-submit" name="login-submit" class="button"  tabindex="3" value="{{trans('auth.login')}}">
+			<input type="submit" id="login-submit" name="login-submit" class="button button--primary"  tabindex="3" value="{{trans('auth.login')}}">
 			
 			<label style="display:inline-block;margin-left:16px">
 				<input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> {{ trans('auth.remember_me') }}
