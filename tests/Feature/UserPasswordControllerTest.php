@@ -5,6 +5,8 @@ namespace Tests\Feature;
 use KBox\User;
 use Tests\TestCase;
 use KBox\Capability;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class UserPasswordControllerTest extends TestCase
@@ -38,6 +40,8 @@ class UserPasswordControllerTest extends TestCase
     
     public function test_user_can_change_password()
     {
+        Event::fake();
+
         $user = tap(factory(User::class)->create(), function ($u) {
             $u->addCapabilities(Capability::$PARTNER);
         });
@@ -54,6 +58,10 @@ class UserPasswordControllerTest extends TestCase
         $response->assertRedirect(route('profile.password.index'));
 
         $response->assertSessionHas('flash_message', trans('profile.messages.password_changed'));
+
+        Event::assertDispatched(PasswordReset::class, function ($e) use ($user) {
+            return $e->user->id === $user->id;
+        });
 
         $this->assertNotEquals($current_password, $user->fresh()->password);
     }

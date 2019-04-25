@@ -11,8 +11,10 @@ use KBox\Events\PrivacyPolicyUpdated;
 use Illuminate\Auth\Events\Registered;
 use KBox\Listeners\ShareCreatedHandler;
 use KBox\Events\FileDuplicateFoundEvent;
+use Illuminate\Auth\Events\PasswordReset;
 use KBox\Listeners\UploadCompletedHandler;
 use KBox\Listeners\TusUploadStartedHandler;
+use KBox\Listeners\TrackPasswordResetAction;
 use KBox\Listeners\TusUploadCompletedHandler;
 use KBox\Listeners\TusUploadCancelledHandler;
 use KBox\Listeners\TransformPageToPolicyEvent;
@@ -34,6 +36,9 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         Registered::class => [
             SendEmailVerificationNotification::class,
+        ],
+        PasswordReset::class => [
+            TrackPasswordResetAction::class,
         ],
         ShareCreated::class => [
             ShareCreatedHandler::class,

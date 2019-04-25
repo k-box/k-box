@@ -5,6 +5,7 @@ namespace KBox\Http\Controllers;
 use Hash;
 use KBox\User;
 use Illuminate\Http\Request;
+use Illuminate\Auth\Events\PasswordReset;
 
 class UserPasswordController extends Controller
 {
@@ -46,6 +47,8 @@ class UserPasswordController extends Controller
         $user->password = Hash::make($request->get('password'));
 
         $user->save();
+
+        event(new PasswordReset($user));
 
         return redirect()->route('profile.password.index')->with([
             'flash_message' => trans('profile.messages.password_changed')
