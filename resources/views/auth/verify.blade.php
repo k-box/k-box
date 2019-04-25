@@ -1,5 +1,8 @@
 @extends('global')
 
+@push('title')
+    {{ __('Verify Your Email Address') }} &ndash; 
+@endpush
 
 @section('content')
 <div class="container">

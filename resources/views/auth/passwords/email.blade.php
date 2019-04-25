@@ -6,7 +6,9 @@
 
 @stop
 
-
+@push('title')
+    @lang('passwords.forgot.title') &ndash; 
+@endpush
 
 @section('content')
 

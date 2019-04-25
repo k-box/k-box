@@ -6,6 +6,10 @@
 
 @stop
 
+@push('title')
+    @lang('passwords.reset.title') &ndash; 
+@endpush
+
 @section('content')
 
 <div class="row">

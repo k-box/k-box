@@ -1,5 +1,9 @@
 @extends('layout.login')
 
+@push('title')
+    @lang('auth.create_account') &ndash; 
+@endpush
+
 @section('form')
 
     <form action="{{ route('register') }}" class="c-form c-form--space" method="POST">
