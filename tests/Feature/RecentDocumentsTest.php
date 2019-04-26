@@ -127,6 +127,7 @@ class RecentDocumentsTest extends TestCase
         $this->assertEquals($items_per_page, $listed_documents->count());
         $this->assertEquals($documents->count(), $pagination->total());
         $this->assertEquals(2, $pagination->lastPage());
+        $response->assertSee("pagination-container");
     }
 
     public function test_number_of_items_per_page_must_be_positive_and_above_zero()
