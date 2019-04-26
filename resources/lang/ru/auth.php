@@ -26,7 +26,7 @@ return [
     
 
     'create_account' => 'Создать аккаунт',
-    'no_account' => 'Нет аккаунта? Don\'t have an account?',
+    'no_account' => 'Нет аккаунта?',
     'have_account' => 'Уже есть аккаунт?',
     'have_login_and_password' => 'Уже есть логин и пароль?', // used on the password reset page to navigate back to the login page
 
