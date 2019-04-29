@@ -3,6 +3,7 @@
 namespace KBox\Documents;
 
 use PharData;
+use ZipArchive;
 use Composer\Factory;
 use Composer\Script\Event;
 use Composer\Downloader\TransportException;
@@ -31,6 +32,12 @@ class ComposerScripts
     private static $files_to_extract = [
         'pdfinfo',
         'pdftotext',
+    ];
+
+    private static $additional_files_to_extract = [
+        'README',
+        'COPYING',
+        'COPYING3',
     ];
 
     /**
@@ -84,13 +91,19 @@ class ComposerScripts
                 $io->write('');
                 $io->write('Installing PDF tools...');
 
-                if (! class_exists('PharData')) {
+                if ($os !== 'windows' && ! class_exists('PharData')) {
                     throw new Exception('Unable to find PharData class for extracting files from compressed archive.');
+                }
+                
+                if ($os === 'windows' && ! class_exists('ZipArchive')) {
+                    throw new Exception('Unable to find ZipArchive class for extracting files from compressed archive.');
                 }
                 
                 $path_inside_archive = static::$version[$os].'/'.static::$architecture;
 
-                $archive = new PharData($fileName);
+                $archive = $os === 'windows' ? static::getZipArchive($fileName) : new PharData($fileName);
+
+                // extract executables
 
                 $extract = array_map(function ($f) use ($os, $path_inside_archive) {
                     return $path_inside_archive.'/'.$f.($os==='windows' ? '.exe' : '');
@@ -100,6 +113,18 @@ class ComposerScripts
 
                 foreach ($extract as $file) {
                     rename($folder.$file, $folder.basename($file));
+                }
+                
+                // extract license files
+
+                $additional_extract = array_map(function ($f) use ($os, $path_inside_archive) {
+                    return static::$version[$os].'/'.$f;
+                }, static::$additional_files_to_extract);
+
+                $archive->extractTo($folder, $additional_extract);
+
+                foreach ($additional_extract as $file) {
+                    rename($folder.$file, $folder.'xpdf-'.basename($file));
                 }
 
                 $archive = null; // this disposes the resources used by PharData and let PHP remove the lock on the file
@@ -159,5 +184,16 @@ class ComposerScripts
         } catch (TransportException $e) {
             throw new \Exception("Failed to retrieve available binaries location: {$e->getMessage()}");
         }
+    }
+
+    private static function getZipArchive($filename)
+    {
+        $zip = new ZipArchive;
+        
+        if (! $zip->open($filename)) {
+            throw new Exception("Failed to open $filename");
+        }
+
+        return $zip;
     }
 }
