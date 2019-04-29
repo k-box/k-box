@@ -1,5 +1,7 @@
 <?php
 
+namespace Tests\Unit;
+
 use KBox\User;
 use KBox\File;
 use Carbon\Carbon;
