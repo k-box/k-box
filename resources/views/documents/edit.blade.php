@@ -141,7 +141,7 @@
 	            <span class="field-error">{{ implode(",", $errors->get('language'))  }}</span>
 	        @endif
 			<select class="c-form__input c-form__input--larger" id="language" name="language" @if(!$document->isMine() || !$can_edit_document) disabled @endif>
-			<option disabled value="__" @if($document->language == '__' || !$document->language || !in_array($document->language, config('dms.language_whitelist'))) selected @endif>{{trans('languages.no_language')}}</option>
+			<option value="__" @if($document->language == '__' || !$document->language || !in_array($document->language, config('dms.language_whitelist'))) selected @endif>{{trans('languages.no_language')}}</option>
 			<option value="en" @if($document->language == 'en') selected @endif>{{trans('languages.en')}}</option>
 			<option value="ru" @if($document->language == 'ru') selected @endif>{{trans('languages.ru')}}</option>
 			<option value="tg" @if($document->language == 'tg') selected @endif>{{trans('languages.tg')}}</option>
