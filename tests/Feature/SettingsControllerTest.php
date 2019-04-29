@@ -8,7 +8,6 @@ use Tests\TestCase;
 use KBox\Capability;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-
 class SettingsControllerTest extends TestCase
 {
     use DatabaseTransactions;
@@ -120,10 +119,10 @@ class SettingsControllerTest extends TestCase
         $response = $this->actingAs($user)
                         ->from(route('administration.settings.index'))
                         ->post(route('administration.settings.store'), [
-                            'public_core_url' => 'http://network.local', 
-                            'public_core_password' => 'A-TOKEN', 
-                            'public_core_network_name_ru' => 'Test a network', 
-                            'public_core_network_name_en' => 'Test a network', 
+                            'public_core_url' => 'http://network.local',
+                            'public_core_password' => 'A-TOKEN',
+                            'public_core_network_name_ru' => 'Test a network',
+                            'public_core_network_name_en' => 'Test a network',
                             'public_core_enabled' => 'true',
                             'public-settings-save-btn' => true,
                         ]);
@@ -152,9 +151,9 @@ class SettingsControllerTest extends TestCase
         $response = $this->actingAs($user)
             ->from(route('administration.settings.index'))
             ->post(route('administration.settings.store'), [
-                'streaming_service_url' => 'http://streaming.local', 
-                'public_core_url' => 'http://network.local', 
-                'public_core_password' => 'A-TOKEN', 
+                'streaming_service_url' => 'http://streaming.local',
+                'public_core_url' => 'http://network.local',
+                'public_core_password' => 'A-TOKEN',
             ]);
         
         $response->assertRedirect(route('administration.settings.index'));
