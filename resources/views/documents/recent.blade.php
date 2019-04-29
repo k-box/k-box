@@ -79,6 +79,13 @@
 		</div>
 	@endif
 	
+	@if( isset($pagination) && !is_null($pagination) )
+		<div class="pagination-container">
+
+			{!! $pagination->render() !!}
+
+		</div>
+	@endif
 
 @stop
 
