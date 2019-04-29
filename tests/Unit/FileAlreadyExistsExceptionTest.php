@@ -1,27 +1,29 @@
 <?php
 
-use Laracasts\TestDummy\Factory;
-use KBox\Exceptions\FileAlreadyExistsException;
-use KBox\Publication;
+use KBox\User;
+use KBox\File;
 use Carbon\Carbon;
-use Tests\BrowserKitTestCase;
+use Tests\TestCase;
+use KBox\Capability;
+use KBox\Publication;
+use KBox\DocumentDescriptor;
+use Illuminate\Foundation\Testing\WithFaker;
+use KBox\Exceptions\FileAlreadyExistsException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 /*
  * Test the FileAlreadyExistsException for proper message rendering
 */
-class FileAlreadyExistsExceptionTest extends BrowserKitTestCase
+class FileAlreadyExistsExceptionTest extends TestCase
 {
-    use DatabaseTransactions;
+    use DatabaseTransactions, WithFaker;
 
-    /**
-        * ...
-        *
-        * @return void
-        */
     public function testFileAlreadyExistsConstruction()
     {
-        $user = $this->createAdminUser();
+        $user = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$ADMIN);
+        });
+
         $doc = $this->createDocument($user, 'public');
         $upload_name = 'A file name';
 
@@ -46,16 +48,13 @@ class FileAlreadyExistsExceptionTest extends BrowserKitTestCase
         $this->assertNull($ex->getFileVersion());
     }
 
-    /**
-     * ...
-     *
-     * @return void
-     */
     public function testFileAlreadyExistsForPublicDocument()
     {
-        $user = $this->createAdminUser();
+        $user = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$ADMIN);
+        });
 
-        $doc = factory(\KBox\DocumentDescriptor::class)->create([
+        $doc = factory(DocumentDescriptor::class)->create([
             'owner_id' => null,
             'file_id' => null,
             'hash' => 'hash',
@@ -78,14 +77,11 @@ class FileAlreadyExistsExceptionTest extends BrowserKitTestCase
             ]), $ex->render($user));
     }
 
-    /**
-     * ...
-     *
-     * @return void
-     */
     public function testFileAlreadyExistsForMyDocument()
     {
-        $user = $this->createAdminUser();
+        $user = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$ADMIN);
+        });
         $doc = $this->createDocument($user, 'private');
 
         $ex = new FileAlreadyExistsException('A file name', $doc);
@@ -95,15 +91,14 @@ class FileAlreadyExistsExceptionTest extends BrowserKitTestCase
             ]), $ex->render($user));
     }
 
-    /**
-     * ...
-     *
-     * @return void
-     */
     public function testFileAlreadyExistsForDocumentUploadedByAUser()
     {
-        $user = $this->createAdminUser();
-        $user2 = $this->createAdminUser();
+        $user = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$ADMIN);
+        });
+        $user2 = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$ADMIN);
+        });
         $doc = $this->createDocument($user2, 'private');
 
         $ex = new FileAlreadyExistsException('A file name', $doc);
@@ -114,14 +109,11 @@ class FileAlreadyExistsExceptionTest extends BrowserKitTestCase
             ]), $ex->render($user));
     }
 
-    /**
-     * ...
-     *
-     * @return void
-     */
     public function testFileAlreadyExistsForDocumentInCollectionByYou()
     {
-        $user = $this->createAdminUser();
+        $user = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$ADMIN);
+        });
 
         $collection = $this->createCollection($user);
         
@@ -138,15 +130,14 @@ class FileAlreadyExistsExceptionTest extends BrowserKitTestCase
             ]), $ex->render($user));
     }
 
-    /**
-     * ...
-     *
-     * @return void
-     */
     public function testFileAlreadyExistsForDocumentInCollectionByUser()
     {
-        $user = $this->createAdminUser();
-        $user2 = $this->createAdminUser();
+        $user = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$ADMIN);
+        });
+        $user2 = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$ADMIN);
+        });
 
         $collection = $this->createCollection($user2, false);
 
@@ -163,15 +154,14 @@ class FileAlreadyExistsExceptionTest extends BrowserKitTestCase
             ]), $ex->render($user));
     }
 
-    /**
-     * ...
-     *
-     * @return void
-     */
     public function testFileAlreadyExistsForDocumentRevisionOfUser()
     {
-        $user = $this->createAdminUser();
-        $user2 = $this->createAdminUser(['name' => 'Ruthe O\'Keefe']);
+        $user = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$ADMIN);
+        });
+        $user2 = tap(factory(User::class)->create(['name' => 'Ruthe O\'Keefe']), function ($u) {
+            $u->addCapabilities(Capability::$ADMIN);
+        });
         $doc = $this->createDocument($user2, 'private');
 
         $ex = new FileAlreadyExistsException('A file name', $doc, $doc->file);
@@ -181,19 +171,13 @@ class FileAlreadyExistsExceptionTest extends BrowserKitTestCase
                 'user' => e($user2->name),
                 'email' => e($user2->email)
             ]), $ex->render($user));
-
-        // -'The document you are uploading is an existing revision of <strong>"Vel reiciendis natus doloremque aut."</strong>, added by Ruthe O'Keefe (jewell84@hotmail.com)'
-// +'The document you are uploading is an existing revision of <strong>"Vel reiciendis natus doloremque aut."</strong>, added by Ruthe O'Keefe (jewell84@hotmail.com)'
     }
 
-    /**
-     * ...
-     *
-     * @return void
-     */
     public function testFileAlreadyExistsForDocumentRevisionOfMyDocument()
     {
-        $user = $this->createAdminUser();
+        $user = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$ADMIN);
+        });
         
         $doc = $this->createDocument($user, 'private');
 
@@ -202,5 +186,40 @@ class FileAlreadyExistsExceptionTest extends BrowserKitTestCase
         $this->assertEquals(trans('errors.filealreadyexists.revision_of_your_document', [
                 'title' => e($doc->title)
             ]), $ex->render($user));
+    }
+
+    private function createDocument(User $user, $visibility = 'private')
+    {
+        $template = base_path('tests/data/example.txt');
+        $destination = storage_path('documents/example-document.txt');
+
+        copy($template, $destination);
+
+        $file = factory(File::class)->create([
+            'user_id' => $user->id,
+            'original_uri' => '',
+            'path' => $destination,
+            'hash' => hash_file('sha512', $destination)
+        ]);
+        
+        $doc = factory(DocumentDescriptor::class)->create([
+            'institution_id' => $user->institution_id,
+            'owner_id' => $user->id,
+            'file_id' => $file->id,
+            'hash' => $file->hash,
+            'language' => 'en',
+            'is_public' => $visibility === 'private' ? false : true,
+            'copyright_usage' => 'C',
+            'copyright_owner' => collect(['name' => 'owner name', 'website' => 'https://something.com'])
+        ]);
+
+        return $doc;
+    }
+
+    private function createCollection(User $user, $is_personal = true)
+    {
+        $service = app('KBox\Documents\Services\DocumentsService');
+
+        return $service->createGroup($user, $this->faker()->name.$user->id, null, null, $is_personal);
     }
 }
