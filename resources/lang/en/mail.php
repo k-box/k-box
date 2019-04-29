@@ -54,11 +54,23 @@ return [
         'action' => 'See the duplicates from your recent documents',
     ],
 
-        'password_reset' => [
+    'password_reset' => [
             'reset_password' => 'Reset Password',
             'you_are_receiving_because' => 'You are receiving this email because we received a password reset request for your account.',
             'no_further_action' => 'If you did not request a password reset, no further action is required',
             
     ],
+
+    'verify' => [
+        'verify_email' => 'Verify Your Email Address',
+
+        'before_proceeding' => 'Before proceeding, please check your email for a verification link.',
+
+        'if_not_received' => 'If you did not receive the email',
+        'request_another' => 'click here to request another',
+
+        'email_resent' => 'A fresh verification link has been sent to your email address.',
+
+    ]
 
 ];

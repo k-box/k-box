@@ -24,7 +24,7 @@
             @if($isloggedin)
                 {{ trans('microsites.actions.view_project_documents') }}
             @else
-                {{ trans('login.form.submit') }}
+                {{ trans('auth.login') }}
             @endif
             </a>
         

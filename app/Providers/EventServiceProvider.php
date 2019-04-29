@@ -6,12 +6,19 @@ use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvi
 
 use KBox\Events\ShareCreated;
 use KBox\Events\PageChanged;
+use KBox\Events\EmailChanged;
 use KBox\Events\UploadCompleted;
+use Illuminate\Auth\Events\Verified;
 use KBox\Events\PrivacyPolicyUpdated;
+use Illuminate\Auth\Events\Registered;
 use KBox\Listeners\ShareCreatedHandler;
 use KBox\Events\FileDuplicateFoundEvent;
+use Illuminate\Auth\Events\PasswordReset;
+use KBox\Listeners\TrackEmailVerification;
 use KBox\Listeners\UploadCompletedHandler;
+use KBox\Listeners\TrackEmailChangeAction;
 use KBox\Listeners\TusUploadStartedHandler;
+use KBox\Listeners\TrackPasswordResetAction;
 use KBox\Listeners\TusUploadCompletedHandler;
 use KBox\Listeners\TusUploadCancelledHandler;
 use KBox\Listeners\TransformPageToPolicyEvent;
@@ -20,6 +27,7 @@ use OneOffTech\TusUpload\Events\TusUploadCompleted;
 use OneOffTech\TusUpload\Events\TusUploadCancelled;
 use KBox\Notifications\DuplicateDocumentsNotification;
 use KBox\Listeners\RemovePrivacyPolicyConsentFromUsers;
+use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -30,6 +38,18 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
+        Registered::class => [
+            SendEmailVerificationNotification::class,
+        ],
+        PasswordReset::class => [
+            TrackPasswordResetAction::class,
+        ],
+        EmailChanged::class => [
+            TrackEmailChangeAction::class,
+        ],
+        Verified::class => [
+            TrackEmailVerification::class,
+        ],
         ShareCreated::class => [
             ShareCreatedHandler::class,
         ],

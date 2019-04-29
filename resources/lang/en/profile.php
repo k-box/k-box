@@ -33,7 +33,7 @@ return [
         'nicename' => 'User\'s Nicename',
         'nicename_hint' => 'How would you like to be called?',
         'password' => 'Password',
-        'password_description' => 'The password must be consist of numbers, letters and special characters and have a minimum length of 8 characters',
+        'password_description' => 'The password must have a minimum of 8 characters and can contain numbers, letters and special characters.',
         'password_confirm' => 'Confirm your password',
         'language' => 'Select your preferred language',
         'organization_name' => 'Organization Name',

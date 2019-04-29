@@ -3,25 +3,10 @@
 return [
 
     /*
-    |--------------------------------------------------------------------------
-    | Login Language Lines
-    |--------------------------------------------------------------------------
     |
-    | The following language lines are used for the login box and page
+    | Language file is deprecated,
+    | all strings have been transferred to auth.php
     |
     */
-
-    'page_title' => 'Кирүү',
-
-    'logout' => 'Чыгуу',
-
-    'form' => [
-        'email_label' => 'Почта',
-        'email_placeholder' => 'Почта (мисалы, user@klink.local)',
-        'password_label' => 'Пароль',
-        'password_placeholder' => 'Пароль',
-        'submit' => 'Кирүү',
-        'remember_me' => 'Эстеп калуу',
-    ],
 
 ];

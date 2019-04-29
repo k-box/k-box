@@ -3,8 +3,10 @@
 namespace KBox\Http\Controllers\Auth;
 
 use KBox\User;
-use Illuminate\Support\Facades\Hash;
+use KBox\Capability;
+use Illuminate\Support\Str;
 use KBox\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
@@ -28,7 +30,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/';
+    protected $redirectTo = '/email/verify';
 
     /**
      * Create a new controller instance.
@@ -48,34 +50,33 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
-        // return Validator::make($data, [
-        //     'name' => 'required|string|max:255',
-        //     'email' => 'required|string|email|max:255|unique:users',
-        //     'password' => 'required|string|min:6|confirmed',
-        // ]);
+        $val = Validator::make($data, [
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            
+            // We choose to not require a user name, but if specified we accept it
+            'name' => ['sometimes', 'nullable', 'string', 'max:255'],
+        ]);
+
+        return $val;
     }
 
     /**
      * Create a new user instance after a valid registration.
      *
      * @param  array  $data
-     * @return User
+     * @return \KBox\User
      */
     protected function create(array $data)
     {
-        // return User::create([
-        //     'name' => $data['name'],
-        //     'email' => $data['email'],
-        //     'password' => Hash::make($data['password']),
-        // ]);
-    }
+        $user = User::create([
+            'name' => $data['name'] ?? Str::before($data['email'], '@'),
+            'email' => $data['email'],
+            'password' => Hash::make($data['password']),
+        ]);
 
-    public function showRegistrationForm()
-    {
-        return redirect('login');
-    }
+        $user->addCapabilities(Capability::$PARTNER);
 
-    public function register()
-    {
+        return $user;
     }
 }

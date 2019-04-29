@@ -27,7 +27,7 @@ return [
         'nicename' => 'Nicename de l\'utilisateur',
         'nicename_hint' => 'Comment voulez-vous être appelé?',
         'password' => 'Mot de passe',
-        'password_description' => 'Le mot de passe doit être alphanumérique et compter au minimum 8 caractères',
+        'password_description' => 'Le mot de passe doit comporter au moins 8 caractères et peut contenir des chiffres, des lettres et des caractères spéciaux',
         'password_confirm' => 'Confirmez votre mot de passe',
         'language' => 'Choisissez votre langue préférée',
         'organization_name' => 'Nom de l\'organisation',

@@ -27,7 +27,7 @@ return [
         'nicename' => 'Nutzername',
         'nicename_hint' => 'Wie möchten sie genannt werden?',
         'password' => 'Passwort',
-        'password_description' => 'Das Passwort muss mindestens 8 Zeichen lang sein und Buchstaben sowie Zahlen enthalten',
+        'password_description' => 'Das Passwort muss mindestens 8 Zeichen lang sein und kann Zahlen, Buchstaben und Sonderzeichen enthalten',
         'password_confirm' => 'Passwort bestätigen',
         'language' => 'Bevorzugte Sprache',
         'organization_name' => 'Organisationsname',

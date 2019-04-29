@@ -44,6 +44,7 @@ The next table shows the K-Box specific configuration parameters:
 | `KBOX_MAIL_PASSWORD`                  |           | string  |               | The E-Mail server authentication |
 | `KBOX_SUPPORT_TOKEN` (`SUPPORT_TOKEN`)|           | string  |               | The Authentication token for the support service (can be configured from the UI) |
 | `KBOX_PAGE_LIMIT`                     |           | number  | 12            | The default number of items per page to show |
+| `KBOX_USER_REGISTRATION`              |           | boolean  | false        | Enable or disable self user registration |
 
 > `KBOX_MAIL_*` parameters can be configured from the User Interface, see [Configuring E-Mail](../user/en/administration/settings/mail.md).
 

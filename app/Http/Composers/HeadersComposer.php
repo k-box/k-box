@@ -60,6 +60,8 @@ class HeadersComposer
                        ! starts_with($route_name, 'projects')  &&
                        ! str_contains($route_name, 'profile.') &&
                        ! starts_with($route_name, 'consent') &&
+                       ! starts_with($route_name, 'register') &&
+                       ! starts_with($route_name, 'verification') &&
                        ! starts_with($route_name, 'password') && ! starts_with($route_name, 'microsite'));
 
         $view->with('show_search', $show_search);

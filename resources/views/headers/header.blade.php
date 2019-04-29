@@ -38,7 +38,7 @@
 					<div class="header__profile__card">
 						<div class="header__profile__name">{{$current_user_name}}</div>
 						<div>
-						<button class="button" onclick="event.preventDefault();document.getElementById('logout-form').submit();">{{trans('login.logout')}}</button>
+						<button class="button" onclick="event.preventDefault();document.getElementById('logout-form').submit();">{{trans('auth.logout')}}</button>
 						<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
 							{{ csrf_field() }}
 						</form>
@@ -54,21 +54,25 @@
 
 	</div>
 
-	<div class="header__secondary">
+	@section('header-secondary')
+		<div class="header__secondary">
 
-		<button class="drawer__button action__button js-drawer-trigger">
-			@materialicon('navigation', 'menu', 'ico')
-		</button>
+			<button class="drawer__button action__button js-drawer-trigger">
+				@materialicon('navigation', 'menu', 'ico')
+			</button>
 
-		<div class="breadcrumbs">
-			@yield('breadcrumbs')
+			<div class="breadcrumbs">
+				@yield('breadcrumbs')
+			</div>
+
+			<div class="actions js-drawer-action-bar" id="action-bar">
+				@yield('action-menu')
+			</div>
+
 		</div>
+	@endsection
 
-		<div class="actions js-drawer-action-bar" id="action-bar">
-			@yield('action-menu')
-		</div>
-
-	</div>
+	@yield('header-secondary')
 
 </header>
 

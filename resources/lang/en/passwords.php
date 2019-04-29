@@ -16,7 +16,7 @@ return [
     "password" => "Passwords must be at least 8 characters and match the confirmation.",
     "user" => "We can't find a user with that e-mail address.",
     "token" => "The password reset link you have used is expired. It will be usable only for 5 minutes after the password reset request.",
-    "sent" => "Password reset link sent",
+    "sent" => "If the specified email is register you should receive an email within a few minutes.",
     "reset" => "Password has been reset",
 
     'forgot' => [
@@ -25,7 +25,7 @@ return [
 
         'title' => 'Forgot your password?',
 
-        'instructions' => 'To reset your password please specify your E-Mail address. A mail with a reset link will be sended to your E-Mail account.',
+        'instructions' => 'To reset your password please specify your E-Mail address. A mail with a reset link will be sent to your E-Mail address.',
 
         'submit' => 'Request a Password Reset',
 
@@ -37,7 +37,7 @@ return [
 
         'title' => 'Reset your account password',
 
-        'instructions' => 'Please specify a new 8 character long password.',
+        'instructions' => 'Please specify the email address of the account and a new 8 character long password.',
 
         'submit' => 'Reset the Password',
 

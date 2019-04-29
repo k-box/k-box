@@ -16,4 +16,10 @@ return [
     'failed' => 'Ces informations de connexion ne correspondent pas à nos enregistrements.',
     'throttle' => 'Trop de tentatives de connexions. Merci de réessayer dans :seconds secondes.',
 
+    'email_label' => 'Adresse email',
+    'password_label' => 'Mot de passe',
+    'login' => 'Connexion',
+    'remember_me' => 'Se souvenir de moi',
+    'logout' => 'Déconnexion',
+    
 ];

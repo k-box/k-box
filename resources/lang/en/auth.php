@@ -16,4 +16,16 @@ return [
     'failed' => 'These credentials do not match our records.',
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
 
+    'email_label' => 'E-Mail',
+    'password_label' => 'Password',
+    'login' => 'Login',
+    'remember_me' => 'Remember Me',
+    'register' => 'Register',
+    'logout' => 'Logout',
+
+    'create_account' => 'Create an account',
+    'no_account' => 'Don\'t have an account?',
+    'have_account' => 'Already have an account?',
+    'have_login_and_password' => 'Already have login and password?', // used on the password reset page to navigate back to the login page
+
 ];

@@ -5,6 +5,8 @@ namespace Tests\Feature;
 use KBox\User;
 use Tests\TestCase;
 use KBox\Capability;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class UserPasswordControllerTest extends TestCase
@@ -28,6 +30,7 @@ class UserPasswordControllerTest extends TestCase
     {
         $user = tap(factory(User::class)->create(), function ($u) use ($capabilities) {
             $u->addCapabilities($capabilities);
+            $u->markEmailAsVerified();
         });
         
         $response = $this->actingAs($user)->get(route('profile.password.index'));
@@ -36,10 +39,24 @@ class UserPasswordControllerTest extends TestCase
         $response->assertViewIs('profile.password');
     }
     
-    public function test_user_can_change_password()
+    public function test_password_change_possible_only_if_email_is_verified()
     {
         $user = tap(factory(User::class)->create(), function ($u) {
             $u->addCapabilities(Capability::$PARTNER);
+        });
+        
+        $response = $this->actingAs($user)->get(route('profile.password.index'));
+            
+        $response->assertRedirect(route('verification.notice'));
+    }
+    
+    public function test_user_can_change_password()
+    {
+        Event::fake();
+
+        $user = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$PARTNER);
+            $u->markEmailAsVerified();
         });
 
         $current_password = $user->password;
@@ -55,6 +72,10 @@ class UserPasswordControllerTest extends TestCase
 
         $response->assertSessionHas('flash_message', trans('profile.messages.password_changed'));
 
+        Event::assertDispatched(PasswordReset::class, function ($e) use ($user) {
+            return $e->user->id === $user->id;
+        });
+
         $this->assertNotEquals($current_password, $user->fresh()->password);
     }
     
@@ -62,6 +83,7 @@ class UserPasswordControllerTest extends TestCase
     {
         $user = tap(factory(User::class)->create(), function ($u) {
             $u->addCapabilities(Capability::$PARTNER);
+            $u->markEmailAsVerified();
         });
 
         $new_password = '1';

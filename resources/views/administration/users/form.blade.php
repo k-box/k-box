@@ -26,7 +26,7 @@
     @if(!isset($can_change_mail) || (isset($can_change_mail) && !$can_change_mail))
 
     <div class="c-form__field">
-        <label>{{trans('login.form.password_label')}}</label>
+        <label>{{trans('auth.password_label')}}</label>
         @if( $errors->has('password') )
         <span class="field-error">{{ implode(",", $errors->get('password'))  }}</span>
         @endif
