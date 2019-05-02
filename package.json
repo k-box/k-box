@@ -9,7 +9,9 @@
   "license": "AGPL-3.0",
   "devDependencies": {
     "gulp": "^3.9.1",
-    "laravel-elixir": "avvertix/elixir#master"
+    "gulp-postcss": "^8.0.0",
+    "laravel-elixir": "avvertix/elixir#master",
+    "tailwindcss": "^1.0.0-beta.8"
   },
   "scripts": {
     "dev": "npm run development",

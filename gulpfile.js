@@ -1,29 +1,45 @@
 process.env.DISABLE_NOTIFIER = true;
 var elixir = require('laravel-elixir');
 var gulp = require("gulp");
+const postcss = require('gulp-postcss');
 var Task = elixir.Task;
 
 elixir.extend('copyJsModules', function() {
 
-    var that = this;
+    var _elixir = this;
     
     new Task('copyAllTask', function() {
-            return gulp.src(that.config.assetsPath + "/js/modules/**/*").pipe(gulp.dest( that.config.jsOutput + "/modules/" ));
+            return gulp.src(_elixir.config.assetsPath + "/js/modules/**/*").pipe(gulp.dest( _elixir.config.jsOutput + "/modules/" ));
         })
-        .watch(that.config.assetsPath + '/js/modules/*.*');
+        .watch(_elixir.config.assetsPath + '/js/modules/*.*');
 
 });
 
 elixir.extend('previewJsModules', function() {
 
-    var that = this;
+    var _elixir = this;
     
     new Task('copyPreviewModule', function() {
-            return gulp.src("packages/contentprocessing/assets/js/**/*").pipe(gulp.dest( that.config.jsOutput + "/modules/" ));
+            return gulp.src("packages/contentprocessing/assets/js/**/*").pipe(gulp.dest( _elixir.config.jsOutput + "/modules/" ));
         })
         .watch('packages/contentprocessing/assets/js/*.*');
 
 });
+
+// elixir.extend('postcss', function (file) {
+//     const postcss = require('gulp-postcss');
+
+//     var _elixir = this;
+    
+//     new Task('postcss', function() {
+//         return gulp.src(file)
+//             .pipe(postcss([
+//                 require('tailwindcss'),
+//             ]))
+//             .pipe(gulp.dest(_elixir.config.cssOutput));
+//     }).watch('tailwind.config.js');
+//   })
+  
 
 elixir.config.npmDir = "./node_modules/";
 elixir.config.vendorDir = "./vendor/";
@@ -33,8 +49,10 @@ elixir.config.sourcemaps = false;
 
 elixir(function(mix) {
 
-    mix.less('app.less').less('microsite.less') //compile the app.less file into app.css and ie8.less into ie8.css into the public/css folder
-        //concat vendor styles and app style in single stylesheet
+     mix.less('app.less') // generate the application stylesheet
+        // .postcss('app-evolution.css') // generate the functional css that will be the evolution of system
+        .less('microsite.less') // generate the microsite stylesheet
+        //concatenate vendor styles
         .styles([
             "/nprogress/nprogress.css",
             "/sweetalert2/dist/sweetalert2.css",
