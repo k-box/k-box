@@ -7,7 +7,7 @@
 // Normalize //
 ///////////////
 
-@import 'normalize.less';
+@import 'requirements/utilities.less';
 
 
 ////////////////////
@@ -66,10 +66,10 @@
 
 // Structure
 
-@base-padding: 8px; //1.5rem*1.6; // = 1.5rem (15px) over 1.6 line height (24px)
+@base-padding: 8px; // p-2
 
-@top-header-height: 48px;
-@sub-header-height: 48px;
+@top-header-height: 48px; // h-12
+@sub-header-height: 48px; // h-12
 
 // Document Type colors
 
@@ -90,13 +90,6 @@
 @project-collection-color: #f1c40f;
 @personal-collection-color: #16a085;
 
-//////////////
-// Skeleton //
-//////////////
-
-// @import 'requirements/skeleton.less';
-
-
 // Breakpoints
 
 @breakpoint: 960px;
@@ -105,10 +98,10 @@
 // Typography
 
 body {
-    color: @text-color;
-    font-size: 16px;
-    line-height: 1.4;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif
+  .text-base();
+  .font-sans();
+  .leading-normal();
+  color: @text-color;
 }
 
 .h1-typography { 
@@ -136,7 +129,9 @@ body {
   font-size: 1.5rem; line-height: 1.6;
 }
 
-
+svg.icon {
+  .inline-block();
+}
 
 // mixins and helper classes
 
@@ -206,9 +201,6 @@ body {
 body {
   color: @text-color;
 	background-color: @background-color;
-
-	.box-sizing(border-box);
-
 }
 
 a {

@@ -1,0 +1,20 @@
+/*!
+ * K-Box application stylesheet.
+ *
+ * We are moving to functional CSS (or utility first).
+ * This file will be the main entry point for generating the
+ * utilities required by the K-Box
+ * 
+ * We will use Tailwind CSS https://github.com/tailwindcss/tailwindcss/
+ *
+ * ./node_modules/.bin/tailwind build resources/assets/css/app-evolution.css -o resources/assets/less/requirements/utilities.less
+ * 
+ * (c) OneOffTech 2019
+ * (c) Alessio Vertemati 2019
+ */
+
+@tailwind base;
+
+@tailwind components;
+
+@tailwind utilities;
