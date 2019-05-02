@@ -8,6 +8,7 @@
   },
   "license": "AGPL-3.0",
   "devDependencies": {
+    "@fullhuman/postcss-purgecss": "^1.2.0",
     "gulp": "^3.9.1",
     "gulp-postcss": "^8.0.0",
     "laravel-elixir": "avvertix/elixir#master",

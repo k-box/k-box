@@ -4,6 +4,7 @@ var gulp = require("gulp");
 const postcss = require('gulp-postcss');
 var Task = elixir.Task;
 
+
 elixir.extend('copyJsModules', function() {
 
     var _elixir = this;
@@ -39,6 +40,32 @@ elixir.extend('previewJsModules', function() {
 //             .pipe(gulp.dest(_elixir.config.cssOutput));
 //     }).watch('tailwind.config.js');
 //   })
+
+elixir.extend('purge', function (files) {
+    const purgecss = require('@fullhuman/postcss-purgecss')({
+
+        // Specify the paths to all of the template files in your project 
+        content: [
+          './app/**/*.php',
+          './resources/**/*.blade.php',
+          './resource/**/*.js',
+          './resource/**/*.less',
+        ],
+      
+        // Include any special characters you're using in this regular expression
+        defaultExtractor: content => content.match(/[A-Za-z0-9-_:/]+/g) || []
+    })
+
+    var _elixir = this;
+    
+    new Task('purge', function() {
+        return gulp.src(files)
+            .pipe(postcss([
+                purgecss,
+            ]))
+            .pipe(gulp.dest(_elixir.config.cssOutput));
+    })
+  })
   
 
 elixir.config.npmDir = "./node_modules/";
@@ -135,6 +162,7 @@ elixir(function(mix) {
 	    
 	    // make versionable to resolve caching problems
         if (elixir.config.production) {
-	       mix.version( ["public/css/vendor.css", "public/css/app.css", "public/js/vendor.js"] );
+            mix.purge( ["public/css/app.css"] )
+	           .version( ["public/css/vendor.css", "public/css/app.css", "public/js/vendor.js"] );
         }
 });
