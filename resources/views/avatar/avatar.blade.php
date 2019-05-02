@@ -1,4 +1,4 @@
-<div class="avatar @if(isset($inline) && $inline) avatar--inline @endif">
+<div class="avatar relative {{ isset($inline) && $inline ? 'inline' : 'inline-block' }} rounded-full overflow-hidden flex-shrink-0 h-10 w-10">
 	@if(isset($url) && $url)
 	<a href="{{ $url }}" title="{{ $alt ?? '' }}">
 	@endif

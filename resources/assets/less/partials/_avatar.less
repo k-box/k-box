@@ -3,36 +3,11 @@
 
 .avatar {
 	
-	position: relative;
-
-	display: inline-block;
-
-	border-radius: 40px;
-
-	.square(40px);
-
-	overflow: hidden;
 
 	background-color: @brand-dark-gray;
 
-	flex-basis: 40px;
-	flex-shrink: 0;
-
 }
 
-.avatar--inline {
-	display: inline;
-}
-
-.avatar--small {
-	.square(24px);
-	border-radius: 24px;
-}
-
-.avatar--large {
-	.square(80px);
-	border-radius: 80px;
-}
 
 .avatar__image {
 
@@ -62,30 +37,6 @@
 	display: inline-block;
 }
 
-.avatar--small .avatar__initials {
-	font-size: 12px;
-}
-
-.avatar--large .avatar__initials {
-	font-size: 40px;
-}
-
-.avatar__label {
-	margin-left: 16px;
-}
-
-.avatar-container {
-	display: flex;
-	align-items: center
-}
-
-.ie .avatar-container {
-	display: block;
-}
-
-.ie .avatar__label {
-	display: inline-block;
-}
 
 // Project avatar -----------------------
 
