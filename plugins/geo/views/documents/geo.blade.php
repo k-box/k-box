@@ -15,7 +15,7 @@
 @section('additional_filters')
 
 	<button class="button" rv-on-click="openCloseMap">
-		@materialicon('maps', 'map', 'button__icon'){{trans('geo::section.filters.spatial')}}
+		@materialicon('maps', 'map', 'inline-block button__icon'){{trans('geo::section.filters.spatial')}}
 	</button>
 
 @stop

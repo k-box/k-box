@@ -12,6 +12,6 @@
 
 @else
 
-	@materialicon('social', 'person', 'avatar__icon')
+	@materialicon('social', 'person', 'inline-block avatar__icon')
 
 @endif

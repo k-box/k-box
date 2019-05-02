@@ -31,7 +31,7 @@
 	
 	<div class="navigation__item">
 	
-		<strong>@materialicon('action', 'label', 'navigation__item__icon') {{trans('groups.collections.personal_title')}}</strong>
+		<strong>@materialicon('action', 'label', 'inline-block navigation__item__icon') {{trans('groups.collections.personal_title')}}</strong>
 	
 		<div class="navigation__actions">
 			@if($user_can_edit_personal_groups || $user_can_see_private_groups)

@@ -22,8 +22,8 @@
 
             <button class="item__select js-select-button js-selection-checkbox" data-action="selectable" role="presentation" tabindex="-1" id="item-{{$data_class}}-{{$id}}">
 
-                @materialicon('toggle', 'check_box', 'checkbox checkbox--checked')
-                @materialicon('toggle', 'check_box_outline_blank', 'checkbox checkbox--unchecked')
+                @materialicon('toggle', 'check_box', 'inline-block checkbox checkbox--checked')
+                @materialicon('toggle', 'check_box_outline_blank', 'inline-block checkbox checkbox--unchecked')
 
             </button>
 
@@ -35,11 +35,11 @@
 
         @if($type==='group')
             <div class="item__icon" title="{{trans('groups.group_icon_label')}}" @if(isset($color) && !empty($color)) style="fill:#{{$color}}" @endif>
-                @materialicon('action', 'label')
+                @materialicon('action', 'label', 'inline-block')
             </div>
         @else
             <div class="item__icon" title="{{$type}}">
-                @materialicon('action', 'description')
+                @materialicon('action', 'description', 'inline-block')
             </div>
         @endif
             
@@ -73,14 +73,14 @@
                 data-doc="{{$local_document_id}}" 
                 data-visibility="{{$visibility}}"
                 title="{{ $star!== false ? trans('starred.remove') : trans('starred.add') }}">
-                @materialicon('toggle', 'star', 'star star--starred', ['title' => trans('starred.remove')])
-                @materialicon('toggle', 'star_border', 'star star--not-starred', ['title' => trans('starred.add')])
+                @materialicon('toggle', 'star', 'inline-block star star--starred', ['title' => trans('starred.remove')])
+                @materialicon('toggle', 'star_border', 'inline-block star star--not-starred', ['title' => trans('starred.add')])
             </button>
 
             @if(isset($trashed) && $trashed)
 
                 <div class="item__badge" title="{{ trans('starred.starred_in_trash') }}">
-                    @materialicon('action', 'delete')
+                    @materialicon('action', 'delete', 'inline-block')
                 </div>
 
             @endif
@@ -92,13 +92,13 @@
             @if( isset($is_public) && $is_public )
             
                 <div class="item__badge" title="{{trans( isset($is_published) && $is_published ? 'documents.descriptor.is_public' : 'share.dialog.publishing')}}">
-                    @materialicon('social', 'public')
+                    @materialicon('social', 'public', 'inline-block')
                 </div>
             
             @else
 
                 <div class="item__badge" title="{{trans('documents.descriptor.private')}}">
-                    @materialicon('action', 'lock')
+                    @materialicon('action', 'lock', 'inline-block')
                 </div>
 
             @endif
@@ -106,7 +106,7 @@
             @if( isset($shared) && $shared )
 
                 <div class="item__badge" title="{{trans('documents.descriptor.shared')}}">
-                    @materialicon('social', 'people')
+                    @materialicon('social', 'people', 'inline-block')
                 </div>
 
             @endif
@@ -114,7 +114,7 @@
             @if( isset($has_duplicates) && $has_duplicates )
 
                 <div class="item__badge" title="{{trans('documents.duplicates.badge')}}">
-                    @materialicon('content', 'content_copy')
+                    @materialicon('content', 'content_copy', 'inline-block')
                 </div>
 
             @endif
