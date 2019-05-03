@@ -362,16 +362,12 @@ class File extends Model
 
             if (is_null($value)) {
                 // delete thumbnail
-    
-                if (! starts_with($this->attributes['thumbnail_path'], rtrim(public_path('/'), '/'))) {
-                    @$storage->delete($this->thumbnail_path);
-                }
-    
+                $this->deleteThumbnail($this->attributes['thumbnail_path']);
+                
                 $this->attributes['thumbnail_path'] = $value;
             } elseif ($this->attributes['thumbnail_path'] !== $value) {
-                if (! starts_with($this->attributes['thumbnail_path'], rtrim(public_path('/'), '/'))) {
-                    @$storage->delete($this->thumbnail_path);
-                }
+                // delete old thumbnail file
+                $this->deleteThumbnail($this->attributes['thumbnail_path']);
     
                 $this->attributes['thumbnail_path'] = $value;
             }
@@ -453,17 +449,28 @@ class File extends Model
      */
     protected function physicalDelete()
     {
+        $this->deleteThumbnail($this->thumbnail_path);
+
         if (empty($this->path)) {
             return;
         }
         $storage = Storage::disk('local');
-        
-        $this->thumbnail_path = null;
 
         if ($this->uuid && basename(dirname($this->path)) === $this->uuid) {
             @$storage->deleteDirectory(dirname($this->path));
         } else {
             @$storage->delete($this->path);
+        }
+    }
+
+    private function deleteThumbnail($path)
+    {
+        if (empty($path)) {
+            return;
+        }
+        if (! starts_with($path, rtrim(public_path('/'), '/'))) {
+            $storage = Storage::disk('local');
+            @$storage->delete($path);
         }
     }
 
