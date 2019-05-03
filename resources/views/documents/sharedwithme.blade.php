@@ -48,7 +48,7 @@
 			@empty
 
 				<div class="empty">
-					@materialicon('social', 'sentiment_dissatisfied', 'empty__icon')
+					@materialicon('social', 'share', 'empty__icon')
 
 					<p>{{ trans('share.empty_with_me_message') }}</p>
 				</div>
