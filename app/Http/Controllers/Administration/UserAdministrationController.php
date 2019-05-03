@@ -76,7 +76,7 @@ class UserAdministrationController extends Controller
     {
         $user_types = [
         'partner' => Capability::$PARTNER,
-        'project_admin' => Capability::$PROJECT_MANAGER_LIMITED,
+        'project_admin' => Capability::$PROJECT_MANAGER,
         'admin' => Capability::$ADMIN,
         ];
       
@@ -186,7 +186,7 @@ class UserAdministrationController extends Controller
       
         $user_types = [
         'partner' => Capability::$PARTNER,
-        'project_admin' => Capability::$PROJECT_MANAGER_LIMITED,
+        'project_admin' => Capability::$PROJECT_MANAGER,
         'admin' => Capability::$ADMIN,
         ];
       
