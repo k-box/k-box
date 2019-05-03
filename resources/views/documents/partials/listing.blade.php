@@ -25,7 +25,7 @@
 
 		<div class="empty">
 
-			@materialicon('social', 'sentiment_dissatisfied', 'empty__icon')
+			@materialicon('action', 'description', 'empty__icon')
 
 			@if(isset($empty_message))
 
