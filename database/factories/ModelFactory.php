@@ -94,7 +94,7 @@ $factory->define(KBox\DocumentDescriptor::class, function (Faker\Generator $fake
         'document_uri' => $faker->url,
         'thumbnail_uri' => $faker->imageUrl,
         'mime_type' => 'text/plain',
-        'visibility' => 'private',
+        'visibility' => $arguments['visibility'] ?? 'private',
         'document_type' => 'document',
         'user_owner' => 'some user <usr@user.com>',
         'user_uploader' => 'some user <usr@user.com>',
