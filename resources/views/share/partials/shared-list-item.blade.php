@@ -5,11 +5,11 @@
     <div class="shared-list__user-container">
         @unless($item->isPublicLink())
             @component('avatar.full', [
-                'image' => $item->sharedwith->avatar, 
-                'name' => $item->sharedwith->name])
+                'image' => optional($item->sharedwith)->avatar ?? null, 
+                'name' => optional($item->sharedwith)->name ?? trans('notices.disabled_user')])
 
-                {{$item->sharedwith->name}}
-                <span class="shared-list__mail">{{$item->sharedwith->email}}</span>
+                {{optional($item->sharedwith)->name}}
+                <span class="shared-list__mail">{{optional($item->sharedwith)->email ?? trans('notices.disabled_user')}}</span>
 
             @endcomponent
 
