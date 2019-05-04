@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use KBox\User;
 use KBox\Option;
 use Tests\TestCase;
+use KBox\Capability;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Notification;
 use KBox\Notifications\UserCreatedNotification;
@@ -25,7 +26,7 @@ class UserCreationTest extends TestCase
             'name' => 'Test User',
             'password' => '',
             'send_password' => '1',
-            'capabilities' => ['receive_share'],
+            'capabilities' => Capability::$PARTNER,
         ], $params);
     }
     
@@ -35,7 +36,7 @@ class UserCreationTest extends TestCase
 
         $this->withoutExceptionHandling();
 
-        $user = factory(\KBox\User::class)->create();
+        $user = factory(User::class)->create();
 
         $response = $this->actingAs($user)
                     ->from(route('administration.users.create'))
@@ -61,7 +62,7 @@ class UserCreationTest extends TestCase
     {
         Notification::fake();
 
-        $user = factory(\KBox\User::class)->create();
+        $user = factory(User::class)->create();
 
         $password = 'a-secure-password';
 
@@ -91,7 +92,7 @@ class UserCreationTest extends TestCase
     {
         Notification::fake();
         
-        $user = factory(\KBox\User::class)->create();
+        $user = factory(User::class)->create();
 
         $password = 'a-secure-password';
 
@@ -122,7 +123,7 @@ class UserCreationTest extends TestCase
     {
         Notification::fake();
 
-        $user = factory(\KBox\User::class)->create();
+        $user = factory(User::class)->create();
 
         config(['mail.driver' => 'smtp']);
 
@@ -143,7 +144,7 @@ class UserCreationTest extends TestCase
 
     public function test_wrong_email_is_rejected()
     {
-        $user = factory(\KBox\User::class)->create();
+        $user = factory(User::class)->create();
 
         $response = $this->actingAs($user)
                     ->from('/administration/users/create')
@@ -158,7 +159,7 @@ class UserCreationTest extends TestCase
 
     public function test_empty_user_name_is_rejected()
     {
-        $user = factory(\KBox\User::class)->create();
+        $user = factory(User::class)->create();
 
         $response = $this->actingAs($user)
                     ->from('/administration/users/create')
@@ -173,12 +174,30 @@ class UserCreationTest extends TestCase
 
     public function test_empty_capability_is_rejected()
     {
-        $user = factory(\KBox\User::class)->create();
+        $user = factory(User::class)->create();
 
         $response = $this->actingAs($user)
                     ->from('/administration/users/create')
                     ->post(route('administration.users.store'), $this->validParams([
                         'capabilities' => []
+                    ]));
+
+        $response->assertRedirect('/administration/users/create');
+        $response->assertSessionHasErrors('capabilities');
+        $this->assertNull(User::where('email', 'test@klink.asia')->first());
+    }
+
+    public function test_user_cannot_be_created_without_minimum_capabilities()
+    {
+        $user = factory(User::class)->create();
+
+        $response = $this->actingAs($user)
+                    ->from('/administration/users/create')
+                    ->post(route('administration.users.store'), $this->validParams([
+                        'capabilities' => [
+                            Capability::MAKE_SEARCH,
+                            Capability::UPLOAD_DOCUMENTS
+                        ]
                     ]));
 
         $response->assertRedirect('/administration/users/create');

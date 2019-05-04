@@ -112,6 +112,7 @@ return [
     'url' => 'The :attribute must be a valid URL (e.g. http://something.com).',
     'uuid' => 'The :attribute must be a valid UUID.',
     "not_array" => "The :attribute must not contain multiple values.",
+    'ensure_contains_at_least' => 'The :attribute must contain at least :required.',
 
     /*
     |--------------------------------------------------------------------------
@@ -130,6 +131,7 @@ return [
         ],
         'capabilities' => [
             'required' => 'You must specify at least one permission.',
+            'ensure_contains_at_least' => 'A required Partner permission is not set',
         ],
         'users' => [
             'required' => 'Please select at least one user.',

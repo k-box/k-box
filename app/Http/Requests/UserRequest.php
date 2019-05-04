@@ -3,6 +3,8 @@
 namespace KBox\Http\Requests;
 
 use KBox\Option;
+use KBox\Capability;
+use KBox\Rules\EnsureContainsAtLeast;
 use Illuminate\Foundation\Http\FormRequest as Request;
 
 class UserRequest extends Request
@@ -25,7 +27,12 @@ class UserRequest extends Request
             $password_sending_available = Option::isMailEnabled() && ! Option::isMailUsingLogDriver();
 
             $tests['email'] = 'required|email|unique:users,email';
-            $tests['capabilities'] = 'required|array|exists:capabilities,key';
+            $tests['capabilities'] = [
+                'required',
+                'array',
+                'exists:capabilities,key',
+                (new EnsureContainsAtLeast(Capability::$PARTNER))->setCustomMessage(trans('validation.custom.capabilities.ensure_contains_at_least'))
+            ];
             $tests['password'] = 'sometimes|nullable|string|min:8';
 
             if ($password_sending_available && empty($this->input('password', null))) {
@@ -34,7 +41,13 @@ class UserRequest extends Request
                 $tests['send_password'] = 'sometimes|nullable|boolean';
             }
         } else {
-            $tests['capabilities'] = 'sometimes|required|array|exists:capabilities,key';
+            $tests['capabilities'] = [
+                'sometimes',
+                'required',
+                'array',
+                'exists:capabilities,key',
+                (new EnsureContainsAtLeast(Capability::$PARTNER))->setCustomMessage(trans('validation.custom.capabilities.ensure_contains_at_least'))
+            ];
             $tests['email'] = 'required|email';
         }
         return $tests;
