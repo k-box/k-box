@@ -1,5 +1,7 @@
 <?php
 
+namespace Tests\Feature;
+
 use Laracasts\TestDummy\Factory;
 use KBox\User;
 use KBox\File;

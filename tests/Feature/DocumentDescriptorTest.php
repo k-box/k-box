@@ -1,5 +1,7 @@
 <?php
 
+namespace Tests\Feature;
+
 use Tests\BrowserKitTestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Carbon\Carbon;
