@@ -9,7 +9,9 @@ use KBox\Capability;
 use KBox\DocumentDescriptor;
 use KBox\Project;
 use Illuminate\Support\Str;
-use Tests\BrowserKitTestCase;
+use Tests\TestCase;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use KBox\Documents\Facades\Files;
 use Klink\DmsAdapter\KlinkVisibilityType;
 use Klink\DmsAdapter\Exceptions\KlinkException;
@@ -20,7 +22,7 @@ use Klink\DmsAdapter\Fakes\FakeKlinkAdapter;
 /*
  * Test something related to document descriptors management
 */
-class DocumentsTest extends BrowserKitTestCase
+class DocumentsTest extends TestCase
 {
     use DatabaseTransactions;
     
@@ -91,14 +93,14 @@ class DocumentsTest extends BrowserKitTestCase
     {
         // create a document
         
-        $user = $this->createAdminUser();
+        $user = $this->createUser(Capability::$ADMIN);
         
-        $file = factory(\KBox\File::class)->create([
+        $file = factory(File::class)->create([
             'user_id' => $user->id,
             'original_uri' => ''
         ]);
         
-        $doc = factory(\KBox\DocumentDescriptor::class)->create([
+        $doc = factory(DocumentDescriptor::class)->create([
             'owner_id' => $user->id,
             'file_id' => $file->id,
         ]);
@@ -107,15 +109,17 @@ class DocumentsTest extends BrowserKitTestCase
         
         $url = route('documents.show', $doc->id);
         
-        $this->visit($url)->seePageIs(route('frontpage'));
+        $without_login_response = $this->get($url);
+        
+        $without_login_response->assertLocation(route('frontpage'));
 
         // test with login with the owner user
         
-        $this->actingAs($user);
+        $response = $this->actingAs($user)->get($url);
         
-        $this->visit($url)->seePageIs(route('documents.preview', ['uuid' => $doc->uuid]));
+        $response->assertStatus(302);
         
-        $this->assertResponseOk();
+        $response->assertLocation(route('documents.preview', ['uuid' => $doc->uuid]));
     }
     
     /**
@@ -129,12 +133,12 @@ class DocumentsTest extends BrowserKitTestCase
         $user = $this->createUser($caps);
         $user2 = $this->createUser($caps);
         
-        $file = factory(\KBox\File::class)->create([
+        $file = factory(File::class)->create([
             'user_id' => $user->id,
             'original_uri' => ''
         ]);
         
-        $doc = factory(\KBox\DocumentDescriptor::class)->create([
+        $doc = factory(DocumentDescriptor::class)->create([
             'owner_id' => $user->id,
             'file_id' => $file->id,
         ]);
@@ -143,11 +147,9 @@ class DocumentsTest extends BrowserKitTestCase
 
         $url = route('documents.edit', $doc->id);
         
-        $this->actingAs($user2);
+        $response = $this->actingAs($user2)->get($url);
         
-        $this->visit($url);
-        
-        $this->assertResponseOk();
+        $response->assertOk();
     }
     
     /**
@@ -164,12 +166,12 @@ class DocumentsTest extends BrowserKitTestCase
         
         $user = $this->createUser($caps);
         
-        $file = factory(\KBox\File::class)->create([
+        $file = factory(File::class)->create([
             'user_id' => $user->id,
             'original_uri' => ''
         ]);
         
-        $doc = factory(\KBox\DocumentDescriptor::class)->create([
+        $doc = factory(DocumentDescriptor::class)->create([
             'owner_id' => $user->id,
             'file_id' => $file->id,
             'copyright_usage' => 'C',
@@ -178,19 +180,14 @@ class DocumentsTest extends BrowserKitTestCase
         
         $url = route('documents.edit', $doc->id);
         
-        $this->actingAs($user);
-        
-        $this->visit($url);
-        
-        $this->type('Document new Title', 'title');
-        
-        $this->press(trans('actions.save'));
-        
-        $this->seePageIs($url);
-        
-        $this->see(trans('documents.messages.updated'));
-        
-        $this->see('Document new Title');
+        $response = $this->actingAs($user)->from($url)
+            ->put(route('documents.update', $doc->id), [
+                'title' => 'Document new Title',
+            ]);
+
+        $response->assertSessionHas('flash_message', trans('documents.messages.updated'));
+
+        $response->assertLocation($url);
     }
     
     /**
@@ -202,12 +199,12 @@ class DocumentsTest extends BrowserKitTestCase
 
         $user = $this->createUser($caps);
         
-        $file = factory(\KBox\File::class)->create([
+        $file = factory(File::class)->create([
             'user_id' => $user->id,
             'original_uri' => ''
         ]);
         
-        $doc = factory(\KBox\DocumentDescriptor::class)->create([
+        $doc = factory(DocumentDescriptor::class)->create([
             'owner_id' => $user->id,
             'file_id' => $file->id,
             'is_public' => true,
@@ -220,20 +217,16 @@ class DocumentsTest extends BrowserKitTestCase
         
         $group->documents()->save($doc);
         
-        $this->actingAs($user);
-        
-        \Session::start(); // Start a session for the current test
-
-        $this->json('PUT', route('documents.update', ['id' => $doc->id]), [
+        $response = $this->actingAs($user)
+            ->json('PUT', route('documents.update', ['id' => $doc->id]), [
                  '_token' => csrf_token(),
                 'remove_group' => $group->id]);
         
-        $this->seeJson([
+        $response->assertOk();
+        $response->assertJson([
             'id' => $doc->id,
             'is_public' => true,
         ]);
-        
-        $this->assertResponseStatus(200);
     }
     
     /**
@@ -245,12 +238,12 @@ class DocumentsTest extends BrowserKitTestCase
 
         $user = $this->createUser($caps);
         
-        $file = factory(\KBox\File::class)->create([
+        $file = factory(File::class)->create([
             'user_id' => $user->id,
             'original_uri' => ''
         ]);
         
-        $doc = factory(\KBox\DocumentDescriptor::class)->create([
+        $doc = factory(DocumentDescriptor::class)->create([
             'owner_id' => $user->id,
             'file_id' => $file->id,
             'is_public' => true,
@@ -263,20 +256,16 @@ class DocumentsTest extends BrowserKitTestCase
         
         $group = $service->createGroup($user, 'Personal collection of user '.$user->id);
         
-        $this->actingAs($user);
-        
-        \Session::start(); // Start a session for the current test
-
-        $this->json('PUT', route('documents.update', ['id' => $doc->id]), [
+        $response = $this->actingAs($user)
+            ->json('PUT', route('documents.update', ['id' => $doc->id]), [
                  '_token' => csrf_token(),
                 'add_group' => $group->id]);
         
-        $this->seeJson([
+        $response->assertOk();
+        $response->assertJson([
             'id' => $doc->id,
             'is_public' => true,
         ]);
-        
-        $this->assertResponseStatus(200);
     }
     
     /**
@@ -297,12 +286,12 @@ class DocumentsTest extends BrowserKitTestCase
             'password' => bcrypt($user_password)
         ]);
         
-        $file = factory(\KBox\File::class)->create([
+        $file = factory(File::class)->create([
             'user_id' => $user->id,
             'original_uri' => ''
         ]);
         
-        $doc = factory(\KBox\DocumentDescriptor::class)->create([
+        $doc = factory(DocumentDescriptor::class)->create([
             'owner_id' => $user->id,
             'file_id' => $file->id
         ]);
@@ -315,17 +304,9 @@ class DocumentsTest extends BrowserKitTestCase
         $doc_link = \DmsRouting::preview($doc);
         
         // goto link, see login page
-        $this->visit($doc_link)->seePageIs(route('frontpage'));
-        
-        // perform login
-        $this->type($user->email, 'email');
-        $this->type($user_password, 'password');
-        
-        $this->press(trans('auth.login'));
-        
-        // see document page
-        
-        $this->seePageIs($doc_link);
+        $response = $this->get($doc_link);
+        $response->assertLocation(route('frontpage'));
+        $response->assertSessionHas('url.dms.intended', $doc_link);
     }
     
     /**
@@ -345,12 +326,12 @@ class DocumentsTest extends BrowserKitTestCase
             'password' => bcrypt($user_password)
         ]);
         
-        $file = factory(\KBox\File::class)->create([
+        $file = factory(File::class)->create([
             'user_id' => $user->id,
             'original_uri' => ''
         ]);
         
-        $doc = factory(\KBox\DocumentDescriptor::class)->create([
+        $doc = factory(DocumentDescriptor::class)->create([
             'owner_id' => $user->id,
             'file_id' => $file->id
         ]);
@@ -362,10 +343,10 @@ class DocumentsTest extends BrowserKitTestCase
         // get the link
         $doc_link = \DmsRouting::preview($doc);
         
-        $this->actingAs($user);
-        
-        // goto link, see linked page
-        $this->visit($doc_link)->seePageIs($doc_link);
+        $response = $this->actingAs($user)->get($doc_link);
+        $response->assertViewIs('documents.preview');
+        $response->assertViewHas('document', $doc);
+        $response->assertViewHas('file', $file);
     }
     
     /**
@@ -375,10 +356,6 @@ class DocumentsTest extends BrowserKitTestCase
      */
     public function testDocumentLinkLoginRedirect_LoginThen($cap, $ignored)
     {
-        $this->markTestSkipped(
-            'Seems to get the runner stuck on Gitlab and Travis CI.'
-        );
-
         $this->withKlinkAdapterFake();
         
         // create a document
@@ -389,12 +366,12 @@ class DocumentsTest extends BrowserKitTestCase
             'password' => bcrypt($user_password)
         ]);
         
-        $file = factory(\KBox\File::class)->create([
+        $file = factory(File::class)->create([
             'user_id' => $user->id,
             'original_uri' => ''
         ]);
         
-        $doc = factory(\KBox\DocumentDescriptor::class)->create([
+        $doc = factory(DocumentDescriptor::class)->create([
             'owner_id' => $user->id,
             'file_id' => $file->id
         ]);
@@ -407,17 +384,9 @@ class DocumentsTest extends BrowserKitTestCase
         $doc_link = \DmsRouting::preview($doc);
         
         // goto link, see login page
-        $this->visit(route('frontpage'))->seePageIs(route('frontpage'));
-        
-        // perform login
-        $this->type($user->email, 'email');
-        $this->type($user_password, 'password');
-        
-        $this->press(trans('auth.login'));
-        
-        // see document page
-        
-        $this->visit($doc_link)->seePageIs($doc_link);
+        $response = $this->get($doc_link);
+        $response->assertLocation(route('frontpage'));
+        $response->assertSessionHas('url.dms.intended', $doc_link);
     }
     
     /**
@@ -441,12 +410,12 @@ class DocumentsTest extends BrowserKitTestCase
             'password' => bcrypt($user_password)
         ]);
         
-        $file = factory(\KBox\File::class)->create([
+        $file = factory(File::class)->create([
             'user_id' => $owner->id,
             'original_uri' => ''
         ]);
         
-        $doc = factory(\KBox\DocumentDescriptor::class)->create([
+        $doc = factory(DocumentDescriptor::class)->create([
             'owner_id' => $owner->id,
             'file_id' => $file->id
         ]);
@@ -458,18 +427,9 @@ class DocumentsTest extends BrowserKitTestCase
         // get the link
         $doc_link = \DmsRouting::preview($doc);
         
-        // goto link, see login page
-        $this->visit($doc_link)->seePageIs(route('frontpage'));
-        
-        // perform login
-        $this->type($user->email, 'email');
-        $this->type($user_password, 'password');
-        
-        $this->press(trans('auth.login'));
-        
-        // see document page
-        
-        $this->seePageIs($doc_link);
+        $response = $this->get($doc_link);
+        $response->assertLocation(route('frontpage'));
+        $response->assertSessionHas('url.dms.intended', $doc_link);
     }
     
     /**
@@ -480,12 +440,12 @@ class DocumentsTest extends BrowserKitTestCase
     {
         $user = $this->createUser(Capability::$PROJECT_MANAGER);
         
-        $file = factory(\KBox\File::class)->create([
+        $file = factory(File::class)->create([
             'user_id' => $user->id,
             'original_uri' => ''
         ]);
         
-        $doc = factory(\KBox\DocumentDescriptor::class)->create([
+        $doc = factory(DocumentDescriptor::class)->create([
             'owner_id' => $user->id,
             'file_id' => $file->id,
             'hash' => $file->hash,
@@ -527,12 +487,12 @@ class DocumentsTest extends BrowserKitTestCase
         
         $user = $this->createUser(Capability::$PROJECT_MANAGER);
                 
-        $file = factory(\KBox\File::class)->create([
+        $file = factory(File::class)->create([
             'user_id' => $user->id,
             'original_uri' => ''
         ]);
         
-        $doc = factory(\KBox\DocumentDescriptor::class)->create([
+        $doc = factory(DocumentDescriptor::class)->create([
             'owner_id' => $user->id,
             'file_id' => $file->id,
             'hash' => $file->hash,
@@ -558,19 +518,14 @@ class DocumentsTest extends BrowserKitTestCase
         
         $url = route('documents.edit', $doc->id);
         
-        $this->actingAs($second_user);
-        
-        $this->visit($url);
-        
-        $this->type('Document new Title', 'title');
-        
-        $this->press(trans('actions.save'));
-        
-        $this->seePageIs($url);
-        
-        $this->see(trans('documents.messages.updated'));
-        
-        $this->see('Document new Title');
+        $response = $this->actingAs($second_user)->from($url)
+            ->put(route('documents.update', $doc->id), [
+                'title' => 'Document new Title',
+            ]);
+
+        $response->assertSessionHas('flash_message', trans('documents.messages.updated'));
+
+        $response->assertLocation($url);
         
         $doc = DocumentDescriptor::findOrFail($doc->id);
         
@@ -629,13 +584,11 @@ class DocumentsTest extends BrowserKitTestCase
         $url = route('documents.destroy', ['id' => $doc->id,
                 '_token' => csrf_token()]);
         
-        $this->actingAs($user);
+        $response = $this->actingAs($user)->delete($url);
 
-        $this->delete($url);
-
-        $this->see('ok');
+        $response->assertSee('ok');
         
-        $this->assertResponseStatus(202);
+        $response->assertStatus(202);
 
         $doc = DocumentDescriptor::withTrashed()->findOrFail($doc->id);
 
@@ -685,9 +638,6 @@ class DocumentsTest extends BrowserKitTestCase
         $is_deleted = $service->permanentlyDeleteDocument($user, $doc);
     }
 
-    /**
-     * @expectedException Illuminate\Database\Eloquent\ModelNotFoundException
-     */
     public function testDocumentForceDelete()
     {
         $this->withKlinkAdapterFake();
@@ -701,30 +651,30 @@ class DocumentsTest extends BrowserKitTestCase
         $url = route('documents.destroy', ['id' => $doc->id,
                 '_token' => csrf_token()]);
         
-        $this->actingAs($user);
+        $response = $this->actingAs($user)->delete($url);
 
-        $this->delete($url);
-
-        $this->see('ok');
-        
-        $this->assertResponseStatus(202);
+        $response->assertSee('ok');
+        $response->assertStatus(202);
 
         $url = route('documents.destroy', [
                 'id' => $doc->id,
                 'force' => true,
                 '_token' => csrf_token()]);
 
-        $this->delete($url);
+        $response = $this->actingAs($user)->delete($url);
 
-        $this->see('ok');
-        
-        $this->assertResponseStatus(202);
+        $response->assertSee('ok');
+        $response->assertStatus(202);
+
+        $this->expectException('Illuminate\Database\Eloquent\ModelNotFoundException');
 
         $doc = DocumentDescriptor::withTrashed()->findOrFail($doc->id);
     }
 
     public function testNewDocumentVersionUpload()
     {
+        Storage::fake('local');
+
         $this->withKlinkAdapterFake();
 
         // upload a document (faked by already existing entry in the database)
@@ -738,16 +688,13 @@ class DocumentsTest extends BrowserKitTestCase
         $new_path = base_path('tests/data/example-presentation-simple.pptx');
         $new_mime_type = 'application/vnd.openxmlformats-officedocument.presentationml.presentation';
         $new_document_type = 'presentation';
-        $new_hash = Files::hash(base_path('tests/data/example-presentation-simple.pptx'));
-
-        $this->actingAs($user);
+        $new_hash = Files::hash($new_path);
         
-        $this->visit(route('documents.edit', $doc->id))
-          ->see(trans('documents.versions.new_version_button'))
-          ->attach(base_path('tests/data/example-presentation-simple.pptx'), 'document')
-          ->press(trans('actions.save') /*trans('documents.versions.new_version_button')*/)
-          ->see(trans('documents.messages.updated'))
-          ->dontSee('documents.messages.updated');
+        $response = $this->actingAs($user)->json('PUT', route('documents.update', $doc->id), [
+            'document' => new UploadedFile($new_path, 'example-presentation-simple.pptx', $new_mime_type, null, true)
+        ]);
+
+        $response->assertOk();
 
         // check change to: mime_type, document_type, hash and file_id. No changes should be applied to local_document_id
 
@@ -761,7 +708,7 @@ class DocumentsTest extends BrowserKitTestCase
 
     public function testDocumentDescriptorFileRelation()
     {
-        $user = $this->createAdminUser();
+        $user = $this->createUser(Capability::$ADMIN);
 
         $descr = $this->createDocument($user);
 
@@ -780,20 +727,20 @@ class DocumentsTest extends BrowserKitTestCase
 
     public function testFileRevisions()
     {
-        $user = $this->createAdminUser();
+        $user = $this->createUser(Capability::$ADMIN);
 
         $descr = $this->createDocument($user);
         
         $file = $descr->file;
 
-        $revision_of_revision = factory(\KBox\File::class)->create([
+        $revision_of_revision = factory(File::class)->create([
             'user_id' => $user->id,
             'original_uri' => '',
             'path' => $file->path,
             'revision_of' => null,
         ]);
 
-        $revision = factory(\KBox\File::class)->create([
+        $revision = factory(File::class)->create([
             'user_id' => $user->id,
             'original_uri' => '',
             'path' => $file->path,
@@ -849,40 +796,28 @@ class DocumentsTest extends BrowserKitTestCase
 
         $service->addDocumentToGroup($user, $descriptor, $project_group);
         $descriptor = $descriptor->fresh();
-
-        // goto private documents page
-
-        $this->actingAs($user);
         
-        // goto link, see linked page
-
         $url = route('documents.groups.show', array_merge(['id' => $project_group->id], $search_parameters));
-
-        $this->visit($url)->seePageIs($url);
+        
+        $response = $this->actingAs($user)->get($url);
+        
+        $response->assertViewIs('documents.documents');
 
         // The next 4 lines are an hack to get the view data enhanced by the composer
         // The final view will not have this data, because the facets.blade.php template
         // is internal to the page view, therefore already rendered when the response ends
 
-        $view = $this->response->original; // is a view
+        $view = $response->original; // is a view
         $composer = app(\KBox\Http\Composers\DocumentsComposer::class);
         $composer->facets($view);
-        $this->response->original = $view;
+        $response->original = $view;
 
         // --- end hack
 
-        $this->assertViewHas('facet_filters_url');
-        $this->assertViewHas('current_active_filters');
-
-        $this->assertViewHas('columns');
-
-        $base_url = $view->facet_filters_url;
-        
-        $this->assertEquals($expected_url, $base_url);
-
-        $this->assertViewHas('clear_filter_url');
-
-        $this->assertEquals($url, $view->clear_filter_url);
+        $response->assertViewHas('facet_filters_url', $expected_url);
+        $response->assertViewHas('current_active_filters');
+        $response->assertViewHas('clear_filter_url', $url);
+        $response->assertViewHas('columns');
     }
 
     /**
@@ -892,7 +827,6 @@ class DocumentsTest extends BrowserKitTestCase
     public function testPersonalSectionShowedWhenKlinkException()
     {
         $user = $this->createUser(Capability::$PARTNER);
-        $this->actingAs($user);
 
         $mock = $this->withKlinkAdapterMock();
 
@@ -910,6 +844,19 @@ class DocumentsTest extends BrowserKitTestCase
 
         $url = route('documents.index').'/personal';
 
-        $this->visit($url)->seePageIs($url);
+        $this->actingAs($user)->get($url)->assertOk();
+    }
+
+    private function createUser($capabilities, $userParams = [])
+    {
+        return tap(factory(User::class)->create($userParams))->addCapabilities($capabilities);
+    }
+
+    private function createDocument(User $user, $visibility = 'private')
+    {
+        return factory(DocumentDescriptor::class)->create([
+            'owner_id' => $user->id,
+            'visibility' => $visibility,
+        ]);
     }
 }
