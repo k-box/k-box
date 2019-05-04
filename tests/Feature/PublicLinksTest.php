@@ -1,13 +1,19 @@
 <?php
 
-use Tests\BrowserKitTestCase;
+namespace Tests\Feature;
+
+use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 use KBox\Capability;
+use KBox\User;
 use KBox\Shared;
-use Laracasts\TestDummy\Factory;
+use KBox\DocumentDescriptor;
+use KBox\Events\ShareCreated;
+use KBox\RoutingHelpers;
+use Carbon\Carbon;
 
-class PublicLinksTest extends BrowserKitTestCase
+class PublicLinksTest extends TestCase
 {
     use DatabaseTransactions;
 
@@ -34,8 +40,13 @@ class PublicLinksTest extends BrowserKitTestCase
             [['expiration' => 'a string'], ['to_id', 'to_type', 'expiration']],
             [['expiration' => false], ['to_id', 'to_type', 'expiration']],
             [['expiration' => ''], ['to_id', 'to_type', 'expiration']],
-            [['expiration' => \Carbon\Carbon::now()->subWeek()->toDateString()], ['to_id', 'to_type', 'expiration']],
+            [['expiration' => Carbon::now()->subWeek()->toDateString()], ['to_id', 'to_type', 'expiration']],
         ];
+    }
+
+    private function createUser($capabilities, $userParams = [])
+    {
+        return tap(factory(User::class)->create($userParams))->addCapabilities($capabilities);
     }
 
     /**
@@ -47,28 +58,25 @@ class PublicLinksTest extends BrowserKitTestCase
 
         $user = $this->createUser(Capability::$PARTNER);
 
-        \Session::start();
-        $this->actingAs($user);
-
         $params = array_merge([
             '_token' => csrf_token(),
             ], $data);
 
-        $this->json('POST', route('links.store'), $params)->assertResponseStatus(422);
-
-        $this->seeJsonStructure(is_null($error_keys) ? array_keys($data) : $error_keys);
+        $response = $this->actingAs($user)->json('POST', route('links.store'), $params);
+        
+        $response->assertStatus(422);
+        $response->assertJsonStructure(is_null($error_keys) ? array_keys($data) : $error_keys);
     }
 
     public function testCreatePublicLinkForDocument()
     {
         $this->withKlinkAdapterFake();
 
-        $this->expectsEvents(KBox\Events\ShareCreated::class);
+        $this->expectsEvents(ShareCreated::class);
 
         $user = $this->createUser(Capability::$PARTNER);
         $document = $this->createDocument($user);
 
-        \Session::start();
         $this->actingAs($user);
 
         $params = [
@@ -77,10 +85,10 @@ class PublicLinksTest extends BrowserKitTestCase
             'to_type' => 'document',
             ];
 
-        $this->json('POST', route('links.store'), $params);
+        $response = $this->actingAs($user)->json('POST', route('links.store'), $params);
 
-        $this->assertResponseStatus(201)
-             ->seeJsonStructure([
+        $response->assertStatus(201);
+        $response->assertJsonStructure([
                  'id',
                  'slug',
                  'url'
@@ -88,7 +96,7 @@ class PublicLinksTest extends BrowserKitTestCase
 
         $share = Shared::where('shareable_id', $document->id)->sharedByMe($user)->with('sharedwith')->first();
         
-        $this->seeJson([
+        $response->assertJson([
              'url' => route('publiclinks.show', ['link' => $share->token]),
         ]);
     }
@@ -97,13 +105,10 @@ class PublicLinksTest extends BrowserKitTestCase
     {
         $this->withKlinkAdapterFake();
 
-        $this->expectsEvents(KBox\Events\ShareCreated::class);
+        $this->expectsEvents(ShareCreated::class);
 
         $user = $this->createUser(Capability::$PARTNER);
         $document = $this->createDocument($user);
-
-        \Session::start();
-        $this->actingAs($user);
 
         $params = [
             '_token' => csrf_token(),
@@ -112,17 +117,17 @@ class PublicLinksTest extends BrowserKitTestCase
             'slug' => 'my-slug'
             ];
 
-        $this->json('POST', route('links.store'), $params);
+        $response = $this->actingAs($user)->json('POST', route('links.store'), $params);
 
-        $this->assertResponseStatus(201)
-             ->seeJsonStructure([
-                 'id',
-                 'slug',
-                 'url'
-             ])
-             ->seeJson([
-                'url' => route('publiclinks.show', ['link' => 'my-slug']),
-             ]);
+        $response->assertStatus(201);
+        $response->assertJsonStructure([
+            'id',
+            'slug',
+            'url'
+        ]);
+        $response->assertJson([
+            'url' => route('publiclinks.show', ['link' => 'my-slug']),
+        ]);
     }
 
     public function testDeletePublicLink()
@@ -133,18 +138,15 @@ class PublicLinksTest extends BrowserKitTestCase
 
         $user->addCapabilities(Capability::$PARTNER);
 
-        \Session::start();
-        $this->actingAs($user);
-
         $params = [
             // '_token' => csrf_token(),
             'links' => $share->sharedwith_id,
             ];
 
-        $this->json('delete', route('links.destroy', $params))
-             ->seeJson([
-                'status' => 'ok',
-             ]);
+        $response = $this->actingAs($user)->json('delete', route('links.destroy', $params));
+        $response->assertJson([
+        'status' => 'ok',
+        ]);
     }
 
     public function testUpdatePublicLink()
@@ -155,7 +157,6 @@ class PublicLinksTest extends BrowserKitTestCase
 
         $user->addCapabilities(Capability::$PARTNER);
 
-        \Session::start();
         $this->actingAs($user);
 
         $original_slug = $share->sharedwith->slug;
@@ -163,23 +164,24 @@ class PublicLinksTest extends BrowserKitTestCase
         
         // change slug
 
-        $this->json('put', route('links.update', $share->sharedwith_id), [
-                'slug' => 'new-slug'
-             ])
-             ->seeJson([
-                'slug' => 'new-slug',
-             ]);
+        $response = $this->actingAs($user)->json('put', route('links.update', $share->sharedwith_id), [
+            'slug' => 'new-slug'
+        ]);
+
+        $response->assertJson([
+            'slug' => 'new-slug',
+        ]);
 
         // change expiration
 
-        $new_expiration = \Carbon\Carbon::now()->addWeek();
+        $new_expiration = Carbon::now()->addWeek();
 
-        $this->json('put', route('links.update', $share->sharedwith_id), [
-                'expiration' => $new_expiration->toDateTimeString()
-             ])
-             ->seeJson([
-                    'expiration' => $new_expiration->toDateTimeString()
-             ]);
+        $response = $this->actingAs($user)->json('put', route('links.update', $share->sharedwith_id), [
+            'expiration' => $new_expiration->toDateTimeString()
+        ]);
+        $response->assertJsonFragment([
+            'expiration' => $new_expiration->toDateTimeString()
+        ]);
     }
 
     public function testPublicUrlRedirectToPreview()
@@ -187,23 +189,18 @@ class PublicLinksTest extends BrowserKitTestCase
         $share = factory(Shared::class, 'publiclink')->create();
 
         $url = $share->sharedwith->url;
-        $expected_redirect = \KBox\RoutingHelpers::preview($share->shareable);
+        $expected_redirect = RoutingHelpers::preview($share->shareable);
 
-        \Session::start();
+        $response = $this->get($url);
 
-        // assert redirect to klink/localdocumentid/preview
+        $response->assertLocation($expected_redirect);
+    }
 
-        $this->visit($url);
-
-        // dump($this->response->original->view);
-
-        $this->assertViewName('documents.preview');
-        $this->assertViewHas('document');
-        $this->assertViewHas('file');
-        $this->assertViewHas('body_classes');
-        $this->assertViewHas(
-            'pagetitle',
-            trans('documents.preview.page_title', ['document' => $share->shareable->title])
-        );
+    private function createDocument(User $user, $visibility = 'private')
+    {
+        return factory(DocumentDescriptor::class)->create([
+            'owner_id' => $user->id,
+            'visibility' => $visibility,
+        ]);
     }
 }
