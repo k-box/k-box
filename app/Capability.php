@@ -194,6 +194,7 @@ class Capability extends Model
     /**
      * A limited version of $PROJECT_MANAGER that cannot clean the trash or create projects
      * @var array
+     * @deprecated Use $PROJECT_MANAGER
      */
     public static $PROJECT_MANAGER_LIMITED = [
         self::MAKE_SEARCH,
