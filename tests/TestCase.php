@@ -4,6 +4,7 @@ namespace Tests;
 
 use PHPUnit\Framework\Assert;
 use Tests\Concerns\ClearDatabase;
+use Illuminate\Contracts\View\View;
 use Klink\DmsAdapter\Traits\MockKlinkAdapter;
 use Illuminate\Foundation\Testing\TestResponse;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
@@ -22,6 +23,15 @@ abstract class TestCase extends BaseTestCase
         
         TestResponse::macro('assertInstanceOf', function ($class) {
             Assert::assertInstanceOf($class, $this->baseResponse);
+        });
+        
+        TestResponse::macro('assertErrorView', function ($status_code) {
+            $this->ensureResponseHasView();
+            $this->assertViewIs("errors.$status_code");
+        });
+        
+        TestResponse::macro('isView', function () {
+            return isset($this->original) && $this->original instanceof View;
         });
     }
 

@@ -1,18 +1,19 @@
 <?php
 
-use Laracasts\TestDummy\Factory;
+namespace Tests\Feature;
+
 use KBox\User;
 use KBox\Group;
+use Tests\TestCase;
 use KBox\Capability;
 use KBox\DocumentDescriptor;
 use Klink\DmsAdapter\KlinkVisibilityType;
-use Tests\BrowserKitTestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 /*
  * Test something related to document descriptors management
 */
-class DocumentsServiceTest extends BrowserKitTestCase
+class DocumentsServiceTest extends TestCase
 {
     use DatabaseTransactions;
 
@@ -73,7 +74,7 @@ class DocumentsServiceTest extends BrowserKitTestCase
         $this->withKlinkAdapterFake();
 
         // todo test add and reindex
-        $user = $this->createAdminUser();
+        $user = $this->createUser(Capability::$ADMIN);
 
         $descr = $this->createDocument($user);
         
@@ -100,7 +101,7 @@ class DocumentsServiceTest extends BrowserKitTestCase
         $this->withKlinkAdapterFake();
 
         // todo test add and reindex
-        $user = $this->createAdminUser();
+        $user = $this->createUser(Capability::$ADMIN);
         
         $file = factory(\KBox\File::class)->create([
             'user_id' => $user->id,
@@ -130,7 +131,7 @@ class DocumentsServiceTest extends BrowserKitTestCase
         
         $service = app('KBox\Documents\Services\DocumentsService');
 
-        $user = $this->createAdminUser();
+        $user = $this->createUser(Capability::$ADMIN);
 
         $descr = $this->createDocument($user);
         $service->reindexDocument($descr);
@@ -154,5 +155,18 @@ class DocumentsServiceTest extends BrowserKitTestCase
 
         $this->assertNull($fake->getDocument($descr->uuid, 'public'), 'NOT Null public get');
         $this->assertNotNull($fake->getDocument($descr->uuid, 'private'), 'Null private get');
+    }
+
+    private function createUser($capabilities, $userParams = [])
+    {
+        return tap(factory(User::class)->create($userParams))->addCapabilities($capabilities);
+    }
+
+    private function createDocument(User $user, $visibility = 'private')
+    {
+        return factory(DocumentDescriptor::class)->create([
+            'owner_id' => $user->id,
+            'visibility' => $visibility,
+        ]);
     }
 }

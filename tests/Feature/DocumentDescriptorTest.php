@@ -1,18 +1,23 @@
 <?php
 
-use Tests\BrowserKitTestCase;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Carbon\Carbon;
-use KBox\Exceptions\FileNamingException;
-use KBox\DocumentDescriptor;
-use KBox\Publication;
-use KBox\Capability;
-use Klink\DmsAdapter\KlinkVisibilityType;
-use Klink\DmsAdapter\Exceptions\KlinkException;
+namespace Tests\Feature;
 
-class DocumentDescriptorTest extends BrowserKitTestCase
+use KBox\User;
+use KBox\Project;
+use Carbon\Carbon;
+use Tests\TestCase;
+use KBox\Capability;
+use KBox\Publication;
+use KBox\DocumentDescriptor;
+use KBox\Exceptions\FileNamingException;
+use Klink\DmsAdapter\KlinkVisibilityType;
+use Illuminate\Foundation\Testing\WithFaker;
+use Klink\DmsAdapter\Exceptions\KlinkException;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
+
+class DocumentDescriptorTest extends TestCase
 {
-    use DatabaseTransactions;
+    use DatabaseTransactions, WithFaker;
     
     public function visibility_provider()
     {
@@ -51,7 +56,7 @@ class DocumentDescriptorTest extends BrowserKitTestCase
      */
     public function testLastErrorStoreAndRetrieve($obj, $expected_property_in_deserialized_object, $expected_value_for_type)
     {
-        $descr = factory(\KBox\DocumentDescriptor::class)->make();
+        $descr = factory(DocumentDescriptor::class)->make();
         $descr->last_error = $obj;
         $saved = $descr->save();
         
@@ -88,7 +93,7 @@ class DocumentDescriptorTest extends BrowserKitTestCase
         
         $res = $service->indexDocument($file, 'private', null, null, true);
         
-        $this->assertInstanceOf(\KBox\DocumentDescriptor::class, $res);
+        $this->assertInstanceOf(DocumentDescriptor::class, $res);
         $this->assertEquals(DocumentDescriptor::STATUS_ERROR, $res->status);
         
         $le = $res->last_error;
@@ -102,7 +107,7 @@ class DocumentDescriptorTest extends BrowserKitTestCase
     {
         $mock = $this->withKlinkAdapterMock();
 
-        $doc = factory(\KBox\DocumentDescriptor::class)->make();
+        $doc = factory(DocumentDescriptor::class)->make();
         
         $service = app('KBox\Documents\Services\DocumentsService');
 
@@ -120,7 +125,7 @@ class DocumentDescriptorTest extends BrowserKitTestCase
         
         $res = DocumentDescriptor::findOrFail($doc->id);
         
-        $this->assertInstanceOf(\KBox\DocumentDescriptor::class, $res);
+        $this->assertInstanceOf(DocumentDescriptor::class, $res);
         
         $le = $res->last_error;
         
@@ -141,9 +146,9 @@ class DocumentDescriptorTest extends BrowserKitTestCase
 
         $personal1 = $this->createCollection($user);
         $personal2 = $this->createCollection($user);
-
-        $project1 = $this->createProject();
-        $project2 = $this->createProject();
+        
+        $project1 = factory(Project::class)->create();
+        $project2 = factory(Project::class)->create();
 
         $project_collection = $this->createProjectCollection($user, $project2);
 
@@ -214,10 +219,7 @@ class DocumentDescriptorTest extends BrowserKitTestCase
 
     public function testUUIDCreation()
     {
-
-        // Test UUID creation happens
-
-        $user = $this->createAdminUser();
+        $user = $this->createUser(Capability::$ADMIN);
 
         $document = $this->createDocument($user);
 
@@ -226,7 +228,7 @@ class DocumentDescriptorTest extends BrowserKitTestCase
 
     public function test_document_descriptor_report_published_state()
     {
-        $user = $this->createAdminUser();
+        $user = $this->createUser(Capability::$ADMIN);
         
         $document = $this->createDocument($user);
 
@@ -243,5 +245,36 @@ class DocumentDescriptorTest extends BrowserKitTestCase
 
         $this->assertTrue($document->isPublic());
         $this->assertTrue($document->isPublished());
+    }
+
+    private function createUser($capabilities, $userParams = [])
+    {
+        return tap(factory(User::class)->create($userParams))->addCapabilities($capabilities);
+    }
+
+    private function createDocument(User $user, $visibility = 'private')
+    {
+        return factory(DocumentDescriptor::class)->create([
+            'owner_id' => $user->id,
+            'visibility' => $visibility,
+        ]);
+    }
+
+    private function createCollection(User $user, $is_personal = true)
+    {
+        $service = app('KBox\Documents\Services\DocumentsService');
+
+        return $service->createGroup($user, $this->faker()->name.$user->id, null, null, $is_personal);
+    }
+
+    protected function createProjectCollection(User $user, $parent)
+    {
+        $group = is_a($parent, Project::class) ? $parent->collection : $parent;
+
+        $service = app('KBox\Documents\Services\DocumentsService');
+
+        $project_group = $service->createGroup($user, $this->faker()->name.$user->id, null, $group, false);
+
+        return $project_group;
     }
 }

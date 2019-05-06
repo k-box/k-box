@@ -1,11 +1,15 @@
 <?php
 
-use Tests\BrowserKitTestCase;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+namespace Tests\Feature;
+
+use KBox\User;
+use KBox\Project;
+use Tests\TestCase;
 use KBox\Capability;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class ProjectAvatarsTest extends BrowserKitTestCase
+class ProjectAvatarsTest extends TestCase
 {
     use DatabaseTransactions;
     
@@ -59,6 +63,11 @@ class ProjectAvatarsTest extends BrowserKitTestCase
 
         return $file;
     }
+
+    private function createUser($capabilities, $userParams = [])
+    {
+        return tap(factory(User::class)->create($userParams))->addCapabilities($capabilities);
+    }
      
     /**
      * Test the expected routes are available
@@ -88,14 +97,10 @@ class ProjectAvatarsTest extends BrowserKitTestCase
         
         $user = $this->createUser($caps);
         
-        $project = factory(\KBox\Project::class)->create([
+        $project = factory(Project::class)->create([
             'avatar' => base_path('tests/data/project-avatar.png')
         ]);
 
-        $this->actingAs($user);
-
-        \Session::start();
-        
         $method = ends_with($route, 'index') ? 'get' : (ends_with($route, 'store') ? 'post' : 'delete');
 
         $params = ['id' => $project->id ];
@@ -110,25 +115,24 @@ class ProjectAvatarsTest extends BrowserKitTestCase
             $content = ['avatar' => $this->getFileForUpload()];
         }
 
-        $this->{$method}(route($route, $params), $content);
+        $response = $this->actingAs($user)->{$method}(route($route, $params), $content);
             
         if ($expected_return_code !== 302 && $expected_return_code !== 200) {
-            if (property_exists($this->response, 'original') && $this->response->original instanceof \Illuminate\View\View) {
-                $this->assertViewName('errors.'.$expected_return_code);
+            if ($response->isView()) {
+                $response->assertErrorView($expected_return_code);
             } else {
-                $this->assertResponseStatus($expected_return_code);
+                $response->assertStatus($expected_return_code);
             }
         } else {
-            $this->assertResponseStatus($expected_return_code);
+            $response->assertStatus($expected_return_code);
         }
     }
     
     public function testProjectAvatarStore()
     {
-        $project = factory(\KBox\Project::class)->create();
-        \Session::start();
+        $project = factory(Project::class)->create();
         
-        $this->actingAs($project->manager);
+        ;
 
         $params = [
             'id' => $project->id,
@@ -137,16 +141,13 @@ class ProjectAvatarsTest extends BrowserKitTestCase
 
         $file = $this->getFileForUpload();
 
-        $this->call(
+        $response = $this->actingAs($project->manager)->json(
             'POST',
             route('projects.avatar.store', $params),
-            [],
-            [],
-            ['avatar' => $file],
-            ['HTTP_ACCEPT' => 'application/json']
+            ['avatar' => $file]
         );
 
-        $this->seeJson(['status' => 'ok']);
+        $response->assertJson(['status' => 'ok']);
 
         $project = $project->fresh();
 
@@ -155,11 +156,8 @@ class ProjectAvatarsTest extends BrowserKitTestCase
     
     public function testProjectAvatarStoreForbidden()
     {
-        $project = factory(\KBox\Project::class)->create();
-        \Session::start();
-        
-        $this->actingAs($this->createAdminUser());
-
+        $project = factory(Project::class)->create();
+    
         $params = [
             'id' => $project->id,
             '_token' => csrf_token()
@@ -167,37 +165,31 @@ class ProjectAvatarsTest extends BrowserKitTestCase
 
         $file = $this->getFileForUpload();
 
-        $this->call(
+        $response = $this->actingAs($this->createUser(Capability::$ADMIN))->json(
             'POST',
             route('projects.avatar.store', $params),
-            [],
-            [],
-            ['avatar' => $file],
-            ['HTTP_ACCEPT' => 'application/json']
+            ['avatar' => $file]
         );
 
-        $this->seeJson(['status' => 'error']);
+        $response->assertJson(['status' => 'error']);
     }
 
     public function testProjectAvatarDelete()
     {
         copy(base_path('tests/data/project-avatar.png'), storage_path('app/projects/avatars/project-avatar.png'));
 
-        $project = factory(\KBox\Project::class)->create([
+        $project = factory(Project::class)->create([
             'avatar' => storage_path('app/projects/avatars/project-avatar.png')
         ]);
-        \Session::start();
-        
-        $this->actingAs($project->manager);
 
         $params = [
             'id' => $project->id,
             '_token' => csrf_token()
         ];
 
-        $this->delete(route('projects.avatar.destroy', $params));
+        $response = $this->actingAs($project->manager)->delete(route('projects.avatar.destroy', $params));
 
-        $this->seeJson(['status' => 'ok']);
+        $response->assertJson(['status' => 'ok']);
 
         $project = $project->fresh();
 
@@ -206,20 +198,17 @@ class ProjectAvatarsTest extends BrowserKitTestCase
 
     public function testProjectAvatarDeleteForbidden()
     {
-        $project = factory(\KBox\Project::class)->create([
+        $project = factory(Project::class)->create([
             'avatar' => storage_path('app/projects/avatars/project-avatar.png')
         ]);
-        \Session::start();
-        
-        $this->actingAs($this->createAdminUser());
 
         $params = [
             'id' => $project->id,
             '_token' => csrf_token()
         ];
 
-        $this->delete(route('projects.avatar.destroy', $params));
+        $response = $this->actingAs($this->createUser(Capability::$ADMIN))->delete(route('projects.avatar.destroy', $params));
 
-        $this->seeJson(['status' => 'error']);
+        $response->assertJson(['status' => 'error']);
     }
 }
