@@ -28,7 +28,7 @@
 						<span class="button__content button__success">{{ trans('actions.clipboard.copied_title') }}</span>
 						<span class="button__content button__error">{{ trans('actions.clipboard.not_copied_title') }}</span>
 					</button>
-					<a class="button" title="{{ trans($elements_count == 1 ? 'share.send_link' : 'share.send_link_multiple') }}" href="mailto:?body={{ urlencode($sharing_links) }}">
+					<a class="button" title="{{ trans($elements_count == 1 ? 'share.send_link' : 'share.send_link_multiple') }}" target="_blank" rel="noopener noreferrer" href="mailto:?body={{ urlencode($sharing_links) }}">
 						@materialicon('content', 'mail', 'button__icon')
 					</a>
 
