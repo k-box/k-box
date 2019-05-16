@@ -1425,7 +1425,7 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
                         deleteTitle = Lang.trans('documents.permanent_delete.dialog_title', {document: currentSelection.title});
                         deleteMessage = Lang.trans('documents.permanent_delete.dialog_text', {document: currentSelection.title});
 
-                    DMS.MessageBox.deleteQuestion(deleteTitle, deleteMessage).then(function(){
+                    DMS.MessageBox.deleteQuestion(deleteTitle, deleteMessage, {confirmButtonText: Lang.trans('actions.dialogs.delete_btn')}).then(function(){
                         DMS.MessageBox.wait( Lang.trans('actions.deleting'), '...');
 
                         if(currentSelection.type === "document"){
