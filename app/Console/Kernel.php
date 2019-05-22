@@ -39,6 +39,8 @@ class Kernel extends ConsoleKernel
         \KBox\Console\Commands\StatisticsCommand::class,
         \KBox\Console\Commands\PrivacyLoadCommand::class,
         \KBox\Console\Commands\TermsLoadCommand::class,
+        \KBox\Console\Commands\ActivateReadonlyModeCommand::class,
+        \KBox\Console\Commands\DeactivateReadonlyModeCommand::class,
     ];
 
     /**
