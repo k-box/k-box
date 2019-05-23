@@ -5,7 +5,6 @@ namespace KBox\Exceptions;
 use Exception;
 use ErrorException;
 use Illuminate\Http\JsonResponse;
-use KBox\Exceptions\ReadonlyModeException;
 use GuzzleHttp\Exception\TransferException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Session\TokenMismatchException;
@@ -125,7 +124,7 @@ class Handler extends ExceptionHandler
                     ], $e->getStatusCode());
             }
             
-            return response()->make(view('errors.503-readonly', ['reason' => 'ReadonlyModeException ' . $e->getMessage()]), $e->getStatusCode());
+            return response()->make(view('errors.503-readonly', ['reason' => 'ReadonlyModeException '.$e->getMessage()]), $e->getStatusCode());
         }
 
         // if($e instanceof HttpResponseException)
