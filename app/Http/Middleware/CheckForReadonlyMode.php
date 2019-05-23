@@ -5,7 +5,7 @@ namespace KBox\Http\Middleware;
 use Closure;
 use KBox\Services\ReadonlyMode;
 use Symfony\Component\HttpFoundation\IpUtils;
-use Illuminate\Foundation\Http\Exceptions\MaintenanceModeException;
+use KBox\Exceptions\ReadonlyModeException;
 
 class CheckForReadonlyMode
 {
@@ -29,6 +29,7 @@ class CheckForReadonlyMode
         'logout',
         'administration/*',
         'password/*',
+        'consent/*',
     ];
 
     protected $blockedMethods = [
@@ -74,7 +75,7 @@ class CheckForReadonlyMode
                 return $next($request);
             }
 
-            throw new MaintenanceModeException($data['time'], $data['retry'], $data['message']);
+            throw new ReadonlyModeException($data['time'], $data['retry'], $data['message']);
         }
 
         return $next($request);

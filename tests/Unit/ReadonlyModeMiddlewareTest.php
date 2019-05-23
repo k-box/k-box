@@ -7,8 +7,8 @@ use Tests\TestCase;
 use Illuminate\Http\Request;
 use KBox\Services\ReadonlyMode;
 use Illuminate\Filesystem\Filesystem;
+use KBox\Exceptions\ReadonlyModeException;
 use KBox\Http\Middleware\CheckForReadonlyMode;
-use Illuminate\Foundation\Http\Exceptions\MaintenanceModeException;
 
 class ReadonlyModeMiddlewareTest extends TestCase
 {
@@ -66,7 +66,7 @@ class ReadonlyModeMiddlewareTest extends TestCase
     {
         $service = $this->createReadonlyModeService();
 
-        $this->expectException(MaintenanceModeException::class);
+        $this->expectException(ReadonlyModeException::class);
         $this->expectExceptionMessage('This application is in readonly mode.');
 
         $middleware = new CheckForReadonlyMode($service);
@@ -79,7 +79,7 @@ class ReadonlyModeMiddlewareTest extends TestCase
     {
         $service = $this->createReadonlyModeService();
 
-        $this->expectException(MaintenanceModeException::class);
+        $this->expectException(ReadonlyModeException::class);
         $this->expectExceptionMessage('This application is in readonly mode.');
 
         $middleware = new CheckForReadonlyMode($service);
@@ -92,7 +92,7 @@ class ReadonlyModeMiddlewareTest extends TestCase
     {
         $service = $this->createReadonlyModeService();
 
-        $this->expectException(MaintenanceModeException::class);
+        $this->expectException(ReadonlyModeException::class);
         $this->expectExceptionMessage('This application is in readonly mode.');
 
         $middleware = new CheckForReadonlyMode($service);

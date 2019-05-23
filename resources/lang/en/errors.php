@@ -68,6 +68,9 @@ return [
 
     '503_title' => 'K-Box Maintenance',
     '503_text' => 'The <strong>K-Box</strong> is currently in<br/><strong>maintenance.</strong><br/><small> Will be back shortly :)</small>',
+    
+    '503-readonly_title' => 'K-Box is Readonly',
+    '503-readonly_text' => 'The <strong>K-Box</strong> is currently in <strong>readonly mode.</strong><br/><small> For maintenance reasons you cannot change or update content.</small>',
 
     '500_title' => 'Error - K-Box',
     '500_text' => 'Something <strong>bad</strong><br/>and unexpected <strong>has happened</strong>. <br/>We are deeply sorry.',
