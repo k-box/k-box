@@ -28,7 +28,7 @@ parameters:
 - `to_id`: The resource identifier for which the link will be created (integer)
 - `to_type`: The resource type, currently only `document` or `collection`
 - `expiration`: (optional) Use this field if the link should expire on a specific day. The date must be greater than now (day + time)
-- `slug`: (optional) Use this field to add a rememberable and custom url. This must contain only letters, number and dashes and must be <= 250 charactes long. It will be used to represent the link like https://dms.klink.asia/s/my-custom-slug. Also the slug must be unique in a given K-Box instance.
+- `slug`: (optional) Use this field to add a rememberable and custom url. This must contain only letters, number and dashes and must be <= 250 charactes long. It will be used to represent the link like https://example.com/s/my-custom-slug. Also the slug must be unique in a given K-Box instance.
 
 Optional parameter can be omitted entirely from the json, if are in the request then they should have an acceptable value.
 
@@ -45,7 +45,7 @@ A public Link can be updated, but only with respect to its expiration date and s
 Parameters:
 
 - `expiration`: (optional) Use this field if the link should expire on a specific day. The date must be greater than now (day + time)
-- `slug`: (optional) Use this field to add a rememberable and custom url. This must contain only letters, number and dashes and must be <= 250 charactes long. It will be used to represent the link like https://dms.klink.asia/s/my-custom-slug. Also the slug must be unique in a given K-Box instance.
+- `slug`: (optional) Use this field to add a rememberable and custom url. This must contain only letters, number and dashes and must be <= 250 charactes long. It will be used to represent the link like https://example.com/s/my-custom-slug. Also the slug must be unique in a given K-Box instance.
 
 ### Delete
 

@@ -188,7 +188,7 @@ return [
         'from_name' => 'Name',
         'from_address' => 'E-Mail address',
         'from_name_placeholder' => 'John',
-        'from_address_placeholder' => 'e.g. john@klink.asia',
+        'from_address_placeholder' => 'e.g. john@doe.com',
         'host_label' => 'SMTP Host Address',
         'port_label' => 'SMTP Host Port',
         'encryption_label' => 'The E-Mail server must support TLS Encryption',

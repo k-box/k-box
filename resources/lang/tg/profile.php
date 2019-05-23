@@ -33,7 +33,7 @@ return [
         'organization_name' => 'Номи ташкилот',
         'organization_name_hint' => 'Ташкилоте, ки ба он хамрох шудед, агар бошад.',
         'organization_website' => 'Сомонаи ташкилот',
-        'organization_website_hint' => 'Сомонаи ташкилот (мисол. https://klink.asia)',
+        'organization_website_hint' => 'Сомонаи ташкилот (мисол. https://your-organization.com)',
     ],
 
     'change_password_btn' => 'Паролро иваз кун',
