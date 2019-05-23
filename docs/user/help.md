@@ -5,8 +5,9 @@ Description: user documentation
 
 # Help
 
-You can always get in touch with the remote support team if you encounter a bug or an issue. Just send a request to support@klink.asia or leave a comment on https://klink.uservoice.com/.
+The K-Box contributors maintain an help section in the [Open Source project](https://github.com/k-box/k-box/tree/master/docs). 
+Each K-Box have a short _help_ section reachable through the navigation menu in the footer.
 
-## K-Box help section
+You can always get in touch with the community if you encounter a bug or an problem by posting an [issue on GitHub](https://github.com/k-box/k-box/issues).
 
-Documentation is available at any time. If you have a doubt about a feature, you can access the Help section by simply clicking on the *Help* link at the bottom right corner of any K-Box page.
+> If the K-Box is hosted by an organization you might be able to have a contact with a dedicated support team. Check the contact page published on the K-Box.
