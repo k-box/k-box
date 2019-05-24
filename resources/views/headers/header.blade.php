@@ -17,7 +17,7 @@
 
 		@if(is_readonly())
 			<div class="c-message c-message--warning" style="flex-grow:0;padding:0 4px;margin:0;">
-				{!!trans('errors.503-readonly_text')!!}
+				{!!trans('errors.503-readonly_text_styled')!!}
 			</div>
 		@endif
 

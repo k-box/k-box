@@ -70,7 +70,8 @@ return [
     '503_text' => 'The <strong>K-Box</strong> is currently in<br/><strong>maintenance.</strong><br/><small> Will be back shortly :)</small>',
     
     '503-readonly_title' => 'K-Box is Readonly',
-    '503-readonly_text' => 'The <strong>K-Box</strong> is currently in <strong>readonly mode.</strong><br/><small> For maintenance reasons you cannot change or upload content.</small>',
+    '503-readonly_text_styled' => 'The <strong>K-Box</strong> is currently in <strong>readonly mode.</strong><br/><small> For maintenance reasons you cannot change or upload content.</small>',
+    '503-readonly_text' => 'The K-Box is currently in readonly mode. For maintenance reasons you cannot change or upload content.',
 
     '500_title' => 'Error - K-Box',
     '500_text' => 'Something <strong>bad</strong><br/>and unexpected <strong>has happened</strong>. <br/>We are deeply sorry.',

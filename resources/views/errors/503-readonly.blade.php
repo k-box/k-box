@@ -9,6 +9,6 @@
 
 @section('content')
 
-	{!!trans('errors.503-readonly_text')!!}
+	{!!trans('errors.503-readonly_text_styled')!!}
     
 @stop
