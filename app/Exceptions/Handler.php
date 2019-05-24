@@ -113,6 +113,19 @@ class Handler extends ExceptionHandler
 
             return trans('errors.413_text');
         }
+        
+        if ($e instanceof ReadonlyModeException) {
+            if ($request->expectsJson()) {
+                return response()->json([
+                        'error' => $e->getMessage() ?? trans('errors.503-readonly_text'),
+                        'wentDownAt' => $e->wentDownAt,
+                        'retryAfter' => $e->retryAfter,
+                        'willBeAvailableAt' => $e->willBeAvailableAt,
+                    ], $e->getStatusCode());
+            }
+            
+            return response()->make(view('errors.503-readonly', ['reason' => 'ReadonlyModeException '.$e->getMessage()]), $e->getStatusCode());
+        }
 
         // if($e instanceof HttpResponseException)
         // {

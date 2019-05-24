@@ -1,6 +1,7 @@
 <?php
 
 use KBox\Plugins\PluginManager;
+use KBox\Services\ReadonlyMode;
 
 if (! function_exists('css_asset')) {
     /**
@@ -281,5 +282,17 @@ if (! function_exists('plugins')) {
         }
 
         return app(PluginManager::class)->isEnabled($plugin);
+    }
+}
+
+if (! function_exists('is_readonly')) {
+    /**
+     * Check if application is in readonly mode.
+     *
+     * @return bool
+     */
+    function is_readonly()
+    {
+        return app(ReadonlyMode::class)->isReadonlyActive();
     }
 }

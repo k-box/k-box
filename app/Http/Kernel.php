@@ -14,6 +14,7 @@ class Kernel extends HttpKernel
      */
     protected $middleware = [
         \KBox\Http\Middleware\CheckForMaintenanceMode::class,
+        \KBox\Http\Middleware\CheckForReadonlyMode::class,
         \KBox\Http\Middleware\TrustedProxyMiddleware::class,
         \KBox\Http\Middleware\PortRedirectMiddleware::class,
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
