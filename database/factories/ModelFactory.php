@@ -104,7 +104,7 @@ $factory->define(KBox\DocumentDescriptor::class, function (Faker\Generator $fake
         'owner_id' => $user,
         'status' => KBox\DocumentDescriptor::STATUS_COMPLETED,
         'copyright_usage' => 'PD',
-        'copyright_owner' => collect(['name' => 'the owner name', 'website' => 'https://klink.asia']),
+        'copyright_owner' => collect(['name' => 'the owner name', 'website' => 'https://k-link.technology']),
     ];
 });
 

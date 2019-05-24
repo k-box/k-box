@@ -39,7 +39,7 @@ return [
         'organization_name' => 'Организация',
         'organization_name_hint' => 'Название организации, к которой вы относитесь',
         'organization_website' => 'Веб-страница',
-        'organization_website_hint' => 'Веб-страница организации. Например, https://klink.asia',
+        'organization_website_hint' => 'Веб-страница организации. Например, https://your-organization.com',
     ],
 
     'change_password_btn' => 'Обновить',

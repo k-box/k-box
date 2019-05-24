@@ -33,7 +33,7 @@ return [
         'organization_name' => 'Nom de l\'organisation',
         'organization_name_hint' => 'L\'organisation à laquelle vous appartenez',
         'organization_website' => 'Site web de l\'organisation',
-        'organization_website_hint' => 'Site web de l\'organisation (ex. https://klink.asia)',
+        'organization_website_hint' => 'Site web de l\'organisation (ex. https://your-organization.com)',
     ],
 
     'change_password_btn' => 'Changer le mot de passe',

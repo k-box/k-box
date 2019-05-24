@@ -39,7 +39,7 @@ return [
         'organization_name' => 'Organization Name',
         'organization_name_hint' => 'The organization you are part of, if any',
         'organization_website' => 'Organization Website',
-        'organization_website_hint' => 'The organization website (e.g. https://klink.asia)',
+        'organization_website_hint' => 'The organization website (e.g. https://your-organization.com)',
     ],
 
     'change_password_btn' => 'Change password',

@@ -18,7 +18,7 @@ Microsites are reachable through a URL hosted on the K-Link K-Box. The URL is in
 https://{dms-domain}/projects/{project-slug}
 ```
 
-where `{dms-domain}` is the domain from which you access the K-Box (e.g. `dms.klink.asia/`), while `{project-slug}` is the project friendly name, 
+where `{dms-domain}` is the domain from which you access the K-Box, while `{project-slug}` is the project friendly name, 
 usually is the project name with eventual spaces substituted with dashes. 
 For example if a project name is _Project A_ the default slug is `project-a`. 
 

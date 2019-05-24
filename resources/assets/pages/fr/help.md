@@ -115,7 +115,8 @@ Dans le cas où votre fichier n'est pas accessible par d'autres, veuillez vérif
 
 **12. Qu'est-ce qu'un réseau K-Link?**
 
-La technologie K-Link permet à des utilisateurs de s'organiser en réseaux privés ou publics pour faciliter l'échange d'information et de documents. [K-Link](https://klink.asia/) et [SLM Tajikistan](https://slmtj.net/) sont deux exemples de réseaux K-Link actuellement en fonction.
+La technologie K-Link permet à des utilisateurs de s'organiser en réseaux privés ou publics pour faciliter l'échange d'information et de documents.
+See [https://k-link.technology/](https://k-link.technology/).
 
 **13. Je veux rendre un fichier trouvable sur le réseau K-Link. Comment puis-je le faire?**
 
@@ -225,13 +226,11 @@ Pour créer un utilisateur, veuillez vous rendre dans la fenêtre d'administrati
 
 ### <a id="questions"></a>Questions/Suggestions
 
-**1. J'ai une suggestion pour améliorer K-Link. Où puis-je la poster?**
-
-Veuillez vous rendre sur [K-Link Uservoice](https://klink.uservoice.com/) pour poster votre suggestion et voter pour les idées des autres utilisateurs.
-
-**2. J'ai une question concernant le comportement du système. Qui peut me renseigner?**
+**1. J'ai une question concernant le comportement du système. Qui peut me renseigner?**
 
 Veuillez adresser toutes vos questions par email à votre bibliothécaire. Décrivez votre question en quelques phrases, en fournissant toutes les informations nécessaires, comme "que trouvez-vous bizarre?", "quelles actions avez-vous effectuées avant que le système ne réagisse ainsi?". Ajouter une capture d'écran montrant le problème (ou le comportement inattendu) est souvent très utile.
+
+For general guidance on using the system you can refer to the [community maintained documentation](https://github.com/k-box/k-box/tree/master/docs).
 
 ### <a id="errors"></a>Erreurs
 
@@ -268,7 +267,3 @@ L'aperçu d'un fichier est uniquement disponible pour certains types de fichiers
 
 Ce comportement apparaît avec certains navigateurs et est causé par le fait que le fichier a été glissé-déposé en-dehors de la zone de mise en ligne. La zone de mise en ligne couvre toute la page et est entourée par un cadre vert. En cas de doute, veuillez glisser-déposer vos fichiers vers le centre de l'écran, là où les documents sont listés.
 
-
-### <a id="contact-us"></a>Contactez nous
-
-Si vous avez des questions, veuillez nous contacter (en anglais, russe, tadjik, kirghize, allemand ou italien) à `support@klink.asia` 

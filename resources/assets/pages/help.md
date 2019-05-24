@@ -1,4 +1,4 @@
 ### Help Page content
 
 
-The **Help and support** will be available as a separate set of pages in the K-Link E-Learning.
+The **Help** content can be found in the subfolder of the specific language.

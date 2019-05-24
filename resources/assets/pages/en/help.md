@@ -10,7 +10,6 @@
 - [Administration](#administration)
 - [Questions/Suggestions](#questions)
 - [Errors](#errors)
-- [Contact us](#contact-us)
 
 ### <a id="start"></a>Start
  
@@ -113,7 +112,7 @@ If _Who has Access_ is set to `Anyone with link can access`, go ahead and send t
 
 **1. What is a K-Link Network?**
 
-K-Link technology allows users to organize themselves in public or closed networks for easier sharing of relevant information and documents. Examples are the [K-Link](https://klink.asia/) and [SLM Tajikistan](https://slmtj.net/) networks.
+See [https://k-link.technology/](https://k-link.technology/)
 
 **2. How to publish a file?**
 
@@ -143,7 +142,7 @@ Use comprehensive keywords, following naming convention and boolean operators fo
 - `NOT`: any document containing the keyword that you write after this operator will be excluded from the search results.
 - `*`: when you do not remember the whole word (common with names/surnames), you can use this operator as a wild card. the symbol can be used to look for beginning or end of the word ( * in the end or beginning of the keyword respectively). E.g. `Mar*` will return documents containing words like `Markhor`, `March`, `Marina`, etc. 
 
-You can of course combine all those operators in order to get more relevant search results. For more information about search operators, refer to the following [documentation](https://lucene.apache.org/core/2_9_4/queryparsersyntax.html#Boolean operators)
+You can of course combine all those operators in order to get more relevant search results. For more information about search operators, refer to the following [documentation](https://lucene.apache.org/core/2_9_4/queryparsersyntax.html#Boolean%20operators)
 
 **2. How to save several files in my profile for a faster search?**
 
@@ -169,7 +168,7 @@ Assign the account based on the permissions:
 
 **4. What is a microsite?**
 
-A one-pager for visitors to learn about your project. Can be compared with a Project business card. Example, [Regional Pasture Network microsite](https://pasture.klink.asia/projects/pasture-network/en)
+A one-pager for visitors to learn about your project. Can be compared with a Project business card.
 
 **5. What are the advantages of a microsite compared to normal website?** 
 
@@ -182,14 +181,11 @@ Right-click on the project of interest on the Projects page and select “Detail
 
 ### <a id="questions"></a>Questions/Suggestions
 
-**1. Where to post suggestions on how to improve the K-Link services?**
+**1. I have a question regarding the behavior of the system. Whom should I ask?**
 
-Please go to http://klink.uservoice.com/ to post your suggestion and vote for ideas of other users.
+Please refer all your questions to your librarian via email or the organization referent (see the Contact page for details). Describe your question in two-three sentences providing the information such as what you find strange and what actions have you performed to get such a response from the system.  Sharing your screen typically helps to better explain and understand the situation.
 
-**2. I have a question regarding the behavior of the system. Whom should I ask?**
-
-Please refer all your questions to your librarian via email. Describe your question in two-three sentences providing the information such as what you find strange and what actions have you performed to get such a response from the system.  Sharing your screen typically helps to better explain and understand the situation.
-
+For general guidance on using the system you can refer to the [community maintained documentation](https://github.com/k-box/k-box/tree/master/docs).
 
 ### <a id="errors"></a>Errors
 
@@ -228,7 +224,3 @@ Most likely the conditions listed under [sharing](#sharing) are not fullfiled. Y
 **9. I see duplicates. Why?**
 
 The duplicates are allowed. When uploaded into Projects, K-Box identifies them. Only the uploader of duplicate can resolve them. 
-
-### <a id="contact-us"></a>Contact us
-
-Should you have any questions, please contact us at `support@klink.asia` 

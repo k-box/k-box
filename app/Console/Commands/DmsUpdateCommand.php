@@ -506,7 +506,7 @@ class DmsUpdateCommand extends Command
             Institution::forceCreate([
                 'klink_id' => config('dms.institutionID'),
                 'name' => 'KLINK',
-                'email' => 'info@klink.asia',
+                'email' => 'org@k-link.technology',
                 'type' => 'Organization'
             ]);
 

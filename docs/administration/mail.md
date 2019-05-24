@@ -32,7 +32,7 @@ The emails are sent via an external provider. The provider should expose a SMTP 
 
 The required configuration to make the K-Box able to send emails includes:
 
-- From Address: the email address from which the emails are sent, an example can be info@klink.asia. This address is very 
+- From Address: the email address from which the emails are sent, an example can be info@your-organization.com. This address is very 
   important and it must exist, otherwise emails might not be delivered to recipients at all.
 - From Name: the name that most email clients show instead of/in addition to the email address
 - SMTP server host: the address of the email server
@@ -55,7 +55,7 @@ The accepted configuration parameters are:
 - `KBOX_MAIL_PORT`: The email server communication port, default `587`;
 - `KBOX_MAIL_USERNAME`: The email server username;
 - `KBOX_MAIL_PASSWORD`: The email server password;
-- `KBOX_MAIL_FROM_ADDRESS`: The address used for sending emails, e.g. info@klink.asia
+- `KBOX_MAIL_FROM_ADDRESS`: The address used for sending emails, e.g. no-reply@your-organization.com
 - `KBOX_MAIL_FROM_NAME`: The name to show to recipients of the email
 
 The `KBOX_MAIL_HOST`, `KBOX_MAIL_PORT`, `KBOX_MAIL_FROM_ADDRESS` and `KBOX_MAIL_FROM_NAME` are required.

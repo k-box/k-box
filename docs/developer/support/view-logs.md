@@ -29,7 +29,7 @@ For example the following log entries refers to the update of the total document
 This entry shows a search request
 
 ``` 
-[2016-05-15 06:49:31] production.INFO: Search Request {"request":"{\"term\":\"*\",\"visibility\":\"private\",\"is_search_request\":false,\"page\":1,\"limit\":12,\"filters\":null,\"facets\":null,\"on_collections\":[\"0:756\",\"0:756\"],\"in_documents\":null,\"url\":\"https:\\/\\/eba.klink.asia\\/dms\\/documents\\/groups\\/756\",\"query\":[]}"}
+[2016-05-15 06:49:31] production.INFO: Search Request {"request":"{\"term\":\"*\",\"visibility\":\"private\",\"is_search_request\":false,\"page\":1,\"limit\":12,\"filters\":null,\"facets\":null,\"on_collections\":[\"0:756\",\"0:756\"],\"in_documents\":null,\"url\":\"https:\\/\\/example.com\\/documents\\/groups\\/0\",\"query\":[]}"}
 ```
 
 This kind of entry is used to identify fixed point in time where a user has browsed a section under documents or has performed a search.
