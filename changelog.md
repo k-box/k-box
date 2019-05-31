@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.27.1] - 2019-05-31
+
+### Added 
+
+- Readonly mode ([#258](https://github.com/k-box/k-box/pull/258))
+
+### Changed
+
+- Update axios to version 0.19 ([#260](https://github.com/k-box/k-box/pull/260))
+
 ## [0.27.0] - 2019-05-13
 
 ### Added
