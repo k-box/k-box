@@ -10,6 +10,7 @@ use KBox\Events\EmailChanged;
 use KBox\Events\UploadCompleted;
 use Illuminate\Auth\Events\Verified;
 use KBox\Events\PrivacyPolicyUpdated;
+use KBox\Events\PersonalExportCreated;
 use Illuminate\Auth\Events\Registered;
 use KBox\Listeners\ShareCreatedHandler;
 use KBox\Events\FileDuplicateFoundEvent;
@@ -27,6 +28,7 @@ use OneOffTech\TusUpload\Events\TusUploadCompleted;
 use OneOffTech\TusUpload\Events\TusUploadCancelled;
 use KBox\Notifications\DuplicateDocumentsNotification;
 use KBox\Listeners\RemovePrivacyPolicyConsentFromUsers;
+use KBox\Listeners\NotifyUserThatPersonalExportIsReady;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 
 class EventServiceProvider extends ServiceProvider
@@ -73,6 +75,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         PrivacyPolicyUpdated::class => [
             RemovePrivacyPolicyConsentFromUsers::class
+        ],
+        PersonalExportCreated::class => [
+            NotifyUserThatPersonalExportIsReady::class
         ]
     ];
 

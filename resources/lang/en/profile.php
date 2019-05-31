@@ -73,4 +73,9 @@ return [
         'update_privacy_preferences' => 'Update privacy preferences',
     ],
 
+    'data-export' => [
+        'triggered' => 'We have received your request to obtain a copy of your data. We will notify you with an email when the export can be downloaded.',
+        'wait_until' => 'There are already exports in progress, please wait :minutes before asking for a new export',
+    ],
+
 ];

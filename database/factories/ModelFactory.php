@@ -19,7 +19,8 @@ $factory->define(KBox\User::class, function (Faker\Generator $faker) {
         'name' => $faker->name,
         'email' => $faker->email,
         'password' => bcrypt(Str::random(10)),
-        'institution_id' => null
+        'institution_id' => null,
+        'email_verified_at' => now()
     ];
 });
 
