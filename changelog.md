@@ -11,24 +11,24 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
-- User registration. By default is disabled, to enable set the environment variable `KBOX_USER_REGISTRATION` to `true` https://github.com/k-box/k-box/issues/241 https://github.com/k-box/k-box/pull/245
+- User registration. By default is disabled, to enable set the environment variable `KBOX_USER_REGISTRATION` to `true` ([#241](https://github.com/k-box/k-box/issues/241), [#245](https://github.com/k-box/k-box/pull/245))
 
 ### Changed
 
-- Laravel upgrade to version 5.7 https://github.com/k-box/k-box/pull/239
-- Changed the logo to respect the K-Box branding https://github.com/k-box/k-box/pull/242
-- Improve iconography when no documents or share can be found https://github.com/k-box/k-box/pull/252
-- Explicit validation of required capabilities when creating a new account https://github.com/k-box/k-box/pull/253
-- Sharing to mail link open in new tab by default https://github.com/k-box/k-box/pull/250
-- Update xpdf-tools to 4.01.01 https://github.com/k-box/k-box/pull/248
+- Laravel upgrade to version 5.7 ([#239](https://github.com/k-box/k-box/pull/239))
+- Changed the logo to respect the K-Box branding ([#242](https://github.com/k-box/k-box/pull/242))
+- Improve iconography when no documents or share can be found ([#252](https://github.com/k-box/k-box/pull/252))
+- Explicit validation of required capabilities when creating a new account ([#253](https://github.com/k-box/k-box/pull/253))
+- Sharing to mail link open in new tab by default ([#250](https://github.com/k-box/k-box/pull/250))
+- Update xpdf-tools to 4.01.01 ([#248](https://github.com/k-box/k-box/pull/248))
 - Changing password requires to have a verified email address
 
 ### Fixed
 
-- Allow to reset the language of a document to "no language recognized" in case the language was wrongly recognized https://github.com/k-box/k-box/pull/247 https://github.com/k-box/k-box/issues/215
-- Ensure pagination is visible in the recents page https://github.com/k-box/k-box/issues/219 https://github.com/k-box/k-box/pull/246
-- Listing of users that can be added as member of a project https://github.com/k-box/k-box/issues/211 https://github.com/k-box/k-box/pull/243
-- Sharing dialog not loading if document/collection was shared to a disabled user https://github.com/k-box/k-box/pull/254
+- Allow to reset the language of a document to "no language recognized" in case the language was wrongly recognized ([#247](https://github.com/k-box/k-box/pull/247), [#215](https://github.com/k-box/k-box/issues/215))
+- Ensure pagination is visible in the recents page ([#219](https://github.com/k-box/k-box/issues/219), [#246](https://github.com/k-box/k-box/pull/246))
+- Listing of users that can be added as member of a project ([#211](https://github.com/k-box/k-box/issues/211), [#243](https://github.com/k-box/k-box/pull/243))
+- Sharing dialog not loading if document/collection was shared to a disabled user ([#254](https://github.com/k-box/k-box/pull/254))
 
 
 ### Removed
