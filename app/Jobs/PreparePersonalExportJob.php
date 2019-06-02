@@ -12,6 +12,7 @@ use KBox\Publication;
 use KBox\PersonalExport;
 use KBox\DocumentDescriptor;
 use Illuminate\Bus\Queueable;
+use KBox\Documents\Facades\Files;
 use KBox\Http\Resources\StarredDump;
 use KBox\Http\Resources\ProjectDump;
 use KBox\Http\Resources\DocumentDump;
@@ -135,6 +136,13 @@ class PreparePersonalExportJob implements ShouldQueue
             'documents.json', 
             $collection_json
         );
+
+        foreach ($documents as $doc) {
+            $this->archiveHandle->addFile(
+                $doc->file->absolute_path,
+                $doc->file->uuid .'.' . Files::extensionFromType($doc->file->mime_type)
+            );
+        }
     }
     
     private function addStars()

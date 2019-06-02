@@ -10,8 +10,10 @@ use KBox\Starred;
 use KBox\Project;
 use Tests\TestCase;
 use KBox\Capability;
+use Ramsey\Uuid\Uuid;
 use KBox\PersonalExport;
 use KBox\DocumentDescriptor;
+use KBox\Documents\Facades\Files;
 use Klink\DmsMicrosites\Microsite;
 use KBox\Http\Resources\ProjectDump;
 use KBox\Http\Resources\StarredDump;
@@ -38,7 +40,8 @@ class PersonalExportTest extends TestCase
     {
         $file = factory(File::class)->create([
             'user_id' => $user->id,
-            'original_uri' => ''
+            'original_uri' => '',
+            'uuid' => Uuid::uuid4()->getBytes()
         ]);
         
         $doc = factory(DocumentDescriptor::class)->create([
@@ -57,6 +60,14 @@ class PersonalExportTest extends TestCase
             'user_id' => $user->id,
             'is_private' => true
         ]);
+
+        return [
+            $file,
+            $doc,
+            $starred,
+            $project,
+            $collection
+        ];
     }
 
     private function getZipContentList($path)
@@ -173,7 +184,7 @@ class PersonalExportTest extends TestCase
         Storage::fake($disk);
         Event::fake();
         $user = tap(factory(User::class)->create())->addCapabilities(Capability::$PARTNER);
-        $this->createExportableDataForUser($user);
+        list($file) = $this->createExportableDataForUser($user);
 
         $export_request = PersonalExport::requestNewExport($user);
 
@@ -195,7 +206,10 @@ class PersonalExportTest extends TestCase
         $this->assertContains('stars.json' , $zipEntries);
         $this->assertContains('documents.json' , $zipEntries);
         $this->assertContains('projects.json' , $zipEntries);
-
+        
+        $extension = Files::extensionFromType($file->mime_type);
+        
+        $this->assertContains("{$file->uuid}.$extension" , $zipEntries);
     }
 
     
