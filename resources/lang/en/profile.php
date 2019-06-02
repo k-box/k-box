@@ -82,12 +82,12 @@ return [
         'triggered' => 'We have received your request to obtain a copy of your data. We will notify you with an email when the export can be downloaded.',
         'wait_until' => 'There are already exports in progress, please wait :minutes minutes before asking for a new export',
 
-        'expired' => '[Expired export] This export is no longer available for download.',
-        'pending' => '[Generating export] This export is being generated, you will receive a notification once available.',
-        'download' => 'Download export',
+        'expired' => '[Expired package] This package is no longer available for download.',
+        'pending' => '[Generating package] This package is being generated, you will receive a notification once available.',
+        'download' => 'Download package',
 
         'table' => [
-            'export_name' => 'Export',
+            'export_name' => 'Export request',
             'requested_at' => 'Requested at',
             'available_until' => 'Available until',
         ],
