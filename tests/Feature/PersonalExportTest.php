@@ -5,17 +5,23 @@ namespace Tests\Feature;
 use KBox\User;
 use KBox\File;
 use KBox\Group;
+use ZipArchive;
 use KBox\Starred;
 use KBox\Project;
 use Tests\TestCase;
 use KBox\Capability;
 use KBox\PersonalExport;
 use KBox\DocumentDescriptor;
-use KBox\Event\PersonalExportReady;
+use KBox\Http\Resources\ProjectDump;
+use KBox\Http\Resources\StarredDump;
+use KBox\Http\Resources\DocumentDump;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Queue;
+use KBox\Events\PersonalExportCreated;
 use KBox\Jobs\PreparePersonalExportJob;
 use Illuminate\Support\Facades\Storage;
+use KBox\Http\Resources\CollectionDump;
+use KBox\Http\Resources\PublicationDump;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -47,6 +53,19 @@ class PersonalExportTest extends TestCase
             'user_id' => $user->id,
             'is_private' => true
         ]);
+    }
+
+    private function getZipContentList($path)
+    {
+        $entries = [];
+        $za = new ZipArchive;
+        $za->open($path);
+        for ($i=0; $i < $za->numFiles; $i++) {
+            $entry = $za->statIndex($i);
+            $entries[] = $entry['name'];
+        }
+        $za->close();
+        return $entries;
     }
 
     public function test_personal_export_can_be_requested()
@@ -128,22 +147,32 @@ class PersonalExportTest extends TestCase
     public function test_personal_export_is_created()
     {
         $disk = config('personal-export.disk');
-        Storage::fake();
+        Storage::fake($disk);
         Event::fake();
         $user = tap(factory(User::class)->create())->addCapabilities(Capability::$PARTNER);
-        $export_request = PersonalExport::requestNewExport($user);
         $this->createExportableDataForUser($user);
+
+        $export_request = PersonalExport::requestNewExport($user);
 
         $job = new PreparePersonalExportJob($export_request);
 
         $job->handle();
 
-        Event::assertDispatched(PersonalExportReady::class);
-        $export = PersonalExport::ofUser($user->id);
+        Event::assertDispatched(PersonalExportCreated::class);
+        $export = PersonalExport::ofUser($user->id)->first();
         $this->assertNotNull($export);
         Storage::disk($disk)->assertExists($export->name);
 
-        $this->fail('TODO: assert if the zip file contains the expected files');
+        $zipEntries = $this->getZipContentList(Storage::disk($disk)->path($export->name));
+
+        $this->assertContains('readme.txt' , $zipEntries);
+        $this->assertContains('user.json' , $zipEntries);
+        $this->assertContains('collections.json' , $zipEntries);
+        $this->assertContains('publications.json' , $zipEntries);
+        $this->assertContains('stars.json' , $zipEntries);
+        $this->assertContains('documents.json' , $zipEntries);
+        $this->assertContains('projects.json' , $zipEntries);
+
     }
 
     // function test_personal_export_notification_is_sent()
