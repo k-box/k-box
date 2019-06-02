@@ -151,17 +151,19 @@ $factory->define(KBox\Project::class, function (Faker\Generator $faker, $argumen
 $factory->define(Klink\DmsMicrosites\Microsite::class, function (Faker\Generator $faker) {
     $project = factory(KBox\Project::class)->create();
     
-    $project_manager = $project->manager()->first();
-    
     return [
-        'project_id' => $project->id,
+        'project_id' => function () use($project) {
+            return $project->id;
+        },
         'title' => $faker->sentence,
         'slug' => $faker->slug,
         'description' => $faker->paragraph,
         'logo' => str_replace('http://', 'https://', $faker->imageUrl),
         'hero_image' => str_replace('http://', 'https://', $faker->imageUrl),
         'default_language' => 'en',
-        'user_id' => $project_manager->id,
+        'user_id' => function () use($project) {
+            return $project->manager()->first()->id;
+        },
     ];
 });
 
