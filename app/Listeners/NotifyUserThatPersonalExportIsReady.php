@@ -2,9 +2,11 @@
 
 namespace KBox\Listeners;
 
-use KBox\Events\PersonalExportReady;
+use KBox\PersonalExport;
+use KBox\Events\PersonalExportCreated;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use KBox\Notifications\PersonalExportReadyNotification;
 
 class NotifyUserThatPersonalExportIsReady implements ShouldQueue
 {
@@ -23,11 +25,11 @@ class NotifyUserThatPersonalExportIsReady implements ShouldQueue
     /**
      * Handle the event.
      *
-     * @param  PersonalExportReady  $event
+     * @param  PersonalExportCreated  $event
      * @return void
      */
-    public function handle(PersonalExportReady $event)
+    public function handle(PersonalExportCreated $event)
     {
-        //
+        $event->export->user->notify(new PersonalExportReadyNotification($event->export));
     }
 }

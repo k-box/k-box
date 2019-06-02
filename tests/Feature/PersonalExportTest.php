@@ -22,8 +22,10 @@ use KBox\Jobs\PreparePersonalExportJob;
 use Illuminate\Support\Facades\Storage;
 use KBox\Http\Resources\CollectionDump;
 use KBox\Http\Resources\PublicationDump;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use KBox\Notifications\PersonalExportReadyNotification;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class PersonalExportTest extends TestCase
@@ -175,10 +177,27 @@ class PersonalExportTest extends TestCase
 
     }
 
-    // function test_personal_export_notification_is_sent()
-    // {
+    function test_personal_export_notification_is_sent()
+    {
+        Notification::fake();
 
-    // }
+        $user = tap(factory(User::class)->create())->addCapabilities(Capability::$PARTNER);
+
+        $export = factory(PersonalExport::class)->create([
+            'user_id' => $user->id,
+        ]);
+
+        event(new PersonalExportCreated($export));
+
+        Notification::assertSentTo(
+            $user,
+            PersonalExportReadyNotification::class,
+            function ($notification, $channels) use ($export) {
+                return $notification->export->id === $export->id;
+            }
+        );
+       
+    }
     
     // function test_personal_export_can_be_downloaded()
     // {

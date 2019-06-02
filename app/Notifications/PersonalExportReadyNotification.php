@@ -2,6 +2,7 @@
 
 namespace KBox\Notifications;
 
+use KBox\PersonalExport;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -9,16 +10,22 @@ use Illuminate\Notifications\Messages\MailMessage;
 
 class PersonalExportReadyNotification extends Notification
 {
+    
     use Queueable;
+
+    /**
+     * @var \KBox\PersonalExport;
+     */
+    public $export = null;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(PersonalExport $export)
     {
-        //
+        $this->export = $export;
     }
 
     /**
@@ -40,10 +47,12 @@ class PersonalExportReadyNotification extends Notification
      */
     public function toMail($notifiable)
     {
+        $language = is_a($notifiable, \KBox\User::class) ? $notifiable->optionLanguage(config('app.locale')) : config('app.locale');
+        
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+                    ->line(trans('mail.data-export.description', [], '', $language))
+                    ->action(trans('mail.data-export.action', [], '', $language), route('profile.data-export.download', ['name' => $this->export->name]))
+                    ->line(trans('mail.data-export.expiration', ['expire' => $this->export->getPurgeAt()], '', $language));
     }
 
     /**
