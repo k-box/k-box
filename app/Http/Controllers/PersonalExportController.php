@@ -39,7 +39,7 @@ class PersonalExportController extends Controller
     {
         $user = $request->user();
 
-        $waiting = PersonalExport::ofUser($user)->notExpired()->pending()->orWhere('created_at', '<=', now()->addMinutes(60))->count();
+        $waiting = PersonalExport::ofUser($user)->notExpired()->pending()->where('created_at', '<=', now()->addMinutes(60))->count();
 
         Validator::make(
             ['time' => (int)$waiting],
