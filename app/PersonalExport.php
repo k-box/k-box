@@ -5,13 +5,16 @@ namespace KBox;
 use KBox\User;
 use Carbon\Carbon;
 use Ramsey\Uuid\Uuid;
+use KBox\Traits\LocalizableDateFields;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Model;
 
 class PersonalExport extends Model
 {
+    use LocalizableDateFields;
+
     protected $fillable = [
-        'user_id', 'name'
+        'user_id', 'name', 'purge_at',
     ];
 
     protected $casts = [
@@ -89,6 +92,23 @@ class PersonalExport extends Model
     {
         return $this->purge_at->lessThan(now());
     }
+    
+    /**
+     * Check if the export is still downloadable
+     */
+    public function isPending()
+    {
+        return is_null($this->generated_at);
+    }
+
+    public function getPurgeAt($full = false)
+    {
+        if (is_null($this->purge_at)) {
+            return "";
+        }
+
+        return $this->getLocalizedDateInstance($this->purge_at)->format(trans($full ? 'units.date_format_full' : 'units.date_format'));
+    }
 
     /**
      * Create a new data export
@@ -103,7 +123,8 @@ class PersonalExport extends Model
 
         return static::create([
             'user_id' => $uid,
-            'name' => "e-$uid-$uuid.zip"
+            'name' => "e-$uid-$uuid.zip",
+            'purge_at' => now()->addDays(config('personal-export.delete_after_days')),
         ]);
     }
 }

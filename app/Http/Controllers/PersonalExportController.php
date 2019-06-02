@@ -22,7 +22,7 @@ class PersonalExportController extends Controller
      */
     public function index(Request $request)
     {
-        $exports = PersonalExport::ofUser($request->user())->get();
+        $exports = PersonalExport::ofUser($request->user())->orderBy('created_at', 'desc')->get();
 
         return view('profile.data-export', [
             'exports' => $exports

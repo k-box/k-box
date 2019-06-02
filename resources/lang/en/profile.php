@@ -73,9 +73,24 @@ return [
         'update_privacy_preferences' => 'Update privacy preferences',
     ],
 
+    'export_section' => 'Personal Data Export',
+
     'data-export' => [
+        'hint' => 'Download a copy of your personal data and all data you uploaded to the K-Box. Exports will be generated in zip format and are available for a limited time.',
+        'generate' => 'Generate a package with my data',
+        'no-exports' => 'You don\'t have pending or old exports. After an export will be ready you can find the details here',
         'triggered' => 'We have received your request to obtain a copy of your data. We will notify you with an email when the export can be downloaded.',
-        'wait_until' => 'There are already exports in progress, please wait :minutes before asking for a new export',
+        'wait_until' => 'There are already exports in progress, please wait :minutes minutes before asking for a new export',
+
+        'expired' => '[Expired export] This export is no longer available for download.',
+        'pending' => '[Generating export] This export is being generated, you will receive a notification once available.',
+        'download' => 'Download export',
+
+        'table' => [
+            'export_name' => 'Export',
+            'requested_at' => 'Requested at',
+            'available_until' => 'Available until',
+        ],
     ],
 
 ];
