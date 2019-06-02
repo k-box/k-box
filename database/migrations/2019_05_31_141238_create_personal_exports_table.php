@@ -16,7 +16,7 @@ class CreatePersonalExportsTable extends Migration
         Schema::create('personal_exports', function (Blueprint $table) {
             $table->increments('id');
             $table->bigInteger('user_id')->unsigned();
-            $table->string('name', 100)->index();
+            $table->string('name', 100)->index()->unique();
             $table->timestamps();
 
             /*

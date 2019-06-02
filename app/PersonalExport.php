@@ -22,6 +22,16 @@ class PersonalExport extends Model
         'generated_at' => 'datetime',
     ];
 
+    /**
+     * Get the route key for the model.
+     *
+     * @return string
+     */
+    public function getRouteKeyName()
+    {
+        return 'name';
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);

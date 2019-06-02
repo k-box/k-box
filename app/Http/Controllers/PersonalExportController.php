@@ -2,10 +2,13 @@
 
 namespace KBox\Http\Controllers;
 
-use KBox\PersonalExport;
 use Validator;
+use KBox\PersonalExport;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use KBox\Jobs\PreparePersonalExportJob;
+use Illuminate\Support\Facades\Storage;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class PersonalExportController extends Controller
 {
@@ -66,9 +69,32 @@ class PersonalExportController extends Controller
      * @param  \KBox\PersonalExport  $personalExport
      * @return \Illuminate\Http\Response
      */
-    public function show(PersonalExport $personalExport)
+    public function show(PersonalExport $export)
     {
-        //
+        $disk = Storage::disk(config('personal-export.disk'));
+
+        if (! $disk->exists($export->name) || $export->isExpired()) {
+            abort(404);
+        }
+
+        $downloadHeaders = [
+            'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
+            'Content-Type' => 'application/zip',
+            'Content-Length' => $disk->size($export->name),
+            'Content-Disposition' => 'attachment; filename="'.$export->name.'"',
+            'Pragma' => 'public',
+        ];
+
+        return new StreamedResponse(function () use ($export, $disk, $downloadHeaders) {
+            $stream = $disk->readStream($export->name);
+
+            fpassthru($stream);
+
+            if (is_resource($stream)) {
+                fclose($stream);
+            }
+        }, Response::HTTP_OK, $downloadHeaders);
+    
     }
 
 

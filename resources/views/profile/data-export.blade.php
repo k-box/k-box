@@ -44,7 +44,7 @@
 				@elseif($export->isPending())
 					{{ trans('profile.data-export.pending') }}
 				@else 
-					<a href="{{ route('profile.data-export.store', ['name' => $export->name]) }}">{{ trans('profile.data-export.download') }}</a>
+					<a href="{{ route('profile.data-export.download', ['export' => $export->name]) }}">{{ trans('profile.data-export.download') }}</a>
 				@endif
 			</td>
 			<td>{{ $export->getCreatedAt() }}</td>

@@ -303,7 +303,7 @@ Route::prefix('profile')->name('profile.')->group(function () {
 
     Route::get('data-export', 'PersonalExportController@index')->name('data-export.index');
     Route::post('data-export', 'PersonalExportController@store')->name('data-export.store');
-    Route::get('data-export/{name}', 'PersonalExportController@show')->name('data-export.download');
+    Route::get('data-export/{export}', 'PersonalExportController@show')->name('data-export.download');
 });
 
 /*

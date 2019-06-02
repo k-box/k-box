@@ -146,7 +146,26 @@ class PersonalExportTest extends TestCase
         $this->assertCount(2, $response_exports->filter(function($value, $key) use($export, $expired_export) { return $value->id === $export->id || $value->id === $expired_export->id;}));
     }
 
+    public function test_exports_can_be_downloaded()
+    {
+        $user = tap(factory(User::class)->create())->addCapabilities(Capability::$PARTNER);
 
+        $export = factory(PersonalExport::class)->create([
+            'user_id' => $user->id,
+            'generated_at' => now()->subMinute(),
+            'purge_at' => now()->addMinutes(5)
+        ]);
+
+        $url = route('profile.data-export.index');
+
+        $response = $this->actingAs($user)->get($url);
+
+        $response->assertOk();
+
+        $response->assertViewHas('exports');
+
+        $response->assertSee(route('profile.data-export.download', ['export' => $export->name]));
+    }
     
     public function test_personal_export_is_created()
     {
@@ -272,9 +291,32 @@ class PersonalExportTest extends TestCase
     
     }
     
-    // function test_personal_export_can_be_downloaded()
-    // {
+    function test_personal_export_can_be_downloaded()
+    {
+        $disk = config('personal-export.disk');
+        Storage::fake($disk);
+        $user = tap(factory(User::class)->create())->addCapabilities(Capability::$PARTNER);
 
-    // }
+        Storage::disk($disk)->put('export.zip', 'content');
+
+        $pending_export = factory(PersonalExport::class)->create([
+            'user_id' => $user->id,
+            'created_at' => now()->subMinute(),
+            'purge_at' => now()->addMinutes(15),
+            'name' => 'export.zip'
+        ]);
+        
+        $url = route('profile.data-export.download', ['name' => 'export.zip']);
+
+        $response = $this->actingAs($user)->get($url);
+
+        $response->assertHeader('Content-Disposition', 'attachment; filename="export.zip"');
+        $response->assertHeader('Content-Type', 'application/zip');
+        $response->assertHeader('Content-Length', Storage::disk($disk)->size('export.zip'));
+        
+        $content = $response->streamedContent();
+
+        $this->assertEquals('content', $content);
+    }
     
 }

@@ -51,7 +51,7 @@ class PersonalExportReadyNotification extends Notification
         
         return (new MailMessage)
                     ->line(trans('mail.data-export.description', [], '', $language))
-                    ->action(trans('mail.data-export.action', [], '', $language), route('profile.data-export.download', ['name' => $this->export->name]))
+                    ->action(trans('mail.data-export.action', [], '', $language), route('profile.data-export.download', ['export' => $this->export->name]))
                     ->line(trans('mail.data-export.expiration', ['expire' => $this->export->getPurgeAt()], '', $language));
     }
 
