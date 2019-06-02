@@ -198,15 +198,28 @@ class PersonalExportTest extends TestCase
         );
        
     }
+
+    function test_expired_personal_export_are_purged()
+    {
+        $user = tap(factory(User::class)->create())->addCapabilities(Capability::$PARTNER);
+
+        $export = factory(PersonalExport::class)->create([
+            'user_id' => $user->id,
+        ]);
+        $expired_export = factory(PersonalExport::class)->create([
+            'user_id' => $user->id,
+            'purge_at' => now()->subMinutes(5)
+        ]);
+
+        $this->artisan('data-export:purge')
+            ->expectsOutput('Expired personal exports purged.')
+            ->assertExitCode(0);
+
+        $this->assertEquals(1, PersonalExport::ofUser($user)->count());
+    
+    }
     
     // function test_personal_export_can_be_downloaded()
-    // {
-
-    // }
-    
-
-    
-    // function test_expired_personal_export_are_purged()
     // {
 
     // }
