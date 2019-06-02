@@ -5,12 +5,10 @@ namespace KBox\Notifications;
 use KBox\PersonalExport;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
 class PersonalExportReadyNotification extends Notification
 {
-    
     use Queueable;
 
     /**

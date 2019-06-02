@@ -2,7 +2,6 @@
 
 namespace KBox\Listeners;
 
-use KBox\PersonalExport;
 use KBox\Events\PersonalExportCreated;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;

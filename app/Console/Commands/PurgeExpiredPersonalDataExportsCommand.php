@@ -4,8 +4,6 @@ namespace KBox\Console\Commands;
 
 use KBox\PersonalExport;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Storage;
-
 
 class PurgeExpiredPersonalDataExportsCommand extends Command
 {

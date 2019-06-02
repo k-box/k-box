@@ -2,8 +2,6 @@
 
 namespace KBox;
 
-use KBox\User;
-use Carbon\Carbon;
 use Ramsey\Uuid\Uuid;
 use KBox\Traits\LocalizableDateFields;
 use Illuminate\Support\Facades\Storage;
@@ -37,10 +35,9 @@ class PersonalExport extends Model
         return $this->belongsTo(User::class);
     }
 
-
     /**
      * Filter for user specific exports
-     * 
+     *
      * @param \KBox\User|int $user
      */
     public function scopeOfUser($query, $user)
@@ -56,14 +53,13 @@ class PersonalExport extends Model
         return $query->whereNull('generated_at');
     }
 
-
     /**
      * Filter for expired exports.
-     * 
+     *
      * An export is expired if purge_at is less than
      * the current date and time
-     * 
-     * @var 
+     *
+     * @var
      */
     public function scopeExpired($query)
     {
@@ -72,17 +68,16 @@ class PersonalExport extends Model
 
     /**
      * Filter for not expired exports.
-     * 
+     *
      * An export is expired if purge_at is less than
      * the current date and time
-     * 
-     * @var 
+     *
+     * @var
      */
     public function scopeNotExpired($query)
     {
         return $query->where('purge_at', '>=', now());
     }
-
 
     /**
      * Delete the export archive and the export entry
@@ -122,7 +117,7 @@ class PersonalExport extends Model
 
     /**
      * Create a new data export
-     * 
+     *
      * @param User $user
      */
     public static function requestNewExport(User $user)

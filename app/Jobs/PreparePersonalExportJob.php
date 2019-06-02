@@ -3,7 +3,6 @@
 namespace KBox\Jobs;
 
 use Log;
-use KBox\File;
 use ZipArchive;
 use KBox\Group;
 use KBox\Starred;
@@ -36,7 +35,6 @@ class PreparePersonalExportJob implements ShouldQueue
      */
     public $export = null;
 
-
     private $archiveHandle = null;
 
     /**
@@ -68,11 +66,10 @@ class PreparePersonalExportJob implements ShouldQueue
         event(new PersonalExportCreated($this->export));
     }
 
-
     private function generateDataPackage($path)
     {
-        $this->archiveHandle = new ZipArchive(); 
-        $this->archiveHandle->open($path, ZIPARCHIVE::CREATE); 
+        $this->archiveHandle = new ZipArchive();
+        $this->archiveHandle->open($path, ZIPARCHIVE::CREATE);
 
         $this->addReadme();
         $this->addUser();
@@ -85,12 +82,10 @@ class PreparePersonalExportJob implements ShouldQueue
         $this->archiveHandle->close();
     }
 
-
-
     private function addReadme()
     {
         $this->archiveHandle->addFromString(
-            'readme.txt', 
+            'readme.txt',
             'This archive contain your personal data and the data you, as a user, uploaded to the K-Box. Data shared or uploaded by other users is not part of this export.'
         );
     }
@@ -106,7 +101,7 @@ class PreparePersonalExportJob implements ShouldQueue
             ->toJson();
         
         $this->archiveHandle->addFromString(
-            'user.json', 
+            'user.json',
             $json
         );
     }
@@ -114,12 +109,12 @@ class PreparePersonalExportJob implements ShouldQueue
     private function addCollections()
     {
         $collection_json = CollectionDump::collection(
-                Group::private($this->export->user_id)
+            Group::private($this->export->user_id)
                 ->get()
             )->toJson();
 
         $this->archiveHandle->addFromString(
-            'collections.json', 
+            'collections.json',
             $collection_json
         );
     }
@@ -133,14 +128,14 @@ class PreparePersonalExportJob implements ShouldQueue
         $collection_json = DocumentDump::collection($documents)->toJson();
 
         $this->archiveHandle->addFromString(
-            'documents.json', 
+            'documents.json',
             $collection_json
         );
 
         foreach ($documents as $doc) {
             $this->archiveHandle->addFile(
                 $doc->file->absolute_path,
-                $doc->file->uuid .'.' . Files::extensionFromType($doc->file->mime_type)
+                $doc->file->uuid.'.'.Files::extensionFromType($doc->file->mime_type)
             );
         }
     }
@@ -154,7 +149,7 @@ class PreparePersonalExportJob implements ShouldQueue
         )->toJson();
 
         $this->archiveHandle->addFromString(
-            'stars.json', 
+            'stars.json',
             $collection_json
         );
     }
@@ -168,7 +163,7 @@ class PreparePersonalExportJob implements ShouldQueue
         )->toJson();
 
         $this->archiveHandle->addFromString(
-            'publications.json', 
+            'publications.json',
             $collection_json
         );
     }
@@ -183,7 +178,7 @@ class PreparePersonalExportJob implements ShouldQueue
         )->toJson();
 
         $this->archiveHandle->addFromString(
-            'projects.json', 
+            'projects.json',
             $collection_json
         );
 
@@ -195,14 +190,12 @@ class PreparePersonalExportJob implements ShouldQueue
         $pages = MicrositeContent::where('user_id', $this->export->user_id)->where('type', MicrositeContent::TYPE_PAGE)->get();
         $parser = app()->make('micrositeparser');
 
-        $pages->each(function($page) use($parser){
+        $pages->each(function ($page) use ($parser) {
             $content = $parser->toHtml($page);
             $this->archiveHandle->addFromString(
-                "site-{$page->slug}-{$page->language}.html", 
+                "site-{$page->slug}-{$page->language}.html",
                 $content
             );
         });
     }
-
-
 }

@@ -48,10 +48,11 @@ class PersonalExportController extends Controller
             ['time' => (int)$waiting],
             [
                 'time' => 'required|lt:1',
-            ], 
+            ],
             [
                 'lt' => trans('profile.data-export.wait_until', ['minutes' => 60]),
-            ])
+            ]
+        )
             ->validate();
 
         $export_request = PersonalExport::requestNewExport($user);
@@ -94,8 +95,5 @@ class PersonalExportController extends Controller
                 fclose($stream);
             }
         }, Response::HTTP_OK, $downloadHeaders);
-    
     }
-
-
 }

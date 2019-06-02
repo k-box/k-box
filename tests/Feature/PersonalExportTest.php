@@ -15,20 +15,13 @@ use KBox\PersonalExport;
 use KBox\DocumentDescriptor;
 use KBox\Documents\Facades\Files;
 use Klink\DmsMicrosites\Microsite;
-use KBox\Http\Resources\ProjectDump;
-use KBox\Http\Resources\StarredDump;
-use KBox\Http\Resources\DocumentDump;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Queue;
 use KBox\Events\PersonalExportCreated;
 use KBox\Jobs\PreparePersonalExportJob;
 use Illuminate\Support\Facades\Storage;
-use KBox\Http\Resources\CollectionDump;
-use KBox\Http\Resources\PublicationDump;
 use Klink\DmsMicrosites\MicrositeContent;
 use Illuminate\Support\Facades\Notification;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use KBox\Notifications\PersonalExportReadyNotification;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
@@ -154,7 +147,9 @@ class PersonalExportTest extends TestCase
 
         $response_exports = $response->data('exports');
 
-        $this->assertCount(2, $response_exports->filter(function($value, $key) use($export, $expired_export) { return $value->id === $export->id || $value->id === $expired_export->id;}));
+        $this->assertCount(2, $response_exports->filter(function ($value, $key) use ($export, $expired_export) {
+            return $value->id === $export->id || $value->id === $expired_export->id;
+        }));
     }
 
     public function test_exports_can_be_downloaded()
@@ -199,21 +194,20 @@ class PersonalExportTest extends TestCase
 
         $zipEntries = $this->getZipContentList(Storage::disk($disk)->path($export->name));
 
-        $this->assertContains('readme.txt' , $zipEntries);
-        $this->assertContains('user.json' , $zipEntries);
-        $this->assertContains('collections.json' , $zipEntries);
-        $this->assertContains('publications.json' , $zipEntries);
-        $this->assertContains('stars.json' , $zipEntries);
-        $this->assertContains('documents.json' , $zipEntries);
-        $this->assertContains('projects.json' , $zipEntries);
+        $this->assertContains('readme.txt', $zipEntries);
+        $this->assertContains('user.json', $zipEntries);
+        $this->assertContains('collections.json', $zipEntries);
+        $this->assertContains('publications.json', $zipEntries);
+        $this->assertContains('stars.json', $zipEntries);
+        $this->assertContains('documents.json', $zipEntries);
+        $this->assertContains('projects.json', $zipEntries);
         
         $extension = Files::extensionFromType($file->mime_type);
         
-        $this->assertContains("{$file->uuid}.$extension" , $zipEntries);
+        $this->assertContains("{$file->uuid}.$extension", $zipEntries);
     }
 
-    
-    function test_project_manager_personal_export_include_microsite()
+    public function test_project_manager_personal_export_include_microsite()
     {
         $disk = config('personal-export.disk');
         Storage::fake($disk);
@@ -258,12 +252,12 @@ class PersonalExportTest extends TestCase
 
         $zipEntries = $this->getZipContentList(Storage::disk($disk)->path($export->name));
 
-        $this->assertContains("projects.json" , $zipEntries);
-        $this->assertContains("site-a-slug-en.html" , $zipEntries);
-        $this->assertContains("site-a-slug-ru.html" , $zipEntries);
+        $this->assertContains("projects.json", $zipEntries);
+        $this->assertContains("site-a-slug-en.html", $zipEntries);
+        $this->assertContains("site-a-slug-ru.html", $zipEntries);
     }
 
-    function test_personal_export_notification_is_sent()
+    public function test_personal_export_notification_is_sent()
     {
         Notification::fake();
 
@@ -282,10 +276,9 @@ class PersonalExportTest extends TestCase
                 return $notification->export->id === $export->id;
             }
         );
-       
     }
 
-    function test_expired_personal_export_are_purged()
+    public function test_expired_personal_export_are_purged()
     {
         $user = tap(factory(User::class)->create())->addCapabilities(Capability::$PARTNER);
 
@@ -302,10 +295,9 @@ class PersonalExportTest extends TestCase
             ->assertExitCode(0);
 
         $this->assertEquals(1, PersonalExport::ofUser($user)->count());
-    
     }
     
-    function test_personal_export_can_be_downloaded()
+    public function test_personal_export_can_be_downloaded()
     {
         $disk = config('personal-export.disk');
         Storage::fake($disk);
@@ -332,5 +324,4 @@ class PersonalExportTest extends TestCase
 
         $this->assertEquals('content', $content);
     }
-    
 }

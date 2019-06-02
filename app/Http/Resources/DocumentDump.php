@@ -29,6 +29,5 @@ class DocumentDump extends JsonResource
             'copyright_owner' => $this->copyright_owner,
             'properties' => $this->file->properties,
         ];
-        
     }
 }
