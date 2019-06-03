@@ -41,7 +41,9 @@ class UserPasswordControllerTest extends TestCase
     
     public function test_password_change_possible_only_if_email_is_verified()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
+        $user = tap(factory(User::class)->create([
+            'email_verified_at' => null
+        ]), function ($u) {
             $u->addCapabilities(Capability::$PARTNER);
         });
         
