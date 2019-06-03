@@ -43,6 +43,12 @@
 				
 				{{trans('profile.password_section')}}
 			</a>
+			<a href="{{ route('profile.data-export.index') }}" class="navigation__item navigation__item--link @if(request()->is('*profile/data-export')) navigation__item--current @endif">
+				
+				@materialicon('action', 'get_app', 'navigation__item__icon')
+				
+				{{trans('profile.export_section')}}
+			</a>
 
 		</div>
 		

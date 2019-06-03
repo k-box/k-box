@@ -41,6 +41,7 @@ class Kernel extends ConsoleKernel
         \KBox\Console\Commands\TermsLoadCommand::class,
         \KBox\Console\Commands\ActivateReadonlyModeCommand::class,
         \KBox\Console\Commands\DeactivateReadonlyModeCommand::class,
+        \KBox\Console\Commands\PurgeExpiredPersonalDataExportsCommand::class,
     ];
 
     /**
@@ -52,5 +53,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('documents:clear-cancelled')->withoutOverlapping()->daily();
+        
+        $schedule->command('data-export:purge')->withoutOverlapping()->daily();
     }
 }

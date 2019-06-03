@@ -71,6 +71,12 @@ return [
 
         'email_resent' => 'A fresh verification link has been sent to your email address.',
 
-    ]
+    ],
+
+    'data-export' => [
+        'description' => 'Here is the package of all your personal data and files you added to the K-Box. Download it.',
+        'action' => 'Download your package',
+        'expiration' => 'The download link will expire on :expire.',
+    ],
 
 ];

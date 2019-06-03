@@ -30,6 +30,7 @@ class CheckForReadonlyMode
         'administration/*',
         'password/*',
         'consent/*',
+        'profile/data-export/*',
     ];
 
     protected $blockedMethods = [
