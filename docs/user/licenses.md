@@ -34,7 +34,7 @@ At the moment, one can select the following options for their contents in the K-
 1. All rights reserved
 2. Public Domain
 3. Creative Commons 4.0 (and its derivatives)
-4. No license information available
+4. No license. All rights reserved.
 
 _Details panel_
 

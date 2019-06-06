@@ -58,7 +58,10 @@ To remove a file from a collection click on the file to get an overview of all a
 ### Trashing collections
 
 As happens for files, collections can be trashed too. Trashing a collection
-means that the collection and the eventual sub-collections are moved to the trash. Files that were in the collection will be moved out, but not trashed. In other words you are trashing a custom organization of the files, not the files themselves.
+means that the collection and the eventual sub-collections are moved to the trash. Files that were in the collection will be moved out, but not trashed. In other words you are trashing a custom organization of the files, not the files themselves. 
+
+Collection created in "My Collections" section can be trashed and deleted permanently by its creator.
+Collection created in "Projects" section can be trashed by its creator. Project Administrator or K-Box Administrator can delete it permanently.
 
 ### Restoring from trash
 

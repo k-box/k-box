@@ -20,15 +20,16 @@ The details view is the most compact layout available and shows one document per
 
 ![Details View](./images/details-view.png)
 
-The information are represented in columns. From the left of the picture
+The information are represented in columns. On the picture you can see (from the left):
 
-- Document Icon and selection box. The selection box appears only while hovering the document with the mouse, when another document is selected and stays visible if the document is selected
-- Public or Private icon
-- Star. Shows if a document is starred and enable to star/unstar a document
+- Checkbox and document icon
 - Document title
-- Institution of the user who uploaded the document for the first time
-- Language
+- Star. Shows if a document is starred and enable to star/unstar a document
+- Public, Private or Shared [icons](#icons)
+- The user who uploaded the file
 - Date of last edit
+- Language
+
 
 ## Tiles View
 
@@ -38,7 +39,7 @@ The tiles layout uses one line per document, but with an expanded style
 
 In this view is also available the thumbnail of the document, which is an image that describes the content of the document. For multipage documents is always taken from the first page.
 
-The icons and information showed are the same of the details view, but with different positioning and labels. In addition the date of the upload in the K-Box is showed.
+The icons and information showed are the same of the details view, but with different positioning and labels.
 
 ## Grid
 
@@ -48,15 +49,15 @@ The grid view put emphasis on the document thumbnails. The number of elements pe
 
 ## Icons
 
-Different symbols are used for each document.
+Different symbols are used for each file.
 
 **Star**
 
 ![Star Statuses](./images/star-statuses.png)
 
 1. The document has not been starred
-2. The document has been starred and is a private document
-3. The document has been starred and is a public document
+2. The document has been starred
+
 
 **Public** or **Private**
 
@@ -64,3 +65,9 @@ Different symbols are used for each document.
 
 1. The document is private
 2. The document is visible in the K-Link public network
+
+**Shared**
+
+The file is shared
+
+![shared-icon](./images/shared-icon.png)

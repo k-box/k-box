@@ -22,15 +22,15 @@ Veuillez cliquer sur “Mot de passe oublié?” sur la page d'accueil. Le syst�
 
 Veuillez cliquer sur votre avatar dans le coin supérieur droit de la fenêtre. Remplissez les champs relatifs à votre organisation. Enregistrez les changements en cliquant sur le bouton "Mettre à jour le profil".
 
-**3. Je veux changer mes informations personnelles: email, nom, mot de passe. Comment puis-je le faire?**
+[**3. Je veux changer mes informations personnelles: email, nom, mot de passe. Comment puis-je le faire?**](https://github.com/k-box/k-box/blob/master/docs/user/index.md#personal-preferences)
 
 Veuillez cliquer sur votre avatar dans le coin supérieur droit de la fenêtre. Remplissez les champs relatifs à votre adresse email, mot de passe et votre nicename (le nom sous lequel vous apparaîtrez dans le système). Enregistrez les changements en cliquant sur le bouton au bas de chaque section.
 
-**4. Je veux changer la langue d'affichage du système. Comment puis-je le faire?**
+[**4. Je veux changer la langue d'affichage du système. Comment puis-je le faire?**](https://github.com/k-box/k-box/blob/master/docs/user/index.md#personal-preferences)
 
 Veuillez cliquer sur votre avatar dans le coin supérieur droit de la fenêtre. Choisissez votre langue préférée dans la liste déroulante sitée dans la section "Changer la langue de l'interface". Enregistrez les changements en cliquant sur "Changer la langue".
 
-**5. Quelle est la différence entre un dossier sur mon ordinateur et une collection dans la K-Box?**
+[**5. Quelle est la différence entre un dossier sur mon ordinateur et une collection dans la K-Box?**](https://github.com/k-box/k-box/blob/master/docs/user/collections.md#collections)
 
 Les collections K-Box ont un comportement différent de celui des dossiers. Dans la K-Box:
 
@@ -42,7 +42,7 @@ Les collections K-Box ont un comportement différent de celui des dossiers. Dans
 
 **6. Quelle est la différence entre "mettre à la corbeille" et "effacer"?**
 
-Dans la K-Box, "effacer" un fichier signifie le supprimer définitivement de la K-Box, alors que "mettre à la corbeille" le conserve dans le système et vous permettra donc de le restaurer ultérieurement, si nécessaire. Effacer complètement un document est uniquement possible depuis la corbeille.
+Dans la K-Box, ["effacer"](https://github.com/k-box/k-box/blob/master/docs/user/delete.md#delete-file) un fichier signifie le supprimer définitivement de la K-Box, alors que ["mettre à la corbeille"](https://github.com/k-box/k-box/blob/master/docs/user/trash.md#trash) le conserve dans le système et vous permettra donc de le restaurer ultérieurement, si nécessaire. Effacer complètement un document est uniquement possible depuis la corbeille.
 
 **7. Est-ce que 2 personnes peuvent se connecter en même temps depuis le même navigateur?**
 
@@ -81,7 +81,7 @@ Il y a plusieurs possibilités pour mettre en ligne un fichier dans votre K-Box.
 
 Si vous avez utilisé l'outil "Mettre en ligne une vidéo" depuis la barre de navigation supérieure, vous verrez, à la fin de la mise en ligne, un bouton "Ouvrir l'emplacement du fichier". Si vous cliquez dessus, le système va ouvrir votre fichier dans la collection où il a été mis en ligne. Sinon, vous pouvez aussi cliquer sur "Récents" dans le menu de navigation. Vous pouvez alors déplacer votre fichier en le glissant-déposant vers une autre collection.
 
-**7. Je veux déplacer un fichier de son emplacement actuel vers une autre (sous-)collection. Comment puis-je le faire?**
+[**7. Je veux déplacer un fichier de son emplacement actuel vers une autre (sous-)collection. Comment puis-je le faire?**](https://github.com/k-box/k-box/blob/master/docs/user/collections.md#remove-files-from-a-collection)
 
 Veuillez sélectionner votre fichier et le glisser-déposer dans la (sous-)collection de votre choix dans le menu de navigation.
 Si vous faites un clic-droit sur le fichier et sélectionnez "Détails", vous pourrez voir que le fichier est maintenant assigné à cette nouvelle (sous-)collection. Dans cette fenêtre de détails vous pouvez aussi cliquer sur le "X" pour sortir le fichier d'une collection.
@@ -126,7 +126,7 @@ Afin de publier un fichier sur le réseau K-Link, allez dans les paramètres de 
 
 En fonction du type de fichier, la publication peut nécessiter quelques secondes ou minutes avant que le fichier soir trouvable et visible dans les résultats de recherche. Une fois que vous avez cliqué sur le globe, vous pouvez fermer la fenêtre de partage. Si vous placez votre souris sur l'icone "globe", vous verrez le statut du processus de publication.
 
-**14. Je veux dépublier un fichier. Comment puis-je le faire?**
+[**14. Je veux dépublier un fichier. Comment puis-je le faire?**](https://github.com/k-box/k-box/blob/master/docs/user/publish.md#reverse-to-private)
 
 Note: uniquement les utilisateurs disposant des droits de gestionnaire de projet peuvent utiliser cette fonction. Si ce n'est pas votre cas, veuillez contacter votre gestionnaire de projet par email, en lui indiquant le fichier que vous souhaitez dépublier.
 
@@ -136,7 +136,7 @@ Vous pouvez uniquement dépublier des fichiers depuis la K-Box sur laquelle ils 
 
 Le processus pour modifier des fichiers publics est identique à celui pour modifier des fichiers privés. Veuillez cliquez sur votre fichier pour ouvrir son panneau d'information et cliquez sur "Modifier".  Vous pouvez alors modifier ses informations. Cliquez sur "Enregistrer" pour sauvegarder vos changements.
 
-**16. Comment puis-je voir le microsite d'un projet?**
+[**16. Comment puis-je voir le microsite d'un projet?**](https://github.com/k-box/k-box/blob/master/docs/user/microsites.md#microsites)
 
 Veuillez cliquez sur "Projets", dans le menu de navigation, pour avoir une vue d'ensemble de tous les projets disponibles. Faites un clic-droit sur le projet qui vous intéresse cliquez sur "Détails". Le bouton "Voir le microsite" vous amène à sa page publique.
 
@@ -161,7 +161,7 @@ En-dehors de la publication, le partage de fichiers personnels a les mêmes fonc
 
 **1. Comment puis-je aider le système à trouver un document?**
 
-Veuillez utiliser des mots-clés pertinents, respectant les conventions de nommage de votre K-Box et utilisez des opérateurs booléens pour obtenir de meilleurs résultats:
+Veuillez utiliser des [mots-clés pertinents](https://github.com/k-box/k-box/blob/master/docs/user/search.md#operators), respectant les conventions de nommage de votre K-Box et utilisez des opérateurs booléens pour obtenir de meilleurs résultats:
 
 - `OR`: cet opérateur relie deux mots-clés et recherche les documents qui contiennent l'un ou l'autre de ces mots-clés. Si vous n'utilisez aucun opérateur, le système va supposer que vous souhaitez utiliser `OR`. Par exemple, la combinaison de mots-clés `Markhor report 2014` sera comprise par le système exactement de la même manière que `Markhor OR report OR 2014`
 - `AND`: cherche des documents qui contiennent ces deux mots-clés. Par exemple, `Markhor AND report AND 2014` ne retournera que les documents qui contiennent ces trois mots-clés.
@@ -183,7 +183,7 @@ Veuillez ouvrir la collection de projet qui vous intéresse, afin que son nom ap
 
 Veuillez cliquer sur "Projets" dans le menu de navigation pour afficher la vue d'ensemble de tous les projets accessibles. Effectuez votre recherche depuis cette page, en utilisant des mots-clés, des opérateurs booléens et en filtrant les résultats.
 
-**5. Je veux enregistrer plusieurs fichiers dans mon profil, afin de les retrouver plus facilement plus tard. Comment puis-je le faire?**
+[**5. Je veux enregistrer plusieurs fichiers dans mon profil, afin de les retrouver plus facilement plus tard. Comment puis-je le faire?**](https://github.com/k-box/k-box/blob/master/docs/user/search.md#search-tip)
 
 Vous pouvez ajouter un fichier à vos favoris en cliquant sur l'étoile affichée près de son nom. Vous pourrez alors le retrouver rapidement sous "Favoris" dans le menu de navigation. Cette fonctionalité est limitée aux fichiers se trouvant physiquement sur votre K-Box.
 
@@ -195,7 +195,7 @@ Veuillez cliquer sur "Partagés avec moi" dans le menu de navigation pour voir t
 
 _Uniquement les utilisateurs possédant le rôle de gestionnaire de projet peuvent effectuer les opérations décrites ci-dessous. Veuillez contacter votre gestionnaire de projet par email si l'un des points ci-dessous vous intéresse._
 
-**1. Comment puis-je créer un projet?**
+[**1. Comment puis-je créer un projet?**](https://github.com/k-box/k-box/blob/master/docs/administration/projects.md#create-a-new-project)
 
 Veuillez vous rendre sur la page "Projets" et cliquer sur "Créer un projet" dans la barre de navigation supérieure. Remplissez les champs nécessaires (nom du projet, description) et ajoutez des membres à ce projet. Cliquez sur le bouton "Créer un projet" pour sauver. Veuillez vérifier que vous avez ajouté au moins un utilisateur avant de sauver votre projet.
 
@@ -207,7 +207,7 @@ Pour que les utilisateurs puissent avoir accès au projet, le gestionnaire de pr
 
 Veuillez vous rendre sur la page "Projets" pout avoir une vue d'ensemble de tous les projets existants. Faites un clic-droit sur le projet qui vous intéresse et choisissez "Modifier" dans le menu.
 
-**4. Comment puis-je créer un microsite de projet?** 
+[**4. Comment puis-je créer un microsite de projet?**](https://github.com/k-box/k-box/blob/master/docs/user/microsites.md#creating-a-microsite) 
 
 Veuillez vous rendre sur la page "Projets" pout avoir une vue d'ensemble de tous les projets existants. Faites un clic-droit sur le projet qui vous intéresse et choisissez "Détails" dans le menu. Sur la nouvelle page vous verrez la section "Micrositebeta" et le bouton "Créer un microsite". Si vous cliquez dessus, une nouvelle page va s'ouvrir, où vous pouvez choisir le nom du microsite, un lien court vers le microsite (version conviviale de l'adresse), son logo et sa langue par défaut. Vous pouvez créer du contenu pour les versions anglaise et russe du microsite en replissant les champs respectifs. Cliquez sur le bouton "Publier le microsite".
 
@@ -217,7 +217,7 @@ Veuillez vous rendre sur la page "Projets" pout avoir une vue d'ensemble de tous
 
 **6. Je veux créer un utilisateur. Comment puis-je le faire?** 
 
-Pour créer un utilisateur, veuillez vous rendre dans la fenêtre d'administration. Cliquez sur "Créer un utilisateur" et remplissez les champs. Afin d'attribuer les bons droits d'accès, veuillez identifier le rôle de cet utilisateur dans les activités du projet:
+Pour créer un utilisateur, veuillez vous rendre dans la fenêtre d'administration. Cliquez sur "Créer un utilisateur" et remplissez les champs. Afin d'attribuer les bons droits d'accès, veuillez identifier [le rôle](https://github.com/k-box/k-box/blob/master/docs/administration/permissions.md) de cet utilisateur dans les activités du projet:
 
 - **invité** – l'utilisateur peut uniquement voir ce qui a été partagé avec lui / elle;
 - **partenaire** – l'utilisateur peut être membre d'un projet et peut voir toutes les collections partagées avec lui / elle;
@@ -230,7 +230,7 @@ Pour créer un utilisateur, veuillez vous rendre dans la fenêtre d'administrati
 
 Veuillez adresser toutes vos questions par email à votre bibliothécaire. Décrivez votre question en quelques phrases, en fournissant toutes les informations nécessaires, comme "que trouvez-vous bizarre?", "quelles actions avez-vous effectuées avant que le système ne réagisse ainsi?". Ajouter une capture d'écran montrant le problème (ou le comportement inattendu) est souvent très utile.
 
-For general guidance on using the system you can refer to the [community maintained documentation](https://github.com/k-box/k-box/tree/master/docs).
+Pour des conseils généraux sur l’utilisation du système, vous pouvez vous référer à [la documentation maintenue par la communauté](https://github.com/k-box/k-box/tree/master/docs).
 
 ### <a id="errors"></a>Erreurs
 

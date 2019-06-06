@@ -8,6 +8,6 @@ If you want to delete file, do a right click on the selected file and click on "
 
 ![delete](./images/delete.png)
 
-You can also restore or fully remove files from [Trash](./trash.md) section.
+Depending on your [permissions](./trash.md#trash-behavior), you can fully remove files from [Trash](./trash.md) section, restore them. 
 
 ![trash](./images/trash.png)

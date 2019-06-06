@@ -44,16 +44,16 @@ Trash behavior is governed by user user roles and permissions assigned to them.
 | In "Projects" | Partner | Yes | Yes | No |
 | In "Projects" | Another user | Yes | No | No |
 
-### "Project Manager" (PM) account trashing capabilities
+### "Project Administrator" (PA) account trashing capabilities
 
 | File location | File uploader | Can delete? | Can see in Trash? | Can delete permanently? |
 |---------------|---------------|-------------|-------------------|-------------------------|
-| In "My Uploads" | PM | Yes | Yes | Yes |
-| In "My Collections" | PM | Yes | Yes | Yes |
+| In "My Uploads" | PA | Yes | Yes | Yes |
+| In "My Collections" | PA | Yes | Yes | Yes |
 | In "My Collections" | Another user | Yes | No | No |
-| Shared with another user | PM | Yes | Yes | Yes |
+| Shared with another user | PA | Yes | Yes | Yes |
 | In "Shared with me" | Another user | Yes | No | No |
-| In "Projects" | PM | Yes | Yes | Yes |
+| In "Projects" | PA | Yes | Yes | Yes |
 | In "Projects" | Another user | Yes | No | No |
 
 ### "K-Box Administrator" (Admin) account trashing capabilities
@@ -73,5 +73,5 @@ Trash behavior is governed by user user roles and permissions assigned to them.
 
 Collection created in "My Collections" section can be trashed and deleted permanently by its creator.
 
-Collection created in "Projects" section can be trashed by its creator, but only Project Manager or K-Box Administrator can delete it permanently.
+Collection created in "Projects" section can be trashed by its creator. Project Administrator or K-Box Administrator can delete it permanently.
 

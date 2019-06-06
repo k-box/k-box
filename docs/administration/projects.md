@@ -7,7 +7,7 @@ Description: admin related documentation
 Projects help to create communities of users who share a common goal. Projects can contain files and collections, 
 accessible by authorized users, unless explicitly stated otherwise.
 
-Projects are created and maintained by Project Managers and K-Box Administrators.
+Projects are created and maintained by Project Administrators and K-Box Administrators. Only one person can be a Project Administrator. Currently there is no way to transfer administrative rights to another person in UI.
 
 ## Projects section
 
