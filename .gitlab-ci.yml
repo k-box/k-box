@@ -49,7 +49,7 @@ test-syntax:7.1:
 
 test-shell-syntax:
   stage: lint
-  image: "docker.klink.asia/alessio.vertemati/shellcheck-ci:latest"
+  image: "koalaman/shellcheck-alpine:latest"
   script:
     - shellcheck ./docker/configure.sh
     - shellcheck ./docker/start.sh
