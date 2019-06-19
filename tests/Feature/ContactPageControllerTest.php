@@ -19,9 +19,8 @@ class ContactPageControllerTest extends TestCase
 
         $response->assertViewIs('static.contact');
 
-        $response->assertSee('K-Link');
-        $response->assertSee('info@klink.asia');
-        $response->assertSee('https://klink.asia');
+        $response->assertDontSee('info@klink.asia');
+        $response->assertDontSee('https://klink.asia');
     }
     
     public function testContactPageShowsSavedContactInfo()
