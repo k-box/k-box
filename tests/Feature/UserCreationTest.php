@@ -149,7 +149,7 @@ class UserCreationTest extends TestCase
         $response = $this->actingAs($user)
                     ->from('/administration/users/create')
                     ->post(route('administration.users.store'), $this->validParams([
-                        'email' => 'testklink.asia'
+                        'email' => 'testk-link.technology'
                     ]));
 
         $response->assertRedirect('/administration/users/create');

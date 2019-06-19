@@ -229,7 +229,7 @@ class FakeKlinkAdapter implements AdapterContract
                 $data->copyright->owner = new CopyrightOwner();
                 $data->copyright->owner->name = 'KLink Organization';
                 $data->copyright->owner->email = 'info@k-link.technology';
-                $data->copyright->owner->contact = 'KLink Website: http://www.klink.asia';
+                $data->copyright->owner->contact = 'KLink Website: http://www.k-link.technology';
         
                 $data->copyright->usage = new CopyrightUsage();
                 $data->copyright->usage->short = 'MPL-2.0';

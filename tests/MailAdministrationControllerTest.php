@@ -110,7 +110,7 @@ class MailAdministrationControllerTest extends BrowserKitTestCase
 
         $this->type('test@k-link.technology', 'from_address');
         $this->type('Test DMS', 'from_name');
-        $this->type('smtp.klink.asia', 'host');
+        $this->type('smtp.example.com', 'host');
         $this->type('465', 'port');
         $this->type('user', 'smtp_u');
         $this->type('password', 'smtp_p');
@@ -121,7 +121,7 @@ class MailAdministrationControllerTest extends BrowserKitTestCase
         $this->assertEquals('test@k-link.technology', Option::option('mail.from.address', false));
         $this->assertEquals('Test DMS', Option::option('mail.from.name', false));
         $this->assertEquals('465', Option::option('mail.port', 0));
-        $this->assertEquals('smtp.klink.asia', Option::option('mail.host', false));
+        $this->assertEquals('smtp.example.com', Option::option('mail.host', false));
         $this->assertEquals('user', Option::option('mail.username', false));
         $this->assertEquals(base64_encode('password'), Option::option('mail.password', false));
     }
