@@ -50,21 +50,6 @@
 
             </div>
 
-        @else 
-            <div class="contact__image" style="background-image:url('https://build.klink.asia/klink_logo_slide_alternate.png')"></div>
-
-            <div class="contact__card">
-                <h3>K-Link</h3>
-
-                <div class="mail">
-                    <span class="icon-content-black icon-content-black-ic_mail_black_24dp"></span> <span itemprop="email">info@klink.asia</span>
-                </div>
-
-                <div class="website">
-                    <span class="icon-action-black icon-action-black-ic_language_black_24dp"></span> <a href="https://klink.asia">https://klink.asia</a>
-                </div>
-            </div>
-
         @endif
 
   </div>
