@@ -38,13 +38,13 @@ The next block shows an example CSV file content that is understood by the comma
 
 ```
 User;Email;Role;Manage Project;User of project
-user-1;user-1@klink.asia;Partner;;test
-user-2;user-2@klink.asia;Guest;;
-user-3;user-3@klink.asia;ProjectAdmin;lead by;test,secondary
-user-4;user-4@klink.asia;K-Linker;;panco,pillo,pluto
-user-5;user-5@klink.asia;Admin;;
-user-6;user-6@klink.asia;;Cannot Be PrjAdmin;Another Project
-user-7;user-7@klink.asia;;;Another Project
+user-1;user-1@k-link.technology;Partner;;test
+user-2;user-2@k-link.technology;Guest;;
+user-3;user-3@k-link.technology;ProjectAdmin;lead by;test,secondary
+user-4;user-4@k-link.technology;K-Linker;;panco,pillo,pluto
+user-5;user-5@k-link.technology;Admin;;
+user-6;user-6@k-link.technology;;Cannot Be PrjAdmin;Another Project
+user-7;user-7@k-link.technology;;;Another Project
 ```
 
 ### Columns
@@ -122,9 +122,9 @@ This errors refers to a line in the CSV file, therefore they appear in a tabular
 +----------+-------------------+----------+--------------------+-------------------+------+---------------------------------------------------------------------------------------------------------------------+
 | username | email             | role     | manage_projects    | add_to_projects   | line | error                                                                                                               |
 +----------+-------------------+----------+--------------------+-------------------+------+---------------------------------------------------------------------------------------------------------------------+
-| user-4   | user-4@klink.asia | k-linker |                    | panco,pillo,pluto | 4    | The selected add to projects is invalid.                                                                            |
-| user-6   | user-6@klink.asia | partner  | Cannot Be PrjAdmin | Another Project   | 6    | The selected role is invalid. - The selected manage projects is invalid. - The selected add to projects is invalid. |
-| user-7   | user-7@klink.asia | partner  |                    | Another Project   | 7    | The selected add to projects is invalid.                                                                            |
+| user-4   | user-4@k-link.technology | k-linker |                    | panco,pillo,pluto | 4    | The selected add to projects is invalid.                                                                            |
+| user-6   | user-6@k-link.technology | partner  | Cannot Be PrjAdmin | Another Project   | 6    | The selected role is invalid. - The selected manage projects is invalid. - The selected add to projects is invalid. |
+| user-7   | user-7@k-link.technology | partner  |                    | Another Project   | 7    | The selected add to projects is invalid.                                                                            |
 +----------+-------------------+----------+--------------------+-------------------+------+---------------------------------------------------------------------------------------------------------------------+
 ```
 

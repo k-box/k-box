@@ -131,7 +131,7 @@ class DocumentPublishingTest extends TestCase
             [['name' => '', 'email' => '']],
             [['email' => '']],
             [['website' => '']],
-            [['website' => 'https://klink.asia']],
+            [['website' => 'https://k-link.technology']],
             [['address' => 'something']],
             [['email' => 'some@email.io']],
         ];
@@ -152,10 +152,10 @@ class DocumentPublishingTest extends TestCase
     public function copyright_owner_provider()
     {
         return [
-            [['name' => 'the owner name', 'website' => 'https://klink.asia']],
+            [['name' => 'the owner name', 'website' => 'https://k-link.technology']],
             [['name' => 'the owner name', 'email' => 'some@email.io']],
-            [['name' => 'the owner name', 'email' => 'some@email.io', 'website' => 'https://klink.asia']],
-            [['name' => 'the owner name', 'email' => 'some@email.io', 'website' => 'https://klink.asia', 'address' => 'something']],
+            [['name' => 'the owner name', 'email' => 'some@email.io', 'website' => 'https://k-link.technology']],
+            [['name' => 'the owner name', 'email' => 'some@email.io', 'website' => 'https://k-link.technology', 'address' => 'something']],
         ];
     }
 

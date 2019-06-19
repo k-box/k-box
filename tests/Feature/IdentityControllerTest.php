@@ -76,8 +76,8 @@ class IdentityControllerTest extends TestCase
                             'name' => 'An Organization name',
                             'email' => 'some@email.com',
                             'phone' => '+49-123456789',
-                            'website' => 'https://klink.asia',
-                            'image' => 'https://klink.asia/some.jpg',
+                            'website' => 'https://k-link.technology',
+                            'image' => 'https://k-link.technology/some.jpg',
                             'address_street' => 'Street',
                             'address_locality' => 'Locality',
                             'address_country' => 'Country',
@@ -96,8 +96,8 @@ class IdentityControllerTest extends TestCase
                 "name" => "An Organization name",
                 "email" => "some@email.com",
                 "phone" => "+49-123456789",
-                "website" => "https://klink.asia",
-                "image" => "https://klink.asia/some.jpg",
+                "website" => "https://k-link.technology",
+                "image" => "https://k-link.technology/some.jpg",
                 "address_street" => "Street",
                 "address_locality" => "Locality",
                 "address_country" => "Country",
@@ -111,8 +111,8 @@ class IdentityControllerTest extends TestCase
         $response->assertSee("An Organization name");
         $response->assertSee("some@email.com");
         $response->assertSee("+49-123456789");
-        $response->assertSee("https://klink.asia");
-        $response->assertSee("https://klink.asia/some.jpg");
+        $response->assertSee("https://k-link.technology");
+        $response->assertSee("https://k-link.technology/some.jpg");
         $response->assertSee("Street");
         $response->assertSee("Locality");
         $response->assertSee("Country");

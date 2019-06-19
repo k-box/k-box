@@ -22,7 +22,7 @@ class UserCreationTest extends TestCase
     private function validParams($params)
     {
         return array_merge([
-            'email' => 'test@klink.asia',
+            'email' => 'test@k-link.technology',
             'name' => 'Test User',
             'password' => '',
             'send_password' => '1',
@@ -44,10 +44,10 @@ class UserCreationTest extends TestCase
         
         $response->assertRedirect(route('administration.users.index'));
 
-        $user_created = User::where('email', 'test@klink.asia')->first();
+        $user_created = User::where('email', 'test@k-link.technology')->first();
 
         $this->assertNotNull($user_created);
-        $this->assertEquals('test@klink.asia', $user_created->email);
+        $this->assertEquals('test@k-link.technology', $user_created->email);
         $this->assertEquals('Test User', $user_created->name);
         $this->assertNotEmpty($user_created->password);
         $this->assertTrue($user_created->can_all_capabilities(['receive_share']));
@@ -74,10 +74,10 @@ class UserCreationTest extends TestCase
 
         $response->assertRedirect(route('administration.users.index'));
 
-        $user_created = User::where('email', 'test@klink.asia')->first();
+        $user_created = User::where('email', 'test@k-link.technology')->first();
 
         $this->assertNotNull($user_created);
-        $this->assertEquals('test@klink.asia', $user_created->email);
+        $this->assertEquals('test@k-link.technology', $user_created->email);
         $this->assertEquals('Test User', $user_created->name);
         $this->assertTrue(Hash::check($password, $user_created->password), "Password not equals to the one specified");
         $this->assertTrue($user_created->can_all_capabilities(['receive_share']));
@@ -105,10 +105,10 @@ class UserCreationTest extends TestCase
 
         $response->assertRedirect(route('administration.users.index'));
 
-        $user_created = User::where('email', 'test@klink.asia')->first();
+        $user_created = User::where('email', 'test@k-link.technology')->first();
 
         $this->assertNotNull($user_created);
-        $this->assertEquals('test@klink.asia', $user_created->email);
+        $this->assertEquals('test@k-link.technology', $user_created->email);
         $this->assertEquals('Test User', $user_created->name);
         $this->assertTrue(Hash::check($password, $user_created->password), "Password not equals to the one specified");
         $this->assertTrue($user_created->can_all_capabilities(['receive_share']));
@@ -149,12 +149,12 @@ class UserCreationTest extends TestCase
         $response = $this->actingAs($user)
                     ->from('/administration/users/create')
                     ->post(route('administration.users.store'), $this->validParams([
-                        'email' => 'testklink.asia'
+                        'email' => 'testk-link.technology'
                     ]));
 
         $response->assertRedirect('/administration/users/create');
         $response->assertSessionHasErrors('email');
-        $this->assertNull(User::where('email', 'test@klink.asia')->first());
+        $this->assertNull(User::where('email', 'test@k-link.technology')->first());
     }
 
     public function test_empty_user_name_is_rejected()
@@ -169,7 +169,7 @@ class UserCreationTest extends TestCase
 
         $response->assertRedirect('/administration/users/create');
         $response->assertSessionHasErrors('name');
-        $this->assertNull(User::where('email', 'test@klink.asia')->first());
+        $this->assertNull(User::where('email', 'test@k-link.technology')->first());
     }
 
     public function test_empty_capability_is_rejected()
@@ -184,7 +184,7 @@ class UserCreationTest extends TestCase
 
         $response->assertRedirect('/administration/users/create');
         $response->assertSessionHasErrors('capabilities');
-        $this->assertNull(User::where('email', 'test@klink.asia')->first());
+        $this->assertNull(User::where('email', 'test@k-link.technology')->first());
     }
 
     public function test_user_cannot_be_created_without_minimum_capabilities()
@@ -202,6 +202,6 @@ class UserCreationTest extends TestCase
 
         $response->assertRedirect('/administration/users/create');
         $response->assertSessionHasErrors('capabilities');
-        $this->assertNull(User::where('email', 'test@klink.asia')->first());
+        $this->assertNull(User::where('email', 'test@k-link.technology')->first());
     }
 }

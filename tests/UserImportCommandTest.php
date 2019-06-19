@@ -85,10 +85,10 @@ class UserImportCommandTest extends BrowserKitTestCase
         
         $res = $output->fetch();
         
-        $user1 = User::findByEmail('user-1@klink.asia');
+        $user1 = User::findByEmail('user-1@k-link.technology');
         
-        $user3 = User::findByEmail('user-3@klink.asia');
-        $user5 = User::findByEmail('user-5@klink.asia');
+        $user3 = User::findByEmail('user-3@k-link.technology');
+        $user5 = User::findByEmail('user-5@k-link.technology');
         
         $this->assertNotNull($user1);
         $this->assertNotNull($user3);
@@ -140,12 +140,12 @@ class UserImportCommandTest extends BrowserKitTestCase
         $res = $output->fetch();
 
         $users = User::whereIn('email', [
-            'user-11@klink.asia',
-            'user-13@klink.asia',
-            'user-14@klink.asia',
-            'user-15@klink.asia',
-            'user-16@klink.asia',
-            'user-17@klink.asia',
+            'user-11@k-link.technology',
+            'user-13@k-link.technology',
+            'user-14@k-link.technology',
+            'user-15@k-link.technology',
+            'user-16@k-link.technology',
+            'user-17@k-link.technology',
         ])->get();
         
         $this->assertEquals(6, $users->count());
