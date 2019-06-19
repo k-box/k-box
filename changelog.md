@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.27.2] - 2019-05-31
+
+### Added
+
+- Personal data export ([#261](https://github.com/k-box/k-box/pull/261))
+
 ## [0.27.1] - 2019-05-31
 
 ### Added 
