@@ -31,7 +31,7 @@ class ThumbnailsTest extends TestCase
         return [
             // true: if the thumbnail path is a default thumbnail
             // false: if the thumbnail path must not be a default thumbnail
-            [ 'https://klink.asia/', 'text/html; charset=utf-8', true ],
+            [ 'https://k-link.technology/', 'text/html; charset=utf-8', true ],
             [ 'https://s3.amazonaws.com/lowres.cartoonstock.com/dating-attachment-jpeg-pdf-files-computer_files-mfln7218_low.jpg', 'image/jpg', false ],
             [ 'https://hectorucsar.files.wordpress.com/2014/08/mafalda-03.pdf', 'application/pdf', true ],
             [ 'http://imgs.xkcd.com/comics/xkcde.png', 'image/png', false ],

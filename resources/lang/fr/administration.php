@@ -178,7 +178,7 @@ return [
         'from_name' => 'Nom (ex. John)',
         'from_address' => 'Adresse email (ex. john@klink.org)',
         'from_name_placeholder' => 'John',
-        'from_address_placeholder' => 'ex. john@klink.asia',
+        'from_address_placeholder' => 'ex. john@k-link.technology',
         'host_label' => 'Adresse hôte SMTP',
         'port_label' => 'Port hôte SMTP',
         'encryption_label' => 'Le serveur email doit supporter le cryptage TLS',
