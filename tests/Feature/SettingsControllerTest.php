@@ -32,7 +32,6 @@ class SettingsControllerTest extends TestCase
         $response->assertViewHas(Option::PUBLIC_CORE_NETWORK_NAME_EN);
         $response->assertViewHas(Option::PUBLIC_CORE_NETWORK_NAME_RU);
         $response->assertViewHas(Option::SUPPORT_TOKEN);
-        $response->assertViewHas(Option::ANALYTICS_TOKEN);
         $response->assertViewHas(Option::STREAMING_SERVICE_URL);
     }
     
