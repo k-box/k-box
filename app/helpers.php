@@ -183,13 +183,13 @@ if (! function_exists('analytics_token')) {
     /**
      * Get the analytics service tracking token
      *
-     * @uses \KBox\Option::analytics_token()
+     * @uses \KBox\Support\Analytics\Analytics::token()
      *
-     * @return string|boolean the analytics site identifier/token
+     * @return string|null the analytics site identifier/token
      */
     function analytics_token()
     {
-        return \KBox\Option::analytics_token();
+        return \KBox\Support\Analytics\Analytics::token();
     }
 }
 

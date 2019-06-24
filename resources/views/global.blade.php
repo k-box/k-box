@@ -36,7 +36,7 @@
 
 		@stack('meta')
 
-		@include('analytics')
+		@include('analytics.analytics')
 
 	</head>
 	<body class="{{$body_classes}}" id="js-drop-area">
