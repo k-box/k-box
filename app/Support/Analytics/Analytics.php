@@ -6,8 +6,6 @@ use KBox\User;
 use KBox\Option;
 use KBox\Consent;
 use KBox\Consents;
-use Illuminate\Database\Eloquent\Model;
-
 
 class Analytics
 {
@@ -38,19 +36,19 @@ class Analytics
     
     /**
      * Retrieve the current analytics service settings
-     * 
+     *
      * @return array
      */
     protected static function service()
     {
         $activeService = self::serviceName();
 
-        return config('analytics.services.' . $activeService) ?? [];
+        return config('analytics.services.'.$activeService) ?? [];
     }
     
     /**
      * Retrieve the current analytics service settings
-     * 
+     *
      * @return array
      */
     public static function serviceName()
@@ -58,10 +56,9 @@ class Analytics
         return Option::option(static::ANALYTICS_SERVICE, null) ?? config('analytics.service');
     }
 
-
     /**
      * Check if analytics is enabled for a user
-     * 
+     *
      * @param User $user The user to check for analytics collection consent. Default null, currently logged-in user
      * @return boolean
      */
@@ -72,7 +69,7 @@ class Analytics
 
     /**
      * The anaytics view to include
-     * 
+     *
      * @return string
      */
     public static function view()
@@ -84,7 +81,7 @@ class Analytics
 
     /**
      * The analytics configuration to pass to the view
-     * 
+     *
      * @return array
      */
     public static function configuration($option = null, $default = null)
@@ -94,17 +91,14 @@ class Analytics
         $config->put('token', static::token());
 
         $additional_options = json_decode(Option::option(static::ANALYTICS_CONFIGURATION, '{}'), true);
-        if($additional_options && is_array($additional_options)){
-
+        if ($additional_options && is_array($additional_options)) {
             $config = $config->merge($additional_options);
         }
 
-        if(is_null($option)){
-
+        if (is_null($option)) {
             return $config->toArray();
         }
 
         return $config->get($option, $default);
     }
-    
 }

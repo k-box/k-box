@@ -42,7 +42,6 @@ class AnalyticsController extends Controller
     public function update(AuthGuard $auth, AnalyticsSaveRequest $request)
     {
         try {
-            
             if ($request->has(Analytics::ANALYTICS_TOKEN) && ! empty($request->input(Analytics::ANALYTICS_TOKEN, null))) {
                 Option::put(Analytics::ANALYTICS_TOKEN, e($request->input(Analytics::ANALYTICS_TOKEN, null)));
             } else {
@@ -54,23 +53,18 @@ class AnalyticsController extends Controller
                 Option::put(Analytics::ANALYTICS_SERVICE, e($request->input(Analytics::ANALYTICS_SERVICE, null)));
             }
 
-
-            if($request->has('analytics_domain') && !empty($request->input('analytics_domain', null))){
-
+            if ($request->has('analytics_domain') && ! empty($request->input('analytics_domain', null))) {
                 $domain = e($request->input('analytics_domain', null));
 
-                if(!Str::startsWith($domain, 'http://') || !Str::startsWith($domain, 'https://')){
+                if (! Str::startsWith($domain, 'http://') || ! Str::startsWith($domain, 'https://')) {
                     $domain = 'https://'.$domain;
                 }
 
                 Option::put(Analytics::ANALYTICS_CONFIGURATION, json_encode(['domain' => Str::finish($domain, '/')]));
-            }
-            else {
+            } else {
                 Option::remove(Analytics::ANALYTICS_CONFIGURATION);
             }
 
-            
-      
             return redirect()->route('administration.analytics.index')->with([
               'flash_message' => trans('administration.analytics.saved')
             ]);

@@ -2,20 +2,13 @@
 
 namespace Tests\Feature;
 
-use KBox\File;
 use KBox\User;
-use KBox\Project;
-use Carbon\Carbon;
 use Tests\TestCase;
 use KBox\Capability;
 use KBox\Consent;
 use KBox\Option;
 use KBox\Consents;
-use KBox\Publication;
-use KBox\DocumentDescriptor;
 use KBox\Support\Analytics\Analytics;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class AnalyticsTest extends TestCase
@@ -170,7 +163,6 @@ class AnalyticsTest extends TestCase
         $response->assertViewHas('available_services', ['matomo', 'google-analytics']);
     }
 
-
     public function test_analytics_setting_are_saved()
     {
         $user = tap(factory(User::class)->create(), function ($u) {
@@ -201,5 +193,4 @@ class AnalyticsTest extends TestCase
 
         $this->assertEquals('', analytics_token());
     }
-    
 }
