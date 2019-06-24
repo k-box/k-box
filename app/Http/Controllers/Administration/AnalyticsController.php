@@ -56,7 +56,7 @@ class AnalyticsController extends Controller
             if ($request->has('analytics_domain') && ! empty($request->input('analytics_domain', null))) {
                 $domain = e($request->input('analytics_domain', null));
 
-                if (! Str::startsWith($domain, 'http://') || ! Str::startsWith($domain, 'https://')) {
+                if (! Str::startsWith($domain, 'http://') && ! Str::startsWith($domain, 'https://')) {
                     $domain = 'https://'.$domain;
                 }
 

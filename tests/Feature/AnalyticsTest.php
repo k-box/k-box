@@ -193,4 +193,24 @@ class AnalyticsTest extends TestCase
 
         $this->assertEquals('', analytics_token());
     }
+    
+    public function test_analytics_domain_https_is_handled()
+    {
+        $user = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$ADMIN);
+        });
+        
+        $response = $this->actingAs($user)
+                         ->from(route('administration.analytics.index'))
+                         ->put(route('administration.analytics.update'), [
+                            'analytics_token' => 'Analytics-token-value',
+                            'analytics_domain' => 'https://example.analytics/',
+                         ]);
+        
+        $response->assertRedirect(route('administration.analytics.index'));
+        $response->assertSessionHas('flash_message', trans('administration.analytics.saved'));
+
+        $this->assertEquals('Analytics-token-value', analytics_token());
+        $this->assertEquals('https://example.analytics/', Analytics::configuration('domain'));
+    }
 }
