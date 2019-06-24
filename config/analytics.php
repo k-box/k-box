@@ -11,7 +11,7 @@ return [
     | might call it siteId, monitoring id
     | 
     */
-    'token' => env('ANALYTICS_TOKEN', null),
+    'token' => env('KBOX_ANALYTICS_TOKEN', env('ANALYTICS_TOKEN', null)),
 
     /*
     |--------------------------------------------------------------------------
@@ -22,7 +22,7 @@ return [
     | or `google-analytics`
     | 
     */
-    'service' => env('ANALYTICS_SERVICE', 'matomo'),
+    'service' => env('KBOX_ANALYTICS_SERVICE', env('ANALYTICS_SERVICE', 'matomo')),
     
     /*
     |--------------------------------------------------------------------------
@@ -37,7 +37,7 @@ return [
     */
     'services' => [
         'matomo' => [
-            'domain' => env('ANALYTICS_MATOMO_DOMAIN', null),
+            'domain' => env('KBOX_ANALYTICS_MATOMO_DOMAIN', env('ANALYTICS_MATOMO_DOMAIN', null)),
             'view' => 'analytics.matomo',
         ],
         'google-analytics' => [
