@@ -208,6 +208,11 @@ return [
             'destroy' => KBox\Capability::MANAGE_KBOX,
         ],
 
+        'analytics' => [
+            'index' => KBox\Capability::MANAGE_KBOX,
+            'update' => KBox\Capability::MANAGE_KBOX,
+        ],
+
         'licenses' => [
             'index' => KBox\Capability::MANAGE_KBOX,
             'default' => ['update' => KBox\Capability::MANAGE_KBOX],

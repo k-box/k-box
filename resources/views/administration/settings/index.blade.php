@@ -55,7 +55,7 @@
                 {{ csrf_field() }}
                 
                 
-                <div class="c-section c-section--separated">
+                <div class="c-section">
                     <h4 class="c-section__title">{{trans('networks.settings.section')}}</h4>
                     <p class="c-section__description">{{trans('networks.settings.section_help')}}</p>
                 
@@ -133,32 +133,4 @@
             </form>
         
 
-
-            <form  method="post" class="c-form" action="{{route('administration.settings.store')}}">
-    
-                {{ csrf_field() }}
-
-                <div class="c-section">
-                    <h4 class="c-section__title">{{trans('administration.settings.analytics_section')}}</h4>
-                    <p class="c-section__description">{{trans('administration.settings.analytics_section_help')}}</p> 
-            
-                    <div class="c-form__field">
-                        <label for="analytics_token">{{trans('administration.settings.analytics_token_field')}}</label>
-                        @if( isset($errors) && $errors->has('analytics_token') )
-                            <span class="field-error">{{ implode(",", $errors->get('analytics_token'))  }}</span>
-                        @endif
-                        <input class="c-form__input" type="text" name="analytics_token" id="analytics_token" value="{{old('analytics_token', isset($analytics_token) ? $analytics_token : '')}}">
-                    </div>
-                
-                    <div class="c-form__buttons">
-                        <button type="submit" class="button" id="analytics-settings-save-btn" name="analytics-settings-save-btn">
-                            {{trans('administration.settings.analytics_save_btn')}}
-                        </button>
-                    </div>
-            
-                </div>
-            </form>
-        
-
-    
 @stop

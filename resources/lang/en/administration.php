@@ -26,6 +26,7 @@ return [
         'settings'=>'Settings',
         'identity' => 'Identity',
         'licenses' => 'Document Licenses',
+        'analytics' => 'Analytics',
 
     ],
 
@@ -260,6 +261,17 @@ return [
         'analytics_token_field' => 'Analytics token',
         'analytics_save_btn' => 'Save Analytics Settings',
         
+    ],
+    
+    'analytics' => [
+        'save_btn' => 'Save Analytics Settings',
+        'saved' => 'Analytics settings updated.',
+        'save_error' => 'The analytics settings cannot be updated. :error',
+        'section' => 'Analytics',
+        'section_help' => 'In this section you can configure the K-Box to use an analytics service. An analytics service can be used to track page visits and searches.',
+        'token_field' => 'Analytics token',
+        'service_field' => 'Analytics service',
+        'domain_field' => 'Analytics service URL',
     ],
 
     'identity' => [

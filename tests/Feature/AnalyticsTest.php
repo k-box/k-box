@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use Tests\TestCase;
 use KBox\Capability;
 use KBox\Consent;
+use KBox\Option;
 use KBox\Consents;
 use KBox\Publication;
 use KBox\DocumentDescriptor;
@@ -126,6 +127,49 @@ class AnalyticsTest extends TestCase
         $this->assertEquals(['token' => '1'], Analytics::configuration());
     }
 
+    public function test_analytics_settings_page_loads_env_variables()
+    {
+        config([
+            'analytics.token' => '1',
+            'analytics.services.matomo.domain' => 'https://example.analytics',
+        ]);
+
+        $user = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$ADMIN);
+        });
+        
+        $response = $this->actingAs($user)
+                         ->get(route('administration.analytics.index'));
+        
+        $response->assertViewIs('administration.analytics.index');
+        $response->assertViewHas(Analytics::ANALYTICS_TOKEN, '1');
+        $response->assertViewHas('analytics_domain', 'https://example.analytics');
+        $response->assertViewHas('analytics_service', 'matomo');
+        $response->assertViewHas('available_services', ['matomo', 'google-analytics']);
+    }
+
+    public function test_analytics_settings_page_loads_dynamic_settings()
+    {
+        config([
+            'analytics.services.matomo.domain' => 'https://example.analytics',
+        ]);
+
+        Option::put(Analytics::ANALYTICS_TOKEN, 'aaaa');
+
+        $user = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$ADMIN);
+        });
+        
+        $response = $this->actingAs($user)
+                         ->get(route('administration.analytics.index'));
+        
+        $response->assertViewIs('administration.analytics.index');
+        $response->assertViewHas(Analytics::ANALYTICS_TOKEN, 'aaaa');
+        $response->assertViewHas('analytics_domain', 'https://example.analytics');
+        $response->assertViewHas('analytics_service', 'matomo');
+        $response->assertViewHas('available_services', ['matomo', 'google-analytics']);
+    }
+
 
     public function test_analytics_setting_are_saved()
     {
@@ -134,26 +178,26 @@ class AnalyticsTest extends TestCase
         });
         
         $response = $this->actingAs($user)
-                         ->from(route('administration.settings.index'))
-                         ->post(route('administration.settings.store'), [
+                         ->from(route('administration.analytics.index'))
+                         ->put(route('administration.analytics.update'), [
                             'analytics_token' => 'Analytics-token-value',
-                            'analytics-settings-save-btn' => true, // simulating pressing the button
+                            'analytics_domain' => 'example.analytics',
                          ]);
         
-        $response->assertRedirect(route('administration.settings.index'));
-        $response->assertSessionHas('flash_message', trans('administration.settings.saved'));
+        $response->assertRedirect(route('administration.analytics.index'));
+        $response->assertSessionHas('flash_message', trans('administration.analytics.saved'));
 
         $this->assertEquals('Analytics-token-value', analytics_token());
+        $this->assertEquals('https://example.analytics/', Analytics::configuration('domain'));
         
         $response = $this->actingAs($user)
-                         ->from(route('administration.settings.index'))
-                         ->post(route('administration.settings.store'), [
+                         ->from(route('administration.analytics.index'))
+                         ->put(route('administration.analytics.update'), [
                             'analytics_token' => '',
-                            'analytics-settings-save-btn' => true, // simulating pressing the button
                          ]);
         
-        $response->assertRedirect(route('administration.settings.index'));
-        $response->assertSessionHas('flash_message', trans('administration.settings.saved'));
+        $response->assertRedirect(route('administration.analytics.index'));
+        $response->assertSessionHas('flash_message', trans('administration.analytics.saved'));
 
         $this->assertEquals('', analytics_token());
     }

@@ -33,7 +33,7 @@ class Analytics
      */
     public static function token()
     {
-        return config('analytics.token') ?? Option::option(static::ANALYTICS_TOKEN, null);
+        return Option::option(static::ANALYTICS_TOKEN, null) ?? config('analytics.token');
     }
     
     /**
@@ -43,9 +43,19 @@ class Analytics
      */
     protected static function service()
     {
-        $activeService = config('analytics.service') ?? Option::option(static::ANALYTICS_SERVICE, null);
+        $activeService = self::serviceName();
 
         return config('analytics.services.' . $activeService) ?? [];
+    }
+    
+    /**
+     * Retrieve the current analytics service settings
+     * 
+     * @return array
+     */
+    public static function serviceName()
+    {
+        return Option::option(static::ANALYTICS_SERVICE, null) ?? config('analytics.service');
     }
 
 
@@ -77,13 +87,24 @@ class Analytics
      * 
      * @return array
      */
-    public static function configuration()
+    public static function configuration($option = null, $default = null)
     {
-        $config = collect(static::service());
+        $config = collect(static::service())->except('view');
 
         $config->put('token', static::token());
 
-        return $config->except('view')->toArray();
+        $additional_options = json_decode(Option::option(static::ANALYTICS_CONFIGURATION, '{}'), true);
+        if($additional_options && is_array($additional_options)){
+
+            $config = $config->merge($additional_options);
+        }
+
+        if(is_null($option)){
+
+            return $config->toArray();
+        }
+
+        return $config->get($option, $default);
     }
     
 }
