@@ -86,6 +86,24 @@ class AnalyticsTest extends TestCase
         $this->assertEquals(['token' => '1', 'domain' => 'https://example.analytics'], Analytics::configuration());
     }
 
+    public function test_matomo_not_used_if_domain_is_empty()
+    {
+        config([
+            'analytics.token' => '1',
+            'analytics.services.matomo.domain' => '',
+        ]);
+
+        $user = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$PARTNER);
+        });
+        Consent::agree($user, Consents::STATISTIC);
+
+        $response = $this->actingAs($user)->get(route('contact'));
+
+        $response->assertStatus(200);
+        $response->assertDontSee('<!-- Matomo -->');
+    }
+
     public function test_google_analytics_tracking_using_environment_configuration()
     {
         config([
