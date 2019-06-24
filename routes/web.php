@@ -88,6 +88,9 @@ Route::group(['as' => 'administration.', 'prefix' => 'administration'], function
     Route::put('/licenses/available', 'Administration\DocumentLicenses\AvailableDocumentLicensesController@update')->name('licenses.available.update');
 
     Route::resource('/plugins', 'Plugins\PluginsController', ['only' => ['index'/*, 'show', 'edit'*/, 'update', 'destroy']]);
+
+    Route::get('/analytics', 'Administration\AnalyticsController@index')->name('analytics.index');
+    Route::put('/analytics', 'Administration\AnalyticsController@update')->name('analytics.update');
 });
 /*
 |--------------------------------------------------------------------------

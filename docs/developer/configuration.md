@@ -45,8 +45,12 @@ The next table shows the K-Box specific configuration parameters:
 | `KBOX_SUPPORT_TOKEN` (`SUPPORT_TOKEN`)|           | string  |               | The Authentication token for the support service (can be configured from the UI) |
 | `KBOX_PAGE_LIMIT`                     |           | number  | 12            | The default number of items per page to show |
 | `KBOX_USER_REGISTRATION`              |           | boolean  | false        | Enable or disable self user registration |
+| `KBOX_ANALYTICS_SERVICE`              |           | string  | matomo        | The analytics tracking provider. Available: matomo, google-analytics |
+| `KBOX_ANALYTICS_TOKEN`                |           | string  |               | The analytics token to use for the specific analytics tracking provider |
 
-> `KBOX_MAIL_*` parameters can be configured from the User Interface, see [Configuring E-Mail](../user/en/administration/settings/mail.md).
+> `KBOX_MAIL_*` parameters can be configured from the User Interface, see [Configuring E-Mail](../administration/mail.md).
+
+> Analytics service configuration options are available. See [Configuring Analytics service](../administration/analytics.md).
 
 > For the resumable upload, via tus.io, configuration please refer to https://github.com/OneOffTech/laravel-tus-upload#advanced-configuration
 

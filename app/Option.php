@@ -48,11 +48,6 @@ class Option extends Model
      * The option that stores the key for the UserVoice support service
      */
     const SUPPORT_TOKEN = 'support_token';
-
-    /**
-     * The option that stores the Analytics token
-     */
-    const ANALYTICS_TOKEN = 'analytics_token';
     
     /**
      * The option that stores the default copyright usage license
@@ -219,19 +214,6 @@ class Option extends Model
         }
         
         return $conf;
-    }
-
-    /**
-     * Get the analytics tracking token.
-     *
-     *
-     * @return string|boolean the anlytics site id to be used in the Piwik analytics code
-     */
-    public static function analytics_token()
-    {
-        $opt = static::option(static::ANALYTICS_TOKEN, false);
-            
-        return empty($opt) ? false : $opt;
     }
 
     /**

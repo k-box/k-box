@@ -78,6 +78,14 @@
 					{{trans('administration.menu.settings')}}
 				</a>
 			</li>
+			
+			<li class="navigation-admin__item"><a href="{{ route('administration.analytics.index') }}" class="navigation-admin__link @if(\Request::is('*analytics')) navigation--current @endif">
+					
+					@materialicon('action', 'timeline', 'navigation-admin__item__icon')
+					
+					{{trans('administration.menu.analytics')}}
+				</a>
+			</li>
 
 			@flag(\KBox\Flags::PLUGINS)
 				<li class="navigation-admin__item"><a href="{{ route('administration.plugins.index') }}" class="navigation-admin__link @if(\Request::is('*plugins')) navigation--current @endif">	

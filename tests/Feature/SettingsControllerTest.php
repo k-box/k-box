@@ -32,7 +32,6 @@ class SettingsControllerTest extends TestCase
         $response->assertViewHas(Option::PUBLIC_CORE_NETWORK_NAME_EN);
         $response->assertViewHas(Option::PUBLIC_CORE_NETWORK_NAME_RU);
         $response->assertViewHas(Option::SUPPORT_TOKEN);
-        $response->assertViewHas(Option::ANALYTICS_TOKEN);
         $response->assertViewHas(Option::STREAMING_SERVICE_URL);
     }
     
@@ -73,37 +72,6 @@ class SettingsControllerTest extends TestCase
         $updated_get_response = $this->actingAs($user)
                          ->get(route('administration.settings.index'));
         $updated_get_response->assertViewHas(Option::SUPPORT_TOKEN, '');
-    }
-
-    public function testAnalyticsSettingStore()
-    {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
-        
-        $response = $this->actingAs($user)
-                         ->from(route('administration.settings.index'))
-                         ->post(route('administration.settings.store'), [
-                            'analytics_token' => 'Analytics-token-value',
-                            'analytics-settings-save-btn' => true, // simulating pressing the button
-                         ]);
-        
-        $response->assertRedirect(route('administration.settings.index'));
-        $response->assertSessionHas('flash_message', trans('administration.settings.saved'));
-
-        $this->assertEquals('Analytics-token-value', analytics_token());
-        
-        $response = $this->actingAs($user)
-                         ->from(route('administration.settings.index'))
-                         ->post(route('administration.settings.store'), [
-                            'analytics_token' => '',
-                            'analytics-settings-save-btn' => true, // simulating pressing the button
-                         ]);
-        
-        $response->assertRedirect(route('administration.settings.index'));
-        $response->assertSessionHas('flash_message', trans('administration.settings.saved'));
-
-        $this->assertEquals('', analytics_token());
     }
 
     public function test_network_settings_are_stored()
