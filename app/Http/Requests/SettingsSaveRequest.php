@@ -30,7 +30,6 @@ class SettingsSaveRequest extends Request
             'public_core_password' => 'nullable|sometimes|required_with:public_core_url|string',
             'public_core_network_name_en' => 'nullable|sometimes|string',
             'public_core_network_name_ru' => 'nullable|sometimes|string',
-            'support_token' => 'nullable|sometimes|string',
             'streaming_service_url' => 'nullable|sometimes|string|url',
         ];
     }

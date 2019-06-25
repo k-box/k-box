@@ -91,6 +91,9 @@ Route::group(['as' => 'administration.', 'prefix' => 'administration'], function
 
     Route::get('/analytics', 'Administration\AnalyticsController@index')->name('analytics.index');
     Route::put('/analytics', 'Administration\AnalyticsController@update')->name('analytics.update');
+    
+    Route::get('/support', 'Administration\SupportController@index')->name('support.index');
+    Route::put('/support', 'Administration\SupportController@update')->name('support.update');
 });
 /*
 |--------------------------------------------------------------------------

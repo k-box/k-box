@@ -48,7 +48,6 @@ class SettingsAdministrationController extends Controller
         Option::PUBLIC_CORE_NETWORK_NAME_EN => Option::option(Option::PUBLIC_CORE_NETWORK_NAME_EN, ''),
         Option::PUBLIC_CORE_NETWORK_NAME_RU => Option::option(Option::PUBLIC_CORE_NETWORK_NAME_RU, ''),
         Option::STREAMING_SERVICE_URL => Option::option(Option::STREAMING_SERVICE_URL, ''),
-        Option::SUPPORT_TOKEN => support_token(),
         ];
 
         return view('administration.settings.index', $data);
@@ -57,14 +56,6 @@ class SettingsAdministrationController extends Controller
     public function store(AuthGuard $auth, SettingsSaveRequest $request)
     {
         try {
-            if ($request->input('support-settings-save-btn', false) !== false) {
-                if ($request->has(Option::SUPPORT_TOKEN) && ! empty($request->input(Option::SUPPORT_TOKEN, null))) {
-                    Option::put(Option::SUPPORT_TOKEN, $request->input(Option::SUPPORT_TOKEN, null));
-                } else {
-                    // disable it
-                    Option::put(Option::SUPPORT_TOKEN, '');
-                }
-            }
 
             if ($request->input('public-settings-save-btn', false) !== false) {
                 if ($request->has(Option::PUBLIC_CORE_URL) &&

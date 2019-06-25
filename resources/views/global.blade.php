@@ -101,51 +101,18 @@
 	</script>
 <![endif]-->
 	
-    @if(support_token() !== false)
-	
-	<script>
-		
-		<?php 
-        
-        $support_context = json_encode([
-            'product' => config('app.name'),
-            'version' => \Config::get("dms.version"),
-            'route' => ! is_null(\Route::getCurrentRoute()->getName()) ? \Route::getCurrentRoute()->getName() : \Route::getCurrentRoute()->getPath(),
-            'context' => isset($context) ? $context : null,
-            'group' => isset($context_group) ? $context_group : null,
-            'visibility' => isset($current_visibility) ? $current_visibility : null,
-            'search_terms' => isset($search_terms) ? e($search_terms) : null,
-        ]);
-        
-        ?>
-		
-		UserVoice=window.UserVoice||[];(function(){var uv=document.createElement('script');uv.type='text/javascript';uv.async=true;uv.src='//widget.uservoice.com/{{ support_token() }}.js';var s=document.getElementsByTagName('script')[0];s.parentNode.insertBefore(uv,s)})();
-
-		UserVoice.push(['set', {
-		  accent_color: '#448dd6',
-		  trigger_color: 'white',
-          locale: '{{ \App::getLocale() }}',
-		  trigger_background_color: '#448dd6',
-		  ticket_custom_fields: {
-			
-			'context': '{!!$support_context!!}'
-			
-		  },
-		}]);
-		
-		@if(isset($feedback_loggedin) && $feedback_loggedin)
-		UserVoice.push(['identify', {
-		  email:      '{{$feedback_user_mail}}',
-		  name:       '{{$feedback_user_name}}',
-		}]);
-		
-		@endif
-		
-		UserVoice.push(['addTrigger', { mode: 'contact', trigger_position: 'bottom-right' }]);
-		UserVoice.push(['autoprompt', {}]);
-	</script>
-    
-    @endif
+		@includeWhen(support_active(), 'support.uservoice', [
+			'feedback_loggedin' => $feedback_loggedin ?? false,
+			'feedback_user_mail' => $feedback_user_mail ?? null,
+			'feedback_user_name' => $feedback_user_name ?? null,
+			'product' => config('app.name'),
+			'version' => config("dms.version"),
+			'route' => ! is_null(\Route::getCurrentRoute()->getName()) ? \Route::getCurrentRoute()->getName() : \Route::getCurrentRoute()->getPath(),
+			'context' => isset($context) ? e($context) : null,
+			'group' => isset($context_group) ? e($context_group) : null,
+			'visibility' => isset($current_visibility) ? e($current_visibility) : null,
+			'search_terms' => isset($search_terms) ? e($search_terms) : null,
+		])
 
 	</body>
 	

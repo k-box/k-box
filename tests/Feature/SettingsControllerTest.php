@@ -31,47 +31,7 @@ class SettingsControllerTest extends TestCase
         $response->assertViewHas(Option::PUBLIC_CORE_PASSWORD);
         $response->assertViewHas(Option::PUBLIC_CORE_NETWORK_NAME_EN);
         $response->assertViewHas(Option::PUBLIC_CORE_NETWORK_NAME_RU);
-        $response->assertViewHas(Option::SUPPORT_TOKEN);
         $response->assertViewHas(Option::STREAMING_SERVICE_URL);
-    }
-    
-    public function testUservoiceSettingStore()
-    {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
-        
-        $response = $this->actingAs($user)
-                         ->from(route('administration.settings.index'))
-                         ->post(route('administration.settings.store'), [
-                            'support_token' => 'Support-token-value',
-                            'support-settings-save-btn' => true, // simulating pressing save on the form
-                         ]);
-        
-        $response->assertRedirect(route('administration.settings.index'));
-        $response->assertSessionHas('flash_message', trans('administration.settings.saved'));
-
-        $this->assertEquals('Support-token-value', Option::support_token());
-
-        $saved_get_response = $this->actingAs($user)
-                         ->get(route('administration.settings.index'));
-        $saved_get_response->assertViewHas(Option::SUPPORT_TOKEN, 'Support-token-value');
-        
-        $remove_response = $this->actingAs($user)
-                         ->from(route('administration.settings.index'))
-                         ->post(route('administration.settings.store'), [
-                            'support_token' => '',
-                            'support-settings-save-btn' => true, // simulating pressing save on the form
-                         ]);
-        
-        $remove_response->assertRedirect(route('administration.settings.index'));
-        $remove_response->assertSessionHas('flash_message', trans('administration.settings.saved'));
-
-        $this->assertEquals('', Option::support_token());
-        
-        $updated_get_response = $this->actingAs($user)
-                         ->get(route('administration.settings.index'));
-        $updated_get_response->assertViewHas(Option::SUPPORT_TOKEN, '');
     }
 
     public function test_network_settings_are_stored()
