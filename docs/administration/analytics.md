@@ -29,7 +29,7 @@ The general configuration variables are:
 - `KBOX_ANALYTICS_SERVICE`: The analytics tracking provider. Possible values are: `matomo`, `google-analytics`
 - `KBOX_ANALYTICS_TOKEN`: The analytics token to use for identifying the visits to the K-Box installation
 
-Based on the analytics service selected, more configurationn options might be available.
+Based on the analytics service selected, more configuration options might be available.
 
 **Matomo**
 
