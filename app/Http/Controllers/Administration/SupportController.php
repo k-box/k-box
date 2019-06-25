@@ -5,7 +5,6 @@ namespace KBox\Http\Controllers\Administration;
 use Log;
 use Exception;
 use KBox\Option;
-use Illuminate\Support\Str;
 use KBox\Support\SupportService;
 use KBox\Http\Controllers\Controller;
 use KBox\Http\Requests\AnalyticsSaveRequest;
@@ -39,7 +38,6 @@ class SupportController extends Controller
     public function update(AuthGuard $auth, AnalyticsSaveRequest $request)
     {
         try {
-
             $validatedData = $request->validate([
                 SupportService::SUPPORT_TOKEN => 'nullable|sometimes|string',
             ]);

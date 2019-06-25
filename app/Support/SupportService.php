@@ -2,7 +2,6 @@
 
 namespace KBox\Support;
 
-use KBox\User;
 use KBox\Option;
 
 class SupportService
@@ -63,5 +62,4 @@ class SupportService
     {
         return static::serviceName() === $service && static::token() !== null;
     }
-
 }

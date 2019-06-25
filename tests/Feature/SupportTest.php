@@ -5,10 +5,7 @@ namespace Tests\Feature;
 use KBox\User;
 use Tests\TestCase;
 use KBox\Capability;
-use KBox\Consent;
 use KBox\Option;
-use KBox\Consents;
-use KBox\Support\Analytics\Analytics;
 use KBox\Support\SupportService;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
@@ -24,7 +21,6 @@ class SupportTest extends TestCase
         $response->assertDontSee('UserVoice');
     }
     
-    
     public function test_support_not_active_if_partially_configured()
     {
         config([
@@ -37,7 +33,6 @@ class SupportTest extends TestCase
         $response->assertDontSee('UserVoice');
     }
     
-
     public function test_uservoice_included_from_environment()
     {
         config([
@@ -88,7 +83,6 @@ class SupportTest extends TestCase
         $response->assertSee("email: '$user->email'");
         $response->assertSee("name: '$user->name'");
     }
-
 
     public function test_support_settings_page_loads_env_variables()
     {
@@ -160,5 +154,4 @@ class SupportTest extends TestCase
         $this->assertEquals(null, SupportService::serviceName());
         $this->assertFalse(support_active());
     }
-  
 }

@@ -7,7 +7,7 @@ return [
     | Support service
     |--------------------------------------------------------------------------
     |
-    | The support service to use. The supported values comes from the 
+    | The support service to use. The supported values comes from the
     | providers list, for example "uservoice".
     | Set this configuration to null will disable any support service
     |

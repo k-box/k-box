@@ -56,7 +56,6 @@ class SettingsAdministrationController extends Controller
     public function store(AuthGuard $auth, SettingsSaveRequest $request)
     {
         try {
-
             if ($request->input('public-settings-save-btn', false) !== false) {
                 if ($request->has(Option::PUBLIC_CORE_URL) &&
                     $request->input(Option::PUBLIC_CORE_PASSWORD)) {

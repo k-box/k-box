@@ -191,8 +191,6 @@ class Option extends Model
     
     // convenience methods for known options
     
-    
-
     /**
      *
      * @return bool true if mail service is usable, false otherwise
