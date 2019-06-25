@@ -7,7 +7,6 @@ The current backup procedure consists in manual copying the stored files, the co
 
 > The following procedure depends on the deployment choices and assumes installations are performed on a Linux system (e.g. Debian, Ubuntu). This guide is a general reference.
 
-
 ### Prepare the backup location
 
 Before creating a backup make sure that the selected location for the backup is accessible by the server/computer that is hosting the K-Box.
@@ -21,9 +20,9 @@ In order to do a full backup, the K-Box must not run, otherwise file corruption 
 Depending on the deployment procedure, the K-Box setup can be located in
 
 1. in the User home directory 
-- under `/home/{user}/deploy/k-box`, where `{user}` represents the username
-- under `/home/{user}/k-box`, where `{user}` represents the username
-2. in `/opt/k-box` 
+- under `/home/{user}/deploy/k-box`, where `{user}` represents the system username
+- under `/home/{user}/k-box`, where `{user}` represents the system username
+2. in your folder of choice, e.g. `/opt/k-box` 
 
 The K-Box uses Docker and Docker Compose. To shutdown, open a terminal and execute
 
@@ -36,7 +35,6 @@ where `$FOLDER` is the absolute path to the folder containing the K-Box setup.
 
 > on some old setups the configuration file might be called `docker-compose-kbox.yml`, therefore [`docker-compose -f docker-compose-kbox.yml`](https://docs.docker.com/compose/reference/overview/)` stop` must be used
 
-> New setups might have a system service that is capable of stopping the K-Box. If is the case you can use `systemctl stop {k-box-service}`, where `{k-box-service}` is the name of the service that controls the startup and shutdown of the K-Box at system startup 
 
 ### Backup the data
 
@@ -97,7 +95,7 @@ The backup time may vary depending on the amount of data and the writing speed i
 
 If uptime of the K-Box is a constraint, an incremental strategy can be followed. 
 
-To this aim the copy (`cp`) command above described needs to be substituted with the [`rsync`](https://www.digitalocean.com/community/tutorials/how-to-use-rsync-to-sync-local-and-remote-directories-on-a-vps) command. It actually performs incremental copy by computing changed files only. Recommandation: take care to directly verify the command arguments instead of blindly replacing `cp` with `rsync`.
+To this aim the copy (`cp`) command above described needs to be substituted with the [`rsync`](https://www.digitalocean.com/community/tutorials/how-to-use-rsync-to-sync-local-and-remote-directories-on-a-vps) command. It actually performs incremental copy by computing changed files only. Recommendation: take care to directly verify the command arguments instead of blindly replacing `cp` with `rsync`.
 
 #### Hot and Cold backup strategy
 
@@ -125,4 +123,10 @@ A possible _hot_ and _cold_ flow could be the following:
 
 ### Alternatives to `cp` and `rsync`
 
-If incremental backups, encryption, or you want to try a different tool, we suggest [Restic](https://restic.net/).
+For incremental backups, encryption, or you want to try a different tool, we suggest [Restic](https://restic.net/).
+
+
+
+## Additional resources
+
+- [Restore a backup](./restore-backup.md)

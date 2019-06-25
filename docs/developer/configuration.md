@@ -35,7 +35,7 @@ The next table shows the K-Box specific configuration parameters:
 | `KBOX_ENABLE_GUEST_NETWORK_SEARCH`    |           | boolean | false          | Enable guests to search over the configured K-Link |
 | `KBOX_UPLOAD_LIMIT` (`UPLOAD_LIMIT`)  |           | integer | 204800         | Maximum allowed file size for upload. Expressed in KB |
 | `KBOX_MAIL_ENCRYPTION`                |           | string  | tls           | The mail encryption to use. Set to an empty string to allow insecure connections |
-| `KBOX_MAIL_DRIVER`                    |           | string  | smtp          | The Email driver. See [Configuring E-Mail](../user/en/administration/settings/mail.md) |
+| `KBOX_MAIL_DRIVER`                    |           | string  | smtp          | The Email driver. See [Configuring E-Mail](../administration/settings/mail.md) |
 | `KBOX_MAIL_HOST`                      |           | string  |               | The E-Mail server host |
 | `KBOX_MAIL_PORT`                      |           | number  | 587           | The E-Mail server port |
 | `KBOX_MAIL_FROM_ADDRESS`              |           | string  |               | The address to use when sending emails|
