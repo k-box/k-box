@@ -27,6 +27,7 @@ return [
         'identity' => 'Identity',
         'licenses' => 'Document Licenses',
         'analytics' => 'Analytics',
+        'support' => 'Support',
 
     ],
 
@@ -251,11 +252,6 @@ return [
         
         'map_visualization_chk' => 'Enable the map visualization',
         
-        'support_section' => 'Support',
-        'support_section_help' => 'If you have a support subscription please insert here the authentication token to enable your users to submit support requests and receive help from the K-Link Dev team.',
-        'support_token_field' => 'Support Token',
-        'support_save_btn' => 'Save Support Settings',
-
         'analytics_section' => 'Analytics',
         'analytics_section_help' => 'Analytics support the process of understanding how often and for what purposes the system is being used. In this section you can opt-in for the K-Link Analytics.',
         'analytics_token_field' => 'Analytics token',
@@ -272,6 +268,15 @@ return [
         'token_field' => 'Analytics token',
         'service_field' => 'Analytics service',
         'domain_field' => 'Analytics service URL',
+    ],
+    
+    'support' => [
+        'section' => 'Support',
+        'section_help' => 'If you have a UserVoice support subscription please insert here the authentication token to enable your users to submit support requests.',
+        'token_field' => 'Support Token',
+        'save_btn' => 'Save Support Settings',
+        'saved' => 'Support settings updated.',
+        'save_error' => 'Support settings cannot be updated. :error',
     ],
 
     'identity' => [

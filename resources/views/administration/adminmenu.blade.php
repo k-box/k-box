@@ -59,6 +59,13 @@
 		{{trans('administration.menu.analytics')}}
 	</a>
 
+	<a href="{{ route('administration.support.index') }}" class="navigation__item navigation__item--link @if(\Request::is('*support')) navigation__item--current @endif">
+			
+		@materialicon('communication', 'live_help', 'navigation__item__icon')
+		
+		{{trans('administration.menu.support')}}
+	</a>
+
 	@flag(\KBox\Flags::PLUGINS)
 	<a href="{{ route('administration.plugins.index') }}" class="navigation__item navigation__item--link @if(\Request::is('*plugins')) navigation__item--current @endif">
 			

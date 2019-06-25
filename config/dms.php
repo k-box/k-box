@@ -155,20 +155,6 @@ return [
     
     /*
     |--------------------------------------------------------------------------
-    | Support Widget Token
-    |--------------------------------------------------------------------------
-    |
-    | The UserVoice support key
-    |
-    | default: null, support is not configured and not enabled
-    |
-    | @var string
-    */
-    
-    'support_token' => env('KBOX_SUPPORT_TOKEN', env('SUPPORT_TOKEN', null)),
-    
-    /*
-    |--------------------------------------------------------------------------
     | Language whitelist
     |--------------------------------------------------------------------------
     |

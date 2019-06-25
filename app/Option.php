@@ -45,11 +45,6 @@ class Option extends Model
     const STREAMING_SERVICE_URL = 'streaming_service_url';
     
     /**
-     * The option that stores the key for the UserVoice support service
-     */
-    const SUPPORT_TOKEN = 'support_token';
-    
-    /**
      * The option that stores the default copyright usage license
      */
     const COPYRIGHT_DEFAULT_LICENSE = 'copyright_default_license';
@@ -196,26 +191,6 @@ class Option extends Model
     
     // convenience methods for known options
     
-    /**
-     * Get the support service access token.
-     *
-     * First the static configuration is checked, then the stored options will be checked
-     *
-     * @return string|boolean the support ticket integration token if configured, false if not configured
-     */
-    public static function support_token()
-    {
-        $conf = config("dms.support_token");
-        
-        if (is_null($conf)) {
-            $opt = static::option(static::SUPPORT_TOKEN, false);
-            
-            return empty($opt) ? false : $opt;
-        }
-        
-        return $conf;
-    }
-
     /**
      *
      * @return bool true if mail service is usable, false otherwise

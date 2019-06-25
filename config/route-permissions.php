@@ -213,6 +213,11 @@ return [
             'update' => KBox\Capability::MANAGE_KBOX,
         ],
 
+        'support' => [
+            'index' => KBox\Capability::MANAGE_KBOX,
+            'update' => KBox\Capability::MANAGE_KBOX,
+        ],
+
         'licenses' => [
             'index' => KBox\Capability::MANAGE_KBOX,
             'default' => ['update' => KBox\Capability::MANAGE_KBOX],

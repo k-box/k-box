@@ -56,13 +56,27 @@ if (! function_exists('support_token')) {
     /**
      * Get the Support service authentication token
      *
-     * @uses \KBox\Option::support_token()
+     * @uses \KBox\Support\SupportService::token()
      *
-     * @return string|boolean the support ticket integration token if configured, false if not configured
+     * @return string|null the support ticket integration token if configured, null if not configured
      */
     function support_token()
     {
-        return \KBox\Option::support_token();
+        return \KBox\Support\SupportService::token();
+    }
+}
+
+if (! function_exists('support_active')) {
+    /**
+     * Check if the specified support service is active
+     *
+     * @uses \KBox\Support\SupportService::active()
+     *
+     * @return boolean true if the support service is active, false otherwise
+     */
+    function support_active($service = 'uservoice')
+    {
+        return \KBox\Support\SupportService::active($service);
     }
 }
 

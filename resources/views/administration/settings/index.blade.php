@@ -16,39 +16,6 @@
 @section('page')
         
         @include('errors.list')
-        
-        
-
-            <form  method="post" class="c-form" action="{{route('administration.settings.store')}}">
-    
-                {{ csrf_field() }}
-
-                <div class="c-section c-section--separated">
-                    <h4 class="c-section__title">{{trans('administration.settings.support_section')}}</h4>
-                    <p class="c-section__description">{{trans('administration.settings.support_section_help')}}</p>
-            
-                    <div class="c-form__field">
-                        <label for="support_token">{{trans('administration.settings.support_token_field')}}</label>
-                        @if( isset($errors) && $errors->has('support_token') )
-                            <span class="field-error">{{ implode(",", $errors->get('support_token'))  }}</span>
-                        @endif
-                        <input class="c-form__input c-form__input--larger" type="text" name="support_token" id="support_token" value="{{old('support_token', isset($support_token) ? $support_token : '')}}">
-                    </div>
-                    
-
-                    <div class="c-form__buttons">
-
-                        <button type="submit" class="button" id="support-settings-save-btn" name="support-settings-save-btn">
-                            {{trans('administration.settings.support_save_btn')}}
-                        </button>
-                    </div>
-
-                </div>
-            
-            </form>
-        
-        
-        
 
             <form  method="post" class="c-form" action="{{route('administration.settings.store')}}">
     
