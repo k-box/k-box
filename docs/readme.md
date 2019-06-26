@@ -5,8 +5,8 @@ This folder contains the K-Box documentation.
 The documentation targets users, IT person, and developers.
 
 - [User](./user/index.md)
-- [Release Notes](./release-note/index.md)
- - [Latest version (0.27)](./release-note/release-note-0.27.md)
+- [Release Notes](./release-note/)
+ - [Latest version (0.28)](./release-note/release-note-0.28.md)
 - [Developer](./developer/index.md)
 
 ## Structure

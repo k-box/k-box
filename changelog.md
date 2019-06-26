@@ -7,6 +7,28 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.28.0] - 2019-06-26
+
+### Added
+
+- Setting analytics service using environment variables ([#266](https://github.com/k-box/k-box/pull/266))
+- Documentation on how to restore backups ([#268](https://github.com/k-box/k-box/pull/268)) 
+- Documentation on how to change K-Box domain ([#268](https://github.com/k-box/k-box/pull/268)) 
+- Environment variables to enable/disable UserVoice support ([#267](https://github.com/k-box/k-box/pull/267)) 
+
+### Changed
+
+- Analytics configuration now has a separate page in the administration area ([#266](https://github.com/k-box/k-box/pull/266))
+- Support configuration now has a separate page in the administration area ([#267](https://github.com/k-box/k-box/pull/267)) 
+
+### Fixed
+
+- Documentation revision ([#268](https://github.com/k-box/k-box/pull/268)) 
+
+### Deprecated
+
+- `KBOX_SUPPORT_TOKEN` environment variable, use `KBOX_SUPPORT_USERVOICE_TOKEN` instead ([#267](https://github.com/k-box/k-box/pull/267))
+
 ## [0.27.2] - 2019-05-31
 
 ### Added
