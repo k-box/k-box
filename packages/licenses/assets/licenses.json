@@ -158,5 +158,17 @@
             "fr": "Creative Commons Attribution - Partage dans les mêmes conditions 4.0 International"
         },
         "description": "cc-by-sa-4.0.md"
+    },
+    {
+        "id": "odbl-1.0",
+        "name": "Open Data Commons Open Database License",
+        "license": {
+            "en": "https://opendatacommons.org/licenses/odbl/1.0/index.html"
+        },
+        "short_title": "ODbL",
+        "title": {
+            "en": "Open Data Commons Open Database License (ODbL)"
+        },
+        "description": "odbl-1.0.md"
     }
 ]
