@@ -35,7 +35,7 @@
     "leaflet-draw": "^1.0.3",
     "leaflet.control.opacity": "^1.2.0",
     "leaflet.wms": "^0.2.0",
-    "lodash": "~4.17.4",
+    "lodash": "~4.17.13",
     "nprogress": "~0.2.0",
     "object.observe": "~0.2.6",
     "plyr": "~3.5.3",
