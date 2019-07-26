@@ -69,7 +69,8 @@
                     <span>{!! trans('license::help.deed_intro', ['link' => $license->license]) !!}</span>
                 @endif
 
-                {!! Markdown::convertToHtml($license->description) !!}
+                {{-- description is a markdown rendered text, therefore we inject it without escaping --}}
+                {!! $license->html_description !!}
             @endslot
     
         @endcomponent

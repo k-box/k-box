@@ -3,10 +3,7 @@
 namespace OneOffTech\Licenses;
 
 use App;
-use ArrayAccess;
-use JsonSerializable;
-use Illuminate\Contracts\Support\Jsonable;
-use Illuminate\Contracts\Support\Arrayable;
+use Markdown;
 use OneOffTech\Licenses\Concerns\HasAttributes;
 
 /**
@@ -81,7 +78,12 @@ class License /*implements ArrayAccess, Arrayable, Jsonable, JsonSerializable*/
     {
         $path = $this->description_path;
 
-        return $path && is_file($path) ? file_get_contents($path) : null;
+        return $path && is_file($path) ? @file_get_contents($path) : null;
+    }
+    
+    public function getHtmlDescriptionAttribute($value)
+    {
+        return Markdown::convertToHtml($this->description ?? '');
     }
 
     public function getDescriptionPathAttribute($value)
