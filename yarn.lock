@@ -1580,10 +1580,10 @@ has@^1.0.3:
   dependencies:
     function-bind "^1.1.1"
 
-hint.css@~2.5.0:
-  version "2.5.1"
-  resolved "https://registry.yarnpkg.com/hint.css/-/hint.css-2.5.1.tgz#b0924714c6052a2a0256417162358a3dea140692"
-  integrity sha512-6ks/IZ6sz7l0ySHlMi9wy24uLiwF00fiHm6tZekfoA8NBD67F8OlYDpXnTcpfnoVvBaJtC0bIIwv5/GHWXLl/g==
+hint.css@~2.6.0:
+  version "2.6.0"
+  resolved "https://registry.yarnpkg.com/hint.css/-/hint.css-2.6.0.tgz#cd6bbe25e2bc16a6454765d9559ad7bd035b3cf5"
+  integrity sha512-SnCLQOoPQt4fuHbOOvEL3UZwL0SPFtKMN4YIxAvBTe4oFUtBAT4R2Kk1uk3x5hgN+0xzOb6LFEQf5StbYfNm8w==
 
 holmes.js@^1.13.5:
   version "1.17.3"
