@@ -23,6 +23,7 @@ class LicenseTest extends TestCase
         $this->assertEquals("Creative Commons Attribution 4.0 International", $license->title);
         $this->assertNotEmpty($license->description);
         $this->assertStringStartsWith('#### You are free to:', $license->description);
+        $this->assertStringStartsWith('<h4>You are free to:', $license->html_description);
         $this->assertNotEmpty($license->icon);
         $this->assertFileExists($license->description_path);
         $this->assertFileExists($license->icon_path);

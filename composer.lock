@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ef5861abcf98f51224f3ea3c1f816dc9",
+    "content-hash": "892ecb28c139bf669c455cb22ebd4f71",
     "packages": [
         {
             "name": "anahkiasen/underscore-php",
@@ -1045,36 +1045,36 @@
         },
         {
             "name": "graham-campbell/markdown",
-            "version": "v10.3.0",
+            "version": "v11.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/GrahamCampbell/Laravel-Markdown.git",
-                "reference": "e076ed4bc8e98f0444b996acdd6042f6f45fe7c2"
+                "reference": "90f68debfc6611654b16efc5539f5a3b597d55d9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/GrahamCampbell/Laravel-Markdown/zipball/e076ed4bc8e98f0444b996acdd6042f6f45fe7c2",
-                "reference": "e076ed4bc8e98f0444b996acdd6042f6f45fe7c2",
+                "url": "https://api.github.com/repos/GrahamCampbell/Laravel-Markdown/zipball/90f68debfc6611654b16efc5539f5a3b597d55d9",
+                "reference": "90f68debfc6611654b16efc5539f5a3b597d55d9",
                 "shasum": ""
             },
             "require": {
                 "illuminate/contracts": "5.5.*|5.6.*|5.7.*|5.8.*",
                 "illuminate/support": "5.5.*|5.6.*|5.7.*|5.8.*",
                 "illuminate/view": "5.5.*|5.6.*|5.7.*|5.8.*",
-                "league/commonmark": "^0.18",
+                "league/commonmark": "^1.0",
                 "php": "^7.1.3"
             },
             "require-dev": {
                 "graham-campbell/analyzer": "^2.1",
                 "graham-campbell/testbench": "^5.2",
-                "league/commonmark-extras": "^0.1.5",
+                "league/commonmark-extras": "^1.0",
                 "mockery/mockery": "^1.0",
                 "phpunit/phpunit": "^6.5|^7.0|^8.0"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "10.3-dev"
+                    "dev-master": "11.0-dev"
                 },
                 "laravel": {
                     "providers": [
@@ -1109,7 +1109,7 @@
                 "laravel",
                 "markdown"
             ],
-            "time": "2019-02-17T19:48:19+00:00"
+            "time": "2019-07-01T22:59:29+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -1878,8 +1878,7 @@
             "dist": {
                 "type": "path",
                 "url": "plugins/example",
-                "reference": "d3c74768c9f758a669e76cc100566bdd19f666e7",
-                "shasum": null
+                "reference": "d3c74768c9f758a669e76cc100566bdd19f666e7"
             },
             "require": {
                 "php": ">=7.1"
@@ -2004,8 +2003,7 @@
             "dist": {
                 "type": "path",
                 "url": "plugins/geo",
-                "reference": "f69cc002b6a5275941fb390fe074ad354dbd8439",
-                "shasum": null
+                "reference": "f69cc002b6a5275941fb390fe074ad354dbd8439"
             },
             "require": {
                 "ext-zip": "*",
@@ -2480,34 +2478,35 @@
         },
         {
             "name": "league/commonmark",
-            "version": "0.18.5",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/commonmark.git",
-                "reference": "f94e18d68260f43a7d846279cad88405854b1306"
+                "reference": "7a40f2b0931602c504c2a9692d9f1e33635fd5ef"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/f94e18d68260f43a7d846279cad88405854b1306",
-                "reference": "f94e18d68260f43a7d846279cad88405854b1306",
+                "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/7a40f2b0931602c504c2a9692d9f1e33635fd5ef",
+                "reference": "7a40f2b0931602c504c2a9692d9f1e33635fd5ef",
                 "shasum": ""
             },
             "require": {
                 "ext-mbstring": "*",
-                "php": ">=5.6.5"
+                "php": "^7.1"
             },
             "replace": {
                 "colinodell/commonmark-php": "*"
             },
             "require-dev": {
                 "cebe/markdown": "~1.0",
-                "commonmark/commonmark.js": "0.28",
+                "commonmark/commonmark.js": "0.29.0",
                 "erusev/parsedown": "~1.0",
                 "michelf/php-markdown": "~1.4",
-                "mikehaertl/php-shellcommand": "^1.2",
-                "phpunit/phpunit": "^5.7.27|^6.5.14",
-                "scrutinizer/ocular": "^1.1",
-                "symfony/finder": "^3.0|^4.0"
+                "mikehaertl/php-shellcommand": "^1.4",
+                "phpstan/phpstan-shim": "^0.11.5",
+                "phpunit/phpunit": "^7.5",
+                "scrutinizer/ocular": "^1.5",
+                "symfony/finder": "^4.2"
             },
             "suggest": {
                 "league/commonmark-extras": "Library of useful extensions including smart punctuation"
@@ -2518,12 +2517,12 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "0.19-dev"
+                    "dev-master": "1.1-dev"
                 }
             },
             "autoload": {
                 "psr-4": {
-                    "League\\CommonMark\\": "src/"
+                    "League\\CommonMark\\": "src"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -2539,13 +2538,67 @@
                 }
             ],
             "description": "PHP Markdown parser based on the CommonMark spec",
-            "homepage": "https://github.com/thephpleague/commonmark",
+            "homepage": "https://commonmark.thephpleague.com",
             "keywords": [
                 "commonmark",
                 "markdown",
                 "parser"
             ],
-            "time": "2019-03-28T13:52:31+00:00"
+            "time": "2019-06-29T11:19:01+00:00"
+        },
+        {
+            "name": "league/commonmark-ext-external-link",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thephpleague/commonmark-ext-external-link.git",
+                "reference": "b2e68fd3dedb8ef9b4c666f2adbe48775466680f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thephpleague/commonmark-ext-external-link/zipball/b2e68fd3dedb8ef9b4c666f2adbe48775466680f",
+                "reference": "b2e68fd3dedb8ef9b4c666f2adbe48775466680f",
+                "shasum": ""
+            },
+            "require": {
+                "league/commonmark": "^1.0",
+                "php": "^7.1"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^7.5"
+            },
+            "type": "commonmark-extension",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.1-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "League\\CommonMark\\Ext\\ExternalLink\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Colin O'Dell",
+                    "email": "colinodell@gmail.com",
+                    "homepage": "https://www.colinodell.com",
+                    "role": "Lead Developer"
+                }
+            ],
+            "description": "Extension for league/commonmark which adds extra classes and HTML attributes to external links",
+            "homepage": "https://github.com/thephpleague/commonmark-ext-external-link",
+            "keywords": [
+                "commonmark",
+                "extension",
+                "links",
+                "markdown"
+            ],
+            "time": "2019-06-29T11:41:14+00:00"
         },
         {
             "name": "league/csv",
@@ -7556,8 +7609,7 @@
             "dist": {
                 "type": "path",
                 "url": "tests/fixtures/plugins/example",
-                "reference": "875f52dcd6f8e72a25d6322a0660c2bbd389d051",
-                "shasum": null
+                "reference": "875f52dcd6f8e72a25d6322a0660c2bbd389d051"
             },
             "require": {
                 "php": ">=7.1"

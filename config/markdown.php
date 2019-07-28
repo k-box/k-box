@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use League\CommonMark\Ext\ExternalLink\ExternalLinkExtension;
+
 /*
  * This file is part of Laravel Markdown.
  *
@@ -41,7 +43,9 @@ return [
     |
     */
 
-    'extensions' => [],
+    'extensions' => [
+        ExternalLinkExtension::class,
+    ],
 
     /*
     |--------------------------------------------------------------------------
@@ -142,4 +146,11 @@ return [
 
     'allow_unsafe_links' => true,
 
+    /*
+     * Configuration related to ExternalLinkExtension
+     */
+    'external_link' => [
+        'internal_hosts' => '', // is empty as we would like to have all links marked as external
+        'open_in_new_window' => true,
+    ],
 ];
