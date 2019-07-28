@@ -49,7 +49,7 @@ elixir(function(mix) {
                 'lodash/lodash.min.js',
     			'jquery/dist/jquery.min.js',
                 'jquery-serializejson/jquery.serializejson.min.js',
-                'promise-polyfill/promise.js',
+                'promise-polyfill/dist/polyfill.js',
                 'sweetalert2/dist/sweetalert2.min.js',
                 'jquery-unveil/jquery.unveil.js',
     			'nprogress/nprogress.js',
