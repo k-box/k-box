@@ -576,10 +576,10 @@ copy-descriptor@^0.1.0:
   resolved "https://registry.yarnpkg.com/copy-descriptor/-/copy-descriptor-0.1.1.tgz#676f6eb3c39997c2ee1ac3a924fd6124748f578d"
   integrity sha1-Z29us8OZl8LuGsOpJP1hJHSPV40=
 
-core-js@^3.0.1:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.0.1.tgz#1343182634298f7f38622f95e73f54e48ddf4738"
-  integrity sha512-sco40rF+2KlE0ROMvydjkrVMMG1vYilP2ALoRXcYR4obqbYIuV3Bg+51GEDW+HF8n7NRA+iaA4qD0nD9lo9mew==
+core-js@^3.1.4:
+  version "3.1.4"
+  resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.1.4.tgz#3a2837fc48e582e1ae25907afcd6cf03b0cc7a07"
+  integrity sha512-YNZN8lt82XIMLnLirj9MhKDFZHalwzzrL9YLt6eb0T5D0EDl4IQ90IGkua8mHbnxNrkj1d8hbdizMc0Qmg1WnQ==
 
 core-util-is@1.0.2, core-util-is@~1.0.0:
   version "1.0.2"
@@ -2751,15 +2751,14 @@ plugin-error@^1.0.1:
     extend-shallow "^3.0.2"
 
 plyr@~3.5.3:
-  version "3.5.3"
-  resolved "https://registry.yarnpkg.com/plyr/-/plyr-3.5.3.tgz#42e616fd1cf6294f47dc6aa788b8fd3ed329e485"
-  integrity sha512-drxaK8kq4FYHb5DoExlMKAP28z0cD8/3L/7Cuv8XigxJBp1Sz9VZCGapejA4DLWkurp9YbN/1+FcmEQRCodqfg==
+  version "3.5.6"
+  resolved "https://registry.yarnpkg.com/plyr/-/plyr-3.5.6.tgz#1679d098af3fd0541bba62bc03f662f7c9ae6f2b"
+  integrity sha512-buudbt2qwZYjEdBXW9DvQ7t/LqaSbv9tSjCrqg7nTXVM5BXNdhuiJCyvko+5+DFMdp30mliyKGoOHGXz43OwrA==
   dependencies:
-    core-js "^3.0.1"
+    core-js "^3.1.4"
     custom-event-polyfill "^1.0.7"
     loadjs "^3.6.1"
     rangetouch "^2.0.0"
-    raven-js "^3.27.0"
     url-polyfill "^1.1.5"
 
 posix-character-classes@^0.1.0:
@@ -2861,11 +2860,6 @@ rangetouch@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/rangetouch/-/rangetouch-2.0.0.tgz#5459cdb38b929326c5484ab47aac9632fbe3a896"
   integrity sha512-y66wTFbwh7KafYligRsmIYYR1kZY8U9tGHH9PgbVhBUFmGzPMsOSjslXPedgR5D3M9W1QKVbAf1AtaVAt7JJTw==
-
-raven-js@^3.27.0:
-  version "3.27.0"
-  resolved "https://registry.yarnpkg.com/raven-js/-/raven-js-3.27.0.tgz#9f47c03e17933ce756e189f3669d49c441c1ba6e"
-  integrity sha512-vChdOL+yzecfnGA+B5EhEZkJ3kY3KlMzxEhShKh6Vdtooyl0yZfYNFQfYzgMf2v4pyQa+OTZ5esTxxgOOZDHqw==
 
 "readable-stream@2 || 3":
   version "3.3.0"
@@ -3527,9 +3521,9 @@ urix@^0.1.0:
   integrity sha1-2pN/emLiH+wf0Y1Js1wpNQZ6bHI=
 
 url-polyfill@^1.1.5:
-  version "1.1.5"
-  resolved "https://registry.yarnpkg.com/url-polyfill/-/url-polyfill-1.1.5.tgz#bec79b72b5407dba6d8cced2e32e4ab273aa9fb1"
-  integrity sha512-9XjIJ6nwrU+nGd8t90Ze0Zs7t8A+SU0gqsqPttj6j3zAVe5q0HFcuv37nDBdVSPpi4aTHTfbUF/i+ZVD+o2EbA==
+  version "1.1.7"
+  resolved "https://registry.yarnpkg.com/url-polyfill/-/url-polyfill-1.1.7.tgz#402ee84360eb549bbeb585f4c7971e79a31de9e3"
+  integrity sha512-ZrAxYWCREjmMtL8gSbSiKKLZZticgihCvVBtrFbUVpyoETt8GQJeG2okMWA8XryDAaHMjJfhnc+rnhXRbI4DXA==
 
 use@^3.1.0:
   version "3.1.1"
