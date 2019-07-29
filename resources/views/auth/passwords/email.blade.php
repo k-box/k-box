@@ -39,7 +39,7 @@
 		</div>
 
 		<div class="mb-4">
-			{{ trans('auth.have_login_and_password') }}&nbsp;<a tabindex="3" class="" href="{{ route('register') }}">
+			{{ trans('auth.have_login_and_password') }}&nbsp;<a tabindex="3" class="" href="{{ route('login') }}">
 				{{ trans('auth.login') }}
 			</a>
 		</div>
