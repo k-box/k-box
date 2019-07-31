@@ -26,3 +26,9 @@
 		
 	</div>
 @stop
+
+@section('footer')
+
+	@include('footer')
+
+@stop

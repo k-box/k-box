@@ -61,7 +61,7 @@
 		</div>
 		<!-- /Content -->
 
-		@include('footer')
+		@yield('footer')
 
 		@yield('panels')
 
