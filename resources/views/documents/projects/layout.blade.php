@@ -1,4 +1,4 @@
-@extends('global')
+@extends('layout.sidebar')
 
 
 
@@ -195,18 +195,18 @@
 
 @stop
 
-@section('content')
+@section('sidebar')
+
+@include('documents.menu')
+	
+@endsection
+
+@section('page')
 
 
 <div id="documents-list" class="non-map">
 
-	<div class="sidebar">
-
-		@include('documents.menu')
-
-	</div>
-
-	<div class="sidebar__rest" id="document-area">
+	<div id="document-area">
 		
 		@if(isset($hint) && $hint)
 		
