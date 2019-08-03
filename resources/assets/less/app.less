@@ -173,3 +173,51 @@ a {
 	color: saturate(lighten(@accent-color, 10%), 15%);
 }
 
+
+.max-h-available-header {
+	// max height available minus the space occuppied by the header element
+	max-height: calc(~"100vh - 6rem");
+	height: calc(~"100vh - 6rem");
+}
+
+
+.transition { 
+	transition: all 0.2s linear;
+}
+
+.-translate-100 {
+	transform: translateX(-100%);
+}
+
+.translate-0 {
+	transform: translateX(0);
+}
+
+@media (min-width: 640px) {
+
+	.md\:translate-0 {
+		transform: translateX(0);
+	}
+}
+
+
+
+.sidebar-open {
+    .pointer-events-auto();
+    .translate-0();
+	.opacity-100();
+	
+	position: fixed;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    left: 0;
+}
+
+
+@media (min-width: 640px) {
+
+	.md\:sidebar-open {
+		.sidebar-open();
+	}
+}

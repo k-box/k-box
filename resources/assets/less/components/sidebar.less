@@ -1,99 +1,82 @@
-.sidebar {
+// .sidebar {
 
-    width: 80%;
-    top:@top-header-height*2;
-    height: calc(~"100vh - 96px");
-    position: fixed;
-    z-index: 102;
+//     // width: 80%;
+//     // top:@top-header-height*2;
+//     // height: calc(~"100vh - 96px");
+//     // position: fixed;
+//     z-index: 102;
 
-    overflow-y: auto;
-    overflow-x: hidden;
-
-    -ms-overflow-style: -ms-autohiding-scrollbar;
-    -webkit-overflow-scrolling: touch;
-
-    background-color: rgba(255,255,255,0.9);
-
-    display: none;
     
-    @media(min-width:780px){
-        width: 260px;
-        background-color: transparent;
-        display: block
-    }
+//     -webkit-overflow-scrolling: touch;
 
-    &::-webkit-scrollbar {
-        // the entire scrollbar
-        width: auto;
-        display: none;
-    }
-    &::-webkit-scrollbar-button {
-        width: 0px;
-        height: 0px;
-    }
-    &::-webkit-scrollbar-thumb {
-        background: @sub-header-background-color;
-        border: 0;
-    }
-    &::-webkit-scrollbar-thumb:hover {
-        background: darken(@sub-header-background-color, 10%);
-    }
-    &::-webkit-scrollbar-thumb:active {
-        background: @darken-accent-color;
-    }
-    &::-webkit-scrollbar-track {
-        background: @darken-background-color;
-        border: 0;
-    }
-    &::-webkit-scrollbar-track:hover {
-        background: darken(@darken-background-color, 5%);
-    }
-    &::-webkit-scrollbar-track:active {
-        background: darken(@darken-background-color, 10%);
-    }
-    &::-webkit-scrollbar-corner {
-        background: transparent;
-    }
-}
+//     background-color: rgba(255,255,255,0.9);
 
-.sidebar:hover::-webkit-scrollbar {
-    display: block;
-}
+//     display: none;
+    
+//     @media(min-width:780px){
+//         width: 260px;
+//         background-color: transparent;
+//         display: block
+//     }
 
-.sidebar__rest, .sidebar__spaced {
-    // the area on the side of the sidebar, that should be visible
-    // width: 100%;
-    padding: @base-padding;
-    box-sizing: border-box;
+//     &::-webkit-scrollbar {
+//         // the entire scrollbar
+//         width: auto;
+//         display: none;
+//     }
+//     &::-webkit-scrollbar-button {
+//         width: 0px;
+//         height: 0px;
+//     }
+//     &::-webkit-scrollbar-thumb {
+//         background: @sub-header-background-color;
+//         border: 0;
+//     }
+//     &::-webkit-scrollbar-thumb:hover {
+//         background: darken(@sub-header-background-color, 10%);
+//     }
+//     &::-webkit-scrollbar-thumb:active {
+//         background: @darken-accent-color;
+//     }
+//     &::-webkit-scrollbar-track {
+//         background: @darken-background-color;
+//         border: 0;
+//     }
+//     &::-webkit-scrollbar-track:hover {
+//         background: darken(@darken-background-color, 5%);
+//     }
+//     &::-webkit-scrollbar-track:active {
+//         background: darken(@darken-background-color, 10%);
+//     }
+//     &::-webkit-scrollbar-corner {
+//         background: transparent;
+//     }
+// }
 
-    @media(min-width:780px){
-        padding: @base-padding @base-padding 0 276px; 
-    }
+// .sidebar:hover::-webkit-scrollbar {
+//     display: block;
+// }
 
-}
+// .sidebar__rest, .sidebar__spaced {
+//     // the area on the side of the sidebar, that should be visible
+//     // width: 100%;
+//     padding: @base-padding;
+//     box-sizing: border-box;
+
+//     @media(min-width:780px){
+//         padding: @base-padding @base-padding 0 276px; 
+//     }
+
+// }
 
 
-.sidebar--drawer {
 
-}
 
-.sidebar--opened {
-    display: inherit;
-}
-
-.drawer__button {
-    display: none;
-    flex-shrink: 0;
-    flex-basis: 40px;
-    margin: 0 @base-padding 0 0;
-    color: #fff;
-    fill: #fff;
-
-    @media(max-width:780px){
-        display: block
-    }
-}
-
-.frontpage .drawer__button {
-    display: none;
+.overflow-sidebar {
+    // overflow-y: auto;
+    .overflow-y-auto();
+    .overflow-x-hidden();
+    // overflow-x: hidden;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+    .scrolling-touch();
 }
