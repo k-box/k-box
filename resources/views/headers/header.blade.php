@@ -76,15 +76,4 @@
 
 </header>
 
-<div class="c-message c-message--warning outdated js-outdated" id="js-outdated">
-	
-	<button class="c-message__dismiss button button--ghost" id="js-outdated-dismiss">
-		@materialicon('navigation', 'close')
-	</button>
 
-	<span class="outdated__message">
-		{{ trans('errors.oldbrowser.generic') }}
-		<a href="{{route('browserupdate')}}" class="button">{{ trans('errors.oldbrowser.more_info') }}</a>
-	</span>
-
-</div>
