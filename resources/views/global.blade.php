@@ -46,12 +46,18 @@
 		</div>
 
 
-		@section('header')
-			@include('headers.header')
-		@endsection
-
-		@yield('header')
-		
+			@section('header')
+				@include('headers.header')
+			@endsection
+	
+			@yield('header')
+	
+			<div class="bg-yellow-400 p-2 hidden" id="js-outdated">
+				<span class="">
+					{{ trans('errors.oldbrowser.generic') }}
+					<a href="{{route('browserupdate')}}" class="text-black underline">{{ trans('errors.oldbrowser.more_info') }}</a>.
+				</span>
+			</div>
 
 		<!-- Content -->
 		<div class="c-page-container" id="page" role="content">
@@ -70,13 +76,12 @@
 	@yield('scripts')
 	
 
-<!--[if lte IE 9]>
+<!--[if lte IE 10]>
 	<script>
 		document.body.setAttribute('class', document.body.getAttribute('class') + " ie");
 
 		var message = document.getElementById('js-outdated'),
 			isVisible = false,
-			dismissed = window.localStorage && window.localStorage.kboxBrowserWarningDismissed ? window.localStorage.kboxBrowserWarningDismissed === 'true' : false;
 			div = document.createElement('div');
 
 			if (!('boxShadow' in div.style)){
@@ -87,16 +92,8 @@
 				isVisible = true;
 			} 
 
-			if(isVisible && !dismissed){
-				document.body.setAttribute('class', document.body.getAttribute('class') + " outdated--shown");
-
-				document.getElementById('js-outdated-dismiss').addEventListener('click', function(){
-					message.setAttribute('class', "c-message c-message--warning outdated js-outdated");
-					window.localStorage.kboxBrowserWarningDismissed = 'true';
-				});
-
-				message.setAttribute('class', message.getAttribute('class') + " outdated--visible");
-				
+			if(isVisible && message){
+				message.setAttribute('class', message.getAttribute('class') + " block");
 			}
 	</script>
 <![endif]-->
