@@ -71,9 +71,9 @@
 
 		
 
-			<div class="action__button dropdown">
+			<div class="action__button ml-2 dropdown">
 		
-				<span class="label">@materialicon('content', 'add_circle_outline', 'inline-block'){{trans('actions.create_add_dropdown')}}</span>
+				<span class="label">@materialicon('content', 'add_circle_outline', 'inline-block')<span class="hidden md:inline">{{ trans('actions.create_add_dropdown')}}</span></span>
 				<span class="btn-icon expand icon-navigation-white icon-navigation-white-ic_expand_more_white_24dp"></span>
 				<span class="btn-icon collapse icon-navigation-white icon-navigation-white-ic_expand_less_white_24dp"></span>
 
@@ -118,21 +118,21 @@
 
 
 		@if(isset($is_klink_public_enabled) && $is_klink_public_enabled && $context!=='trash' && $context!=='shared' && $context!=='public' && isset($can_make_public) && $can_make_public)
-			<button class="action__button hint--bottom" rv-on-click="makePublic" rv-disabled="nothingIsSelected" data-hint="{{trans('networks.publish_to_hint', ['network' => network_name()])}}" >
-				@materialicon('social', 'public', 'inline-block'){{trans('networks.publish_to_short')}}
+			<button class="action__button ml-2 hint--bottom" rv-on-click="makePublic" rv-disabled="nothingIsSelected" data-hint="{{trans('networks.publish_to_hint', ['network' => network_name()])}}" >
+				@materialicon('social', 'public', 'inline-block')<span class="hidden md:inline">{{trans('networks.publish_to_short')}}</span>
 			</button>
 		@endif
 
 		@if($context!=='trash' && $context!=='shared' && $context!=='public' && isset($can_share) && $can_share)
-			<button class="action__button" rv-on-click="share" rv-disabled="nothingIsSelected">
-				@materialicon('action', 'launch', 'inline-block'){{trans('share.share_btn')}}
+			<button class="action__button ml-2" rv-on-click="share" rv-disabled="nothingIsSelected">
+				@materialicon('action', 'launch', 'inline-block')<span class="hidden md:inline">{{trans('share.share_btn')}}</span>
 			</button>
 		@endif
 
 		@if($context!=='trash' && $context!=='shared' && $context!=='public' && $context!=='starred' && isset($can_delete_documents) && $can_delete_documents)
 
-			<button class="action__button" rv-on-click="del"  rv-disabled="nothingIsSelected">
-				@materialicon('action', 'delete', 'inline-block'){{trans('actions.trash_btn')}}
+			<button class="action__button ml-2" rv-on-click="del"  rv-disabled="nothingIsSelected">
+				@materialicon('action', 'delete', 'inline-block')<span class="hidden md:inline">{{trans('actions.trash_btn')}}</span>
 			</button>
 
 		@endif
