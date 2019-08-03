@@ -51,6 +51,12 @@
 			@endsection
 	
 			@yield('header')
+
+			@if(is_readonly())
+				<div class="bg-yellow-400 p-2">
+					{!!trans('errors.503-readonly_text_styled')!!}
+				</div>
+			@endif
 	
 			<div class="bg-yellow-400 p-2 hidden" id="js-outdated">
 				<span class="">
