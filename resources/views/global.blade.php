@@ -46,6 +46,7 @@
 		</div>
 
 
+		<div id="app" class="flex flex-col h-screen max-h-screen">
 			@section('header')
 				@include('headers.header')
 			@endsection
@@ -65,21 +66,22 @@
 				</span>
 			</div>
 
-		<!-- Content -->
-		<div class="c-page-container" id="page" role="content">
-
-			@yield('content')
-
+			<div class="min-h-0 flex-shrink-0 flex-grow max-h-available-header px-2 lg:px-4 max-h-available-header" id="page" role="content">
+	
+				@yield('content')
+	
+			</div>
+	
+			@yield('footer')
 		</div>
-		<!-- /Content -->
-
-		@yield('footer')
 
 		@yield('panels')
 
 	
 
 	@yield('scripts')
+
+	@stack('js')
 	
 
 <!--[if lte IE 10]>
