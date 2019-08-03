@@ -203,30 +203,30 @@ window.DMS = (function(_$, _nprogress, _rivets, _alert){
 			}
 
 
-			var drawer = $('.js-drawer'), drawerOpened = false;
+			// var drawer = $('.js-drawer'), drawerOpened = false;
 
-			if(drawer && drawer.length === 1){
-				 var trigger = $(".js-drawer-trigger");
+			// if(drawer && drawer.length === 1){
+			// 	 var trigger = $(".js-drawer-trigger");
 
-				trigger.on('click', function(evt){
+			// 	trigger.on('click', function(evt){
 
-					if(!drawerOpened){
+			// 		if(!drawerOpened){
 
-						drawer.addClass('sidebar--opened');
-						evt.stopPropagation();
-						evt.preventDefault();
-						drawerOpened = true;
-					}
-					else {
-						drawer.removeClass('sidebar--opened');
-						evt.stopPropagation();
-						evt.preventDefault();
-						drawerOpened = false;
-					}
+			// 			drawer.addClass('sidebar--opened');
+			// 			evt.stopPropagation();
+			// 			evt.preventDefault();
+			// 			drawerOpened = true;
+			// 		}
+			// 		else {
+			// 			drawer.removeClass('sidebar--opened');
+			// 			evt.stopPropagation();
+			// 			evt.preventDefault();
+			// 			drawerOpened = false;
+			// 		}
 
-				});
+			// 	});
 
-			}
+			// }
 
 		},
 
