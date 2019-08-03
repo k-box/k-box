@@ -1,7 +1,7 @@
 
 <header class="header sticky top-0 shadow" role="header">
 
-	<div class="relative h-12 flex items-center justify-between px-2 py-1 bg-gray-100">
+	<div class="relative h-12 flex items-center justify-between px-2  lg:px-4 py-1 bg-gray-200">
 		
 		<div class="flex items-center flex-grow max-w-lg">
 		
@@ -54,23 +54,7 @@
 
 	</div>
 
-	@section('header-secondary')
-		<div class="header__secondary bg-gray-400 relative h-12 flex flex-no-wrap items-center justify-between px-2 py-1">
-
-			<button class="drawer__button action__button js-drawer-trigger">
-				@materialicon('navigation', 'menu', 'ico')
-			</button>
-
-			<div class="breadcrumbs">
-				@yield('breadcrumbs')
-			</div>
-
-			<div class="actions js-drawer-action-bar" id="action-bar">
-				@yield('action-menu')
-			</div>
-
-		</div>
-	@endsection
+	
 
 	@yield('header-secondary')
 
