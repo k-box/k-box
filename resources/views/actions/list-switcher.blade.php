@@ -3,7 +3,7 @@
 	<button data-list="details" class="action__button  ml-0" title="{{trans('actions.switcher.details')}}">
 		@materialicon('action', 'view_list', 'inline-block')
 	</button> 
-	<button data-list="tiles" class="action__button  ml-0" title="{{trans('actions.switcher.tiles')}}">
+	<button data-list="tiles" class="action__button ml-0" title="{{trans('actions.switcher.tiles')}}">
 		@materialicon('action', 'view_stream', 'inline-block')
 	</button>
 	<button data-list="cards" class="action__button  ml-0" title="{{trans('actions.switcher.grid')}}">
