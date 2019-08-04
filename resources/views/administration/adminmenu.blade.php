@@ -54,14 +54,14 @@
 
 	<a href="{{ route('administration.analytics.index') }}" class="navigation__item navigation__item--link @if(\Request::is('*analytics')) navigation__item--current @endif">
 			
-		@materialicon('action', 'timeline', 'navigation__item__icon')
+		@materialicon('action', 'timeline', 'inline-block navigation__item__icon')
 		
 		{{trans('administration.menu.analytics')}}
 	</a>
 
 	<a href="{{ route('administration.support.index') }}" class="navigation__item navigation__item--link @if(\Request::is('*support')) navigation__item--current @endif">
 			
-		@materialicon('communication', 'live_help', 'navigation__item__icon')
+		@materialicon('communication', 'live_help', 'inline-block navigation__item__icon')
 		
 		{{trans('administration.menu.support')}}
 	</a>
