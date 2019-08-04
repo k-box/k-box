@@ -7,16 +7,14 @@
 @stop
 
 
-@section('action-menu')
 
+@section('content')
 
+@include('dashboard.notices')
 
-@stop
+<div class="flex flex-col md:flex-row">
 
-@section('content')		
-
-	<div class="c-column c-column--medium">
-
+	<div class="">
 
 		<ul class="navigation-admin navigation-admin--block">
 			
@@ -124,13 +122,13 @@
 
 	</div>
 
-	<div class="c-column c-column--short widgets">
-
-		@include('dashboard.notices')
+	<div class="w-full md:w-1/3 md:flex-shrink-0 mt-2 md:mt-6">
 
 		@include('widgets.storage')
 
 		@include('widgets.users-sessions')
+
+	</div>
 
 	</div>
 
