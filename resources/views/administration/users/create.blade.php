@@ -6,7 +6,7 @@
 
 @stop
 
-@section('content')
+@section('page')
 
     <form  method="post" class="c-form" action="{{route('administration.users.store')}}">
         

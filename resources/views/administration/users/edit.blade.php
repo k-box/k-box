@@ -6,7 +6,7 @@
 
 @stop
 
-@section('content')
+@section('page')
 
 
     <form  method="POST" class="c-form" action="{{route('administration.users.update', $user->id)}}">
