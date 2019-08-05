@@ -7,6 +7,21 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.28.1] - 2019-08-05
+
+### Added
+
+- Added Open Data Commons Open Database License ([#269](https://github.com/k-box/k-box/pull/269))
+
+### Fixed
+
+- Fixed register routes used as link to login page ([#274](https://github.com/k-box/k-box/pull/274))
+
+### Changed
+
+- Open links in new tab if in abstract or in any markdown rendered text ([#272](https://github.com/k-box/k-box/pull/272))
+
+
 ## [0.28.0] - 2019-06-26
 
 ### Added
