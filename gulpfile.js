@@ -162,7 +162,7 @@ elixir(function(mix) {
 	    
 	    // make versionable to resolve caching problems
         if (elixir.config.production) {
-            mix.purge( ["public/css/app.css"] )
-	           .version( ["public/css/vendor.css", "public/css/app.css", "public/js/vendor.js"] );
+            // mix.purge( ["public/css/app.css"] )
+	        mix.version( ["public/css/vendor.css", "public/css/app.css", "public/js/vendor.js"] );
         }
 });
