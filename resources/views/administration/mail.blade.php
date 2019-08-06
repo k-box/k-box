@@ -10,7 +10,7 @@
 
 
 <a href="{{ route('administration.mail.test') }}" class="action__button">
-    @materialicon('content', 'mail'){{trans('administration.mail.test_btn')}}
+    @materialicon('content', 'mail', 'inline-block'){{trans('administration.mail.test_btn')}}
 </a>
 
 

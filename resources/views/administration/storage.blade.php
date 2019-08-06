@@ -13,7 +13,7 @@
     <a class="action__button" href="{{route('administration.storage.files')}}">{{ trans('administration.storage.all_files') }}</a>
 
     <a href="{{ route('administration.storage.reindexall') }}" rv-on-click="reindexAll" rv-disabled="cannotReindex" class="action__button">
-        @materialicon('action', 'cached'){{ trans('administration.storage.reindexall_btn') }}
+        @materialicon('action', 'cached', 'inline-block'){{ trans('administration.storage.reindexall_btn') }}
     </a>
 </div>
 

@@ -7,7 +7,7 @@
 // Normalize //
 ///////////////
 
-@import 'normalize.less';
+@import 'requirements/utilities.less';
 
 
 ////////////////////
@@ -66,10 +66,10 @@
 
 // Structure
 
-@base-padding: 8px; //1.5rem*1.6; // = 1.5rem (15px) over 1.6 line height (24px)
+@base-padding: 8px; // p-2
 
-@top-header-height: 48px;
-@sub-header-height: 48px;
+@top-header-height: 48px; // h-12
+@sub-header-height: 48px; // h-12
 
 // Document Type colors
 
@@ -90,13 +90,6 @@
 @project-collection-color: #f1c40f;
 @personal-collection-color: #16a085;
 
-//////////////
-// Skeleton //
-//////////////
-
-// @import 'requirements/skeleton.less';
-
-
 // Breakpoints
 
 @breakpoint: 960px;
@@ -105,38 +98,8 @@
 // Typography
 
 body {
-    color: @text-color;
-    font-size: 16px;
-    line-height: 1.4;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif
+  color: @text-color;
 }
-
-.h1-typography { 
-  font-size: 40px;
-  font-size: 4.0rem; line-height: 1.2; 
-}
-.h2-typography { 
-  font-size: 36px;
-  font-size: 3.6rem; line-height: 1.25; 
-}
-.h3-typography { 
-  font-size: 30px;
-  font-size: 3.0rem; line-height: 1.3;  
-}
-.h4-typography { 
-  font-size: 24px;
-  font-size: 2.4rem; line-height: 1.35;
-}
-.h5-typography { 
-  font-size: 18px;
-  font-size: 1.8rem; line-height: 1.5;
-}
-.h6-typography, .p-typography { 
-  font-size: 15px;
-  font-size: 1.5rem; line-height: 1.6;
-}
-
-
 
 // mixins and helper classes
 
@@ -206,9 +169,6 @@ body {
 body {
   color: @text-color;
 	background-color: @background-color;
-
-	.box-sizing(border-box);
-
 }
 
 a {

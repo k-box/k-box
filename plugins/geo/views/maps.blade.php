@@ -41,10 +41,10 @@
                         <td>
                             @if( $default == $providerId)
                                 <button class="button button--ghost" >
-                                    @materialicon('action', 'check_circle')
+                                    @materialicon('action', 'check_circle', 'inline-block')
                                 </button>    
                             @else 
-                                <button class="button button--ghost" onclick="event.preventDefault();document.getElementById('provider-default-{{$providerId}}').submit();">@materialicon('toggle', 'radio_button_unchecked')</button>
+                                <button class="button button--ghost" onclick="event.preventDefault();document.getElementById('provider-default-{{$providerId}}').submit();">@materialicon('toggle', 'radio_button_unchecked', 'inline-block')</button>
                                 <form id="provider-default-{{$providerId}}" action="{{ route('plugins.k-box-kbox-plugin-geo.mapproviders.default.update') }}" method="POST" style="display: none;">
                                     {{ csrf_field() }}
                                     {{ method_field('PUT') }}
@@ -54,7 +54,7 @@
                         </td>
                         <td>
                             @if( $provider['enable'] ?? false )
-                                <button class="button button--ghost" onclick="event.preventDefault();document.getElementById('provider-enable-{{$providerId}}').submit();">@materialicon('toggle', 'check_box')</button>
+                                <button class="button button--ghost" onclick="event.preventDefault();document.getElementById('provider-enable-{{$providerId}}').submit();">@materialicon('toggle', 'check_box', 'inline-block')</button>
                                 <form id="provider-enable-{{$providerId}}" action="{{ route('plugins.k-box-kbox-plugin-geo.mapproviders.enable.update') }}" method="POST" style="display: none;">
                                     {{ csrf_field() }}
                                     {{ method_field('PUT') }}
@@ -62,7 +62,7 @@
                                     <input type="hidden" name="enable" value="0">
                                 </form>
                             @else 
-                                <button class="button button--ghost" onclick="event.preventDefault();document.getElementById('provider-enable-{{$providerId}}').submit();">@materialicon('toggle', 'check_box_outline_blank')</button>
+                                <button class="button button--ghost" onclick="event.preventDefault();document.getElementById('provider-enable-{{$providerId}}').submit();">@materialicon('toggle', 'check_box_outline_blank', 'inline-block')</button>
                                 <form id="provider-enable-{{$providerId}}" action="{{ route('plugins.k-box-kbox-plugin-geo.mapproviders.enable.update') }}" method="POST" style="display: none;">
                                     {{ csrf_field() }}
                                     {{ method_field('PUT') }}

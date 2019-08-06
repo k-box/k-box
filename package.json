@@ -8,8 +8,11 @@
   },
   "license": "AGPL-3.0",
   "devDependencies": {
+    "@fullhuman/postcss-purgecss": "^1.2.0",
     "gulp": "^3.9.1",
-    "laravel-elixir": "avvertix/elixir#master"
+    "gulp-postcss": "^8.0.0",
+    "laravel-elixir": "avvertix/elixir#master",
+    "tailwindcss": "^1.0.5"
   },
   "scripts": {
     "dev": "npm run development",

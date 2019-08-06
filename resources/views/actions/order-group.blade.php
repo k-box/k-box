@@ -7,9 +7,9 @@
 	<input type="checkbox" name="selection-tristate" id="selection-tristate" style="display:none" />
 
 
-	@materialicon('toggle', 'check_box', 'tristate__all')
-	@materialicon('toggle', 'indeterminate_check_box', 'tristate__partial')
-	@materialicon('toggle', 'check_box_outline_blank', 'tristate__none')
+	@materialicon('toggle', 'check_box', 'inline-block tristate__all')
+	@materialicon('toggle', 'indeterminate_check_box', 'inline-block tristate__partial')
+	@materialicon('toggle', 'check_box_outline_blank', 'inline-block tristate__none')
 
 
 </div>

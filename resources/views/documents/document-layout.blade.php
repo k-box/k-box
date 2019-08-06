@@ -73,7 +73,7 @@
 
 			<div class="action__button dropdown">
 		
-				<span class="label">@materialicon('content', 'add_circle_outline'){{trans('actions.create_add_dropdown')}}</span>
+				<span class="label">@materialicon('content', 'add_circle_outline', 'inline-block'){{trans('actions.create_add_dropdown')}}</span>
 				<span class="btn-icon expand icon-navigation-white icon-navigation-white-ic_expand_more_white_24dp"></span>
 				<span class="btn-icon collapse icon-navigation-white icon-navigation-white-ic_expand_less_white_24dp"></span>
 
@@ -82,7 +82,7 @@
 					@if(isset($can_create_collection) && $can_create_collection)
 					<li><a href="#" class="dropdown-el"  rv-on-click="createGroup">
 
-					@materialicon('action', 'label'){{trans('actions.create_collection_btn')}}
+					@materialicon('action', 'label', 'inline-block'){{trans('actions.create_collection_btn')}}
 
 					</a></li>
 					
@@ -98,10 +98,10 @@
 						@if(isset($can_upload) && $can_upload)
 
 							<li><a href="#{{route('documents.create')}}" class="dropdown-el" id="upload_trigger">
-								@materialicon('action', 'description'){{trans('actions.upload')}}
+								@materialicon('action', 'description', 'inline-block'){{trans('actions.upload')}}
 							</a></li>
 							<li><a href="{{ isset($context_group) ? route('uploads.index').'?c='.e($context_group) : route('uploads.index')}}" class="dropdown-el">
-								@materialicon('av', 'videocam'){{ trans('actions.upload_video') }}
+								@materialicon('av', 'videocam', 'inline-block'){{ trans('actions.upload_video') }}
 							</a></li>
 
 						@endif
@@ -119,20 +119,20 @@
 
 		@if(isset($is_klink_public_enabled) && $is_klink_public_enabled && $context!=='trash' && $context!=='shared' && $context!=='public' && isset($can_make_public) && $can_make_public)
 			<button class="action__button hint--bottom" rv-on-click="makePublic" rv-disabled="nothingIsSelected" data-hint="{{trans('networks.publish_to_hint', ['network' => network_name()])}}" >
-				@materialicon('social', 'public'){{trans('networks.publish_to_short')}}
+				@materialicon('social', 'public', 'inline-block'){{trans('networks.publish_to_short')}}
 			</button>
 		@endif
 
 		@if($context!=='trash' && $context!=='shared' && $context!=='public' && isset($can_share) && $can_share)
 			<button class="action__button" rv-on-click="share" rv-disabled="nothingIsSelected">
-				@materialicon('action', 'launch'){{trans('share.share_btn')}}
+				@materialicon('action', 'launch', 'inline-block'){{trans('share.share_btn')}}
 			</button>
 		@endif
 
 		@if($context!=='trash' && $context!=='shared' && $context!=='public' && $context!=='starred' && isset($can_delete_documents) && $can_delete_documents)
 
 			<button class="action__button" rv-on-click="del"  rv-disabled="nothingIsSelected">
-				@materialicon('action', 'delete'){{trans('actions.trash_btn')}}
+				@materialicon('action', 'delete', 'inline-block'){{trans('actions.trash_btn')}}
 			</button>
 
 		@endif

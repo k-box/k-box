@@ -9,13 +9,13 @@
 @section('action-menu')
 
 <a href="{{ route('administration.users.create') }}" class="action__button">
-    @materialicon('social', 'person_add'){{trans('administration.accounts.create_user_btn')}}
+    @materialicon('social', 'person_add', 'inline-block'){{trans('administration.accounts.create_user_btn')}}
 </a>
     
 <div class="separator"></div>
     
 <a href="{{ route('administration.messages.create') }}" class="action__button" title="{{trans('administration.accounts.send_message_btn_hint')}}">
-    @materialicon('content', 'send'){{trans('administration.accounts.send_message_btn')}}
+    @materialicon('content', 'send', 'inline-block'){{trans('administration.accounts.send_message_btn')}}
 </a>
 
 @stop
@@ -52,7 +52,7 @@
 
                             @if ($user->trashed())
                                 <a class="button " href="{{ route('administration.users.restore', $user->id) }}">
-                                @materialicon('content', 'undo'){{trans('actions.restore')}}</a>
+                                @materialicon('content', 'undo', 'inline-block'){{trans('actions.restore')}}</a>
                             @else
                                 <a class="button" href="{{ route('administration.users.edit', $user->id) }}">@materialicon('content','create'){{trans('actions.edit')}}</a>
 

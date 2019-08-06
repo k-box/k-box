@@ -29,7 +29,7 @@
 
 				@include('dashboard.notifications_counter')
 
-				<div class="header__profile">
+				<div class="header__profile flex items-center">
 					@component('avatar.avatar', [
 						'name' => $current_user_name, 
 						'image' => $current_user_avatar,
