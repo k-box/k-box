@@ -1,11 +1,11 @@
 
-<header class=" header" role="header">
+<header class="header sticky top-0 shadow" role="header">
 
-	<div class="header__main">
+	<div class="relative h-12 flex items-center justify-between px-2 py-1 bg-gray-100">
 		
 		<div class="header__branding">
 		
-			<a class="logo" href="@if(isset( $is_user_logged ) && $is_user_logged){{$current_user_home_route}}@else{{route('frontpage')}}/@endif">
+			<a class="logo text-gray-700 hover:text-blue-600 mr-4" href="@if(isset( $is_user_logged ) && $is_user_logged){{$current_user_home_route}}@else{{route('frontpage')}}/@endif">
 				@include('headers.logo')
 			</a>
 			
@@ -61,7 +61,7 @@
 	</div>
 
 	@section('header-secondary')
-		<div class="header__secondary">
+		<div class="header__secondary bg-gray-400 relative h-12 flex flex-no-wrap items-center justify-between px-2 py-1">
 
 			<button class="drawer__button action__button js-drawer-trigger">
 				@materialicon('navigation', 'menu', 'ico')
