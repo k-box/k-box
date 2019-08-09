@@ -35,8 +35,10 @@
 
 					@materialicon('navigation', 'arrow_drop_down', 'header__profile__arrow')
 				
-					<div class="header__profile__card">
-						<div class="header__profile__name">{{$current_user_name}}</div>
+					<div class="header__profile__card h-24 absolute top-0 right-0 p-2 shadow-lg -z-1 opacity-0">
+						<div class="h-12 ">
+							<a href="{{ $profile_url ?? route('profile.index') }}">{{$current_user_name}}</a>
+						</div>
 						<div>
 						<button class="button" onclick="event.preventDefault();document.getElementById('logout-form').submit();">{{trans('auth.logout')}}</button>
 						<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
