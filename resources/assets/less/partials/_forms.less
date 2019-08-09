@@ -125,7 +125,18 @@ input[type='text'], textarea {
 // 	}
 // }
 
+.search-hint {
+	.hidden();
 
+
+}
+
+.search-input:focus ~ .search-hint {
+	.block();
+	.absolute();
+	.shadow();
+	z-index: 100;
+}
 
 .forgot-link {
 	color: @black-10;

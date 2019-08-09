@@ -3,7 +3,7 @@
 
 	<div class="relative h-12 flex items-center justify-between px-2 py-1 bg-gray-100">
 		
-		<div class="header__branding">
+		<div class="flex items-center flex-grow max-w-lg">
 		
 			<a class="logo text-gray-700 hover:text-blue-600 mr-4" href="@if(isset( $is_user_logged ) && $is_user_logged){{$current_user_home_route}}@else{{route('frontpage')}}/@endif">
 				@include('headers.logo')
