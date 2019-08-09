@@ -40,7 +40,7 @@ class PublishDocumentJob implements ShouldQueue
 
         \Log::info("Publish Job handling for {$this->publication->id}: $document->uuid");
 
-        if ($this->publication->published && $publication->hasPendingPublications()) {
+        if ($this->publication->published && $this->publication->hasPendingPublications()) {
             // Abort as publication is already happened or is in the process
             return true;
         }
