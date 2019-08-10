@@ -137,7 +137,7 @@ return [
             'required' => 'Please select at least one user.',
         ],
         'document' => [
-            'required' => 'The document you are uploading exceeds the maximum allowed size of '.\Config::get('dms.max_upload_size').' KB',
+            // 'required' => 'The document you are uploading exceeds the maximum allowed size of '.\KBox\Upload::maximumAsKB().' KB',
             'required_alt' => 'The document you are uploading exceeds the maximum allowed size of :size :unit',
         ],
         'slug' => [
