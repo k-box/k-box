@@ -3,6 +3,7 @@
 namespace KBox\Http\Requests;
 
 use KBox\Option;
+use KBox\Upload;
 use KBox\DocumentDescriptor;
 use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest as Request;
@@ -29,7 +30,7 @@ class DocumentUpdateRequest extends Request
     {
         // $action = $this->route()->getAction();
         
-        $max_size = config('dms.max_upload_size');
+        $max_size = Upload::maximum();
 
         $selectable_licenses = Option::copyright_available_licenses();
         $valid_licenses = Rule::in($selectable_licenses->pluck('id')->toArray());
@@ -60,5 +61,13 @@ class DocumentUpdateRequest extends Request
         ];
 
         return $tests;
+    }
+
+    public function messages()
+    {
+        return [
+            'document.uploaded' => trans('errors.upload.file_not_uploaded', ['max_size' => Upload::maximumAsKB().' KB']),
+            'document.between' => trans('validation.custom.document.required_alt', ['size' => Upload::maximumAsKB(), 'unit' => ' KB']),
+        ];
     }
 }
