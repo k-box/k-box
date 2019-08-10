@@ -105,7 +105,7 @@ return [
             'required' => 'Veuillez sélectionner au moins un utilisateur.',
         ],
         'document' => [
-            'required' => 'Le document que vous êtes en train de mettre en ligne dépasse la taille maximale autorisée de '.\KBox\Upload::maximumAsKB().' KB',
+            // 'required' => 'Le document que vous êtes en train de mettre en ligne dépasse la taille maximale autorisée de '.\KBox\Upload::maximumAsKB().' KB',
             'required_alt' => 'Le document que vous êtes en train de mettre en ligne dépasse la taille maximale autorisée de :size :unit',
         ],
         'slug' => [

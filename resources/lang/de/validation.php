@@ -105,7 +105,7 @@ return [
             'required' => 'Bitte zumindest einen Nutzer auswählen.',
         ],
         'document' => [
-            'required' => 'Das Dokument das Sie hochladen wollen ist größer als die erlaubten '.\KBox\Upload::maximumAsKB().' KB',
+            // 'required' => 'Das Dokument das Sie hochladen wollen ist größer als die erlaubten '.\KBox\Upload::maximumAsKB().' KB',
             'required_alt' => 'Das Dokument das Sie hochladen wollen ist größer als die erlaubten :size :unit',
         ],
         'slug' => [

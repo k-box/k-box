@@ -62,4 +62,12 @@ class DocumentUpdateRequest extends Request
 
         return $tests;
     }
+
+    public function messages()
+    {
+        return [
+            'document.uploaded' => trans('errors.upload.file_not_uploaded', ['max_size' => Upload::maximumAsKB().' KB']),
+            'document.between' => trans('validation.custom.document.required_alt', ['size' => Upload::maximumAsKB(), 'unit' => ' KB']),
+        ];
+    }
 }
