@@ -66,7 +66,7 @@
 		@if(isset($context))
 			Documents.setContext({
 				filter:'{{$context}}',
-				maxUploadSize: {{ ceil(((int)\Config::get('dms.max_upload_size'))/1024) }},
+				maxUploadSize: {{ ceil(Upload::maximumAsKB()) }},
 				network_name: '{{ network_name() }}',
 				@if(isset($context_group)) group: '{{$context_group}}', @endif
 				@if(isset($current_visibility)) visibility: '{{$current_visibility}}', @endif

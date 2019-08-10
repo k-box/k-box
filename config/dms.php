@@ -123,7 +123,7 @@ return [
     | @var integer
     */
 
-    'max_upload_size' => intval(env('KBOX_UPLOAD_LIMIT', env('UPLOAD_LIMIT', env('DMS_MAX_UPLOAD_SIZE', 204800)))),
+    'max_upload_size' => env('KBOX_UPLOAD_LIMIT', env('UPLOAD_LIMIT', env('DMS_MAX_UPLOAD_SIZE', 204800))),
 
     /*
     |--------------------------------------------------------------------------

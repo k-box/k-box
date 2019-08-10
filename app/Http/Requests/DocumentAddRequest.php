@@ -2,6 +2,7 @@
 
 namespace KBox\Http\Requests;
 
+use KBox\Upload;
 use Illuminate\Foundation\Http\FormRequest as Request;
 
 class DocumentAddRequest extends Request
@@ -14,7 +15,7 @@ class DocumentAddRequest extends Request
      */
     public function rules()
     {
-        $max_size = config('dms.max_upload_size');
+        $max_size = Upload::maximum();
 
         $tests = [
             'group' => 'sometimes|required|exists:groups,id',
@@ -40,7 +41,7 @@ class DocumentAddRequest extends Request
     public function messages()
     {
         return [
-            'document.uploaded' => trans('errors.upload.file_not_uploaded', ['max_size' => config('dms.max_upload_size').' KB']),
+            'document.uploaded' => trans('errors.upload.file_not_uploaded', ['max_size' => Upload::maximumAsKB().' KB']),
         ];
     }
 }
