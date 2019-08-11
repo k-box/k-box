@@ -19,7 +19,7 @@ class BlockUnsupportedBrowsers
      */
     public function handle($request, Closure $next)
     {
-        $agent = new Agent();
+        $agent = new Agent([], $request->userAgent());
 
         $browser = $agent->browser();
         $version = $agent->version($agent->browser());
