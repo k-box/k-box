@@ -30,8 +30,8 @@ These few commands allow you to quickly install a K-Box **locally** on your comp
 
 * Create a directory: `mkdir k-box && cd k-box`
 * Download configuration file: `curl -o docker-compose.yml https://raw.githubusercontent.com/k-box/k-box/master/docker-compose.example.yml`
-* Start up services: `docker-compose up -d` (when running this for the first time, it will download a lot of data and take a while)
-* Create the administrator: `docker-compose exec kbox php artisan create-admin admin@kbox.local` 
+* Start up services: `sudo docker-compose up -d` (when running this for the first time, it will download a lot of data and take a while)
+* Create the administrator: `sudo docker-compose exec kbox php artisan create-admin admin@kbox.local` 
 * Visit your K-Box: [http://localhost:8080](http://localhost:8080/) (you can login to the K-Box with the username `admin@kbox.local` and the chosen password).
 
 For installation on a server in the Internet or more configuration options, see the documentation on [installation of the K-Box](./docs/installation/installation.md).
