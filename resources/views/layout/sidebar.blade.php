@@ -3,22 +3,22 @@
 @section('content')
 <div class="md:flex md:flex-row max-h-available-header relative">
 
-    <div class="js-drawer transition flex-shrink-0 min-h-0 absolute md:relative overflow-auto -translate-100 pointer-events-none md:pointer-events-auto md:translate-0 pr-4 opacity-0 md:opacity-100 md:w-64 xl:w-1/5 bg-white md:bg-transparent z-10 flex">
+    <div class="js-drawer transition flex-shrink-0 min-h-0 absolute md:relative overflow-y-auto overflow-x-hidden -translate-100 pointer-events-none md:pointer-events-auto md:translate-0 mr-4 opacity-0 md:opacity-100 md:w-64 xl:w-1/5 bg-white md:bg-transparent z-10 flex">
         <div class="flex-grow">
             @yield('sidebar')
         </div>
     
-        <div class="">
-            <button title="{{ __('Close navigation sidebar') }}" class="js-drawer-trigger md:hidden p-2 inline-block hover:text-blue-500 focus:text-blue-700">
+        <div class="inline-block  md:hidden ">
+            <button title="{{ __('Close navigation sidebar') }}" class="js-drawer-trigger p-2 hover:text-blue-500 focus:text-blue-700">
 				@materialicon('navigation', 'close', 'fill-current m-0 p-0')
             </button>
         </div>
     </div>
     
-    <div class="flex-grow mt-2 min-h-0 overflow-auto ">
+    <div class="flex-grow min-h-0 overflow-auto ">
 
         <div class="py-2 border-b border-gray-400 text-sm flex flex-no-wrap">
-            <button title="{{ __('Open navigation sidebar') }}" class="js-drawer-trigger md:hidden mr-4 pr-4 border-r border-gray-400 inline-block hover:text-blue-500 focus:text-blue-700">
+            <button title="{{ __('Open navigation sidebar') }}" class="js-drawer-trigger md:hidden mr-2 pr-2 inline-block hover:text-blue-500 focus:text-blue-700">
 				@materialicon('navigation', 'menu', 'fill-current m-0 p-0')
             </button>
             
