@@ -53,91 +53,75 @@ class DmsUpdateCommand extends Command
      */
     public function handle()
     {
-        $this->line("Started DMS configuration for <info>".$this->getLaravel()->environment()."</info>...");
-        
-        $this->write('  Testing K-Link configuration...');
-    
-        if (! $this->option('no-test')) {
-            $config_test = $this->launch('dms:test');
-        } else {
-            $config_test = -1;
-        }
+        $this->line("Configuring K-Box [<info>".$this->getLaravel()->environment()."</info>]...");
 
         $user_info = null;
 
-        if ($config_test == 0 || $config_test == -1) {
-            $this->line('  <info>'.(($config_test == 0) ? 'OK': 'Skipped').'</info>');
+        $this->write('  Enabling maintenance mode...');
+        $down_exit_code = $this->launch('down');
 
-            $this->write('  Enabling maintenance mode...');
-            $down_exit_code = $this->launch('down');
-
-            if ($down_exit_code > 0) {
-                $this->line('  <error>ERROR '.$down_exit_code.'</error>');
-                return 10 + $down_exit_code;
-            }
-
-            $this->info('  OK');
-
-            $code = $this->doInstallOrUpdate();
-
-            if ($code > 0) {
-                return 20 + $code;
-            }
-            
-            $up_exit_code = $this->launch('route:cache');
-            
-            if ($up_exit_code > 0) {
-                $this->line('  <error>ERROR '.$up_exit_code.'</error>');
-                return 50 + $up_exit_code;
-            }
-            
-            $up_exit_code = $this->launch('config:cache');
-            
-            if ($up_exit_code > 0) {
-                $this->line('  <error>ERROR '.$up_exit_code.'</error>');
-                return 50 + $up_exit_code;
-            }
-            
-            $this->info('  OK');
-            
-            $this->write('  Clearing cache...');
-            $up_exit_code = $this->launch('cache:clear');
-            
-            if ($up_exit_code > 0) {
-                $this->line('  <error>ERROR '.$up_exit_code.'</error>');
-                return 60 + $up_exit_code;
-            }
-            
-            $this->write('  Clearing compiled view files...');
-            $up_exit_code = $this->launch('view:clear');
-            
-            if ($up_exit_code > 0) {
-                $this->line('  <error>ERROR '.$up_exit_code.'</error>');
-                return 70 + $up_exit_code;
-            }
-            
-            $this->info('  OK');
-            
-            $this->write('  Disabling maintenance mode...');
-            $up_exit_code = $this->launch('up');
-
-            if ($up_exit_code > 0) {
-                $this->line('  <error>ERROR '.$up_exit_code.'</error>');
-                return 40 + $up_exit_code;
-            }
-            $this->info('  OK');
-
-            if (! is_null($user_info)) {
-                $this->line('------');
-                $this->line($user_info);
-            }
-
-            return 0;
-        } else {
-            $this->line('  <error>ERROR '.$config_test.'</error>');
+        if ($down_exit_code > 0) {
+            $this->line('  <error>ERROR '.$down_exit_code.'</error>');
+            return 10 + $down_exit_code;
         }
 
-        return 2;
+        $this->info('  OK');
+
+        $code = $this->doInstallOrUpdate();
+
+        if ($code > 0) {
+            return 20 + $code;
+        }
+        
+        $up_exit_code = $this->launch('route:cache');
+        
+        if ($up_exit_code > 0) {
+            $this->line('  <error>ERROR '.$up_exit_code.'</error>');
+            return 50 + $up_exit_code;
+        }
+        
+        $up_exit_code = $this->launch('config:cache');
+        
+        if ($up_exit_code > 0) {
+            $this->line('  <error>ERROR '.$up_exit_code.'</error>');
+            return 50 + $up_exit_code;
+        }
+        
+        $this->info('  OK');
+        
+        $this->write('  Clearing cache...');
+        $up_exit_code = $this->launch('cache:clear');
+        
+        if ($up_exit_code > 0) {
+            $this->line('  <error>ERROR '.$up_exit_code.'</error>');
+            return 60 + $up_exit_code;
+        }
+        
+        $this->write('  Clearing compiled view files...');
+        $up_exit_code = $this->launch('view:clear');
+        
+        if ($up_exit_code > 0) {
+            $this->line('  <error>ERROR '.$up_exit_code.'</error>');
+            return 70 + $up_exit_code;
+        }
+        
+        $this->info('  OK');
+        
+        $this->write('  Disabling maintenance mode...');
+        $up_exit_code = $this->launch('up');
+
+        if ($up_exit_code > 0) {
+            $this->line('  <error>ERROR '.$up_exit_code.'</error>');
+            return 40 + $up_exit_code;
+        }
+        $this->info('  OK');
+
+        if (! is_null($user_info)) {
+            $this->line('------');
+            $this->line($user_info);
+        }
+
+        return 0;
     }
 
     /**
@@ -224,7 +208,7 @@ class DmsUpdateCommand extends Command
         if ($result == 0) {
             $this->info('  OK');
         } else {
-            $this->line('  <error>ERROR '.$up_exit_code.'</error>');
+            $this->line('  <error>ERROR '.$result.'</error>');
         }
 
         return $result;
