@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.28.2] - 2019-08-22
+
+### Fixed
+
+- Ensure maximum upload size is considered an integer ([#277](https://github.com/k-box/k-box/pull/277))
+- Ensure unsupported browser page loads ([#279](https://github.com/k-box/k-box/pull/279))
+- Fix use of undefined $publication variable ([#276](https://github.com/k-box/k-box/pull/276))
+
+### Changed
+
+- Remove deprecated local k-search connection command ([#281](https://github.com/k-box/k-box/pull/281))
+
 ## [0.28.1] - 2019-08-05
 
 ### Added
