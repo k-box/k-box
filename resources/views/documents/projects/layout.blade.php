@@ -53,7 +53,7 @@
 @section('action-menu')
 
 	@if(isset($documents))
-		@include('actions.order-group')
+		@include('actions.selection')
 
 
 		@if($context!=='trash' && $context!=='shared' && $context!=='starred' &&
