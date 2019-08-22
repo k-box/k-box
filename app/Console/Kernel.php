@@ -17,7 +17,6 @@ class Kernel extends ConsoleKernel
         \KBox\Console\Commands\KboxKeyGenerateCommand::class,
         \KBox\Console\Commands\DmsModelCreation::class,
         \KBox\Console\Commands\DmsCreateAdminUserCommand::class,
-        \KBox\Console\Commands\DmsTestConfiguration::class,
         \KBox\Console\Commands\DmsUpdateCommand::class,
         \KBox\Console\Commands\DmsQueueListen::class,
         \KBox\Console\Commands\DmsReindexCommand::class,
