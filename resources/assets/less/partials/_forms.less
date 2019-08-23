@@ -125,17 +125,19 @@ input[type='text'], textarea {
 // 	}
 // }
 
-.search-hint {
+.hint {
 	.hidden();
-
-
-}
-
-.search-input:focus ~ .search-hint {
-	.block();
 	.absolute();
 	.shadow();
+}
+
+.search-input:focus ~ .hint {
+	.block();
 	z-index: 100;
+}
+
+.hover\:sibling-show:hover > .sibling {
+	.block();
 }
 
 .forgot-link {

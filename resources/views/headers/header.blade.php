@@ -23,29 +23,34 @@
 
 				@include('dashboard.notifications_counter')
 
-				<div class="header__profile flex items-center">
-					@component('avatar.avatar', [
-						'name' => $current_user_name, 
-						'image' => $current_user_avatar,
-						'url' => $profile_url ?? route('profile.index'),
-						'alt' => trans('profile.go_to_profile')
-						])
-
-					@endcomponent
-
-					@materialicon('navigation', 'arrow_drop_down', 'header__profile__arrow')
+				<div class=" hover:sibling-show">
+					<button type="button" class="inline-flex hover:text-blue-600 items-center js-profile-link ">
+						@component('avatar.avatar', [
+							'name' => $current_user_name, 
+							'image' => $current_user_avatar,
+							'url' => null,
+							'alt' => trans('profile.go_to_profile')
+							])
+	
+						@endcomponent
+	
+						@materialicon('navigation', 'arrow_drop_down', 'inline fill-current')
+					</button>
 				
-					<div class="header__profile__card h-24 absolute top-0 right-0 p-2 shadow-lg -z-1 opacity-0">
-						<div class="h-12 ">
-							<a href="{{ $profile_url ?? route('profile.index') }}">{{$current_user_name}}</a>
+					<div class="hint sibling w-full sm:w-56 right-0 block p-2 mt-1 text-white bg-gray-700 rounded">
+
+						<div class="mb-4">
+							<a class="text-white py-2 inline-block" href="{{ $profile_url ?? route('profile.index') }}">{{$current_user_name}}</a>
 						</div>
 						<div>
-						<button class="button" onclick="event.preventDefault();document.getElementById('logout-form').submit();">{{trans('auth.logout')}}</button>
-						<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-							{{ csrf_field() }}
-						</form>
+							<a class="button w-full mb-2" href="{{ $profile_url ?? route('profile.index') }}">{{trans('profile.go_to_profile')}}</a>
+							<button class="button w-full text-left" onclick="event.preventDefault();document.getElementById('logout-form').submit();">{{trans('auth.logout')}}</button>
+							<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+								{{ csrf_field() }}
+							</form>
 						</div>
 					</div>
+
 				</div>
 
 
