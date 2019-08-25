@@ -23,7 +23,7 @@
 
 				@include('dashboard.notifications_counter')
 
-				<div class=" hover:sibling-show">
+				<div class="">
 					<button type="button" class="inline-flex hover:text-blue-600 items-center js-profile-link ">
 						@component('avatar.avatar', [
 							'name' => $current_user_name, 
@@ -34,10 +34,10 @@
 	
 						@endcomponent
 	
-						@materialicon('navigation', 'arrow_drop_down', 'inline fill-current')
+						@materialicon('navigation', 'arrow_drop_down', 'inline fill-current js-profile-arrow')
 					</button>
 				
-					<div class="hint sibling w-full sm:w-56 right-0 block p-2 mt-1 text-white bg-gray-700 rounded">
+					<div class="absolute shadow hidden js-profile w-full sm:w-56 right-0 block p-2 mt-1 text-white bg-gray-700 rounded">
 
 						<div class="mb-4">
 							<a class="text-white py-2 inline-block" href="{{ $profile_url ?? route('profile.index') }}">{{$current_user_name}}</a>
@@ -68,3 +68,14 @@
 </header>
 
 
+@push('js')
+
+<script>
+
+	require(['modules/profilemenu'], function(ProfileMenu){
+
+	});
+</script>
+
+	
+@endpush
