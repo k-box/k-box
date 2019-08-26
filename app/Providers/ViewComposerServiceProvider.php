@@ -32,8 +32,6 @@ class ViewComposerServiceProvider extends ServiceProvider
 
         $this->registerNoticesComposer();
 
-        $this->registerAvatarComposer();
-
         $this->registerListSwitcher();
         
         $this->registerMenuComposer();
@@ -116,18 +114,6 @@ class ViewComposerServiceProvider extends ServiceProvider
 
     private function registerNoticesComposer()
     {
-    }
-
-    private function registerAvatarComposer()
-    {
-        view()->composer('avatar.picture', function ($view) {
-            $user = isset($view['user_name']) ? $view['user_name'] : \Auth::user()->name;
-
-            // $user_name = studly_case($user);
-
-            // $view->with('user_initial', $user_name[0]);
-            $view->with('avatar_color', '#34495e');
-        });
     }
 
     private function registerListSwitcher()
