@@ -1,5 +1,5 @@
 
-<header class="header sticky top-0 shadow" role="header">
+<header class="header sticky top-0 shadow js-header" role="header">
 
 	<div class="relative h-12 flex items-center justify-between px-2  lg:px-4 py-1 bg-gray-200">
 		
@@ -17,27 +17,28 @@
 
 		@if( auth()->check() )
 
-			<div class="header__navigation">
+			<div class="flex items-center">
 
 				@includeWhen((!isset($hide_menu) || (isset($hide_menu) && !$hide_menu)),'menu')
 
+				@include('headers.help')
+
 				@include('dashboard.notifications_counter')
 
-				<div class="">
-					<button type="button" class="inline-flex hover:text-blue-600 items-center js-profile-link ">
-						@component('avatar.avatar', [
-							'name' => $current_user_name, 
-							'image' => $current_user_avatar,
-							'url' => null,
-							'alt' => trans('profile.go_to_profile')
-							])
-	
-						@endcomponent
-	
-						@materialicon('navigation', 'arrow_drop_down', 'inline fill-current js-profile-arrow')
-					</button>
-				
-					<div class="absolute shadow hidden js-profile w-full sm:w-56 right-0 block p-2 mt-1 text-white bg-gray-700 rounded">
+				@component('components.dropdown')
+
+					@component('avatar.avatar', [
+						'name' => $current_user_name, 
+						'image' => $current_user_avatar,
+						'url' => null,
+						'alt' => trans('profile.go_to_profile')
+						])
+
+					@endcomponent
+
+					@materialicon('navigation', 'arrow_drop_down', 'inline fill-current arrow')
+
+					@slot('panel')
 
 						<div class="mb-4">
 							<a class="text-white py-2 inline-block" href="{{ $profile_url ?? route('profile.index') }}">{{$current_user_name}}</a>
@@ -49,9 +50,10 @@
 								{{ csrf_field() }}
 							</form>
 						</div>
-					</div>
-
-				</div>
+						
+					@endslot
+					
+				@endcomponent
 
 
 			</div>
@@ -72,8 +74,8 @@
 
 <script>
 
-	require(['modules/profilemenu'], function(ProfileMenu){
-
+	require(['modules/dropdown'], function(Dropdown){
+		Dropdown.find(".js-header");
 	});
 </script>
 
