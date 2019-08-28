@@ -41,15 +41,17 @@
 					@slot('panel')
 
 						<div class="mb-4">
-							<a class="text-white py-2 inline-block" href="{{ $profile_url ?? route('profile.index') }}">{{$current_user_name}}</a>
+							<a class="font-bold block p-2 -mx-2 mb-1 text-white hover:bg-gray-600 active:bg-gray-500 focus:bg-gray-500" href="{{ $profile_url ?? route('profile.index') }}">{{$current_user_name}}</a>
 						</div>
-						<div>
-							<a class="button w-full mb-2" href="{{ $profile_url ?? route('profile.index') }}">{{trans('profile.go_to_profile')}}</a>
-							<button class="button w-full text-left" onclick="event.preventDefault();document.getElementById('logout-form').submit();">{{trans('auth.logout')}}</button>
-							<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-								{{ csrf_field() }}
-							</form>
-						</div>
+						<ul class="">
+							<li><a class="block p-2 -mx-2 mb-1 text-white hover:bg-gray-600 active:bg-gray-500 focus:bg-gray-500" href="{{ $profile_url ?? route('profile.index') }}">{{trans('profile.go_to_profile')}}</a></li>							
+							<li>
+								<button class="block p-2 -mx-2 mb-1 text-white hover:bg-gray-600 active:bg-gray-500 focus:bg-gray-500" onclick="event.preventDefault();document.getElementById('logout-form').submit();">{{trans('auth.logout')}}</button>
+								<form class="hidden" id="logout-form" action="{{ route('logout') }}" method="POST">
+									{{ csrf_field() }}
+								</form>
+							</li>
+						</ul>
 						
 					@endslot
 					
