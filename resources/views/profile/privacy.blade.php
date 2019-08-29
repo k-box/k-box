@@ -10,7 +10,7 @@
 	@flag('consent_notifications')
 	<div class=" mb-4">
 
-		<div class="c-form__column">
+		<div class="">
 			<button class="button button--ghost" onclick="event.preventDefault();document.getElementById('consent-notifications').submit();">
 				@if($consent_notification_given)
 					@materialicon('toggle', 'check_box')
@@ -35,7 +35,7 @@
 	@endflag
 
 	<div class=" mb-4">
-		<div class="c-form__column">
+		<div class="">
 			<button class="button button--ghost" onclick="event.preventDefault();document.getElementById('consent-statistics').submit();">
 				@if($consent_statistics_given)
 					@materialicon('toggle', 'check_box')

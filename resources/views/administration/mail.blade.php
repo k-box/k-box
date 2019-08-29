@@ -92,7 +92,7 @@
                     @if( $errors->has('port') )
                         <span class="field-error">{{ implode(",", $errors->get('port'))  }}</span>
                     @endif
-                    <input class="form-input block" type="number" class="c-input--number" name="port" @if($is_server_configurable) required @endif value="{{$config['port']}}" />
+                    <input class="form-input block w-20" type="number" name="port" @if($is_server_configurable) required @endif value="{{$config['port']}}" />
                 </div>
                 
                 <div class=" mb-4  @if(!$is_server_configurable)  form-blocked @endif">
