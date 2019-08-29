@@ -123,10 +123,6 @@ body {
 
 @import 'partials/_frontpage.less';
 
-@import 'partials/_avatar.less';
-
-@import 'partials/_document_icons.less';
-
 @import 'partials/_grids.less';
 
 @import 'partials/_widgets.less';
@@ -206,22 +202,3 @@ a {
 
 
 
-.sidebar-open {
-    .pointer-events-auto();
-    .translate-0();
-	.opacity-100();
-	
-	position: fixed;
-    width: 100%;
-    padding: 0;
-    margin: 0;
-    left: 0;
-}
-
-
-@media (min-width: 640px) {
-
-	.md\:sidebar-open {
-		.sidebar-open();
-	}
-}

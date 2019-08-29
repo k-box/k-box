@@ -68,7 +68,7 @@
 
 			<div class="mt-1 mb-4 form-description ">
 
-				<span class="badge klink-{{$document->document_type}}">{{$document->document_type}}</span>
+				<span class="badge">{{$document->document_type}}</span>
 
 				@if($document->isRemoteWebPage() && !is_null($document->file))
 
