@@ -5,7 +5,9 @@ module.exports = {
   variants: {
     opacity: ['responsive', 'hover', 'focus']
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/custom-forms')
+  ],
   corePlugins: {
     container: false
   }
