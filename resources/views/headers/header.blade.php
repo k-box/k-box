@@ -41,12 +41,12 @@
 					@slot('panel')
 
 						<div class="mb-4">
-							<a class="font-bold block p-2 -mx-2 mb-1 text-white hover:bg-gray-600 active:bg-gray-500 focus:bg-gray-500" href="{{ $profile_url ?? route('profile.index') }}">{{$current_user_name}}</a>
+							<a class="font-bold block p-2 -mx-2 mb-1 text-black hover:bg-gray-300 active:bg-gray-400 focus:bg-gray-400 focus:outline-none" href="{{ $profile_url ?? route('profile.index') }}">{{$current_user_name}}</a>
 						</div>
 						<ul class="">
-							<li><a class="block p-2 -mx-2 mb-1 text-white hover:bg-gray-600 active:bg-gray-500 focus:bg-gray-500" href="{{ $profile_url ?? route('profile.index') }}">{{trans('profile.go_to_profile')}}</a></li>							
+							<li><a class="block p-2 -mx-2 mb-1 text-black hover:bg-gray-300 active:bg-gray-400 focus:bg-gray-400 focus:outline-none" href="{{ $profile_url ?? route('profile.index') }}">{{trans('profile.go_to_profile')}}</a></li>							
 							<li>
-								<button class="block p-2 -mx-2 mb-1 text-white hover:bg-gray-600 active:bg-gray-500 focus:bg-gray-500" onclick="event.preventDefault();document.getElementById('logout-form').submit();">{{trans('auth.logout')}}</button>
+								<a href="#" class="block p-2 -mx-2 mb-1 text-black hover:bg-gray-300 active:bg-gray-400 focus:bg-gray-400 focus:outline-none" onclick="event.preventDefault();document.getElementById('logout-form').submit();">{{trans('auth.logout')}}</a>
 								<form class="hidden" id="logout-form" action="{{ route('logout') }}" method="POST">
 									{{ csrf_field() }}
 								</form>
