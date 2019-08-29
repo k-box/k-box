@@ -28,13 +28,13 @@
 
 		{{ csrf_field() }}
 		
-		<div class="c-form__field mb-4">
+		<div class=" mb-4 mb-4">
 			<label for="email">{{trans('auth.email_label')}}</label>
 			
-			<input type="email" class="c-form__input c-form__input--larger" required id="email" tabindex="1" name="email" value="" autofocus />
+			<input type="email" class="form-input block w-2/3" required id="email" tabindex="1" name="email" value="" autofocus />
 		</div>
 
-		<div class="c-form__field mb-8">
+		<div class=" mb-4 mb-8">
 			<button type="submit" class="button button--primary" tabindex="2">{{trans('passwords.forgot.submit')}}</button>
 		</div>
 

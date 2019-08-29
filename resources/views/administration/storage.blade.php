@@ -67,16 +67,16 @@
 
 
 
-        <form  method="post" class="c-form" action="{{route('administration.storage.naming')}}">
+        <form  method="post" class="" action="{{route('administration.storage.naming')}}">
 
-<div class="c-section">
+<div class=" ">
 
 
             {{ csrf_field() }}
 
-            <h4 class="c-section__title">{{trans('administration.storage.naming_policy_title')}}</h4>
+            <h4 class="my-4">{{trans('administration.storage.naming_policy_title')}}</h4>
 
-            <p class="c-section__description">{{trans('administration.storage.naming_policy_description')}}</p>
+            <p class="form-description">{{trans('administration.storage.naming_policy_description')}}</p>
 
             <p>
 

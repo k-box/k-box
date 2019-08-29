@@ -10,13 +10,13 @@
 
     <h3>{{trans('messaging.create_pagetitle')}}</h3>
 
-    <form class="c-form" method="post" action="{{route('administration.messages.store')}}">
+    <form class="" method="post" action="{{route('administration.messages.store')}}">
 
         @include('errors.list')
 
         {{ csrf_field() }}
     
-        <div class="c-form__field">
+        <div class=" mb-4">
             
             <label>{{trans('messaging.labels.users')}}</label>
             @if( $errors->has('to') )
@@ -32,7 +32,7 @@
 
         </div>
     
-        <div class="c-form__field">
+        <div class=" mb-4">
             
             <label>{{trans('messaging.labels.text')}}</label>
             @if( $errors->has('text') )

@@ -73,13 +73,13 @@
 
 	<div class="edit-view__fields">
 
-		<div class="c-form__field">
+		<div class=" mb-4">
 			@if( isset($errors) && $errors->has('title') )
 				<span class="field-error">{{ implode(",", $errors->get('title'))  }}</span>
 			@endif
-			<input type="text" placeholder="{{trans('documents.edit.title_placeholder')}}" title="{{trans('documents.edit.title_placeholder')}}" name="title" value="{{old('title', isset($document) ? $document->title : '')}}" class="c-form__input c-form__input--full-width" @if(!$document->isMine() || !$can_edit_document) disabled @endif> 
+			<input type="text" placeholder="{{trans('documents.edit.title_placeholder')}}" title="{{trans('documents.edit.title_placeholder')}}" name="title" value="{{old('title', isset($document) ? $document->title : '')}}" class="form-input form-input--full-width" @if(!$document->isMine() || !$can_edit_document) disabled @endif> 
 
-			<div class="c-form__field c-section__description ">
+			<div class=" mb-4 form-description ">
 
 				<span class="badge klink-{{$document->document_type}}">{{$document->document_type}}</span>
 
@@ -101,7 +101,7 @@
 		@endif
 
 
-		<div class="c-form__field meta collections">
+		<div class=" mb-4 meta collections">
 			<label>{{trans('panels.groups_section_title')}}</label>
 
 			@include('documents.partials.collections', [
@@ -116,31 +116,31 @@
 
 		</div>
 
-		<div class="c-form__field">
+		<div class=" mb-4">
 			<label for="abstract">{{trans('documents.edit.abstract_label')}}</label>
 			@if( isset($errors) && $errors->has('abstract') )
 	            <span class="field-error">{{ implode(",", $errors->get('abstract'))  }}</span>
 	        @endif
-  			<textarea class="c-form__input c-form__input--width-2/3 c-form__input--height-3" placeholder="{{trans('documents.edit.abstract_placeholder')}}" id="abstract" name="abstract" @if(!$document->isMine() || !$can_edit_document) disabled @endif>
+  			<textarea class="form-input form-input--width-2/3 form-input--height-3" placeholder="{{trans('documents.edit.abstract_placeholder')}}" id="abstract" name="abstract" @if(!$document->isMine() || !$can_edit_document) disabled @endif>
 {{old('abstract', isset($document) ? $document->abstract : '')}}</textarea>
 			<span class="description">{!! trans('documents.edit.abstract_help') !!}</span>
 		</div>
-		<div class="c-form__field">
+		<div class=" mb-4">
   			<label for="authors">{{trans('documents.edit.authors_label')}}</label>
 			<p class="description">{!!trans('documents.edit.authors_help')!!}</p>
   			@if( isset($errors) && $errors->has('authors') )
 	            <span class="field-error">{{ implode(",", $errors->get('authors'))  }}</span>
 	        @endif
-  			<textarea class="c-form__input c-form__input--larger" @if(!$document->isMine() || !$can_edit_document) disabled @endif placeholder="{{trans('documents.edit.authors_placeholder')}}" id="authors" name="authors">
+  			<textarea class="form-input block w-2/3" @if(!$document->isMine() || !$can_edit_document) disabled @endif placeholder="{{trans('documents.edit.authors_placeholder')}}" id="authors" name="authors">
 {{old('authors', isset($document) ? $document->authors : '')}}</textarea>
 		</div>
 			
-		<div class="c-form__field c-section--top-separated">
+		<div class=" mb-4">
   			<label for="language">{{trans('documents.edit.language_label')}}</label>
   			@if( isset($errors) && $errors->has('language') )
 	            <span class="field-error">{{ implode(",", $errors->get('language'))  }}</span>
 	        @endif
-			<select class="c-form__input c-form__input--larger" id="language" name="language" @if(!$document->isMine() || !$can_edit_document) disabled @endif>
+			<select class="form-select block w-2/3" id="language" name="language" @if(!$document->isMine() || !$can_edit_document) disabled @endif>
 			<option value="__" @if($document->language == '__' || !$document->language || !in_array($document->language, config('dms.language_whitelist'))) selected @endif>{{trans('languages.no_language')}}</option>
 			<option value="en" @if($document->language == 'en') selected @endif>{{trans('languages.en')}}</option>
 			<option value="ru" @if($document->language == 'ru') selected @endif>{{trans('languages.ru')}}</option>
@@ -162,7 +162,7 @@
 	</div>
 
 	<div class="edit-view__actions">
-		<div class="c-form__field">
+		<div class=" mb-4">
 
 			@if($document->isMine() && $can_edit_document)
 				<button type="submit" class="button button--primary button--larger ladda-button save-button">
@@ -172,13 +172,13 @@
 			@endif
 
 			@if($document->isMine() && ($can_share || $can_make_public && network_enabled()))
-				<div class="c-form__field">
+				<div class=" mb-4">
 					<button class="button js-open-share-dialog" data-id="{{$document->id}}">@materialicon('social','people', 'button__icon'){{ trans('panels.sharing_settings_btn') }}</button>
 				</div>
 			@endif
 			
 
-			<div class="c-form__field">
+			<div class=" mb-4">
 				<div>
 				<span data-hint="{{ $document->getUpdatedAt(true) }}" class="hint--bottom">{!! trans('documents.edit.last_edited', ['time' => $document->getUpdatedAtHumanDiff(true)]) !!}</span>
 				</div>
@@ -206,7 +206,7 @@
 
 			</div>
 
-			<div class="c-form__field">
+			<div class=" mb-4">
 				
 				@if(!$document->isRemoteWebPage())
 
@@ -232,7 +232,7 @@
 
 		</div>
 
-		<div class="c-form__field c-form__field--thumbnail">
+		<div class=" mb-4  mb-4--thumbnail">
 
 			<img src="{{DmsRouting::thumbnail($document)}}" />
 		</div>

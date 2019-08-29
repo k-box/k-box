@@ -1,4 +1,4 @@
-<div class="dialog--share js-sharing c-form">
+<div class="dialog--share js-sharing ">
 
 	<h4 class="dialog__title">{{ trans('share.dialog.title') }}</h4>
 
@@ -49,7 +49,7 @@
 			<h6 class="dialog__section__title">{{ trans('share.dialog.section_access_title') }}</h6>
 					@unless($is_multiple_selection)
 
-						<select name="linktype" id="linktype" class="js-link-type c-form__input c-form__input--full-width">
+						<select name="linktype" id="linktype" class="js-link-type form-select w-full">
 
 							<option value="internal" @unless($public_link) selected @endif>{{ trans('share.dialog.linkshare_members_only') }}</option>
 							@unless($has_groups)
@@ -92,7 +92,7 @@
 			<div class="dialog__section--add">
 				@unless($users->count() == 0)
 
-				<select class="c-form__input js-select-users" name="users[]" id="users" multiple="multiple" style="min-width:auto !important">
+				<select class="form-input js-select-users" name="users[]" id="users" multiple="multiple" style="min-width:auto !important">
 
 					@foreach ($users as $user)
 						<option value="{{$user->id}}">{{$user->name}} ({{$user->email}})</option>

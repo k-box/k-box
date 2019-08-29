@@ -9,10 +9,10 @@
 @section('content')
 
 
-    <form method="post" class="c-form" action="{{route('administration.institutions.store')}}">
+    <form method="post" class="" action="{{route('administration.institutions.store')}}">
         
-        <div class="c-section">
-            <h4 class="c-section__title">{{trans('administration.institutions.create_title')}}</h4>
+        <div class=" ">
+            <h4 class="my-4">{{trans('administration.institutions.create_title')}}</h4>
 
             @include('administration.institutions.form', ['submit_text' => trans('administration.institutions.labels.create'), 'can_change_klink_id' => true])
 

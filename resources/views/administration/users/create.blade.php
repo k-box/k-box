@@ -8,10 +8,10 @@
 
 @section('page')
 
-    <form  method="post" class="c-form" action="{{route('administration.users.store')}}">
+    <form  method="post" class="" action="{{route('administration.users.store')}}">
         
-        <div class="c-section">
-            <h4 class="c-section__title">{{trans('administration.accounts.create.title')}}</h4>
+        <div class=" ">
+            <h4 class="my-4">{{trans('administration.accounts.create.title')}}</h4>
         
 
             @include('administration.users.form', ['submit_text' => trans('administration.accounts.labels.create'), 'caps' => []])

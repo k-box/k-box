@@ -20,15 +20,15 @@
 
 <h3>{{ $pagetitle }}</h3>
 
-<form action="{{ route('microsites.store') }}" class="c-form" method="POST">
+<form action="{{ route('microsites.store') }}" class="" method="POST">
 
     @include('sites::form')
     
     
-    <h4 class="c-section__title">{{ trans('microsites.labels.content') }}</h4>
-    <span class="c-section__description">{{ trans('microsites.hints.content') }}</span>
+    <h4 class="my-4">{{ trans('microsites.labels.content') }}</h4>
+    <span class="form-description">{{ trans('microsites.hints.content') }}</span>
     
-    <div class="c-form__field">
+    <div class=" mb-4">
         @include('sites::partials.content_form')
     </div>
 

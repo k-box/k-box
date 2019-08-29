@@ -28,8 +28,8 @@
             @endif
             </a>
         
-            <form action="{{ $search_action }}" class="c-form" method="GET">
-                <input class="c-form__input" type="text" name="s" id="s" placeholder="{{ !$isloggedin ? trans('microsites.actions.search') : trans('microsites.actions.search_project', ['project' => $title]) }}" title="{{ trans('search.form.placeholder') }}">
+            <form action="{{ $search_action }}" class="" method="GET">
+                <input class="form-input block" type="text" name="s" id="s" placeholder="{{ !$isloggedin ? trans('microsites.actions.search') : trans('microsites.actions.search_project', ['project' => $title]) }}" title="{{ trans('search.form.placeholder') }}">
             </form>
         </div>
         

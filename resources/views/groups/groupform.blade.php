@@ -1,6 +1,6 @@
 @if(($user_can_edit_public_groups || $user_can_edit_private_groups))
 
-<form method="POST" class="c-form" action="@if(!isset($group) || (isset($create) && $create)) {{route('documents.groups.store')}} @else {{route('documents.groups.update', $group->id)}} @endif" rv-on-submit="groupSubmit">
+<form method="POST" class="" action="@if(!isset($group) || (isset($create) && $create)) {{route('documents.groups.store')}} @else {{route('documents.groups.update', $group->id)}} @endif" rv-on-submit="groupSubmit">
 
 	{{ csrf_field() }}
 
@@ -10,9 +10,9 @@
 
 	@endif
 
-	<div class="c-form__field">
+	<div class=" mb-4">
 	<label>{{trans('groups.form.collection_name_label')}}</label>
-	<input type="text" class="c-form__input" name="name" required value="@if(isset($group)){{$group->name}}@endif" placeholder="{{trans('groups.form.collection_name_placeholder')}}" />
+	<input type="text" class="form-input block" name="name" required value="@if(isset($group)){{$group->name}}@endif" placeholder="{{trans('groups.form.collection_name_placeholder')}}" />
 
 	@if(isset($show_parent) && $show_parent)
 

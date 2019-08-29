@@ -25,7 +25,7 @@
 
 	<div class="c-page">
 
-        <form action="{{ route('consent.dialog.privacy.update') }}" method="post" class="c-form">
+        <form action="{{ route('consent.dialog.privacy.update') }}" method="post" class="">
 
             {{ csrf_field() }}
             {{ method_field('PUT') }}
@@ -59,7 +59,7 @@
 
             
 
-            <div class="c-form__field">
+            <div class=" mb-4">
                 <button class="button button--primary" type="submit">{{ trans('consent.agree') }}</button>
                 <button class="button" onclick="event.preventDefault();document.getElementById('logout-form').submit();">{{ trans('consent.disagree_logout') }}</button>
             </div>

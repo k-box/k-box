@@ -2,7 +2,7 @@
 
 <div class="duplicates-container">
 
-	<h4 class="c-section__title" id="versions">@materialicon('content', 'content_copy', 'button__icon c-section__icon')
+	<h4 class="my-4" id="versions">@materialicon('content', 'content_copy', 'button__icon  __icon')
 		{{trans('documents.duplicates.duplicates_btn')}}
     </h4>
     
@@ -10,7 +10,7 @@
         {{trans('documents.duplicates.duplicates_description')}}
     </span>
 	
-	<div class="c-form__field version-list">
+	<div class=" mb-4 version-list">
 		
 		@foreach($duplicates as $duplicate)
 			

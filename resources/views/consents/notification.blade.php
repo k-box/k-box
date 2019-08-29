@@ -26,7 +26,7 @@
 	<div class="c-page">
 	
 
-        <form action="{{ route('consent.dialog.notification.update') }}" method="post" class="c-form">
+        <form action="{{ route('consent.dialog.notification.update') }}" method="post" class="">
 
             {{ csrf_field() }}
             {{ method_field('PUT') }}
@@ -34,7 +34,7 @@
             <h2>{{ trans('consent.others.dialog_title') }}</h2>
             <p>{{ trans('consent.others.dialog_description') }}</p>
 
-            <div class="c-form__field box">
+            <div class=" mb-4 box">
 
                 <strong>{{trans('consent.notification.dialog_title')}}</strong>
                 <p>{{trans('consent.notification.dialog_description')}}</p>
@@ -47,7 +47,7 @@
             </div>
             
 
-            <div class="c-form__field">
+            <div class=" mb-4">
                 <button class="button button--primary" type="submit">{{ trans('consent.notification.agree_label') }}</button>
                 <a href="{{$skip_to}}">{{ trans('consent.skip') }}</a>
             </div>

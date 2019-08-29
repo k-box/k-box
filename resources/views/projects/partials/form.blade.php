@@ -9,24 +9,24 @@
 
     <div class="fieldbox__heading">{{trans('projects.labels.project_details')}}</div>
 
-        <div class="c-form__field">
+        <div class=" mb-4">
         <label>{{trans('projects.labels.name')}}</label>
         @if( $errors->has('name') )
             <span class="field-error">{{ implode(",", $errors->get('name'))  }}</span>
         @endif
-        <input type="text" name="name" class="c-form__input" value="{{old('name', isset($project) ? $project->name : '')}}" @if(isset($can_change_mail) && !$can_change_mail) disabled @endif />
+        <input type="text" name="name" class="form-input block" value="{{old('name', isset($project) ? $project->name : '')}}" @if(isset($can_change_mail) && !$can_change_mail) disabled @endif />
         </div>
 
         
-        <div class="c-form__field">
+        <div class=" mb-4">
         <label>{{trans('projects.labels.description')}}</label>
         @if( $errors->has('description') )
             <span class="field-error">{{ implode(",", $errors->get('description'))  }}</span>
         @endif
-        <textarea name="description" class="c-form__input">{{old('description', isset($project) ? $project->description : '')}}</textarea>
+        <textarea name="description" class="form-input block">{{old('description', isset($project) ? $project->description : '')}}</textarea>
         </div>
         
-        <div class="project-avatar-container c-form__field">
+        <div class="project-avatar-container  mb-4">
             <label>{{trans('projects.labels.avatar')}}</label>
         
             <div class="project-avatar">

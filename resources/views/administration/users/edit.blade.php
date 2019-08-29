@@ -9,12 +9,12 @@
 @section('page')
 
 
-    <form  method="POST" class="c-form" action="{{route('administration.users.update', $user->id)}}">
+    <form  method="POST" class="" action="{{route('administration.users.update', $user->id)}}">
 
         {{ method_field('PUT') }}
 
-        <div class="c-section">
-            <h4 class="c-section__title">{{trans('administration.accounts.edit_account_title', ['name' => $user->name])}}</h4>
+        <div class=" ">
+            <h4 class="my-4">{{trans('administration.accounts.edit_account_title', ['name' => $user->name])}}</h4>
 
             @include('administration.users.form', ['submit_text' => trans('administration.accounts.labels.update'), 'can_change_mail' => true])
 

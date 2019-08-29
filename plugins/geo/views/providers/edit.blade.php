@@ -14,14 +14,14 @@
         
     @include('errors.list')
     
-    <form  method="post" class="c-form" action="{{route('plugins.k-box-kbox-plugin-geo.mapproviders.update', ['id' => $providerId])}}">
+    <form  method="post" class="" action="{{route('plugins.k-box-kbox-plugin-geo.mapproviders.update', ['id' => $providerId])}}">
     
         {{ csrf_field() }}
         {{ method_field('PUT') }}
 
-        <div class="c-section">
-            <h4 class="c-section__title">{{$pagetitle}}</h4>
-            <p class="c-section__description">@lang('geo::settings.providers.edit_description')</p>
+        <div class=" ">
+            <h4 class="my-4">{{$pagetitle}}</h4>
+            <p class="form-description">@lang('geo::settings.providers.edit_description')</p>
 
             @include('geo::providers.form')
             
