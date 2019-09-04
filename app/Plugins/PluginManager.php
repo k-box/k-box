@@ -123,6 +123,8 @@ final class PluginManager
         if (! app()->runningUnitTests()) {
             Artisan::call('route:cache');
         }
+
+        $this->opcache_clear();
     }
     
     /**
@@ -148,6 +150,8 @@ final class PluginManager
         if (! app()->runningUnitTests()) {
             Artisan::call('route:cache');
         }
+
+        $this->opcache_clear();
     }
     
     /**
@@ -300,5 +304,20 @@ final class PluginManager
             $this->manifestPath,
             '<?php return '.var_export($manifest, true).';'
         );
+    }
+
+    private function opcache_clear()
+    {
+        if (! function_exists('opcache_get_status')) {
+            return false;
+        }
+
+        $opcache_status = opcache_get_status();
+        
+        if (isset($opcache_status["opcache_enabled"]) && ! $opcache_status["opcache_enabled"]) {
+            return false;
+        }
+
+        return opcache_reset();
     }
 }
