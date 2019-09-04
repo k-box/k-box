@@ -601,7 +601,7 @@ class DocumentsService
     public function permanentlyDeleteDocument(User $user, DocumentDescriptor $descriptor)
     {
         if (! $descriptor->trashed() && ! $descriptor->isMine()) {
-            $trashed = $this->deleteDocument($descriptor);
+            $trashed = $this->deleteDocument($user, $descriptor);
             if (! $trashed) {
                 throw new \Exception('The document cannot be moved to trash automatically');
             }
