@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.28.3] - 2019-09-04
+
+### Security
+
+- Document owner name and file uploader disclosure to unauthorized users
+
 ## [0.28.2] - 2019-08-22
 
 ### Fixed
