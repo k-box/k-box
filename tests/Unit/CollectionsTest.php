@@ -4,6 +4,7 @@ namespace Tests\Unit;
 
 use KBox\User;
 use KBox\Group;
+use KBox\Shared;
 use KBox\Project;
 use Tests\TestCase;
 use KBox\Capability;
@@ -499,5 +500,54 @@ class CollectionsTest extends TestCase
         
         $this->assertFalse($collection_level_three->fresh()->is_private);
         $this->assertFalse($collection_level_four->fresh()->is_private);
+    }
+
+    public function test_accessible_collections_returns_only_subcollection_accessible_by_user()
+    {
+        $service = app('KBox\Documents\Services\DocumentsService');
+        
+        $creator = tap(factory(User::class)->create(), function ($user) {
+            $user->addCapabilities(Capability::$PROJECT_MANAGER);
+        });
+        $user = tap(factory(User::class)->create(), function ($user) {
+            $user->addCapabilities(Capability::$PARTNER);
+        });
+
+        $project = factory(Project::class)->create(['user_id' => $creator->id]);
+
+        $collection_level_one = $service->createGroup($creator, 'collection_level_one', null, $project->collection, false);
+        $collection_level_three = $service->createGroup($creator, 'collection_level_three', null, $collection_level_one, false);
+        $collection_level_four = $service->createGroup($creator, 'collection_level_four', null, $collection_level_three, false);
+
+        $this->assertEquals(3, $service->getCollectionsAccessibleByUserFrom($creator, $collection_level_one)->count(), 'creator cannot access to all collections in $collection_level_one');
+        $this->assertEquals(0, $service->getCollectionsAccessibleByUserFrom($user, $collection_level_one)->count(), 'user can access some collection under $collection_level_one');
+    }
+
+    public function test_subcollections_of_shared_collection_are_excluded_by_accessible_collections()
+    {
+        $service = app('KBox\Documents\Services\DocumentsService');
+        
+        $creator = tap(factory(User::class)->create(), function ($user) {
+            $user->addCapabilities(Capability::$PROJECT_MANAGER);
+        });
+        $user = tap(factory(User::class)->create(), function ($user) {
+            $user->addCapabilities(Capability::$PARTNER);
+        });
+
+        $project = factory(Project::class)->create(['user_id' => $creator->id]);
+
+        $collection_level_one = $service->createGroup($creator, 'collection_level_one', null, null, true);
+        $collection_level_two = $service->createGroup($creator, 'collection_level_two', null, $collection_level_one, true);
+        $collection_level_three = $service->createGroup($creator, 'collection_level_four', null, $collection_level_two, true);
+
+        $share = factory(Shared::class)->create([
+            'user_id' => $creator->id,
+            'shareable_id' => $collection_level_two->id,
+            'shareable_type' => Group::class,
+            'sharedwith_id' => $user->id,
+        ]);
+
+        // $this->assertEquals(2, $service->getCollectionsAccessibleByUserFrom($creator, $collection_level_two)->count(), 'creator cannot access to all collections');
+        $this->assertEquals(1, $service->getCollectionsAccessibleByUserFrom($user, $collection_level_two)->count(), 'user can access a different amount of collections');
     }
 }
