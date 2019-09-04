@@ -126,7 +126,21 @@
 
     @if(!isset($share) || isset($share) && !$share)
 		<span class="item__detail list__column list__column--fixed list__column--hideable" title="{{trans('documents.descriptor.added_by')}} {{$added_by}}">
-            {{$added_by}}
+
+            @if($type !=='group' && isset($instance))
+            
+                @can('see_owner', $instance)
+                
+                    {{$added_by}}
+
+                @else 
+                    @component('components.undisclosed_user')
+                        
+                    @endcomponent
+                @endcan
+            @else 
+                {{$added_by}}
+            @endif
 		</span>
     @endif
 		

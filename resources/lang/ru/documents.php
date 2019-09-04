@@ -317,8 +317,8 @@ return [
         'in_trash' => 'в Корзине',
 
         'message_me_owner' => 'Документ <a href=":duplicate_link" target="_blank" rel="noopener noreferrer">:duplicate_title</a>  - копия <a href=":existing_link" target="_blank" rel="noopener noreferrer">:existing_title</a>.',
-        'message_with_owner' => 'Документ <a href=":duplicate_link" target="_blank" rel="noopener noreferrer">:duplicate_title</a> - копия <a href=":existing_link" target="_blank" rel="noopener noreferrer">:existing_title</a> (загрузил :owner).',
-        'message_in_collection' => 'Документ <a href=":duplicate_link" target="_blank" rel="noopener noreferrer">:duplicate_title</a> - копия <a href=":existing_link" target="_blank" rel="noopener noreferrer">:existing_title</a> (загрузил :owner в коллекцию :collections).',
+        'message_with_owner' => 'Документ <a href=":duplicate_link" target="_blank" rel="noopener noreferrer">:duplicate_title</a> - копия <a href=":existing_link" target="_blank" rel="noopener noreferrer">:existing_title</a>.',
+        'message_in_collection' => 'Документ <a href=":duplicate_link" target="_blank" rel="noopener noreferrer">:duplicate_title</a> - копия <a href=":existing_link" target="_blank" rel="noopener noreferrer">:existing_title</a> (коллекцию :collections).',
         
         'resolve_duplicate_button' => 'Удалить мою копию',
 

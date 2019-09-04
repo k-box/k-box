@@ -4,6 +4,10 @@ namespace KBox\Providers;
 
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use KBox\DocumentDescriptor;
+use KBox\File;
+use KBox\Policies\DocumentDescriptorPolicy;
+use KBox\Policies\FilePolicy;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -13,7 +17,8 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        'App\Model' => 'App\Policies\ModelPolicy',
+        DocumentDescriptor::class => DocumentDescriptorPolicy::class,
+        File::class => FilePolicy::class,
     ];
 
     /**

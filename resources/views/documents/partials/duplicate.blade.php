@@ -15,7 +15,14 @@
 		
 			<div class="version__author">
 				@if(!is_null($duplicate->duplicateOf->owner))
-					{{ $duplicate->duplicateOf->owner->name }},&nbsp;
+
+					@can('see_owner', $duplicate->duplicateOf)
+						{{ $duplicate->duplicateOf->owner->name }},&nbsp;
+					@else 
+						@component('components.undisclosed_user', ['after' => ', '])
+							
+						@endcomponent
+					@endcan
 				@endif
 
 				<span title="{{ localized_date_full($duplicate->duplicateOf->updated_at) }}">{{ localized_date_human_diff($duplicate->duplicateOf->updated_at) }}</span>

@@ -1,12 +1,8 @@
 <div class="version-container">
 
 	<h4 class="c-section__title" id="versions">@materialicon('action', 'history', 'button__icon c-section__icon')
-	{{--  {{trans('documents.versions.section_title')}}  --}}
 		{{trans_choice('documents.versions.section_title_with_count', $versions_count, ['number' => $versions_count])}}
 	</h4>
-	{{--  <p class="c-section__description">
-		{{trans_choice('documents.versions.section_title_with_count', $versions_count, ['number' => $versions_count])}}
-	</p>  --}}
 
 	@if($can_upload_file)
 
@@ -49,9 +45,14 @@
 					<div class="version__meta">
 					
 						<div class="version__author">
-							@if(!is_null($version->user))
-								{{ $version->user->name }},&nbsp;
-							@endif
+
+							@can('see_uploader', $version)
+								{{ optional($version->user)->name }},&nbsp;
+							@else 
+								@component('components.undisclosed_user', ['after' => ', '])
+									
+								@endcomponent
+							@endcan
 
 							<span title="{{ localized_date_full($version->updated_at) }}">{{ localized_date_human_diff($version->updated_at) }}</span>
 						</div>
