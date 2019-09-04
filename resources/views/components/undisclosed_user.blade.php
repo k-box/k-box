@@ -1,0 +1,1 @@
+<span title="{{ trans('documents.descriptor.undisclosed_user_hint') }}">{{ trans('documents.descriptor.undisclosed_user') }}</span>{{ $after ?? '' }}

@@ -313,8 +313,8 @@ return [
         'in_trash' => 'Корзинада',
 
         'message_me_owner' => 'Жүктөгөн документиңиз <a href=":duplicate_link" target="_blank" rel="noopener noreferrer">:duplicate_title</a> бул документтин <a href=":existing_link" target="_blank" rel="noopener noreferrer">:existing_title</a> көчүрмөсү.',
-        'message_with_owner' => 'Сиз жүктөгөн документ <a href=":duplicate_link" target="_blank" rel="noopener noreferrer">:duplicate_title</a> бул документтин <a href=":existing_link" target="_blank" rel="noopener noreferrer">:existing_title</a> көчүрмөсү (:owner жүктөгөн).',
-        'message_in_collection' => 'Сиз жүктөгөн документ <a href=":duplicate_link" target="_blank" rel="noopener noreferrer">:duplicate_title</a> бул документтин <a href=":existing_link" target="_blank" rel="noopener noreferrer">:existing_title</a> көчүрмөсү (:collections коллекцияга :owner жүктөгөн).',
+        'message_with_owner' => 'Сиз жүктөгөн документ <a href=":duplicate_link" target="_blank" rel="noopener noreferrer">:duplicate_title</a> бул документтин <a href=":existing_link" target="_blank" rel="noopener noreferrer">:existing_title</a> көчүрмөсү.',
+        'message_in_collection' => 'Сиз жүктөгөн документ <a href=":duplicate_link" target="_blank" rel="noopener noreferrer">:duplicate_title</a> бул документтин <a href=":existing_link" target="_blank" rel="noopener noreferrer">:existing_title</a> көчүрмөсү (:collections коллекцияга).',
         
         'resolve_duplicate_button' => 'Көчүрмөнү өчүрүү',
 

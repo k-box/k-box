@@ -26,6 +26,9 @@ return [
         'is_public_description' => 'This document is publicly available to other Institutions in the K-Link Network',
         'trashed' => 'This document is in Trash. Editing is not possible',
         'klink_public_not_mine' => 'This document is only a reference to the document added to K-Link Public. You cannot make any changes.',
+
+        'undisclosed_user' => '[undisclosed user]',
+        'undisclosed_user_hint' => 'The user didn\'t want to reveal his name',
     ],
 
     'page_title' => 'Documents',
@@ -331,8 +334,8 @@ return [
         'in_trash' => 'in Trash',
 
         'message_me_owner' => 'The document you uploaded as <a href=":duplicate_link" target="_blank" rel="noopener noreferrer">:duplicate_title</a> is a duplicate of your document <a href=":existing_link" target="_blank" rel="noopener noreferrer">:existing_title</a>.',
-        'message_with_owner' => 'The document you uploaded as <a href=":duplicate_link" target="_blank" rel="noopener noreferrer">:duplicate_title</a> is a duplicate of <a href=":existing_link" target="_blank" rel="noopener noreferrer">:existing_title</a> (uploaded by :owner).',
-        'message_in_collection' => 'The document you uploaded as <a href=":duplicate_link" target="_blank" rel="noopener noreferrer">:duplicate_title</a> is a duplicate of <a href=":existing_link" target="_blank" rel="noopener noreferrer">:existing_title</a> (uploaded by :owner in :collections).',
+        'message_with_owner' => 'The document you uploaded as <a href=":duplicate_link" target="_blank" rel="noopener noreferrer">:duplicate_title</a> is a duplicate of <a href=":existing_link" target="_blank" rel="noopener noreferrer">:existing_title</a>.',
+        'message_in_collection' => 'The document you uploaded as <a href=":duplicate_link" target="_blank" rel="noopener noreferrer">:duplicate_title</a> is a duplicate of <a href=":existing_link" target="_blank" rel="noopener noreferrer">:existing_title</a> (uploaded in :collections).',
         
         'resolve_duplicate_button' => 'Resolve duplicate using this, already existing, document',
 

@@ -330,8 +330,8 @@ return [
         'in_trash' => 'Дар қуттии партов',
 
         'message_me_owner' => 'Санаде, ки шумо бор кардед <a href=":duplicate_link" target="_blank" rel="noopener noreferrer">:duplicate_title</a> такрори санади <a href=":existing_link" target="_blank" rel="noopener noreferrer">:existing_title</a> мебошад.',
-        'message_with_owner' => 'Санаде, ки шумо бор кардед <a href=":duplicate_link" target="_blank" rel="noopener noreferrer">:duplicate_title</a> такрори санади <a href=":existing_link" target="_blank" rel="noopener noreferrer">:existing_title</a> мебошад (боргузорӣ карда шуд аз тарафи :owner).',
-        'message_in_collection' => 'Санаде, ки шумо бор кардед <a href=":duplicate_link" target="_blank" rel="noopener noreferrer">:duplicate_title</a> такрори санади <a href=":existing_link" target="_blank" rel="noopener noreferrer">:existing_title</a> мебошад (боргузорӣ карда шуд аз тарафи :owner дар :collections).',
+        'message_with_owner' => 'Санаде, ки шумо бор кардед <a href=":duplicate_link" target="_blank" rel="noopener noreferrer">:duplicate_title</a> такрори санади <a href=":existing_link" target="_blank" rel="noopener noreferrer">:existing_title</a> мебошад.',
+        'message_in_collection' => 'Санаде, ки шумо бор кардед <a href=":duplicate_link" target="_blank" rel="noopener noreferrer">:duplicate_title</a> такрори санади <a href=":existing_link" target="_blank" rel="noopener noreferrer">:existing_title</a> мебошад (дар :collections).',
 
         'resolve_duplicate_button' => 'Ин санад алакай вучуд дорад. Санади мавчудбударо истифода кун ва аз нусхахои такрорӣ худдорӣ кун',
 

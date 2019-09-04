@@ -100,15 +100,12 @@ class DuplicateDocument extends Model implements Htmlable
 
         if (! $collections->isEmpty()) {
             return trans('documents.duplicates.message_in_collection', array_merge($args, [
-                'owner' => e($this->duplicateOf->owner->name),
                 'collections' => $collections->map(function ($c) {
                     return '<a href="'.route('documents.groups.show', [ 'id' => $c->id, 'highlight' => $this->duplicateOf->id]).'">'.e($c->name).'</a>';
                 })->implode(', ')
             ]));
         } else {
-            return trans('documents.duplicates.message_with_owner', array_merge($args, [
-                'owner' => e($this->duplicateOf->owner->name)
-            ]));
+            return trans('documents.duplicates.message_with_owner', $args);
         }
 
         return '';

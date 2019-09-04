@@ -6,8 +6,17 @@
 	@auth	
 		<div class="c-panel__meta">
 			<div class="c-panel__label">{{trans('panels.meta.uploaded_by')}}</div>
+            
+			@can('see_owner', $document)
 			
-			{{ optional($document->owner)->name ?? '-' }}
+				{{ optional($document->owner)->name }}
+
+			@else 
+				@component('components.undisclosed_user')
+					
+				@endcomponent
+			@endcan
+			
 		</div>
 	@endauth
 

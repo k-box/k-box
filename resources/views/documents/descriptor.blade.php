@@ -9,6 +9,7 @@
 	@component('components.list-item', 
 		[
 			'id' => $item->id,
+			'instance' => $item,
 			'local_document_id' => $item->local_document_id,
 			'type' => $item->document_type,
 			'data_class' => "document",

@@ -188,8 +188,19 @@
 				</div>
 				
 				@if($document->isFileUploadComplete())
+
 					<div>
-					<span>{!! trans('documents.edit.uploaded_by', ['name' => !is_null($document->file->user) ? $document->file->user->name : e($document->user_uploader) ]) !!}</span>
+						<span>
+							@can('see_uploader', $document->file)
+								{!! trans('documents.edit.uploaded_by', ['name' => optional($document->file->user)->name ?? '' ]) !!}
+							@elsecan('see_owner', $document)
+								{!! trans('documents.edit.uploaded_by', ['name' => e($document->user_uploader)]) !!}
+							@else 
+								@component('components.undisclosed_user')
+									
+								@endcomponent
+							@endcan
+						</span>
 					</div>
 				@endif
 
