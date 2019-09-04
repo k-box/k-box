@@ -922,8 +922,6 @@ class DocumentsService
     {
         try {
             return \Cache::remember('collections-of-'.$user->id.'-from-'.$group->id, 60, function () use ($user, $group) {
-                $collections = Collection::make();
-                
                 if (! $this->isCollectionAccessible($user, $group)) {
                     throw new ForbiddenException(trans('groups.add_documents.forbidden', ['name' => $group->name]), 1);
                 }
@@ -935,19 +933,12 @@ class DocumentsService
                                 whereIn($closure_table->getAncestorColumn(), $collection_ids)->
                                 whereNotIn($closure_table->getDescendantColumn(), $collection_ids)->get([$closure_table->getDescendantColumn()])->all();
                                 
-                $descendants_array = array_pluck($descendants, $closure_table->getDescendantColumn());
-                    
-                $collection_ids = array_merge($collection_ids, $descendants_array);
+                $descendants_ids = array_pluck($descendants, $closure_table->getDescendantColumn());
 
-                if ($group->is_private) {
-                    $instance = new Group;
-                    $collections = $instance->private($user->id)->whereIn('id', $collection_ids)->get();
-                } else {
-                    $instance = new Group;
-                    $collections = $instance->public()->whereIn('id', $collection_ids)->get();
-                }
-                
-                return $collections;
+                return Collection::make([$group])->merge(Group::whereIn('id', $descendants_ids)->get()->filter(function ($c) use ($user) {
+                    // remove sub-collections not accessible by $user
+                    return $this->isCollectionAccessible($user, $c);
+                }));
             });
         } catch (\Exception $ex) {
             \Log::warning('get collections accessible by user '.$user->id.' from '.$group->id, ['error' => $ex]);
