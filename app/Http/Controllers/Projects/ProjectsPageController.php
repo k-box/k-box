@@ -9,6 +9,8 @@ use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\JsonResponse;
 use KBox\Traits\Searchable;
 use KBox\Http\Controllers\Controller;
+use KBox\Pagination\SearchResultsPaginator as Paginator;
+use Klink\DmsSearch\SearchRequest;
 
 /**
  * Handle the Unified Search project page (issue klinkdms/dms#699)
@@ -45,7 +47,7 @@ class ProjectsPageController extends Controller
         
         $all_projects_ids = $this->getUserAccessibleProjects($user);
 
-        $results = $this->search($req, function ($_request) use ($all_projects_ids) {
+        $results = $all_projects_ids->isEmpty() ? $this->getEmptyResult($req) : $this->search($req, function ($_request) use ($all_projects_ids) {
             $all_projects = $all_projects_ids->toArray();
 
             if ($_request->getFilter('properties.tags')->isEmpty()) {
@@ -84,6 +86,25 @@ class ProjectsPageController extends Controller
         }
 
         return view('documents.projects.projectspage', $view_parameters);
+    }
+
+    private function getEmptyResult(SearchRequest $req)
+    {
+        $pagination = new Paginator(
+            $req->term === '*' ? '' : $req->term,
+            collect(),
+            [],
+            [],
+            0,
+            $req->limit,
+            $req->page,
+            [
+                'path'  => $req->url,
+                'query' => $req->query,
+            ]
+        );
+            
+        return $pagination;
     }
 
     private function getUserAccessibleProjects(User $user)
