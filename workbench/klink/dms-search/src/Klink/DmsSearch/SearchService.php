@@ -16,6 +16,10 @@ use Klink\DmsAdapter\KlinkVisibilityType;
 use Klink\DmsAdapter\KlinkSearchRequest;
 use Klink\DmsAdapter\KlinkSearchResults;
 use Exception;
+use KBox\Documents\Services\DocumentsService;
+use KBox\Group;
+use KBox\Project;
+use Klink\DmsAdapter\KlinkFilters;
 use Log;
 
 class SearchService
@@ -33,6 +37,12 @@ class SearchService
      * @var \Klink\DmsAdapter\KlinkAdapter
      */
     private $adapter = null;
+    
+    /**
+     * 
+     * @var \KBox\Documents\Services\DocumentsService
+     */
+    private $documentsService = null;
 
     public static $defaultFacets = [
         'public' => [
@@ -54,11 +64,13 @@ class SearchService
      *
      * @return void
      */
-    public function __construct(Guard $auth, \Klink\DmsAdapter\Contracts\KlinkAdapter $adapter)
+    public function __construct(Guard $auth, \Klink\DmsAdapter\Contracts\KlinkAdapter $adapter, DocumentsService $documentsService)
     {
         $this->auth = $auth;
 
         $this->adapter = $adapter;
+        
+        $this->documentsService = $documentsService;
     }
 
     /**
@@ -134,6 +146,8 @@ class SearchService
 
         $this->trackSearch($request->term);
 
+        
+
         // merge the default facets for the visibility of the request
 
         $request->facets(static::$defaultFacets[$request->visibility]);
@@ -148,6 +162,9 @@ class SearchService
         $current_user = $this->auth->user();
 
         try {
+
+            $this->validateCollectionFilters($request->getFilter(KlinkFilters::COLLECTIONS));
+            $this->validateProjectFilters($request->getFilter(KlinkFilters::TAGS));
 
             $results = $this->adapter->search(KlinkSearchRequest::from($request));
             
@@ -234,6 +251,9 @@ class SearchService
             // if (! $request->isSearchRequested() && $request->isPageRequested()) {
             //     return $this->defaultFacets($request->visibility);
             // }
+
+            $this->validateCollectionFilters($request->getFilter(KlinkFilters::COLLECTIONS));
+            $this->validateProjectFilters($request->getFilter(KlinkFilters::TAGS));
             
             $ft_response = $this->search($request);
             
@@ -301,6 +321,29 @@ class SearchService
         return $cloned;
     }
     
+    private function validateCollectionFilters($collections)
+    {
+        foreach ($collections as $collection_id) {
+            $collection = Group::find($collection_id);
+
+            if(!is_null($collection) && ! $this->documentsService->isCollectionAccessible($this->auth->user(), $collection)){
+                throw new Exception("Collection filter not acceptable");
+            }
+        }
+
+    }
+    
+    private function validateProjectFilters($projects)
+    {
+        foreach ($projects as $project_id) {
+            $project = Project::find($project_id);
+
+            if(!is_null($project) && ! Project::isAccessibleBy($project, $this->auth->user())){
+                throw new Exception("Project filter not acceptable");
+            }
+        }
+
+    }
     
     
 }
