@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.28.4] - 2019-09-05
+
+### Added
+
+- Perform opcache_reset when enabling/disabling plugins ([#284](https://github.com/k-box/k-box/pull/284))
+
+### Fixed
+
+- Improved validation of collection and project filters
+
+### Security
+
+- Mitigate un-authorized collection listing in sharing filters
+- Mitigate un-authorized file listing when performing search in the projects section
+- Mitigate un-authorized file listing when performing search in the starred section
+
 ## [0.28.3] - 2019-09-04
 
 ### Security
