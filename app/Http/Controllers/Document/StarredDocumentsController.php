@@ -9,13 +9,15 @@ use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\JsonResponse;
 use KBox\Traits\Searchable;
 use Illuminate\Http\Request;
+use Klink\DmsSearch\SearchRequest;
+use Klink\DmsAdapter\Contracts\KlinkAdapter;
+use KBox\Documents\Services\DocumentsService;
+use KBox\Pagination\SearchResultsPaginator as Paginator;
 
 class StarredDocumentsController extends Controller
 {
     use Searchable;
 
-    // USER + DESCR ID (INST + LOCAL DOC ID)
-    
     /**
      * [$adapter description]
      * @var \Klink\DmsAdapter\KlinkAdapter
@@ -29,7 +31,7 @@ class StarredDocumentsController extends Controller
      *
      * @return void
      */
-    public function __construct(\Klink\DmsAdapter\Contracts\KlinkAdapter $adapterService, \KBox\Documents\Services\DocumentsService $documentsService)
+    public function __construct(KlinkAdapter $adapterService, DocumentsService $documentsService)
     {
         $this->middleware('auth');
 
@@ -51,8 +53,10 @@ class StarredDocumentsController extends Controller
         $req->visibility('private');
         
         $user = $auth->user();
+
+        $has_starred = Starred::with('document')->ofUser($user->id)->count() > 0;
         
-        $results = $this->search($req, function ($_request) use ($user) {
+        $results = ! $has_starred ? $this->getEmptyResult($req) : $this->search($req, function ($_request) use ($user) {
             $all_starred = Starred::with('document')->ofUser($user->id);
             
             $personal_doc_id = collect($all_starred->get()->map->document)->map->uuid;
@@ -79,10 +83,29 @@ class StarredDocumentsController extends Controller
             'starred' => $results,
             'pagination' => $results,
             'search_terms' => $req->term,
-            'facets' => $results->facets(),
-            'filters' => $results->filters(),
+            'facets' => $results && ! $has_starred ? $results->facets() : [],
+            'filters' => $results && ! $has_starred ? $results->filters() : [],
             'empty_message' => ($results->count()==0 && $req->term !== '*') ? trans('search.no_results_no_markup', ['term' => $req->term, 'collection' =>  trans('starred.page_title')])  : trans('starred.empty_message')
         ]);
+    }
+
+    private function getEmptyResult(SearchRequest $req)
+    {
+        $pagination = new Paginator(
+            $req->term === '*' ? '' : $req->term,
+            collect(),
+            [],
+            [],
+            0,
+            $req->limit,
+            $req->page,
+            [
+                'path'  => $req->url,
+                'query' => $req->query,
+            ]
+        );
+            
+        return $pagination;
     }
 
     public function show($id)
