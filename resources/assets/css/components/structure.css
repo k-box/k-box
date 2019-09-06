@@ -354,17 +354,6 @@
     }
 }
 
-.c-login__spacer {
-    display: none;
-    box-sizing: border-box;
-    vertical-align: top;
-
-    @media(min-width:900px){
-        display: inline-block;
-        width: calc("50% - 8px");
-    }
-}
-
 .c-login .c-form__input--larger {
     max-width: 100%;
     min-width: 80%;
@@ -418,10 +407,6 @@
 		margin-top: @base-padding/2;
 	}
 
-}
-
-.footer {
-	@apply bg-gray-700;
 }
 
 

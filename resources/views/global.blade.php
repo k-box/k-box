@@ -67,7 +67,7 @@
 				</span>
 			</div>
 
-			<div class="min-h-0 flex-shrink-0 flex-grow max-h-available-header px-2 lg:px-4 max-h-available-header" id="page" role="content">
+			<div class="min-h-0 flex-shrink-0 flex-grow px-2 lg:px-4 " id="page" role="content">
 	
 				@yield('content')
 	

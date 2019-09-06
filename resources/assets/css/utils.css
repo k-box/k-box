@@ -1,7 +1,7 @@
 
 .max-h-available-header {
-	min-height: calc("100vh - 3rem");
-	height: calc("100vh - 3rem");
+	min-height: calc(100vh - 3rem);
+	height: calc(100vh - 3rem);
 }
 
 

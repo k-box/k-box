@@ -14,8 +14,8 @@
 	}
 	
 	iframe {
-		width: calc("100% + 16px");
-		height: calc("100vh - 48px");
+		width: calc(100% + 16px);
+		height: calc(100vh - 48px);
 	}
 	
 	.container {
@@ -69,11 +69,11 @@
 
 
 .preview__body {
-    height: calc("100vh -  48px");
+    height: calc(100vh - 48px);
 }
 
 .preview__sidebar {
-    height: calc("100vh -  48px");
+    height: calc(100vh - 48px);
 }
 
 .preview__error {
@@ -94,7 +94,7 @@
 }
 
 .preview__render--text, .preview__render--document {
-	min-height: calc("100vh - 88px");
+	min-height: calc(100vh - 88px);
 }
 
 .preview__render--googledrive {
