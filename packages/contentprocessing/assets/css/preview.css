@@ -111,8 +111,7 @@
     
     width: 100%;
     max-width: 100%;
-    height: calc(~"100vh -  52px");
-    /* using LESS syntax as it is included as a LESS file and not plain CSS */
+    height: calc("100vh -  52px");
 }
 
 /** buttons **/

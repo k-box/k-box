@@ -64,6 +64,7 @@ class HeadersComposer
                        ! starts_with($route_name, 'verification') &&
                        ! starts_with($route_name, 'documents.edit') &&
                        ! starts_with($route_name, 'plugins') &&
+                       ! starts_with($route_name, 'uploads') &&
                        ! starts_with($route_name, 'password') && ! starts_with($route_name, 'microsite'));
 
         $view->with('show_search', $show_search);

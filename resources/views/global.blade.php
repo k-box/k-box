@@ -12,7 +12,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
 		<link rel="stylesheet" href="{{ css_asset("css/vendor.css") }}">
-		<link rel="stylesheet" href="{{ css_asset("css/app.css") }}">
+		{{-- <link rel="stylesheet" href="{{ css_asset("css/app.css") }}"> --}}
+		<link rel="stylesheet" href="{{ css_asset("css/app-evolution.css") }}">
 
 		
 		<script type="text/javascript" src="{{ js_asset("js/vendor.js") }}"></script>

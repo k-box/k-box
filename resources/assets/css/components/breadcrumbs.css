@@ -1,0 +1,21 @@
+.breadcrumbs {
+    @apply whitespace-no-wrap;
+    @apply relative;
+}
+
+.breadcrumb__item {
+    color: currentColor;
+    @apply opacity-75;
+}
+
+.breadcrumb__item:after, .breadcrumb__item::after {
+    content: '>';
+
+    @apply inline-block;
+    @apply mr-2;
+    @apply ml-2;
+}
+
+.breadcrumb__item:hover {
+    @apply opacity-100;
+}

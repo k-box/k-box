@@ -1,0 +1,13 @@
+
+
+a {
+	@apply text-accent-600;
+	@apply underline;
+}
+
+a:hover, a:focus {
+	@apply text-accent-700;
+}
+a:active {
+	@apply text-accent-900;
+}

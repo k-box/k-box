@@ -79,7 +79,7 @@
         @endif
         <div class="my-1">
             @foreach($user_types as $type_key  => $type_value)
-                <a href="#" class="user-grab" data-type="{{$type_key}}">{{trans('administration.accounts.types.' . $type_key)}}</a>
+                <a href="#" class="user-grab inline-block mr-2" data-type="{{$type_key}}">{{trans('administration.accounts.types.' . $type_key)}}</a>
             @endforeach
         </div>
         <ul class="checkbox-list">

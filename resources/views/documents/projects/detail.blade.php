@@ -46,7 +46,7 @@
 
 	@if(auth()->check() && (auth()->user()->id === $project->user_id || !is_null( $project->microsite )))
 
-	<div class="c-panel__meta">
+	<div class="">
 		<h4 class="c-panel__section">{!! trans('microsites.labels.microsite') !!}</h4>
 			<span class="description">{{trans('microsites.hints.what')}}</span>
             
@@ -84,7 +84,7 @@
 		</div>
 	@endif
 
-	<div class="c-panel__meta">
+	<div class="">
 		<h4 class="c-panel__section">{{ trans_choice('projects.labels.user_count', $project->users->count(), ['count' => $project->users->count()]) }}</h4>
 
 		@include('projects.partials.userlist', ['users' => $project_users, 'description' => null, 'empty_message' => trans('projects.no_members'), 'edit' => false ])

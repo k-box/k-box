@@ -1,0 +1,19 @@
+
+@responsive {
+
+    .sidebar-open {
+        @apply pointer-events-auto;
+        @apply translate-0;
+        @apply opacity-100;
+        
+        @apply fixed;
+
+        @apply w-full;
+        
+        @apply p-0;
+        @apply m-0;
+
+        @apply left-0;
+    }
+
+}

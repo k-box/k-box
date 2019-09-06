@@ -1,0 +1,147 @@
+
+
+.el-filter {
+	@apply border-b;
+	@apply border-gray-300;
+	@apply p-1;
+
+	@apply flex;
+	@apply justify-between;
+	@apply flex-row-reverse;
+
+	@apply text-black;
+
+	@apply cursor-pointer;
+		
+	@apply whitespace-no-wrap;
+
+	@apply no-underline;
+
+	.el-filter-name {
+		@apply truncate;
+		@apply inline-block;
+		
+		max-width: 90%;
+	}
+	
+	&.locked {
+		@apply opacity-75;
+		@apply text-gray-800;
+	}
+
+	&:hover {
+		@apply border-gray-700;
+		@apply bg-gray-200;
+	}
+
+	&:active {
+		@apply border-gray-800;
+		@apply bg-gray-300;
+	}
+
+	&:focus {
+		@apply border-gray-800;
+		@apply bg-gray-300;
+	}
+
+	&.current {
+		@apply border-accent-600;
+		@apply bg-accent-200;
+		@apply text-accent-900;
+	}
+
+	&.collapsed {
+		@apply h-4;
+		@apply overflow-hidden;
+		@apply opacity-25;
+
+		> * {
+			@apply opacity-0;
+		}
+	}
+	
+	&.locked {
+		background-color: #444;
+		@apply text-white;
+	}
+
+	&.project--mark .el-filter-name {
+		@apply border-l-4;
+		@apply border-project-collection;
+		@apply pl-1;
+	}
+
+	&.personal--mark .el-filter-name {
+		@apply border-l-4;
+		@apply border-personal-collection;
+		@apply pl-1;
+	}
+}
+
+.elasticlist {
+	
+	@apply flex;
+
+	min-height: 100px;
+	
+    @apply p-2;
+
+	@apply relative;
+
+  	.el-column {
+
+  		@apply inline-block;
+
+		@apply w-1/4;
+
+  		@apply cursor-default;
+
+
+  	}
+
+  	
+  	.el-header {
+  		@apply bg-transparent;
+  		@apply text-gray-700;
+  	}
+
+      
+    .el-filter-container {
+		height: 200px;
+		
+        @apply max-w-full;
+		@apply overflow-y-auto;
+    }
+	
+}
+
+
+.filters .elastic-list-container {
+	@apply hidden;
+    
+    @apply bg-gray-100;
+	
+	&.visible {
+		@apply block;
+	}
+}
+
+.filters + .list {
+	@apply mt-1;
+}
+
+.filter__buttons {
+	@apply flex;
+	@apply justify-between;
+}
+
+.filter__loader {
+	@apply flex;
+}
+
+
+.spatialfilter {
+
+	min-height: 280px;
+	height: 280px;
+}

@@ -25,7 +25,7 @@
         @if( $errors->has('email') )
             <span class="field-error">{{ implode(",", $errors->get('email'))  }}</span>
         @endif
-        <input type="text" name="email" value="{{old('email', isset($user) ? $user->email : '')}}" @if(isset($can_change_mail) && !$can_change_mail) disabled @endif />
+        <input type="text" class="form-input" name="email" value="{{old('email', isset($user) ? $user->email : '')}}" @if(isset($can_change_mail) && !$can_change_mail) disabled @endif />
     </p>
 
     <p>
@@ -34,7 +34,7 @@
         @if( $errors->has('name') )
             <span class="field-error">{{ implode(",", $errors->get('name'))  }}</span>
         @endif
-        <input type="text" name="name" value="{{old('name', isset($user) ? $user->name : '')}}" />
+        <input type="text" class="form-input" name="name" value="{{old('name', isset($user) ? $user->name : '')}}" />
     </p>
         
     </form>

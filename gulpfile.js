@@ -27,19 +27,21 @@ elixir.extend('previewJsModules', function() {
 
 });
 
-// elixir.extend('postcss', function (file) {
-//     const postcss = require('gulp-postcss');
+elixir.extend('postCss', function (file) {
+    const postcss = require('gulp-postcss');
 
-//     var _elixir = this;
+    var _elixir = this;
     
-//     new Task('postcss', function() {
-//         return gulp.src(file)
-//             .pipe(postcss([
-//                 require('tailwindcss'),
-//             ]))
-//             .pipe(gulp.dest(_elixir.config.cssOutput));
-//     }).watch('tailwind.config.js');
-//   })
+    new Task('postCss', function() {
+        return gulp.src(file)
+            .pipe(postcss([
+                require('postcss-import'),
+                require('tailwindcss'),
+                require('postcss-nested'),
+            ]))
+            .pipe(gulp.dest(_elixir.config.cssOutput));
+    }).watch(['tailwind.config.js', file]);
+})
 
 elixir.extend('purge', function (files) {
     const purgecss = require('@fullhuman/postcss-purgecss')({
@@ -77,7 +79,7 @@ elixir.config.sourcemaps = false;
 elixir(function(mix) {
 
      mix.less('app.less') // generate the application stylesheet
-        // .postcss('app-evolution.css') // generate the functional css that will be the evolution of system
+        .postCss('resources/assets/css/app-evolution.css') // generate the functional css that will be the evolution of system
         .less('microsite.less') // generate the microsite stylesheet
         //concatenate vendor styles
         .styles([
@@ -163,6 +165,6 @@ elixir(function(mix) {
 	    // make versionable to resolve caching problems
         if (elixir.config.production) {
             // mix.purge( ["public/css/app.css"] )
-	        mix.version( ["public/css/vendor.css", "public/css/app.css", "public/js/vendor.js"] );
+	        mix.version( ["public/css/vendor.css", "public/css/app-evolution.css", "public/css/app.css", "public/js/vendor.js"] );
         }
 });

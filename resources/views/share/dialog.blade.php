@@ -16,21 +16,28 @@
 
 			<div class="copy-links dialog__section js-link-section">
 
-				<div class="dialog__section__inner copy-link ">
+				<div class="">
 
-					<input type="text" id="document_link" class="copy-link__input" readonly @if($public_link) data-link="{{ $public_link->id }}" @endif data-links="{!! $sharing_links !!}" value="{!! $sharing_links !!}" />
-
-					<button class="button button--larger js-clipboard-btn" data-clipboard-target="#document_link">
-						<span class="button__content button__normal">
-							@materialicon('content', 'content_copy', 'button__icon')
-							{{ trans( $elements_count == 1 ? 'share.document_link_copy' : 'share.document_link_copy_multiple') }}
-						</span>
-						<span class="button__content button__success">{{ trans('actions.clipboard.copied_title') }}</span>
-						<span class="button__content button__error">{{ trans('actions.clipboard.not_copied_title') }}</span>
-					</button>
-					<a class="button" title="{{ trans($elements_count == 1 ? 'share.send_link' : 'share.send_link_multiple') }}" target="_blank" rel="noopener noreferrer" href="mailto:?body={{ urlencode($sharing_links) }}">
-						@materialicon('content', 'mail', 'button__icon')
-					</a>
+					<div class="flex justify-between flex-no-wrap">
+						<div class="flex-grow border border-transparent">
+							<input type="text" id="document_link" class="form-input w-full" readonly @if($public_link) data-link="{{ $public_link->id }}" @endif data-links="{!! $sharing_links !!}" value="{!! $sharing_links !!}" />
+						</div>
+	
+						<div class="flex">
+	
+							<button class="button button--larger js-clipboard-btn" data-clipboard-target="#document_link">
+								<span class="button__content button__normal">
+									@materialicon('content', 'content_copy', 'button__icon')
+									{{ trans( $elements_count == 1 ? 'share.document_link_copy' : 'share.document_link_copy_multiple') }}
+								</span>
+								<span class="button__content button__success">{{ trans('actions.clipboard.copied_title') }}</span>
+								<span class="button__content button__error">{{ trans('actions.clipboard.not_copied_title') }}</span>
+							</button>
+							<a class="button" title="{{ trans($elements_count == 1 ? 'share.send_link' : 'share.send_link_multiple') }}" target="_blank" rel="noopener noreferrer" href="mailto:?body={{ urlencode($sharing_links) }}">
+								@materialicon('content', 'mail', 'button__icon mr-0')
+							</a>
+						</div>
+					</div>
 
 
 				

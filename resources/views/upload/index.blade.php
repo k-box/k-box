@@ -27,11 +27,11 @@
         </div>
     @endif
 
-	<h3>{{trans('actions.upload_alt')}} {!! $target !!}</h3>
+	<h3 class="mt-2">{{trans('actions.upload_alt')}} {!! $target !!}</h3>
     
     <p><em>{{ trans('upload.do_not_leave_the_page') }}</em></p>
 
-    <p>{{ trans('upload.upload_spec_info') }}</p>
+    <p class="mb-4">{{ trans('upload.upload_spec_info') }}</p>
 
     <div id="upload">
     </div>

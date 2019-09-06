@@ -1,0 +1,94 @@
+
+.c-message {
+	background: #228AE6;
+
+	@apply p-2;
+	@apply mb-2;
+	
+	@apply text-white;
+	
+	@apply rounded;
+	
+	@apply relative;
+	
+	@apply flex-grow;
+}
+
+.c-message p {
+	@apply m-0;
+}
+
+.c-message a {
+	@apply text-white;
+	@apply underline;
+}
+
+.c-message--success {
+	background: #A9E34B;
+	color: #212529;
+	fill: #212529;
+}
+
+.c-message--error {
+	background: #e03131;
+	@apply text-white;
+	fill: #fff;
+}
+
+.c-message--warning {
+	background: #FCC419;
+	color: #212529;
+	fill: #212529;
+}
+
+.c-message--success a, .c-message--warning a {
+	color: #212529;
+}
+
+
+@keyframes long-running-show-animation {
+	0% { display:block; opacity:0; top: @base-padding/2; }
+  100% { opacity:1; top: @base-padding; }
+}
+
+/**
+	Little overlay message for a long running ajax process
+*/
+
+.long-running-message {
+
+	display: none;
+
+	position: fixed;
+
+	border-radius: 3px;
+
+	padding: @base-padding/2;
+
+	top: @base-padding;
+
+	max-width: 480px;
+
+	left: 50%;
+
+	transform: translate(-50%, 0);
+
+	text-align: center;
+
+	z-index: 910;
+
+	background-color: @warning-color;
+
+	color: #111;
+
+	&.visible {
+
+		animation: long-running-show-animation linear 0.4s;
+
+		display: block;
+
+
+	}
+}
+
+

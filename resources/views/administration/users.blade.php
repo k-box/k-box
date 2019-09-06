@@ -2,8 +2,8 @@
 
 @section('breadcrumbs')
         
-    <a href="{{route('administration.index')}}" class="">{{trans('administration.page_title')}}</a>
-    <span class="">{{trans('administration.menu.accounts')}}</span>
+    <a href="{{route('administration.index')}}" class="breadcrumb__item">{{trans('administration.page_title')}}</a>
+    <span class="breadcrumb__item--current">{{trans('administration.menu.accounts')}}</span>
 
 @endsection
 

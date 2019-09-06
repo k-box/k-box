@@ -22,8 +22,8 @@
 
             <button class="item__select js-select-button js-selection-checkbox" data-action="selectable" role="presentation" tabindex="-1" id="item-{{$data_class}}-{{$id}}">
 
-                @materialicon('toggle', 'check_box', 'inline-block checkbox checkbox--checked')
-                @materialicon('toggle', 'check_box_outline_blank', 'inline-block checkbox checkbox--unchecked')
+                @materialicon('toggle', 'check_box', ' checkbox checkbox--checked')
+                @materialicon('toggle', 'check_box_outline_blank', ' checkbox checkbox--unchecked')
 
             </button>
 
@@ -73,8 +73,8 @@
                 data-doc="{{$local_document_id}}" 
                 data-visibility="{{$visibility}}"
                 title="{{ $star!== false ? trans('starred.remove') : trans('starred.add') }}">
-                @materialicon('toggle', 'star', 'inline-block star star--starred', ['title' => trans('starred.remove')])
-                @materialicon('toggle', 'star_border', 'inline-block star star--not-starred', ['title' => trans('starred.add')])
+                @materialicon('toggle', 'star', ' star star--starred', ['title' => trans('starred.remove')])
+                @materialicon('toggle', 'star_border', ' star star--not-starred', ['title' => trans('starred.add')])
             </button>
 
             @if(isset($trashed) && $trashed)
