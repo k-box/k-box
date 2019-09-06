@@ -2,6 +2,19 @@ process.env.DISABLE_NOTIFIER = true;
 var elixir = require('laravel-elixir');
 var gulp = require("gulp");
 const postcss = require('gulp-postcss');
+const purgecss = require('@fullhuman/postcss-purgecss')({
+
+    // Specify the paths to all of the template files in your project 
+    content: [
+      './app/**/*.php',
+      './resources/**/*.blade.php',
+      './resource/**/*.js',
+      './resource/**/*.less',
+    ],
+  
+    // Include any special characters you're using in this regular expression
+    defaultExtractor: content => content.match(/[A-Za-z0-9-_:/]+/g) || []
+})
 var Task = elixir.Task;
 
 
@@ -38,36 +51,17 @@ elixir.extend('postCss', function (file) {
                 require('postcss-import'),
                 require('tailwindcss'),
                 require('postcss-nested'),
+                require('autoprefixer'),
+                // ..._elixir.config.production ? [purgecss] : [] // todo: enable PurgeCSS once configuration is ready
+                ..._elixir.config.production ? [require('cssnano')({
+                    preset: ['default', {
+                        calc: false,
+                    }],
+                })] : [] 
             ]))
             .pipe(gulp.dest(_elixir.config.cssOutput));
     }).watch(['tailwind.config.js', file]);
 })
-
-elixir.extend('purge', function (files) {
-    const purgecss = require('@fullhuman/postcss-purgecss')({
-
-        // Specify the paths to all of the template files in your project 
-        content: [
-          './app/**/*.php',
-          './resources/**/*.blade.php',
-          './resource/**/*.js',
-          './resource/**/*.less',
-        ],
-      
-        // Include any special characters you're using in this regular expression
-        defaultExtractor: content => content.match(/[A-Za-z0-9-_:/]+/g) || []
-    })
-
-    var _elixir = this;
-    
-    new Task('purge', function() {
-        return gulp.src(files)
-            .pipe(postcss([
-                purgecss,
-            ]))
-            .pipe(gulp.dest(_elixir.config.cssOutput));
-    })
-  })
   
 
 elixir.config.npmDir = "./node_modules/";
@@ -164,7 +158,6 @@ elixir(function(mix) {
 	    
 	    // make versionable to resolve caching problems
         if (elixir.config.production) {
-            // mix.purge( ["public/css/app.css"] )
 	        mix.version( ["public/css/vendor.css", "public/css/app-evolution.css", "public/css/app.css", "public/js/vendor.js"] );
         }
 });
