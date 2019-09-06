@@ -61,11 +61,13 @@
 
 	position: fixed;
 
-	border-radius: 3px;
+	@apply rounded;
 
-	padding: @base-padding/2;
+	@apply p-2;
 
-	top: @base-padding;
+	@apply mt-2;
+
+	@apply top-0;
 
 	max-width: 480px;
 
@@ -73,11 +75,11 @@
 
 	transform: translate(-50%, 0);
 
-	text-align: center;
+	@apply text-center;
 
 	z-index: 910;
 
-	background-color: @warning-color;
+	@apply bg-warning;
 
 	color: #111;
 

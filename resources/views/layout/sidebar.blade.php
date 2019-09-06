@@ -60,6 +60,7 @@
                 function close(){
                     if(drawerOpened){
                         drawer.removeClass('sidebar-open');
+                        drawer.addClass('-translate-100');
                         drawerOpened = false;
                     }
                 }
@@ -67,7 +68,8 @@
 				trigger.on('click', function(evt){
 
 					if(!drawerOpened){
-						drawer.addClass('sidebar-open');
+                        drawer.addClass('sidebar-open');
+                        drawer.removeClass('-translate-100');
 						drawerOpened = true;
 					}
 					else {
