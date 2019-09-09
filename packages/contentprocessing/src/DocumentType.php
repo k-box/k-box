@@ -183,6 +183,7 @@ final class DocumentType
         'video/x-matroska' => self::VIDEO,
 
         'audio/mpeg' => self::AUDIO,
+        'audio/mp3' => self::AUDIO,
         'audio/x-realaudio' => self::AUDIO,
         'audio/wav' => self::AUDIO,
         'audio/ogg' => self::AUDIO,
