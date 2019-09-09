@@ -82,6 +82,7 @@ return [
         'archive' => 'archive|archives',
         'PDF' => 'PDF|PDFs',
         'binary' => 'Binary file|Binary files',
+        'audio' => 'Audio file|Audio files',
     ],
 
     'empty_msg' => 'No documents in <strong>:context</strong>',
