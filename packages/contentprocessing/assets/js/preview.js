@@ -155,13 +155,29 @@ define(function () {
         return player;
     }
 
+    function _AudioPlayer(selector, options){
+        options = options || {
+            controls: ['play', 'progress', 'current-time', 'mute', 'volume']
+        };
+
+        selector = typeof selector === 'string' ? document.querySelector(selector) : selector;
+
+        var player = new Plyr(selector, options);
+
+        return player;
+    }
+
 
     return {
         load: function(){
             var player = document.querySelector("#the-player");
+            var type = player ? player.dataset.type : null;
 
-            if(player){
+            if(player && type==='video'){
                 _StreamPlayer(player);
+            }
+            else if(player && type==='audio'){
+                _AudioPlayer(player);
             }
         }
     }

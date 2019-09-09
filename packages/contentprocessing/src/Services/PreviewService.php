@@ -18,6 +18,7 @@ use KBox\Documents\Preview\PresentationPreview;
 use KBox\Documents\Preview\WordDocumentPreview;
 use KBox\Documents\Exceptions\InvalidDriverException;
 use KBox\Documents\Exceptions\UnsupportedFileException;
+use KBox\Documents\Preview\AudioPreviewDriver;
 
 /**
  * Preview service
@@ -42,6 +43,7 @@ final class PreviewService extends ExtendableFileElaborationService
         PresentationPreview::class,
         SpreadsheetPreview::class,
         GoogleDrivePreview::class,
+        AudioPreviewDriver::class,
     ];
 
     /**
