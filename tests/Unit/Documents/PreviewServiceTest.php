@@ -10,6 +10,7 @@ use KBox\Documents\Contracts\PreviewDriver;
 use Illuminate\Contracts\Support\Renderable;
 use KBox\Documents\Exceptions\UnsupportedFileException;
 use KBox\Documents\Exceptions\InvalidDriverException;
+use KBox\Documents\Preview\AudioPreviewDriver;
 use KBox\Documents\Preview\GoogleDrivePreview;
 use KBox\Documents\Preview\MarkdownPreview;
 use KBox\Documents\Preview\PresentationPreview;
@@ -45,6 +46,7 @@ class PreviewServiceTest extends TestCase
             PresentationPreview::class,
             SpreadsheetPreview::class,
             GoogleDrivePreview::class,
+            AudioPreviewDriver::class,
         ], $drivers);
     }
 
@@ -89,6 +91,9 @@ class PreviewServiceTest extends TestCase
             'application/vnd.google-apps.fusiontable',
             'application/vnd.google-apps.presentation',
             'application/vnd.google-apps.spreadsheet',
+            'audio/mp3',
+            'audio/wav',
+            'audio/ogg',
         ], $mimeTypes);
     }
 
@@ -129,7 +134,7 @@ class TestPreviewable implements Renderable
 
     public function render()
     {
-        return file_get_contents($file->absolute_path);
+        return file_get_contents($this->file->absolute_path);
     }
 }
 
