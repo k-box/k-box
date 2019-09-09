@@ -26,7 +26,9 @@ use Klink\DmsAdapter\Exceptions\KlinkException;
 use KBox\Jobs\ReindexDocument;
 use KBox\Jobs\UpdatePublishedDocumentJob;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 use KBox\Documents\Properties\Presenter;
+use KBox\Exceptions\QuotaAboutToExceedException;
 
 class DocumentsController extends Controller
 {
@@ -216,46 +218,53 @@ class DocumentsController extends Controller
         try {
             \Log::info('DocumentsController store', ['request' => $request->all(), 'user' => $auth->user()]);
 
-            if ($request->hasFile('document') && $request->file('document')->isValid()) {
-                $grp = $request->has('group') ? Group::findOrFail($request->input('group')) : null;
-                $parent = $grp;
+            $uploadDocument = $request->hasFile('document') ? $request->file('document') : null;
 
-                if ($request->has('folder_path')) {
-                    $folder_path = $request->input('folder_path');
-                    $parent = $this->service->createGroupsFromFolderPath($auth->user(), $folder_path, true, is_null($grp) ? true : $grp->is_private, $grp);
-                }
-
-                //test and report exceptions
-                $descr = $this->service->importFile($request->file('document'), $auth->user(), 'private', $parent);
-
-                event(new UploadCompleted($descr, $auth->user()));
-                
+            if (! $uploadDocument) {
                 if ($request->wantsJson()) {
-                    if (! is_array($descr)) {
-                        $descr = ['descriptor' => $descr->fresh()];
-                    }
-                    
-                    return response()->json($descr);
-                } else {
-                    return $this->show($descr->id, $auth);
+                    return new JsonResponse(['error' => trans('errors.no_file_sent')], 400);
                 }
-            } elseif ($request->hasFile('document') && ! $request->file('document')->isValid()) {
-                if ($request->wantsJson()) {
-                    return new JsonResponse(['error' => trans('errors.upload.simple', ['description' => $request->file('document')->getErrorMessage()])], 400);
-                }
-                
+
                 return redirect()->back()->withErrors([
-                    'error' => trans('errors.upload.simple', ['description' => $request->file('document')->getErrorMessage()])
+                    'error' => trans('errors.no_file_sent')
                 ]);
             }
 
-            if ($request->wantsJson()) {
-                return new JsonResponse(['error' => trans('errors.unknown')], 400);
+            if ($uploadDocument && ! $uploadDocument->isValid()) {
+                if ($request->wantsJson()) {
+                    return new JsonResponse(['error' => trans('errors.upload.simple', ['description' => $uploadDocument->getErrorMessage()])], 400);
+                }
+                
+                return redirect()->back()->withErrors([
+                    'error' => trans('errors.upload.simple', ['description' => $uploadDocument->getErrorMessage()])
+                ]);
             }
 
-            return redirect()->back()->withErrors([
-                'error' => trans('errors.unknown')
-            ]);
+            if (Gate::denies('upload-file', $uploadDocument)) {
+                throw new QuotaAboutToExceedException();
+            }
+
+            $grp = $request->has('group') ? Group::findOrFail($request->input('group')) : null;
+            $parent = $grp;
+
+            if ($request->has('folder_path')) {
+                $folder_path = $request->input('folder_path');
+                $parent = $this->service->createGroupsFromFolderPath($auth->user(), $folder_path, true, is_null($grp) ? true : $grp->is_private, $grp);
+            }
+
+            $descr = $this->service->importFile($uploadDocument, $auth->user(), 'private', $parent);
+
+            event(new UploadCompleted($descr, $auth->user()));
+            
+            if ($request->wantsJson()) {
+                if (! is_array($descr)) {
+                    $descr = ['descriptor' => $descr->fresh()];
+                }
+                
+                return response()->json($descr);
+            }
+
+            return $this->show($descr->id, $auth, $request);
         } catch (FileNamingException $ex) {
             \Log::warning('DocumentsController store - File Naming Policy check', ['error' => $ex]);
 
@@ -277,8 +286,6 @@ class DocumentsController extends Controller
                 'error' => $ex->getMessage()
             ]);
         }
-
-        // available methods on file http://api.symfony.com/2.5/Symfony/Component/HttpFoundation/File/UploadedFile.html
     }
 
     private function _showPanel(DocumentDescriptor $document, $auth_user = null)
@@ -564,6 +571,10 @@ class DocumentsController extends Controller
                 
                 if ($request->hasFile('document') && $request->file('document')->isValid()) {
                     \Log::info('Update Document with new version');
+
+                    if (Gate::denies('upload-file', $request->file('document'))) {
+                        throw new QuotaAboutToExceedException();
+                    }
     
                     //test and report exceptions
                     $file_model = $this->service->createFileFromUpload($request->file('document'), $user, $document->file);

@@ -8,6 +8,7 @@ use KBox\DocumentDescriptor;
 use KBox\File;
 use KBox\Policies\DocumentDescriptorPolicy;
 use KBox\Policies\FilePolicy;
+use KBox\Policies\UploadPolicy;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -30,13 +31,8 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        Gate::define('upload-via-tus', function ($user, $upload_request) {
-            // $upload_request instanceof \OneOffTech\TusUpload\Http\Requests\CreateUploadRequest
-            // ...
+        Gate::define('upload-via-tus', UploadPolicy::class.'@uploadFileViaTus');
 
-            \Log::info('Gate: Tus upload request', ['user' => $user->id, 'upload_request' => $upload_request->all()]);
-
-            return true;
-        });
+        Gate::define('upload-file', UploadPolicy::class.'@uploadFile');
     }
 }
