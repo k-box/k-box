@@ -41,6 +41,7 @@ class Kernel extends ConsoleKernel
         \KBox\Console\Commands\ActivateReadonlyModeCommand::class,
         \KBox\Console\Commands\DeactivateReadonlyModeCommand::class,
         \KBox\Console\Commands\PurgeExpiredPersonalDataExportsCommand::class,
+        \KBox\Console\Commands\QuotaCheckCommand::class,
     ];
 
     /**

@@ -96,6 +96,29 @@ class Quota
         return $quota <= 0 ? 0 : $quota;
     }
 
+    public function calculateAvailableSpace()
+    {
+
+        $max = $this->maximum();
+
+        if(is_infinite($max))
+        {
+            return true;
+        }
+        if($max === 0)
+        {
+            return false;
+        }
+
+        $used = $this->used();
+        $percentage = ceil($used*100/$max);
+
+        if($percentage >= 80){
+
+        }
+        // notify 80% and 99%
+    }
+
     private function getUserConfiguration()
     {
         return optional($this->user->options()->option(self::OPTION_QUOTA)->first())->value;

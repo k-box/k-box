@@ -48,6 +48,7 @@ The next table shows the K-Box specific configuration parameters:
 | `KBOX_ANALYTICS_SERVICE`              |           | string  | matomo        | The analytics tracking provider. Available: matomo, google-analytics |
 | `KBOX_ANALYTICS_TOKEN`                |           | string  |               | The analytics token to use for the specific analytics tracking provider |
 | `KBOX_SUPPORT_SERVICE`                |           | string  | null          | The support service to use. See [Configuring Support service](../administration/support.md) |
+| `KBOX_DEFAULT_USER_STORAGE_QUOTA`     |           | null|int  | null        | The available amount of storage to assign to a user in bytes. See [Storage](../administration/storage.md) |
 
 > `KBOX_MAIL_*` parameters can be configured from the User Interface, see [Configuring E-Mail](../administration/mail.md).
 
