@@ -7,6 +7,11 @@ use Tests\TestCase;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Http\UploadedFile;
+use KBox\Capability;
+use KBox\DocumentDescriptor;
+use KBox\Facades\UserQuota;
+use KBox\User;
 
 class DocumentVersionsTest extends TestCase
 {
@@ -207,5 +212,33 @@ class DocumentVersionsTest extends TestCase
         $this->assertNull(File::withTrashed()->find($last_version->id));
         $this->assertNull(File::withTrashed()->find($middle_version->id));
         $adapter->assertDocumentIndexed($document->uuid);
+    }
+
+    public function test_add_new_version_blocked_because_of_quota()
+    {
+        Storage::fake('local');
+        $this->withKlinkAdapterFake();
+
+        config([
+            'quota.user_storage_default' => 100, // bytes
+        ]);
+
+        $user = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$ADMIN);
+        });
+        
+        $document = factory(DocumentDescriptor::class)->create([
+            'owner_id' => $user->id
+        ]);
+
+        $response = $this->actingAs($user)->from(route('documents.edit', $document->id))->put(route('documents.update', $document->id), [
+            'document' => UploadedFile::fake()->create('document.pdf', 100)
+        ]);
+
+        $response->assertRedirect("/documents/$document->id/edit");
+
+        $message = trans('documents.update.error', ['error' => trans('errors.quota.not_enough_free_space', ['free' => human_filesize(UserQuota::free()), 'quota' => human_filesize(UserQuota::maximum())])]);
+        
+        $response->assertSessionHasErrors(['error' => $message]);
     }
 }
