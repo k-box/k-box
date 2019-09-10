@@ -4,6 +4,7 @@ namespace KBox\Services;
 
 use KBox\User;
 use Illuminate\Contracts\Auth\Guard as AuthGuard;
+use Illuminate\Support\Facades\Cache;
 use KBox\File;
 
 class Quota
@@ -60,7 +61,9 @@ class Quota
     
     public function used()
     {
-        return File::whereUserId($this->user->id)->sum('size');
+        return Cache::rememberForever('quota_used_'.$this->user->id, function () {
+            return File::whereUserId($this->user->id)->sum('size');
+        });
     }
     
     public function free()
