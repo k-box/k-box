@@ -71,7 +71,8 @@ final class FileHelper
         'vtt' => 'text/vtt',
         'dfxp' => 'application/ttaf+xml',
         // Audio formats.
-        'mp3|m4a|m4b' => 'audio/mpeg',
+        'm4a|m4b' => 'audio/mpeg',
+        'mp3' => 'audio/mp3',
         'ra|ram' => 'audio/x-realaudio',
         'wav' => 'audio/wav',
         'ogg|oga' => 'audio/ogg',

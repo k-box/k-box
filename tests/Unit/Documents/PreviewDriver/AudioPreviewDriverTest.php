@@ -1,0 +1,51 @@
+<?php
+
+namespace Tests\Unit\Documents\PreviewDriver;
+
+use Tests\TestCase;
+use KBox\File;
+use KBox\DocumentDescriptor;
+use KBox\Documents\FileHelper;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
+use KBox\Documents\Preview\AudioPreviewDriver;
+use Illuminate\Contracts\Support\Renderable;
+
+class AudioPreviewDriverTest extends TestCase
+{
+    use DatabaseTransactions;
+
+    protected function createFileForPath($path)
+    {
+        list($mimeType) = FileHelper::type($path);
+
+        return factory(File::class)->create([
+            'path' => $path,
+            'mime_type' => $mimeType
+        ]);
+    }
+    
+    public function test_video_can_be_previewed()
+    {
+        $path = base_path('tests/data/audio.mp3');
+
+        $file = $this->createFileForPath($path);
+
+        $document = factory(DocumentDescriptor::class)->create([
+            'file_id' => $file->id,
+            'mime_type' => $file->mime_type
+        ]);
+
+        $preview = (new AudioPreviewDriver())->preview($file);
+        $preview->with(['document' => $document]);
+        $html = $preview->render();
+
+        $this->assertInstanceOf(AudioPreviewDriver::class, $preview);
+        $this->assertInstanceOf(Renderable::class, $preview);
+        $this->assertNotNull($html);
+        $this->assertNotEmpty($html);
+        $this->assertContains('audio', $html);
+        $this->assertContains('data-source', $html);
+        $this->assertContains($document->uuid, $html);
+        $this->assertContains($file->uuid, $html);
+    }
+}

@@ -5,5 +5,6 @@
     data-source="{{ DmsRouting::download($document, $file) }}"
     data-source-type="{{ $file->mime_type }}"
     controls preload="none"
+    data-type="video"
     poster="{{ DmsRouting::thumbnail($document, $file) }}">
 </video>
