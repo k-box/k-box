@@ -236,7 +236,7 @@ class UserQuota extends Model
         if ($this->is_full && ! $this->notified_full) {
             $this->user->notify(new QuotaFullNotification($this));
             $this->notified_full = true;
-        } elseif ($this->is_above_threshold && ! $this->notified) {
+        } elseif ($this->is_above_threshold && ! $this->notified_full && ! $this->notified) {
             $this->user->notify(new QuotaLimitNotification($this));
             $this->notified = true;
         }

@@ -208,6 +208,34 @@ class UserQuotaTest extends TestCase
             }
         );
     }
+    
+    public function test_limit_notification_not_sent_after_full_notification()
+    {
+        Notification::fake();
+
+        $quota = factory(UserQuota::class)->create([
+            'limit' => 100,
+            'threshold' => 50,
+            'used' => 99,
+            'unlimited' => false,
+        ]);
+
+        $quota->notify();
+
+        $this->assertTrue($quota->notified_full);
+
+        Notification::assertSentTo(
+            $quota->user,
+            QuotaFullNotification::class,
+            function ($notification, $channels) use ($quota) {
+                return $notification->quota->is($quota);
+            }
+        );
+
+        $quota->notify();
+
+        Notification::assertNotSentTo($quota->user, QuotaLimitNotification::class);
+    }
 
     public function test_reducing_storage_pressure_clears_notifications()
     {
