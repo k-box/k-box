@@ -149,12 +149,12 @@ class UserQuota extends Model
      */
     public function getUnlimitedAttribute($value)
     {
-        if ($value) {
+        if (! is_null($value)) {
             return $value;
         }
 
-        if (! $value && isset($this->attributes['limit']) && is_null($this->attributes['limit']) && Quota::isUnlimited()) {
-            return true;
+        if (is_null($value)) {
+            return Quota::isUnlimited();
         }
         
         return false;

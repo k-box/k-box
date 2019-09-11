@@ -19,7 +19,7 @@ class CreateUserQuotasTable extends Migration
             $table->bigInteger('user_id')->unsigned();
 
             $table->integer('limit')->nullable()->default(null);
-            $table->boolean('unlimited')->default(false);
+            $table->boolean('unlimited')->nullable()->default(null);
             $table->integer('used')->default(0);
             $table->integer('threshold')->nullable()->default(null);
 

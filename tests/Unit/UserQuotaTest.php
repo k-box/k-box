@@ -19,7 +19,8 @@ class UserQuotaTest extends TestCase
     {
         return [
             // configuration, value override, unlimited override, limit value expected, unlimited attribute value expected
-            [null, null, false, INF, true ],
+            [null, null, null , INF, true ],
+            [null, null, false, INF, false],
             [-10 , null, false, 0  , false],
             [0   , null, false, 0  , false],
             [10  , null, false, 10 , false],
@@ -108,12 +109,14 @@ class UserQuotaTest extends TestCase
             'limit' => 100,
             'threshold' => 50,
             'used' => 50,
+            'unlimited' => false,
         ]);
 
         $quota2 = (new UserQuota())->forceFill([
             'limit' => 100,
             'threshold' => 50,
             'used' => 40,
+            'unlimited' => false,
         ]);
 
         $this->assertTrue($quota->is_above_threshold);
@@ -127,12 +130,14 @@ class UserQuotaTest extends TestCase
             'limit' => 100,
             'threshold' => 50,
             'used' => 99,
+            'unlimited' => false,
         ]);
 
         $quota2 = (new UserQuota())->forceFill([
             'limit' => 100,
             'threshold' => 50,
             'used' => 40,
+            'unlimited' => false,
         ]);
 
         $this->assertTrue($quota->is_full);
@@ -147,6 +152,7 @@ class UserQuotaTest extends TestCase
             'limit' => 100,
             'threshold' => 50,
             'used' => 1,
+            'unlimited' => false,
         ]);
 
         $quota->notify();
@@ -162,6 +168,7 @@ class UserQuotaTest extends TestCase
             'limit' => 100,
             'threshold' => 50,
             'used' => 52,
+            'unlimited' => false,
         ]);
 
         $quota->notify();
@@ -185,6 +192,7 @@ class UserQuotaTest extends TestCase
             'limit' => 100,
             'threshold' => 50,
             'used' => 99,
+            'unlimited' => false,
         ]);
 
         $quota->notify();
@@ -208,6 +216,7 @@ class UserQuotaTest extends TestCase
             'limit' => 100,
             'threshold' => 50,
             'used' => 99,
+            'unlimited' => false,
         ]);
 
         $quota->notify();
