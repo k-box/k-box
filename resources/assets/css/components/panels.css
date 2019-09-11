@@ -182,7 +182,8 @@
 
 .c-dialog, .c-panel {
 	height: 100%;
-	width: 100%;
+	
+	@apply w-screen;
 
 
 	overflow: hidden;
@@ -260,8 +261,7 @@
 
 .c-panel__content {
 
-	min-width: 400px;
-	width: 80%;
+	width: 100%;
 	
 
 	@apply max-h-screen;
@@ -275,9 +275,12 @@
 	@apply relative;
 	@apply z-10;
 	
-	@media(min-width:1024px){
-        width: 50%;
-    }
+}
+
+@screen md {
+	.c-panel__content {
+		@apply w-1/2;
+	}
 }
 
 .c-panel__actions {
