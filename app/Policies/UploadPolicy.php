@@ -7,7 +7,7 @@ use KBox\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Http\UploadedFile;
 use KBox\Capability;
-use KBox\Quota;
+use KBox\Facades\Quota;
 use OneOffTech\TusUpload\Http\Requests\CreateUploadRequest;
 
 class UploadPolicy

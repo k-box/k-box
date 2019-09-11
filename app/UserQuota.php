@@ -2,6 +2,7 @@
 
 namespace KBox;
 
+use KBox\Facades\Quota;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use KBox\Notifications\QuotaFullNotification;

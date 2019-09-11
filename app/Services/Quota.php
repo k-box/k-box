@@ -1,6 +1,9 @@
 <?php
 
-namespace KBox;
+namespace KBox\Services;
+
+use KBox\User;
+use KBox\UserQuota;
 
 /**
  * Quota configuration.
@@ -17,7 +20,7 @@ class Quota
      *
      * @return int|null
      */
-    public static function limit()
+    public function limit()
     {
         $quota = config('quota.user');
     
@@ -41,7 +44,7 @@ class Quota
      *
      * @return int the percentage of used space that must be filled before sending the notification
      */
-    public static function threshold()
+    public function threshold()
     {
         $threshold = config('quota.threshold') ?? self::DEFAULT_THRESHOLD;
 
@@ -61,7 +64,7 @@ class Quota
      *
      * @return bool
      */
-    public static function isUnlimited()
+    public function isUnlimited()
     {
         return is_infinite(self::limit());
     }
@@ -74,7 +77,7 @@ class Quota
      * @param int $size
      * @return boolean
      */
-    public static function accept(User $user, $size)
+    public function accept(User $user, $size)
     {
         return optional(self::user($user))->accept($size) ?? false;
     }
@@ -85,7 +88,7 @@ class Quota
      * @param \KBox\User
      * @return \KBox\UserQuota
      */
-    public static function user(User $user)
+    public function user(User $user)
     {
         return UserQuota::firstOrCreate(['user_id' => $user->id]);
     }

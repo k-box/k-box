@@ -10,7 +10,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Http\UploadedFile;
 use KBox\Capability;
 use KBox\DocumentDescriptor;
-use KBox\Quota;
+use KBox\Facades\Quota;
 use KBox\User;
 
 class DocumentVersionsTest extends TestCase

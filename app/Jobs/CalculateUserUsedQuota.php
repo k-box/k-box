@@ -3,7 +3,7 @@
 namespace KBox\Jobs;
 
 use KBox\User;
-use KBox\Quota;
+use KBox\Facades\Quota;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;

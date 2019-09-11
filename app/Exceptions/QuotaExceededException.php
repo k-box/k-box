@@ -4,8 +4,8 @@ namespace KBox\Exceptions;
 
 use Exception;
 use KBox\User;
-use KBox\Quota;
 use KBox\UserQuota;
+use KBox\Facades\Quota;
 
 final class QuotaExceededException extends Exception
 {

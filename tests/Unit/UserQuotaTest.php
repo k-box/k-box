@@ -8,7 +8,8 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Notification;
 use KBox\Notifications\QuotaFullNotification;
 use KBox\Notifications\QuotaLimitNotification;
-use KBox\Quota;
+use KBox\Facades\Quota;
+use KBox\Services\Quota as QuotaService;
 use KBox\UserQuota;
 
 class UserQuotaTest extends TestCase
@@ -34,7 +35,7 @@ class UserQuotaTest extends TestCase
     public function threshold_value_provider()
     {
         return [
-            [null, null, Quota::DEFAULT_THRESHOLD],
+            [null, null, QuotaService::DEFAULT_THRESHOLD],
             [-10, null, 0],
             [0, null, 0],
             [10, null, 10],
