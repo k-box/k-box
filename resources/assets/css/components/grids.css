@@ -288,7 +288,7 @@
 
 	.item__select, .item__icon {
 		position: absolute;
-		z-index: 100
+		z-index: 1;
 	}
 
 	.item__icon {
