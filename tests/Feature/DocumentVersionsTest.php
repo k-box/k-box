@@ -10,7 +10,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Http\UploadedFile;
 use KBox\Capability;
 use KBox\DocumentDescriptor;
-use KBox\Facades\UserQuota;
+use KBox\Quota;
 use KBox\User;
 
 class DocumentVersionsTest extends TestCase
@@ -220,12 +220,14 @@ class DocumentVersionsTest extends TestCase
         $this->withKlinkAdapterFake();
 
         config([
-            'quota.user_storage_default' => 100, // bytes
+            'quota.user' => 100, // bytes
         ]);
 
         $user = tap(factory(User::class)->create(), function ($u) {
             $u->addCapabilities(Capability::$ADMIN);
         });
+
+        $quota = Quota::user($user);
         
         $document = factory(DocumentDescriptor::class)->create([
             'owner_id' => $user->id
@@ -237,7 +239,7 @@ class DocumentVersionsTest extends TestCase
 
         $response->assertRedirect("/documents/$document->id/edit");
 
-        $message = trans('documents.update.error', ['error' => trans('errors.quota.not_enough_free_space', ['free' => human_filesize(UserQuota::free()), 'quota' => human_filesize(UserQuota::maximum())])]);
+        $message = trans('documents.update.error', ['error' => trans('quota.not_enough_free_space', ['free' => human_filesize($quota->free), 'quota' => human_filesize($quota->limit)])]);
         
         $response->assertSessionHasErrors(['error' => $message]);
     }

@@ -4,6 +4,7 @@ namespace KBox\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use KBox\Console\Commands\QuotaCheckCommand;
 
 class Kernel extends ConsoleKernel
 {
@@ -55,5 +56,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('documents:clear-cancelled')->withoutOverlapping()->daily();
         
         $schedule->command('data-export:purge')->withoutOverlapping()->daily();
+
+        $schedule->command(QuotaCheckCommand::class)->withoutOverlapping()->dailyAt('23:00');
     }
 }

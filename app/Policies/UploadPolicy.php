@@ -7,7 +7,7 @@ use KBox\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Http\UploadedFile;
 use KBox\Capability;
-use KBox\Facades\UserQuota;
+use KBox\Quota;
 use OneOffTech\TusUpload\Http\Requests\CreateUploadRequest;
 
 class UploadPolicy
@@ -38,7 +38,7 @@ class UploadPolicy
     public function uploadFile(User $user, UploadedFile $upload)
     {
         return $user->can_capability(Capability::UPLOAD_DOCUMENTS)
-               && UserQuota::accept($upload->getSize(), $user);
+               && Quota::accept($user, $upload->getSize());
     }
     
     /**
@@ -53,6 +53,6 @@ class UploadPolicy
         Log::info('Gate: Tus upload request', ['user' => $user->id, 'upload_request' => $uploadRequest->all()]);
 
         return $user->can_capability(Capability::UPLOAD_DOCUMENTS)
-               && UserQuota::accept($uploadRequest->input('filesize'), $user);
+               && Quota::accept($user, $uploadRequest->input('filesize'));
     }
 }

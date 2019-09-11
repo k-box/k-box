@@ -4,21 +4,23 @@ namespace KBox\Notifications;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use KBox\UserQuota;
 
 class QuotaLimitNotification extends Notification
 {
     use Queueable;
+
+    public $quota;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(UserQuota $userQuota)
     {
-        //
+        $this->quota = $userQuota;
     }
 
     /**
@@ -41,9 +43,8 @@ class QuotaLimitNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+            ->subject(trans('quota.notifications.limit.subject'))
+            ->line(trans('quota.notifications.limit.text', ['threshold' => $this->quota->threshold]));
     }
 
     /**

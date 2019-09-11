@@ -17,5 +17,17 @@ return [
     |
     | @var integer|null
     */
-    'user_storage_default' => env('KBOX_DEFAULT_USER_STORAGE_QUOTA', null),
+    'user' => env('KBOX_DEFAULT_USER_STORAGE_QUOTA', null),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Threshold for notifications
+    |--------------------------------------------------------------------------
+    |
+    | Threshold of used space to determine if a notification needs
+    | to be sent to the user.
+    |
+    | @var integer Percentage of used space
+    */
+    'threshold' => env('KBOX_DEFAULT_STORAGE_QUOTA_THRESHOLD_NOTIFICATION', 80),
 ];

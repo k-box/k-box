@@ -12,7 +12,9 @@ use Illuminate\Support\Facades\Event;
 use KBox\Events\FileDuplicateFoundEvent;
 use KBox\Listeners\UploadCompletedHandler;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Facades\Queue;
 use KBox\DocumentsElaboration\Facades\DocumentElaboration;
+use KBox\Jobs\CalculateUserUsedQuota;
 
 class UploadCompletedHandlerTest extends TestCase
 {
@@ -171,5 +173,53 @@ class UploadCompletedHandlerTest extends TestCase
         $handler->handle($uploadCompleteEvent);
 
         Event::assertNotDispatched(FileDuplicateFoundEvent::class);
+    }
+
+    public function test_calculate_used_quota_job_dispatched()
+    {
+        $this->disableExceptionHandling();
+        Queue::fake();
+        $this->withKlinkAdapterFake();
+        
+        $service = app('KBox\Documents\Services\DocumentsService');
+        
+        $user = tap(factory(\KBox\User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$PROJECT_MANAGER);
+        });
+        
+        $userForDuplicate = tap(factory(\KBox\User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$PROJECT_MANAGER);
+        });
+
+        $document = factory(\KBox\DocumentDescriptor::class)->create(['owner_id' => $user->id, 'is_public' => false]);
+
+        $last_version = $document->file;
+
+        $first_version = factory(\KBox\File::class)->create([
+            'mime_type' => 'text/html',
+            'hash' => 'new_hash'
+        ]);
+
+        $last_version->revision_of = $first_version->id;
+        $last_version->save();
+
+        $duplicateFile = factory(File::class)->create([
+            'hash' => $first_version->hash,
+            'user_id' => $userForDuplicate->id
+        ]);
+
+        $duplicate = factory(DocumentDescriptor::class)->create([
+            'hash' => $first_version->hash,
+            'owner_id' => $userForDuplicate->id,
+            'file_id' => $duplicateFile->id
+        ]);
+
+        $uploadCompleteEvent = new UploadCompleted($duplicate, $userForDuplicate);
+
+        $handler = new UploadCompletedHandler();
+
+        $handler->handle($uploadCompleteEvent);
+
+        Queue::assertPushed(CalculateUserUsedQuota::class);
     }
 }

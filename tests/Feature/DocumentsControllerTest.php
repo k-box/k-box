@@ -77,7 +77,7 @@ class DocumentsControllerTest extends TestCase
         $adapter = $this->withKlinkAdapterFake();
 
         config([
-            'quota.user_storage_default' => 100, // bytes
+            'quota.user' => 100, // bytes
         ]);
 
         $user = tap(factory(User::class)->create(), function ($u) {
@@ -89,7 +89,7 @@ class DocumentsControllerTest extends TestCase
         ]);
 
         $response->assertJson([
-            'error' =>  trans('errors.quota.not_enough_free_space', ['free' => '100.00 B', 'quota' => '100.00 B'])
+            'error' =>  trans('quota.not_enough_free_space', ['free' => '100.00 B', 'quota' => '100.00 B'])
         ]);
     }
 

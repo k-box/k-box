@@ -2,8 +2,9 @@
 
 namespace KBox\Console\Commands;
 
+use KBox\User;
 use Illuminate\Console\Command;
-use KBox\Facades\UserQuota;
+use KBox\Jobs\CalculateUserUsedQuota;
 
 class QuotaCheckCommand extends Command
 {
@@ -12,7 +13,7 @@ class QuotaCheckCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'quota:check {--u|user=* : the user to verify} {--no-notification}';
+    protected $signature = 'quota:check {--u|user=* : the user to verify}';
 
     /**
      * The console command description.
@@ -38,6 +39,24 @@ class QuotaCheckCommand extends Command
      */
     public function handle()
     {
-        UserQuota::withUser($user)->checkAvailableSpace($notify);
+        $users = collect($this->option('user') ?? []);
+
+        $this->line('Checking user storage quota...');
+
+        if ($users->isEmpty()) {
+            User::chunk(50, function ($users) {
+                $users->each(function ($user) {
+                    dispatch_now(new CalculateUserUsedQuota($user));
+                });
+            });
+        } else {
+            User::whereIn('id', $users->toArray())->chunk(50, function ($users) {
+                $users->each(function ($user) {
+                    dispatch_now(new CalculateUserUsedQuota($user));
+                });
+            });
+        }
+
+        return 0;
     }
 }

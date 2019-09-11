@@ -28,7 +28,7 @@ use KBox\Jobs\UpdatePublishedDocumentJob;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use KBox\Documents\Properties\Presenter;
-use KBox\Exceptions\QuotaAboutToExceedException;
+use KBox\Exceptions\QuotaExceededException;
 
 class DocumentsController extends Controller
 {
@@ -241,7 +241,7 @@ class DocumentsController extends Controller
             }
 
             if (Gate::denies('upload-file', $uploadDocument)) {
-                throw new QuotaAboutToExceedException();
+                throw QuotaExceededException::user($auth->user());
             }
 
             $grp = $request->has('group') ? Group::findOrFail($request->input('group')) : null;
@@ -573,7 +573,7 @@ class DocumentsController extends Controller
                     \Log::info('Update Document with new version');
 
                     if (Gate::denies('upload-file', $request->file('document'))) {
-                        throw new QuotaAboutToExceedException();
+                        throw QuotaExceededException::user($user);
                     }
     
                     //test and report exceptions

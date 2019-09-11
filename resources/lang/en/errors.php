@@ -128,9 +128,4 @@ return [
         'dismiss' => 'Dismiss',
     ],
 
-    'quota' => [
-        'exceeded' => 'You have exceeded the storage quota assigned',
-        'not_enough_free_space' => 'Not enough free space available (:free) in your assigned quota (:quota).',
-    ],
-
 ];

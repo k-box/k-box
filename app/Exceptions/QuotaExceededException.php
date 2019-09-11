@@ -3,6 +3,9 @@
 namespace KBox\Exceptions;
 
 use Exception;
+use KBox\User;
+use KBox\Quota;
+use KBox\UserQuota;
 
 final class QuotaExceededException extends Exception
 {
@@ -14,8 +17,20 @@ final class QuotaExceededException extends Exception
      * @param  int  $code
      * @return void
      */
-    public function __construct($message, Exception $previous = null, $code = 507)
+    public function __construct(UserQuota $quota, Exception $previous = null, $code = 507)
     {
-        parent::__construct($message, $code, $previous);
+        parent::__construct(
+            trans('quota.not_enough_free_space', [
+                'free' => human_filesize($quota->free),
+                'quota' => human_filesize($quota->limit)
+            ]),
+            $code,
+            $previous
+        );
+    }
+
+    public static function user(User $user)
+    {
+        return new self(Quota::user($user));
     }
 }
