@@ -274,6 +274,10 @@ class UserQuota extends Model
      */
     public function accept($size)
     {
+        if ($this->unlimited) {
+            return true;
+        }
+        
         return $this->free > $size;
     }
 }
