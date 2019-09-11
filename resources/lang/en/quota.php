@@ -17,7 +17,7 @@ return [
     'notifications' => [
         'limit' => [
             'subject' => 'Your K-Box account is approaching the quota limit',
-            'text' => 'You asked to notify in case the used storage reaches the :treshold %. This is now the time.',
+            'text' => 'You asked to notify in case the used storage reaches the :threshold %. This is now the time.',
         ],
         'full' => [
             'subject' => 'Your K-Box account is almost full',
