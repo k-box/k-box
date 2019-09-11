@@ -271,19 +271,13 @@
 
 
 .c-login__container {
-    min-height: 420px;
+    
     display: flex;
     position: relative;
     justify-content: space-around;
     overflow: hidden;
 
     margin: 0 auto;
-    width: 80%;
-
-    background-color: #A9E34B;
-
-    box-shadow: 0px 10px 10px rgba(0,0,0,0.1);
-    
 
 }
 

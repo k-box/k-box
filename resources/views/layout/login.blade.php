@@ -10,7 +10,7 @@
 
 	<div class="c-login">
 
-		<div class="c-login__container mt-8">
+		<div class="c-login__container w-full shadow-lg md:bg-gray-200  md:w-4/5 mt-8">
 			<div class="c-login__image">
 				<img  class="c-login__background" src="{{asset('images/land-medium.jpg')}}">
 		
