@@ -59,8 +59,8 @@
 
             
 
-            <div class=" mb-4">
-                <button class="button button--primary" type="submit">{{ trans('consent.agree') }}</button>
+            <div class="my-10 flex">
+                <button class="button button--primary w-1/3 sm:w-32 mr-2" type="submit">{{ trans('consent.agree') }}</button>
                 <button class="button" onclick="event.preventDefault();document.getElementById('logout-form').submit();">{{ trans('consent.disagree_logout') }}</button>
             </div>
         </form>
