@@ -1,9 +1,9 @@
 @extends('global')
 
 @section('content')
-<div class="md:flex md:flex-row max-h-available-header relative">
+<div class="md:flex md:flex-row h-page  relative">
 
-    <div class="js-drawer transition flex-shrink-0 min-h-0 absolute md:relative overflow-y-auto overflow-x-hidden -translate-100 pointer-events-none md:pointer-events-auto md:translate-0 mr-4 opacity-0 md:opacity-100 md:w-64 xl:w-1/5 bg-white md:bg-transparent z-10 flex">
+    <div class="js-drawer transition flex-shrink-0 min-h-0 h-full absolute md:relative overflow-y-auto overflow-x-hidden -translate-100 pointer-events-none md:pointer-events-auto md:translate-0 mr-4 opacity-0 md:opacity-100 md:w-64 xl:w-1/5 bg-white md:bg-transparent z-10 flex">
         <div class="flex-grow">
             @yield('sidebar')
         </div>

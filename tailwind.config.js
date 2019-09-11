@@ -21,6 +21,9 @@ module.exports = {
         'error': '#e03131',
         'project-collection': '#f1c40f',
         'personal-collection': '#16a085',
+      },
+      height : {
+        'page' : 'calc(100vh - 3rem)'
       }
     },
     customForms: theme => ({
