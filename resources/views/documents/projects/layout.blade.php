@@ -135,7 +135,7 @@
 	@elseif(auth()->check() && auth()->user()->can_capability(\KBox\Capability::CREATE_PROJECTS))
 
 		<a href="{{route('projects.create')}}" class="action__button inline-block mr-2">
-			@materialicon('content', 'add_circle_outline'){{trans('projects.new_button')}}
+			@materialicon('content', 'add_circle_outline', ['class' => 'inline-block fill-current mr-1']){{trans('projects.new_button')}}
 		</a>
 
 	@endif
