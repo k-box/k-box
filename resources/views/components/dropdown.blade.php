@@ -1,4 +1,4 @@
-<div class="{{ $classes ?? 'relative' }}" data-dropdown>
+<div class="{{ $classes ?? 'sm:relative' }}" data-dropdown>
     <button type="button" data-dropdown-trigger class="flex hover:text-blue-600 items-center js-profile-link " @isset($title) title="{{$title}}" @endisset>
         {{ $slot }}
     </button>

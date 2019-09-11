@@ -1,4 +1,4 @@
-@component('components.dropdown', ['classes' => 'inline-block mr-2 relative', 'title' => trans('pages.help')])
+@component('components.dropdown', ['classes' => 'inline-block mr-2 sm:relative', 'title' => trans('pages.help')])
 
     @materialicon('action', 'help_outline', 'inline fill-current m-0 p-0')
 
