@@ -44,7 +44,7 @@ class QuotaFullNotification extends Notification
     {
         return (new MailMessage)
                     ->subject(trans('quota.notifications.full.subject'))
-                    ->line(trans('quota.notifications.full.text'));
+                    ->line(trans('quota.notifications.full.text', ['quota' => $this->quota->limit]));
     }
 
     /**
