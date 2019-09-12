@@ -1,15 +1,28 @@
 <?php
 
-use Tests\BrowserKitTestCase;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+namespace Tests\Feature;
 
+use KBox\Flags;
+use KBox\Project;
+use Tests\TestCase;
 use KBox\Capability;
 use Klink\DmsMicrosites\Microsite;
 use Klink\DmsMicrosites\MicrositeContent;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class Microsites_IntegrationTest extends BrowserKitTestCase
+class Microsites_IntegrationTest extends TestCase
 {
     use DatabaseTransactions;
+
+    private function enableMicrositeFlag()
+    {
+        Flags::enable(Flags::MICROSITES);
+    }
+    
+    private function disableMicrositeFlag()
+    {
+        Flags::disable(Flags::MICROSITES);
+    }
     
     public function expected_routes_provider()
     {
@@ -28,12 +41,12 @@ class Microsites_IntegrationTest extends BrowserKitTestCase
     public function microsite_routes_and_expected_page_provider_before_login()
     {
         return [
-            [ 'visit', 'microsites.slug', ['slug' => 'test'], 200, 'microsites.slug' ],
-            [ 'visit', 'microsites.index', [], 200, 'frontpage' ],
-            [ 'visit', 'microsites.show', ['id' => 1], 200, 'microsites.show' ],
-            [ 'visit', 'microsites.create', [], 200, 'frontpage' ],
+            [ 'get', 'microsites.slug', ['slug' => 'test'], 200, 'sites::site.site' ],
+            [ 'get', 'microsites.index', [], 302, 'frontpage' ],
+            [ 'get', 'microsites.show', ['id' => 1], 200, 'sites::site.site' ],
+            [ 'get', 'microsites.create', [], 302, 'frontpage' ],
             [ 'post', 'microsites.store', [], 302, 'frontpage' ],
-            [ 'visit', 'microsites.edit', ['id' => 1], 200, 'frontpage' ],
+            [ 'get', 'microsites.edit', ['id' => 1], 302, 'frontpage' ],
             [ 'put', 'microsites.update', ['id' => 1], 302, 'frontpage' ],
             [ 'delete', 'microsites.destroy', ['id' => 1], 302, 'frontpage' ]
         ];
@@ -128,49 +141,92 @@ class Microsites_IntegrationTest extends BrowserKitTestCase
     /**
      * @dataProvider microsite_routes_and_expected_page_provider_before_login
      */
-    public function testMicrositeRouteAuthentication_NoLogin($method, $route, $parameters, $return_code, $expected_route)
+    public function test_microsites_route_not_found_if_flag_disabled($method, $route, $parameters, $return_code, $expected_route)
     {
+        $this->disableMicrositeFlag();
+
         $microsite = factory('Klink\DmsMicrosites\Microsite')->create([
             'id' => 1,
         ]);
 
-        $this->{$method}(route($route, $parameters));
+        $response = $this->{$method}(route($route, $parameters));
+
+        $response->assertStatus(200);
+        $response->assertErrorView(404);
+    }
+
+    /**
+     * @dataProvider microsite_routes_and_expected_page_provider_before_login
+     */
+    public function testMicrositeRouteAuthentication_NoLogin($method, $route, $parameters, $return_code, $expected_view)
+    {
+        $this->enableMicrositeFlag();
+
+        $microsite = factory('Klink\DmsMicrosites\Microsite')->create([
+            'id' => 1,
+            'slug' => 'test'
+        ]);
+
+        $response = $this->{$method}(route($route, $parameters));
         
-        $this->assertResponseStatus($return_code);
+        $response->assertStatus($return_code);
         
         if ($return_code === 200) {
-            $this->seePageIs(route($expected_route, $expected_route === 'frontpage' ? [] : $parameters));
+            $response->assertViewIs($expected_view);
         }
     }
     
-    /**
-     * Test if the Project show page of a specific project has the microsite section on the UI
-     */
-    public function testMicrositeCreateActionsOnProjectShowPage()
+    public function test_microsite_section_on_projects_details_is_present()
     {
-        $project = factory(\KBox\Project::class)->create();
+        $this->enableMicrositeFlag();
+
+        $project = factory(Project::class)->create();
         
         $this->actingAs($project->manager()->first());
         
-        $this->visit(route('projects.show', ['id' => $project->id]))
-            ->see('Microsite')
-            ->see(trans('microsites.actions.create'));
-            
-        $this->click('microsite_create');
+        $response = $this->get(route('projects.show', ['id' => $project->id]));
+
+        $response->assertSee('Microsite');
+        $response->assertSee(trans('microsites.actions.create'));
+        $response->assertSee(route('microsites.create', ['project' => $project->id]));
+
+    }
+    
+    public function test_microsite_section_on_projects_not_present_when_flag_disabled()
+    {
+        $this->disableMicrositeFlag();
+
+        $project = factory(Project::class)->create();
         
-        $this->seePageIs(route('microsites.create', ['project' => $project->id]));
+        $this->actingAs($project->manager()->first());
         
-        $this->see(trans('microsites.pages.create', ['project' => $project->name]));
+        $response = $this->get(route('projects.show', ['id' => $project->id]));
+
+        $response->assertDontSee('Microsite');
+        $response->assertDontSee(trans('microsites.actions.create'));
+        $response->assertDontSee(route('microsites.create', ['project' => $project->id]));
+    }
+    
+    public function test_microsite_section_on_project_details_not_present_when_flag_disabled()
+    {
+        $this->disableMicrositeFlag();
+
+        $project = factory(Project::class)->create();
         
-        $this->see(trans('microsites.actions.publish'));
+        $this->actingAs($project->manager()->first());
         
-        $this->assertViewHas('pagetitle');
-        $this->assertViewHas('project');
+        $response = $this->get(route('documents.projects.show', ['id' => $project->id]));
+
+        $response->assertDontSee('Microsite');
+        $response->assertDontSee(trans('microsites.actions.create'));
+        $response->assertDontSee(route('microsites.create', ['project' => $project->id]));
     }
     
     public function testMicrositeManageActionsVisibilityOnProjectShowPage()
     {
-        $project = factory(\KBox\Project::class)->create();
+        $this->enableMicrositeFlag();
+
+        $project = factory(Project::class)->create();
         
         $project_manager = $project->manager()->first();
         
@@ -179,47 +235,47 @@ class Microsites_IntegrationTest extends BrowserKitTestCase
             'user_id' => $project_manager->id
         ]);
         
-        $this->actingAs($project_manager);
+        $response = $this->actingAs($project_manager)->get(route('projects.show', ['id' => $project->id]));
         
-        $this->visit(route('projects.show', ['id' => $project->id]))
-            ->see('Microsite')
-            ->see(trans('microsites.actions.delete'))
-            ->see(trans('microsites.actions.view_site'))
-            ->see(trans('microsites.actions.edit'));
+        $response->assertSee('Microsite');
+        $response->assertSee(trans('microsites.actions.delete'));
+        $response->assertSee(trans('microsites.actions.view_site'));
+        $response->assertSee(trans('microsites.actions.edit'));
     }
     
     public function testMicrositeCreateInvokedWithoutProjectParameter()
     {
-        $project = factory(\KBox\Project::class)->create();
+        $this->enableMicrositeFlag();
+
+        $project = factory(Project::class)->create();
         
         $project_manager = $project->manager()->first();
         
-        \Session::start();
+        $response = $this->actingAs($project_manager)
+            ->from(route('projects.show', ['id' => $project->id ]))
+            ->get(route('microsites.create'));
         
-        $this->actingAs($project_manager);
-        
-        $this->visit(route('projects.show', ['id' => $project->id ]));
-        
-        $this->visit(route('microsites.create'));
-        
-        $this->seePageIs(route('projects.show', ['id' => $project->id ]));
-        
-        $this->see(trans('microsites.errors.create_no_project'));
+        $response->assertRedirect(route('projects.show', ['id' => $project->id ]));
+        $response->assertSessionHasErrors([
+            'error' => trans('microsites.errors.create_no_project')
+        ]);
     }
     
     public function testMicrositeCreateInvokedWithoutUserAffiliation()
     {
+        $this->enableMicrositeFlag();
+
         $user = $this->createAdminUser();
         
-        $project = factory(\KBox\Project::class)->create(['user_id' => $user->id]);
+        $project = factory(Project::class)->create(['user_id' => $user->id]);
         
         \Session::start();
         
         $this->actingAs($user);
         
-        $this->visit(route('projects.show', ['id' => $project->id ]));
+        $this->get(route('projects.show', ['id' => $project->id ]));
         
-        $this->visit(route('microsites.create', ['project' => $project->id]));
+        $this->get(route('microsites.create', ['project' => $project->id]));
         
         $this->seePageIs(route('microsites.create', ['project' => $project->id ]));
         
@@ -228,7 +284,9 @@ class Microsites_IntegrationTest extends BrowserKitTestCase
     
     public function testMicrositeCreateOnProjectWithExistingMicrosite()
     {
-        $project = factory(\KBox\Project::class)->create();
+        $this->enableMicrositeFlag();
+
+        $project = factory(Project::class)->create();
         
         $project_manager = $project->manager()->first();
         
@@ -239,9 +297,9 @@ class Microsites_IntegrationTest extends BrowserKitTestCase
         
         $this->actingAs($project_manager);
         
-        $this->visit(route('projects.show', ['id' => $project->id ]));
+        $this->get(route('projects.show', ['id' => $project->id ]));
         
-        $this->visit(route('microsites.create', ['project' => $project->id]));
+        $this->get(route('microsites.create', ['project' => $project->id]));
         
         $this->seePageIs(route('projects.show', ['id' => $project->id ]));
         
@@ -250,7 +308,9 @@ class Microsites_IntegrationTest extends BrowserKitTestCase
     
     public function testMicrositeStoreWithValidData()
     {
-        $project = factory(\KBox\Project::class)->create();
+        $this->enableMicrositeFlag();
+
+        $project = factory(Project::class)->create();
         
         $project_manager = $project->manager()->first();
         
@@ -298,7 +358,9 @@ class Microsites_IntegrationTest extends BrowserKitTestCase
     
     public function testMicrositeStoreWithValidData_NoLogo()
     {
-        $project = factory(\KBox\Project::class)->create();
+        $this->enableMicrositeFlag();
+
+        $project = factory(Project::class)->create();
         
         $project_manager = $project->manager()->first();
         
@@ -350,15 +412,17 @@ class Microsites_IntegrationTest extends BrowserKitTestCase
      */
     public function testMicrositeStoreWithInvalidData($request_data, $attribute, $error_type)
     {
-        $project = factory(\KBox\Project::class)->create();
+        $this->enableMicrositeFlag();
+
+        $project = factory(Project::class)->create();
         $project_manager = $project->manager()->first();
         
         \Session::start();
         
         $this->actingAs($project_manager);
         
-        $this->visit(route('microsites.create', ['project' => $project->id]));
-        // $this->visit( route('projects.show', ['id' => $project->id ]) );
+        $this->get(route('microsites.create', ['project' => $project->id]));
+        // $this->get( route('projects.show', ['id' => $project->id ]) );
         
         $microsite_request = factory('Klink\DmsMicrosites\Microsite')->make([
             'project_id' => $project->id,
@@ -400,7 +464,9 @@ class Microsites_IntegrationTest extends BrowserKitTestCase
      */
     public function testMicrositeLanguageSwitch($default_lang, $switch_to)
     {
-        $project = factory(\KBox\Project::class)->create();
+        $this->enableMicrositeFlag();
+
+        $project = factory(Project::class)->create();
         
         $project_manager = $project->manager()->first();
         
@@ -446,8 +512,8 @@ class Microsites_IntegrationTest extends BrowserKitTestCase
         
         $this->assertEquals(2, $page_count);
         
-        // visit the page and test if $default_lang version is showed
-        $this->visit(route('microsites.slug', ['slug' => $microsite_request['slug']]));
+        // get the page and test if $default_lang version is showed
+        $this->get(route('microsites.slug', ['slug' => $microsite_request['slug']]));
         
         $this->see($microsite_request['content'][$default_lang]['content']);
         
@@ -460,7 +526,9 @@ class Microsites_IntegrationTest extends BrowserKitTestCase
     
     public function testMicrositeStoreOnPojectWithExistingMicrosite()
     {
-        $project = factory(\KBox\Project::class)->create();
+        $this->enableMicrositeFlag();
+
+        $project = factory(Project::class)->create();
         
         $project_manager = $project->manager()->first();
         
@@ -498,7 +566,9 @@ class Microsites_IntegrationTest extends BrowserKitTestCase
     
     public function testMicrositeEditFromProjectShowPage()
     {
-        $project = factory(\KBox\Project::class)->create();
+        $this->enableMicrositeFlag();
+
+        $project = factory(Project::class)->create();
         
         $project_manager = $project->manager()->first();
         
@@ -511,7 +581,7 @@ class Microsites_IntegrationTest extends BrowserKitTestCase
         
         $this->actingAs($project_manager);
         
-        $this->visit(route('projects.show', ['id' => $project->id]));
+        $this->get(route('projects.show', ['id' => $project->id]));
         
         $this->click('microsite_edit');
         
@@ -520,7 +590,9 @@ class Microsites_IntegrationTest extends BrowserKitTestCase
     
     public function testMicrositeUpdateWithValidData()
     {
-        $project = factory(\KBox\Project::class)->create();
+        $this->enableMicrositeFlag();
+
+        $project = factory(Project::class)->create();
         
         $project_manager = $project->manager()->first();
         
@@ -620,7 +692,9 @@ class Microsites_IntegrationTest extends BrowserKitTestCase
     
     public function testMicrositeDeleteWithValidData()
     {
-        $project = factory(\KBox\Project::class)->create();
+        $this->enableMicrositeFlag();
+
+        $project = factory(Project::class)->create();
         
         $project_manager = $project->manager()->first();
         
@@ -650,9 +724,11 @@ class Microsites_IntegrationTest extends BrowserKitTestCase
      */
     public function testMicrositeDeleteWithInValidData($caps, $response_status)
     {
+        $this->enableMicrositeFlag();
+
         $user = $this->createUser($caps);
         
-        $project = factory(\KBox\Project::class)->create();
+        $project = factory(Project::class)->create();
         
         $project_manager = $project->manager()->first();
         
@@ -684,6 +760,8 @@ class Microsites_IntegrationTest extends BrowserKitTestCase
 
     public function test_html_can_be_used_in_microsite_content()
     {
+        $this->enableMicrositeFlag();
+
         $content = MicrositeContent::make([
             'language' => 'en',
             'type' => MicrositeContent::TYPE_PAGE,
@@ -698,6 +776,8 @@ class Microsites_IntegrationTest extends BrowserKitTestCase
 
     public function test_scripts_cannot_be_used_in_microsite_content()
     {
+        $this->enableMicrositeFlag();
+
         $content = MicrositeContent::make([
             'language' => 'en',
             'type' => MicrositeContent::TYPE_PAGE,
