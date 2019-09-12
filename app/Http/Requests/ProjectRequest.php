@@ -2,6 +2,7 @@
 
 namespace KBox\Http\Requests;
 
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest as Request;
 
 class ProjectRequest extends Request
@@ -16,8 +17,16 @@ class ProjectRequest extends Request
     {
         $action = $this->route()->getAction();
 
+        $is_update = $action['as'] == 'projects.update';
+
+        $name_unique_rule = Rule::unique('projects', 'name');
+
         $tests = [
-            'name' => 'required|string',
+            'name' => [
+                'required',
+                'string',
+                $is_update ? $name_unique_rule->ignore($this->route('project')) : $name_unique_rule,
+            ],
             'description' => 'nullable|sometimes|string',
             'users' => 'nullable|sometimes|required|array|exists:users,id',
             'manager' => 'required|exists:users,id',
@@ -35,5 +44,12 @@ class ProjectRequest extends Request
     public function authorize()
     {
         return true;
+    }
+
+    public function messages()
+    {
+        return [
+            'name.unique' => trans('projects.errors.already_existing'),
+        ];
     }
 }

@@ -163,6 +163,28 @@ class ProjectsTest extends TestCase
             $response->assertRedirect(route('documents.groups.show', $created_project->collection_id));
         }
     }
+    
+    public function test_project_cannot_be_created_if_already_existing()
+    {
+        $user = $this->createUser(Capability::$PROJECT_MANAGER);
+
+        $project = factory(Project::class)->create([
+            'user_id' => $user->id
+        ]);
+
+        $expected_available_users = collect([$this->createUser(Capability::$PARTNER)]);
+
+        $params = [
+            'manager' => $user->id,
+            'name' => $project->name,
+            'description' => 'Project description',
+        ];
+
+        $response = $this->from(route('projects.create'))->actingAs($user)->post(route('projects.store'), $params);
+
+        $response->assertRedirect(route('projects.create'));
+        $response->assertSessionHasErrors(['name' => trans('projects.errors.already_existing')]);
+    }
 
     public function test_project_edit()
     {
