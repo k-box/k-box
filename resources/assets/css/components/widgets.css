@@ -176,3 +176,11 @@
 .c-panel__content .widgets {
 	margin: 24px 1px 0;
 }
+
+.hideable {
+	display: none;
+
+	&.visible {
+		display: block;
+	}
+}
