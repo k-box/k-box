@@ -44,13 +44,7 @@
 
 	@include('errors.list')
 
-	@if(Session::has('flash_message'))
-
-        <div class="c-message c-message--success">
-            {{session('flash_message')}}
-        </div>
-
-	@elseif(!$document->trashed() && $document->isMine() && !$document->isIndexed())
+	@if(!$document->trashed() && $document->isMine() && !$document->isIndexed())
 	
 	<div class="c-message c-message--info">
 		{!!trans('documents.messages.processing')!!}
@@ -106,8 +100,7 @@
 				@if( isset($errors) && $errors->has('abstract') )
 		            <span class="field-error">{{ implode(",", $errors->get('abstract'))  }}</span>
 		        @endif
-	  			<textarea class="form-textarea block w-full lg:w-10/12 form-input--height-3" placeholder="{{trans('documents.edit.abstract_placeholder')}}" id="abstract" name="abstract" @if(!$document->isMine() || !$can_edit_document) disabled @endif>
-	{{old('abstract', isset($document) ? $document->abstract : '')}}</textarea>
+	  			<textarea class="form-textarea block w-full lg:w-10/12 form-input--height-3" placeholder="{{trans('documents.edit.abstract_placeholder')}}" id="abstract" name="abstract" @if(!$document->isMine() || !$can_edit_document) disabled @endif>{{old('abstract', isset($document) ? $document->abstract : '')}}</textarea>
 				<span class="description">{!! trans('documents.edit.abstract_help') !!}</span>
 			</div>
 			<div class=" mb-4">
@@ -116,8 +109,7 @@
 	  			@if( isset($errors) && $errors->has('authors') )
 		            <span class="field-error">{{ implode(",", $errors->get('authors'))  }}</span>
 		        @endif
-	  			<textarea class="form-textarea block w-full lg:w-10/12" @if(!$document->isMine() || !$can_edit_document) disabled @endif placeholder="{{trans('documents.edit.authors_placeholder')}}" id="authors" name="authors">
-	{{old('authors', isset($document) ? $document->authors : '')}}</textarea>
+	  			<textarea class="form-textarea block w-full lg:w-10/12" @if(!$document->isMine() || !$can_edit_document) disabled @endif placeholder="{{trans('documents.edit.authors_placeholder')}}" id="authors" name="authors">{{old('authors', isset($document) ? $document->authors : '')}}</textarea>
 			</div>
 				
 			<div class=" mb-4">
