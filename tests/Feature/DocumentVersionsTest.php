@@ -220,7 +220,7 @@ class DocumentVersionsTest extends TestCase
         $this->withKlinkAdapterFake();
 
         config([
-            'quota.user' => 100, // bytes
+            'quota.user' => 1024, // bytes
         ]);
 
         $user = tap(factory(User::class)->create(), function ($u) {
@@ -239,7 +239,7 @@ class DocumentVersionsTest extends TestCase
 
         $response->assertRedirect("/documents/$document->id/edit");
 
-        $message = trans('documents.update.error', ['error' => trans('quota.not_enough_free_space', ['free' => human_filesize($quota->free), 'quota' => human_filesize($quota->limit)])]);
+        $message = trans('documents.update.error', ['error' => trans('quota.not_enough_free_space', ['necessary_free_space' => human_filesize(100*1024-1024), 'quota' => human_filesize($quota->limit)])]);
         
         $response->assertSessionHasErrors(['error' => $message]);
     }

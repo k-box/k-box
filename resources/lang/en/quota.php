@@ -12,7 +12,7 @@ return [
     */
 
     'exceeded' => 'You have exceeded the storage quota assigned',
-    'not_enough_free_space' => 'Not enough free space available (:free) in your assigned quota (:quota).',
+    'not_enough_free_space' => 'The file you are trying to upload exceeds :quota quota limit. You need an additional :necessary_free_space to upload this file.',
 
     'notifications' => [
         'limit' => [

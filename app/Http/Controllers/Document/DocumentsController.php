@@ -241,7 +241,7 @@ class DocumentsController extends Controller
             }
 
             if (Gate::denies('upload-file', $uploadDocument)) {
-                throw QuotaExceededException::user($auth->user());
+                throw QuotaExceededException::user($auth->user(), $uploadDocument->getSize());
             }
 
             $grp = $request->has('group') ? Group::findOrFail($request->input('group')) : null;
@@ -573,7 +573,7 @@ class DocumentsController extends Controller
                     \Log::info('Update Document with new version');
 
                     if (Gate::denies('upload-file', $request->file('document'))) {
-                        throw QuotaExceededException::user($user);
+                        throw QuotaExceededException::user($user, $request->file('document')->getSize());
                     }
     
                     //test and report exceptions
