@@ -347,7 +347,6 @@
 
 .c-panel__meta {
 	@apply mb-3;
-	@apply flex;
 }
 
 .c-panel__label {

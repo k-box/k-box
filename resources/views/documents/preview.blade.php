@@ -12,7 +12,7 @@
 @section('content')
 
 
-	<div class="preview js-preview">
+	<div class="preview js-preview -mx-2 lg:-mx-4">
     
     <div class="preview__header">
 	
