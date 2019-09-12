@@ -158,7 +158,6 @@ class PublicLinksTest extends TestCase
 
         $user = $this->createUser(Capability::$PARTNER);
 
-
         $params = [
             // '_token' => csrf_token(),
             'links' => $share->sharedwith_id,
