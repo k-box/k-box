@@ -15,7 +15,7 @@
 <div class="c-panel__actions">
 	<a href="{{route('documents.groups.show', $project->collection->id)}}" class="button">{{ trans('projects.show_documents') }}</a>
 
-	@if( flag('microsite') && !is_null( $project->microsite ) )
+	@if( flags('microsites') && !is_null( $project->microsite ) )
 		<a target="_blank" href="{{ route('projects.site', ['slug' => $project->microsite->slug]) }}" class="button">{{ trans('microsites.actions.view_site') }}</a>
 	@endif
 
@@ -44,7 +44,7 @@
 	</div>
 
 
-	@if(auth()->check() && flag('microsite') && (auth()->user()->id === $project->user_id || !is_null( $project->microsite )))
+	@if(auth()->check() && flags('microsites') && (auth()->user()->id === $project->user_id || !is_null( $project->microsite )))
 
 	<div class="c-panel__meta">
 		<h4 class="c-panel__section">{!! trans('microsites.labels.microsite') !!}</h4>
