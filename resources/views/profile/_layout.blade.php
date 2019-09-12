@@ -56,14 +56,6 @@
 
 	@include('errors.list')
 
-	@if(Session::has('flash_message'))
-
-		<div class="c-message c-message--success">
-			{{session('flash_message')}}
-		</div>
-
-	@endif
-
 	@yield('profile_page')
 
 @stop
