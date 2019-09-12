@@ -8,6 +8,7 @@ Flag status is stored in the database.
 ## Available flags
 
 - `plugins`: this feature is about a [plugin system](./plugins/plugins.md)
+- `microsites`: this feature is about a [project microsites](../user/microsites.md)
 
 
 _temporary flags for A/B testing_
