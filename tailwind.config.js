@@ -28,7 +28,7 @@ module.exports = {
     },
     customForms: theme => ({
       default: {
-        'input, textarea, multiselect, select': {
+        'input, textarea, multiselect, select, checkbox': {
           borderColor: theme('colors.gray.500'),
         },
       },
