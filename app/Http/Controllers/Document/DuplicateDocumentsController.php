@@ -69,7 +69,9 @@ class DuplicateDocumentsController extends Controller
             if (! $collections->isEmpty()) {
                 DB::transaction(function () use ($collections, $user, $duplicate) {
                     $collections->each(function ($c) use ($user, $duplicate) {
-                        $this->service->addDocumentToGroup($user, $duplicate->duplicateOf, $c, false);
+                        if ($duplicate->duplicateOf->groups()->where('group_id', $c->id)->count() === 0) {
+                            $this->service->addDocumentToGroup($user, $duplicate->duplicateOf, $c, false);
+                        }
                     });
                     try {
                         $this->service->triggerReindex($duplicate->duplicateOf);
