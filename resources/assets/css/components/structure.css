@@ -565,14 +565,14 @@ ul.pagination {
 
 	&.success {
 
-		@apply bg-green-100;
+		@apply bg-green-200;
 		@apply text-green-900;
 
 	}
 
 	&.failed, &.error {
 
-		@apply bg-red-100;
+		@apply bg-red-200;
 		@apply text-red-900;
 
 	}
