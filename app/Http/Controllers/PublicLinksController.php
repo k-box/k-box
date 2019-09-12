@@ -26,17 +26,6 @@ class PublicLinksController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        // ???
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -118,9 +107,7 @@ class PublicLinksController extends Controller
         $link = PublicLink::findOrFail($id);
         
         if ($user->id !== $link->user_id) {
-            throw new ForbiddenException(
-                trans('share.publiclinks.edit_forbidden_not_your')
-            );
+            return new JsonResponse(['error' => trans('share.publiclinks.edit_forbidden_not_your')], 422);
         }
 
         $slug = $request->input('slug', null);
@@ -157,9 +144,7 @@ class PublicLinksController extends Controller
         $link = PublicLink::findOrFail($id);
         
         if ($user->id !== $link->user_id) {
-            throw new ForbiddenException(
-                trans('share.publiclinks.delete_forbidden_not_your')
-            );
+            return new JsonResponse(['error' => trans('share.publiclinks.delete_forbidden_not_your')], 422);
         }
 
         $res = DB::transaction(function () use ($link) {

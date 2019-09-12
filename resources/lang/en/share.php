@@ -104,7 +104,7 @@ return [
     'publiclinks' => [
         'public_link' => 'Public Link',
         'already_exist' => 'Public link for :name already exists.',
-        'delete_forbidden_not_your' => 'You cannot delete a link you did not create.',
-        'edit_forbidden_not_your' => 'You cannot modify a link you did not create.',
+        'delete_forbidden_not_your' => 'Only the creator of the public link can delete it.',
+        'edit_forbidden_not_your' => 'Only the creator of the public link can change it.',
     ],
 ];

@@ -149,6 +149,27 @@ class PublicLinksTest extends TestCase
         ]);
     }
 
+    public function testDeletePublicLinkIsNotPossibleByOtherUser()
+    {
+        $share = factory(Shared::class, 'publiclink')->create();
+
+        $creator = $share->user;
+        $creator->addCapabilities(Capability::$PARTNER);
+
+        $user = $this->createUser(Capability::$PARTNER);
+
+
+        $params = [
+            // '_token' => csrf_token(),
+            'links' => $share->sharedwith_id,
+            ];
+
+        $response = $this->actingAs($user)->json('delete', route('links.destroy', $params));
+        $response->assertJson([
+        'error' =>  trans('share.publiclinks.delete_forbidden_not_your'),
+        ]);
+    }
+
     public function testUpdatePublicLink()
     {
         $share = factory(Shared::class, 'publiclink')->create();
