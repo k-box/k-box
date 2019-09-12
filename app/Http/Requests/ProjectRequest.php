@@ -19,7 +19,7 @@ class ProjectRequest extends Request
 
         $is_update = $action['as'] == 'projects.update';
 
-        $name_unique_rule = Rule::unique('projects', 'name');
+        $name_unique_rule = Rule::unique('projects', 'name')->where('user_id', $this->user()->id);
 
         $tests = [
             'name' => [

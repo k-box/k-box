@@ -26,6 +26,8 @@ To create a project, press the button _New Project_ that is on the top right of 
 
 After inserting the project name, description and users, press the _Create Project_ to save your changes.
 
+> Project name must be unique within the user's managed projects
+
 ## <a id="prjDetails"></a>Project details
 
 This page shows project members and personalization options.

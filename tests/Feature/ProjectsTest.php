@@ -172,8 +172,6 @@ class ProjectsTest extends TestCase
             'user_id' => $user->id
         ]);
 
-        $expected_available_users = collect([$this->createUser(Capability::$PARTNER)]);
-
         $params = [
             'manager' => $user->id,
             'name' => $project->name,
@@ -184,6 +182,31 @@ class ProjectsTest extends TestCase
 
         $response->assertRedirect(route('projects.create'));
         $response->assertSessionHasErrors(['name' => trans('projects.errors.already_existing')]);
+    }
+    
+    public function test_two_users_can_have_equally_named_projects()
+    {
+        $user1 = $this->createUser(Capability::$PROJECT_MANAGER);
+        $user2 = $this->createUser(Capability::$PROJECT_MANAGER);
+
+        $params1 = [
+            'manager' => $user1->id,
+            'name' => 'A project',
+            'description' => 'Project description',
+        ];
+
+        $params2 = [
+            'manager' => $user2->id,
+            'name' => 'A project',
+            'description' => 'Project description',
+        ];
+
+        $response1 = $this->from(route('projects.create'))->actingAs($user1)->post(route('projects.store'), $params1);
+
+        $response2 = $this->from(route('projects.create'))->actingAs($user2)->post(route('projects.store'), $params2);
+
+        $created_project = Project::where('name', $params1['name'])->count();
+        $this->assertEquals(2, $created_project);
     }
 
     public function test_project_edit()
