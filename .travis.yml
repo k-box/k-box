@@ -3,6 +3,18 @@ language: php
 php:
   - 7.1
 
+dist: bionic
+
+addons:
+  apt:
+    sources:
+      - ppa:ubuntugis/ppa
+    packages:
+      - docker-bionic
+      - libmagickwand-dev
+      - ghostscript
+      - gdal-bin
+
 services:
   - docker
 
@@ -23,12 +35,12 @@ env:
     - DMS_CORE_ADDRESS="http://127.0.0.1:8081/"
 
 before_install:
-  - sudo add-apt-repository ppa:ubuntugis/ppa --yes
-  - sudo apt-get update -q
-  - sudo apt-get install -y libmagickwand-dev
-  - sudo apt-get install -y ghostscript
-  - sudo apt-get install -y gdal-bin
   - ogrinfo --version
+  # - sudo add-apt-repository ppa:ubuntugis/ppa --yes
+  # - sudo apt-get update -q
+  # - sudo apt-get install -y libmagickwand-dev
+  # - sudo apt-get install -y ghostscript
+  # - sudo apt-get install -y gdal-bin
 
 install:
   - cp env.travis .env
@@ -40,7 +52,6 @@ before_script:
   - pecl channel-update pecl.php.net
   - yes | pecl install imagick-3.4.3 # install imagemagick for thumbnail generation of files https://github.com/travis-ci/travis-ci/issues/781#issuecomment-332473065
   - php --ri imagick
-  - sudo service mysql stop
   - docker-compose -f ./tests/docker-compose.yml up -d  
 
 script: 
