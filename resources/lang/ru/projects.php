@@ -72,6 +72,8 @@ return [
     'errors' => [
 
         'exception' => 'Невозможно создать проект. (:exception)',
+
+        'already_existing' => 'Проект с таким названием уже существует',
         
         'prevent_edit_description' => 'Изменение проекта возможно в <a href=":link">Проекты > Изменить :name</a>',
         
