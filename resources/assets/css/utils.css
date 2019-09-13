@@ -1,0 +1,55 @@
+
+.max-h-available-header {
+	min-height: calc(100vh - 3rem);
+	height: calc(100vh - 3rem);
+}
+
+
+.transition { 
+	transition: all 0.2s linear;
+}
+
+.-translate-100 {
+	transform: translateX(-100%);
+}
+
+.translate-0 {
+	transform: translateX(0);
+}
+
+.rotate-180 {
+	transform: rotate(180deg);
+}
+
+@media (min-width: 640px) {
+
+	.md\:translate-0 {
+		transform: translateX(0);
+	}
+}
+
+.hint {
+	@apply hidden;
+	@apply shadow;
+	@apply absolute;
+}
+
+.focus\:show-hint:focus ~ .hint {
+	@apply block;
+}
+
+
+.loading {
+	@apply opacity-50;
+	@apply cursor-wait;
+}
+
+.waiting {
+	@apply cursor-wait;
+}
+
+.dragover {
+	@apply bg-accent-500;
+	@apply text-white;
+	transform: scale(1.1);
+}

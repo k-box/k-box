@@ -20,15 +20,15 @@
             </div>
         @endif
 
-        {{-- <div class="c-form__field">
+        {{-- <div class=" mb-4">
             <label for="name">{{trans('auth.name_label')}}</label>
             @if( isset($errors) && $errors->has('name') )
                 <span class="field-error">{{ $errors->first('name')  }}</span>
             @endif
-            <input type="text" class="c-form__input c-form__input--larger" required autofocus id="name" name="name" tabindex="1" value="{{ old('name') }}" />
+            <input type="text" class="form-input block w-full sm:w-2/3" required autofocus id="name" name="name" tabindex="1" value="{{ old('name') }}" />
         </div> --}}
 
-        <div class="c-form__field">
+        <div class=" mb-4">
             <label for="email" class="">{{trans('auth.email_label')}}</label>
 
             @if ( isset($errors) && $errors->has('email'))
@@ -36,10 +36,10 @@
                     {{ $errors->first('email') }}
                 </span>
             @endif
-            <input id="email" type="email" class="c-form__input c-form__input--larger" name="email" tabindex="2" value="{{ old('email') }}" required>
+            <input id="email" type="email" class="form-input block w-full sm:w-2/3" name="email" tabindex="2" value="{{ old('email') }}" required>
         </div>
 
-        <div class="c-form__field">
+        <div class=" mb-4">
             <label for="password" class="">{{trans('auth.password_label')}}</label>
 
             @if ( isset($errors) && $errors->has('password'))
@@ -48,17 +48,17 @@
                 </span>
             @endif
 
-            <input id="password" type="password" class="c-form__input c-form__input--larger"  tabindex="3" name="password" required>
+            <input id="password" type="password" class="form-input block w-full sm:w-2/3"  tabindex="3" name="password" required>
             <span class="description">{{ trans('profile.labels.password_description') }}</span>
         </div>
 
-        <div class="c-form__field mb-4">
+        <div class=" mb-4 mb-4">
             <label for="password-confirm" class="">{{ trans('profile.labels.password_confirm') }}</label>
 
-            <input id="password-confirm" type="password" class="c-form__input c-form__input--larger" name="password_confirmation"  tabindex="4" required>
+            <input id="password-confirm" type="password" class="form-input block w-full sm:w-2/3" name="password_confirmation"  tabindex="4" required>
         </div>
 
-        <div class="c-form__field">
+        <div class=" mb-4">
             <div class="">
                 <button type="submit" class="button button--primary"  tabindex="5">
                     {{ trans('auth.register') }}

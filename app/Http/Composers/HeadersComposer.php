@@ -54,7 +54,8 @@ class HeadersComposer
         $is_klink_public_enabled = config('dms.are_guest_public_search_enabled') && network_enabled();
 
         $show_search = (! $is_logged && $is_klink_public_enabled && ! starts_with($route_name, 'password') && ! str_contains($route_name, 'help') && ! starts_with($route_name, 'terms') && ! str_contains($route_name, 'contact')) ||
-                        ($is_logged && ! is_null($route_name) && ! starts_with($route_name, 'admin') &&
+                        ($is_logged && ! is_null($route_name) &&
+                       (! starts_with($route_name, 'admin') ||  starts_with($route_name, 'admin') && str_contains($route_name, 'storage.files'))  &&
                        ! str_contains($route_name, 'contact') &&
                        ! str_contains($route_name, 'help') && ! starts_with($route_name, 'terms') && ! str_contains($route_name, 'trash') &&
                        ! starts_with($route_name, 'projects')  &&
@@ -62,6 +63,10 @@ class HeadersComposer
                        ! starts_with($route_name, 'consent') &&
                        ! starts_with($route_name, 'register') &&
                        ! starts_with($route_name, 'verification') &&
+                       ! starts_with($route_name, 'documents.edit') &&
+                       ! starts_with($route_name, 'plugins') &&
+                       ! starts_with($route_name, 'uploads') &&
+                       ! starts_with($route_name, 'privacy') &&
                        ! starts_with($route_name, 'password') && ! starts_with($route_name, 'microsite'));
 
         $view->with('show_search', $show_search);

@@ -10,35 +10,35 @@
 
     <h3>{{trans('messaging.create_pagetitle')}}</h3>
 
-    <form class="c-form" method="post" action="{{route('administration.messages.store')}}">
+    <form class="" method="post" action="{{route('administration.messages.store')}}">
 
         @include('errors.list')
 
         {{ csrf_field() }}
     
-        <div class="c-form__field">
+        <div class=" mb-4">
             
-            <label>{{trans('messaging.labels.users')}}</label>
+            <label class="block">{{trans('messaging.labels.users')}}</label>
             @if( $errors->has('to') )
                 <span class="field-error">{{ implode(",", $errors->get('to'))  }}</span>
             @endif
             
             <?php $old = old('to', []); ?>
     		@foreach($available_users as $user)
-    			<div class="user-grab">				
-    				<input type="checkbox" name="to[]" @if(in_array($user->id, $old)) checked @endif  value="{{$user->id}}" id="user-{{$user->id}}"><label for="user-{{$user->id}}"><span class="btn-icon icon-social-black icon-social-black-ic_person_black_24dp"></span>{{$user->name}}</label>
+    			<div class="user-grab hover:bg-yellow-300 inline-block mr-2">				
+    				<input type="checkbox" class="form-checkbox" name="to[]" @if(in_array($user->id, $old)) checked @endif  value="{{$user->id}}" id="user-{{$user->id}}"><label for="user-{{$user->id}}"><span class="btn-icon icon-social-black icon-social-black-ic_person_black_24dp"></span>{{$user->name}}</label>
     			</div>
     		@endforeach
 
         </div>
     
-        <div class="c-form__field">
+        <div class=" mb-4">
             
             <label>{{trans('messaging.labels.text')}}</label>
             @if( $errors->has('text') )
                 <span class="field-error">{{ implode(",", $errors->get('text'))  }}</span>
             @endif
-            <textarea name="text" class="textarea--big">{{old('text', '')}}</textarea>
+            <textarea name="text" class="form-textarea w-full h-64">{{old('text', '')}}</textarea>
         </div>
         
         <div class="c-form__buttons">

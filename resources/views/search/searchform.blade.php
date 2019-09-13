@@ -1,23 +1,24 @@
 
-@if(isset($search_target_parameters) && !!$search_target_parameters)
-<form role="search" method="get" class="search-form" id="main-search" data-bind="search" action="{{ route($search_target, $search_target_parameters) }}">
-@else
-<form role="search" method="get" class="search-form" id="main-search" data-bind="search" action="{{ route( isset( $search_target ) ? $search_target : 'search' ) }}">
-@endif
+<form role="search" method="get" class="search-form flex flex-grow max-w-lg mr-4" id="main-search" data-bind="search" action="{{ isset($search_target_parameters) && !!$search_target_parameters ? route($search_target, $search_target_parameters) : route( isset( $search_target ) ? $search_target : 'search' ) }}">
 
 	@if(isset($current_visibility) && ($current_visibility==='private' || $current_visibility==='personal' || $current_visibility==='public'))
-	<input type="hidden" name="visibility" value="{{$current_visibility}}">
+		<input type="hidden" name="visibility" value="{{$current_visibility}}">
 	@endif
 	
 
-	<div class="hint--bottom hint--info search--hint" data-hint="{!! isset($filter) ? trans('search.form.hint_in', ['location' => $filter]) : trans('search.form.hint') !!}">
+	<div class="relative flex-grow">
 
-    	<input type="search" class="search-field" placeholder="{{ isset($filter) ? trans('search.form.placeholder_in', ['location' => $filter]) : trans('search.form.placeholder') }}" value="@if(isset($search_terms) && $search_terms!=='*'){{ $search_terms }}@endif" name="s" @if(empty($search_terms)) autofocus @endif />
-
-		<button type="submit" class="search-submit" title="{{trans('search.form.submit')}}">
-			@materialicon('action', 'search')
+		<button type="submit" class="absolute right-0 px-2 py-1 text-gray-700" title="{{trans('search.form.submit')}}">
+			@materialicon('action', 'search', 'fill-current')
 		</button>
 
-    </div>
+		<input class="search-input focus:show-hint w-full transition focus:outline-0 border border-transparent focus:bg-white focus:border-gray-700 border-gray-300 text-gray-900 focus:text-black rounded bg-white py-1 pl-2 pr-10 appearance-none leading-normal " type="text" placeholder="{{ isset($filter) ? trans('search.form.placeholder_in', ['location' => $filter]) : trans('search.form.placeholder') }}" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-label="search input" value="@if(isset($search_terms) && $search_terms!=='*'){{ $search_terms }}@endif" name="s" @if(empty($search_terms)) autofocus @endif>
+
+		<div class="hint absolute px-2 py-1 mt-1 text-white bg-gray-700 rounded w-full">
+	{!! isset($filter) ? trans('search.form.hint_in', ['location' => $filter]) : trans('search.form.hint') !!}
+		</div>
+
+	</div>
+	
     
 </form>

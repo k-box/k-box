@@ -28,7 +28,7 @@
 	@endif
 
 
-	<div class="c-form__field version-list">
+	<div class=" mb-4 version-list">
 		
 		@foreach($versions as $version)
 			

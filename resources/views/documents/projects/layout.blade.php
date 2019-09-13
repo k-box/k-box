@@ -1,4 +1,4 @@
-@extends('global')
+@extends('layout.sidebar')
 
 
 
@@ -53,7 +53,7 @@
 @section('action-menu')
 
 	@if(isset($documents))
-		@include('actions.order-group')
+		@include('actions.selection')
 
 
 		@if($context!=='trash' && $context!=='shared' && $context!=='starred' &&
@@ -134,8 +134,8 @@
 
 	@elseif(auth()->check() && auth()->user()->can_capability(\KBox\Capability::CREATE_PROJECTS))
 
-		<a href="{{route('projects.create')}}" class="action__button">
-			@materialicon('content', 'add_circle_outline'){{trans('projects.new_button')}}
+		<a href="{{route('projects.create')}}" class="action__button inline-block mr-2">
+			@materialicon('content', 'add_circle_outline', ['class' => 'inline-block fill-current mr-1']){{trans('projects.new_button')}}
 		</a>
 
 	@endif
@@ -195,18 +195,18 @@
 
 @stop
 
-@section('content')
+@section('sidebar')
+
+@include('documents.menu')
+	
+@endsection
+
+@section('page')
 
 
 <div id="documents-list" class="non-map">
 
-	<div class="sidebar">
-
-		@include('documents.menu')
-
-	</div>
-
-	<div class="sidebar__rest" id="document-area">
+	<div id="document-area">
 		
 		@if(isset($hint) && $hint)
 		

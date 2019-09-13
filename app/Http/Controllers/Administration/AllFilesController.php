@@ -72,7 +72,7 @@ class AllFilesController extends Controller
             'current_visibility' => 'private',
             'is_personal' => false,
             'hint' => false,
-            'filter' => $visibility
+            'filter' => trans('administration.storage.all_files')
             ]);
     }
 }

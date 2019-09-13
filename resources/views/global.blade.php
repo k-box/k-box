@@ -12,7 +12,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
 		<link rel="stylesheet" href="{{ css_asset("css/vendor.css") }}">
-		<link rel="stylesheet" href="{{ css_asset("css/app.css") }}">
+		{{-- <link rel="stylesheet" href="{{ css_asset("css/app.css") }}"> --}}
+		<link rel="stylesheet" href="{{ css_asset("css/app-evolution.css") }}">
 
 		
 		<script type="text/javascript" src="{{ js_asset("js/vendor.js") }}"></script>
@@ -46,37 +47,50 @@
 		</div>
 
 
-		@section('header')
-			@include('headers.header')
-		@endsection
+		<div id="app" class="flex flex-col h-screen max-h-screen">
+			@section('header')
+				@include('headers.header')
+			@endsection
+	
+			@yield('header')
 
-		@yield('header')
-		
+			@if(is_readonly())
+				<div class="bg-yellow-400 p-2">
+					{!!trans('errors.503-readonly_text_styled')!!}
+				</div>
+			@endif
+	
+			<div class="bg-yellow-400 p-2 hidden" id="js-outdated">
+				<span class="">
+					{{ trans('errors.oldbrowser.generic') }}
+					<a href="{{route('browserupdate')}}" class="text-black underline">{{ trans('errors.oldbrowser.more_info') }}</a>.
+				</span>
+			</div>
 
-		<!-- Content -->
-		<div class="c-page-container" id="page" role="content">
-
-			@yield('content')
-
+			<div class="min-h-0 flex-shrink-0 flex-grow px-2 lg:px-4 " id="page" role="content">
+	
+				@yield('content')
+	
+			</div>
+	
+			@yield('footer')
 		</div>
-		<!-- /Content -->
-
-		@include('footer')
 
 		@yield('panels')
 
 	
 
 	@yield('scripts')
+
+	@stack('js')
 	
 
-<!--[if lte IE 9]>
+<!--[if lte IE 10]>
 	<script>
 		document.body.setAttribute('class', document.body.getAttribute('class') + " ie");
 
 		var message = document.getElementById('js-outdated'),
 			isVisible = false,
-			dismissed = window.localStorage && window.localStorage.kboxBrowserWarningDismissed ? window.localStorage.kboxBrowserWarningDismissed === 'true' : false;
 			div = document.createElement('div');
 
 			if (!('boxShadow' in div.style)){
@@ -87,16 +101,8 @@
 				isVisible = true;
 			} 
 
-			if(isVisible && !dismissed){
-				document.body.setAttribute('class', document.body.getAttribute('class') + " outdated--shown");
-
-				document.getElementById('js-outdated-dismiss').addEventListener('click', function(){
-					message.setAttribute('class', "c-message c-message--warning outdated js-outdated");
-					window.localStorage.kboxBrowserWarningDismissed = 'true';
-				});
-
-				message.setAttribute('class', message.getAttribute('class') + " outdated--visible");
-				
+			if(isVisible && message){
+				message.setAttribute('class', message.getAttribute('class') + " block");
 			}
 	</script>
 <![endif]-->

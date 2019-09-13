@@ -1,0 +1,186 @@
+
+.widgets {
+	margin-top: 24px;
+}
+
+.c-widget {
+	margin-bottom: 32px;
+}
+
+
+.widget--storage__percentage{
+	font-size: 24px;
+	@apply block;;
+}
+
+.widget__title {
+	margin: 8px 0;
+}
+
+.widget--storage__meter {
+	height: 8px;
+
+	@apply w-full;
+	
+	@apply m-0;
+
+	@apply rounded;
+
+	@apply relative;
+
+	@apply bg-gray-200;
+}
+
+.widget--storage__meter > .bar {
+	@apply m-0;
+	@apply rounded;
+	@apply bg-accent-600;
+	
+	height: 8px;
+	
+	width: 0%;
+
+	transition: width 1.2s 1s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.widget--storage__multimeter {
+	width: 100%;
+	height: 32px;
+	
+	margin: 0 0 24px 0;
+	@apply rounded;
+
+	position: relative;
+
+	@apply bg-gray-200;
+
+	overflow: hidden;
+}
+
+.widget--storage__multimeter > .bar {
+
+	@apply block;
+	float: left;
+	
+	@apply m-0;
+	
+	@apply bg-accent-600;
+	
+	height: 32px;
+	
+	width: 0%;
+
+	transition: width 1.2s 0.2s cubic-bezier(0.19, 1, 0.22, 1), background 0.5s 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.widget--storage__multimeter > .bar:first-of-type {
+	border-top-left-radius: 4px;
+	border-bottom-left-radius: 4px;
+}
+
+.widget--storage__multimeter > .bar:last-of-type {
+	border-top-right-radius: 4px;
+	border-bottom-right-radius: 4px;
+}
+
+.widget--storage__multimeter > .bar.force-bar-normal-state {
+	width: 0% !important;
+	@apply bg-accent-600;
+}
+
+
+
+
+
+.legend-sign {
+	width: 24px;
+	height: 24px;
+	display: inline-block;
+}
+
+.widget--sessions__user {
+	margin-bottom: 8px;
+}
+
+.widget--sessions__username,
+.widget--sessions__time {
+	line-height: 24px;
+	vertical-align: middle
+}
+
+.widget--sessions__username {
+	font-weight: 700
+}
+
+.license {
+	position: relative;
+	@apply pt-2;
+
+}
+
+.license__attribution {
+	@apply pt-2;
+
+	svg {
+		fill: initial !important;
+	}
+}
+
+.license__details {
+	background: #fff;
+	position: absolute;
+	z-index: 9999;
+	@apply text-black;
+	@apply border;
+	@apply border-gray-900;
+	@apply p-2;
+	width: 400px;
+
+	span {
+		@apply block;
+	}
+
+	em {
+		@apply text-gray-700;
+	}
+
+	
+}
+
+.license__owner, .license__description {
+	@apply mb-2;
+}
+
+
+.license__details {
+	@apply hidden;
+	@apply overflow-y-scroll;
+
+	max-height: 280px;
+}
+
+.license__details--opened {
+	@apply block;
+}
+
+.license-box {
+
+	padding: 8px;
+}
+.license-box__title {
+	@apply flex;
+	@apply justify-between;
+	@apply items-center;
+}
+
+.c-panel__content .widgets {
+	margin: 24px 1px 0;
+}
+
+.hideable {
+	display: none;
+
+	&.visible {
+		display: block;
+	}
+}

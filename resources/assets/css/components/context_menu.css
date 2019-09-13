@@ -1,0 +1,66 @@
+.dropdown-menu {
+
+    @apply absolute;
+    @apply shadow-lg;
+    @apply w-56;
+    @apply right-0;
+    @apply p-2;
+    @apply bg-white;
+    @apply rounded;
+    
+    @apply hidden;
+    
+    top: 40px;
+    z-index: 900;
+    /* min-width: 160px;
+    max-width: 220px;
+    width: 160px; */
+    @apply m-0;
+    
+    zoom:1;
+}
+
+.dropdown-menu li {
+    
+    @apply block;
+    @apply bg-transparent;
+    @apply my-0;
+    @apply -mx-2;
+
+}
+
+
+.dropdown-menu .divider {
+    @apply h-px;
+    @apply my-2;
+    @apply overflow-hidden;
+    
+}
+
+.dropdown-menu a {
+    @apply block;
+    @apply py-1;
+    @apply px-2;
+    @apply mb-1;
+    
+    @apply no-underline;
+    @apply text-black;
+    
+
+    span {
+        @apply hidden;
+    }
+}
+
+.dropdown-menu a:hover,.dropdown-menu a.hover {
+    @apply bg-gray-300;
+}
+
+.dropdown-menu a:active,.dropdown-menu a.active {
+    @apply bg-gray-400;
+}
+
+.dropdown-menu a:focus,.dropdown-menu a.focus {
+    @apply bg-gray-400;
+    @apply outline-none;
+}

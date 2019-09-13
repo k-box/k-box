@@ -12,7 +12,7 @@
 
     {{ csrf_field() }}
 
-    <div class="c-form__field">
+    <div class=" mb-4">
         <label>{{trans('administration.accounts.labels.email')}}</label>
         @if( $errors->has('email') )
             <span class="field-error">{{ implode(",", $errors->get('email'))  }}</span>
@@ -20,61 +20,68 @@
         @if( $errors->has('change_email') )
             <span class="field-error">{{ implode(",", $errors->get('change_email'))  }}</span>
         @endif
-        <input class="c-form__input" type="text" name="email" value="{{old('email', isset($user) ? $user->email : '')}}" @if(isset($can_change_mail) && !$can_change_mail) disabled @endif />
+        <input class="form-input block" type="text" name="email" value="{{old('email', isset($user) ? $user->email : '')}}" @if(isset($can_change_mail) && !$can_change_mail) disabled @endif />
     </div>
 
     @if(!isset($can_change_mail) || (isset($can_change_mail) && !$can_change_mail))
 
-    <div class="c-form__field">
-        <label>{{trans('auth.password_label')}}</label>
-        @if( $errors->has('password') )
-        <span class="field-error">{{ implode(",", $errors->get('password'))  }}</span>
-        @endif
-
-        <input class="c-form__input" type="password" name="password" id="password" value="{{old('password', '')}}" />
-        
-<span class="description">{{ trans('administration.accounts.labels.empty_means_generated_password') }}</span>
-
-        @if(isset($disable_password_sending) && $disable_password_sending)
-        <span class="description">{{ trans('administration.accounts.labels.no_password_sending') }}</span>
-        @endif
-        
+    <div class=" mb-4">
         @php
             $sending_disabled = (isset($disable_password_sending) && $disable_password_sending);
             $check_send_password = old('send_password', !$sending_disabled || $errors->has('send_password'));
         @endphp
 
-        <div class="c-form__field">
+        <label class="block">{{trans('auth.password_label')}}</label>
+
+
+        @if(isset($disable_password_sending) && $disable_password_sending)
+            <span class="description">{{ trans('administration.accounts.labels.no_password_sending') }}</span>
+        @else 
+            <span class="description">{{ trans('administration.accounts.labels.empty_means_generated_password') }}</span>
+        @endif
+
+
+        @if( $errors->has('password') )
+        <span class="field-error">{{ implode(",", $errors->get('password'))  }}</span>
+        @endif
+
+        <input class="form-input block mb-2" type="password" name="password" id="password" value="{{old('password', '')}}" />
+
+        <div class="">
             @if( $errors->has('send_password') )
             <span class="field-error">{{ implode(",", $errors->get('send_password'))  }}</span>
             @endif
-            <span class="c-form__checkbox {{ isset($disable_password_sending) && $disable_password_sending ? 'c-form__checkbox--disabled' : '' }}">
-                <input type="checkbox" class="" value="1" name="send_password" id="send_password" @if(isset($disable_password_sending) && $disable_password_sending) disabled @endif @if($check_send_password) checked @endif>&nbsp;<label for="send_password">{{ trans('administration.accounts.labels.send_password') }}</label>
-            </span>
+
+            <label for="send_password" class="inline-flex items-center {{ isset($disable_password_sending) && $disable_password_sending ? 'opacity-75 cursor-not-allowed' : '' }}">
+                <input type="checkbox" class="form-checkbox" value="1" name="send_password" id="send_password" @if(isset($disable_password_sending) && $disable_password_sending) disabled @endif @if($check_send_password) checked @endif>
+                <span class="ml-2">{{ trans('administration.accounts.labels.send_password') }}</span>
+            </label>
         </div>
     </div>
 
     @endif
 
-    <div class="c-form__field">
+    <div class=" mb-4">
         
         <label>{{trans('administration.accounts.labels.username')}}</label>
         @if( $errors->has('name') )
             <span class="field-error">{{ implode(",", $errors->get('name'))  }}</span>
         @endif
-        <input class="c-form__input" type="text" name="name" value="{{old('name', isset($user) ? $user->name : '')}}" />
+        <input class="form-input block" type="text" name="name" value="{{old('name', isset($user) ? $user->name : '')}}" />
     </div>
     
     @if(!isset($edit_enabled) || (isset($edit_enabled) && $edit_enabled))
     
-    <div class="c-form__field">
+    <div class=" mb-4">
         <label>{{trans('administration.accounts.labels.perms')}}</label>
         @if( $errors->has('capabilities') )
             <span class="field-error">{{ implode(",", $errors->get('capabilities'))  }}</span>
         @endif
-        @foreach($user_types as $type_key  => $type_value)
-            <a href="#" class="user-grab" data-type="{{$type_key}}">{{trans('administration.accounts.types.' . $type_key)}}</a>
-        @endforeach
+        <div class="my-1">
+            @foreach($user_types as $type_key  => $type_value)
+                <a href="#" class="user-grab inline-block mr-2" data-type="{{$type_key}}">{{trans('administration.accounts.types.' . $type_key)}}</a>
+            @endforeach
+        </div>
         <ul class="checkbox-list">
         <?php $olds = old('capabilities', []); ?>
         @foreach($capabilities as $capability)

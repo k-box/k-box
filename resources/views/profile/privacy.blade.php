@@ -8,9 +8,9 @@
 	<span class="description">{{trans('profile.privacy.section_description')}}</span>
 
 	@flag('consent_notifications')
-	<div class="c-form__field">
+	<div class=" mb-4">
 
-		<div class="c-form__column">
+		<div class="">
 			<button class="button button--ghost" onclick="event.preventDefault();document.getElementById('consent-notifications').submit();">
 				@if($consent_notification_given)
 					@materialicon('toggle', 'check_box')
@@ -34,8 +34,8 @@
 	</div>
 	@endflag
 
-	<div class="c-form__field c-section--top-separated">
-		<div class="c-form__column">
+	<div class=" mb-4">
+		<div class="">
 			<button class="button button--ghost" onclick="event.preventDefault();document.getElementById('consent-statistics').submit();">
 				@if($consent_statistics_given)
 					@materialicon('toggle', 'check_box')

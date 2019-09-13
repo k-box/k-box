@@ -2,7 +2,7 @@
 
 <div class="navigation navigation--secondary">
 		
-	<a href="{{ route('administration.users.index') }}" class="navigation__item navigation__item--link @if(\Request::is('*users')) navigation__item--current @endif">
+	<a href="{{ route('administration.users.index') }}" class="navigation__item navigation__item--link @if(\Request::is('*users*')) navigation__item--current @endif">
 		
 		@materialicon('social', 'people_outline', 'inline-block navigation__item__icon')
 		

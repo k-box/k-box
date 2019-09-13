@@ -13,7 +13,7 @@
 
 		
 		
-		<div class="c-form__field">
+		<div class=" mb-4">
 
 			@if( $errors->has('time') )
 				<span class="field-error">{{ implode(",", $errors->get('time'))  }}</span>

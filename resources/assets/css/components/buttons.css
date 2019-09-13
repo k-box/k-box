@@ -1,0 +1,440 @@
+
+.button, .btn {
+	
+	min-height: 32px;
+	transition: all 0.2s ease-in-out;
+
+	@apply border;
+	@apply bg-gray-100;
+	@apply border-gray-600;
+	
+	@apply px-2;
+	@apply py-1;
+
+	@apply rounded;
+	@apply outline-none;
+
+	@apply shadow;
+
+	@apply inline-block;
+
+	@apply text-black;
+
+	@apply no-underline;
+
+	&:disabled {
+		@apply opacity-50;
+		@apply border-gray-600;
+		@apply cursor-not-allowed;
+	}
+
+	&:hover, &:focus {
+		@apply border-orange-600;
+		@apply bg-orange-500;
+
+		@apply text-white;
+		@apply fill-current;
+	}
+
+	&:active {
+		@apply border-orange-700;
+		@apply bg-orange-600;
+	}
+
+}
+
+a.button {
+	display: inline-flex;
+	align-items: center;
+	vertical-align: middle;
+}
+
+.button--ghost {
+	background-color: transparent;
+	border: 0;
+
+	&:hover, &:focus {
+		@apply bg-orange-500;
+		@apply border-transparent;
+		@apply text-white;
+		@apply fill-current;
+	}
+
+	&:active {
+		@apply bg-orange-700;
+		@apply border-transparent;
+	}
+}
+
+.button--link {
+	@apply bg-transparent;
+	@apply border-0;
+	@apply inline;
+	text-align: left;
+
+	@apply text-accent-600;
+	@apply shadow-none;
+
+	&:hover, &:focus {
+		@apply bg-orange-600;
+		
+		@apply text-white;
+		@apply fill-current;
+	}
+
+	&:active {
+		@apply bg-orange-700;
+	}
+}
+
+.button--larger {
+	@apply p-2;
+	min-width: 180px;
+}
+
+.button--primary {
+	@apply bg-accent-600;
+	@apply text-white;
+	@apply fill-current;
+}
+
+.button.danger, .button--danger {
+	@apply fill-current;
+
+	@apply border-error;
+	@apply bg-gray-100;
+	@apply text-error;
+
+	&:hover {
+		@apply border-error;
+		@apply bg-error;
+		@apply text-white;
+	}
+
+	&:active, &:focus {
+		@apply border-error;
+		@apply bg-red-700;
+		@apply text-white;
+	}
+		
+}
+
+.button--selected {
+	@apply border-accent-800;
+	@apply bg-accent-200;
+
+	@apply text-accent-800;
+}
+
+.button__error, .button__success {
+	@apply hidden;
+}
+
+.button--success, .button--success:focus {
+	@apply bg-success;
+	@apply border-success;
+	@apply text-black;
+
+	.button__content:not(.button__success) {
+		@apply hidden;;
+	}
+
+	.button__success {
+		@apply inline-block;
+	}
+}
+
+.button--error {
+	@apply bg-error;
+	@apply border-error;
+	@apply text-white;
+
+	.button__content:not(.button__error) {
+		@apply hidden;;
+	}
+
+	.button__error {
+		@apply inline-block;;
+	}
+}
+
+.button__icon, .btn-icon, .button .icon {
+	vertical-align: text-bottom;
+	@apply mr-2;
+	@apply inline-block;
+}
+
+.file-button {
+
+	@apply relative;
+	cursor: pointer;
+
+	input[type='file'] {
+		@apply absolute;
+		right: 0px;
+		top: 0px;
+		margin: 0px;
+		padding: 0px;
+		opacity: 0;
+		height: 100%;
+		width: 0;
+	}
+
+}
+
+.ladda-button {
+
+	.processing {
+		@apply hidden;;
+	}
+
+	&.processing {
+		.normal {
+			@apply hidden;;
+		}
+		.processing {
+			display: inherit;
+			pointer-events: none;
+		}
+	}
+}
+
+.button__normal {
+
+}
+
+.button__processing {
+	@apply hidden;;
+}
+.button--processing, .button--loading {
+	.button__normal {
+
+		@apply hidden;;
+	}
+
+	.button__processing {
+		display: inherit;
+		pointer-events: none;
+	}
+}
+
+
+
+/* @search-field-height: 37px; */
+
+/* .input-group {
+
+	@apply relative;
+  	border-collapse: separate;
+
+	display: inline-table;
+  	vertical-align: middle;
+
+  	float: left;
+
+	.input-group-addon {
+		
+		display: table-cell;
+
+		height: @search-field-height;
+		    
+		white-space: nowrap;
+		vertical-align: middle;
+
+		padding: 6px 10px;
+
+		border: 1px solid #ddd;
+		border-left: 0;
+		border-right: 0;
+
+		font-weight: 400;
+		line-height: 1;
+		color: #555;
+		text-align: center;
+		background-color: @background-color;
+  
+
+  		.icon {
+  			line-height: 24px;
+  			vertical-align: text-bottom;
+  		}
+	}
+} */
+
+
+
+
+
+
+.dropdown {
+
+	@apply relative;
+
+	@apply text-white;
+
+
+	.drop-menu {
+
+		@apply hidden;;
+
+		@apply absolute;
+
+
+		z-index: 105;
+
+		@apply bg-gray-100;
+		
+		min-width: 200px;
+		left: 0px;
+		text-align: left;
+
+
+		padding: 8px 0px;
+
+		box-shadow: 0px 0px 4px rgba(0,0,0,0.5);		
+
+
+		li {
+			@apply m-0;
+			@apply p-0;
+		}
+	}
+
+
+	.dropdown-el {
+
+		@apply text-black;
+
+		@apply block;
+
+		@apply p-2;
+
+
+		&:hover, &:focus {
+			@apply text-accent-600;
+			@apply bg-gray-100;
+		}
+
+		&:active {
+			@apply bg-accent-600;
+        	@apply text-white;
+		}
+	}
+
+	.dropdown-separator {
+		height: 1px;
+		@apply h-px;
+		@apply bg-gray-500;
+		margin-bottom: 2px !important;
+		margin-top: 2px !important;
+		width: 100%  !important;
+	}
+
+	
+	.expand {
+		margin-right: 0 !important;
+	}
+
+	.collapse {
+		@apply hidden;;
+		margin-right: 0 !important;
+	}
+	
+
+	&:hover {
+
+		z-index: 110;
+
+		.expand {
+			@apply hidden;
+		}
+
+		.collapse {
+			@apply inline-block;
+		}
+
+
+		.drop-menu {
+			@apply block;
+		}
+
+	}
+	
+}
+
+
+.sweet-alert button {
+	height: inherit;
+	line-height: inherit;
+}
+
+.tristate-button .icon {
+  
+	margin: 0 !important;
+}
+
+.tristate-button--none {
+	.tristate__none {
+		@apply inline-block;
+	}
+	.tristate__partial, .tristate__all {
+		@apply hidden;
+	}
+}
+
+.tristate-button--partial {
+	.tristate__partial {
+		@apply inline-block;
+	}
+	.tristate__none, .tristate__all {
+		@apply hidden;
+	}
+}
+
+.tristate-button--all {
+	.tristate__all {
+		@apply inline-block;
+	}
+	.tristate__none, .tristate__partial {
+		@apply hidden;
+	}
+}
+
+
+
+.copy-link__message {
+	height: 0;
+	opacity: 0;
+	pointer-events: none;
+	transition: height 0.2s linear, opacity 0.4s linear;
+	flex-basis: 100%;
+}
+
+.copy-link__message--visible {
+	height: auto;
+	opacity: 1;
+}
+
+.copy-link__message--error {
+	color: #e03131;	
+}
+
+
+.copy-link__input {
+	opacity: 0.8;
+	min-width: auto !important;
+	flex-grow: 2;	
+	padding: 0 8px;
+	
+	@apply border;
+	@apply border-gray-400;
+
+	transition: all 0.2s linear;
+
+	float: left;
+
+	&:hover {
+		opacity: 1;
+		border-color: #888;
+	}
+}

@@ -12,11 +12,11 @@
 
 @section('page')
 
-    <div class="c-section">
-        <h4 class="c-section__title">{{trans('administration.network.ksearch')}}</h4>
-        <p class="c-section__description">{{trans('administration.network.ksearch_description')}}</p>
+    <div class=" ">
+        <h4 class="my-4">{{trans('administration.network.ksearch')}}</h4>
+        <p class="form-description">{{trans('administration.network.ksearch_description')}}</p>
 
-        <div class="c-form__field">
+        <div class=" mb-4">
 
             <span class="badge {{$local_connection}}">{{trans('administration.network.klink_status.' . $local_connection)}}</span>
 
@@ -28,11 +28,11 @@
 
     @if(network_enabled())
 
-    <div class="c-section">
-        <h4 class="c-section__title">{{trans('administration.network.network', ['network' => network_name()])}}</h4>
-        <p class="c-section__description">{{trans('administration.network.network_description')}}</p>
+    <div class=" ">
+        <h4 class="my-4">{{trans('administration.network.network', ['network' => network_name()])}}</h4>
+        <p class="form-description">{{trans('administration.network.network_description')}}</p>
 
-        <div class="c-form__field">
+        <div class=" mb-4">
 
             <span class="badge {{$remote_connection}}">{{trans('administration.network.klink_status.' . $remote_connection)}}</span>
 

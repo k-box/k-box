@@ -1,11 +1,11 @@
 
-<header class=" header" role="header">
+<header class="header sticky top-0 shadow js-header" role="header">
 
-	<div class="header__main">
+	<div class="relative h-12 flex items-center justify-between px-2  lg:px-4 py-1 bg-gray-200">
 		
-		<div class="header__branding">
+		<div class="flex items-center flex-grow max-w-lg">
 		
-			<a class="logo" href="@if(isset( $is_user_logged ) && $is_user_logged){{$current_user_home_route}}@else{{route('frontpage')}}/@endif">
+			<a class="logo text-gray-700 hover:text-blue-600 mr-4" href="@if(isset( $is_user_logged ) && $is_user_logged){{$current_user_home_route}}@else{{route('frontpage')}}/@endif">
 				@include('headers.logo')
 			</a>
 			
@@ -15,42 +15,47 @@
 
 		</div>
 
-		@if(is_readonly())
-			<div class="c-message c-message--warning" style="flex-grow:0;padding:0 4px;margin:0;">
-				{!!trans('errors.503-readonly_text_styled')!!}
-			</div>
-		@endif
-
 		@if( auth()->check() )
 
-			<div class="header__navigation">
+			<div class="flex items-center">
 
 				@includeWhen((!isset($hide_menu) || (isset($hide_menu) && !$hide_menu)),'menu')
 
+				@include('headers.help')
+
 				@include('dashboard.notifications_counter')
 
-				<div class="header__profile flex items-center">
+				@component('components.dropdown')
+
 					@component('avatar.avatar', [
 						'name' => $current_user_name, 
 						'image' => $current_user_avatar,
-						'url' => $profile_url ?? route('profile.index'),
+						'url' => null,
 						'alt' => trans('profile.go_to_profile')
 						])
 
 					@endcomponent
 
-					@materialicon('navigation', 'arrow_drop_down', 'header__profile__arrow')
-				
-					<div class="header__profile__card">
-						<div class="header__profile__name">{{$current_user_name}}</div>
-						<div>
-						<button class="button" onclick="event.preventDefault();document.getElementById('logout-form').submit();">{{trans('auth.logout')}}</button>
-						<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-							{{ csrf_field() }}
-						</form>
+					@materialicon('navigation', 'arrow_drop_down', 'inline fill-current arrow')
+
+					@slot('panel')
+
+						<div class="mb-4">
+							<a class="no-underline font-bold block p-2 -mx-2 mb-1 text-black hover:bg-gray-300 active:bg-gray-400 focus:bg-gray-400 focus:outline-none" href="{{ $profile_url ?? route('profile.index') }}">{{$current_user_name}}</a>
 						</div>
-					</div>
-				</div>
+						<ul class="">
+							<li><a class="no-underline block p-2 -mx-2 mb-1 text-black hover:bg-gray-300 active:bg-gray-400 focus:bg-gray-400 focus:outline-none" href="{{ $profile_url ?? route('profile.index') }}">{{trans('profile.go_to_profile')}}</a></li>							
+							<li>
+								<a href="#" class="no-underline block p-2 -mx-2 mb-1 text-black hover:bg-gray-300 active:bg-gray-400 focus:bg-gray-400 focus:outline-none" onclick="event.preventDefault();document.getElementById('logout-form').submit();">{{trans('auth.logout')}}</a>
+								<form class="hidden" id="logout-form" action="{{ route('logout') }}" method="POST">
+									{{ csrf_field() }}
+								</form>
+							</li>
+						</ul>
+						
+					@endslot
+					
+				@endcomponent
 
 
 			</div>
@@ -60,37 +65,21 @@
 
 	</div>
 
-	@section('header-secondary')
-		<div class="header__secondary">
-
-			<button class="drawer__button action__button js-drawer-trigger">
-				@materialicon('navigation', 'menu', 'ico')
-			</button>
-
-			<div class="breadcrumbs">
-				@yield('breadcrumbs')
-			</div>
-
-			<div class="actions js-drawer-action-bar" id="action-bar">
-				@yield('action-menu')
-			</div>
-
-		</div>
-	@endsection
+	
 
 	@yield('header-secondary')
 
 </header>
 
-<div class="c-message c-message--warning outdated js-outdated" id="js-outdated">
+
+@push('js')
+
+<script>
+
+	require(['modules/dropdown'], function(Dropdown){
+		Dropdown.find(".js-header");
+	});
+</script>
+
 	
-	<button class="c-message__dismiss button button--ghost" id="js-outdated-dismiss">
-		@materialicon('navigation', 'close')
-	</button>
-
-	<span class="outdated__message">
-		{{ trans('errors.oldbrowser.generic') }}
-		<a href="{{route('browserupdate')}}" class="button">{{ trans('errors.oldbrowser.more_info') }}</a>
-	</span>
-
-</div>
+@endpush

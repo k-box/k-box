@@ -748,7 +748,11 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
                             }
                         });
 
-                        h.start();
+                        try {
+                            h.start();
+                        } catch (error) {
+                            
+                        }
 
                     }
                 });

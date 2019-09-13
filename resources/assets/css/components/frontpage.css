@@ -1,0 +1,24 @@
+
+.frontpage {
+
+	.login-form {
+
+		@apply p-2;
+		background-color: rgba(0,0,0,0.4);
+
+		p {
+			max-width: 100%;
+		}
+
+		input[type='text'], input[type='password'], input[type='email'] {
+			width: 100%;
+			@apply text-black;
+		}
+
+	}
+	
+	.sub-header {
+		display: none;
+	}
+
+}

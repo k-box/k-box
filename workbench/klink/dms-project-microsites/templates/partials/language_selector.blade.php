@@ -2,7 +2,7 @@
 @if( $errors->has('language') )
     <span class="field-error">{{ implode(",", $errors->get('language'))  }}</span>
 @endif
-<select class="u-full-width" id="language" name="language" @if(!$can_edit_document) disabled @endif>
+<select class="form-select u-full-width" id="language" name="language" @if(!$can_edit_document) disabled @endif>
 <option value="en" @if($document->language == 'en') selected @endif>{{trans('languages.en')}}</option>
 <option value="ru" @if($document->language == 'ru') selected @endif>{{trans('languages.ru')}}</option>
 <option value="ky" @if($document->language == 'ky') selected @endif>{{trans('languages.ky')}}</option>

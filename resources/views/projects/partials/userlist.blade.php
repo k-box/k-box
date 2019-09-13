@@ -7,7 +7,7 @@
         <?php $olds = old('users', []); ?>
 
 <div class="search-user">
-    <input type="text" name="search-user" class="c-form__input c-form__input--larger search-user__input js-search-user" placeholder="{{ trans('projects.labels.search_member_placeholder') }}">
+    <input type="text" name="search-user" class="form-input block w-2/3 search-user__input js-search-user" placeholder="{{ trans('projects.labels.search_member_placeholder') }}">
 </div>
 
         <div class="userlist">

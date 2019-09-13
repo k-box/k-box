@@ -34,7 +34,7 @@
 	
 	@if(isset($info_message) && !is_null($info_message))
 	<div class="c-message">
-		@materialicon('action', 'info_outline', 'button__icon'){{$info_message}}
+		@materialicon('action', 'info_outline', 'button__icon fill-current'){{$info_message}}
 	</div>
 	@endif
 

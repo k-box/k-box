@@ -1,26 +1,14 @@
-<footer class="container footer" role="footer">
+<footer class="container footer p-4 mt-8 mx-auto" role="footer">
 	
-	<p>
-		
-	&copy; 2014-{{date('Y')}} K-Link.
-	<span class="version hint--top" data-hint="{{ config('dms.build') }}">{{ config('app.name') }} {{ config('dms.version') }}</span>.
-
 	@if(!isset($not_show_links))
 
-		<span class="links">
-			
-			<a href="{{ route('help') }}">{{trans('pages.help')}}</a>
-			
-			<a href="{{ route('privacy.summary') }}">{{trans('pages.privacy')}}</a>
-
-			<a href="{{ route('terms') }}">{{trans('pages.terms_long')}}</a>
-
-			<a href="{{ route('contact') }}">{{trans('pages.contact')}}</a>
-
-		</span>
+		<ul class="flex justify-center">
+			<li><a class="text-gray-700 hover:text-gray-800 active:text-gray-900 focus:text-gray-900" href="{{ route('help') }}">{{trans('pages.help')}}</a><span class="px-2" aria-hidden="true">&middot;</span></li>
+			<li><a class="text-gray-700 hover:text-gray-800 active:text-gray-900 focus:text-gray-900" href="{{ route('privacy.summary') }}">{{trans('pages.privacy')}}</a><span class="px-2" aria-hidden="true">&middot;</span></li>
+			<li><a class="text-gray-700 hover:text-gray-800 active:text-gray-900 focus:text-gray-900" href="{{ route('terms') }}">{{trans('pages.terms_long')}}</a><span class="px-2" aria-hidden="true">&middot;</span></li>
+			<li><a class="text-gray-700 hover:text-gray-800 active:text-gray-900 focus:text-gray-900" href="{{ route('contact') }}">{{trans('pages.contact')}}</a></li>
+		</ul>
 
 	@endif
-
-	</p>
 
 </footer>

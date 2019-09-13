@@ -13,9 +13,9 @@
         
     @include('errors.list')
     
-    <div class="c-section">
-        <h4 class="c-section__title">@lang('geo::settings.providers.title')</h4>
-        <p class="c-section__description">@lang('geo::settings.providers.description')</p>
+    <div class=" ">
+        <h4 class="my-4">@lang('geo::settings.providers.title')</h4>
+        <p class="form-description">@lang('geo::settings.providers.description')</p>
 
         <div class="c-form__buttons">
             <a class="button" href="{{route('plugins.k-box-kbox-plugin-geo.mapproviders.create')}}">

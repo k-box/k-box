@@ -1,0 +1,36 @@
+
+.empty {
+    @apply text-center;
+    @apply text-gray-800;
+    @apply fill-current;
+
+    @apply p-4;
+
+    flex-shrink: 0;
+    flex-basis: 100%;
+}
+
+.empty__icon {
+    @apply h-24;
+    @apply w-24;
+
+    @apply p-4;
+    @apply block;
+    @apply mx-auto;
+}
+
+.empty--small {
+    @apply p-2;
+}
+
+.empty--small .empty__icon {
+    
+    @apply h-8;
+    @apply w-8;
+
+    @apply p-0;
+}
+
+.empty--small .empty__description {
+    @apply m-2;
+}

@@ -1,4 +1,4 @@
-@extends('global')
+@extends('layout.full')
 
 
 
@@ -9,16 +9,10 @@
 @stop
 
 
-@section('action-menu')
-	
-@stop
+@section('page')
 
 
-
-@section('content')
-
-
-    <h3>{{trans('projects.create_page_title')}}</h3>
+    <h3 class="my-4">{{trans('projects.create_page_title')}}</h3>
 	
 	
 	@include('errors.list')

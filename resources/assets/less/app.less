@@ -109,9 +109,6 @@ body {
 	list-style-type: none;
 }
 
-.hidden {
-  display: none !important;
-}
 
 .clearfix {
   .clearfix();
@@ -125,10 +122,6 @@ body {
 @import 'partials/_buttons.less';
 
 @import 'partials/_frontpage.less';
-
-@import 'partials/_avatar.less';
-
-@import 'partials/_document_icons.less';
 
 @import 'partials/_grids.less';
 
@@ -175,4 +168,37 @@ a {
 	text-decoration: none;
 	color: saturate(lighten(@accent-color, 10%), 15%);
 }
+
+
+.max-h-available-header {
+	// max height available minus the space occuppied by the header element
+	min-height: calc(~"100vh - 3rem");
+	height: calc(~"100vh - 3rem");
+}
+
+
+.transition { 
+	transition: all 0.2s linear;
+}
+
+.-translate-100 {
+	transform: translateX(-100%);
+}
+
+.translate-0 {
+	transform: translateX(0);
+}
+
+.rotate-180 {
+	transform: rotate(180deg);
+}
+
+@media (min-width: 640px) {
+
+	.md\:translate-0 {
+		transform: translateX(0);
+	}
+}
+
+
 

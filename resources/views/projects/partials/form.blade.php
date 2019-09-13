@@ -1,5 +1,5 @@
 
-<input type="hidden" name="_token" value="{{{ csrf_token() }}}">
+{{ csrf_field() }}
 
 @if(isset($manager_id)) 
 <input type="hidden" name="manager" value="{{ $manager_id }}">
@@ -9,47 +9,41 @@
 
     <div class="fieldbox__heading">{{trans('projects.labels.project_details')}}</div>
 
-        <div class="c-form__field">
+        <div class=" mb-4">
         <label>{{trans('projects.labels.name')}}</label>
         @if( $errors->has('name') )
             <span class="field-error">{{ implode(",", $errors->get('name'))  }}</span>
         @endif
-        <input type="text" name="name" class="c-form__input" value="{{old('name', isset($project) ? $project->name : '')}}" @if(isset($can_change_mail) && !$can_change_mail) disabled @endif />
+        <input type="text" name="name" class="form-input block mt-1" value="{{old('name', isset($project) ? $project->name : '')}}" @if(isset($can_change_mail) && !$can_change_mail) disabled @endif />
         </div>
 
         
-        <div class="c-form__field">
+        <div class=" mb-4">
         <label>{{trans('projects.labels.description')}}</label>
         @if( $errors->has('description') )
             <span class="field-error">{{ implode(",", $errors->get('description'))  }}</span>
         @endif
-        <textarea name="description" class="c-form__input">{{old('description', isset($project) ? $project->description : '')}}</textarea>
+        <textarea name="description" class="form-textarea block mt-1">{{old('description', isset($project) ? $project->description : '')}}</textarea>
         </div>
         
-        <div class="project-avatar-container c-form__field">
+        <div class="mb-4">
             <label>{{trans('projects.labels.avatar')}}</label>
         
-            <div class="project-avatar">
-                @if(isset($project) && $project->avatar)
+            @if(isset($project) && $project->avatar)
+                <div class="">
+                    <img class="max-w-xs h-auto js-avatar-image" src="{{ route('projects.avatar.index', ['id' => $project->id]) }}" />
+                </div>
 
-                    <img class="project-avatar-image js-avatar-image" src="{{ route('projects.avatar.index', ['id' => $project->id]) }}" />
-                @else
-
-                    <div class="project-avatar-placeholder"></div>
-
-                @endif
-            </div>
+                <div class="mt-1 mb-2">
+                    <button class="button button--danger js-remove-avatar" data-id="{{ $project->id }}">{{ trans('projects.labels.avatar_remove_btn') }}</button>
+                </div>
+            @endif
             
-                @if( $errors->has('avatar') )
-                    <span class="field-error">{{ implode(",", $errors->get('avatar'))  }}</span>
-                @endif
-                <input name="avatar" class="js-project-avatar-input" id="avatar" type="file">
-                <br/><span class="description">{{trans('projects.labels.avatar_description')}}</span>
-
-                @if(isset($project) && $project->avatar)
-                <br/> <button class="button button--danger js-remove-avatar" data-id="{{ $project->id }}">{{ trans('projects.labels.avatar_remove_btn') }}</button>
-                @endif
-            
+            @if( $errors->has('avatar') )
+                <span class="field-error">{{ implode(",", $errors->get('avatar'))  }}</span>
+            @endif
+            <input name="avatar" class="js-project-avatar-input form-input block mt-1" id="avatar" type="file">
+            <span class="description">{{trans('projects.labels.avatar_description')}}</span>
         </div>
 </div>        
         

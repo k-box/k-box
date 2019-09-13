@@ -9,7 +9,7 @@
     <div class="c-form c-form--space">
         <h2 class="mb-1">{{ trans('mail.verify.verify_email') }}</h2>
 
-        <div class="c-form__field">
+        <div class=" mb-4">
             @if (session('resent'))
                 <div class="alert success" role="alert">
                     {{ trans('mail.verify.email_resent') }}

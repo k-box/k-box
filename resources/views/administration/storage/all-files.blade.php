@@ -61,7 +61,7 @@
 
 	<script>
 
-	require(['modules/list-switcher', 'modules/documents', 'modules/panels'], function(Switcher, Documents, Panels){
+	require(['modules/documents', 'modules/panels'], function(Documents, Panels){
 
 		@if(isset($context))
 			Documents.setContext({

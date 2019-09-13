@@ -33,15 +33,15 @@
         @endif
 
 
-        <form method="post" class="c-form" action="{{route('administration.mail.store')}}">
+        <form method="post" class="" action="{{route('administration.mail.store')}}">
 
             {{ csrf_field() }}
 
-            <div class="c-section">
-                <h4 class="c-section__title">{{trans('administration.mail.from_label')}}</h4>
-                <p class="c-section__description">{{trans('administration.mail.from_description')}}</p>
+            <div class=" ">
+                <h4 class="my-4">{{trans('administration.mail.from_label')}}</h4>
+                <p class="form-description">{{trans('administration.mail.from_description')}}</p>
 
-                <div class="c-form__field">
+                <div class=" mb-4">
 
                     <label for="from_address">{{ trans('administration.mail.from_address') }}</label>
 
@@ -49,26 +49,26 @@
                         <span class="field-error">{{ implode(",", $errors->get('from_address'))  }}</span>
                     @endif
                     
-                    <input class="c-form__input" type="email" name="from_address" id="from_address" required value="@if(isset($config['from']['address'])){{$config['from']['address']}}@endif" placeholder="{{trans('administration.mail.from_address_placeholder')}}" />
+                    <input class="form-input block" type="email" name="from_address" id="from_address" required value="@if(isset($config['from']['address'])){{$config['from']['address']}}@endif" placeholder="{{trans('administration.mail.from_address_placeholder')}}" />
                 
                 </div>
 
 
 
-                <div class="c-form__field">
+                <div class=" mb-4">
 
                     <label for="from_name">{{ trans('administration.mail.from_name') }}</label>
                     @if( $errors->has('from_name') )
                         <span class="field-error">{{ implode(",", $errors->get('from_name'))  }}</span>
                     @endif
-                    <input class="c-form__input" type="text" name="from_name" id="from_name" value="@if(isset($config['from']['name'])){{$config['from']['name']}}@endif" placeholder="{{trans('administration.mail.from_name_placeholder')}}" />
+                    <input class="form-input block" type="text" name="from_name" id="from_name" value="@if(isset($config['from']['name'])){{$config['from']['name']}}@endif" placeholder="{{trans('administration.mail.from_name_placeholder')}}" />
 
                 </div>
             </div>
             
-            <div class="c-section">
-                <h4 class="c-section__title">{{trans('administration.mail.server_configuration_label')}}</h4>
-                <p class="c-section__description">{{trans('administration.mail.server_configuration_description')}}. <strong>{{trans('administration.mail.encryption_label')}}</strong></p>
+            <div class=" ">
+                <h4 class="my-4">{{trans('administration.mail.server_configuration_label')}}</h4>
+                <p class="form-description">{{trans('administration.mail.server_configuration_description')}}. <strong>{{trans('administration.mail.encryption_label')}}</strong></p>
 
                 @if(!$is_server_configurable)
                 
@@ -79,36 +79,36 @@
                 
                 @endif
 
-                <div class="c-form__field  @if(!$is_server_configurable) c-form--blocked @endif">
+                <div class=" mb-4  @if(!$is_server_configurable)  form-blocked @endif">
                     <label>{{trans('administration.mail.host_label')}}</label>
                     @if( $errors->has('host') )
                         <span class="field-error">{{ implode(",", $errors->get('host'))  }}</span>
                     @endif
-                    <input class="c-form__input" type="text" name="host" @if($is_server_configurable) required @endif value="{{$config['host']}}" />
+                    <input class="form-input block" type="text" name="host" @if($is_server_configurable) required @endif value="{{$config['host']}}" />
                 </div>
                 
-                <div class="c-form__field  @if(!$is_server_configurable) c-form--blocked @endif">
+                <div class=" mb-4  @if(!$is_server_configurable)  form-blocked @endif">
                     <label>{{trans('administration.mail.port_label')}}</label>
                     @if( $errors->has('port') )
                         <span class="field-error">{{ implode(",", $errors->get('port'))  }}</span>
                     @endif
-                    <input class="c-form__input" type="number" class="c-input--number" name="port" @if($is_server_configurable) required @endif value="{{$config['port']}}" />
+                    <input class="form-input block w-20" type="number" name="port" @if($is_server_configurable) required @endif value="{{$config['port']}}" />
                 </div>
                 
-                <div class="c-form__field  @if(!$is_server_configurable) c-form--blocked @endif">
+                <div class=" mb-4  @if(!$is_server_configurable)  form-blocked @endif">
                     <label>{{trans('administration.mail.username_label')}}</label>
                     @if( $errors->has('smtp_u') )
                         <span class="field-error">{{ implode(",", $errors->get('smtp_u'))  }}</span>
                     @endif
-                    <input class="c-form__input" type="text" name="smtp_u" value="{{$config['username']}}"  />
+                    <input class="form-input block" type="text" name="smtp_u" value="{{$config['username']}}"  />
                 </div>
 
-                <div class="c-form__field  @if(!$is_server_configurable) c-form--blocked @endif">
+                <div class=" mb-4  @if(!$is_server_configurable)  form-blocked @endif">
                     <label>{{trans('administration.mail.password_label')}}</label>
                     @if( $errors->has('smtp_p') )
                         <span class="field-error">{{ implode(",", $errors->get('smtp_p'))  }}</span>
                     @endif
-                    <input class="c-form__input" type="password" name="smtp_p" value="{{$config['password']}}"  />
+                    <input class="form-input block" type="password" name="smtp_p" value="{{$config['password']}}"  />
                 </div>
 
             </div>

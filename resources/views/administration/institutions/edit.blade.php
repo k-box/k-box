@@ -9,10 +9,10 @@
 @section('content')
 
 
-    <form  method="POST" class="c-form" action="{{route('administration.institutions.update', $institution->id)}}">
+    <form  method="POST" class="" action="{{route('administration.institutions.update', $institution->id)}}">
     
-        <div class="c-section">
-            <h4 class="c-section__title">{{trans('administration.institutions.edit_title', ['name' => $institution->name])}}</h4>
+        <div class=" ">
+            <h4 class="my-4">{{trans('administration.institutions.edit_title', ['name' => $institution->name])}}</h4>
 
             {{ method_field('PUT') }}
 

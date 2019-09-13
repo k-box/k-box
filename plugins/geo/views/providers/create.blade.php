@@ -14,14 +14,14 @@
         
     @include('errors.list')
     
-    <form  method="post" class="c-form" action="{{route('plugins.k-box-kbox-plugin-geo.mapproviders.store')}}">
+    <form  method="post" class="" action="{{route('plugins.k-box-kbox-plugin-geo.mapproviders.store')}}">
     
         {{ csrf_field() }}
         
 
-        <div class="c-section">
-            <h4 class="c-section__title">@lang('geo::settings.providers.create_title')</h4>
-            <p class="c-section__description">@lang('geo::settings.providers.create_description')</p>
+        <div class=" ">
+            <h4 class="mt-4">@lang('geo::settings.providers.create_title')</h4>
+            <p class="form-description">@lang('geo::settings.providers.create_description')</p>
 
             @include('geo::providers.form')
             

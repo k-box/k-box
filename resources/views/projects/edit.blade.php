@@ -1,4 +1,4 @@
-@extends('global')
+@extends('layout.full')
 
 
 
@@ -7,20 +7,10 @@
 @stop
 
 
-@section('action-menu')
-	
-	{{-- <a href="{{route('projects.show', ['id' => $project->id])}}" class="action__button">
-		<span class="btn-icon icon-content-white icon-content-white-ic_create_white_24dp"></span>{{trans('projects.close_edit_button')}}
-	</a> --}}
-	
-@stop
+@section('page')
 
 
-
-@section('content')
-
-
-    <h3>{{trans('projects.edit_page_title', ['name' => $project->name])}}</h3>
+    <h3 class="my-4">{{trans('projects.edit_page_title', ['name' => $project->name])}}</h3>
 	
 	
 	@include('errors.list')
