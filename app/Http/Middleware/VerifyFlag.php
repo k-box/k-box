@@ -34,8 +34,8 @@ class VerifyFlag
         }
             
         if ($request->wantsJson()) {
-            return new JsonResponse(['error' => trans('errors.forbidden_exception')], 403);
+            return new JsonResponse(['error' => trans('errors.not_found')], 404);
         }
-        return response()->make(view('errors.403', []), 200);
+        return response()->make(view('errors.404', []), 200);
     }
 }

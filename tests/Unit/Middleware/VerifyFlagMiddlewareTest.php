@@ -36,7 +36,7 @@ class VerifyFlagMiddlewareTest extends TestCase
 
         $this->assertFalse($next->called);
         $response->assertStatus(200);
-        $response->assertViewIs('errors.403');
+        $response->assertViewIs('errors.404');
     }
 
     public function test_request_accepted_if_flag_enabled()

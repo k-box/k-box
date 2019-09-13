@@ -10,6 +10,8 @@ With the usage of Microsite(beta) you can create a single page website for your 
 
 Microsites are attached to Projects. You can only create a Microsite for an existing Project. A microsite can be seen as a public page that does not require login to be viewed.
 
+> Microsite support is behind [feature-flag](../developer/flags.md)
+
 ## Viewing a Microsite
 
 Microsites are reachable through a URL hosted on the K-Link K-Box. The URL is in the form

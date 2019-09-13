@@ -1,15 +1,29 @@
 <?php
 
-use Tests\BrowserKitTestCase;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+namespace Tests\Feature;
 
+use KBox\Flags;
+use KBox\Project;
+use Tests\TestCase;
 use KBox\Capability;
 use Klink\DmsMicrosites\Microsite;
 use Klink\DmsMicrosites\MicrositeContent;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
+use KBox\User;
 
-class Microsites_IntegrationTest extends BrowserKitTestCase
+class Microsites_IntegrationTest extends TestCase
 {
     use DatabaseTransactions;
+
+    private function enableMicrositeFlag()
+    {
+        Flags::enable(Flags::MICROSITES);
+    }
+    
+    private function disableMicrositeFlag()
+    {
+        Flags::disable(Flags::MICROSITES);
+    }
     
     public function expected_routes_provider()
     {
@@ -28,12 +42,12 @@ class Microsites_IntegrationTest extends BrowserKitTestCase
     public function microsite_routes_and_expected_page_provider_before_login()
     {
         return [
-            [ 'visit', 'microsites.slug', ['slug' => 'test'], 200, 'microsites.slug' ],
-            [ 'visit', 'microsites.index', [], 200, 'frontpage' ],
-            [ 'visit', 'microsites.show', ['id' => 1], 200, 'microsites.show' ],
-            [ 'visit', 'microsites.create', [], 200, 'frontpage' ],
+            [ 'get', 'microsites.slug', ['slug' => 'test'], 200, 'sites::site.site' ],
+            [ 'get', 'microsites.index', [], 302, 'frontpage' ],
+            [ 'get', 'microsites.show', ['id' => 1], 200, 'sites::site.site' ],
+            [ 'get', 'microsites.create', [], 302, 'frontpage' ],
             [ 'post', 'microsites.store', [], 302, 'frontpage' ],
-            [ 'visit', 'microsites.edit', ['id' => 1], 200, 'frontpage' ],
+            [ 'get', 'microsites.edit', ['id' => 1], 302, 'frontpage' ],
             [ 'put', 'microsites.update', ['id' => 1], 302, 'frontpage' ],
             [ 'delete', 'microsites.destroy', ['id' => 1], 302, 'frontpage' ]
         ];
@@ -100,16 +114,6 @@ class Microsites_IntegrationTest extends BrowserKitTestCase
         ];
     }
     
-    public function language_switch_provider()
-    {
-        return [
-            ['en', 'ru'],
-            ['ru', 'en'],
-            ['en', 'en'],
-            ['ru', 'ru'],
-        ];
-    }
-     
     /**
      * Test the expected microsites routes are available
      *
@@ -128,49 +132,91 @@ class Microsites_IntegrationTest extends BrowserKitTestCase
     /**
      * @dataProvider microsite_routes_and_expected_page_provider_before_login
      */
-    public function testMicrositeRouteAuthentication_NoLogin($method, $route, $parameters, $return_code, $expected_route)
+    public function test_microsites_route_not_found_if_flag_disabled($method, $route, $parameters, $return_code, $expected_route)
     {
+        $this->disableMicrositeFlag();
+
         $microsite = factory('Klink\DmsMicrosites\Microsite')->create([
             'id' => 1,
         ]);
 
-        $this->{$method}(route($route, $parameters));
+        $response = $this->{$method}(route($route, $parameters));
+
+        $response->assertStatus(200);
+        $response->assertErrorView(404);
+    }
+
+    /**
+     * @dataProvider microsite_routes_and_expected_page_provider_before_login
+     */
+    public function testMicrositeRouteAuthentication_NoLogin($method, $route, $parameters, $return_code, $expected_view)
+    {
+        $this->enableMicrositeFlag();
+
+        $microsite = factory('Klink\DmsMicrosites\Microsite')->create([
+            'id' => 1,
+            'slug' => 'test'
+        ]);
+
+        $response = $this->{$method}(route($route, $parameters));
         
-        $this->assertResponseStatus($return_code);
+        $response->assertStatus($return_code);
         
         if ($return_code === 200) {
-            $this->seePageIs(route($expected_route, $expected_route === 'frontpage' ? [] : $parameters));
+            $response->assertViewIs($expected_view);
         }
     }
     
-    /**
-     * Test if the Project show page of a specific project has the microsite section on the UI
-     */
-    public function testMicrositeCreateActionsOnProjectShowPage()
+    public function test_microsite_section_on_projects_details_is_present()
     {
-        $project = factory(\KBox\Project::class)->create();
+        $this->enableMicrositeFlag();
+
+        $project = factory(Project::class)->create();
         
         $this->actingAs($project->manager()->first());
         
-        $this->visit(route('projects.show', ['id' => $project->id]))
-            ->see('Microsite')
-            ->see(trans('microsites.actions.create'));
-            
-        $this->click('microsite_create');
+        $response = $this->get(route('projects.show', ['id' => $project->id]));
+
+        $response->assertSee('Microsite');
+        $response->assertSee(trans('microsites.actions.create'));
+        $response->assertSee(route('microsites.create', ['project' => $project->id]));
+    }
+    
+    public function test_microsite_section_on_projects_not_present_when_flag_disabled()
+    {
+        $this->disableMicrositeFlag();
+
+        $project = factory(Project::class)->create();
         
-        $this->seePageIs(route('microsites.create', ['project' => $project->id]));
+        $this->actingAs($project->manager()->first());
         
-        $this->see(trans('microsites.pages.create', ['project' => $project->name]));
+        $response = $this->get(route('projects.show', ['id' => $project->id]));
+
+        $response->assertDontSee('Microsite');
+        $response->assertDontSee(trans('microsites.actions.create'));
+        $response->assertDontSee(route('microsites.create', ['project' => $project->id]));
+    }
+    
+    public function test_microsite_section_on_project_details_not_present_when_flag_disabled()
+    {
+        $this->disableMicrositeFlag();
+
+        $project = factory(Project::class)->create();
         
-        $this->see(trans('microsites.actions.publish'));
+        $this->actingAs($project->manager()->first());
         
-        $this->assertViewHas('pagetitle');
-        $this->assertViewHas('project');
+        $response = $this->get(route('documents.projects.show', ['id' => $project->id]));
+
+        $response->assertDontSee('Microsite');
+        $response->assertDontSee(trans('microsites.actions.create'));
+        $response->assertDontSee(route('microsites.create', ['project' => $project->id]));
     }
     
     public function testMicrositeManageActionsVisibilityOnProjectShowPage()
     {
-        $project = factory(\KBox\Project::class)->create();
+        $this->enableMicrositeFlag();
+
+        $project = factory(Project::class)->create();
         
         $project_manager = $project->manager()->first();
         
@@ -179,56 +225,53 @@ class Microsites_IntegrationTest extends BrowserKitTestCase
             'user_id' => $project_manager->id
         ]);
         
-        $this->actingAs($project_manager);
+        $response = $this->actingAs($project_manager)->get(route('projects.show', ['id' => $project->id]));
         
-        $this->visit(route('projects.show', ['id' => $project->id]))
-            ->see('Microsite')
-            ->see(trans('microsites.actions.delete'))
-            ->see(trans('microsites.actions.view_site'))
-            ->see(trans('microsites.actions.edit'));
+        $response->assertSee('Microsite');
+        $response->assertSee(trans('microsites.actions.delete'));
+        $response->assertSee(trans('microsites.actions.view_site'));
+        $response->assertSee(trans('microsites.actions.edit'));
     }
     
     public function testMicrositeCreateInvokedWithoutProjectParameter()
     {
-        $project = factory(\KBox\Project::class)->create();
+        $this->enableMicrositeFlag();
+
+        $project = factory(Project::class)->create();
         
         $project_manager = $project->manager()->first();
         
-        \Session::start();
+        $response = $this->actingAs($project_manager)
+            ->from(route('projects.show', ['id' => $project->id ]))
+            ->get(route('microsites.create'));
         
-        $this->actingAs($project_manager);
-        
-        $this->visit(route('projects.show', ['id' => $project->id ]));
-        
-        $this->visit(route('microsites.create'));
-        
-        $this->seePageIs(route('projects.show', ['id' => $project->id ]));
-        
-        $this->see(trans('microsites.errors.create_no_project'));
+        $response->assertRedirect(route('projects.show', ['id' => $project->id ]));
+        $response->assertSessionHasErrors([
+            'error' => trans('microsites.errors.create_no_project')
+        ]);
     }
     
     public function testMicrositeCreateInvokedWithoutUserAffiliation()
     {
-        $user = $this->createAdminUser();
+        $this->enableMicrositeFlag();
+
+        $user = tap(factory(User::class)->create())->addCapabilities(Capability::$ADMIN);
         
-        $project = factory(\KBox\Project::class)->create(['user_id' => $user->id]);
+        $project = factory(Project::class)->create(['user_id' => $user->id]);
         
-        \Session::start();
+        $response = $this->actingAs($user)
+            ->from(route('projects.show', ['id' => $project->id ]))
+            ->get(route('microsites.create', ['project' => $project->id]));
         
-        $this->actingAs($user);
-        
-        $this->visit(route('projects.show', ['id' => $project->id ]));
-        
-        $this->visit(route('microsites.create', ['project' => $project->id]));
-        
-        $this->seePageIs(route('microsites.create', ['project' => $project->id ]));
-        
-        $this->dontSee(trans('microsites.errors.user_not_affiliated_to_an_institution'));
+        $response->assertViewIs('sites::create');
+        $response->assertDontSee(trans('microsites.errors.user_not_affiliated_to_an_institution'));
     }
     
     public function testMicrositeCreateOnProjectWithExistingMicrosite()
     {
-        $project = factory(\KBox\Project::class)->create();
+        $this->enableMicrositeFlag();
+
+        $project = factory(Project::class)->create();
         
         $project_manager = $project->manager()->first();
         
@@ -237,53 +280,40 @@ class Microsites_IntegrationTest extends BrowserKitTestCase
             'user_id' => $project_manager->id
         ]);
         
-        $this->actingAs($project_manager);
-        
-        $this->visit(route('projects.show', ['id' => $project->id ]));
-        
-        $this->visit(route('microsites.create', ['project' => $project->id]));
-        
-        $this->seePageIs(route('projects.show', ['id' => $project->id ]));
-        
-        $this->see(trans('microsites.errors.create_already_exists', ['project' => $project->name]));
+        $response = $this->actingAs($project_manager)
+            ->from(route('projects.show', ['id' => $project->id ]))
+            ->get(route('microsites.create', ['project' => $project->id]));
+
+        $response->assertRedirect(route('projects.show', ['id' => $project->id ]));
+        $response->assertSessionHasErrors([
+            'error' => trans('microsites.errors.create_already_exists', ['project' => $project->name])
+        ]);
     }
     
     public function testMicrositeStoreWithValidData()
     {
-        $project = factory(\KBox\Project::class)->create();
+        $this->enableMicrositeFlag();
+
+        $project = factory(Project::class)->create();
         
         $project_manager = $project->manager()->first();
         
-        $microsite_request = factory('Klink\DmsMicrosites\Microsite')->make([
-            'project_id' => $project->id,
-            'project' => $project->id,
-            'user_id' => $project_manager->id
-        ])->toArray();
+        $microsite_request = $this->createValidMicrositeRequest($project->id, $project_manager->id);
         
         unset($microsite_request['project_id']);
         unset($microsite_request['user_id']);
         
-        $microsite_request['content'] = [
-            'en' => [
-                'title' => 'Example page',
-                'slug' => 'Example page',
-                'content' => 'Example page content',
-            ]
-        ];
-        
-        \Session::start();
-        
-        $this->actingAs($project_manager);
-        
-        $this->post(route('microsites.store'), $microsite_request);
-        
+        $response = $this->actingAs($project_manager)
+            ->post(route('microsites.store'), $microsite_request);
+            
         $microsite = Microsite::where('slug', $microsite_request['slug'])->first();
         
         $this->assertNotNull($microsite, 'Cannot get stored microsite after create');
-        
         $this->assertEquals($microsite_request['title'], $microsite->title);
         $this->assertEquals($microsite_request['project'], $microsite->project_id);
         $this->assertEquals($project_manager->id, $microsite->user_id);
+        
+        $response->assertRedirect(route('microsites.edit', ['id' => $microsite->id]));
         
         $page = $microsite->pages()->first();
         
@@ -292,39 +322,24 @@ class Microsites_IntegrationTest extends BrowserKitTestCase
         $this->assertEquals($microsite_request['content']['en']['title'], $page->title, "Page title has not been stored");
         $this->assertEquals($microsite_request['content']['en']['slug'], $page->slug, "Page slug has not been stored");
         $this->assertEquals('en', $page->language, "Page language has not been stored");
-
-        $this->assertRedirectedToRoute('microsites.edit', ['id' => $microsite->id]);
     }
     
     public function testMicrositeStoreWithValidData_NoLogo()
     {
-        $project = factory(\KBox\Project::class)->create();
+        $this->enableMicrositeFlag();
+
+        $project = factory(Project::class)->create();
         
         $project_manager = $project->manager()->first();
         
-        $microsite_request = factory('Klink\DmsMicrosites\Microsite')->make([
-            'project_id' => $project->id,
-            'project' => $project->id,
-            'user_id' => $project_manager->id,
-        ])->toArray();
+        $microsite_request = $this->createValidMicrositeRequest($project->id, $project_manager->id);
         
         unset($microsite_request['project_id']);
         unset($microsite_request['user_id']);
         unset($microsite_request['logo']);
         
-        $microsite_request['content'] = [
-            'en' => [
-                'title' => 'Example page',
-                'slug' => 'Example page',
-                'content' => 'Example page content',
-            ]
-        ];
-        
-        \Session::start();
-        
-        $this->actingAs($project_manager);
-        
-        $this->post(route('microsites.store'), $microsite_request);
+        $response = $this->actingAs($project_manager)
+            ->post(route('microsites.store'), $microsite_request);
         
         $microsite = Microsite::where('slug', $microsite_request['slug'])->first();
         
@@ -342,7 +357,7 @@ class Microsites_IntegrationTest extends BrowserKitTestCase
         $this->assertEquals($microsite_request['content']['en']['slug'], $page->slug, "Page slug has not been stored");
         $this->assertEquals('en', $page->language, "Page language has not been stored");
 
-        $this->assertRedirectedToRoute('microsites.edit', ['id' => $microsite->id]);
+        $response->assertRedirect(route('microsites.edit', ['id' => $microsite->id]));
     }
     
     /**
@@ -350,155 +365,60 @@ class Microsites_IntegrationTest extends BrowserKitTestCase
      */
     public function testMicrositeStoreWithInvalidData($request_data, $attribute, $error_type)
     {
-        $project = factory(\KBox\Project::class)->create();
+        $this->enableMicrositeFlag();
+
+        $project = factory(Project::class)->create();
         $project_manager = $project->manager()->first();
-        
-        \Session::start();
         
         $this->actingAs($project_manager);
         
-        $this->visit(route('microsites.create', ['project' => $project->id]));
-        // $this->visit( route('projects.show', ['id' => $project->id ]) );
-        
-        $microsite_request = factory('Klink\DmsMicrosites\Microsite')->make([
-            'project_id' => $project->id,
-            'project' => $project->id,
-            'user_id' => $project_manager->id
-        ])->toArray();
-        
-        unset($microsite_request['project_id']);
-        unset($microsite_request['user_id']);
-        
-        $microsite_request['content'] = [
-            'en' => [
-                'title' => 'Example page',
-                'slug' => 'Example page',
-                'content' => 'Example page content',
-            ]
-        ];
+        $microsite_request = $this->createValidMicrositeRequest($project->id, $project_manager->id);
         
         unset($microsite_request[$attribute]);
         $microsite_request = array_merge($microsite_request, $request_data);
         
         $microsite_request['_token'] = csrf_token();
         
-        $this->post(route('microsites.store'), $microsite_request);
+        $response = $this->post(route('microsites.store'), $microsite_request);
         
         if ($error_type === 'authorize') {
-            $this->see(trans('errors.403_text'));
-            $this->dontSee('errors.403_text');
+            $response->assertSee(trans('errors.403_text'));
+            $response->assertDontSee('errors.403_text');
         } elseif (! is_null($error_type)) {
-            $this->assertSessionHasErrors([$attribute]);
+            $response->assertSessionHasErrors([$attribute]);
         } else {
-            $this->assertFalse($this->app['session.store']->has('errors'), "expecting no error, but found one");
+            $response->assertSessionDoesntHaveErrors();
         }
-    }
-    
-    /**
-     *
-     * @dataProvider language_switch_provider
-     */
-    public function testMicrositeLanguageSwitch($default_lang, $switch_to)
-    {
-        $project = factory(\KBox\Project::class)->create();
-        
-        $project_manager = $project->manager()->first();
-        
-        $microsite_request = factory('Klink\DmsMicrosites\Microsite')->make([
-            'project_id' => $project->id,
-            'project' => $project->id,
-            'user_id' => $project_manager->id,
-            'default_language' => $default_lang
-        ])->toArray();
-        
-        unset($microsite_request['project_id']);
-        unset($microsite_request['user_id']);
-        unset($microsite_request['logo']);
-        
-        $microsite_request['content'] = [
-            'en' => [
-                'title' => 'EN Example page',
-                'slug' => 'en-example-page',
-                'content' => 'English Example page content',
-            ],
-            'ru' => [
-                'title' => 'RU Example page',
-                'slug' => 'ru-example-page',
-                'content' => 'Russian Example page content',
-            ]
-        ];
-        
-        \Session::start();
-        
-        $this->actingAs($project_manager);
-        
-        $this->post(route('microsites.store'), $microsite_request);
-        
-        $microsite = Microsite::where('slug', $microsite_request['slug'])->first();
-        
-        $this->assertNotNull($microsite, 'Cannot get stored microsite after create');
-        
-        $this->assertEquals($microsite_request['title'], $microsite->title);
-        $this->assertEquals($microsite_request['project'], $microsite->project_id);
-        $this->assertEquals($project_manager->id, $microsite->user_id);
-        
-        $page_count = $microsite->pages()->count();
-        
-        $this->assertEquals(2, $page_count);
-        
-        // visit the page and test if $default_lang version is showed
-        $this->visit(route('microsites.slug', ['slug' => $microsite_request['slug']]));
-        
-        $this->see($microsite_request['content'][$default_lang]['content']);
-        
-        // click on $switch_to lang switch and test if $switch_to version is showed
-        
-        $this->click($switch_to);
-        
-        $this->see($microsite_request['content'][$switch_to]['content']);
     }
     
     public function testMicrositeStoreOnPojectWithExistingMicrosite()
     {
-        $project = factory(\KBox\Project::class)->create();
+        $this->enableMicrositeFlag();
+
+        $project = factory(Project::class)->create();
         
         $project_manager = $project->manager()->first();
         
-        $microsite_request = factory('Klink\DmsMicrosites\Microsite')->make([
-            'project_id' => $project->id,
-            'project' => $project->id,
-            'user_id' => $project_manager->id,
-        ])->toArray();
-        
-        unset($microsite_request['project_id']);
-        unset($microsite_request['user_id']);
-        
-        $microsite_request['content'] = [
-            'en' => [
-                'title' => 'Example page',
-                'slug' => 'Example page',
-                'content' => 'Example page content',
-            ]
-        ];
-        
-        \Session::start();
-        
+        $microsite_request = $this->createValidMicrositeRequest($project->id, $project_manager->id);
+
         $this->actingAs($project_manager);
         
         $this->post(route('microsites.store'), $microsite_request);
 
         // double post the same things, expect an error
         $microsite_request['slug'] = 'another-slug';
-        $this->post(route('microsites.store'), $microsite_request);
+        $response = $this->post(route('microsites.store'), $microsite_request);
         
         $message = trans('microsites.errors.create', ['error' => trans('microsites.errors.create_already_exists', ['project' => $project->name])]);
         
-        $this->assertSessionHasErrors(['error' => $message]);
+        $response->assertSessionHasErrors(['error' => $message]);
     }
     
     public function testMicrositeEditFromProjectShowPage()
     {
-        $project = factory(\KBox\Project::class)->create();
+        $this->enableMicrositeFlag();
+
+        $project = factory(Project::class)->create();
         
         $project_manager = $project->manager()->first();
         
@@ -507,31 +427,24 @@ class Microsites_IntegrationTest extends BrowserKitTestCase
             'user_id' => $project_manager->id,
         ]);
         
-        \Session::start();
+        $response = $this->actingAs($project_manager)
+            ->get(route('microsites.edit', ['id' => $microsite->id]));
         
-        $this->actingAs($project_manager);
-        
-        $this->visit(route('projects.show', ['id' => $project->id]));
-        
-        $this->click('microsite_edit');
-        
-        $this->seePageIs(route('microsites.edit', ['id' => $microsite->id]));
+        $response->assertOk();
+        $response->assertViewIs('sites::edit');
+        $response->assertViewHas('microsite', $microsite);
     }
     
     public function testMicrositeUpdateWithValidData()
     {
-        $project = factory(\KBox\Project::class)->create();
+        $this->enableMicrositeFlag();
+
+        $project = factory(Project::class)->create();
         
         $project_manager = $project->manager()->first();
         
-        $microsite_request = factory('Klink\DmsMicrosites\Microsite')->make([
-            'project_id' => $project->id,
-            'project' => $project->id,
-            'user_id' => $project_manager->id,
-        ])->toArray();
+        $microsite_request = $this->createValidMicrositeRequest($project->id, $project_manager->id);
         
-        unset($microsite_request['project_id']);
-        unset($microsite_request['user_id']);
         unset($microsite_request['logo']);
         
         $microsite_request['content'] = [
@@ -620,7 +533,9 @@ class Microsites_IntegrationTest extends BrowserKitTestCase
     
     public function testMicrositeDeleteWithValidData()
     {
-        $project = factory(\KBox\Project::class)->create();
+        $this->enableMicrositeFlag();
+
+        $project = factory(Project::class)->create();
         
         $project_manager = $project->manager()->first();
         
@@ -629,19 +544,16 @@ class Microsites_IntegrationTest extends BrowserKitTestCase
             'user_id' => $project_manager->id,
         ]);
         
-        \Session::start();
-        
         $this->actingAs($project_manager);
         
-        $this->delete(
+        $response = $this->delete(
             route('microsites.destroy', [
                 'id' => $microsite->id,
                 '_token' => csrf_token()])
         );
         
-        $this->assertInstanceOf('Illuminate\Http\RedirectResponse', $this->response);
-        
-        $this->assertSessionHas('flash_message', trans('microsites.messages.deleted', ['title' => $microsite->title ]));
+        $response->assertInstanceOf('Illuminate\Http\RedirectResponse');
+        $response->assertSessionHas('flash_message', trans('microsites.messages.deleted', ['title' => $microsite->title ]));
     }
     
     /**
@@ -650,9 +562,11 @@ class Microsites_IntegrationTest extends BrowserKitTestCase
      */
     public function testMicrositeDeleteWithInValidData($caps, $response_status)
     {
-        $user = $this->createUser($caps);
+        $this->enableMicrositeFlag();
+
+        $user = tap(factory(User::class)->create())->addCapabilities($caps);
         
-        $project = factory(\KBox\Project::class)->create();
+        $project = factory(Project::class)->create();
         
         $project_manager = $project->manager()->first();
         
@@ -661,22 +575,19 @@ class Microsites_IntegrationTest extends BrowserKitTestCase
             'user_id' => $project_manager->id,
         ]);
         
-        \Session::start();
-        
-        $this->actingAs($user);
-        
-        $this->delete(
-            route('microsites.destroy', [
-                'id' => $microsite->id,
-                '_token' => csrf_token()])
-        );
+        $response = $this->actingAs($user)
+            ->delete(
+                route('microsites.destroy', [
+                    'id' => $microsite->id,
+                    '_token' => csrf_token()])
+            );
         
         if ($response_status === 403) {
-            $this->assertViewName('errors.403');
+            $response->assertErrorView('403');
         } else {
-            $this->assertInstanceOf('Illuminate\Http\RedirectResponse', $this->response);
+            $response->assertInstanceOf('Illuminate\Http\RedirectResponse');
             
-            $this->assertSessionHasErrors([
+            $response->assertSessionHasErrors([
                 'error' => trans('microsites.errors.delete_forbidden', ['title' => $microsite->title ])
             ]);
         }
@@ -684,6 +595,8 @@ class Microsites_IntegrationTest extends BrowserKitTestCase
 
     public function test_html_can_be_used_in_microsite_content()
     {
+        $this->enableMicrositeFlag();
+
         $content = MicrositeContent::make([
             'language' => 'en',
             'type' => MicrositeContent::TYPE_PAGE,
@@ -698,6 +611,8 @@ class Microsites_IntegrationTest extends BrowserKitTestCase
 
     public function test_scripts_cannot_be_used_in_microsite_content()
     {
+        $this->enableMicrositeFlag();
+
         $content = MicrositeContent::make([
             'language' => 'en',
             'type' => MicrositeContent::TYPE_PAGE,
@@ -708,5 +623,27 @@ class Microsites_IntegrationTest extends BrowserKitTestCase
         $rendered_content = app()->make('micrositeparser')->toHtml($content);
 
         $this->assertEquals('<p>This contains a <strong>bold statement</strong>.alert(\'\') <div>A div</div> and an <img src="http://localhost/image.png"></p>', trim($rendered_content));
+    }
+
+    private function createValidMicrositeRequest($project_id, $user_id)
+    {
+        $microsite_request = factory('Klink\DmsMicrosites\Microsite')->make([
+            'project_id' => $project_id,
+            'project' => $project_id,
+            'user_id' => $user_id
+        ])->toArray();
+        
+        unset($microsite_request['project_id']);
+        unset($microsite_request['user_id']);
+        
+        $microsite_request['content'] = [
+            'en' => [
+                'title' => 'Example page',
+                'slug' => 'Example page',
+                'content' => 'Example page content',
+            ]
+        ];
+
+        return $microsite_request;
     }
 }

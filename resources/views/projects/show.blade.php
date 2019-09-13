@@ -43,7 +43,8 @@
             @include('projects.partials.userlist', ['users' => $project_users, 'description' => null, 'empty_message' => trans('projects.no_members'), 'edit' => false ])
 
 		</div>
-		
+        
+        @flag('microsites')
         <div class="six columns">
 			<h4>{!! trans('microsites.labels.microsite') !!}</h4>
 			<p>
@@ -75,7 +76,8 @@
             
             @endif
             
-		</div>
+        </div>
+        @endflag
 		
 	</div>
 

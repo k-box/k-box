@@ -28,6 +28,9 @@ class MicrositeController extends Controller
      */
     public function __construct()
     {
+
+        $this->middleware('flags:microsites');
+
         $this->middleware('auth', ['except' => ['show']]);
 
         $this->middleware('capabilities', ['except' => ['show']]);
