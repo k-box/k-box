@@ -59,8 +59,8 @@
                 </div>
 
                 <div class="progress">
-                    <div class="widget--storage__meter">
-                        <div class="bar" style="width:{{ uploadPercentage }}%"></div>
+                    <div class="h-2 w-full bg-gray-300 rounded-lg overflow-hidden">
+                        <div class="h-2 bg-accent-500 transition" style="width:{{ uploadPercentage }}%"></div>
                     </div>
                 </div>
 
