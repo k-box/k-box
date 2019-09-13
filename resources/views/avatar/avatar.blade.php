@@ -1,4 +1,4 @@
-<div class="relative {{ isset($inline) && $inline ? 'inline' : 'inline-block' }} rounded-full overflow-hidden flex-shrink-0 h-10 w-10 bg-gray-800 @if(isset($url) && $url) hover:bg-blue-600 @endif">
+<div class="{{ isset($inline) && $inline ? 'inline' : 'inline-block' }} rounded-full overflow-hidden flex-shrink-0 h-10 w-10 bg-gray-800 @if(isset($url) && $url) hover:bg-blue-600 @endif">
 	@if(isset($url) && $url)
 	<a href="{{ $url }}" title="{{ $alt ?? '' }}">
 	@endif
