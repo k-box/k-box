@@ -2,7 +2,7 @@
 
 @section('page-action')
 
-	<a href="#" class="action__button" rv-disabled="nothingIsSelected" rv-on-click="restore">
+	<a href="#" class="action__button mr-2" rv-disabled="nothingIsSelected" rv-on-click="restore">
 		@materialicon('action','settings_backup_restore'){{trans('actions.restore')}}
 	</a>
 	

@@ -7,11 +7,11 @@
 
 	<a href="{{route('shares.index')}}"  class="breadcrumb__item">{{trans('share.page_title')}}</a>
 	
-	<span  class="breadcrumb__item"{{$shared_group->name}}</span>
+	<span  class="breadcrumb__item">{{$shared_group->name}}</span>
 
 @else
 
-	<span  class="breadcrumb__item"{{trans('share.page_title')}}</span>
+	<span  class="breadcrumb__item">{{trans('share.page_title')}}</span>
 
 @endif
 		

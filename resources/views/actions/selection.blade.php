@@ -1,4 +1,4 @@
-<div class="action__button tristate-button js-document-selection-button tristate-button--none hint--bottom"  data-hint="{{trans('actions.selection.hint')}}">	
+<div class="action__button tristate-button js-document-selection-button tristate-button--none hint--bottom mr-2"  data-hint="{{trans('actions.selection.hint')}}">	
 	<input type="checkbox" name="selection-tristate" id="selection-tristate" style="display:none" />
 
 	@materialicon('toggle', 'check_box', 'inline-block tristate__all')
