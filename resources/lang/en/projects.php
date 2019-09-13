@@ -74,6 +74,8 @@ return [
 
         'exception' => 'The project cannot be created. (:exception)',
         
+        'already_existing' => 'A project with the same name already exists.',
+        
         'prevent_edit_description' => 'The Project collection cannot be edited from here. Please goto <a href=":link">Projects > Edit :name</a> to make the edits.',
         
         'prevent_delete_description' => 'The Project collection cannot be deleted.'

@@ -72,6 +72,8 @@ return [
     'errors' => [
 
         'exception' => 'Долбоор түзүү мүмкүн эмес (:exception)',
+
+        'already_existing' => 'Мындай ат менен долбоор түзүлгөн',
         
         'prevent_edit_description' => 'Долбоорду <a href=":link">Долбоорлор > Өзгөртүү :name</a> өзгөртүү мүмкүн',
         
