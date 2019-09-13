@@ -245,3 +245,15 @@ $factory->define(KBox\DuplicateDocument::class, function (Faker\Generator $faker
         'user_id' => $user,
     ];
 });
+
+$factory->define(KBox\UserQuota::class, function (Faker\Generator $faker, $arguments = []) {
+    
+    return [
+        'user_id' => function () {
+            return factory(KBox\User::class)->create()->id;
+        },
+        'limit' => 100,
+        'used' => 0,
+        'threshold' => 80,
+      ];
+});

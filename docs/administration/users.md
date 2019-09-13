@@ -55,6 +55,6 @@ To add new user
 1. From the “Administration” page select “Accounts”
 2. Click on “Create user”
 3. Fill in the email address, the username and select the role.
-   If necessary you can set a password for the user and customize the permissions
+   If necessary you can set a password for the user and customize permissions or storage quota availability
 4. Once done, click “Create” at the bottom of the page.
 

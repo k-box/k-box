@@ -12,6 +12,7 @@ use KBox\Events\UploadCompleted;
 use KBox\Events\FileDuplicateFoundEvent;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use KBox\Jobs\CalculateUserUsedQuota;
 
 class UploadCompletedHandler implements ShouldQueue
 {
@@ -36,6 +37,8 @@ class UploadCompletedHandler implements ShouldQueue
             // send the document descriptor
             // to the elaboration queue
             elaborate($descriptor);
+
+            CalculateUserUsedQuota::dispatch($event->user)->delay(now()->addMinutes(10));
         } catch (Exception $ex) {
             Log::error('Error while handling the UploadCompletedEvent.', ['event' => $event,'error' => $ex]);
             $event->descriptor->status = DocumentDescriptor::STATUS_ERROR;

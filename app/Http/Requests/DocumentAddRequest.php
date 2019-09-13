@@ -19,7 +19,7 @@ class DocumentAddRequest extends Request
 
         $tests = [
             'group' => 'sometimes|required|exists:groups,id',
-            'document' => 'required|file|between:0,'.$max_size,
+            'document' => 'required|file|between:0,'.$max_size, // QUOTA!!?!?!
             'document_fullpath' => 'sometimes|required',
             'document_name' => 'sometimes|required',
             'folder_path' => 'sometimes|required|min:1',

@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use KBox\User;
 use Tests\TestCase;
 use KBox\Capability;
 use KBox\DuplicateDocument;
@@ -64,6 +65,32 @@ class DocumentsControllerTest extends TestCase
         $folder = date('Y').'/'.date('m');
         Storage::disk('local')->assertExists("{$folder}/{$file->uuid}/");
         Storage::disk('local')->assertExists($file->path);
+    }
+
+    public function test_upload_denied_for_over_quota()
+    {
+        $this->withoutMiddleware();
+        $this->withExceptionHandling();
+
+        Storage::fake('local');
+
+        $adapter = $this->withKlinkAdapterFake();
+
+        config([
+            'quota.user' => 1024, // bytes
+        ]);
+
+        $user = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$ADMIN);
+        });
+
+        $response = $this->actingAs($user)->json('POST', '/documents', [
+            'document' => UploadedFile::fake()->create('document.pdf', 100)
+        ]);
+
+        $response->assertJson([
+            'error' =>  trans('quota.not_enough_free_space', ['necessary_free_space' => human_filesize(100*1024-1024), 'quota' => '1.00 KB'])
+        ]);
     }
 
     public function test_duplicate_badge_is_shown_when_listing_documents_that_have_duplicates()

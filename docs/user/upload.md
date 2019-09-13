@@ -24,3 +24,11 @@ The K-Box offer special support for mp4 video files encoded with H.264 codec (wi
 #### Duplicates
 
 To learn how the K-Box users handle _duplicates_, please go [here](./duplicates.md#resolve)
+
+#### Storage quota
+
+Each user can have a maximum amount of usable storage space. The available space and its limit are configured on a per-instance basis.
+
+A file upload (i.e. a new document or a new file version) could be denied if the user account will go over-quota after uploading the file.
+
+For more information please refer to [User Storage Quota](./user-quota.md).

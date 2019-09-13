@@ -26,6 +26,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @property string $deleted_at
  * @property string $organization_name
  * @property string $organization_website
+ * @property \KBox\UserQuota $quota
  * @property-read \Illuminate\Database\Eloquent\Collection|\KBox\Capability[] $capabilities
  * @property-read \Illuminate\Database\Eloquent\Collection|\KBox\DocumentDescriptor[] $documents
  * @property-read \Franzose\ClosureTable\Extensions\Collection|\KBox\Group[] $groups
@@ -238,6 +239,16 @@ class User extends Authenticatable implements MustVerifyEmail
     public function consents()
     {
         return $this->hasMany(Consent::class);
+    }
+
+    /**
+     * The storage quota information
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function quota()
+    {
+        return $this->hasOne(UserQuota::class);
     }
 
     /**

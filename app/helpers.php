@@ -2,6 +2,7 @@
 
 use KBox\Plugins\PluginManager;
 use KBox\Services\ReadonlyMode;
+use KBox\Documents\Services\DocumentsService;
 
 if (! function_exists('css_asset')) {
     /**
@@ -308,5 +309,18 @@ if (! function_exists('is_readonly')) {
     function is_readonly()
     {
         return app(ReadonlyMode::class)->isReadonlyActive();
+    }
+}
+
+if (! function_exists('human_filesize')) {
+    /**
+     * Transform bytes in an understandable format
+     *
+     * @see \KBox\Documents\Services\DocumentsService::human_filesize()
+     * @return string
+     */
+    function human_filesize($bytes, $decimals = 2)
+    {
+        return DocumentsService::human_filesize($bytes, $decimals);
     }
 }

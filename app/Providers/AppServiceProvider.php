@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Response;
 use KBox\DocumentsElaboration\DocumentElaborationManager;
+use KBox\Services\Quota;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -72,6 +73,10 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->singleton(DocumentElaborationManager::class, function ($app) {
             return new DocumentElaborationManager();
+        });
+        
+        $this->app->singleton(Quota::class, function ($app) {
+            return new Quota();
         });
 
         // Loading workbench service provider only if running in console (aka Artisan) and the environment is set to 'development'

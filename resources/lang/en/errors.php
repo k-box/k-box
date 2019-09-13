@@ -15,9 +15,11 @@ return [
 
     'upload' => [
         'simple' => 'Upload error :description',
+        'no_file_sent' => 'The file was not sent',
         'filenamepolicy' => 'The file :filename does not respect the naming convention.',
         'filealreadyexists' => 'The file :filename already exists.',
         'file_not_uploaded' => 'The file was not uploaded, please verify that its size is less than :max_size.',
+        
     ],
 
     'filealreadyexists' => [
