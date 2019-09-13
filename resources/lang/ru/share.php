@@ -105,7 +105,7 @@ return [
     'publiclinks' => [
         'public_link' => 'Открытая ссылка',
         'already_exist' => 'Открытая ссылка к :name уже существует.',
-        'delete_forbidden_not_your' => 'Вы не можете удалить чужую ссылку.',
+        'delete_forbidden_not_your' => 'Удалить публичную ссылку может только пользователь загрузивший файл',
         'edit_forbidden_not_your' => 'Вы не можете редактировать чужую ссылку.',
     ],
 ];

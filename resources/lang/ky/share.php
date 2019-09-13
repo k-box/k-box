@@ -105,7 +105,7 @@ return [
     'publiclinks' => [
         'public_link' => 'Ачык шилтеме',
         'already_exist' => 'Бул документке :name ачык шилтеме түзүлгөн',
-        'delete_forbidden_not_your' => 'Шилтемени өчүрүү мүмкүн эмес',
+        'delete_forbidden_not_your' => 'Ачык шилтемени файлды жүктөгөн колдонуучу гана өчүрө алат',
         'edit_forbidden_not_your' => 'Шилтемени оңдоо мүмкүн эмес',
     ],
 ];
