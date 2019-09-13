@@ -6,6 +6,9 @@ use Tests\TestCase;
 use KBox\Capability;
 use KBox\DuplicateDocument;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use KBox\DocumentDescriptor;
+use KBox\Group;
+use KBox\User;
 
 class DuplicateDocumentsControllerTest extends TestCase
 {
@@ -163,5 +166,96 @@ class DuplicateDocumentsControllerTest extends TestCase
             'status' => 'error',
             'message' => trans('documents.duplicates.errors.already_resolved'),
         ]);
+    }
+
+    public function test_duplicate_in_same_collection_can_be_resolved()
+    {
+        $this->disableExceptionHandling();
+
+        $adapter = $this->withKlinkAdapterFake();
+
+        $user = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$PARTNER);
+        });
+
+        $collection = factory(Group::class)->create([
+            'user_id' => $user->id,
+            'is_private' => true,
+        ]);
+
+        $existing_document = factory(DocumentDescriptor::class)->create([
+            'owner_id' => $user->id,
+        ]);
+
+        $duplicate_document = factory(DocumentDescriptor::class)->create([
+            'owner_id' => $user->id,
+        ]);
+
+        $collection->documents()->save($existing_document);
+        $collection->documents()->save($duplicate_document);
+
+        $duplicate = factory(DuplicateDocument::class)->create([
+            'user_id' => $user->id,
+            'document_id' => $existing_document->id,
+            'duplicate_document_id' => $duplicate_document->id,
+        ]);
+
+        $response = $this->actingAs($user)->json('DELETE', route('duplicates.destroy', ['id' => $duplicate->id]));
+
+        $response->assertStatus(200);
+
+        $this->assertTrue($duplicate_document->fresh()->trashed(), "Duplicate document not trashed");
+        $this->assertTrue($duplicate->fresh()->resolved, "Duplicate not marked as resolved");
+        $this->assertEquals(1, $collection->documents()->withTrashed()->where('document_id', $existing_document->id)->count(), "duplicate entry in document->collection relation for the existing file");
+    }
+
+    public function test_duplicate_in_different_collections_can_be_resolved()
+    {
+        $this->disableExceptionHandling();
+
+        $adapter = $this->withKlinkAdapterFake();
+
+        $user = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$PARTNER);
+        });
+
+        $collection_for_existing = factory(Group::class)->create([
+            'user_id' => $user->id,
+            'is_private' => true,
+        ]);
+        
+        $collection_for_duplicate = factory(Group::class)->create([
+            'user_id' => $user->id,
+            'is_private' => true,
+        ]);
+
+        $existing_document = factory(DocumentDescriptor::class)->create([
+            'owner_id' => $user->id,
+        ]);
+
+        $duplicate_document = factory(DocumentDescriptor::class)->create([
+            'owner_id' => $user->id,
+        ]);
+
+        $collection_for_existing->documents()->save($existing_document);
+        $collection_for_duplicate->documents()->save($duplicate_document);
+
+        $duplicate = factory(DuplicateDocument::class)->create([
+            'user_id' => $user->id,
+            'document_id' => $existing_document->id,
+            'duplicate_document_id' => $duplicate_document->id,
+        ]);
+
+        $response = $this->actingAs($user)->json('DELETE', route('duplicates.destroy', ['id' => $duplicate->id]));
+
+        $response->assertStatus(200);
+
+        $this->assertTrue($duplicate_document->fresh()->trashed(), "Duplicate document not trashed");
+        $this->assertTrue($duplicate->fresh()->resolved, "Duplicate not marked as resolved");
+
+        $this->assertEquals(
+            collect([$collection_for_existing->id, $collection_for_duplicate->id])->sort()->toArray(),
+            $existing_document->fresh()->groups()->pluck('group_id')->sort()->toArray()
+        );
     }
 }
