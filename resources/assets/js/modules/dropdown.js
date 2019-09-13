@@ -1,20 +1,22 @@
 define("modules/dropdown", ["jquery"], function (_$) {
 
-	// data-dropdown
-	// data-dropdown-trigger (it might contain an item with class arrow)
-	// data-dropdown-panel
-
 	var DropMenu = function(element)
 	{
 		this.trigger = element.find("[data-dropdown-trigger]");
 		this.arrow = this.trigger ? this.trigger.find(".arrow") : null;
 		this.panel = element.find("[data-dropdown-panel]");
+		this.obscurer = element.find("[data-dropdown-obscurer]");
 		this.isOpen = false;
 
 		this.open = function(){
 			if(this.panel && !this.isOpen){
 
 				this.panel.removeClass('hidden');
+				
+				if(this.obscurer){
+					this.obscurer.removeClass('hidden');
+					this.obscurer.on('click', this.close.bind(this));
+				}
 	
 				if(this.arrow){
 					this.arrow.addClass("rotate-180");
@@ -26,6 +28,11 @@ define("modules/dropdown", ["jquery"], function (_$) {
 		this.close = function(){
 			if(this.panel && this.isOpen) {
 				this.panel.addClass('hidden');
+
+				if(this.obscurer){
+					this.obscurer.addClass('hidden');
+					this.obscurer.off('click', this.close.bind(this));
+				}
 	
 				if(this.arrow){
 					this.arrow.removeClass("rotate-180");
