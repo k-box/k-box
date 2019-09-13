@@ -254,8 +254,8 @@ class DuplicateDocumentsControllerTest extends TestCase
         $this->assertTrue($duplicate->fresh()->resolved, "Duplicate not marked as resolved");
 
         $this->assertEquals(
-            collect([$collection_for_existing->id, $collection_for_duplicate->id])->sort()->toArray(),
-            $existing_document->fresh()->groups()->pluck('group_id')->sort()->toArray()
+            array_sort([$collection_for_existing->id, $collection_for_duplicate->id]),
+            array_sort($existing_document->fresh()->groups()->pluck('group_id')->toArray())
         );
     }
 }
