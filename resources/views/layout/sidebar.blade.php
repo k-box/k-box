@@ -3,16 +3,23 @@
 @section('content')
 <div class="md:flex md:flex-row h-page  relative">
 
-    <div class="js-drawer transition flex-shrink-0 min-h-0 h-full absolute md:relative overflow-y-auto overflow-x-hidden -translate-100 pointer-events-none md:pointer-events-auto md:translate-0 mr-4 opacity-0 md:opacity-100 md:w-64 xl:w-1/5 bg-white md:bg-transparent z-10 flex">
-        <div class="flex-grow">
-            @yield('sidebar')
-        </div>
-    
-        <div class="inline-block  md:hidden ">
-            <button title="{{ __('Close navigation sidebar') }}" class="js-drawer-trigger p-2 hover:text-blue-500 focus:text-blue-700">
+    <div class="js-drawer transition flex-shrink-0 min-h-0 h-page absolute md:relative overflow-y-auto scrolling-touch overflow-x-hidden -translate-100 pointer-events-none md:pointer-events-auto md:translate-0 mr-4 opacity-0 md:opacity-100 w-screen md:w-64 xl:w-1/5 bg-white md:bg-transparent z-10">
+        
+        <div class="inline-block md:hidden fixed top-0 right-0 z-10 ">
+            <button title="{{ __('Close navigation sidebar') }}" class="js-drawer-trigger sticky p-2 hover:text-blue-500 focus:text-blue-700">
 				@materialicon('navigation', 'close', 'fill-current m-0 p-0')
             </button>
         </div>
+        
+        <div class="mb-4">
+            @yield('sidebar')
+        </div>
+
+        @hasSection('sidebar_bottom')
+            <div class="pt-4 pb-8">
+                @yield('sidebar_bottom')
+            </div>
+        @endif
     </div>
     
     <div class="flex-grow min-h-0 overflow-auto ">
