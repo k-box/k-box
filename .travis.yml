@@ -3,7 +3,7 @@ language: php
 php:
   - 7.1
 
-dist: bionic
+dist: xenial
 
 services:
   - docker
