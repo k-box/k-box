@@ -26,6 +26,8 @@ return [
             'subject' => 'Your K-Box account is almost full',
             'text' => 'We are to inform you that your K-Box account as reached its storage limit (:quota).',
         ],
+
+        'action' => 'View your quota details',
     ],
 
     'unlimited' => 'Unlimited',
