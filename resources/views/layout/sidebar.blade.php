@@ -16,7 +16,7 @@
         </div>
 
         @hasSection('sidebar_bottom')
-            <div class="pt-4 pb-8">
+            <div class="pt-4 pb-8 px-2 md:px-0">
                 @yield('sidebar_bottom')
             </div>
         @endif
