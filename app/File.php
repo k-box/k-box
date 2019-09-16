@@ -16,11 +16,13 @@ use Illuminate\Support\Facades\Crypt;
 use KBox\Events\FileDeleted;
 use KBox\Events\FileDeleting;
 use KBox\Events\FileRestored;
+use KBox\Traits\ScopeNullUuid;
 
 /**
  * The representation of a File on disk
  *
  * @property int $id the incremental identifier of the file
+ * @property \Ramsey\Uuid\Uuid $uuid the UUID that identify the file
  * @property int $user_id the id of the user that created the file for the first time
  * @property string $name the file name
  * @property string $hash the file content SHA-512 hash
@@ -67,7 +69,7 @@ use KBox\Events\FileRestored;
  */
 class File extends Model
 {
-    use SoftDeletes, GeneratesUuid;
+    use SoftDeletes, GeneratesUuid, ScopeNullUuid;
 
     /**
      * The database table used by the model.
@@ -216,19 +218,6 @@ class File extends Model
     public function scopeFromHash($query, $hash)
     {
         return $query->where('hash', $hash);
-    }
-
-    /**
-     * Scope queries to find by empty UUID.
-     *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopeWithNullUuid($query)
-    {
-        return $query->withTrashed()
-                     ->where('uuid', 0);
     }
     
     /**

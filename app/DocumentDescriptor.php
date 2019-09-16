@@ -15,12 +15,13 @@ use KBox\Documents\Services\DocumentsService;
 use OneOffTech\Licenses\Contracts\LicenseRepository;
 use KBox\Events\DocumentDescriptorDeleted;
 use KBox\Events\DocumentDescriptorRestored;
+use KBox\Traits\ScopeNullUuid;
 
 /**
  * A Document Descriptor
  *
  * @property int $id the autoincrement identifier of the descriptor
- * @property uuid $uuid the UUID used to identify the document
+ * @property \Ramsey\Uuid\Uuid $uuid the UUID used to identify the document
  * @property int $institution_id the institution reference identifier of the User at the time of the descriptor creation
  * @property string $local_document_id the K-Link Local Document Identifier
  * @property string $hash the SHA-512 hash of the last version of the underlying File
@@ -89,7 +90,7 @@ use KBox\Events\DocumentDescriptorRestored;
  */
 class DocumentDescriptor extends Model
 {
-    use SoftDeletes, LocalizableDateFields, GeneratesUuid, Publishable;
+    use SoftDeletes, LocalizableDateFields, GeneratesUuid, Publishable, ScopeNullUuid;
 
     /**
      * Indicate that the document, reference by a DocumentDescriptor, has not yet been indexed
@@ -328,20 +329,6 @@ class DocumentDescriptor extends Model
     public function scopePrivate($query)
     {
         return $query->whereVisibility(KlinkVisibilityType::KLINK_PRIVATE);
-    }
-
-    /**
-     * Scope queries to find by empty UUID.
-     *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopeWithNullUuid($query)
-    {
-        return $query->withTrashed()
-                    //  ->whereUuid("00000000-0000-0000-0000-000000000000")
-                     ->where('uuid', 0);
     }
 
     /**

@@ -6,16 +6,19 @@ use Illuminate\Support\Str;
 use KBox\Traits\HasCapability;
 use KBox\Traits\UserOptionsAccessor;
 use Illuminate\Notifications\Notifiable;
+use Dyrynda\Database\Support\GeneratesUuid;
 use Spatie\Activitylog\Traits\CausesActivity;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use KBox\Notifications\ResetPasswordNotification;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use KBox\Traits\ScopeNullUuid;
 
 /**
  * The User model
  *
  * @property int $id
+ * @property \Ramsey\Uuid\Uuid $uuid the UUID that identify the user
  * @property string $name
  * @property string $email
  * @property string $password
@@ -52,7 +55,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  */
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use Notifiable, HasCapability, SoftDeletes, UserOptionsAccessor, CausesActivity;
+    use Notifiable, HasCapability, SoftDeletes, UserOptionsAccessor, CausesActivity, GeneratesUuid, ScopeNullUuid;
 
     const OPTION_LIST_TYPE = "list_style";
   
@@ -91,6 +94,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $casts = [
+        'uuid' => 'uuid',
         'email_verified_at' => 'datetime',
     ];
 
