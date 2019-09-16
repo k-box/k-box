@@ -93,4 +93,15 @@ return [
         ],
     ],
 
+    'storage' => [
+        'menu' => 'Storage',
+        'title' => 'Manage storage',
+
+        'big_files_section' => 'Here are the biggest files you have',
+        'big_files_section_hint' => 'We found the following files that might have a negative impact over your used quota',
+
+        'view_trash' => 'View trash content',
+
+    ]
+
 ];

@@ -34,6 +34,7 @@ return [
         'used' => ':used of :total used',
         'used_alt' => ':used of :total',
         'used_percentage' => ':used% used',
+        'used_single' => ':used used',
 
         'graph_labels' => [
             'documents' => 'Documents',

@@ -137,3 +137,9 @@
     @include('panels.generic')
 
 @stop
+
+@section('sidebar_bottom')
+    
+    @include('quota.widget')
+
+@endsection

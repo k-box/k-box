@@ -2,8 +2,20 @@
 @extends('layout.sidebar')
 
 @section('breadcrumbs')
-        
-    {{trans('profile.page_title', ['name' => $current_user_name])}}
+		
+
+	@isset($breadcrumb_current)
+
+		<a href="{{route('profile.index')}}" class="breadcrumb__item">{{trans('profile.page_title', ['name' => $current_user_name])}}</a>
+	
+		<span class="breadcrumb__item--current">{{$breadcrumb_current}}</span>
+		
+	@else
+		
+		<span class="breadcrumb__item--current">{{trans('profile.page_title', ['name' => $current_user_name])}}</span>
+		
+	@endisset
+
 
 @stop
 
@@ -40,6 +52,12 @@
 		
 		{{trans('profile.password_section')}}
 	</a>
+	<a href="{{ route('profile.storage.index') }}" class="my-4 navigation__item navigation__item--link @if(request()->is('*profile/storage')) navigation__item--current @endif">
+		
+		@materialicon('action', 'dns', 'inline-block navigation__item__icon')
+		
+		{{trans('profile.storage.menu')}}
+	</a>
 	<a href="{{ route('profile.data-export.index') }}" class="navigation__item navigation__item--link @if(request()->is('*profile/data-export')) navigation__item--current @endif">
 		
 		@materialicon('action', 'get_app', 'inline-block navigation__item__icon')
@@ -59,3 +77,9 @@
 	@yield('profile_page')
 
 @stop
+
+@section('sidebar_bottom')
+    
+    @include('quota.widget')
+
+@endsection

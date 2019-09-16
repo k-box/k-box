@@ -5,6 +5,7 @@ namespace KBox\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\View\View;
 use KBox\Capability;
+use KBox\Http\Composers\QuotaComposer;
 
 class ViewComposerServiceProvider extends ServiceProvider
 {
@@ -37,6 +38,8 @@ class ViewComposerServiceProvider extends ServiceProvider
         $this->registerMenuComposer();
 
         $this->registerDuplicateDocumentComposers();
+
+        $this->registerQuotaComposers();
     }
 
     /**
@@ -163,5 +166,10 @@ class ViewComposerServiceProvider extends ServiceProvider
     private function registerDuplicateDocumentComposers()
     {
         view()->composer('documents.partials.duplicate', 'KBox\Http\Composers\DuplicateDocumentsComposer@duplicatePartial');
+    }
+
+    private function registerQuotaComposers()
+    {
+        view()->composer('quota.widget', QuotaComposer::class.'@widget');
     }
 }

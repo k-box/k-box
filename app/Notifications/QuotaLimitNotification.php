@@ -44,7 +44,8 @@ class QuotaLimitNotification extends Notification
     {
         return (new MailMessage)
             ->subject(trans('quota.notifications.limit.subject'))
-            ->line(trans('quota.notifications.limit.text', ['threshold' => $this->quota->threshold]));
+            ->line(trans('quota.notifications.limit.text', ['threshold' => $this->quota->threshold]))
+            ->action(trans('quota.notifications.action'), route('profile.storage.index'));
     }
 
     /**
