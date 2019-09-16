@@ -339,6 +339,12 @@ class DmsUpdateCommand extends Command
             $this->write("  - <comment>Generated {$count_generated} UUIDs.</comment>");
         }
         
+        $this->write('  <comment>Generating UUIDs for existing Users...</comment>');
+        $count_generated = $this->generateUsersUuid(100);
+        if ($count_generated > 0) {
+            $this->write("  - <comment>Generated {$count_generated} UUIDs.</comment>");
+        }
+        
         $this->write('  <comment>Filling upload_completed_at File attribute for existing files...</comment>');
         $count_generated = $this->fillFileUploadCompletedAtForExistingFiles();
         if ($count_generated > 0) {
@@ -418,6 +424,38 @@ class DmsUpdateCommand extends Command
                     //temporarly disable the automatic upgrade of the updated_at field
                     $doc->timestamps = false;
                     $doc->save();
+                    $counter++;
+                }
+            }
+        });
+        
+        return $counter;
+    }
+
+    private function generateUsersUuid($chunkSize = 10)
+    {
+        $count = User::count();
+
+        if ($count === 0) {
+            return 0;
+        }
+
+        $counter = 0;
+
+        $zero_uuid = Uuid::fromString("00000000-0000-0000-0000-000000000000");
+
+        User::chunk($chunkSize, function ($users) use (&$counter, $zero_uuid) {
+            foreach ($users as $user) {
+                $is_current_valid = Uuid::isValid($user->uuid);
+                $current = $is_current_valid ? Uuid::fromString($user->uuid) : false;
+                
+                if (($is_current_valid && $current->equals($zero_uuid)) ||
+                     ! $is_current_valid ||
+                    ($is_current_valid && $current && $current->getVersion() !== 4)) {
+                    $user->uuid = Uuid::{$user->resolveUuidVersion()}()->getBytes();
+                    //temporarly disable the automatic upgrade of the updated_at field
+                    $user->timestamps = false;
+                    $user->save();
                     $counter++;
                 }
             }

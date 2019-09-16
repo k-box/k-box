@@ -16,10 +16,11 @@ use Ramsey\Uuid\Uuid;
 use Illuminate\Support\Facades\Storage;
 use KBox\Console\Commands\DmsUpdateCommand;
 use Illuminate\Support\Facades\DB;
+use Tests\Concerns\ClearDatabase;
 
 class DmsUpdateCommandTest extends TestCase
 {
-    use DatabaseTransactions;
+    use DatabaseTransactions, ClearDatabase;
 
     public function setUp()
     {
@@ -162,6 +163,44 @@ class DmsUpdateCommandTest extends TestCase
             $this->assertTrue(Uuid::isValid($f->uuid));
             $this->assertEquals(4, Uuid::fromString($f->uuid)->getVersion());
         });
+    }
+
+    public function test_that_user_uuids_are_generated()
+    {
+        $this->withKlinkAdapterMock();
+
+        $users = factory(\KBox\User::class, 11)->create(['uuid' => "00000000-0000-0000-0000-000000000000"]);
+        $v3_users = factory(\KBox\User::class)->create(['uuid' => "39613931-3436-3066-2d31-3533322d3466"]);
+
+        $user_ids = $users->pluck('id')->toArray();
+        
+        // making sure that the install script thinks an update must be performed
+        Option::create(['key' => 'c', 'value' => ''.time()]);
+
+        $count_with_null_uuid = User::withNullUuid()->count();
+
+        $this->assertEquals($users->count(), $count_with_null_uuid, 'Query cannot retrieve users with null UUID');
+
+        $command = new DmsUpdateCommand();
+
+        $updated = $this->invokePrivateMethod($command, 'generateUsersUuid');
+
+        $this->assertEquals(12, $updated, 'Not all Users have been updated');
+        
+        $ret = User::whereIn('id', array_merge($user_ids, [$v3_users->id]))->get();
+
+        $this->assertEquals(12, $ret->count(), 'Not found the same Users originally created');
+
+        $ret->each(function ($u) {
+            $this->assertTrue(Uuid::isValid($u->uuid));
+            $this->assertEquals(4, Uuid::fromString($u->uuid)->getVersion());
+        });
+
+        //second invokation of the same command
+
+        $updated = $this->invokePrivateMethod($command, 'generateUsersUuid');
+
+        $this->assertEquals(0, $updated, 'Some UUID has been regenerated');
     }
 
     public function test_video_files_are_moved_to_uuid_folder()
