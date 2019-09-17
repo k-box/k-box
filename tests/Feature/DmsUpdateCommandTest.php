@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Storage;
 use KBox\Console\Commands\DmsUpdateCommand;
 use Illuminate\Support\Facades\DB;
 use KBox\Group;
+use KBox\Project;
 use Tests\Concerns\ClearDatabase;
 
 class DmsUpdateCommandTest extends TestCase
@@ -233,6 +234,44 @@ class DmsUpdateCommandTest extends TestCase
         $ret->each(function ($g) {
             $this->assertTrue(Uuid::isValid($g->uuid));
             $this->assertEquals(4, Uuid::fromString($g->uuid)->getVersion());
+        });
+
+        //second invokation of the same command
+
+        $updated = $this->invokePrivateMethod($command, 'generateGroupsUuid');
+
+        $this->assertEquals(0, $updated, 'Some UUID has been regenerated');
+    }
+
+    public function test_that_project_uuids_are_generated()
+    {
+        $this->withKlinkAdapterMock();
+
+        $groups = factory(Project::class, 11)->create(['uuid' => "00000000-0000-0000-0000-000000000000"]);
+        $v3_groups = factory(Project::class)->create(['uuid' => "39613931-3436-3066-2d31-3533322d3466"]);
+
+        $user_ids = $groups->pluck('id')->toArray();
+        
+        // making sure that the install script thinks an update must be performed
+        Option::create(['key' => 'c', 'value' => ''.time()]);
+
+        $count_with_null_uuid = Project::withNullUuid()->count();
+
+        $this->assertEquals($groups->count(), $count_with_null_uuid, 'Query cannot retrieve groups with null UUID');
+
+        $command = new DmsUpdateCommand();
+
+        $updated = $this->invokePrivateMethod($command, 'generateProjectsUuid');
+
+        $this->assertEquals(12, $updated, 'Not all Projects have been updated');
+        
+        $ret = Project::whereIn('id', array_merge($user_ids, [$v3_groups->id]))->get();
+
+        $this->assertEquals(12, $ret->count(), 'Not found the same Projects originally created');
+
+        $ret->each(function ($p) {
+            $this->assertTrue(Uuid::isValid($p->uuid));
+            $this->assertEquals(4, Uuid::fromString($p->uuid)->getVersion());
         });
 
         //second invokation of the same command
