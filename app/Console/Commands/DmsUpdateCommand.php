@@ -16,6 +16,7 @@ use Ramsey\Uuid\Uuid;
 use KBox\UserOption;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
+use KBox\Group;
 
 class DmsUpdateCommand extends Command
 {
@@ -345,6 +346,12 @@ class DmsUpdateCommand extends Command
             $this->write("  - <comment>Generated {$count_generated} UUIDs.</comment>");
         }
         
+        $this->write('  <comment>Generating UUIDs for existing Groups...</comment>');
+        $count_generated = $this->generateGroupsUuid(100);
+        if ($count_generated > 0) {
+            $this->write("  - <comment>Generated {$count_generated} UUIDs.</comment>");
+        }
+        
         $this->write('  <comment>Filling upload_completed_at File attribute for existing files...</comment>');
         $count_generated = $this->fillFileUploadCompletedAtForExistingFiles();
         if ($count_generated > 0) {
@@ -456,6 +463,38 @@ class DmsUpdateCommand extends Command
                     //temporarly disable the automatic upgrade of the updated_at field
                     $user->timestamps = false;
                     $user->save();
+                    $counter++;
+                }
+            }
+        });
+        
+        return $counter;
+    }
+
+    private function generateGroupsUuid($chunkSize = 10)
+    {
+        $count = Group::count();
+
+        if ($count === 0) {
+            return 0;
+        }
+
+        $counter = 0;
+
+        $zero_uuid = Uuid::fromString("00000000-0000-0000-0000-000000000000");
+
+        Group::chunk($chunkSize, function ($groups) use (&$counter, $zero_uuid) {
+            foreach ($groups as $group) {
+                $is_current_valid = Uuid::isValid($group->uuid);
+                $current = $is_current_valid ? Uuid::fromString($group->uuid) : false;
+                
+                if (($is_current_valid && $current->equals($zero_uuid)) ||
+                     ! $is_current_valid ||
+                    ($is_current_valid && $current && $current->getVersion() !== 4)) {
+                    $group->uuid = Uuid::{$group->resolveUuidVersion()}()->getBytes();
+                    //temporarly disable the automatic upgrade of the updated_at field
+                    $group->timestamps = false;
+                    $group->save();
                     $counter++;
                 }
             }

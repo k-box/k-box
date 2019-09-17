@@ -2,14 +2,17 @@
 
 namespace KBox;
 
-use Franzose\ClosureTable\Models\Entity;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use KBox\Traits\ScopeNullUuid;
 use KBox\Traits\LocalizableDateFields;
+use Franzose\ClosureTable\Models\Entity;
+use Dyrynda\Database\Support\GeneratesUuid;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * A collection of document descriptors
  *
  * @property int $id
+ * @property \Ramsey\Uuid\Uuid $uuid the UUID that identify the group/collection
  * @property int $user_id
  * @property string $name
  * @property \Carbon\Carbon $created_at
@@ -65,7 +68,7 @@ class Group extends Entity implements GroupInterface
     is_private:boolean (default true)
     */
 
-    use SoftDeletes, LocalizableDateFields;
+    use SoftDeletes, LocalizableDateFields, GeneratesUuid, ScopeNullUuid;
 
     /**
      * The table associated with the model.
@@ -84,6 +87,10 @@ class Group extends Entity implements GroupInterface
     protected $fillable = ['name','color', 'user_id','parent_id', 'group_type_id', 'is_private'];
 
     public $timestamps = true;
+
+    protected $casts = [
+        'uuid' => 'uuid',
+    ];
 
     public function user()
     {
