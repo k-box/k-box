@@ -2,14 +2,17 @@
 
 namespace KBox;
 
-use Illuminate\Database\Eloquent\Model;
+use KBox\Traits\ScopeNullUuid;
 use KBox\Traits\LocalizableDateFields;
+use Illuminate\Database\Eloquent\Model;
+use Dyrynda\Database\Support\GeneratesUuid;
 use Illuminate\Database\Eloquent\Relations\Relation;
 
 /**
  * The project concept.
  *
  * @property int $id
+ * @property \Ramsey\Uuid\Uuid $uuid the UUID that identify the project
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @property string $name
@@ -34,7 +37,7 @@ use Illuminate\Database\Eloquent\Relations\Relation;
  */
 class Project extends Model
 {
-    use LocalizableDateFields;
+    use LocalizableDateFields, GeneratesUuid, ScopeNullUuid;
     /*
 
         $table->bigIncrements('id');
@@ -62,6 +65,10 @@ class Project extends Model
      * @var array
      */
     protected $fillable = ['name', 'description', 'user_id', 'collection_id', 'avatar'];
+
+    protected $casts = [
+        'uuid' => 'uuid',
+    ];
     
     /**
      * The root collection that stores the hierarchy of the project

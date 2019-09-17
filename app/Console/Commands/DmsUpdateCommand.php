@@ -17,6 +17,7 @@ use KBox\UserOption;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use KBox\Group;
+use KBox\Project;
 
 class DmsUpdateCommand extends Command
 {
@@ -352,6 +353,12 @@ class DmsUpdateCommand extends Command
             $this->write("  - <comment>Generated {$count_generated} UUIDs.</comment>");
         }
         
+        $this->write('  <comment>Generating UUIDs for existing Projects...</comment>');
+        $count_generated = $this->generateProjectsUuid(100);
+        if ($count_generated > 0) {
+            $this->write("  - <comment>Generated {$count_generated} UUIDs.</comment>");
+        }
+        
         $this->write('  <comment>Filling upload_completed_at File attribute for existing files...</comment>');
         $count_generated = $this->fillFileUploadCompletedAtForExistingFiles();
         if ($count_generated > 0) {
@@ -495,6 +502,38 @@ class DmsUpdateCommand extends Command
                     //temporarly disable the automatic upgrade of the updated_at field
                     $group->timestamps = false;
                     $group->save();
+                    $counter++;
+                }
+            }
+        });
+        
+        return $counter;
+    }
+
+    private function generateProjectsUuid($chunkSize = 10)
+    {
+        $count = Project::count();
+
+        if ($count === 0) {
+            return 0;
+        }
+
+        $counter = 0;
+
+        $zero_uuid = Uuid::fromString("00000000-0000-0000-0000-000000000000");
+
+        Project::chunk($chunkSize, function ($projects) use (&$counter, $zero_uuid) {
+            foreach ($projects as $project) {
+                $is_current_valid = Uuid::isValid($project->uuid);
+                $current = $is_current_valid ? Uuid::fromString($project->uuid) : false;
+                
+                if (($is_current_valid && $current->equals($zero_uuid)) ||
+                     ! $is_current_valid ||
+                    ($is_current_valid && $current && $current->getVersion() !== 4)) {
+                    $project->uuid = Uuid::{$project->resolveUuidVersion()}()->getBytes();
+                    //temporarly disable the automatic upgrade of the updated_at field
+                    $project->timestamps = false;
+                    $project->save();
                     $counter++;
                 }
             }

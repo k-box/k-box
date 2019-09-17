@@ -14,8 +14,9 @@ trait ScopeNullUuid
      */
     public function scopeWithNullUuid($query)
     {
-        return $query->withTrashed()
-                    //  ->whereUuid("00000000-0000-0000-0000-000000000000")
-                     ->where('uuid', 0);
+        if (method_exists($this, 'runSoftDelete')) {
+            $query->withTrashed();
+        }
+        return $query->where('uuid', 0);
     }
 }
