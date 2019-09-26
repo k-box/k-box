@@ -10,6 +10,7 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use KBox\Console\Traits\DebugOutput;
 
 use Illuminate\Filesystem\Filesystem;
+use InvalidArgumentException;
 
 class DmsLanguagePublishCommand extends Command
 {
@@ -55,60 +56,66 @@ class DmsLanguagePublishCommand extends Command
      */
     public function handle()
     {
-        $this->comment('Assembling language files for javascript...');
-        
-        $fallback_locale = config('app.fallback_locale');
-        
-        $supported = config('localization.supported_locales');
-        
-        $exports = config('localization.exports');
-        
-        if (! is_array($supported)) {
-            throw new \InvalidArgumentException('Supported languages (localization.supported_locales) should be an array.');
-        }
-        
-        if (! is_array($exports) || empty($exports)) {
-            throw new \InvalidArgumentException('Expecting non-empty array for localization.exports');
-        }
-        
-        if (empty($fallback_locale)) {
-            throw new \InvalidArgumentException('Empty fallback language set in app.fallback_locale');
-        }
-        
-        // Creating the default language file
-        
-        $this->debugLine('Creating root language file...');
-        
-        $fallback_exports = $this->getLocalizedExports($exports, $fallback_locale);
-        
-        $js_ready_supported = '';
-        
-        if (! empty($supported)) {
-            $js_ready_supported = ','.implode(',', array_map(function ($l) {
-                return '"'.$l.'":true';
-            }, $supported));
-        }
-        
-        $this->createRootLang($fallback_exports, $js_ready_supported);
-        
-        $this->debugLine('   done.');
-        
-        // Creating the file for each specific locale
-        
-        $lang_export = null;
-        foreach ($supported as $language) {
-            $this->debugLine('Creating '.$language.' language file...');
+        try {
+            $this->comment('Assembling language files for javascript...');
             
-            $lang_export = $this->getLocalizedExports($exports, $language);
+            $fallback_locale = config('app.fallback_locale');
             
-            $this->createLangFile($lang_export, $language);
+            $supported = config('localization.supported_locales');
+            
+            $exports = config('localization.exports');
+            
+            if (! is_array($supported)) {
+                throw new InvalidArgumentException('Supported languages (localization.supported_locales) should be an array.');
+            }
+            
+            if (! is_array($exports) || empty($exports)) {
+                throw new InvalidArgumentException('Expecting non-empty array for localization.exports');
+            }
+            
+            if (empty($fallback_locale)) {
+                throw new InvalidArgumentException('Empty fallback language set in app.fallback_locale');
+            }
+            
+            // Creating the default language file
+            
+            $this->debugLine('Creating root language file...');
+            
+            $fallback_exports = $this->getLocalizedExports($exports, $fallback_locale);
+            
+            $js_ready_supported = '';
+            
+            if (! empty($supported)) {
+                $js_ready_supported = ','.implode(',', array_map(function ($l) {
+                    return '"'.$l.'":true';
+                }, $supported));
+            }
+            
+            $this->createRootLang($fallback_exports, $js_ready_supported);
             
             $this->debugLine('   done.');
+            
+            // Creating the file for each specific locale
+            
+            $lang_export = null;
+            foreach ($supported as $language) {
+                $this->debugLine('Creating '.$language.' language file...');
+                
+                $lang_export = $this->getLocalizedExports($exports, $language);
+                
+                $this->createLangFile($lang_export, $language);
+                
+                $this->debugLine('   done.');
+            }
+            
+            $this->info('   language files created in public/js/nls/');
+            
+            return 0;
+        } catch (InvalidArgumentException $ex) {
+            $this->error($ex->getMessage());
+
+            return 127;
         }
-        
-        $this->info('   language files created in public/js/nls/');
-        
-        return 0;
     }
 
     /**
