@@ -116,12 +116,12 @@ class MailAdministrationControllerTest extends TestCase
         $response = $this->actingAs($user)
             ->from(route('administration.mail.index'))
             ->post(route('administration.mail.store'), [
-                'from_address' => 'test@k-link.technology', 
-                'from_name' => 'Test DMS', 
-                'host' => 'smtp.example.com', 
-                'port' => '465', 
-                'smtp_u' => 'user', 
-                'smtp_p' => 'password', 
+                'from_address' => 'test@k-link.technology',
+                'from_name' => 'Test DMS',
+                'host' => 'smtp.example.com',
+                'port' => '465',
+                'smtp_u' => 'user',
+                'smtp_p' => 'password',
             ]);
 
         $this->assertTrue(Option::isMailEnabled());
