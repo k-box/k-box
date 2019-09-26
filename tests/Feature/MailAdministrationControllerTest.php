@@ -1,12 +1,17 @@
 <?php
 
-use Tests\BrowserKitTestCase;
-use Illuminate\Support\Facades\Mail;
+namespace Tests\Feature;
+
+use KBox\User;
 use KBox\Option;
+use Tests\TestCase;
+use KBox\Capability;
 use KBox\Mail\TestingMail;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class MailAdministrationControllerTest extends BrowserKitTestCase
+class MailAdministrationControllerTest extends TestCase
 {
     use DatabaseTransactions;
 
@@ -23,7 +28,9 @@ class MailAdministrationControllerTest extends BrowserKitTestCase
 
         $adapter = $this->withKlinkAdapterFake();
 
-        $user = $this->createAdminUser();
+        $user = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$ADMIN);
+        });
 
         $this->actingAs($user);
 
@@ -32,7 +39,7 @@ class MailAdministrationControllerTest extends BrowserKitTestCase
     
     public function testMailIsNotEnabledWithSmtpDriver()
     {
-        $exitCode = \Artisan::call('config:clear');
+        $exitCode = Artisan::call('config:clear');
 
         // Manually resetting the configuration as on CI job seems to be needed
         config([
@@ -73,18 +80,18 @@ class MailAdministrationControllerTest extends BrowserKitTestCase
 
         $adapter = $this->withKlinkAdapterFake();
 
-        $user = $this->createAdminUser();
-
-        $this->actingAs($user);
+        $user = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$ADMIN);
+        });
 
         $this->assertTrue(Option::isMailEnabled());
 
-        $this->visit(route('administration.mail.index'));
+        $response = $this->actingAs($user)->get(route('administration.mail.index'));
 
-        $this->see('from@k-link.technology');
-        $this->see('Testing DMS');
-        $this->see('smtp.something.com');
-        $this->see('465');
+        $response->assertSee('from@k-link.technology');
+        $response->assertSee('Testing DMS');
+        $response->assertSee('smtp.something.com');
+        $response->assertSee('465');
     }
 
     public function testMailConfigurationSaved()
@@ -102,20 +109,20 @@ class MailAdministrationControllerTest extends BrowserKitTestCase
 
         $adapter = $this->withKlinkAdapterFake();
 
-        $user = $this->createAdminUser();
+        $user = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$ADMIN);
+        });
 
-        $this->actingAs($user);
-
-        $this->visit(route('administration.mail.index'));
-
-        $this->type('test@k-link.technology', 'from_address');
-        $this->type('Test DMS', 'from_name');
-        $this->type('smtp.example.com', 'host');
-        $this->type('465', 'port');
-        $this->type('user', 'smtp_u');
-        $this->type('password', 'smtp_p');
-
-        $this->press(trans('administration.mail.save_btn'));
+        $response = $this->actingAs($user)
+            ->from(route('administration.mail.index'))
+            ->post(route('administration.mail.store'), [
+                'from_address' => 'test@k-link.technology', 
+                'from_name' => 'Test DMS', 
+                'host' => 'smtp.example.com', 
+                'port' => '465', 
+                'smtp_u' => 'user', 
+                'smtp_p' => 'password', 
+            ]);
 
         $this->assertTrue(Option::isMailEnabled());
         $this->assertEquals('test@k-link.technology', Option::option('mail.from.address', false));
@@ -140,16 +147,47 @@ class MailAdministrationControllerTest extends BrowserKitTestCase
 
         $adapter = $this->withKlinkAdapterFake();
 
-        $user = $this->createAdminUser();
-
-        $this->actingAs($user);
+        $user = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$ADMIN);
+        });
 
         $this->assertTrue(Option::isMailEnabled());
 
-        $this->visit(route('administration.mail.index'));
+        $response = $this->actingAs($user)->get(route('administration.mail.test'));
 
-        $this->click(trans('administration.mail.test_btn'));
+        $response->assertRedirect(route('administration.mail.index'));
+        $response->assertSessionHas('flash_message', trans('administration.mail.test_success_msg', ['from' => config('mail.from.address')]));
 
         Mail::assertSent(TestingMail::class);
+    }
+
+    public function testSendingTestMessageFails()
+    {
+        Mail::fake();
+
+        config([
+            'mail.driver' => 'smtp',
+            'mail.host' => 'smtp.something.com',
+            'mail.port' => 465,
+            'mail.from.address' => null,
+            'mail.from.name' => 'Testing DMS',
+        ]);
+
+        $adapter = $this->withKlinkAdapterFake();
+
+        $user = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$ADMIN);
+        });
+
+        $this->assertFalse(Option::isMailEnabled());
+
+        $response = $this->actingAs($user)->get(route('administration.mail.test'));
+
+        $response->assertRedirect(route('administration.mail.index'));
+        $response->assertSessionHasErrors([
+            'mail_send' => trans('administration.mail.test_failure_msg'),
+        ]);
+
+        Mail::assertNotSent(TestingMail::class);
     }
 }
