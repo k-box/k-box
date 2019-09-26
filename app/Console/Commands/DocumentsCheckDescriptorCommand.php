@@ -52,7 +52,13 @@ class DocumentsCheckDescriptorCommand extends Command
         $docs = collect();
 
         if (! is_null($document)) {
-            $d = DocumentDescriptor::findOrFail($document);
+            $d = DocumentDescriptor::find($document);
+
+            if (! $d) {
+                $this->error("Document not found");
+
+                return 127;
+            }
 
             $docs = collect([ $d ]);
         } else {
