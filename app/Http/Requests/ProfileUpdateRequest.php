@@ -27,7 +27,7 @@ class ProfileUpdateRequest extends Request
     public function rules()
     {
         return [
-            'name' => 'sometimes|required|string|' . Rule::unique('users', 'name')->ignore($this->user()->id),
+            'name' => 'sometimes|required|string|'.Rule::unique('users', 'name')->ignore($this->user()->id),
             'organization_name' => 'sometimes|nullable|string',
             'organization_website' => 'sometimes|nullable|url',
         ];
