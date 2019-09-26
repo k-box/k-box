@@ -94,7 +94,8 @@ class DmsUserImportCommand extends Command
         $value_delimiter = $this->option('value-delimiter');
         
         if (! file_exists($file) && ! is_file($file)) {
-            throw new \Exception('The file '.$file.' cannot be found or readed');
+            $this->error('The file '.$file.' cannot be found or readed');
+            return 127;
         }
         
         $this->debugLine('Reading '.$file.' using "'.$delimiter.'" delimiter');

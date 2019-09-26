@@ -1,20 +1,25 @@
 <?php
 
+namespace Tests\Feature;
+
+use Exception;
+use Illuminate\Foundation\Application;
 use KBox\User;
 use KBox\Project;
 use KBox\Capability;
-use Illuminate\Support\Facades\Artisan;
-
-use Tests\BrowserKitTestCase;
+use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-
-use Illuminate\Foundation\Application;
+use Illuminate\Support\Facades\Mail;
+use Symfony\Component\Console\Output\NullOutput;
+use Symfony\Component\Console\Output\BufferedOutput;
+use Symfony\Component\Console\Input\ArrayInput;
 use KBox\Console\Commands\DmsUserImportCommand;
+use RuntimeException;
 
 /*
  * Test the DmsUserImportCommand
 */
-class UserImportCommandTest extends BrowserKitTestCase
+class UserImportCommandTest extends TestCase
 {
     use DatabaseTransactions;
     
@@ -28,60 +33,45 @@ class UserImportCommandTest extends BrowserKitTestCase
         ];
     }
 
-    /**
-     * @expectedException \RuntimeException
-     * @expectedExceptionMessage Not enough arguments (missing: "file").
-     */
     public function testDmsUserImportCommandWithNoFile()
     {
-        $command = new DmsUserImportCommand();
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Not enough arguments (missing: "file").');
         
-        $app = new Application();
-        $command->setLaravel($app);
-        
-        $this->runCommand($command, []);
+        $this->runCommand(new DmsUserImportCommand(), []);
     }
     
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage The file ./data/totally-non-existing-file.csv cannot be found or readed
-     */
     public function testDmsUserImportCommandWithNonExistingFile()
     {
-        $command = new DmsUserImportCommand();
-        
-        $app = new Application();
-        $command->setLaravel($app);
-        
-        $this->runCommand($command, ['file' => './data/totally-non-existing-file.csv']);
+        $this->artisan('users:import', [
+                'file' => './data/totally-non-existing-file.csv'
+            ])
+            ->expectsOutput("The file ./data/totally-non-existing-file.csv cannot be found or readed")
+            ->assertExitCode(127);
     }
     
     public function testDmsUserImportCommandWithValidFileAndFiveColumns()
     {
-        $user = $this->createAdminUser();
+        $user = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$ADMIN);
+        });
         
-        \Mail::shouldReceive('queue')->times(4)->withAnyArgs();
+        Mail::shouldReceive('queue')->times(4)->withAnyArgs();
         
         // create a Project called "test"
-        $test = factory(\KBox\Project::class)->create(['name' => 'test']);
+        $test = factory(Project::class)->create(['name' => 'test']);
         // create a Project called "secondary"
-        $secondary = factory(\KBox\Project::class)->create(['name' => 'secondary']);
+        $secondary = factory(Project::class)->create(['name' => 'secondary']);
         // create a project called "lead by"
-        $lead_by = factory(\KBox\Project::class)->create(['name' => 'lead by']);
+        $lead_by = factory(Project::class)->create(['name' => 'lead by']);
         
-        $command = new DmsUserImportCommand();
+        $output = new BufferedOutput;
         
-        $app = new Application();
-        $command->setLaravel($app);
-        
-        $output = new Symfony\Component\Console\Output\BufferedOutput;
-        
-        $this->runCommand($command, [
-            'file' => __DIR__.'/data/users.csv',
+        $this->runCommand(new DmsUserImportCommand(), [
+            'file' => __DIR__.'/../data/users.csv',
             '--delimiter' => ';',
             '--value-delimiter' => ',',
             ], $output);
-        // php artisan users:import --delimiter=; --value-delimiter=, ./tests/data/users.csv
         
         $res = $output->fetch();
         
@@ -119,25 +109,18 @@ class UserImportCommandTest extends BrowserKitTestCase
     
     public function testDmsUserImportCommandWithValidFileWithThreeColumns()
     {
-        $user = $this->createAdminUser();
+        $user = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$ADMIN);
+        });
         
-        \Mail::shouldReceive('queue')->times(6)->withAnyArgs();
-        
-        $command = new DmsUserImportCommand();
-        
-        $app = new Application();
-        $command->setLaravel($app);
-        
-        $output = new Symfony\Component\Console\Output\BufferedOutput;
-        
-        $this->runCommand($command, [
-            'file' => __DIR__.'/data/users-less-columns.csv',
-            '--delimiter' => ';',
-            '--value-delimiter' => ',',
-            ], $output);
-        // php artisan users:import --delimiter=; --value-delimiter=, ./tests/data/users.csv
-        
-        $res = $output->fetch();
+        Mail::shouldReceive('queue')->times(6)->withAnyArgs();
+
+        $this->artisan('users:import', [
+                'file' => __DIR__.'/../data/users-less-columns.csv',
+                '--delimiter' => ';',
+                '--value-delimiter' => ',',
+            ])
+            ->assertExitCode(0);
 
         $users = User::whereIn('email', [
             'user-11@k-link.technology',
@@ -151,36 +134,32 @@ class UserImportCommandTest extends BrowserKitTestCase
         $this->assertEquals(6, $users->count());
     }
     
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage Wrong column name, expecting manage project or manage or manage-projects or manage-project found k-linker at index 3
-     */
     public function testDmsUserImportCommandWithWrongColumnsInFile()
     {
-        $user = $this->createAdminUser();
+        $user = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$ADMIN);
+        });
+
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('Wrong column name, expecting manage project or manage or manage-projects or manage-project found k-linker at index 3');
         
-        $command = new DmsUserImportCommand();
-        
-        $app = new Application();
-        $command->setLaravel($app);
-        
-        $output = new Symfony\Component\Console\Output\BufferedOutput;
-        
-        $this->runCommand($command, [
-            'file' => __DIR__.'/data/users-wrong-columns.csv',
+        $this->runCommand(new DmsUserImportCommand(), [
+            'file' => __DIR__.'/../data/users-wrong-columns.csv',
             '--delimiter' => ';',
             '--value-delimiter' => ',',
-            ], $output);
-        
-        // $res = $output->fetch();
+            ]);
     }
     
     protected function runCommand($command, $input = [], $output = null)
     {
+        $app = new Application();
+        
+        $command->setLaravel($app);
+
         if (is_null($output)) {
-            $output = new Symfony\Component\Console\Output\NullOutput;
+            $output = new NullOutput;
         }
         
-        return $command->run(new Symfony\Component\Console\Input\ArrayInput($input), $output);
+        return $command->run(new ArrayInput($input), $output);
     }
 }
