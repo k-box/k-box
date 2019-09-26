@@ -78,19 +78,23 @@ class DmsReindexCommand extends Command
         // Processing
 
         if ($interpret_as_klink_id && (is_null($documents) || empty($documents))) {
-            throw new \InvalidArgumentException('Option --klink-id can only be used if argument list is not empty.');
+            $this->error('Option --klink-id can only be used if argument list is not empty.');
+            return 127;
         }
 
         if (! empty($documents) && ! empty($users)) {
-            throw new \InvalidArgumentException('Documents cannot be specified in conjunction with option --user.');
+            $this->error('Documents cannot be specified in conjunction with option --user.');
+            return 127;
         }
 
         if (! is_null($skip) && $skip < 0) {
-            throw new \InvalidArgumentException('Skip must be a positive integer or zero.');
+            $this->error('Skip must be a positive integer or zero.');
+            return 127;
         }
 
         if (! is_null($take) && ($take <= 0 || ! is_integer($take))) {
-            throw new \InvalidArgumentException('Take must be a positive integer. Minimum value 1');
+            $this->error('Take must be a positive integer. Minimum value 1');
+            return 127;
         }
 
         if (! is_array($documents)) {
@@ -198,7 +202,7 @@ class DmsReindexCommand extends Command
 
         $bar->finish();
         $this->line("");
-        $this->line("<comment>".$reindexed_documents_count." documents reindexed</comment>.");
+        $this->comment($reindexed_documents_count." documents reindexed.");
         
         return 0;
     }
