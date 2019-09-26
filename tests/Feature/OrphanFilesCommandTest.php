@@ -1,25 +1,29 @@
 <?php
 
-use KBox\File;
+namespace Tests\Feature;
 
-use KBox\Traits\RunCommand;
-use Tests\BrowserKitTestCase;
+use KBox\File;
+use Tests\TestCase;
 use Illuminate\Support\Facades\DB;
 use KBox\Console\Commands\OrphanFilesCommand;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Facades\Schema;
+use KBox\Capability;
+use KBox\DocumentDescriptor;
+use KBox\User;
 
 /**
  * Test the {@see OrphanFilesCommand}
  */
-class OrphanFilesCommandTest extends BrowserKitTestCase
+class OrphanFilesCommandTest extends TestCase
 {
-    use DatabaseTransactions, RunCommand;
+    use DatabaseTransactions;
 
     public function setUp()
     {
         parent::setUp();
 
-        \Schema::disableForeignKeyConstraints();
+        Schema::disableForeignKeyConstraints();
         DB::table('document_descriptors')->truncate();
         DB::table('files')->truncate();
     }
@@ -29,10 +33,12 @@ class OrphanFilesCommandTest extends BrowserKitTestCase
      */
     private function createSomeDocumentsAndFiles()
     {
-        $user = $this->createAdminUser();
+        $user = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$ADMIN);
+        });
 
         // generate 3 document descriptors with file
-        $docs = factory(\KBox\DocumentDescriptor::class, 3)->create();
+        $docs = factory(DocumentDescriptor::class, 3)->create();
 
         // add a file revision to the last generated document
         $document3 = $docs->last();
@@ -41,7 +47,7 @@ class OrphanFilesCommandTest extends BrowserKitTestCase
         $destination = storage_path('documents/example-document.pdf');
         copy($template, $destination);
 
-        $revision = factory(\KBox\File::class)->create([
+        $revision = factory(File::class)->create([
             'user_id' => $user->id,
             'original_uri' => '',
             'path' => $destination,
@@ -53,7 +59,7 @@ class OrphanFilesCommandTest extends BrowserKitTestCase
         $document3->save();
 
         // create an orphan file
-        $orphan = factory(\KBox\File::class)->create([
+        $orphan = factory(File::class)->create([
             'user_id' => $user->id,
             'original_uri' => '',
             'path' => $destination,
@@ -61,12 +67,12 @@ class OrphanFilesCommandTest extends BrowserKitTestCase
         ]);
         
         // trash a document with its related file
-        $to_be_trashed = factory(\KBox\DocumentDescriptor::class)->create();
+        $to_be_trashed = factory(DocumentDescriptor::class)->create();
         $to_be_trashed->file->delete();
         $to_be_trashed->delete();
 
         // orphan file that is already trashed
-        $deleted_orphan = factory(\KBox\File::class)->create([
+        $deleted_orphan = factory(File::class)->create([
             'user_id' => $user->id,
             'original_uri' => '',
             'path' => $destination,
@@ -84,15 +90,11 @@ class OrphanFilesCommandTest extends BrowserKitTestCase
     {
         list($orphan, $deleted_orphan) = $this->createSomeDocumentsAndFiles();
 
-        $command = new OrphanFilesCommand();
-
-        $res = $this->runArtisanCommand($command, []);
-
-        $orphan = $orphan->fresh();
-
-        $this->assertRegExp('/2 orphans found/', $res);
-        $this->assertRegExp('/'.$orphan->id.'/', $res);
-        $this->assertRegExp('/'.$deleted_orphan->id.'.*\(already trashed\)/', $res);
+        $this->artisan('files:orphans')
+            ->expectsOutput("2 orphans found")
+            ->expectsOutput($orphan->name." (file_id: {$orphan->id}) ")
+            ->expectsOutput($deleted_orphan->name." (file_id: {$deleted_orphan->id}) (already trashed)")
+            ->assertExitCode(0);
     }
     
     /**
@@ -102,32 +104,29 @@ class OrphanFilesCommandTest extends BrowserKitTestCase
     {
         list($orphan, $deleted_orphan) = $this->createSomeDocumentsAndFiles();
 
-        $command = new OrphanFilesCommand();
-
-        $res = $this->runArtisanCommand($command, [
-            '--file-paths' => true
-        ]);
-
-        $orphan = $orphan->fresh();
-
-        $this->assertTrue(strpos($res, $orphan->path) !== false);
+        $this->artisan('files:orphans', [
+                '--file-paths' => true
+            ])
+            ->expectsOutput($orphan->path)
+            ->expectsOutput($deleted_orphan->path)
+            ->assertExitCode(0);
     }
 
     public function testOrphanDelete()
     {
         list($orphan, $deleted_orphan) = $this->createSomeDocumentsAndFiles();
 
-        $command = new OrphanFilesCommand();
-
-        $res = $this->runArtisanCommand($command, [
-            '--delete' => true
-        ]);
+        $this->artisan('files:orphans', [
+                '--delete' => true
+            ])
+            ->expectsOutput("2 orphans found")
+            ->expectsOutput($orphan->name." (file_id: {$orphan->id}) trashed")
+            ->expectsOutput($deleted_orphan->name." (file_id: {$deleted_orphan->id}) (already trashed)")
+            ->assertExitCode(0);
 
         $orphan = File::withTrashed()->find($orphan->id);
 
-        $this->assertRegExp('/2 orphans found/', $res);
         $this->assertNotNull($orphan);
-        $this->assertRegExp('/'.$orphan->id.'.*trashed/', $res);
         $this->assertTrue($orphan->trashed(), 'Orphan not trashed');
     }
 
@@ -135,16 +134,15 @@ class OrphanFilesCommandTest extends BrowserKitTestCase
     {
         list($orphan, $deleted_orphan) = $this->createSomeDocumentsAndFiles();
 
-        $command = new OrphanFilesCommand();
-
-        $res = $this->runArtisanCommand($command, [
-            '--force' => true
-        ]);
+        $this->artisan('files:orphans', [
+                '--force' => true
+            ])
+            ->expectsOutput("2 orphans found")
+            ->expectsOutput($orphan->name." (file_id: {$orphan->id}) deleted")
+            ->expectsOutput($deleted_orphan->name." (file_id: {$deleted_orphan->id}) deleted")
+            ->assertExitCode(0);
 
         $this->assertNull(File::withTrashed()->find($orphan->id));
         $this->assertNull(File::withTrashed()->find($deleted_orphan->id));
-        $this->assertRegExp('/2 orphans found/', $res);
-        $this->assertRegExp('/'.$orphan->id.'.*deleted/', $res);
-        $this->assertRegExp('/'.$deleted_orphan->id.'.*deleted/', $res);
     }
 }
