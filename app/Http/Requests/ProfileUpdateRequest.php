@@ -3,6 +3,7 @@
 namespace KBox\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest as Request;
+use Illuminate\Validation\Rule;
 use KBox\User;
 
 class ProfileUpdateRequest extends Request
@@ -26,7 +27,7 @@ class ProfileUpdateRequest extends Request
     public function rules()
     {
         return [
-            'name' => 'sometimes|required|string|unique:users,name',
+            'name' => 'sometimes|required|string|' . Rule::unique('users', 'name')->ignore($this->user()->id),
             'organization_name' => 'sometimes|nullable|string',
             'organization_website' => 'sometimes|nullable|url',
         ];

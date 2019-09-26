@@ -89,6 +89,7 @@ class UserProfileControllerTest extends TestCase
         $old_organization_website = $user->organization_website;
         
         $response = $this->from(route('profile.index'))->actingAs($user)->put(route('profile.update'), [
+            'name' => $user->name,
             'organization_name' => 'New organization',
             'organization_website' => 'https://www.org.new',
             '_token' => csrf_token()
@@ -117,6 +118,7 @@ class UserProfileControllerTest extends TestCase
         $old_organization_website = $user->organization_website;
         
         $response = $this->from(route('profile.index'))->actingAs($user)->put(route('profile.update'), [
+            'name' => $user->name,
             'organization_name' => '',
             'organization_website' => '',
             '_token' => csrf_token()
