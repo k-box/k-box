@@ -11,6 +11,7 @@ $factory->define(Invite::class, function (Faker $faker) {
         },
         'uuid' => $faker->uuid,
         'email' => $faker->unique()->safeEmail,
+        'token' => $faker->uuid,
         'actionable_id' => null,
         'actionable_type' => null,
     ];

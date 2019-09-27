@@ -30,7 +30,7 @@ class InvitePolicy
      */
     public function create(User $user)
     {
-        return $user->hasVerifiedEmail();
+        return filter_var(config('dms.registration'), FILTER_VALIDATE_BOOLEAN) && $user->hasVerifiedEmail();
     }
 
     /**

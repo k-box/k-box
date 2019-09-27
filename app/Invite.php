@@ -7,6 +7,8 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\Model;
 use KBox\Events\UserInviteAccepted;
 use KBox\Events\UserInvited;
+use Illuminate\Notifications\Notifiable;
+use KBox\Notifications\InviteEmail;
 
 /**
  * Invite to register and account.
@@ -27,6 +29,7 @@ use KBox\Events\UserInvited;
 class Invite extends Model
 {
     use GeneratesUuid;
+    use Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -135,6 +138,57 @@ class Invite extends Model
         }
 
         return $invite;
+    }
+
+    /**
+     * Send the invite notification.
+     *
+     * @return void
+     */
+    public function sendInviteNotification()
+    {
+        if (! filter_var(config('dms.registration'), FILTER_VALIDATE_BOOLEAN)) {
+            return ;
+        }
+        if ($this->wasAccepted()) {
+            return ;
+        }
+
+        $this->notify(new InviteEmail);
+
+        $this->markNotified();
+    }
+
+    /**
+     * Apply the notified state
+     */
+    public function markNotified()
+    {
+        $this->details = array_merge($this->details ?? [], [
+            'notified_at' => now()->toRfc822String(),
+        ]);
+
+        if (isset($this->details['errored_at'])) {
+            unset($this->details['errored_at']);
+        }
+
+        $this->save();
+
+        return $this;
+    }
+    
+    /**
+     * Apply the errored state
+     */
+    public function markErrored()
+    {
+        $this->details = array_merge($this->details ?? [], [
+            'errored_at' => now()->toRfc822String(),
+        ]);
+
+        $this->save();
+
+        return $this;
     }
 
     /**

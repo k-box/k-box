@@ -111,4 +111,22 @@ class InviteTest extends TestCase
             return $e->invite->is($accepted_invite);
         });
     }
+
+    public function test_invite_can_be_marked_as_notified()
+    {
+        $invite = factory(Invite::class)->create();
+
+        $notified_invite = $invite->markNotified();
+
+        $this->assertArrayHasKey('notified_at', $notified_invite->details);
+    }
+
+    public function test_invite_can_be_marked_as_errored()
+    {
+        $invite = factory(Invite::class)->create();
+
+        $errored_invite = $invite->markErrored();
+
+        $this->assertArrayHasKey('errored_at', $errored_invite->details);
+    }
 }
