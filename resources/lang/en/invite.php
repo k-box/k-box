@@ -46,4 +46,8 @@ return [
             ],
         ],
     ],
+
+    'invalid' => 'The used invite is not valid. It might be expired or revoked.',
+    
+    'registration-label' => 'Invite',
 ];

@@ -20,6 +20,12 @@
             </div>
         @endif
 
+        @isset($invite_error)
+            <div class="c-message c-message--warning mt-2">
+                {{ $invite_error }}
+            </div>      
+        @endisset
+
         {{-- <div class=" mb-4">
             <label for="name">{{trans('auth.name_label')}}</label>
             @if( isset($errors) && $errors->has('name') )
@@ -36,7 +42,7 @@
                     {{ $errors->first('email') }}
                 </span>
             @endif
-            <input id="email" type="email" class="form-input block w-full sm:w-2/3" name="email" tabindex="2" value="{{ old('email') }}" required>
+            <input id="email" type="email" class="form-input block w-full sm:w-2/3" name="email" tabindex="2" value="{{ old('email', $email ?? '') }}" required>
         </div>
 
         <div class=" mb-4">
@@ -57,6 +63,17 @@
 
             <input id="password-confirm" type="password" class="form-input block w-full sm:w-2/3" name="password_confirmation"  tabindex="4" required>
         </div>
+
+        @if(isset($invite) || old('invite', false))
+            <label for="invite" class="">{{trans('invite.registration-label')}}</label>
+
+            <input type="text" readonly name="invite" value="{{ old('invite', $invite ?? null) }}">
+            @if ( isset($errors) && $errors->has('invite'))
+                <span class="field-error" role="alert">
+                    {{ $errors->first('invite') }}
+                </span>
+            @endif
+        @endif
 
         <div class=" mb-4">
             <div class="">

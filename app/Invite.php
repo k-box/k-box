@@ -145,6 +145,34 @@ class Invite extends Model
     }
 
     /**
+     * Scope a query to only include valid invites.
+     *
+     * Valid invites are not accepted and not expired
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  \KBox\User  $user
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeValid($query)
+    {
+        return $query
+            ->where('expire_at', '>', now())
+            ->whereNull('accepted_at');
+    }
+
+    /**
+     * Scope a query to only include invites with a token invites.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  string  $token
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeHasToken($query, $token)
+    {
+        return $query->where('token', $token);
+    }
+
+    /**
      * Accept the invitation
      *
      * @param  \KBox\User  $user
