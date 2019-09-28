@@ -313,6 +313,8 @@ Route::prefix('profile')->name('profile.')->group(function () {
 
     Route::get('storage', 'Profile\UserQuotaController@index')->name('storage.index');
     Route::put('storage', 'Profile\UserQuotaController@update')->name('storage.update');
+
+    Route::resource('/invite', 'Profile\InvitesController', ['only' => ['index', 'create', 'store', 'destroy']]);
 });
 
 /*

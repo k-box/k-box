@@ -1,8 +1,36 @@
 <?php
 
 return [
+
+    'label' => 'Invites',
+    'hint' => 'You can invite other users to register an account. Here are listed the invites created by you.',
+
     'create' => [
-        'not-authorized' => 'You cannot create invites. Please verify that you have a verified email address',
+        'not-authorized-verified-email' => 'You cannot create invites. Please verify that you have a verified email address.',
+        'not-authorized' => 'You cannot create invites',
+
+        'title' => 'Invite a person',
+        'btn' => 'Invite',
+    ],
+    
+    'created' => '":email" invited to create an account',
+    'deleted' => 'Invite to ":email" removed',
+
+    'labels' => [
+        'invited_on' => 'Invited on',
+        'accepted_on' => 'Accepted on',
+        'status' => 'Status',
+        
+        'remove_invite' => 'Remove invite',
+
+        'empty' => 'No invites to show yet.',
+    ],
+
+    'status' => [
+        'pending' => 'pending',
+        'accepted' => 'accepted',
+        'expired' => 'expired',
+        'errored' => 'errored',
     ],
 
     'notification' => [

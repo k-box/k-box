@@ -5,6 +5,7 @@ namespace KBox\Providers;
 use OneOffTech\TusUpload\Tus;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
+use KBox\Invite;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -27,6 +28,8 @@ class RouteServiceProvider extends ServiceProvider
     public function boot()
     {
         parent::boot();
+
+        $this->registerUuidModelBinding();
 
         Tus::routes();
     }
@@ -69,5 +72,26 @@ class RouteServiceProvider extends ServiceProvider
              ->middleware('api')
              ->namespace($this->namespace)
              ->group(base_path('routes/api.php'));
+    }
+
+    /**
+     * Uuid model binding.
+     *
+     * Make explicit the use of the uuid field
+     * for model binding as required when
+     * efficient uuid storage is used.
+     * See https://github.com/michaeldyrynda/laravel-model-uuid#route-model-binding
+     *
+     * @return void
+     */
+    private function registerUuidModelBinding()
+    {
+        Route::bind('invite', function ($invite) {
+            try {
+                return Invite::whereUuid($invite)->first() ?? abort(404);
+            } catch (InvalidUuidStringException $ex) {
+                abort(404);
+            }
+        });
     }
 }
