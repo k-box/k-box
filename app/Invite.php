@@ -37,7 +37,7 @@ class Invite extends Model
      * @var array
      */
     protected $fillable = [
-        'creator_id', 'email', 'token', 'actionable_id', 'actionable_type', 'accepted_at',
+        'creator_id', 'email', 'token', 'actionable_id', 'actionable_type', 'accepted_at', 'expire_at'
     ];
 
     /**
@@ -57,6 +57,7 @@ class Invite extends Model
     protected $casts = [
         'uuid' => 'uuid',
         'accepted_at' => 'datetime',
+        'expire_at' => 'datetime',
         'details' => 'array',
     ];
 
@@ -82,7 +83,7 @@ class Invite extends Model
     }
 
     /**
-     * Scope a query to only include waitlist of a user.
+     * Scope a query to only include invites of a user.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @param  \KBox\User  $user
@@ -116,6 +117,31 @@ class Invite extends Model
     public function wasAccepted()
     {
         return ! (is_null($this->accepted_at) && is_null($this->user_id));
+    }
+    
+    /**
+     * Check if the invite expired
+     *
+     * The expiration is considered at the end of the day
+     *
+     * @see invite.expiration for configuring the invite lifespan
+     * @return boolean
+     */
+    public function isExpired()
+    {
+        return $this->expire_at->lessThan(now());
+    }
+
+    /**
+     * Scope a query to only include expired invites.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  \KBox\User  $user
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeExpired($query)
+    {
+        return $query->where('expire_at', '<', now());
     }
 
     /**
@@ -151,6 +177,9 @@ class Invite extends Model
             return ;
         }
         if ($this->wasAccepted()) {
+            return ;
+        }
+        if ($this->isExpired()) {
             return ;
         }
 
@@ -211,6 +240,7 @@ class Invite extends Model
                 'token' => InviteToken::generate(),
                 'actionable_id' => optional($action)->getKey() ?? null,
                 'actionable_type' => $action ? get_class($action) : null,
+                'expire_at' => now()->endOfDay()->addDays(config('invites.expiration'))
             ]);
 
         event(new UserInvited($invite));

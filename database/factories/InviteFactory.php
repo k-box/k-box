@@ -14,5 +14,6 @@ $factory->define(Invite::class, function (Faker $faker) {
         'token' => $faker->uuid,
         'actionable_id' => null,
         'actionable_type' => null,
+        'expire_at' => now()->endOfDay()->addDays(config('invites.expiration'))
     ];
 });

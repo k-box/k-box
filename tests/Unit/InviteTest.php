@@ -37,6 +37,7 @@ class InviteTest extends TestCase
         $this->assertTrue($invite->creator->is($user));
         $this->assertEquals($email, $invite->email);
         $this->assertNotNull($invite->token);
+        $this->assertNotNull($invite->expire_at);
         $this->assertNull($invite->accepted_at);
 
         Event::assertDispatched(UserInvited::class, function ($e) use ($invite) {
@@ -128,5 +129,26 @@ class InviteTest extends TestCase
         $errored_invite = $invite->markErrored();
 
         $this->assertArrayHasKey('errored_at', $errored_invite->details);
+    }
+
+    public function test_invite_is_expired()
+    {
+        $invite = factory(Invite::class)->create([
+            'expire_at' => now()->subDays(config('invite.expiration') + 1)
+        ]);
+
+        $this->assertTrue($invite->isExpired());
+    }
+    
+    public function test_expired_invites_can_be_retrieved()
+    {
+        $valid_invites = factory(Invite::class, 2)->create();
+        $expired_invites = factory(Invite::class, 2)->create([
+            'expire_at' => now()->subDays(config('invite.expiration') + 1)
+        ]);
+
+        $expired = Invite::expired()->get();
+
+        $this->assertEquals(2, $expired->count());
     }
 }

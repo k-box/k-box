@@ -68,6 +68,32 @@ class SendInviteTest extends TestCase
         );
     }
 
+    public function test_invite_notification_not_sent_if_expired()
+    {
+        $creator = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$PARTNER);
+        });
+
+        $invite = factory(Invite::class)->create([
+            'email' => 'john@kbox.kbox',
+            'expire_at' => now()->subDays(1),
+            'user_id' => $creator->getKey(),
+        ]);
+        
+        Notification::fake();
+
+        $invite->sendInviteNotification();
+
+        Notification::assertNotSentTo(
+            $invite,
+            InviteEmail::class
+        );
+        Notification::assertNotSentTo(
+            $creator,
+            InviteEmail::class
+        );
+    }
+
     public function test_invite_notification_not_sent_if_user_registration_not_active()
     {
         config([

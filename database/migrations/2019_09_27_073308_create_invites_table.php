@@ -21,6 +21,7 @@ class CreateInvitesTable extends Migration
             $table->string('token', 100)->unique();
             $table->string('email')->unique();
             $table->dateTime('accepted_at')->nullable()->index();
+            $table->dateTime('expire_at')->index();
             $table->json('details')->nullable();
             $table->bigInteger('user_id')->nullable()->unsigned();
             $table->nullableMorphs('actionable'); // represent the action to be performed on the referenced model upon user registration
