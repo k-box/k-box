@@ -7,7 +7,7 @@
 	<h4 class="mt-4">{{trans('invite.label')}}</h4>
 	<p class="mb-4 text-gray-700">{{trans('invite.hint')}}</p>
 
-    @can('create', Invite::class)       
+    @can('create', \KBox\Invite::class)       
         <div class="mb-4">
             <a href="{{ route('profile.invite.create') }}" class="button">@materialicon('social', 'person_add', 'inline-block'){{ __('invite.create.title') }}</a>
         </div>

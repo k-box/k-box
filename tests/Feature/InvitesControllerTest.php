@@ -157,4 +157,24 @@ class InvitesControllerTest extends TestCase
 
         $response->assertStatus(404);
     }
+
+    public function test_create_invite_button_visible()
+    {
+        $user = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$PARTNER);
+        });
+
+        $other_invites = factory(Invite::class, 2)->create();
+        $my_invites = factory(Invite::class, 2)->create([
+            'creator_id' => $user->id
+        ]);
+
+        $response = $this->actingAs($user)->get(route('profile.invite.index'));
+
+        $response->assertOk();
+
+        $response->assertViewIs('invites.index');
+        $response->assertViewHas('invites');
+        $response->assertSee(__('invite.create.title'));
+    }
 }
