@@ -30,6 +30,9 @@ use KBox\Notifications\DuplicateDocumentsNotification;
 use KBox\Listeners\RemovePrivacyPolicyConsentFromUsers;
 use KBox\Listeners\NotifyUserThatPersonalExportIsReady;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
+use KBox\Events\UserInviteAccepted;
+use KBox\Events\UserInvited;
+use KBox\Listeners\SendNotificationToInvitedUser;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -78,6 +81,12 @@ class EventServiceProvider extends ServiceProvider
         ],
         PersonalExportCreated::class => [
             NotifyUserThatPersonalExportIsReady::class
+        ],
+        UserInvited::class => [
+            SendNotificationToInvitedUser::class
+        ],
+        UserInviteAccepted::class => [
+            
         ]
     ];
 

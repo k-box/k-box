@@ -6,8 +6,10 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use KBox\DocumentDescriptor;
 use KBox\File;
+use KBox\Invite;
 use KBox\Policies\DocumentDescriptorPolicy;
 use KBox\Policies\FilePolicy;
+use KBox\Policies\InvitePolicy;
 use KBox\Policies\UploadPolicy;
 
 class AuthServiceProvider extends ServiceProvider
@@ -20,6 +22,7 @@ class AuthServiceProvider extends ServiceProvider
     protected $policies = [
         DocumentDescriptor::class => DocumentDescriptorPolicy::class,
         File::class => FilePolicy::class,
+        Invite::class => InvitePolicy::class,
     ];
 
     /**

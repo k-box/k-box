@@ -52,7 +52,15 @@
 		
 		{{trans('profile.password_section')}}
 	</a>
-	<a href="{{ route('profile.storage.index') }}" class="my-4 navigation__item navigation__item--link @if(request()->is('*profile/storage')) navigation__item--current @endif">
+	@if (config('dms.registration', false))
+		<a href="{{ route('profile.invite.index') }}" class="navigation__item navigation__item--link @if(request()->is('*profile/invite*')) navigation__item--current @endif">
+			
+			@materialicon('action', 'record_voice_over', 'inline-block navigation__item__icon')
+			
+			{{trans('invite.label')}}
+		</a>
+	@endif
+	<a href="{{ route('profile.storage.index') }}" class="navigation__item navigation__item--link @if(request()->is('*profile/storage')) navigation__item--current @endif">
 		
 		@materialicon('action', 'dns', 'inline-block navigation__item__icon')
 		

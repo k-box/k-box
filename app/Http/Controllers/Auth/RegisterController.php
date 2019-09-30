@@ -2,13 +2,16 @@
 
 namespace KBox\Http\Controllers\Auth;
 
+use Exception;
 use KBox\User;
 use KBox\Capability;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 use KBox\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use KBox\Invite;
 
 class RegisterController extends Controller
 {
@@ -32,6 +35,8 @@ class RegisterController extends Controller
      */
     protected $redirectTo = '/email/verify';
 
+    protected $registerView = 'auth.register';
+
     /**
      * Create a new controller instance.
      *
@@ -40,6 +45,31 @@ class RegisterController extends Controller
     public function __construct()
     {
         $this->middleware('guest');
+    }
+
+    /**
+     * Show the application registration form.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function showRegistrationForm(Request $request)
+    {
+        $invite = $this->extractInviteFromRequest($request);
+
+        if ($invite === false) {
+            return view($this->registerView);
+        }
+
+        if (is_null($invite)) {
+            return view($this->registerView, [
+                'invite_error' => trans('invite.invalid')
+            ]);
+        }
+
+        return view($this->registerView, [
+            'email' => $invite->email,
+            'invite' => $invite->token
+        ]);
     }
 
     /**
@@ -54,6 +84,9 @@ class RegisterController extends Controller
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             
+            // verify invite
+            'invite' => ['sometimes', 'nullable', 'string', 'max:100', 'exists:invites,token'],
+
             // We choose to not require a user name, but if specified we accept it
             'name' => ['sometimes', 'nullable', 'string', 'max:255'],
         ]);
@@ -77,6 +110,57 @@ class RegisterController extends Controller
 
         $user->addCapabilities(Capability::$PARTNER);
 
+        if (isset($data['invite']) && $data['invite']) {
+            $invite = Invite::valid()->hasToken($data['invite'])->first();
+
+            if ($invite) {
+                $invite->accept($user);
+
+                if ($invite->email === $user->email) {
+                    $user->markEmailAsVerified();
+                }
+            }
+        }
+
         return $user;
+    }
+
+    /**
+     * The user has been registered.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  mixed  $user
+     * @return mixed
+     */
+    protected function registered(Request $request, $user)
+    {
+        if (! $user->hasVerifiedEmail()) {
+            return null;
+        }
+        
+        return redirect('/');
+    }
+
+    private function extractInviteFromRequest(Request $request)
+    {
+        if (! $request->has('signature')) {
+            return false;
+        }
+
+        if (! $request->hasValidSignature()) {
+            return null;
+        }
+
+        try {
+            $invite = Invite::whereUuid(e($request->input('i')))->first();
+        } catch (Exception $ex) {
+            return null;
+        }
+
+        if (is_null($invite) || ($invite && ($invite->isExpired() || $invite->wasAccepted()))) {
+            return null;
+        }
+
+        return $invite;
     }
 }

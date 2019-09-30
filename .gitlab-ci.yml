@@ -94,7 +94,7 @@ unit_test:
   stage: test
   image: "docker.klink.asia/main/docker-php:7.1"
   services:
-    - mariadb:10.0
+    - mariadb:10.3.17 # pinning because of issue https://github.com/docker-library/mariadb/issues/262 and https://gitlab.com/gitlab-org/gitlab-runner/issues/4405
   variables:
     MYSQL_DATABASE: dms
     MYSQL_USER: dms
