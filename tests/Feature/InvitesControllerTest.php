@@ -30,6 +30,7 @@ class InvitesControllerTest extends TestCase
 
         $response->assertViewIs('invites.index');
         $response->assertViewHas('invites');
+        $response->assertViewHas('expiration_period', config('invites.expiration'));
 
         $retrieved_invites = $response->getData('invites');
 

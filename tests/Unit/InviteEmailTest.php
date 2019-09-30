@@ -22,8 +22,6 @@ class InviteEmailTest extends TestCase
     {
         $creator_name = 'John';
 
-        $period = config('invites.expiration');
-
         $user = tap(factory(User::class)->create([
             'name' => $creator_name,
         ]), function ($u) {
@@ -47,14 +45,12 @@ class InviteEmailTest extends TestCase
         $this->assertEquals(trans('auth.create_account'), $mail->actionText);
         $this->assertEquals($expected_url, $mail->actionUrl);
         $this->assertEquals([trans('invite.notification.mail.reason.invitation', ['name' => $creator_name, 'url' => url('/')])], $mail->introLines);
-        $this->assertEquals([trans('invite.notification.mail.no_further_action', ['period' => $period.' '.trans_choice('units.days', $period)])], $mail->outroLines);
+        $this->assertEquals([trans('invite.notification.mail.no_further_action', ['date' => $invite->expire_at->toDateString()])], $mail->outroLines);
     }
 
     public function test_project_invite_mail_message()
     {
         $creator_name = 'John';
-
-        $period = config('invites.expiration');
 
         $user = tap(factory(User::class)->create([
             'name' => $creator_name,
@@ -85,14 +81,12 @@ class InviteEmailTest extends TestCase
         $this->assertEquals(trans('auth.create_account'), $mail->actionText);
         $this->assertEquals($expected_url, $mail->actionUrl);
         $this->assertEquals([trans('invite.notification.mail.reason.project', ['name' => $creator_name, 'url' => url('/')])], $mail->introLines);
-        $this->assertEquals([trans('invite.notification.mail.no_further_action', ['period' => $period.' '.trans_choice('units.days', $period)])], $mail->outroLines);
+        $this->assertEquals([trans('invite.notification.mail.no_further_action', ['date' => $invite->expire_at->toDateString()])], $mail->outroLines);
     }
 
     public function test_mail_message_generated_using_custom_callback()
     {
         $creator_name = 'John';
-
-        $period = config('invites.expiration');
 
         $user = tap(factory(User::class)->create([
             'name' => $creator_name,

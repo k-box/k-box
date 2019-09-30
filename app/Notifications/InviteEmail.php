@@ -67,15 +67,13 @@ class InviteEmail extends Notification
             return call_user_func(static::$toMailCallback, $notifiable, $registrationUrl, $reason);
         }
 
-        $period = config('invites.expiration');
-
         return (new MailMessage)
             ->subject(trans('invite.notification.mail.subject', ['name' => $notifiable->creator->name]))
             ->greeting(trans('invite.notification.mail.greeting', ['name' => $notifiable->creator->name, 'url' => url('/')]))
             ->line(trans('invite.notification.mail.reason.'.$reason, ['name' => $notifiable->creator->name, 'url' => url('/')]))
             ->action(trans('auth.create_account'), $registrationUrl)
             ->salutation(trans('messaging.mail.do_not_reply'))
-            ->line(trans('invite.notification.mail.no_further_action', ['period' => $period.' '.trans_choice('units.days', $period)]));
+            ->line(trans('invite.notification.mail.no_further_action', ['date' => $notifiable->expire_at->toDateString()]));
     }
 
     /**

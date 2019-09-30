@@ -5,7 +5,8 @@
 @section('profile_page')
 
 	<h4 class="mt-4">{{trans('invite.label')}}</h4>
-	<p class="mb-4 text-gray-700">{{trans('invite.hint')}}</p>
+	<p class="text-gray-700">{{trans('invite.hint')}}</p>
+	<p class="mb-4 text-gray-700">{{trans('invite.hint_expiration', ['period' => $expiration_period . ' ' . trans_choice('units.days', $expiration_period)])}}</p>
 
     @can('create', \KBox\Invite::class)       
         <div class="mb-4">

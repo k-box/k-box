@@ -30,6 +30,7 @@ class InvitesController extends Controller
             'invites' => $invites,
             'page_title' => trans('invite.label'),
             'breadcrumb_current' => trans('invite.label'),
+            'expiration_period' => config('invites.expiration'),
         ]);
     }
 
