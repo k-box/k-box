@@ -309,6 +309,8 @@ a.button {
 
 		@apply p-2;
 
+		@apply no-underline;
+
 
 		&:hover, &:focus {
 			@apply text-accent-600;

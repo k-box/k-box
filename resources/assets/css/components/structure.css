@@ -588,6 +588,8 @@ ul.pagination {
 
 		padding: 4px 8px;
 
+		@apply no-underline;
+
 		margin: -4px -8px;
 
 		&:hover, &:focus {
