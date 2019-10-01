@@ -1946,7 +1946,7 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
                 _dropzone.autoDiscover = false;
                 
             	var dropzone = new _dropzone( '#js-drop-area', { // Make the whole body a dropzone
-            	    url: DMS.Paths.fullUrl(DMS.Paths.DOCUMENTS), // Set the url
+            	    url: DMS.Paths.fullUrl('/413' /*DMS.Paths.DOCUMENTS*/), // Set the url
             	    paramName: "document",
                     createImageThumbnails: false,
                     filesizeBase:1024,
@@ -1997,6 +1997,7 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
                    },
 
                     error: function(file, message) {
+                        debugger;
                         var node, _i, _len, _ref, _results;
                         if (file.previewElement) {
                           file.previewElement.classList.add("dz-error");
@@ -2006,8 +2007,14 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
                           else if (typeof message !== "String" && message.document) {
                             message = _.isArray(message.document) ? message.document.join(",") : message.document;
                           }
-                          else {
+                          else if(file.xhr.status === 413){
+                              message = this.options.dictFileTooBig;
+                          }
+                          else if(message.length > 0) {
                             message = message.indexOf('KB') ? message : Lang.trans('errors.generic_text');
+                          }
+                          else {
+                            message = Lang.trans('errors.generic_text');
                           }
                           _ref = file.previewElement.querySelectorAll("[data-dz-errormessage]");
                           _results = [];
