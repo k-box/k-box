@@ -318,7 +318,9 @@
 }
 
 
-
+.item--selected:hover .item__link {
+	@apply text-white;
+}
 
 
 
