@@ -9,6 +9,8 @@ use KBox\Capability;
 use KBox\DocumentDescriptor;
 use Klink\DmsAdapter\KlinkVisibilityType;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use KBox\DocumentGroups;
+use KBox\Documents\Services\DocumentsService;
 
 /*
  * Test something related to document descriptors management
@@ -155,6 +157,39 @@ class DocumentsServiceTest extends TestCase
 
         $this->assertNull($fake->getDocument($descr->uuid, 'public'), 'NOT Null public get');
         $this->assertNotNull($fake->getDocument($descr->uuid, 'private'), 'Null private get');
+    }
+
+    public function test_bulk_add_to_collection_attaches_user()
+    {
+        $this->withoutMiddleware();
+
+        $adapter = $this->withKlinkAdapterFake();
+
+        $user = tap(factory(\KBox\User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$ADMIN);
+        });
+
+        $documents = factory(DocumentDescriptor::class, 3)->create([
+            'owner_id' => $user->id,
+        ]);
+
+        $collection = factory(Group::class)->create([
+            'user_id' => $user->id,
+            'is_private' => true,
+        ]);
+
+        $service = app(DocumentsService::class);
+        $service->addDocumentsToGroup($user, $documents, $collection, false);
+
+        $documents->each(function ($document) use ($collection, $user) {
+            $applied_collection = $document->fresh()->groups()->first();
+    
+            $this->assertNotNull($applied_collection->is($collection));
+            $this->assertInstanceOf(DocumentGroups::class, $applied_collection->pivot);
+            $this->assertNotNull($applied_collection->pivot->created_at);
+            $this->assertNotNull($applied_collection->pivot->updated_at);
+            $this->assertTrue($applied_collection->pivot->addedBy->is($user));
+        });
     }
 
     private function createUser($capabilities, $userParams = [])

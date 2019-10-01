@@ -386,7 +386,9 @@ class DocumentsService
         // Add the descriptor to the given group
 
         if (! is_null($collection)) {
-            $descr->groups()->save($collection);
+            $descr->groups()->save($collection, [
+                'added_by' => $owner->getKey()
+            ]);
         }
 
         return  $descr;
@@ -1000,6 +1002,7 @@ class DocumentsService
     public function createGroup(User $user, $name, $color=null, Group $parent = null, $is_private = true, GroupType $type = null)
     {
         if (! $user->can_capability(Capability::MANAGE_OWN_GROUPS) || (! $is_private && ! $user->can_capability(Capability::MANAGE_PROJECT_COLLECTIONS))) {
+            dump($user->can_capability(Capability::MANAGE_OWN_GROUPS));
             throw new ForbiddenException("Permission denieded for performing the group creation.");
         }
 
@@ -1447,7 +1450,11 @@ class DocumentsService
         
         // TODO: filter $documents already in that group
 
-        $group->documents()->saveMany($documents->all()); // documents must be a collection of DocumentDescriptors
+        DB::transaction(function () use ($documents, $group, $user) {
+            $documents->each(function ($document) use ($group, $user) {
+                $group->documents()->save($document, ['added_by' => $user->getKey()]);
+            });
+        });
 
         if ($perform_reindex) {
             $this->reindexDocuments($documents); //documents must be a collection of DocumentDescriptors
@@ -1460,7 +1467,7 @@ class DocumentsService
             throw new ForbiddenException(trans('groups.add_documents.forbidden', ['name' => $group->name]), 1);
         }
 
-        $group->documents()->save($document);
+        $group->documents()->save($document, ['added_by' => $user->getKey()]);
 
         if ($perform_reindex) {
             dispatch(new ReindexDocument($document, KlinkVisibilityType::KLINK_PRIVATE));

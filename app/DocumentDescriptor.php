@@ -208,7 +208,10 @@ class DocumentDescriptor extends Model
 
     public function groups()
     {
-        return $this->belongsToMany(\KBox\Group::class, 'document_groups', 'document_id');
+        return $this->belongsToMany(Group::class, 'document_groups', 'document_id')
+            ->using(DocumentGroups::class)
+            ->withTimestamps()
+            ->withPivot('added_by');
     }
 
     public function shares()

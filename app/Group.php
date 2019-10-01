@@ -134,7 +134,11 @@ class Group extends Entity implements GroupInterface
      */
     public function documents()
     {
-        return $this->belongsToMany(\KBox\DocumentDescriptor::class, 'document_groups', 'group_id', 'document_id')->local();
+        return $this->belongsToMany(DocumentDescriptor::class, 'document_groups', 'group_id', 'document_id')
+            ->using(DocumentGroups::class)
+            ->withTimestamps()
+            ->withPivot('added_by')
+            ->local();
     }
 
     /**
