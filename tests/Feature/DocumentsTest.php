@@ -16,7 +16,7 @@ use KBox\Documents\Facades\Files;
 use Klink\DmsAdapter\KlinkVisibilityType;
 use Klink\DmsAdapter\Exceptions\KlinkException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-
+use KBox\DocumentGroups;
 use Klink\DmsAdapter\Fakes\FakeKlinkAdapter;
 
 /*
@@ -266,6 +266,47 @@ class DocumentsTest extends TestCase
             'id' => $doc->id,
             'is_public' => true,
         ]);
+    }
+
+    public function test_user_is_attached_when_moving_documents_to_collection()
+    {
+        $this->withKlinkAdapterFake();
+
+        $user = $this->createUser(Capability::$PARTNER);
+        
+        $file = factory(File::class)->create([
+            'user_id' => $user->id,
+            'original_uri' => ''
+        ]);
+        
+        $doc = factory(DocumentDescriptor::class)->create([
+            'owner_id' => $user->id,
+            'file_id' => $file->id,
+            'hash' => $file->hash,
+            'copyright_usage' => 'C',
+            'copyright_owner' => collect(['name' => 'owner name', 'website' => 'https://something.com'])
+        ]);
+        
+        $service = app('KBox\Documents\Services\DocumentsService');
+        
+        $group = $service->createGroup($user, 'Personal collection of user '.$user->id);
+        
+        $response = $this->actingAs($user)
+            ->json('PUT', route('documents.update', ['id' => $doc->id]), [
+                 '_token' => csrf_token(),
+                'add_group' => $group->id]);
+        
+        $response->assertOk();
+        $response->assertJson([
+            'id' => $doc->id,
+        ]);
+
+        $applied_collection = $doc->fresh()->groups()->first();
+
+        $this->assertInstanceOf(DocumentGroups::class, $applied_collection->pivot);
+        $this->assertNotNull($applied_collection->pivot->created_at);
+        $this->assertNotNull($applied_collection->pivot->updated_at);
+        $this->assertTrue($applied_collection->pivot->addedBy->is($user));
     }
     
     /**
