@@ -1450,9 +1450,11 @@ class DocumentsService
         
         // TODO: filter $documents already in that group
 
-        $group->documents()->saveMany($documents->all(), [  // documents must be a collection of DocumentDescriptors
-            'added_by' => $user->getKey()
-        ]);
+        DB::transaction(function () use ($documents, $group, $user) {
+            $documents->each(function ($document) use ($group, $user) {
+                $group->documents()->save($document, ['added_by' => $user->getKey()]);
+            });
+        });
 
         if ($perform_reindex) {
             $this->reindexDocuments($documents); //documents must be a collection of DocumentDescriptors
