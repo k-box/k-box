@@ -1450,7 +1450,9 @@ class DocumentsService
         
         // TODO: filter $documents already in that group
 
-        $group->documents()->saveMany($documents->all()); // documents must be a collection of DocumentDescriptors
+        $group->documents()->saveMany($documents->all(), [  // documents must be a collection of DocumentDescriptors
+            'added_by' => $user->getKey()
+        ]);
 
         if ($perform_reindex) {
             $this->reindexDocuments($documents); //documents must be a collection of DocumentDescriptors
