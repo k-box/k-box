@@ -136,6 +136,8 @@
     transition: all 0.2s ease-in-out;
 
     cursor: pointer;
+
+    text-decoration: none;
 }
 
 .preview__button:first-of-type {
