@@ -386,7 +386,9 @@ class DocumentsService
         // Add the descriptor to the given group
 
         if (! is_null($collection)) {
-            $descr->groups()->save($collection);
+            $descr->groups()->save($collection, [
+                'added_by' => $owner->getKey()
+            ]);
         }
 
         return  $descr;
