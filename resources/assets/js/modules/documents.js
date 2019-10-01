@@ -1946,7 +1946,7 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
                 _dropzone.autoDiscover = false;
                 
             	var dropzone = new _dropzone( '#js-drop-area', { // Make the whole body a dropzone
-            	    url: DMS.Paths.fullUrl('/413' /*DMS.Paths.DOCUMENTS*/), // Set the url
+            	    url: DMS.Paths.fullUrl(DMS.Paths.DOCUMENTS), // Set the url
             	    paramName: "document",
                     createImageThumbnails: false,
                     filesizeBase:1024,
