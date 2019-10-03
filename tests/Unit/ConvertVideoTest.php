@@ -25,8 +25,6 @@ class ConvertVideoTest extends TestCase
                 'The video processing cli is not installed.'
             );
         }
-
-        parent::setUp();
     }
 
     public function test_non_mp4_file_is_discarded()
