@@ -21,8 +21,5 @@ return [
     'this_week' => 'В начале этой недели',
     'this_month' => 'В начале этого месяца',
     'older' => 'Старее',
-    // translators: Do not translate this. This expression is the date formatting string. Please refer to http://php.net/manual/en/function.date.php
-    'date_format' => 'd M Y',
-    'date_format_full' => 'l j F Y H:i',
 
 ];
