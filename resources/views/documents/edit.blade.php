@@ -156,11 +156,11 @@
 
 			<div class=" mb-4">
 				<div>
-				<span data-hint="{{ $document->getUpdatedAt(true) }}" class="hint--bottom">{!! trans('documents.edit.last_edited', ['time' => $document->getUpdatedAtHumanDiff(true)]) !!}</span>
+					{!! trans('documents.edit.last_edited', ['time' => $document->updated_at->render(true)]) !!}
 				</div>
 
 				<div>
-				<span data-hint="{{ $document->getCreatedAt(true) }}" class="hint--bottom">{!! trans('documents.edit.created_on', ['time' => $document->getCreatedAt()]) !!}</span>
+					{!! trans('documents.edit.created_on', ['time' => $document->created_at->render(true)]) !!}
 				</div>
 				
 				@if($document->isFileUploadComplete())

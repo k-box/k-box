@@ -34,7 +34,7 @@
 	@endif
 
 	<div class="c-panel__meta">
-		<span class="c-panel__label">{{trans('projects.labels.created_on')}}</span>{{$project->getCreatedAt()}}
+		<span class="c-panel__label">{{trans('projects.labels.created_on')}}</span>@date($project->created_at)
 	</div>
 	<div class="c-panel__meta">
 		<span class="c-panel__label">{{trans('projects.labels.managed_by')}}</span>{{$project->manager->name}} <a href="mailto:{{$project->manager->email}}">{{$project->manager->email}}</a>

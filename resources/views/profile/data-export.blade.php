@@ -47,8 +47,8 @@
 					<a href="{{ route('profile.data-export.download', ['export' => $export->name]) }}">{{ trans('profile.data-export.download') }}</a>
 				@endif
 			</td>
-			<td>{{ $export->getCreatedAt() }}</td>
-			<td>{{ $export->getPurgeAt() }}</td>
+			<td>@date($export->created_at)</td>
+			<td>@datetime($export->purge_at)</td>
 		  </tr>
 	@empty
 

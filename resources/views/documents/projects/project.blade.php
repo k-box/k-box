@@ -19,8 +19,8 @@
 		
 	</div>
 
-	<span class="item__detail list__column list__column--hideable" title="{{trans('projects.labels.created_on')}} {{$item->getCreatedAt(true)}}">
-		{{$item->getCreatedAt()}}
+	<span class="item__detail list__column list__column--hideable" title="@datetime($item->created_at)">
+		@date($item->created_at)
 	</span>
 	
 	<span class="item__detail list__column" title="{{trans('projects.labels.managed_by')}}">

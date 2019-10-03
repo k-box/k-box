@@ -72,7 +72,7 @@
 			
 				@if($item->properties->created_at instanceof \DateTime)
 				
-				 	{{\Carbon\Carbon::instance($item->properties->created_at)->toDateTimeString()}}
+				 	{{\Carbon\Carbon::instance($item->properties->created_at)->render()}}
 
 				@else
 					{{$item->properties->created_at}}

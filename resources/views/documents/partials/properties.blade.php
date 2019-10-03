@@ -23,13 +23,13 @@
 	<div class="c-panel__meta">
 		<div class="c-panel__label">{{trans('panels.meta.added_on')}}</div>
 		
-		{{$document->getCreatedAt(true)}}
+		@datetime($document->created_at)
 	</div>
 
 	<div class="c-panel__meta">
 		<div class="c-panel__label">{{trans('documents.descriptor.last_modified')}}</div>
 			
-		{{$document->getUpdatedAt(true)}}
+		@datetime($document->updated_at)
 	</div>
 
 	@if($document->trashed())

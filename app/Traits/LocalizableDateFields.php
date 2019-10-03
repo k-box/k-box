@@ -9,7 +9,7 @@ use DateTime;
  * Add support for localizing the created_at, updated_at and deleted_at date fields
  *
  * @uses Jenssegers\Date\Date
- *
+ * @deprecated use the Blade @date or @datetime directives or the render() method on the Carbon instance
  */
 trait LocalizableDateFields
 {

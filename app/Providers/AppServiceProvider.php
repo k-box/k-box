@@ -2,6 +2,7 @@
 
 namespace KBox\Providers;
 
+use Carbon\Carbon;
 use Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Blade;
@@ -9,6 +10,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Response;
 use KBox\DocumentsElaboration\DocumentElaborationManager;
 use KBox\Services\Quota;
+use Jenssegers\Date\Date as LocalizedDate;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -52,6 +54,44 @@ class AppServiceProvider extends ServiceProvider
          */
         Blade::if('flag', function ($flag) {
             return flags($flag);
+        });
+
+        /**
+         * Define date related directive for blade
+         */
+
+        Blade::directive('date', function ($expression) {
+            return "<?php echo optional($expression)->render(); ?>";
+        });
+        
+        Blade::directive('datetime', function ($expression) {
+            return "<?php echo optional($expression)->render(true); ?>";
+        });
+
+        /**
+         * Register a macro on Carbon to convert a Carbon instance
+         * in a fully localizable date time.
+         * 
+         * This should only be required until the upgrade to
+         * Carbon 2 can be performed. https://carbon.nesbot.com/docs/#api-localization
+         * 
+         * @return \Jenssegers\Date\Date
+         */
+        Carbon::macro('asLocalizableDate', function(){
+            return LocalizedDate::instance($this);
+        });
+        
+        /**
+         * Attempt to render a date/time in a common format across all K-Box UI
+         * 
+         * @param bool $withTime set to true to include hours and minutes. Default false
+         * @return string the formatted and localized datetime
+         */
+        Carbon::macro('render', function($withTime = false){
+            
+            $format = (trans($withTime ? 'units.date_format_full' : 'units.date_format'));
+
+            return $this->asLocalizableDate()->format($format) . ($withTime ? ' (UTC)' : '');
         });
     }
 
