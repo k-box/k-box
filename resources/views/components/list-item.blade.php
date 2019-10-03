@@ -151,17 +151,13 @@
     @endif
 		
 		
-    @if(isset($shared_on) && isset($shared_on_diff) && $shared_on && $shared_on_diff)
-        <span class="item__detail list__column modified-date" title="{{trans('share.shared_on')}} {{$shared_on}}">
-            {{$shared_on_diff}}
+    @if(isset($shared_on) &&  $shared_on)
+        <span class="item__detail list__column modified-date" title="{{trans('share.shared_on')}} @datetime($shared_on)">
+            @date($shared_on)
         </span>
-    {{-- @else
-        <span class="item__detail list__column item__detail--creation-date" title="{{trans('documents.descriptor.added_on')}} {{$created_at}}">
-            {{$created_at_diff}}
-        </span> --}}
     @endif
 		
-    @unless(isset($shared_on) && isset($shared_on_diff) && $shared_on && $shared_on_diff)
+    @unless(isset($shared_on) &&  $shared_on)
         <span class="item__detail list__column modified-date" title="{{trans('documents.descriptor.last_modified')}} {{$modified_at}}">
             {{ $modified_at_diff ?? $modified_at }}
         </span>

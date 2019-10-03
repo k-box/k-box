@@ -35,7 +35,7 @@
 			@if(is_a($result, 'KBox\Shared'))
 			
 	
-				@include('documents.descriptor', ['item' => $result->shareable, 'share_id' => $result->id, 'shared_by' => $result->user, 'share_created_at' => $result->getCreatedAt(), 'share_created_at_timestamp' => $result->getCreatedAt(true)])
+				@include('documents.descriptor', ['item' => $result->shareable, 'share_id' => $result->id, 'shared_by' => $result->user, 'share_created_at' => $result->created_at])
 			
 			@else
 			
