@@ -18,7 +18,9 @@ class ConvertVideoTest extends TestCase
 
     protected function setUp()
     {
-        if (empty(glob('./bin/video-processing-cli*'))) {
+        parent::setUp();
+
+        if (empty(glob(base_path('bin/video-processing-cli*')))) {
             $this->markTestSkipped(
                 'The video processing cli is not installed.'
             );

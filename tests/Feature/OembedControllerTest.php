@@ -62,7 +62,7 @@ class OembedControllerTest extends TestCase
                 'provider_name' => config('app.name'),
                 'provider_url' => config('app.url'),
                 'title' => e($document->title),
-                'html' => "<iframe width=\"480\" height=\"360\" src=\"http://localhost/d/embed/$document->uuid\" class=\"kbox_embed_iframe\" frameborder=\"0\" allowfullscreen></iframe>"
+                'html' => '<iframe width="480" height="360" src="'.route('documents.embed', $document->uuid).'" class="kbox_embed_iframe" frameborder="0" allowfullscreen></iframe>'
             ])
             ->assertJsonStructure([
                 "version",

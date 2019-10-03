@@ -44,7 +44,7 @@ class DocumentUpdatePropertiesCommand extends Command
      */
     public function handle()
     {
-        $args = $this->argument('documents');
+        $args = (array)$this->argument('documents');
         // $force = $this->option('force');
         
         $this->comment('Updating document properties for video files...');
@@ -52,7 +52,7 @@ class DocumentUpdatePropertiesCommand extends Command
         $documents = empty($args) || ! is_array($args) ? DocumentDescriptor::where('mime_type', 'video/mp4')->get() : DocumentDescriptor::whereIn('id', $args)->get();
         
         $total = $documents->count();
-        
+
         if (! empty($args) && count($args) > $total) {
             $diff = array_diff($args, $documents->pluck('id')->toArray());
             throw new ModelNotFoundException('One or more documents cannot be found: '.implode(', ', $diff));
