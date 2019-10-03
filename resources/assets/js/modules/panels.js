@@ -240,7 +240,8 @@ define("modules/panels", ["jquery", "DMS", "combokeys", "language"], function ($
 					
 					console.error(obj, err, text);
 					
-					var content = panel_error_content.replace('%title%', Lang.trans('panels.load_error_title')).replace('%message%', obj.responseText);
+					var message = obj.status === 404 ? Lang.trans('errors.not_found') : (obj.status === 403 ? Lang.trans('errors.403_title') : obj.responseText);
+					var content = panel_error_content.replace('%title%', Lang.trans('panels.load_error_title')).replace('%message%', message);
 
 					module.updateContent(id, content);
 				});

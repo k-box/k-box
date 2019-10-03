@@ -19,12 +19,6 @@
 </div>
 <div class="c-panel__actions">
 	<a href="{{route('documents.groups.show', $group->id)}}" class="button">{{ trans('projects.show_documents') }}</a>
-
-	
-	{{-- @if(auth()->check() && auth()->user()->id === $group->user_id )
-
-		<a href="{{route('groups.edit', $group->id)}}" class="button">{{ trans('groups.edit_button') }}</a>
-	@endif --}}
 </div>
 
 <div class="c-panel__data">
@@ -71,7 +65,7 @@
             <span class="c-panel__label">{{trans('share.shared_by_label')}}</span>
             {{ optional($share->user)->name }}
         </div>
-        
+
         <div class="c-panel__meta">
             <span class="c-panel__label">{{trans('share.shared_on')}}</span>
             {{$share->created_at->toDateString()}}

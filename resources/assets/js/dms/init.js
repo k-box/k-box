@@ -255,6 +255,7 @@ window.DMS = (function(_$, _nprogress, _rivets, _alert){
 			PROJECTS_API: 'projects',
 			UPLOAD_FALLBACK: 'documents/create',
 			GROUPS: 'documents/groups',
+			GROUPS_ONLY: 'groups',
 			GROUPS_CREATE: 'documents/groups/create',
 			GROUPS_EDIT: 'documents/groups/{ID}/edit',
 			SHARES: 'shares',
