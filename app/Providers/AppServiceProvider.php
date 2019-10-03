@@ -71,27 +71,26 @@ class AppServiceProvider extends ServiceProvider
         /**
          * Register a macro on Carbon to convert a Carbon instance
          * in a fully localizable date time.
-         * 
+         *
          * This should only be required until the upgrade to
          * Carbon 2 can be performed. https://carbon.nesbot.com/docs/#api-localization
-         * 
+         *
          * @return \Jenssegers\Date\Date
          */
-        Carbon::macro('asLocalizableDate', function(){
+        Carbon::macro('asLocalizableDate', function () {
             return LocalizedDate::instance($this);
         });
         
         /**
          * Attempt to render a date/time in a common format across all K-Box UI
-         * 
+         *
          * @param bool $withTime set to true to include hours and minutes. Default false
          * @return string the formatted and localized datetime
          */
-        Carbon::macro('render', function($withTime = false){
-            
+        Carbon::macro('render', function ($withTime = false) {
             $format = (trans($withTime ? 'units.date_format_full' : 'units.date_format'));
 
-            return $this->asLocalizableDate()->format($format) . ($withTime ? ' (UTC)' : '');
+            return $this->asLocalizableDate()->format($format).($withTime ? ' (UTC)' : '');
         });
     }
 

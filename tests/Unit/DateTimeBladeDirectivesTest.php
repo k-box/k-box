@@ -4,14 +4,11 @@ namespace Tests\Unit;
 
 use Carbon\Carbon;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Blade;
 use Jenssegers\Date\Date;
 
 class DateTimeBladeDirectivesTest extends TestCase
 {
-    
     public function test_as_localizable_date_macro()
     {
         $localizableDate = Carbon::now()->asLocalizableDate();
