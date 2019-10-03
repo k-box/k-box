@@ -158,8 +158,8 @@
     @endif
 		
     @unless(isset($shared_on) &&  $shared_on)
-        <span class="item__detail list__column modified-date" title="{{trans('documents.descriptor.last_modified')}} {{$modified_at}}">
-            {{ $modified_at_diff ?? $modified_at }}
+        <span class="item__detail list__column modified-date" title="{{trans('documents.descriptor.last_modified')}} @datetime($modified_at)">
+            {{ $modified_at_diff ?? optional($modified_at)->render() }}
         </span>
     @endif
     
