@@ -19,52 +19,45 @@
 	
 @stop
 
+@section('list_header')
+	<div class="list__column list__column--large">{{trans('documents.descriptor.name')}}</div>
+	<div class="list__column">{{trans('share.shared_by_label')}}</div>
+	<div class="list__column">{{trans('share.shared_on')}}</div>
+	<div class="list__column">{{trans('documents.descriptor.language')}}</div>
+@endsection
 
-@section('document_list_area')
+@section('document_area')
 	
 	@if(!is_null($shared_with_me))
 
-		<div class="list {{$list_style_current}}" >
-
-		<div class="list__header">
-			<div class="list__column list__column--large">{{trans('documents.descriptor.name')}}</div>
-			<div class="list__column">{{trans('share.shared_by_label')}}</div>
-			<div class="list__column">{{trans('share.shared_on')}}</div>
-			<div class="list__column">{{trans('documents.descriptor.language')}}</div>
-		</div>
-
-			@forelse ($shared_with_me as $result)
-		
-				@if(is_a($result, 'KBox\Shared'))
-		
-					@include('documents.descriptor', ['item' => $result->shareable, 'share_id' => $result->id, 'shared_by' => $result->user, 'share_created_at' => $result->getCreatedAt(), 'share_created_at_timestamp' => $result->getCreatedAt(true)])
-				
-				@else
-				
-					@include('documents.descriptor', ['item' => $result])
-				
-				@endif
-		
-			@empty
-
-				<div class="empty">
-					@materialicon('social', 'share', 'empty__icon')
-
-					<p>{{ trans('share.empty_with_me_message') }}</p>
-				</div>
-		
-			@endforelse
-
-		</div>
-        
-        @if( isset($pagination) && !is_null($pagination) )
-            <div class="pagination-container">
-
-                {!! $pagination->render() !!}
-
-            </div>
-        @endif
+		@forelse ($shared_with_me as $result)
 	
+			@if(is_a($result, 'KBox\Shared'))
+			
+	
+				@include('documents.descriptor', ['item' => $result->shareable, 'share_id' => $result->id, 'shared_by' => $result->user, 'share_created_at' => $result->getCreatedAt(), 'share_created_at_timestamp' => $result->getCreatedAt(true)])
+			
+			@else
+			
+				@include('documents.descriptor', ['item' => $result])
+			
+			@endif
+	
+		@empty
+
+			<div class="empty">
+				@materialicon('social', 'share', 'empty__icon')
+
+				<p>{{ trans('share.empty_with_me_message') }}</p>
+			</div>
+	
+		@endforelse
+	@else
+		<div class="empty">
+			@materialicon('social', 'share', 'empty__icon')
+
+			<p>{{ trans('share.empty_with_me_message') }}</p>
+		</div>
 	@endif
 
 
