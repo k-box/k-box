@@ -43,7 +43,7 @@
 		"fideloper/proxy": "^4.0",
 		"franzose/closure-table": "~5.1.0",
 		"graham-campbell/markdown": "^11.0",
-		"guzzlehttp/guzzle": "~6.2.0",
+		"guzzlehttp/guzzle": "~6.3.0",
 		"intervention/image": "^2.4",
 		"jenssegers/agent": "^2.5",
 		"jenssegers/date": "^3.2",
