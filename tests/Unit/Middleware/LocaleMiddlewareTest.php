@@ -41,7 +41,7 @@ class LocaleMiddlewareTest extends TestCase
 
     public function test_user_language_is_selected_if_no_preference_is_specified()
     {
-        $user = factory(\KBox\User::class)->create();
+        $user = factory(User::class)->create();
 
         $user->setOption(User::OPTION_LANGUAGE, 'fr');
 
@@ -75,7 +75,7 @@ class LocaleMiddlewareTest extends TestCase
     {
         config(['app.locale' => 'de']);
 
-        $user = factory(\KBox\User::class)->create();
+        $user = factory(User::class)->create();
 
         $user->setOption(User::OPTION_LANGUAGE, 'fr');
 
@@ -109,9 +109,9 @@ class LocaleMiddlewareTest extends TestCase
     {
         return [
             // header, language that should be selected, default language
-            ['it-IT,en-us,en;q=0.5', 'it', 'en'],
-            ['it,en-us,en;q=0.5', 'it', 'en'],
-            ['en;q=0.5,it;q=0.8', 'it', 'en'],
+            ['de-DE,en-us,en;q=0.5', 'de', 'en'],
+            ['de,en-us,en;q=0.5', 'de', 'en'],
+            ['en;q=0.5,de;q=0.8', 'de', 'en'],
             ['fr-CH, fr;q=0.9, en;q=0.8, de;q=0.7, *;q=0.5', 'fr', 'en'],
             ['fr-CH, fr;q=0.9, en;q=0.8, de;q=0.9, *;q=0.5', 'fr', 'en'],
             ['fr-CH, fr;q=0.9, en;q=0.8, de;q=1.0, *;q=0.5', 'fr', 'en'],
@@ -128,7 +128,7 @@ class LocaleMiddlewareTest extends TestCase
     {
         config(['app.locale' => $default_language]);
 
-        $user = factory(\KBox\User::class)->create();
+        $user = factory(User::class)->create();
 
         $user->setOption(User::OPTION_LANGUAGE, null);
 
@@ -163,5 +163,46 @@ class LocaleMiddlewareTest extends TestCase
         $this->assertTrue($next->called);
         $this->assertSame($response, $request);
         $this->assertEquals($expected_language, App::getLocale());
+    }
+    
+    public function test_browser_language_is_not_selected_if_not_avaiable()
+    {
+        config(['app.locale' => 'en']);
+
+        $user = factory(User::class)->create();
+
+        $user->setOption(User::OPTION_LANGUAGE, null);
+
+        $this->be($user);
+
+        $request = Request::create(
+            'http://example.com/',
+            'GET',
+            [],
+            [],
+            [],
+            [
+                'HTTP_ACCEPT_LANGUAGE' => 'it,en-us,en;q=0.5',
+            ]
+        );
+
+        $middleware = new Locale();
+
+        $next = new class {
+            // anonymous invokable class to track a state for the next closure
+            public $called = false;
+
+            public function __invoke($args)
+            {
+                $this->called = true;
+                return $args;
+            }
+        };
+
+        $response = $middleware->handle($request, $next);
+
+        $this->assertTrue($next->called);
+        $this->assertSame($response, $request);
+        $this->assertEquals('en', App::getLocale());
     }
 }
