@@ -34,6 +34,7 @@ class GroupDetailsControllerTest extends TestCase
         $response->assertViewHas('group', $collection);
         $response->assertViewHas('is_personal', true);
         $response->assertViewHas('is_project', false);
+        $response->assertViewHas('can_share', true);
 
         $response->assertSee($user->name);
     }
@@ -76,6 +77,7 @@ class GroupDetailsControllerTest extends TestCase
         $response->assertViewHas('group', $collection);
         $response->assertViewHas('is_personal', false);
         $response->assertViewHas('is_project', true);
+        $response->assertViewHas('can_share', true);
 
         $response->assertSee($user->name);
     }
@@ -110,6 +112,7 @@ class GroupDetailsControllerTest extends TestCase
         $response->assertViewHas('group', $collection);
         $response->assertViewHas('has_share', true);
         $response->assertViewHas('share', $share);
+        $response->assertViewHas('can_share', true);
 
         $response->assertSee($user->name);
         $response->assertSee(trans('documents.descriptor.shared'));

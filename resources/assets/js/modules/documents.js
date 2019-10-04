@@ -331,10 +331,10 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
             if(data.action === 'openShareDialogWithAccess'){
                 dialogOptions.focus = 'access';
             }
-
+            
             Share.open([{
                 id: data.id,
-                type: 'document',
+                type: data.group ? 'group' : 'document',
                 title: data.title
             }], dialogOptions);
         }

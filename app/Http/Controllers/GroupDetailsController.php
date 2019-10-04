@@ -3,6 +3,7 @@
 namespace KBox\Http\Controllers;
 
 use KBox\Group;
+use KBox\Capability;
 use Illuminate\Http\Request;
 use KBox\Documents\Services\DocumentsService;
 use KBox\Exceptions\ForbiddenException;
@@ -48,6 +49,7 @@ class GroupDetailsController extends Controller
             'has_share' => $share || ! is_null($share_with),
             'is_personal' => $group->is_private,
             'is_project' => ! $group->is_private,
+            'can_share' => $user->can_capability([Capability::SHARE_WITH_USERS]),
         ]);
     }
 }

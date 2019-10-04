@@ -26,6 +26,18 @@
 
 <div class="c-panel__data">
 
+    @auth
+        
+		<div class="my-8">
+
+			@if($can_share)
+			<button class="button js-open-share-dialog" data-id="{{$group->id}}" data-title="{{ $group->name }}" data-group="group" data-action="openShareDialog">@materialicon('social','people', 'button__icon'){{ trans('panels.sharing_settings_btn') }}</button>
+			@endif
+
+		</div>
+
+    @endauth
+
 	<div class="c-panel__meta">
 		<span class="c-panel__label">{{trans('documents.descriptor.added_on')}}</span>@datetime($group->created_at)
 	</div>
