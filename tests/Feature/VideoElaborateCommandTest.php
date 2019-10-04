@@ -14,6 +14,10 @@ class VideoElaborateCommandTest extends TestCase
     public function setUp()
     {
         parent::setUp();
+
+        if (! file_exists(base_path('bin/packager-linux'))) {
+            $this->markTestSkipped('packager-linux not found in bin folder');
+        }
     }
 
     public function test_video_elaborate_command_process_a_document()

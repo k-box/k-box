@@ -111,7 +111,7 @@ class PreparePersonalExportJob implements ShouldQueue
         $collection_json = CollectionDump::collection(
             Group::private($this->export->user_id)
                 ->get()
-            )->toJson();
+        )->toJson();
 
         $this->archiveHandle->addFromString(
             'collections.json',

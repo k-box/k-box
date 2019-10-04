@@ -110,8 +110,7 @@ final class TypeResolver
                 $format = GeoFormat::KMZ;
                 $mimeType = self::$mimeTypes[GeoFormat::KMZ];
             }
-            
-        } elseif ($mimeType === 'application/xml') {
+        } elseif (($mimeType === 'application/xml')||($mimeType === 'text/xml')) {
 
             // could be KML or GPX
 
