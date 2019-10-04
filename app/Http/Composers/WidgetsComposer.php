@@ -98,7 +98,7 @@ class WidgetsComposer
                         
                         if (! isset($active_users[$session->user_id])) {
                             $active_users[$session->user_id] = [
-                                'time' => Carbon::createFromTimeStamp($session->last_activity)->diffForHumans(),
+                                'time' => Carbon::createFromTimeStamp($session->last_activity),
                                 'user' => $u->name,
                                 'is_me' => $u->id === $auth_user->id
                             ];
