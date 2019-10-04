@@ -27,7 +27,7 @@
 <div class="c-panel__data">
 
 	<div class="c-panel__meta">
-		<span class="c-panel__label">{{trans('documents.descriptor.added_on')}}</span>{{$group->created_at->toDateString() }}
+		<span class="c-panel__label">{{trans('documents.descriptor.added_on')}}</span>@datetime($group->created_at)
 	</div>
 	<div class="c-panel__meta">
         <span class="c-panel__label">{{trans('documents.descriptor.added_by')}}</span>
@@ -49,7 +49,7 @@
 
             <div class="c-panel__meta">
                 <span class="c-panel__label">{{trans('share.shared_on')}}</span>
-                {{$share->created_at->toDateString()}}
+                @datetime($share->created_at)
             </div>
         @endisset
         
