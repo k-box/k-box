@@ -32,8 +32,8 @@
                     {{ $invite->email }}
                 </div>
 
-                <div class="w-1/5 ml-4">{{ $invite->created_at->toDateString() }}</div>
-                <div class="w-1/5 ml-4">{{ optional($invite->accepted_at)->toDateString() }}</div>
+                <div class="w-1/5 ml-4">@date($invite->created_at)</div>
+                <div class="w-1/5 ml-4">@date($invite->accepted_at)</div>
 				<div class="w-1/5 ml-4 text-center">
 					@if ($invite->wasAccepted())
 						<span class=" rounded-full text-center py-1 px-3 text-sm font-normal bg-green-200 text-green-800">{{ trans('invite.status.accepted') }}</span>

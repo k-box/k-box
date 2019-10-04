@@ -21,8 +21,5 @@ return [
     'this_week' => 'In dieser Woche',
     'this_month' => 'In diesem Monat',
     'older' => 'Älter',
-     // translators: Do not translate this. This expression is the date formatting string. Please refer to http://php.net/manual/en/function.date.php
-    'date_format' => 'd M Y',
-    'date_format_full' => 'l j F Y H:i:s',
 
 ];

@@ -9,7 +9,7 @@ use DateTime;
  * Add support for localizing the created_at, updated_at and deleted_at date fields
  *
  * @uses Jenssegers\Date\Date
- *
+ * @deprecated use the Blade @date or @datetime directives or the render() method on the Carbon instance
  */
 trait LocalizableDateFields
 {
@@ -26,15 +26,15 @@ trait LocalizableDateFields
      * @param bool $full if you want to output the full date and time string and not the short version
      * @return the localized date difference
      */
-    protected function generateHumanDiffOutput(LocalizedDate $dt, $full = false)
+    protected function generateHumanDiffOutput(LocalizedDate $dt)
     {
         $diff = $dt->diffInDays();
         
-        if ($diff < 2) {
+        if ($diff < 1) {
             return $dt->diffForHumans();
         }
         
-        return $dt->format(trans($full ? 'units.date_format_full' : 'units.date_format'));
+        return null;
     }
     
     /**
@@ -49,7 +49,7 @@ trait LocalizableDateFields
             return "";
         }
 
-        return $this->getLocalizedDateInstance($this->created_at)->format(trans($full ? 'units.date_format_full' : 'units.date_format'));
+        return $this->created_at->render($full);
     }
 
     /**
@@ -64,7 +64,7 @@ trait LocalizableDateFields
             return "";
         }
 
-        return $this->getLocalizedDateInstance($this->updated_at)->format(trans($full ? 'units.date_format_full' : 'units.date_format'));
+        return $this->updated_at->render($full);
     }
 
     /**
@@ -75,11 +75,11 @@ trait LocalizableDateFields
      */
     public function getDeletedAt($full = false)
     {
-        if (! is_null($this->deleted_at)) {
-            return $this->getLocalizedDateInstance($this->deleted_at)->format(trans($full ? 'units.date_format_full' : 'units.date_format'));
+        if (is_null($this->deleted_at)) {
+            return "";
         }
 
-        return "";
+        return $this->deleted_at->render($full);
     }
 
     /**
@@ -94,9 +94,7 @@ trait LocalizableDateFields
             return "";
         }
 
-        $dt = $this->getLocalizedDateInstance($this->created_at);
-
-        return $this->generateHumanDiffOutput($dt, $full);
+        return $this->generateHumanDiffOutput($this->created_at->asLocalizableDate()) ?? $this->created_at->render($full);
     }
 
     /**
@@ -111,9 +109,7 @@ trait LocalizableDateFields
             return "";
         }
 
-        $dt = $this->getLocalizedDateInstance($this->updated_at);
-
-        return $this->generateHumanDiffOutput($dt, $full);
+        return $this->generateHumanDiffOutput($this->updated_at->asLocalizableDate()) ?? $this->updated_at->render($full);
     }
 
     /**
@@ -128,8 +124,6 @@ trait LocalizableDateFields
             return "";
         }
 
-        $dt = $this->getLocalizedDateInstance($this->deleted_at);
-
-        return $this->generateHumanDiffOutput($dt, $full);
+        return $this->generateHumanDiffOutput($this->deleted_at->asLocalizableDate()) ?? $this->deleted_at->render($full);
     }
 }

@@ -17,7 +17,7 @@
 						{{$session['user']}}
 					</div> 
 					<div class="widget--sessions__time">
-						{{$session['time']}} 
+						@datetime($session['time'])
 					</div>
 				</div>
 
