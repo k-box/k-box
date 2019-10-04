@@ -32,6 +32,8 @@ class GroupDetailsControllerTest extends TestCase
         $response->assertOk();
         $response->assertViewIs('groups.detail');
         $response->assertViewHas('group', $collection);
+        $response->assertViewHas('is_personal', true);
+        $response->assertViewHas('is_project', false);
 
         $response->assertSee($user->name);
     }
@@ -72,6 +74,8 @@ class GroupDetailsControllerTest extends TestCase
         $response->assertOk();
         $response->assertViewIs('groups.detail');
         $response->assertViewHas('group', $collection);
+        $response->assertViewHas('is_personal', false);
+        $response->assertViewHas('is_project', true);
 
         $response->assertSee($user->name);
     }

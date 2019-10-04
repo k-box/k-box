@@ -1,17 +1,20 @@
 {{-- Collection/Group panel --}}
 
 
-<div class="c-panel__header">
+<div class="c-panel__header flex-col justify-start">
 
     <h4 class="c-panel__title">{{ $group->name }}</h4>
     
-    {{-- show color and type --}}
-    {{-- show if shared by you --}}
+    <div class="mb-4 flex items-center {{ $is_personal ? 'text-personal-collection' : 'text-project-collection' }}">
+        <span class="mr-2 rounded-full bg-white p-2 inline-flex items-center justify-center">@materialicon('action', 'label', 'inline-block fill-current')</span>
+        <span class="text-white">{{trans( $is_personal ? 'groups.group_icon_label_personal' : 'groups.group_icon_label_project')}}</span>
+    </div>
 
     @if( $has_share )
 
-        <div class="item__badge" title="{{trans('documents.descriptor.shared')}}">
-            @materialicon('social', 'people', 'inline-block')
+        <div class="flex items-center">
+            <span class="mr-2 rounded-full bg-white p-2 inline-flex items-center justify-center">@materialicon('social', 'people', 'inline-block fill-current text-black')</span>
+            <span class="text-white">{{ trans('documents.descriptor.shared') }}</span>
         </div>
 
     @endif
@@ -22,29 +25,6 @@
 </div>
 
 <div class="c-panel__data">
-
-    {{-- @if($is_user_logged && $item->isMine())
-
-		<div class="meta share">
-			<h4 class="c-panel__section">{{trans('panels.share_section_title')}}</h4>
-
-			<p style="margin-bottom:8px">
-				<a href="#" data-id="{{$item->id}}" @if($can_share) data-action="openShareDialogWithAccess" @endif>{{ trans('share.dialog.document_is_shared') }}</a>
-				
-				@foreach($access as $line)
-					<br/>- {{ $line }}
-				@endforeach
-				
-			</p>
-
-			@if($can_share)
-			<button class="button js-open-share-dialog" data-id="{{$item->id}}" data-action="openShareDialog">@materialicon('social','people', 'button__icon'){{ trans('panels.sharing_settings_btn') }}</button>
-			@endif
-
-		</div>
-
-    @endif --}}
-    
 
 	<div class="c-panel__meta">
 		<span class="c-panel__label">{{trans('documents.descriptor.added_on')}}</span>{{$group->created_at->toDateString() }}
@@ -59,17 +39,19 @@
 	</div>
     
 
-    @if( $has_share && isset($share) )
+    @if( $has_share )
 
-        <div class="c-panel__meta">
-            <span class="c-panel__label">{{trans('share.shared_by_label')}}</span>
-            {{ optional($share->user)->name }}
-        </div>
+        @isset($share)    
+            <div class="c-panel__meta">
+                <span class="c-panel__label">{{trans('share.shared_by_label')}}</span>
+                {{ optional($share->user)->name }}
+            </div>
 
-        <div class="c-panel__meta">
-            <span class="c-panel__label">{{trans('share.shared_on')}}</span>
-            {{$share->created_at->toDateString()}}
-        </div>
+            <div class="c-panel__meta">
+                <span class="c-panel__label">{{trans('share.shared_on')}}</span>
+                {{$share->created_at->toDateString()}}
+            </div>
+        @endisset
         
 
     @endif

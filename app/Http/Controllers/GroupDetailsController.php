@@ -39,12 +39,15 @@ class GroupDetailsController extends Controller
             throw new ForbiddenException(trans('errors.401_title'), 401);
         }
 
-        $share = $group->shares()->sharedWithMe($user)->orderBy('created_at', 'ASC')->first();
+        $share_with = $group->shares()->sharedWithMe($user)->orderBy('created_at', 'ASC')->first();
+        $share = $group->shares()->by($user)->orderBy('created_at', 'ASC')->exists();
 
         return view('groups.detail', [
             'group' => $group,
-            'share' => $share,
-            'has_share' => ! is_null($share),
+            'share' => $share_with,
+            'has_share' => $share || ! is_null($share_with),
+            'is_personal' => $group->is_private,
+            'is_project' => ! $group->is_private,
         ]);
     }
 }

@@ -34,6 +34,8 @@ return [
     'private_badge_label' => 'Personal Document Collection',
 
     'group_icon_label' => 'Collection',
+    'group_icon_label_personal' => 'Personal collection',
+    'group_icon_label_project' => 'Project collection',
 
     'empty_msg' => 'No collections - create one.',
 
