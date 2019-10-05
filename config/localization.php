@@ -187,6 +187,8 @@ return [
         'errors.preference_not_saved_title',
         'errors.preference_not_saved_text',
         'errors.413_text',
+        'errors.403_title',
+        'errors.not_found',
 
         'panels.loading_message',
         'panels.load_error',

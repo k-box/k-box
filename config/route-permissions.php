@@ -111,6 +111,10 @@ return [
         'update' => KBox\Capability::SHARE_WITH_USERS,
         'destroy' => KBox\Capability::SHARE_WITH_USERS,
     ],
+
+    'groups' => [
+        'detail' => KBox\Capability::$CONTENT_MANAGER,
+    ],
     
     'projects' => [
         'index' => ['all' => KBox\Capability::$PROJECT_MANAGER_LIMITED],

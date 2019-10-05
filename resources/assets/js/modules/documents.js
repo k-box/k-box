@@ -331,10 +331,10 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
             if(data.action === 'openShareDialogWithAccess'){
                 dialogOptions.focus = 'access';
             }
-
+            
             Share.open([{
                 id: data.id,
-                type: 'document',
+                type: data.group ? 'group' : 'document',
                 title: data.title
             }], dialogOptions);
         }
@@ -1625,6 +1625,27 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
                 evt.preventDefault();
 
                 return false;
+            },
+            showPanel: function(evt, vm){
+
+                var that = $(this),
+                    data = that.data(),
+                    id = data.groupId;
+
+                var panelUrl = DMS.Paths.GROUPS_ONLY + '/' + id + '/details';
+                
+                var pnl = Panels.openAjax('grp' + id, this, panelUrl, {}, {
+                    callbacks: {
+                        click: _panelClickEventHandler
+                    }
+                }).on('dms:panel-loaded', function(panel_evt, panel){
+
+          
+                });
+
+                evt.preventDefault();
+
+                return false;
             }
 
         },
@@ -1866,7 +1887,7 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
                         module.select.call(this, e, this);
                     }
                     else {
-                        module.groups.showEdit.call(this, e, this);
+                        module.groups.showPanel.call(this, e, this);
                     }
 
     

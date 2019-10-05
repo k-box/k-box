@@ -137,6 +137,11 @@ Route::get('/d/embed/{uuid}/{versionUuid?}', [
     'as' => 'documents.embed',
 ]);
 
+Route::get('/groups/{group}/details', [
+    'uses' => 'GroupDetailsController@show',
+    'as' => 'groups.detail',
+]);
+
 Route::group(['as' => 'documents.', 'prefix' => 'documents'], function () {
     Route::resource(
         'groups',
