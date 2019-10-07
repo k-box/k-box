@@ -20,6 +20,18 @@
             </div>
         @endif
 
+        @if(\KBox\Auth\Registration::requiresInvite() && ! (isset($invite) || old('invite', false)))
+            <div class="c-message c-message--warning mt-2">
+                {{ trans('auth.invite_only_registration') }}
+            </div>
+        @endif
+
+        @if (\KBox\Auth\Registration::requiresInvite() && isset($errors) && $errors->has('invite'))
+            <span class="field-error" role="alert">
+                {{ $errors->first('invite') }}
+            </span>
+        @endif
+
         @isset($invite_error)
             <div class="c-message c-message--warning mt-2">
                 {{ $invite_error }}
@@ -68,11 +80,6 @@
             <label for="invite" class="">{{trans('invite.registration-label')}}</label>
 
             <input type="text" readonly name="invite" value="{{ old('invite', $invite ?? null) }}">
-            @if ( isset($errors) && $errors->has('invite'))
-                <span class="field-error" role="alert">
-                    {{ $errors->first('invite') }}
-                </span>
-            @endif
         @endif
 
         <div class=" mb-4">
