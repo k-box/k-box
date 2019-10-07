@@ -6,6 +6,9 @@ use KBox\User;
 use Validator;
 use Illuminate\Contracts\Auth\Registrar as RegistrarContract;
 
+/**
+ * @deprecated
+ */
 class Registrar implements RegistrarContract
 {
 

@@ -105,10 +105,10 @@ class AppServiceProvider extends ServiceProvider
         // bindings with the application. As you can see, we are registering our
         // "Registrar" implementation here. You can add your own bindings too!
 
-        $this->app->bind(
-            'Illuminate\Contracts\Auth\Registrar',
-            \KBox\Services\Registrar::class
-        );
+        // $this->app->bind(
+        //     'Illuminate\Contracts\Auth\Registrar',
+        //     \KBox\Services\Registrar::class
+        // );
 
         $this->app->singleton(DocumentElaborationManager::class, function ($app) {
             return new DocumentElaborationManager();

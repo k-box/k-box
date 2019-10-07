@@ -5,6 +5,7 @@ namespace KBox\Listeners;
 use Exception;
 use KBox\Events\UserInvited;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use KBox\Auth\Registration;
 use KBox\Invite;
 
 class SendNotificationToInvitedUser implements ShouldQueue
@@ -22,7 +23,7 @@ class SendNotificationToInvitedUser implements ShouldQueue
             return ;
         }
 
-        if (! filter_var(config('dms.registration'), FILTER_VALIDATE_BOOLEAN)) {
+        if (! Registration::isEnabled()) {
             return ;
         }
 

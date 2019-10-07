@@ -5,6 +5,7 @@ namespace KBox\Http\Controllers\Profile;
 use KBox\Invite;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
+use KBox\Auth\Registration;
 use KBox\Http\Controllers\Controller;
 
 class InvitesController extends Controller
@@ -14,7 +15,7 @@ class InvitesController extends Controller
         $this->middleware('auth');
         $this->middleware('verified');
 
-        abort_unless(Config::get('dms.registration', false), 404);
+        abort_unless(Registration::isEnabled(), 404);
     }
 
     /**

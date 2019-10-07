@@ -5,6 +5,7 @@ namespace KBox\Policies;
 use KBox\User;
 use KBox\Invite;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use KBox\Auth\Registration;
 
 class InvitePolicy
 {
@@ -18,7 +19,7 @@ class InvitePolicy
      */
     public function create(User $user)
     {
-        return filter_var(config('dms.registration'), FILTER_VALIDATE_BOOLEAN) && $user->hasVerifiedEmail();
+        return Registration::isEnabled() && $user->hasVerifiedEmail();
     }
 
     /**

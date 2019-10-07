@@ -97,7 +97,7 @@ class SendInviteTest extends TestCase
     public function test_invite_notification_not_sent_if_user_registration_not_active()
     {
         config([
-            'dms.registration' => false,
+            'registration.enable' => false,
         ]);
 
         $creator = tap(factory(User::class)->create(), function ($u) {
@@ -165,10 +165,10 @@ class SendInviteTest extends TestCase
     public function test_user_invited_listener_do_nothing_if_user_registration_disabled()
     {
         config([
-            'dms.registration' => false,
+            'registration.enable' => false,
         ]);
 
-        Config::set('dms.registration', false);
+        Config::set('registration.enable', false);
 
         $user = tap(factory(User::class)->create(), function ($u) {
             $u->addCapabilities(Capability::$PARTNER);

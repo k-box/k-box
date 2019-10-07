@@ -42,6 +42,26 @@ php artisan route:clear
 
 This is required to make sure visitors will be able to access the register page.
 
+### Limit to invites only
+
+Is also possible to require a person to have an invite before an account can be created.
+
+To enable the user registration include the following line into the environment configuration.
+
+To restrict the registration to person with an invite only set
+
+```conf
+KBOX_USER_REGISTRATION_INVITE_ONLY=true
+```
+
+Once changed, if you are using Docker restart the instance, otherwise clean the cached configuration and routes
+
+```
+php artisan config:clear
+
+php artisan route:clear
+```
+
 ## Create users
 
 Users can be created from the Administration section.

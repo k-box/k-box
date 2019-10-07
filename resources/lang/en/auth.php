@@ -28,4 +28,5 @@ return [
     'have_account' => 'Already have an account?',
     'have_login_and_password' => 'Already have login and password?', // used on the password reset page to navigate back to the login page
 
+    'invite_only_registration' => 'An invite is required to create an account.',
 ];

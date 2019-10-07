@@ -11,6 +11,7 @@ use KBox\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use KBox\Auth\Registration;
 use KBox\Invite;
 
 class RegisterController extends Controller
@@ -45,6 +46,8 @@ class RegisterController extends Controller
     public function __construct()
     {
         $this->middleware('guest');
+
+        abort_if(! Registration::isEnabled(), 403, __('User registration is not active on this instance'));
     }
 
     /**
@@ -85,7 +88,12 @@ class RegisterController extends Controller
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             
             // verify invite
-            'invite' => ['sometimes', 'nullable', 'string', 'max:100', 'exists:invites,token'],
+            'invite' => [
+                Registration::requiresInvite() ? 'required' : 'sometimes',
+                'nullable',
+                'string',
+                'max:100',
+                'exists:invites,token'],
 
             // We choose to not require a user name, but if specified we accept it
             'name' => ['sometimes', 'nullable', 'string', 'max:255'],

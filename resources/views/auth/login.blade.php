@@ -7,7 +7,7 @@
 		
 		<h2 class="mb-1">{{ $welcome_string }}</h2>
 
-		@if (Route::has('register'))
+		@if (\KBox\Auth\Registration::isEnabled() && ! \KBox\Auth\Registration::requiresInvite())
 			<div class="mb-4">
 				{{ trans('auth.no_account') }}&nbsp;<a  tabindex="4" class="" href="{{ route('register') }}">
 					{{ trans('auth.register') }}
