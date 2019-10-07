@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Event;
 use KBox\Events\FileDuplicateFoundEvent;
 use KBox\Listeners\UploadCompletedHandler;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Support\Facades\Queue;
+use Illuminate\Support\Facades\Bus;
 use KBox\DocumentsElaboration\Facades\DocumentElaboration;
 use KBox\Jobs\CalculateUserUsedQuota;
 
@@ -178,7 +178,7 @@ class UploadCompletedHandlerTest extends TestCase
     public function test_calculate_used_quota_job_dispatched()
     {
         $this->disableExceptionHandling();
-        Queue::fake();
+        Bus::fake();
         $this->withKlinkAdapterFake();
         
         $service = app('KBox\Documents\Services\DocumentsService');
@@ -220,6 +220,6 @@ class UploadCompletedHandlerTest extends TestCase
 
         $handler->handle($uploadCompleteEvent);
 
-        Queue::assertPushed(CalculateUserUsedQuota::class);
+        Bus::assertDispatched(CalculateUserUsedQuota::class);
     }
 }

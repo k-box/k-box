@@ -38,7 +38,7 @@ class UploadCompletedHandler implements ShouldQueue
             // to the elaboration queue
             elaborate($descriptor);
 
-            CalculateUserUsedQuota::dispatch($event->user)->delay(now()->addMinutes(10));
+            CalculateUserUsedQuota::dispatchNow($event->user);
         } catch (Exception $ex) {
             Log::error('Error while handling the UploadCompletedEvent.', ['event' => $event,'error' => $ex]);
             $event->descriptor->status = DocumentDescriptor::STATUS_ERROR;
