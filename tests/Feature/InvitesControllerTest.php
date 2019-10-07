@@ -152,7 +152,7 @@ class InvitesControllerTest extends TestCase
     
     public function test_invite_routes_require_registration_to_be_active()
     {
-        Config::set('dms.registration', false);
+        Config::set('registration.enable', false);
 
         $response = $this->get(route('profile.invite.index'));
 

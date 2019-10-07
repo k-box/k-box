@@ -395,7 +395,7 @@ Route::get('stream/{uuid}/{resource?}', [
 
 Auth::routes([
     'verify' => true,
-    'register' => config('dms.registration')
+    'register' => \KBox\Auth\Registration::isEnabled(), // config('registration.enable')
 ]);
 
 /*

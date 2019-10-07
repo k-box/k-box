@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use KBox\Events\UserInviteAccepted;
 use KBox\Events\UserInvited;
 use Illuminate\Notifications\Notifiable;
+use KBox\Auth\Registration;
 use KBox\Notifications\InviteEmail;
 
 /**
@@ -201,7 +202,7 @@ class Invite extends Model
      */
     public function sendInviteNotification()
     {
-        if (! filter_var(config('dms.registration'), FILTER_VALIDATE_BOOLEAN)) {
+        if (! Registration::isEnabled()) {
             return ;
         }
         if ($this->wasAccepted()) {

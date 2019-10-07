@@ -45,6 +45,8 @@ class RegisterController extends Controller
     public function __construct()
     {
         $this->middleware('guest');
+
+        abort_if(! Registration::isEnabled(), 403, __('User registration is not active on this instance'));
     }
 
     /**

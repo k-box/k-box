@@ -52,7 +52,7 @@
 		
 		{{trans('profile.password_section')}}
 	</a>
-	@if (config('dms.registration', false))
+	@if (\KBox\Auth\Registration::isEnabled())
 		<a href="{{ route('profile.invite.index') }}" class="navigation__item navigation__item--link @if(request()->is('*profile/invite*')) navigation__item--current @endif">
 			
 			@materialicon('action', 'record_voice_over', 'inline-block navigation__item__icon')
