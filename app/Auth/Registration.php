@@ -2,20 +2,18 @@
 
 namespace KBox\Auth;
 
-
 /**
  * Registration.
- * 
- * Enable access to Registration settings 
+ *
+ * Enable access to Registration settings
  * and control the behavior of the registration
  */
 class Registration
 {
     
-
     /**
      * Check if users registration is enabled on this K-Box
-     * 
+     *
      * @return bool
      */
     public static function isEnabled()
@@ -25,7 +23,7 @@ class Registration
 
     /**
      * The registration requires an invitation
-     * 
+     *
      * @return bool
      */
     public static function requiresInvite()
