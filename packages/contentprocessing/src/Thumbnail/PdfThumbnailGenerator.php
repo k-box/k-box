@@ -68,15 +68,15 @@ class PdfThumbnailGenerator implements ThumbnailGenerator
             return false;
         }
 
-        try {
+        // try {
             if (empty(Imagick::queryFormats("PDF"))) {
                 return false;
             }
-        } catch (FatalErrorException $ex) {
-            return false;
-        } catch (Exception $ex) {
-            return false;
-        }
+        // } catch (FatalErrorException $ex) {
+        //     return false;
+        // } catch (Exception $ex) {
+        //     return false;
+        // }
 
         return true;
     }

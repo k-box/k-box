@@ -59,7 +59,7 @@ script:
   - php -f ./tests/wait.php
   - php artisan migrate --env=testing --force
   - php artisan db:seed --env=testing --force
-  - vendor/bin/phpunit
+  - vendor/bin/phpunit --filter=PdfThumbnailGenerationTest
 
 after_script:
   - docker-compose -f ./tests/docker-compose.yml down
