@@ -58,10 +58,8 @@
 
 						<select name="linktype" id="linktype" class="js-link-type form-select w-full">
 
-							<option value="internal" @unless($public_link) selected @endif>{{ trans('share.dialog.linkshare_members_only') }}</option>
-							@unless($has_groups)
-								<option value="public" @if($public_link) selected @endif>{{ trans('share.dialog.linkshare_public') }}</option>
-							@endunless
+							<option value="internal" @unless($public_link) selected @endif>{{ trans('share.dialog.linkshare_members_only') }}</option>							
+							<option value="public" @if($has_groups) disabled @endif @if($public_link) selected @endif>{{ trans('share.dialog.linkshare_public') }}@if($has_groups) ({{ trans('notices.coming_soon') }}) @endif</option>
 						
 						</select>
 
