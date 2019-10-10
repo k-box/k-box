@@ -89,7 +89,7 @@ class ProjectsPageTest extends TestCase
                 $response->assertStatus(200);
                 $response->assertViewIs($viewname);
             } else {
-                $response->assertViewIs('errors.'.$expected_return_code);
+                $response->assertStatus($expected_return_code);
             }
         }
     }
@@ -164,5 +164,59 @@ class ProjectsPageTest extends TestCase
         $response = $this->actingAs($user)->get($url);
 
         $response->assertDontSeeText(trans('projects.new_button'));
+    }
+
+    public function test_projects_are_not_reported_on_sidebar_if_user_is_a_partner_without_projects()
+    {
+        config(['dms.hide_projects_if_empty' => true]);
+
+        $user = $this->createUser(Capability::$PARTNER);
+        
+        $url = route('documents.index');
+
+        $response = $this->actingAs($user)->get($url);
+
+        $response->assertDontSeeText(trans('projects.page_title'));
+    }
+    
+    public function test_projects_are_reported_on_sidebar_if_user_is_a_partner_with_projects()
+    {
+        config(['dms.hide_projects_if_empty' => true]);
+
+        $project = factory(Project::class)->create();
+
+        $user = $this->createUser(Capability::$PARTNER);
+
+        $project->users()->attach($user);
+        
+        $url = route('documents.index');
+
+        $response = $this->actingAs($user)->get($url);
+
+        $response->assertSeeText(trans('projects.page_title'));
+    }
+
+    public function test_projects_are_reported_on_sidebar_if_user_can_create_projects()
+    {
+        $user = $this->createUser(Capability::$PROJECT_MANAGER);
+           
+        $url = route('documents.index');
+
+        $response = $this->actingAs($user)->get($url);
+
+        $response->assertSeeText(trans('projects.page_title'));
+    }
+
+    public function test_projects_are_reported_on_sidebar_if_hiding_not_active()
+    {
+        config(['dms.hide_projects_if_empty' => false]);
+
+        $user = $this->createUser(Capability::$PARTNER);
+           
+        $url = route('documents.index');
+
+        $response = $this->actingAs($user)->get($url);
+
+        $response->assertSeeText(trans('projects.page_title'));
     }
 }

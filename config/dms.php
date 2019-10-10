@@ -56,6 +56,8 @@ return [
     */
     'are_guest_public_search_enabled' => env('KBOX_ENABLE_GUEST_NETWORK_SEARCH', env('DMS_ARE_GUEST_PUBLIC_SEARCH_ENABLED', false)),
 
+    'hide_projects_if_empty' => env('KBOX_HIDE_PROJECTS_IF_EMPTY', false),
+
     'core' => [
 
         /*
