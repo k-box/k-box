@@ -6,6 +6,7 @@ phpspec.yml
 .php_cs
 phpunit.xml
 node_modules/
+vendor/
 tests/*
 env*
 .env

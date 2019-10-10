@@ -7,7 +7,7 @@
 FROM docker.klink.asia/images/video-processing-cli:0.5.3 AS videocli
 ## .. we just need this image so we can copy from it
 
-FROM docker.klink.asia/main/docker-php:7.1 AS builder
+FROM docker.klink.asia/main/docker-php:7.2 AS builder
 ## Installing the dependencies to be used in a later step.
 ## Will generate three directories:
 ## * /var/www/dms/bin/
@@ -34,7 +34,7 @@ RUN \
     yarn run production
 
 ## Generating the real K-Box image
-FROM php:7.1-fpm AS php
+FROM php:7.2-fpm AS php
 
 ## Default environment variables
 ENV KBOX_PHP_MAX_EXECUTION_TIME 120
@@ -46,24 +46,26 @@ ENV KBOX_DIR /var/www/dms
 RUN apt-get update -yqq && \
     apt-get install -yqq \ 
         locales \
+        imagemagick  \
         libfreetype6-dev \
-        libjpeg62-turbo-dev \
-        libmcrypt-dev \
+        libjpeg-dev \
         libpng-dev \
         libbz2-dev \
+        libzip-dev \
         gettext \
         supervisor \
         cron \
         gdal-bin \
         ghostscript \
         libmagickwand-dev \
-    && docker-php-ext-install -j$(nproc) iconv mcrypt \
+    && docker-php-ext-install -j$(nproc) iconv \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-install -j$(nproc) gd \
     && docker-php-ext-install bz2 zip exif pdo_mysql bcmath pcntl opcache \
     && pecl channel-update pecl.php.net \
     && pecl install imagick \
     && docker-php-ext-enable imagick \
+    && docker-php-source delete \
     && apt-get clean \
     && rm -r /var/lib/apt/lists/*
 
@@ -78,7 +80,7 @@ RUN locale-gen "en_US.UTF-8" \
 ### The installation procedure is heavily inspired from https://github.com/nginxinc/docker-nginx
 RUN set -e; \
 	NGINX_GPGKEY=573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62; \
-	NGINX_VERSION=1.14.2-1~stretch; \
+	NGINX_VERSION=1.16.1-1~buster; \
 	found=''; \
 	apt-get update; \
 	apt-get install --no-install-recommends --no-install-suggests -y gnupg1 apt-transport-https ca-certificates; \
@@ -92,7 +94,7 @@ RUN set -e; \
 		apt-key adv --keyserver "$server" --keyserver-options timeout=10 --recv-keys "$NGINX_GPGKEY" && found=yes && break; \
 	done; \
 	test -z "$found" && echo >&2 "error: failed to fetch GPG key $NGINX_GPGKEY" && exit 1; \
-    echo "deb http://nginx.org/packages/debian/ stretch nginx" >> /etc/apt/sources.list \
+    echo "deb http://nginx.org/packages/debian/ buster nginx" >> /etc/apt/sources.list \
 	&& apt-get update \
 	&& apt-get install --no-install-recommends --no-install-suggests -y \
 						ca-certificates \
