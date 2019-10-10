@@ -35,4 +35,6 @@ return [
     'uploads_blocked_admin' => 'Read-only mode is active. File uploads are blocked. Please review the configuration.',
 
     'disabled_user' => '[disabled user]',
+
+    'coming_soon' => 'Coming Soon',
 ];
