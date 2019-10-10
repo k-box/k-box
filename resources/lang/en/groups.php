@@ -13,6 +13,7 @@ return [
     'collections' => [
         'title'        => 'Collections',
         'personal_title' => 'My Collections',
+        'shared_title' => 'Collections shared with me',
         'private_title' => 'Projects',
         'description'   => 'Collections help to organize your documents.',
         

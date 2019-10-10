@@ -24,6 +24,29 @@
 			</div>
 		</div>
 	@endcan
+
+	@if($shared_groups->count() > 0)
+		<div class="navigation__item">
+		
+			<strong>{{trans('groups.collections.shared_title')}}</strong>
+		
+		</div>
+		
+
+		<div class="tree-group">
+				
+			<div class="elements">
+				
+					@foreach($shared_groups as $group)
+				
+						@include('groups.shared-tree-item')
+				
+					@endforeach
+				
+				
+			</div>
+		</div>
+	@endif
 	
 	@if($user_can_edit_personal_groups)
 	
