@@ -49,7 +49,7 @@ script:
   - php artisan view:clear
   - php artisan config:clear
   - php artisan route:clear
-  - ./vendor/bin/php-cs-fixer fix --dry-run
+  # - ./vendor/bin/php-cs-fixer fix --dry-run
   - mkdir ./storage/documents
   - composer run install-video-cli
   - chmod +x ./bin/bin/packager-linux
