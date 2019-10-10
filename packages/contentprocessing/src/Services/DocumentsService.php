@@ -820,9 +820,11 @@ class DocumentsService
         $can_personal = $user->can_capability(Capability::MANAGE_OWN_GROUPS);
             
         $can_see_private = $user->can_capability(Capability::MANAGE_PROJECT_COLLECTIONS);
+        $can_see_shared = $user->can_capability(Capability::RECEIVE_AND_SEE_SHARE);
 
         $private_groups = null;
         $personal_groups = null;
+        $shared_groups = null;
 
         if ($can_see_private) {
             if ($user->isDMSManager()) {
@@ -862,9 +864,16 @@ class DocumentsService
             });
         }
 
+        if ($can_see_shared) {
+            $shared_groups = \Cache::remember('dms_shared_collections'.$user->id, 60, function () use ($user) {
+                return Shared::getSharedWithMeCollectionAsTree($user);
+            });
+        }
+
         $r = new \stdClass;
-        $r->personal = ! is_null($personal_groups) ? $personal_groups : Collection::make([]);
-        $r->projects = ! is_null($private_groups) ? $private_groups : Collection::make([]);
+        $r->personal = $personal_groups ?? Collection::make([]);
+        $r->projects = $private_groups ?? Collection::make([]);
+        $r->shared = $shared_groups ?? Collection::make([]);
         return $r;
     }
     
