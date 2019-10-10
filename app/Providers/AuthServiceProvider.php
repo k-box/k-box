@@ -12,7 +12,9 @@ use KBox\Policies\DocumentDescriptorPolicy;
 use KBox\Policies\FilePolicy;
 use KBox\Policies\GroupPolicy;
 use KBox\Policies\InvitePolicy;
+use KBox\Policies\ProjectPolicy;
 use KBox\Policies\UploadPolicy;
+use KBox\Project;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -26,6 +28,7 @@ class AuthServiceProvider extends ServiceProvider
         File::class => FilePolicy::class,
         Invite::class => InvitePolicy::class,
         Group::class => GroupPolicy::class,
+        Project::class => ProjectPolicy::class,
     ];
 
     /**

@@ -28,8 +28,6 @@ class ProjectsPageController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-
-        $this->middleware('capabilities');
     }
 
     /**
@@ -40,6 +38,8 @@ class ProjectsPageController extends Controller
      */
     public function index(Guard $auth, Request $request)
     {
+        $this->authorize('viewAll', Project::class);
+
         $user = $auth->user();
 
         $req = $this->searchRequestCreate($request);
@@ -124,6 +124,8 @@ class ProjectsPageController extends Controller
      */
     public function show(Guard $auth, Request $request, $id)
     {
+        $this->authorize('viewAll', Project::class);
+
         try {
             $user = $auth->user();
             
