@@ -11,6 +11,7 @@ use Klink\DmsAdapter\KlinkVisibilityType;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use KBox\DocumentGroups;
 use KBox\Documents\Services\DocumentsService;
+use KBox\Shared;
 
 /*
  * Test something related to document descriptors management
@@ -190,6 +191,78 @@ class DocumentsServiceTest extends TestCase
             $this->assertNotNull($applied_collection->pivot->updated_at);
             $this->assertTrue($applied_collection->pivot->addedBy->is($user));
         });
+    }
+
+    public function test_shared_collections_can_be_listed_in_tree_view()
+    {
+        $this->withoutMiddleware();
+
+        $adapter = $this->withKlinkAdapterFake();
+
+        $user = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$PARTNER);
+        });
+        
+        $collection_creator = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$PARTNER);
+        });
+
+        $service = app(DocumentsService::class);
+        
+        $single_root_collection = factory(Group::class)->create([
+            'user_id' => $collection_creator->getKey(),
+            'is_private' => true,
+            'name' => 'root',
+        ]);
+        
+        $root_collection = factory(Group::class)->create([
+            'user_id' => $collection_creator->getKey(),
+            'is_private' => true,
+            'name' => 'root',
+        ]);
+
+        $single_sub_collection = $service->createGroup($collection_creator, 'under', null, $root_collection);
+        
+        $hierarchy_root_collection = factory(Group::class)->create([
+            'user_id' => $collection_creator->getKey(),
+            'is_private' => true,
+            'name' => 'root',
+        ]);
+
+        $hierarchy_sub_collection = $service->createGroup($collection_creator, 'under', null, $hierarchy_root_collection);
+        
+        $first_share = factory(Shared::class)->create([
+            'user_id' => $collection_creator->getKey(),
+            'sharedwith_id' => $user->id,
+            'shareable_type' => Group::class,
+            'shareable_id' => $single_root_collection->getKey(),
+        ]);
+        
+        $second_share = factory(Shared::class)->create([
+            'user_id' => $collection_creator->getKey(),
+            'sharedwith_id' => $user->id,
+            'shareable_type' => Group::class,
+            'shareable_id' => $single_sub_collection->getKey(),
+        ]);
+        
+        $third_share = factory(Shared::class)->create([
+            'user_id' => $collection_creator->getKey(),
+            'sharedwith_id' => $user->id,
+            'shareable_type' => Group::class,
+            'shareable_id' => $hierarchy_root_collection->getKey(),
+        ]);
+        
+        $fourth_share = factory(Shared::class)->create([
+            'user_id' => $collection_creator->getKey(),
+            'sharedwith_id' => $user->id,
+            'shareable_type' => Group::class,
+            'shareable_id' => $hierarchy_sub_collection->getKey(),
+        ]);
+
+        $result = $service->getCollectionsAccessibleByUser($user);
+
+        $this->assertEquals(3, $result->shared->count());
+        $this->assertNotEmpty($result->shared->last()->children);
     }
 
     private function createUser($capabilities, $userParams = [])

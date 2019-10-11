@@ -4,6 +4,7 @@ namespace KBox;
 
 use Illuminate\Database\Eloquent\Model;
 use KBox\Traits\LocalizableDateFields;
+use Franzose\ClosureTable\Extensions\Collection as TreeableCollection;
 
 use Carbon\Carbon;
 
@@ -204,5 +205,17 @@ class Shared extends Model
     public function isPublicLink()
     {
         return $this->sharedwith_type === \KBox\PublicLink::class;
+    }
+
+    /**
+     * Get the shared collection to a user represented as tree
+     *
+     * @return \Franzose\ClosureTable\Extensions\Collection
+     */
+    public static function getSharedWithMeCollectionAsTree(User $user)
+    {
+        $groups = static::sharedWithMe($user)->where('shareable_type', Group::class)->with('shareable')->get()->map->shareable;
+
+        return TreeableCollection::make($groups)->toTree();
     }
 }

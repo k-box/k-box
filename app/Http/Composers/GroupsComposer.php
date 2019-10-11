@@ -53,6 +53,7 @@ class GroupsComposer
             
             $view->with('personal_groups', $collections->personal);
             $view->with('private_groups', $collections->projects);
+            $view->with('shared_groups', $collections->shared);
         }
     }
 
