@@ -35,6 +35,44 @@ class UserProfileControllerTest extends TestCase
         $response->assertSuccessful();
         $response->assertViewIs('profile.user');
     }
+
+    public function test_current_requested_language_is_visible()
+    {
+        $user = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$PARTNER);
+        });
+        
+        $response = $this
+            ->withHeaders([
+                'ACCEPT_LANGUAGE' => 'fr',
+            ])
+            ->actingAs($user)
+            ->get(route('profile.index'));
+            
+        $response->assertSuccessful();
+        $response->assertViewIs('profile.user');
+        $response->assertViewHas('language', 'fr');
+    }
+    
+    public function test_user_set_language_is_visible()
+    {
+        $user = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$PARTNER);
+            $u->options()->create([
+                'key' => User::OPTION_LANGUAGE,
+                'value' => 'fr'
+            ]);
+        });
+        
+        $response = $this
+            ->actingAs($user)
+            ->get(route('profile.index'));
+            
+        $response->assertSuccessful();
+        $response->assertViewIs('profile.user');
+
+        $response->assertViewHas('language', 'fr');
+    }
     
     public function test_user_can_change_name()
     {
