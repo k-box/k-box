@@ -26,6 +26,7 @@ class UserPrivacyController extends Controller
     public function index(Request $request)
     {
         $pagetitle = trans('profile.privacy.privacy');
+        $breadcrumb_current = $pagetitle;
         $user = $request->user();
 
         $user_consents = $user->consents()->get();
@@ -45,6 +46,7 @@ class UserPrivacyController extends Controller
 
         return view('profile.privacy', compact(
             'pagetitle',
+            'breadcrumb_current',
             'user',
             'consent_privacy_given',
             'consent_privacy_activity',
