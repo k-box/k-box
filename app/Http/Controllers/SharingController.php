@@ -14,6 +14,7 @@ use KBox\Http\Requests\CreateShareRequest;
 use KBox\Http\Requests\ShareDialogRequest;
 use Illuminate\Contracts\Auth\Guard as AuthGuard;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
 use KBox\Traits\Searchable;
 use KBox\Events\ShareCreated;
 use Illuminate\Support\Facades\DB;
@@ -347,11 +348,13 @@ class SharingController extends Controller
     {
         $share = Shared::findOrFail($id);
 
+        $user = $share->sharedwith;
+
         $share->delete();
-        
-        //TODO: send email to the user to tell him that the sare is no more available
-        //TODO: send a notification to the user that the share is no more available
-        //TODO: event for share removed ??!?!?!?!?
+
+        if ($user) {
+            Cache::forget('dms_shared_collections'.$user->getKey());
+        }
         
         return true;
     }

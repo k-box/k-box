@@ -59,24 +59,19 @@ class GroupsController extends Controller
         $is_private = $request->input('isPrivate', true)  === "false" || $request->input('isPrivate', true)  === false  ? false: true;
         $view_args['private'] = $is_private;
         
-        // if($is_private){
-        // 	$view_args['collections'] = Group::getPersonalTree($auth_user->id);
-        // }
-        // else {
-        // 	$view_args['collections'] = Group::getTreeWhere('is_private', '=', false);
-        // }
-        
         if ($request->has('group_context')) {
             // preselect a parent collection
 
             $group = Group::findOrFail($request->input('group_context', 0));
 
-            $view_args = array_merge($view_args, [
-                'show_parent' => true,
-                'parent_label' => $group->name,
-                'parent_id' => $group->id,
-                'is_public_collection' => ! $group->is_private
-            ]);
+            if (! $group->isSharedWith($auth_user)) {
+                $view_args = array_merge($view_args, [
+                    'show_parent' => true,
+                    'parent_label' => $group->name,
+                    'parent_id' => $group->id,
+                    'is_public_collection' => ! $group->is_private
+                ]);
+            }
         } else {
         }
 

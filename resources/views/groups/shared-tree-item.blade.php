@@ -9,7 +9,7 @@
 		@if( isset($badge_shared) && $badge_shared ) data-shared="true"  @endif 
 		data-isprivate="{{$group->is_private ? 'true':'false'}}">
 
-		<?php $has_children = $group->hasChildren() ; ?>
+		<?php $has_children = $group->hasChildrenRelation(); ?>
 		
 		<span class="navigation__color-badge" @if($group->color) style="background-color:#{{$group->color}} " @endif></span>
 		
