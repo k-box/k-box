@@ -2,6 +2,8 @@
 
 namespace Tests\Feature;
 
+use Klink\DmsAdapter\KlinkSearchRequest;
+use Klink\DmsAdapter\KlinkSearchResults;
 use Laracasts\TestDummy\Factory;
 use KBox\User;
 use KBox\File;
@@ -839,9 +841,12 @@ class DocumentsTest extends TestCase
         $descriptor = $descriptor->fresh();
         
         $url = route('documents.groups.show', array_merge(['id' => $project_group->id], $search_parameters));
-        
+
+        $searchRequest = KlinkSearchRequest::build($search_parameters, 'private', 1, 1, [], []);
+        $this->withKlinkAdapterFake()->setSearchResults('private', KlinkSearchResults::fake($searchRequest, []));
+
         $response = $this->actingAs($user)->get($url);
-        
+
         $response->assertViewIs('documents.documents');
 
         // The next 4 lines are an hack to get the view data enhanced by the composer

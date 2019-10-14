@@ -44,7 +44,7 @@ class VideoElaborateCommand extends Command
      */
     public function handle()
     {
-        $args = $this->argument('documents');
+        $args = (array)$this->argument('documents');
         
         $this->comment('Elaborating video files...');
         
