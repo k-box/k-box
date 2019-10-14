@@ -16,6 +16,8 @@ return [
     'skip' => 'Skip',
     'save' => 'Save my preferences',
 
+    'enabled' => 'enabled',
+
     'privacy' => [
         'dialog_title' => 'We need your confirmation',
         'dialog_description' => 'Please review carefully our new privacy policy including all information on how we treat and your rights related to your data.',
@@ -35,7 +37,7 @@ return [
     
     'statistics' => [
         'dialog_title' => 'Usage statistics',
-        'dialog_description' => 'Help us to improve the system and allow to collect statistics on your browsing and usage of the application.',
+        'dialog_description' => 'Help us improve the system and allow to collect anonymous statistics on your browsing and usage of the application.',
         'agree_label' => 'I agree that the K-Box provider may create statistics based on my browsing and usage of the application',
     ],
     

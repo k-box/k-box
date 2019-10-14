@@ -4,18 +4,18 @@
 
 @section('profile_page')
 
-	<h4>{{trans('profile.privacy.section_name')}}</h4>
-	<span class="description">{{trans('profile.privacy.section_description')}}</span>
+	<h4 class=" mt-4">{{trans('profile.privacy.section_name')}}</h4>
+	<span class="description block mb-4">{{trans('profile.privacy.section_description')}}</span>
 
 	@flag('consent_notifications')
-	<div class=" mb-4">
+	<div class="flex items-center mb-8">
 
-		<div class="">
-			<button class="button button--ghost" onclick="event.preventDefault();document.getElementById('consent-notifications').submit();">
+		<div class="mr-4">
+			<button class="button" onclick="event.preventDefault();document.getElementById('consent-notifications').submit();">
 				@if($consent_notification_given)
-					@materialicon('toggle', 'check_box')
+					{{ trans('plugins.actions.disable') }}
 				@else 
-					@materialicon('toggle', 'check_box_outline_blank')
+					{{ trans('plugins.actions.enable') }}
 				@endif
 			</button>
 			<form id="consent-notifications" action="{{ route('profile.privacy.update') }}" method="POST" style="display: none;">
@@ -25,22 +25,24 @@
 			</form>
 		</div>
 
-		<label>{{trans('consent.notification.dialog_title')}}</label>
-		<span class="description">{{trans('consent.notification.dialog_description')}}</span>
-		@if( $errors->has('notifications') )
-			<span class="field-error">{{ implode(",", $errors->get('notifications'))  }}</span>
-		@endif
+		<div>
+			<label class="block font-bold">{{trans('consent.notification.dialog_title')}}</label>
+			<span class="description text-gray-700">{{trans('consent.notification.dialog_description')}}</span>
+			@if( $errors->has('notifications') )
+				<span class="field-error">{{ implode(",", $errors->get('notifications'))  }}</span>
+			@endif
+		</div>
 
 	</div>
 	@endflag
 
-	<div class=" mb-4">
-		<div class="">
-			<button class="button button--ghost" onclick="event.preventDefault();document.getElementById('consent-statistics').submit();">
+	<div class="flex items-center mb-8">
+		<div class="mr-4">
+			<button class="button " onclick="event.preventDefault();document.getElementById('consent-statistics').submit();">
 				@if($consent_statistics_given)
-					@materialicon('toggle', 'check_box')
+					{{ trans('plugins.actions.disable') }}
 				@else 
-					@materialicon('toggle', 'check_box_outline_blank')
+					{{ trans('plugins.actions.enable') }}
 				@endif
 			</button>
 			<form id="consent-statistics" action="{{ route('profile.privacy.update') }}" method="POST" style="display: none;">
@@ -50,11 +52,15 @@
 			</form>
 		</div>
 
-		<label>{{trans('consent.statistics.dialog_title')}}</label>
-		<span class="description">{{trans('consent.statistics.dialog_description')}}</span>
-		@if( $errors->has('statistics') )
-			<span class="field-error">{{ implode(",", $errors->get('statistics'))  }}</span>
-		@endif
+		<div>
+			<label class="block font-bold">{{trans('consent.statistics.dialog_title')}} @if($consent_statistics_given) <span class="text-sm font-normal rounded-full py-1 px-2 bg-yellow-300 text-yellow-900" title="{{ $consent_statistics_activity ?? '' }}">{{ trans('consent.enabled') }}</span> @endif</label>
+			<span class="description text-gray-700">
+				{{trans('consent.statistics.dialog_description')}}
+			</span>
+			@if( $errors->has('statistics') )
+				<span class="field-error">{{ implode(",", $errors->get('statistics'))  }}</span>
+			@endif
+		</div>
 	</div>
 	
 
