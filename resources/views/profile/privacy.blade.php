@@ -53,7 +53,7 @@
 		</div>
 
 		<div>
-			<label class="block font-bold">{{trans('consent.statistics.dialog_title')}}</label>
+			<label class="block font-bold">{{trans('consent.statistics.dialog_title')}} @if($consent_statistics_given) <span class="text-sm font-normal rounded-full py-1 px-2 bg-yellow-300 text-yellow-900" title="{{ $consent_statistics_activity ?? '' }}">{{ trans('consent.enabled') }}</span> @endif</label>
 			<span class="description text-gray-700">
 				{{trans('consent.statistics.dialog_description')}}
 			</span>

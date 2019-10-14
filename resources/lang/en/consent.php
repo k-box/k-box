@@ -16,6 +16,8 @@ return [
     'skip' => 'Skip',
     'save' => 'Save my preferences',
 
+    'enabled' => 'enabled',
+
     'privacy' => [
         'dialog_title' => 'We need your confirmation',
         'dialog_description' => 'Please review carefully our new privacy policy including all information on how we treat and your rights related to your data.',
