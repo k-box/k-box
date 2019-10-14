@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Response;
 use KBox\DocumentsElaboration\DocumentElaborationManager;
 use KBox\Services\Quota;
 use Jenssegers\Date\Date as LocalizedDate;
+use KBox\Pages\Page;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -66,6 +67,15 @@ class AppServiceProvider extends ServiceProvider
         
         Blade::directive('datetime', function ($expression) {
             return "<?php echo optional($expression)->render(true); ?>";
+        });
+
+        /**
+         * Register the haspage helper as a blade if statement.
+         *
+         * Check if a page exists, in any language
+         */
+        Blade::if('haspage', function ($page) {
+            return ! is_null(Page::find($page));
         });
 
         /**

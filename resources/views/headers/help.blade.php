@@ -6,10 +6,17 @@
 
     @slot('panel')
         <ul class="">
-            <li><a class="no-underline block p-2 -mx-2 mb-1 text-black hover:bg-gray-300 active:bg-gray-400 focus:bg-gray-400 focus:outline-none" href="{{ route('help') }}">{{trans('pages.help')}}</a></li>
-            <li><a class="no-underline block p-2 -mx-2 mb-1 text-black hover:bg-gray-300 active:bg-gray-400 focus:bg-gray-400 focus:outline-none" href="{{ route('privacy.summary') }}">{{trans('pages.privacy')}}</a></li>
-            <li><a class="no-underline block p-2 -mx-2 mb-1 text-black hover:bg-gray-300 active:bg-gray-400 focus:bg-gray-400 focus:outline-none" href="{{ route('terms') }}">{{trans('pages.terms_long')}}</a></li>
-            <li><a class="no-underline block p-2 -mx-2 mb-1 text-black hover:bg-gray-300 active:bg-gray-400 focus:bg-gray-400 focus:outline-none" href="{{ route('contact') }}">{{trans('pages.contact')}}</a></li>
+            <li><a class="no-underline block p-2 -mx-2 mb-1 text-black hover:bg-gray-300 active:bg-gray-400 focus:bg-gray-400 focus:outline-none" @if(! (\Request::is('*help') || \Request::is('*privacy*') || \Request::is('*terms') || \Request::is('*contact'))) target="_blank" @endif rel="nopener noreferrer" href="{{ route('help') }}">{{trans('pages.help')}}</a></li>
+            
+            @haspage(\KBox\Pages\Page::PRIVACY_POLICY_LEGAL)
+                <li><a class="no-underline block p-2 -mx-2 mb-1 text-black hover:bg-gray-300 active:bg-gray-400 focus:bg-gray-400 focus:outline-none" @if(! (\Request::is('*help') || \Request::is('*privacy*') || \Request::is('*terms') || \Request::is('*contact'))) target="_blank" @endif rel="nopener noreferrer" href="{{ route('privacy.legal') }}">{{trans('pages.privacy')}}</a></li>
+            @endhaspage
+            @haspage(\KBox\Pages\Page::TERMS_OF_SERVICE)
+                <li><a class="no-underline block p-2 -mx-2 mb-1 text-black hover:bg-gray-300 active:bg-gray-400 focus:bg-gray-400 focus:outline-none" @if(! (\Request::is('*help') || \Request::is('*privacy*') || \Request::is('*terms') || \Request::is('*contact'))) target="_blank" @endif rel="nopener noreferrer" href="{{ route('terms') }}">{{trans('pages.terms_long')}}</a></li>
+            @endhaspage
+            @if(\KBox\Option::areContactsConfigured())
+                <li><a class="no-underline block p-2 -mx-2 mb-1 text-black hover:bg-gray-300 active:bg-gray-400 focus:bg-gray-400 focus:outline-none" @if(! (\Request::is('*help') || \Request::is('*privacy*') || \Request::is('*terms') || \Request::is('*contact'))) target="_blank" @endif rel="nopener noreferrer" href="{{ route('contact') }}">{{trans('pages.contact')}}</a></li>
+            @endif
         </ul>
     @endslot
     
