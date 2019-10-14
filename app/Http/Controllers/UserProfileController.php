@@ -3,6 +3,7 @@
 namespace KBox\Http\Controllers;
 
 use Illuminate\Contracts\Auth\Guard as Auth;
+use Illuminate\Support\Facades\App;
 use KBox\Http\Requests\ProfileUpdateRequest;
 
 class UserProfileController extends Controller
@@ -34,7 +35,7 @@ class UserProfileController extends Controller
 
         $pagetitle = trans('profile.page_title', ['name' => $user->name]);
         
-        $language = $user->optionLanguage('en');
+        $language = $user->optionLanguage(App::getLocale() ?? config('app.locale'));
 
         return view('profile.user', compact('pagetitle', 'user', 'stars_count', 'shares_count', 'documents_count', 'collections_count', 'language'));
     }

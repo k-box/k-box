@@ -85,7 +85,11 @@
 				<span class="field-error">{{ implode(",", $errors->get('language'))  }}</span>
 			@endif
 			
-			<select class="form-select" name="language">
+			<select class="form-select block mt-1" name="language" autocomplete="off">
+				{{-- 
+					autocomplete="off" force Firefox to not cache the selected value and use always the latest
+					https://stackoverflow.com/questions/10870567/firefox-not-refreshing-select-tag-on-page-refresh
+				--}}
 				<option value="en" @if($language=='en') selected @endif>{{trans('languages.en')}}</option>
 				<option value="ru" @if($language=='ru') selected @endif>{{trans('languages.ru')}}</option>
 				<option value="tg" @if($language=='tg') selected @endif>{{trans('languages.tg')}}</option>
