@@ -3,17 +3,19 @@
 ## Prerequisites
 
 - [Git](https://git-scm.com/)
-- [PHP](https://php.net/), `>= 7.1.3`
+- [PHP](https://php.net/), `>= 7.2`
 - [Composer](https://getcomposer.org/download/)
-- [Node.JS](https://nodejs.org/en/), `>= 11.14.0`
+- [Node.JS](https://nodejs.org/en/), `>= 11.14.0` and `< 12`
 - [Yarn](https://yarnpkg.com/en/), follow the [installation guide](https://yarnpkg.com/en/docs/install)
+
+> This guide assume that _git_, _php_, _composer_ and _yarn_ are directly available on your development machine
 
 In addition the following services should be reachable
 
-- [MariaDB](https://mariadb.org/) `>= 10.1` or [Mysql](https://www.mysql.com/) `>= 5.7`
+- [MariaDB](https://mariadb.org/) `>= 10.3` or [Mysql](https://www.mysql.com/) `>= 5.7`
 - [K-Search](https://github.com/k-box/k-search) configured to run locally without authentication
 
-> if you don't want to install them separately you can run them using Docker, as explained in the services section 
+> if you don't want to install them separately you can run them using Docker, as explained in the [services](#required-services) section 
 
 ## Getting the sources
 
@@ -22,6 +24,9 @@ The source code is available in a git repository hosted on GitHub. You can obtai
 ```bash
 git clone https://github.com/k-box/k-box.git
 ```
+
+> If you want to contribute, please review also the [contribution guidelines](../../contributing.md)
+
 > on Windows you might want to set `core.autocrlf=false` and `core.safecrlf=true`, to keep the line endings we have in our source files.
 
 
@@ -207,8 +212,8 @@ Verify that the `fileinfo` extension is loaded in your php configuration file.
 
 The automatic download of FFmpeg might fail. You can manually obtain the files for your Operating System using the following links
 
-- Windows, https://ffmpeg.zeranoe.com/builds/win64/static/ffmpeg-3.3.3-win64-static.zip
-- Linux, https://johnvansickle.com/ffmpeg/releases/ffmpeg-3.3.3-64bit-static.tar.xz 
+- Windows, https://ffmpeg.zeranoe.com/builds/win64/static/ffmpeg-3.3.4-win64-static.zip
+- Linux, https://johnvansickle.com/ffmpeg/releases/ffmpeg-3.3.4-64bit-static.tar.xz 
 - MacOS, https://ffmpeg.zeranoe.com/builds/macos64/static/ffmpeg-3.3.4-macos64-static.zip
 
 After downloading, unzip the following binaries and put them in the `/bin/bin` folder
