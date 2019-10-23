@@ -179,7 +179,7 @@ Route::group(['as' => 'documents.', 'prefix' => 'documents'], function () {
     );
 
     Route::get('/{institution}/{local_id}', [
-            'uses' => 'Document\DocumentsController@showByKlinkId',
+            'uses' => 'RedirectOldDocumentsController@show',
             'as' => 'by-klink-id',
         ])->where(['local_id' => '(?!edit)[A-Za-z0-9]+', 'institution' => '[A-Za-z0-9]+']);
 

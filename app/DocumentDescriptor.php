@@ -354,19 +354,12 @@ class DocumentDescriptor extends Model
     {
         return $query->where('status', self::STATUS_ERROR);
     }
-
-    /**
-     * Filter by institution identifier and local document id.
-     *
-     * @param  integer $institution_id the ID of the institution as expressed by the id field of a cached Institution
-     * @param  string $document_id    [description]
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopeFromKlinkID($query, $institution_id, $document_id)
-    {
-        return $query->where('local_document_id', $document_id);
-    }
     
+    /**
+     * Scope by the old document identifier
+     *
+     * @internal kept for compatibility reasons with old url format
+     */
     public function scopeFromLocalDocumentId($query, $document_id)
     {
         return $query->where('local_document_id', $document_id);
@@ -402,32 +395,6 @@ class DocumentDescriptor extends Model
     public static function findByOwnerId($owner_id)
     {
         return self::fromOwnerId($owner_id)->get();
-    }
-
-    /**
-     * Get the institution that correspond to the given Klink Institution Identifier
-     * @param  string $id [description]
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public static function findByInstitutionAndDocumentId($institution_id, $id)
-    {
-        return self::fromKlinkID($institution_id, $id)->first();
-    }
-    
-    public static function findByDocumentId($localDocumentId)
-    {
-        return self::fromLocalDocumentId($localDocumentId)->first();
-    }
-
-    /**
-     * Check if a document descriptor exists in the local cache given it's institution id and K-Link local document id
-     * @param  int $institution_id    [description]
-     * @param  string $local_document_id The K-Link Local document id
-     * @return boolean                    [description]
-     */
-    public static function existsByInstitutionAndDocumentId($institution_id, $local_document_id)
-    {
-        return ! is_null(self::findByInstitutionAndDocumentId($institution_id, $local_document_id));
     }
 
     /**

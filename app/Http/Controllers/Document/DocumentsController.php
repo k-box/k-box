@@ -22,7 +22,6 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use KBox\Traits\Searchable;
 use KBox\Events\UploadCompleted;
 use Klink\DmsAdapter\KlinkVisibilityType;
-use Klink\DmsAdapter\Exceptions\KlinkException;
 use KBox\Jobs\ReindexDocument;
 use KBox\Jobs\UpdatePublishedDocumentJob;
 use Illuminate\Support\Facades\DB;
@@ -375,21 +374,6 @@ class DocumentsController extends Controller
             }
 
             throw $kex;
-        }
-    }
-
-    public function showByKlinkId($institution, $local_id, AuthGuard $auth)
-    {
-        try {
-            $document = $this->service->getDocument($local_id);
-
-            return $this->_showPanel($document, $auth()->user());
-        } catch (KlinkException $kex) {
-            \Log::error('Document Descriptor showByKlinkId error', ['error' => $kex, 'institution' => $institution, 'local_id' => $local_id]);
-            return view('panels.error', ['message' => $kex->getMessage()]);
-        } catch (\Exception $kex) {
-            \Log::error('Document Descriptor showByKlinkId error', ['error' => $kex, 'institution' => $institution, 'local_id' => $local_id]);
-            return view('panels.error', ['message' => $kex->getMessage()]);
         }
     }
 

@@ -60,7 +60,7 @@ class DocumentsService
      */
     public function getDocument($documentID, $visibility='public')
     {
-        $cached = DocumentDescriptor::findByDocumentId($documentID);
+        $cached = DocumentDescriptor::fromLocalDocumentId($documentID)->first();
 
         if (is_null($cached)) {
             throw new \InvalidArgumentException("The specified document {$documentID} is invalid", 2);
