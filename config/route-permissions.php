@@ -197,11 +197,6 @@ return [
             'destroy' => KBox\Capability::MANAGE_KBOX,
         ],
         
-        'institutions' => [
-            'index' => KBox\Capability::MANAGE_KBOX,
-            'show' => KBox\Capability::MANAGE_KBOX,
-        ],
-        
         'settings' => [
             'index' => KBox\Capability::MANAGE_KBOX,
             'create' => KBox\Capability::MANAGE_KBOX,

@@ -28,7 +28,7 @@ return [
         'revision_of_document' => 'Жүктөлүп жаткан документ, ушул колдонуучу :user (:email) жүктөгөн документтин <strong>":title"</strong> жаңы версиясы',
         'revision_of_your_document' => 'Документ ичиндеги маалымат бул копия менен <strong>":title"</strong> окшош', 
         'by_user' => 'Бул колдонуучу :user (:email) документти K-Box-го мурда жүктөгөн',
-        'in_the_network' => 'Документ <strong>:network</strong> тармагында <strong>":title"</strong> деген аталышы менен, ушул уюм :institution жүктөгөн',
+        'in_the_network' => 'Документ <strong>:network</strong> тармагында <strong>":title"</strong> деген аталышы менен',
     ],
 
     'group_already_exists_exception' => [

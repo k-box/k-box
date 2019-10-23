@@ -82,11 +82,9 @@ class DocumentDescriptorTest extends TestCase
         $mock = $this->withKlinkAdapterMock();
         
         $file = factory(\KBox\File::class)->make();
-        $inst = factory(\KBox\Institution::class)->make();
         
         $service = app('KBox\Documents\Services\DocumentsService');
 
-        $mock->shouldReceive('institutions')->andReturn($inst);
         $mock->shouldReceive('addDocument')->andReturnUsing(function () {
             throw new KlinkException('Bad Request, hash not equals');
         });
@@ -111,7 +109,6 @@ class DocumentDescriptorTest extends TestCase
         
         $service = app('KBox\Documents\Services\DocumentsService');
 
-        $mock->shouldReceive('institutions')->andReturn(factory(\KBox\Institution::class)->make());
         $mock->shouldReceive('updateDocument')->andReturnUsing(function ($document) {
             throw new KlinkException('Bad Request, hash not equals');
         });

@@ -27,7 +27,7 @@ return [
         'revision_of_document' => 'Le document que vous voulez mettre en ligne est une révision existante de <strong>":title"</strong>, ajoutée par :user (:email)',
         'revision_of_your_document' => 'Le document est une révision existante de votre document <strong>:title</strong>',
         'by_user' => 'Ce document a déjà été ajouté à la K-Box par :user (:email).',
-        'in_the_network' => 'Le document est déjà disponible dans <strong>:network</strong>, sous le nom <strong>":title"</strong>. Ajouté par :institution',
+        'in_the_network' => 'Le document est déjà disponible dans <strong>:network</strong>, sous le nom <strong>":title"</strong>.',
     ],
 
     'group_already_exists_exception' => [

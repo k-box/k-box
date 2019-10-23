@@ -74,8 +74,7 @@ class FileAlreadyExistsExceptionTest extends TestCase
 
         $this->assertEquals(trans('errors.filealreadyexists.in_the_network', [
                 'network' => e(network_name()),
-                'title' => e($doc->title),
-                'institution' => config('dms.institutionID')
+                'title' => e($doc->title)
             ]), $ex->render($user));
     }
 

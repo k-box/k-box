@@ -89,7 +89,6 @@ class StarredTest extends TestCase
         $doc = factory(DocumentDescriptor::class)->create(['owner_id' => $user->id]);
         
         $response = $this->actingAs($user)->post(route('documents.starred.store'), [
-            'institution' => config('dms.institutionID'),
             'descriptor' => $doc->local_document_id,
             'visibility' => $doc->visibility,
             '_token' => csrf_token()

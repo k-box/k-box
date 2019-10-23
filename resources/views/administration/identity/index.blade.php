@@ -19,10 +19,6 @@
         @unless($is_configured)
             <div class="c-message">
                 {{trans('administration.identity.not_complete')}}
-
-                @if(!empty($contacts))
-                    {{trans('administration.identity.suggestion_based_on_institution_hint')}}
-                @endif
             </div>
         @endif
 

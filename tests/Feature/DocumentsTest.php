@@ -875,8 +875,6 @@ class DocumentsTest extends TestCase
         $user = $this->createUser(Capability::$PARTNER);
 
         $mock = $this->withKlinkAdapterMock();
-
-        $mock->shouldReceive('institutions')->andReturn(factory(\KBox\Institution::class)->make());
         
         $mock->shouldReceive('isNetworkEnabled')->andReturn(false);
 

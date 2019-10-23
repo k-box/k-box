@@ -348,8 +348,6 @@ class GroupsController extends Controller
      */
     public function destroy(AuthGuard $auth, Request $request, $id)
     {
-        // if the group is public only who can manage institution's groups can do this
-
         try {
             $selected_group = Group::withTrashed()->findOrFail($id);
 

@@ -69,7 +69,6 @@ class DmsSyncCommand extends Command
         }
         
         $facets_private = KlinkFacetsBuilder::create()
-            // ->institution(config('dms.institutionID'))
             ->localDocumentId(implode(',', $local_private_id_set))->build();
         
         $request = $this->searchRequestCreate()->visibility('private')->limit($total_private_on_core);
@@ -216,7 +215,7 @@ class DmsSyncCommand extends Command
         if ($result == 0) {
             $this->info('  OK');
         } else {
-            $this->line('  <error>ERROR '.$up_exit_code.'</error>');
+            $this->line('  <error>ERROR '.$result.'</error>');
         }
 
         return $result;

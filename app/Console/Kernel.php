@@ -29,7 +29,6 @@ class Kernel extends ConsoleKernel
         \KBox\Console\Commands\Collections\DmsCollectionsCleanDuplicatesDocumentsCommand::class,
         \KBox\Console\Commands\DmsLanguagePublishCommand::class,
         \KBox\Console\Commands\ThumbnailGenerationCommand::class,
-        \KBox\Console\Commands\DocumentsCheckInstitutionCommand::class,
         \KBox\Console\Commands\DocumentsCheckDescriptorCommand::class,
         \KBox\Console\Commands\FlagsCommand::class,
         \KBox\Console\Commands\Language\LanguageCheckCommand::class,

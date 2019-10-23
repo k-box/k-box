@@ -6,7 +6,6 @@ use Markdown;
 use KBox\Traits\Publishable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Carbon\Carbon;
 use KBox\Traits\LocalizableDateFields;
 use Dyrynda\Database\Support\GeneratesUuid;
 use Klink\DmsAdapter\KlinkVisibilityType;
@@ -22,7 +21,6 @@ use KBox\Traits\ScopeNullUuid;
  *
  * @property int $id the autoincrement identifier of the descriptor
  * @property \Ramsey\Uuid\Uuid $uuid the UUID used to identify the document
- * @property int $institution_id the institution reference identifier of the User at the time of the descriptor creation
  * @property string $local_document_id the K-Link Local Document Identifier
  * @property string $hash the SHA-512 hash of the last version of the underlying File
  * @property string $title the title
@@ -47,7 +45,6 @@ use KBox\Traits\ScopeNullUuid;
  * @property string $last_error
  * @property-read \KBox\File $file The last version of the document, described by this document descriptor
  * @property-read \Franzose\ClosureTable\Extensions\Collection|\KBox\Group[] $groups the collections in which this document is categorized
- * @property-read \KBox\Institution $institution the institution to which this document pertain
  * @property-read \KBox\User $owner the user that is owning the document in the K-Box
  * @property-read \Illuminate\Database\Eloquent\Collection|\KBox\Shared[] $shares the shares of the document
  * @property-read \Illuminate\Database\Eloquent\Collection|\KBox\Starred[] $stars the star applied to this document by the users
@@ -70,7 +67,6 @@ use KBox\Traits\ScopeNullUuid;
  * @method static \Illuminate\Database\Query\Builder|\KBox\DocumentDescriptor whereFileId($value)
  * @method static \Illuminate\Database\Query\Builder|\KBox\DocumentDescriptor whereHash($value)
  * @method static \Illuminate\Database\Query\Builder|\KBox\DocumentDescriptor whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\KBox\DocumentDescriptor whereInstitutionId($value)
  * @method static \Illuminate\Database\Query\Builder|\KBox\DocumentDescriptor whereIsPublic($value)
  * @method static \Illuminate\Database\Query\Builder|\KBox\DocumentDescriptor whereLanguage($value)
  * @method static \Illuminate\Database\Query\Builder|\KBox\DocumentDescriptor whereLastError($value)
@@ -161,7 +157,7 @@ class DocumentDescriptor extends Model
 
     protected $dates = ['deleted_at'];
 
-    protected $fillable = ['owner_id','institution_id', 'file_id','local_document_id','title','hash','document_uri','thumbnail_uri','mime_type','visibility','document_type','user_owner','user_uploader','abstract','language','authors'];
+    protected $fillable = ['owner_id','file_id','local_document_id','title','hash','document_uri','thumbnail_uri','mime_type','visibility','document_type','user_owner','user_uploader','abstract','language','authors'];
     
     protected $casts = [
         // Cast the UUID field to UUID, which is a binary field
@@ -199,11 +195,6 @@ class DocumentDescriptor extends Model
     public function stars()
     {
         return $this->hasMany(\KBox\Starred::class, 'document_id');
-    }
-
-    public function institution()
-    {
-        return $this->belongsTo(\KBox\Institution::class);
     }
 
     public function groups()
@@ -373,7 +364,7 @@ class DocumentDescriptor extends Model
      */
     public function scopeFromKlinkID($query, $institution_id, $document_id)
     {
-        return $query->where('institution_id', $institution_id)->where('local_document_id', $document_id);
+        return $query->where('local_document_id', $document_id);
     }
     
     public function scopeFromLocalDocumentId($query, $document_id)
@@ -579,28 +570,6 @@ class DocumentDescriptor extends Model
     public static function fromKlinkDocumentDescriptor(KlinkDocumentDescriptor $instance)
     {
         throw new \Exception("Currently not supported");
-        // $local_inst = Institution::findByKlinkID($instance->getInstitutionID());
-
-        // $cached = self::create([
-        //     'institution_id' => $local_inst->id,
-        //     'local_document_id' => $instance->getLocalDocumentID(),
-        //     'title' => $instance->getTitle(),
-        //     'hash' => $instance->getHash(),
-        //     'created_at' => Carbon::createFromFormat(\DateTime::RFC3339, $instance->creationDate),
-        //     'document_uri' => $instance->getDocumentUri(),
-        //     'thumbnail_uri' => $instance->getThumbnailURI(),
-        //     'mime_type' => $instance->getMimeType(),
-        //     'visibility' => $instance->getVisibility(),
-        //     'document_type' => $instance->getDocumentType(),
-        //     'user_owner' => $instance->getUserOwner(),
-        //     'user_uploader' => $instance->getUserUploader(),
-        //     'abstract' => $instance->getAbstract(),
-        //     'language' => $instance->getLanguage(),
-        //     'is_public' => $instance->getVisibility() == KlinkVisibilityType::KLINK_PUBLIC,
-        //     'authors' => is_array($instance->getAuthors()) ? implode(',', $instance->getAuthors()) : $instance->getAuthors(), //is Array so there is something that might be done
-        // ]);
-        
-        // return $cached;
     }
 
     public function isMine()

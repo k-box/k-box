@@ -7,7 +7,6 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 use KBox\DocumentDescriptor;
 use KBox\Option;
 use KBox\Capability;
-use KBox\Institution;
 use KBox\Publication;
 use KBox\File;
 use KBox\User;
@@ -73,39 +72,6 @@ class DmsUpdateCommandTest extends TestCase
         $updated = $this->invokePrivateMethod($command, 'generateDocumentsUuid');
 
         $this->assertEquals(0, $updated, 'Some UUID has been regenerated');
-    }
-
-    public function test_default_institution_is_created()
-    {
-        $this->withKlinkAdapterFake();
-        
-        $current = Institution::current();
-
-        if (! is_null($current)) {
-            $current->delete();
-        }
-
-        $command = new DmsUpdateCommand();
-
-        $updated = $this->invokePrivateMethod($command, 'createDefaultInstitution');
-
-        $this->assertNotNull(Institution::current());
-    }
-
-    public function test_user_affiliation_is_moved_to_organization()
-    {
-        $institution = factory(\KBox\Institution::class)->create();
-        $users = factory(\KBox\User::class, 3)->create([
-            'institution_id' => $institution->id
-        ]);
-
-        $user_ids = $users->pluck('id')->toArray();
-
-        $command = new DmsUpdateCommand();
-        
-        $updated = $this->invokePrivateMethod($command, 'updateUserOrganizationAttributes');
-
-        $this->assertEquals($users->count(), $updated);
     }
 
     public function test_old_publications_are_migrated_to_the_publications_table()

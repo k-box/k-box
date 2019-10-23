@@ -26,15 +26,6 @@
 					{{trans('administration.menu.accounts')}}
 				</a>
 			</li>
-			
-			<li class="navigation-admin__item">
-				<a href="{{ route('administration.institutions.index') }}" class="navigation-admin__link no-underline @if(\Request::is('*institutions')) navigation--current @endif">
-					
-					@materialicon('action', 'account_balance', 'navigation-admin__item__icon')
-					
-					{{trans('administration.menu.institutions')}}
-				</a>
-			</li>
 
 			<li class="navigation-admin__item"><a href="{{ route('administration.storage.index') }}" class="navigation-admin__link no-underline @if(\Request::is('*storage')) navigation--current @endif">
 					

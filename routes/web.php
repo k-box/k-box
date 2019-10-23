@@ -61,8 +61,6 @@ Route::group(['as' => 'administration.', 'prefix' => 'administration'], function
 
     Route::resource('/messages', 'Administration\MessagingController', ['only' => ['create', 'store']]);
 
-    Route::resource('/institutions', 'Administration\InstitutionsController', ['only' => ['index', 'show']]);
-
     Route::get('/network', 'Administration\NetworkAdministrationController@getIndex')->name('network.index');
 
     Route::get('/storage', 'Administration\StorageAdministrationController@getIndex')->name('storage.index');
