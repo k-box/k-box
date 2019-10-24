@@ -100,7 +100,7 @@ class SupportTest extends TestCase
         
         $response->assertViewIs('administration.support.index');
         $response->assertViewHas(SupportService::SUPPORT_TOKEN, 'AAAAA');
-        $this->assertTrue(SupportService::active());
+        $this->assertTrue(SupportService::active('uservoice'));
     }
 
     public function test_support_settings_page_loads_dynamic_settings()
@@ -139,7 +139,7 @@ class SupportTest extends TestCase
 
         $this->assertEquals('support-token-value', support_token());
         $this->assertEquals('uservoice', SupportService::serviceName());
-        $this->assertTrue(support_active());
+        $this->assertTrue(support_active('uservoice'));
         
         $response = $this->actingAs($user)
                          ->from(route('administration.support.index'))
@@ -152,6 +152,26 @@ class SupportTest extends TestCase
 
         $this->assertEquals(null, support_token());
         $this->assertEquals(null, SupportService::serviceName());
-        $this->assertFalse(support_active());
+        $this->assertFalse(support_active('uservoice'));
+    }
+
+    public function test_mail_link_support_is_active()
+    {
+        config([
+            'support.service' => 'mail',
+            'support.providers.mail.address' => 'k-box@k-box.local',
+        ]);
+
+        $user = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$ADMIN);
+        });
+        
+        $response = $this->actingAs($user)
+                         ->get(route('administration.support.index'));
+        
+        $this->assertTrue(SupportService::active('mail'));
+        $response->assertViewIs('administration.support.index');
+        $response->assertSee('k-box@k-box.local');
+        $response->assertSee(trans('actions.contact_support'));
     }
 }

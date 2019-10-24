@@ -137,4 +137,6 @@ return [
         'oldest_first' => 'Oldest',
         'newest_first' => 'Latest',
     ],
+
+    'contact_support' => 'Contact Support',
 ];

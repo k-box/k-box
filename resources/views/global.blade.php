@@ -107,7 +107,7 @@
 	</script>
 <![endif]-->
 	
-		@includeWhen(support_active(), 'support.uservoice', [
+		@includeWhen(support_active('uservoice'), 'support.uservoice', [
 			'feedback_loggedin' => $feedback_loggedin ?? false,
 			'feedback_user_mail' => $feedback_user_mail ?? null,
 			'feedback_user_name' => $feedback_user_name ?? null,

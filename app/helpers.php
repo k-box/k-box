@@ -75,7 +75,7 @@ if (! function_exists('support_active')) {
      *
      * @return boolean true if the support service is active, false otherwise
      */
-    function support_active($service = 'uservoice')
+    function support_active($service)
     {
         return \KBox\Support\SupportService::active($service);
     }
