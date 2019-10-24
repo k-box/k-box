@@ -23,6 +23,9 @@ return [
     |
     */
     'providers' => [
+        'mail' => [
+            'address' => env('KBOX_SUPPORT_MAIL_ADDRESS', null),
+        ],
         'uservoice' => [
             'token' => env('KBOX_SUPPORT_USERVOICE_TOKEN', env('SUPPORT_USERVOICE_TOKEN', env('KBOX_SUPPORT_TOKEN', env('SUPPORT_TOKEN', null)))),
         ],

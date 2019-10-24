@@ -31,11 +31,11 @@ class SupportService
     }
     
     /**
-     * Retrieve the current analytics service settings
+     * Retrieve the current support service settings
      *
      * @return array
      */
-    protected static function service()
+    public static function service()
     {
         $activeService = self::serviceName();
 
@@ -43,9 +43,9 @@ class SupportService
     }
     
     /**
-     * Retrieve the current analytics service settings
+     * Retrieve the current support service name
      *
-     * @return array
+     * @return string
      */
     public static function serviceName()
     {
@@ -55,11 +55,15 @@ class SupportService
     /**
      * Check if support service is enabled
      *
-     * @param string $service The service to verify. Default uservoice
+     * @param string $service The service name to verify.
      * @return boolean
      */
-    public static function active($service = 'uservoice')
+    public static function active($service)
     {
-        return static::serviceName() === $service && static::token() !== null;
+        if ($service === 'uservoice') {
+            return static::serviceName() === $service && static::token() !== null;
+        }
+
+        return static::serviceName() === $service;
     }
 }
