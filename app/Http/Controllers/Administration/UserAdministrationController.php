@@ -138,7 +138,6 @@ class UserAdministrationController extends Controller
               'name' => $request->get('name'),
               'email' => trim($request->get('email')),
               'password' => Hash::make($password),
-              'institution_id' => null
             ]);
     
             $user->addCapabilities($request->get('capabilities'));

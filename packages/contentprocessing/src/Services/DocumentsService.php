@@ -60,7 +60,7 @@ class DocumentsService
      */
     public function getDocument($documentID, $visibility='public')
     {
-        $cached = DocumentDescriptor::findByDocumentId($documentID);
+        $cached = DocumentDescriptor::fromLocalDocumentId($documentID)->first();
 
         if (is_null($cached)) {
             throw new \InvalidArgumentException("The specified document {$documentID} is invalid", 2);
@@ -225,7 +225,6 @@ class DocumentsService
         $local_document_id = substr($file->hash, 0, 6);
 
         $attrs = [
-            'institution_id' => null,
             'local_document_id' => $local_document_id,
             'title' => $file->name,
             'hash' => $file->hash,
@@ -366,7 +365,6 @@ class DocumentsService
         $document_type = $file->document_type;
 
         $attrs = [
-            'institution_id' => null,
             'local_document_id' => $local_document_id,
             'title' => $file->name,
             'hash' => $file->hash,
@@ -1003,10 +1001,10 @@ class DocumentsService
      * @param  string         $name       The name to assign to the group
      * @param  string         $color      The color to assign to the group (hex color without the initial #)
      * @param  Group|null     $parent     The parent Group if any
-     * @param  boolean        $is_private If the group is user private or institution visible (default true)
+     * @param  boolean        $is_private If the group is user private or in a project (default true)
      * @param  GroupType|null $type       The type of the group, default @see GroupType::getGenericType()
      * @return Group                     The instance of the created Group
-     * @throws ForbiddenException If the user cannot manage own groups or institution groups (if private is set to false)
+     * @throws ForbiddenException If the user cannot manage own groups or in a project (if private is set to false)
      */
     public function createGroup(User $user, $name, $color=null, Group $parent = null, $is_private = true, GroupType $type = null)
     {
@@ -1056,7 +1054,7 @@ class DocumentsService
     }
 
     /**
-     * Creates an instition level group given a folder full path.
+     * Creates an project level group given a folder full path.
      *
      * Supports only Linux Path separ
      */
@@ -1349,7 +1347,7 @@ class DocumentsService
     }
 
     /**
-     * Make the group institution visible
+     * Make the group project visible
      */
     public function makeGroupPublic(User $user, Group $group)
     {
@@ -1385,7 +1383,7 @@ class DocumentsService
     }
 
     /**
-     * Make the group private and no more institution visible
+     * Make the group private and no more project visible
      */
     public function makeGroupPrivate(User $user, Group $group)
     {

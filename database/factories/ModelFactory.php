@@ -19,7 +19,6 @@ $factory->define(KBox\User::class, function (Faker\Generator $faker) {
         'name' => $faker->name,
         'email' => $faker->email,
         'password' => bcrypt(Str::random(10)),
-        'institution_id' => null,
         'email_verified_at' => now()
     ];
 });
@@ -30,7 +29,6 @@ $factory->defineAs(KBox\User::class, 'admin', function (Faker\Generator $faker) 
         'name' => 'admin',
         'email' => 'admin@klink.local',
         'password' => bcrypt(Str::random(10)),
-        'institution_id' => null
     ];
 });
 
@@ -58,22 +56,6 @@ $factory->define(KBox\File::class, function (Faker\Generator $faker) {
     ];
 });
 
-$factory->define(KBox\Institution::class, function (Faker\Generator $faker) {
-    return [
-        'klink_id' => Str::random(4),
-        'email' => $faker->email,
-        'url' => $faker->url,
-        'type' => 'Organization',
-        'thumbnail_uri' => $faker->imageUrl,
-        'phone' => $faker->sentence,
-        'address_street' => $faker->sentence,
-        'address_country' => $faker->sentence,
-        'address_locality' => $faker->sentence,
-        'address_zip' => $faker->sentence,
-        'name' => $faker->sentence
-    ];
-});
-
 $factory->define(KBox\DocumentDescriptor::class, function (Faker\Generator $faker, $arguments = []) {
     
     // $hash = $faker->sha256.''.$faker->sha256;
@@ -88,7 +70,6 @@ $factory->define(KBox\DocumentDescriptor::class, function (Faker\Generator $fake
     ])->id;
     
     return [
-        'institution_id' => null,
         'local_document_id' => substr($hash, 0, 6),
         'title' => $faker->sentence,
         'hash' => $hash,

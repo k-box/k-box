@@ -13,10 +13,6 @@ class NetworkDocumentsController extends Controller
 
     public function __construct(KlinkAdapter $adapter)
     {
-        // $this->middleware('auth', ['except' => ['showByKlinkId']]);
-
-        // $this->middleware('capabilities', ['except' => ['showByKlinkId']]);
-
         $this->adapter = $adapter;
     }
 

@@ -28,7 +28,7 @@ return [
         'revision_of_document' => 'Загружаемый документ является обновленной версией <strong>":title"</strong>, который добавил(a) :user (:email)',
         'revision_of_your_document' => 'Содержание загружаемого документа совпадает с существующей копией <strong>":title"</strong>', 
         'by_user' => ':user (:email) уже добавил(a) данный документ в K-Box.',
-        'in_the_network' => 'Документ уже доступен в <strong>:network</strong> под именем <strong>":title"</strong>. Добавлен :institution',
+        'in_the_network' => 'Документ уже доступен в <strong>:network</strong> под именем <strong>":title"</strong>.',
     ],
 
     'group_already_exists_exception' => [

@@ -27,7 +27,7 @@ return [
         'revision_of_document' => 'Санадеро, ки ваорид мекунед нусхаи  <strong>":title"</strong>, аз тарафи :user (:email) воридшуда мебошад',
         'revision_of_your_document' => '  Ин санад нусхаи мавчудбудаи санади шумо бо номи  <strong>:title</strong> мебошад',
         'by_user' => 'Ин санад алакай ба K-Box аз тарафи :user (:email) ворид шудааст.',
-        'in_the_network' => 'Ин санад алакай дар инчо дастрас аст <strong>:network</strong> бо номи <strong>":title"</strong>. Ворид шуд аз тарафи :institution',
+        'in_the_network' => 'Ин санад алакай дар инчо дастрас аст <strong>:network</strong> бо номи <strong>":title"</strong>.',
     ],
 
     'group_already_exists_exception' => [

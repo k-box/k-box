@@ -30,7 +30,7 @@ return [
         'revision_of_document' => 'File you are uploading is an existing revision of <strong>":title"</strong>, added by :user (:email)',
         'revision_of_your_document' => 'This file is an existing revision of <strong>:title</strong>',
         'by_user' => 'File has already been added to the K-Box by :user (:email).',
-        'in_the_network' => 'File is already available in <strong>:network</strong> as <strong>":title"</strong>. Added by :institution',
+        'in_the_network' => 'File is already available in <strong>:network</strong> as <strong>":title"</strong>.',
     ],
 
     'group_already_exists_exception' => [

@@ -22,7 +22,6 @@ return [
         'mail'=>'Email',
         'update'=>'Mise à jour et récupération',
         'maintenance'=>'Maintenance et événements',
-        'institutions'=>'Institutions',
         'settings'=>'Paramètres',
         'identity' => 'Identité',
         'licenses' => 'Licences',
@@ -55,9 +54,6 @@ return [
 
             'create' => 'Créer',
             'update' => 'Mettre à jour',
-
-            'institution' => 'Institution',
-            'select_institution' => 'Choisissez l\'institution de cet utilisateur...',
 
         ],
 

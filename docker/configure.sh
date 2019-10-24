@@ -31,9 +31,6 @@ KBOX_SEARCH_SERVICE_URL=${KBOX_SEARCH_SERVICE_URL:-${KLINK_DMS_CORE_ADDRESS:-htt
 ## Trigger privacy policy creation from templates
 KBOX_LOAD_PRIVACY=${KBOX_LOAD_PRIVACY:-false}
 
-## Variables required by the configure script
-## The Institution identifier (deprecated)
-KLINK_CORE_ID=${KLINK_CORE_ID:-KLINK}
 ## User under which the commands will run
 KBOX_SETUP_USER=www-data
 ## Directory where the code is located
@@ -112,7 +109,6 @@ function write_config() {
 		APP_URL=${KBOX_APP_URL}
 		APP_ENV=${KBOX_APP_ENV}
 		APP_DEBUG=${KBOX_APP_DEBUG}
-		DMS_INSTITUTION_IDENTIFIER=${KLINK_CORE_ID}
 		APP_INTERNAL_URL=${KBOX_APP_LOCAL_URL}
 		DMS_CORE_ADDRESS=${KBOX_SEARCH_SERVICE_URL}
 		UPLOAD_LIMIT=${KBOX_UPLOAD_LIMIT}

@@ -32,7 +32,7 @@
                 <tr>
                     <th style="width:20%">{{trans('administration.accounts.table.name_column')}}</th>
                     <th style="width:30%">{{trans('administration.accounts.table.email_column')}}</th>
-                    <th style="width:24%">{{trans('administration.accounts.table.institution_column')}}</th>
+                    <th style="width:24%">&nbsp;</th>
                     <th>&nbsp;</th>
                 </tr>
             </thead>
@@ -48,7 +48,7 @@
                             @endcomponent
                         </td>
                         <td><a href="{{ route('administration.users.show', $user->id) }}">{{$user->email}}</a></td>
-                        <td>{{$user->getInstitutionName()}}</td>
+                        <td>&nbsp;</td>
                         <td>
 
                             @if ($user->trashed())

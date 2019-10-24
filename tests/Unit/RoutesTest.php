@@ -29,7 +29,6 @@ class RoutesTest extends TestCase
     {
         return [
             [ 'administration.index' ],
-            [ 'administration.institutions.index' ],
             [ 'administration.mail.index' ],
             [ 'administration.maintenance.index' ],
             [ 'administration.messages.create' ],

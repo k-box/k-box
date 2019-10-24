@@ -20,33 +20,6 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | DMS Identifier
-    |--------------------------------------------------------------------------
-    |
-    | The unique identifier for the DMS instance
-    |
-    | @var string
-    | @deprecated
-    */
-
-    'identifier' => '4815162342',
-
-    /*
-    |--------------------------------------------------------------------------
-    | Institution Identifier
-    |--------------------------------------------------------------------------
-    |
-    | The institution identifier that is required for communicating with the
-    | K-Link Core
-    |
-    | @var string
-    | @deprecated
-    */
-
-    'institutionID' => env('DMS_INSTITUTION_IDENTIFIER', 'KLINK'),
-
-    /*
-    |--------------------------------------------------------------------------
     | Guest K-Link searches
     |--------------------------------------------------------------------------
     |

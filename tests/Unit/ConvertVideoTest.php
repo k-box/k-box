@@ -5,7 +5,6 @@ namespace Tests\Unit;
 use KBox\File;
 use KBox\User;
 use Tests\TestCase;
-use KBox\Institution;
 use KBox\Jobs\ConvertVideo;
 use KBox\DocumentDescriptor;
 use Illuminate\Support\Facades\Storage;
@@ -75,7 +74,6 @@ class ConvertVideoTest extends TestCase
         ]);
 
         $descriptor = factory(DocumentDescriptor::class)->create([
-            'institution_id' => factory(Institution::class)->create()->id,
             'local_document_id' => substr($file->hash, 0, 6),
             'title' => "AVIDEO.mp4",
             'hash' => $file->hash,

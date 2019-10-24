@@ -22,7 +22,6 @@ return [
         'mail'=>'Mail',
         'update'=>'Update and recovery',
         'maintenance'=>'Maintenance and Events',
-        'institutions'=>'Institutions',
         'settings'=>'Settings',
         'identity' => 'Identity',
         'licenses' => 'Document Licenses',

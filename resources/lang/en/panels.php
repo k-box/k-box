@@ -13,7 +13,6 @@ return [
 
     'meta' => [
 
-        'institution' => 'Institution',
         'main_contact' => 'Main contact',
         'language' => 'Language',
         'added_on' => 'Added on',

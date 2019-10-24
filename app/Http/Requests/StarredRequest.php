@@ -15,7 +15,6 @@ class StarredRequest extends Request
     public function rules()
     {
         return [
-            'institution' => 'sometimes|alpha_num',
             'descriptor' => 'required|alpha_num',
             'visibility' => 'required|in:public,private',
         ];

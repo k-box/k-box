@@ -38,7 +38,6 @@ return [
     'try_message' => 'Try searching for words that start with :startwithlink',
 
     'facets' => [
-        'institutionId' => 'Institution',
         'language' => "Language",
         'documentType' => "Document Type",
         'documentGroups' => "Collections",

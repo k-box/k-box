@@ -284,7 +284,6 @@ class DocumentsComposer
         } else {
             $cols = [
                 KlinkFacets::COPYRIGHT_USAGE_SHORT => ['label' => trans('search.facets.copyright_usage')],
-                // KlinkFacets::UPLOADER => ['label' => trans('search.facets.institutionId')],
                 KlinkFacets::LANGUAGE => ['label' => trans('search.facets.language')],
                 KlinkFacets::MIME_TYPE => ['label' => trans('search.facets.documentType')],
             ];
@@ -330,7 +329,6 @@ class DocumentsComposer
                                     }
                                 
                                     $group_facet->collapsed = $group_facet->count == 0;
-                                    $group_facet->institution = ! $grp->is_private;
                                     $group_facet->is_project = ! $grp->is_private;
                                     $private[] = $group_facet;
                                 }

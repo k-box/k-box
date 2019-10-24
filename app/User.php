@@ -46,7 +46,6 @@ use KBox\Traits\ScopeNullUuid;
  * @method static \Illuminate\Database\Query\Builder|\KBox\User whereDeletedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\KBox\User whereEmail($value)
  * @method static \Illuminate\Database\Query\Builder|\KBox\User whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\KBox\User whereInstitutionId($value)
  * @method static \Illuminate\Database\Query\Builder|\KBox\User whereName($value)
  * @method static \Illuminate\Database\Query\Builder|\KBox\User wherePassword($value)
  * @method static \Illuminate\Database\Query\Builder|\KBox\User whereRememberToken($value)
@@ -79,7 +78,7 @@ class User extends Authenticatable implements MustVerifyEmail
      *
      * @var array
      */
-    protected $fillable = ['name', 'email', 'password', 'institution_id'];
+    protected $fillable = ['name', 'email', 'password'];
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -175,17 +174,6 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
-     * The institution of the user
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
-     * @deprecated Institutions will be removed, use the origanization_* fields instead
-     */
-    public function institution()
-    {
-        return $this->hasOne(\KBox\Institution::class, 'id', 'institution_id');
-    }
-
-    /**
      * The documents uploaded by the user
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
@@ -263,28 +251,6 @@ class User extends Authenticatable implements MustVerifyEmail
     public static function generatePassword()
     {
         return Str::random(8);
-    }
-
-    /**
-     * Get the user institution identifier
-     *
-     * @return int|null the institution id, if configured, null otherwise
-     * @deprecated Institutions will be removed, use the origanization_* fields instead
-     */
-    public function getInstitution()
-    {
-        return ! is_null($this->institution) ? $this->institution->id : null;
-    }
-    
-    /**
-     * Get the user institution name
-     *
-     * @return string the institution name, if configured, otherwise an empty string is returned
-     * @deprecated Institutions will be removed, use the origanization_* fields instead
-     */
-    public function getInstitutionName()
-    {
-        return ! is_null($this->institution) ? $this->institution->name : '';
     }
 
     /**

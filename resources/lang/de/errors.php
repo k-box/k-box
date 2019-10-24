@@ -27,7 +27,7 @@ return [
         'revision_of_document' => 'Das Dokument ist eine Revision von <strong>":title"</strong>, hinzugefügt von :user (:email)',
         'revision_of_your_document' => 'Das Dokument ist eine Revision von ihrem Dokument <strong>:title</strong>',
         'by_user' => 'Das Dokument wurde bereits von :user (:email) auf der K-Box hochgeladen.',
-        'in_the_network' => 'Das Dokument wurde bereits in <strong>:network</strong> unter dem Titel <strong>":title"</strong> publiziert. Hinzugefügt von :institution',
+        'in_the_network' => 'Das Dokument wurde bereits in <strong>:network</strong> unter dem Titel <strong>":title"</strong> publiziert.',
     ],
 
     'group_already_exists_exception' => [

@@ -9,14 +9,6 @@
 		{{trans('administration.menu.accounts')}}
 	</a>
 
-
-	<a href="{{ route('administration.institutions.index') }}" class="navigation__item navigation__item--link @if(\Request::is('*institutions')) navigation__item--current @endif">
-		
-		@materialicon('action', 'account_balance', 'inline-block navigation__item__icon')
-		
-		{{trans('administration.menu.institutions')}}
-	</a>
-
 	<a href="{{ route('administration.storage.index') }}" class="navigation__item navigation__item--link @if(\Request::is('*storage*')) navigation__item--current @endif">
 			
 		@materialicon('action', 'dns', 'inline-block navigation__item__icon')

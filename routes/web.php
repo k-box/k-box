@@ -61,8 +61,6 @@ Route::group(['as' => 'administration.', 'prefix' => 'administration'], function
 
     Route::resource('/messages', 'Administration\MessagingController', ['only' => ['create', 'store']]);
 
-    Route::resource('/institutions', 'Administration\InstitutionsController', ['only' => ['index', 'show']]);
-
     Route::get('/network', 'Administration\NetworkAdministrationController@getIndex')->name('network.index');
 
     Route::get('/storage', 'Administration\StorageAdministrationController@getIndex')->name('storage.index');
@@ -181,7 +179,7 @@ Route::group(['as' => 'documents.', 'prefix' => 'documents'], function () {
     );
 
     Route::get('/{institution}/{local_id}', [
-            'uses' => 'Document\DocumentsController@showByKlinkId',
+            'uses' => 'RedirectOldDocumentsController@show',
             'as' => 'by-klink-id',
         ])->where(['local_id' => '(?!edit)[A-Za-z0-9]+', 'institution' => '[A-Za-z0-9]+']);
 
