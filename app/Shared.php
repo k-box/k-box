@@ -216,6 +216,6 @@ class Shared extends Model
     {
         $groups = static::sharedWithMe($user)->where('shareable_type', Group::class)->with('shareable')->get()->map->shareable;
 
-        return TreeableCollection::make($groups)->toTree();
+        return TreeableCollection::make($groups->filter())->toTree();
     }
 }
