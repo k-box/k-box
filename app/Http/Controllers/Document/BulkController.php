@@ -18,6 +18,7 @@ use Illuminate\Support\Collection;
 use Klink\DmsAdapter\KlinkVisibilityType;
 use KBox\Jobs\ReindexDocument;
 use Illuminate\Support\Facades\DB;
+use KBox\Jobs\CalculateUserUsedQuota;
 
 class BulkController extends Controller
 {
@@ -168,6 +169,8 @@ class BulkController extends Controller
             $status = ['status' => 'ok', 'message' =>  $message];
 
             \Cache::flush();
+
+            CalculateUserUsedQuota::dispatchNow($user);
 
             if ($request->ajax() && $request->wantsJson()) {
                 return new JsonResponse($status, 200);
