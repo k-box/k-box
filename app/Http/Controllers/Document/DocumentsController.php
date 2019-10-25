@@ -144,7 +144,9 @@ class DocumentsController extends Controller
         if ($can_see_share) {
             $all_single = Shared::sharedWithMe($auth_user)->with(['shareable', 'sharedwith'])->orderBy('created_at', $order)->get();
             
-            $all_shared = $all_single->unique();
+            $all_shared = $all_single->unique()->filter(function ($s) {
+                return ! is_null($s->shareable);
+            });
         }
         
         $with_me = $this->search($req, function ($_request) use ($all_shared) {
