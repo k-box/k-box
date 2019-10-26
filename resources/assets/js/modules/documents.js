@@ -165,15 +165,15 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
             _data = $this.data(); 
 
         if(!_Selection.isAnySelected() && !_data.dragEl){
-            // evt.originalEvent.dataTransfer.setData('text', 'dms_drag_action');
+            evt.originalEvent.dataTransfer.setData('text', 'dms_drag_action');
             _Selection.select($(this), true);
         }
         else if(_data.dragEl && _data.dragEl === 'group'){
-            // evt.originalEvent.dataTransfer.setData('text', JSON.stringify(_data));
+            evt.originalEvent.dataTransfer.setData('text', JSON.stringify(_data));
             console.log('Dragging a collection from the tree');
         }
         else {
-            // evt.originalEvent.dataTransfer.setData('text', 'dms_drag_action');
+            evt.originalEvent.dataTransfer.setData('text', 'dms_drag_action');
         }
 
         
