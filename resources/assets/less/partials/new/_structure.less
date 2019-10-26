@@ -24,23 +24,13 @@ table {
 	width: 100%;
 }
 
-
-
-
 // LOGO
 
-.logo {
-	
-	display: inline-block;
-
-
-    &:hover svg{
-        fill: @accent-color;
-    }
+.logo:hover svg{
+    fill: @accent-color;
 }
 
 .logo.white {
-
 	fill: #fff;
 }
 
@@ -96,10 +86,24 @@ table {
         pointer-events: none
 	}
 
-    
-
     &:hover, &:focus {
         background-color: fade(@brand-orange, 90%) !important;
+    }
+
+    &.dropdown > .label {
+        display: block;
+    }
+
+    svg {
+        margin-right: 5px;
+    }
+
+    span {
+        line-height: 24px;
+    }
+
+    svg, span {
+        vertical-align: top;
     }
 }
 

@@ -5,7 +5,7 @@
 		
 		<div class="flex items-center flex-grow max-w-lg">
 		
-			<a class="logo text-gray-700 hover:text-blue-600 mr-4" href="@if(isset( $is_user_logged ) && $is_user_logged){{$current_user_home_route}}@else{{route('frontpage')}}/@endif">
+			<a class="logo text-gray-700 hover:text-blue-600 mr-4 hidden md:inline-block" href="@if(isset( $is_user_logged ) && $is_user_logged){{$current_user_home_route}}@else{{route('frontpage')}}/@endif">
 				@include('headers.logo')
 			</a>
 			
