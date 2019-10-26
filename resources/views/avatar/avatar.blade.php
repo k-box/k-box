@@ -7,7 +7,7 @@
 		@if(isset($image) && is_string($image))
 			<img class="block h-10 w-auto" src="{{$image}}">
 		@elseif(isset($name) && is_string($name))
-			<span class="text-gray-200 pb-1 text-2xl leading-none">{{ mb_substr(studly_case($name), 0, 1) }}</span>
+			<span class="text-gray-200 text-2xl leading-none">{{ mb_substr(studly_case($name), 0, 1) }}</span>
 		@else
 			@materialicon('social', 'person', 'inline-block fill-current text-gray-200')
 		@endif
