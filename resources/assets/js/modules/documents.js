@@ -165,15 +165,15 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
             _data = $this.data(); 
 
         if(!_Selection.isAnySelected() && !_data.dragEl){
-            evt.originalEvent.dataTransfer.setData('text', 'dms_drag_action');
+            // evt.originalEvent.dataTransfer.setData('text', 'dms_drag_action');
             _Selection.select($(this), true);
         }
         else if(_data.dragEl && _data.dragEl === 'group'){
-            evt.originalEvent.dataTransfer.setData('text', JSON.stringify(_data));
+            // evt.originalEvent.dataTransfer.setData('text', JSON.stringify(_data));
             console.log('Dragging a collection from the tree');
         }
         else {
-            evt.originalEvent.dataTransfer.setData('text', 'dms_drag_action');
+            // evt.originalEvent.dataTransfer.setData('text', 'dms_drag_action');
         }
 
         
@@ -2063,6 +2063,28 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
 
                                 console.log("File upload success", file, response);
 
+                            });
+
+                            this.on('dragstart', function(a) {
+                                var item = a.srcElement;
+                                var msgbox = this.element.querySelector('div.dz-message');
+                                item = $(item).offsetParent('div.item.document-item')[0];
+
+                                if (item) {
+                                    console.log(msgbox);
+                                    msgbox.style.display = "none";
+                                }
+                            });
+
+                            this.on('dragend', function(a) {
+                                var item = a.srcElement;
+                                var msgbox = this.element.querySelector('div.dz-message');
+                                item = $(item).offsetParent('div.item.document-item')[0];
+
+                                if (item) {
+                                    console.log(msgbox);
+                                    msgbox.style.display = "inherit";
+                                }
                             });
 
                             this.on('drop', function(evt){
