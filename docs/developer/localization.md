@@ -24,7 +24,7 @@ Once logged in, the user, can select its preferred language for the User Interfa
 
 ## Language files
 
-Language files an localization rules follows the [Laravel Localization](http://laravel.com/docs/5.5/localization). 
+Language files an localization rules follows the [Laravel Localization](http://laravel.com/docs/5.7/localization). 
 
 The files are stored in `language` folders, represented by the two-letter language code (ISO 639-1).
 
@@ -74,8 +74,8 @@ The files are named accordingly to the license id in lower case and must be in m
 
 Laravel offer some helper methods to write localized strings in the PHP source code and in blade templates.
 
-- [`trans`](https://laravel.com/docs/5.2/helpers#method-trans)
-- [`trans_choice`](https://laravel.com/docs/5.2/helpers#method-trans-choice)
+- [`trans`](https://laravel.com/docs/5.7/helpers#method-trans)
+- [`trans_choice`](https://laravel.com/docs/5.7/helpers#method-trans-choice)
 
 
 ### Date and time localization

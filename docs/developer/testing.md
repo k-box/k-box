@@ -19,10 +19,18 @@ $ php artisan db:seed --env=testing
 After that you can run
 
 ```
-$ ./vendor/bin/phpunit
+./vendor/bin/phpunit
 ```
 
-> Please consider that the documentation might be out-dated as Laravel 5.5 deprecated the core support for BrowserKit tests. Currently most of the unit tests in the K-Box code are BrowserKit based. **Newly created tests should follow the Laravel 5.5 (and above) approach.**
+## Create new tests
+
+To create new feature or unit test execute
+
+```bash
+php artisan make:test [--unit] {TestClass}
+```
+
+> For more information please refer to [Laravel's official documentation](https://laravel.com/docs/5.7/testing#creating-and-running-tests)
 
 ## Helper methods
 
@@ -42,7 +50,7 @@ $this->swap('Class', new SubstituteClass());
 
 ## Mocking
 
-Beside the [Mocks](https://laravel.com/docs/5.5/mocking) and testing helpers defined 
+Beside the [Mocks](https://laravel.com/docs/5.7/mocking) and testing helpers defined 
 by Laravel, the K-Box offers some utilities.
 
 ### KlinkAdapter mock
@@ -58,7 +66,7 @@ at the beginning of your unit test. The method returns the Mockery\MockInterface
 you can use to set expectations on method calls. At the same time the mock instance is added to 
 the Laravel service container for binding resolution.
 
-## DocumentElaboration Fake
+### DocumentElaboration Fake
 
 As an alternative to mocking, you may use the `DocumentElaboration` facade's `fake` method to 
 prevent the elaboration pipeline from executing. You may then assert that a pipeline was 
