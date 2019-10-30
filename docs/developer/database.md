@@ -142,7 +142,7 @@ A Project cannot be deleted.
 
 Sharing of documents and collection is realized with the help of the *shared* table.
 
-In this table there are two [polymorphic relations](http://laravel.com/docs/5.7/eloquent#polymorphic-relations):
+In this table there are two [polymorphic relations](https://laravel.com/docs/5.7/eloquent-relationships#polymorphic-relationships):
 
 1. `shareable`: the shared element, could be an instance of *document_descriptor* or a *group*
 2. `sharedwith`: with who I'm sharing something. Can be a *users* or a *peoplegroups* instance
