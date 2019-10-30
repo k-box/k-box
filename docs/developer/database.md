@@ -142,7 +142,7 @@ A Project cannot be deleted.
 
 Sharing of documents and collection is realized with the help of the *shared* table.
 
-In this table there are two [polymorphic relations](http://laravel.com/docs/5.0/eloquent#polymorphic-relations):
+In this table there are two [polymorphic relations](https://laravel.com/docs/5.7/eloquent-relationships#polymorphic-relationships):
 
 1. `shareable`: the shared element, could be an instance of *document_descriptor* or a *group*
 2. `sharedwith`: with who I'm sharing something. Can be a *users* or a *peoplegroups* instance
@@ -150,7 +150,7 @@ In this table there are two [polymorphic relations](http://laravel.com/docs/5.0/
 
 ## Database to PHP Class and Database table construction
 
-The mapping between database tables and PHP classes are handled by [Laravel Eloquent](http://laravel.com/docs/5.0/eloquent). All the models that pertain to a database table is stored in the `app` folder in the source code.
+The mapping between database tables and PHP classes are handled by [Laravel Eloquent](http://laravel.com/docs/5.7/eloquent). All the models that pertain to a database table is stored in the `app` folder in the source code.
 
-The database tables are created using [Laravel's migrations](http://laravel.com/docs/5.0/migrations). The source code is stored in the `database` folder.
+The database tables are created using [Laravel's migrations](http://laravel.com/docs/5.7/migrations). The source code is stored in the `database` folder.
 
