@@ -39,7 +39,7 @@ We use [Gulp 3.9](https://gulpjs.com/) on top of [Laravel Elixir](https://github
 
 > The setup is compatible with **Node 11** and might break on newer NodeJS version due to dependencies of Gulp 3.9.
 
-As stated in the [developer installation](./developer-installation.md) guide, the compiled files for 
+As stated in the [developer installation](./developer-installation.md#frontend-build) guide, the compiled files for 
 the frontend are not commited in the GIT repository. 
 
 ```bash
