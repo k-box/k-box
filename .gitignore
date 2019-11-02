@@ -25,3 +25,6 @@ typings/*
 .vscode/
 docker-compose.yml
 !tests/docker-compose.yml
+
+_ide_helper.php
+.phpstorm.meta.php
