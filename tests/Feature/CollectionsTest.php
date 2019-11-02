@@ -1,19 +1,23 @@
 <?php
 
-use Laracasts\TestDummy\Factory;
+namespace Tests\Feature;
+
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use KBox\User;
 use KBox\Group;
 use KBox\Project;
 use KBox\Capability;
+use Tests\TestCase;
 use Illuminate\Support\Collection;
-
-use Tests\BrowserKitTestCase;
+use KBox\Documents\Services\DocumentsService;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use KBox\DocumentDescriptor;
+use KBox\Exceptions\ForbiddenException;
 
 /*
  * Test something related to document descriptors management
 */
-class CollectionsTest extends BrowserKitTestCase
+class CollectionsTest extends TestCase
 {
     use DatabaseTransactions;
     
@@ -43,30 +47,28 @@ class CollectionsTest extends BrowserKitTestCase
      */
     public function testSeePersonalCollectionLoginRequired()
     {
-        // create a document
+        $user = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$ADMIN);
+        });
         
-        $user = $this->createAdminUser();
-        
-        // $user_not_owner = $this->createAdminUser();
-        
-        $service = app('KBox\Documents\Services\DocumentsService');
+        $service = app(DocumentsService::class);
         
         $collection = $service->createGroup($user, 'Personal Collection Name');
 
         $url = route('documents.groups.show', $collection->id);
         
-        $this->visit($url)->seePageIs(route('frontpage'));
+        $this->get($url)->assertRedirect(route('frontpage'));
     }
     
     public function testSeePersonalCollectionAccessGranted()
     {
-        // create a document
-
         $this->withKlinkAdapterFake();
         
-        $user = $this->createAdminUser();
+        $user = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$ADMIN);
+        });
         
-        $service = app('KBox\Documents\Services\DocumentsService');
+        $service = app(DocumentsService::class);
         
         $collection = $service->createGroup($user, 'Personal Collection Name');
 
@@ -74,51 +76,52 @@ class CollectionsTest extends BrowserKitTestCase
         
         // test with login with the owner user
         
-        $this->actingAs($user);
+        $response = $this->actingAs($user)->get($url);
         
-        $this->visit($url)->seePageIs($url);
-        
-        $this->assertResponseOk();
+        $response->assertOk();
     }
     
     public function testSeePersonalCollectionAccessDenieded()
     {
-        // create a document
+        $user = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$ADMIN);
+        });
         
-        $user = $this->createAdminUser();
+        $user_not_owner = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$PARTNER);
+        });
         
-        $user_not_owner = $this->createUser(Capability::$PARTNER);
-        
-        $service = app('KBox\Documents\Services\DocumentsService');
+        $service = app(DocumentsService::class);
         
         $collection = $service->createGroup($user, 'Personal Collection Name');
 
         $url = route('documents.groups.show', $collection->id);
         
-        // test with login with another user
-        
-        $this->actingAs($user_not_owner);
-        
-        $this->call('GET', $url);
-        
-        $this->assertResponseStatus(403);
+        $response = $this->actingAs($user_not_owner)->get($url);
+        $response->assertForbidden();
     }
     
     public function testCollectionListing()
     {
-        $user1 = $this->createUser(Capability::$PROJECT_MANAGER_LIMITED);
+        $user1 = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$PROJECT_MANAGER_LIMITED);
+        });
         
-        $user2 = $this->createUser(Capability::$PROJECT_MANAGER_LIMITED);
+        $user2 = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$PROJECT_MANAGER_LIMITED);
+        });
         
-        $user_admin = $this->createAdminUser();
+        $user_admin = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$ADMIN);
+        });
         
         // $users = [$user1, $user2];
         
-        $projectA = factory(\KBox\Project::class)->create(['user_id' => $user1->id]);
-        $projectB = factory(\KBox\Project::class)->create(['user_id' => $user1->id]);
-        $projectC = factory(\KBox\Project::class)->create(['user_id' => $user2->id]);
+        $projectA = factory(Project::class)->create(['user_id' => $user1->id]);
+        $projectB = factory(Project::class)->create(['user_id' => $user1->id]);
+        $projectC = factory(Project::class)->create(['user_id' => $user2->id]);
         
-        $service = app('KBox\Documents\Services\DocumentsService');
+        $service = app(DocumentsService::class);
         
         $grp1 = $service->createGroup($user1, 'Personal collection of user '.$user1->id);
         $grp2 = $service->createGroup($user2, 'Personal collection of user '.$user2->id);
@@ -196,9 +199,11 @@ class CollectionsTest extends BrowserKitTestCase
         $project_collection_names = ['pz', 'pa', 'pd', 'pb', 'pcc', 'pca', 'pk'];
         $project_expected_collection_names = ['pa', 'pb', 'pca', 'pcc', 'pd', 'pk', 'pz'];
 
-        $user = $this->createUser($caps);
-        
-        $service = app('KBox\Documents\Services\DocumentsService');
+        $user = tap(factory(User::class)->create(), function ($u) use ($caps) {
+            $u->addCapabilities($caps);
+        });
+
+        $service = app(DocumentsService::class);
 
         $project = null;
         $project_group = null;
@@ -258,11 +263,11 @@ class CollectionsTest extends BrowserKitTestCase
     
     public function testIsCollectionAccessible()
     {
-        $service = app('KBox\Documents\Services\DocumentsService');
+        $service = app(DocumentsService::class);
         
         // create a project
         
-        $project = factory(\KBox\Project::class)->create();
+        $project = factory(Project::class)->create();
         
         $user = $project->manager()->first();
         
@@ -277,9 +282,9 @@ class CollectionsTest extends BrowserKitTestCase
         
         $this->assertTrue($accessible, 'Collection is not accessible by the creator');
         
-        $projectA = factory(\KBox\Project::class)->create(['user_id' => $user->id]);
-        $projectB = factory(\KBox\Project::class)->create(['user_id' => $user->id]);
-        $projectC = factory(\KBox\Project::class)->create(['user_id' => $user->id]);
+        $projectA = factory(Project::class)->create(['user_id' => $user->id]);
+        $projectB = factory(Project::class)->create(['user_id' => $user->id]);
+        $projectC = factory(Project::class)->create(['user_id' => $user->id]);
         
         $collection2 = $service->createGroup($user, 'sub-sub-collection name', null, $collection, false);
         
@@ -287,7 +292,9 @@ class CollectionsTest extends BrowserKitTestCase
         
         $this->assertTrue($accessible, 'Collection is not accessible by the creator');
         
-        $user_admin = $this->createAdminUser();
+        $user_admin = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$ADMIN);
+        });
         
         $collection3 = $service->createGroup($user, 'by admin', null, $project_collection, false);
         
@@ -295,7 +302,9 @@ class CollectionsTest extends BrowserKitTestCase
         
         $this->assertTrue($accessible, 'Collection is not accessible by the creator');
         
-        $partner = $this->createUser(Capability::$PARTNER);
+        $partner = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$PARTNER);
+        });
         
         $accessible = $service->isCollectionAccessible($partner, $collection);
         $this->assertFalse($accessible, 'Collection 1 is accessible by Partner user not added to the project');
@@ -318,9 +327,11 @@ class CollectionsTest extends BrowserKitTestCase
     
     public function testCollectionCacheForUserUpdate()
     {
-        $user = $this->createAdminUser();
+        $user = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$ADMIN);
+        });
         
-        $service = app('KBox\Documents\Services\DocumentsService');
+        $service = app(DocumentsService::class);
         
         \Cache::shouldReceive('forget')
                     ->once()
@@ -334,16 +345,18 @@ class CollectionsTest extends BrowserKitTestCase
     
     public function testBulkCopyToCollection()
     {
-        $user = $this->createAdminUser();
+        $user = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$ADMIN);
+        });
         
-        $service = app('KBox\Documents\Services\DocumentsService');
+        $service = app(DocumentsService::class);
         
         // create one document
-        $doc = factory(\KBox\DocumentDescriptor::class)->create([
+        $doc = factory(DocumentDescriptor::class)->create([
             'owner_id' => $user->id
         ]);
         
-        $doc2 = factory(\KBox\DocumentDescriptor::class)->create([
+        $doc2 = factory(DocumentDescriptor::class)->create([
             'owner_id' => $user->id
         ]);
         
@@ -357,11 +370,13 @@ class CollectionsTest extends BrowserKitTestCase
         
         $this->actingAs($user);
         
-        $this->json('POST', route('documents.bulk.copyto'), [
+        $response = $this->json('POST', route('documents.bulk.copyto'), [
             'documents' => [ $doc->id ],
             'destination_group' => $grp1->id,
             '_token' => csrf_token()
-        ])->seeJson([
+        ]);
+        
+        $response->assertJson([
             'status' => 'ok',
             'message' => trans('documents.bulk.copy_completed_all', ['collection' => $grp1->name]),
         ]);
@@ -370,11 +385,13 @@ class CollectionsTest extends BrowserKitTestCase
         
         // try to add a second document and again the first document
         
-        $this->json('POST', route('documents.bulk.copyto'), [
+        $response = $this->json('POST', route('documents.bulk.copyto'), [
             'documents' => [ $doc->id, $doc2->id ],
             'destination_group' => $grp1->id,
             '_token' => csrf_token()
-        ])->seeJson([
+        ]);
+        
+        $response->assertJson([
             'status' => 'partial',
             'message' => trans_choice('documents.bulk.copy_completed_some', 1, ['count' => 1, 'collection' => $grp1->name, 'remaining' => 1]),
         ]);
@@ -384,12 +401,14 @@ class CollectionsTest extends BrowserKitTestCase
     
     public function testDmsCollectionsCleanDuplicatesCommand()
     {
-        $user = $this->createAdminUser();
+        $user = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$ADMIN);
+        });
         
-        $service = app('KBox\Documents\Services\DocumentsService');
+        $service = app(DocumentsService::class);
         
         // create one document
-        $doc = factory(\KBox\DocumentDescriptor::class)->create([
+        $doc = factory(DocumentDescriptor::class)->create([
             'owner_id' => $user->id
         ]);
         
@@ -418,7 +437,9 @@ class CollectionsTest extends BrowserKitTestCase
 
     public function testDocumentService_deleteGroup()
     {
-        $user = $this->createUser(Capability::$PARTNER);
+        $user = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$PARTNER);
+        });
 
         $group = $this->createCollection($user, true, 3);
 
@@ -429,7 +450,7 @@ class CollectionsTest extends BrowserKitTestCase
 
         $this->assertEquals(3, $children->count(), 'Children count pre-condition');
 
-        $service = app('KBox\Documents\Services\DocumentsService');
+        $service = app(DocumentsService::class);
 
         $is_deleted = $service->deleteGroup($user, $group);
 
@@ -449,24 +470,29 @@ class CollectionsTest extends BrowserKitTestCase
         $this->assertEquals(3, $trashed_children->count());
     }
 
-    /**
-     * @expectedException KBox\Exceptions\ForbiddenException
-     */
     public function testDocumentService_deleteGroup_forbidden()
     {
-        $user = $this->createUser(Capability::$PARTNER);
-        $user2 = $this->createUser(Capability::$PARTNER);
+        $user = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$PARTNER);
+        });
+        $user2 = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$PARTNER);
+        });
 
         $doc = $this->createCollection($user);
 
-        $service = app('KBox\Documents\Services\DocumentsService');
+        $service = app(DocumentsService::class);
+
+        $this->expectException(ForbiddenException::class);
 
         $service->deleteGroup($user2, $doc);
     }
 
     public function testCollectionDelete()
     {
-        $user = $this->createUser(Capability::$PARTNER);
+        $user = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$PARTNER);
+        });
 
         $doc = $this->createCollection($user);
 
@@ -477,11 +503,11 @@ class CollectionsTest extends BrowserKitTestCase
         
         $this->actingAs($user);
 
-        $this->delete($url);
+        $response = $this->delete($url);
 
-        $this->see('ok');
+        $response->assertSee('ok');
         
-        $this->assertResponseStatus(202);
+        $response->assertStatus(202);
 
         $doc = Group::withTrashed()->findOrFail($doc->id);
 
@@ -490,8 +516,10 @@ class CollectionsTest extends BrowserKitTestCase
 
     public function testDocumentService_permanentlyDeleteGroup()
     {
-        $user = $this->createUser(Capability::$PROJECT_MANAGER);
-
+        $user = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$PROJECT_MANAGER);
+        });
+        
         $group = $this->createCollection($user, true, 3);
 
         // get childs
@@ -501,7 +529,7 @@ class CollectionsTest extends BrowserKitTestCase
 
         $this->assertEquals(3, $children->count(), 'Children count pre-condition');
 
-        $service = app('KBox\Documents\Services\DocumentsService');
+        $service = app(DocumentsService::class);
 
         $service->deleteGroup($user, $group); // put doc in trash
         
@@ -523,29 +551,32 @@ class CollectionsTest extends BrowserKitTestCase
         $this->assertEquals(0, $after_delete_children->count());
     }
 
-    /**
-     * @expectedException KBox\Exceptions\ForbiddenException
-     */
     public function testDocumentService_permanentlyDeleteGroup_forbidden()
     {
-        $user = $this->createUser(Capability::$PROJECT_MANAGER);
-        $user2 = $this->createUser(Capability::$PARTNER);
-
+        $user = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$PROJECT_MANAGER);
+        });
+        
+        $user2 = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$PARTNER);
+        });
+        
         $group = $this->createCollection($user, false);
 
-        $service = app('KBox\Documents\Services\DocumentsService');
+        $group->delete();
 
-        $service->deleteGroup($user, $group); // put doc in trash
+        $service = app(DocumentsService::class);
 
-        $is_deleted = $service->permanentlyDeleteDocument($group, $user2);
+        $this->expectException(ForbiddenException::class);
+
+        $is_deleted = $service->permanentlyDeleteGroup($group, $user2);
     }
 
-    /**
-     * @expectedException Illuminate\Database\Eloquent\ModelNotFoundException
-     */
     public function testGroupForceDelete()
     {
-        $user = $this->createUser(Capability::$PROJECT_MANAGER);
+        $user = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$PROJECT_MANAGER);
+        });
 
         $doc = $this->createCollection($user);
 
@@ -556,23 +587,40 @@ class CollectionsTest extends BrowserKitTestCase
         
         $this->actingAs($user);
 
-        $this->delete($url);
+        $response = $this->delete($url);
 
-        $this->see('ok');
+        $response->assertSee('ok');
         
-        $this->assertResponseStatus(202);
+        $response->assertStatus(202);
 
         $url = route('documents.groups.destroy', [
                 'id' => $doc->id,
                 'force' => true,
                 '_token' => csrf_token()]);
 
-        $this->delete($url);
+        $response = $this->delete($url);
 
-        $this->see('ok');
+        $response->assertSee('ok');
         
-        $this->assertResponseStatus(202);
+        $response->assertStatus(202);
+
+        $this->expectException(ModelNotFoundException::class);
 
         $doc = Group::withTrashed()->findOrFail($doc->id);
+    }
+
+    protected function createCollection(User $user, $is_personal = true, $childs = 0)
+    {
+        $service = app(DocumentsService::class);
+
+        $group = $service->createGroup($user, 'collection of user '.$user->id, null, null, $is_personal);
+
+        if ($childs > 0) {
+            for ($i=0; $i < $childs; $i++) {
+                $service->createGroup($user, 'Child '.$user->id.'-'.$group->id.'-'.$i, null, $group, $is_personal);
+            }
+        }
+
+        return $group;
     }
 }
