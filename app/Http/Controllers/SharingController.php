@@ -439,7 +439,6 @@ class SharingController extends Controller
         }
             
         return $shares_list;
-        // TODO: now send a notification/mail to every user about their new shares
     }
     
     public function showGroup(AuthGuard $auth, Request $request, $id)
