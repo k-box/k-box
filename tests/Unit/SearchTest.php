@@ -1,17 +1,20 @@
 <?php
 
-use Tests\BrowserKitTestCase;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+namespace Tests\Unit;
 
 use KBox\Starred;
-use KBox\DocumentDescriptor;
-use Laracasts\TestDummy\Factory;
-use Illuminate\Support\Collection;
-use Klink\DmsSearch\SearchRequest;
+use Tests\TestCase;
 use KBox\Traits\Searchable;
+use KBox\DocumentDescriptor;
+use Klink\DmsSearch\SearchRequest;
+use Illuminate\Support\Collection;
+use KBox\Pagination\SearchResultsPaginator;
 use Klink\DmsAdapter\Fakes\FakeKlinkAdapter;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
+use KBox\Capability;
+use KBox\User;
 
-class SearchTest extends BrowserKitTestCase
+class SearchTest extends TestCase
 {
     use Searchable;
     use DatabaseTransactions;
@@ -22,9 +25,11 @@ class SearchTest extends BrowserKitTestCase
 
         // add some documents and star them
         
-        $user = $this->createAdminUser();
+        $user = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$ADMIN);
+        });
         
-        $starred = factory(\KBox\DocumentDescriptor::class, 3)
+        $starred = factory(DocumentDescriptor::class, 3)
             ->create()
             ->each(function ($doc) use ($user) {
                 $doc->stars()->create(['user_id' => $user->id]);
@@ -43,16 +48,16 @@ class SearchTest extends BrowserKitTestCase
         $that = $this;
         
         $results = $this->search($req, function ($_request) use ($that, $user) {
-            $that->assertInstanceOf('Klink\DmsSearch\SearchRequest', $_request);
+            $that->assertInstanceOf(SearchRequest::class, $_request);
             
             return Starred::with('document')->ofUser($user->id); // or Collection or Eloquent\Builder instance
         });
         
-        $this->assertInstanceOf(\KBox\Pagination\SearchResultsPaginator::class, $results, 'Result not a paginator');
+        $this->assertInstanceOf(SearchResultsPaginator::class, $results, 'Result not a paginator');
         
         $this->assertNotEmpty($results->items());
         $this->assertNotNull($results->items());
-        $this->assertInstanceOf('Illuminate\Support\Collection', $results->getCollection(), 'Result items as collection');
+        $this->assertInstanceOf(Collection::class, $results->getCollection(), 'Result items as collection');
         
         $this->assertEquals($req->limit, $results->count(), 'Document count == requested limit');
         $this->assertEquals($req->limit, $results->perPage(), 'Limit count');
@@ -104,14 +109,14 @@ class SearchTest extends BrowserKitTestCase
             return FakeKlinkAdapter::generateFacetsResponse($facets, $visibility, $term);
         });
 
-        $docs = factory(\KBox\DocumentDescriptor::class, $count)->create();
+        $docs = factory(DocumentDescriptor::class, $count)->create();
 
         $interested_in = $docs->last();
         
         $req = SearchRequest::create()
             ->highlight($interested_in->id);
 
-        $this->assertInstanceOf('Klink\DmsSearch\SearchRequest', $req);
+        $this->assertInstanceOf(SearchRequest::class, $req);
         
         $this->assertEquals($interested_in->id, $req->highlight);
         
@@ -198,7 +203,7 @@ class SearchTest extends BrowserKitTestCase
             ->limit($per_page)
             ->highlight($interested_in->id);
 
-        $this->assertInstanceOf('Klink\DmsSearch\SearchRequest', $req);
+        $this->assertInstanceOf(SearchRequest::class, $req);
         
         $this->assertEquals($interested_in->id, $req->highlight);
         $this->assertEquals($per_page, $req->limit);
