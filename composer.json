@@ -74,7 +74,6 @@
 		"fzaninotto/faker": "^1.4",
 		"jakub-onderka/php-parallel-lint": "^1.0.0",
 		"k-box/unittest-demo-plugin": "*",
-		"laravel/browser-kit-testing": "^4.0",
 		"mockery/mockery": "^1.0",
 		"nunomaduro/collision": "^2.0",
 		"phpunit/phpunit": "~7.0",
@@ -107,8 +106,7 @@
             "Tests\\": "tests/"
         },
 		"classmap": [
-			"tests/TestCase.php",
-        	"tests/BrowserKitTestCase.php"
+			"tests/TestCase.php"
 		]
 	},
 	"scripts": {

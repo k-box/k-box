@@ -44,7 +44,7 @@ class KlinkAdapterInstanceRetrieveTest extends TestCase
     }
     
     /**
-     * Tests that the trai UseFakeAdapter added to the BrowserKitTestCase is usable
+     * Tests that the trait UseFakeAdapter is usable
      */
     public function testUseMockAdapter()
     {
