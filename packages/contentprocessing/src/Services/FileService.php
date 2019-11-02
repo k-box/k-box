@@ -5,6 +5,7 @@ namespace KBox\Documents\Services;
 use Log;
 use Exception;
 use ErrorException;
+use Illuminate\Support\Arr;
 use ReflectionClass;
 use ReflectionException;
 use InvalidArgumentException;
@@ -270,7 +271,7 @@ class FileService
     private function getIdentifiersFor($mimeType)
     {
         $matching = $this->identifiers->filter(function ($item) use ($mimeType) {
-            $accepted = array_wrap(data_get($item, 'accept'));
+            $accepted = Arr::wrap(data_get($item, 'accept'));
             return in_array('*', $accepted) || in_array($mimeType, $accepted);
         });
         return $matching;

@@ -5,6 +5,7 @@ namespace KBox\Geo\Http\Controllers;
 use Exception;
 use KBox\Geo\GeoService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use KBox\Plugins\PluginManager;
 use KBox\Http\Controllers\Controller;
 use KBox\Geo\Http\Requests\EnableDisableMapProviderRequest;
@@ -40,7 +41,7 @@ class GeoPluginEnableDisableMapProviderController extends Controller
 
         $providerSettings = $mapSettings['providers'] ?? [];
         
-        $providersToChange = array_wrap($request->input('provider', []));
+        $providersToChange = Arr::wrap($request->input('provider', []));
         $enableProvider = (bool)$request->input('enable');
         $changedProviders = 0;
         

@@ -4,6 +4,7 @@ namespace KBox\Geo\Actions;
 
 use Log;
 use Exception;
+use Illuminate\Support\Arr;
 use KBox\Geo\GeoService;
 use Klink\DmsAdapter\Geometries;
 use OneOffTech\GeoServer\GeoFile;
@@ -93,7 +94,7 @@ class ProcessGeodata extends Action
                 'type' => $properties->type ?? optional($details)->type(), //although it might be already set, we add it twice in case Gdal extraction fails
                 'crs.geoserver' => $geoserverCrs ?? '',
                 'boundings.geoserver' => optional($details)->boundingBox ?? [],
-                'geoserver.layers' => array_wrap($baseLayer),
+                'geoserver.layers' => Arr::wrap($baseLayer),
                 'geoserver.store' => optional($details)->name,
             ]);
 

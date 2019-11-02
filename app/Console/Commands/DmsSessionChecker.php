@@ -3,6 +3,7 @@
 namespace KBox\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\Console\Input\InputOption;
 use KBox\User;
@@ -69,7 +70,7 @@ class DmsSessionChecker extends Command
         foreach ($sessions as $session) {
             $payload = @unserialize(base64_decode($session->payload));
             
-            $login_user = array_first($payload, function ($value, $key) {
+            $login_user = Arr::first($payload, function ($value, $key) {
                 return starts_with($key, 'login_');
             });
             

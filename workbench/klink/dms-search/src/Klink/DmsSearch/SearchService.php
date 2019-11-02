@@ -16,6 +16,7 @@ use Klink\DmsAdapter\KlinkVisibilityType;
 use Klink\DmsAdapter\KlinkSearchRequest;
 use Klink\DmsAdapter\KlinkSearchResults;
 use Exception;
+use Illuminate\Support\Arr;
 use KBox\Documents\Services\DocumentsService;
 use KBox\Group;
 use KBox\Project;
@@ -276,7 +277,7 @@ class SearchService
     {
         $whitelist = array_merge(config('dms.language_whitelist', []), ['__']);
         
-        $lang_facets = array_first($facets, function ($value, $key) {
+        $lang_facets = Arr::first($facets, function ($value, $key) {
             return $key === KlinkFacets::LANGUAGE;
         }, null);
     

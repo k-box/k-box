@@ -4,6 +4,7 @@ namespace KBox\Documents\Preview;
 
 use KBox\File;
 use Illuminate\Contracts\Support\Renderable;
+use Illuminate\Support\Arr;
 
 /**
  * PDF preview.
@@ -20,7 +21,7 @@ class PdfPreviewDriver extends BasePreviewDriver implements Renderable
 
     public function with($data)
     {
-        $this->view_data = array_merge($this->view_data, array_wrap($data));
+        $this->view_data = array_merge($this->view_data, Arr::wrap($data));
         return $this;
     }
 

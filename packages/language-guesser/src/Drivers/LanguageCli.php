@@ -2,6 +2,7 @@
 
 namespace OneOffTech\LanguageGuesser\Drivers;
 
+use Illuminate\Support\Arr;
 use RuntimeException;
 use OneOffTech\LanguageGuesser\Exceptions\LanguageGuessFailedException;
 use Symfony\Component\Process\Process;
@@ -64,11 +65,11 @@ class LanguageCli
         }
 
         if (! empty($this->blacklist)) {
-            $options[] = '--blacklist '.join(',', array_wrap($this->blacklist));
+            $options[] = '--blacklist '.join(',', Arr::wrap($this->blacklist));
         }
 
         if (! empty($this->whitelist)) {
-            $options[] = '--whitelist '.join(',', array_wrap($this->whitelist));
+            $options[] = '--whitelist '.join(',', Arr::wrap($this->whitelist));
         }
 
         $this->process = $process = new Process(

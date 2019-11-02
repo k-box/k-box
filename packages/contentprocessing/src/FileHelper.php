@@ -3,6 +3,7 @@
 namespace KBox\Documents;
 
 use Exception;
+use Illuminate\Support\Arr;
 use InvalidArgumentException;
 
 /**
@@ -268,7 +269,7 @@ final class FileHelper
         $possible_extensions_count = count($possible_extensions);
 
         if ($possible_extensions_count > 0) {
-            $possible_extension = array_first(array_keys($possible_extensions));
+            $possible_extension = Arr::first(array_keys($possible_extensions));
             
             if (! is_null($documentType) && $possible_extensions_count > 1) {
                 $filtered_by_doc_type = array_keys(array_filter($possible_extensions, function ($value, $key) use ($mimeType, $documentType) {
@@ -280,7 +281,7 @@ final class FileHelper
                 }, ARRAY_FILTER_USE_BOTH));
 
                 if (count($filtered_by_doc_type) > 0) {
-                    $possible_extension = array_first($filtered_by_doc_type);
+                    $possible_extension = Arr::first($filtered_by_doc_type);
                 }
             }
             

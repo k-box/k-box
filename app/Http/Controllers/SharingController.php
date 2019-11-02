@@ -13,6 +13,7 @@ use Illuminate\Http\JsonResponse;
 use KBox\Http\Requests\CreateShareRequest;
 use KBox\Http\Requests\ShareDialogRequest;
 use Illuminate\Contracts\Auth\Guard as AuthGuard;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use KBox\Traits\Searchable;
@@ -75,7 +76,7 @@ class SharingController extends Controller
             $all_shared = $all_single->unique();
             
             $shared_docs = $all_shared->pluck('shareable.uuid')->all();
-            $shared_files_in_groups = array_flatten(array_filter($all_shared->map(function ($g) {
+            $shared_files_in_groups = Arr::flatten(array_filter($all_shared->map(function ($g) {
                 if ($g->shareable_type === \KBox\Group::class && ! is_null($g->shareable)) {
                     return $g->shareable->documents->pluck('uuid')->all();
                 }
