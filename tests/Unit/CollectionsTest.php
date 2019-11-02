@@ -9,6 +9,7 @@ use KBox\Project;
 use Tests\TestCase;
 use KBox\Capability;
 use KBox\Exceptions\ForbiddenException;
+use KBox\Documents\Services\DocumentsService;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class CollectionsTest extends TestCase
@@ -17,9 +18,9 @@ class CollectionsTest extends TestCase
 
     public function test_trashing_personal_collections_trash_also_descendants()
     {
-        $service = app('KBox\Documents\Services\DocumentsService');
+        $service = app(DocumentsService::class);
         
-        $user = tap(factory(\KBox\User::class)->create(), function ($user) {
+        $user = tap(factory(User::class)->create(), function ($user) {
             $user->addCapabilities(Capability::$PARTNER);
         });
     
@@ -46,16 +47,16 @@ class CollectionsTest extends TestCase
 
     public function test_trashing_project_collection_trash_also_descendants()
     {
-        $service = app('KBox\Documents\Services\DocumentsService');
+        $service = app(DocumentsService::class);
         
-        $manager = tap(factory(\KBox\User::class)->create(), function ($user) {
+        $manager = tap(factory(User::class)->create(), function ($user) {
             $user->addCapabilities(Capability::$PROJECT_MANAGER_LIMITED);
         });
-        $user = tap(factory(\KBox\User::class)->create(), function ($user) {
+        $user = tap(factory(User::class)->create(), function ($user) {
             $user->addCapabilities(Capability::$PARTNER);
         });
 
-        $project = factory(\KBox\Project::class)->create([
+        $project = factory(Project::class)->create([
             'user_id' => $manager->id
         ]);
 
@@ -83,16 +84,16 @@ class CollectionsTest extends TestCase
 
     public function test_manager_can_permanently_delete_collections_in_project()
     {
-        $service = app('KBox\Documents\Services\DocumentsService');
+        $service = app(DocumentsService::class);
         
-        $manager = tap(factory(\KBox\User::class)->create(), function ($user) {
+        $manager = tap(factory(User::class)->create(), function ($user) {
             $user->addCapabilities(Capability::$PROJECT_MANAGER_LIMITED);
         });
-        $user = tap(factory(\KBox\User::class)->create(), function ($user) {
+        $user = tap(factory(User::class)->create(), function ($user) {
             $user->addCapabilities(Capability::$PARTNER);
         });
 
-        $project = factory(\KBox\Project::class)->create([
+        $project = factory(Project::class)->create([
             'user_id' => $manager->id
         ]);
         $project->users()->attach($user);
@@ -118,16 +119,16 @@ class CollectionsTest extends TestCase
 
     public function test_partner_can_permanently_delete_collections_in_project()
     {
-        $service = app('KBox\Documents\Services\DocumentsService');
+        $service = app(DocumentsService::class);
         
-        $manager = tap(factory(\KBox\User::class)->create(), function ($user) {
+        $manager = tap(factory(User::class)->create(), function ($user) {
             $user->addCapabilities(Capability::$PROJECT_MANAGER_LIMITED);
         });
-        $user = tap(factory(\KBox\User::class)->create(), function ($user) {
+        $user = tap(factory(User::class)->create(), function ($user) {
             $user->addCapabilities(Capability::$PARTNER);
         });
 
-        $project = factory(\KBox\Project::class)->create([
+        $project = factory(Project::class)->create([
             'user_id' => $manager->id
         ]);
         $project->users()->attach($user);
@@ -147,16 +148,16 @@ class CollectionsTest extends TestCase
 
     public function test_partner_cannot_permanently_delete_collections_in_project()
     {
-        $service = app('KBox\Documents\Services\DocumentsService');
+        $service = app(DocumentsService::class);
         
-        $manager = tap(factory(\KBox\User::class)->create(), function ($user) {
+        $manager = tap(factory(User::class)->create(), function ($user) {
             $user->addCapabilities(Capability::$PROJECT_MANAGER_LIMITED);
         });
-        $user = tap(factory(\KBox\User::class)->create(), function ($user) {
+        $user = tap(factory(User::class)->create(), function ($user) {
             $user->addCapabilities(Capability::$PARTNER);
         });
 
-        $project = factory(\KBox\Project::class)->create([
+        $project = factory(Project::class)->create([
             'user_id' => $manager->id
         ]);
         $project->users()->attach($user);
@@ -179,12 +180,12 @@ class CollectionsTest extends TestCase
 
     public function test_user_cannot_trash_my_personal_collection()
     {
-        $service = app('KBox\Documents\Services\DocumentsService');
+        $service = app(DocumentsService::class);
         
-        $creator = tap(factory(\KBox\User::class)->create(), function ($user) {
+        $creator = tap(factory(User::class)->create(), function ($user) {
             $user->addCapabilities(Capability::$PARTNER);
         });
-        $user = tap(factory(\KBox\User::class)->create(), function ($user) {
+        $user = tap(factory(User::class)->create(), function ($user) {
             $user->addCapabilities(Capability::$PARTNER);
         });
             
@@ -208,12 +209,12 @@ class CollectionsTest extends TestCase
 
     public function test_user_cannot_permanently_delete_my_trashed_personal_collection()
     {
-        $service = app('KBox\Documents\Services\DocumentsService');
+        $service = app(DocumentsService::class);
         
-        $creator = tap(factory(\KBox\User::class)->create(), function ($user) {
+        $creator = tap(factory(User::class)->create(), function ($user) {
             $user->addCapabilities(Capability::$PARTNER);
         });
-        $user = tap(factory(\KBox\User::class)->create(), function ($user) {
+        $user = tap(factory(User::class)->create(), function ($user) {
             $user->addCapabilities(Capability::$PARTNER);
         });
             
@@ -239,12 +240,12 @@ class CollectionsTest extends TestCase
 
     public function test_user_cannot_trash_shared_collection()
     {
-        $service = app('KBox\Documents\Services\DocumentsService');
+        $service = app(DocumentsService::class);
         
-        $creator = tap(factory(\KBox\User::class)->create(), function ($user) {
+        $creator = tap(factory(User::class)->create(), function ($user) {
             $user->addCapabilities(Capability::$PARTNER);
         });
-        $user = tap(factory(\KBox\User::class)->create(), function ($user) {
+        $user = tap(factory(User::class)->create(), function ($user) {
             $user->addCapabilities(Capability::$PARTNER);
         });
         
@@ -267,12 +268,12 @@ class CollectionsTest extends TestCase
 
     public function test_create_collection_with_same_name_of_trashed_one()
     {
-        $service = app('KBox\Documents\Services\DocumentsService');
+        $service = app(DocumentsService::class);
         
-        $creator = tap(factory(\KBox\User::class)->create(), function ($user) {
+        $creator = tap(factory(User::class)->create(), function ($user) {
             $user->addCapabilities(Capability::$PARTNER);
         });
-        $user = tap(factory(\KBox\User::class)->create(), function ($user) {
+        $user = tap(factory(User::class)->create(), function ($user) {
             $user->addCapabilities(Capability::$PARTNER);
         });
             
@@ -293,12 +294,12 @@ class CollectionsTest extends TestCase
 
     public function test_trash_collection_with_same_name_of_trashed_one()
     {
-        $service = app('KBox\Documents\Services\DocumentsService');
+        $service = app(DocumentsService::class);
         
-        $creator = tap(factory(\KBox\User::class)->create(), function ($user) {
+        $creator = tap(factory(User::class)->create(), function ($user) {
             $user->addCapabilities(Capability::$PARTNER);
         });
-        $user = tap(factory(\KBox\User::class)->create(), function ($user) {
+        $user = tap(factory(User::class)->create(), function ($user) {
             $user->addCapabilities(Capability::$PARTNER);
         });
             
@@ -327,12 +328,12 @@ class CollectionsTest extends TestCase
 
     public function test_trash_collection_with_same_name_of_trashed_one_respect_users()
     {
-        $service = app('KBox\Documents\Services\DocumentsService');
+        $service = app(DocumentsService::class);
         
-        $creator = tap(factory(\KBox\User::class)->create(), function ($user) {
+        $creator = tap(factory(User::class)->create(), function ($user) {
             $user->addCapabilities(Capability::$PARTNER);
         });
-        $user = tap(factory(\KBox\User::class)->create(), function ($user) {
+        $user = tap(factory(User::class)->create(), function ($user) {
             $user->addCapabilities(Capability::$PARTNER);
         });
             
@@ -362,9 +363,9 @@ class CollectionsTest extends TestCase
 
     public function test_merge_collection()
     {
-        $service = app('KBox\Documents\Services\DocumentsService');
+        $service = app(DocumentsService::class);
         
-        $creator = tap(factory(\KBox\User::class)->create(), function ($user) {
+        $creator = tap(factory(User::class)->create(), function ($user) {
             $user->addCapabilities(Capability::$PARTNER);
         });
             
@@ -388,9 +389,9 @@ class CollectionsTest extends TestCase
 
     public function test_merge_with_trashed_collection()
     {
-        $service = app('KBox\Documents\Services\DocumentsService');
+        $service = app(DocumentsService::class);
         
-        $creator = tap(factory(\KBox\User::class)->create(), function ($user) {
+        $creator = tap(factory(User::class)->create(), function ($user) {
             $user->addCapabilities(Capability::$PARTNER);
         });
             
@@ -417,12 +418,12 @@ class CollectionsTest extends TestCase
 
     public function test_trashed_collection_can_be_restored()
     {
-        $service = app('KBox\Documents\Services\DocumentsService');
+        $service = app(DocumentsService::class);
         
-        $creator = tap(factory(\KBox\User::class)->create(), function ($user) {
+        $creator = tap(factory(User::class)->create(), function ($user) {
             $user->addCapabilities(Capability::$PARTNER);
         });
-        $user = tap(factory(\KBox\User::class)->create(), function ($user) {
+        $user = tap(factory(User::class)->create(), function ($user) {
             $user->addCapabilities(Capability::$PARTNER);
         });
             
@@ -460,7 +461,7 @@ class CollectionsTest extends TestCase
 
     public function test_trashed_project_collection_can_be_restored()
     {
-        $service = app('KBox\Documents\Services\DocumentsService');
+        $service = app(DocumentsService::class);
         
         $creator = tap(factory(User::class)->create(), function ($user) {
             $user->addCapabilities(Capability::$PROJECT_MANAGER);
@@ -504,7 +505,7 @@ class CollectionsTest extends TestCase
 
     public function test_accessible_collections_returns_only_subcollection_accessible_by_user()
     {
-        $service = app('KBox\Documents\Services\DocumentsService');
+        $service = app(DocumentsService::class);
         
         $creator = tap(factory(User::class)->create(), function ($user) {
             $user->addCapabilities(Capability::$PROJECT_MANAGER);
@@ -525,7 +526,7 @@ class CollectionsTest extends TestCase
 
     public function test_subcollections_of_shared_collection_are_excluded_by_accessible_collections()
     {
-        $service = app('KBox\Documents\Services\DocumentsService');
+        $service = app(DocumentsService::class);
         
         $creator = tap(factory(User::class)->create(), function ($user) {
             $user->addCapabilities(Capability::$PROJECT_MANAGER);
