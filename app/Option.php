@@ -3,6 +3,7 @@
 namespace KBox;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
 use OneOffTech\Licenses\Contracts\LicenseRepository;
 
 /**
@@ -121,12 +122,12 @@ class Option extends Model
 
         $flat = $items->toArray();
 
-        $keys = array_pluck($flat, 'key');
-        $values = array_pluck($flat, 'value');
+        $keys = Arr::pluck($flat, 'key');
+        $values = Arr::pluck($flat, 'value');
 
         $non_flat = [];
         foreach (array_combine($keys, $values) as $key => $value) {
-            array_set($non_flat, $key, $value);
+            Arr::set($non_flat, $key, $value);
         }
 
         return $non_flat;

@@ -12,6 +12,7 @@ use Spatie\YamlFrontMatter\YamlFrontMatter;
 use Illuminate\Database\Eloquent\Concerns\HasAttributes;
 use Illuminate\Database\Eloquent\Concerns\HasTimestamps;
 use Illuminate\Database\Eloquent\Concerns\HidesAttributes;
+use Illuminate\Support\Arr;
 
 /**
  *
@@ -229,7 +230,7 @@ abstract class PageModel
 
     public function setAuthorsAttribute($value)
     {
-        $this->attributes['authors'] = array_wrap($value);
+        $this->attributes['authors'] = Arr::wrap($value);
     }
 
     public function getIdAttribute($value)

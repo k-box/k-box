@@ -12,6 +12,7 @@ use KBox\Option;
 use Illuminate\Contracts\Auth\Guard;
 use Klink\DmsAdapter\KlinkAdapter;
 use Illuminate\Contracts\Auth\PasswordBroker as PasswordBrokerContract;
+use Illuminate\Support\Arr;
 use KBox\Notifications\UserCreatedNotification;
 use Illuminate\Support\Facades\DB;
 
@@ -219,7 +220,7 @@ class UserAdministrationController extends Controller
         'capabilities' => array_values($perms),
         'type_resolutor' => $type_resolutor,
         'edit_enabled' => $auth->user()->id != $user->id,
-        'caps' => array_pluck($user->capabilities()->get()->toArray(), 'key')
+        'caps' => Arr::pluck($user->capabilities()->get()->toArray(), 'key')
         ];
       
         return view('administration.users.edit', $viewBag);
@@ -259,7 +260,7 @@ class UserAdministrationController extends Controller
 
         if ($request->has('capabilities')) {
             $current_submitted = $request->get('capabilities');
-            $current_saved = array_pluck($user->capabilities()->get()->toArray(), 'key');
+            $current_saved = Arr::pluck($user->capabilities()->get()->toArray(), 'key');
         
             DB::transaction(function () use ($current_saved, $current_submitted, $user) {
                 $to_be_removed = array_diff($current_saved, $current_submitted);

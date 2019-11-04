@@ -52,7 +52,7 @@
 			
 			@if(!empty($item->author))
 
-				{{ join(', ', array_pluck($item->author, 'name')) }}
+				{{ join(', ', \Illuminate\Support\Arr::pluck($item->author, 'name')) }}
 
 			@endif
 			

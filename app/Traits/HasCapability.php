@@ -2,6 +2,7 @@
 
 namespace KBox\Traits;
 
+use Illuminate\Support\Arr;
 use KBox\Capability;
 use Illuminate\Support\Facades\DB;
 
@@ -45,7 +46,7 @@ trait HasCapability
             return false;
         }
 
-        $names = array_pluck($caps, 'key');
+        $names = Arr::pluck($caps, 'key');
 
         if (empty($names)) {
             return false;
@@ -82,7 +83,7 @@ trait HasCapability
             return false;
         }
 
-        $names = array_pluck($caps, 'key');
+        $names = Arr::pluck($caps, 'key');
 
         $intersect = array_intersect($capabilities, $names);
 

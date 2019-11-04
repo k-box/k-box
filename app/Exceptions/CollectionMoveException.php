@@ -3,6 +3,7 @@
 namespace KBox\Exceptions;
 
 use Exception;
+use Illuminate\Support\Arr;
 use KBox\Group;
 
 /**
@@ -26,7 +27,7 @@ final class CollectionMoveException extends Exception
     {
         $this->collection = $collection;
         $this->reason = $reason;
-        $this->causedBy = collect(array_wrap($causedBy))->flatten();
+        $this->causedBy = collect(Arr::wrap($causedBy))->flatten();
         $names = $this->causedBy->map(function ($c) {
             if (\is_a($c, Group::class)) {
                 return $c->name;

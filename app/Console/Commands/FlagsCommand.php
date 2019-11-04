@@ -3,6 +3,7 @@
 namespace KBox\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Arr;
 use InvalidArgumentException;
 use KBox\Flags;
 
@@ -42,7 +43,7 @@ class FlagsCommand extends Command
      */
     public function handle()
     {
-        $flags = array_wrap($this->argument('flag'));
+        $flags = Arr::wrap($this->argument('flag'));
 
         $enable = $this->option('enable');
 

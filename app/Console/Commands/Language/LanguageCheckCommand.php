@@ -9,6 +9,7 @@ use KBox\Console\Traits\DebugOutput;
 use Carbon\Carbon;
 
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Arr;
 
 /**
  * Verify that all the strings in english language files can be found in the other languages.
@@ -118,8 +119,8 @@ class LanguageCheckCommand extends Command
             $this->line("Checking $current_lang translations...");
             
             foreach ($lang_groups as $group) {
-                $expected_translations = array_keys(array_dot($translationLoader->load('en', $group)));
-                $loaded_translations = array_keys(array_dot($translationLoader->load($current_lang, $group)));
+                $expected_translations = array_keys(Arr::dot($translationLoader->load('en', $group)));
+                $loaded_translations = array_keys(Arr::dot($translationLoader->load($current_lang, $group)));
                 $diff_translations = array_diff($expected_translations, $loaded_translations);
 
                 $current_count_expected = count($expected_translations);
@@ -140,7 +141,7 @@ class LanguageCheckCommand extends Command
             $this->info("  {$current_count_percentage}% [{$count_strings} / {$count_total_strings}] ");
         }
 
-        $percentages = array_pluck($this->report, 'percentage');
+        $percentages = Arr::pluck($this->report, 'percentage');
 
         $this->line('');
         $this->comment("languages: ".count($directories));

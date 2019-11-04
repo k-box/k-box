@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Contracts\Auth\Guard as AuthGuard;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Arr;
 use KBox\Exceptions\ForbiddenException;
 use Illuminate\Support\Facades\DB;
 use Klink\DmsMicrosites\Requests\MicrositeCreationRequest;
@@ -306,13 +307,13 @@ class MicrositeController extends Controller
 
                 if (! empty($pages)) {
                     foreach ($pages as $page) {
-                        MicrositeContent::findOrFail($page['id'])->update(array_except($page, ['id']));
+                        MicrositeContent::findOrFail($page['id'])->update(Arr::except($page, ['id']));
                     }
                 }
                 
                 if (! empty($menus)) {
                     foreach ($menus as $menu) {
-                        MicrositeContent::findOrFail($menu['id'])->update(array_except($menu, ['id']));
+                        MicrositeContent::findOrFail($menu['id'])->update(Arr::except($menu, ['id']));
                     }
                 }
                 

@@ -2,6 +2,7 @@
 
 namespace KBox\Geo;
 
+use Illuminate\Support\Arr;
 use KBox\File;
 use proj4php\Wkt;
 use KBox\FileProperties;
@@ -126,7 +127,7 @@ final class GeoProperties extends FileProperties
                 'label' => $projection ?? '',
                 'wkt' => $parsed['layer-srs-wkt'],
             ],
-            'layers' => array_wrap($parsed['layer-name']),
+            'layers' => Arr::wrap($parsed['layer-name']),
             'boundings' => [
                 'geojson' => $geojsonExtent,
                 'wkt' => null,

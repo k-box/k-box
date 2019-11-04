@@ -4,6 +4,7 @@ namespace KBox\DocumentsElaboration\Actions;
 
 use Log;
 use Exception;
+use Illuminate\Support\Arr;
 use KBox\Contracts\Action;
 use Rinvex\Language\LanguageLoader;
 use KBox\Documents\Services\TextExtractionService;
@@ -52,7 +53,7 @@ class GuessLanguage extends Action
             $language = LanguageLoader::where('iso_639_3', '=', $language_code);
 
             if ($language) {
-                $language = array_first($language);
+                $language = Arr::first($language);
                 $iso_639_1 = $language['iso_639_1'];
 
                 if (in_array($iso_639_1, config('dms.language_whitelist'))) {

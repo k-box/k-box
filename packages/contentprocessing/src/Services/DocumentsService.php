@@ -19,6 +19,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use KBox\Exceptions\ForbiddenException;
 use Illuminate\Support\Collection;
 use Carbon\Carbon;
+use Illuminate\Support\Arr;
 use KBox\Exceptions\GroupAlreadyExistsException;
 use KBox\Exceptions\CollectionMoveException;
 use KBox\Documents\Facades\Files;
@@ -792,7 +793,7 @@ class DocumentsService
                     whereIn($closure_table->getAncestorColumn(), $project_collections_ids)->
                     whereNotIn($closure_table->getDescendantColumn(), $project_collections_ids)->get([$closure_table->getDescendantColumn()])->all();
                 
-                $descendants_array = array_pluck($descendants, $closure_table->getDescendantColumn());
+                $descendants_array = Arr::pluck($descendants, $closure_table->getDescendantColumn());
                 
                 $project_trashed_collections = Group::onlyTrashed()->public()->whereIn('id', $descendants_array)->get();
                 
@@ -942,7 +943,7 @@ class DocumentsService
                                 whereIn($closure_table->getAncestorColumn(), $collection_ids)->
                                 whereNotIn($closure_table->getDescendantColumn(), $collection_ids)->get([$closure_table->getDescendantColumn()])->all();
                                 
-                $descendants_ids = array_pluck($descendants, $closure_table->getDescendantColumn());
+                $descendants_ids = Arr::pluck($descendants, $closure_table->getDescendantColumn());
 
                 return Collection::make([$group])->merge(Group::whereIn('id', $descendants_ids)->get()->filter(function ($c) use ($user) {
                     // remove sub-collections not accessible by $user
@@ -981,7 +982,7 @@ class DocumentsService
                         whereIn($closure_table->getAncestorColumn(), $project_collections_ids_method1)->
                         whereNotIn($closure_table->getDescendantColumn(), $project_collections_ids_method1)->get([$closure_table->getDescendantColumn()])->all();
                         
-            $descendants_array = array_pluck($descendants, $closure_table->getDescendantColumn());
+            $descendants_array = Arr::pluck($descendants, $closure_table->getDescendantColumn());
             
             $project_collections_ids = array_merge($project_collections_ids_method1, $descendants_array);
 

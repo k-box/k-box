@@ -2,6 +2,7 @@
 
 namespace KBox;
 
+use Illuminate\Support\Arr;
 use ReflectionClass;
 use ReflectionException;
 use Illuminate\Support\Fluent;
@@ -36,7 +37,7 @@ class FileProperties extends Fluent
         // serialize with dot notation only the
         // attributes that are not excluded
 
-        $dotted = array_dot(collect($attributes)->except($this->exclude));
+        $dotted = Arr::dot(collect($attributes)->except($this->exclude));
         $preserve = collect($attributes)->only($this->exclude);
 
         return $preserve->merge($dotted);
@@ -95,7 +96,7 @@ class FileProperties extends Fluent
      */
     public function toArray()
     {
-        return array_prepend($this->attributes, get_class($this), '@class');
+        return Arr::prepend($this->attributes, get_class($this), '@class');
     }
 
     public function getClass()

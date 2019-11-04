@@ -5,6 +5,7 @@ namespace KBox\Providers;
 use Illuminate\Support\ServiceProvider;
 use KBox\Option;
 use Illuminate\Contracts\Encryption\DecryptException;
+use Illuminate\Support\Arr;
 
 class SettingsServiceProvider extends ServiceProvider
 {
@@ -42,12 +43,12 @@ class SettingsServiceProvider extends ServiceProvider
             if (! $sections->isEmpty()) {
                 $flat = $sections->toArray();
 
-                $keys = array_pluck($flat, 'key');
-                $values = array_pluck($flat, 'value');
+                $keys = Arr::pluck($flat, 'key');
+                $values = Arr::pluck($flat, 'value');
 
                 $non_flat = [];
                 foreach (array_combine($keys, $values) as $key => $value) {
-                    array_set($non_flat, $key, $value);
+                    Arr::set($non_flat, $key, $value);
                 }
 
                 if (array_key_exists('mail', $non_flat)) {
