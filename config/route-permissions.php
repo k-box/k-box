@@ -103,6 +103,9 @@ return [
         'update' => KBox\Capability::SHARE_WITH_USERS,
         'destroy' => KBox\Capability::SHARE_WITH_USERS,
         'deletemultiple' => KBox\Capability::SHARE_WITH_USERS,
+        'targets' => [
+            'find' => KBox\Capability::SHARE_WITH_USERS,
+        ],
     ],
     
     'links' => [
