@@ -78,3 +78,33 @@ To add new user
    If necessary you can set a password for the user and customize permissions or storage quota availability
 4. Once done, click “Create” at the bottom of the page.
 
+## Invite users
+
+Already registered users can invite person via email address to join a K-Box instance. 
+The invites are created from the "Invite" section under the user profile if registration is active for the K-Box.
+To invite a person only his/her email address is required.
+
+> To send an invite a verified email address is required. You will be prompted to verify your email address if needed.
+
+> Invites are currently limited to account registration. Currently is not possible to invite users directly to
+join project or to receive a share. Subsequent actions needs to be performed manually after the user 
+accepted the invitation
+
+**Registration workflow after invitation**
+
+An invited user will receive a mail notification that contains a link to create an account. 
+The link redirects to the registration page with a pre-filled invitation token. In case the link is not valid anymore
+or expired a message will be given.
+
+During the registration process the user can change the email address independently from the one used for the invite.
+The invite creator will not see the change of the email.
+
+After completing the invitation process, the creator of the invite will see a change in the status of the invitation.
+
+**Validity**
+
+An invite is not valid anymore if one of the following conditions are met:
+
+- the invite was already used and an account was created
+- the invite was older than 15 days (currently not configurable via environment variables or user interface)
+- the invite was deleted by its creator

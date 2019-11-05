@@ -44,7 +44,8 @@ The next table shows the K-Box specific configuration parameters:
 | `KBOX_MAIL_PASSWORD`                  |           | string  |               | The E-Mail server authentication |
 | `KBOX_SUPPORT_TOKEN` (`SUPPORT_TOKEN`)|           | string  |               | The Authentication token for the support service (can be configured from the UI). Deprecated, [use `KBOX_SUPPORT_USERVOICE_TOKEN`](../administration/support.md) |
 | `KBOX_PAGE_LIMIT`                     |           | number  | 12            | The default number of items per page to show |
-| `KBOX_USER_REGISTRATION`              |           | boolean  | false        | Enable or disable self user registration |
+| `KBOX_USER_REGISTRATION`              |           | boolean  | false        | Enable or disable self user [registration](../administration/users.md#user-registration) |
+| `KBOX_USER_REGISTRATION_INVITE_ONLY`  |           | boolean  | false        | Require invitation to allow user [registration](../administration/users.md#limit-to-invites-only). |
 | `KBOX_ANALYTICS_SERVICE`              |           | string  | matomo        | The analytics tracking provider. Available: matomo, google-analytics |
 | `KBOX_ANALYTICS_TOKEN`                |           | string  |               | The analytics token to use for the specific analytics tracking provider |
 | `KBOX_SUPPORT_SERVICE`                |           | string  | null          | The support service to use. See [Configuring Support service](../administration/support.md) |

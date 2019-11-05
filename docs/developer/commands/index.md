@@ -36,6 +36,7 @@ Here are only listed the specific commands added by the K-Box:
 - `flags`: enable or disable an experimental feature. See [K-Box Flags](../flags.md)
 - [`privacy:load`](./privacy-load.md): create the privacy policy from the template
 - [`quote:check`](./quote-check.md): perform the calculation of each user storage quota and notify the user if over-quota
+- `invite:purge`: purge expired account creation invites for all users
 
 For a complete list of available commands execute
 
