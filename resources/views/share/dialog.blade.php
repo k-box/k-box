@@ -65,7 +65,7 @@
 
 					@endif
 					@if($is_multiple_selection)
-						<p class="description">{{ trans( $is_multiple_selection ? 'share.dialog.linkshare_multiple_selection_hint' : 'share.dialog.linkshare_hint') }}</p>
+						<p class="description mb-4">{{ trans( $is_multiple_selection ? 'share.dialog.linkshare_multiple_selection_hint' : 'share.dialog.linkshare_hint') }}</p>
 					@endif
 		
 			<div class="dialog__section__inner">
@@ -98,9 +98,7 @@
 
 				<select class="form-input js-select-users" name="users[]" id="users" multiple="multiple" style="min-width:auto !important">
 
-					{{-- @foreach ($users as $user)
-						<option value="{{$user->id}}">{{$user->name}} ({{$user->email}})</option>
-					@endforeach --}}
+					{{-- Data will be inserted at runtime using Ajax --}}
 									
 				</select>
 			

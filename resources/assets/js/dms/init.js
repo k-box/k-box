@@ -259,6 +259,7 @@ window.DMS = (function(_$, _nprogress, _rivets, _alert){
 			GROUPS_CREATE: 'documents/groups/create',
 			GROUPS_EDIT: 'documents/groups/{ID}/edit',
 			SHARES: 'shares',
+			SHARES_TARGET_FIND: 'shares/find-targets',
 			PUBLICLINK: 'links',
 			SHARE_CREATE: 'shares/create',
 			STORAGE_REINDEX_ALL: 'administration/storage/reindexall',

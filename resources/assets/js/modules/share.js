@@ -405,11 +405,7 @@ define("modules/share", ["jquery", "DMS","lodash", "combokeys", "language", "swe
 				dialogContent.html(ok);
 
 				setTimeout(function(){
-					_panel.find(".js-select-users").select2({
-						placeholder: Lang.trans('share.with_label'),
-						tokenSeparators: [',', ' ']
-					}, 1);
-
+					initializeShareTargetSelect(_panel, {selection: {collections:groups, documents:documents}, ref: 1});
 				})
 
 			}, function(obj, err, text){
@@ -419,6 +415,54 @@ define("modules/share", ["jquery", "DMS","lodash", "combokeys", "language", "swe
 			});
 
 	}
+
+	function formatShareTargetResult (result) {
+		if (result.loading) {
+			return result.text;
+		}
+		
+		return result.name;
+	}
+	  
+	function formatShareTargetSelection (repo) {
+		return repo.name || repo.text;
+	}
+
+
+	function initializeShareTargetSelect(panel, options)
+	{
+		panel.find(".js-select-users").select2({
+			placeholder: Lang.trans('share.dialog.select_users'),
+			tokenSeparators: [',', ' '],
+			minimumInputLength: 2,
+			templateResult: formatShareTargetResult,
+			  templateSelection: formatShareTargetSelection,
+			ajax: {
+				url: DMS.Paths.fullUrl(DMS.Paths.SHARES_TARGET_FIND),
+				method: 'POST',
+				dataType: 'json',
+				data: function (params) {
+
+					var selection = options.selection || {collections:[], documents:[]};
+					
+					var queryParameters = {
+					  s: params.term,
+					  documents: selection.documents,
+					  collections: selection.collections,
+					  _token: DMS.csrf()
+					}
+				
+					return queryParameters;
+				},
+				processResults: function (data) {
+					return {
+						results: data.data
+					};
+				}
+			  }
+		}, options.ref || undefined);
+	}
+
 
 	var module = {
 
@@ -491,10 +535,7 @@ define("modules/share", ["jquery", "DMS","lodash", "combokeys", "language", "swe
 					
 				});
 
-				panel.find(".js-select-users").select2({
-					placeholder: Lang.trans('share.dialog.select_users'),
-					tokenSeparators: [',', ' ']
-				});
+				initializeShareTargetSelect(panel, {selection: {collections:groups, documents:documents}});
 
 				panel.on('click', '.dialog__section:not(.js-access-section) .dialog__section__title', _sectionTitleClick);
 
