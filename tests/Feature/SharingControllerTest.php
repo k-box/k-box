@@ -278,13 +278,12 @@ class SharingControllerTest extends TestCase
         $response->assertViewHas('is_multiple_selection', false);
         $response->assertViewHas('is_public', false);
         $response->assertViewHas('is_collection', false);
+        $response->assertViewMissing('users');
 
         $this->assertEmpty($response->getData('existing_shares'));
         $this->assertEmpty($response->getData('groups'));
 
         $this->assertEquals($document->id, $response->getData('documents')->first()->id);
-        $this->assertContains($user_target->id, $response->getData('users')->pluck('id'));
-        $this->assertNotContains($user->id, $response->getData('users')->pluck('id'));
     }
 
     public function test_share_dialog_with_multiple_documents()
@@ -320,13 +319,12 @@ class SharingControllerTest extends TestCase
         $response->assertViewHas('is_multiple_selection', true);
         $response->assertViewHas('is_public', false);
         $response->assertViewHas('is_collection', false);
+        $response->assertViewMissing('users');
 
         $this->assertEmpty($response->getData('existing_shares'));
         $this->assertEmpty($response->getData('groups'));
 
         $this->assertEquals([$document1->id, $document2->id], $response->getData('documents')->pluck('id')->toArray());
-        $this->assertContains($user_target->id, $response->getData('users')->pluck('id'));
-        $this->assertNotContains($user->id, $response->getData('users')->pluck('id'));
     }
 
     public function test_share_dialog_with_single_collection()
@@ -360,12 +358,11 @@ class SharingControllerTest extends TestCase
         $response->assertViewHas('is_multiple_selection', false);
         $response->assertViewHas('is_public', false);
         $response->assertViewHas('is_collection', true);
+        $response->assertViewMissing('users');
 
         $this->assertEmpty($response->getData('existing_shares'));
 
         $this->assertEquals([$collection->id], $response->getData('groups')->pluck('id')->toArray());
-        $this->assertContains($user_target->id, $response->getData('users')->pluck('id'));
-        $this->assertNotContains($user->id, $response->getData('users')->pluck('id'));
     }
 
     public function test_share_dialog_with_documents_and_collections()
@@ -410,12 +407,11 @@ class SharingControllerTest extends TestCase
         $response->assertViewHas('is_multiple_selection', true);
         $response->assertViewHas('is_public', false);
         $response->assertViewHas('is_collection', false);
+        $response->assertViewMissing('users');
 
         $this->assertEmpty($response->getData('existing_shares'));
 
         $this->assertEquals([$document1->id, $document2->id], $response->getData('documents')->pluck('id')->toArray());
         $this->assertEquals([$collection1->id, $collection2->id], $response->getData('groups')->pluck('id')->toArray());
-        $this->assertContains($user_target->id, $response->getData('users')->pluck('id'));
-        $this->assertNotContains($user->id, $response->getData('users')->pluck('id'));
     }
 }
