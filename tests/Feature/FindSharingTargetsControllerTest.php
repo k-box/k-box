@@ -3,14 +3,45 @@
 namespace Tests\Feature;
 
 use KBox\User;
+use KBox\Group;
+use KBox\Shared;
 use Tests\TestCase;
 use KBox\Capability;
 use KBox\DocumentDescriptor;
+use Tests\Concerns\ClearDatabase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class FindSharingTargetsControllerTest extends TestCase
 {
     use DatabaseTransactions;
+
+    use ClearDatabase;
+
+    public function test_target_search_requires_two_characters()
+    {
+        $this->withKlinkAdapterFake();
+
+        $user = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$PARTNER);
+        });
+        
+        $user_target = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$PARTNER);
+        });
+
+        $other_target = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$PARTNER);
+        });
+
+        $response = $this->actingAs($user)->json('POST', route('shares.targets.find'), [
+            's' => 'a',
+        ]);
+        
+        $response->assertStatus(422);
+        $response->assertJsonStructure([
+            's'
+        ]);
+    }
 
     public function test_share_users_autocomplete_without_current_selection()
     {
@@ -284,6 +315,162 @@ class FindSharingTargetsControllerTest extends TestCase
         ]);
 
         $expected_data = $targets->take(6)->map(function ($u) {
+            return [
+                'id' => $u->id,
+                'name' => $u->name,
+                'avatar' => $u->avatar ?? null,
+            ];
+        })->reverse();
+        
+        $response->assertOk();
+        $response->assertExactJson([
+            'data' => $expected_data->toArray()
+        ]);
+    }
+
+    public function test_already_existing_targets_are_excluded_for_documents()
+    {
+        $this->withKlinkAdapterFake();
+
+        $user = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$PARTNER);
+        });
+
+        $document = factory(DocumentDescriptor::class)->create([
+            'owner_id' => $user->getKey()
+        ]);
+
+        $targets = collect([
+            tap(factory(User::class)->create(['name' => 'juliet o\'hara']), function ($u) {
+                $u->addCapabilities(Capability::$PARTNER);
+            }),
+            tap(factory(User::class)->create(['name' => 'spencer o\'hara']), function ($u) {
+                $u->addCapabilities(Capability::$PARTNER);
+            }),
+            tap(factory(User::class)->create(['name' => 'henry o\'hara']), function ($u) {
+                $u->addCapabilities(Capability::$PARTNER);
+            }),
+        ]);
+
+        $share = factory(Shared::class)->create([
+            'user_id' => $user->getKey(),
+            'sharedwith_id' => $targets->first()->getKey(),
+            'shareable_id' => $document->getKey(),
+        ]);
+
+        $response = $this->actingAs($user)->json('POST', route('shares.targets.find'), [
+            's' => 'o\'h',
+            'documents' => [$document->getKey()],
+        ]);
+
+        $expected_data = $targets->splice(1, 2)->map(function ($u) {
+            return [
+                'id' => $u->id,
+                'name' => $u->name,
+                'avatar' => $u->avatar ?? null,
+            ];
+        })->reverse();
+        
+        $response->assertOk();
+        $response->assertExactJson([
+            'data' => $expected_data->toArray()
+        ]);
+    }
+
+    public function test_already_already_existing_targets_are_excluded_for_collections()
+    {
+        $this->withKlinkAdapterFake();
+
+        $user = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$PARTNER);
+        });
+
+        $collection = factory(Group::class)->create([
+            'user_id' => $user->getKey(),
+            'is_private' => true
+        ]);
+
+        $targets = collect([
+            tap(factory(User::class)->create(['name' => 'juliet o\'hara']), function ($u) {
+                $u->addCapabilities(Capability::$PARTNER);
+            }),
+            tap(factory(User::class)->create(['name' => 'spencer o\'hara']), function ($u) {
+                $u->addCapabilities(Capability::$PARTNER);
+            }),
+            tap(factory(User::class)->create(['name' => 'henry o\'hara']), function ($u) {
+                $u->addCapabilities(Capability::$PARTNER);
+            }),
+        ]);
+
+        $share = factory(Shared::class)->create([
+            'user_id' => $user->getKey(),
+            'sharedwith_id' => $targets->first()->getKey(),
+            'shareable_id' => $collection->getKey(),
+            'shareable_type' => get_class($collection),
+        ]);
+
+        $response = $this->actingAs($user)->json('POST', route('shares.targets.find'), [
+            's' => 'o\'h',
+            'collections' => [$collection->getKey()],
+        ]);
+
+        $expected_data = $targets->splice(1, 2)->map(function ($u) {
+            return [
+                'id' => $u->id,
+                'name' => $u->name,
+                'avatar' => $u->avatar ?? null,
+            ];
+        })->reverse();
+        
+        $response->assertOk();
+        $response->assertExactJson([
+            'data' => $expected_data->toArray()
+        ]);
+    }
+
+    public function test_multiple_selection_handled_as_no_selection()
+    {
+        $this->withKlinkAdapterFake();
+
+        $user = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$PARTNER);
+        });
+
+        $document = factory(DocumentDescriptor::class)->create([
+            'owner_id' => $user->getKey()
+        ]);
+
+        $collection = factory(Group::class)->create([
+            'user_id' => $user->getKey(),
+            'is_private' => true
+        ]);
+
+        $targets = collect([
+            tap(factory(User::class)->create(['name' => 'juliet o\'hara']), function ($u) {
+                $u->addCapabilities(Capability::$PARTNER);
+            }),
+            tap(factory(User::class)->create(['name' => 'spencer o\'hara']), function ($u) {
+                $u->addCapabilities(Capability::$PARTNER);
+            }),
+            tap(factory(User::class)->create(['name' => 'henry o\'hara']), function ($u) {
+                $u->addCapabilities(Capability::$PARTNER);
+            }),
+        ]);
+
+        $share = factory(Shared::class)->create([
+            'user_id' => $user->getKey(),
+            'sharedwith_id' => $targets->first()->getKey(),
+            'shareable_id' => $collection->getKey(),
+            'shareable_type' => get_class($collection),
+        ]);
+
+        $response = $this->actingAs($user)->json('POST', route('shares.targets.find'), [
+            's' => 'o\'h',
+            'collections' => [$collection->getKey()],
+            'documents' => [$document->getKey()],
+        ]);
+
+        $expected_data = $targets->map(function ($u) {
             return [
                 'id' => $u->id,
                 'name' => $u->name,
