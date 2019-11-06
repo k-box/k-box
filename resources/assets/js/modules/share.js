@@ -449,6 +449,7 @@ define("modules/share", ["jquery", "DMS","lodash", "combokeys", "language", "swe
 					  s: params.term,
 					  documents: selection.documents,
 					  collections: selection.collections,
+					  e: (this.val) ? this.val() : [],
 					  _token: DMS.csrf()
 					}
 				
