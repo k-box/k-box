@@ -1567,6 +1567,16 @@ class DocumentsService
             throw new ForbiddenException(trans('groups.move.errors.no_access_to_collection'));
         }
 
+        if ($parent && ! $parent->is_private) {
+            $project = $parent->getProject();
+            $members = $project->users()->get(['user_id'])->pluck('user_id')->merge($project->manager->getKey());
+            
+            if ($collection->shares()->whereNotIn('sharedwith_id', $members->toArray())
+                ->where('sharedwith_type', User::class)->limit(1)->exists()) {
+                throw new ForbiddenException(trans('groups.move.errors.has_shares_to_non_members'));
+            }
+        }
+
         DB::transaction(function () use ($user, $collection, $parent) {
             $this->makeGroupPublic($user, $collection);
             $this->moveGroup($user, $collection, $parent);
