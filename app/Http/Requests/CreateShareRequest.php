@@ -3,6 +3,7 @@
 namespace KBox\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest as Request;
+use Illuminate\Validation\Rule;
 
 class CreateShareRequest extends Request
 {
@@ -26,7 +27,14 @@ class CreateShareRequest extends Request
     {
         return [
             'with_users' => 'required|exists:users,id',
-            'groups' => 'required_without:documents|exists:groups,id',
+            'groups' => [
+                'required_without:documents',
+                Rule::exists('groups', 'id')->where(function ($query) {
+                    // limiting the allowed collections to be personal only
+                    // https://github.com/k-box/k-box/issues/356
+                    $query->where('is_private', true);
+                }),
+            ],
             'documents' => 'required_without:groups|exists:document_descriptors,id'
         ];
     }
