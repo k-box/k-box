@@ -271,6 +271,11 @@ Route::get('shares/group/{id}', [
         'as' => 'shares.group',
     ]);
 
+Route::post('shares/find-targets', [
+    'uses' => 'FindSharingTargetsController@index',
+    'as' => 'shares.targets.find',
+]);
+
 Route::resource('shares', 'SharingController');
 
 // Public links creation and management

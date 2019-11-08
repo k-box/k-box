@@ -175,9 +175,6 @@ class SharingController extends Controller
 
         $existing_shares = null;
 
-        // users to exclude from the available for share
-        $users_to_exclude = [$me->id];
-
         $public_link = null;
         $has_publishing_request = false;
         $publication = null;
@@ -187,32 +184,14 @@ class SharingController extends Controller
             $has_publishing_request = $first->hasPendingPublications();
             $publication = $first->publication();
             
-            // grab the existing share made by the user, so we can remove it also from the available_users
+            // grab the existing share made by the user
             // let's do it for $first only first
 
             $existing_shares = $first->shares()->sharedByMe($me)->where('sharedwith_type', \KBox\User::class)->get();
 
-            $users_to_exclude = array_merge($users_to_exclude, $existing_shares->pluck('sharedwith_id')->unique()->toArray());
-
             // is the document in a project? the current user has access to the project? if yes we can also remove the members of that project(s)
             $users_from_projects = $this->service->getUsersWithAccess($first, $me);
-            //  $first->projects()->map(function($p) use($me){
-                
-            // 	if(!Project::isAccessibleBy($p, $me)){
-            // 		return false;
-            // 	}
-                
-            // 	$users =  $p->users()->get();
 
-            // 	if($p->manager->id != $me->id){
-            // 		$users = $users->merge([$p->manager]);
-            // 	}
-
-            // 	return $users;
-
-            // })->flatten();
-
-            $users_to_exclude = array_merge($users_to_exclude, $users_from_projects->pluck('id')->toArray());
             $existing_shares = $existing_shares->merge($users_from_projects);
 
             // is the document in a shared collection? if yes a user could still have access to the document because of that
@@ -223,17 +202,11 @@ class SharingController extends Controller
                 $existing_shares = $existing_shares->merge([$public_link_share]);
             }
         } elseif (! is_null($first) && $first instanceof Group && ! $is_multiple_selection) {
-            // grab the existing share made by the user, so we can remove it also from the available_users
+            // grab the existing share made by the user
             // let's do it for $first only first
 
             $existing_shares = $first->shares()->sharedByMe($me)->where('sharedwith_type', \KBox\User::class)->get();
-
-            $users_to_exclude = array_merge($users_to_exclude, $existing_shares->pluck('sharedwith_id')->unique()->toArray());
         }
-
-        $available_users = User::whereNotIn('id', $users_to_exclude)->whereHas('capabilities', function ($q) {
-            $q->where('key', '=', Capability::RECEIVE_AND_SEE_SHARE);
-        })->get();
         
         $can_share = $me->can_capability(Capability::SHARE_WITH_USERS);
         $can_make_public = $me->can_capability(Capability::PUBLISH_TO_KLINK);
@@ -264,7 +237,6 @@ class SharingController extends Controller
             'is_network_enabled' => network_enabled(),
             'existing_shares' => $existing_shares,
             'can_make_public' => $can_make_public,
-            'users' => $available_users,
             'sharing_links' => implode('&#13;&#10;', $sharing_links),
             'public_link' => $public_link,
             'documents' => $documents,
@@ -393,7 +365,7 @@ class SharingController extends Controller
             try {
                 $executed = $this->_destroy($id);
             } catch (\Exception $ex) {
-                \Log::error('Sharing Destroy error', ['error' => $kex, 'share_id' => $id, 'request' => $request]);
+                \Log::error('Sharing Destroy error', ['error' => $ex, 'share_id' => $id, 'request' => $request]);
                 $errors[] = $ex->getMessage();
             }
         }

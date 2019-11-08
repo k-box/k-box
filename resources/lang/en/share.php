@@ -95,7 +95,7 @@ return [
         'collection_already_accessible_by_all_users' => 'Collection is already accessible by all K-Box users.',
 
         'add_users' => 'Add users',
-        'select_users' => 'Enter username...',
+        'select_users' => 'Enter the username or the email address...',
 
         'access_by_direct_share' => 'Direct access',
         'access_by_project_membership' => 'Project ":project"',

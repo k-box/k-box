@@ -65,7 +65,7 @@
 
 					@endif
 					@if($is_multiple_selection)
-						<p class="description">{{ trans( $is_multiple_selection ? 'share.dialog.linkshare_multiple_selection_hint' : 'share.dialog.linkshare_hint') }}</p>
+						<p class="description mb-4">{{ trans( $is_multiple_selection ? 'share.dialog.linkshare_multiple_selection_hint' : 'share.dialog.linkshare_hint') }}</p>
 					@endif
 		
 			<div class="dialog__section__inner">
@@ -95,13 +95,10 @@
 		@endif
 
 			<div class="dialog__section--add">
-				@unless($users->count() == 0)
 
 				<select class="form-input js-select-users" name="users[]" id="users" multiple="multiple" style="min-width:auto !important">
 
-					@foreach ($users as $user)
-						<option value="{{$user->id}}">{{$user->name}} ({{$user->email}})</option>
-					@endforeach
+					{{-- Data will be inserted at runtime using Ajax --}}
 									
 				</select>
 			
@@ -109,11 +106,7 @@
 					<svg class="btn-icon" style="line-height: 38px;vertical-align: middle;margin-right: 6px;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
 					{{ trans('share.dialog.add_users') }}
 				</button>
-				@endif
 
-				@if($users->count() == 0)
-					{{ trans( $is_collection ? 'share.dialog.collection_already_accessible_by_all_users' : 'share.dialog.document_already_accessible_by_all_users' ) }}
-				@endif
 			</div>
 
 			</div>
