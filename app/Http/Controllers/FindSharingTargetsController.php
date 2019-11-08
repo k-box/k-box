@@ -54,6 +54,14 @@ class FindSharingTargetsController extends Controller
 
         $is_multiple_selection = ! empty($documents_input) && ! empty($groups_input);
 
+        if ($groups->where('is_private', false)->isNotEmpty()) {
+            // if there is at least a project collection in the selection
+            // return an empty list. See
+            // https://github.com/k-box/k-box/pull/355#issuecomment-551448888
+            // and https://github.com/k-box/k-box/issues/356
+            return new ShareTargetCollection(collect([]));
+        }
+
         // users to exclude from the available for share
         // by default the current user is excluded as no one can share
         // with himself/herself
