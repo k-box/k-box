@@ -43,7 +43,7 @@ before_script:
 
 test-syntax:
   <<: *composer_install
-  image: "docker.klink.asia/main/docker-php:7.2"
+  image: "klinktech/k-box-ci-pipeline-php:7.2"
   tags:
     - docker
 
@@ -57,7 +57,7 @@ test-shell-syntax:
     - docker
 
 laravel:
-  image: "docker.klink.asia/main/docker-php:7.2"
+  image: "klinktech/k-box-ci-pipeline-php:7.2"
   tags:
     - docker
   stage: build_laravel
@@ -81,7 +81,7 @@ laravel:
 
 unit_test:
   stage: test
-  image: "docker.klink.asia/main/docker-php:7.2"
+  image: "klinktech/k-box-ci-pipeline-php:7.2"
   services:
     - mariadb:10.3.17 # pinning because of issue https://github.com/docker-library/mariadb/issues/262 and https://gitlab.com/gitlab-org/gitlab-runner/issues/4405
   variables:
