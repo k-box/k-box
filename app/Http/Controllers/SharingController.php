@@ -252,6 +252,8 @@ class SharingController extends Controller
             'publication_status' => $publication ? $publication->status : null,
             'is_collection' => $first instanceof Group,
             'can_add_users' => $groups->isEmpty() || ($groups->isNotEmpty() && $groups->where('is_private', false)->isEmpty()),
+            'can_edit_project' => $groups->count() === 1 ? (optional($groups->first()->getProject())->isManagedBy($me) ?? false) : false,
+            'project' => $groups->count() === 1 ? optional($groups->first()->getProject())->getKey() : null,
         ]);
     }
 

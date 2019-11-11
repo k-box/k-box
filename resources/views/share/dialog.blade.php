@@ -111,7 +111,17 @@
 			
 				@else
 					<div class="c-message c-message--warning">
-						<a href="https://github.com/k-box/k-box/blob/master/docs/user/share.md#sharing-to-a-user" target="_blank" rel="noopener noreferrer">{{ trans('share.dialog.cannot_add_users_because_of_project_collection') }}</a>
+						<p>
+							{{ trans('share.dialog.cannot_add_users_because_of_project_collection') }}
+						</p>
+						<p class="">
+							@if ($can_edit_project && $project)	
+								<a class="inline-block mr-2" href="{{ route('projects.edit', $project) }}" target="_blank" rel="noopener noreferrer">{{ trans('projects.labels.add_users_button') }}</a>
+							@endif
+
+							<a href="https://github.com/k-box/k-box/blob/master/docs/user/share.md#sharing-to-a-user" target="_blank" rel="noopener noreferrer">{{ trans('actions.more_information') }}</a>
+						</p>
+
 					</div>
 				@endif
 

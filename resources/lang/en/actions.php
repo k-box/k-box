@@ -139,4 +139,5 @@ return [
     ],
 
     'contact_support' => 'Contact Support',
+    'more_information' => 'More information',
 ];
