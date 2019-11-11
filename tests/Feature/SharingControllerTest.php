@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Notification;
 use KBox\Notifications\ShareCreatedNotification;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use KBox\Project;
 
 class SharingControllerTest extends TestCase
 {
@@ -189,6 +190,36 @@ class SharingControllerTest extends TestCase
             
         $response->assertRedirect(route($expected_route_name, $params));
     }
+    
+    public function test_project_collections_cannot_be_shared()
+    {
+        $this->withKlinkAdapterFake();
+
+        $user = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$PARTNER);
+        });
+        
+        $user_target = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$PARTNER);
+        });
+
+        $to_be_shared = factory(Group::class)->create([
+            'user_id' => $user->getKey(),
+            'is_private' => false,
+        ]);
+
+        $data = [
+            'with_users' => [$user_target->id],
+            'groups' => [$to_be_shared->id],
+        ];
+
+        $response = $this->actingAs($user)
+                         ->json('POST', route('shares.store'), $data);
+
+        $response
+            ->assertStatus(422)
+            ->assertJsonStructure(['groups']);
+    }
 
     public function test_sharing_twice_is_not_permitted()
     {
@@ -278,6 +309,7 @@ class SharingControllerTest extends TestCase
         $response->assertViewHas('is_multiple_selection', false);
         $response->assertViewHas('is_public', false);
         $response->assertViewHas('is_collection', false);
+        $response->assertViewHas('can_add_users', true);
         $response->assertViewMissing('users');
 
         $this->assertEmpty($response->getData('existing_shares'));
@@ -319,6 +351,7 @@ class SharingControllerTest extends TestCase
         $response->assertViewHas('is_multiple_selection', true);
         $response->assertViewHas('is_public', false);
         $response->assertViewHas('is_collection', false);
+        $response->assertViewHas('can_add_users', true);
         $response->assertViewMissing('users');
 
         $this->assertEmpty($response->getData('existing_shares'));
@@ -358,6 +391,49 @@ class SharingControllerTest extends TestCase
         $response->assertViewHas('is_multiple_selection', false);
         $response->assertViewHas('is_public', false);
         $response->assertViewHas('is_collection', true);
+        $response->assertViewHas('can_add_users', true);
+        $response->assertViewMissing('users');
+
+        $this->assertEmpty($response->getData('existing_shares'));
+
+        $this->assertEquals([$collection->id], $response->getData('groups')->pluck('id')->toArray());
+    }
+
+    public function test_share_dialog_with_single_project_collection()
+    {
+        $this->withKlinkAdapterFake();
+
+        $user = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$PARTNER);
+        });
+        
+        $user_target = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$PARTNER);
+        });
+
+        $project = factory(Project::class)->create([
+            'user_id' => $user_target->getKey(),
+        ]);
+
+        $collection = $project->collection;
+
+        $response = $this->actingAs($user)->get(route('shares.create', [
+            'collections' => [$collection->id],
+            'documents' => [],
+        ]));
+
+        $response->assertOk();
+        $response->assertViewHas('is_network_enabled', false);
+        $response->assertViewHas('can_make_public', false);
+        $response->assertViewHas('has_documents', false);
+        $response->assertViewHas('has_groups', true);
+        $response->assertViewHas('elements_count', 1);
+        $response->assertViewHas('is_multiple_selection', false);
+        $response->assertViewHas('is_public', false);
+        $response->assertViewHas('is_collection', true);
+        $response->assertViewHas('can_add_users', false);
+        $response->assertViewHas('project', null);
+        $response->assertViewHas('can_edit_project', false);
         $response->assertViewMissing('users');
 
         $this->assertEmpty($response->getData('existing_shares'));
@@ -366,6 +442,59 @@ class SharingControllerTest extends TestCase
     }
 
     public function test_share_dialog_with_documents_and_collections()
+    {
+        $this->withKlinkAdapterFake();
+
+        $user = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$PARTNER);
+        });
+        
+        $user_target = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$PARTNER);
+        });
+
+        $document1 = factory(DocumentDescriptor::class)->create([
+            'owner_id' => $user->getKey()
+        ]);
+        $document2 = factory(DocumentDescriptor::class)->create([
+            'owner_id' => $user->getKey()
+        ]);
+
+        $collection1 = $collection = factory(Group::class)->create([
+            'user_id' => $user->getKey(),
+            'is_private' => true,
+        ]);
+        $collection2 = $collection = factory(Group::class)->create([
+            'user_id' => $user->getKey(),
+            'is_private' => true,
+        ]);
+
+        $response = $this->actingAs($user)->get(route('shares.create', [
+            'collections' => [$collection1->id, $collection2->id],
+            'documents' => [$document1->id, $document2->id]
+        ]));
+
+        $response->assertOk();
+        $response->assertViewHas('is_network_enabled', false);
+        $response->assertViewHas('can_make_public', false);
+        $response->assertViewHas('has_documents', true);
+        $response->assertViewHas('has_groups', true);
+        $response->assertViewHas('elements_count', 4);
+        $response->assertViewHas('is_multiple_selection', true);
+        $response->assertViewHas('is_public', false);
+        $response->assertViewHas('is_collection', false);
+        $response->assertViewHas('can_add_users', true);
+        $response->assertViewHas('project', null);
+        $response->assertViewHas('can_edit_project', false);
+        $response->assertViewMissing('users');
+
+        $this->assertEmpty($response->getData('existing_shares'));
+
+        $this->assertEquals([$document1->id, $document2->id], $response->getData('documents')->pluck('id')->toArray());
+        $this->assertEquals([$collection1->id, $collection2->id], $response->getData('groups')->pluck('id')->toArray());
+    }
+
+    public function test_share_dialog_with_documents_and_project_collections()
     {
         $this->withKlinkAdapterFake();
 
@@ -407,6 +536,9 @@ class SharingControllerTest extends TestCase
         $response->assertViewHas('is_multiple_selection', true);
         $response->assertViewHas('is_public', false);
         $response->assertViewHas('is_collection', false);
+        $response->assertViewHas('can_add_users', false);
+        $response->assertViewHas('project', null);
+        $response->assertViewHas('can_edit_project', false);
         $response->assertViewMissing('users');
 
         $this->assertEmpty($response->getData('existing_shares'));

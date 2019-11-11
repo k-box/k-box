@@ -7,6 +7,9 @@ use KBox\Capability;
 use KBox\Exceptions\ForbiddenException;
 use KBox\Exceptions\CollectionMoveException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use KBox\Project;
+use KBox\Shared;
+use KBox\User;
 
 class MoveCollectionsTest extends TestCase
 {
@@ -145,6 +148,33 @@ class MoveCollectionsTest extends TestCase
             $this->fail("The collection move must have been denied");
         } catch (ForbiddenException $ex) {
             $this->assertEquals(trans('groups.move.errors.no_access_to_collection'), $ex->getMessage());
+        }
+    }
+
+    public function test_move_from_personal_to_project_denied_if_collection_has_shares_to_non_members()
+    {
+        $project = factory(Project::class)->create();
+
+        $user = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$PROJECT_MANAGER);
+        });
+
+        $project->users()->attach($user);
+        
+        $collection = $this->documentService->createGroup($user, 'personal');
+
+        $share = factory(Shared::class)->create([
+            'shareable_id' => $collection->getKey(),
+            'shareable_type' => get_class($collection),
+        ]);
+
+        // move $collection under $project->collection()
+
+        try {
+            $this->documentService->movePersonalCollectionToProject($user, $collection, $project->collection);
+            $this->fail("The collection move must have been denied");
+        } catch (ForbiddenException $ex) {
+            $this->assertEquals(trans('groups.move.errors.has_shares_to_non_members'), $ex->getMessage());
         }
     }
 }

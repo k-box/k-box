@@ -100,6 +100,8 @@ return [
         'access_by_direct_share' => 'Direct access',
         'access_by_project_membership' => 'Project ":project"',
         'access_by_project_membership_hint' => 'Member of ":project"',
+
+        'cannot_add_users_because_of_project_collection' => 'Add new members to the project for sharing a project collection.',
     ],
     'publiclinks' => [
         'public_link' => 'Public Link',

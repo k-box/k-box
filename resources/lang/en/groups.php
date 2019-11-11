@@ -96,6 +96,7 @@ return [
             'personal_not_all_same_user_empty_cause' => 'Cannot move ":collection" to your personal as you are not the creator of it',
             'no_project_collection_permission' => 'You do not have the necessary permission to move a project collection',
             'no_access_to_collection' => 'You do not have access to the collection',
+            'has_shares_to_non_members' => 'Some users of the collection are not project members. You cannot move it until they are included into the project. Add new members to the project before moving the collection.',
         ],
 
     ],

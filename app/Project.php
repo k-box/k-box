@@ -98,6 +98,17 @@ class Project extends Model
     {
         return $query->where('user_id', $user);
     }
+
+    /**
+     * Check if a user is the project manager
+     *
+     * @param User $user
+     * @return bool
+     */
+    public function isManagedBy(User $user)
+    {
+        return $this->user_id === $user->getKey();
+    }
     
     /**
      * The associated microsite

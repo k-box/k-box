@@ -31,6 +31,10 @@ The latter is true for Public documents, too.
 
 Sharing a file or collection is done via the sharing dialog. To create a new share open the sharing dialog.
 
+> As of version 0.29 sharing a project or a collection inside it will be disabled due to information 
+disclosure concern. Existing shares will continue to be available and you can still copy the link and send it
+via email. For more information refer to https://github.com/k-box/k-box/issues/356.
+
 On the sharing dialog there is a text field, under the _Who has access_ section, in which users can be added. 
 To add a new user start typing at least 2 letters of the name and the system will suggest 6 users that 
 matches your terms. To ensure a more precise completion type at least 4 letters.

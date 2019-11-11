@@ -96,16 +96,34 @@
 
 			<div class="dialog__section--add">
 
-				<select class="form-input js-select-users" name="users[]" id="users" multiple="multiple" style="min-width:auto !important">
+				@if ($can_add_users)
+				
+					<select class="form-input js-select-users" name="users[]" id="users" multiple="multiple" style="min-width:auto !important">
 
-					{{-- Data will be inserted at runtime using Ajax --}}
-									
-				</select>
+						{{-- Data will be inserted at runtime using Ajax --}}
+										
+					</select>
+				
+					<button class="js-share button">
+						<svg class="btn-icon" style="line-height: 38px;vertical-align: middle;margin-right: 6px;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+						{{ trans('share.dialog.add_users') }}
+					</button>
 			
-				<button class="js-share button">
-					<svg class="btn-icon" style="line-height: 38px;vertical-align: middle;margin-right: 6px;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-					{{ trans('share.dialog.add_users') }}
-				</button>
+				@else
+					<div class="c-message c-message--warning">
+						<p>
+							{{ trans('share.dialog.cannot_add_users_because_of_project_collection') }}
+						</p>
+						<p class="">
+							@if ($can_edit_project && $project)	
+								<a class="inline-block mr-2" href="{{ route('projects.edit', $project) }}" target="_blank" rel="noopener noreferrer">{{ trans('projects.labels.add_users_button') }}</a>
+							@endif
+
+							<a href="https://github.com/k-box/k-box/blob/master/docs/user/share.md#sharing-to-a-user" target="_blank" rel="noopener noreferrer">{{ trans('actions.more_information') }}</a>
+						</p>
+
+					</div>
+				@endif
 
 			</div>
 
