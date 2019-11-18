@@ -41,9 +41,9 @@ return [
             'no_further_action' => 'If you do not intend to accept this invitation, no further action is required. To respect your privacy we will delete this invitation on :date at 23:59 (UTC).',
 
             'reason' => [
-                'invitation' => 'An existing user, that we know as ":name", want to invite you to create an account on the K-Box at :url.',
-                'project' => 'An existing user, that we know as ":name", want to add you as part of a project managed with the help of the K-Box at :url.',
-                'shared' => 'An existing user, that we know as ":name", want to share with you a document hosted on the K-Box at :url.',
+                'invitation' => 'An existing user, that we know as ":name", wants to invite you to create an account on the K-Box at :url.',
+                'project' => 'An existing user, that we know as ":name", wants to add you as part of a project managed with the help of the K-Box at :url.',
+                'shared' => 'An existing user, that we know as ":name", wants to share with you a document hosted on the K-Box at :url.',
             ],
         ],
     ],
