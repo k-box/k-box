@@ -57,6 +57,20 @@ class ImageThumbnailsGenerationTest extends TestCase
         $this->assertEquals(300, $image->width());
     }
   
+    public function test_vertical_jpg_file_thumbnail_can_be_generated()
+    {
+        $generator = new ImageThumbnailGenerator();
+
+        $file = $this->createFileForPath(__DIR__.'/../../data/example-vertical.jpg');
+
+        $image = $generator->generate($file);
+
+        $this->assertInstanceOf(ThumbnailImage::class, $image);
+        
+        $this->assertEquals(300, $image->width());
+        $this->assertEquals((320/100) * 300, $image->height());
+    }
+  
     public function test_gif_file_thumbnail_can_be_generated()
     {
         $generator = new ImageThumbnailGenerator();

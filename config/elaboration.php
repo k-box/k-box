@@ -31,6 +31,7 @@ return [
             \KBox\DocumentsElaboration\Actions\ExtractFileProperties::class,
             \KBox\DocumentsElaboration\Actions\GuessLanguage::class,
             \KBox\DocumentsElaboration\Actions\AddToSearch::class,
+            \KBox\DocumentsElaboration\Actions\EnsureCorrectPictureOrientation::class,
             \KBox\DocumentsElaboration\Actions\GenerateThumbnail::class,
             \KBox\DocumentsElaboration\Actions\ElaborateVideo::class,
         ],
