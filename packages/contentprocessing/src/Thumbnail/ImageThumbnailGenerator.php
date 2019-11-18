@@ -15,7 +15,7 @@ class ImageThumbnailGenerator implements ThumbnailGenerator
 {
     public function generate(File $file) : ThumbnailImage
     {
-        return ThumbnailImage::load($file->absolute_path)->widen(ThumbnailImage::DEFAULT_WIDTH);
+        return ThumbnailImage::load($file->absolute_path)->orientate()->widen(ThumbnailImage::DEFAULT_WIDTH);
     }
 
     public function isSupported(File $file)

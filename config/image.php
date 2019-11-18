@@ -17,4 +17,17 @@ return [
 
     'driver' => extension_loaded('imagick') && class_exists('Imagick') ? 'imagick' : 'gd',
 
+    /*
+    |--------------------------------------------------------------------------
+    | Picture quality
+    |--------------------------------------------------------------------------
+    |
+    | Picture quality to use when saving JPEG images
+    |
+    | @var int
+    |
+    */
+
+    'quality' => 100,
+
 ];

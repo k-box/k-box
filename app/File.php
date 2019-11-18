@@ -600,6 +600,47 @@ class File extends Model
     }
 
     /**
+     * Recalculate the file hash
+     */
+    public function rehash()
+    {
+        $this->attributes['hash'] = Files::hash($this->absolute_path);
+
+        return $this->save();
+    }
+
+    /**
+     * Create a new file version by copying the current instance.
+     *
+     * The copy will clone all attributes and generate a new file
+     * on disk
+     *
+     */
+    public function copyAsNewVersion()
+    {
+        $copy = $this->replicate([
+            'uuid', 'path'
+        ]);
+
+        $storage = Storage::disk('local');
+
+        $uuid = $copy->resolveUuid()->toString();
+
+        $destination_path = date('Y').'/'.date('m').'/'.$uuid;
+
+        $storage->copy($this->path, $destination_path);
+
+        // mark the copy as new version of the original file
+        $copy->revision_of = $this->id;
+        $copy->uuid = $uuid;
+        $copy->path = $destination_path;
+
+        $copy->save();
+        
+        return $copy;
+    }
+
+    /**
      * Create a file given an upload
      *
      * @param \Illuminate\Http\UploadedFile $upload the file uploaded
