@@ -20,7 +20,7 @@ class MicrositeCreationRequest extends Request
         $tests = [
             'project' => 'bail|required|integer|exists:projects,id',
             'title' => 'bail|required|string|not_array',
-            'slug' => ['bail', 'required','string', 'not_array','alpha_dash', 'min:3','unique:microsites,slug'],
+            'slug' => ['bail', 'required','string', 'not_array', 'regex:/^(?!create)[a-z\\-]+$/', 'min:3','unique:microsites,slug'],
             'description' => 'bail|sometimes|string|not_array',
             'logo' => ['bail', 'nullable', 'sometimes', 'not_array', 'string', 'url', 'min:5', 'regex:/^https/'],
             'hero_image' => ['bail', 'nullable', 'sometimes', 'not_array', 'string', 'url', 'min:5', 'regex:/^https/'],

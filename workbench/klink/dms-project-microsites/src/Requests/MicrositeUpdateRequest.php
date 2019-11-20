@@ -21,7 +21,7 @@ class MicrositeUpdateRequest extends Request
 
         $tests = [
             'title' => 'bail|required|string|not_array',
-            'slug' => ['bail', 'required','string', 'not_array', 'alpha_dash', 'min:3',
+            'slug' => ['bail', 'required','string', 'not_array', 'regex:/^(?!create)[a-z\\-]+$/', 'min:3',
                 Rule::unique('microsites', 'slug')->ignore($microsite_id),
             ],
             'description' => 'bail|sometimes|string|not_array',
