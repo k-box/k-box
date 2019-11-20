@@ -3,6 +3,7 @@
 namespace Klink\DmsMicrosites\Requests;
 
 use Illuminate\Foundation\Http\FormRequest as Request;
+use Illuminate\Validation\Rule;
 use KBox\Capability;
 use KBox\Project;
 
@@ -19,7 +20,7 @@ class MicrositeCreationRequest extends Request
         $tests = [
             'project' => 'bail|required|integer|exists:projects,id',
             'title' => 'bail|required|string|not_array',
-            'slug' => ['bail', 'required','string', 'not_array','regex:/^(?!create)[a-z\\-]+/','unique:microsites,slug'],
+            'slug' => ['bail', 'required','string', 'not_array', 'regex:/^(?!create)[a-z\\-]+$/', 'min:3','unique:microsites,slug'],
             'description' => 'bail|sometimes|string|not_array',
             'logo' => ['bail', 'nullable', 'sometimes', 'not_array', 'string', 'url', 'min:5', 'regex:/^https/'],
             'hero_image' => ['bail', 'nullable', 'sometimes', 'not_array', 'string', 'url', 'min:5', 'regex:/^https/'],

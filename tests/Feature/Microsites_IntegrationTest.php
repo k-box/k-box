@@ -78,6 +78,7 @@ class Microsites_IntegrationTest extends TestCase
             [['title' => 125], 'title', 'validation'],
             [['slug' => 125], 'slug', 'validation'],
             [['slug' => '125'], 'slug', 'validation'],
+            [['slug' => 'project-hello-125'], 'slug', 'validation'],
             [['slug' => null], 'slug', 'validation'],
             [['slug' => ''], 'slug', 'validation'],
             [['slug' => 'create'], 'slug', 'validation'],
