@@ -48,7 +48,7 @@
 
 	<div class="">
 		<h4 class="c-panel__section">{!! trans('microsites.labels.microsite') !!}</h4>
-			<span class="description">{{trans('microsites.hints.what')}}</span>
+			<span class="description block mb-4">{{trans('microsites.hints.what')}}</span>
             
             @if( is_null( $project->microsite ) && auth()->user()->id === $project->user_id)
             
@@ -60,14 +60,14 @@
             @else 
             
 				@if( $project->microsite )
-					<p>
+					<p class="mb-2">
 						<a target="_blank" rel="nofollow noopener" href="{{ route('projects.site', ['slug' => $project->microsite->slug]) }}" class="button">{{ trans('microsites.actions.view_site') }}</a>
 					</p>
 				@endif
 
 				@if( auth()->user()->id === $project->user_id && $project->microsite)
             
-					<p>
+					<p class="mb-2">
 						<a id="microsite_edit" href="{{ route('microsites.edit', ['id' => $project->microsite->id]) }}" class="button">{{ trans('microsites.actions.edit') }}</a>
 						<span class="description">{{ trans('microsites.hints.edit_microsite') }}</span>
 					</p>
