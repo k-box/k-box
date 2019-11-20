@@ -3,6 +3,7 @@
 namespace Klink\DmsMicrosites\Requests;
 
 use Illuminate\Foundation\Http\FormRequest as Request;
+use Illuminate\Validation\Rule;
 use KBox\Capability;
 use Klink\DmsMicrosites\Microsite;
 
@@ -16,11 +17,13 @@ class MicrositeUpdateRequest extends Request
      */
     public function rules()
     {
-        $microsite_id = $this->route('microsites');
+        $microsite_id = $this->route('microsite');
 
         $tests = [
             'title' => 'bail|required|string|not_array',
-            'slug' => ['bail', 'required','string', 'not_array','regex:/^(?!create)[a-z\\-]+/','unique:microsites,slug,'.$microsite_id],
+            'slug' => ['bail', 'required','string', 'not_array', 'alpha_dash', 'min:3',
+                Rule::unique('microsites', 'slug')->ignore($microsite_id),
+            ],
             'description' => 'bail|sometimes|string|not_array',
             'logo' => 'bail|nullable|sometimes|string|not_array|url|regex:/^https/',
             'hero_image' => 'bail|nullable|sometimes|not_array|string|url|regex:/^https/',
