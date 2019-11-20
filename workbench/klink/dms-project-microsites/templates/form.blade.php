@@ -3,16 +3,16 @@
 <input type="hidden" name="project" value="{{ $project->id }}">
 
 <div class=" mb-4">
-    <label>{{trans('microsites.labels.site_title')}}</label>
+    <label class="font-bold">{{trans('microsites.labels.site_title')}}</label>
     @if( $errors->has('title') )
         <span class="field-error">{{ implode(",", $errors->get('title'))  }}</span>
     @endif
-    <input class="form-input block w-2/3" type="text" name="title" value="{{ old('title', isset($microsite) ? $microsite->title : $project->name) }}" required />
+    <input class="form-input block w-full lg:w-1/3" type="text" name="title" value="{{ old('title', isset($microsite) ? $microsite->title : $project->name) }}" required />
     <span class="description">{{ trans('microsites.hints.site_title') }}</span>
 </div>
 
 <div class=" mb-4">
-    <label>{{trans('microsites.labels.slug')}}</label>
+    <label class="font-bold">{{trans('microsites.labels.slug')}}</label>
     @if( $errors->has('slug') )
         <span class="field-error">{{ implode(",", $errors->get('slug'))  }}</span>
     @endif
@@ -20,9 +20,8 @@
     <span class="description">{{ trans('microsites.hints.slug') }}</span>
 </div>
 
-
 <div class=" mb-4">
-    <label>{{trans('microsites.labels.logo')}}</label>
+    <label class="font-bold">{{trans('microsites.labels.logo')}}</label>
     @if( $errors->has('logo') )
         <span class="field-error">{{ implode(",", $errors->get('logo'))  }}</span>
     @endif
@@ -31,7 +30,7 @@
 </div>    
 
 <div class=" mb-4">
-    <label>{{trans('microsites.labels.site_description')}}</label>
+    <label class="font-bold">{{trans('microsites.labels.site_description')}}</label>
     @if( $errors->has('description') )
         <span class="field-error">{{ implode(",", $errors->get('description'))  }}</span>
     @endif
@@ -40,16 +39,11 @@
 </div>
 
 <div class=" mb-4">
-    <label>{{trans('microsites.labels.publishing_box')}}</label>
-    <button type="submit" class="button button--primary">{{ trans( isset($microsite) ? 'microsites.actions.save' : 'microsites.actions.publish') }}</button><br/>{{trans('actions.or_alt')}} <a href="{{ route('projects.show', ['id' => $project->id]) }}">{{trans('microsites.labels.cancel_and_back')}}</a>
-</div>
-
-<div class=" mb-4">
-    <label>{{trans('microsites.labels.default_language')}}</label>
+    <label class="font-bold">{{trans('microsites.labels.default_language')}}</label>
     @if( $errors->has('default_language') )
         <span class="field-error">{{ implode(",", $errors->get('default_language'))  }}</span>
     @endif
-    <select class="form-select" id="default_language" name="default_language">
+    <select class="form-select mt-1 block w-48" id="default_language" name="default_language">
     <option value="en" @if( (isset($microsite) && $microsite->default_language == 'en' ) || old('default_language') == 'en') selected @endif>{{trans('languages.en')}}</option>
     <option value="ru" @if( (isset($microsite) && $microsite->default_language == 'ru' ) || old('default_language') == 'ru') selected @endif>{{trans('languages.ru')}}</option>
     <option value="ky" @if( (isset($microsite) && $microsite->default_language == 'ky' ) || old('default_language') == 'ky') selected @endif>{{trans('languages.ky')}}</option>
@@ -60,3 +54,7 @@
     </select>
     <span class="description">{{ trans('microsites.hints.default_language') }}</span>
 </div>
+
+
+
+
