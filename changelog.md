@@ -7,6 +7,53 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- Audio file (mp3) preview ([#285](https://github.com/k-box/k-box/pull/285))
+- User storage quota ([#286](https://github.com/k-box/k-box/pull/286), [#297](https://github.com/k-box/k-box/pull/297), [#326](https://github.com/k-box/k-box/pull/326))
+- UUID generation for users, collections and projects ([#298](https://github.com/k-box/k-box/pull/298), [#300](https://github.com/k-box/k-box/pull/300), [#302](https://github.com/k-box/k-box/pull/302))
+- User invitation ([#313](https://github.com/k-box/k-box/pull/313), [#327](https://github.com/k-box/k-box/pull/327))
+- Store the user that perform the application of a collection to a file ([#317](https://github.com/k-box/k-box/pull/317))
+- Collection details panel ([#324](https://github.com/k-box/k-box/pull/324))
+- View shared collections hierarchy on the sidebar ([#330](https://github.com/k-box/k-box/pull/330), [#334](https://github.com/k-box/k-box/pull/334))
+- Support mail link ([#341](https://github.com/k-box/k-box/pull/341))
+
+### Changed
+
+- Overall layout structure, colors and initial move to utility-first for main styles ([issue#348](https://github.com/k-box/k-box/issues/348), [#278](https://github.com/k-box/k-box/pull/278), [#292](https://github.com/k-box/k-box/pull/292), [#293](https://github.com/k-box/k-box/pull/293), [#294](https://github.com/k-box/k-box/pull/294), [#295](https://github.com/k-box/k-box/pull/295), [#337](https://github.com/k-box/k-box/pull/337))
+- Sharing dialog user search is now asynchronous and filter by name (or email) ([#309](https://github.com/k-box/k-box/issues/309), [#355](https://github.com/k-box/k-box/pull/355))
+- Migrate to PHP 7.2 ([issue#303](https://github.com/k-box/k-box/issues/303), [#323](https://github.com/k-box/k-box/pull/323) _community contribution_, [#333](https://github.com/k-box/k-box/pull/333))
+- Update Xpdf tools to version 4.02 ([#311](https://github.com/k-box/k-box/pull/311))
+- Improve date and time output on the interface by showing the timezone ([#321](https://github.com/k-box/k-box/pull/321))
+
+### Deprecated
+
+- Project Microsite feature. The feature is now moved behind the `microsite` flag and not active by default. Will be removed in a next version. ([#289](https://github.com/k-box/k-box/pull/289))
+
+### Removed
+
+- Initial removal of institutions feature ([#340](https://github.com/k-box/k-box/pull/340))
+- Laravel Browserkit dependency ([#351](https://github.com/k-box/k-box/pull/351))
+- Usage of array helpers per Laravel deprecation policy ([#353](https://github.com/k-box/k-box/pull/353))
+
+### Fixed
+
+- Duplicate resolution in same collection causing multiple entries ([#287](https://github.com/k-box/k-box/pull/287))
+- Improve project duplicate error message ([#288](https://github.com/k-box/k-box/pull/288))
+- Properly show errors while creating public links ([#290](https://github.com/k-box/k-box/pull/290))
+- Profile update denied if user did not change the nicename ([issue#308](https://github.com/k-box/k-box/issues/308), [#310](https://github.com/k-box/k-box/pull/310) _community contribution_)
+- Regression that hide document listing from shared with me [#320](https://github.com/k-box/k-box/pull/320))
+- Accept locale from browser request that is not supported [#322](https://github.com/k-box/k-box/pull/322))
+- Current user interface language not correctly reported ([#335](https://github.com/k-box/k-box/pull/335))
+- Show only existing pages in menu ([#336](https://github.com/k-box/k-box/pull/336))
+- Regression in microsite create and edit layout ([#365](https://github.com/k-box/k-box/pull/365))
+- Microsite creation and editing validation rules ([#366](https://github.com/k-box/k-box/pull/366))
+
+### Security
+
+- Disable projects sharing in favor of membership ([#356](https://github.com/k-box/k-box/issues/356), [#358](https://github.com/k-box/k-box/pull/358))
+
+
 ## [0.28.4] - 2019-09-05
 
 ### Added
