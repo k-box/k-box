@@ -14,8 +14,6 @@ _Note: To prevent sharing of unauthorized files (private, confidential, etc.), o
 
 In order to make a file visible in the K-Link network, please do the right-click on the document, select "Publish". 
 
-![publish](./images/publish.png)
-
 Or you can go to the [sharing settings](./share.md) of the file and hit the "globe" icon. As soon as the icon changes from "lock" to "globe" - the file is published.  
 
 ### Reverse to private
