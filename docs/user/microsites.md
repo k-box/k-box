@@ -36,7 +36,7 @@ Learn more about search [here](./search.md)
 
 Microsites can be created by Project Administrators using the button _Create Microsite_ on the Project details panel.
 
-![microsite create button](./images/microsite-create-1.JPG)
+![microsite create button](./images/microsite-create-1.png)
 
 ### Microsite content
 

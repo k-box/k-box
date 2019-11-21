@@ -35,6 +35,7 @@ The uservoice token and service can be configured from the _Administration > Sup
 
 > Removing the token from the UI will not disable the service if the environment configuration expose the support configuration
 
+![Project Details](../user/images/support-configuration.png)
 
 ## Configuration via deployment environment file
 

@@ -14,7 +14,7 @@ Projects are created and maintained by Project Administrators and K-Box Administ
 Project management is performed from the _Projects_ page. If your profile has Project Management capabilities, 
 you will see the _New Project_ button
 
-![navigation menu](../user/images/dms-projects-section.JPG)
+![navigation menu](../user/images/dms-projects-section.png)
 
 The page lists the created, managed and accessible projects. 
 
@@ -22,7 +22,7 @@ The page lists the created, managed and accessible projects.
 
 To create a project, press the button _New Project_ that is on the top right of the page:
 
-![Create Project Button](../user/images/dms-projects-new-btn.JPG)
+![Create Project Button](../user/images/dms-projects-new-btn.png)
 
 After inserting the project name, description and users, press the _Create Project_ to save your changes.
 
@@ -32,7 +32,7 @@ After inserting the project name, description and users, press the _Create Proje
 
 This page shows project members and personalization options.
 
-![Project Details](../user/images/dms-project-show.JPG)
+![Project Details](../user/images/dms-project-show.png)
 
 This page is showed when you select _Details_ from the right-click menu of a project.
 
