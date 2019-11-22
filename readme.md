@@ -1,10 +1,13 @@
-[![Build Status](https://travis-ci.com/k-box/k-box.svg?branch=master)](https://travis-ci.com/k-box/k-box) [![latest version](https://img.shields.io/badge/version-0.28.4-blue.svg)](docs/release-note/release-note-0.28.md)
+<p align="center"><img src="./public/k-box-logo.png" width="400"></p>
+
+<p align="center">
+<a href="https://travis-ci.com/k-box/k-box" target="_blank"><img src="https://travis-ci.com/k-box/k-box.svg?branch=master" alt="Build Status"></a>
+<a href="./docs/release-note/release-note-0.28.md" target="_blank"><img alt="latest version" src="https://img.shields.io/badge/version-0.28.4-blue.svg"></a>
+</p>
 
 # K-Box
 
 The digital tool for projects in the field: Web-based application to manage documents, images, videos and geodata. It contains a full content search, a translated interface into several languages and it connects easily to the K-Link services.
-
-![K-Box Logo](./public/k-box-logo.png)
 
 **[Visit the K-Link.technology website](http://k-link.technology)** for more information!
 
