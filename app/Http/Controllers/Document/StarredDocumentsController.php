@@ -83,8 +83,8 @@ class StarredDocumentsController extends Controller
             'starred' => $results,
             'pagination' => $results,
             'search_terms' => $req->term,
-            'facets' => $results && ! $has_starred ? $results->facets() : [],
-            'filters' => $results && ! $has_starred ? $results->filters() : [],
+            'facets' => $results && $has_starred ? $results->facets() : [],
+            'filters' => $results && $has_starred ? $results->filters() : [],
             'empty_message' => ($results->count()==0 && $req->term !== '*') ? trans('search.no_results_no_markup', ['term' => $req->term, 'collection' =>  trans('starred.page_title')])  : trans('starred.empty_message')
         ]);
     }
