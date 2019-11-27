@@ -40,8 +40,9 @@ before_script:
   - phpenv config-rm xdebug.ini # disabling XDebug as currently we are not interested in code coverage report
   - pecl channel-update pecl.php.net
   - yes | pecl install imagick-3.4.4 # install imagemagick for thumbnail generation of files https://github.com/travis-ci/travis-ci/issues/781#issuecomment-332473065
-  - php --ri imagick
+  - sed -i 's/rights="none" pattern="PDF"/rights="read/write" pattern="PDF"/g' /etc/ImageMagick-6/policy.xml # ensure PDF can be read and write as part of https://alexvanderbist.com/posts/2018/fixing-imagick-error-unauthorized
   - cat /etc/ImageMagick-6/policy.xml
+  - php --ri imagick
   - sudo service mysql stop
   - docker-compose -f ./tests/docker-compose.yml up -d  
 
