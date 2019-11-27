@@ -37,11 +37,11 @@ class PdfThumbnailGenerationTest extends TestCase
             );
         }
         
-        if (env('TRAVIS', false)) {
-            $this->markTestSkipped(
-                'Test skipped on Travis CI due to failure with unknown reason.'
-            );
-        }
+        // if (env('TRAVIS', false)) {
+        //     $this->markTestSkipped(
+        //         'Test skipped on Travis CI due to failure with unknown reason.'
+        //     );
+        // }
     }
 
     public function test_pdf_file_is_supported()
