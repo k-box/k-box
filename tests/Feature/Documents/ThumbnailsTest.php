@@ -4,7 +4,6 @@ namespace Tests\Feature\Documents;
 
 use Tests\TestCase;
 use KBox\File;
-use Illuminate\Support\Str;
 use KBox\Documents\Facades\Files;
 use KBox\Documents\Facades\Thumbnails;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -44,12 +43,6 @@ class ThumbnailsTest extends TestCase
      */
     public function test_thumbnail_generation_job_generates_thumbnail($path, $expectedDefault)
     {
-        if (env('TRAVIS', false) && Str::endsWith($path, 'pdf')) {
-            $this->markTestSkipped(
-                'Test skipped on Travis CI due to failure with unknown reason.'
-            );
-        }
-
         $this->withoutExceptionHandling();
         
         $real_path = base_path($path);

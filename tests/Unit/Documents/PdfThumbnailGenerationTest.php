@@ -36,12 +36,6 @@ class PdfThumbnailGenerationTest extends TestCase
                 'Imagick not available or PDF support not available.'
             );
         }
-        
-        if (env('TRAVIS', false)) {
-            $this->markTestSkipped(
-                'Test skipped on Travis CI due to failure with unknown reason.'
-            );
-        }
     }
 
     public function test_pdf_file_is_supported()
