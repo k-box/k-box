@@ -34,8 +34,6 @@ class PdfThumbnailGenerator implements ThumbnailGenerator
             $image = new Imagick($file->absolute_path);
         }
 
-        logs()->info('Arrived here');
-
         $image->setBackgroundColor('white'); // do not create transparent thumbnails
         $image->setResolution(300, 300); // forcing resolution to 300dpi prevents mushy images
         $image = $image->mergeImageLayers(Imagick::LAYERMETHOD_FLATTEN);
