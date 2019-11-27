@@ -64,12 +64,49 @@ Thumbnails::register(PngThumbnailGenerator::class);
 
 ### Requirements
 
-Some default thumbnail generator requires [ImageMagick](https://www.imagemagick.org/script/index.php).
-You can install it as a [PECL extension](https://pecl.php.net/package/imagick).
+Thumbnail generation requires `gd` or `imagick` extension installed and active. 
+If ImageMagick extension is found it will be used as default library for manipulating images.
 
-For Windows installation you might want to follow [this guide](https://mlocati.github.io/articles/php-windows-imagick.html).
-In addition ghostscript is required to generate PDF thumbnails. Therefore you need to
-download a [Ghostscript release](https://github.com/ArtifexSoftware/ghostpdl-downloads/releases) (tried with version 9.25)
+Specific thumbnail generators can have additional requirements, the table below is a non-exhaustive 
+list of requirements for default thumbnail generators:
+
+| image format                | additional requirements | generator class |
+|-----------------------------|-------------------------|-----------------|
+| jpg, gif, png               | -                       | `KBox\Documents\Thumbnail\ImageThumbnailGenerator` |
+| pdf                         | `imagick` extension, [ImageMagick and Ghostscript](#obtain-imagemagick-and-ghostscript) | `KBox\Documents\Thumbnail\PdfThumbnailGenerator` |
+| mp4                         | [FFmpeg](./developer-installation.md#dependencies-installation) | `KBox\Documents\Thumbnail\VideoThumbnailGenerator` |
+| geojson, geotiff, shapefile | Geo Plugin and an active GeoServer instance | `KBox\Geo\Thumbnails\*` |
+
+
+#### Obtain ImageMagick and Ghostscript
+
+The installation of ImageMagick and Ghostscript might be different between operating systems. This section do not want to cover the whole installation process, but give pointers to what we tested.
+
+**Linux**
+
+Depending on your distribution there might be packages to install the required dependencies.
+Assuming that you have PHP installed on your Operating System, the next code block shows how we install Imagemagick and Ghostscript on our 
+Continuous Integration and within the Docker image:
+
+```bash
+apt-get install libmagickwand-dev
+apt-get install ghostscript
+pecl channel-update pecl.php.net
+pecl install imagick-3.4.4
+```
+
+> We tested manually the following versions: 
+> - Imagick Pecl 3.4.4 compiled with ImageMagick 6.9.10-23 Q16 x86_64 with Ghostscript 9.27 on Debian 9 and 10.1
+> - Imagick Pecl 3.4.4 compiled with ImageMagick 6.8.9-9 Q16 x86_64 with Ghostscript 9.26 on Ubuntu 16.04 (via Travis CI)
+
+**Windows**
+
+You need to download the [imagick Pecl extension](https://pecl.php.net/package/imagick) and [Ghostscript](https://github.com/ArtifexSoftware/ghostpdl-downloads/releases).
+
+> We tested manually the following versions: Imagick Pecl 3.4.4 compiled with ImageMagick 7.0.7-11 Q16 x64 with Ghostscript 9.25 on Windows 10
+
+For a more in-depth installation procedure please refer to [this guide](https://mlocati.github.io/articles/php-windows-imagick.html)
+
 
 ### Testing
 
