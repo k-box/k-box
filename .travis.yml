@@ -41,6 +41,7 @@ before_script:
   - pecl channel-update pecl.php.net
   - yes | pecl install imagick-3.4.4 # install imagemagick for thumbnail generation of files https://github.com/travis-ci/travis-ci/issues/781#issuecomment-332473065
   - php --ri imagick
+  - ls -la /etc/image*
   - sudo service mysql stop
   - docker-compose -f ./tests/docker-compose.yml up -d  
 
@@ -60,7 +61,7 @@ script:
   - php -f ./tests/wait.php
   - php artisan migrate --env=testing --force
   - php artisan db:seed --env=testing --force
-  - vendor/bin/phpunit
+  - vendor/bin/phpunit --filter=PdfThumbnailGenerationTest
 
 after_script:
   - docker-compose -f ./tests/docker-compose.yml down
