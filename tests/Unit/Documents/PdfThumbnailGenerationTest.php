@@ -42,7 +42,7 @@ class PdfThumbnailGenerationTest extends TestCase
     /**
      * Compare the generated thumbnail with a reference file.
      *
-     * It uses the absolute error with a fuzz amount of 2%.
+     * It uses the absolute error with a fuzz amount of 20%.
      *
      * In other words it count pixels that differ by more than fuzz amount.
      *
@@ -56,7 +56,7 @@ class PdfThumbnailGenerationTest extends TestCase
         $image2 = new Imagick();
 
         // set the fuzz factor (must be done BEFORE reading in the images)
-        $image1->setOption('fuzz', '2%');
+        $image1->setOption('fuzz', '20%');
 
         // read in the images
         $image1->readImage($reference);
