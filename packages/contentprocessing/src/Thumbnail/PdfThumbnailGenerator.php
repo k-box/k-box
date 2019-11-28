@@ -34,13 +34,29 @@ class PdfThumbnailGenerator implements ThumbnailGenerator
             $image = new Imagick($file->absolute_path);
         }
 
-        $image->setBackgroundColor('white'); // do not create transparent thumbnails
-        $image->setResolution(300, 300); // forcing resolution to 300dpi prevents mushy images
-        $image = $image->mergeImageLayers(Imagick::LAYERMETHOD_FLATTEN);
-        $image->thumbnailImage(ThumbnailImage::DEFAULT_WIDTH, 0, false, true);
-        $image->setImageFormat("png");
+        // reset the internal iterator
+        // if the image was generated from a multipage pdf resetting the iterator means
+        // pointing to the first page
+        $image->setResolution(300, 300);
+        $image->resetIterator();
 
-        return ThumbnailImage::load($image)->widen(ThumbnailImage::DEFAULT_WIDTH);
+        // create a new imagick object to host only the first image in the sequence
+        $thumb = new Imagick();
+
+        // get the first image from the sequence and copy it in the current empty image
+        $thumb->addImage($image->getImage());
+        $image->clear();
+
+        // ensure there will be a white background and
+        // transparency is removed
+        $thumb->setImageBackgroundColor('white');
+        $thumb->setBackgroundColor('white');
+        $thumb->setImageAlphaChannel(Imagick::ALPHACHANNEL_REMOVE);
+        $thumb->setResolution(300, 300); // forcing resolution to 300dpi prevents mushy images
+        $thumb->thumbnailImage(ThumbnailImage::DEFAULT_WIDTH, 0, false, true);
+        $thumb->setImageFormat("png");
+
+        return ThumbnailImage::load($thumb)->widen(ThumbnailImage::DEFAULT_WIDTH);
     }
 
     public function isSupported(File $file)
