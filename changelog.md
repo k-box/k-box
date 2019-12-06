@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.29.0] - 2019-12-06
+
 ### Added
 
 - Audio file (mp3) preview ([#285](https://github.com/k-box/k-box/pull/285))

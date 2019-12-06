@@ -2,7 +2,7 @@
 
 <p align="center">
 <a href="https://travis-ci.com/k-box/k-box" target="_blank"><img src="https://travis-ci.com/k-box/k-box.svg?branch=master" alt="Build Status"></a>
-<a href="./docs/release-note/release-note-0.28.md" target="_blank"><img alt="latest version" src="https://img.shields.io/badge/version-0.28.4-blue.svg"></a>
+<a href="./docs/release-note/release-note-0.29.md" target="_blank"><img alt="latest version" src="https://img.shields.io/badge/version-0.29.0-blue.svg"></a>
 </p>
 
 # K-Box
