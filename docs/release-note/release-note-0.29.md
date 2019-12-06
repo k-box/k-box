@@ -41,7 +41,7 @@ Only the files uploaded by the user will count on the quota usage.
 
 ### Evolution of the user interface
 
-This is probably the most striking change and we are aware of how it can affect the user experience, being the User Interface THE very critical aspect of an online based file sharing system. We received lot of feedbacks especially from smartphone user and we think time is ripe to get a first feedback. We are in the early stages of the process, but we believe the proposals presented in this release represent a step forward.
+This is probably the most striking change and we are aware of how it can affect the user experience, being the User Interface THE very critical aspect of an online based file sharing system. We received a lot of feedback on the current version especially from smartphone users and we think time is ripe to apply suggestions and get a first feedback. We are in the early stages of the process, but we believe the proposals presented in this release represent a step forward.
 
 #### Mobile friendliness
 
