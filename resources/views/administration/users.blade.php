@@ -39,15 +39,19 @@
             <tbody>
 
                 @foreach($users as $user)
-                    <tr @if ($user->trashed()) class="trashed" @endif>
+                    <tr @if ($user->trashed()) class="text-gray-500" @endif>
                         <td>
                             @component('avatar.full', ['image' => $user->avatar, 'name' => $user->name])
 
-                                {{$user->name}}
+                                @if ($user->trashed())
+                                    {{$user->name}}
+                                @else
+                                    <a href="{{ route('administration.users.show', $user->id) }}">{{$user->name}}</a>
+                                @endif
 
                             @endcomponent
                         </td>
-                        <td><a href="{{ route('administration.users.show', $user->id) }}">{{$user->email}}</a></td>
+                        <td>{{$user->email}}</td>
                         <td>&nbsp;</td>
                         <td>
 
