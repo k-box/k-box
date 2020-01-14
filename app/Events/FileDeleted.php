@@ -7,6 +7,8 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Support\Facades\Auth;
+use KBox\User;
 
 /**
  * File deleted event
@@ -24,6 +26,12 @@ class FileDeleted
     public $file;
 
     /**
+     * The user that triggered the document descriptor restore
+     * @var KBox\User
+     */
+    public $user;
+
+    /**
      * If the file was permanently deleted
      * @var bool
      */
@@ -39,6 +47,18 @@ class FileDeleted
     {
         $this->file = $file;
         $this->forceDeleted = $file->isForceDeleting();
+        $this->user = Auth::user() ?? null;
+    }
+
+    /**
+     * Specify the user tha caused the event
+     * 
+     * @param \KBox\User $user 
+     * @return self
+     */
+    public function setCauser(User $user)
+    {
+        $this->user = $user;
     }
 
     /**

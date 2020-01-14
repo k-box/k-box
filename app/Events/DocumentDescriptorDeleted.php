@@ -2,11 +2,13 @@
 
 namespace KBox\Events;
 
+use KBox\User;
 use KBox\DocumentDescriptor;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Document Descriptor deleted event
@@ -22,6 +24,12 @@ class DocumentDescriptorDeleted
      * @var KBox\DocumentDescriptor
      */
     public $document;
+
+    /**
+     * The user that triggered the document descriptor deletion
+     * @var KBox\User|null
+     */
+    public $user;
     
     /**
      * If the document was permanently deleted
@@ -39,6 +47,18 @@ class DocumentDescriptorDeleted
     {
         $this->document = $document;
         $this->forceDeleted = $document->isForceDeleting();
+        $this->user = Auth::user() ?? null;
+    }
+
+    /**
+     * Specify the user tha caused the event
+     * 
+     * @param \KBox\User $user 
+     * @return self
+     */
+    public function setCauser(User $user)
+    {
+        $this->user = $user;
     }
 
     /**

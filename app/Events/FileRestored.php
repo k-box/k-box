@@ -7,6 +7,8 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Support\Facades\Auth;
+use KBox\User;
 
 /**
  * File restored event
@@ -24,6 +26,15 @@ class FileRestored
     public $file;
 
     /**
+     * The user that triggered the document descriptor restore
+     * 
+     * It might
+     * 
+     * @var KBox\User|null
+     */
+    public $user;
+
+    /**
      * Create a new event instance.
      *
      * @param KBox\File The file that has been restored
@@ -32,6 +43,18 @@ class FileRestored
     public function __construct(File $file)
     {
         $this->file = $file;
+        $this->user = Auth::user() ?? null;
+    }
+
+    /**
+     * Specify the user tha caused the event
+     * 
+     * @param \KBox\User $user 
+     * @return self
+     */
+    public function setCauser(User $user)
+    {
+        $this->user = $user;
     }
 
     /**

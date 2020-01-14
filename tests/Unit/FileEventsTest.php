@@ -17,11 +17,12 @@ class FileEventsTest extends TestCase
     {
         Event::fake();
         $file = factory(File::class)->create();
+        $this->actingAs($file->user);
 
         $file->delete();
 
         Event::assertDispatched(FileDeleted::class, function ($e) use ($file) {
-            return $e->file->id === $file->id && ! $e->forceDeleted;
+            return $e->file->id === $file->id && ! $e->forceDeleted && $e->user->is($file->user);
         });
     }
     
@@ -29,11 +30,12 @@ class FileEventsTest extends TestCase
     {
         Event::fake();
         $file = factory(File::class)->create();
+        $this->actingAs($file->user);
 
         $file->forceDelete();
 
         Event::assertDispatched(FileDeleted::class, function ($e) use ($file) {
-            return $e->file->id === $file->id && $e->forceDeleted;
+            return $e->file->id === $file->id && $e->forceDeleted && $e->user->is($file->user);
         });
     }
     
@@ -46,7 +48,21 @@ class FileEventsTest extends TestCase
         $file->restore();
 
         Event::assertDispatched(FileRestored::class, function ($e) use ($file) {
-            return $e->file->id === $file->id;
+            return $e->file->id === $file->id && is_null($e->user);
+        });
+    }
+    
+    public function test_restored_event_get_current_authenticated_user()
+    {
+        Event::fake();
+        $file = factory(File::class)->create();
+        $this->actingAs($file->user);
+        $file->delete();
+
+        $file->restore();
+
+        Event::assertDispatched(FileRestored::class, function ($e) use ($file) {
+            return $e->file->id === $file->id && $e->user->is($file->user);
         });
     }
 }

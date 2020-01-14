@@ -7,6 +7,8 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Support\Facades\Auth;
+use KBox\User;
 
 /**
  * Document Descriptor restored event
@@ -24,6 +26,12 @@ class DocumentDescriptorRestored
     public $document;
 
     /**
+     * The user that triggered the document descriptor restore
+     * @var KBox\User|null
+     */
+    public $user;
+
+    /**
      * Create a new event instance.
      *
      * @param KBox\DocumentDescriptor The document that has been restored
@@ -32,6 +40,19 @@ class DocumentDescriptorRestored
     public function __construct(DocumentDescriptor $document)
     {
         $this->document = $document;
+        $this->user = Auth::user() ?? null;
+    }
+
+
+    /**
+     * Specify the user tha caused the event
+     * 
+     * @param \KBox\User $user 
+     * @return self
+     */
+    public function setCauser(User $user)
+    {
+        $this->user = $user;
     }
 
     /**
