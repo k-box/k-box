@@ -19,6 +19,7 @@ asynchronous notifications or long-running actions.
 | `PageChanged`                | A static page, like terms of service, privacy policy has been changed on disk |
 | `PersonalExportCreated`      | The export of the user's personal data has been created |
 | `PrivacyPolicyUpdated`       | The privacy policy file was changed |
+| `ProjectCreated`             | A project has been created by a user |
 | `ShareCreated`               | A share of a file or collection was created |
 | `UploadCompleted`            | A file upload completed |
 | `UserInviteAccepted`         | An invitation was accepted and the account created |

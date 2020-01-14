@@ -9,6 +9,8 @@ use KBox\Capability;
 use KBox\DocumentDescriptor;
 use Tests\Concerns\ClearDatabase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Facades\Event;
+use KBox\Events\ProjectCreated;
 
 class ProjectsTest extends TestCase
 {
@@ -153,6 +155,8 @@ class ProjectsTest extends TestCase
             $params['users'] = [$expected_available_users->first()->id];
         }
 
+        Event::fake();
+
         $response = $this->from(route('projects.create'))->actingAs($user)->post(route('projects.store'), $params);
 
         if ($omit_title) {
@@ -161,6 +165,10 @@ class ProjectsTest extends TestCase
         } else {
             $created_project = Project::where('name', 'Project title')->first();
             $response->assertRedirect(route('documents.groups.show', $created_project->collection_id));
+
+            Event::assertDispatched(ProjectCreated::class, function ($e) use ($created_project, $user) {
+                return $e->project->is($created_project) && $e->user->is($user);
+            });
         }
     }
     

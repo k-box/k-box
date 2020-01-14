@@ -7,6 +7,7 @@ use KBox\Traits\LocalizableDateFields;
 use Illuminate\Database\Eloquent\Model;
 use Dyrynda\Database\Support\GeneratesUuid;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use KBox\Events\ProjectCreated;
 
 /**
  * The project concept.
@@ -38,19 +39,10 @@ use Illuminate\Database\Eloquent\Relations\Relation;
 class Project extends Model
 {
     use LocalizableDateFields, GeneratesUuid, ScopeNullUuid;
-    /*
 
-        $table->bigIncrements('id');
-        $table->string('name');
-        $table->text('description')->nullable();
-        $table->string('avatar')->nullable();
-
-        $table->bigInteger('user_id')->unsigned(); --> project manager
-        $table->bigInteger('collection_id')->unsigned(); --> root project collection
-
-        $table->timestamps();
-
-     */
+    protected $dispatchesEvents = [
+        'created' => ProjectCreated::class,
+    ];
 
     /**
      * The database table used by the model.
