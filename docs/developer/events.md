@@ -20,6 +20,8 @@ asynchronous notifications or long-running actions.
 | `PersonalExportCreated`      | The export of the user's personal data has been created |
 | `PrivacyPolicyUpdated`       | The privacy policy file was changed |
 | `ProjectCreated`             | A project has been created by a user |
+| `ProjectMembersAdded`        | Triggered when one or more members are added to a Project |
+| `ProjectMembersRemoved`      | Triggered when one or more members are removed from a Project |
 | `ShareCreated`               | A share of a file or collection was created |
 | `UploadCompleted`            | A file upload completed |
 | `UserInviteAccepted`         | An invitation was accepted and the account created |
