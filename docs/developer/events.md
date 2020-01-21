@@ -9,6 +9,8 @@ asynchronous notifications or long-running actions.
 
 | Event                        | Description |
 | ---------------------------- | ----------- |
+| `CollectionCreated`          | When a user creates a collection |
+| `CollectionTrashed`          | When a user trashes a collection |
 | `DocumentDescriptorDeleted`  | A document descriptor was trashed by a user |
 | `DocumentDescriptorRestored` | A document descriptor was restored from the trash |
 | `EmailChanged`               | The user changed the email address |
