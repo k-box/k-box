@@ -7,12 +7,16 @@ asynchronous notifications or long-running actions.
 
 ## Reference
 
+Here are the main events currently available:
+
 | Event                        | Description |
 | ---------------------------- | ----------- |
 | `CollectionCreated`          | When a user creates a collection |
 | `CollectionTrashed`          | When a user trashes a collection |
 | `DocumentDescriptorDeleted`  | A document descriptor was trashed by a user |
 | `DocumentDescriptorRestored` | A document descriptor was restored from the trash |
+| `DocumentsAddedToCollection`     | When a document is added to one or more collection |
+| `DocumentsRemovedFromCollection` | When a document is removed from one or more collection |
 | `EmailChanged`               | The user changed the email address |
 | `FileDeleted`                | A file is trashed |
 | `FileDeleting`               | It is fired immediately before a file is trashed or permanently deleted. |
@@ -29,3 +33,8 @@ asynchronous notifications or long-running actions.
 | `UploadCompleted`            | A file upload completed |
 | `UserInviteAccepted`         | An invitation was accepted and the account created |
 | `UserInvited`                | An invitation request is sent to a potential user |
+
+
+> the event name is equal to the class in the `KBox\Events` namespace.
+
+> For the difference between file and document descriptor please refer to the [database section](./database.md).
