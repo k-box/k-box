@@ -42,6 +42,8 @@ abstract class CausedEvent
     public function setCauser(User $user)
     {
         $this->user = $user;
+
+        return $this;
     }
 
     /**

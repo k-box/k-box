@@ -27,6 +27,7 @@ use KBox\Jobs\UpdatePublishedDocumentJob;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use KBox\Documents\Properties\Presenter;
+use KBox\Events\DocumentVersionUploaded;
 use KBox\Exceptions\QuotaExceededException;
 
 class DocumentsController extends Controller
@@ -298,7 +299,7 @@ class DocumentsController extends Controller
 
         if (! is_null($auth_user)) {
             if ($document->isMine()) {
-                $existing_shares = $document->shares()->sharedByMe($auth_user)->where('sharedwith_type', \KBox\User::class)->count();
+                $existing_shares = $document->shares()->sharedByMe($auth_user)->where('sharedwith_type', User::class)->count();
                 $public_link_shares = $document->shares()->where('sharedwith_type', \KBox\PublicLink::class)->count();
                 
                 $users_from_projects = $this->service->getUsersWithAccess($document, $auth_user);
@@ -588,6 +589,7 @@ class DocumentsController extends Controller
                         // Considering a new file version as uploading a new file
                         if ($uploaded_new_version) {
                             event(new UploadCompleted($descriptor, $descriptor->owner));
+                            event((new DocumentVersionUploaded($descriptor, $file_model))->setCauser($user));
                         } else {
                             dispatch(new ReindexDocument($descriptor, KlinkVisibilityType::KLINK_PRIVATE));
                         }

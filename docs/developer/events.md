@@ -18,6 +18,7 @@ asynchronous notifications or long-running actions.
 | `FileDeleting`               | It is fired immediately before a file is trashed or permanently deleted. |
 | `FileDuplicateFoundEvent`    | A duplicate of an existing file has been recognized |
 | `FileRestored`               | A file is restored from the trash |
+| `DocumentVersionUploaded`    | A new file version for a Document Descriptor was succesfully uploaded | 
 | `PageChanged`                | A static page, like terms of service, privacy policy has been changed on disk |
 | `PersonalExportCreated`      | The export of the user's personal data has been created |
 | `PrivacyPolicyUpdated`       | The privacy policy file was changed |
