@@ -3,19 +3,14 @@
 namespace KBox\Events;
 
 use KBox\DocumentDescriptor;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Foundation\Events\Dispatchable;
-use Illuminate\Broadcasting\InteractsWithSockets;
 
 /**
  * Document Descriptor restored event
  *
  * It is fired when a descriptor is restored from trash.
  */
-class DocumentDescriptorRestored
+class DocumentDescriptorRestored extends CausedEvent
 {
-    use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
      * The DocumentDescriptor that has been restored
@@ -31,16 +26,8 @@ class DocumentDescriptorRestored
      */
     public function __construct(DocumentDescriptor $document)
     {
-        $this->document = $document;
-    }
+        parent::__construct();
 
-    /**
-     * Get the channels the event should broadcast on.
-     *
-     * @return \Illuminate\Broadcasting\Channel|array
-     */
-    public function broadcastOn()
-    {
-        return new PrivateChannel('channel-name');
+        $this->document = $document;
     }
 }

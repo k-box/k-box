@@ -5,6 +5,11 @@ namespace Tests\Feature;
 use Tests\TestCase;
 use KBox\Capability;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Facades\Event;
+use KBox\Events\CollectionCreated;
+use KBox\Events\CollectionTrashed;
+use KBox\Group;
+use KBox\User;
 
 class CollectionControllerTest extends TestCase
 {
@@ -187,5 +192,69 @@ class CollectionControllerTest extends TestCase
             'id' => $collection_under2->id,
             'parent_id' => $collection_under->id
         ]);
+    }
+
+    public function test_collection_is_created()
+    {
+        Event::fake();
+ 
+        $user = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$PROJECT_MANAGER);
+        });
+
+        $response = $this
+            ->actingAs($user)
+            ->json('POST', route('documents.groups.store'), [
+                'name' => 'A collection for tests',
+            ]);
+
+        $response->assertStatus(201);
+
+        $collection = Group::where('name', 'A collection for tests')->first();
+
+        $response->assertJson([
+            "user_id" => $user->getKey(),
+            "name" => "A collection for tests",
+            "color" => "16a085",
+            "group_type_id" => 1,
+            "is_private" => true,
+            "real_depth" => 0,
+            "position" => 0,
+            "id" => $collection->getKey(),
+        ]);
+
+        Event::assertDispatched(CollectionCreated::class, function ($e) use ($collection, $user) {
+            return $e->collection->is($collection) && $e->user->is($user);
+        });
+    }
+    
+    public function test_collection_is_trashed()
+    {
+        $user = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$ADMIN);
+        });
+
+        $collection = factory(Group::class)->create([
+            'user_id' => $user->getKey(),
+        ]);
+
+        Event::fake();
+ 
+        $response = $this
+            ->actingAs($user)
+            ->json('DELETE', route('documents.groups.destroy', $collection->getKey()));
+
+        $response->assertStatus(202);
+
+        $response->assertJson([
+            "status" => "ok",
+            "message" => trans('groups.delete.deleted_dialog_title', ['collection' => $collection->name]),
+        ]);
+
+        $this->assertTrue($collection->fresh()->trashed());
+
+        Event::assertDispatched(CollectionTrashed::class, function ($e) use ($collection, $user) {
+            return $e->collection->is($collection) && $e->user->is($user);
+        });
     }
 }

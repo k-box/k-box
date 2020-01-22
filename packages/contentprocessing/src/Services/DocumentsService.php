@@ -30,6 +30,8 @@ use Klink\DmsAdapter\Exceptions\KlinkException;
 use KSearchClient\Exception\ErrorResponseException;
 use KBox\Jobs\ReindexDocument;
 use KBox\Documents\TrashContentResponse;
+use KBox\Events\DocumentsAddedToCollection;
+use KBox\Events\DocumentsRemovedFromCollection;
 
 class DocumentsService
 {
@@ -1462,6 +1464,8 @@ class DocumentsService
                 $group->documents()->save($document, ['added_by' => $user->getKey()]);
             });
         });
+        
+        event((new DocumentsAddedToCollection($group, $documents->pluck('id')->toArray()))->setCauser($user));
 
         if ($perform_reindex) {
             $this->reindexDocuments($documents); //documents must be a collection of DocumentDescriptors
@@ -1475,6 +1479,8 @@ class DocumentsService
         }
 
         $group->documents()->save($document, ['added_by' => $user->getKey()]);
+
+        event((new DocumentsAddedToCollection($group, [ $document->getKey() ]))->setCauser($user));
 
         if ($perform_reindex) {
             dispatch(new ReindexDocument($document, KlinkVisibilityType::KLINK_PRIVATE));
@@ -1498,6 +1504,8 @@ class DocumentsService
 
         $group->documents()->detach($collection_of_ids); // $documents must be an integer or an array of integers
 
+        event((new DocumentsRemovedFromCollection($group, $collection_of_ids))->setCauser($user));
+
         if ($perform_reindex) {
             $this->reindexDocuments($documents);  //documents must be a collection of DocumentDescriptors
         }
@@ -1510,6 +1518,8 @@ class DocumentsService
         }
 
         $group->documents()->detach($document);
+
+        event((new DocumentsRemovedFromCollection($group, [$document->getKey()]))->setCauser($user));
 
         if ($perform_reindex) {
             dispatch(new ReindexDocument($document, KlinkVisibilityType::KLINK_PRIVATE));

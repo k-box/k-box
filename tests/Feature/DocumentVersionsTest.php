@@ -8,8 +8,11 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Event;
 use KBox\Capability;
 use KBox\DocumentDescriptor;
+use KBox\Events\DocumentVersionUploaded;
+use KBox\Events\UploadCompleted;
 use KBox\Facades\Quota;
 use KBox\User;
 
@@ -242,5 +245,44 @@ class DocumentVersionsTest extends TestCase
         $message = trans('documents.update.error', ['error' => trans('quota.not_enough_free_space', ['necessary_free_space' => human_filesize(100*1024-1024), 'quota' => human_filesize($quota->limit)])]);
         
         $response->assertSessionHasErrors(['error' => $message]);
+    }
+
+    public function test_add_new_version_trigger_events()
+    {
+        Storage::fake('local');
+        $this->withKlinkAdapterFake();
+
+        $user = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$ADMIN);
+        });
+        
+        $document = factory(DocumentDescriptor::class)->create([
+            'owner_id' => $user->id
+        ]);
+
+        Event::fake();
+
+        $response = $this
+            ->actingAs($user)
+            ->from(route('documents.edit', $document->id))
+            ->put(route('documents.update', $document->id), [
+                'document' => UploadedFile::fake()->create('document.pdf', 100)
+            ]);
+
+        $response->assertRedirect("/documents/$document->id/edit");
+
+        $response->assertSessionHas('flash_message', trans('documents.messages.updated'));
+
+        $file = $document->fresh()->file;
+
+        Event::assertDispatched(DocumentVersionUploaded::class, function ($e) use ($file, $user, $document) {
+            return $e->file->is($file)
+                && $e->descriptor->is($document)
+                && $e->user->is($user);
+        });
+        
+        Event::assertDispatched(UploadCompleted::class, function ($e) use ($document, $user) {
+            return $e->descriptor->is($document) && $e->user->is($user);
+        });
     }
 }

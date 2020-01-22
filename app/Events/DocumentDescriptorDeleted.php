@@ -3,19 +3,14 @@
 namespace KBox\Events;
 
 use KBox\DocumentDescriptor;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Foundation\Events\Dispatchable;
-use Illuminate\Broadcasting\InteractsWithSockets;
 
 /**
  * Document Descriptor deleted event
  *
  * It is fired when a descriptor is trashed or permanently deleted.
  */
-class DocumentDescriptorDeleted
+class DocumentDescriptorDeleted extends CausedEvent
 {
-    use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
      * The DocumentDescriptor that has been deleted
@@ -37,17 +32,9 @@ class DocumentDescriptorDeleted
      */
     public function __construct(DocumentDescriptor $document)
     {
+        parent::__construct();
+
         $this->document = $document;
         $this->forceDeleted = $document->isForceDeleting();
-    }
-
-    /**
-     * Get the channels the event should broadcast on.
-     *
-     * @return \Illuminate\Broadcasting\Channel|array
-     */
-    public function broadcastOn()
-    {
-        return new PrivateChannel('channel-name');
     }
 }

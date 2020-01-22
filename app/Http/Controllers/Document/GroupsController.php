@@ -100,8 +100,7 @@ class GroupsController extends Controller
 
             \Cache::flush();
 
-            if ($request->ajax() && $request->wantsJson()) {
-                // return response()->json($created_group);
+            if ($request->wantsJson()) {
                 return new JsonResponse($created_group->toArray(), 201);
             } elseif ($request->ajax() && $request->input('ok_template', false)) {
                 return view('groups.tree');
@@ -111,13 +110,13 @@ class GroupsController extends Controller
         } catch (ForbiddenException $fe) {
             //return forbidden response
 
-            if ($request->ajax() && $request->wantsJson()) {
+            if ($request->wantsJson()) {
                 return new JsonResponse(['error' => $fe->getMessage()], 403);
             }
 
             return response("forbidden", 403);
         } catch (GroupAlreadyExistsException $fe) {
-            if ($request->ajax() && $request->wantsJson()) {
+            if ($request->wantsJson()) {
                 return new JsonResponse(['error' => $fe->getMessage()], 409);
             }
 

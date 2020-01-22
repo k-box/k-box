@@ -9,8 +9,11 @@ use KBox\Capability;
 use KBox\DocumentDescriptor;
 use Klink\DmsAdapter\KlinkVisibilityType;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Facades\Event;
 use KBox\DocumentGroups;
 use KBox\Documents\Services\DocumentsService;
+use KBox\Events\DocumentsAddedToCollection;
+use KBox\Events\DocumentsRemovedFromCollection;
 use KBox\Shared;
 
 /*
@@ -179,6 +182,10 @@ class DocumentsServiceTest extends TestCase
             'is_private' => true,
         ]);
 
+        Event::fake([
+            DocumentsAddedToCollection::class,
+        ]);
+
         $service = app(DocumentsService::class);
         $service->addDocumentsToGroup($user, $documents, $collection, false);
 
@@ -190,6 +197,139 @@ class DocumentsServiceTest extends TestCase
             $this->assertNotNull($applied_collection->pivot->created_at);
             $this->assertNotNull($applied_collection->pivot->updated_at);
             $this->assertTrue($applied_collection->pivot->addedBy->is($user));
+        });
+
+        Event::assertDispatched(DocumentsAddedToCollection::class, function ($e) use ($collection, $documents, $user) {
+            $noDifferenceBetweenDocuments = $documents->pluck('id')->diff($e->documents)->isEmpty();
+
+            return $e->collection->is($collection)
+                && $noDifferenceBetweenDocuments
+                && $e->user->is($user);
+        });
+    }
+
+    public function test_add_document_to_collection()
+    {
+        $this->withoutMiddleware();
+
+        $adapter = $this->withKlinkAdapterFake();
+
+        $user = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$ADMIN);
+        });
+
+        $document = factory(DocumentDescriptor::class)->create([
+            'owner_id' => $user->id,
+        ]);
+
+        $collection = factory(Group::class)->create([
+            'user_id' => $user->id,
+            'is_private' => true,
+        ]);
+
+        Event::fake([
+            DocumentsAddedToCollection::class,
+        ]);
+
+        $service = app(DocumentsService::class);
+        $service->addDocumentToGroup($user, $document, $collection, false);
+
+        $applied_collection = $document->fresh()->groups()->first();
+
+        $this->assertNotNull($applied_collection->is($collection));
+        $this->assertInstanceOf(DocumentGroups::class, $applied_collection->pivot);
+        $this->assertNotNull($applied_collection->pivot->created_at);
+        $this->assertNotNull($applied_collection->pivot->updated_at);
+        $this->assertTrue($applied_collection->pivot->addedBy->is($user));
+        
+        Event::assertDispatched(DocumentsAddedToCollection::class, function ($e) use ($collection, $document, $user) {
+            return $e->collection->is($collection)
+                && count($e->documents) === 1
+                && $e->documents[0] === $document->getKey()
+                && $e->user->is($user);
+        });
+    }
+
+    public function test_remove_document_from_collection()
+    {
+        $this->withoutMiddleware();
+
+        $adapter = $this->withKlinkAdapterFake();
+
+        $user = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$ADMIN);
+        });
+
+        $document = factory(DocumentDescriptor::class)->create([
+            'owner_id' => $user->id,
+        ]);
+
+        $collection = factory(Group::class)->create([
+            'user_id' => $user->id,
+            'is_private' => true,
+        ]);
+
+        $collection->documents()->save($document, ['added_by' => $user->getKey()]);
+
+        Event::fake([
+            DocumentsRemovedFromCollection::class,
+        ]);
+
+        $service = app(DocumentsService::class);
+        $service->removeDocumentFromGroup($user, $document, $collection, false);
+
+        $applied_collections = $document->fresh()->groups()->count();
+
+        $this->assertEquals(0, $applied_collections);
+        
+        Event::assertDispatched(DocumentsRemovedFromCollection::class, function ($e) use ($collection, $document, $user) {
+            return $e->collection->is($collection)
+                && count($e->documents) === 1
+                && $e->documents[0] === $document->getKey()
+                && $e->user->is($user);
+        });
+    }
+
+    public function test_remove_documents_from_collection()
+    {
+        $this->withoutMiddleware();
+
+        $adapter = $this->withKlinkAdapterFake();
+
+        $user = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$ADMIN);
+        });
+
+        $documents = factory(DocumentDescriptor::class, 3)->create([
+            'owner_id' => $user->id,
+        ]);
+
+        $collection = factory(Group::class)->create([
+            'user_id' => $user->id,
+            'is_private' => true,
+        ]);
+
+        $documents->each(function ($document) use ($collection, $user) {
+            $collection->documents()->save($document, ['added_by' => $user->getKey()]);
+        });
+
+        Event::fake([
+            DocumentsRemovedFromCollection::class,
+        ]);
+
+        $service = app(DocumentsService::class);
+        $service->removeDocumentsFromGroup($user, $documents, $collection, false);
+
+        $documents_in_collection = $collection->fresh()->documents()->count();
+
+        $this->assertEquals(0, $documents_in_collection);
+        
+        Event::assertDispatched(DocumentsRemovedFromCollection::class, function ($e) use ($collection, $documents, $user) {
+            $noDifferenceBetweenDocuments = $documents->pluck('id')->diff($e->documents)->isEmpty();
+
+            return $e->collection->is($collection)
+                && $noDifferenceBetweenDocuments
+                && $e->user->is($user);
         });
     }
 

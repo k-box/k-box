@@ -157,9 +157,7 @@ class ProjectsController extends Controller
                 DB::transaction(function () use ($project, $request) {
                     $users = $request->get('users');
                     
-                    foreach ($users as $user) {
-                        $project->users()->attach($user);
-                    }
+                    $project->addMembers($users);
                 });
             }
 
@@ -230,15 +228,11 @@ class ProjectsController extends Controller
                     $users_to_remove = array_intersect($prj_users, $users);
                     
                     if (count($users_to_add) > 0) {
-                        foreach ($users_to_add as $user) {
-                            $project->users()->attach($user);
-                        }
+                        $project->addMembers($users_to_add);
                     }
                     
                     if (count($users_to_remove) > 0) {
-                        foreach ($users_to_remove as $user) {
-                            $project->users()->detach($user);
-                        }
+                        $project->removeMembers($users_to_remove);
                     }
                 }
                 

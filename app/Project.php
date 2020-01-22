@@ -7,6 +7,9 @@ use KBox\Traits\LocalizableDateFields;
 use Illuminate\Database\Eloquent\Model;
 use Dyrynda\Database\Support\GeneratesUuid;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use KBox\Events\ProjectCreated;
+use KBox\Events\ProjectMembersAdded;
+use KBox\Events\ProjectMembersRemoved;
 
 /**
  * The project concept.
@@ -38,19 +41,10 @@ use Illuminate\Database\Eloquent\Relations\Relation;
 class Project extends Model
 {
     use LocalizableDateFields, GeneratesUuid, ScopeNullUuid;
-    /*
 
-        $table->bigIncrements('id');
-        $table->string('name');
-        $table->text('description')->nullable();
-        $table->string('avatar')->nullable();
-
-        $table->bigInteger('user_id')->unsigned(); --> project manager
-        $table->bigInteger('collection_id')->unsigned(); --> root project collection
-
-        $table->timestamps();
-
-     */
+    protected $dispatchesEvents = [
+        'created' => ProjectCreated::class,
+    ];
 
     /**
      * The database table used by the model.
@@ -146,6 +140,44 @@ class Project extends Model
     public function documents()
     {
         return DocumentDescriptor::whereIn('id', $this->getDocumentsQuery());
+    }
+
+    /**
+     * Add Project members
+     *
+     * @param int[]|User[] $users Identifier of the users to add
+     * @return void
+     */
+    public function addMembers(array $users)
+    {
+        if (empty($users)) {
+            return;
+        }
+
+        collect($users)->each(function ($u) {
+            $this->users()->attach($u instanceof User ? $u->getKey() : $u);
+        });
+
+        ProjectMembersAdded::dispatch($this, $users);
+    }
+
+    /**
+     * Remove Project members
+     *
+     * @param int[]|User[] $users Identifier of the users to remove
+     * @return void
+     */
+    public function removeMembers(array $users)
+    {
+        if (empty($users)) {
+            return;
+        }
+
+        collect($users)->each(function ($u) {
+            $this->users()->detach($u instanceof User ? $u->getKey() : $u);
+        });
+
+        ProjectMembersRemoved::dispatch($this, $users);
     }
     
     /**

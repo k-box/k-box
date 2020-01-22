@@ -7,6 +7,8 @@ use KBox\Traits\LocalizableDateFields;
 use Franzose\ClosureTable\Models\Entity;
 use Dyrynda\Database\Support\GeneratesUuid;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use KBox\Events\CollectionCreated;
+use KBox\Events\CollectionTrashed;
 
 /**
  * A collection of document descriptors
@@ -90,6 +92,11 @@ class Group extends Entity implements GroupInterface
 
     protected $casts = [
         'uuid' => 'uuid',
+    ];
+
+    protected $dispatchesEvents = [
+        'created' => CollectionCreated::class,
+        'deleted' => CollectionTrashed::class,
     ];
 
     public function user()
