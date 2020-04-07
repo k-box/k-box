@@ -169,7 +169,7 @@ final class Flags
 
     public function __call($method, $arguments)
     {
-        if (str_is('is*Enabled', $method)) {
+        if (Str::is('is*Enabled', $method)) {
             $keys = self::constants();
             $key = strtolower(Str::before(Str::after($method, 'is'), 'Enabled'));
             if (self::isValidEnumKey(strtoupper($key))) {
@@ -180,7 +180,7 @@ final class Flags
 
     public static function __callStatic($method, $arguments)
     {
-        if (str_is('is*Enabled', $method)) {
+        if (Str::is('is*Enabled', $method)) {
             $keys = self::constants();
             $key = strtolower(Str::before(Str::after($method, 'is'), 'Enabled'));
             if (self::isValidEnumKey(strtoupper($key))) {

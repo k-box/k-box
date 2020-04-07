@@ -15,13 +15,13 @@ class DmsModelCreation extends Command
 
     /*
 
-    str_plural Convert a string to its plural form (English only).
+    Str::plural Convert a string to its plural form (English only).
 
-    str_singular Convert a string to its singular form (English only).
+    Str::singular Convert a string to its singular form (English only).
 
-    studly_case: foo_bar => FooBar
+    Str::studly: foo_bar => FooBar
 
-    snake_case: fooBar => foo_bar
+    Str::snake: fooBar => foo_bar
 
     camel_case: foo_bar => fooBar
 
@@ -302,6 +302,6 @@ class DmsModelCreation extends Command
      */
     protected function getClassName($table)
     {
-        return str_singular(studly_case($table));
+        return Str::singular(Str::studly($table));
     }
 }
