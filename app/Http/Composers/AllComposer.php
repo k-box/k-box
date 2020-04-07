@@ -3,6 +3,7 @@
 namespace KBox\Http\Composers;
 
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Str;
 
 class AllComposer
 {
@@ -36,7 +37,7 @@ class AllComposer
         if ($is_logged) {
             $logged_in_user = \Auth::user();
             
-            if (! ends_with($logged_in_user->email, 'klink.local')) {
+            if (! Str::endsWith($logged_in_user->email, 'klink.local')) {
                 $view->with('feedback_loggedin', $is_logged);
                 $view->with('feedback_user_name', $logged_in_user->name);
                 $view->with('feedback_user_mail', $logged_in_user->email);
@@ -51,7 +52,7 @@ class AllComposer
             $body_classes[] = 'frontpage';
         }
 
-        if (! is_null($route_name) && starts_with($route_name, 'documents')) {
+        if (! is_null($route_name) && Str::startsWith($route_name, 'documents')) {
             $body_classes[] = 'dropzone-container';
         }
 

@@ -40,14 +40,14 @@
                                     <a class="button" href="{{ route("plugins.$plugin->name.settings") }}">{{trans('plugins.actions.settings')}}</a>
                                 @endif
 
-                                <button class="button button--danger" onclick="event.preventDefault();document.getElementById('plugin-disable-form-{{str_slug($plugin->name)}}').submit();">{{trans('plugins.actions.disable')}}</button>
-                                <form id="plugin-disable-form-{{str_slug($plugin->name)}}" action="{{ route('administration.plugins.destroy', $plugin->name) }}" method="POST" style="display: none;">
+                                <button class="button button--danger" onclick="event.preventDefault();document.getElementById('plugin-disable-form-{{\Illuminate\Support\Str::slug($plugin->name)}}').submit();">{{trans('plugins.actions.disable')}}</button>
+                                <form id="plugin-disable-form-{{\Illuminate\Support\Str::slug($plugin->name)}}" action="{{ route('administration.plugins.destroy', $plugin->name) }}" method="POST" style="display: none;">
                                     {{ csrf_field() }}
                                     {{ method_field('DELETE') }}
                                 </form>
                             @else
-                                <button class="button" onclick="event.preventDefault();document.getElementById('plugin-enable-form-{{str_slug($plugin->name)}}').submit();">{{trans('plugins.actions.enable')}}</button>
-                                <form id="plugin-enable-form-{{str_slug($plugin->name)}}" action="{{ route('administration.plugins.update', $plugin->name) }}" method="POST" style="display: none;">
+                                <button class="button" onclick="event.preventDefault();document.getElementById('plugin-enable-form-{{\Illuminate\Support\Str::slug($plugin->name)}}').submit();">{{trans('plugins.actions.enable')}}</button>
+                                <form id="plugin-enable-form-{{\Illuminate\Support\Str::slug($plugin->name)}}" action="{{ route('administration.plugins.update', $plugin->name) }}" method="POST" style="display: none;">
                                     {{ csrf_field() }}
                                     {{ method_field('PUT') }}
                                 </form>

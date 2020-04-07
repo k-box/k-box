@@ -15,6 +15,7 @@ use OneOffTech\Licenses\Contracts\LicenseRepository;
 use KBox\Events\DocumentDescriptorDeleted;
 use KBox\Events\DocumentDescriptorRestored;
 use KBox\Traits\ScopeNullUuid;
+use Illuminate\Support\Str;
 
 /**
  * A Document Descriptor
@@ -546,7 +547,7 @@ class DocumentDescriptor extends Model
 
     public function isRemoteWebPage()
     {
-        return ($this->document_type == 'web-page' || $this->document_type == 'document') && ! is_null($this->file) && starts_with($this->file->original_uri, 'http');
+        return ($this->document_type == 'web-page' || $this->document_type == 'document') && ! is_null($this->file) && Str::startsWith($this->file->original_uri, 'http');
     }
     
     /**

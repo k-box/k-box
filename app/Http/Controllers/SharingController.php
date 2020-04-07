@@ -14,6 +14,7 @@ use KBox\Http\Requests\CreateShareRequest;
 use KBox\Http\Requests\ShareDialogRequest;
 use Illuminate\Contracts\Auth\Guard as AuthGuard;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use KBox\Traits\Searchable;
@@ -221,7 +222,7 @@ class SharingController extends Controller
             if (! is_null($item) && ! $item instanceof Group) {
                 $real_preview_link = \DmsRouting::preview($item);
 
-                if (! $item->isRemoteWebPage() && starts_with($item->document_uri, 'http://msri-hub.ucentralasia.org/') || starts_with($item->document_uri, 'http://staging-uca.cloudapp.net/')) {
+                if (! $item->isRemoteWebPage() && Str::startsWith($item->document_uri, 'http://msri-hub.ucentralasia.org/') || Str::startsWith($item->document_uri, 'http://staging-uca.cloudapp.net/')) {
                     $real_preview_link = $item->document_uri;
                 } elseif ($item->isRemoteWebPage() && ! is_null($item->file)) {
                     $real_preview_link = $item->file->original_uri;

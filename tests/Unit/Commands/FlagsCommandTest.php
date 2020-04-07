@@ -5,6 +5,7 @@ namespace Tests\Unit\Commands;
 use Artisan;
 use KBox\Flags;
 use Tests\TestCase;
+use Illuminate\Support\Str;
 use InvalidArgumentException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
@@ -90,7 +91,7 @@ class FlagsCommandTest extends TestCase
 
         $this->assertTrue(Flags::isEnabled($flag));
         $this->assertFalse(Flags::isDisabled($flag));
-        $this->assertTrue(str_contains($output, 'Flag plugins enabled'));
+        $this->assertTrue(Str::contains($output, 'Flag plugins enabled'));
     }
     
     public function test_flag_can_be_disabled()
@@ -106,6 +107,6 @@ class FlagsCommandTest extends TestCase
 
         $this->assertFalse(Flags::isEnabled($flag));
         $this->assertTrue(Flags::isDisabled($flag));
-        $this->assertTrue(str_contains($output, 'Flag plugins disabled'));
+        $this->assertTrue(Str::contains($output, 'Flag plugins disabled'));
     }
 }

@@ -4,6 +4,7 @@ namespace KBox\Documents;
 
 use Exception;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use InvalidArgumentException;
 
 /**
@@ -256,7 +257,7 @@ final class FileHelper
      */
     public static function getExtensionFromType($mimeType, $documentType = null)
     {
-        $mimeType = self::normalizeMimeType(str_before($mimeType, ';'));
+        $mimeType = self::normalizeMimeType(Str::before($mimeType, ';'));
    
         $possible_extensions = array_filter(self::$fileExtensionToMimeType, function ($value, $key) use ($mimeType, $documentType) {
             if (is_array($value) && ! is_null($documentType) &&  array_key_exists($documentType, $value)) {
@@ -285,7 +286,7 @@ final class FileHelper
                 }
             }
             
-            return str_before($possible_extension, '|');
+            return Str::before($possible_extension, '|');
         }
 
         throw new InvalidArgumentException("Unknown mime type.");

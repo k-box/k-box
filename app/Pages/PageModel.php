@@ -3,6 +3,7 @@
 namespace KBox\Pages;
 
 use Markdown;
+use Illuminate\Support\Str;
 use KBox\Events\PageChanged;
 use Symfony\Component\Yaml\Yaml;
 use Illuminate\Support\Collection;
@@ -235,7 +236,7 @@ abstract class PageModel
 
     public function getIdAttribute($value)
     {
-        return $value ?? ($this->title ? str_slug($this->title) : null);
+        return $value ?? ($this->title ? Str::slug($this->title) : null);
     }
     
     public function getLanguageAttribute($value)

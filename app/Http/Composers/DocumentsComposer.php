@@ -8,7 +8,7 @@ use KBox\DocumentDescriptor;
 use KBox\File;
 use KBox\Group;
 use KBox\Project;
-
+use Illuminate\Support\Str;
 use Illuminate\Contracts\View\View;
 
 use Illuminate\Support\Collection;
@@ -450,10 +450,10 @@ class DocumentsComposer
             
             foreach ($items as $group_facet) {
                 if ($group_facet->count > 0) {
-                    if (starts_with($group_facet->term, '0:')) {
+                    if (Str::startsWith($group_facet->term, '0:')) {
                         // private
                         $private[] = \KBox\Group::findOrFail(str_replace('0:', '', $group_facet->term));
-                    } elseif (starts_with($group_facet->term, $auth_user->id.':')) {
+                    } elseif (Str::startsWith($group_facet->term, $auth_user->id.':')) {
                         //personal
                         $personal[] = $group_facet;
                     }

@@ -2,6 +2,7 @@
 
 namespace KBox\Geo;
 
+use Illuminate\Support\Str;
 use Illuminate\Support\Arr;
 use KBox\File;
 use proj4php\Wkt;
@@ -106,9 +107,9 @@ final class GeoProperties extends FileProperties
         $key = null;
 
         foreach ($lines as $line) {
-            if(str_contains($line, ':')){
-                $key = str_slug(str_before($line, ':'));
-                $value = str_after($line, ':');
+            if(Str::contains($line, ':')){
+                $key = Str::slug(Str::before($line, ':'));
+                $value = Str::after($line, ':');
                 $parsed[$key] = trim($value);
             }
             else if($key != null && isset($parsed[$key])) {

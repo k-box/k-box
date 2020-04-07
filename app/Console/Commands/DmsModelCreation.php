@@ -7,6 +7,7 @@ use Illuminate\Console\DetectsApplicationNamespace;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Str;
 
 class DmsModelCreation extends Command
 {
@@ -196,7 +197,7 @@ class DmsModelCreation extends Command
             $populated_relation_stub ='';
         
             foreach ($foreignKeys as $key) {
-                $populated_relation_stub = str_replace('{{relation_method_name}}', camel_case($this->getClassName($key['table'])), $clean_stub);
+                $populated_relation_stub = str_replace('{{relation_method_name}}', Str::camel($this->getClassName($key['table'])), $clean_stub);
 
                 $populated_relation_stub = str_replace('{{model}}', $this->getClassName($key['table']), $populated_relation_stub);
 

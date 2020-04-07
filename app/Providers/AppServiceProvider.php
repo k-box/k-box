@@ -4,6 +4,7 @@ namespace KBox\Providers;
 
 use Carbon\Carbon;
 use Validator;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
@@ -40,7 +41,7 @@ class AppServiceProvider extends ServiceProvider
             // the real host and IP addresses are not available
             return $this->isMethod('get')
                    && network_enabled()
-                   && str_contains(strtolower($this->userAgent()), 'guzzlehttp');
+                   && Str::contains(strtolower($this->userAgent()), 'guzzlehttp');
         });
 
         /**

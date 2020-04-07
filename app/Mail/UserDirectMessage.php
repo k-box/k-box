@@ -4,6 +4,7 @@ namespace KBox\Mail;
 
 use KBox\User;
 use KBox\Option;
+use Illuminate\Support\Str;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
@@ -52,7 +53,7 @@ class UserDirectMessage extends Mailable
         $from_mail = Option::mailFrom();
         $from_name = Option::mailFromName();
       
-        if (! ends_with($this->sender->email, 'klink.local')) {
+        if (! Str::endsWith($this->sender->email, 'klink.local')) {
             $from_name = $this->sender->name."($from_name)";
         }
 
