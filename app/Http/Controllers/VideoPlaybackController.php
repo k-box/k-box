@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use KBox\Exceptions\ForbiddenException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Str;
 
 /**
  * Handle the video streaming.
@@ -69,7 +70,7 @@ class VideoPlaybackController extends Controller
         }
 
         $resource_path = $resources->get('streams')->first(function ($value, $key) use ($resource) {
-            return ends_with($value, $resource);
+            return Str::endsWith($value, $resource);
         });
 
         if (is_null($resource_path)) {

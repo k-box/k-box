@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use KBox\Group;
 use KBox\Project;
+use Illuminate\Support\Str;
 
 class DmsUpdateCommand extends Command
 {
@@ -605,7 +606,7 @@ class DmsUpdateCommand extends Command
         
         $files->each(function ($file) use (&$counter) {
             if (is_file($file->absolute_path) &&
-                ! ends_with(dirname($file->path), "$file->uuid")) {
+                ! Str::endsWith(dirname($file->path), "$file->uuid")) {
                 $dir = dirname($file->path);
     
                 Storage::disk('local')->makeDirectory("$dir/$file->uuid");

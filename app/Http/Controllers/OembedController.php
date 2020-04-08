@@ -4,6 +4,7 @@ namespace KBox\Http\Controllers;
 
 use KBox\DocumentDescriptor;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class OembedController extends Controller
 {
@@ -28,8 +29,8 @@ class OembedController extends Controller
 
         // if the url don't start with this application URL, or
         // contains query parameters => abort
-        abort_unless(starts_with($url, $base_url), 404);
-        abort_if(str_contains($url, '?') || str_contains($url, '#'), 404);
+        abort_unless(Str::startsWith($url, $base_url), 404);
+        abort_if(Str::contains($url, '?') || Str::contains($url, '#'), 404);
         
         $id = e(str_replace($base_url, '', $url));
 

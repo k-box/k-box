@@ -2,6 +2,7 @@
 
 namespace Klink\DmsAdapter;
 
+use Illuminate\Support\Str;
 use InvalidArgumentException;
 
 /**
@@ -267,7 +268,7 @@ class KlinkDocumentUtils
 	 */
 	public static function documentTypeFromMimeType( $mimeType ){
 
-		if(str_contains($mimeType, ';')){
+		if(Str::contains($mimeType, ';')){
 			$mimeType = substr($mimeType, 0, strpos($mimeType, ';'));
 		}
 

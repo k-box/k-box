@@ -5,6 +5,7 @@ namespace Tests\Unit\Commands;
 use Artisan;
 use Tests\TestCase;
 use KBox\Pages\Page;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Storage;
 
@@ -21,7 +22,7 @@ class TermsLoadCommandTest extends TestCase
         $output = Artisan::output();
 
         $this->assertEquals(0, $exitCode);
-        $this->assertTrue(str_contains($output, "Terms page loaded"));
+        $this->assertTrue(Str::contains($output, "Terms page loaded"));
         
         Storage::disk('app')->assertExists('pages/terms.en.md');
 
@@ -43,7 +44,7 @@ class TermsLoadCommandTest extends TestCase
         $output = Artisan::output();
 
         $this->assertEquals(0, $exitCode);
-        $this->assertTrue(str_contains($output, "Terms already existing, nothing to do"));
+        $this->assertTrue(Str::contains($output, "Terms already existing, nothing to do"));
         
         Storage::disk('app')->assertExists('pages/terms.en.md');
 

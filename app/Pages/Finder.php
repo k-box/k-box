@@ -2,6 +2,7 @@
 
 namespace KBox\Pages;
 
+use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 
@@ -60,7 +61,7 @@ class Finder
     {
         if (! $this->pages) {
             $this->pages = collect(Storage::disk($this->disk)->files($this->basePath))->map(function ($file) {
-                if (ends_with($file, 'md')) {
+                if (Str::endsWith($file, 'md')) {
                     return $this->model->newInstanceFromFile($file);
                 }
             })->filter();

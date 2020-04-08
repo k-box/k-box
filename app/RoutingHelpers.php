@@ -2,6 +2,8 @@
 
 namespace KBox;
 
+use Illuminate\Support\Str;
+
 final class RoutingHelpers
 {
     private static $group_route_cache = null;
@@ -135,6 +137,6 @@ final class RoutingHelpers
 
         $url_to_return = implode('&', $url_components);
 
-        return (! starts_with($url_to_return, '?') ? '?' : '').$url_to_return;
+        return (! Str::startsWith($url_to_return, '?') ? '?' : '').$url_to_return;
     }
 }

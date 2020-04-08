@@ -2,6 +2,7 @@
 
 namespace KBox\Http\Composers;
 
+use Illuminate\Support\Str;
 use Illuminate\Contracts\View\View;
 
 /**
@@ -38,7 +39,7 @@ class FrontpageComposer
             $body_classes[] = $route_name;
         }
 
-        if (! is_null($route_name) && starts_with($route_name, 'documents')) {
+        if (! is_null($route_name) && Str::startsWith($route_name, 'documents')) {
             $body_classes[] = 'dropzone-container';
         }
 

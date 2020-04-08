@@ -17,6 +17,7 @@ use KBox\Events\FileDeleted;
 use KBox\Events\FileDeleting;
 use KBox\Events\FileRestored;
 use KBox\Traits\ScopeNullUuid;
+use Illuminate\Support\Str;
 
 /**
  * The representation of a File on disk
@@ -182,7 +183,7 @@ class File extends Model
      */
     public function isRemoteWebPage()
     {
-        return starts_with($this->mime_type, 'text/html') && starts_with($this->original_uri, 'http');
+        return Str::startsWith($this->mime_type, 'text/html') && Str::startsWith($this->original_uri, 'http');
     }
 
     /**
@@ -307,7 +308,7 @@ class File extends Model
     {
         $disk_path = rtrim(Storage::disk('local')->path('/'), '/');
 
-        if (starts_with($value, $disk_path)) {
+        if (Str::startsWith($value, $disk_path)) {
             return ltrim(str_replace($disk_path, '', $value), '/');
         }
 
@@ -326,7 +327,7 @@ class File extends Model
     {
         $disk_path = rtrim(Storage::disk('local')->path('/'), '/');
 
-        if (starts_with($value, $disk_path)) {
+        if (Str::startsWith($value, $disk_path)) {
             return ltrim(str_replace($disk_path, '', $value), '/');
         }
 
@@ -378,7 +379,7 @@ class File extends Model
             return null;
         }
         
-        if (starts_with($path, $disk_path)) {
+        if (Str::startsWith($path, $disk_path)) {
             return $path;
         }
         return Storage::disk('local')->path($path);
@@ -457,7 +458,7 @@ class File extends Model
         if (empty($path)) {
             return;
         }
-        if (! starts_with($path, rtrim(public_path('/'), '/'))) {
+        if (! Str::startsWith($path, rtrim(public_path('/'), '/'))) {
             $storage = Storage::disk('local');
             @$storage->delete($path);
         }
@@ -585,13 +586,13 @@ class File extends Model
         $resources = collect();
 
         $dash_manifest = $files->filter(function ($value, $key) {
-            return ends_with($value, 'mpd');
+            return Str::endsWith($value, 'mpd');
         })->first();
 
         $resources->put('dash', $dash_manifest);
 
         $videos = $files->filter(function ($value, $key) {
-            return ends_with($value, 'mp4') && $this->path !== $value;
+            return Str::endsWith($value, 'mp4') && $this->path !== $value;
         });
 
         $resources->put('streams', $videos);

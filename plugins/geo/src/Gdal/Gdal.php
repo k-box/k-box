@@ -4,6 +4,7 @@ namespace KBox\Geo\Gdal;
 
 use ZipArchive;
 use SplFileInfo;
+use Illuminate\Support\Str;
 use KBox\Geo\GeoProperties;
 use KBox\Geo\Gdal\Drivers\WindowsDriver;
 use KBox\Geo\Gdal\Drivers\LinuxDriver;
@@ -98,7 +99,7 @@ final class Gdal
         
         // Gdal requires a folder to convert a file into a shapefile, as at least 3 files will be produced
         // then we zip everything and return the ZIP as temporary file
-        $tmpFolder = str_replace_last('.', '', $tmpfilename);
+        $tmpFolder = Str::replaceLast('.', '', $tmpfilename);
         @mkdir($tmpFolder);
 
         $folderInfo = $this->driver()->convert($path, $tmpFolder, $format, $crs);

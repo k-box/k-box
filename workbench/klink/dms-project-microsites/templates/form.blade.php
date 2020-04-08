@@ -16,7 +16,7 @@
     @if( $errors->has('slug') )
         <span class="field-error">{{ implode(",", $errors->get('slug'))  }}</span>
     @endif
-    <input class="form-input block" type="text" name="slug" value="{{ old('slug', isset($microsite) ? $microsite->slug : str_slug($project->name) ) }}" required />
+    <input class="form-input block" type="text" name="slug" value="{{ old('slug', isset($microsite) ? $microsite->slug : \Illuminate\Support\Str::slug($project->name) ) }}" required />
     <span class="description">{{ trans('microsites.hints.slug') }}</span>
 </div>
 

@@ -3,6 +3,7 @@
 namespace OneOffTech\LanguageGuesser\Drivers;
 
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use RuntimeException;
 use OneOffTech\LanguageGuesser\Exceptions\LanguageGuessFailedException;
 use Symfony\Component\Process\Process;
@@ -153,7 +154,7 @@ class LanguageCli
 
             return true;
         } catch (RuntimeException $ex) {
-            if (starts_with($ex->getMessage(), "No Language CLI executable found")) {
+            if (Str::startsWith($ex->getMessage(), "No Language CLI executable found")) {
                 return false;
             }
 

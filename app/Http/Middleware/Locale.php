@@ -5,6 +5,7 @@ namespace KBox\Http\Middleware;
 use App;
 use Config;
 use Session;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
 use Jenssegers\Date\Date as LocalizedDate;
@@ -74,8 +75,8 @@ final class Locale
             }
             $factor = '1.0';
 
-            if (str_contains($item, ';q=')) {
-                $factor = str_after($item, ';q=');
+            if (Str::contains($item, ';q=')) {
+                $factor = Str::after($item, ';q=');
             }
 
             return compact('lang', 'factor');

@@ -51,7 +51,7 @@
 	
 	@if(!$item->trashed())
 
-		@if(!$item->isRemoteWebPage() && !starts_with($item->document_uri, 'http://msri-hub.ucentralasia.org/') && !starts_with($item->document_uri, 'http://staging-uca.cloudapp.net/'))
+		@if(!$item->isRemoteWebPage() && !\Illuminate\Support\Str::startsWith($item->document_uri, 'http://msri-hub.ucentralasia.org/') && !Str::startsWith($item->document_uri, 'http://staging-uca.cloudapp.net/'))
 	
 			@if(!is_null($item->file) )
 	           <?php $real_preview_link = DmsRouting::preview($item); ?>
@@ -68,7 +68,7 @@
 					({{KBox\Documents\Services\DocumentsService::extension_from_file($item->file)}}, {{KBox\Documents\Services\DocumentsService::human_filesize($item->file->size)}})
 				@endif
 			</a>
-		@elseif(starts_with($item->document_uri, 'http://msri-hub.ucentralasia.org/') || starts_with($item->document_uri, 'http://staging-uca.cloudapp.net/'))
+		@elseif(Str::startsWith($item->document_uri, 'http://msri-hub.ucentralasia.org/') || Str::startsWith($item->document_uri, 'http://staging-uca.cloudapp.net/'))
 		      <?php $real_preview_link = $item->document_uri; ?>
 			<a href="{{$item->document_uri}}" class="button"  target="_blank">{!!trans('panels.open_site_btn')!!} </a>
 		

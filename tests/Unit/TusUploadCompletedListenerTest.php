@@ -7,6 +7,7 @@ use KBox\File;
 use Carbon\Carbon;
 use Tests\TestCase;
 use KBox\Capability;
+use Illuminate\Support\Str;
 use KBox\DocumentDescriptor;
 use KBox\Events\UploadCompleted;
 use OneOffTech\TusUpload\TusUpload;
@@ -30,7 +31,7 @@ class TusUploadCompletedListenerTest extends TestCase
 
     private function createEvent($user, $requestId = '14b1c4c77771671a8479bc0444bbc5ce')
     {
-        $path = storage_path(str_slug($requestId).'.bin');
+        $path = storage_path(Str::slug($requestId).'.bin');
 
         file_put_contents($path, 'Test File Content');
 
@@ -38,7 +39,7 @@ class TusUploadCompletedListenerTest extends TestCase
 
         $upload = TusUpload::forceCreate([
             'request_id' => $requestId,
-            'tus_id' => str_slug($requestId),
+            'tus_id' => Str::slug($requestId),
             'user_id' => $user->id,
             'filename' => basename($path).'.txt',
             'size' => $size,

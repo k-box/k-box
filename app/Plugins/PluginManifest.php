@@ -2,6 +2,7 @@
 
 namespace KBox\Plugins;
 
+use Illuminate\Support\Str;
 use Illuminate\Foundation\PackageManifest;
 
 /**
@@ -65,7 +66,7 @@ class PluginManifest extends PackageManifest
      */
     protected function format($package)
     {
-        return str_slug(str_replace('/', '-', $package));
+        return Str::slug(str_replace('/', '-', $package));
     }
 
     /**

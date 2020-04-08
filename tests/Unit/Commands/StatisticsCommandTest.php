@@ -10,6 +10,7 @@ use KBox\Project;
 use KBox\Shared;
 use Carbon\Carbon;
 use Tests\TestCase;
+use Illuminate\Support\Str;
 use KBox\DocumentDescriptor;
 use Tests\Concerns\ClearDatabase;
 use KBox\Console\Commands\StatisticsCommand;
@@ -32,9 +33,9 @@ class StatisticsCommandTest extends TestCase
         $output = Artisan::output();
 
         $this->assertEquals(0, $exitCode);
-        $this->assertTrue(str_contains($output, "Documents (not considering versions) | ".(6 + $previous_documents)));
-        $this->assertTrue(str_contains($output, "Uploads                              | ".(6 + $previous_files)));
-        $this->assertTrue(str_contains($output, "Registered users                     | ".(6 + $previous_users)));
+        $this->assertTrue(Str::contains($output, "Documents (not considering versions) | ".(6 + $previous_documents)));
+        $this->assertTrue(Str::contains($output, "Uploads                              | ".(6 + $previous_files)));
+        $this->assertTrue(Str::contains($output, "Registered users                     | ".(6 + $previous_users)));
     }
     
     public function test_report_is_printed()
@@ -50,9 +51,9 @@ class StatisticsCommandTest extends TestCase
         $output = Artisan::output();
         
         $this->assertEquals(0, $exitCode);
-        $this->assertTrue(str_contains($output, "Documents (not considering versions) | ".(6 + $previous_documents)));
-        $this->assertTrue(str_contains($output, "Uploads                              | ".(6 + $previous_files)));
-        $this->assertTrue(str_contains($output, "Registered users                     | ".(6 + $previous_users)));
+        $this->assertTrue(Str::contains($output, "Documents (not considering versions) | ".(6 + $previous_documents)));
+        $this->assertTrue(Str::contains($output, "Uploads                              | ".(6 + $previous_files)));
+        $this->assertTrue(Str::contains($output, "Registered users                     | ".(6 + $previous_users)));
     }
 
     public function test_influx_report_is_printed()

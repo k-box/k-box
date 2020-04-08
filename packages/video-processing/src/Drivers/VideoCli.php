@@ -5,6 +5,7 @@ namespace OneOffTech\VideoProcessing\Drivers;
 use RuntimeException;
 use OneOffTech\VideoProcessing\Exceptions\VideoProcessingFailedException;
 use Symfony\Component\Process\Process;
+use Illuminate\Support\Str;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 
 class VideoCli
@@ -130,7 +131,7 @@ class VideoCli
 
             return true;
         } catch (RuntimeException $ex) {
-            if (starts_with($ex->getMessage(), "No Video CLI executable found")) {
+            if (Str::startsWith($ex->getMessage(), "No Video CLI executable found")) {
                 return false;
             }
 

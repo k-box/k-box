@@ -7,6 +7,7 @@ use Illuminate\Console\DetectsApplicationNamespace;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Str;
 
 class DmsModelCreation extends Command
 {
@@ -14,13 +15,13 @@ class DmsModelCreation extends Command
 
     /*
 
-    str_plural Convert a string to its plural form (English only).
+    Str::plural Convert a string to its plural form (English only).
 
-    str_singular Convert a string to its singular form (English only).
+    Str::singular Convert a string to its singular form (English only).
 
-    studly_case: foo_bar => FooBar
+    Str::studly: foo_bar => FooBar
 
-    snake_case: fooBar => foo_bar
+    Str::snake: fooBar => foo_bar
 
     camel_case: foo_bar => fooBar
 
@@ -196,7 +197,7 @@ class DmsModelCreation extends Command
             $populated_relation_stub ='';
         
             foreach ($foreignKeys as $key) {
-                $populated_relation_stub = str_replace('{{relation_method_name}}', camel_case($this->getClassName($key['table'])), $clean_stub);
+                $populated_relation_stub = str_replace('{{relation_method_name}}', Str::camel($this->getClassName($key['table'])), $clean_stub);
 
                 $populated_relation_stub = str_replace('{{model}}', $this->getClassName($key['table']), $populated_relation_stub);
 
@@ -301,6 +302,6 @@ class DmsModelCreation extends Command
      */
     protected function getClassName($table)
     {
-        return str_singular(studly_case($table));
+        return Str::singular(Str::studly($table));
     }
 }

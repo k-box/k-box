@@ -3,6 +3,7 @@
 namespace Tests\Feature\Plugins;
 
 use Tests\TestCase;
+use Illuminate\Support\Str;
 use KBox\Plugins\PluginManifest;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Storage;
@@ -38,6 +39,6 @@ class PluginDiscoverCommandTest extends TestCase
         $command->run(new ArrayInput([]), $output);
 
         Storage::disk('app')->assertExists($pluginManifest);
-        $this->assertTrue(str_contains($output->fetch(), "Discovered Plugin: k-box-unittest-demo-plugin"));
+        $this->assertTrue(Str::contains($output->fetch(), "Discovered Plugin: k-box-unittest-demo-plugin"));
     }
 }

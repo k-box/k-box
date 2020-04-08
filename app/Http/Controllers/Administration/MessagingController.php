@@ -4,6 +4,7 @@ namespace KBox\Http\Controllers\Administration;
 
 use KBox\User;
 use KBox\Option;
+use Illuminate\Support\Str;
 use KBox\Mail\UserDirectMessage;
 use Illuminate\Support\Facades\Mail;
 use KBox\Http\Controllers\Controller;
@@ -102,7 +103,7 @@ class MessagingController extends Controller
             $from_mail = Option::mailFrom();
             $from_name = Option::mailFromName();
         
-            if (! ends_with($me->email, 'klink.local')) {
+            if (! Str::endsWith($me->email, 'klink.local')) {
                 $from_name = $me->name;
             }
         

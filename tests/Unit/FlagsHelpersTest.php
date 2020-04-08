@@ -4,6 +4,7 @@ namespace Tests\Unit;
 
 use KBox\Flags;
 use Tests\TestCase;
+use Illuminate\Support\Str;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class FlagsHelpersTest extends TestCase
@@ -36,7 +37,7 @@ class FlagsHelpersTest extends TestCase
      */
     public function test_automated_is_flag_enabled_method_can_be_invoked($flag_constant_name)
     {
-        $function_name = 'is'.studly_case($flag_constant_name).'Enabled';
+        $function_name = 'is'.Str::studly($flag_constant_name).'Enabled';
 
         $ret = flags()->{$function_name}();
 

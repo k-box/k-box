@@ -3,6 +3,7 @@
 namespace KBox;
 
 use KBox\Traits\HasEnums;
+use Illuminate\Support\Str;
 use InvalidArgumentException;
 
 /**
@@ -168,9 +169,9 @@ final class Flags
 
     public function __call($method, $arguments)
     {
-        if (str_is('is*Enabled', $method)) {
+        if (Str::is('is*Enabled', $method)) {
             $keys = self::constants();
-            $key = strtolower(str_before(str_after($method, 'is'), 'Enabled'));
+            $key = strtolower(Str::before(Str::after($method, 'is'), 'Enabled'));
             if (self::isValidEnumKey(strtoupper($key))) {
                 return static::isEnabled($key);
             }
@@ -179,9 +180,9 @@ final class Flags
 
     public static function __callStatic($method, $arguments)
     {
-        if (str_is('is*Enabled', $method)) {
+        if (Str::is('is*Enabled', $method)) {
             $keys = self::constants();
-            $key = strtolower(str_before(str_after($method, 'is'), 'Enabled'));
+            $key = strtolower(Str::before(Str::after($method, 'is'), 'Enabled'));
             if (self::isValidEnumKey(strtoupper($key))) {
                 return static::isEnabled($key);
             }

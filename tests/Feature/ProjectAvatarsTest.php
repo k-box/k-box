@@ -6,6 +6,7 @@ use KBox\User;
 use KBox\Project;
 use Tests\TestCase;
 use KBox\Capability;
+use Illuminate\Support\Str;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
@@ -101,17 +102,17 @@ class ProjectAvatarsTest extends TestCase
             'avatar' => base_path('tests/data/project-avatar.png')
         ]);
 
-        $method = ends_with($route, 'index') ? 'get' : (ends_with($route, 'store') ? 'post' : 'delete');
+        $method = Str::endsWith($route, 'index') ? 'get' : (Str::endsWith($route, 'store') ? 'post' : 'delete');
 
         $params = ['id' => $project->id ];
 
-        if (! ends_with($route, 'index')) {
+        if (! Str::endsWith($route, 'index')) {
             $params['_token'] = csrf_token();
         }
 
         $content = [];
 
-        if (ends_with($route, 'store')) {
+        if (Str::endsWith($route, 'store')) {
             $content = ['avatar' => $this->getFileForUpload()];
         }
 

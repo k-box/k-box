@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Str;
+
 return [
 
     /*
@@ -114,7 +116,7 @@ return [
     | @var boolean
     */
 
-    'use_https' => starts_with(env('APP_URL'), 'https') ? true : false,
+    'use_https' => Str::startsWith(env('APP_URL'), 'https') ? true : false,
     
     /*
     |--------------------------------------------------------------------------

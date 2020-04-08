@@ -3,6 +3,7 @@
 namespace KBox\Documents;
 
 use KBox\Traits\HasEnums;
+use Illuminate\Support\Str;
 
 /**
  * The document types.
@@ -235,8 +236,8 @@ final class DocumentType
      */
     public static function from($mimeType)
     {
-        if (str_contains($mimeType, ';')) {
-            $mimeType = str_before($mimeType, ';');
+        if (Str::contains($mimeType, ';')) {
+            $mimeType = Str::before($mimeType, ';');
         }
 
         if (array_key_exists($mimeType, self::$mimeTypesToDocType)) {

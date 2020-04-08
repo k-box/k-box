@@ -6,6 +6,7 @@ use Exception;
 use KBox\Geo\GeoService;
 use Illuminate\Http\Request;
 use KBox\Plugins\PluginManager;
+use Illuminate\Support\Str;
 use KBox\Http\Controllers\Controller;
 use KBox\Geo\Http\Requests\NewMapProviderRequest;
 use KBox\Geo\Http\Requests\UpdateMapProviderRequest;
@@ -101,7 +102,7 @@ class GeoPluginMapProvidersController extends Controller
         $providersSetting = $mapSettings['providers'];
 
         // inject the new provider into the array
-        $providersSetting[str_slug($parameters['label'])] = $parameters;
+        $providersSetting[Str::slug($parameters['label'])] = $parameters;
         $mapSettings['providers'] = $providersSetting;
 
         $this->service->config(['map' => $mapSettings]); // save the new configuration

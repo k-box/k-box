@@ -6,6 +6,7 @@ use Log;
 use KBox\User;
 use KBox\File;
 use KBox\Geo\GeoService;
+use Illuminate\Support\Str;
 use KBox\DocumentDescriptor;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Auth\Guard;
@@ -101,7 +102,7 @@ class WebMapServiceController extends Controller
         $layers = $request->input('layers', '');
         $fingerprint = $this->fingerprint($request);
 
-        $uuid = trim(str_after($layers, ':'));
+        $uuid = trim(Str::after($layers, ':'));
 
         if(!$uuid){
             return $this->createEmptyResponse($request);

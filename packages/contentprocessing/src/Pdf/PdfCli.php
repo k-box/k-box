@@ -3,6 +3,7 @@
 namespace KBox\Documents\Pdf;
 
 use RuntimeException;
+use Illuminate\Support\Str;
 use Symfony\Component\Process\Process;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\Process\Exception\ProcessFailedException;
@@ -114,7 +115,7 @@ class PdfCli
 
             return true;
         } catch (RuntimeException $ex) {
-            if (starts_with($ex->getMessage(), "No PDF CLI executable found")) {
+            if (Str::startsWith($ex->getMessage(), "No PDF CLI executable found")) {
                 return false;
             }
 

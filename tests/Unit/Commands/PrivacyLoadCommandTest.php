@@ -5,6 +5,7 @@ namespace Tests\Unit\Commands;
 use Artisan;
 use Tests\TestCase;
 use KBox\Pages\Page;
+use Illuminate\Support\Str;
 use KBox\Events\PageChanged;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Storage;
@@ -23,7 +24,7 @@ class PrivacyLoadCommandTest extends TestCase
         $output = Artisan::output();
 
         $this->assertEquals(0, $exitCode);
-        $this->assertTrue(str_contains($output, "Privacy policy loaded"));
+        $this->assertTrue(Str::contains($output, "Privacy policy loaded"));
         
         Storage::disk('app')->assertExists('pages/privacy-legal.en.md');
         Storage::disk('app')->assertExists('pages/privacy-summary.en.md');
@@ -53,7 +54,7 @@ class PrivacyLoadCommandTest extends TestCase
         $output = Artisan::output();
 
         $this->assertEquals(0, $exitCode);
-        $this->assertTrue(str_contains($output, "Privacy policy already existing, nothing to do"));
+        $this->assertTrue(Str::contains($output, "Privacy policy already existing, nothing to do"));
         
         Storage::disk('app')->assertExists('pages/privacy-legal.en.md');
         Storage::disk('app')->assertExists('pages/privacy-summary.en.md');

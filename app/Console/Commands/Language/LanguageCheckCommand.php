@@ -10,6 +10,7 @@ use Carbon\Carbon;
 
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 
 /**
  * Verify that all the strings in english language files can be found in the other languages.
@@ -91,7 +92,7 @@ class LanguageCheckCommand extends Command
         );
 
         $directories = array_filter($this->filesystem->directories($language_path), function ($i) {
-            return ! ends_with($i, 'en');
+            return ! Str::endsWith($i, 'en');
         });
 
         $translationLoader = app('translation.loader');
