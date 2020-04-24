@@ -29,7 +29,6 @@
 @import "./components/structure.css";
 @import "./components/grids.css";
 @import "./components/forms.css";
-@import "./components/box.css";
 @import "./components/navigation.css";
 @import "./components/dropzone.css";
 @import "./components/map.css";
@@ -132,4 +131,132 @@ h6 {
   font-size: 18px;
   font-size: 1.8rem; line-height: 1.5;
 }
+
+
+
+.markdown {
+    @apply text-gray-900 leading-normal;
+
+    > * + * {
+        @apply mt-4;
+    }
+
+    
+    h1 {
+        @apply text-3xl;
+        @apply font-bold;
+        @apply leading-none;
+        
+    }
   
+    h2 {
+        @apply text-2xl;
+        @apply font-bold;
+        @apply leading-tight;
+        
+    }
+
+    h3 {
+        @apply text-2xl;
+        @apply leading-snug;
+
+    }
+
+    h4 {
+        @apply text-xl;
+        @apply font-bold;
+        @apply leading-snug;
+    }
+
+    h5 {
+        @apply text-lg;
+        @apply font-bold;
+    }
+
+    h6 {
+        @apply text-base;
+        @apply font-bold;
+    }
+
+    ul {
+        @apply list-disc pl-6;
+
+        li + li {
+            @apply mt-2;
+        }
+    }
+
+    ol {
+        @apply list-decimal pl-6;
+
+        li + li {
+            @apply mt-2;
+        }
+    }
+
+    blockquote {
+        @apply bg-gray-200;
+        @apply p-2;
+    }
+}
+
+
+.markdown--within {
+
+    > * + * {
+        @apply mt-2;
+    }
+    
+    h1 {
+        @apply text-xl;
+        @apply font-bold;
+        @apply leading-tight;
+        @apply text-gray-800;
+        
+    }
+  
+    h2 {
+        @apply text-lg;
+        @apply font-bold;
+        @apply leading-tight;
+        @apply text-gray-800;
+    }
+
+    h3 {
+        @apply text-base;
+        @apply leading-snug;
+        @apply text-gray-700;
+    }
+
+    h4 {
+        @apply text-base;
+        @apply font-bold;
+        @apply leading-snug;
+        @apply text-gray-700;
+    }
+
+    h5 {
+        @apply text-base;
+        @apply font-normal;
+        @apply text-gray-700;
+    }
+
+    h6 {
+        @apply text-base;
+        @apply font-normal;
+        @apply italic;
+        @apply text-gray-700;
+    }
+
+    ul {
+        li + li {
+            @apply mt-1;
+        }
+    }
+
+    ol {
+        li + li {
+            @apply mt-1;
+        }
+    }
+}

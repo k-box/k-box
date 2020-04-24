@@ -9,8 +9,8 @@
 @section('action-menu')
 
 
-<a href="{{ route('administration.mail.test') }}" class="action__button">
-    @materialicon('content', 'mail', 'inline-block'){{trans('administration.mail.test_btn')}}
+<a href="{{ route('administration.mail.test') }}" class="button">
+    @materialicon('content', 'mail', 'inline-block mr-1'){{trans('administration.mail.test_btn')}}
 </a>
 
 

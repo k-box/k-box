@@ -1,7 +1,7 @@
 
-<header class="header sticky top-0 shadow js-header" role="header">
+<header class="header sticky top-0 shadow-md js-header" role="header">
 
-	<div class="relative h-12 flex items-center justify-between px-2  lg:px-4 py-1 bg-gray-200">
+	<div class="relative h-12 flex items-center justify-between px-2  lg:px-4 py-1 bg-gray-100">
 		
 		<div class="flex items-center flex-grow max-w-lg">
 		
@@ -41,12 +41,12 @@
 					@slot('panel')
 
 						<div class="mb-4">
-							<a class="no-underline font-bold block p-2 -mx-2 mb-1 text-black hover:bg-gray-300 active:bg-gray-400 focus:bg-gray-400 focus:outline-none" href="{{ $profile_url ?? route('profile.index') }}">{{$current_user_name}}</a>
+							<a class="no-underline font-bold block p-2 -mx-2 mb-1 text-black hover:bg-blue-100 active:bg-blue-200 focus:bg-blue-100 focus:outline-none" href="{{ $profile_url ?? route('profile.index') }}">{{$current_user_name}}</a>
 						</div>
 						<ul class="">
-							<li><a class="no-underline block p-2 -mx-2 mb-1 text-black hover:bg-gray-300 active:bg-gray-400 focus:bg-gray-400 focus:outline-none" href="{{ $profile_url ?? route('profile.index') }}">{{trans('profile.go_to_profile')}}</a></li>							
+							<li><a class="no-underline block p-2 -mx-2 mb-1 text-black hover:bg-blue-100 active:bg-blue-200 focus:bg-blue-100 focus:outline-none" href="{{ $profile_url ?? route('profile.index') }}">{{trans('profile.go_to_profile')}}</a></li>							
 							<li>
-								<a href="#" class="no-underline block p-2 -mx-2 mb-1 text-black hover:bg-gray-300 active:bg-gray-400 focus:bg-gray-400 focus:outline-none" onclick="event.preventDefault();document.getElementById('logout-form').submit();">{{trans('auth.logout')}}</a>
+								<a href="#" class="no-underline block p-2 -mx-2 mb-1 text-black hover:bg-blue-100 active:bg-blue-200 focus:bg-blue-100 focus:outline-none" onclick="event.preventDefault();document.getElementById('logout-form').submit();">{{trans('auth.logout')}}</a>
 								<form class="hidden" id="logout-form" action="{{ route('logout') }}" method="POST">
 									{{ csrf_field() }}
 								</form>

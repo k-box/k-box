@@ -1,4 +1,4 @@
-const { colors: { blue, ...colors } } = require('tailwindcss/defaultTheme')
+const { blue, ...colors  } = require('@tailwindcss/ui/colors')
 
 
 module.exports = {
@@ -34,11 +34,12 @@ module.exports = {
       },
     })
   },
-  variants: {
-    opacity: ['responsive', 'hover', 'focus']
-  },
+  // variants: {
+  //   opacity: ['responsive', 'hover', 'focus']
+  // },
   plugins: [
-    require('@tailwindcss/custom-forms')
+    // require('@tailwindcss/custom-forms')
+    require('@tailwindcss/ui'),
   ],
   corePlugins: {
     container: false

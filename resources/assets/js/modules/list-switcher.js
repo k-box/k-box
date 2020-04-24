@@ -17,7 +17,7 @@ define("modules/list-switcher", ["jquery", "DMS"], function ($, DMS) {
 
 	var _current_btn = _switcher_container.find("[data-list='"+_current+"']");
 
-	_current_btn.addClass('current');
+	_current_btn.addClass('button--selected');
 
 	var module = {
 
@@ -31,9 +31,9 @@ define("modules/list-switcher", ["jquery", "DMS"], function ($, DMS) {
 			_current = 'tiles';
 			_destination_list.addClass(_current);
 
-			_current_btn.removeClass('current');
+			_current_btn.removeClass('button--selected');
 			_current_btn = element;
-			_current_btn.addClass('current');
+			_current_btn.addClass('button--selected');
 
 			_save();
 
@@ -51,9 +51,9 @@ define("modules/list-switcher", ["jquery", "DMS"], function ($, DMS) {
 			_current = 'cards';
 			_destination_list.addClass(_current);
 
-			_current_btn.removeClass('current');
+			_current_btn.removeClass('button--selected');
 			_current_btn = element;
-			_current_btn.addClass('current');
+			_current_btn.addClass('button--selected');
 
 			_save();
 			
@@ -69,9 +69,9 @@ define("modules/list-switcher", ["jquery", "DMS"], function ($, DMS) {
 			_current = 'details';
 			_destination_list.addClass(_current);
 
-			_current_btn.removeClass('current');
+			_current_btn.removeClass('button--selected');
 			_current_btn = element;
-			_current_btn.addClass('current');
+			_current_btn.addClass('button--selected');
 
 			_save();
 
@@ -81,7 +81,7 @@ define("modules/list-switcher", ["jquery", "DMS"], function ($, DMS) {
 
 	};
 
-	_switcher_container.on('click', '.action__button', function(evt){
+	_switcher_container.on('click', '.button', function(evt){
 
 		var that = $(this);
 

@@ -322,22 +322,15 @@
 	@apply text-white;
 }
 
+.highlighted {
 
+	@apply bg-yellow-200;
+	
+}
 
 .checkbox-list {
 	
-
 	li {
-		
-		
-		&.highlighted {
-
-			@apply bg-yellow-400;
-			
-			label {
-				@apply font-bold;
-			}
-		}
 		
 		&.partiallyhide {
 			@apply opacity-50;

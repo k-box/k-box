@@ -1,31 +1,32 @@
 
-<div class="header">
+<header class="">
     
-    <div class="header__inner">
+    <div class="relative flex items-center justify-between px-4 lg:px-4 py-4 max-w-screen-xl mx-auto">
     
-        
-        <a class="logo" href="{{ route( 'projects.site', ['slug' => $slug, 'language' => $language] ) }}" title="{{ $title }}">
-            @if( isset($logo) && !empty($logo) )
-                <img src="{{ $logo }}" width="280">
-            @else
-                {{ $title }}
-            @endif
-        </a>
+        <h1 class="text-2xl">
+            <a class="no-underline text-black" href="{{ route( 'projects.site', ['slug' => $slug, 'language' => $language] ) }}" title="{{ $title }}">
+                @if( isset($logo) && !empty($logo) )
+                    <img src="{{ $logo }}" width="280">
+                @else
+                    {{ $title }}
+                @endif
+            </a>
+        </h1>
             
         
         <div class="header__navigation">
             @foreach( $available_languages as $lang)
             
-                <a class="language @if( $language === $lang ) language--selected @endif" href="{{ route( 'projects.site', ['slug' => $slug, 'language' => $lang] ) }}" title="{{ trans('languages.' . $lang) }}">{{ $lang }}</a>
+                <a class="px-3 ml-2 button @if( $language === $lang ) button--selected @endif" href="{{ route( 'projects.site', ['slug' => $slug, 'language' => $lang] ) }}" title="{{ trans('languages.' . $lang) }}">{{ $lang }}</a>
             
             @endforeach
             
-            <a href=" {{ route('documents.groups.show', ['id' => $project_collection_id]) }}">
-            @if($isloggedin)
-                {{ trans('microsites.actions.view_project_documents') }}
-            @else
-                {{ trans('auth.login') }}
-            @endif
+            <a class="button ml-4 mr-4" href=" {{ route('documents.groups.show', ['id' => $project_collection_id]) }}">
+                @if($isloggedin)
+                    {{ trans('microsites.actions.view_project_documents') }}
+                @else
+                    {{ trans('auth.login') }}
+                @endif
             </a>
         
             <form action="{{ $search_action }}" class="" method="GET">
@@ -36,4 +37,5 @@
     
     </div>
     
-</div>
+</header>
+<div class="h-5"></div>

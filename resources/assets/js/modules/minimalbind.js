@@ -176,7 +176,9 @@ define("modules/minimalbind", ["jquery", "lodash"], function ($, _) {
 
 				var invokeOn = _constructInvokingFunction($(this).attr('rv-on-click'), that.model);
 
-				invokeOn.call(this, evt, that.model);
+				if(invokeOn){
+					invokeOn.call(this, evt, that.model);
+				}
 
 			});
 

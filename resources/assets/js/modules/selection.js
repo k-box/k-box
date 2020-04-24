@@ -1,4 +1,4 @@
-/// <reference path="../../../../typings/jquery/jquery.d.ts"/>
+
 define("modules/selection", ["jquery", "DMS", "combokeys", "lodash"], function (_$, _DMS, _combokeys, _) {
     
 	/**
@@ -14,6 +14,12 @@ define("modules/selection", ["jquery", "DMS", "combokeys", "lodash"], function (
 		_maxSelectable = 12,
 		_options = undefined, // the selection module options
 		_lastSelectedItem = undefined; //the last item selected, for performing the shift selection
+
+	var _icons = {
+		all: null,
+		partial: null,
+		none: null,
+	};
 
 
 
@@ -53,8 +59,6 @@ define("modules/selection", ["jquery", "DMS", "combokeys", "lodash"], function (
         _removeSavedSelection(currently_selected);
 
         _area.trigger('dms:selection-changed');
-
-        // _selected = [];
 
         return module;
 
@@ -164,10 +168,7 @@ define("modules/selection", ["jquery", "DMS", "combokeys", "lodash"], function (
 	    	module.deselect(element);
 	    }
 
-    	// evt.preventDefault();
     	evt.stopPropagation();
-
-    	// return false;
     }
 
     /**
@@ -183,22 +184,25 @@ define("modules/selection", ["jquery", "DMS", "combokeys", "lodash"], function (
 			if(_selectedCount === 0){
 				chk.indeterminate = false;
 				chk.checked = false;
-				_options.tristateButton.removeClass('tristate-button--partial');
-				_options.tristateButton.removeClass('tristate-button--all');
-				_options.tristateButton.addClass('tristate-button--none');
+				_options.tristateButton.removeClass('button--selected');
+				_icons.all.addClass('hidden');
+				_icons.partial.addClass('hidden');
+				_icons.none.removeClass('hidden');
 			}
 			else if(_selectedCount === _maxSelectable){
 				
 				chk.checked = true;
-				_options.tristateButton.removeClass('tristate-button--partial');
-				_options.tristateButton.addClass('tristate-button--all');
-				_options.tristateButton.removeClass('tristate-button--none');
+				_options.tristateButton.addClass('button--selected');
+				_icons.all.removeClass('hidden');
+				_icons.partial.addClass('hidden');
+				_icons.none.addClass('hidden');
 			}
 			else {
 				chk.indeterminate = true;
-				_options.tristateButton.addClass('tristate-button--partial');
-				_options.tristateButton.removeClass('tristate-button--all');
-				_options.tristateButton.removeClass('tristate-button--none');
+				_options.tristateButton.addClass('button--selected');
+				_icons.all.addClass('hidden');
+				_icons.partial.removeClass('hidden');
+				_icons.none.addClass('hidden');
 			}
 
 		}
@@ -236,7 +240,6 @@ define("modules/selection", ["jquery", "DMS", "combokeys", "lodash"], function (
 		this.share = el.data('shareid');
 		this.isShareWith = !!el.data('sharewith');
 
-//    	return this;
     }
 
     /**
@@ -314,12 +317,7 @@ define("modules/selection", ["jquery", "DMS", "combokeys", "lodash"], function (
 			//bind on the selectionArea for click inside the selectionBoundingElement
 			selectionArea.on('click', _options.selectionBoundingElement, _selectionHandler);
 
-			// selectionArea.on('mouseover', '.js-selectable', function(evt){
-
-			// 	_lastKnownMousePosition = {x: evt.pageX, y:evt.pageY};
-
-			// });
-
+			
 
 
 			if(_options.tristateButton){
@@ -328,6 +326,10 @@ define("modules/selection", ["jquery", "DMS", "combokeys", "lodash"], function (
 
 				_options.tristateButton.on('click', _tristateHandler);
 				selectionArea.on('dms:selection-changed', _updateTristateStatus);
+
+				_icons.all = _options.tristateButton.find(".js-check-all");
+				_icons.partial = _options.tristateButton.find(".js-check-partial");
+				_icons.none = _options.tristateButton.find(".js-check-none");
 			}
 
 			// -- Keyboard shortcut

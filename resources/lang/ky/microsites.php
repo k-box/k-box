@@ -68,7 +68,7 @@ return [
     ],
     
     'labels' => [
-        'microsite' => 'Микросайт<sup>beta</sup>',
+        'microsite' => 'Микросайт',
         'site_title' => 'Аты',
         'slug' => 'Достук дареги',
         'site_description' => 'Сүрөттөлүшү',

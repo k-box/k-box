@@ -86,7 +86,7 @@
 		@if(isset($user_can_edit) && $user_can_edit)
 	
 			<a href="{{route('documents.edit', $item->id)}}" class="button" title="{{trans('panels.edit_btn_title')}} ">
-				@materialicon('content', 'create', 'button__icon')
+				@materialicon('content', 'create', 'button__icon mr-1')
 				{{trans('panels.edit_btn')}}
 			</a>
 
@@ -94,14 +94,14 @@
 			@if( isset($badge_duplicate) && $badge_duplicate )
 		
 				<a href="{{route('documents.edit', $item->id)}}" class="button" title="{{trans('documents.duplicates.duplicates_btn_hint')}} ">
-					@materialicon('content', 'content_copy', 'button__icon')
+					@materialicon('content', 'content_copy', 'button__icon mr-1')
 					{{trans('documents.duplicates.duplicates_btn')}}
 				</a>	
 		
 			@endif
 
 			<a href="{{route('documents.edit', $item->id)}}" class="button" title="{{trans('panels.version_btn_title')}} ">
-				@materialicon('action', 'history', 'button__icon')
+				@materialicon('action', 'history', 'button__icon mr-1')
 				{{trans('panels.version_btn')}} 
 			</a>			
 	
@@ -130,7 +130,10 @@
 
 <div class="meta abstract">
 	<h4 class="c-panel__section">{{trans('panels.abstract_section_title')}}</h4>
-	{!! $item->abstract_html !!}
+
+	@component('components.markdown', ['class' => 'markdown--within bg-gray-100 p-1'])
+		{!! $item->abstract_html !!}
+	@endcomponent
 </div>
 
 @endif
@@ -169,7 +172,7 @@
 			</p>
 
 			@if($can_share)
-			<button class="button js-open-share-dialog" data-id="{{$item->id}}" data-action="openShareDialog">@materialicon('social','people', 'button__icon'){{ trans('panels.sharing_settings_btn') }}</button>
+			<button class="button js-open-share-dialog" data-id="{{$item->id}}" data-action="openShareDialog">@materialicon('social','people', 'button__icon mr-1'){{ trans('panels.sharing_settings_btn') }}</button>
 			@endif
 
 		</div>

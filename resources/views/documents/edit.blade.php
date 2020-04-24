@@ -149,7 +149,7 @@
 
 			@if($document->isMine() && ($can_share || $can_make_public && network_enabled()))
 				<div class="mt-2 mb-4">
-					<button class="button js-open-share-dialog" data-id="{{$document->id}}">@materialicon('social','people', 'button__icon'){{ trans('panels.sharing_settings_btn') }}</button>
+					<button class="button js-open-share-dialog" data-id="{{$document->id}}">@materialicon('social','people', 'button__icon mr-1'){{ trans('panels.sharing_settings_btn') }}</button>
 				</div>
 			@endif
 			

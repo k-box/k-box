@@ -4,28 +4,30 @@
 
 @section('profile_page')
 
-	<div>
-		<div class="iconized box box--inline">
+	<div class="h-5"></div>
+
+	<div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+		<div class="p-2 bg-gray-100 shadow-md flex flex-col items-center justify-center">
 
 			@materialicon('toggle', 'star') {{trans_choice('profile.starred_count_label', $stars_count, ['number' => $stars_count])}}
 
 		</div>
-		<div class="iconized box box--inline">
+		<div class="p-2 bg-gray-100 shadow-md flex flex-col items-center justify-center">
 
 			@materialicon('action','description') {{trans_choice('profile.documents_count_label', $documents_count, ['number' => $documents_count])}}
 
 		</div>
-		<div class="iconized box box--inline">
-
+		<div class="p-2 bg-gray-100 shadow-md flex flex-col items-center justify-center whitespace-no-wrap overflow-hidden">
 			@materialicon('action','label') {{trans_choice('profile.collections_count_label', $collections_count, ['number' => $collections_count])}}
-
 		</div>
-		<div class="iconized box box--inline">
+		<div class="p-2 bg-gray-100 shadow-md flex flex-col items-center justify-center">
 
 			@materialicon('social','people') {{trans_choice('profile.shared_count_label', $shares_count, ['number' => $shares_count])}}
 
 		</div>
 	</div>
+
+	<div class="h-5"></div>
 
 	<form method="post" class="" action="{{route('profile.update')}}">
 		

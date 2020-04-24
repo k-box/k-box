@@ -25,15 +25,15 @@
 	
 						<div class="flex">
 	
-							<button class="button button--larger js-clipboard-btn" data-clipboard-target="#document_link">
-								<span class="button__content button__normal">
-									@materialicon('content', 'content_copy', 'button__icon')
+							<button class="button button--larger js-clipboard-btn items-center" data-clipboard-target="#document_link">
+								<span class="button__content button__normal inline-flex items-center">
+									@materialicon('content', 'content_copy', 'mr-1')
 									{{ trans( $elements_count == 1 ? 'share.document_link_copy' : 'share.document_link_copy_multiple') }}
 								</span>
 								<span class="button__content button__success">{{ trans('actions.clipboard.copied_title') }}</span>
 								<span class="button__content button__error">{{ trans('actions.clipboard.not_copied_title') }}</span>
 							</button>
-							<a class="button" title="{{ trans($elements_count == 1 ? 'share.send_link' : 'share.send_link_multiple') }}" target="_blank" rel="noopener noreferrer" href="mailto:?body={{ urlencode($sharing_links) }}">
+							<a class="button items-center" title="{{ trans($elements_count == 1 ? 'share.send_link' : 'share.send_link_multiple') }}" target="_blank" rel="noopener noreferrer" href="mailto:?body={{ urlencode($sharing_links) }}">
 								@materialicon('content', 'mail', 'button__icon mr-0')
 							</a>
 						</div>
@@ -104,8 +104,8 @@
 										
 					</select>
 				
-					<button class="js-share button">
-						<svg class="btn-icon" style="line-height: 38px;vertical-align: middle;margin-right: 6px;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+					<button class="js-share button items-center">
+						<svg class="btn-icon mr-1" style="line-height: 38px;vertical-align: middle;margin-right: 6px;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
 						{{ trans('share.dialog.add_users') }}
 					</button>
 			

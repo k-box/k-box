@@ -24,7 +24,7 @@ return [
     ],
 
     'download_btn' => 'Download',
-    'open_btn' => 'Preview<sup>beta</sup>',
+    'open_btn' => 'Preview',
     'open_site_btn' => 'Open',
     'edit_btn' => 'Edit',
     'edit_btn_title' => 'Edit document details',

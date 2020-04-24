@@ -8,7 +8,7 @@
 
 
 	<div class="c-panel__content">
-		<a href="#close" title="{{trans('panels.close_btn')}}" class="button c-panel__close js-panel-close">@materialicon('navigation', 'close')</a>
+		<a href="#close" title="{{trans('panels.close_btn')}}" class="button c-panel__close p-2 js-panel-close">@materialicon('navigation', 'close')</a>
 
 		<div class="js-panel-content" style="height:100%">
 			{{trans('panels.loading_message')}}

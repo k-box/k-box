@@ -11,12 +11,12 @@
 
 @section('action-menu')
 
-    <a href="{{route('projects.edit', ['id' => $project->id])}}" class="action__button">
-        @materialicon('content', 'create', 'button__icon'){{trans('projects.edit_button')}}
+    <a href="{{route('projects.edit', ['id' => $project->id])}}" class="button">
+        @materialicon('content', 'create', 'button__icon mr-1'){{trans('projects.edit_button')}}
     </a>
 
-    <a href="{{route('projects.create')}}" class="action__button">
-        @materialicon('content', 'add_circle_outline', 'button__icon'){{trans('projects.new_button')}}
+    <a href="{{route('projects.create')}}" class="button">
+        @materialicon('content', 'add_circle_outline', 'button__icon mr-1'){{trans('projects.new_button')}}
     </a>
 
 @stop

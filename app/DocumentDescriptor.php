@@ -492,7 +492,7 @@ class DocumentDescriptor extends Model
             return '';
         }
 
-        return Markdown::convertToHtml($this->abstract);
+        return Markdown::convertToHtml(str_replace('&gt;', '>', str_replace('&#039;', '\'', $this->abstract)));
     }
 
     // --- convert to/from KlinkDocumentDescriptor

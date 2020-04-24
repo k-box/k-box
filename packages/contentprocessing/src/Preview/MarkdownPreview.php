@@ -42,7 +42,7 @@ class MarkdownPreview extends BasePreviewDriver implements Renderable
                  
         $content = Markdown::convertToHtml($content);
 
-        return sprintf('<div class="preview__render preview__render--text">%1$s</div>', $content);
+        return sprintf('<div class="preview__render preview__render--text markdown">%1$s</div>', $content);
     }
 
     public function supportedMimeTypes()

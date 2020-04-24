@@ -69,7 +69,7 @@ return [
     ],
     
     'labels' => [
-        'microsite' => 'Микросайт<sup>beta</sup>',
+        'microsite' => 'Микросайт',
         'site_title' => 'Название',
         'slug' => 'Дружелюбный адрес',
         'site_description' => 'Описание',

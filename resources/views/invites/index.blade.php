@@ -10,7 +10,7 @@
 
     @can('create', \KBox\Invite::class)       
         <div class="mb-4">
-            <a href="{{ route('profile.invite.create') }}" class="button">@materialicon('social', 'person_add', 'inline-block'){{ __('invite.create.title') }}</a>
+            <a href="{{ route('profile.invite.create') }}" class="button">@materialicon('social', 'person_add', 'inline-block mr-1'){{ __('invite.create.title') }}</a>
         </div>
     @endcan
 

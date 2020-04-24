@@ -74,39 +74,9 @@
 }
 
 
-.action__button {
-    border: 0;
-    background-color: rgba(0,0,0,0.4);
-    padding: 8px;
-    height: 40px;
-    transition: background-color 0.2s linear, opacity 0.2s linear;
-    outline: none;
-    text-decoration: none;
-    display: inline-flex;
-    @apply text-white;
-    box-sizing: border-box;
-    white-space: nowrap;
-
-    &:disabled {
-		opacity: 0.5;
-		background-color: rgba(0,0,0,0.1);
-		cursor: not-allowed;
-        pointer-events: none
-	}
-
-    
-
-    &:hover, &:focus {
-        @apply bg-orange-600;
-    }
-}
 
 .action__separator {
     width: 8px;
-}
-
-.action__button.current, .action__button--selected {
-    @apply bg-orange-600;
 }
 
 
@@ -480,16 +450,6 @@ ul.pagination {
 	@apply text-black;
 
 	
-}
-
-.iconized {
-	line-height: 24px;
-	vertical-align: middle;
-
-	span {
-		float: left;
-		margin-right: 6px;
-	}
 }
 
 

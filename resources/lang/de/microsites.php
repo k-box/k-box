@@ -67,7 +67,7 @@ return [
     ],
 
     'labels' => [
-        'microsite' => 'Microsite<sup>beta</sup>',
+        'microsite' => 'Microsite',
         'site_title' => 'Seitenname',
         'slug' => 'Nutzerfreundlicher Slug',
         'site_description' => 'Seitenbeschreibung',

@@ -64,14 +64,14 @@
 		@endif
 
 		@if(isset($is_klink_public_enabled) && $is_klink_public_enabled && $context!=='trash' && $context!=='shared' && $context!=='public' && isset($can_make_public) && $can_make_public)
-			<a href="#pub" class="action__button hint--bottom" rv-on-click="makePublic" data-hint="{{trans('networks.publish_to_hint', ['network' => network_name()])}}" >
-				@materialicon('social', 'public'){{trans('networks.publish_to_short')}}
+			<a href="#pub" class="button hint--bottom" rv-on-click="makePublic" data-hint="{{trans('networks.publish_to_hint', ['network' => network_name()])}}" >
+				@materialicon('social', 'public', 'inline-block mr-1'){{trans('networks.publish_to_short')}}
 			</a>
 		@endif
 
 		@if($context!=='trash' && $context!=='shared' && isset($can_share) && $can_share)
-			<a href="#share" class="action__button" rv-on-click="share" rv-disabled="nothingIsSelected">
-				@materialicon('action', 'launch'){{trans('share.share_btn')}}
+			<a href="#share" class="button" rv-on-click="share" rv-disabled="nothingIsSelected">
+				@materialicon('action', 'launch', 'inline-block mr-1'){{trans('share.share_btn')}}
 			</a>
 		@endif
 
@@ -80,15 +80,15 @@
 
 		@if($context!=='trash' && $context!=='shared' && $context!=='starred' && isset($can_delete_documents) && $can_delete_documents)
 
-			<a href="#" class="action__button" rv-on-click="del"  rv-disabled="nothingIsSelected">
-				@materialicon('action', 'delete'){{trans('actions.trash_btn')}}
+			<a href="#" class="button" rv-on-click="del"  rv-disabled="nothingIsSelected">
+				@materialicon('action', 'delete', 'mr-1'){{trans('actions.trash_btn')}}
 			</a>
 
 		@endif
 
 	@elseif(auth()->check() && auth()->user()->can_capability(\KBox\Capability::CREATE_PROJECTS))
 
-		<a href="{{route('projects.create')}}" class="action__button inline-block mr-2">
+		<a href="{{route('projects.create')}}" class="button inline-block mr-2">
 			@materialicon('content', 'add_circle_outline', ['class' => 'inline-block fill-current mr-1']){{trans('projects.new_button')}}
 		</a>
 
