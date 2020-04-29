@@ -30,6 +30,8 @@ const purgecss = require('@fullhuman/postcss-purgecss')({
         /dropzone/,
         /dz-drag/,
         /preview/,
+        /leaflet/,
+        /map/,
     ],
   
     // Include any special characters you're using in this regular expression
