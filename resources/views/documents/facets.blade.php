@@ -42,7 +42,7 @@
 			<div class="filter__loader">
 			
 				<button class="button" rv-on-click="openClose">
-					@materialicon('content', 'filter_list', 'button__icon'){{trans('actions.filters.filter')}}
+					@materialicon('content', 'filter_list', 'button__icon mr-1'){{trans('actions.filters.filter')}}
 				</button>
 
 				
@@ -51,7 +51,7 @@
 
 				@if(isset($filters) && !empty($filters))
 					<a href="{{$clear_filter_url}}" class="button">
-						@materialicon('content', 'clear', 'button__icon'){{trans('actions.filters.clear_filters')}}
+						@materialicon('content', 'clear', 'button__icon mr-1'){{trans('actions.filters.clear_filters')}}
 					</a>
 				@endif
 				

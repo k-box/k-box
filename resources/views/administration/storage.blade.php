@@ -10,10 +10,10 @@
 
 
 <div id="storageActions" class="flex">
-    <a class="action__button mr-2" href="{{route('administration.storage.files')}}">{{ trans('administration.storage.all_files') }}</a>
+    <a class="button mr-2" href="{{route('administration.storage.files')}}">{{ trans('administration.storage.all_files') }}</a>
 
-    <a href="{{ route('administration.storage.reindexall') }}" rv-on-click="reindexAll" rv-disabled="cannotReindex" class="action__button">
-        @materialicon('action', 'cached', 'inline-block'){{ trans('administration.storage.reindexall_btn') }}
+    <a href="{{ route('administration.storage.reindexall') }}" rv-on-click="reindexAll" rv-disabled="cannotReindex" class="button">
+        @materialicon('action', 'cached', 'inline-block mr-1'){{ trans('administration.storage.reindexall_btn') }}
     </a>
 </div>
 

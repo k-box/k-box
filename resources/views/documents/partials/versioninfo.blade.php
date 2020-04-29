@@ -1,6 +1,6 @@
 <div class="version-container">
 
-	<h4 class="c-section__title" id="versions">@materialicon('action', 'history', 'button__icon c-section__icon')
+	<h4 class="c-section__title flex items-center" id="versions">@materialicon('action', 'history', 'button__icon c-section__icon mr-1')
 		{{trans_choice('documents.versions.section_title_with_count', $versions_count, ['number' => $versions_count])}}
 	</h4>
 

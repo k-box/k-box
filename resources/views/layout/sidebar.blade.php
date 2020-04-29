@@ -11,7 +11,7 @@
             </button>
         </div>
         
-        <div class="mb-4 flex-grow">
+        <div class="mb-4 flex-grow pt-1">
             @yield('sidebar')
         </div>
 

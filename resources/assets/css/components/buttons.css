@@ -1,53 +1,78 @@
 
-.button, .btn {
+.button, .btn, .button--link  {
 	
-	min-height: 32px;
-	transition: all 0.2s ease-in-out;
-
+	@apply transition;
+	@apply ease-in-out; 
+	@apply duration-150;
+	
+	@apply inline-flex;
+	@apply justify-center;
+	@apply rounded-md;
 	@apply border;
-	@apply bg-gray-100;
-	@apply border-gray-600;
-	
-	@apply px-2;
-	@apply py-1;
-
-	@apply rounded;
-	@apply outline-none;
-
+	@apply border-gray-400;
+	@apply px-4;
+	@apply py-2;
+	@apply text-sm;
+	@apply leading-5;
+	@apply font-medium;
+	@apply text-gray-900;
 	@apply shadow;
+	@apply bg-white;
+	@apply font-medium;
 
-	@apply inline-block;
-
-	@apply text-black;
-
+	@apply fill-current;
 	@apply no-underline;
+	
 
 	&:disabled {
-		@apply opacity-50;
-		@apply border-gray-600;
 		@apply cursor-not-allowed;
 	}
 
-	&:hover, &:focus {
-		@apply border-orange-600;
-		@apply bg-orange-500;
+	&:hover {
+		@apply bg-gray-100;
+		@apply text-gray-900;
+	}
 
-		@apply text-white;
-		@apply fill-current;
+	&:focus {
+		@apply text-gray-900;
+		@apply outline-none;
+		@apply border-blue-700;
+		@apply shadow-outline-blue;
+		@apply z-10;
 	}
 
 	&:active {
-		@apply border-orange-700;
-		@apply bg-orange-600;
+		@apply bg-gray-200;
 	}
 
+	.icon, svg {
+		@apply h-5;
+		@apply w-5;
+	}
 }
 
-a.button {
-	display: inline-flex;
-	align-items: center;
-	vertical-align: middle;
+.button--primary {
+	@apply bg-blue-600;
+	@apply text-white;
+	@apply fill-current;
+
+	&:hover {
+		@apply bg-blue-500;
+		@apply text-white;
+	}
+
+	&:focus {
+		@apply text-white;
+		@apply outline-none;
+		@apply border-blue-700;
+		@apply shadow-outline-blue;
+	}
+
+	&:active {
+		@apply bg-blue-700;
+	}
 }
+
 
 .button--ghost {
 	background-color: transparent;
@@ -66,36 +91,32 @@ a.button {
 	}
 }
 
-.button--link {
-	@apply bg-transparent;
-	@apply border-0;
-	@apply inline;
-	text-align: left;
-
-	@apply text-accent-600;
-	@apply shadow-none;
-
-	&:hover, &:focus {
-		@apply bg-orange-600;
-		
-		@apply text-white;
-		@apply fill-current;
-	}
-
-	&:active {
-		@apply bg-orange-700;
-	}
-}
 
 .button--larger {
 	@apply p-2;
 	min-width: 180px;
 }
 
-.button--primary {
-	@apply bg-accent-600;
-	@apply text-white;
-	@apply fill-current;
+.button--selected {
+	@apply border-blue-700;
+	@apply bg-gray-100;
+	@apply text-blue-800;
+	@apply shadow-inner;
+	@apply relative;
+
+	&:after {
+		/* this is to obtain a slightly bigger bottom border without affecting the height of the button */
+		content: '';
+		@apply block;
+		@apply absolute;
+		
+		@apply bottom-0;
+		@apply h-px;
+		@apply w-11/12;
+		@apply bg-blue-700;
+		@apply rounded-b-md;
+		@apply overflow-hidden;
+	}
 }
 
 .button.danger, .button--danger {
@@ -119,12 +140,7 @@ a.button {
 		
 }
 
-.button--selected {
-	@apply border-accent-800;
-	@apply bg-accent-200;
 
-	@apply text-accent-800;
-}
 
 .button__error, .button__success {
 	@apply hidden;
@@ -158,11 +174,6 @@ a.button {
 	}
 }
 
-.button__icon, .btn-icon, .button .icon {
-	vertical-align: text-bottom;
-	@apply mr-2;
-	@apply inline-block;
-}
 
 .file-button {
 
@@ -199,9 +210,6 @@ a.button {
 	}
 }
 
-.button__normal {
-
-}
 
 .button__processing {
 	@apply hidden;;
@@ -220,48 +228,6 @@ a.button {
 
 
 
-/* @search-field-height: 37px; */
-
-/* .input-group {
-
-	@apply relative;
-  	border-collapse: separate;
-
-	display: inline-table;
-  	vertical-align: middle;
-
-  	float: left;
-
-	.input-group-addon {
-		
-		display: table-cell;
-
-		height: @search-field-height;
-		    
-		white-space: nowrap;
-		vertical-align: middle;
-
-		padding: 6px 10px;
-
-		border: 1px solid #ddd;
-		border-left: 0;
-		border-right: 0;
-
-		font-weight: 400;
-		line-height: 1;
-		color: #555;
-		text-align: center;
-		background-color: @background-color;
-  
-
-  		.icon {
-  			line-height: 24px;
-  			vertical-align: text-bottom;
-  		}
-	}
-} */
-
-
 
 
 
@@ -270,7 +236,7 @@ a.button {
 
 	@apply relative;
 
-	@apply text-white;
+	/* @apply text-white; */
 
 
 	.drop-menu {
@@ -368,38 +334,6 @@ a.button {
 .sweet-alert button {
 	height: inherit;
 	line-height: inherit;
-}
-
-.tristate-button .icon {
-  
-	margin: 0 !important;
-}
-
-.tristate-button--none {
-	.tristate__none {
-		@apply inline-block;
-	}
-	.tristate__partial, .tristate__all {
-		@apply hidden;
-	}
-}
-
-.tristate-button--partial {
-	.tristate__partial {
-		@apply inline-block;
-	}
-	.tristate__none, .tristate__all {
-		@apply hidden;
-	}
-}
-
-.tristate-button--all {
-	.tristate__all {
-		@apply inline-block;
-	}
-	.tristate__none, .tristate__partial {
-		@apply hidden;
-	}
 }
 
 

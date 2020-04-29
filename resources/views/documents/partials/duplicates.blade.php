@@ -2,7 +2,7 @@
 
 <div class="duplicates-container">
 
-	<h4 class="my-4" id="versions">@materialicon('content', 'content_copy', 'button__icon  __icon')
+	<h4 class="my-4 flex items-center" id="versions">@materialicon('content', 'content_copy', 'button__icon  mr-1')
 		{{trans('documents.duplicates.duplicates_btn')}}
     </h4>
     

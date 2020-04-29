@@ -37,9 +37,9 @@
 
             @if(!is_null($summary_content))
 
-                <div class="box">
+                @component('components.markdown', ['class' => 'markdown--within bg-gray-100 p-1'])
                     {!! $summary_content !!}
-                </div>
+                @endcomponent
 
                 <p>
                     <a href="#legal">{{ trans('consent.privacy.show_full_text') }}</a>

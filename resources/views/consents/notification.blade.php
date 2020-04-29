@@ -34,7 +34,7 @@
             <h2>{{ trans('consent.others.dialog_title') }}</h2>
             <p>{{ trans('consent.others.dialog_description') }}</p>
 
-            <div class=" mb-4 box">
+            <div class=" mb-4 ">
 
                 <strong>{{trans('consent.notification.dialog_title')}}</strong>
                 <p>{{trans('consent.notification.dialog_description')}}</p>

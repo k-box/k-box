@@ -3,8 +3,8 @@
 
 @section('action-menu')
 
-	<a href="{{route('projects.create')}}" class="action__button inline-block ml-2" rv-on-click="createGroup">
-		@materialicon('content', 'add_circle_outline'){{trans('projects.new_button')}}
+	<a href="{{route('projects.create')}}" class="button inline-block ml-2" rv-on-click="createGroup">
+		@materialicon('content', 'add_circle_outline', 'mr-1'){{trans('projects.new_button')}}
 	</a>
 @stop
 

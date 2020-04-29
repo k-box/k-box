@@ -7,13 +7,35 @@ const purgecss = require('@fullhuman/postcss-purgecss')({
     // Specify the paths to all of the template files in your project 
     content: [
       './app/**/*.php',
+      './workbench/**/*.blade.php',
+      './workbench/**/*.js',
       './resources/**/*.blade.php',
-      './resource/**/*.js',
-      './resource/**/*.less',
+      './resources/**/*.js',
+      './resources/**/*.less',
+      './resources/**/*.css',
+      './public/css/vendor.css',
+      './public/js/vendor.js',
+    ],
+
+    whitelistPatterns: [
+        /item--selectable/,
+        /item--selected/,
+        /description/,
+        /c-panel/,
+        /c-cache/,
+        /c-dialog/,
+        /select2/,
+        /dialog/,
+        /dialog--share/,
+        /dropzone/,
+        /dz-drag/,
+        /preview/,
+        /leaflet/,
+        /map/,
     ],
   
     // Include any special characters you're using in this regular expression
-    defaultExtractor: content => content.match(/[A-Za-z0-9-_:/]+/g) || []
+    defaultExtractor: content => content.match(/[\w-/.:]+(?<!:)/g) || []
 })
 var Task = elixir.Task;
 
@@ -52,7 +74,7 @@ elixir.extend('postCss', function (file) {
                 require('tailwindcss'),
                 require('postcss-nested'),
                 require('autoprefixer'),
-                // ..._elixir.config.production ? [purgecss] : [] // todo: enable PurgeCSS once configuration is ready
+                ..._elixir.config.production ? [purgecss] : [],
                 ..._elixir.config.production ? [require('cssnano')({
                     preset: ['default', {
                         calc: false,
@@ -72,11 +94,7 @@ elixir.config.sourcemaps = false;
 
 elixir(function(mix) {
 
-     mix.less('app.less') // generate the application stylesheet
-        .postCss('resources/assets/css/app-evolution.css') // generate the functional css that will be the evolution of system
-        .less('microsite.less') // generate the microsite stylesheet
-        //concatenate vendor styles
-        .styles([
+     mix.styles([
             "/nprogress/nprogress.css",
             "/sweetalert2/dist/sweetalert2.css",
             "/hint.css/hint.base.css",
@@ -86,6 +104,7 @@ elixir(function(mix) {
             "/leaflet-draw/dist/leaflet.draw.css",
             "/leaflet.control.opacity/dist/L.Control.Opacity.css"
         ], elixir.config.cssOutput + "/vendor.css", elixir.config.npmDir)
+        .postCss('resources/assets/css/app-evolution.css') // generate the functional css that will be the evolution of system
     	.scripts([
                 'lodash/lodash.min.js',
     			'jquery/dist/jquery.min.js',
@@ -154,10 +173,10 @@ elixir(function(mix) {
         )
     	// Copy pure JS modules to public folder
     	.copyJsModules()
-    	.previewJsModules();
+        .previewJsModules();
 	    
 	    // make versionable to resolve caching problems
         if (elixir.config.production) {
-	        mix.version( ["public/css/vendor.css", "public/css/app-evolution.css", "public/css/app.css", "public/js/vendor.js"] );
+	        mix.version( ["public/css/vendor.css", "public/css/app-evolution.css", "public/js/vendor.js"] );
         }
 });

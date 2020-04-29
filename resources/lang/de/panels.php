@@ -25,7 +25,7 @@ return [
     ],
 
     'download_btn' => 'Herunterladen',
-    'open_btn' => 'Vorschau<sup>beta</sup>',
+    'open_btn' => 'Vorschau',
     'open_site_btn' => 'Öffnen',
     'edit_btn' => 'Bearbeiten',
     'edit_btn_title' => 'Dokumentendetails bearbeiten',

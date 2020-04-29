@@ -9,9 +9,7 @@
 
 		@if (\KBox\Auth\Registration::isEnabled() && ! \KBox\Auth\Registration::requiresInvite())
 			<div class="mb-4">
-				{{ trans('auth.no_account') }}&nbsp;<a  tabindex="4" class="" href="{{ route('register') }}">
-					{{ trans('auth.register') }}
-				</a>
+				{{ trans('auth.no_account') }}&nbsp;<a tabindex="4" class="" href="{{ route('register') }}">{{ trans('auth.register') }}</a>
 			</div>
 		@endif
 
@@ -41,12 +39,12 @@
 
 		{{ csrf_field() }}
 
-		<div class="c-form__buttons">
-			<input type="submit" id="login-submit" name="login-submit" class="button button--primary w-32"  tabindex="3" value="{{trans('auth.login')}}">
-			
-			<label style="display:inline-block;margin-left:16px">
-				<input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> {{ trans('auth.remember_me') }}
-			</label>
+		<div class="c-form__buttons flex items-center">
+			<input type="submit" id="login-submit" name="login-submit" class="button button--primary w-32 mr-4"  tabindex="3" value="{{trans('auth.login')}}">
+
+			@component('components.checkbox', ['name' => 'remember', 'checked' => old('remember') ? true : false])
+				{{ trans('auth.remember_me') }}
+			@endcomponent
 		</div>
 			
 			
