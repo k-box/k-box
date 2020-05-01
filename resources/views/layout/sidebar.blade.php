@@ -1,7 +1,7 @@
 @extends('global')
 
 @section('content')
-<div class="md:flex md:flex-row h-page  relative">
+<div class="md:flex md:flex-row h-page relative">
 
     <div class="js-drawer transition flex flex-col flex-shrink-0 min-h-0 h-page absolute md:relative overflow-y-auto scrolling-touch overflow-x-hidden -translate-100 pointer-events-none md:pointer-events-auto md:translate-0 mr-4 opacity-0 md:opacity-100 w-screen md:w-64 xl:w-1/5 bg-white md:bg-transparent z-10">
         
@@ -16,13 +16,13 @@
         </div>
 
         @hasSection('sidebar_bottom')
-            <div class="pt-4 pb-8 px-2 md:px-0">
+            <div class="pt-4 pb-8 px-2">
                 @yield('sidebar_bottom')
             </div>
         @endif
     </div>
     
-    <div class="flex-grow min-h-0 overflow-auto ">
+    <div class="flex-grow min-h-0 overflow-auto">
 
         <div class="py-2 border-b border-gray-400 text-sm flex flex-no-wrap">
             <button title="{{ __('Open navigation sidebar') }}" class="js-drawer-trigger md:hidden mr-2 pr-2 inline-block hover:text-blue-500 focus:text-blue-700">
