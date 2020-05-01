@@ -2,7 +2,9 @@
 
 @section('content')
 
-	<div class="">
+    <div class="h-5"></div>
+
+	<div class="max-w-4xl">
 
 		<span class="description">{{ trans('license::help.description_disclaimer') }}</span>
 

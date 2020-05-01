@@ -13,12 +13,15 @@
 
 @section('content')
 
-	<div class="h-5"></div>
+    <div class="h-5"></div>
 
-	@component('components.markdown', ['class' => ''])
-		{!!$page_content!!}
-	@endcomponent
-	
+	<div class="max-w-4xl">
+
+		@component('components.markdown', ['class' => ''])
+			{!!$page_content!!}
+		@endcomponent
+
+	</div>
 @stop
 
 

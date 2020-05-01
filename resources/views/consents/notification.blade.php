@@ -12,9 +12,10 @@
 
 @section('content')
 
-	<div class="">
-	
+    <div class="h-5"></div>
 
+	<div class="max-w-4xl">
+        
         <form action="{{ route('consent.dialog.notification.update') }}" method="post" class="">
 
             {{ csrf_field() }}
@@ -22,6 +23,8 @@
 
             <h2>{{ trans('consent.others.dialog_title') }}</h2>
             <p>{{ trans('consent.others.dialog_description') }}</p>
+
+            <div class="h-5"></div>
 
             <div class=" mb-4 ">
 
@@ -37,8 +40,8 @@
             
 
             <div class=" mb-4">
-                <button class="button button--primary" type="submit">{{ trans('consent.notification.agree_label') }}</button>
-                <a href="{{$skip_to}}">{{ trans('consent.skip') }}</a>
+                <button class="button" type="submit">{{ trans('consent.notification.agree_label') }}</button>
+                <a class="button button--primary" href="{{$skip_to}}">{{ trans('consent.skip') }}</a>
             </div>
         </form>
 

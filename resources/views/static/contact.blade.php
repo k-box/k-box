@@ -3,7 +3,9 @@
 
 @section('content')
 
-	<div class=" contact__container">
+    <div class="h-5"></div>
+
+	<div class="max-w-4xl contact__container">
 
         @if($is_configured)
             @if(!empty($contact['image']))
