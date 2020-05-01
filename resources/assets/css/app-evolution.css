@@ -198,6 +198,12 @@ h6 {
         @apply bg-gray-200;
         @apply p-2;
     }
+
+    code {
+        @apply bg-gray-200;
+        @apply text-gray-900;
+        @apply p-1;
+    }
 }
 
 
