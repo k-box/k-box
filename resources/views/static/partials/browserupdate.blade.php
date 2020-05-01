@@ -28,10 +28,9 @@
 
 <div class="flex justify-between mb-8">
 
-	<a class="max-w-xs inline-block text-center mr-4" href="https://support.microsoft.com/en-us/help/17621/internet-explorer-downloads">
-		<img class="mx-auto" src="{{ url('/') }}/images/internet-explorer_9-11_64x64.png" />
-		Internet Explorer
-		(10, 11)
+	<a class="max-w-xs inline-block text-center mr-4" href="https://www.microsoft.com/en-us/edge?form=MY01BV&OCID=MY01BV">
+		<img class="mx-auto" src="{{ url('/') }}/images/edge_64x64.png" />
+		Edge
 	</a>
 
 	<a class="max-w-xs inline-block text-center mr-4" href="https://www.mozilla.com/firefox/">
