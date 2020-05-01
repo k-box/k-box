@@ -40,13 +40,13 @@
 
 	</head>
 	<body class="{{$body_classes}}" id="js-drop-area">
-
-		<div class="long-running-message" id="long-running-message">
-			{!! trans('notices.long_running_msg') !!}
-		</div>
-
-
 		<div id="app" class="flex flex-col h-screen max-h-screen">
+
+			<div class="long-running-message" id="long-running-message">
+				{!! trans('notices.long_running_msg') !!}
+			</div>
+
+
 			@section('header')
 				@include('headers.header')
 			@endsection
@@ -66,7 +66,7 @@
 				</span>
 			</div>
 
-			<div class="min-h-0 flex-shrink-0 flex-grow px-2 lg:px-4 " id="page" role="content">
+			<div class="min-h-0 flex-shrink-0 flex-grow border border-red-600 px-2  lg:px-4 " id="page" role="content">
 	
 				@yield('content')
 	
@@ -77,11 +77,9 @@
 
 		@yield('panels')
 
-	
+		@yield('scripts')
 
-	@yield('scripts')
-
-	@stack('js')
+		@stack('js')
 	
 
 <!--[if lte IE 10]>

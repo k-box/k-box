@@ -1,7 +1,7 @@
 
 <header class="header sticky top-0 shadow-md js-header" role="header">
 
-	<div class="relative h-12 flex items-center justify-between px-2  lg:px-4 py-1 bg-gray-100">
+	<div class="relative h-header flex items-center justify-between px-2  lg:px-4 py-1 bg-gray-100">
 		
 		<div class="flex items-center flex-grow max-w-lg">
 		
