@@ -64,7 +64,7 @@
 		@endif
 
 		@if(isset($is_klink_public_enabled) && $is_klink_public_enabled && $context!=='trash' && $context!=='shared' && $context!=='public' && isset($can_make_public) && $can_make_public)
-			<a href="#pub" class="button hint--bottom" rv-on-click="makePublic" data-hint="{{trans('networks.publish_to_hint', ['network' => network_name()])}}" >
+			<a href="#pub" class="button" rv-on-click="makePublic" title="{{trans('networks.publish_to_hint', ['network' => network_name()])}}" >
 				@materialicon('social', 'public', 'inline-block mr-1'){{trans('networks.publish_to_short')}}
 			</a>
 		@endif

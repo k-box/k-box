@@ -37,7 +37,7 @@
         <div class="page-actions__container">
 
 			@unless(isset($is_search_requested) && $is_search_requested)
-				<span class="page-actions__label hint--bottom" data-hint="{{ trans('actions.sort_by.label') }}">
+				<span class="page-actions__label" title="{{ trans('actions.sort_by.label') }}">
 					<a href="?o=a" class="button page-actions__action page-actions__action--grouped @if(isset($order) && $order==='ASC') page-actions__action--selected @endif">{{ trans('actions.sort_by.oldest_first') }}</a>
 					<a href="?o=d" class="button page-actions__action page-actions__action--grouped @if(isset($order) && $order==='DESC') page-actions__action--selected @endif">{{ trans('actions.sort_by.newest_first') }}</a>
 				</span>

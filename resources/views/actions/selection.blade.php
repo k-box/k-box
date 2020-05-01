@@ -1,4 +1,4 @@
-<div class="button js-document-selection-button hint--bottom mr-2 p-2"  data-hint="{{trans('actions.selection.hint')}}">	
+<div class="button js-document-selection-button mr-2 p-2"  title="{{trans('actions.selection.hint')}}">	
 	<input type="checkbox" name="selection-tristate" id="selection-tristate" class="hidden" />
 
 	<div class="hidden js-check-all">

@@ -7,17 +7,17 @@
 
 	@if( isset($is_klink_public_enabled) && $is_klink_public_enabled)
 	
-		<a href="{{ route('documents.index') }}/public" class="hint--bottom navigation__item navigation__item--link @if(\Request::is('*public')) navigation__item--current @endif" data-hint="{{trans('networks.menu_public_hint', ['network' => network_name() ])}}">
+		<a href="{{ route('documents.index') }}/public" class="navigation__item navigation__item--link @if(\Request::is('*public')) navigation__item--current @endif" title="{{trans('networks.menu_public_hint', ['network' => network_name() ])}}">
 			@materialicon('social', 'public', 'inline-block navigation__item__icon'){{ network_name() }}
 		</a>
 	
 	@endif
 	
-	<a href="{{route('documents.recent')}}" class="hint--bottom navigation__item navigation__item--link @if(\Request::is('*recent*')) navigation__item--current @endif" data-hint="{{trans('documents.menu.recent_hint')}}">
+	<a href="{{route('documents.recent')}}" class="navigation__item navigation__item--link @if(\Request::is('*recent*')) navigation__item--current @endif" title="{{trans('documents.menu.recent_hint')}}">
 		@materialicon('action', 'schedule', 'inline-block navigation__item__icon'){{trans('documents.menu.recent')}}
 	</a>
 
-	<a href="{{route('documents.starred.index')}}" class="hint--bottom navigation__item navigation__item--link @if(\Request::is('*starred*')) navigation__item--current @endif" data-hint="{{trans('documents.menu.starred_hint')}}">
+	<a href="{{route('documents.starred.index')}}" class="navigation__item navigation__item--link @if(\Request::is('*starred*')) navigation__item--current @endif" title="{{trans('documents.menu.starred_hint')}}">
 		@materialicon('toggle', 'star', 'inline-block navigation__item__icon'){{trans('documents.menu.starred')}}
 	</a>
 
@@ -28,7 +28,7 @@
 
 	@if( flags('plugins') && plugins('k-box-kbox-plugin-geo'))
 	
-		<a href="{{ route('plugins.k-box-kbox-plugin-geo.geodocuments') }}" class="hint--bottom navigation__item navigation__item--link @if(\Request::is('*geoplugin*')) navigation__item--current @endif" data-hint="{{trans('geo::section.page_hint')}}">
+		<a href="{{ route('plugins.k-box-kbox-plugin-geo.geodocuments') }}" class="navigation__item navigation__item--link @if(\Request::is('*geoplugin*')) navigation__item--current @endif" title="{{trans('geo::section.page_hint')}}">
 			@materialicon('maps', 'map', 'inline-block navigation__item__icon'){{ trans('geo::section.page_title') }}
 		</a>
 	

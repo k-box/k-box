@@ -97,7 +97,6 @@ elixir(function(mix) {
      mix.styles([
             "/nprogress/nprogress.css",
             "/sweetalert2/dist/sweetalert2.css",
-            "/hint.css/hint.base.css",
             "/select2/dist/css/select2.css",
             "/plyr/dist/plyr.css",
             "/leaflet/dist/leaflet.css",

@@ -40,7 +40,7 @@
 
                 @if(isset($edit) && $edit)
                     <div class="userlist__actions">
-                        <button class="userlist__remove-button button button--danger hint--left js-user-remove" data-user="{{ $user->id }}" data-hint="{{ trans('projects.remove_user_hint') }}">{{ trans('actions.remove') }}</button>
+                        <button class="userlist__remove-button button button--danger hint--left js-user-remove" data-user="{{ $user->id }}" title="{{ trans('projects.remove_user_hint') }}">{{ trans('actions.remove') }}</button>
                     </div>
                 @endif
 
