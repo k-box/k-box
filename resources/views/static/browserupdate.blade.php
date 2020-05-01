@@ -9,7 +9,7 @@
 
 @section('content')
 
-	<div class="c-page">
+	<div class="">
 		
 		@include('static.partials.browserupdate')
 

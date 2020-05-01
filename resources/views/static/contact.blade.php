@@ -9,7 +9,7 @@
 
 @section('content')
 
-	<div class="c-page contact__container">
+	<div class=" contact__container">
 
         @if($is_configured)
             @if(!empty($contact['image']))

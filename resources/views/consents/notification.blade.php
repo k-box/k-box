@@ -23,7 +23,7 @@
 
 @section('content')
 
-	<div class="c-page">
+	<div class="">
 	
 
         <form action="{{ route('consent.dialog.notification.update') }}" method="post" class="">

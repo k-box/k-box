@@ -23,7 +23,7 @@
 
 @section('content')
 
-	<div class="c-page">
+	<div class="">
 
         <form action="{{ route('consent.dialog.privacy.update') }}" method="post" class="">
 
