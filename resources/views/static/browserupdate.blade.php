@@ -1,11 +1,5 @@
 @extends('global')
 
-@section('breadcrumbs')
-
-	{{trans('pages.browserupdate')}}
-
-@stop
-
 
 @section('content')
 

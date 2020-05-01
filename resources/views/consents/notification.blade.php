@@ -10,17 +10,6 @@
 @overwrite
 
 
-@section('breadcrumbs')
-
-	@if(isset($page_title))
-		{{$page_title}}
-	@elseif(isset($pagetitle))
-		{{$pagetitle}}
-	@endif
-
-@stop
-
-
 @section('content')
 
 	<div class="">

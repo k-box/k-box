@@ -1,11 +1,5 @@
 @extends('global')
 
-@section('breadcrumbs')
-
-	{{trans('pages.contact')}}
-
-@stop
-
 
 @section('content')
 
