@@ -1,4 +1,5 @@
 const { blue, ...colors  } = require('@tailwindcss/ui/colors')
+const defaultTheme = require('tailwindcss/defaultTheme')
 
 
 module.exports = {
@@ -23,8 +24,9 @@ module.exports = {
         'personal-collection': '#16a085',
       },
       height : {
-        'page' : 'calc(100vh - 3rem)'
-      }
+        'header' : defaultTheme.spacing[12],
+        'page' : `calc(100vh - ${defaultTheme.spacing[12]})`,
+      },
     },
     customForms: theme => ({
       default: {

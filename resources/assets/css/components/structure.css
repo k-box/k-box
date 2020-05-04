@@ -81,25 +81,6 @@
 
 
 
-
-
-.c-page {
-	@apply mt-8;
-	@apply px-2;
-}
-@screen md {
-
-	.c-page {
-		max-width: 60%
-	}
-}
-
-
-
-
-
-
-
 .form-blocked {
     opacity: 0.5;
     pointer-events: none

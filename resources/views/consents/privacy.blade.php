@@ -9,21 +9,11 @@
 
 @overwrite
 
-
-@section('breadcrumbs')
-
-	@if(isset($page_title))
-		{{$page_title}}
-	@elseif(isset($pagetitle))
-		{{$pagetitle}}
-	@endif
-
-@stop
-
-
 @section('content')
 
-	<div class="c-page">
+    <div class="h-5"></div>
+
+	<div class="max-w-4xl">
 
         <form action="{{ route('consent.dialog.privacy.update') }}" method="post" class="">
 
@@ -35,29 +25,26 @@
             <h2>{{ trans('consent.privacy.dialog_title') }}</h2>
             <p>{{ trans('consent.privacy.dialog_description') }}</p>
 
+            <div class="h-5"></div>
+
             @if(!is_null($summary_content))
 
-                @component('components.markdown', ['class' => 'markdown--within bg-gray-100 p-1'])
+                @component('components.markdown', ['class' => 'markdown--within bg-gray-100 p-2'])
                     {!! $summary_content !!}
                 @endcomponent
 
-                <p>
-                    <a href="#legal">{{ trans('consent.privacy.show_full_text') }}</a>
+                <p class="mt-4">
+                    <a href="{{ route('privacy.legal') }}" target="_blank" rel="noopener noreferrer">{{ trans('consent.privacy.show_full_text') }}</a>
                 </p>
-
-                <div class="box hide-if-not-target" id="legal">
-                    {!! $privacy_content !!}
-                </div>
 
             @else 
 
-                <div class="box" id="legal">
+                @component('components.markdown', ['class' => 'markdown--within bg-gray-100 p-2'])
                     {!! $privacy_content !!}
-                </div>
+                @endcomponent
 
             @endif
 
-            
 
             <div class="my-10 flex">
                 <button class="button button--primary w-1/3 sm:w-32 mr-2" type="submit">{{ trans('consent.agree') }}</button>

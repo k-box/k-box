@@ -9,21 +9,11 @@
 
 @overwrite
 
-
-@section('breadcrumbs')
-
-	@if(isset($page_title))
-		{{$page_title}}
-	@elseif(isset($pagetitle))
-		{{$pagetitle}}
-	@endif
-
-@stop
-
-
 @section('content')
 
-	<div class="c-page">
+    <div class="h-5"></div>
+
+	<div class="max-w-4xl">
 	
 
         <form action="{{ route('consent.dialog.statistic.update') }}" method="post" class="">
@@ -33,6 +23,8 @@
 
             <h2>{{ trans('consent.others.dialog_title') }}</h2>
             <p>{{ trans('consent.others.dialog_description') }}</p>
+
+            <div class="h-5"></div>
 
             <div class=" mb-4">
                 
@@ -50,8 +42,8 @@
             
 
             <div class=" mb-4">
-                <button class="button button--primary" type="submit">{{ trans('consent.statistics.agree_label') }}</button>
-                <a href="{{$skip_to}}">{{ trans('consent.skip') }}</a>
+                <button class="button" type="submit">{{ trans('consent.statistics.agree_label') }}</button>
+                <a class="button button--primary" href="{{$skip_to}}">{{ trans('consent.skip') }}</a>
             </div>
         </form>
 

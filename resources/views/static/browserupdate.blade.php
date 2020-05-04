@@ -1,15 +1,11 @@
 @extends('global')
 
-@section('breadcrumbs')
-
-	{{trans('pages.browserupdate')}}
-
-@stop
-
 
 @section('content')
 
-	<div class="c-page">
+    <div class="h-5"></div>
+
+	<div class="max-w-4xl">
 		
 		@include('static.partials.browserupdate')
 

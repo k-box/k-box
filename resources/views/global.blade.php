@@ -13,8 +13,7 @@
 
 		<link rel="stylesheet" href="{{ css_asset("css/vendor.css") }}">
 		<link rel="stylesheet" href="{{ css_asset("css/app-evolution.css") }}">
-
-		
+	
 		<script type="text/javascript" src="{{ js_asset("js/vendor.js") }}"></script>
 		
 		@include('require-config')
@@ -40,13 +39,13 @@
 
 	</head>
 	<body class="{{$body_classes}}" id="js-drop-area">
-
-		<div class="long-running-message" id="long-running-message">
-			{!! trans('notices.long_running_msg') !!}
-		</div>
-
-
 		<div id="app" class="flex flex-col h-screen max-h-screen">
+
+			<div class="long-running-message" id="long-running-message">
+				{!! trans('notices.long_running_msg') !!}
+			</div>
+
+
 			@section('header')
 				@include('headers.header')
 			@endsection
@@ -59,14 +58,18 @@
 				</div>
 			@endif
 	
-			<div class="bg-yellow-400 p-2 hidden" id="js-outdated">
-				<span class="">
-					{{ trans('errors.oldbrowser.generic') }}
-					<a href="{{route('browserupdate')}}" class="text-black underline">{{ trans('errors.oldbrowser.more_info') }}</a>.
-				</span>
-			</div>
+			<!--[if lte IE 10]>
+				<div class="" id="js-outdated">
+					<div class="bg-yellow-200 p-2 ">
+						<span class="">
+							{{ trans('errors.oldbrowser.generic') }}
+							<a href="{{route('browserupdate')}}" class="text-black underline">{{ trans('errors.oldbrowser.more_info') }}</a>.
+						</span>
+					</div>
+				</div>
+			<![endif]-->
 
-			<div class="min-h-0 flex-shrink-0 flex-grow px-2 lg:px-4 " id="page" role="content">
+			<div class="min-h-0 flex-shrink-0 flex-grow px-2 lg:px-4" id="page" role="content">
 	
 				@yield('content')
 	
@@ -77,34 +80,12 @@
 
 		@yield('panels')
 
+		@yield('scripts')
+
+		@stack('js')
 	
 
-	@yield('scripts')
 
-	@stack('js')
-	
-
-<!--[if lte IE 10]>
-	<script>
-		document.body.setAttribute('class', document.body.getAttribute('class') + " ie");
-
-		var message = document.getElementById('js-outdated'),
-			isVisible = false,
-			div = document.createElement('div');
-
-			if (!('boxShadow' in div.style)){
-				isVisible = true;
-			}
-
-			if (!('transition' in div.style)){
-				isVisible = true;
-			} 
-
-			if(isVisible && message){
-				message.setAttribute('class', message.getAttribute('class') + " block");
-			}
-	</script>
-<![endif]-->
 	
 		@includeWhen(support_active('uservoice'), 'support.uservoice', [
 			'feedback_loggedin' => $feedback_loggedin ?? false,

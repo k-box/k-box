@@ -63,7 +63,7 @@
 
 
 		@if(isset($is_klink_public_enabled) && $is_klink_public_enabled && $context!=='trash' && $context!=='shared' && $context!=='public' && isset($can_make_public) && $can_make_public)
-			<button class="button ml-2 hint--bottom" rv-on-click="makePublic" rv-disabled="nothingIsSelected" data-hint="{{trans('networks.publish_to_hint', ['network' => network_name()])}}" >
+			<button class="button ml-2 " rv-on-click="makePublic" rv-disabled="nothingIsSelected" title="{{trans('networks.publish_to_hint', ['network' => network_name()])}}" >
 				@materialicon('social', 'public', 'inline-block')<span class="hidden md:inline ml-1">{{trans('networks.publish_to_short')}}</span>
 			</button>
 		@endif

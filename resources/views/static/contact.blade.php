@@ -1,15 +1,11 @@
 @extends('global')
 
-@section('breadcrumbs')
-
-	{{trans('pages.contact')}}
-
-@stop
-
 
 @section('content')
 
-	<div class="c-page contact__container">
+    <div class="h-5"></div>
+
+	<div class="max-w-4xl contact__container">
 
         @if($is_configured)
             @if(!empty($contact['image']))

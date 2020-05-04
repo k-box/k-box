@@ -69,7 +69,7 @@ body {
   @apply font-sans;
   @apply leading-normal;
 }
-
+ 
 h1 {
   @apply text-3xl;
   @apply font-bold;
@@ -101,15 +101,8 @@ h5 {
 h6 {
   @apply text-base;
   @apply font-bold;
-}
+} 
 
-.c-page h1, .c-page h2, .c-page h3, .c-page h4, .c-page h5, .c-page h6 {
-  @apply mb-4;
-}
-
-.c-page p {
-  @apply mb-4;
-}
   
 .h1-typography { 
   font-size: 40px;
@@ -197,6 +190,12 @@ h6 {
     blockquote {
         @apply bg-gray-200;
         @apply p-2;
+    }
+
+    code {
+        @apply bg-gray-200;
+        @apply text-gray-900;
+        @apply p-1;
     }
 }
 

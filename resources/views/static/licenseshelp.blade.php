@@ -1,19 +1,10 @@
 @extends('global')
 
-@section('breadcrumbs')
-
-	@if(isset($page_title))
-		{{$page_title}}
-	@elseif(isset($pagetitle))
-		{{$pagetitle}}
-	@endif
-
-@stop
-
-
 @section('content')
 
-	<div class="c-page">
+    <div class="h-5"></div>
+
+	<div class="max-w-4xl">
 
 		<span class="description">{{ trans('license::help.description_disclaimer') }}</span>
 
@@ -32,10 +23,9 @@
 						
 						<div style="flex-basis:160px;text-align:right">{!! $license->icon ?? '' !!}</div>
 					</div>
-					<div>
-						
+					@component('components.markdown', ['class' => ''])
 						{!! Markdown::convertToHtml($license->description) !!}
-					</div>
+					@endcomponent
 						
 					@if($license->license)
 						<div><a href="{{ $license->license }}" target="_blank" rel="noopener noreferrer nofollow">{{ trans('administration.documentlicenses.view_license') }}</a></div>

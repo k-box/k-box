@@ -10,7 +10,7 @@
 	
 
 	@unless(isset($is_search_requested) && $is_search_requested)
-		<div class="page-actions__label hint--bottom" data-hint="{{ trans('actions.sort_by.label') }}">
+		<div class="page-actions__label" title="{{ trans('actions.sort_by.label') }}">
 			<a href="?o=a" class="button @if(isset($order) && $order==='ASC') button--selected @endif">{{ trans('actions.sort_by.oldest_first') }}</a>
 			<a href="?o=d" class="button @if(isset($order) && $order==='DESC') button--selected @endif">{{ trans('actions.sort_by.newest_first') }}</a>
 		</div>
