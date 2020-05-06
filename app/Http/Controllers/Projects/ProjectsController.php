@@ -44,36 +44,11 @@ class ProjectsController extends Controller
 
     }
 
-    public function show(Guard $auth, \Request $request, $id)
+    public function show(Guard $auth, \Request $request, Project $project)
     {
-        try {
-            $user = $auth->user();
-            
-            $project = Project::findOrFail($id)->load(['users', 'manager', 'microsite']);
+        abort_if(!$project->collection, 404);
 
-            $projects = Project::managedBy($user->id)->get();
-            
-            if ($request::wantsJson()) {
-                return response()->json($project);
-            }
-    
-            return view('projects.show', [
-                'pagetitle' => trans('projects.page_title_with_name', ['name' => $project->name]),
-                'projects' => $projects,
-                'project' => $project,
-                'project_users' => $project->users()->orderBy('name', 'ASC')->get(),
-            ]);
-        } catch (\Exception $ex) {
-            \Log::error('Error showing project', ['context' => 'ProjectsController', 'params' => $id, 'exception' => $ex]);
-
-            if ($request::wantsJson()) {
-                return new JsonResponse(['status' => trans('projects.errors.exception', ['exception' => $ex->getMessage()])], 500);
-            }
-            
-            return redirect()->back()->withErrors(
-                ['error' => trans('projects.errors.exception', ['exception' => $ex->getMessage()])]
-            );
-        }
+        return redirect()->route('documents.groups.show', ['id' => $project->collection->getKey()]);
     }
     
     public function edit(Guard $auth, $id)

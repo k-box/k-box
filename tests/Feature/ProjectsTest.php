@@ -32,13 +32,13 @@ class ProjectsTest extends TestCase
     public function routes_and_capabilities_provider()
     {
         return [
-            [ Capability::$ADMIN, 'projects.show', 200 ],
+            [ Capability::$ADMIN, 'projects.show', 302 ],
             [ Capability::$ADMIN, 'projects.create', 200 ],
             [ Capability::$ADMIN, 'projects.edit', 200 ],
-            [ Capability::$PROJECT_MANAGER_LIMITED, 'projects.show', 200 ],
+            [ Capability::$PROJECT_MANAGER_LIMITED, 'projects.show', 302 ],
             [ Capability::$PROJECT_MANAGER_LIMITED, 'projects.create', 403 ],
             [ Capability::$PROJECT_MANAGER_LIMITED, 'projects.edit', 403 ],
-            [ Capability::$PROJECT_MANAGER, 'projects.show', 200 ],
+            [ Capability::$PROJECT_MANAGER, 'projects.show', 302 ],
             [ Capability::$PROJECT_MANAGER, 'projects.create', 200 ],
             [ Capability::$PROJECT_MANAGER, 'projects.edit', 200 ],
             [ [Capability::MANAGE_KBOX], 'projects.show', 403 ],
@@ -114,6 +114,8 @@ class ProjectsTest extends TestCase
         if ($expected_return_code === 200) {
             $response->assertStatus(200);
             $response->assertViewIs($route); // in this case view names are equal to route names
+        } else if($expected_return_code === 302) {
+            $response->assertStatus(302);
         } else {
             $response->assertViewIs('errors.'.$expected_return_code);
         }
