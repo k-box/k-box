@@ -10,6 +10,7 @@ use KBox\DocumentDescriptor;
 use Tests\Concerns\ClearDatabase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\Event;
+use InvalidArgumentException;
 use KBox\Events\ProjectCreated;
 
 class ProjectsTest extends TestCase
