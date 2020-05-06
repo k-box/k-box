@@ -3,8 +3,9 @@
 namespace KBox\Policies;
 
 use KBox\User;
-use Illuminate\Auth\Access\HandlesAuthorization;
+use KBox\Project;
 use KBox\Capability;
+use Illuminate\Auth\Access\HandlesAuthorization;
 
 class ProjectPolicy
 {
@@ -16,7 +17,7 @@ class ProjectPolicy
      * @param  \KBox\User  $user
      * @return mixed
      */
-    public function viewAll(User $user)
+    public function viewAny(User $user)
     {
         $can_create = $user->can_capability(Capability::CREATE_PROJECTS);
 
@@ -34,5 +35,41 @@ class ProjectPolicy
         }
 
         return $can;
+    }
+
+    
+    /**
+     * Determine whether the user can view the project.
+     *
+     * @param  \KBox\User  $user
+     * @param  \KBox\Project  $project
+     * @return mixed
+     */
+    public function view(User $user, Project $project)
+    {
+        //
+    }
+
+    /**
+     * Determine whether the user can create projects.
+     *
+     * @param  \KBox\User  $user
+     * @return mixed
+     */
+    public function create(User $user)
+    {
+        //
+    }
+
+    /**
+     * Determine whether the user can update the project.
+     *
+     * @param  \KBox\User  $user
+     * @param  \KBox\Project  $project
+     * @return mixed
+     */
+    public function update(User $user, Project $project)
+    {
+        //
     }
 }

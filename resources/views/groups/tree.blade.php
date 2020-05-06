@@ -1,7 +1,7 @@
 
 <div id="document-tree" class="tree-view">
 	
-	@can('viewAll', \KBox\Project::class)
+	@can('viewAny', \KBox\Project::class)
 		<a href="{{ route('documents.projects.index') }}" class="navigation__item navigation__item--link @if(\Request::is('*projects')) navigation__item--current @endif"><strong>{{trans('projects.page_title')}}</strong></a>
 
 		<div class="tree-group">
