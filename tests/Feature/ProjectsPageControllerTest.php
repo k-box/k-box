@@ -12,7 +12,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 /**
  * Test the Projects page for the Unified Search (routes documents.projects.*)
  */
-class ProjectsPageTest extends TestCase
+class ProjectsPageControllerTest extends TestCase
 {
     use Searchable;
     use DatabaseTransactions;
@@ -50,10 +50,9 @@ class ProjectsPageTest extends TestCase
      */
     public function test_route_exists($route_name, $parameters)
     {
-        // you will see InvalidArgumentException if the route is not defined
-        
         route($route_name, $parameters);
         
+        // you will see InvalidArgumentException if the route is not defined
         $this->assertTrue(true, "Test complete without exceptions");
     }
     
@@ -140,7 +139,7 @@ class ProjectsPageTest extends TestCase
         $response->assertSee($project->getCreatedAt());
     }
 
-    public function test_create_project_button_visible_if_user_cannot_create_projects()
+    public function test_create_project_button_visible_if_user_can_create_projects()
     {
         $this->withKlinkAdapterFake();
 
@@ -164,59 +163,5 @@ class ProjectsPageTest extends TestCase
         $response = $this->actingAs($user)->get($url);
 
         $response->assertDontSeeText(trans('projects.new_button'));
-    }
-
-    public function test_projects_are_not_reported_on_sidebar_if_user_is_a_partner_without_projects()
-    {
-        config(['dms.hide_projects_if_empty' => true]);
-
-        $user = $this->createUser(Capability::$PARTNER);
-        
-        $url = route('documents.index');
-
-        $response = $this->actingAs($user)->get($url);
-
-        $response->assertDontSeeText(trans('projects.page_title'));
-    }
-    
-    public function test_projects_are_reported_on_sidebar_if_user_is_a_partner_with_projects()
-    {
-        config(['dms.hide_projects_if_empty' => true]);
-
-        $project = factory(Project::class)->create();
-
-        $user = $this->createUser(Capability::$PARTNER);
-
-        $project->users()->attach($user);
-        
-        $url = route('documents.index');
-
-        $response = $this->actingAs($user)->get($url);
-
-        $response->assertSeeText(trans('projects.page_title'));
-    }
-
-    public function test_projects_are_reported_on_sidebar_if_user_can_create_projects()
-    {
-        $user = $this->createUser(Capability::$PROJECT_MANAGER);
-           
-        $url = route('documents.index');
-
-        $response = $this->actingAs($user)->get($url);
-
-        $response->assertSeeText(trans('projects.page_title'));
-    }
-
-    public function test_projects_are_reported_on_sidebar_if_hiding_not_active()
-    {
-        config(['dms.hide_projects_if_empty' => false]);
-
-        $user = $this->createUser(Capability::$PARTNER);
-           
-        $url = route('documents.index');
-
-        $response = $this->actingAs($user)->get($url);
-
-        $response->assertSeeText(trans('projects.page_title'));
     }
 }
