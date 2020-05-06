@@ -6,7 +6,6 @@ use KBox\User;
 use KBox\Project;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Auth\Guard;
-use Illuminate\Http\JsonResponse;
 use KBox\Traits\Searchable;
 use KBox\Http\Controllers\Controller;
 use KBox\Pagination\SearchResultsPaginator as Paginator;
@@ -127,7 +126,6 @@ class ProjectsPageController extends Controller
         $this->authorize('viewAny', Project::class);
 
         try {
-            
             $project = Project::findOrFail($id)->load(['users', 'manager', 'microsite']);
     
             return view('documents.projects.detail', [
@@ -136,7 +134,6 @@ class ProjectsPageController extends Controller
                 'project_users' => $project->users()->orderBy('name', 'ASC')->get(),
             ]);
         } catch (\Exception $ex) {
-
             \Log::error('Error showing project', ['context' => 'ProjectsPageController', 'params' => $id, 'exception' => $ex]);
             
             return redirect()->back()->withErrors(

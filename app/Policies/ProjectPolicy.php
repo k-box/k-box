@@ -37,7 +37,6 @@ class ProjectPolicy
         return $can;
     }
 
-    
     /**
      * Determine whether the user can view the project.
      *

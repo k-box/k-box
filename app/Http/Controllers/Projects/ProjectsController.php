@@ -39,14 +39,12 @@ class ProjectsController extends Controller
      */
     public function index(Guard $auth, \Request $request)
     {
-
         return redirect()->route('documents.projects.index');
-
     }
 
     public function show(Guard $auth, \Request $request, Project $project)
     {
-        abort_if(!$project->collection, 404);
+        abort_if(! $project->collection, 404);
 
         return redirect()->route('documents.groups.show', ['id' => $project->collection->getKey()]);
     }

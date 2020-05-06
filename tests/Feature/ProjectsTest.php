@@ -83,14 +83,12 @@ class ProjectsTest extends TestCase
         $this->assertTrue(true, "Test complete without exceptions");
     }
     
-
     public function test_destroy_route_is_not_defined()
     {
         $this->expectException(InvalidArgumentException::class);
 
         route('projects.destroy', 1);
     }
-
 
     /**
      * Test if some routes browsed after login are viewable or not and shows the expected page and error code
@@ -114,7 +112,7 @@ class ProjectsTest extends TestCase
         if ($expected_return_code === 200) {
             $response->assertStatus(200);
             $response->assertViewIs($route); // in this case view names are equal to route names
-        } else if($expected_return_code === 302) {
+        } elseif ($expected_return_code === 302) {
             $response->assertStatus(302);
         } else {
             $response->assertViewIs('errors.'.$expected_return_code);
