@@ -355,7 +355,7 @@ Route::delete('projects/{id}/avatar', [
     'uses' => 'Projects\ProjectAvatarsController@destroy',
     'as' => 'projects.avatar.destroy',
 ]);
-Route::resource('projects', 'Projects\ProjectsController');
+Route::resource('projects', 'Projects\ProjectsController', ['except' => 'destroy']);
 
 /*
 |--------------------------------------------------------------------------

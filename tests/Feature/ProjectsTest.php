@@ -24,8 +24,7 @@ class ProjectsTest extends TestCase
             [ 'projects.create', [] ],
             [ 'projects.store', [] ],
             [ 'projects.edit', ['id' => 1] ],
-            [ 'projects.update', ['id' => 1] ],
-            [ 'projects.destroy', ['id' => 1] ]
+            [ 'projects.update', ['id' => 1] ]
         ];
     }
     
@@ -88,6 +87,15 @@ class ProjectsTest extends TestCase
         $this->assertTrue(true, "Test complete without exceptions");
     }
     
+
+    public function test_destroy_route_is_not_defined()
+    {
+        $this->expectException(InvalidArgumentException::class);
+
+        route('projects.destroy', 1);
+    }
+
+
     /**
      * Test if some routes browsed after login are viewable or not and shows the expected page and error code
      *

@@ -126,7 +126,6 @@ return [
         'show' => ['all' => KBox\Capability::$PROJECT_MANAGER_LIMITED],
         'edit' => [KBox\Capability::CREATE_PROJECTS],
         'update' => [KBox\Capability::CREATE_PROJECTS],
-        'destroy' => [KBox\Capability::CREATE_PROJECTS],
 
         'avatar' => [
             'index' => KBox\Capability::RECEIVE_AND_SEE_SHARE,

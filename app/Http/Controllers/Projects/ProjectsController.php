@@ -262,16 +262,6 @@ class ProjectsController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function destroy($id)
-    {
-    }
-
-    /**
      * Filter the list of users that can be added to a project
      */
     private function getAvailableUsers($users)
