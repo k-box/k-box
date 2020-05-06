@@ -32,23 +32,18 @@ class ProjectsTest extends TestCase
     public function routes_and_capabilities_provider()
     {
         return [
-            [ Capability::$ADMIN, 'projects.index', 200 ],
             [ Capability::$ADMIN, 'projects.show', 200 ],
             [ Capability::$ADMIN, 'projects.create', 200 ],
             [ Capability::$ADMIN, 'projects.edit', 200 ],
-            [ Capability::$PROJECT_MANAGER_LIMITED, 'projects.index', 200 ],
             [ Capability::$PROJECT_MANAGER_LIMITED, 'projects.show', 200 ],
             [ Capability::$PROJECT_MANAGER_LIMITED, 'projects.create', 403 ],
             [ Capability::$PROJECT_MANAGER_LIMITED, 'projects.edit', 403 ],
-            [ Capability::$PROJECT_MANAGER, 'projects.index', 200 ],
             [ Capability::$PROJECT_MANAGER, 'projects.show', 200 ],
             [ Capability::$PROJECT_MANAGER, 'projects.create', 200 ],
             [ Capability::$PROJECT_MANAGER, 'projects.edit', 200 ],
-            [ [Capability::MANAGE_KBOX], 'projects.index', 403 ],
             [ [Capability::MANAGE_KBOX], 'projects.show', 403 ],
             [ [Capability::MANAGE_KBOX], 'projects.create', 403 ],
             [ [Capability::MANAGE_KBOX], 'projects.edit', 403 ],
-            [ Capability::$PARTNER, 'projects.index', 403 ],
             [ Capability::$PARTNER, 'projects.show', 403 ],
             [ Capability::$PARTNER, 'projects.create', 403 ],
             [ Capability::$PARTNER, 'projects.edit', 403 ],
@@ -122,6 +117,15 @@ class ProjectsTest extends TestCase
         } else {
             $response->assertViewIs('errors.'.$expected_return_code);
         }
+    }
+
+    public function test_projects_index_redirect_to_projects_page()
+    {
+        $user = $this->createUser(Capability::$PROJECT_MANAGER);
+
+        $response = $this->actingAs($user)->get(route('projects.index'));
+
+        $response->assertRedirect(route('documents.projects.index'));
     }
 
     public function test_project_create_page()

@@ -39,18 +39,9 @@ class ProjectsController extends Controller
      */
     public function index(Guard $auth, \Request $request)
     {
-        $user = $auth->user();
-        
-        $projects = Project::managedBy($user->id)->get();
-        
-        if ($request::wantsJson()) {
-            return response()->json($projects);
-        }
 
-        return view('projects.index', [
-            'pagetitle' => trans('projects.page_title'),
-            'projects' => $projects
-        ]);
+        return redirect()->route('documents.projects.index');
+
     }
 
     public function show(Guard $auth, \Request $request, $id)
