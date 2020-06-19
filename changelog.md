@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.29.1] - 2020-06-19
+
+### Added
+
+- Internal events for documents, projects and collections ([#378](https://github.com/k-box/k-box/pull/378))
+
+### Changed
+
+- Completed the switch to TailwindCSS and improve of layouts ([#383](https://github.com/k-box/k-box/pull/383), [#385](https://github.com/k-box/k-box/pull/385))
+- Username in account listing is now a link to the edit page ([#376](https://github.com/k-box/k-box/pull/376))
+- Remove deprecated string helpers ([#381](https://github.com/k-box/k-box/pull/381))
+
 ## [0.29.0] - 2019-12-09
 
 ### Added
