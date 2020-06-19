@@ -14,7 +14,7 @@
 		<link rel="stylesheet" href="{{ mix("css/vendor.css") }}">
 		<link rel="stylesheet" href="{{ mix("css/app-evolution.css") }}">
 	
-		<script type="text/javascript" src="{{ js_asset("js/vendor.js") }}"></script>
+		<script type="text/javascript" src="{{ mix("js/vendor.js") }}"></script>
 		
 		@include('require-config')
                 
