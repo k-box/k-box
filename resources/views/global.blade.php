@@ -38,7 +38,7 @@
 		@include('analytics.analytics')
 
 	</head>
-	<body class="{{$body_classes}}" id="js-drop-area">
+	<body class="{{$body_classes}}" style="margin: 0" id="js-drop-area">
 		<div id="app" class="flex flex-col h-screen max-h-screen">
 
 			<div class="long-running-message" id="long-running-message">
