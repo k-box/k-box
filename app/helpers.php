@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Str;
 use KBox\Plugins\PluginManager;
 use KBox\Services\ReadonlyMode;
 use KBox\Documents\Services\DocumentsService;
@@ -16,6 +17,8 @@ if (! function_exists('css_asset')) {
      * @return string the asset absolute URL
      *
      * @throws \InvalidArgumentException if asset is not found in elixir manifest
+     * 
+     * @deprecated use mix() and Laravel Mix
      */
     function css_asset($asset_path, $production_asset_path = null)
     {
@@ -25,7 +28,7 @@ if (! function_exists('css_asset')) {
             return url($asset_path).'?bust='.\Carbon\Carbon::now()->format('U');
         }
         
-        return url(elixir(is_null($production_asset_path) ? $asset_path : $production_asset_path));
+        return url(elixir(is_null($production_asset_path) ? $asset_path : $production_asset_path, ''));
     }
 }
 
@@ -40,6 +43,8 @@ if (! function_exists('js_asset')) {
      * @return string the asset absolute URL
      *
      * @throws \InvalidArgumentException if asset is not found in elixir manifest
+     * 
+     * @deprecated use mix() and Laravel Mix
      */
     function js_asset($asset_path)
     {
@@ -50,6 +55,57 @@ if (! function_exists('js_asset')) {
         }
         
         return url(elixir($asset_path));
+    }
+}
+
+
+if (! function_exists('mix')) {
+    /**
+     * Get the path to a versioned Mix file.
+     *
+     * @param  string  $path
+     * @param  string  $manifestDirectory
+     * @return string
+     *
+     * @throws \Exception
+     */
+    function mix($path, $manifestDirectory = '')
+    {
+        static $manifests = [];
+
+        if (! Str::startsWith($path, '/')) {
+            $path = "/{$path}";
+        }
+
+        $manifestPath = public_path($manifestDirectory.'/mix-manifest.json');
+
+        if (! isset($manifests[$manifestPath])) {
+            if (! file_exists($manifestPath)) {
+                throw new Exception('The Mix manifest does not exist.');
+            }
+
+            $manifests[$manifestPath] = json_decode(file_get_contents($manifestPath), true);
+        }
+
+        $manifest = $manifests[$manifestPath];
+
+        logs()->info($manifest);
+
+        if (! isset($manifest[$path])) {
+            $exception = new Exception("Unable to locate Mix file: {$path}.");
+
+            if (! app('config')->get('app.debug')) {
+                report($exception);
+
+                return $path;
+            } else {
+                throw $exception;
+            }
+        }
+
+        return url($manifestDirectory.$manifest[$path]);
+
+
     }
 }
 
