@@ -17,7 +17,7 @@ if (! function_exists('css_asset')) {
      * @return string the asset absolute URL
      *
      * @throws \InvalidArgumentException if asset is not found in elixir manifest
-     * 
+     *
      * @deprecated use mix() and Laravel Mix
      */
     function css_asset($asset_path, $production_asset_path = null)
@@ -43,7 +43,7 @@ if (! function_exists('js_asset')) {
      * @return string the asset absolute URL
      *
      * @throws \InvalidArgumentException if asset is not found in elixir manifest
-     * 
+     *
      * @deprecated use mix() and Laravel Mix
      */
     function js_asset($asset_path)
@@ -57,7 +57,6 @@ if (! function_exists('js_asset')) {
         return url(elixir($asset_path));
     }
 }
-
 
 if (! function_exists('mix')) {
     /**
@@ -104,8 +103,6 @@ if (! function_exists('mix')) {
         }
 
         return url($manifestDirectory.$manifest[$path]);
-
-
     }
 }
 
