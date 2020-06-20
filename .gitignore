@@ -5,8 +5,8 @@
 *.env
 node_modules
 public/build
+public/mix-manifest.json
 public/js/*
-public/js /*
 public/css/*
 storage/documents/*
 storage/framework/testing
@@ -16,8 +16,6 @@ tests/data/**/thumbnails
 puphpet
 Vagrantfile
 
-public/js/*.js
-public/css/*.css
 public/css/all.css
 typings/*
 

@@ -11,10 +11,10 @@
         <meta name="description" content="{{ $pagedescription ?? config('app.name') }}">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-		<link rel="stylesheet" href="{{ css_asset("css/vendor.css") }}">
-		<link rel="stylesheet" href="{{ css_asset("css/app-evolution.css") }}">
+		<link rel="stylesheet" href="{{ mix("css/vendor.css") }}">
+		<link rel="stylesheet" href="{{ mix("css/app-evolution.css") }}">
 	
-		<script type="text/javascript" src="{{ js_asset("js/vendor.js") }}"></script>
+		<script type="text/javascript" src="{{ mix("js/vendor.js") }}"></script>
 		
 		@include('require-config')
                 

@@ -18,12 +18,14 @@ branches:
 cache:
   directories:
   - $HOME/.composer/cache
+  - $HOME/.yarn/
 
 env:
   global:
     - DMS_CORE_ADDRESS="http://127.0.0.1:8081/"
 
 before_install:
+  - nvm install 12
   - sudo add-apt-repository ppa:ubuntugis/ppa --yes
   - sudo apt-get update -q
   - sudo apt-get install -y libmagickwand-dev
@@ -32,6 +34,9 @@ before_install:
   - ogrinfo --version
 
 install:
+  - yarn config set cache-folder $HOME/.yarn/
+  - yarn
+  - yarn run production
   - cp env.travis .env
   - cp env.travis testing.env
   - travis_retry composer install --no-interaction
