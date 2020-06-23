@@ -1,29 +1,28 @@
 
 <div id="document-tree" class="tree-view">
 	
-	@can('viewAny', \KBox\Project::class)
-		<a href="{{ route('documents.projects.index') }}" class="navigation__item navigation__item--link @if(\Request::is('*projects')) navigation__item--current @endif"><strong>{{trans('projects.page_title')}}</strong></a>
+	@if(Auth::user()->can('create', \KBox\Project::class) || Auth::user()->can('viewAny', \KBox\Project::class))
+		@unless(config('dms.hide_projects_if_empty') && $private_groups->isEmpty())
+			<a href="{{ route('documents.projects.index') }}" class="navigation__item navigation__item--link @if(\Request::is('*projects')) navigation__item--current @endif"><strong>{{trans('projects.page_title')}}</strong></a>
 
-		<div class="tree-group">
-				
-			<div class="elements">
-				
-				
-				
-				@forelse($private_groups as $group)
-			
-					@include('groups.tree-item')
+			<div class="tree-group">
 					
-				@empty
-				
-					<p>{{trans('groups.collections.empty_private_msg')}}</p>
+				<div class="elements">
 					
-				@endforelse
+					@forelse($private_groups as $group)
+				
+						@include('groups.tree-item')
+						
+					@empty
+					
+						<p>{{trans('groups.collections.empty_private_msg')}}</p>
+						
+					@endforelse
 
-				
+				</div>
 			</div>
-		</div>
-	@endcan
+		@endunless
+	@endif
 	
 	@if($user_can_edit_personal_groups)
 	
