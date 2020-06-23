@@ -19,22 +19,22 @@ class ProjectPolicy
      */
     public function viewAny(User $user)
     {
-        $can_create = $user->can_capability(Capability::CREATE_PROJECTS);
-
-        if ($can_create) {
+        if ($user->isDMSManager()) {
             return true;
         }
 
-        $can = $user->can_capability(Capability::MANAGE_PROJECT_COLLECTIONS);
-
-        if (config('dms.hide_projects_if_empty')) {
-            $managed = $user->projects()->exists();
-            $member = $user->managedProjects()->exists();
-
-            return $can && ($managed || $member);
+        if ($user->can_capability(Capability::CREATE_PROJECTS)) {
+            return true;
         }
 
-        return $can;
+        if ($user->can_capability(Capability::MANAGE_PROJECT_COLLECTIONS)) {
+            return true;
+        }
+
+        $managed = $user->projects()->exists();
+        $member = $user->managedProjects()->exists();
+        
+        return $managed || $member;
     }
 
     /**
@@ -46,7 +46,9 @@ class ProjectPolicy
      */
     public function view(User $user, Project $project)
     {
-        //
+        return $project->manager->id === $user->id
+            || $user->isDMSManager()
+            || $project->users()->where('id', '=', $user->getKey())->exists();
     }
 
     /**
@@ -57,7 +59,8 @@ class ProjectPolicy
      */
     public function create(User $user)
     {
-        //
+        return $user->can_capability(Capability::CREATE_PROJECTS)
+            || $user->isDMSManager();
     }
 
     /**
@@ -69,6 +72,7 @@ class ProjectPolicy
      */
     public function update(User $user, Project $project)
     {
-        //
+        return $project->manager->id === $user->id
+            || $user->isDMSManager();
     }
 }
