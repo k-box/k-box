@@ -31,9 +31,10 @@ class ProjectsPageControllerTest extends TestCase
             [ Capability::$ADMIN, ['documents.projects.index' => 'documents.projects.projectspage', 'documents.projects.show' => 'documents.projects.detail'], 200 ],
             [ Capability::$PROJECT_MANAGER_LIMITED, ['documents.projects.index' => 'documents.projects.projectspage', 'documents.projects.show' => 'documents.projects.detail'], 200 ],
             [ Capability::$PROJECT_MANAGER, ['documents.projects.index' => 'documents.projects.projectspage', 'documents.projects.show' => 'documents.projects.detail'], 200 ],
-            [ [Capability::MANAGE_KBOX], ['documents.projects.index' => 'documents.projects.projectspage', 'documents.projects.show' => 'documents.projects.detail'], 403 ],
+            [ [Capability::MANAGE_KBOX], ['documents.projects.index' => 'documents.projects.projectspage', 'documents.projects.show' => 'documents.projects.detail'], 200 ],
             [ Capability::$PARTNER, ['documents.projects.index' => 'documents.projects.projectspage', 'documents.projects.show' => 'documents.projects.detail'], 200 ],
-            [ [Capability::RECEIVE_AND_SEE_SHARE], ['documents.projects.index' => 'documents.projects.projectspage', 'documents.projects.show' => 'documents.projects.detail'], 403 ],
+            [ [Capability::RECEIVE_AND_SEE_SHARE], ['documents.projects.index' => 'documents.projects.projectspage'], 403 ],
+            [ [Capability::RECEIVE_AND_SEE_SHARE], ['documents.projects.show' => 'documents.projects.detail'], 200 ],
         ];
     }
 

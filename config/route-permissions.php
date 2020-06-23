@@ -120,13 +120,6 @@ return [
     ],
     
     'projects' => [
-        'index' => ['all' => KBox\Capability::$PROJECT_MANAGER_LIMITED],
-        'create' => [KBox\Capability::CREATE_PROJECTS],
-        'store' => [KBox\Capability::CREATE_PROJECTS],
-        'show' => ['all' => KBox\Capability::$PROJECT_MANAGER_LIMITED],
-        'edit' => [KBox\Capability::CREATE_PROJECTS],
-        'update' => [KBox\Capability::CREATE_PROJECTS],
-
         'avatar' => [
             'index' => KBox\Capability::RECEIVE_AND_SEE_SHARE,
             'store' => ['all' => KBox\Capability::$PROJECT_MANAGER_LIMITED],
