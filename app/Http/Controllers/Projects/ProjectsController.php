@@ -83,7 +83,6 @@ class ProjectsController extends Controller
         return view('projects.edit', [
             'pagetitle' => trans('projects.edit_page_title', ['name' => $project->name]),
             'available_users' => $available_users,
-            'manager_id' => optional($project->manager)->id,
             'project' => $project,
             'project_users' => $current_members,
         ]);
@@ -178,9 +177,7 @@ class ProjectsController extends Controller
         try {
             $project->load(['collection', 'users']);
 
-            $user = $request->user();
-            
-            $manager = $request->has('manager') ? User::findOrFail($request->get('manager')) : $user;
+            $manager = $request->user();
 
             $avatar = $this->avatarStore($request, $project->id);
 

@@ -127,7 +127,6 @@ class ProjectsTest extends TestCase
         $expected_available_users = collect([$this->createUser(Capability::$PARTNER)]);
 
         $params = [
-            'manager' => $user->id,
             'name' => $omit_title ? null : 'Project title',
             'description' => $omit_description ? null : 'Project description',
         ];
@@ -158,7 +157,6 @@ class ProjectsTest extends TestCase
         $user = $this->createUser(Capability::$PARTNER);
 
         $params = [
-            'manager' => $user->id,
             'name' => 'Project title',
             'description' => 'Project description',
         ];
@@ -177,7 +175,6 @@ class ProjectsTest extends TestCase
         ]);
 
         $params = [
-            'manager' => $user->id,
             'name' => $project->name,
             'description' => 'Project description',
         ];
@@ -227,7 +224,7 @@ class ProjectsTest extends TestCase
 
         $response->assertViewIs('projects.edit');
 
-        $response->assertViewHas('manager_id', $user->id);
+        $response->assertViewMissing('manager_id');
 
         $response->assertViewHas('available_users');
 
@@ -252,7 +249,7 @@ class ProjectsTest extends TestCase
 
         $response->assertViewIs('projects.edit');
 
-        $response->assertViewHas('manager_id', $user->id);
+        $response->assertViewMissing('manager_id');
 
         $response->assertViewHas('available_users');
 
@@ -283,7 +280,6 @@ class ProjectsTest extends TestCase
         $params = [
             'name' => $project->name,
             'description' => 'new description',
-            'manager' => $user->getKey(),
         ];
 
         $response = $this->from(route('projects.edit', $project->getKey()))
@@ -301,16 +297,13 @@ class ProjectsTest extends TestCase
     {
         $project = factory(Project::class)->create();
 
-        $user = $project->manager;
-
         $memberUser = $this->createUser(Capability::$PARTNER);
 
         $project->users()->attach($memberUser);
 
         $params = [
             'name' => $project->name,
-            'description' => 'new description',
-            'manager' => $user->getKey(),
+            'description' => 'new description'
         ];
 
         $response = $this->from(route('projects.edit', $project->getKey()))
