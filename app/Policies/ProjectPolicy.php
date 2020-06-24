@@ -48,7 +48,7 @@ class ProjectPolicy
     {
         return $project->manager->id === $user->id
             || $user->isDMSManager()
-            || $project->users()->where('id', '=', $user->getKey())->exists();
+            || $project->users()->where('user_id', '=', $user->getKey())->exists();
     }
 
     /**
