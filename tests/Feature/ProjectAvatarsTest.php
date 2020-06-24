@@ -6,7 +6,6 @@ use KBox\User;
 use KBox\Project;
 use Tests\TestCase;
 use KBox\Capability;
-use Illuminate\Support\Str;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
@@ -23,27 +22,23 @@ class ProjectAvatarsTest extends TestCase
         ];
     }
     
-    public function routes_and_capabilities_provider()
+    public function capabilities_provider()
     {
         return [
-            [ Capability::$ADMIN, 'projects.avatar.index', 200 ],
-            [ Capability::$ADMIN, 'projects.avatar.store', 403 ],
-            [ Capability::$ADMIN, 'projects.avatar.destroy', 403 ],
-            [ Capability::$PROJECT_MANAGER_LIMITED, 'projects.avatar.index', 200 ],
-            [ Capability::$PROJECT_MANAGER_LIMITED, 'projects.avatar.store', 403 ],
-            [ Capability::$PROJECT_MANAGER_LIMITED, 'projects.avatar.destroy', 403 ],
-            [ Capability::$PROJECT_MANAGER, 'projects.avatar.index', 200 ],
-            [ Capability::$PROJECT_MANAGER, 'projects.avatar.store', 403 ],
-            [ Capability::$PROJECT_MANAGER, 'projects.avatar.destroy', 403 ],
-            [ [Capability::MANAGE_KBOX], 'projects.avatar.index',  403 ],
-            [ [Capability::MANAGE_KBOX], 'projects.avatar.store',  403 ],
-            [ [Capability::MANAGE_KBOX], 'projects.avatar.destroy', 403 ],
-            [ Capability::$PARTNER, 'projects.avatar.store', 403 ],
-            [ Capability::$PARTNER, 'projects.avatar.destroy', 403 ],
-            [ [Capability::RECEIVE_AND_SEE_SHARE], 'projects.avatar.store', 403 ],
-            [ [Capability::RECEIVE_AND_SEE_SHARE], 'projects.avatar.destroy', 403 ],
-            [ Capability::$PARTNER, 'projects.avatar.index', 200 ],
-            [ [Capability::RECEIVE_AND_SEE_SHARE], 'projects.avatar.index', 200 ],
+            [ Capability::$ADMIN],
+            [ Capability::$PROJECT_MANAGER],
+            [ [Capability::MANAGE_KBOX]],
+            [ Capability::$PARTNER],
+            [ [Capability::RECEIVE_AND_SEE_SHARE]],
+        ];
+    }
+
+    public function forbidden_capabilities_provider()
+    {
+        return [
+            [ Capability::$PROJECT_MANAGER],
+            [ Capability::$PARTNER],
+            [ [Capability::RECEIVE_AND_SEE_SHARE]],
         ];
     }
     
@@ -89,51 +84,45 @@ class ProjectAvatarsTest extends TestCase
      * Test if some routes browsed after login are viewable or not and shows
      * the expected page and error code
      *
-     * @dataProvider routes_and_capabilities_provider
+     * @dataProvider capabilities_provider
      * @return void
      */
-    public function testProjectAvatarIndex($caps, $route, $expected_return_code)
+    public function testProjectAvatarIndex($caps)
     {
-        $params = null;
-        
         $user = $this->createUser($caps);
         
         $project = factory(Project::class)->create([
             'avatar' => base_path('tests/data/project-avatar.png')
         ]);
 
-        $method = Str::endsWith($route, 'index') ? 'get' : (Str::endsWith($route, 'store') ? 'post' : 'delete');
+        $project->users()->attach($user);
 
-        $params = ['id' => $project->id ];
-
-        if (! Str::endsWith($route, 'index')) {
-            $params['_token'] = csrf_token();
-        }
-
-        $content = [];
-
-        if (Str::endsWith($route, 'store')) {
-            $content = ['avatar' => $this->getFileForUpload()];
-        }
-
-        $response = $this->actingAs($user)->{$method}(route($route, $params), $content);
+        $response = $this->actingAs($user)->get(route('projects.avatar.index', ['id' => $project->id ]));
             
-        if ($expected_return_code !== 302 && $expected_return_code !== 200) {
-            if ($response->isView()) {
-                $response->assertErrorView($expected_return_code);
-            } else {
-                $response->assertStatus($expected_return_code);
-            }
-        } else {
-            $response->assertStatus($expected_return_code);
-        }
+        $response->assertOk();
+
+        $this->assertInstanceOf(\Symfony\Component\HttpFoundation\BinaryFileResponse::class, $response->baseResponse);
+    }
+    
+    /**
+     * @dataProvider forbidden_capabilities_provider
+     */
+    public function test_avatar_cannot_be_viewed_by_users_non_members($caps)
+    {
+        $user = $this->createUser($caps);
+        
+        $project = factory(Project::class)->create([
+            'avatar' => base_path('tests/data/project-avatar.png')
+        ]);
+
+        $response = $this->actingAs($user)->get(route('projects.avatar.index', ['id' => $project->getKey()]));
+            
+        $response->assertForbidden();
     }
     
     public function testProjectAvatarStore()
     {
         $project = factory(Project::class)->create();
-        
-        ;
 
         $params = [
             'id' => $project->id,

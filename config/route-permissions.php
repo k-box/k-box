@@ -119,14 +119,6 @@ return [
         'detail' => KBox\Capability::$CONTENT_MANAGER,
     ],
     
-    'projects' => [
-        'avatar' => [
-            'index' => KBox\Capability::RECEIVE_AND_SEE_SHARE,
-            'store' => ['all' => KBox\Capability::$PROJECT_MANAGER_LIMITED],
-            'destroy' => ['all' => KBox\Capability::$PROJECT_MANAGER_LIMITED],
-        ]
-    ],
-    
     'microsites' => [
         'index' => ['all' => KBox\Capability::$PROJECT_MANAGER_LIMITED],
         'create' => ['all' => KBox\Capability::$PROJECT_MANAGER_LIMITED],
