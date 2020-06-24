@@ -60,6 +60,19 @@ class ProjectsVisibilityTest extends TestCase
         $response->assertSeeText(trans('projects.page_title'));
     }
 
+    public function test_admin_can_see_projects_section()
+    {
+        config(['dms.hide_projects_if_empty' => true]);
+        
+        $user = $this->createUser(Capability::$ADMIN);
+           
+        $url = route('documents.index');
+
+        $response = $this->actingAs($user)->get($url);
+
+        $response->assertSeeText(trans('projects.page_title'));
+    }
+
     public function test_projects_are_reported_on_sidebar_if_hiding_not_active()
     {
         config(['dms.hide_projects_if_empty' => false]);

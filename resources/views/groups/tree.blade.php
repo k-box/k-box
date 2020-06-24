@@ -1,8 +1,7 @@
 
 <div id="document-tree" class="tree-view">
-	
 	@if(Auth::user()->can('create', \KBox\Project::class) || Auth::user()->can('viewAny', \KBox\Project::class))
-		@unless(config('dms.hide_projects_if_empty') && $private_groups->isEmpty())
+		@if(! ($private_groups->isEmpty() && config('dms.hide_projects_if_empty')) || Auth::user()->can('create', \KBox\Project::class))
 			<a href="{{ route('documents.projects.index') }}" class="navigation__item navigation__item--link @if(\Request::is('*projects')) navigation__item--current @endif"><strong>{{trans('projects.page_title')}}</strong></a>
 
 			<div class="tree-group">
@@ -21,7 +20,7 @@
 
 				</div>
 			</div>
-		@endunless
+		@endif
 	@endif
 	
 	@if($user_can_edit_personal_groups)
