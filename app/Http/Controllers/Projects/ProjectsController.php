@@ -2,16 +2,16 @@
 
 namespace KBox\Http\Controllers\Projects;
 
-use KBox\Http\Requests\ProjectRequest;
-use KBox\Http\Controllers\Controller;
+use Exception;
 use KBox\User;
 use KBox\Project;
-use Illuminate\Contracts\Auth\Guard;
-use Illuminate\Http\JsonResponse;
-use KBox\Documents\Services\DocumentsService;
+use Illuminate\Http\Request;
 use KBox\Traits\AvatarUpload;
-use KBox\Exceptions\ForbiddenException;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
+use KBox\Http\Controllers\Controller;
+use KBox\Http\Requests\ProjectRequest;
+use KBox\Documents\Services\DocumentsService;
 
 /**
  * Controller for the Project Management
@@ -28,112 +28,94 @@ class ProjectsController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-
-        $this->middleware('capabilities');
     }
 
     /**
-     * Display a listing of the resource.
+     * Redirect the user to the projects page that
+     * shows all projects the user has access.
      *
      * @return Response
      */
-    public function index(Guard $auth, \Request $request)
+    public function index()
     {
-        $user = $auth->user();
-        
-        $projects = Project::managedBy($user->id)->get();
-        
-        if ($request::wantsJson()) {
-            return response()->json($projects);
-        }
+        $this->authorize('viewAny', Project::class);
 
-        return view('projects.index', [
-            'pagetitle' => trans('projects.page_title'),
-            'projects' => $projects
-        ]);
+        return redirect()->route('documents.projects.index');
     }
 
-    public function show(Guard $auth, \Request $request, $id)
+    /**
+     * Redirect the user to the project root collection
+     * to browse documents within the project.
+     *
+     * @return Response
+     */
+    public function show(Project $project)
     {
-        try {
-            $user = $auth->user();
-            
-            $project = Project::findOrFail($id)->load(['users', 'manager', 'microsite']);
+        $this->authorize('view', $project);
 
-            $projects = Project::managedBy($user->id)->get();
-            
-            if ($request::wantsJson()) {
-                return response()->json($project);
-            }
-    
-            return view('projects.show', [
-                'pagetitle' => trans('projects.page_title_with_name', ['name' => $project->name]),
-                'projects' => $projects,
-                'project' => $project,
-                'project_users' => $project->users()->orderBy('name', 'ASC')->get(),
-            ]);
-        } catch (\Exception $ex) {
-            \Log::error('Error showing project', ['context' => 'ProjectsController', 'params' => $id, 'exception' => $ex]);
+        abort_if(! $project->collection, 404);
 
-            if ($request::wantsJson()) {
-                return new JsonResponse(['status' => trans('projects.errors.exception', ['exception' => $ex->getMessage()])], 500);
-            }
-            
-            return redirect()->back()->withErrors(
-                ['error' => trans('projects.errors.exception', ['exception' => $ex->getMessage()])]
-            );
-        }
+        return redirect()->route('documents.groups.show', ['id' => $project->collection->getKey()]);
     }
     
-    public function edit(Guard $auth, $id)
+    /**
+     * Show the form to edit project details
+     *
+     * @return Response
+     */
+    public function edit(Request $request, Project $project)
     {
-        $prj = Project::findOrFail($id)->load('users');
+        $this->authorize('update', $project);
+
+        $project->load('users'); // TODO: maybe already order them by name
         
-        $user = $auth->user();
+        /**
+         * @var \KBox\User
+         */
+        $user = $request->user();
 
-        if ($prj->manager->id !== $user->id && ! $user->isDMSManager()) {
-            throw new ForbiddenException();
-        }
+        $current_members = $project->users()->orderBy('name', 'ASC')->get(); // TODO: maybe use project users already loaded relationship
 
-        $current_members = $prj->users()->orderBy('name', 'ASC')->get();
-
-        $skip = $current_members->merge(! $user->isDMSManager() ? [$prj->manager, $user] : [$prj->manager])->filter();
+        $skip = $current_members->merge(! $user->isDMSManager() ? [$project->manager, $user] : [$project->manager])->filter();
 
         $available_users = $this->getAvailableUsers($skip);
 
         return view('projects.edit', [
-            'pagetitle' => trans('projects.edit_page_title', ['name' => $prj->name]),
+            'pagetitle' => trans('projects.edit_page_title', ['name' => $project->name]),
             'available_users' => $available_users,
-            'manager_id' => optional($prj->manager)->id,
-            'project' => $prj,
+            'project' => $project,
             'project_users' => $current_members,
         ]);
     }
     
-    public function create(Guard $auth)
+    /**
+     * Show the form to create a project
+     *
+     * @return Response
+     */
+    public function create(Request $request)
     {
-        $user = $auth->user();
+        $this->authorize('create', Project::class);
 
-        $available_users = $this->getAvailableUsers($user);
+        $available_users = $this->getAvailableUsers($request->user());
 
         return view('projects.create', [
             'pagetitle' => trans('projects.create_page_title'),
             'available_users' => $available_users,
-            'manager_id' => $user->id,
         ]);
     }
     
     /**
-     * Store a newly created resource in storage.
+     * Save a new \KBox\Project
      *
      * @return Response
      */
-    public function store(Guard $auth, ProjectRequest $request, DocumentsService $service)
+    public function store(ProjectRequest $request, DocumentsService $service)
     {
-        try {
-            $user = $auth->user();
+        $this->authorize('create', Project::class);
 
-            $manager = $request->has('manager') ? User::findOrFail($request->get('manager')) : $user;
+        try {
+            $manager = $request->user();
 
             $avatar = $this->avatarStore($request, $manager->id);
 
@@ -148,7 +130,7 @@ class ProjectsController extends Controller
                     'description' => e($request->input('description', '')),
                     'collection_id' => $projectcollection->id,
                     'avatar' => $avatar
-                    ]);
+                ]);
                     
                 return $newProject;
             });
@@ -170,8 +152,8 @@ class ProjectsController extends Controller
             return redirect()->route('documents.groups.show', $project->collection_id)->with([
                 'flash_message' => trans('projects.project_created', ['name' => $project->name])
             ]);
-        } catch (\Exception $ex) {
-            \Log::error('Error creating project', ['context' => 'ProjectsController', 'params' => $request, 'exception' => $ex]);
+        } catch (Exception $ex) {
+            logs()->error('Error creating project', ['context' => 'ProjectsController', 'params' => $request, 'exception' => $ex]);
 
             if ($request->wantsJson()) {
                 return new JsonResponse(['status' => trans('projects.errors.exception', ['exception' => $ex->getMessage()])], 500);
@@ -183,14 +165,19 @@ class ProjectsController extends Controller
         }
     }
 
-    public function update(Guard $auth, ProjectRequest $request, DocumentsService $service, $id)
+    /**
+     * Update an existing \KBox\Project
+     *
+     * @return Response
+     */
+    public function update(Project $project, ProjectRequest $request, DocumentsService $service)
     {
+        $this->authorize('update', $project);
+        
         try {
-            $project = Project::findOrFail($id)->load(['collection', 'users']);
+            $project->load(['collection', 'users']);
 
-            $user = $auth->user();
-            
-            $manager = $request->has('manager') ? User::findOrFail($request->get('manager')) : $user;
+            $manager = $request->user();
 
             $avatar = $this->avatarStore($request, $project->id);
 
@@ -248,42 +235,36 @@ class ProjectsController extends Controller
             return redirect()->route('projects.edit', ['id' => $project->id])->with([
                 'flash_message' => trans('projects.project_updated', ['name' => $project->name])
             ]);
-        } catch (\Exception $ex) {
-            \Log::error('Error updating project', ['context' => 'ProjectsController', 'params' => $request, 'exception' => $ex]);
+        } catch (Exception $ex) {
+            logs()->error('Error updating project', ['context' => 'ProjectsController', 'params' => $request, 'exception' => $ex]);
 
             if ($request->wantsJson()) {
                 return new JsonResponse(['status' => trans('projects.errors.exception', ['exception' => $ex->getMessage()])], 500);
             }
             
-            return redirect()->back()->withInput()/*->route('projects.create')*/->withErrors(
+            return redirect()->back()->withInput()->withErrors(
                 ['error' => trans('projects.errors.exception', ['exception' => $ex->getMessage()])]
             );
         }
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Get the list of users that can be added to the
+     * project as members
      *
-     * @param  int  $id
-     * @return Response
+     * @param \KBox\User|\Illuminate\Support\Collection|array $excludeUsers The users to exclude from the list
+     * @return \Illuminate\Support\Collection
      */
-    public function destroy($id)
-    {
-    }
-
-    /**
-     * Filter the list of users that can be added to a project
-     */
-    private function getAvailableUsers($users)
+    private function getAvailableUsers($excludeUsers = null)
     {
         $skip = [];
 
-        if (class_basename(get_class($users)) === 'User') {
-            $skip[] = $users->id;
-        } elseif (class_basename(get_class($users)) === 'Collection') {
-            $skip = $users->pluck('id')->all();
-        } elseif (is_array($users)) {
-            $skip = array_merge($skip, $users);
+        if ($excludeUsers && class_basename(get_class($excludeUsers)) === 'User') {
+            $skip[] = $excludeUsers->id;
+        } elseif ($excludeUsers && class_basename(get_class($excludeUsers)) === 'Collection') {
+            $skip = $excludeUsers->pluck('id')->all();
+        } elseif ($excludeUsers && is_array($excludeUsers)) {
+            $skip = array_merge($skip, $excludeUsers);
         }
 
         return User::whereNotIn('id', $skip)->orderBy('name', 'ASC')->get();

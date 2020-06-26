@@ -1,10 +1,6 @@
 
 {{ csrf_field() }}
 
-@if(isset($manager_id)) 
-<input type="hidden" name="manager" value="{{ $manager_id }}">
-@endif
-
 <div class="fieldbox">
 
     <div class="fieldbox__heading">{{trans('projects.labels.project_details')}}</div>

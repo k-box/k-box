@@ -6,7 +6,6 @@ use KBox\User;
 use KBox\Project;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Auth\Guard;
-use Illuminate\Http\JsonResponse;
 use KBox\Traits\Searchable;
 use KBox\Http\Controllers\Controller;
 use KBox\Pagination\SearchResultsPaginator as Paginator;
@@ -38,7 +37,7 @@ class ProjectsPageController extends Controller
      */
     public function index(Guard $auth, Request $request)
     {
-        $this->authorize('viewAll', Project::class);
+        $this->authorize('viewAny', Project::class);
 
         $user = $auth->user();
 
@@ -124,17 +123,10 @@ class ProjectsPageController extends Controller
      */
     public function show(Guard $auth, Request $request, $id)
     {
-        $this->authorize('viewAll', Project::class);
+        $this->authorize('viewAny', Project::class);
 
         try {
-            $user = $auth->user();
-            
             $project = Project::findOrFail($id)->load(['users', 'manager', 'microsite']);
-            
-            // if ($request::wantsJson())
-            // {
-            //     return response()->json($project);
-            // }
     
             return view('documents.projects.detail', [
                 'pagetitle' => trans('projects.page_title_with_name', ['name' => $project->name]),
@@ -143,11 +135,6 @@ class ProjectsPageController extends Controller
             ]);
         } catch (\Exception $ex) {
             \Log::error('Error showing project', ['context' => 'ProjectsPageController', 'params' => $id, 'exception' => $ex]);
-
-            // if ($request::wantsJson())
-            // {
-            //     return new JsonResponse(array('status' => trans('projects.errors.exception', ['exception' => $ex->getMessage()])), 500);
-            // }
             
             return redirect()->back()->withErrors(
                 ['error' => trans('projects.errors.exception', ['exception' => $ex->getMessage()])]

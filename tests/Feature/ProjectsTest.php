@@ -10,6 +10,7 @@ use KBox\DocumentDescriptor;
 use Tests\Concerns\ClearDatabase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\Event;
+use InvalidArgumentException;
 use KBox\Events\ProjectCreated;
 
 class ProjectsTest extends TestCase
@@ -24,34 +25,7 @@ class ProjectsTest extends TestCase
             [ 'projects.create', [] ],
             [ 'projects.store', [] ],
             [ 'projects.edit', ['id' => 1] ],
-            [ 'projects.update', ['id' => 1] ],
-            [ 'projects.destroy', ['id' => 1] ]
-        ];
-    }
-    
-    public function routes_and_capabilities_provider()
-    {
-        return [
-            [ Capability::$ADMIN, 'projects.index', 200 ],
-            [ Capability::$ADMIN, 'projects.show', 200 ],
-            [ Capability::$ADMIN, 'projects.create', 200 ],
-            [ Capability::$ADMIN, 'projects.edit', 200 ],
-            [ Capability::$PROJECT_MANAGER_LIMITED, 'projects.index', 200 ],
-            [ Capability::$PROJECT_MANAGER_LIMITED, 'projects.show', 200 ],
-            [ Capability::$PROJECT_MANAGER_LIMITED, 'projects.create', 403 ],
-            [ Capability::$PROJECT_MANAGER_LIMITED, 'projects.edit', 403 ],
-            [ Capability::$PROJECT_MANAGER, 'projects.index', 200 ],
-            [ Capability::$PROJECT_MANAGER, 'projects.show', 200 ],
-            [ Capability::$PROJECT_MANAGER, 'projects.create', 200 ],
-            [ Capability::$PROJECT_MANAGER, 'projects.edit', 200 ],
-            [ [Capability::MANAGE_KBOX], 'projects.index', 403 ],
-            [ [Capability::MANAGE_KBOX], 'projects.show', 403 ],
-            [ [Capability::MANAGE_KBOX], 'projects.create', 403 ],
-            [ [Capability::MANAGE_KBOX], 'projects.edit', 403 ],
-            [ Capability::$PARTNER, 'projects.index', 403 ],
-            [ Capability::$PARTNER, 'projects.show', 403 ],
-            [ Capability::$PARTNER, 'projects.create', 403 ],
-            [ Capability::$PARTNER, 'projects.edit', 403 ],
+            [ 'projects.update', ['id' => 1] ]
         ];
     }
 
@@ -88,34 +62,32 @@ class ProjectsTest extends TestCase
         $this->assertTrue(true, "Test complete without exceptions");
     }
     
-    /**
-     * Test if some routes browsed after login are viewable or not and shows the expected page and error code
-     *
-     * @dataProvider routes_and_capabilities_provider
-     * @return void
-     */
-    public function test_user_can_see_project_route($caps, $route, $expected_return_code)
+    public function test_destroy_route_is_not_defined()
     {
-        $params = [];
-        
-        $user = $this->createUser($caps);
-        
-        if (strpos($route, 'show') !== -1 || strpos($route, 'edit') !== -1) {
-            $project = factory(Project::class)->create(['user_id' => $user->id]);
-            $params = ['projects' => $project->id];
-        }
-        
-        $response = $this->actingAs($user)->get(route($route, $params));
-            
-        if ($expected_return_code === 200) {
-            $response->assertStatus(200);
-            $response->assertViewIs($route); // in this case view names are equal to route names
-        } else {
-            $response->assertViewIs('errors.'.$expected_return_code);
-        }
+        $this->expectException(InvalidArgumentException::class);
+
+        route('projects.destroy', 1);
     }
 
-    public function test_project_create_page()
+    public function test_projects_listing_is_possible_for_project_managers()
+    {
+        $user = $this->createUser(Capability::$PROJECT_MANAGER);
+
+        $response = $this->actingAs($user)->get(route('projects.index'));
+
+        $response->assertRedirect(route('documents.projects.index'));
+    }
+
+    public function test_projects_listing_not_available_for_user_without_projects()
+    {
+        $user = $this->createUser(Capability::$UPLOADER);
+
+        $response = $this->actingAs($user)->get(route('projects.index'));
+
+        $response->assertForbidden();
+    }
+
+    public function test_project_creation_form_is_available_to_project_managers()
     {
         $user = $this->createUser(Capability::$PROJECT_MANAGER);
 
@@ -127,7 +99,7 @@ class ProjectsTest extends TestCase
 
         $response->assertViewIs('projects.create');
 
-        $response->assertViewHas('manager_id', $user->id);
+        $response->assertViewMissing('manager_id');
 
         $response->assertViewHas('available_users');
 
@@ -136,17 +108,25 @@ class ProjectsTest extends TestCase
         $this->assertEquals($expected_available_users->pluck('id')->toArray(), $available_users->pluck('id')->toArray());
     }
 
+    public function test_project_creation_form_access_forbidden_without_capability()
+    {
+        $user = $this->createUser(Capability::$PARTNER);
+
+        $response = $this->actingAs($user)->get(route('projects.create'));
+
+        $response->assertForbidden();
+    }
+
     /**
      * @dataProvider create_input_provider
      */
-    public function test_project_store_page($omit_title = false, $omit_description = false, $omit_user = false)
+    public function test_project_can_be_created($omit_title = false, $omit_description = false, $omit_user = false)
     {
         $user = $this->createUser(Capability::$PROJECT_MANAGER);
 
         $expected_available_users = collect([$this->createUser(Capability::$PARTNER)]);
 
         $params = [
-            'manager' => $user->id,
             'name' => $omit_title ? null : 'Project title',
             'description' => $omit_description ? null : 'Project description',
         ];
@@ -171,6 +151,20 @@ class ProjectsTest extends TestCase
             });
         }
     }
+
+    public function test_project_cannot_be_created_without_capability()
+    {
+        $user = $this->createUser(Capability::$PARTNER);
+
+        $params = [
+            'name' => 'Project title',
+            'description' => 'Project description',
+        ];
+
+        $response = $this->from(route('projects.create'))->actingAs($user)->post(route('projects.store'), $params);
+
+        $response->assertForbidden();
+    }
     
     public function test_project_cannot_be_created_if_already_existing()
     {
@@ -181,7 +175,6 @@ class ProjectsTest extends TestCase
         ]);
 
         $params = [
-            'manager' => $user->id,
             'name' => $project->name,
             'description' => 'Project description',
         ];
@@ -192,7 +185,7 @@ class ProjectsTest extends TestCase
         $response->assertSessionHasErrors(['name' => trans('projects.errors.already_existing')]);
     }
     
-    public function test_two_users_can_have_equally_named_projects()
+    public function test_two_users_can_projects_with_same_name()
     {
         $user1 = $this->createUser(Capability::$PROJECT_MANAGER);
         $user2 = $this->createUser(Capability::$PROJECT_MANAGER);
@@ -217,7 +210,7 @@ class ProjectsTest extends TestCase
         $this->assertEquals(2, $created_project);
     }
 
-    public function test_project_edit()
+    public function test_project_can_be_edited_by_creator()
     {
         $project = factory(Project::class)->create();
         
@@ -231,7 +224,7 @@ class ProjectsTest extends TestCase
 
         $response->assertViewIs('projects.edit');
 
-        $response->assertViewHas('manager_id', $user->id);
+        $response->assertViewMissing('manager_id');
 
         $response->assertViewHas('available_users');
 
@@ -256,7 +249,7 @@ class ProjectsTest extends TestCase
 
         $response->assertViewIs('projects.edit');
 
-        $response->assertViewHas('manager_id', $user->id);
+        $response->assertViewMissing('manager_id');
 
         $response->assertViewHas('available_users');
 
@@ -265,7 +258,7 @@ class ProjectsTest extends TestCase
         $this->assertEquals($expected_available_users->pluck('id')->toArray(), $available_users->pluck('id')->toArray());
     }
     
-    public function test_other_project_manager_should_not_be_able_to_add_itself_as_project_member()
+    public function test_other_project_manager_should_not_be_able_to_add_itself_as_project_members()
     {
         $project = factory(Project::class)->create();
         
@@ -276,6 +269,47 @@ class ProjectsTest extends TestCase
         $response = $this->actingAs($prjmanager)->get(route('projects.edit', ['id' => $project->id]));
 
         $response->assertStatus(403);
+    }
+
+    public function test_project_can_be_updated_by_creator()
+    {
+        $project = factory(Project::class)->create();
+
+        $user = $project->manager;
+
+        $params = [
+            'name' => $project->name,
+            'description' => 'new description',
+        ];
+
+        $response = $this->from(route('projects.edit', $project->getKey()))
+            ->actingAs($user)->put(route('projects.update', $project->getKey()), $params);
+
+        $response->assertRedirect(route('projects.edit', $project->getKey()));
+        $response->assertSessionHasNoErrors();
+
+        $updatedProject = $project->fresh();
+
+        $this->assertEquals('new description', $updatedProject->description);
+    }
+
+    public function test_project_cannot_be_updated_by_project_member()
+    {
+        $project = factory(Project::class)->create();
+
+        $memberUser = $this->createUser(Capability::$PARTNER);
+
+        $project->users()->attach($memberUser);
+
+        $params = [
+            'name' => $project->name,
+            'description' => 'new description'
+        ];
+
+        $response = $this->from(route('projects.edit', $project->getKey()))
+            ->actingAs($memberUser)->put(route('projects.update', $project->getKey()), $params);
+
+        $response->assertForbidden();
     }
 
     public function test_project_is_accessible_by_user()

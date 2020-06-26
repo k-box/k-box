@@ -29,7 +29,6 @@ class ProjectRequest extends Request
             ],
             'description' => 'nullable|sometimes|string',
             'users' => 'nullable|sometimes|required|array|exists:users,id',
-            'manager' => 'required|exists:users,id',
             'avatar' => 'nullable|sometimes|required|image|max:200'
         ];
 

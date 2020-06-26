@@ -119,22 +119,6 @@ return [
         'detail' => KBox\Capability::$CONTENT_MANAGER,
     ],
     
-    'projects' => [
-        'index' => ['all' => KBox\Capability::$PROJECT_MANAGER_LIMITED],
-        'create' => [KBox\Capability::CREATE_PROJECTS],
-        'store' => [KBox\Capability::CREATE_PROJECTS],
-        'show' => ['all' => KBox\Capability::$PROJECT_MANAGER_LIMITED],
-        'edit' => [KBox\Capability::CREATE_PROJECTS],
-        'update' => [KBox\Capability::CREATE_PROJECTS],
-        'destroy' => [KBox\Capability::CREATE_PROJECTS],
-
-        'avatar' => [
-            'index' => KBox\Capability::RECEIVE_AND_SEE_SHARE,
-            'store' => ['all' => KBox\Capability::$PROJECT_MANAGER_LIMITED],
-            'destroy' => ['all' => KBox\Capability::$PROJECT_MANAGER_LIMITED],
-        ]
-    ],
-    
     'microsites' => [
         'index' => ['all' => KBox\Capability::$PROJECT_MANAGER_LIMITED],
         'create' => ['all' => KBox\Capability::$PROJECT_MANAGER_LIMITED],

@@ -183,23 +183,14 @@ class Project extends Model
     /**
      * Test if a project is accessible by a user
      *
+     * @see \KBox\Policies\ProjectPolicy@view
      * @param Project $project the project to test the accessibility
      * @param User $user the user to use for the testing
      * @return boolean true if the project can be accessed by $user
      */
     public static function isAccessibleBy(Project $project, User $user)
     {
-        if ($user->isDMSManager()) {
-            return true;
-        }
-
-        // TODO: this can be optimized
-
-        $managed = $user->managedProjects()->get(['projects.id'])->pluck('id')->toArray();
-
-        $added_to = $user->projects()->get(['projects.id'])->pluck('id')->toArray();
-
-        return in_array($project->id, $managed) || in_array($project->id, $added_to);
+        return $user->can('view', $project);
     }
 
     public static function boot()

@@ -168,36 +168,6 @@ class Microsites_IntegrationTest extends TestCase
         }
     }
     
-    public function test_microsite_section_on_projects_details_is_present()
-    {
-        $this->enableMicrositeFlag();
-
-        $project = factory(Project::class)->create();
-        
-        $this->actingAs($project->manager()->first());
-        
-        $response = $this->get(route('projects.show', ['id' => $project->id]));
-
-        $response->assertSee('Microsite');
-        $response->assertSee(trans('microsites.actions.create'));
-        $response->assertSee(route('microsites.create', ['project' => $project->id]));
-    }
-    
-    public function test_microsite_section_on_projects_not_present_when_flag_disabled()
-    {
-        $this->disableMicrositeFlag();
-
-        $project = factory(Project::class)->create();
-        
-        $this->actingAs($project->manager()->first());
-        
-        $response = $this->get(route('projects.show', ['id' => $project->id]));
-
-        $response->assertDontSee('Microsite');
-        $response->assertDontSee(trans('microsites.actions.create'));
-        $response->assertDontSee(route('microsites.create', ['project' => $project->id]));
-    }
-    
     public function test_microsite_section_on_project_details_not_present_when_flag_disabled()
     {
         $this->disableMicrositeFlag();
@@ -211,45 +181,6 @@ class Microsites_IntegrationTest extends TestCase
         $response->assertDontSee('Microsite');
         $response->assertDontSee(trans('microsites.actions.create'));
         $response->assertDontSee(route('microsites.create', ['project' => $project->id]));
-    }
-    
-    public function testMicrositeManageActionsVisibilityOnProjectShowPage()
-    {
-        $this->enableMicrositeFlag();
-
-        $project = factory(Project::class)->create();
-        
-        $project_manager = $project->manager()->first();
-        
-        $microsite = factory('Klink\DmsMicrosites\Microsite')->create([
-            'project_id' => $project->id,
-            'user_id' => $project_manager->id
-        ]);
-        
-        $response = $this->actingAs($project_manager)->get(route('projects.show', ['id' => $project->id]));
-        
-        $response->assertSee('Microsite');
-        $response->assertSee(trans('microsites.actions.delete'));
-        $response->assertSee(trans('microsites.actions.view_site'));
-        $response->assertSee(trans('microsites.actions.edit'));
-    }
-    
-    public function testMicrositeCreateInvokedWithoutProjectParameter()
-    {
-        $this->enableMicrositeFlag();
-
-        $project = factory(Project::class)->create();
-        
-        $project_manager = $project->manager()->first();
-        
-        $response = $this->actingAs($project_manager)
-            ->from(route('projects.show', ['id' => $project->id ]))
-            ->get(route('microsites.create'));
-        
-        $response->assertRedirect(route('projects.show', ['id' => $project->id ]));
-        $response->assertSessionHasErrors([
-            'error' => trans('microsites.errors.create_no_project')
-        ]);
     }
     
     public function testMicrositeCreateInvokedWithoutUserAffiliation()

@@ -3,8 +3,9 @@
 namespace KBox\Policies;
 
 use KBox\User;
-use Illuminate\Auth\Access\HandlesAuthorization;
+use KBox\Project;
 use KBox\Capability;
+use Illuminate\Auth\Access\HandlesAuthorization;
 
 class ProjectPolicy
 {
@@ -16,23 +17,62 @@ class ProjectPolicy
      * @param  \KBox\User  $user
      * @return mixed
      */
-    public function viewAll(User $user)
+    public function viewAny(User $user)
     {
-        $can_create = $user->can_capability(Capability::CREATE_PROJECTS);
-
-        if ($can_create) {
+        if ($user->isDMSManager()) {
             return true;
         }
 
-        $can = $user->can_capability(Capability::MANAGE_PROJECT_COLLECTIONS);
-
-        if (config('dms.hide_projects_if_empty')) {
-            $managed = $user->projects()->exists();
-            $member = $user->managedProjects()->exists();
-
-            return $can && ($managed || $member);
+        if ($user->can_capability(Capability::CREATE_PROJECTS)) {
+            return true;
         }
 
-        return $can;
+        if ($user->can_capability(Capability::MANAGE_PROJECT_COLLECTIONS)) {
+            return true;
+        }
+
+        $managed = $user->projects()->exists();
+        $member = $user->managedProjects()->exists();
+        
+        return $managed || $member;
+    }
+
+    /**
+     * Determine whether the user can view the project.
+     *
+     * @param  \KBox\User  $user
+     * @param  \KBox\Project  $project
+     * @return mixed
+     */
+    public function view(User $user, Project $project)
+    {
+        return $project->manager->id === $user->id
+            || $user->isDMSManager()
+            || $project->users()->where('user_id', '=', $user->getKey())->exists();
+    }
+
+    /**
+     * Determine whether the user can create projects.
+     *
+     * @param  \KBox\User  $user
+     * @return mixed
+     */
+    public function create(User $user)
+    {
+        return $user->can_capability(Capability::CREATE_PROJECTS)
+            || $user->isDMSManager();
+    }
+
+    /**
+     * Determine whether the user can update the project.
+     *
+     * @param  \KBox\User  $user
+     * @param  \KBox\Project  $project
+     * @return mixed
+     */
+    public function update(User $user, Project $project)
+    {
+        return $project->manager->id === $user->id
+            || $user->isDMSManager();
     }
 }

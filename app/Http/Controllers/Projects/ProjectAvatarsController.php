@@ -24,8 +24,6 @@ class ProjectAvatarsController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-
-        $this->middleware('capabilities');
     }
 
     /**
@@ -33,23 +31,27 @@ class ProjectAvatarsController extends Controller
      *
      * @return Response
      */
-    public function index(Guard $auth, $id)
+    public function index($id)
     {
         $project = Project::findOrFail($id);
+
+        $this->authorize('view', $project);
 
         return response()->download($project->avatar);
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a new avatar for the project.
      *
      * @return Response
      */
-    public function store(Guard $auth, AvatarRequest $request, $id)
+    public function store(AvatarRequest $request, $id)
     {
         $project = Project::findOrFail($id);
 
-        if ($auth->user()->id !== $project->user_id) {
+        $this->authorize('update', $project);
+
+        if ($request->user()->id !== $project->user_id) {
             return new JsonResponse(['status' => 'error', 'error' => 'Forbidden'], 403);
         }
 
@@ -71,6 +73,8 @@ class ProjectAvatarsController extends Controller
     public function destroy(Guard $auth, $id)
     {
         $project = Project::findOrFail($id);
+
+        $this->authorize('update', $project);
 
         if ($auth->user()->id !== $project->user_id) {
             return new JsonResponse(['status' => 'error', 'error' => 'Forbidden'], 403);
