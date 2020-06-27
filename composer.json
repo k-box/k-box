@@ -52,7 +52,6 @@
 		"k-box/kbox-plugin-geo": "*",
 		"laravel/framework": "5.8.*",
 		"laravel/tinker": "^1.0",
-		"league/commonmark-ext-external-link": "^1.0",
 		"league/csv": "^9.0",
 		"oneofftech/geoserver-client-php": "0.2.*",
 		"oneofftech/k-link-streaming-upload-client": "^0.3.0@dev",
