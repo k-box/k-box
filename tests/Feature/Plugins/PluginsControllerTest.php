@@ -18,7 +18,7 @@ class PluginsControllerTest extends TestCase
     use SwapInstance;
     use DatabaseTransactions;
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

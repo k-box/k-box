@@ -34,7 +34,6 @@ class PersonalExportTest extends TestCase
         $file = factory(File::class)->create([
             'user_id' => $user->id,
             'original_uri' => '',
-            'uuid' => Uuid::uuid4()->getBytes()
         ]);
         
         $doc = factory(DocumentDescriptor::class)->create([
@@ -176,10 +175,11 @@ class PersonalExportTest extends TestCase
     public function test_personal_export_is_created()
     {
         $disk = config('personal-export.disk');
-        Storage::fake($disk);
-        Event::fake();
         $user = tap(factory(User::class)->create())->addCapabilities(Capability::$PARTNER);
         list($file) = $this->createExportableDataForUser($user);
+        
+        Storage::fake($disk);
+        Event::fake();
 
         $export_request = PersonalExport::requestNewExport($user);
 
@@ -210,11 +210,12 @@ class PersonalExportTest extends TestCase
     public function test_project_manager_personal_export_include_microsite()
     {
         $disk = config('personal-export.disk');
-        Storage::fake($disk);
-        Event::fake();
         $user = tap(factory(User::class)->create())->addCapabilities(Capability::$PARTNER);
         $this->createExportableDataForUser($user);
         $project = Project::managedBy($user->id)->first();
+        
+        Storage::fake($disk);
+        Event::fake();
 
         $microsite = factory(Microsite::class)->create([
             'project_id' => $project->id

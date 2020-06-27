@@ -12,7 +12,7 @@ class KlinkAdapterTest extends TestCase
 {
     use DatabaseTransactions;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         if (empty(getenv('DMS_CORE_ADDRESS'))) {
             $this->markTestSkipped(

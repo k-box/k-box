@@ -21,7 +21,7 @@ class KlinkAdapterSearchTest extends TestCase
 
     private $indexedDataUUIDs = null;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -47,7 +47,7 @@ class KlinkAdapterSearchTest extends TestCase
         });
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         if ($this->adapter && ! empty($this->indexedDataUUIDs)) {
             $this->indexedDataUUIDs->each(function ($uuid) {

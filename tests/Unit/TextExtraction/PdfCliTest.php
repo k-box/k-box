@@ -7,7 +7,7 @@ use KBox\Documents\Pdf\PdfCli;
 
 class PdfCliTest extends TestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         if (empty(glob('./bin/pdftotext*'))) {
             $this->markTestSkipped(

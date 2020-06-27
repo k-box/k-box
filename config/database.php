@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Str;
+
 return [
 
     /*
@@ -35,23 +37,29 @@ return [
 
         'sqlite' => [
             'driver' => 'sqlite',
+            'url' => env('DATABASE_URL'),
             'database' => env('DB_DATABASE', database_path('database.sqlite')),
             'prefix' => '',
             'foreign_key_constraints' => env('DB_FOREIGN_KEYS', true),
         ],
 
         'mysql' => [
-            'driver'    => 'mysql',
-            'host'      => env('KBOX_DB_HOST', env('DB_HOST', '127.0.0.1')),
-            'database'  => env('KBOX_DB_NAME', env('DB_NAME', env('DB_DATABASE', 'dms'))),
-            'username'  => env('KBOX_DB_USERNAME', env('DB_USERNAME', 'dms')),
-            'password'  => env('KBOX_DB_PASSWORD', env('DB_PASSWORD', '')),
+            'driver' => 'mysql',
+            'url' => env('DATABASE_URL'),
+            'host'  => env('KBOX_DB_HOST', env('DB_HOST', '127.0.0.1')),
+            'database' => env('KBOX_DB_NAME', env('DB_NAME', env('DB_DATABASE', 'dms'))),
+            'username' => env('KBOX_DB_USERNAME', env('DB_USERNAME', 'dms')),
+            'password' => env('KBOX_DB_PASSWORD', env('DB_PASSWORD', '')),
             'unix_socket' => env('KBOX_DB_SOCKET', env('DB_SOCKET', '')),
-            'charset'   => 'utf8',
+            'charset' => 'utf8',
             'collation' => 'utf8_unicode_ci',
-            'prefix'    => env('KBOX_DB_TABLE_PREFIX', env('DB_TABLE_PREFIX', 'kdms_')),
+            'prefix' => env('KBOX_DB_TABLE_PREFIX', env('DB_TABLE_PREFIX', 'kdms_')),
             'prefix_indexes' => false,
             'strict' => false,
+            'engine' => null,
+            'options' => extension_loaded('pdo_mysql') ? array_filter([
+                PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
+            ]) : [],
         ],
 
     ],
@@ -82,9 +90,15 @@ return [
 
     'redis' => [
 
-        'client' => 'predis',
+        'client' => env('REDIS_CLIENT', 'predis'),
+
+        'options' => [
+            'cluster' => env('REDIS_CLUSTER', 'predis'),
+            'prefix' => env('REDIS_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_').'_database_'),
+        ],
 
         'default' => [
+            'url' => env('REDIS_URL'),
             'host' => env('REDIS_HOST', '127.0.0.1'),
             'password' => env('REDIS_PASSWORD', null),
             'port' => env('REDIS_PORT', 6379),
@@ -92,6 +106,7 @@ return [
         ],
 
         'cache' => [
+            'url' => env('REDIS_URL'),
             'host' => env('REDIS_HOST', '127.0.0.1'),
             'password' => env('REDIS_PASSWORD', null),
             'port' => env('REDIS_PORT', 6379),

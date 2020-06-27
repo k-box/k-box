@@ -23,7 +23,7 @@ class DmsUpdateCommandTest extends TestCase
 {
     use DatabaseTransactions, ClearDatabase;
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

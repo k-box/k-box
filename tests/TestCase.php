@@ -13,7 +13,7 @@ abstract class TestCase extends BaseTestCase
 {
     use CreatesApplication, MockKlinkAdapter;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

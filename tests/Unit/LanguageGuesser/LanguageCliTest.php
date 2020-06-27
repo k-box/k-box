@@ -7,7 +7,7 @@ use OneOffTech\LanguageGuesser\Drivers\LanguageCli;
 
 class LanguageCliTest extends TestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         if (empty(glob('./bin/language-guesser*'))) {
             $this->markTestSkipped(

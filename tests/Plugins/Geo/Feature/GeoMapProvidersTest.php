@@ -16,7 +16,7 @@ class GeoMapProvidersTest extends TestCase
 
     private $startConfig = null;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -33,7 +33,7 @@ class GeoMapProvidersTest extends TestCase
         $service->config($service->defaultConfig());
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         if (! is_null($this->startConfig)) {
             app(GeoService::class)->config($this->startConfig);
