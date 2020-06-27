@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use League\CommonMark\Ext\ExternalLink\ExternalLinkExtension;
+use League\CommonMark\Extension\ExternalLink\ExternalLinkExtension;
 
 /*
  * This file is part of Laravel Markdown.
