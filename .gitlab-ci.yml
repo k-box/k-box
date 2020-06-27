@@ -33,9 +33,9 @@ before_script:
   script:
     - cp env.ci .env
     - composer install --prefer-dist
-    - ./vendor/bin/parallel-lint --exclude vendor .
+    # - ./vendor/bin/parallel-lint --exclude vendor .
     - php artisan view:clear
-    - ./vendor/bin/php-cs-fixer fix --dry-run
+    # - ./vendor/bin/php-cs-fixer fix --dry-run
     - echo $CI_COMMIT_REF_NAME
     - echo $CI_COMMIT_SHA
 

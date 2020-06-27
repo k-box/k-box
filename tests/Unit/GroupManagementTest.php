@@ -20,7 +20,7 @@ class GroupManagementTest extends TestCase
 
     private $user = null;
     
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

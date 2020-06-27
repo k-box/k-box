@@ -11,11 +11,6 @@ class DocumentUpdatePropertiesCommandTest extends TestCase
 {
     use DatabaseTransactions;
 
-    public function setUp()
-    {
-        parent::setUp();
-    }
-
     public function test_that_document_update_command_updates_video_properties()
     {
         $this->withKlinkAdapterMock();

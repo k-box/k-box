@@ -6,16 +6,10 @@ use Illuminate\Support\ServiceProvider;
 use KBox\Documents\FileContentExtractor;
 use KBox\Documents\Services\FileService;
 use KBox\Documents\Services\DocumentsService;
+use Illuminate\Contracts\Support\DeferrableProvider;
 
-class DocumentsServiceProvider extends ServiceProvider
+class DocumentsServiceProvider extends ServiceProvider implements DeferrableProvider
 {
-
-    /**
-     * Indicates if loading of the provider is deferred.
-     *
-     * @var bool
-     */
-    protected $defer = true;
 
     /**
      * Bootstrap the application events.

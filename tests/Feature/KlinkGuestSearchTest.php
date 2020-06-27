@@ -16,9 +16,9 @@ class KlinkGuestSearchTest extends TestCase
     {
         config(['dms.are_guest_public_search_enabled' => false]);
         
-        $response = $this->get('/login');
+        $response = $this->get('/');
 
-        $response->assertViewHas('show_search', false);
+        $response->assertViewMissing('show_search');
         $response->assertDontSee('name="s"');
     }
 
@@ -36,9 +36,9 @@ class KlinkGuestSearchTest extends TestCase
         Option::put(Option::PUBLIC_CORE_ENABLED, false);
         config(['dms.are_guest_public_search_enabled' => true]);
         
-        $response = $this->get('/login');
+        $response = $this->get('/');
 
-        $response->assertViewHas('show_search', false);
+        $response->assertViewMissing('show_search');
         $response->assertDontSee('name="s"');
     }
 
@@ -47,9 +47,9 @@ class KlinkGuestSearchTest extends TestCase
         Option::put(Option::PUBLIC_CORE_ENABLED, true);
         config(['dms.are_guest_public_search_enabled' => false]);
         
-        $response = $this->get('/login');
+        $response = $this->get('/');
 
-        $response->assertViewHas('show_search', false);
+        $response->assertViewMissing('show_search');
         $response->assertDontSee('name="s"');
     }
 

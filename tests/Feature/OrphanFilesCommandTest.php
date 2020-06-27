@@ -19,7 +19,7 @@ class OrphanFilesCommandTest extends TestCase
 {
     use DatabaseTransactions;
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

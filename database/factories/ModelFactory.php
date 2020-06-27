@@ -13,25 +13,6 @@
 
 use Illuminate\Support\Str;
 
-$factory->define(KBox\User::class, function (Faker\Generator $faker) {
-    
-    return [
-        'name' => $faker->name,
-        'email' => $faker->email,
-        'password' => bcrypt(Str::random(10)),
-        'email_verified_at' => now()
-    ];
-});
-
-$factory->defineAs(KBox\User::class, 'admin', function (Faker\Generator $faker) {
-    
-    return [
-        'name' => 'admin',
-        'email' => 'admin@klink.local',
-        'password' => bcrypt(Str::random(10)),
-    ];
-});
-
 $factory->define(KBox\File::class, function (Faker\Generator $faker) {
     $hash = $faker->sha256.''.$faker->sha256;
 

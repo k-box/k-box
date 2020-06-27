@@ -20,7 +20,7 @@ class TusUploadCompletedListenerTest extends TestCase
 {
     use DatabaseTransactions;
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -31,7 +31,7 @@ class TusUploadCompletedListenerTest extends TestCase
 
     private function createEvent($user, $requestId = '14b1c4c77771671a8479bc0444bbc5ce')
     {
-        $path = storage_path(Str::slug($requestId).'.bin');
+        $path = storage_path(Str::slug($requestId));
 
         file_put_contents($path, 'Test File Content');
 
@@ -91,7 +91,7 @@ class TusUploadCompletedListenerTest extends TestCase
     {
         $this->withKlinkAdapterFake();
 
-        Event::fake();
+        Event::fake([UploadCompleted::class]);
 
         $user = tap(factory(User::class)->create(), function ($u) {
             $u->addCapabilities(Capability::$ADMIN);

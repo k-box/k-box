@@ -87,7 +87,7 @@ class UploadCompletedHandlerTest extends TestCase
     public function test_duplicate_found_is_raised_when_the_user_upload_a_document_that_is_in_a_project()
     {
         $this->disableExceptionHandling();
-        Event::fake();
+        
         $this->withKlinkAdapterFake();
         
         $service = app('KBox\Documents\Services\DocumentsService');
@@ -113,6 +113,8 @@ class UploadCompletedHandlerTest extends TestCase
         ]);
         $user = $duplicate->owner;
         $file = $descriptor->file;
+
+        Event::fake([FileDuplicateFoundEvent::class]);
 
         $uploadCompleteEvent = new UploadCompleted($descriptor, $user);
 

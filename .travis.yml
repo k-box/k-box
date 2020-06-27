@@ -38,7 +38,7 @@ install:
   - yarn
   - yarn run production
   - cp env.travis .env
-  - cp env.travis testing.env
+  - cp env.travis .env.testing
   - travis_retry composer install --no-interaction
 
 before_script:
@@ -51,7 +51,6 @@ before_script:
   - docker-compose -f ./tests/docker-compose.yml up -d  
 
 script: 
-  - ./vendor/bin/parallel-lint -j 20 --exclude vendor .
   - shellcheck ./docker/*.sh
   - php artisan view:clear
   - php artisan config:clear

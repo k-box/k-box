@@ -27,7 +27,7 @@ class CreatePersonalExportsTable extends Migration
             /*
              * when to remove this export
              */
-            $table->timestamp('purge_at')->index();
+            $table->timestamp('purge_at')->index()->nullable();
 
             $table->foreign('user_id')->references('id')->on('users');
         });
