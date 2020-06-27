@@ -2,7 +2,6 @@
 
 namespace KBox\Http\Controllers\Profile;
 
-use KBox\UserQuota;
 use KBox\Services\Quota;
 use Illuminate\Http\Request;
 use KBox\Http\Controllers\Controller;

@@ -10,7 +10,6 @@ use KBox\Starred;
 use KBox\Project;
 use Tests\TestCase;
 use KBox\Capability;
-use Ramsey\Uuid\Uuid;
 use KBox\PersonalExport;
 use KBox\DocumentDescriptor;
 use KBox\Documents\Facades\Files;
