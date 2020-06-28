@@ -39,7 +39,7 @@
 		"avvertix/materialicons-laravel-bridge": "0.4.*",
 		"doctrine/dbal": "^2.5",
 		"dyrynda/laravel-efficient-uuid": "^3.0",
-		"dyrynda/laravel-model-uuid": "~5.0",
+		"dyrynda/laravel-model-uuid": "~6.0",
 		"fideloper/proxy": "^4.0",
 		"franzose/closure-table": "~5.1.0",
 		"graham-campbell/markdown": "^11.0",

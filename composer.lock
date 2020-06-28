@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "14c79331a8c4fadddb50d9e1c58ca156",
+    "content-hash": "efda70533c3ab95948d80b5964142ca2",
     "packages": [
         {
             "name": "avvertix/materialicons-laravel-bridge",
@@ -830,24 +830,24 @@
         },
         {
             "name": "dyrynda/laravel-model-uuid",
-            "version": "5.0.0",
+            "version": "6.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/michaeldyrynda/laravel-model-uuid.git",
-                "reference": "8514be9b0d59743540b27310f8547300b1f099c0"
+                "reference": "81fcd5722681c90a79f2d66c7965ac4b4c0ba249"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/michaeldyrynda/laravel-model-uuid/zipball/8514be9b0d59743540b27310f8547300b1f099c0",
-                "reference": "8514be9b0d59743540b27310f8547300b1f099c0",
+                "url": "https://api.github.com/repos/michaeldyrynda/laravel-model-uuid/zipball/81fcd5722681c90a79f2d66c7965ac4b4c0ba249",
+                "reference": "81fcd5722681c90a79f2d66c7965ac4b4c0ba249",
                 "shasum": ""
             },
             "require": {
-                "illuminate/database": "^6.0",
-                "illuminate/events": "^6.0",
-                "illuminate/support": "^6.0",
+                "illuminate/database": "^6.0|^7.0",
+                "illuminate/events": "^6.0|^7.0",
+                "illuminate/support": "^6.0|^7.0",
                 "moontoast/math": "^1.1",
-                "php": "^7.2",
+                "php": "^7.2.5",
                 "ramsey/uuid": "~3.7"
             },
             "require-dev": {
@@ -880,7 +880,7 @@
                 "model",
                 "uuid"
             ],
-            "time": "2019-09-04T02:17:14+00:00"
+            "time": "2020-03-07T03:14:48+00:00"
         },
         {
             "name": "egulias/email-validator",
