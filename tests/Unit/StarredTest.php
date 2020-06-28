@@ -113,7 +113,7 @@ class StarredTest extends TestCase
         
         $response = $this->actingAs($user)->delete(
             route('documents.starred.destroy', [
-                'id' => $starred->id,
+                'starred' => $starred->id,
                 '_token' => csrf_token()])
         )
              ->assertJson([
@@ -162,7 +162,7 @@ class StarredTest extends TestCase
 
         $response = $this->actingAs($user)->delete(
             route('documents.starred.destroy', [
-                'id' => $starred->id,
+                'starred' => $starred->id,
                 '_token' => csrf_token()])
         )
              ->assertJson([

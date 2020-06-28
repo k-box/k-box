@@ -578,11 +578,11 @@ class CollectionsTest extends TestCase
             $u->addCapabilities(Capability::$PROJECT_MANAGER);
         });
 
-        $doc = $this->createCollection($user);
+        $group = $this->createCollection($user);
 
         \Session::start();
 
-        $url = route('documents.groups.destroy', ['group' => $doc->id,
+        $url = route('documents.groups.destroy', ['group' => $group->id,
                 '_token' => csrf_token()]);
         
         $this->actingAs($user);
@@ -594,7 +594,7 @@ class CollectionsTest extends TestCase
         $response->assertStatus(202);
 
         $url = route('documents.groups.destroy', [
-                'id' => $doc->id,
+                'group' => $group->id,
                 'force' => true,
                 '_token' => csrf_token()]);
 
@@ -606,7 +606,7 @@ class CollectionsTest extends TestCase
 
         $this->expectException(ModelNotFoundException::class);
 
-        $doc = Group::withTrashed()->findOrFail($doc->id);
+        $doc = Group::withTrashed()->findOrFail($group->id);
     }
 
     protected function createCollection(User $user, $is_personal = true, $childs = 0)

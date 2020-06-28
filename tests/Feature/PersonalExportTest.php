@@ -312,7 +312,7 @@ class PersonalExportTest extends TestCase
             'name' => 'export.zip'
         ]);
         
-        $url = route('profile.data-export.download', ['name' => 'export.zip']);
+        $url = route('profile.data-export.download', ['export' => 'export.zip']);
 
         $response = $this->actingAs($user)->get($url);
 

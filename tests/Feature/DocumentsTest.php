@@ -699,7 +699,7 @@ class DocumentsTest extends TestCase
         $response->assertStatus(202);
 
         $url = route('documents.destroy', [
-                'id' => $doc->id,
+                'document' => $doc->id,
                 'force' => true,
                 '_token' => csrf_token()]);
 
@@ -839,7 +839,7 @@ class DocumentsTest extends TestCase
         $service->addDocumentToGroup($user, $descriptor, $project_group);
         $descriptor = $descriptor->fresh();
         
-        $url = route('documents.groups.show', array_merge(['id' => $project_group->id], $search_parameters));
+        $url = route('documents.groups.show', array_merge(['group' => $project_group->id], $search_parameters));
 
         $searchRequest = KlinkSearchRequest::build($search_parameters, 'private', 1, 1, [], []);
         $this->withKlinkAdapterFake()->setSearchResults('private', KlinkSearchResults::fake($searchRequest, []));

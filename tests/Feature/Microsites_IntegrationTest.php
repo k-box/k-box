@@ -44,12 +44,12 @@ class Microsites_IntegrationTest extends TestCase
         return [
             [ 'get', 'microsites.slug', ['slug' => 'test'], 200, 'sites::site.site' ],
             [ 'get', 'microsites.index', [], 302, 'frontpage' ],
-            [ 'get', 'microsites.show', ['id' => 1], 200, 'sites::site.site' ],
+            [ 'get', 'microsites.show', ['microsite' => 1], 200, 'sites::site.site' ],
             [ 'get', 'microsites.create', [], 302, 'frontpage' ],
             [ 'post', 'microsites.store', [], 302, 'frontpage' ],
-            [ 'get', 'microsites.edit', ['id' => 1], 302, 'frontpage' ],
-            [ 'put', 'microsites.update', ['id' => 1], 302, 'frontpage' ],
-            [ 'delete', 'microsites.destroy', ['id' => 1], 302, 'frontpage' ]
+            [ 'get', 'microsites.edit', ['microsite' => 1], 302, 'frontpage' ],
+            [ 'put', 'microsites.update', ['microsite' => 1], 302, 'frontpage' ],
+            [ 'delete', 'microsites.destroy', ['microsite' => 1], 302, 'frontpage' ]
         ];
     }
     
@@ -143,8 +143,10 @@ class Microsites_IntegrationTest extends TestCase
 
         $response = $this->{$method}(route($route, $parameters));
 
-        $response->assertStatus(200);
-        $response->assertErrorView(404);
+        $response->assertStatus($return_code);
+        if ($return_code === 200) {
+            $response->assertErrorView(404);
+        }
     }
 
     /**
@@ -480,7 +482,7 @@ class Microsites_IntegrationTest extends TestCase
         
         $response = $this->delete(
             route('microsites.destroy', [
-                'id' => $microsite->id,
+                'microsite' => $microsite->id,
                 '_token' => csrf_token()])
         );
         
@@ -510,7 +512,7 @@ class Microsites_IntegrationTest extends TestCase
         $response = $this->actingAs($user)
             ->delete(
                 route('microsites.destroy', [
-                    'id' => $microsite->id,
+                    'microsite' => $microsite->id,
                     '_token' => csrf_token()])
             );
         
