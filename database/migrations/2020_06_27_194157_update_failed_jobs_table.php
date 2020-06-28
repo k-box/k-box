@@ -15,8 +15,6 @@ class UpdateFailedJobsTable extends Migration
     {
         Schema::table('failed_jobs', function (Blueprint $table) {
             $table->bigIncrements('id')->change();
-            $table->longText('exception');
-            $table->timestamp('failed_at')->useCurrent()->change();
         });
     }
 
@@ -29,8 +27,6 @@ class UpdateFailedJobsTable extends Migration
     {
         Schema::table('failed_jobs', function (Blueprint $table) {
             $table->increments('id')->change();
-            $table->dropColumn('exception');
-            $table->timestamp('failed_at')->change();
         });
     }
 }
