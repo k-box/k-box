@@ -30,12 +30,12 @@ class Microsites_IntegrationTest extends TestCase
         return [
             [ 'microsites.slug', ['slug' => 'test'] ],
             [ 'microsites.index', [] ],
-            [ 'microsites.show', ['id' => 1] ],
+            [ 'microsites.show', ['microsite' => 1] ],
             [ 'microsites.create', [] ],
             [ 'microsites.store', [] ],
-            [ 'microsites.edit', ['id' => 1] ],
-            [ 'microsites.update', ['id' => 1] ],
-            [ 'microsites.destroy', ['id' => 1] ]
+            [ 'microsites.edit', ['microsite' => 1] ],
+            [ 'microsites.update', ['microsite' => 1] ],
+            [ 'microsites.destroy', ['microsite' => 1] ]
         ];
     }
     

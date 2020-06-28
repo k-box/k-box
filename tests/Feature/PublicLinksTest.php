@@ -140,7 +140,7 @@ class PublicLinksTest extends TestCase
 
         $params = [
             // '_token' => csrf_token(),
-            'links' => $share->sharedwith_id,
+            'link' => $share->sharedwith_id,
             ];
 
         $response = $this->actingAs($user)->json('delete', route('links.destroy', $params));
@@ -160,7 +160,7 @@ class PublicLinksTest extends TestCase
 
         $params = [
             // '_token' => csrf_token(),
-            'links' => $share->sharedwith_id,
+            'link' => $share->sharedwith_id,
             ];
 
         $response = $this->actingAs($user)->json('delete', route('links.destroy', $params));
