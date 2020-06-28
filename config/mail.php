@@ -11,8 +11,8 @@ return [
     | sending of e-emails. You may specify which one you're using throughout
     | your application here. By default, Laravel is setup for SMTP emails.
     |
-    | Supported: "smtp", "sendmail", "mailgun", "mandrill", "ses",
-    |            "sparkpost", "postmark", "log", "array"
+    | Supported: "smtp", "sendmail", "mailgun", "ses",
+    |            "postmark", "log", "array"
     |
     */
 

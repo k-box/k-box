@@ -2,7 +2,7 @@
 /resources/assets/vendor
 .DS_Store
 .env*
-*.env
+!.env.example
 node_modules
 public/build
 public/mix-manifest.json
@@ -26,3 +26,5 @@ docker-compose.yml
 
 _ide_helper.php
 .phpstorm.meta.php
+
+.phpunit.result.cache
