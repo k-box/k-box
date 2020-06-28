@@ -32,7 +32,7 @@ class WordDocumentPreviewTest extends TestCase
         $this->assertInstanceOf(WordDocumentPreview::class, $preview);
         $this->assertNotNull($html);
         $this->assertNotEmpty($html);
-        $this->assertContains('<p style="margin-top: 0; margin-bottom: 0;">Example document for unit tests</p>', $html);
-        $this->assertContains('preview__render preview__render--document', $html);
+        $this->assertStringContainsString('<p style="margin-top: 0; margin-bottom: 0;">Example document for unit tests</p>', $html);
+        $this->assertStringContainsString('preview__render preview__render--document', $html);
     }
 }

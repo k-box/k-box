@@ -31,8 +31,8 @@ class TextPreviewTest extends TestCase
 
         $this->assertInstanceOf(TextPreview::class, $preview);
         $this->assertNotEmpty($html);
-        $this->assertContains('TXT file', $html);
-        $this->assertContains('<br/>with a new line', $html);
-        $this->assertContains('preview__render preview__render--text', $html);
+        $this->assertStringContainsString('TXT file', $html);
+        $this->assertStringContainsString('<br/>with a new line', $html);
+        $this->assertStringContainsString('preview__render preview__render--text', $html);
     }
 }

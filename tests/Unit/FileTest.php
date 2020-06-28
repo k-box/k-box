@@ -178,10 +178,8 @@ class FileTest extends TestCase
 
         $this->assertCount(4, $components);
 
-        $this->assertArraySubset([
-            $file->uuid,
-            $file->hash
-        ], $components);
+        $this->assertContains($file->uuid, $components);
+        $this->assertContains($file->hash, $components);
 
         $created_at = Carbon::createFromTimestamp($components[2]);
         $expire_at = Carbon::createFromTimestamp($components[3]);
@@ -211,10 +209,8 @@ class FileTest extends TestCase
 
         $this->assertCount(4, $components);
 
-        $this->assertArraySubset([
-            $file->uuid,
-            $file->hash
-        ], $components);
+        $this->assertContains($file->uuid, $components);
+        $this->assertContains($file->hash, $components);
 
         $created_at = Carbon::createFromTimestamp($components[2]);
         $expire_at = Carbon::createFromTimestamp($components[3]);

@@ -43,8 +43,8 @@ class PdfPreviewDriverTest extends TestCase
         $this->assertInstanceOf(Renderable::class, $preview);
         $this->assertNotNull($html);
         $this->assertNotEmpty($html);
-        $this->assertContains('iframe', $html);
-        $this->assertContains($document->uuid, $html);
-        $this->assertContains($file->uuid, $html);
+        $this->assertStringContainsString('iframe', $html);
+        $this->assertStringContainsString($document->uuid, $html);
+        $this->assertStringContainsString($file->uuid, $html);
     }
 }
