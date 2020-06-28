@@ -74,11 +74,11 @@
                         <td>{{ $provider['label'] ?? '' }}</td>
                         <td>{{ $provider['type'] }}</td>
                         <td>
-                            <a class="button" href="{{route('plugins.k-box-kbox-plugin-geo.mapproviders.edit', ['id' => $providerId])}}">
+                            <a class="button" href="{{route('plugins.k-box-kbox-plugin-geo.mapproviders.edit', $providerId)}}">
                                 @lang('actions.edit')
                             </a>
                             <button class="button button--danger" onclick="event.preventDefault();document.getElementById('provider-destroy-{{$providerId}}').submit();">@lang('actions.dialogs.delete_btn')</button>
-                            <form id="provider-destroy-{{$providerId}}" action="{{ route('plugins.k-box-kbox-plugin-geo.mapproviders.delete', ['id' => $providerId]) }}" method="POST" style="display: none;">
+                            <form id="provider-destroy-{{$providerId}}" action="{{ route('plugins.k-box-kbox-plugin-geo.mapproviders.delete', $providerId) }}" method="POST" style="display: none;">
                                 {{ csrf_field() }}
                                 {{ method_field('DELETE') }}
                             </form>

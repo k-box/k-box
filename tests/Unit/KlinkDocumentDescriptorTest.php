@@ -100,10 +100,10 @@ class KlinkDocumentDescriptorTest extends TestCase
         $this->assertEquals('document', $data->type);
         $this->assertEquals($descriptor->uuid, $data->uuid);
         $this->assertEquals($descriptor->hash, $data->hash);
-        $this->assertEquals(route('documents.preview', ['id' => $descriptor->uuid]), $data->url);
+        $this->assertEquals(route('documents.preview', $descriptor->uuid), $data->url);
         $this->assertEquals($descriptor->title, $data->properties->title);
         $this->assertEquals($descriptor->mime_type, $data->properties->mime_type);
-        $this->assertEquals(route('documents.thumbnail', ['id' => $descriptor->uuid]), $data->properties->thumbnail);
+        $this->assertEquals(route('documents.thumbnail', $descriptor->uuid), $data->properties->thumbnail);
 
         $this->assertEmpty($data->authors);
         $this->assertEquals(url('/'), $data->uploader->url);

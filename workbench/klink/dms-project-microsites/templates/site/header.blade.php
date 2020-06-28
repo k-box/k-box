@@ -21,7 +21,7 @@
             
             @endforeach
             
-            <a class="button ml-4 mr-4" href=" {{ route('documents.groups.show', ['id' => $project_collection_id]) }}">
+            <a class="button ml-4 mr-4" href=" {{ route('documents.groups.show', $project_collection_id) }}">
                 @if($isloggedin)
                     {{ trans('microsites.actions.view_project_documents') }}
                 @else

@@ -418,12 +418,12 @@ class SharingController extends Controller
         return $shares_list;
     }
     
-    public function showGroup(AuthGuard $auth, Request $request, $id)
+    public function showGroup(AuthGuard $auth, Request $request, $group)
     {
         
         // if shareable == group, Search is possible
         
-        $group = Group::findOrFail($id);
+        $group = Group::findOrFail($group);
         
         // $all = $group->documents()->get();
         

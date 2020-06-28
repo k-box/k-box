@@ -21,7 +21,7 @@ class ProjectsPageControllerTest extends TestCase
     {
         return [
             [ 'documents.projects.index', [] ],
-            [ 'documents.projects.show', ['id' => 1] ],
+            [ 'documents.projects.show', ['project' => 1] ],
         ];
     }
     
@@ -76,7 +76,7 @@ class ProjectsPageControllerTest extends TestCase
             if (strpos($route, 'show') !== false) {
                 $project = factory(Project::class)->create(['user_id' => $user->id]);
                 
-                $params = ['projects' => $project->id];
+                $params = ['project' => $project->id];
             } else {
                 $params = [];
             }

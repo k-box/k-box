@@ -220,7 +220,7 @@ class DocumentsTest extends TestCase
         $group->documents()->save($doc);
         
         $response = $this->actingAs($user)
-            ->json('PUT', route('documents.update', ['id' => $doc->id]), [
+            ->json('PUT', route('documents.update', $doc->id), [
                  '_token' => csrf_token(),
                 'remove_group' => $group->id]);
         
@@ -259,7 +259,7 @@ class DocumentsTest extends TestCase
         $group = $service->createGroup($user, 'Personal collection of user '.$user->id);
         
         $response = $this->actingAs($user)
-            ->json('PUT', route('documents.update', ['id' => $doc->id]), [
+            ->json('PUT', route('documents.update', $doc->id), [
                  '_token' => csrf_token(),
                 'add_group' => $group->id]);
         
@@ -294,7 +294,7 @@ class DocumentsTest extends TestCase
         $group = $service->createGroup($user, 'Personal collection of user '.$user->id);
         
         $response = $this->actingAs($user)
-            ->json('PUT', route('documents.update', ['id' => $doc->id]), [
+            ->json('PUT', route('documents.update', $doc->id), [
                  '_token' => csrf_token(),
                 'add_group' => $group->id]);
         
@@ -624,7 +624,7 @@ class DocumentsTest extends TestCase
 
         \Session::start();
 
-        $url = route('documents.destroy', ['id' => $doc->id,
+        $url = route('documents.destroy', ['document' => $doc->id,
                 '_token' => csrf_token()]);
         
         $response = $this->actingAs($user)->delete($url);
@@ -691,7 +691,7 @@ class DocumentsTest extends TestCase
 
         \Session::start();
 
-        $url = route('documents.destroy', ['id' => $doc->id,
+        $url = route('documents.destroy', ['document' => $doc->id,
                 '_token' => csrf_token()]);
         
         $response = $this->actingAs($user)->delete($url);

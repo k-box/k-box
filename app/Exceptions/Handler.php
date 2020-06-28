@@ -3,19 +3,13 @@
 namespace KBox\Exceptions;
 
 use Exception;
-use ErrorException;
-use Illuminate\Http\JsonResponse;
-use GuzzleHttp\Exception\TransferException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Session\TokenMismatchException;
 use Illuminate\Validation\ValidationException;
-use Klink\DmsAdapter\Exceptions\KlinkException;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Exceptions\PostTooLargeException;
-use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
-use Symfony\Component\Debug\Exception\FatalErrorException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 class Handler extends ExceptionHandler
@@ -132,6 +126,5 @@ class Handler extends ExceptionHandler
         }
 
         return parent::render($request, $e);
-
     }
 }

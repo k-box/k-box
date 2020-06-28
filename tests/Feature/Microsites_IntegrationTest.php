@@ -176,7 +176,7 @@ class Microsites_IntegrationTest extends TestCase
         
         $this->actingAs($project->manager()->first());
         
-        $response = $this->get(route('documents.projects.show', ['id' => $project->id]));
+        $response = $this->get(route('documents.projects.show', $project->id));
 
         $response->assertDontSee('Microsite');
         $response->assertDontSee(trans('microsites.actions.create'));
@@ -192,7 +192,7 @@ class Microsites_IntegrationTest extends TestCase
         $project = factory(Project::class)->create(['user_id' => $user->id]);
         
         $response = $this->actingAs($user)
-            ->from(route('projects.show', ['id' => $project->id ]))
+            ->from(route('projects.show', $project->id))
             ->get(route('microsites.create', ['project' => $project->id]));
         
         $response->assertViewIs('sites::create');
@@ -213,10 +213,10 @@ class Microsites_IntegrationTest extends TestCase
         ]);
         
         $response = $this->actingAs($project_manager)
-            ->from(route('projects.show', ['id' => $project->id ]))
+            ->from(route('projects.show', $project->id))
             ->get(route('microsites.create', ['project' => $project->id]));
 
-        $response->assertRedirect(route('projects.show', ['id' => $project->id ]));
+        $response->assertRedirect(route('projects.show', $project->id));
         $response->assertSessionHasErrors([
             'error' => trans('microsites.errors.create_already_exists', ['project' => $project->name])
         ]);
@@ -245,7 +245,7 @@ class Microsites_IntegrationTest extends TestCase
         $this->assertEquals($microsite_request['project'], $microsite->project_id);
         $this->assertEquals($project_manager->id, $microsite->user_id);
         
-        $response->assertRedirect(route('microsites.edit', ['id' => $microsite->id]));
+        $response->assertRedirect(route('microsites.edit', $microsite->id));
         
         $page = $microsite->pages()->first();
         
@@ -289,7 +289,7 @@ class Microsites_IntegrationTest extends TestCase
         $this->assertEquals($microsite_request['content']['en']['slug'], $page->slug, "Page slug has not been stored");
         $this->assertEquals('en', $page->language, "Page language has not been stored");
 
-        $response->assertRedirect(route('microsites.edit', ['id' => $microsite->id]));
+        $response->assertRedirect(route('microsites.edit', $microsite->id));
     }
     
     /**
@@ -360,7 +360,7 @@ class Microsites_IntegrationTest extends TestCase
         ]);
         
         $response = $this->actingAs($project_manager)
-            ->get(route('microsites.edit', ['id' => $microsite->id]));
+            ->get(route('microsites.edit', $microsite->id));
         
         $response->assertOk();
         $response->assertViewIs('sites::edit');
@@ -430,7 +430,7 @@ class Microsites_IntegrationTest extends TestCase
             ]
         ];
         
-        $this->put(route('microsites.update', ['id' => $microsite->id]), $microsite_update_request);
+        $this->put(route('microsites.update', $microsite->id), $microsite_update_request);
         
         $microsite_after_update = Microsite::where('slug', $microsite_update_request['slug'])->first();
         

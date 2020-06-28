@@ -16,7 +16,7 @@
 	@include('errors.list')
 
 
-    <form  method="post" class="js-project-form" enctype="multipart/form-data" action="{{route('projects.update', ['id' => $project->id])}}">
+    <form  method="post" class="js-project-form" enctype="multipart/form-data" action="{{route('projects.update', $project->id)}}">
 		
 		{{ method_field('PUT') }}
 		

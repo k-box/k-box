@@ -209,7 +209,7 @@ class DocumentsControllerTest extends TestCase
         
         $duplicate = $this->createDuplicates($user, 1, ['user_id' => $user->id])->first();
 
-        $response = $this->actingAs($user)->get(route('documents.edit', ['id' => $duplicate->document->id]));
+        $response = $this->actingAs($user)->get(route('documents.edit', $duplicate->document->id));
 
         $response->assertStatus(200);
         $response->assertViewIs('documents.edit');

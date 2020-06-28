@@ -14,7 +14,7 @@ final class RoutingHelpers
             return $doc->thumbnail_uri;
         }
 
-        $params = ['id' => $doc->uuid];
+        $params = ['uuid' => $doc->uuid];
 
         if ($version) {
             $params['versionUuid'] = $version->uuid;
@@ -29,7 +29,7 @@ final class RoutingHelpers
             return $doc->document_uri;
         }
         
-        $params = ['id' => $doc->uuid, 'versionUuid' => null];
+        $params = ['uuid' => $doc->uuid, 'versionUuid' => null];
 
         if ($version) {
             $params['versionUuid'] = $version->uuid;
@@ -68,7 +68,7 @@ final class RoutingHelpers
             return $doc->document_uri;
         }
 
-        $params = ['id' => $doc->uuid];
+        $params = ['uuid' => $doc->uuid];
 
         if ($version) {
             $params['versionUuid'] = $version->uuid;

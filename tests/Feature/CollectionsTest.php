@@ -498,7 +498,7 @@ class CollectionsTest extends TestCase
 
         \Session::start();
 
-        $url = route('documents.groups.destroy', ['id' => $doc->id,
+        $url = route('documents.groups.destroy', ['group' => $doc->id,
                 '_token' => csrf_token()]);
         
         $this->actingAs($user);
@@ -582,7 +582,7 @@ class CollectionsTest extends TestCase
 
         \Session::start();
 
-        $url = route('documents.groups.destroy', ['id' => $doc->id,
+        $url = route('documents.groups.destroy', ['group' => $doc->id,
                 '_token' => csrf_token()]);
         
         $this->actingAs($user);

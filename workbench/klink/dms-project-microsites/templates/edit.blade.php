@@ -24,14 +24,14 @@
 
 <h3 class="my-4">{{ $pagetitle }}</h3>
 
-<form action="{{ route('microsites.update', ['id' => $microsite->id]) }}"  class="microsites-form" method="POST">
+<form action="{{ route('microsites.update', $microsite->id) }}"  class="microsites-form" method="POST">
     <input type="hidden" name="_method" value="PUT" />
 
     @include('sites::form')
 
     <div class=" my-8">
         <label class="font-bold">{{trans('microsites.labels.publishing_box')}}</label>
-        <button type="submit" class="button button--primary">{{ trans( isset($microsite) ? 'microsites.actions.save' : 'microsites.actions.publish') }}</button>&nbsp;{{trans('actions.or_alt')}} <a href="{{ route('projects.show', ['id' => $project->id]) }}">{{trans('microsites.labels.cancel_and_back')}}</a>
+        <button type="submit" class="button button--primary">{{ trans( isset($microsite) ? 'microsites.actions.save' : 'microsites.actions.publish') }}</button>&nbsp;{{trans('actions.or_alt')}} <a href="{{ route('projects.show', $project->id) }}">{{trans('microsites.labels.cancel_and_back')}}</a>
     </div>
     
     <h4 class="mt-4">{{ trans('microsites.labels.content') }}</h4>
@@ -41,7 +41,7 @@
 
     <div class=" mt-8">
         <label class="font-bold">{{trans('microsites.labels.publishing_box')}}</label>
-        <button type="submit" class="button button--primary">{{ trans( isset($microsite) ? 'microsites.actions.save' : 'microsites.actions.publish') }}</button>&nbsp;{{trans('actions.or_alt')}} <a href="{{ route('projects.show', ['id' => $project->id]) }}">{{trans('microsites.labels.cancel_and_back')}}</a>
+        <button type="submit" class="button button--primary">{{ trans( isset($microsite) ? 'microsites.actions.save' : 'microsites.actions.publish') }}</button>&nbsp;{{trans('actions.or_alt')}} <a href="{{ route('projects.show', $project->id) }}">{{trans('microsites.labels.cancel_and_back')}}</a>
     </div>
 
 </form>

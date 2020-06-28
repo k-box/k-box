@@ -166,7 +166,7 @@ class GeoMapProvidersTest extends TestCase
         
         $user->addCapabilities(Capability::$ADMIN);
         
-        $url = route('plugins.k-box-kbox-plugin-geo.mapproviders.update', ['id' => 'custom-provider']);
+        $url = route('plugins.k-box-kbox-plugin-geo.mapproviders.update', 'custom-provider');
         
         $response = $this->actingAs($user)->put($url, [
             'label' => 'Custom Provider Updated label',
@@ -212,13 +212,13 @@ class GeoMapProvidersTest extends TestCase
         
         $user->addCapabilities(Capability::$ADMIN);
         
-        $url = route('plugins.k-box-kbox-plugin-geo.mapproviders.update', ['id' => 'custom-provider']);
+        $url = route('plugins.k-box-kbox-plugin-geo.mapproviders.update', 'custom-provider');
         
-        $response = $this->actingAs($user)->from(route('plugins.k-box-kbox-plugin-geo.mapproviders.edit', ['id' => 'custom-provider']))->put($url, [
+        $response = $this->actingAs($user)->from(route('plugins.k-box-kbox-plugin-geo.mapproviders.edit', 'custom-provider'))->put($url, [
             "type" => "wms",
         ]);
 
-        $response->assertRedirect(route('plugins.k-box-kbox-plugin-geo.mapproviders.edit', ['id' => 'custom-provider']));
+        $response->assertRedirect(route('plugins.k-box-kbox-plugin-geo.mapproviders.edit', 'custom-provider'));
 
         $response->assertSessionHasErrors(['type']);
     }
@@ -326,7 +326,7 @@ class GeoMapProvidersTest extends TestCase
         
         $user->addCapabilities(Capability::$ADMIN);
 
-        $url = route('plugins.k-box-kbox-plugin-geo.mapproviders.delete', ['id' => "sentinel_3857"]);
+        $url = route('plugins.k-box-kbox-plugin-geo.mapproviders.delete', "sentinel_3857");
         
         $response = $this->actingAs($user)->from(route('plugins.k-box-kbox-plugin-geo.mapproviders'))->delete($url);
 
@@ -348,7 +348,7 @@ class GeoMapProvidersTest extends TestCase
         
         $user->addCapabilities(Capability::$ADMIN);
 
-        $url = route('plugins.k-box-kbox-plugin-geo.mapproviders.delete', ['id' => "a_provider_not_created"]);
+        $url = route('plugins.k-box-kbox-plugin-geo.mapproviders.delete', "a_provider_not_created");
         
         $response = $this->actingAs($user)->from(route('plugins.k-box-kbox-plugin-geo.mapproviders'))->delete($url);
 
@@ -367,7 +367,7 @@ class GeoMapProvidersTest extends TestCase
         
         $user->addCapabilities(Capability::$ADMIN);
         
-        $url = route('plugins.k-box-kbox-plugin-geo.mapproviders.delete', ['id' => $initial]);
+        $url = route('plugins.k-box-kbox-plugin-geo.mapproviders.delete', $initial);
         
         $response = $this->actingAs($user)->from(route('plugins.k-box-kbox-plugin-geo.mapproviders'))->delete($url);
 

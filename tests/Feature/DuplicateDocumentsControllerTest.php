@@ -25,7 +25,7 @@ class DuplicateDocumentsControllerTest extends TestCase
             $u->addCapabilities(Capability::$PARTNER);
         });
         
-        $response = $this->json('DELETE', route('duplicates.destroy', ['id' => 1]));
+        $response = $this->json('DELETE', route('duplicates.destroy', 1));
 
         $response->assertStatus(401);
     }
@@ -38,7 +38,7 @@ class DuplicateDocumentsControllerTest extends TestCase
         
         $duplicate = factory(DuplicateDocument::class)->create();
 
-        $response = $this->actingAs($user)->json('DELETE', route('duplicates.destroy', ['id' => $duplicate->id]));
+        $response = $this->actingAs($user)->json('DELETE', route('duplicates.destroy', $duplicate->id));
 
         $response->assertStatus(403);
     }
@@ -58,7 +58,7 @@ class DuplicateDocumentsControllerTest extends TestCase
         $existing = $duplicate->duplicateOf;
         $duplicateDocument = $duplicate->document;
 
-        $response = $this->actingAs($user)->json('DELETE', route('duplicates.destroy', ['id' => $duplicate->id]));
+        $response = $this->actingAs($user)->json('DELETE', route('duplicates.destroy', $duplicate->id));
 
         $response->assertStatus(200);
 
@@ -105,7 +105,7 @@ class DuplicateDocumentsControllerTest extends TestCase
             'document_id' => $descriptor->id,
         ]);
 
-        $response = $this->actingAs($user)->json('DELETE', route('duplicates.destroy', ['id' => $duplicate->id]));
+        $response = $this->actingAs($user)->json('DELETE', route('duplicates.destroy', $duplicate->id));
 
         $response->assertStatus(200);
 
@@ -131,7 +131,7 @@ class DuplicateDocumentsControllerTest extends TestCase
         $existing = $duplicate->duplicateOf;
         $duplicateDocument = $duplicate->document;
 
-        $response = $this->actingAs($user)->json('DELETE', route('duplicates.destroy', ['id' => $duplicate->id]));
+        $response = $this->actingAs($user)->json('DELETE', route('duplicates.destroy', $duplicate->id));
 
         $response->assertStatus(400);
 
@@ -158,7 +158,7 @@ class DuplicateDocumentsControllerTest extends TestCase
         $existing = $duplicate->duplicateOf;
         $duplicateDocument = $duplicate->document;
 
-        $response = $this->actingAs($user)->json('DELETE', route('duplicates.destroy', ['id' => $duplicate->id]));
+        $response = $this->actingAs($user)->json('DELETE', route('duplicates.destroy', $duplicate->id));
 
         $response->assertStatus(400);
 
@@ -200,7 +200,7 @@ class DuplicateDocumentsControllerTest extends TestCase
             'duplicate_document_id' => $duplicate_document->id,
         ]);
 
-        $response = $this->actingAs($user)->json('DELETE', route('duplicates.destroy', ['id' => $duplicate->id]));
+        $response = $this->actingAs($user)->json('DELETE', route('duplicates.destroy', $duplicate->id));
 
         $response->assertStatus(200);
 
@@ -246,7 +246,7 @@ class DuplicateDocumentsControllerTest extends TestCase
             'duplicate_document_id' => $duplicate_document->id,
         ]);
 
-        $response = $this->actingAs($user)->json('DELETE', route('duplicates.destroy', ['id' => $duplicate->id]));
+        $response = $this->actingAs($user)->json('DELETE', route('duplicates.destroy', $duplicate->id));
 
         $response->assertStatus(200);
 
