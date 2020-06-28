@@ -138,7 +138,7 @@ class SharingController extends Controller
         $partner = $auth->user()->can_all_capabilities(Capability::$PARTNER);
 
         if (is_a($share->shareable, \KBox\Group::class)) {
-            return redirect()->route($partner ? 'documents.groups.show' : 'shares.group', ['id' => $share->shareable->id]);
+            return redirect()->route($partner ? 'documents.groups.show' : 'shares.group', $share->shareable->id);
         }
 
         return redirect()->route($partner ? 'documents.sharedwithme' : 'shares.index', ['highlight' => $share->shareable->id]);

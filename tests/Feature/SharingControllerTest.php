@@ -182,13 +182,9 @@ class SharingControllerTest extends TestCase
 
         $url = route('shares.show', $share->token);
 
-        $params = [
-            'id' => $to_be_shared->id
-        ];
-
         $response = $this->actingAs($user_target)->get($url);
             
-        $response->assertRedirect(route($expected_route_name, $params));
+        $response->assertRedirect(route($expected_route_name, $to_be_shared->id));
     }
     
     public function test_project_collections_cannot_be_shared()
