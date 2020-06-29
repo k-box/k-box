@@ -447,7 +447,7 @@ class File extends Model
         }
         $storage = Storage::disk('local');
 
-        if ($this->uuid && basename(dirname($this->path)) === $this->uuid) {
+        if ($this->uuid && basename(dirname($this->path)) === (string)$this->uuid) {
             @$storage->deleteDirectory(dirname($this->path));
         } else {
             @$storage->delete($this->path);

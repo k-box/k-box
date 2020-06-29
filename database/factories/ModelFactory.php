@@ -155,7 +155,7 @@ $factory->define(KBox\PublicLink::class, function (Faker\Generator $faker) {
     ];
 });
 
-$factory->defineAs(KBox\Shared::class, 'publiclink', function (Faker\Generator $faker, $arguments = []) {
+$factory->state(KBox\Shared::class, 'publiclink', function (Faker\Generator $faker, $arguments = []) {
     $link = factory(KBox\PublicLink::class)->create(collect($arguments)->only('user_id')->toArray());
 
     return [

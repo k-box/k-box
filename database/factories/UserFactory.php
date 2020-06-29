@@ -27,7 +27,7 @@ $factory->define(User::class, function (Faker $faker) {
     ];
 });
 
-$factory->defineAs(User::class, 'admin', function (Faker $faker) {
+$factory->state(User::class, 'admin', function (Faker $faker) {
     
     return [
         'name' => 'admin',

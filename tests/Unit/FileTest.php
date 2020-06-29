@@ -50,7 +50,7 @@ class FileTest extends TestCase
 
         $file = (new File)->forceFill([
             'path' => '2017/09/something.txt',
-            'uuid' => $uuid->getBytes()
+            'uuid' => $uuid
         ]);
         
         Storage::disk('local')->assertExists($file->path);
@@ -77,7 +77,7 @@ class FileTest extends TestCase
         $file = (new File)->forceFill([
             'path' => "2017/09/{$uuid->toString()}/something.txt",
             'thumbnail_path' => "2017/09/{$uuid->toString()}/something.png",
-            'uuid' => $uuid->getBytes()
+            'uuid' => $uuid
         ]);
         
         Storage::disk('local')->assertExists($file->path);
@@ -167,7 +167,7 @@ class FileTest extends TestCase
         $file = (new File)->forceFill([
             'name' => 'something.txt',
             'path' => '2017/09/something.txt',
-            'uuid' => $uuid->getBytes()
+            'uuid' => $uuid
         ]);
 
         $token = $file->generateDownloadToken();
@@ -178,7 +178,7 @@ class FileTest extends TestCase
 
         $this->assertCount(4, $components);
 
-        $this->assertContains($file->uuid, $components);
+        $this->assertContains($file->uuid->toString(), $components);
         $this->assertContains($file->hash, $components);
 
         $created_at = Carbon::createFromTimestamp($components[2]);
@@ -198,7 +198,7 @@ class FileTest extends TestCase
             'name' => 'something.txt',
             'hash' => 'abcdefgh',
             'path' => '2017/09/something.txt',
-            'uuid' => $uuid->getBytes()
+            'uuid' => $uuid
         ]);
 
         $token = $file->generateDownloadToken(10);
@@ -209,7 +209,7 @@ class FileTest extends TestCase
 
         $this->assertCount(4, $components);
 
-        $this->assertContains($file->uuid, $components);
+        $this->assertContains($file->uuid->toString(), $components);
         $this->assertContains($file->hash, $components);
 
         $created_at = Carbon::createFromTimestamp($components[2]);
@@ -229,7 +229,7 @@ class FileTest extends TestCase
             'name' => 'something.txt',
             'hash' => 'abcdefgh',
             'path' => '2017/09/something.txt',
-            'uuid' => $uuid->getBytes(),
+            'uuid' => $uuid,
             'properties' => ['author' => 'Jules', 'address' => ['street' => 'rue 1,1']]
         ]);
 
@@ -251,7 +251,7 @@ class FileTest extends TestCase
             'name' => 'something.txt',
             'hash' => 'abcdefgh',
             'path' => '2017/09/something.txt',
-            'uuid' => $uuid->getBytes(),
+            'uuid' => $uuid,
             'properties' => $properties
         ]);
 
@@ -273,7 +273,7 @@ class FileTest extends TestCase
             'name' => 'something.txt',
             'hash' => 'abcdefgh',
             'path' => '2017/09/something.txt',
-            'uuid' => $uuid->getBytes(),
+            'uuid' => $uuid,
             'properties' => $properties
         ]);
 

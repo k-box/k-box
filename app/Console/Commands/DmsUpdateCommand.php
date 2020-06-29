@@ -416,7 +416,7 @@ class DmsUpdateCommand extends Command
                 if (($is_current_valid && $current->equals($zero_uuid)) ||
                      ! $is_current_valid ||
                     ($is_current_valid && $current && $current->getVersion() !== 4)) {
-                    $doc->uuid = Uuid::{$doc->resolveUuidVersion()}()->getBytes();
+                    $doc->uuid = Uuid::{$doc->resolveUuidVersion()}();
                     //temporarly disable the automatic upgrade of the updated_at field
                     $doc->timestamps = false;
                     $doc->save();
@@ -448,7 +448,7 @@ class DmsUpdateCommand extends Command
                 if (($is_current_valid && $current->equals($zero_uuid)) ||
                      ! $is_current_valid ||
                     ($is_current_valid && $current && $current->getVersion() !== 4)) {
-                    $user->uuid = Uuid::{$user->resolveUuidVersion()}()->getBytes();
+                    $user->uuid = Uuid::{$user->resolveUuidVersion()}();
                     //temporarly disable the automatic upgrade of the updated_at field
                     $user->timestamps = false;
                     $user->save();
@@ -480,7 +480,7 @@ class DmsUpdateCommand extends Command
                 if (($is_current_valid && $current->equals($zero_uuid)) ||
                      ! $is_current_valid ||
                     ($is_current_valid && $current && $current->getVersion() !== 4)) {
-                    $group->uuid = Uuid::{$group->resolveUuidVersion()}()->getBytes();
+                    $group->uuid = Uuid::{$group->resolveUuidVersion()}();
                     //temporarly disable the automatic upgrade of the updated_at field
                     $group->timestamps = false;
                     $group->save();
@@ -512,7 +512,7 @@ class DmsUpdateCommand extends Command
                 if (($is_current_valid && $current->equals($zero_uuid)) ||
                      ! $is_current_valid ||
                     ($is_current_valid && $current && $current->getVersion() !== 4)) {
-                    $project->uuid = Uuid::{$project->resolveUuidVersion()}()->getBytes();
+                    $project->uuid = Uuid::{$project->resolveUuidVersion()}();
                     //temporarly disable the automatic upgrade of the updated_at field
                     $project->timestamps = false;
                     $project->save();
@@ -544,7 +544,7 @@ class DmsUpdateCommand extends Command
                 if (($is_current_valid && $current->equals($zero_uuid)) ||
                      ! $is_current_valid ||
                     ($is_current_valid && $current && $current->getVersion() !== 4)) {
-                    $file->uuid = Uuid::{$file->resolveUuidVersion()}()->getBytes();
+                    $file->uuid = Uuid::{$file->resolveUuidVersion()}();
                     //temporarly disable the automatic upgrade of the updated_at field
                     $file->timestamps = false;
                     $file->save();
