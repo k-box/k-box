@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ddd9fcffa46fed68c5f10392a7312adc",
+    "content-hash": "32acd4afb6331459977f72ab1e89ccd0",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1103,28 +1103,24 @@
         },
         {
             "name": "franzose/closure-table",
-            "version": "v5.1.1",
+            "version": "v6.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/franzose/ClosureTable.git",
-                "reference": "7a97e6fa0890e531e58133a8aa87488278cfe19f"
+                "reference": "e342cd9b47bbd653fa8df0187c13e62e78bab524"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/franzose/ClosureTable/zipball/7a97e6fa0890e531e58133a8aa87488278cfe19f",
-                "reference": "7a97e6fa0890e531e58133a8aa87488278cfe19f",
+                "url": "https://api.github.com/repos/franzose/ClosureTable/zipball/e342cd9b47bbd653fa8df0187c13e62e78bab524",
+                "reference": "e342cd9b47bbd653fa8df0187c13e62e78bab524",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.4.0"
+                "php": ">=7.0"
             },
             "require-dev": {
-                "doctrine/dbal": "dev-master",
-                "mockery/mockery": "dev-master",
-                "orchestra/testbench": "dev-master",
-                "phpunit/phpunit": "dev-master",
-                "way/laravel-test-helpers": "dev-master",
-                "way/phpunit-wrappers": "dev-master"
+                "orchestra/testbench": "^3.4|^4.0|^5.0",
+                "phpunit/phpunit": "^6.0|^7.0|^8.0"
             },
             "type": "library",
             "extra": {
@@ -1135,11 +1131,8 @@
                 }
             },
             "autoload": {
-                "classmap": [
-                    "tests"
-                ],
-                "psr-0": {
-                    "Franzose\\ClosureTable": "src/"
+                "psr-4": {
+                    "Franzose\\ClosureTable\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -1164,7 +1157,7 @@
                 "laravel",
                 "pages"
             ],
-            "time": "2018-08-27T20:11:20+00:00"
+            "time": "2020-05-11T13:25:54+00:00"
         },
         {
             "name": "fruitcake/laravel-cors",

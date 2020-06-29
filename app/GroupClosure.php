@@ -18,7 +18,7 @@ use Franzose\ClosureTable\Models\ClosureTable;
  * @method static \Illuminate\Database\Query\Builder|\KBox\GroupClosure whereDescendant($value)
  * @mixin \Eloquent
  */
-class GroupClosure extends ClosureTable implements GroupClosureInterface
+class GroupClosure extends ClosureTable
 {
     /**
      * The table associated with the model.

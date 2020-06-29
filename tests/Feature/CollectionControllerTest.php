@@ -218,7 +218,6 @@ class CollectionControllerTest extends TestCase
             "color" => "16a085",
             "group_type_id" => 1,
             "is_private" => true,
-            "real_depth" => 0,
             "position" => 0,
             "id" => $collection->getKey(),
         ]);
