@@ -13,9 +13,11 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $middleware = [
+        // \App\Http\Middleware\TrustHosts::class,
+        \KBox\Http\Middleware\TrustedProxyMiddleware::class,
+        \Fruitcake\Cors\HandleCors::class,
         \KBox\Http\Middleware\CheckForMaintenanceMode::class,
         \KBox\Http\Middleware\CheckForReadonlyMode::class,
-        \KBox\Http\Middleware\TrustedProxyMiddleware::class,
         \KBox\Http\Middleware\PortRedirectMiddleware::class,
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \KBox\Http\Middleware\TrimStrings::class,
@@ -32,6 +34,7 @@ class Kernel extends HttpKernel
             \KBox\Http\Middleware\EncryptCookies::class,
             \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
             \Illuminate\Session\Middleware\StartSession::class,
+            // \Illuminate\Session\Middleware\AuthenticateSession::class,
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \KBox\Http\Middleware\BlockUnsupportedBrowsers::class,
             \KBox\Http\Middleware\VerifyCsrfToken::class,
@@ -67,20 +70,4 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
     ];
 
-    /**
-     * The priority-sorted list of middleware.
-     *
-     * This forces non-global middleware to always be in the given order.
-     *
-     * @var array
-     */
-    protected $middlewarePriority = [
-        \Illuminate\Session\Middleware\StartSession::class,
-        \Illuminate\View\Middleware\ShareErrorsFromSession::class,
-        \KBox\Http\Middleware\Authenticate::class,
-        \Illuminate\Routing\Middleware\ThrottleRequests::class,
-        \Illuminate\Session\Middleware\AuthenticateSession::class,
-        \Illuminate\Routing\Middleware\SubstituteBindings::class,
-        \Illuminate\Auth\Middleware\Authorize::class,
-    ];
 }
