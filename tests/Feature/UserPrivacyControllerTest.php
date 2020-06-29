@@ -41,8 +41,8 @@ class UserPrivacyControllerTest extends TestCase
         $response->assertViewHas('consent_privacy_activity', trans('profile.privacy.activity.consent_given', ['date' => $expected_date]));
         $response->assertViewHas('consent_notification_activity', trans('profile.privacy.activity.consent_given', ['date' => $expected_date]));
 
-        $response->assertSee('notifications" value="0');
-        $response->assertSee('statistics" value="1');
+        $response->assertSee('notifications" value="0', false);
+        $response->assertSee('statistics" value="1', false);
     }
 
     public function test_notification_consent_can_be_given()
@@ -66,7 +66,7 @@ class UserPrivacyControllerTest extends TestCase
         $response = $this->actingAs($user)->get(route('profile.privacy.index'));
 
         $response->assertViewHas('consent_notification_given', true);
-        $response->assertSee('notifications" value="0');
+        $response->assertSee('notifications" value="0', false);
     }
     
     public function test_notification_consent_can_be_removed()
@@ -90,7 +90,7 @@ class UserPrivacyControllerTest extends TestCase
         $response = $this->actingAs($user)->get(route('profile.privacy.index'));
 
         $response->assertViewHas('consent_notification_given', false);
-        $response->assertSee('notifications" value="1');
+        $response->assertSee('notifications" value="1', false);
     }
 
     public function test_statistic_consent_can_be_given()
@@ -114,7 +114,7 @@ class UserPrivacyControllerTest extends TestCase
         $response = $this->actingAs($user)->get(route('profile.privacy.index'));
 
         $response->assertViewHas('consent_statistics_given', true);
-        $response->assertSee('statistics" value="0');
+        $response->assertSee('statistics" value="0', false);
     }
     
     public function test_statistic_consent_can_be_removed()
@@ -136,6 +136,6 @@ class UserPrivacyControllerTest extends TestCase
         $response = $this->actingAs($user)->get(route('profile.privacy.index'));
 
         $response->assertViewHas('consent_statistics_given', false);
-        $response->assertSee('statistics" value="1');
+        $response->assertSee('statistics" value="1', false);
     }
 }

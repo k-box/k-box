@@ -316,7 +316,7 @@ class Microsites_IntegrationTest extends TestCase
         $response = $this->post(route('microsites.store'), $microsite_request);
         
         if ($error_type === 'authorize') {
-            $response->assertSee(trans('errors.403_text'));
+            $response->assertSee(trans('errors.403_text'), false);
             $response->assertDontSee('errors.403_text');
         } elseif (! is_null($error_type)) {
             $response->assertSessionHasErrors([$attribute]);

@@ -46,8 +46,8 @@ class ProfileQuotaControllerTest extends TestCase
             'pagetitle' => trans('profile.storage.title'),
         ]);
 
-        $response->assertSee(trans('profile.storage.view_trash'));
-        $response->assertSee(trans('quota.threshold.section'));
+        $response->assertSee(trans('profile.storage.view_trash'), false);
+        $response->assertSee(trans('quota.threshold.section'), false);
     }
     
     public function test_storage_profile_shows_unlimited_info()

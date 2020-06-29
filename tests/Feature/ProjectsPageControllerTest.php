@@ -134,8 +134,8 @@ class ProjectsPageControllerTest extends TestCase
         $response->assertViewHas('pagetitle', trans('projects.page_title'));
         $response->assertViewHas('current_visibility', 'private');
         $response->assertViewHas('filter', trans('projects.all_projects'));
-        $response->assertSee(e($managed_project->manager->name));
-        $response->assertSee(e($project->manager->name));
+        $response->assertSee($managed_project->manager->name);
+        $response->assertSee($project->manager->name);
         $response->assertSee($managed_project->getCreatedAt());
         $response->assertSee($project->getCreatedAt());
     }

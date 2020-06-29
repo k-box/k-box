@@ -54,7 +54,7 @@ class AnalyticsTest extends TestCase
         $response = $this->actingAs($user)->get(route('contact'));
 
         $response->assertStatus(200);
-        $response->assertSee('<!-- Analytics Code -->');
+        $response->assertSee('<!-- Analytics Code -->', false);
     }
 
     public function test_matomo_tracking_using_environment_configuration()
@@ -72,8 +72,8 @@ class AnalyticsTest extends TestCase
         $response = $this->actingAs($user)->get(route('contact'));
 
         $response->assertStatus(200);
-        $response->assertSee('https://example.analytics');
-        $response->assertSee('<!-- Matomo -->');
+        $response->assertSee('https://example.analytics', false);
+        $response->assertSee('<!-- Matomo -->', false);
 
         $this->assertEquals('1', Analytics::token());
         $this->assertEquals('analytics.matomo', Analytics::view());
@@ -113,7 +113,7 @@ class AnalyticsTest extends TestCase
         $response = $this->actingAs($user)->get(route('contact'));
 
         $response->assertStatus(200);
-        $response->assertSee('<!-- Google Analytics -->');
+        $response->assertSee('<!-- Google Analytics -->', false);
 
         $this->assertEquals('1', Analytics::token());
         $this->assertEquals('analytics.google-analytics', Analytics::view());
