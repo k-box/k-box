@@ -58,7 +58,7 @@ class LanguageCli
 
         $executable = realpath($driver);
 
-        $options = [];
+        $options = [$executable];
 
         // pass the inputs
         if ($this->all) {
@@ -66,22 +66,24 @@ class LanguageCli
         }
 
         if (! empty($this->blacklist)) {
-            $options[] = '--blacklist '.join(',', Arr::wrap($this->blacklist));
+            $options[] = '--ignore';
+            $options[] = join(',', Arr::wrap($this->blacklist));
         }
 
         if (! empty($this->whitelist)) {
-            $options[] = '--whitelist '.join(',', Arr::wrap($this->whitelist));
+            $options[] = '--only';
+            $options[] = join(',', Arr::wrap($this->whitelist));
         }
 
         $this->process = $process = new Process(
-            sprintf('"%1$s" %2$s', $executable, join(' ', $options)),
-            realpath(base_path(self::CLI_FOLDER)),
-            null,
-            $this->text
+            $options,
+            realpath(base_path(self::CLI_FOLDER))
         );
+
+        $process->setInput($this->text);
         
-        $process->setTimeout(null);
-        $process->setIdleTimeout(null);
+        $process->setTimeout(10);
+        $process->setIdleTimeout(10);
 
         try {
             $process->mustRun();
