@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\Relation;
 use KBox\Events\ProjectCreated;
 use KBox\Events\ProjectMembersAdded;
 use KBox\Events\ProjectMembersRemoved;
+use Dyrynda\Database\Casts\EfficientUuid;
 
 /**
  * The project concept.
@@ -61,7 +62,7 @@ class Project extends Model
     protected $fillable = ['name', 'description', 'user_id', 'collection_id', 'avatar'];
 
     protected $casts = [
-        'uuid' => 'uuid',
+        'uuid' => EfficientUuid::class,
     ];
     
     /**

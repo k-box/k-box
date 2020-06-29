@@ -13,6 +13,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use KBox\Notifications\ResetPasswordNotification;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use KBox\Traits\ScopeNullUuid;
+use Dyrynda\Database\Casts\EfficientUuid;
 
 /**
  * The User model
@@ -93,7 +94,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $casts = [
-        'uuid' => 'uuid',
+        'uuid' => EfficientUuid::class,
         'email_verified_at' => 'datetime',
     ];
 

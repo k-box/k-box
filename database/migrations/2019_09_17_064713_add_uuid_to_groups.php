@@ -14,7 +14,7 @@ class AddUuidToGroups extends Migration
     public function up()
     {
         Schema::table('groups', function (Blueprint $table) {
-            $table->uuid('uuid')->nullable()->index();
+            $table->efficientUuid('uuid')->nullable()->index();
         });
     }
 

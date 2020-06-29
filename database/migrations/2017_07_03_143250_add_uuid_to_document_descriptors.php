@@ -14,7 +14,7 @@ class AddUuidToDocumentDescriptors extends Migration
     public function up()
     {
         Schema::table('document_descriptors', function (Blueprint $table) {
-            $table->uuid('uuid')->index();
+            $table->efficientUuid('uuid')->index();
         });
     }
 

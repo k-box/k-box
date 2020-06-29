@@ -14,7 +14,7 @@ class AddUuidToFiles extends Migration
     public function up()
     {
         Schema::table('files', function (Blueprint $table) {
-            $table->uuid('uuid')->nullable()->index();
+            $table->efficientUuid('uuid')->nullable()->index();
         });
     }
 

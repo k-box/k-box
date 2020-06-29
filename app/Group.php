@@ -9,6 +9,7 @@ use Dyrynda\Database\Support\GeneratesUuid;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use KBox\Events\CollectionCreated;
 use KBox\Events\CollectionTrashed;
+use Dyrynda\Database\Casts\EfficientUuid;
 
 /**
  * A collection of document descriptors
@@ -91,7 +92,7 @@ class Group extends Entity implements GroupInterface
     public $timestamps = true;
 
     protected $casts = [
-        'uuid' => 'uuid',
+        'uuid' => EfficientUuid::class,
     ];
 
     protected $dispatchesEvents = [

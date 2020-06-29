@@ -10,6 +10,7 @@ use KBox\Events\UserInvited;
 use Illuminate\Notifications\Notifiable;
 use KBox\Auth\Registration;
 use KBox\Notifications\InviteEmail;
+use Dyrynda\Database\Casts\EfficientUuid;
 
 /**
  * Invite to register and account.
@@ -56,7 +57,7 @@ class Invite extends Model
      * @var array
      */
     protected $casts = [
-        'uuid' => 'uuid',
+        'uuid' => EfficientUuid::class,
         'accepted_at' => 'datetime',
         'expire_at' => 'datetime',
         'details' => 'array',
