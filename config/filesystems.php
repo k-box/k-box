@@ -58,6 +58,11 @@ return [
             'root'   => getenv('DMS_UPLOAD_FOLDER') ?: storage_path('documents/'),
         ],
         
+        'project_avatar' => [
+            'driver' => 'local',
+            'root'   => storage_path('app/projects/avatars'),
+        ],
+        
         'public' => [
             'driver' => 'local',
             'root'   => storage_path('app/public'),

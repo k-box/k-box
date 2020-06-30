@@ -26,7 +26,7 @@ trait AvatarUpload
             // check image dimension
             $avatar_name = md5($prefix.Carbon::now()->timestamp).'.'.$request->file('avatar')->guessExtension();
             $avatar = storage_path('app/projects/avatars/'.$avatar_name);
-            $request->file('avatar')->move(storage_path('app/projects/avatars'), $avatar_name);
+            $request->file('avatar')->storeAs('', $avatar_name, 'project_avatar');
             return $avatar;
         }
 
