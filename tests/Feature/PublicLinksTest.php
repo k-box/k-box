@@ -132,7 +132,7 @@ class PublicLinksTest extends TestCase
 
     public function testDeletePublicLink()
     {
-        $share = factory(Shared::class, 'publiclink')->create();
+        $share = factory(Shared::class)->states('publiclink')->create();
 
         $user = $share->user;
 
@@ -151,7 +151,7 @@ class PublicLinksTest extends TestCase
 
     public function testDeletePublicLinkIsNotPossibleByOtherUser()
     {
-        $share = factory(Shared::class, 'publiclink')->create();
+        $share = factory(Shared::class)->states('publiclink')->create();
 
         $creator = $share->user;
         $creator->addCapabilities(Capability::$PARTNER);
@@ -171,7 +171,7 @@ class PublicLinksTest extends TestCase
 
     public function testUpdatePublicLink()
     {
-        $share = factory(Shared::class, 'publiclink')->create();
+        $share = factory(Shared::class)->states('publiclink')->create();
 
         $user = $share->user;
 
@@ -197,16 +197,16 @@ class PublicLinksTest extends TestCase
         $new_expiration = Carbon::now()->addWeek();
 
         $response = $this->actingAs($user)->json('put', route('links.update', $share->sharedwith_id), [
-            'expiration' => $new_expiration->toDateTimeString()
+            'expiration' => $new_expiration->toJSON()
         ]);
         $response->assertJsonFragment([
-            'expiration' => $new_expiration->toDateTimeString()
+            'expiration' => $new_expiration->copy()->setMicrosecond(0)->toJSON()
         ]);
     }
 
     public function testPublicUrlRedirectToPreview()
     {
-        $share = factory(Shared::class, 'publiclink')->create();
+        $share = factory(Shared::class)->states('publiclink')->create();
 
         $url = $share->sharedwith->url;
         $expected_redirect = RoutingHelpers::preview($share->shareable);
