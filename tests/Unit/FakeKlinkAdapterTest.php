@@ -18,7 +18,7 @@ class FakeKlinkAdapterTest extends TestCase
     {
         $adapter = new FakeKlinkAdapter();
 
-        $document = new KlinkDocument(KlinkDocumentDescriptor::make($descriptor = factory(\KBox\DocumentDescriptor::class)->make(), 'private'), 'document content');
+        $document = $this->generateKlinkDocument('private');
 
         $adapter->addDocument($document);
 
@@ -29,7 +29,7 @@ class FakeKlinkAdapterTest extends TestCase
     {
         $adapter = new FakeKlinkAdapter();
 
-        $document = new KlinkDocument(KlinkDocumentDescriptor::make($descriptor = factory(\KBox\DocumentDescriptor::class)->make(), 'private'), 'document content');
+        $document = $this->generateKlinkDocument('private');
         
         $adapter->addDocument($document);
 
@@ -42,7 +42,7 @@ class FakeKlinkAdapterTest extends TestCase
     {
         $adapter = new FakeKlinkAdapter();
         
-        $document = new KlinkDocument(KlinkDocumentDescriptor::make($descriptor = factory(\KBox\DocumentDescriptor::class)->make(), 'private'), 'document content');
+        $document = $this->generateKlinkDocument('private');
         
         $adapter->addDocument($document);
 
@@ -55,7 +55,7 @@ class FakeKlinkAdapterTest extends TestCase
     {
         $adapter = new FakeKlinkAdapter();
         
-        $document = new KlinkDocument(KlinkDocumentDescriptor::make($descriptor = factory(\KBox\DocumentDescriptor::class)->make(), 'private'), 'document content');
+        $document = $this->generateKlinkDocument('private');
 
         $adapter->addDocument($document);
         
@@ -98,5 +98,13 @@ class FakeKlinkAdapterTest extends TestCase
         $this->assertEmpty($result_facets);
 
         $adapter->assertSearched($searchRequest);
+    }
+
+    private function generateKlinkDocument($visibility, $content = 'document content')
+    {
+        $descriptor = factory(\KBox\DocumentDescriptor::class)->make([
+            'uuid' => "39613931-3436-4066-2d31-3533322d3466"
+        ]);
+        return new KlinkDocument(KlinkDocumentDescriptor::make($descriptor, $visibility), $content);
     }
 }
