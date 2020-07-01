@@ -410,7 +410,7 @@ class DmsUpdateCommand extends Command
 
         DocumentDescriptor::local()->chunk($chunkSize, function ($documents) use (&$counter, $zero_uuid) {
             foreach ($documents as $doc) {
-                $is_current_valid = Uuid::isValid($doc->uuid);
+                $is_current_valid = $doc->uuid && Uuid::isValid($doc->uuid);
                 $current = $is_current_valid ? Uuid::fromString($doc->uuid) : false;
                 
                 if (($is_current_valid && $current->equals($zero_uuid)) ||
@@ -474,7 +474,7 @@ class DmsUpdateCommand extends Command
 
         Group::chunk($chunkSize, function ($groups) use (&$counter, $zero_uuid) {
             foreach ($groups as $group) {
-                $is_current_valid = Uuid::isValid($group->uuid);
+                $is_current_valid = $group->uuid && Uuid::isValid($group->uuid);
                 $current = $is_current_valid ? Uuid::fromString($group->uuid) : false;
                 
                 if (($is_current_valid && $current->equals($zero_uuid)) ||
@@ -506,7 +506,7 @@ class DmsUpdateCommand extends Command
 
         Project::chunk($chunkSize, function ($projects) use (&$counter, $zero_uuid) {
             foreach ($projects as $project) {
-                $is_current_valid = Uuid::isValid($project->uuid);
+                $is_current_valid = $project->uuid && Uuid::isValid($project->uuid);
                 $current = $is_current_valid ? Uuid::fromString($project->uuid) : false;
                 
                 if (($is_current_valid && $current->equals($zero_uuid)) ||
@@ -538,7 +538,7 @@ class DmsUpdateCommand extends Command
 
         File::chunk($chunkSize, function ($files) use (&$counter, $zero_uuid) {
             foreach ($files as $file) {
-                $is_current_valid = Uuid::isValid($file->uuid);
+                $is_current_valid = $file->uuid && Uuid::isValid($file->uuid);
                 $current = $is_current_valid ? Uuid::fromString($file->uuid) : false;
                 
                 if (($is_current_valid && $current->equals($zero_uuid)) ||
