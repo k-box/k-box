@@ -442,7 +442,7 @@ class DmsUpdateCommand extends Command
 
         User::chunk($chunkSize, function ($users) use (&$counter, $zero_uuid) {
             foreach ($users as $user) {
-                $is_current_valid = Uuid::isValid($user->uuid);
+                $is_current_valid = $user->uuid && Uuid::isValid($user->uuid);
                 $current = $is_current_valid ? Uuid::fromString($user->uuid) : false;
                 
                 if (($is_current_valid && $current->equals($zero_uuid)) ||
