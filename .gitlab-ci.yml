@@ -92,7 +92,7 @@ unit_test:
   script:
     - php --ri imagick
     - cp env.ci .env
-    - cp env.ci testing.env
+    - cp env.ci .env.testing
     - mkdir ./storage/documents
     - composer install --prefer-dist
     - composer run install-video-cli
@@ -103,8 +103,7 @@ unit_test:
     - php artisan view:clear
     - php artisan config:clear
     - php artisan route:clear
-    - php artisan migrate --env=testing --force
-    - php artisan db:seed --env=testing --force
+    - php artisan migrate --env=testing --seed --force
     - vendor/bin/phpunit
     - php artisan lang:check --report=translations.txt
   tags:
