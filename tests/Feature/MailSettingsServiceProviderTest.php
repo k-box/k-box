@@ -6,10 +6,11 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use KBox\Option;
 use KBox\Providers\SettingsServiceProvider;
+use Tests\Concerns\ClearDatabase;
 
 class MailSettingsServiceProviderTest extends TestCase
 {
-    use DatabaseTransactions;
+    use DatabaseTransactions, ClearDatabase;
     
     public function test_settings_provider_use_configuration_persisted_in_database()
     {
@@ -79,6 +80,8 @@ class MailSettingsServiceProviderTest extends TestCase
             'mail.default' => 'log',
             'mail.mailers.smtp.host' => 'smtp.example.com',
             'mail.mailers.smtp.port' => '465',
+            'mail.mailers.smtp.username' => null,
+            'mail.mailers.smtp.password' => null,
             'mail.from.address' => null,
             'mail.from.name' => null,
         ]);

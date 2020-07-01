@@ -38,7 +38,8 @@ class KlinkAdapterTest extends TestCase
 
         $this->assertNotNull($test_results);
         $this->assertTrue(is_array($test_results), 'test result is not an array');
-        $this->assertArraySubset(['status' => 'error'], $test_results);
+        $this->assertArrayHasKey('status', $test_results);
+        $this->assertEquals('error', $test_results['status']);
         $this->assertArrayHasKey('error', $test_results);
         $this->assertNotEmpty($test_results['error']);
     }
@@ -59,7 +60,8 @@ class KlinkAdapterTest extends TestCase
 
         $this->assertNotNull($test_results);
         $this->assertTrue(is_array($test_results), 'test result is not an array');
-        $this->assertArraySubset(['status' => 'error'], $test_results);
+        $this->assertArrayHasKey('status', $test_results);
+        $this->assertEquals('error', $test_results['status']);
         $this->assertArrayHasKey('error', $test_results);
         $this->assertNotEmpty($test_results['error']);
     }
@@ -90,7 +92,8 @@ class KlinkAdapterTest extends TestCase
 
         $this->assertNotNull($test_results);
         $this->assertTrue(is_array($test_results), 'test result is not an array');
-        $this->assertArraySubset(['status' => 'error'], $test_results);
+        $this->assertArrayHasKey('status', $test_results);
+        $this->assertEquals('error', $test_results['status']);
         $this->assertArrayHasKey('error', $test_results);
         $this->assertNotEmpty($test_results['error']);
     }

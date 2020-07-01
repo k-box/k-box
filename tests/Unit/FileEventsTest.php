@@ -28,8 +28,10 @@ class FileEventsTest extends TestCase
     
     public function test_deleted_event_fired_for_file_delete()
     {
-        Event::fake();
         $file = factory(File::class)->create();
+
+        Event::fake();
+
         $this->actingAs($file->user);
 
         $file->forceDelete();
@@ -41,8 +43,10 @@ class FileEventsTest extends TestCase
     
     public function test_restored_event_fired_for_trashed_file()
     {
-        Event::fake();
         $file = factory(File::class)->create();
+        
+        Event::fake();
+
         $file->delete();
 
         $file->restore();
@@ -54,9 +58,12 @@ class FileEventsTest extends TestCase
     
     public function test_restored_event_get_current_authenticated_user()
     {
-        Event::fake();
         $file = factory(File::class)->create();
+        
+        Event::fake();
+        
         $this->actingAs($file->user);
+        
         $file->delete();
 
         $file->restore();

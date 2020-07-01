@@ -79,7 +79,7 @@ class GroupDetailsControllerTest extends TestCase
         $response->assertViewHas('is_project', true);
         $response->assertViewHas('can_share', true);
 
-        $response->assertSee(e($user->name));
+        $response->assertSee($user->name);
     }
 
     public function test_details_for_shared_collection()
