@@ -125,7 +125,7 @@ class UserCreationTest extends TestCase
 
         $user = factory(User::class)->create();
 
-        config(['mail.driver' => 'smtp']);
+        config(['mail.default' => 'smtp']);
 
         Option::put('mail.host', 'value');
         Option::put('mail.port', 'value');

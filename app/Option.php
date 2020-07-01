@@ -198,14 +198,16 @@ class Option extends Model
      */
     public static function isMailEnabled()
     {
-        $driver = config('mail.driver');
-
-        if ($driver === 'log') {
+        if (self::isMailUsingDriver('log')) {
             return true;
         }
 
-        $host = static::option('mail.host', config('mail.host', false));
-        $port = static::option('mail.port', config('mail.port', false));
+        if (! self::isMailUsingDriver('smtp')) {
+            return false;
+        }
+
+        $host = static::option('mail.host', config('mail.mailers.smtp.host', false));
+        $port = static::option('mail.port', config('mail.mailers.smtp.port', false));
         $address = static::option('mail.from.address', config('mail.from.address', false));
         $name = static::option('mail.from.name', config('mail.from.name', false));
 
@@ -216,20 +218,24 @@ class Option extends Model
         return true;
     }
 
+    private static function getMailDriver()
+    {
+        return config('mail.default');
+    }
+    
+    private static function isMailUsingDriver($driver)
+    {
+        return self::getMailDriver() === $driver;
+    }
+
     public static function isMailUsingLogDriver()
     {
-        $driver = config('mail.driver');
-
-        if ($driver === 'log') {
-            return true;
-        }
-        
-        return false;
+        return self::isMailUsingDriver('log');
     }
 
     public static function isMailUsingSmtpDriver()
     {
-        return ! static::isMailUsingLogDriver();
+        return self::isMailUsingDriver('smtp');
     }
     
     /**

@@ -59,8 +59,7 @@ class MailAdministrationController extends Controller
         'from_name' => 'mail.from.name',
         ];
 
-        $mail_config = config('mail');
-        $is_log_driver = $mail_config['driver'] === 'log';
+        $is_log_driver = Option::isMailUsingLogDriver();
 
         $res = DB::transaction(function () use ($request, $from_fields, $server_fields, $is_log_driver) {
             $att = null;
