@@ -168,7 +168,7 @@ class PersonalExportTest extends TestCase
 
         $response->assertViewHas('exports');
 
-        $response->assertSee(route('profile.data-export.download', ['export' => $export->name]));
+        $response->assertSee(route('profile.data-export.download', ['export' => $export->name]), false);
     }
     
     public function test_personal_export_is_created()
@@ -312,7 +312,7 @@ class PersonalExportTest extends TestCase
             'name' => 'export.zip'
         ]);
         
-        $url = route('profile.data-export.download', ['name' => 'export.zip']);
+        $url = route('profile.data-export.download', ['export' => 'export.zip']);
 
         $response = $this->actingAs($user)->get($url);
 

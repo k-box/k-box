@@ -20,8 +20,16 @@
                 {{ trans('mail.verify.before_proceeding') }}
             </p>
             <p>
-                {{ trans('mail.verify.if_not_received') }}, <a href="{{ route('verification.resend') }}">{{ trans('mail.verify.request_another') }}</a>.
+                {{ trans('mail.verify.if_not_received') }},
             </p>
+
+            <form class="" method="POST" action="{{ route('verification.resend') }}">
+                @csrf
+
+                <button type="submit" class="btn btn-link p-0 m-0 align-baseline">
+                    {{ trans('mail.verify.request_another') }}
+                </button>.
+            </form>
         </div>
     </div>
 

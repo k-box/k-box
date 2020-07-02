@@ -18,6 +18,7 @@ use KBox\Events\FileDeleting;
 use KBox\Events\FileRestored;
 use KBox\Traits\ScopeNullUuid;
 use Illuminate\Support\Str;
+use Dyrynda\Database\Casts\EfficientUuid;
 
 /**
  * The representation of a File on disk
@@ -82,7 +83,7 @@ class File extends Model
     protected $dates = ['deleted_at', 'upload_started_at', 'upload_completed_at'];
 
     protected $casts = [
-        'uuid' => 'uuid',
+        'uuid' => EfficientUuid::class,
         'properties' => 'collection',
     ];
 
@@ -446,7 +447,7 @@ class File extends Model
         }
         $storage = Storage::disk('local');
 
-        if ($this->uuid && basename(dirname($this->path)) === $this->uuid) {
+        if ($this->uuid && basename(dirname($this->path)) === (string)$this->uuid) {
             @$storage->deleteDirectory(dirname($this->path));
         } else {
             @$storage->delete($this->path);

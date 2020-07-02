@@ -1,6 +1,6 @@
 # Events
 
-The K-Box has an internal event system based on [Laravel's Events](https://laravel.com/docs/5.7/events).
+The K-Box has an internal event system based on [Laravel's Events](https://laravel.com/docs/7.x/events).
 Events are used to track actions and workflows. An event can also trigger workflows and be used to process 
 asynchronous notifications or long-running actions.
 

@@ -122,7 +122,7 @@ class DuplicateDocumentTest extends TestCase
             'existing_link' => RoutingHelpers::preview($duplicate->duplicateOf),
             'existing_title' => e($duplicate->duplicateOf->title),
             'owner' => e($manager->name),
-            'collections' => '<a href="'.route('documents.groups.show', [ 'id' => $project->collection->id, 'highlight' => $descriptor->id]).'">'.$project->collection->name.'</a>',
+            'collections' => '<a href="'.route('documents.groups.show', [ 'group' => $project->collection->id, 'highlight' => $descriptor->id]).'">'.$project->collection->name.'</a>',
         ]);
 
         $this->assertEquals($expected, $duplicate->message);

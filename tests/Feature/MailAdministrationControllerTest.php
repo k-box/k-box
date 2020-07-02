@@ -24,15 +24,7 @@ class MailAdministrationControllerTest extends TestCase
         Option::remove('mail.username');
         Option::remove('mail.password');
 
-        config(['mail.driver' => 'log']);
-
-        $adapter = $this->withKlinkAdapterFake();
-
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
-
-        $this->actingAs($user);
+        config(['mail.default' => 'log']);
 
         $this->assertTrue(Option::isMailEnabled());
     }
@@ -43,8 +35,8 @@ class MailAdministrationControllerTest extends TestCase
 
         // Manually resetting the configuration as on CI job seems to be needed
         config([
-            'mail.host' => null,
-            'mail.port' => null,
+            'mail.mailers.smtp.host' => null,
+            'mail.mailers.smtp.port' => null,
             'mail.from.address' => null,
             'mail.from.name' => null,
         ]);
@@ -56,7 +48,7 @@ class MailAdministrationControllerTest extends TestCase
         Option::remove('mail.username');
         Option::remove('mail.password');
 
-        config(['mail.driver' => 'smtp']);
+        config(['mail.default' => 'smtp']);
 
         $this->assertFalse(Option::isMailEnabled());
     }
@@ -71,9 +63,9 @@ class MailAdministrationControllerTest extends TestCase
         Option::remove('mail.password');
 
         config([
-            'mail.driver' => 'smtp',
-            'mail.host' => 'smtp.something.com',
-            'mail.port' => 465,
+            'mail.default' => 'smtp',
+            'mail.mailers.smtp.host' => 'smtp.something.com',
+            'mail.mailers.smtp.port' => 465,
             'mail.from.address' => 'from@k-link.technology',
             'mail.from.name' => 'Testing DMS',
         ]);
@@ -104,7 +96,7 @@ class MailAdministrationControllerTest extends TestCase
         Option::remove('mail.password');
 
         config([
-            'mail.driver' => 'smtp',
+            'mail.default' => 'smtp',
         ]);
 
         $adapter = $this->withKlinkAdapterFake();
@@ -123,14 +115,15 @@ class MailAdministrationControllerTest extends TestCase
                 'smtp_u' => 'user',
                 'smtp_p' => 'password',
             ]);
+        $response->assertSessionHasNoErrors();
 
-        $this->assertTrue(Option::isMailEnabled());
         $this->assertEquals('test@k-link.technology', Option::option('mail.from.address', false));
         $this->assertEquals('Test DMS', Option::option('mail.from.name', false));
         $this->assertEquals('465', Option::option('mail.port', 0));
         $this->assertEquals('smtp.example.com', Option::option('mail.host', false));
         $this->assertEquals('user', Option::option('mail.username', false));
         $this->assertEquals(base64_encode('password'), Option::option('mail.password', false));
+        $this->assertTrue(Option::isMailEnabled());
     }
 
     public function testSendingTestMessage()
@@ -138,9 +131,9 @@ class MailAdministrationControllerTest extends TestCase
         Mail::fake();
 
         config([
-            'mail.driver' => 'smtp',
-            'mail.host' => 'smtp.something.com',
-            'mail.port' => 465,
+            'mail.default' => 'smtp',
+            'mail.mailers.smtp.host' => 'smtp.something.com',
+            'mail.mailers.smtp.port' => 465,
             'mail.from.address' => 'from@k-link.technology',
             'mail.from.name' => 'Testing DMS',
         ]);
@@ -166,9 +159,9 @@ class MailAdministrationControllerTest extends TestCase
         Mail::fake();
 
         config([
-            'mail.driver' => 'smtp',
-            'mail.host' => 'smtp.something.com',
-            'mail.port' => 465,
+            'mail.default' => 'smtp',
+            'mail.mailers.smtp.host' => 'smtp.something.com',
+            'mail.mailers.smtp.port' => 465,
             'mail.from.address' => null,
             'mail.from.name' => 'Testing DMS',
         ]);

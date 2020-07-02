@@ -2,21 +2,17 @@
 
 namespace Tests\Unit;
 
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use PHPUnit\Framework\TestCase;
 
 class ExampleTest extends TestCase
 {
-    use DatabaseTransactions;
-    
     /**
-     * A basic functional test example.
+     * A basic test example.
      *
      * @return void
      */
-    public function test_login_page_is_presented_as_default_route()
+    public function testBasicTest()
     {
-        $response = $this->get('/');
-        $response->assertSee('Login');
+        $this->assertTrue(true);
     }
 }

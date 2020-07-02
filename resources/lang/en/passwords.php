@@ -17,6 +17,7 @@ return [
     "user" => "We can't find a user with that e-mail address.",
     "token" => "The password reset link you have used is expired. It will be usable only for 5 minutes after the password reset request.",
     "sent" => "If the specified email is registered, you should receive an email within a few minutes.",
+    'throttled' => 'Please wait before retrying.',
     "reset" => "Password has been reset",
 
     'forgot' => [

@@ -17,6 +17,6 @@ trait ScopeNullUuid
         if (method_exists($this, 'runSoftDelete')) {
             $query->withTrashed();
         }
-        return $query->where('uuid', 0);
+        return $query->where('uuid', 0)->orWhereNull('uuid');
     }
 }

@@ -176,6 +176,6 @@ class InvitesControllerTest extends TestCase
 
         $response->assertViewIs('invites.index');
         $response->assertViewHas('invites');
-        $response->assertSee(__('invite.create.title'));
+        $response->assertSee(__('invite.create.title'), false);
     }
 }

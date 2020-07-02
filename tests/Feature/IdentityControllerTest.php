@@ -58,7 +58,7 @@ class IdentityControllerTest extends TestCase
 
         $response = $this->actingAs($user)->get(route('administration.index'));
 
-        $response->assertSee(trans('notices.contacts_not_configured', ['url' => route('administration.identity.index')]));
+        $response->assertSee(trans('notices.contacts_not_configured', ['url' => route('administration.identity.index')]), false);
     }
     
     public function testContactsAreSaved()
@@ -111,8 +111,8 @@ class IdentityControllerTest extends TestCase
         $response->assertSee("An Organization name");
         $response->assertSee("some@email.com");
         $response->assertSee("+49-123456789");
-        $response->assertSee("https://k-link.technology");
-        $response->assertSee("https://k-link.technology/some.jpg");
+        $response->assertSee("https://k-link.technology", false);
+        $response->assertSee("https://k-link.technology/some.jpg", false);
         $response->assertSee("Street");
         $response->assertSee("Locality");
         $response->assertSee("Country");

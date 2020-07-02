@@ -7,8 +7,6 @@ use KBox\File;
 use KBox\Documents\FileHelper;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use KBox\Documents\Preview\PresentationPreview;
-use KBox\Documents\FileProperties;
-use KBox\Documents\Presentation\PresentationProperties;
 
 class PresentationPreviewTest extends TestCase
 {
@@ -32,12 +30,8 @@ class PresentationPreviewTest extends TestCase
         $html = $preview->render();
 
         $this->assertInstanceOf(PresentationPreview::class, $preview);
-        // $this->assertNotNull($preview->properties());
-        // $this->assertInstanceOf(FileProperties::class, $preview->properties());
-        // $this->assertInstanceOf(PresentationProperties::class, $preview->properties());
-        // $this->assertEquals(4, $preview->properties()->totalSlides());
         $this->assertNotNull($html);
         $this->assertNotEmpty($html);
-        $this->assertContains('slides', $html);
+        $this->assertStringContainsString('slides', $html);
     }
 }

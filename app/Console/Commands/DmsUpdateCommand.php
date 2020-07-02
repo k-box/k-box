@@ -410,13 +410,13 @@ class DmsUpdateCommand extends Command
 
         DocumentDescriptor::local()->chunk($chunkSize, function ($documents) use (&$counter, $zero_uuid) {
             foreach ($documents as $doc) {
-                $is_current_valid = Uuid::isValid($doc->uuid);
+                $is_current_valid = $doc->uuid && Uuid::isValid($doc->uuid);
                 $current = $is_current_valid ? Uuid::fromString($doc->uuid) : false;
                 
                 if (($is_current_valid && $current->equals($zero_uuid)) ||
                      ! $is_current_valid ||
                     ($is_current_valid && $current && $current->getVersion() !== 4)) {
-                    $doc->uuid = Uuid::{$doc->resolveUuidVersion()}()->getBytes();
+                    $doc->uuid = Uuid::{$doc->resolveUuidVersion()}();
                     //temporarly disable the automatic upgrade of the updated_at field
                     $doc->timestamps = false;
                     $doc->save();
@@ -442,13 +442,13 @@ class DmsUpdateCommand extends Command
 
         User::chunk($chunkSize, function ($users) use (&$counter, $zero_uuid) {
             foreach ($users as $user) {
-                $is_current_valid = Uuid::isValid($user->uuid);
+                $is_current_valid = $user->uuid && Uuid::isValid($user->uuid);
                 $current = $is_current_valid ? Uuid::fromString($user->uuid) : false;
                 
                 if (($is_current_valid && $current->equals($zero_uuid)) ||
                      ! $is_current_valid ||
                     ($is_current_valid && $current && $current->getVersion() !== 4)) {
-                    $user->uuid = Uuid::{$user->resolveUuidVersion()}()->getBytes();
+                    $user->uuid = Uuid::{$user->resolveUuidVersion()}();
                     //temporarly disable the automatic upgrade of the updated_at field
                     $user->timestamps = false;
                     $user->save();
@@ -474,13 +474,13 @@ class DmsUpdateCommand extends Command
 
         Group::chunk($chunkSize, function ($groups) use (&$counter, $zero_uuid) {
             foreach ($groups as $group) {
-                $is_current_valid = Uuid::isValid($group->uuid);
+                $is_current_valid = $group->uuid && Uuid::isValid($group->uuid);
                 $current = $is_current_valid ? Uuid::fromString($group->uuid) : false;
                 
                 if (($is_current_valid && $current->equals($zero_uuid)) ||
                      ! $is_current_valid ||
                     ($is_current_valid && $current && $current->getVersion() !== 4)) {
-                    $group->uuid = Uuid::{$group->resolveUuidVersion()}()->getBytes();
+                    $group->uuid = Uuid::{$group->resolveUuidVersion()}();
                     //temporarly disable the automatic upgrade of the updated_at field
                     $group->timestamps = false;
                     $group->save();
@@ -506,13 +506,13 @@ class DmsUpdateCommand extends Command
 
         Project::chunk($chunkSize, function ($projects) use (&$counter, $zero_uuid) {
             foreach ($projects as $project) {
-                $is_current_valid = Uuid::isValid($project->uuid);
+                $is_current_valid = $project->uuid && Uuid::isValid($project->uuid);
                 $current = $is_current_valid ? Uuid::fromString($project->uuid) : false;
                 
                 if (($is_current_valid && $current->equals($zero_uuid)) ||
                      ! $is_current_valid ||
                     ($is_current_valid && $current && $current->getVersion() !== 4)) {
-                    $project->uuid = Uuid::{$project->resolveUuidVersion()}()->getBytes();
+                    $project->uuid = Uuid::{$project->resolveUuidVersion()}();
                     //temporarly disable the automatic upgrade of the updated_at field
                     $project->timestamps = false;
                     $project->save();
@@ -538,13 +538,13 @@ class DmsUpdateCommand extends Command
 
         File::chunk($chunkSize, function ($files) use (&$counter, $zero_uuid) {
             foreach ($files as $file) {
-                $is_current_valid = Uuid::isValid($file->uuid);
+                $is_current_valid = $file->uuid && Uuid::isValid($file->uuid);
                 $current = $is_current_valid ? Uuid::fromString($file->uuid) : false;
                 
                 if (($is_current_valid && $current->equals($zero_uuid)) ||
                      ! $is_current_valid ||
                     ($is_current_valid && $current && $current->getVersion() !== 4)) {
-                    $file->uuid = Uuid::{$file->resolveUuidVersion()}()->getBytes();
+                    $file->uuid = Uuid::{$file->resolveUuidVersion()}();
                     //temporarly disable the automatic upgrade of the updated_at field
                     $file->timestamps = false;
                     $file->save();

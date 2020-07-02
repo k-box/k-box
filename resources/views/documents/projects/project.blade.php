@@ -9,7 +9,7 @@
 
 		<div class="item__thumbnail klink-project">
 			
-			<img src="{{asset('images/transparent.png')}}" @if($item->avatar) data-src="{{ route('projects.avatar.index', ['id' => $item->id]) }}" @endif />
+			<img src="{{asset('images/transparent.png')}}" @if($item->avatar) data-src="{{ route('projects.avatar.index', $item->id) }}" @endif />
 
 		</div>
 

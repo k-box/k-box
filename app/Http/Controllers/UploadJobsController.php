@@ -26,7 +26,7 @@ class UploadJobsController extends TusUploadQueueController
         }
 
         if ($collection) {
-            return redirect()->route('documents.groups.show', [ 'id' => $collection, 'highlight' => $file->document->id]);
+            return redirect()->route('documents.groups.show', [ 'group' => $collection, 'highlight' => $file->document->id]);
         }
 
         return redirect()->route('documents.index', ['highlight' => $file->document->id]);

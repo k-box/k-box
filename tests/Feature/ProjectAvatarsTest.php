@@ -42,23 +42,21 @@ class ProjectAvatarsTest extends TestCase
         ];
     }
     
-    private function getFileForUpload()
-    {
-        $original_file = base_path('tests/data/project-avatar.png');
-        $copy_file =  storage_path('app/project-avatar-testing.png');
-        copy($original_file, $copy_file);
+    // private function getFileForUpload()
+    // {
+    //     $original_file = base_path('tests/data/project-avatar.png');
+    //     $copy_file =  storage_path('app/project-avatar-testing.png');
+    //     copy($original_file, $copy_file);
 
-        $file = new UploadedFile(
-            $copy_file,
-            basename($copy_file),
-            'image/png',
-            filesize($copy_file),
-            null,
-            true
-        );
+    //     $file = new UploadedFile(
+    //         $copy_file,
+    //         basename($copy_file),
+    //         'image/png',
+    //         true
+    //     );
 
-        return $file;
-    }
+    //     return $file;
+    // }
 
     private function createUser($capabilities, $userParams = [])
     {
@@ -129,7 +127,7 @@ class ProjectAvatarsTest extends TestCase
             '_token' => csrf_token()
         ];
 
-        $file = $this->getFileForUpload();
+        $file = UploadedFile::fake()->image('avatar.jpg');
 
         $response = $this->actingAs($project->manager)->json(
             'POST',
@@ -153,7 +151,7 @@ class ProjectAvatarsTest extends TestCase
             '_token' => csrf_token()
         ];
 
-        $file = $this->getFileForUpload();
+        $file = UploadedFile::fake()->image('avatar.jpg');
 
         $response = $this->actingAs($this->createUser(Capability::$ADMIN))->json(
             'POST',

@@ -16,6 +16,7 @@ use KBox\Events\DocumentDescriptorDeleted;
 use KBox\Events\DocumentDescriptorRestored;
 use KBox\Traits\ScopeNullUuid;
 use Illuminate\Support\Str;
+use KBox\Casts\UuidCast;
 
 /**
  * A Document Descriptor
@@ -164,7 +165,7 @@ class DocumentDescriptor extends Model
         // Cast the UUID field to UUID, which is a binary field
         // instead of a varchar, see https://www.percona.com/blog/2014/12/19/store-uuid-optimized-way/
         // and https://github.com/michaeldyrynda/laravel-efficient-uuid
-        'uuid' => 'uuid',
+        'uuid' => UuidCast::class,
         'copyright_owner' => 'collection',
     ];
     

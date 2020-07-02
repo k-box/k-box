@@ -31,9 +31,9 @@ class SpreadsheetPreviewTest extends TestCase
 
         $this->assertInstanceOf(SpreadsheetPreview::class, $preview);
         $this->assertNotEmpty($html);
-        $this->assertContains('second', $html);
-        $this->assertContains('line', $html);
-        $this->assertContains('preview__render preview__render--spreadsheet', $html);
+        $this->assertStringContainsString('second', $html);
+        $this->assertStringContainsString('line', $html);
+        $this->assertStringContainsString('preview__render preview__render--spreadsheet', $html);
     }
     
     public function testConvertXslxToHtml()
@@ -45,6 +45,6 @@ class SpreadsheetPreviewTest extends TestCase
 
         $this->assertInstanceOf(SpreadsheetPreview::class, $preview);
         $this->assertNotEmpty($html);
-        $this->assertContains('preview__render preview__render--spreadsheet', $html);
+        $this->assertStringContainsString('preview__render preview__render--spreadsheet', $html);
     }
 }

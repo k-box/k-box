@@ -30,7 +30,7 @@ To create new feature or unit test execute
 php artisan make:test [--unit] {TestClass}
 ```
 
-> For more information please refer to [Laravel's official documentation](https://laravel.com/docs/5.7/testing#creating-and-running-tests)
+> For more information please refer to [Laravel's official documentation](https://laravel.com/docs/7.x/testing#creating-and-running-tests)
 
 ## Helper methods
 
@@ -50,7 +50,7 @@ $this->swap('Class', new SubstituteClass());
 
 ## Mocking
 
-Beside the [Mocks](https://laravel.com/docs/5.7/mocking) and testing helpers defined 
+Beside the [Mocks](https://laravel.com/docs/7.x/mocking) and testing helpers defined 
 by Laravel, the K-Box offers some utilities.
 
 ### KlinkAdapter mock

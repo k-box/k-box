@@ -36,7 +36,7 @@ class GroupDetailsControllerTest extends TestCase
         $response->assertViewHas('is_project', false);
         $response->assertViewHas('can_share', true);
 
-        $response->assertSee(e($user->name));
+        $response->assertSee($user->name);
     }
 
     public function test_details_forbidden_if_collection_not_mine()
@@ -79,7 +79,7 @@ class GroupDetailsControllerTest extends TestCase
         $response->assertViewHas('is_project', true);
         $response->assertViewHas('can_share', true);
 
-        $response->assertSee(e($user->name));
+        $response->assertSee($user->name);
     }
 
     public function test_details_for_shared_collection()
@@ -114,7 +114,7 @@ class GroupDetailsControllerTest extends TestCase
         $response->assertViewHas('share', $share);
         $response->assertViewHas('can_share', true);
 
-        $response->assertSee(e($user->name));
+        $response->assertSee($user->name);
         $response->assertSee(trans('documents.descriptor.shared'));
         $response->assertSee(trans('share.shared_on'));
     }

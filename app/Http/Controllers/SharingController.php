@@ -138,7 +138,7 @@ class SharingController extends Controller
         $partner = $auth->user()->can_all_capabilities(Capability::$PARTNER);
 
         if (is_a($share->shareable, \KBox\Group::class)) {
-            return redirect()->route($partner ? 'documents.groups.show' : 'shares.group', ['id' => $share->shareable->id]);
+            return redirect()->route($partner ? 'documents.groups.show' : 'shares.group', $share->shareable->id);
         }
 
         return redirect()->route($partner ? 'documents.sharedwithme' : 'shares.index', ['highlight' => $share->shareable->id]);
@@ -418,12 +418,12 @@ class SharingController extends Controller
         return $shares_list;
     }
     
-    public function showGroup(AuthGuard $auth, Request $request, $id)
+    public function showGroup(AuthGuard $auth, Request $request, $group)
     {
         
         // if shareable == group, Search is possible
         
-        $group = Group::findOrFail($id);
+        $group = Group::findOrFail($group);
         
         // $all = $group->documents()->get();
         

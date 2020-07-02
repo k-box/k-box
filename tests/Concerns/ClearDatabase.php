@@ -26,6 +26,7 @@ trait ClearDatabase
         DB::table('group_closure')->truncate();
         DB::table('document_groups')->truncate();
         DB::table('shared')->truncate();
+        DB::table('options')->truncate();
         Schema::enableForeignKeyConstraints();
     }
 }

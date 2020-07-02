@@ -30,12 +30,12 @@ class Microsites_IntegrationTest extends TestCase
         return [
             [ 'microsites.slug', ['slug' => 'test'] ],
             [ 'microsites.index', [] ],
-            [ 'microsites.show', ['id' => 1] ],
+            [ 'microsites.show', ['microsite' => 1] ],
             [ 'microsites.create', [] ],
             [ 'microsites.store', [] ],
-            [ 'microsites.edit', ['id' => 1] ],
-            [ 'microsites.update', ['id' => 1] ],
-            [ 'microsites.destroy', ['id' => 1] ]
+            [ 'microsites.edit', ['microsite' => 1] ],
+            [ 'microsites.update', ['microsite' => 1] ],
+            [ 'microsites.destroy', ['microsite' => 1] ]
         ];
     }
     
@@ -44,12 +44,12 @@ class Microsites_IntegrationTest extends TestCase
         return [
             [ 'get', 'microsites.slug', ['slug' => 'test'], 200, 'sites::site.site' ],
             [ 'get', 'microsites.index', [], 302, 'frontpage' ],
-            [ 'get', 'microsites.show', ['id' => 1], 200, 'sites::site.site' ],
+            [ 'get', 'microsites.show', ['microsite' => 1], 200, 'sites::site.site' ],
             [ 'get', 'microsites.create', [], 302, 'frontpage' ],
             [ 'post', 'microsites.store', [], 302, 'frontpage' ],
-            [ 'get', 'microsites.edit', ['id' => 1], 302, 'frontpage' ],
-            [ 'put', 'microsites.update', ['id' => 1], 302, 'frontpage' ],
-            [ 'delete', 'microsites.destroy', ['id' => 1], 302, 'frontpage' ]
+            [ 'get', 'microsites.edit', ['microsite' => 1], 302, 'frontpage' ],
+            [ 'put', 'microsites.update', ['microsite' => 1], 302, 'frontpage' ],
+            [ 'delete', 'microsites.destroy', ['microsite' => 1], 302, 'frontpage' ]
         ];
     }
     
@@ -143,8 +143,10 @@ class Microsites_IntegrationTest extends TestCase
 
         $response = $this->{$method}(route($route, $parameters));
 
-        $response->assertStatus(200);
-        $response->assertErrorView(404);
+        $response->assertStatus($return_code);
+        if ($return_code === 200) {
+            $response->assertErrorView(404);
+        }
     }
 
     /**
@@ -176,7 +178,7 @@ class Microsites_IntegrationTest extends TestCase
         
         $this->actingAs($project->manager()->first());
         
-        $response = $this->get(route('documents.projects.show', ['id' => $project->id]));
+        $response = $this->get(route('documents.projects.show', $project->id));
 
         $response->assertDontSee('Microsite');
         $response->assertDontSee(trans('microsites.actions.create'));
@@ -192,7 +194,7 @@ class Microsites_IntegrationTest extends TestCase
         $project = factory(Project::class)->create(['user_id' => $user->id]);
         
         $response = $this->actingAs($user)
-            ->from(route('projects.show', ['id' => $project->id ]))
+            ->from(route('projects.show', $project->id))
             ->get(route('microsites.create', ['project' => $project->id]));
         
         $response->assertViewIs('sites::create');
@@ -213,10 +215,10 @@ class Microsites_IntegrationTest extends TestCase
         ]);
         
         $response = $this->actingAs($project_manager)
-            ->from(route('projects.show', ['id' => $project->id ]))
+            ->from(route('projects.show', $project->id))
             ->get(route('microsites.create', ['project' => $project->id]));
 
-        $response->assertRedirect(route('projects.show', ['id' => $project->id ]));
+        $response->assertRedirect(route('projects.show', $project->id));
         $response->assertSessionHasErrors([
             'error' => trans('microsites.errors.create_already_exists', ['project' => $project->name])
         ]);
@@ -245,7 +247,7 @@ class Microsites_IntegrationTest extends TestCase
         $this->assertEquals($microsite_request['project'], $microsite->project_id);
         $this->assertEquals($project_manager->id, $microsite->user_id);
         
-        $response->assertRedirect(route('microsites.edit', ['id' => $microsite->id]));
+        $response->assertRedirect(route('microsites.edit', $microsite->id));
         
         $page = $microsite->pages()->first();
         
@@ -289,7 +291,7 @@ class Microsites_IntegrationTest extends TestCase
         $this->assertEquals($microsite_request['content']['en']['slug'], $page->slug, "Page slug has not been stored");
         $this->assertEquals('en', $page->language, "Page language has not been stored");
 
-        $response->assertRedirect(route('microsites.edit', ['id' => $microsite->id]));
+        $response->assertRedirect(route('microsites.edit', $microsite->id));
     }
     
     /**
@@ -314,7 +316,7 @@ class Microsites_IntegrationTest extends TestCase
         $response = $this->post(route('microsites.store'), $microsite_request);
         
         if ($error_type === 'authorize') {
-            $response->assertSee(trans('errors.403_text'));
+            $response->assertSee(trans('errors.403_text'), false);
             $response->assertDontSee('errors.403_text');
         } elseif (! is_null($error_type)) {
             $response->assertSessionHasErrors([$attribute]);
@@ -360,7 +362,7 @@ class Microsites_IntegrationTest extends TestCase
         ]);
         
         $response = $this->actingAs($project_manager)
-            ->get(route('microsites.edit', ['id' => $microsite->id]));
+            ->get(route('microsites.edit', $microsite->id));
         
         $response->assertOk();
         $response->assertViewIs('sites::edit');
@@ -430,7 +432,7 @@ class Microsites_IntegrationTest extends TestCase
             ]
         ];
         
-        $this->put(route('microsites.update', ['id' => $microsite->id]), $microsite_update_request);
+        $this->put(route('microsites.update', $microsite->id), $microsite_update_request);
         
         $microsite_after_update = Microsite::where('slug', $microsite_update_request['slug'])->first();
         
@@ -480,7 +482,7 @@ class Microsites_IntegrationTest extends TestCase
         
         $response = $this->delete(
             route('microsites.destroy', [
-                'id' => $microsite->id,
+                'microsite' => $microsite->id,
                 '_token' => csrf_token()])
         );
         
@@ -510,7 +512,7 @@ class Microsites_IntegrationTest extends TestCase
         $response = $this->actingAs($user)
             ->delete(
                 route('microsites.destroy', [
-                    'id' => $microsite->id,
+                    'microsite' => $microsite->id,
                     '_token' => csrf_token()])
             );
         

@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use Exception;
 use Tests\TestCase;
 use KBox\Contracts\Action;
 
@@ -14,11 +15,9 @@ class ActionTest extends TestCase
         });
     }
     
-    /**
-     * @expectedException \Exception
-     */
     public function test_action_can_throw_exception()
     {
+        $this->expectException(Exception::class);
         (new ActionThatFail())->handle('something', function ($output) {
         });
     }

@@ -43,9 +43,9 @@ class VideoPreviewDriverTest extends TestCase
         $this->assertInstanceOf(Renderable::class, $preview);
         $this->assertNotNull($html);
         $this->assertNotEmpty($html);
-        $this->assertContains('video', $html);
-        $this->assertContains('data-source', $html);
-        $this->assertContains($document->uuid, $html);
-        $this->assertContains($file->uuid, $html);
+        $this->assertStringContainsString('video', $html);
+        $this->assertStringContainsString('data-source', $html);
+        $this->assertStringContainsString($document->uuid, $html);
+        $this->assertStringContainsString($file->uuid, $html);
     }
 }

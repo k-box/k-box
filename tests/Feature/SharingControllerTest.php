@@ -142,7 +142,7 @@ class SharingControllerTest extends TestCase
             'shareable_id' => $to_be_shared->getKey(),
         ]);
 
-        $url = route('shares.show', ['id' => $share->token]);
+        $url = route('shares.show', $share->token);
 
         $params = [
             'highlight' => $to_be_shared->id
@@ -180,15 +180,11 @@ class SharingControllerTest extends TestCase
             'shareable_type' => get_class($to_be_shared),
         ]);
 
-        $url = route('shares.show', ['id' => $share->token]);
-
-        $params = [
-            'id' => $to_be_shared->id
-        ];
+        $url = route('shares.show', $share->token);
 
         $response = $this->actingAs($user_target)->get($url);
             
-        $response->assertRedirect(route($expected_route_name, $params));
+        $response->assertRedirect(route($expected_route_name, $to_be_shared->id));
     }
     
     public function test_project_collections_cannot_be_shared()
@@ -273,7 +269,7 @@ class SharingControllerTest extends TestCase
         ]);
             
         $response =  $this->actingAs($user)
-            ->json('DELETE', route('shares.destroy', ['id' => $share->id]), []);
+            ->json('DELETE', route('shares.destroy', $share->id), []);
 
         $response->assertJson(['status' => 'ok', 'message' => trans('share.removed')]);
     }

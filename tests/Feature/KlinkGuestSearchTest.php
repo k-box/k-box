@@ -85,6 +85,6 @@ class KlinkGuestSearchTest extends TestCase
         $response = $this->get('/login');
 
         $response->assertStatus(200);
-        $response->assertSee('name="s"');
+        $response->assertSee('name="s"', false);
     }
 }

@@ -17,9 +17,9 @@ class KlinkDocumentDescriptorTest extends TestCase
 
     public function test_private_document_descriptor_can_be_converted_to_ksearch_data()
     {
-        $descriptor = factory(\KBox\DocumentDescriptor::class)->make([
+        $descriptor = factory(\KBox\DocumentDescriptor::class)->create([
             // generating an author string that don't respect the format
-            'authors' => 'Hello Author hello@author.com,Hello Author2 <hello@author2.com>'
+            'authors' => 'Hello Author hello@author.com,Hello Author2 <hello@author2.com>',
         ]);
 
         $klink_descriptor = $descriptor->toKlinkDocumentDescriptor();
@@ -55,7 +55,7 @@ class KlinkDocumentDescriptorTest extends TestCase
 
     public function test_private_document_descriptor_is_anonymized()
     {
-        $descriptor = factory(\KBox\DocumentDescriptor::class)->make();
+        $descriptor = factory(\KBox\DocumentDescriptor::class)->create();
 
         $klink_descriptor = $descriptor->toKlinkDocumentDescriptor();
 
@@ -100,10 +100,10 @@ class KlinkDocumentDescriptorTest extends TestCase
         $this->assertEquals('document', $data->type);
         $this->assertEquals($descriptor->uuid, $data->uuid);
         $this->assertEquals($descriptor->hash, $data->hash);
-        $this->assertEquals(route('documents.preview', ['id' => $descriptor->uuid]), $data->url);
+        $this->assertEquals(route('documents.preview', $descriptor->uuid), $data->url);
         $this->assertEquals($descriptor->title, $data->properties->title);
         $this->assertEquals($descriptor->mime_type, $data->properties->mime_type);
-        $this->assertEquals(route('documents.thumbnail', ['id' => $descriptor->uuid]), $data->properties->thumbnail);
+        $this->assertEquals(route('documents.thumbnail', $descriptor->uuid), $data->properties->thumbnail);
 
         $this->assertEmpty($data->authors);
         $this->assertEquals(url('/'), $data->uploader->url);
@@ -153,7 +153,7 @@ class KlinkDocumentDescriptorTest extends TestCase
 
     public function test_copyright_is_added()
     {
-        $descriptor = factory(\KBox\DocumentDescriptor::class)->make([
+        $descriptor = factory(\KBox\DocumentDescriptor::class)->create([
             'copyright_usage' => 'CC-BY-4.0',
             'copyright_owner' => collect([
                 'name' => 'copyright owner',
@@ -177,7 +177,7 @@ class KlinkDocumentDescriptorTest extends TestCase
     
     public function test_copyright_partial_owner_is_supported()
     {
-        $descriptor = factory(\KBox\DocumentDescriptor::class)->make([
+        $descriptor = factory(\KBox\DocumentDescriptor::class)->create([
             'copyright_usage' => 'CC-BY-4.0',
             'copyright_owner' => collect([
                 'name' => 'copyright owner',
@@ -200,7 +200,7 @@ class KlinkDocumentDescriptorTest extends TestCase
     {
         Option::put(Option::COPYRIGHT_DEFAULT_LICENSE, 'PD');
 
-        $descriptor = factory(\KBox\DocumentDescriptor::class)->make([
+        $descriptor = factory(\KBox\DocumentDescriptor::class)->create([
             'copyright_usage' => null,
             'copyright_owner' => null
         ]);
@@ -221,7 +221,7 @@ class KlinkDocumentDescriptorTest extends TestCase
     {
         Option::put(Option::COPYRIGHT_DEFAULT_LICENSE, null);
 
-        $descriptor = factory(\KBox\DocumentDescriptor::class)->make([
+        $descriptor = factory(\KBox\DocumentDescriptor::class)->create([
             'copyright_usage' => null,
             'copyright_owner' => null
         ]);
@@ -240,7 +240,7 @@ class KlinkDocumentDescriptorTest extends TestCase
 
     public function test_mime_type_charset_is_sanitized()
     {
-        $descriptor = factory(\KBox\DocumentDescriptor::class)->make([
+        $descriptor = factory(\KBox\DocumentDescriptor::class)->create([
             'mime_type' => 'text/html; charset UTF-8',
         ]);
 

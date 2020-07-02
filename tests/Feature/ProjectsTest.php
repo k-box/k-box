@@ -21,11 +21,11 @@ class ProjectsTest extends TestCase
     {
         return [
             [ 'projects.index', [] ],
-            [ 'projects.show', ['id' => 1] ],
+            [ 'projects.show', ['project' => 1] ],
             [ 'projects.create', [] ],
             [ 'projects.store', [] ],
-            [ 'projects.edit', ['id' => 1] ],
-            [ 'projects.update', ['id' => 1] ]
+            [ 'projects.edit', ['project' => 1] ],
+            [ 'projects.update', ['project' => 1] ]
         ];
     }
 
@@ -218,7 +218,7 @@ class ProjectsTest extends TestCase
 
         $expected_available_users = collect([$this->createUser(Capability::$PARTNER)]);
 
-        $response = $this->actingAs($user)->get(route('projects.edit', ['id' => $project->id]));
+        $response = $this->actingAs($user)->get(route('projects.edit', $project->id));
 
         $response->assertStatus(200);
 
@@ -243,7 +243,7 @@ class ProjectsTest extends TestCase
 
         $expected_available_users = collect([$this->createUser(Capability::$PARTNER), $admin])->sortBy('name');
 
-        $response = $this->actingAs($admin)->get(route('projects.edit', ['id' => $project->id]));
+        $response = $this->actingAs($admin)->get(route('projects.edit', $project->id));
 
         $response->assertStatus(200);
 
@@ -266,7 +266,7 @@ class ProjectsTest extends TestCase
 
         $prjmanager = $this->createUser(Capability::$PROJECT_MANAGER);
 
-        $response = $this->actingAs($prjmanager)->get(route('projects.edit', ['id' => $project->id]));
+        $response = $this->actingAs($prjmanager)->get(route('projects.edit', $project->id));
 
         $response->assertStatus(403);
     }

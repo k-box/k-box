@@ -21,7 +21,7 @@ class ProjectsPageControllerTest extends TestCase
     {
         return [
             [ 'documents.projects.index', [] ],
-            [ 'documents.projects.show', ['id' => 1] ],
+            [ 'documents.projects.show', ['project' => 1] ],
         ];
     }
     
@@ -76,7 +76,7 @@ class ProjectsPageControllerTest extends TestCase
             if (strpos($route, 'show') !== false) {
                 $project = factory(Project::class)->create(['user_id' => $user->id]);
                 
-                $params = ['projects' => $project->id];
+                $params = ['project' => $project->id];
             } else {
                 $params = [];
             }
@@ -134,8 +134,8 @@ class ProjectsPageControllerTest extends TestCase
         $response->assertViewHas('pagetitle', trans('projects.page_title'));
         $response->assertViewHas('current_visibility', 'private');
         $response->assertViewHas('filter', trans('projects.all_projects'));
-        $response->assertSee(e($managed_project->manager->name));
-        $response->assertSee(e($project->manager->name));
+        $response->assertSee($managed_project->manager->name);
+        $response->assertSee($project->manager->name);
         $response->assertSee($managed_project->getCreatedAt());
         $response->assertSee($project->getCreatedAt());
     }

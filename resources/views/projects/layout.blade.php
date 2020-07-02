@@ -23,7 +23,7 @@
 			@forelse($projects as $p)
 			
 				
-				<a href="{{route('projects.show', ['id' => $p->id])}}" class="navigation__item navigation__item--link @if(isset($project) && $project->id == $p->id) navigation__item--current @endif">
+				<a href="{{route('projects.show', $p->id)}}" class="navigation__item navigation__item--link @if(isset($project) && $project->id == $p->id) navigation__item--current @endif">
 					{{$p->name}}
 				</a>
 				

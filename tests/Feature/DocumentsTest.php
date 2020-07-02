@@ -19,6 +19,7 @@ use Klink\DmsAdapter\KlinkVisibilityType;
 use Klink\DmsAdapter\Exceptions\KlinkException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use KBox\DocumentGroups;
+use KBox\Exceptions\ForbiddenException;
 use Klink\DmsAdapter\Fakes\FakeKlinkAdapter;
 
 /*
@@ -220,7 +221,7 @@ class DocumentsTest extends TestCase
         $group->documents()->save($doc);
         
         $response = $this->actingAs($user)
-            ->json('PUT', route('documents.update', ['id' => $doc->id]), [
+            ->json('PUT', route('documents.update', $doc->id), [
                  '_token' => csrf_token(),
                 'remove_group' => $group->id]);
         
@@ -259,7 +260,7 @@ class DocumentsTest extends TestCase
         $group = $service->createGroup($user, 'Personal collection of user '.$user->id);
         
         $response = $this->actingAs($user)
-            ->json('PUT', route('documents.update', ['id' => $doc->id]), [
+            ->json('PUT', route('documents.update', $doc->id), [
                  '_token' => csrf_token(),
                 'add_group' => $group->id]);
         
@@ -294,7 +295,7 @@ class DocumentsTest extends TestCase
         $group = $service->createGroup($user, 'Personal collection of user '.$user->id);
         
         $response = $this->actingAs($user)
-            ->json('PUT', route('documents.update', ['id' => $doc->id]), [
+            ->json('PUT', route('documents.update', $doc->id), [
                  '_token' => csrf_token(),
                 'add_group' => $group->id]);
         
@@ -600,9 +601,6 @@ class DocumentsTest extends TestCase
         $this->assertTrue($file->trashed());
     }
 
-    /**
-     * @expectedException KBox\Exceptions\ForbiddenException
-     */
     public function testDocumentService_deleteDocument_forbidden()
     {
         $user = $this->createUser([Capability::RECEIVE_AND_SEE_SHARE]);
@@ -610,6 +608,8 @@ class DocumentsTest extends TestCase
         $doc = $this->createDocument($user);
 
         $service = app('KBox\Documents\Services\DocumentsService');
+
+        $this->expectException(ForbiddenException::class);
 
         $service->deleteDocument($user, $doc);
     }
@@ -624,7 +624,7 @@ class DocumentsTest extends TestCase
 
         \Session::start();
 
-        $url = route('documents.destroy', ['id' => $doc->id,
+        $url = route('documents.destroy', ['document' => $doc->id,
                 '_token' => csrf_token()]);
         
         $response = $this->actingAs($user)->delete($url);
@@ -663,9 +663,6 @@ class DocumentsTest extends TestCase
         $this->assertNull($file);
     }
 
-    /**
-     * @expectedException KBox\Exceptions\ForbiddenException
-     */
     public function testDocumentService_permanentlyDeleteDocument_forbidden()
     {
         $this->withKlinkAdapterFake();
@@ -677,6 +674,8 @@ class DocumentsTest extends TestCase
         $service = app('KBox\Documents\Services\DocumentsService');
 
         $service->deleteDocument($user, $doc); // put doc in trash
+        
+        $this->expectException(ForbiddenException::class);
 
         $is_deleted = $service->permanentlyDeleteDocument($user, $doc);
     }
@@ -691,7 +690,7 @@ class DocumentsTest extends TestCase
 
         \Session::start();
 
-        $url = route('documents.destroy', ['id' => $doc->id,
+        $url = route('documents.destroy', ['document' => $doc->id,
                 '_token' => csrf_token()]);
         
         $response = $this->actingAs($user)->delete($url);
@@ -700,7 +699,7 @@ class DocumentsTest extends TestCase
         $response->assertStatus(202);
 
         $url = route('documents.destroy', [
-                'id' => $doc->id,
+                'document' => $doc->id,
                 'force' => true,
                 '_token' => csrf_token()]);
 
@@ -840,7 +839,7 @@ class DocumentsTest extends TestCase
         $service->addDocumentToGroup($user, $descriptor, $project_group);
         $descriptor = $descriptor->fresh();
         
-        $url = route('documents.groups.show', array_merge(['id' => $project_group->id], $search_parameters));
+        $url = route('documents.groups.show', array_merge(['group' => $project_group->id], $search_parameters));
 
         $searchRequest = KlinkSearchRequest::build($search_parameters, 'private', 1, 1, [], []);
         $this->withKlinkAdapterFake()->setSearchResults('private', KlinkSearchResults::fake($searchRequest, []));

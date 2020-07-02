@@ -152,13 +152,8 @@ class MicrositeController extends Controller
                 
                 return $st;
             });
-
-            // if ($request->wantsJson())
-            // {
-            //     return response()->json($project);
-            // }
             
-            return redirect()->route('microsites.edit', ['id' => $site->id])->with([
+            return redirect()->route('microsites.edit', $site->id)->with([
                 'flash_message' => trans('microsites.messages.created', [
                     'title' => $site->title,
                     'site_url' => route('projects.site', ['slug' => $site->slug]),
@@ -167,11 +162,6 @@ class MicrositeController extends Controller
             ]);
         } catch (\Exception $ex) {
             \Log::error('Error creating microsite', ['params' => $request->all(), 'exception' => $ex]);
-
-            // if ($request->wantsJson())
-            // {
-            //     return new JsonResponse(array('status' => trans('projects.errors.exception', ['exception' => $ex->getMessage()])), 500);
-            // }
             
             return redirect()->back()->withInput()->withErrors(
                 ['error' => trans('microsites.errors.create', ['error' => $ex->getMessage()])]
@@ -237,7 +227,7 @@ class MicrositeController extends Controller
             'available_languages' => $available_languages,
             'language' => $language,
             'content' => $content,
-            'search_action' => $is_loggedin ? route('documents.groups.show', ['id' => $microsite->project->collection_id]) : route('search'),
+            'search_action' => $is_loggedin ? route('documents.groups.show', $microsite->project->collection_id) : route('search'),
             'isloggedin' => $is_loggedin,
             'project_collection_id' => $microsite->project->collection_id
         ]);

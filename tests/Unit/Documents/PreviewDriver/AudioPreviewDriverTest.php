@@ -43,9 +43,9 @@ class AudioPreviewDriverTest extends TestCase
         $this->assertInstanceOf(Renderable::class, $preview);
         $this->assertNotNull($html);
         $this->assertNotEmpty($html);
-        $this->assertContains('audio', $html);
-        $this->assertContains('data-source', $html);
-        $this->assertContains($document->uuid, $html);
-        $this->assertContains($file->uuid, $html);
+        $this->assertStringContainsString('audio', $html);
+        $this->assertStringContainsString('data-source', $html);
+        $this->assertStringContainsString($document->uuid, $html);
+        $this->assertStringContainsString($file->uuid, $html);
     }
 }

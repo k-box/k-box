@@ -61,7 +61,6 @@ class UploadCompletedHandlerTest extends TestCase
 
     public function test_duplicate_found_is_raised_when_the_user_upload_the_same_document_twice()
     {
-        Event::fake();
         $descriptor = factory(DocumentDescriptor::class)->create();
         $user = $descriptor->owner;
 
@@ -72,6 +71,8 @@ class UploadCompletedHandlerTest extends TestCase
         $file = $descriptor->file;
 
         $uploadCompleteEvent = new UploadCompleted($descriptor, $user);
+
+        Event::fake([FileDuplicateFoundEvent::class]);
 
         $handler = new UploadCompletedHandler();
 
@@ -132,7 +133,7 @@ class UploadCompletedHandlerTest extends TestCase
     public function test_duplicate_found_not_dispatched_if_user_upload_again_a_old_revision_of_document()
     {
         $this->disableExceptionHandling();
-        Event::fake();
+        
         $this->withKlinkAdapterFake();
         
         $service = app('KBox\Documents\Services\DocumentsService');
@@ -167,6 +168,8 @@ class UploadCompletedHandlerTest extends TestCase
             'owner_id' => $userForDuplicate->id,
             'file_id' => $duplicateFile->id
         ]);
+
+        Event::fake([FileDuplicateFoundEvent::class]);
 
         $uploadCompleteEvent = new UploadCompleted($duplicate, $userForDuplicate);
 

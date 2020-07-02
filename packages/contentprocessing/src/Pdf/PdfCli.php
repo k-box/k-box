@@ -54,7 +54,7 @@ class PdfCli
         $executable = realpath($driver);
         
         $this->process = $process = new Process(
-            sprintf('"%1$s" -enc UTF-8 "%2$s" "%3$s"', $executable, $file, $extract_in),
+            [$executable, '-enc', 'UTF-8', $file, $extract_in],
             realpath(base_path(self::CLI_FOLDER))
         );
         

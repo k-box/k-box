@@ -11,6 +11,33 @@ class SettingsServiceProvider extends ServiceProvider
 {
 
     /**
+     * Mapping from database to configuration keys
+     *
+     * @var array
+     */
+    private $mailMappings = [
+        'mail.from.address' => 'mail.from.address',
+        'mail.from.name' => 'mail.from.name',
+        'mail.port' => 'mail.mailers.smtp.port',
+        'mail.host' => 'mail.mailers.smtp.host',
+        'mail.username' => 'mail.mailers.smtp.username',
+        'mail.password' => 'mail.mailers.smtp.password',
+    ];
+    
+    /**
+     * Mapping between absolute configuration keys
+     * and smtp relative configuration keys
+     *
+     * @var array
+     */
+    private $smtpMappings = [
+        'mail.mailers.smtp.port' => 'port',
+        'mail.mailers.smtp.host' => 'host',
+        'mail.mailers.smtp.username' => 'username',
+        'mail.mailers.smtp.password' => 'password',
+    ];
+
+    /**
      * Bootstrap the application services.
      *
      * @return void
@@ -36,28 +63,27 @@ class SettingsServiceProvider extends ServiceProvider
     private function loadMailConfiguration()
     {
         try {
-            $original = config('mail');
+            $mailer = config('mail.default');
+            $smtpMailerConfiguration = Arr::dot(config('mail.mailers.smtp') ?? []);
 
-            $sections = Option::section('mail')->get(['key', 'value']);
+            $sections = Option::sectionAsArray('mail');
 
-            if (! $sections->isEmpty()) {
-                $flat = $sections->toArray();
+            if (! empty($sections)) {
+                $dottedSections = Arr::dot($sections);
 
-                $keys = Arr::pluck($flat, 'key');
-                $values = Arr::pluck($flat, 'value');
+                foreach ($this->mailMappings as $optionKey => $configKey) {
+                    $value = $dottedSections[$optionKey] ?? $smtpMailerConfiguration[$this->smtpMappings[$configKey]];
 
-                $non_flat = [];
-                foreach (array_combine($keys, $values) as $key => $value) {
-                    Arr::set($non_flat, $key, $value);
-                }
-
-                if (array_key_exists('mail', $non_flat)) {
-                    if (isset($non_flat['mail']['password']) && ! empty($non_flat['mail']['password'])) {
-                        $non_flat['mail']['password'] = base64_decode($non_flat['mail']['password']);
+                    if ($optionKey == 'mail.password') {
+                        $value = base64_decode($value);
                     }
-
-                    config(['mail' => array_merge($original, $non_flat['mail'])]);
+                    
+                    $smtpMailerConfiguration[$configKey] = $value;
                 }
+                if ($mailer !== 'smtp') {
+                    config(['mail.default' => 'smtp']);
+                }
+                config($smtpMailerConfiguration);
             }
         } catch (\Illuminate\Database\QueryException $qe) {
             \Log::warning('Settings Service Provider query exception', ['error' => $qe]);

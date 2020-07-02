@@ -71,7 +71,7 @@ class ShareCreatedNotification extends Notification
 
         $is_collection = is_a($this->what, \KBox\Group::class) ? true : false;
         $item_title = $is_collection ? $this->what->name : $this->what->title;
-        $share_link = rtrim(config('app.url'), '/').route('shares.show', ['id' => $this->share->token], false);
+        $share_link = rtrim(config('app.url'), '/').route('shares.show', $this->share->token, false);
 
         return (new MailMessage)
                     ->subject(trans('mail.sharecreated.subject', ['user' => $this->from->name, 'title' => $item_title], '', $language))

@@ -6,7 +6,7 @@ use KBox\Flags;
 use Tests\TestCase;
 use Illuminate\Http\Request;
 use KBox\Http\Middleware\VerifyFlag;
-use Illuminate\Foundation\Testing\TestResponse;
+use Illuminate\Testing\TestResponse;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class VerifyFlagMiddlewareTest extends TestCase

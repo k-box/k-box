@@ -9,6 +9,7 @@ use Dyrynda\Database\Support\GeneratesUuid;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use KBox\Events\CollectionCreated;
 use KBox\Events\CollectionTrashed;
+use KBox\Casts\UuidCast;
 
 /**
  * A collection of document descriptors
@@ -52,7 +53,7 @@ use KBox\Events\CollectionTrashed;
  * @method static \Illuminate\Database\Query\Builder|\KBox\Group withAllDescendants()
  * @mixin \Eloquent
  */
-class Group extends Entity implements GroupInterface
+class Group extends Entity
 {
 
     // https://github.com/franzose/ClosureTable
@@ -84,14 +85,14 @@ class Group extends Entity implements GroupInterface
      *
      * @var groupClosure
      */
-    protected $closure = \KBox\GroupClosure::class;
+    protected $closure = GroupClosure::class;
 
     protected $fillable = ['name','color', 'user_id','parent_id', 'group_type_id', 'is_private'];
 
     public $timestamps = true;
 
     protected $casts = [
-        'uuid' => 'uuid',
+        'uuid' => UuidCast::class,
     ];
 
     protected $dispatchesEvents = [
@@ -151,19 +152,19 @@ class Group extends Entity implements GroupInterface
     /**
      * Get this group plus all descendants query
      */
-    public function scopeWithAllDescendants()
+    public function scopeWithAllDescendants($query)
     {
-        return $this->joinClosureBy('descendant', true);
+        return $this->scopeDescendantsWithSelf($query);
     }
     
-    public function scopeWithDescendants()
+    public function scopeWithDescendants($query)
     {
-        return $this->joinClosureBy('descendant');
+        return $this->scopeDescendants($query);
     }
     
-    public function scopeWithAncestors()
+    public function scopeWithAncestors($query)
     {
-        return $this->joinClosureBy('ancestor');
+        return $this->scopeAncestors($query);
     }
 
     public function shares()

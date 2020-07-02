@@ -2,20 +2,14 @@
 
 namespace KBox\Exceptions;
 
-use Exception;
-use ErrorException;
-use Illuminate\Http\JsonResponse;
-use GuzzleHttp\Exception\TransferException;
+use Throwable;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Session\TokenMismatchException;
 use Illuminate\Validation\ValidationException;
-use Klink\DmsAdapter\Exceptions\KlinkException;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Exceptions\PostTooLargeException;
-use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
-use Symfony\Component\Debug\Exception\FatalErrorException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 class Handler extends ExceptionHandler
@@ -47,10 +41,12 @@ class Handler extends ExceptionHandler
     /**
      * Report or log an exception.
      *
-     * @param  \Exception  $e
+     * @param  \Throwable  $e
      * @return void
+     *
+     * @throws \Exception
      */
-    public function report(Exception $e)
+    public function report(Throwable $e)
     {
         parent::report($e);
     }
@@ -89,10 +85,12 @@ class Handler extends ExceptionHandler
      * Render an exception into an HTTP response.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \Exception  $e
-     * @return \Illuminate\Http\Response
+     * @param  \Throwable  $e
+     * @return \Symfony\Component\HttpFoundation\Response|\Illuminate\Http\Response
+     *
+     * @throws \Exception
      */
-    public function render($request, Exception $e)
+    public function render($request, Throwable $e)
     {
         if ($e instanceof ForbiddenException) {
             $e = new HttpException(403, $e->getMessage());
@@ -127,158 +125,6 @@ class Handler extends ExceptionHandler
             return response()->make(view('errors.503-readonly', ['reason' => 'ReadonlyModeException '.$e->getMessage()]), $e->getStatusCode());
         }
 
-        // if($e instanceof HttpResponseException)
-        // {
         return parent::render($request, $e);
-        // }
-
-        // if(app()->environment('local')){
-        
-        // 	if ($this->isHttpException($e))
-        // 	{
-        // 		return $this->renderHttpException($e);
-        // 	}
-        // 	else if($e instanceof TokenMismatchException)
-        //     {
-        //     	if($request->wantsJson()){
-        //     		return new JsonResponse(array('error' => trans('errors.token_mismatch_exception')), 500);
-        //     	}
-        // 		else if($request->ajax()){
-        //     		return response(trans('errors.token_mismatch_exception'), 500);
-        //     	}
-    
-        //         return response(trans('errors.token_mismatch_exception'), 500);
-        //     }
-        // 	else if($e instanceof FatalErrorException){
-        // 		if($request->wantsJson()){
-        //     		return new JsonResponse(array('error' => trans('errors.fatal', array('reason' => $e->getMessage()))), 500);
-        //     	}
-        // 		else if($request->ajax()){
-        //     		return response(trans('errors.fatal', array('reason' => $e->getMessage())), 500);
-        //     	}
-    
-        //         return response(trans('errors.fatal', array('reason' => $e->getMessage())), 500);
-        // 	}
-            
-        // 	return parent::render($request, $e);
-            
-        // }
-        // else {
-        // 	\Log::error('Exception Handler render', ['e' => $e]);
-
-        // 	if ($this->isHttpException($e) )
-        // 	{
-                
-        // 		if($e instanceof \Symfony\Component\HttpKernel\Exception\NotFoundHttpException){
-                    
-        // 			$message = empty($e->getMessage()) ? trans('errors.404_text') : $e->getMessage();
-                    
-        // 			if($request->wantsJson()){
-        //         		return new JsonResponse(array('error' => $message), 404);
-        //         	}
-        // 			else if($request->ajax()){
-        //         		return response($message, 404);
-        //         	}
-                    
-        // 			return response()->make(view('errors.404', ['error_message' => $message, 'reason' => $message]), 404);
-        // 		}
-        // 		else if($e->getStatusCode(413)){
-        // 			if($request->wantsJson()){
-        //         		return new JsonResponse(array('error' => trans('errors.413_text')), 413);
-        //         	}
-        // 			else if($request->ajax()){
-        //         		return response(trans('errors.413_text'), 413);
-        //         	}
-        // 		}
-                
-        // 		return parent::render($request, $e);
-        // 	}
-        // 	else if($e instanceof ModelNotFoundException)
-        //     {
-        //     	if($request->wantsJson()){
-        //     		return new JsonResponse(array('error' => trans('errors.404_text')), 404);
-        //     	}
-        // 		else if($request->ajax()){
-        //     		return response(trans('errors.404_text'), 404);
-        //     	}
-    
-        //         return response()->make(view('errors.404', ['reason' => 'ModelNotFoundException ' . $e->getMessage()]), 404);
-        //     }
-        // 	else if($e instanceof TokenMismatchException)
-        //     {
-        //     	if($request->wantsJson()){
-        //     		return new JsonResponse(array('error' => trans('errors.token_mismatch_exception')), 401);
-        //     	}
-        // 		else if($request->ajax()){
-        //     		return response(trans('errors.token_mismatch_exception'), 401);
-        //     	}
-    
-        //         return response(trans('errors.token_mismatch_exception'), 401);
-        //     }
-        // 	else if($e instanceof ForbiddenException)
-        //     {
-        //     	if($request->wantsJson()){
-        //     		return new JsonResponse(array('error' => trans('errors.403_text')), 403);
-        //     	}
-        // 		else if($request->ajax()){
-        //     		return response(trans('errors.403_text'), 403);
-        //     	}
-    
-        //         return response()->make(view('errors.403', ['reason' => 'ForbiddenException ' . $e->getMessage()]), 403);
-        //     }
-        // 	else if($e instanceof KlinkException)
-        //     {
-        //     	if($request->wantsJson()){
-        //     		return new JsonResponse(array('error' => trans('errors.klink_exception_text')), 500);
-        //     	}
-        // 		else if($request->ajax()){
-        //     		return response(trans('errors.klink_exception_text'), 500);
-        //     	}
-    
-        //         return response(trans('errors.klink_exception_text'), 500);
-        //     }
-        // 	else if($e instanceof FatalErrorException){
-        // 		if($request->wantsJson()){
-        //     		return new JsonResponse(array('error' => trans('errors.fatal', array('reason' => $e->getMessage()))), 500);
-        //     	}
-        // 		else if($request->ajax()){
-        //     		return response(trans('errors.fatal', array('reason' => $e->getMessage())), 500);
-        //     	}
-    
-        //         return response()->make(view('errors.fatal', ['reason' => 'FatalErrorException ' . $e->getMessage()]), 500);
-        // 	}
-        //     else if($e instanceof ErrorException){
-        // 		if($request->wantsJson()){
-        //     		return new JsonResponse(array('error' => trans('errors.fatal', array('reason' => $e->getMessage()))), 500);
-        //     	}
-        // 		else if($request->ajax()){
-        //     		return response(trans('errors.fatal', array('reason' => $e->getMessage())), 500);
-        //     	}
-    
-        //         return response()->make(view('errors.500', ['reason' => 'ErrorException ' . $e->getMessage()]), 500);
-        // 	}
-        // 	else if($e instanceof TransferException){
-        // 		if($request->wantsJson()){
-        //     		return new JsonResponse(array('error' => trans('errors.kcore_connection_problem', array('reason' => $e->getMessage()))), 500);
-        //     	}
-        // 		else if($request->ajax()){
-        //     		return response(trans('errors.kcore_connection_problem', array('reason' => $e->getMessage())), 500);
-        //     	}
-    
-        //         return response()->make(view('errors.kcore_connection', ['reason' => 'TransferException ' . $e->getMessage()]), 500);
-        // 	}
-        // 	else
-        // 	{
-        //         if($request->wantsJson()){
-        //     		return new JsonResponse(array('error' => trans('errors.fatal', array('reason' => $e->getMessage()))), 500);
-        //     	}
-        // 		else if($request->ajax()){
-        //     		return response(trans('errors.fatal', array('reason' => $e->getMessage())), 500);
-        //     	}
-    
-        //         return response()->make(view('errors.500', ['reason' => $e->getMessage()]), 500);
-        // 	}
-    
-        // }
     }
 }

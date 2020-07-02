@@ -27,7 +27,7 @@
         
             @if(isset($project) && $project->avatar)
                 <div class="">
-                    <img class="max-w-xs h-auto js-avatar-image" src="{{ route('projects.avatar.index', ['id' => $project->id]) }}" />
+                    <img class="max-w-xs h-auto js-avatar-image" src="{{ route('projects.avatar.index', $project->id) }}" />
                 </div>
 
                 <div class="mt-1 mb-2">

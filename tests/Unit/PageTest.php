@@ -64,8 +64,8 @@ class PageTest extends TestCase
         $this->assertFalse($page->isDirty());
         $this->assertTrue($page->exists());
 
-        $created_at = $page->created_at->format('Y-m-d H:i:s.u');
-        $updated_at = $page->updated_at->format('Y-m-d H:i:s.u');
+        $created_at = $page->created_at->toJSON(); //format('Y-m-d H:i:s.u');
+        $updated_at = $page->updated_at->toJSON(); //format('Y-m-d H:i:s.u');
         $expected_content = <<<EOD
 ---
 id: a-page

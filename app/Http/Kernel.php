@@ -13,9 +13,11 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $middleware = [
+        // \App\Http\Middleware\TrustHosts::class,
+        \KBox\Http\Middleware\TrustedProxyMiddleware::class,
+        \Fruitcake\Cors\HandleCors::class,
         \KBox\Http\Middleware\CheckForMaintenanceMode::class,
         \KBox\Http\Middleware\CheckForReadonlyMode::class,
-        \KBox\Http\Middleware\TrustedProxyMiddleware::class,
         \KBox\Http\Middleware\PortRedirectMiddleware::class,
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \KBox\Http\Middleware\TrimStrings::class,
@@ -42,7 +44,7 @@ class Kernel extends HttpKernel
 
         'api' => [
             'throttle:60,1',
-            'bindings'
+            \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
     ];
 
@@ -62,24 +64,9 @@ class Kernel extends HttpKernel
         'capabilities' => \KBox\Http\Middleware\RedirectIfForbidden::class,
         'flags' => \KBox\Http\Middleware\VerifyFlag::class,
         'guest' => \KBox\Http\Middleware\RedirectIfAuthenticated::class,
+        'password.confirm' => \Illuminate\Auth\Middleware\RequirePassword::class,
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
-    ];
-
-    /**
-     * The priority-sorted list of middleware.
-     *
-     * This forces non-global middleware to always be in the given order.
-     *
-     * @var array
-     */
-    protected $middlewarePriority = [
-        \Illuminate\Session\Middleware\StartSession::class,
-        \Illuminate\View\Middleware\ShareErrorsFromSession::class,
-        \App\Http\Middleware\Authenticate::class,
-        \Illuminate\Session\Middleware\AuthenticateSession::class,
-        \Illuminate\Routing\Middleware\SubstituteBindings::class,
-        \Illuminate\Auth\Middleware\Authorize::class,
     ];
 }

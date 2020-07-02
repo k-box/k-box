@@ -55,7 +55,7 @@ class ProjectsController extends Controller
 
         abort_if(! $project->collection, 404);
 
-        return redirect()->route('documents.groups.show', ['id' => $project->collection->getKey()]);
+        return redirect()->route('documents.groups.show', $project->collection->getKey());
     }
     
     /**
@@ -232,7 +232,7 @@ class ProjectsController extends Controller
                 return response()->json($project);
             }
             
-            return redirect()->route('projects.edit', ['id' => $project->id])->with([
+            return redirect()->route('projects.edit', $project->id)->with([
                 'flash_message' => trans('projects.project_updated', ['name' => $project->name])
             ]);
         } catch (Exception $ex) {

@@ -85,7 +85,7 @@ class PluginsControllerTest extends TestCase
             $u->addCapabilities(Capability::$ADMIN);
         });
 
-        $url = route('administration.plugins.update', ['id' => 'k-box-unittest-demo-plugin']);
+        $url = route('administration.plugins.update', 'k-box-unittest-demo-plugin');
 
         $response = $this->actingAs($user)->put($url);
         
@@ -108,7 +108,7 @@ class PluginsControllerTest extends TestCase
 
         $manager->enable('k-box-unittest-demo-plugin');
 
-        $url = route('administration.plugins.destroy', ['id' => 'k-box-unittest-demo-plugin']);
+        $url = route('administration.plugins.destroy', 'k-box-unittest-demo-plugin');
 
         $response = $this->actingAs($user)->delete($url);
         

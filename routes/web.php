@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -266,7 +268,7 @@ Route::put('shares/deletemultiple', [
     'as' => 'shares.deletemultiple',
   ]);
 
-Route::get('shares/group/{id}', [
+Route::get('shares/group/{group}', [
         'uses' => 'SharingController@showGroup',
         'as' => 'shares.group',
     ]);

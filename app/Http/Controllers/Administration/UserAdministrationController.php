@@ -2,6 +2,7 @@
 
 namespace KBox\Http\Controllers\Administration;
 
+use Exception;
 use Log;
 use KBox\Capability;
 use KBox\Http\Controllers\Controller;
@@ -133,7 +134,7 @@ class UserAdministrationController extends Controller
         }
         
         $send_password = $mail_configured && $request->input('send_password', false);
-
+        
         $user = DB::transaction(function () use ($request, $password) {
             $user = User::create([
               'name' => $request->get('name'),

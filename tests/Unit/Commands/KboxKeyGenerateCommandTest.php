@@ -8,6 +8,28 @@ use Illuminate\Support\Facades\Storage;
 
 class KboxKeyGenerateCommandTest extends TestCase
 {
+    private $envFile;
+    private $envFileBackup;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->envFile = base_path('.env.testing');
+        $this->envFileBackup = base_path('backup.env');
+
+        copy($this->envFile, $this->envFileBackup);
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+
+        if ($this->envFileBackup) {
+            copy($this->envFileBackup, $this->envFile);
+        }
+    }
+
     public function test_application_key_is_not_overwritten_if_defined()
     {
         Storage::fake('app');

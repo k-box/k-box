@@ -19,38 +19,26 @@ class FileServiceTest extends TestCase
 
     public function test_identifier_registration_throws_if_non_existing_class_is_passed()
     {
-        try {
-            Files::register('ateam/head', DocumentType::NOTE, 'head', 'Class');
-
-            $this->fail("An InvalidArgumentException was expected for the identifier class parameter");
-        } catch (InvalidArgumentException $ex) {
-            $this->assertContains("Class", $ex->getMessage());
-            $this->assertContains("TypeIdentifier", $ex->getMessage());
-        }
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage("The specified identifier class [Class] do not exists or extend \KBox\Documents\TypeIdentifier.");
+        
+        Files::register('ateam/head', DocumentType::NOTE, 'head', 'Class');
     }
 
     public function test_identifier_registration_throws_if_wrong_class_is_passed()
     {
-        try {
-            Files::register('ateam/head', DocumentType::NOTE, 'head', Files::class);
-
-            $this->fail("An InvalidArgumentException was expected for the identifier class parameter");
-        } catch (InvalidArgumentException $ex) {
-            $this->assertContains(Files::class, $ex->getMessage());
-            $this->assertContains("TypeIdentifier", $ex->getMessage());
-        }
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage("The specified identifier class [KBox\Documents\Facades\Files] do not exists or extend \KBox\Documents\TypeIdentifier.");
+        
+        Files::register('ateam/head', DocumentType::NOTE, 'head', Files::class);
     }
 
     public function test_identifier_registration_throws_if_wrong_document_type_is_passed()
     {
-        try {
-            Files::register('ateam/head', 'DocumentType::NOTE', 'head', 'Class');
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage("The specified document type [DocumentType::NOTE] is not valid. See \KBox\Documents\DocumentType for the possible values.");
 
-            $this->fail("An InvalidArgumentException was expected for the document type parameter");
-        } catch (InvalidArgumentException $ex) {
-            $this->assertContains('DocumentType::NOTE', $ex->getMessage());
-            $this->assertContains("document type", $ex->getMessage());
-        }
+        Files::register('ateam/head', 'DocumentType::NOTE', 'head', 'Class');
     }
     
     public function test_identifier_can_be_registered()

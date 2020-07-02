@@ -43,9 +43,9 @@ class ImagePreviewDriverTest extends TestCase
         $this->assertInstanceOf(Renderable::class, $preview);
         $this->assertNotNull($html);
         $this->assertNotEmpty($html);
-        $this->assertContains('img src', $html);
-        $this->assertContains($document->uuid, $html);
-        $this->assertContains($file->uuid, $html);
+        $this->assertStringContainsString('img src', $html);
+        $this->assertStringContainsString($document->uuid, $html);
+        $this->assertStringContainsString($file->uuid, $html);
     }
     
     public function test_gif_can_be_previewed()
@@ -67,9 +67,9 @@ class ImagePreviewDriverTest extends TestCase
         $this->assertInstanceOf(Renderable::class, $preview);
         $this->assertNotNull($html);
         $this->assertNotEmpty($html);
-        $this->assertContains('img src', $html);
-        $this->assertContains($document->uuid, $html);
-        $this->assertContains($file->uuid, $html);
+        $this->assertStringContainsString('img src', $html);
+        $this->assertStringContainsString($document->uuid, $html);
+        $this->assertStringContainsString($file->uuid, $html);
     }
     
     public function test_png_can_be_previewed()
@@ -91,8 +91,8 @@ class ImagePreviewDriverTest extends TestCase
         $this->assertInstanceOf(Renderable::class, $preview);
         $this->assertNotNull($html);
         $this->assertNotEmpty($html);
-        $this->assertContains('img src', $html);
-        $this->assertContains($document->uuid, $html);
-        $this->assertContains($file->uuid, $html);
+        $this->assertStringContainsString('img src', $html);
+        $this->assertStringContainsString($document->uuid, $html);
+        $this->assertStringContainsString($file->uuid, $html);
     }
 }

@@ -1,6 +1,7 @@
 <?php
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
+
 use KBox\User;
 use Illuminate\Support\Str;
 use Faker\Generator as Faker;
@@ -26,7 +27,7 @@ $factory->define(User::class, function (Faker $faker) {
     ];
 });
 
-$factory->defineAs(User::class, 'admin', function (Faker $faker) {
+$factory->state(User::class, 'admin', function (Faker $faker) {
     
     return [
         'name' => 'admin',

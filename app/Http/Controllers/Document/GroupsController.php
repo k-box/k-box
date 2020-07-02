@@ -199,7 +199,7 @@ class GroupsController extends Controller
         if (! is_null($selected_group->project)) {
             return view('panels.prevent_edit', [
                 'message' => trans('projects.errors.prevent_edit_description', [
-                    'link' => route('projects.edit', ['id' =>$selected_group->project->id]),
+                    'link' => route('projects.edit', $selected_group->project->id),
                     'name' => $selected_group->project->name
                 ]),
                 'name' => $selected_group->name

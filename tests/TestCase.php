@@ -6,7 +6,7 @@ use PHPUnit\Framework\Assert;
 use Tests\Concerns\ClearDatabase;
 use Illuminate\Contracts\View\View;
 use Klink\DmsAdapter\Traits\MockKlinkAdapter;
-use Illuminate\Foundation\Testing\TestResponse;
+use Illuminate\Testing\TestResponse;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 
 abstract class TestCase extends BaseTestCase

@@ -14,7 +14,7 @@
         
     @include('errors.list')
     
-    <form  method="post" class="" action="{{route('plugins.k-box-kbox-plugin-geo.mapproviders.update', ['id' => $providerId])}}">
+    <form  method="post" class="" action="{{route('plugins.k-box-kbox-plugin-geo.mapproviders.update', $providerId)}}">
     
         {{ csrf_field() }}
         {{ method_field('PUT') }}

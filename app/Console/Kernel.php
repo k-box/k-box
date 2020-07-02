@@ -17,7 +17,6 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         \KBox\Console\Commands\KboxKeyGenerateCommand::class,
-        \KBox\Console\Commands\DmsModelCreation::class,
         \KBox\Console\Commands\DmsCreateAdminUserCommand::class,
         \KBox\Console\Commands\DmsUpdateCommand::class,
         \KBox\Console\Commands\DmsQueueListen::class,

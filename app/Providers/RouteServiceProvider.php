@@ -20,6 +20,13 @@ class RouteServiceProvider extends ServiceProvider
     protected $namespace = 'KBox\Http\Controllers';
 
     /**
+     * The path to the "home" route for your application.
+     *
+     * @var string
+     */
+    public const HOME = '/search';
+
+    /**
      * Define your route model bindings, pattern filters, etc.
      *
      * @param  \Illuminate\Routing\Router  $router

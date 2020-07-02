@@ -14,7 +14,7 @@ class AddUuidToUsers extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->uuid('uuid')->nullable()->index();
+            $table->efficientUuid('uuid')->nullable()->index();
         });
     }
 

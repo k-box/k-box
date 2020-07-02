@@ -41,11 +41,8 @@ final class WindowsDriver extends Driver
         $arguments = array_map(function($in){
             return "\"$in\"";
         }, $inputs);
-        $this->process = $process = new Process(
-            sprintf('"%1$s" %3$s %2$s', $command, implode(" ", $arguments), implode(" ", $options)),
-            $sdk_root,
-            $env
-        );
+
+        $this->process = $process = Process::fromShellCommandline(sprintf('"%1$s" %3$s %2$s', $command, implode(" ", $arguments), implode(" ", $options)), $sdk_root, $env);
         
         $process->setTimeout(40);
         $process->setIdleTimeout(40);

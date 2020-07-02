@@ -68,12 +68,12 @@
 				@if( auth()->user()->id === $project->user_id && $project->microsite)
             
 					<p class="mb-2">
-						<a id="microsite_edit" href="{{ route('microsites.edit', ['id' => $project->microsite->id]) }}" class="button">{{ trans('microsites.actions.edit') }}</a>
+						<a id="microsite_edit" href="{{ route('microsites.edit', $project->microsite->id) }}" class="button">{{ trans('microsites.actions.edit') }}</a>
 						<span class="description">{{ trans('microsites.hints.edit_microsite') }}</span>
 					</p>
 					
 					<p>
-						<a href="{{ route('microsites.destroy', ['id' => $project->microsite->id]) }}" data-project="{{$project->id}}" data-microsite="{{ $project->microsite->id }}" data-action="micrositeDelete" data-ask="{{ trans('microsites.actions.delete_ask', ['title' => $project->microsite->title]) }}" class="button button--danger">{{ trans('microsites.actions.delete') }}</a>
+						<a href="{{ route('microsites.destroy', $project->microsite->id) }}" data-project="{{$project->id}}" data-microsite="{{ $project->microsite->id }}" data-action="micrositeDelete" data-ask="{{ trans('microsites.actions.delete_ask', ['title' => $project->microsite->title]) }}" class="button button--danger">{{ trans('microsites.actions.delete') }}</a>
 						<span class="description">{{ trans('microsites.hints.delete_microsite') }}</span>
 					</p>
 
