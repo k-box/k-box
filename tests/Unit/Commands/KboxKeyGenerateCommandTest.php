@@ -8,12 +8,30 @@ use Illuminate\Support\Facades\Storage;
 
 class KboxKeyGenerateCommandTest extends TestCase
 {
+    private $envFile;
+    private $envFileBackup;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->envFile = base_path('.env.testing');
+        $this->envFileBackup = base_path('backup.env');
+
+        copy($this->envFile, $this->envFileBackup);
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+
+        if ($this->envFileBackup) {
+            copy($this->envFileBackup, $this->envFile);
+        }
+    }
+
     public function test_application_key_is_not_overwritten_if_defined()
     {
-        $this->markTestSkipped(
-            'This test is having side effects on subsequents tests as it modifies the APP_KEY in the .env file.'
-        );
-
         Storage::fake('app');
 
         // generate a default key that is only available in the .env file
@@ -34,10 +52,6 @@ class KboxKeyGenerateCommandTest extends TestCase
     
     public function test_application_key_set_from_environment_is_saved()
     {
-        $this->markTestSkipped(
-            'This test is having side effects on subsequents tests as it modifies the APP_KEY in the .env file.'
-        );
-
         Storage::fake('app');
 
         Artisan::call('key:generate', []);
@@ -58,10 +72,6 @@ class KboxKeyGenerateCommandTest extends TestCase
     
     public function test_application_key_is_generated()
     {
-        $this->markTestSkipped(
-            'This test is having side effects on subsequents tests as it modifies the APP_KEY in the .env file.'
-        );
-
         Storage::fake('app');
         
         config(['app.key' => '']);
@@ -79,14 +89,10 @@ class KboxKeyGenerateCommandTest extends TestCase
     
     public function test_application_key_is_loaded_from_stored_key_file()
     {
-        $this->markTestSkipped(
-            'This test is having side effects on subsequents tests as it modifies the APP_KEY in the .env file.'
-        );
-
         Storage::fake('app');
         
         $initial = '12345678901234567890123456789012';
-        // config(['app.key' => '']);
+        config(['app.key' => '']);
         $original = config('app.key');
         Storage::disk('app')->put('/app_key.key', $initial);
         
@@ -103,10 +109,6 @@ class KboxKeyGenerateCommandTest extends TestCase
     
     public function test_short_application_key_is_replaced()
     {
-        $this->markTestSkipped(
-            'This test is having side effects on subsequents tests as it modifies the APP_KEY in the .env file.'
-        );
-        
         Storage::fake('app');
         
         config(['app.key' => '1234567890123456']);

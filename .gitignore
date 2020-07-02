@@ -2,6 +2,7 @@
 /resources/assets/vendor
 .DS_Store
 .env*
+backup.env*
 !.env.example
 node_modules
 public/build
