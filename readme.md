@@ -45,7 +45,7 @@ The K-Box consists of different components:
 
 | Name | Image | Based on | Description |
 |------|-------|----------|-------------|
-| [K-Box](./docs/index.md) application | `kbox` | PHP and Laravel 5 | The interface of the knowledge management system |
+| [K-Box](./docs/index.md) application | `kbox` | PHP and Laravel | The interface of the knowledge management system |
 | [K-Search API](https://github.com/k-box/k-search) | `ksearch` | PHP and Symfony 4 | Full text search component used for K-Link and K-Box |
 | [K-Search Engine](https://github.com/k-box/k-search-engine) | `engine` | Apache SOLR | Open Source search engine pre-configured for the K-Search |
 | Database | `database` | MariaDB | A database for the use of the K-Box web application. |

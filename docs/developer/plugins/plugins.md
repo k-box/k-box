@@ -7,7 +7,7 @@
 
 A plugin delivers customizations to the K-Box without the requirement to have a custom build (or fork) of the codebase.
 
-As of now a K-Box plugin is highly inspired by the [Laravel Packages](https://laravel.com/docs/5.7/packages) approach, 
+As of now a K-Box plugin is highly inspired by the [Laravel Packages](https://laravel.com/docs/7.x/packages) approach, 
 in fact, as described in the [limitations](#limitations), it is loaded like a Laravel Package with the help of Composer.
 
 ## How to create a plugin
