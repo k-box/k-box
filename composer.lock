@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "32acd4afb6331459977f72ab1e89ccd0",
+    "content-hash": "589353eace0e6bdab0c9c4b8342a87fd",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -3332,16 +3332,16 @@
         },
         {
             "name": "oneofftech/k-link-streaming-upload-client",
-            "version": "dev-symfony-5",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/OneOffTech/k-link-streaming-upload-client.git",
-                "reference": "2bab1f0117b5a85ddaef283b22865004096a3376"
+                "reference": "b8b04ce126408eb634713d7b6ae12f3465e2e578"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/OneOffTech/k-link-streaming-upload-client/zipball/2bab1f0117b5a85ddaef283b22865004096a3376",
-                "reference": "2bab1f0117b5a85ddaef283b22865004096a3376",
+                "url": "https://api.github.com/repos/OneOffTech/k-link-streaming-upload-client/zipball/b8b04ce126408eb634713d7b6ae12f3465e2e578",
+                "reference": "b8b04ce126408eb634713d7b6ae12f3465e2e578",
                 "shasum": ""
             },
             "require": {
@@ -3376,7 +3376,7 @@
                 }
             ],
             "description": "Upload videos to a K-Link Streaming Service",
-            "time": "2020-06-29T11:56:50+00:00"
+            "time": "2020-07-02T16:20:28+00:00"
         },
         {
             "name": "oneofftech/laravel-tus-upload",

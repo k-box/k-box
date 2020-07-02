@@ -56,7 +56,7 @@
 		"laravel/ui": "^2.0",
 		"league/csv": "^9.0",
 		"oneofftech/geoserver-client-php": "0.2.*",
-		"oneofftech/k-link-streaming-upload-client": "dev-symfony-5",
+		"oneofftech/k-link-streaming-upload-client": "dev-master",
 		"oneofftech/laravel-tus-upload": "0.8.*",
 		"php-http/guzzle6-adapter": "^1.1",
 		"phpoffice/phppresentation": "^0.9.0",
