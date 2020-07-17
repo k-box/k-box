@@ -23,6 +23,7 @@ jobs:
           MYSQL_USER: dms
           MYSQL_ROOT_PASSWORD: "dms"
           MYSQL_PASSWORD: "dms"
+          MYSQL_INITDB_SKIP_TZINFO: 1
         ports:
           - 3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
