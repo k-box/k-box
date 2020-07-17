@@ -86,6 +86,36 @@ class MailAdministrationControllerTest extends TestCase
         $response->assertSee('465');
     }
 
+    public function testMailSettingsArePresentedWithLogDriver()
+    {
+        Option::remove('mail.host');
+        Option::remove('mail.port');
+        Option::remove('mail.from.address');
+        Option::remove('mail.from.name');
+        Option::remove('mail.username');
+        Option::remove('mail.password');
+
+        config([
+            'mail.default' => 'log',
+            'mail.from.address' => 'from@k-link.technology',
+            'mail.from.name' => 'Testing DMS',
+        ]);
+
+        $adapter = $this->withKlinkAdapterFake();
+
+        $user = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$ADMIN);
+        });
+
+        $this->assertTrue(Option::isMailEnabled());
+
+        $response = $this->actingAs($user)->get(route('administration.mail.index'));
+
+        $response->assertSee(trans('administration.mail.log_driver_used'));
+        $response->assertSee('from@k-link.technology');
+        $response->assertSee('Testing DMS');
+    }
+
     public function testMailConfigurationSaved()
     {
         Option::remove('mail.host');

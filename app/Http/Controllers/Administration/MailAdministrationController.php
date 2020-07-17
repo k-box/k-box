@@ -32,14 +32,10 @@ class MailAdministrationController extends Controller
     {
         $mail_config = config('mail');
 
-        $sections = Option::section('mail')->get(['key', 'value']);
-
-        $flat = $sections->toArray();
-
         return view('administration.mail', [
-        'pagetitle' => trans('administration.menu.mail'),
-        'config' => $mail_config,
-        'is_server_configurable' => $mail_config['driver'] !== 'log'
+            'pagetitle' => trans('administration.menu.mail'),
+            'config' => $mail_config,
+            'is_server_configurable' => $mail_config['default'] !== 'log'
         ]);
     }
 
