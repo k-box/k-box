@@ -5,6 +5,7 @@ namespace KBox\Http\Controllers\Administration;
 use KBox\Http\Controllers\Controller;
 use KBox\Option;
 use Config;
+use Illuminate\Support\Arr;
 use KBox\Http\Requests\MailSettingsRequest;
 use Illuminate\Support\Facades\Mail;
 use KBox\Mail\TestingMail;
@@ -15,12 +16,20 @@ use Illuminate\Support\Facades\DB;
  */
 class MailAdministrationController extends Controller
 {
+    private $mappings = [
+        'mailers.smtp.port' => 'port',
+        'mailers.smtp.host' => 'host',
+        'mailers.smtp.username' => 'username',
+        'mailers.smtp.password' => 'password',
+        'from.address' => 'from.address',
+        'from.name' => 'from.name',
+    ];
 
-  /**
-   * Create a new controller instance.
-   *
-   * @return void
-   */
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
     public function __construct()
     {
         $this->middleware('auth');
@@ -30,11 +39,17 @@ class MailAdministrationController extends Controller
 
     public function getIndex()
     {
-        $mail_config = config('mail');
+        $mail_config = Arr::dot(config('mail'));
+
+        $config = [];
+
+        foreach ($this->mappings as $configKey => $key) {
+            $config[$key] = $mail_config[$configKey];
+        }
 
         return view('administration.mail', [
             'pagetitle' => trans('administration.menu.mail'),
-            'config' => $mail_config,
+            'config' => $config,
             'is_server_configurable' => $mail_config['default'] !== 'log'
         ]);
     }
