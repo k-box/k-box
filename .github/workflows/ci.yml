@@ -1,0 +1,64 @@
+name: CI
+
+on: 
+  push:
+    branches: 
+      - "master"
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  phpunit:
+    name: Tests PHP ${{ matrix.php }}
+    runs-on: ubuntu-latest
+    container: klinktech/k-box-ci-pipeline-php:${{ matrix.php }}
+
+    services:
+      mariadb:
+        image: mariadb:10
+        env:
+          MYSQL_DATABASE: dms_test
+          MYSQL_USER: dms
+          MYSQL_ROOT_PASSWORD: "unsafe"
+          MYSQL_PASSWORD: "dms"
+        ports:
+          - 3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
+    strategy:
+      fail-fast: true
+      matrix:
+        php: [7.2]
+    
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 1
+    
+    - name: Cache dependencies
+      uses: actions/cache@v1
+      with:
+        path: ~/.composer/cache/files
+        key: dependencies-php-${{ matrix.php }}-composer-${{ hashFiles('composer.json') }}
+      
+    - name: Prepare environment
+      run: |
+        cp env.ci .env
+        cp env.ci .env.testing
+        mkdir ./storage/documents
+        composer install --prefer-dist
+        composer run install-video-cli
+        chmod +x ./bin/bin/packager-linux
+        composer run install-content-cli
+        composer run install-language-cli
+        composer run install-streaming-client
+        yarn
+        yarn run production
+        
+    - name: Run Testsuite
+      run: |
+        php artisan view:clear
+        php artisan config:clear
+        php artisan route:clear
+        php artisan migrate --env=testing --seed --force
+        vendor/bin/phpunit
