@@ -11,7 +11,9 @@ jobs:
   phpunit:
     name: Tests PHP ${{ matrix.php }}
     runs-on: ubuntu-latest
-    container: klinktech/k-box-ci-pipeline-php:${{ matrix.php }}
+    container: 
+      image: klinktech/k-box-ci-pipeline-php:${{ matrix.php }}
+      options: --user root 
 
     services:
       mariadb:
