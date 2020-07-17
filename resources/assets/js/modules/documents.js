@@ -37,7 +37,8 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
     ///////////////////////
 
     var dragItems = $('[draggable=true]'),
-        droppables = $('[data-drop=true]');
+        droppables = $('[data-drop=true]'),
+        dragOfInternalElement = false;
 
     // http://caniuse.com/#feat=dragndrop
     //
@@ -97,8 +98,6 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
             evt.preventDefault(); 
         }
 
-        // console.log('dragleave', this);
-
         return false;
 
     });
@@ -154,12 +153,7 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
 
     dragItems.on('dragstart', function(evt){
 
-         //raises checked of undefined
-
-        // console.log('dragstart', this);
-
         evt.originalEvent.dataTransfer.effectAllowed = 'all';
-        
 
         var $this = $(this),
             _data = $this.data(); 
@@ -167,27 +161,26 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
         if(!_Selection.isAnySelected() && !_data.dragEl){
             evt.originalEvent.dataTransfer.setData('text', 'dms_drag_action');
             _Selection.select($(this), true);
+            dragOfInternalElement = true;
         }
         else if(_data.dragEl && _data.dragEl === 'group'){
+            // drag a collection from the tree view
             evt.originalEvent.dataTransfer.setData('text', JSON.stringify(_data));
-            console.log('Dragging a collection from the tree');
+            dragOfInternalElement = true;
         }
         else {
             evt.originalEvent.dataTransfer.setData('text', 'dms_drag_action');
+            dragOfInternalElement = true;
         }
-
-        
-
     });
 
     dragItems.on('dragend', function(evt){
-
-        // console.log('dragend', this);
 
         if(_Selection.selectionCount() == 1){
             _Selection.deselect($(this), true);
         }
 
+        dragOfInternalElement = false;
     });
 
 
@@ -2046,6 +2039,19 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
                           return _results;
                         }
                       },
+                    
+                    dragover: function dragover(e) {
+                        if(dragOfInternalElement){
+                            return true;
+                        }
+                        return this.element.classList.add("dz-drag-hover");
+                    },
+                    dragenter: function dragenter(e) {
+                        if(dragOfInternalElement){
+                            return true;
+                        }                 
+                        return this.element.classList.add("dz-drag-hover");
+                    },
 
             	    init: function () {
 
