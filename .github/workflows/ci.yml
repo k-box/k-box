@@ -19,9 +19,9 @@ jobs:
       mariadb:
         image: mariadb:10
         env:
-          MYSQL_DATABASE: dms_test
+          MYSQL_DATABASE: dms
           MYSQL_USER: dms
-          MYSQL_ROOT_PASSWORD: "unsafe"
+          MYSQL_ROOT_PASSWORD: "dms"
           MYSQL_PASSWORD: "dms"
         ports:
           - 3306
