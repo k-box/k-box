@@ -49,7 +49,7 @@
                         <span class="field-error">{{ implode(",", $errors->get('from_address'))  }}</span>
                     @endif
                     
-                    <input class="form-input block" type="email" name="from_address" id="from_address" required value="@if(isset($config['from']['address'])){{$config['from']['address']}}@endif" placeholder="{{trans('administration.mail.from_address_placeholder')}}" />
+                    <input class="form-input block" type="email" name="from_address" id="from_address" required value="{{ $config['from.address'] ?? '' }}" placeholder="{{trans('administration.mail.from_address_placeholder')}}" />
                 
                 </div>
 
@@ -61,7 +61,7 @@
                     @if( $errors->has('from_name') )
                         <span class="field-error">{{ implode(",", $errors->get('from_name'))  }}</span>
                     @endif
-                    <input class="form-input block" type="text" name="from_name" id="from_name" value="@if(isset($config['from']['name'])){{$config['from']['name']}}@endif" placeholder="{{trans('administration.mail.from_name_placeholder')}}" />
+                    <input class="form-input block" type="text" name="from_name" id="from_name" value="{{ $config['from.name'] ?? '' }}" placeholder="{{trans('administration.mail.from_name_placeholder')}}" />
 
                 </div>
             </div>
