@@ -84,7 +84,7 @@
                     @if( $errors->has('host') )
                         <span class="field-error">{{ implode(",", $errors->get('host'))  }}</span>
                     @endif
-                    <input class="form-input block" type="text" name="host" @if($is_server_configurable) required @endif value="{{$config['host']}}" />
+                    <input class="form-input block" type="text" name="host" @if($is_server_configurable) required @endif value="{{$config['host'] ?? '' }}" />
                 </div>
                 
                 <div class=" mb-4  @if(!$is_server_configurable)  form-blocked @endif">
@@ -92,7 +92,7 @@
                     @if( $errors->has('port') )
                         <span class="field-error">{{ implode(",", $errors->get('port'))  }}</span>
                     @endif
-                    <input class="form-input block w-20" type="number" name="port" @if($is_server_configurable) required @endif value="{{$config['port']}}" />
+                    <input class="form-input block w-20" type="number" name="port" @if($is_server_configurable) required @endif value="{{$config['port'] ?? ''}}" />
                 </div>
                 
                 <div class=" mb-4  @if(!$is_server_configurable)  form-blocked @endif">
@@ -100,7 +100,7 @@
                     @if( $errors->has('smtp_u') )
                         <span class="field-error">{{ implode(",", $errors->get('smtp_u'))  }}</span>
                     @endif
-                    <input class="form-input block" type="text" name="smtp_u" value="{{$config['username']}}"  />
+                    <input class="form-input block" type="text" name="smtp_u" value="{{$config['username'] ?? ''}}"  />
                 </div>
 
                 <div class=" mb-4  @if(!$is_server_configurable)  form-blocked @endif">
@@ -108,7 +108,7 @@
                     @if( $errors->has('smtp_p') )
                         <span class="field-error">{{ implode(",", $errors->get('smtp_p'))  }}</span>
                     @endif
-                    <input class="form-input block" type="password" name="smtp_p" value="{{$config['password']}}"  />
+                    <input class="form-input block" type="password" name="smtp_p" value="{{$config['password'] ?? ''}}"  />
                 </div>
 
             </div>
