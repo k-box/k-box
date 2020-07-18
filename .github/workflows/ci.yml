@@ -32,7 +32,7 @@ jobs:
         env:
           KLINK_SOLR_MYHOST: engine
         ports:
-          - 8983:8983
+          - 8983
       ksearch:
         image: klinktech/k-search:3.6.0-2
         env:
@@ -40,7 +40,7 @@ jobs:
           SOLR_CORE: k-search # this is the Solr index name
           KLINK_REGISTRY_ENABLED: 0 # = no authentication
         ports:
-          - 8081:80
+          - 80
 
     strategy:
       fail-fast: true
@@ -74,9 +74,10 @@ jobs:
         
     - name: Run Testsuite
       env:
-        DMS_CORE_ADDRESS: http://ksearch:8081/
-        KBOX_SEARCH_SERVICE_URL: http://ksearch:8081/
+        DMS_CORE_ADDRESS: http://ksearch/
+        KBOX_SEARCH_SERVICE_URL: http://ksearch/
       run: |
+        curl -v http://ksearch/
         php artisan view:clear
         php artisan config:clear
         php artisan route:clear
