@@ -1,8 +1,9 @@
 <p align="center"><img src="./public/k-box-logo.png" width="400"></p>
 
 <p align="center">
-<a href="https://travis-ci.com/k-box/k-box" target="_blank"><img src="https://travis-ci.com/k-box/k-box.svg?branch=master" alt="Build Status"></a>
-<a href="./docs/release-note/release-note-0.29.md" target="_blank"><img alt="latest version" src="https://img.shields.io/badge/version-0.29.1-blue.svg"></a>
+<a href="https://github.com/k-box/k-box/actions?query=workflow%3ACI+branch%3Amaster+" target="_blank"><img src="https://github.com/k-box/k-box/workflows/CI/badge.svg" alt="Build Status"></a>
+<a href="https://github.com/k-box/k-box/releases/latest" target="_blank"><img alt="latest release" src="https://img.shields.io/github/v/release/k-box/k-box"></a>
+<img alt="License AGPL-3.0" src="https://img.shields.io/github/license/k-box/k-box"></a>
 </p>
 
 # K-Box
