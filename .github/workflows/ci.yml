@@ -27,6 +27,20 @@ jobs:
         ports:
           - 3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+      engine:
+        image: klinktech/k-search-engine:1.0.1
+        env:
+          KLINK_SOLR_MYHOST: engine
+        ports:
+          - 8983
+      ksearch:
+        image: klinktech/k-search:3.6.0-2
+        env:
+          SOLR_HOST: engine # this is the external address of Solr
+          SOLR_CORE: k-search # this is the Solr index name
+          KLINK_REGISTRY_ENABLED: 0 # = no authentication
+        ports:
+          - 8081
 
     strategy:
       fail-fast: true
@@ -59,9 +73,12 @@ jobs:
         yarn run production
         
     - name: Run Testsuite
+      env:
+        DMS_CORE_ADDRESS: http://ksearch:8081/
+        KBOX_SEARCH_SERVICE_URL: http://ksearch:8081/
       run: |
         php artisan view:clear
         php artisan config:clear
         php artisan route:clear
         php artisan migrate --env=testing --seed --force
-        vendor/bin/phpunit
+        vendor/bin/phpunit --verbose
