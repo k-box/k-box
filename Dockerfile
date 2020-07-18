@@ -65,6 +65,7 @@ RUN apt-get update -yqq && \
     && pecl channel-update pecl.php.net \
     && pecl install imagick \
     && docker-php-ext-enable imagick \
+    && sed -i -e 's/rights="none" pattern="PDF"/rights="read|write" pattern="PDF"/' /etc/ImageMagick-6/policy.xml \
     && docker-php-source delete \
     && apt-get clean \
     && rm -r /var/lib/apt/lists/*
