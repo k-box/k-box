@@ -77,7 +77,6 @@ jobs:
         DMS_CORE_ADDRESS: http://ksearch/
         KBOX_SEARCH_SERVICE_URL: http://ksearch/
       run: |
-        curl -v http://ksearch/
         php artisan view:clear
         php artisan config:clear
         php artisan route:clear
