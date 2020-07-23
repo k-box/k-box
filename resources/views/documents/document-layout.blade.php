@@ -16,48 +16,42 @@
 			isset($can_upload) && $can_upload
 		))
 
-			<div class="button  dropdown">
-		
-				<span class="label">@materialicon('content', 'add_circle_outline', 'inline-block')<span class="hidden md:inline ml-1">{{ trans('actions.create_add_dropdown')}}</span></span>
-				<span class="btn-icon expand icon-navigation-white icon-navigation-white-ic_expand_more_white_24dp"></span>
-				<span class="btn-icon collapse icon-navigation-white icon-navigation-white-ic_expand_less_white_24dp"></span>
+			@component('components.dropdown', ['classes' => 'sm:relative', 'position' => 'left-0', 'button_classes' => 'button'])
 
-				<ul class="drop-menu">
-					
-					@if(isset($can_create_collection) && $can_create_collection)
-					<li><a href="#" class="dropdown-el"  rv-on-click="createGroup">
+				@materialicon('content', 'add_circle_outline', 'inline-block')<span class="hidden md:inline ml-1">{{ trans('actions.create_add_dropdown')}}</span>
 
-					@materialicon('action', 'label', 'inline-block mr-2'){{trans('actions.create_collection_btn')}}
+				@slot('panel')
 
-					</a></li>
-					
-					@endif
-
-
-					@if($context!=='groups-manage')
-
+					<ul>
+						
 						@if(isset($can_create_collection) && $can_create_collection)
-							<li class="dropdown-separator"></li>
+						<li><a href="#" class="no-underline block p-2 -mx-2 mb-1 text-black hover:bg-blue-100 active:bg-blue-200 focus:bg-blue-100 focus:outline-none"  rv-on-click="createGroup">
+
+						@materialicon('action', 'label', 'inline-block mr-2'){{trans('actions.create_collection_btn')}}
+
+						</a></li>
+						
 						@endif
 
-						@if(isset($can_upload) && $can_upload)
+						@if($context!=='groups-manage')
 
-							<li><a href="#{{route('documents.create')}}" class="dropdown-el" id="upload_trigger">
-								@materialicon('action', 'description', 'inline-block mr-2'){{trans('actions.upload')}}
-							</a></li>
-							<li><a href="{{ isset($context_group) ? route('uploads.index').'?c='.e($context_group) : route('uploads.index')}}" class="dropdown-el">
-								@materialicon('av', 'videocam', 'inline-block mr-2'){{ trans('actions.upload_video') }}
-							</a></li>
+							@if(isset($can_upload) && $can_upload)
+
+								<li><a href="#{{route('documents.create')}}" class="no-underline block p-2 -mx-2 mb-1 text-black hover:bg-blue-100 active:bg-blue-200 focus:bg-blue-100 focus:outline-none" id="upload_trigger">
+									@materialicon('action', 'description', 'inline-block mr-2'){{trans('actions.upload')}}
+								</a></li>
+								<li><a href="{{ isset($context_group) ? route('uploads.index').'?c='.e($context_group) : route('uploads.index')}}" class="no-underline block p-2 -mx-2 mb-1 text-black hover:bg-blue-100 active:bg-blue-200 focus:bg-blue-100 focus:outline-none">
+									@materialicon('av', 'videocam', 'inline-block mr-2'){{ trans('actions.upload_video') }}
+								</a></li>
+
+							@endif
 
 						@endif
 
-					@endif
+					</ul>
+				@endslot
 
-
-				</ul>
-
-			</div>
-			
+			@endcomponent
 
 		@endif
 
