@@ -97,9 +97,7 @@
 
 	<script>
 
-	require(['modules/list-switcher', 'modules/documents', 'modules/panels', 'modules/dropdown'], function(Switcher, Documents, Panels, Dropdown){
-
-		Dropdown.find(".js-header");
+	require(['modules/list-switcher', 'modules/documents', 'modules/panels', 'modules/dropdown'], function(Switcher, Documents, Panels){
 
 		@if(isset($context))
 			Documents.setContext({

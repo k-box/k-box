@@ -16,6 +16,8 @@
 	
 		<script type="text/javascript" src="{{ mix("js/vendor.js") }}"></script>
 		
+		<script type="text/javascript" src="{{ mix("js/evolution.js") }}" defer></script>
+		
 		@include('require-config')
                 
 		<meta name="token" content="{{{ csrf_token() }}}">

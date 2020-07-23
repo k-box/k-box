@@ -36,7 +36,7 @@
 
 					@endcomponent
 
-					@materialicon('navigation', 'arrow_drop_down', 'inline fill-current arrow')
+					@materialicon('navigation', 'arrow_drop_down', ['class' => 'inline fill-current arrow', ':class' => "{ 'rotate-180': open }"])
 
 					@slot('panel')
 
@@ -70,16 +70,3 @@
 	@yield('header-secondary')
 
 </header>
-
-
-@push('js')
-
-<script>
-
-	require(['modules/dropdown'], function(Dropdown){
-		Dropdown.find(".js-header");
-	});
-</script>
-
-	
-@endpush
