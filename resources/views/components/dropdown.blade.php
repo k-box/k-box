@@ -4,7 +4,7 @@
         {{ $slot }}
     </button>
 
-    <div @click.away="open = false" x-show.transition="open" class="absolute shadow-lg w-full sm:w-56 p-2 mt-1 text-white bg-white rounded z-10 {{ $position ?? 'right-0' }}">
+    <div @click.away="open = false" x-show.transition="open" style="display: none" class="absolute shadow-lg w-full sm:w-56 p-2 mt-1 text-white bg-white rounded z-10 {{ $position ?? 'right-0' }}">
         {{ $panel }}
     </div>
 
