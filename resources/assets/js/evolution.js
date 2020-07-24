@@ -4,3 +4,7 @@
  */
 
 import 'alpinejs'
+
+import Dialog from "./components/dialog"
+
+window.Dialog = Dialog;

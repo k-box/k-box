@@ -880,16 +880,16 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
 
                 }
 
-                Panels.dialogOpen(DMS.Paths.GROUPS_CREATE, params, {callbacks: { form_submit_success: function(evt, data){
+                // Panels.dialogOpen(DMS.Paths.GROUPS_CREATE, params, {callbacks: { form_submit_success: function(evt, data){
 
-                    console.log(data);
-                    if(window.sessionStorage && data.id){
-                        window.sessionStorage.setItem('collections-created', data.id);
-                    }
+                //     console.log(data);
+                //     if(window.sessionStorage && data.id){
+                //         window.sessionStorage.setItem('collections-created', data.id);
+                //     }
 
-                    DMS.navigateReload();
+                //     DMS.navigateReload();
 
-                } }});
+                // } }});
 
 
                 evt.preventDefault();
