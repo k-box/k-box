@@ -195,21 +195,7 @@ return [
 
 
     'institutions' => [
-
-        'edit_title' => 'Details von :name bearbeiten',
-        'create_title' => 'Neue Institution erstellen',
-        'create_institutions_btn' => 'Neue Institution erstellen',
-        'saved' => 'Institution :name aktualisiert.',
-        'update_error' => 'Institutionsdetails nicht gespeichert: :error',
-        'create_error' => 'Die Institution kann nicht erstellt werden: :error',
-        'delete_not_possible' => 'Die institution :name wird im Moment für Dokumente oder Nutzerberechtigungen verwendet. Bitte vor dem löschen all diese Einträge entfernen.',
-        'delete_error' => 'Die Institution :name kann nicht gelöscht werden: :error',
-        'deleted' => 'Die Institution :name wurde entfernt.',
-        'delete_confirm' => 'Institution :name aus dem Netzwerk entfernen?',
-        'deprecated' => 'Die Institutionsverwaltung wird sich in kommenden Versionen ändern. Um einen Umstieg zu erleichtern, wurde das Erstellen, Bearbeiten und Löschen von Institutionen deaktiviert.',
-
         'labels' => [
-            'klink_id' => 'Institution Identifier (im K-Link Netzwerk)',
             'name' => 'Institutionsname',
             'email' => 'Institutions E-Mail für mehr Informationen',
             'phone' => 'Telefonnummer des Ansprechpartners der Institution',
@@ -219,8 +205,6 @@ return [
             'address_country' => 'Land',
             'address_locality' => 'Stadt',
             'address_zip' => 'Postleitzahl',
-            'update' => 'Details speichern',
-            'create' => 'Institution erstellen'
         ],
     ],
 
@@ -249,8 +233,6 @@ return [
         'page_title' => 'Identität',
         'description' => 'Organisationsinformationen, mit deren Hilfe nutzer Sie über die "Kontaktseite" erreichen können.',
         'not_complete' => 'Kontaktinformationen unvollständig.',
-        'suggestion_based_on_institution_hint' => 'Die Kontaktinformationen wurden anhand der Institutionsinformationen automatisch generiert. Bitte überprüfen sie die Informationen und speichern sie.',
-
         'contact_info_updated' => 'Kontaktinformationen gespeichert.',
         'update_error' => 'Kontaktinformationen konnten nicht gespeichert werden. :error',
     ],

@@ -212,21 +212,8 @@ return [
     
     
     'institutions' => [
-        
-        'edit_title' => 'Edit :name details',
-        'create_title' => 'Create new Institution',
-        'create_institutions_btn' => 'Add new Institution',
-        'saved' => 'Institution :name updated.',
-        'update_error' => 'Institution detail not saved: :error',
-        'create_error' => 'The Institution cannot be created: :error',
-        'delete_not_possible' => 'The institution :name is currently being used for documents and/or user affiliation. Please remove all the documents and the user affiliation before deleting it.',
-        'delete_error' => 'The institution :name cannot be deleted: :error',
-        'deleted' => 'The institution :name has been removed.',
-        'delete_confirm' => 'Deleting institution :name from the network?',
-        'deprecated' => 'Institutions management is going to change. To prepare your K-Box to support the next changes we are disabling adding, editing and removing Institutions.',
-        
+
         'labels' => [
-            'klink_id' => 'Institution Identifier (in the K-Link Network)',
             'name' => 'Institution name',
             'email' => 'Institution E-Mail for getting information',
             'phone' => 'Institution secretary phone number',
@@ -236,8 +223,6 @@ return [
             'address_country' => 'Institution Country',
             'address_locality' => 'Institution City',
             'address_zip' => 'Postal Code',
-            'update' => 'Save Details',
-            'create' => 'Create Institution'
         ],
     ],
     
@@ -281,8 +266,6 @@ return [
         'page_title' => 'Identity',
         'description' => 'Your organization information so users can contact you. It will be shown on your "Contacts page".',
         'not_complete' => 'Contact information is not complete.',
-        'suggestion_based_on_institution_hint' => 'We automatically populated the contact information based on the K-Link Institution information. Please review them and press save.',
-
         'contact_info_updated' => 'Contact details saved.',
         'update_error' => 'Contact details were not updated. :error',
     ],

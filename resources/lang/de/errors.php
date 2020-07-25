@@ -60,7 +60,6 @@ return [
         'prevent_edit' => 'Sie können :name nicht bearbeiten',
     ],
 
-    'group_edit_institution' => "Sie können Gruppen auf Institutionsebene nicht bearbeiten.",
     'group_edit_project' => "Sie können Projektsammlungen nicht bearbeiten.",
     'group_edit_else' => "Sie können fremde Gruppen nicht bearbeiten.",
 

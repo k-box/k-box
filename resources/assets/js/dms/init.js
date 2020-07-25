@@ -463,7 +463,7 @@ window.DMS = (function(_$, _nprogress, _rivets, _alert){
 					
 					console.log('Calling Star.add');
 
-					// data = {institution: inst, descriptor: doc, visibility:'public'}
+					// data = {descriptor: doc, visibility:'public'}
 
 					module.Ajax.post(module.Paths.STARRED, data, success, error);
 

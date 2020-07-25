@@ -36,13 +36,12 @@ define("modules/star", ["jquery", "DMS", "sweetalert", "language"], function (_$
 			}
 			else {
 
-				var inst = that.data('inst');
 				var doc = that.data('doc');
 				var visibility = that.data('visibility') ? that.data('visibility') : 'public';
 
 				that.addClass('item__star--starring');
 
-				_DMS.Services.Starred.add({institution: inst, descriptor: doc, visibility:visibility}, function(data){
+				_DMS.Services.Starred.add({descriptor: doc, visibility:visibility}, function(data){
 					
 					if(data.id){
 						that.attr('data-id', data.id);
