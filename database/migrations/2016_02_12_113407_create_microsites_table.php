@@ -28,8 +28,7 @@ class CreateMicrositesTable extends Migration
             $table->string('default_language', 5)->default('en');
             
             $table->bigInteger('user_id')->unsigned();
-            $table->bigInteger('institution_id')->unsigned();
-            
+
             $table->timestamps();
             $table->softDeletes();
             
@@ -37,8 +36,6 @@ class CreateMicrositesTable extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             
             $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
-
-            $table->foreign('institution_id')->references('id')->on('institutions');
         });
     }
 

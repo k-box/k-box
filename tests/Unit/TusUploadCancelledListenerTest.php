@@ -64,7 +64,6 @@ class TusUploadCancelledListenerTest extends TestCase
         ]);
 
         $descr = DocumentDescriptor::forceCreate([
-            'institution_id' => null,
             'local_document_id' => substr($file->hash, 0, 6),
             'title' => $file->name,
             'hash' => $file->hash,

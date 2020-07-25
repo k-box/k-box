@@ -39,7 +39,7 @@ In the list of common log messages there is the space for documents actions
 ```
 [2016-05-15 07:00:07] production.INFO: DocumentsController store {"request":{"document_fullpath":"undefined","document_name":"omitted-for-privacy",...})"} 
 [2016-05-15 07:00:07] production.INFO: Core indexDocument - before saving DocumentDescriptor {"context":"DocumentsService","attrs":{...}} 
-[2016-05-15 07:00:08] production.INFO: Core indexDocument returned descriptor for 5033 {"context":"DocumentsService","response":"[object] (KlinkDocumentDescriptor: {\"institutionID\":...})"} 
+[2016-05-15 07:00:08] production.INFO: Core indexDocument returned descriptor for 5033 {"context":"DocumentsService","response":"[object] (KlinkDocumentDescriptor: {\"uuid\":...})"} 
 ``` 
 The previous code block shows an example of log entries related to the upload of a new document. The reported context information includes: document names, identifiers, user that has performed the action and document descriptor value. 
 

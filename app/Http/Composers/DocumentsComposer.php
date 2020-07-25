@@ -8,7 +8,6 @@ use KBox\DocumentDescriptor;
 use KBox\File;
 use KBox\Group;
 use KBox\Project;
-use Illuminate\Support\Str;
 use Illuminate\Contracts\View\View;
 
 use Illuminate\Support\Collection;
@@ -430,40 +429,6 @@ class DocumentsComposer
         $view->with('current_active_filters', $filters);
 
         $view->with('clear_filter_url', \URL::current().$b_url);
-    }
-    
-    public function groupFacets(View $view)
-    {
-        $auth_user = \Auth::user();
-        
-        $facets = isset($view['facets']) ? $view['facets'] : null;
-        
-        if (! is_null($facets)) {
-            $group_facets = array_values(array_filter($facets, function ($f) {
-                return $f->name === 'documentGroups';
-            }));
-            
-            $private = [];
-            $personal = [];
-            
-            $items = $group_facets[0]->items;
-            
-            foreach ($items as $group_facet) {
-                if ($group_facet->count > 0) {
-                    if (Str::startsWith($group_facet->term, '0:')) {
-                        // private
-                        $private[] = \KBox\Group::findOrFail(str_replace('0:', '', $group_facet->term));
-                    } elseif (Str::startsWith($group_facet->term, $auth_user->id.':')) {
-                        //personal
-                        $personal[] = $group_facet;
-                    }
-                }
-            }
-            
-            $view->with('facets_groups_personal', $personal);
-        
-            $view->with('facets_groups_private', $private);
-        }
     }
     
     public function shared(View $view)

@@ -22,20 +22,6 @@ class RedirectOldDocumentsController extends DocumentAccessController
         parent::__construct($documentsService);
     }
 
-    // public function showByKlinkId($institution, $local_id, AuthGuard $auth)
-    // {
-    //     try {
-
-    //         return $this->_showPanel($document, $auth()->user());
-    //     } catch (KlinkException $kex) {
-    //         \Log::error('Document Descriptor showByKlinkId error', ['error' => $kex, 'institution' => $institution, 'local_id' => $local_id]);
-    //         return view('panels.error', ['message' => $kex->getMessage()]);
-    //     } catch (\Exception $kex) {
-    //         \Log::error('Document Descriptor showByKlinkId error', ['error' => $kex, 'institution' => $institution, 'local_id' => $local_id]);
-    //         return view('panels.error', ['message' => $kex->getMessage()]);
-    //     }
-    // }
-
     /**
      * Redirect to the preview of the document following the new URL format if
      * a local document exists given the old local identifier.

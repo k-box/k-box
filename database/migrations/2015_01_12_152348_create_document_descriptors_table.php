@@ -16,8 +16,6 @@ class CreateDocumentDescriptorsTable extends Migration
         Schema::create('document_descriptors', function (Blueprint $table) {
             $table->bigIncrements('id'); // in K-Link is the localDocumentId
 
-            $table->bigInteger('institution_id')->nullable()->unsigned(); //institutionID
-
             $table->string('local_document_id')->nullable(); //Klink Local document id
 
             $table->string('hash', 128);
@@ -95,8 +93,6 @@ class CreateDocumentDescriptorsTable extends Migration
             $table->foreign('file_id')->references('id')->on('files');
 
             $table->foreign('owner_id')->references('id')->on('users');
-
-            $table->foreign('institution_id')->references('id')->on('institutions');
         });
     }
 

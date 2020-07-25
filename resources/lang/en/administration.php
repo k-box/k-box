@@ -76,7 +76,6 @@ return [
             'upload_documents' => 'User can upload documents',
             'make_search' => 'User can access the Documents page', //in the past: User can access all the unpublished documents in accessible projects
             'manage_own_groups' => 'User can add/remove personal collections',
-            'manage_institution_groups' => 'User can add/remove document collections in accessible projects', //hidden from users
             'manage_project_collections' => 'User can access the Projects section', //in the past: User can add/remove project collections in accessible projects
             'create_projects' => 'User can create Projects',
             'manage_share' => 'User may directly share project documents with other K-Box users', 

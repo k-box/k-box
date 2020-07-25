@@ -63,7 +63,6 @@ return [
         'update' => 'Es gab ein Problem beim Aktualisieren der Microsite. :error',
         'delete_forbidden' => 'Sie können die Microsite ":title" nicht löschen, da sie kein Projektmanager des Projektes der Microsite sind.',
         'forbidden' => 'Sie müssen ein Projektadministrator sein, um mit Microsites zu interagieren.',
-        'user_not_affiliated_to_an_institution' => 'Sie sind keiner Institution zugehörig, bitte überprüfen sie ihr Profil vor dem erstellen einer Microsite.',
     ],
 
     'labels' => [

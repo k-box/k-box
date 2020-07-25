@@ -66,7 +66,6 @@ return [
             'upload_documents' => 'L\'utilisateur peut mettre en ligne des documents',
             'make_search' => 'L\'utilisateur peut  accéder à tous les documents non publiés se trouvant dans des projets accessibles',
             'manage_own_groups' => 'L\'utilisateur peut ajouter/supprimer des collections de documents personnels',
-            'manage_institution_groups' => 'L\'utilisateur peut ajouter/supprimer des collections de documents se trouvant dans des projets accessibles',
             'manage_project_collections' => 'L\'utilisateur peut ajouter/supprimer des collections de projet se trouvant dans des projets accessibles',
             'manage_share' => 'L\'utilisateur peut directement partager des documents de projet avec d\'autres utilisateurs K-Box',
             'receive_share' => 'L\'utilisateur peut voir les documents qui ont été partagés avec lui',

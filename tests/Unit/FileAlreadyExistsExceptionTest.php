@@ -204,7 +204,6 @@ class FileAlreadyExistsExceptionTest extends TestCase
         ]);
         
         $doc = factory(DocumentDescriptor::class)->create([
-            'institution_id' => $user->institution_id,
             'owner_id' => $user->id,
             'file_id' => $file->id,
             'hash' => $file->hash,

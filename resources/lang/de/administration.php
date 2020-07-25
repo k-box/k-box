@@ -22,7 +22,6 @@ return [
         'mail'=>'E-Mail',
         'update'=>'Aktualisierung und Wiederherstellung',
         'maintenance'=>'Wartung und Ereignisse',
-        'institutions'=>'Institutionen',
         'settings'=>'Einstellungen',
         'identity' => 'Identitäten',
         'licenses' => 'Dokumentenlizenzen',
@@ -39,8 +38,6 @@ return [
 
             'name_column' => 'Name',
             'email_column' => 'E-Mail',
-            'institution_column' => 'Institution',
-
         ],
 
         'edit_account_title' => ':name bearbeiten',
@@ -56,9 +53,6 @@ return [
             'create' => 'Erstellen',
             'update' => 'Aktualisieren',
 
-            'institution' => 'Institution',
-            'select_institution' => 'Auswahl der Institution des Nutzers...',
-
         ],
 
         'capabilities' => [
@@ -70,7 +64,6 @@ return [
             'upload_documents' => 'Nutzer kann Dokumente hochladen',
             'make_search' => 'Nutzer kann auf alle unpublizierten Dokumente in zugänglichen Projekten zugreifen',
             'manage_own_groups' => 'Nutzer kann persönliche Sammlungen hinzufügen/entfernen',
-            'manage_institution_groups' => 'Nutzer kann Dokumentsammlungen in zugänglichen Projekten hinzufügen/entfernen',
             'manage_project_collections' => 'Nutzer kann Projektsammlungen in zugänglichen Projekten hinzufügen/entfernen',
             'manage_share' => 'Nutzer kann Projektdokumente direkt mit anderen K-Boxes teilen',
             'receive_share' => 'Nutzer kann Dokumente sehen, die mit ihm geteilt wurden',

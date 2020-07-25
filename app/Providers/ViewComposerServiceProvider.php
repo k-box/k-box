@@ -110,7 +110,6 @@ class ViewComposerServiceProvider extends ServiceProvider
         view()->composer('documents.preview', 'KBox\Http\Composers\DocumentsComposer@descriptorPanel');
         
         view()->composer('documents.facets', 'KBox\Http\Composers\DocumentsComposer@facets');
-        view()->composer('documents.group-facets', 'KBox\Http\Composers\DocumentsComposer@groupFacets');
 
         view()->composer('documents.partials.copyrightform', \KBox\Http\Composers\CopyrightComposer::class);
     }
