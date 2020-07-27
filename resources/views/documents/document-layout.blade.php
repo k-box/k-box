@@ -91,7 +91,7 @@
 
 	<script>
 
-	require(['modules/list-switcher', 'modules/documents', 'modules/panels', 'modules/dropdown'], function(Switcher, Documents, Panels){
+	require(['modules/list-switcher', 'modules/documents', 'modules/panels'], function(Switcher, Documents, Panels){
 
 		@if(isset($context))
 			Documents.setContext({
