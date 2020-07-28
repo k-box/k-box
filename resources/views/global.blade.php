@@ -16,7 +16,35 @@
 	
 		<script type="text/javascript" src="{{ mix("js/vendor.js") }}"></script>
 		
-		<script type="text/javascript" src="{{ mix("js/evolution.js") }}" defer></script>
+		<script type="module" src="{{ mix("js/evolution.js") }}"></script>
+		<script>
+			/**
+			 * Safari 10.1 `nomodule` support
+			 * https://gist.github.com/samthor/64b114e4a4f539915a95b91ffd340acc
+			 * https://philipwalton.com/articles/deploying-es2015-code-in-production-today/
+			 */
+			(function() {
+			var d = document;
+			var c = d.createElement('script');
+			if (!('noModule' in c) && 'onbeforeload' in c) {
+				var s = false;
+				d.addEventListener('beforeload', function(e) {
+				if (e.target === c) {
+					s = true;
+				} else if (!e.target.hasAttribute('nomodule') || !s) {
+					return;
+				}
+				e.preventDefault();
+				}, true);
+
+				c.type = 'module';
+				c.src = '.';
+				d.head.appendChild(c);
+				c.remove();
+			}
+			}());
+		</script>
+		<script nomodule src="{{ mix("js/evolution-ie11.js") }}"></script>
 		
 		@include('require-config')
                 

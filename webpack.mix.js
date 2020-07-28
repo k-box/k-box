@@ -82,6 +82,8 @@ mix.scripts([
 
 mix.js("resources/assets/js/evolution.js", "public/js");
 
+mix.js("resources/assets/js/evolution-ie11.js", "public/js");
+
 // Tasks to run in production ----------------------------------------------
 
 mix.purgeCss({
