@@ -1,4 +1,4 @@
-<footer class="px-4 mt-10 sm:mt-12 sm:px-6 md:mt-16 lg:mt-20 lg:px-8 xl:mt-28 flex flex-col items-start sm:items-center lg:items-start" role="footer">
+<footer class="px-4 mt-10 sm:mt-12 pb-10 sm:mb-12 sm:px-6 md:mt-16 md:mb-0 lg:mt-20 lg:px-8 xl:mt-28 flex flex-col items-start sm:items-center lg:items-start" role="footer">
 	
 	@if(!isset($not_show_links))
 
