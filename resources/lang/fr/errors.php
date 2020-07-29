@@ -60,7 +60,6 @@ return [
         'prevent_edit' => 'Vous ne pouvez pas modifier :name',
     ],
 
-    'group_edit_institution' => "Vous ne pouvez pas modifier des groupes au niveau de l\'institution.",
     'group_edit_project' => "Vous ne pouvez pas modifier des collections de projet.",
     'group_edit_else' => "Vous ne pouvez pas modifier les groupes de quelqu\'un d\'autre.",
 

@@ -66,7 +66,6 @@ return [
             'upload_documents' => 'L\'utilisateur peut mettre en ligne des documents',
             'make_search' => 'L\'utilisateur peut  accéder à tous les documents non publiés se trouvant dans des projets accessibles',
             'manage_own_groups' => 'L\'utilisateur peut ajouter/supprimer des collections de documents personnels',
-            'manage_institution_groups' => 'L\'utilisateur peut ajouter/supprimer des collections de documents se trouvant dans des projets accessibles',
             'manage_project_collections' => 'L\'utilisateur peut ajouter/supprimer des collections de projet se trouvant dans des projets accessibles',
             'manage_share' => 'L\'utilisateur peut directement partager des documents de projet avec d\'autres utilisateurs K-Box',
             'receive_share' => 'L\'utilisateur peut voir les documents qui ont été partagés avec lui',
@@ -199,20 +198,7 @@ return [
     
     'institutions' => [
         
-        'edit_title' => 'Modifier les détails de :name',
-        'create_title' => 'Créer une nouvelle institution',
-        'create_institutions_btn' => 'Ajouter une nouvelle institution',
-        'saved' => 'Institution :name mise à jour.',
-        'update_error' => 'Détail de l\'institution non sauvegardé: :error',
-        'create_error' => 'L\'institution ne peut pas être créée: :error',
-        'delete_not_possible' => 'L\'institution :name est actuellement utilisée pour des documents et/ou pour l\'affiliation d\'utilisateurs. Veuillez supprimer les documents et l\'affiliation des utilisateurs avant de l\'effacer.',
-        'delete_error' => 'L\'institution :name ne peut pas être supprimée: :error',
-        'deleted' => 'L\'institution :name a été supprimée.',
-        'delete_confirm' => 'Supprimer l\'institution :name du réseau?',
-        'deprecated' => 'La gestion des institutions va changer. Afin de préparer votre K-Box pour ces changements, nous avons désactivé l\'addition, l\'édition et la suppression d\'institutions.',
-        
         'labels' => [
-            'klink_id' => 'Identificateur d\'institution (dans le réseau K-Link)',
             'name' => 'Nom de l\'institution',
             'email' => 'Email de l\'institution pour recevoir des informations',
             'phone' => 'Numéro de téléphone du secrétaire de l\'institution',
@@ -222,8 +208,6 @@ return [
             'address_country' => 'Adresse de l\'institution (pays)',
             'address_locality' => 'Adresse de l\'institution (ville)',
             'address_zip' => 'Code postal',
-            'update' => 'Enregistrer',
-            'create' => 'Créer une institution'
         ],
     ],
     
@@ -252,8 +236,6 @@ return [
         'page_title' => 'Identité',
         'description' => 'Informations relatives à votre organisation, afin que les utilisateurs puissent vous contacter depuis la page de contact.',
         'not_complete' => 'Les informations de contact ne sont pas complètes.',
-        'suggestion_based_on_institution_hint' => 'Nous avons automatiquement rempli les informations de contact à partir des informations de contact de l\'institution. Veuillez les contrôler et appuyer sur Enregistrer.',
-
         'contact_info_updated' => 'Détails du contact enregistrés.',
         'update_error' => 'Les détails du contact n\'ont pas été mis à jour. :error',
     ],

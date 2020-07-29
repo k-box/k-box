@@ -63,7 +63,6 @@ return [
         'update' => 'Il y a eu un problème durant la modification du microsite. :error',
         'delete_forbidden' => 'Vous ne pouvez pas effacer le microsite ":title" car vous n\'êtes pas le gestionnaire du projet apparenté au microsite.',
         'forbidden' => 'Vous devez être administrateur du projet pour pouvoir interagir avec les microsites.',
-        'user_not_affiliated_to_an_institution' => 'Vous n\'êtes affilié à aucune institution. Veuillez demander une modification de votre profil avant de créer un microsite.',
     ],
     
     'labels' => [

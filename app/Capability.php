@@ -85,13 +85,6 @@ class Capability extends Model
      * The user can create, edit or remove document groups
      */
     const MANAGE_OWN_GROUPS = 'manage_own_groups';
-
-    /**
-     * The user can create, edit or remove document groups that are
-     * visible to all the users of the institution
-     * @deprecated use MANAGE_PROJECT_COLLECTIONS instead
-     */
-    const MANAGE_INSTITUTION_GROUPS = 'manage_institution_groups';
     
     /**
      * The user can create/edit/remove collections under a project

@@ -21,9 +21,6 @@ Here are only listed the specific commands added by the K-Box:
   exists on the Core.
 - `dms:lang-publish`: Publish Javascript language files for RequireJS i18n plugin
 - [`users:import`](./user-import-command.md): Import users from a CSV file
-- [`documents:check-affiliation`](./documents-check-affiliation.md): Check if all the 
-  documents has the same institution of the first uploader. The command assumes that 
-  the user affiliation has not been changed since the upload of the document
 - [`documents:check-latest-version`](./documents-check-latest-version.md): Check if 
   the latest version details of a Document are correctly reported in a document descriptor
 - `collections:clean-duplicates`: Clean the duplicated documents contained in a collection

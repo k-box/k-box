@@ -52,7 +52,6 @@ class ClearCancelledDocumentUploadsCommandTest extends TestCase
             ]);
 
             $document = DocumentDescriptor::forceCreate([
-                'institution_id' => null,
                 'local_document_id' => $i,
                 'title' => $file->name,
                 'hash' => $file->hash,

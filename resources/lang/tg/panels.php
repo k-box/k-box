@@ -13,7 +13,6 @@ return [
 
     'meta' => [
 
-        'institution' => 'Ташкилот',
         'main_contact' => 'Тамос',
         'language' => 'Забон',
         'added_on' => 'Дохил гардид',

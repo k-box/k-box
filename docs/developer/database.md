@@ -8,12 +8,11 @@ Here the list of the main tables is proposed and described:
 
 - *users*: stores the users
 - *capabilities*: stores the default capabilities (see [User capabilities and Accounts](./user-capabilities-and-accounts))
-- *institutions*: caches the institution locally
 - *document_descriptors*: stores the document descriptors of the uploaded documents and the public document descriptor reference of starred public documents
 - *starred*: stores the starred document descriptors for each user
 - *files*: store the files metadata and link the logical representation to the filesystem
 - *groups*: stores the collections:
- - `is_private` attribute indicate if the collection is Personal to the user or not. If not, w.r.t. K-Box edition, can be Institutional or Project
+ - `is_private` attribute indicate if the collection is Personal to the user or not. If not is a project collection
  - `color`: is a 6 digit field that stores the Hex Color value without the leading `#` character
 - *group_types*: stores the different group types available. Group types values are stored at database seeding time. Possible values are:
  - `GroupType::GENERIC` : generic collection
@@ -34,7 +33,6 @@ The K-Box Standard and Project edition shares the same database structure except
 
 - *projects*: stores the projects details
 - *userprojects*: handle the N to M relation between projects and user involved in projects
-- relation user->institution by foreign institution_id on users: handle the institution affiliation of a user
 - relation projects->users by foreign projects.user_id to users.id: this relation covers the fact that a project is managed by a single project administrator
 
 ## Users and Capabilities
@@ -64,7 +62,7 @@ Under this condition the file versioning is possible enabling a single hierarchy
 
 In the K-Link network there is the concept of Public and Private. By default all document descriptors are marked `private`.
 
-A public document descriptor, inside the K-Box, is considered a flag of a private document descriptor. This means that a public document descriptor is still a private document of the institution, but has been opened for public viewing. In fact they both (public and private) shares the same meta data and, most of all, they have the same identifier, because it is the same document that will be showed for private and public requests.
+A public document descriptor, inside the K-Box, is considered a flag of a private document descriptor. This means that a public document descriptor is still a private document, but has been opened for public viewing. In fact they both (public and private) shares the same meta data and, most of all, they have the same identifier, because it is the same document that will be showed for private and public requests.
 
 
 ### Deleting a Document Descriptor and a file
@@ -82,8 +80,8 @@ Groups/Collections are hierarchical structures to enable the high level mapping 
 
 > Originally were called groups, but now are Collections
 
-Groups are available at personal and institution level:
-- institution level groups are visible to all the users
+Groups are available at personal and project level:
+- project level groups are visible to members of the project
 - personal groups are visible only to the user that has created them
 
 The *groups*, *group_closure*, *group_types* and *document_groups* tables are responsible for handling the Collection concept inside the K-Box.

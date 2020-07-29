@@ -97,7 +97,6 @@ class PreparePersonalExportJob implements ShouldQueue
             ->makeHidden('deleted_at')
             ->makeHidden('email_verified_at')
             ->makeHidden('avatar')
-            ->makeHidden('institution_id')
             ->toJson();
         
         $this->archiveHandle->addFromString(

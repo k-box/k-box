@@ -50,7 +50,6 @@ use KBox\Casts\UuidCast;
  * @property-read \KBox\User $owner the user that is owning the document in the K-Box
  * @property-read \Illuminate\Database\Eloquent\Collection|\KBox\Shared[] $shares the shares of the document
  * @property-read \Illuminate\Database\Eloquent\Collection|\KBox\Starred[] $stars the star applied to this document by the users
- * @method static \Illuminate\Database\Query\Builder|\KBox\DocumentDescriptor fromKlinkID($institution_id, $document_id) {@see KBox\DocumentDescriptor::scopeFromKlinkID()}
  * @method static \Illuminate\Database\Query\Builder|\KBox\DocumentDescriptor fromOwnerId($owner_id) {@see \KBox\DocumentDescriptor::scopeFromOwnerId()}
  * @method static \Illuminate\Database\Query\Builder|\KBox\DocumentDescriptor fromUser($user_id) {@see \KBox\DocumentDescriptor::scopeFromUser()}
  * @method static \Illuminate\Database\Query\Builder|\KBox\DocumentDescriptor indexed() {@see \KBox\DocumentDescriptor::scopeIndexed()}

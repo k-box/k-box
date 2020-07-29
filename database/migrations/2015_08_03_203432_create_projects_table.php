@@ -25,7 +25,7 @@ class CreateProjectsTable extends Migration
             // the project manager
             $table->bigInteger('user_id')->unsigned();
             
-            // the root institutional collection of the project
+            // the root collection of the project
             $table->bigInteger('collection_id')->unsigned();
             
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

@@ -101,7 +101,7 @@ class FakeKlinkAdapter implements AdapterContract
      *
      * Public visibility -> all documents inside the K-Link Network
      *
-     * private visibility -> documents inside institution K-Link Core
+     * private visibility -> documents inside private K-Link Core
      *
      * This method uses caching, so be aware that the results you receive might be older than real time
      *

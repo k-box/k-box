@@ -70,7 +70,6 @@ return [
             'upload_documents' => 'Документтерди жүктөө',
             'make_search' => 'Ачык долбоорлордун ичиндеги документтерди көрүү',
             'manage_own_groups' => 'Жеке коллекция менен иштөө',
-            'manage_institution_groups' => 'Ачык долбоорлордун ичиндеги группаларды башкаруу',
             'manage_project_collections' => 'Ачык долбоорлордун түзүлүшүнө өзгөртүү киргизүү',
             'manage_share' => 'Башка колдонуучулардын жабык документтерин көрүү',
             'receive_share' => 'Бөлүшкөн документтерди көрүү',
@@ -212,21 +211,7 @@ return [
 
     // Institution pages in the administration area
     'institutions' => [
-
-        'edit_title' => ':name аталышынын өзгөртүү',
-        'create_title' => 'Түзүү',
-        'create_institutions_btn' => 'Түзүү',
-        'saved' => 'Уюм :name сакталды',
-        'update_error' => 'Уюм жөнүндө маалымат сакталган жок :error',
-        'create_error' => 'Уюмду түзүүгө мүмкүн эмес: :error',
-        'delete_not_possible' => 'Уюмду :name жок кылууга мүмкүн эмес',
-        'delete_error' => 'Уюмду :name жок кылууга мүмкүн эмес: :error',
-        'deleted' => 'Уюм :name өчүрүлдү',
-        'delete_confirm' => ':name уюм тармактан чыгарылсынбы?',
-        'deprecated' => 'Уюмдарды башкаруу жакын арада өзгөрүлөт. Ошондуктан, уюмдарды кошуу, өзгөртүү жана алып салуу мүмкүнчүлүктөрү чектелген.',
-
         'labels' => [
-            'klink_id' => 'Идентификатор (K-Link тармагында)',
             'name' => 'Аталышы',
             'email' => 'Электрондук почта',
             'phone' => 'Телефон номуру',
@@ -236,8 +221,6 @@ return [
             'address_country' => 'Мамлекет',
             'address_locality' => 'Шаар',
             'address_zip' => 'Почта индекси',
-            'update' => 'Сактоо',
-            'create' => 'Түзүү'
         ],
     ],
 
@@ -271,12 +254,10 @@ return [
         'analytics_save_btn' => 'Сактоо',
 
     ],
-        'identity' => [
+    'identity' => [
         'page_title' => 'Реквизиттер',
         'description' => 'Бул маалымат "Байланыш" баракчасында көрсөтүлөт',
         'not_complete' => 'Маалымат толук эмес',
-        'suggestion_based_on_institution_hint' => 'K-Link уюмдары жөнүндө маалыматтын негизинде толтурулду',
-
         'contact_info_updated' => 'Сакталды',
         'update_error' => 'Маалымат өзгөртүүсүз калды :error',
     ],

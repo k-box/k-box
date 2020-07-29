@@ -18,7 +18,7 @@ use Klink\DmsAdapter\KlinkDocument;
 interface KlinkAdapter
 {
     /**
-     * Retrieve the Document Descriptor of an indexed document given the institution identifier and the local document identifier
+     * Retrieve the Document Descriptor of an indexed document given the document unique identifier
      * @param string $uuid
      * @param string $visibility (optional) The visibility of the document to be retrieved. Acceptable values are: public, private. Default value KlinkVisibilityType::KLINK_PRIVATE.
      * @return \Klink\DmsAdapter\KlinkSearchResultItem which contains and let access a \KSearchClient\Model\Data\Data instance

@@ -63,8 +63,6 @@ return [
         'prevent_edit' => 'You cannot edit :name',
     ],
 
-
-    'group_edit_institution' => "You cannot edit institution level groups.",
     'group_edit_project' => "You cannot edit project collections.",
     'group_edit_else' => "You cannot edit someone else's groups.",
 

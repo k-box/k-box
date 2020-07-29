@@ -198,7 +198,6 @@ class Microsites_IntegrationTest extends TestCase
             ->get(route('microsites.create', ['project' => $project->id]));
         
         $response->assertViewIs('sites::create');
-        $response->assertDontSee(trans('microsites.errors.user_not_affiliated_to_an_institution'));
     }
     
     public function testMicrositeCreateOnProjectWithExistingMicrosite()
