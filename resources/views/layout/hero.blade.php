@@ -18,14 +18,7 @@
 	    @include('footer')
     </div>
   </div>
-  <div class="hidden lg:block lg:min-h-screen lg:fixed bg-gray-900 lg:inset-y-0 lg:right-0 lg:w-1/2">
-    <img class="w-full object-cover lg:w-full h-full" src="https://images.unsplash.com/photo-1563654727148-d7e9d1ed2a86?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2850&q=80" alt="">
-  </div>
+  <x-hero-image has-picture="1" />
 </div>
 
 @endsection
-{{-- 
-    <img class="w-full object-cover lg:w-full h-full" src="https://images.unsplash.com/photo-1496043549741-8815b378cd48?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2850&q=80" alt="">
-    <img class="w-full object-cover lg:w-full h-full" src="https://images.unsplash.com/photo-1563654726935-ec8371114841?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2850&q=80" alt="">
-    <img class="w-full object-cover lg:w-full h-full" src="https://images.unsplash.com/photo-1563654727148-d7e9d1ed2a86?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2850&q=80" alt="">
- --}}
