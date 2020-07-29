@@ -53,9 +53,7 @@
 		<div class="container">
 			<div class="content">
 
-				<div class="logo white">
-                    @include('headers.logo')
-                </div>
+				<x-logo class="text-white" />
 
 				<div class="dms_tag">{{config('app.name')}}</div>
 
