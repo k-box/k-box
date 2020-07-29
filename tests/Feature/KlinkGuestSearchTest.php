@@ -77,7 +77,7 @@ class KlinkGuestSearchTest extends TestCase
         $response->assertStatus(403);
     }
 
-    public function test_login_page_show_klink_search_if_enabled()
+    public function test_login_page_do_not_show_klink_search_if_enabled()
     {
         Option::put(Option::PUBLIC_CORE_ENABLED, true);
         config(['dms.are_guest_public_search_enabled' => true]);
@@ -85,6 +85,6 @@ class KlinkGuestSearchTest extends TestCase
         $response = $this->get('/login');
 
         $response->assertStatus(200);
-        $response->assertSee('name="s"', false);
+        $response->assertDontSee('name="s"', false);
     }
 }
