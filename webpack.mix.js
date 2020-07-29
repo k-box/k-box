@@ -80,6 +80,10 @@ mix.scripts([
         "node_modules/leaflet.wms/dist/leaflet.wms.js"
     ], publicModulesFolder + '/leaflet-wms.js')
 
+mix.js("resources/assets/js/evolution.js", "public/js");
+
+mix.js("resources/assets/js/evolution-ie11.js", "public/js");
+
 // Tasks to run in production ----------------------------------------------
 
 mix.purgeCss({

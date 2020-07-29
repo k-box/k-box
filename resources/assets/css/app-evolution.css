@@ -49,6 +49,9 @@
 /* custom utilities */
 @import "./utils.css";
 
+[x-cloak] { 
+    @apply hidden; 
+}
 
 /* 
  * Default typography styling that can be applied 

@@ -1,12 +1,10 @@
-<div class="{{ $classes ?? '' }}" data-dropdown>
+<div class="{{ $classes ?? '' }}"  x-data="{ open: false }">
 
-    <div data-dropdown-obscurer class="fixed top-0 left-0 w-screen h-screen hidden bg-black opacity-25"></div>
-
-    <button type="button" data-dropdown-trigger class="flex hover:text-blue-600 items-center js-profile-link " @isset($title) title="{{$title}}" @endisset>
+    <button type="button" @click="open = true" class="flex items-center {{ $button_classes ?? 'hover:text-blue-600' }}" @isset($title) title="{{$title}}" @endisset>
         {{ $slot }}
     </button>
 
-    <div data-dropdown-panel class="absolute shadow-lg hidden js-profile w-full sm:w-56 right-0 block p-2 mt-1 text-white bg-white rounded">
+    <div @click.away="open = false" x-show.transition="open" x-cloak class="absolute shadow-lg w-full sm:w-56 p-2 mt-1 text-white bg-white rounded z-10 {{ $position ?? 'right-0' }}">
         {{ $panel }}
     </div>
 

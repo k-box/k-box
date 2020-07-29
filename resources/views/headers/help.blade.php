@@ -2,7 +2,7 @@
 
     @materialicon('action', 'help_outline', 'inline fill-current m-0 p-0')
 
-    @materialicon('navigation', 'arrow_drop_down', 'inline fill-current arrow')
+    @materialicon('navigation', 'arrow_drop_down', ['class' => 'inline fill-current arrow', ':class' => "{ 'rotate-180': open }"])
 
     @slot('panel')
         <ul class="">
