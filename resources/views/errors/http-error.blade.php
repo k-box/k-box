@@ -53,7 +53,7 @@
 		<div class="container">
 			<div class="content">
 
-				<x-logo class="text-white" />
+				<x-logo class="logo" />
 
 				<div class="dms_tag">{{config('app.name')}}</div>
 

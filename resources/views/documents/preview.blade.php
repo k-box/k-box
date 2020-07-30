@@ -12,11 +12,11 @@
 @section('content')
 
 
-	<div class="preview js-preview -mx-2 lg:-mx-4">
+	<div class="preview js-preview ">
     
     <div class="preview__header">
 	
-		<x-logo class="text-white" />
+		<x-logo color="text-white hover:text-blue-200 hover:text-blue-300" class="mr-4" />
 			
 
         <div class="preview__title-container">
