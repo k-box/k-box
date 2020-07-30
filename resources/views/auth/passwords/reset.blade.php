@@ -7,7 +7,7 @@
 
 @section('content')
 
-	<form method="post" class="c-form c-form--space" action="{{ route('password.update') }}">
+	<form method="post" class="" action="{{ route('password.update') }}">
 
 		<h2 class="mb-1">{{trans('passwords.reset.title')}}</h2>
 

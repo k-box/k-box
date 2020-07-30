@@ -20,7 +20,7 @@
 		
 	@endif
 
-	<form method="post" class="c-form c-form--space" action="{{ route('password.email') }}">
+	<form method="post" class="" action="{{ route('password.email') }}">
 
 		<h2 class="mb-1">{{trans('passwords.forgot.title')}}</h2>
 		

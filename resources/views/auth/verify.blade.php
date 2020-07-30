@@ -6,7 +6,7 @@
 
 @section('content')
 
-    <div class="c-form c-form--space">
+    <div class="">
         <h2 class="mb-1">{{ trans('mail.verify.verify_email') }}</h2>
 
         <div class=" mb-4">
