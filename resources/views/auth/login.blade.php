@@ -3,8 +3,6 @@
 @section('content')
 
 	<form action="{{ route('login') }}" class="" method="POST">
-		
-        <x-logo height="h-7" class="inline-block mb-2" />
 
 		<h2 class="mb-4 text-2xl font-normal">{{ $welcome_string }}</h2>
 
