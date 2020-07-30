@@ -2,7 +2,7 @@
 	
 	@if(!isset($not_show_links))
 
-		<ul class="">
+		<ul class="flex">
 			<li><a class="text-gray-700 hover:text-blue-700 focus:text-blue-700 active:text-blue-900" href="{{ route('help') }}">{{trans('pages.help')}}</a></li>
 			@haspage(\KBox\Pages\Page::PRIVACY_POLICY_LEGAL)
 				<li><span class="px-2" aria-hidden="true">&middot;</span><a class="text-gray-700 hover:text-blue-700 focus:text-blue-700 active:text-blue-900 " href="{{ route('privacy.legal') }}">{{trans('pages.privacy')}}</a></li>
