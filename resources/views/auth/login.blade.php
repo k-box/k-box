@@ -42,8 +42,8 @@
 
 		{{ csrf_field() }}
 
-		<div class="c-form__buttons flex items-center">
-			<input type="submit" id="login-submit" name="login-submit" class="button button--primary w-32 mr-4"  tabindex="3" value="{{trans('auth.login')}}">
+		<div class="">
+			<input type="submit" id="login-submit" name="login-submit" class="button button--primary w-32"  tabindex="3" value="{{trans('auth.login')}}">
 		</div>
 			
 	</form>
