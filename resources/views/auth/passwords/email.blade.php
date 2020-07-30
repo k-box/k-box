@@ -31,7 +31,7 @@
 		<div class=" mb-4">
 			<label for="email">{{trans('auth.email_label')}}</label>
 			
-			<input type="email" class="form-input block w-full sm:w-2/3" required id="email" tabindex="1" name="email" value="" autofocus />
+			<input type="email" class="form-input block w-full sm:mx-auto lg:mx-0 sm:w-2/4 lg:w-2/3" required id="email" tabindex="1" name="email" value="" autofocus />
 		</div>
 
 		<div class=" mb-8">

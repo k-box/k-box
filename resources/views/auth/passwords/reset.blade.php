@@ -22,7 +22,7 @@
 			@if( isset($errors) && $errors->has('email') )
 				<span class="field-error">{{ implode(",", isset($errors) && $errors->get('email') ? $errors->get('email') : [])  }}</span>
 			@endif
-			<input type="email" class="form-input block w-full sm:w-2/3" required id="email" name="email" value="{{old('email')}}" />
+			<input type="email" class="form-input block w-full sm:mx-auto lg:mx-0 sm:w-2/4 lg:w-2/3" required id="email" name="email" value="{{old('email')}}" />
 		</div>
 
 		<div class=" mb-4">
@@ -32,7 +32,7 @@
 			@if( $errors->has('password') )
 				<span class="field-error">{{ implode(",", $errors->get('password') ? $errors->get('password') : [])  }}</span>
 			@endif
-			<input type="password" class="form-input block w-full sm:w-2/3" name="password" />
+			<input type="password" class="form-input block w-full sm:mx-auto lg:mx-0 sm:w-2/4 lg:w-2/3" name="password" />
 		</div>
 
 		<div class=" mb-4">
@@ -41,7 +41,7 @@
 			@if( $errors->has('password_confirm') )
 				<span class="field-error">{{ implode(",", $errors->get('password_confirm'))  }}</span>
 			@endif
-			<input type="password" class="form-input block w-full sm:w-2/3" name="password_confirmation" />
+			<input type="password" class="form-input block w-full sm:mx-auto lg:mx-0 sm:w-2/4 lg:w-2/3" name="password_confirmation" />
 		</div>
 
 		<div class=" mb-4">
