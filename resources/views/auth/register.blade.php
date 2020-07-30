@@ -9,8 +9,6 @@
     <form action="{{ route('register') }}" class="c-form c-form--space" method="POST">
 
         @csrf
-    
-        <x-logo height="h-7" class="inline-block mb-2" />
 
 		<h2 class="mb-4 text-2xl font-normal">{{ trans('auth.create_account') }}</h2>
 
