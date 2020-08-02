@@ -33,7 +33,7 @@ export default function() {
         init () {
 
             this.$watch('url', value => {
-
+console.log(this.url, value);
                 if(!value){
                     return;
                 }

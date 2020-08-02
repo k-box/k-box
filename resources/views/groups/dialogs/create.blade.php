@@ -1,6 +1,11 @@
 @if(($user_can_edit_public_groups || $user_can_edit_private_groups))
 
-<form method="POST" x-data="{text: '' }" class="" action="{{route('documents.groups.store')}}">
+<form method="POST" 
+    x-data="AsyncForm({text: ''})" 
+    x-on:submit.prevent="submit" 
+    @form-submitted="window.sessionStorage.setItem('collections-created', $event.detail.data.id);$dispatch('dialog-close', {});DMS.navigateReload();"
+    class="" 
+    action="{{route('documents.groups.store')}}">
 
 	{{ csrf_field() }}
 

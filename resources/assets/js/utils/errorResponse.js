@@ -3,7 +3,7 @@ export default function(obj, err, text) {
     var _message = '';
     var _html = '';
 
-    if(obj.status === 422 && obj.responseJSON && obj.responseJSON.error){
+    if(obj.responseJSON && obj.responseJSON.error){
         $.each(obj.responseJSON, function(index, el){
             _message += obj.responseJSON.error;
             _html += '<p>' + obj.responseJSON.error + '</p>';

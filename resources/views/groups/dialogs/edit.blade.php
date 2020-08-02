@@ -1,6 +1,11 @@
 @if(($user_can_edit_public_groups || $user_can_edit_private_groups))
 
-<form method="POST" x-data="{text: '{{ $group->name }}' }" class="" action="{{route('documents.groups.update', $group->id)}}">
+<form method="POST" 
+    x-data="AsyncForm({text: '{{ $group->name }}' })" 
+    x-on:submit.prevent="submit" 
+    @form-submitted="$dispatch('dialog-close', {});DMS.navigateReload();"
+    class="" 
+    action="{{route('documents.groups.update', $group->id)}}">
 
 	{{ csrf_field() }}
 

@@ -4,8 +4,13 @@
 		class="form-input block w-full"
 		name="name" 
 		required 
+		autocomplete="off"
 		value="{{ optional($group ?? null)->name }}" />
 </div>
+
+<template x-if="errors">
+	<div class="c-message c-message--error" x-text="errors"></div>
+</template>
 
 <div class="mt-2">
 	<p class="text-sm leading-5 text-gray-900">
