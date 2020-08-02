@@ -1,6 +1,6 @@
 @if(($user_can_edit_public_groups || $user_can_edit_private_groups))
 
-<form method="POST" x-data="{text: '' }" class="" action="{{route('documents.groups.update', $group->id)}}">
+<form method="POST" x-data="{text: '{{ $group->name }}' }" class="" action="{{route('documents.groups.update', $group->id)}}">
 
 	{{ csrf_field() }}
 
@@ -13,16 +13,16 @@
             </div>
             <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
                 <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-headline">
-                    {{ trans('groups.panel_edit_title', ['name' => $group->name]) }}
+                    {{ trans('groups.panel_edit_title') }}
+                    <span class="" x-text="text">{{ $group->name }}</span>
                 </h3>
                 <div class="mt-2">
                     <p class="text-sm leading-5 text-gray-500">
                         {{trans('groups.form.collection_name_placeholder')}}
                     </p>
                 </div>
-                <div class="mt-2 w-full">
-                    @include('groups.groupform')
-                </div>
+                
+                @include('groups.groupform')
             </div>
         </div>
     </div>

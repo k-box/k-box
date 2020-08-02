@@ -859,14 +859,8 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
             },
 
             createGroup: function(evt, vm, groupId, isPrivate){
-                
                 var params = undefined,
                     isPrivateRequest = isPrivate !== undefined || (evt.currentTarget && $(evt.currentTarget).data('isprivate') !== undefined);
-
-                // if(groupId){
-                //     params = params || {};
-                //     params.group_context = groupId;
-                // }
                 
                 if(isPrivateRequest){
                     params = params || {};
@@ -879,6 +873,11 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
                     params.group_context = groupId ? groupId : module.context.group;
 
                 }
+
+                DMS.dispatch(evt.currentTarget, 'dialog-show', { 
+                    'url': DMS.Paths.GROUPS_CREATE, 
+                    'params' : params
+                });
 
                 // Panels.dialogOpen(DMS.Paths.GROUPS_CREATE, params, {callbacks: { form_submit_success: function(evt, data){
 
@@ -1601,17 +1600,20 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
                     DMS.MessageBox.error('You cannot edit a project you don\'t manage');
                 }
                 else {
-                    Panels.dialogOpen(DMS.Paths.GROUPS_EDIT.replace('{ID}', id), {}, {
-                        callbacks: { 
-                            form_submit_success: function(evt, data){
+                    DMS.dispatch(evt.currentTarget, 'dialog-show', { 
+                        'url': DMS.Paths.GROUPS_EDIT.replace('{ID}', id)
+                    });
+                    // Panels.dialogOpen(, {}, {
+                    //     callbacks: { 
+                    //         form_submit_success: function(evt, data){
 
-                                    console.info("Group updated", data);
+                    //                 console.info("Group updated", data);
 
-                                    Panels.dialogClose();
+                    //                 Panels.dialogClose();
 
-                                    DMS.navigateReload();
+                    //                 DMS.navigateReload();
 
-                                }}});
+                    //             }}});
 
                 }
 

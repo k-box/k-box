@@ -24,6 +24,8 @@ return [
 
     'cancel' => 'Cancel',
     'done' => 'Done',
+    
+    'close' => 'Close',
 
     'or_alt' => 'or',
     'or' => 'or :action',

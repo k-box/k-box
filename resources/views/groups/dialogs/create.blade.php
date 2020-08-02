@@ -12,15 +12,16 @@
             <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
                 <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-headline">
                     {{ trans('groups.panel_create_title') }}
+                    <span class="" x-text="text"></span>
                 </h3>
                 <div class="mt-2">
                     <p class="text-sm leading-5 text-gray-500">
-                        {{trans('groups.form.collection_name_placeholder')}}
+                        {{trans('groups.form.collection_name_label')}}
                     </p>
                 </div>
-                <div class="mt-2 w-full">
-                    @include('groups.groupform')
-                </div>
+                
+                @include('groups.groupform')
+                
             </div>
         </div>
     </div>

@@ -290,6 +290,21 @@ window.DMS = (function(_$, _nprogress, _rivets, _alert){
 		},
 
 		/**
+		 * Dispatch a custom event
+		 * @param {HTMLElement} element the element from which the event will be dispatched
+		 * @param {string} eventName the name of the event
+		 * @param {object} detailObject an object containing event details (optional)
+		 */
+		dispatch: function(element, eventName, detailObject){
+			element.dispatchEvent(new CustomEvent(eventName, {
+                detail: detailObject || {},
+                bubbles: true,
+            }))
+		},
+
+
+
+		/**
 		 * For showing some messages to the user
 		 * @type {Object}
 		 */

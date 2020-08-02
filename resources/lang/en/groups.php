@@ -25,9 +25,9 @@ return [
     'save_btn' => 'Save',
     'loading' => 'Saving collection...',
 
-    'panel_create_title' => 'Create new Collection',
+    'panel_create_title' => 'Create Collection',
 
-    'panel_edit_title' => 'Edit Collection <strong>:name</strong>',
+    'panel_edit_title' => 'Edit Collection',
 
     'created_on' => 'created on',
     'created_by' => 'created by',

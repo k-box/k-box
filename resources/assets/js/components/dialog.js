@@ -1,10 +1,13 @@
+import ErrorResponse from "../utils/errorResponse";
+
 export default function() {
 
     return {
         open: false,
         url: null,
         params: {},
-        message: '',
+        message: null,
+        errorMessage: null,
         loading: false,
         
         show () {
@@ -15,36 +18,38 @@ export default function() {
             this.open = false;
             this.url = null;
             this.params = {};
-            this.message = '';
+            this.message = null;
+            this.errorMessage = null;
             this.loading = true;
         },
 
         showDialog ($event) {
+            this.params = $event.detail.params || {};
+            // url set last as watcher is called
+            // synchronously when the value changes
             this.url = $event.detail.url;
-            this.params = $event.detail.params;
         },
 
         init () {
 
             this.$watch('url', value => {
 
-                if(!this.url){
+                if(!value){
                     return;
                 }
 
                 this.loading = true;
-                this.message = "Loading...";
                 this.open = true;
 
-                DMS.Ajax.getHtml(this.url, this.params, function(ok){
+                DMS.Ajax.getHtml(value, this.params, function(ok){
 
                     this.message = ok;
                     this.loading = false;
 
 				}.bind(this), function(obj, err, text){
 
-                    console.error(obj, err, text);
-                    this.message = "Error";
+                    var error = ErrorResponse(obj, err, text);
+                    this.errorMessage = error.htmlMessage;
                     this.loading = false;
 
 				}.bind(this));
