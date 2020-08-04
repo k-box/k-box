@@ -12,13 +12,11 @@
 @section('content')
 
 
-	<div class="preview js-preview -mx-2 lg:-mx-4">
+	<div class="preview js-preview ">
     
     <div class="preview__header">
 	
-		<a class="logo white" href="@if(isset( $is_user_logged ) && isset($current_user_home_route) && $is_user_logged){{$current_user_home_route}}@else{{route('frontpage')}}/@endif">
-			@include('headers.logo')
-		</a>
+		<x-logo color="text-white hover:text-blue-200 hover:text-blue-300" class="mr-4" />
 			
 
         <div class="preview__title-container">

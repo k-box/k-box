@@ -16,8 +16,8 @@ return [
 
     'welcome' => [
 
-        'hero_title' => 'Welcome to the K-Box',
-        'hero_title_with_organization' => 'Welcome to the K-Box of :organization',
+        'hero_title' => 'Sign in to your K-Box account',
+        'hero_title_with_organization' => 'Sign in to your account at :organization',
         'photo_by' => 'Photo by',
         
 

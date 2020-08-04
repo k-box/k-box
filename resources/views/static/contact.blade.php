@@ -1,4 +1,4 @@
-@extends('global')
+@extends('layout.full-form')
 
 
 @section('content')

@@ -24,27 +24,6 @@
 
 
 
-.logo {
-	
-	@apply inline-block;
-
-	svg {
-		@apply fill-current;
-	}
-
-    &:hover svg{
-        @apply text-accent-600;
-    }
-}
-
-/* .logo.white {
-
-	fill: #fff;
-} */
-
-.white {
-    @apply text-white;
-}
 
 
 

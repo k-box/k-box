@@ -66,8 +66,8 @@ return [
 
         'before_proceeding' => 'Before proceeding, please check your email for a verification link.',
 
-        'if_not_received' => 'If you did not receive the email',
-        'request_another' => 'click here to request another',
+        'if_not_received' => 'No verification email received?',
+        'request_another' => 'Click here to request another',
 
         'email_resent' => 'A fresh verification link has been sent to your email address.',
 

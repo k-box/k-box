@@ -78,10 +78,8 @@ class SupportTest extends TestCase
         $response = $this->actingAs($user)->get(route('contact'));
 
         $response->assertStatus(200);
-        
-        $response->assertSee("UserVoice.push(['identify'", false);
-        $response->assertSee("email: '$user->email'", false);
-        $response->assertSee("name: '$user->name'", false);
+        $response->assertSee('UserVoice');
+        $response->assertSee('AAAAA.js');
     }
 
     public function test_support_settings_page_loads_env_variables()

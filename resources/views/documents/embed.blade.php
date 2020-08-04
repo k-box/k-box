@@ -12,9 +12,7 @@
     
     <div class="preview__header">
 	
-		<a class="logo white" href="{{url('/')}}" target="_blank" noreferrer>
-			@include('headers.logo')
-		</a>
+		<x-logo class="text-white" href="{{url('/')}}" target="_blank" rel="noopener noreferrer" />
 
         <div class="preview__title-container">
 
