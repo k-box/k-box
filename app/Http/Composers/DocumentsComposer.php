@@ -210,7 +210,7 @@ class DocumentsComposer
 
     public function versionInfo(View $view)
     {
-        $docOrItem = isset($view['item']) ? $view['item'] : isset($view['document']) ? $view['document'] : null;
+        $docOrItem = isset($view['item']) ? $view['item'] : (isset($view['document']) ? $view['document'] : null);
 
         if (is_array($docOrItem) && isset($docOrItem['descriptor'])) {
             $docOrItem = $docOrItem['descriptor'];
