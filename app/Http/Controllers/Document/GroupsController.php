@@ -56,7 +56,7 @@ class GroupsController extends Controller
         $is_private = $request->input('isPrivate', true)  === "false" || $request->input('isPrivate', true)  === false  ? false: true;
         $view_args['private'] = $is_private;
         
-        if ($request->has('group_context') && !empty($request->input('group_context', null))) {
+        if ($request->has('group_context') && ! empty($request->input('group_context', null))) {
             // preselect a parent collection
 
             $group = Group::findOrFail($request->input('group_context', 0));
