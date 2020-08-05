@@ -239,6 +239,7 @@ class SharingController extends Controller
             'existing_shares' => $existing_shares,
             'can_make_public' => $can_make_public,
             'sharing_links' => implode('&#13;&#10;', $sharing_links),
+            'sharing_links_array' => $sharing_links,
             'public_link' => $public_link,
             'documents' => $documents,
             'groups' => $groups,
