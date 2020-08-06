@@ -74,7 +74,8 @@ return [
         'section_publish_title' => 'Publish',
 
         'linkshare_hint' => 'Only registered users who already have access to the document can open it.',
-        'linkshare_multiple_selection_hint' => 'Only registered users who already have access to the document can open it. To generate a public link, please select a document',
+        'linkshare_multiple_selection_hint' => 'Only registered users who already have access to the documents can open them. To generate a public link, please select a single document.',
+        'multiple_selection_hint' => 'Access depends on the selected documents. Share with additional users using the form below.  To generate a public link, please select a single document.',
         'linkshare_members_only' => 'Only authenticated users listed below can access',
         'linkshare_public' => 'Anyone with the link can access. No login required.',
 
