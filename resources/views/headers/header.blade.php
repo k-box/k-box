@@ -1,5 +1,5 @@
 
-<header class="header sticky top-0 shadow-md js-header" role="header">
+<header class="header z-10 sticky top-0 shadow-md js-header" role="header">
 
 	<div class="relative h-header flex items-center justify-between px-2  lg:px-4 py-1 bg-gray-100">
 		

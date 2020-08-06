@@ -26,13 +26,6 @@
 
 
 
-
-.header {
-
-	z-index: 400;
-
-}
-
 .header__navigation, .header__branding {
     display: flex;
     align-items: center;
