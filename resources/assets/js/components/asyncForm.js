@@ -23,6 +23,8 @@ export default function(defaults) {
             
             var params = $form.serializeJSON();
 
+            dispatch(evt.target, 'form-submitting', {data: params});
+
             return $.ajax({
                 url: $form.attr('action'),
                 type: 'post',
@@ -42,7 +44,7 @@ export default function(defaults) {
                     var errors = ErrorResponse(obj, err, text);
 
                     this.errors = errors.message;
-
+                    
                     dispatch(evt.target, 'form-errored', {errors: errors.message});
                 }.bind(this)
             });
