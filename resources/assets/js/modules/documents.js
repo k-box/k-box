@@ -318,18 +318,12 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
 
         if(data.action && (data.action === 'openShareDialog' || data.action === 'openShareDialogWithAccess') ){
             evt.preventDefault();
-
-            var dialogOptions = {};
-
-            if(data.action === 'openShareDialogWithAccess'){
-                dialogOptions.focus = 'access';
-            }
             
             Share.open([{
                 id: data.id,
                 type: data.group ? 'group' : 'document',
                 title: data.title
-            }], dialogOptions);
+            }]);
         }
         else if(data.action && data.action === 'removeGroup'){
 

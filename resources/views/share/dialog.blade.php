@@ -48,7 +48,7 @@
             <template x-if="errors">
                 <div class="c-message c-message--error" x-text="errors"></div>
             </template>
-{{--  --}}
+
             <div class="">
                 <div  x-show="!loading && !errors && !useCache" x-html="content"></div>
 
@@ -127,7 +127,7 @@
         
         <form method="POST" 
             x-data="AsyncForm({publicLink: '{{ optional($public_link)->getKey() ?? '' }}', hasPublicLink: {{ $public_link ? 'true' : 'false' }}})" 
-            @form-submitted.self="console.log($event.detail.data);hasPublicLink=!hasPublicLink;publicLink=$event.detail.data.status=='ok' ? null : $event.detail.data.id"
+            @form-submitted.self="hasPublicLink=!hasPublicLink;publicLink=$event.detail.data.status=='ok' ? null : $event.detail.data.id"
             x-on:submit.prevent="submit" 
             class="mt-2"
             action="{{ route('links.destroy') }}">
@@ -160,8 +160,6 @@
                     </div>
                 </button>
             </form>
-
-        {{-- @dump($public_link) --}}
 
     @endunless
 
