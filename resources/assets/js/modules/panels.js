@@ -2,17 +2,13 @@ define("modules/panels", ["jquery", "DMS", "combokeys", "language"], function ($
     
 	console.log('panels module initialization...');
 
-	var _available_panels = undefined, _visible = false;
+	var _available_panels = undefined;
 
 	var _opened_panels = undefined, 
-		_opened_dialog = undefined, 
 		_opened_panel_id = undefined, 
-		_opened_dialog_id = undefined,
 		_panelContent = null;
 
-	var keyb = new _combokeys(document); //TODO: optimize this
-
-	var _dialogClosingCallback = undefined;
+	var keyb = new _combokeys(document);
 
 
 	var panel_error_content = '<a href="#close" title="' + Lang.trans('panels.close_btn') + '" class="close icon-navigation-white icon-navigation-white-ic_close_white_24dp"></a><div class="header"><h4 class="title">%title%</h4></div><p>%message%</p>';
@@ -31,28 +27,6 @@ define("modules/panels", ["jquery", "DMS", "combokeys", "language"], function ($
 			_panelContent = $modal.find('.js-panel-content');
 		}
 
-		// if (!$modal) {
-		// 	_initialize(panel_template);
-		// 	$modal = _getPanel();
-		// }
-
-		// // if(!_panel_cache){
-		// // 	_panel_cache = $('.js-panel-cache');
-		// }
-
-		return $modal;
-
-	}
-
-	function _getDialog(){
-
-		var $modal = $('.js-dialog');
-
-		// if (!$modal) {
-		// 	_initialize(dialog_template);
-		// 	$modal = _getDialog();
-		// }
-
 		return $modal;
 
 	}
@@ -61,22 +35,6 @@ define("modules/panels", ["jquery", "DMS", "combokeys", "language"], function ($
 	function _closeBtnCallback(){
 		
 		module.closeAll();
-		
-		return false;
-
-	}
-
-	function _closeDialogBtnCallback(){
-
-		var goahead = true;
-
-		if(_dialogClosingCallback){
-			goahead = _dialogClosingCallback();
-		}
-
-		if(goahead){
-			module.dialogClose();
-		}
 		
 		return false;
 
@@ -116,77 +74,6 @@ define("modules/panels", ["jquery", "DMS", "combokeys", "language"], function ($
 			data.title = panel.text();
 		}
 		_opened_panels.trigger('dms:panel-click', [data]);
-
-		evt.preventDefault();
-		return false;
-
-	}
-
-	function _formDialogPostCallback(evt){
-		
-
-		var $form = $(this);
-
-		var params = $form.serializeJSON();
-
-		console.log(params);
-
-		DMS.Ajax.post($form.attr('action'), params, function(data){
-
-			console.log('Dialog submit success', data);
-
-			_opened_dialog.trigger('dms:dialog-submitted', [data]);
-
-		}, function(obj, err, text){
-
-
-			if(obj.status === 422){
-
-				console.log(obj.responseJSON);
-
- 				var html = '<div class="c-message c-message--error">';
-
- 				$.each(obj.responseJSON, function(index, el){
-
- 					html += '<p>' + $.isArray(el) ? el[0]: el + '</p>';
-
- 				});
-
-        		html += '</div>';
-
-        		_opened_dialog.find('.error-container').html(html);
-
-
-            }
-            else {
-            	console.log('Error', err, text);
-				
-            	var html = '<div class="c-message c-message--error">';
-
-            	if(obj.responseJSON && obj.responseJSON.error){
-
-					html += '<p>' + obj.responseJSON.error + '</p>';
-	            }
-				else if(obj.responseJSON){
-
-	            	$.each(obj.responseJSON, function(index, el){
-
-	 					html += '<p>' + $.isArray(el) ? el[0]: el + '</p>';
-
-	 				});
-	            }
-	            else{
-	            	html += '<p>' + err + ': ' + text + '</p>';
-	            }
-
-        		html += '</div>';
-
-        		_opened_dialog.find('.error-container').html(html);
-
-                _opened_dialog.trigger('dms:dialog-error', [obj, err, text]);
-            }
-
-		}, true);
 
 		evt.preventDefault();
 		return false;
@@ -329,93 +216,6 @@ define("modules/panels", ["jquery", "DMS", "combokeys", "language"], function ($
 
 			_opened_panel_id = undefined;
 
-		},
-
-		/**
-		 * Open a dialog and show the page specified by url 
-		 * @param  string   url      The address of the page to load inside the dialog
-		 * @param  Object 	params	 the key/value parameters to the server while loading the url
-		 * @param  Object 	options  The dialog options
-		 * @return void
-		 */
-		dialogOpen: function(url, params, options){
-
-			var default_options = {
-				callbacks: {
-					form_submit_success: $.noop(),
-					form_submit_error: $.noop(),
-					click: $.noop(),
-					closing: undefined,
-				}
-			};
-
-			options = $.extend(default_options, options);
-
-			_dialogClosingCallback = options.callbacks.closing;
-
-			_opened_dialog = _getDialog();
-
-			keyb.bind('esc', module.dialogClose);
-
-			console.log('Opening dialog', _opened_dialog);
-
-			_opened_dialog.addClass('c-dialog--visible');
-
-			_opened_dialog.on('click', '.js-cancel', _closeDialogBtnCallback);
-
-			_opened_dialog.on('submit', 'form', _formDialogPostCallback);
-
-			_opened_dialog.on('dms:dialog-submitted', options.callbacks.form_submit_success);
-
-			if(!params){
-				params = {};
-			}
-
-			var dialogContent = _opened_dialog.find('.js-dialog-content');
-
-			if(!_opened_dialog_id || (_opened_dialog_id && _opened_dialog_id !== url) || options.force){
-
-				dialogContent.html( Lang.trans('panels.loading_message') );
-
-				DMS.Ajax.getHtml(url, params, function(ok){
-
-					_opened_dialog_id = url;
-					dialogContent.html(ok);
-
-					_opened_dialog.trigger('dms:panel-loaded', [_opened_dialog]);
-
-				}, function(obj, err, text){
-
-					dialogContent.html( Lang.trans('panels.load_error', {error: text}));
-
-				});
-
-			}
-
-			return _opened_dialog;
-
-		},
-
-		/**
-		 * Closes a dialog (only one dialog could be opened at a time)
-		 * @return {[type]} [description]
-		 */
-		dialogClose: function(){
-
-			_opened_dialog_id = undefined;
-
-			_opened_dialog.removeClass('dialog--visible');
-
-			keyb.unbind('esc');
-			_opened_dialog.removeClass('c-dialog--visible');
-
-			_opened_dialog.off('click', '.js-cancel', _closeDialogBtnCallback);
-
-			_opened_dialog.off('submit', 'form', _formDialogPostCallback);
-
-			_opened_dialog.off('dms:dialog-submitted');
-			
-			_opened_dialog.off('dms:panel-loaded');
 		},
 
 	};

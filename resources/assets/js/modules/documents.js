@@ -873,18 +873,6 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
                     'params' : params
                 });
 
-                // Panels.dialogOpen(DMS.Paths.GROUPS_CREATE, params, {callbacks: { form_submit_success: function(evt, data){
-
-                //     console.log(data);
-                //     if(window.sessionStorage && data.id){
-                //         window.sessionStorage.setItem('collections-created', data.id);
-                //     }
-
-                //     DMS.navigateReload();
-
-                // } }});
-
-
                 evt.preventDefault();
                 return false;
             },
@@ -1597,18 +1585,6 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
                     DMS.dispatch(evt.currentTarget, 'dialog-show', { 
                         'url': DMS.Paths.GROUPS_EDIT.replace('{ID}', id)
                     });
-                    // Panels.dialogOpen(, {}, {
-                    //     callbacks: { 
-                    //         form_submit_success: function(evt, data){
-
-                    //                 console.info("Group updated", data);
-
-                    //                 Panels.dialogClose();
-
-                    //                 DMS.navigateReload();
-
-                    //             }}});
-
                 }
 
                 evt.preventDefault();
