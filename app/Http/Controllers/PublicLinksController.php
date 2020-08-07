@@ -13,6 +13,7 @@ use DB;
 use KBox\Http\Requests\CreatePublicLinkRequest;
 use KBox\Http\Requests\UpdatePublicLinkRequest;
 use Illuminate\Contracts\Auth\Guard as AuthGuard;
+use Illuminate\Http\Request;
 use KBox\Exceptions\ForbiddenException;
 use KBox\Events\ShareCreated;
 
@@ -137,11 +138,11 @@ class PublicLinksController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(AuthGuard $auth, $id)
+    public function destroy(AuthGuard $auth, Request $request, $id = null)
     {
         $user = $auth->user();
 
-        $link = PublicLink::findOrFail($id);
+        $link = PublicLink::findOrFail($id ?? $request->input('link'));
         
         if ($user->id !== $link->user_id) {
             return new JsonResponse(['error' => trans('share.publiclinks.delete_forbidden_not_your')], 422);

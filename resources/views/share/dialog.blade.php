@@ -17,7 +17,7 @@
     
     @endif
 
-    {{-- Create share and public link --}}
+    {{-- Create share --}}
 
     <div class="h-4"></div>
     
@@ -33,49 +33,8 @@
                 {{ trans('share.dialog.linkshare_public') }} 
             @endif
         </p>
-        {{-- <select name="linktype" id="linktype" class="js-link-type form-select w-full">
-            <option value="internal" @unless($public_link) selected @endif>{{ trans('share.dialog.linkshare_members_only') }}</option>							
-            <option value="public" @if($has_groups) disabled @endif @if($public_link) selected @endif>{{ trans('share.dialog.linkshare_public') }}@if($has_groups) ({{ trans('notices.coming_soon') }}) @endif</option>
-        </select> --}}
 
         @if($existing_shares)
-
-            @unless($is_collection)
-                <div x-data="{publicLink: {{ optional($public_link)->getKey() ?? 'null' }}, hasPublicLink: {{ $public_link ? 'true' : 'false' }}}" 
-                    @form-submitted="hasPublicLink=true;publicLink=$event.detail.data.data.id"
-                    class="mt-2 flex justify-between items-center">
-
-                    <div>
-                        <p class="flex items-center">
-                            @materialicon('content', 'link', 'h-6 mr-2')
-                            {{trans('share.publiclinks.public_link')}}
-                        </p>
-                        <p class="text-sm leading-tight text-gray-700">{{ __('Users with the link can see the document without login.') }}</p>
-                    </div>
-
-                    <form method="POST" 
-                        x-data="AsyncForm()" 
-                        x-on:submit.prevent="submit" 
-                        action="{{route('links.store')}}">
-
-                        <template x-if="errors">
-                            <div class="c-message c-message--error" x-text="errors"></div>
-                        </template>
-
-                        @csrf
-
-                        <input type="hidden" name="to_id" value="{{ optional($documents->first())->getKey() }}">
-                        <input type="hidden" name="to_type" value="document">
-
-                        <button type="submit" class="button flex-shrink-0 p-1">
-                            {{ __('Create a public link') }}
-                        </button>
-                    </form>
-                </div>
-
-                {{-- @dump($public_link) --}}
-
-            @endunless
 
             <div class="mt-2 max-h-24 overflow-y-auto">
                 {{-- fragment --}}
@@ -147,6 +106,52 @@
 
         </div>
     @endif
+
+    {{-- Public Link --}}
+
+    @unless($is_collection)
+        
+        <p class="mt-2 text-sm leading-tight text-gray-700">{{ __('Grant anyone a read-only version using the document link') }}</p>
+        
+        <form method="POST" 
+            x-data="AsyncForm({publicLink: '{{ optional($public_link)->getKey() ?? '' }}', hasPublicLink: {{ $public_link ? 'true' : 'false' }}})" 
+            @form-submitted.self="console.log($event.detail.data);hasPublicLink=!hasPublicLink;publicLink=$event.detail.data.status=='ok' ? null : $event.detail.data.id"
+            x-on:submit.prevent="submit" 
+            class="mt-2"
+            action="{{ route('links.destroy') }}">
+
+                <template x-if="errors">
+                    <div class="c-message c-message--error" x-text="errors"></div>
+                </template>
+
+                @csrf
+
+                <template x-if="!publicLink">
+                    <div>
+                        <input type="hidden" name="to_id" value="{{ optional($documents->first())->getKey() }}">
+                        <input type="hidden" name="to_type" value="document">
+                    </div>
+                </template>
+
+                <template x-if="publicLink">
+                    <div>
+                        <input type="hidden" name="link" :value="publicLink">
+                        @method('DELETE')
+                    </div>
+                </template>
+
+                <button type="submit" class="button inline-flex p-1 whitespace-no-wrap">
+                    @materialicon('content', 'link', 'h-6 mr-2') 
+                    <div>
+                        <span x-show="!publicLink">{{ __('Enable public link') }}</span>
+                        <span x-show="publicLink">{{ __('Disable public link') }}</span>
+                    </div>
+                </button>
+            </form>
+
+        {{-- @dump($public_link) --}}
+
+    @endunless
 
 
     {{-- Publication on K-Link --}}
