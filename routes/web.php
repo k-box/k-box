@@ -271,6 +271,11 @@ Route::post('shares/find-targets', [
     'as' => 'shares.targets.find',
 ]);
 
+Route::get('shares/list-users', [
+    'uses' => 'ListUsersWithAccess@index',
+    'as' => 'shares.users',
+]);
+
 Route::resource('shares', 'SharingController');
 
 // Public links creation and management

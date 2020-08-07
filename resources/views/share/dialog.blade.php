@@ -34,18 +34,30 @@
             @endif
         </p>
 
-        @if($existing_shares)
+        
 
-            <div class="mt-2 max-h-24 overflow-y-auto">
-                {{-- fragment --}}
+        <div class="mt-2 max-h-24 overflow-y-auto"
+            x-data="Fragment({url: '{{ route('shares.users') }}', useCache: true, params: {collections: @json(optional($groups)->pluck('id')), documents: @json(optional($documents)->pluck('id'))}})"
+            @share-created.window="refresh"
+            >
 
-                @foreach($existing_shares as $share)
-
-                    @include('share.partials.shared-list-item', ['item' => $share])
-                    
-                @endforeach
+            <div class="bg-gray-100 p-2 text-sm text-center" x-show="loading && !errors">
+                {{ __('Loading who has access list...') }}
             </div>
-        @endif
+
+            <template x-if="errors">
+                <div class="c-message c-message--error" x-text="errors"></div>
+            </template>
+{{--  --}}
+            <div class="">
+                <div  x-show="!loading && !errors && !useCache" x-html="content"></div>
+
+                <div x-show="useCache">
+                    @include('share.partials.access-list', ['existing_shares' => $existing_shares])
+                </div>
+            </div>
+        </div>
+        
     @endunless
 
     @if($is_multiple_selection)
