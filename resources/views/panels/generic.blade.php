@@ -1,7 +1,7 @@
 
 
 
-<div class="c-panel js-panel">
+<div class="c-panel z-30 js-panel">
 	
 	<div class="c-panel__cache close js-panel-close">
 	</div>
@@ -28,7 +28,7 @@
 	 @dialog-close.window="hide" 
 	 @keydown.window.escape="hide" 
 	 :class="{'fixed' : open, 'pointer-events-none' : !open }" 
-	 class="pointer-events-none bottom-0 inset-x-0 px-4 pb-4 sm:inset-0 sm:flex sm:items-center sm:justify-center z-40 max-h-screen">
+	 class="pointer-events-none bottom-0 inset-x-0 px-4 pb-4 sm:inset-0 sm:flex sm:items-center sm:justify-center z-50 max-h-screen">
   <div x-cloak :class="{'fixed' : open, 'opacity-0': !open }" @click="hide" class="inset-0 transition-opacity">
     <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
   </div>
