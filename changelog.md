@@ -7,6 +7,37 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.30.0] - 2020-08-08
+
+### Added
+
+- Automated test execution on PHP 7.4 ([#410](https://github.com/k-box/k-box/issues/410))
+
+### Changed
+
+- Update Laravel to version 7 ([#391](https://github.com/k-box/k-box/issues/391), [#395](https://github.com/k-box/k-box/pull/395), [#392](https://github.com/k-box/k-box/pull/392))
+- Replaced Gulp with Laravel Mix and Webpack ([#386](https://github.com/k-box/k-box/issues/386), [#387](https://github.com/k-box/k-box/pull/387))
+- Dropdown menus are now powered by AlpineJs ([#406](https://github.com/k-box/k-box/issues/406)
+- Refactor projects authorization handling using policies ([#390](https://github.com/k-box/k-box/pull/390)
+- Modernize login screen ([#408](https://github.com/k-box/k-box/pull/408), [#396](https://github.com/k-box/k-box/issues/396))
+- Refactor mail settings page ([#401](https://github.com/k-box/k-box/pull/401)
+
+### Fixed
+
+- PDF read/write disabled in Image Magick on latest Docker builds ([#403](https://github.com/k-box/k-box/issues/403), [#404](https://github.com/k-box/k-box/pull/404))
+- Mail settings page loading when log driver is used (after Laravel 7 upgrade) ([#399](https://github.com/k-box/k-box/pull/399))
+- Upload drop hint appear when moving documents already uploaded ([#306](https://github.com/k-box/k-box/issues/306), [#400](https://github.com/k-box/k-box/pull/400))
+
+### Deprecated
+
+- PHP 7.2 support is deprecated. Future versions will require PHP 7.4 ([#413](https://github.com/k-box/k-box/issues/413))
+
+### Removed
+
+- Removed institutions tables and relationships from database ([#339](https://github.com/k-box/k-box/issues/339), [#405](https://github.com/k-box/k-box/pull/405))
+- Removed `dom-crawler` and `css-selector` from direct dependency ([#393](https://github.com/k-box/k-box/pull/393))
+
+
 ## [0.29.1] - 2020-06-19
 
 ### Added
