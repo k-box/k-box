@@ -161,11 +161,13 @@ class UserAdministrationController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function show(Guard $auth, User $user)
+    public function show(Guard $auth, $id)
     {
+        $user = User::findOrFail($id);
+
         $this->authorize('view', $user);
 
-        return $this->edit($auth, $user);
+        return $this->edit($auth, $id);
     }
 
     /**
@@ -174,8 +176,9 @@ class UserAdministrationController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function edit(Guard $auth, User $user)
+    public function edit(Guard $auth, $id)
     {
+        $user = User::findOrFail($id);
         $this->authorize('update', $user);
       
         $user_types = [
@@ -227,8 +230,10 @@ class UserAdministrationController extends Controller
      * @param $request The request
      * @return Response
      */
-    public function update(User $user, UserRequest $request)
+    public function update(UserRequest $request, $id)
     {
+        $user = User::findOrFail($id);
+
         $this->authorize('update', $user);
       
         if ($request->filled('email')) {
@@ -284,8 +289,9 @@ class UserAdministrationController extends Controller
      * @param  int  $id the user id to be disabled
      * @return Response
      */
-    public function destroy(Request $request, User $user)
+    public function destroy(Request $request, $id)
     {
+        $user = User::findOrFail($id);
         $this->authorize('delete', $user);
 
         $this->getValidationFactory()->make(
@@ -315,13 +321,14 @@ class UserAdministrationController extends Controller
     }
     
     /**
-      Sends the reset password link from the Administration interface
-    */
+     * Sends the reset password link from the Administration interface
+     */
     public function resetPassword($id)
     {
-        try {
-            $user = User::findOrFail($id);
+        $user = User::findOrFail($id);
+        $this->authorize('update', $user);
 
+        try {
             $view = \Password::sendResetLink(['email' => $user->email, 'id' => $user->id], function ($m, $user, $token) {
                 $m->subject(trans('mail.password_reset_subject'));
             });

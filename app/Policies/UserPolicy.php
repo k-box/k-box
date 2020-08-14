@@ -35,8 +35,7 @@ class UserPolicy
      */
     public function view(User $user, User $model)
     {
-        // if is admin
-        // or if is in a sort of relationship
+        return $user->isDMSManager();
     }
 
     /**

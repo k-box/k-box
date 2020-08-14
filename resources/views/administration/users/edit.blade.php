@@ -8,8 +8,7 @@
 
 @section('page')
 
-
-    <form  method="POST" class="" action="{{route('administration.users.update', $user->id)}}">
+    <form  method="POST" class="" action="{{route('administration.users.update', ['user' => $user->id])}}">
 
         {{ method_field('PUT') }}
 
