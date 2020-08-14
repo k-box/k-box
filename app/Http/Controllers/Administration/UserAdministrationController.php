@@ -350,7 +350,7 @@ class UserAdministrationController extends Controller
             \Log::error('Password reset from admin interface error', ['error' => $ex]);
           
             return redirect()->back()->withErrors([
-                'error' => trans('administration.accounts.reset_not_sent', ['email' => $id, 'error' => $ex->getMessage()])
+                'error' => trans('administration.accounts.reset_not_sent', ['email' => $user->email, 'error' => $ex->getMessage()])
             ]);
         }
     }
