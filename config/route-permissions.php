@@ -163,16 +163,6 @@ return [
             'index' => KBox\Capability::MANAGE_KBOX,
             'store' => KBox\Capability::MANAGE_KBOX,
         ],
-
-        'users' => [
-            'index' => KBox\Capability::MANAGE_KBOX,
-            'create' => KBox\Capability::MANAGE_KBOX,
-            'store' => KBox\Capability::MANAGE_KBOX,
-            'show' => KBox\Capability::MANAGE_KBOX,
-            'edit' => KBox\Capability::MANAGE_KBOX,
-            'update' => KBox\Capability::MANAGE_KBOX,
-            'destroy' => KBox\Capability::MANAGE_KBOX,
-        ],
         
         'messages' => [
             'index' => KBox\Capability::MANAGE_KBOX,

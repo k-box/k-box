@@ -30,7 +30,6 @@
                 <tr>
                     <th style="width:20%">{{trans('administration.accounts.table.name_column')}}</th>
                     <th style="width:30%">{{trans('administration.accounts.table.email_column')}}</th>
-                    <th style="width:24%">&nbsp;</th>
                     <th>&nbsp;</th>
                 </tr>
             </thead>
@@ -50,20 +49,24 @@
                             @endcomponent
                         </td>
                         <td>{{$user->email}}</td>
-                        <td>&nbsp;</td>
-                        <td>
+                        <td class="flex items-center">
 
                             @if ($user->trashed())
-                                <a class="button " href="{{ route('administration.users.restore', $user->id) }}">
+                                <a class="button mr-2" href="{{ route('administration.users.restore', $user->id) }}">
                                 @materialicon('content', 'undo', 'inline-block'){{trans('actions.restore')}}</a>
                             @else
-                                <a class="button" href="{{ route('administration.users.edit', $user->id) }}">@materialicon('content','create', 'w-5 h-5 mr-1'){{trans('actions.edit')}}</a>
+                                <a class="button mr-2" href="{{ route('administration.users.edit', ['user' => $user->id]) }}">@materialicon('content','create', 'w-5 h-5 mr-1'){{trans('actions.edit')}}</a>
 
+                                <a class="button mr-2" href="{{ route('administration.users.resetpassword', $user->id) }}" title="{{trans('administration.accounts.send_reset_password_hint')}}"><span class="btn-icon icon-content-black icon-content-black-ic_send_black_24dp"></span>{{trans('administration.accounts.send_reset_password_btn')}}</a>
+                                
                                 @if(isset($current_user) && $current_user!= $user->id)
-                                    <a class="button button--danger" href="{{ route('administration.users.remove', $user->id) }}" onclick="if(!confirm('{{trans('administration.accounts.disable_confirm', ['name' => $user->name])}}?')) return false;">@materialicon('content', 'block'){{trans('actions.disable')}}</a>
+                                    <form action="{{ route('administration.users.destroy', ['user' => $user->id]) }}" onsubmit="if(!confirm('{{trans('administration.accounts.disable_confirm', ['name' => $user->name])}}?')) return false;" method="post">
+                                        @method('DELETE')
+                                        @csrf
+                                        <button type="submit" class="button button--danger">@materialicon('content', 'block'){{trans('actions.disable')}}</button>
+                                    </form>
                                 @endif
                                 
-                                <a class="button" href="{{ route('administration.users.resetpassword', $user->id) }}" title="{{trans('administration.accounts.send_reset_password_hint')}}"><span class="btn-icon icon-content-black icon-content-black-ic_send_black_24dp"></span>{{trans('administration.accounts.send_reset_password_btn')}}</a>
                             @endif
 
 

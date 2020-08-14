@@ -11,41 +11,27 @@ use Illuminate\Support\Facades\Hash;
 use KBox\User;
 use KBox\Option;
 use Illuminate\Contracts\Auth\Guard;
-use Klink\DmsAdapter\KlinkAdapter;
 use Illuminate\Contracts\Auth\PasswordBroker as PasswordBrokerContract;
+use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use KBox\Notifications\UserCreatedNotification;
 use Illuminate\Support\Facades\DB;
 
-/**
- * User Resource Controller
- */
 class UserAdministrationController extends Controller
 {
+    /*
+    |--------------------------------------------------------------------------
+    | User Management Controller
+    |--------------------------------------------------------------------------
+    |
+    | This is responsible for creating/updating/disabling
+    | user accounts.
+    |
+    */
 
-  /*
-  |--------------------------------------------------------------------------
-  | User Management Page Controller
-  |--------------------------------------------------------------------------
-  |
-  | This controller respond to ations for the "users management page".
-  |
-  */
-
-    private $adapter = null;
-
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct(KlinkAdapter $adapter)
+    public function __construct()
     {
         $this->middleware('auth');
-
-        $this->middleware('capabilities');
-
-        $this->adapter = $adapter;
     }
 
     /**
@@ -53,17 +39,18 @@ class UserAdministrationController extends Controller
      *
      * @return Response
      */
-    public function index(Guard $auth)
+    public function index(Request $request)
     {
-        $users = User::withTrashed()->get();
-        $data = ['users' => $users, 'pagetitle' => trans('administration.menu.accounts')];
+        $this->authorize('viewAny', User::class);
+
+        $data = [
+            'users' => User::withTrashed()->get(),
+            'pagetitle' => trans('administration.menu.accounts'),
+            'current_user' => $request->user()->id
+        ];
 
         if (! Option::isMailEnabled()) {
             $data['notices'] = [trans('notices.mail_testing_mode_msg', ['url' => route('administration.mail.index')])];
-        }
-
-        if ($auth->check()) {
-            $data['current_user'] = $auth->user()->id;
         }
 
         return view('administration.users', $data);
@@ -76,6 +63,8 @@ class UserAdministrationController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', User::class);
+
         $user_types = [
         'partner' => Capability::$PARTNER,
         'project_admin' => Capability::$PROJECT_MANAGER,
@@ -125,6 +114,8 @@ class UserAdministrationController extends Controller
      */
     public function store(UserRequest $request)
     {
+        $this->authorize('create', User::class);
+
         $mail_configured = Option::isMailEnabled();
 
         $password = $request->input('password', null);
@@ -172,7 +163,11 @@ class UserAdministrationController extends Controller
      */
     public function show(Guard $auth, $id)
     {
-        return $this->edit($auth, $id); //view('administration.users.edit', $viewBag);
+        $user = User::findOrFail($id);
+
+        $this->authorize('view', $user);
+
+        return $this->edit($auth, $id);
     }
 
     /**
@@ -184,11 +179,12 @@ class UserAdministrationController extends Controller
     public function edit(Guard $auth, $id)
     {
         $user = User::findOrFail($id);
+        $this->authorize('update', $user);
       
         $user_types = [
-        'partner' => Capability::$PARTNER,
-        'project_admin' => Capability::$PROJECT_MANAGER,
-        'admin' => Capability::$ADMIN,
+            'partner' => Capability::$PARTNER,
+            'project_admin' => Capability::$PROJECT_MANAGER,
+            'admin' => Capability::$ADMIN,
         ];
       
         $type_resolutor = [];
@@ -234,9 +230,11 @@ class UserAdministrationController extends Controller
      * @param $request The request
      * @return Response
      */
-    public function update($id, UserRequest $request)
+    public function update(UserRequest $request, $id)
     {
         $user = User::findOrFail($id);
+
+        $this->authorize('update', $user);
       
         if ($request->filled('email')) {
             $change_mail = $request->get('email');
@@ -248,7 +246,7 @@ class UserAdministrationController extends Controller
                 $user->email = $request->get('email');
             } elseif ($current_mail != $change_mail && ! is_null($already_exists)) {
                 return redirect()->back()->withInput()->withErrors([
-                    'email' => 'The Email is already in use, please specifiy a different email address'
+                    'email' => 'The Email is already in use, please specify a different email address'
                 ]);
             }
         }
@@ -291,9 +289,16 @@ class UserAdministrationController extends Controller
      * @param  int  $id the user id to be disabled
      * @return Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         $user = User::findOrFail($id);
+        $this->authorize('delete', $user);
+
+        $this->getValidationFactory()->make(
+            ['user' => $user->getKey()],
+            ['user' => 'required|not_in:'.$request->user()->getKey()],
+            ['user.not_in' => __('You cannot disable yourself')]
+        )->validate();
 
         $user->delete();
 
@@ -302,14 +307,11 @@ class UserAdministrationController extends Controller
         ]);
     }
 
-    public function remove($id)
-    {
-        return $this->destroy($id);
-    }
-
     public function restore($id)
     {
         $user = User::onlyTrashed()->where('id', $id)->first();
+        
+        $this->authorize('restore', $user);
 
         $user->restore();
 
@@ -319,13 +321,14 @@ class UserAdministrationController extends Controller
     }
     
     /**
-      Sends the reset password link from the Administration interface
-    */
+     * Sends the reset password link from the Administration interface
+     */
     public function resetPassword($id)
     {
-        try {
-            $user = User::findOrFail($id);
+        $user = User::findOrFail($id);
+        $this->authorize('update', $user);
 
+        try {
             $view = \Password::sendResetLink(['email' => $user->email, 'id' => $user->id], function ($m, $user, $token) {
                 $m->subject(trans('mail.password_reset_subject'));
             });

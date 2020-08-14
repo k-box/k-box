@@ -41,7 +41,7 @@ class DocumentDescriptorPolicy
      */
     public function see_owner(User $user, DocumentDescriptor $documentDescriptor)
     {
-        if ($user->isDMSAdmin()) {
+        if ($user->isDMSManager()) {
             return true;
         }
 
