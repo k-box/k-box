@@ -15,7 +15,14 @@ class InvitesController extends Controller
         $this->middleware('auth');
         $this->middleware('verified');
 
-        abort_unless(Registration::isEnabled(), 404);
+        $this->checkIfEnabled();
+    }
+
+    private function checkIfEnabled()
+    {
+        if (! (app()->runningInConsole() && app()->environment('local'))) {
+            abort_unless(Registration::isEnabled(), 404);
+        }
     }
 
     /**
