@@ -6,6 +6,7 @@ use OneOffTech\TusUpload\Tus;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use KBox\Invite;
+use Ramsey\Uuid\Exception\InvalidUuidStringException;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -95,7 +96,7 @@ class RouteServiceProvider extends ServiceProvider
     {
         Route::bind('invite', function ($invite) {
             try {
-                return Invite::whereUuid($invite)->first() ?? abort(404);
+                return Invite::whereUuid($invite)->firstOrFail();
             } catch (InvalidUuidStringException $ex) {
                 abort(404);
             }
