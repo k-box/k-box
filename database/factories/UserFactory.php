@@ -5,6 +5,7 @@
 use KBox\User;
 use Illuminate\Support\Str;
 use Faker\Generator as Faker;
+use KBox\Capability;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,6 +33,9 @@ $factory->state(User::class, 'admin', function (Faker $faker) {
     return [
         'name' => 'admin',
         'email' => 'admin@klink.local',
-        'password' => bcrypt(Str::random(10)),
     ];
+});
+
+$factory->afterCreatingState(User::class, 'admin', function ($user, $faker) {
+    $user->addCapabilities([Capability::MANAGE_KBOX]);
 });

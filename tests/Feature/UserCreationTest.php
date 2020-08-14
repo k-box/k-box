@@ -36,7 +36,7 @@ class UserCreationTest extends TestCase
 
         $this->withoutExceptionHandling();
 
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->states('admin')->create();
 
         $response = $this->actingAs($user)
                     ->from(route('administration.users.create'))
@@ -62,7 +62,7 @@ class UserCreationTest extends TestCase
     {
         Notification::fake();
 
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->states('admin')->create();
 
         $password = 'a-secure-password';
 
@@ -92,7 +92,7 @@ class UserCreationTest extends TestCase
     {
         Notification::fake();
         
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->states('admin')->create();
 
         $password = 'a-secure-password';
 
@@ -123,7 +123,7 @@ class UserCreationTest extends TestCase
     {
         Notification::fake();
 
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->states('admin')->create();
 
         config(['mail.default' => 'smtp']);
 
@@ -144,7 +144,7 @@ class UserCreationTest extends TestCase
 
     public function test_wrong_email_is_rejected()
     {
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->states('admin')->create();
 
         $response = $this->actingAs($user)
                     ->from('/administration/users/create')
@@ -159,7 +159,7 @@ class UserCreationTest extends TestCase
 
     public function test_empty_user_name_is_rejected()
     {
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->states('admin')->create();
 
         $response = $this->actingAs($user)
                     ->from('/administration/users/create')
@@ -174,7 +174,7 @@ class UserCreationTest extends TestCase
 
     public function test_empty_capability_is_rejected()
     {
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->states('admin')->create();
 
         $response = $this->actingAs($user)
                     ->from('/administration/users/create')
@@ -189,7 +189,7 @@ class UserCreationTest extends TestCase
 
     public function test_user_cannot_be_created_without_minimum_capabilities()
     {
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->states('admin')->create();
 
         $response = $this->actingAs($user)
                     ->from('/administration/users/create')
