@@ -90,6 +90,8 @@ function startup_config () {
         echo "K-Box is creating the privacy policy from templates..."
         su -s /bin/sh -c "php artisan privacy:load" $KBOX_SETUP_USER
     fi
+
+    su -s /bin/sh -c "php artisan appearance:downloadpicture" $KBOX_SETUP_USER
 }
 
 function write_config() {
