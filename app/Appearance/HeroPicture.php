@@ -48,10 +48,14 @@ class HeroPicture
     /**
      * Get the url of the picture
      *
-     * @return string
+     * @return string|null
      */
     public function url()
     {
+        if (is_null($this->picture)) {
+            return null;
+        }
+
         if ($this->isLocal()) {
             return url($this->picture);
         }
