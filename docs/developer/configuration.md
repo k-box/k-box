@@ -51,6 +51,8 @@ The next table shows the K-Box specific configuration parameters:
 | `KBOX_SUPPORT_SERVICE`                |           | string  | null          | The support service to use. See [Configuring Support service](../administration/support.md) |
 | `KBOX_DEFAULT_USER_STORAGE_QUOTA`     |           | null|int  | null        | The available amount of storage to assign to a user in bytes. See [Storage](../administration/storage.md) |
 | `KBOX_DEFAULT_STORAGE_QUOTA_THRESHOLD_NOTIFICATION`     |           | int  | 80        | The used threshold after which the user will be notified on the amount of free storage space. See [Storage](../administration/storage.md) |
+| `KBOX_APPEARANCE_PICTURE`   |           | string  | [image from Unsplash](https://images.unsplash.com/photo-1563654727148-d7e9d1ed2a86?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2850&q=80) | The url of the image to show on login and registration pages. See [Appearance](../administration/appearance.md) |
+| `KBOX_APPEARANCE_COLOR`     |           | string  | null        | The background color of the picture area on login and registration pages. See [Appearance](../administration/appearance.md) |
 
 > `KBOX_MAIL_*` parameters can be configured from the User Interface, see [Configuring E-Mail](../administration/mail.md).
 
