@@ -114,11 +114,14 @@ class HeroPicture
             $response = Http::sink($temp_file)->get($this->picture);
             
             if ($response->failed()) {
+                logs()->warning("Appearance picture failed to download [{$response->status()}: $this->picture].");
                 return null;
             }
 
             copy($temp_file, $this->path());
         } catch (Throwable $th) {
+            logs()->warning("Appearance picture failed to download [{$th->getMessage()}: $this->picture].");
+            return null;
         } finally {
             @unlink($temp_file);
         }
