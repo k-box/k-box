@@ -4,6 +4,7 @@ namespace KBox\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use KBox\Console\Commands\AppearanceDownloadPictureCommand;
 use KBox\Console\Commands\PurgeInvitesCommand;
 use KBox\Console\Commands\QuotaCheckCommand;
 
@@ -43,6 +44,7 @@ class Kernel extends ConsoleKernel
         \KBox\Console\Commands\PurgeExpiredPersonalDataExportsCommand::class,
         \KBox\Console\Commands\QuotaCheckCommand::class,
         \KBox\Console\Commands\PurgeInvitesCommand::class,
+        AppearanceDownloadPictureCommand::class,
     ];
 
     /**

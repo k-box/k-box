@@ -34,6 +34,7 @@ Here are only listed the specific commands added by the K-Box:
 - [`privacy:load`](./privacy-load.md): create the privacy policy from the template
 - [`quote:check`](./quote-check.md): perform the calculation of each user storage quota and notify the user if over-quota
 - `invite:purge`: purge expired account creation invites for all users
+- [`appearance:downloadpicture`](./appearance-download-picture.md): Caches locally the picture defined in the appearance
 
 For a complete list of available commands execute
 

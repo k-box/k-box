@@ -20,7 +20,7 @@
 	    @include('footer')
     </div>
   </div>
-  <x-hero-image has-picture="1" />
+  <x-hero-image />
 </div>
 
 @endsection
