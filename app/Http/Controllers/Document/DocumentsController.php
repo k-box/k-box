@@ -389,23 +389,12 @@ class DocumentsController extends Controller
     public function edit($id, AuthGuard $auth)
     {
         try {
-            /*
-             enable edit view only if the user
-             - the owner of the document
-             - has access to one the collection containing the document
-            */
             $document = DocumentDescriptor::withTrashed()->findOrFail($id);
+            $this->authorize('update', $document);
             $user = $auth->user();
-            
-            $is_owner = $document->owner_id === $user->id;
-            
+
             // collections in which the document is and that can be seen by the user
             $collections = $this->service->getDocumentCollections($document, $user)->count();
-            
-            // if( !$is_owner && $collections === 0 && !$document->isShared() ){
-            //
-            //     throw new ForbiddenException( trans('errors.forbidden_edit_document_exception') , 403);
-            // }
             
             $view_params = [
                     'document' => $document,
@@ -421,14 +410,9 @@ class DocumentsController extends Controller
                 ];
 
             return view('documents.edit', $view_params);
-        } catch (ForbiddenException $kex) {
-            \Log::warning('User tried to edit a document who don\'t has access to', ['error' => $kex, 'user' => $auth->user()->id, 'document' => $id]);
-            
-            throw $kex;
         } catch (\Exception $kex) {
             \Log::error('Error generating data for documents.edit view', ['error' => $kex]);
             
-            // return view('panels.error', ['message' => $kex->getMessage()]);
             throw $kex;
         }
     }
@@ -467,15 +451,13 @@ class DocumentsController extends Controller
         try {
             $user = $auth->user();
 
-            if (! $user->can_capability(Capability::EDIT_DOCUMENT)) {
-                throw new ForbiddenException(trans('documents.messages.forbidden'), 1);
-            }
+            $document = DocumentDescriptor::findOrFail($id);
+
+            $this->authorize('update', $document);
 
             $serv = $this->service;
 
-            $ret = DB::transaction(function () use ($id, $serv, $request, $user) {
-                $document = DocumentDescriptor::findOrFail($id);
-
+            $ret = DB::transaction(function () use ($document, $serv, $request, $user) {
                 $group_dirty = false;
 
                 // 'authors' => 'sometimes|required|string|regex:/^[\w\d\s\.\-_\(\)]*/',

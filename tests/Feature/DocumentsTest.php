@@ -20,6 +20,7 @@ use Klink\DmsAdapter\Exceptions\KlinkException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use KBox\DocumentGroups;
 use KBox\Exceptions\ForbiddenException;
+use KBox\Shared;
 use Klink\DmsAdapter\Fakes\FakeKlinkAdapter;
 
 /*
@@ -144,6 +145,13 @@ class DocumentsTest extends TestCase
         $doc = factory(DocumentDescriptor::class)->create([
             'owner_id' => $user->id,
             'file_id' => $file->id,
+        ]);
+
+        // make the document accessible to the other user
+        factory(Shared::class)->create([
+            'shareable_id' => $doc->getKey(),
+            'user_id' => $user->getKey(),
+            'sharedwith_id' => $user2->getKey(),
         ]);
 
         $user->delete();
