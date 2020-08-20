@@ -566,6 +566,12 @@ class DocumentsTest extends TestCase
         
         $second_user = $this->createUser(Capability::$PARTNER);
         
+        factory(Shared::class)->create([
+            'shareable_id' => $doc->getKey(),
+            'user_id' => $user->getKey(),
+            'sharedwith_id' => $second_user->getKey(),
+        ]);
+        
         // make an edit to the document, save it and then reindex
         
         $url = route('documents.edit', $doc->id);
