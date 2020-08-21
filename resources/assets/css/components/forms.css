@@ -234,10 +234,6 @@ input[type="checkbox"] + label {
 	margin-bottom: 0 !important;
 }
 
-.select2 {
-	margin-bottom: 24px;
-}
-
 .fieldbox__heading {
 
 	@apply bg-gray-300;

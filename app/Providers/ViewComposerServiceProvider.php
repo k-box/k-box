@@ -80,7 +80,8 @@ class ViewComposerServiceProvider extends ServiceProvider
 
         view()->composer('groups.group', 'KBox\Http\Composers\GroupsComposer@group');
 
-        view()->composer('groups.groupform', 'KBox\Http\Composers\GroupsComposer@groupForm');
+        view()->composer('groups.dialogs.create', 'KBox\Http\Composers\GroupsComposer@groupForm');
+        view()->composer('groups.dialogs.edit', 'KBox\Http\Composers\GroupsComposer@groupForm');
     }
 
     private function registerDocumentComposers()

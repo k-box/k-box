@@ -26,7 +26,7 @@ class CreateShareRequest extends Request
     public function rules()
     {
         return [
-            'with_users' => 'required|exists:users,id',
+            'users' => 'required|exists:users,id',
             'groups' => [
                 'required_without:documents',
                 Rule::exists('groups', 'id')->where(function ($query) {

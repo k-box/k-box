@@ -6,3 +6,5 @@
  */
 
 import 'alpinejs/dist/alpine-ie11'
+
+import './evolution-components'

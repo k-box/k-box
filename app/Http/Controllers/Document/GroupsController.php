@@ -49,17 +49,14 @@ class GroupsController extends Controller
     {
         $auth_user = $auth->user();
         
-        $view_args = [
-            'show_cancel' => true, 'create' => true,
-            'title' => trans('groups.panel_create_title'),
-            'main_action' => trans('groups.create_btn')];
+        $view_args = [];
 
         // if context info is available
         
         $is_private = $request->input('isPrivate', true)  === "false" || $request->input('isPrivate', true)  === false  ? false: true;
         $view_args['private'] = $is_private;
         
-        if ($request->has('group_context')) {
+        if ($request->has('group_context') && ! empty($request->input('group_context', null))) {
             // preselect a parent collection
 
             $group = Group::findOrFail($request->input('group_context', 0));
@@ -72,10 +69,9 @@ class GroupsController extends Controller
                     'is_public_collection' => ! $group->is_private
                 ]);
             }
-        } else {
         }
 
-        return view('panels.group', $view_args);
+        return view('groups.dialogs.create', $view_args);
     }
 
     /**
@@ -206,14 +202,7 @@ class GroupsController extends Controller
             ]);
         }
 
-        $view_args = [
-        'show_cancel' => true,
-        'edit' => true,
-        'title' => trans('groups.panel_edit_title', ['name' => $selected_group->name]),
-        'main_action' => trans('groups.save_btn'),
-        'group' => $selected_group];
-
-        return view('panels.group', $view_args);
+        return view('groups.dialogs.edit', ['group' => $selected_group]);
     }
 
     /**

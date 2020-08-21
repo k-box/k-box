@@ -200,7 +200,7 @@ class SharingController extends Controller
             if ($first->hasPublicLink()) {
                 $public_link_share = $first->shares()->where('sharedwith_type', \KBox\PublicLink::class)->first();
                 $public_link = $public_link_share->sharedwith; //instance of PublicLink
-                $existing_shares = $existing_shares->merge([$public_link_share]);
+                // $existing_shares = $existing_shares->merge([$public_link_share]);
             }
         } elseif (! is_null($first) && $first instanceof Group && ! $is_multiple_selection) {
             // grab the existing share made by the user
@@ -237,8 +237,9 @@ class SharingController extends Controller
         return view('share.dialog', [
             'is_network_enabled' => network_enabled(),
             'existing_shares' => $existing_shares,
-            'can_make_public' => $can_make_public,
+            // 'can_make_public' => $can_make_public ? 'yes' : 'no',
             'sharing_links' => implode('&#13;&#10;', $sharing_links),
+            'sharing_links_array' => $sharing_links,
             'public_link' => $public_link,
             'documents' => $documents,
             'groups' => $groups,
@@ -273,7 +274,7 @@ class SharingController extends Controller
         $status = DB::transaction(function () use ($auth, $request) {
             $user = $auth->user();
 
-            $users_to_share_with = $request->input('with_users', []);
+            $users_to_share_with = $request->input('users', []);
             
             $groups = $request->has('groups') ? $request->input('groups') : [];
 

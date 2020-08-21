@@ -5,6 +5,7 @@ return [
     
     'loading_message' => 'Loading...',
     'load_error' => 'The dialog cannot be loaded :(<br/>:error',
+    'load_error_alt' => 'The dialog cannot be loaded',
     'load_error_title' => 'Sorry',
 
     'close_btn' => 'Close',

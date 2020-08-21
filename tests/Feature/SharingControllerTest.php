@@ -63,7 +63,7 @@ class SharingControllerTest extends TestCase
         ]);
 
         $data = [
-            'with_users' => [$user_target->id],
+            'users' => [$user_target->id],
             'documents' => [$document->id],
         ];
 
@@ -100,7 +100,7 @@ class SharingControllerTest extends TestCase
         ]);
 
         $data = [
-            'with_users' => [$user_target->id],
+            'users' => [$user_target->id],
             'documents' => [$document->id],
         ];
 
@@ -205,7 +205,7 @@ class SharingControllerTest extends TestCase
         ]);
 
         $data = [
-            'with_users' => [$user_target->id],
+            'users' => [$user_target->id],
             'groups' => [$to_be_shared->id],
         ];
 
@@ -240,7 +240,7 @@ class SharingControllerTest extends TestCase
         $this->actingAs($user);
 
         $data = [
-            'with_users' => [$user_target->id],
+            'users' => [$user_target->id],
             'documents' => [$document->id],
         ];
 
@@ -296,7 +296,7 @@ class SharingControllerTest extends TestCase
         ]));
         
         $response->assertOk();
-        $response->assertSee(trans('share.dialog.linkshare_public'));
+        $response->assertSee(__('Enable public link'));
         $response->assertViewHas('is_network_enabled', false);
         $response->assertViewHas('can_make_public', false);
         $response->assertViewHas('has_documents', true);

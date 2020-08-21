@@ -271,13 +271,19 @@ Route::post('shares/find-targets', [
     'as' => 'shares.targets.find',
 ]);
 
+Route::get('shares/list-users', [
+    'uses' => 'ListUsersWithAccess@index',
+    'as' => 'shares.users',
+]);
+
 Route::resource('shares', 'SharingController');
 
 // Public links creation and management
 // is an extension of sharing with a new target type
 
-Route::resource('links', 'PublicLinksController', [
-    'except' =>['index', 'create', 'edit']]);
+Route::post('links', 'PublicLinksController@store')->name("links.store");
+Route::put('links/{id}', 'PublicLinksController@update')->name("links.update");
+Route::delete('links/{id?}', 'PublicLinksController@destroy')->name("links.destroy");
 
 Route::get('s/{link}', [
     'as' => 'publiclinks.show',

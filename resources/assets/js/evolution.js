@@ -4,3 +4,5 @@
  */
 
 import 'alpinejs'
+
+import './evolution-components'

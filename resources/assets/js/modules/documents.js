@@ -318,18 +318,12 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
 
         if(data.action && (data.action === 'openShareDialog' || data.action === 'openShareDialogWithAccess') ){
             evt.preventDefault();
-
-            var dialogOptions = {};
-
-            if(data.action === 'openShareDialogWithAccess'){
-                dialogOptions.focus = 'access';
-            }
             
             Share.open([{
                 id: data.id,
                 type: data.group ? 'group' : 'document',
                 title: data.title
-            }], dialogOptions);
+            }]);
         }
         else if(data.action && data.action === 'removeGroup'){
 
@@ -859,14 +853,8 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
             },
 
             createGroup: function(evt, vm, groupId, isPrivate){
-                
                 var params = undefined,
                     isPrivateRequest = isPrivate !== undefined || (evt.currentTarget && $(evt.currentTarget).data('isprivate') !== undefined);
-
-                // if(groupId){
-                //     params = params || {};
-                //     params.group_context = groupId;
-                // }
                 
                 if(isPrivateRequest){
                     params = params || {};
@@ -880,17 +868,10 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
 
                 }
 
-                Panels.dialogOpen(DMS.Paths.GROUPS_CREATE, params, {callbacks: { form_submit_success: function(evt, data){
-
-                    console.log(data);
-                    if(window.sessionStorage && data.id){
-                        window.sessionStorage.setItem('collections-created', data.id);
-                    }
-
-                    DMS.navigateReload();
-
-                } }});
-
+                DMS.dispatch(evt.currentTarget, 'dialog-show', { 
+                    'url': DMS.Paths.GROUPS_CREATE, 
+                    'params' : params
+                });
 
                 evt.preventDefault();
                 return false;
@@ -1601,18 +1582,9 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
                     DMS.MessageBox.error('You cannot edit a project you don\'t manage');
                 }
                 else {
-                    Panels.dialogOpen(DMS.Paths.GROUPS_EDIT.replace('{ID}', id), {}, {
-                        callbacks: { 
-                            form_submit_success: function(evt, data){
-
-                                    console.info("Group updated", data);
-
-                                    Panels.dialogClose();
-
-                                    DMS.navigateReload();
-
-                                }}});
-
+                    DMS.dispatch(evt.currentTarget, 'dialog-show', { 
+                        'url': DMS.Paths.GROUPS_EDIT.replace('{ID}', id)
+                    });
                 }
 
                 evt.preventDefault();

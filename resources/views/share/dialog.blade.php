@@ -1,201 +1,203 @@
-<div class="dialog--share js-sharing ">
 
-	<h4 class="dialog__title">{{ trans('share.dialog.title') }}</h4>
+<div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+    <h3 class="text-lg leading-6 font-medium text-gray-900">
+        {{ trans('share.dialog.title') }}
+        @if(isset($panel_title))
+            <span class="mr-1 sm:block">
+                {{ $panel_title }}
+            </span>
+        @endif
+    </h3>
+            
+    {{-- Copy or send Link --}}
+    
+    @if( !empty( $sharing_links_array ) && !$is_multiple_selection )
 
-	@if(isset($panel_title))
-		<h5 class="dialog__subtitle">{{ $panel_title }}</h5>
-	@endif
+        <x-copy class="mt-2" :links="$sharing_links_array" />
+    
+    @endif
+
+    {{-- Create share --}}
+
+    <div class="h-4"></div>
+    
+    <h6 class="text-base font-bold">{{ trans('share.dialog.section_access_title') }}</h6>
+    
+    @unless($is_multiple_selection)
+
+        <p class="text-sm leading-tight text-gray-700">
+            @unless($public_link) 
+                {{ trans('share.dialog.linkshare_members_only') }} 
+            @endunless
+            @if($public_link) 
+                {{ trans('share.dialog.linkshare_public') }} 
+            @endif
+        </p>
+
+        
+
+        <div class="mt-2 max-h-24 overflow-y-auto"
+            x-data="Fragment({url: '{{ route('shares.users') }}', useCache: true, params: {collections: @json(optional($groups)->pluck('id')), documents: @json(optional($documents)->pluck('id'))}})"
+            @share-created.window="refresh"
+            >
+
+            <div class="bg-gray-100 p-2 text-sm text-center" x-show="loading && !errors">
+                {{ __('Loading who has access list...') }}
+            </div>
+
+            <template x-if="errors">
+                <div class="c-message c-message--error" x-text="errors"></div>
+            </template>
+
+            <div class="">
+                <div  x-show="!loading && !errors && !useCache" x-html="content"></div>
+
+                <div x-show="useCache">
+                    @include('share.partials.access-list', ['existing_shares' => $existing_shares])
+                </div>
+            </div>
+        </div>
+        
+    @endunless
+
+    @if($is_multiple_selection)
+        <p class="text-sm leading-tight text-gray-700">{{ trans('share.dialog.multiple_selection_hint') }}</p>
+    @endif
+
+    
+
+    @if ($can_add_users)
+        <div class="mt-2">
+            <p class="text-sm leading-tight text-gray-700">{{ __('Share with other K-Box users') }}</p>
+
+            <form method="POST" 
+                x-data="AsyncForm()" 
+                x-on:submit.prevent="submit" 
+                @form-submitted="$dispatch('share-created', $event.detail || {});$dispatch('select-clear', {});"
+                class="flex" 
+                action="{{route('shares.store')}}">
+
+                @csrf
+
+                <template x-if="errors">
+                    <div class="c-message c-message--error" x-text="errors"></div>
+                </template>
+
+                <x-select2 name="users" 
+                    :documents="$documents"
+                    :collections="$groups"
+                    class="flex-grow"
+                    placeholder="{{ trans('share.dialog.select_users') }}" />
+
+                @foreach ($documents as $document)
+                    <input type="hidden" name="documents[]" value="{{ $document->getKey() }}">
+                @endforeach
+                @foreach ($groups as $group)
+                    <input type="hidden" name="groups[]" value="{{ $group->getKey() }}">
+                @endforeach
+            
+                <button type="submit" class="button items-center">
+                    <svg class="btn-icon mr-1" style="line-height: 38px;vertical-align: middle;margin-right: 6px;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                    {{ trans('share.dialog.add_users') }}
+                </button>
+            </form>
+        </div>
+            
+    @else
+        <div class="c-message c-message--warning mt-2">
+            <p class="mb-2">
+                {{ trans('share.dialog.cannot_add_users_because_of_project_collection') }}
+            </p>
+            <p class="flex">
+                @if ($can_edit_project && $project)	
+                    <a class="block button mr-2 no-underline" href="{{ route('projects.edit', $project) }}" target="_blank" rel="noopener noreferrer">{{ trans('projects.labels.add_users_button') }}</a>
+                @endif
+
+                <a href="https://github.com/k-box/k-box/blob/master/docs/user/share.md#sharing-to-a-user" class="button no-underline" target="_blank" rel="noopener noreferrer">{{ trans('actions.more_information') }}</a>
+            </p>
+
+        </div>
+    @endif
+
+    {{-- Public Link --}}
+
+    @unless($is_collection)
+        
+        <p class="mt-2 text-sm leading-tight text-gray-700">{{ __('Grant anyone a read-only version using the document link') }}</p>
+        
+        <form method="POST" 
+            x-data="AsyncForm({publicLink: '{{ optional($public_link)->getKey() ?? '' }}', hasPublicLink: {{ $public_link ? 'true' : 'false' }}})" 
+            @form-submitted.self="hasPublicLink=!hasPublicLink;publicLink=$event.detail.data.status=='ok' ? null : $event.detail.data.id"
+            x-on:submit.prevent="submit" 
+            class="mt-2"
+            action="{{ route('links.destroy') }}">
+
+                <template x-if="errors">
+                    <div class="c-message c-message--error" x-text="errors"></div>
+                </template>
+
+                @csrf
+
+                <template x-if="!publicLink">
+                    <div>
+                        <input type="hidden" name="to_id" value="{{ optional($documents->first())->getKey() }}">
+                        <input type="hidden" name="to_type" value="document">
+                    </div>
+                </template>
+
+                <template x-if="publicLink">
+                    <div>
+                        <input type="hidden" name="link" :value="publicLink">
+                        @method('DELETE')
+                    </div>
+                </template>
+
+                <button type="submit" class="button inline-flex p-1 whitespace-no-wrap">
+                    @materialicon('content', 'link', 'h-6 mr-2') 
+                    <div>
+                        <span x-show="!publicLink">{{ __('Enable public link') }}</span>
+                        <span x-show="publicLink">{{ __('Disable public link') }}</span>
+                    </div>
+                </button>
+            </form>
+
+    @endunless
 
 
-	<div class="dialog__inner">
-		
-		<div class="error-container js-error-container js-error-container-top"></div>
-		{{-- Link Sharing --}}
+    {{-- Publication on K-Link --}}
 
-		@if( !is_null( $sharing_links ) && !empty($sharing_links) && !$is_multiple_selection )
+    @if(isset($is_network_enabled) && $is_network_enabled)
 
-			<div class="copy-links dialog__section js-link-section">
+        <div class="h-4"></div>
+        
+        <h6 class="text-base font-bold">{{ trans('share.dialog.section_publish_title') }}</h6>
 
-				<div class="">
+        @unless($elements_count == 1)
+            <p class="text-sm leading-tight text-gray-700">{{ trans('share.dialog.publish_multiple_selection_not_supported') }}</p>
+        @endunless
 
-					<div class="flex justify-between flex-no-wrap">
-						<div class="flex-grow border border-transparent">
-							<input type="text" id="document_link" class="form-input w-full" readonly @if($public_link) data-link="{{ $public_link->id }}" @endif data-links="{!! $sharing_links !!}" value="{!! $sharing_links !!}" />
-						</div>
-	
-						<div class="flex">
-	
-							<button class="button button--larger js-clipboard-btn items-center" data-clipboard-target="#document_link">
-								<span class="button__content button__normal inline-flex items-center">
-									@materialicon('content', 'content_copy', 'mr-1')
-									{{ trans( $elements_count == 1 ? 'share.document_link_copy' : 'share.document_link_copy_multiple') }}
-								</span>
-								<span class="button__content button__success">{{ trans('actions.clipboard.copied_title') }}</span>
-								<span class="button__content button__error">{{ trans('actions.clipboard.not_copied_title') }}</span>
-							</button>
-							<a class="button items-center" title="{{ trans($elements_count == 1 ? 'share.send_link' : 'share.send_link_multiple') }}" target="_blank" rel="noopener noreferrer" href="mailto:?body={{ urlencode($sharing_links) }}">
-								@materialicon('content', 'mail', 'button__icon mr-0')
-							</a>
-						</div>
-					</div>
+        @if($is_collection)
+            <p class="text-sm leading-tight text-gray-700">{{ trans('share.dialog.publish_collection_not_supported')}}</p>
+        @endif
 
+        @if($elements_count == 1 && !$is_collection)
 
-				
-					<div class="copy-link__message copy-link__message--error js-copy-message-error">{{trans('actions.clipboard.not_copied_link_text')}}</div>
-					
-				</div>
-			
-			</div>
-		
-		@endif
-		{{-- Info: who has access to this item --}}
+            <x-klink-switch class="mt-2" 
+                :published="$is_public"
+                :publication="$publication"
+                :document="$documents->first()"
+                :has_publishing_request="$has_publishing_request"
+                :network="network_name()" />
 
-			{{-- form for adding access for someone --}}
+        @endif
 
-		<div class="dialog__section js-share-section">
-			<h6 class="dialog__section__title">{{ trans('share.dialog.section_access_title') }}</h6>
-					@unless($is_multiple_selection)
+    @endif
 
-						<select name="linktype" id="linktype" class="js-link-type form-select w-full">
-
-							<option value="internal" @unless($public_link) selected @endif>{{ trans('share.dialog.linkshare_members_only') }}</option>							
-							<option value="public" @if($has_groups) disabled @endif @if($public_link) selected @endif>{{ trans('share.dialog.linkshare_public') }}@if($has_groups) ({{ trans('notices.coming_soon') }}) @endif</option>
-						
-						</select>
-
-					@endif
-					@if($is_multiple_selection)
-						<p class="description mb-4">{{ trans( $is_multiple_selection ? 'share.dialog.linkshare_multiple_selection_hint' : 'share.dialog.linkshare_hint') }}</p>
-					@endif
-		
-			<div class="dialog__section__inner">
-		@if($existing_shares && !$is_multiple_selection)
-			<div class="dialog__section js-access-section dialog__section--access">
-				<p class="dialog__section__title--access">
-					{{ trans($is_collection ? 'share.dialog.collection_is_shared' : 'share.dialog.document_is_shared') }}
-					
-					@unless($public_link)
-					<a href="#" class="js-access">{{trans_choice('share.dialog.users_already_has_access_alternate', count($existing_shares), ['num' => count($existing_shares)]) }}</a>
-					@else
-
-					<a href="#" class="js-access">{{trans_choice('share.dialog.users_already_has_access_with_public_link', count($existing_shares), ['num' => count($existing_shares)]) }}</a>
-					@endif
-				</p>
-			
-				<div class="dialog__section__inner dialog__section__inner--collapsed shared-list js-access-list">
-
-					@foreach($existing_shares as $share)
-
-						@include('share.partials.shared-list-item', ['item' => $share])
-						
-					@endforeach
-
-				</div>
-			</div>
-		@endif
-
-			<div class="dialog__section--add">
-
-				@if ($can_add_users)
-				
-					<select class="form-input js-select-users" name="users[]" id="users" multiple="multiple" style="min-width:auto !important">
-
-						{{-- Data will be inserted at runtime using Ajax --}}
-										
-					</select>
-				
-					<button class="js-share button items-center">
-						<svg class="btn-icon mr-1" style="line-height: 38px;vertical-align: middle;margin-right: 6px;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-						{{ trans('share.dialog.add_users') }}
-					</button>
-			
-				@else
-					<div class="c-message c-message--warning">
-						<p>
-							{{ trans('share.dialog.cannot_add_users_because_of_project_collection') }}
-						</p>
-						<p class="">
-							@if ($can_edit_project && $project)	
-								<a class="inline-block mr-2" href="{{ route('projects.edit', $project) }}" target="_blank" rel="noopener noreferrer">{{ trans('projects.labels.add_users_button') }}</a>
-							@endif
-
-							<a href="https://github.com/k-box/k-box/blob/master/docs/user/share.md#sharing-to-a-user" target="_blank" rel="noopener noreferrer">{{ trans('actions.more_information') }}</a>
-						</p>
-
-					</div>
-				@endif
-
-			</div>
-
-			</div>
-		</div>
-
-
-
-		{{-- Publish on Network --}}
-
-		@if(isset($is_network_enabled) && $is_network_enabled)
-
-		<div class="dialog__section js-publish-section">
-			<h6 class="dialog__section__title">{{ trans('share.dialog.section_publish_title') }}</h6>
-	
-			<div class="dialog__section__inner">
-
-				<div class="error-container js-error-container"></div>
-
-				@unless($elements_count == 1)
-					{{ trans('share.dialog.publish_multiple_selection_not_supported') }}
-				@endif
-
-				@if($is_collection)
-					{{ trans('share.dialog.publish_collection_not_supported')}}
-				@endif
-
-				@if($elements_count == 1 && !$is_collection)
-
-					@if($is_collection)
-						<span class="description">{{ trans('share.dialog.publish_collection') }}</span>
-					@endif
-
-					<div class="c-switch js-publish-switch" data-is-public="{{ $is_public ? 'true' : 'false' }}" data-network="{{network_name()}}">
-
-						<div class="c-switch__label js-publish-switch-label">
-
-							@if($publication && $publication->status === 'failed')
-								{{ trans('share.dialog.publishing_failed') }}
-							@endif
-
-							{{ trans( $is_public ? 'share.dialog.published' : ($has_publishing_request ? 'share.dialog.' . ($publication ? $publication->status:'in_progress')  : 'share.dialog.not_published'), ['network' => network_name()]) }}
-
-						</div>
-
-						<div class="c-switch__buttons">
-							@unless(!$can_make_public && $is_public)
-							<button @if(!$can_make_public || $has_publishing_request ) disabled @endif class="c-switch__button js-publish-switch-button @unless($is_public || $publication_status === 'published' || $publication_status === 'publishing') c-switch__button--selected @endif" data-action="make_private" title="{{ trans('actions.make_private') }}">
-								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
-							</button>
-							@endif
-
-							@unless(!$can_make_public && !$is_public)
-							<button @if(!$can_make_public || $has_publishing_request ) disabled @endif class="c-switch__button js-publish-switch-button @if($is_public || $publication_status === 'published' || $publication_status === 'publishing') c-switch__button--selected @endif" data-action="make_public" title="{{ trans('networks.publish_to_short') }}">
-								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-							</button>
-							@endif
-
-						</div>
-					
-					</div>
-
-				@endif
-
-			</div>
-		</div>
-
-		@endif
-	</div>
-
-	<div class="dialog__buttons">
-		<button class="button cancel js-cancel">{{ trans('actions.done') }}</button>
-	</div>
-
+</div>
+<div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+    <span class="mt-3 flex w-full rounded-md shadow-sm sm:mt-0 sm:w-auto">
+        <button type="button" @click="$dispatch('dialog-close', {})" class="inline-flex justify-center w-full rounded-md border border-gray-300 px-4 py-2 bg-white text-base leading-6 font-medium text-gray-700 shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue transition ease-in-out duration-150 sm:text-sm sm:leading-5">
+            {{ trans('panels.close_btn') }}
+        </button>
+    </span>
 </div>

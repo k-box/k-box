@@ -53,6 +53,10 @@
     @apply hidden; 
 }
 
+[x-cloak] { 
+    @apply hidden; 
+}
+
 /* 
  * Default typography styling that can be applied 
  * to generated content, for example markdown rendered text
