@@ -447,13 +447,12 @@ class DocumentsController extends Controller
         // updated_at
 
         \Log::info('Updating Document', ['params' => $id, 'request' => $request->all()]);
+        
+        $document = DocumentDescriptor::findOrFail($id);
+        $this->authorize('update', $document);
 
         try {
             $user = $auth->user();
-
-            $document = DocumentDescriptor::findOrFail($id);
-
-            $this->authorize('update', $document);
 
             $serv = $this->service;
 
