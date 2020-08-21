@@ -1,12 +1,10 @@
 @extends('errors.http-error')
 
-@section('title')
+@push('title')
+{{trans('errors.login_title')}} &ndash;
+@endpush
 
-	{{trans('errors.login_title')}}
-
-@stop
-
-@section('content')
+@section('message')
 
 	{!!trans('errors.login_text')!!}
     
@@ -15,7 +13,7 @@
 
 @section('actions')
 <div>
-	<a class="button" target="_blank" noreferrer href="{{ url('/') }}">{{ trans('auth.login') }}</a>
+	<a class="button" target="_blank" rel="noopener noreferrer" href="{{ route('login') }}">{{ trans('auth.login') }}</a>
 </div>
 @endsection
 

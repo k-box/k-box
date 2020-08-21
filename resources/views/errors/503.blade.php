@@ -1,14 +1,18 @@
 @extends('errors.http-error')
 
-@section('title')
-
-	{{trans('errors.503_title')}}
-
-@stop
+@push('title')
+{{trans('errors.503_title')}} &ndash;
+@endpush
 
 
-@section('content')
+@section('message')
 
 	{!!trans('errors.503_text')!!}
     
 @stop
+
+@section('actions')
+@endsection
+
+@section('footer')
+@endsection

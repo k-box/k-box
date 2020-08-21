@@ -64,19 +64,19 @@ return [
     'group_edit_else' => "Vous ne pouvez pas modifier les groupes de quelqu\'un d\'autre.",
 
     '503_title' => 'Maintenance K-Box',
-    '503_text' => 'La <strong>K-Box</strong> est actuellement en <br/><strong>maintenance</strong><br/><small>bientôt à nouveau disponible :)</small>',
+    '503_text' => 'La <strong>K-Box</strong> est actuellement en <strong>maintenance</strong><br/><small>bientôt à nouveau disponible :)</small>',
 
-    '500_title' => 'Erreur - K-Box',
-    '500_text' => 'Oh! Quelque chose de <strong>mauvais</strong><br/> et inattendu <strong>s\'est passé</strong>,<br/>nous sommes désolés.',
+    '500_title' => 'Erreur',
+    '500_text' => 'Oh! Quelque chose de <strong>mauvais</strong> et inattendu <strong>s\'est passé</strong>,<br/>nous sommes désolés.',
 
     '404_title' => 'Pas trouvé sur la K-Box',
-    '404_text' => 'Il semble que <strong>la page</strong><br/>que vous cherchez<br/><strong>n\'existe plus</strong>.',
+    '404_text' => 'Il semble que <strong>la page</strong> que vous cherchez <strong>n\'existe plus</strong>.',
     
-    '401_title' => 'Vous ne pouvez pas voir cette page - K-Box',
-    '401_text' => 'Il semble que vous <strong>ne pouvez pas</strong> voir la page<br/>à cause de votre <strong>niveau d\'autorisation</strong>.',
+    '401_title' => 'Vous ne pouvez pas voir cette page',
+    '401_text' => 'Il semble que vous <strong>ne pouvez pas</strong> voir la page à cause de votre <strong>niveau d\'autorisation</strong>.',
     
     '403_title' => 'Vous n\'avez pas la permission de voir cette page',
-    '403_text' => 'Il semble que vous <strong>ne pouvez pas</strong> voir la page<br/>à cause de votre <strong>>niveau d\'autorisation</strong>.',
+    '403_text' => 'Il semble que vous <strong>ne pouvez pas</strong> voir la page à cause de votre <strong>>niveau d\'autorisation</strong>.',
 
     '405_title' => 'Méthode interdite sur la K-Box',
     '405_text' => 'Ne m\'appelez plus jamais comme ça.',

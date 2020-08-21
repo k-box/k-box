@@ -64,19 +64,19 @@ return [
     'group_edit_else' => "Sie können fremde Gruppen nicht bearbeiten.",
 
     '503_title' => 'K-Box Wartung',
-    '503_text' => 'Die <strong>K-Box</strong> wirt momentan<br/><strong>gewartet</strong><br/><small>und wird bald wieder verfügbar sein.</small>',
+    '503_text' => 'Die <strong>K-Box</strong> wirt momentan <strong>gewartet</strong><br/><small>und wird bald wieder verfügbar sein.</small>',
 
-    '500_title' => 'Fehler - K-Box',
-    '500_text' => 'Oh je! Etwas <strong>schreckliches</strong><br/>und unerwartetes <strong>ist passiert</strong>,<br/>das tut uns sehr leid.',
+    '500_title' => 'Fehler',
+    '500_text' => 'Oh je! Etwas <strong>schreckliches</strong> und unerwartetes <strong>ist passiert</strong>,<br/>das tut uns sehr leid.',
 
     '404_title' => 'Nicht auf der K-Box gefunden',
-    '404_text' => 'Sieht so aus als würde <strong>die Seite</strong><br/>die sie aufrufen möchten<br/><strong>nicht mehr existieren</strong>.',
+    '404_text' => 'Sieht so aus als würde <strong>die Seite</strong> die sie aufrufen möchten<br/><strong>nicht mehr existieren</strong>.',
 
-    '401_title' => 'Sie können die Seite nicht betrachten - K-Box',
-    '401_text' => 'Sieht so aus als können sie die Seite aufgrund Ihres<br/><strong>Berechtigungslevels</strong> nicht betrachten.',
+    '401_title' => 'Sie können die Seite nicht betrachten',
+    '401_text' => 'Sieht so aus als können sie die Seite aufgrund Ihres <strong>Berechtigungslevels</strong> nicht betrachten.',
 
     '403_title' => 'Sie haben nicht die Berechtigung diese Seite zu betrachten',
-    '403_text' => 'Sieht so aus als können sie die Seite aufgrund Ihres<br/><strong>Berechtigungslevels</strong> nicht betrachten.',
+    '403_text' => 'Sieht so aus als können sie die Seite aufgrund Ihres <strong>Berechtigungslevels</strong> nicht betrachten.',
 
     '405_title' => 'Methode nicht erlaubt',
     '405_text' => 'Ruf\' mich nicht nochmal so auf!',

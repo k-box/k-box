@@ -1,13 +1,11 @@
 @extends('errors.http-error')
 
-@section('title')
-
-	{{trans('errors.503-readonly_title')}}
-
-@stop
+@push('title')
+{{trans('errors.503-readonly_title')}} &ndash;
+@endpush
 
 
-@section('content')
+@section('message')
 
 	{!!trans('errors.503-readonly_text_styled')!!}
     

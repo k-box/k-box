@@ -1,12 +1,10 @@
 @extends('errors.http-error')
 
-@section('title')
+@push('title')
+{{trans('errors.405_title')}} &ndash;
+@endpush
 
-	{{trans('errors.405_title')}}
-
-@stop
-
-@section('content')
+@section('message')
 
 	{!!trans('errors.405_text')!!}
     

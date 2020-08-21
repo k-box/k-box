@@ -66,29 +66,29 @@ return [
     'group_edit_project' => "You cannot edit project collections.",
     'group_edit_else' => "You cannot edit someone else's groups.",
 
-    '503_title' => 'K-Box Maintenance',
-    '503_text' => 'The <strong>K-Box</strong> is currently in<br/><strong>maintenance.</strong><br/><small> Will be back shortly :)</small>',
+    '503_title' => 'Under Maintenance',
+    '503_text' => 'The <strong>K-Box</strong> is currently under <strong>maintenance.</strong><br/><small> Will be back shortly :)</small>',
     
     '503-readonly_title' => 'K-Box is Readonly',
     '503-readonly_text_styled' => 'The <strong>K-Box</strong> is currently in <strong>readonly mode.</strong><br/><small> For maintenance reasons you cannot change or upload content.</small>',
     '503-readonly_text' => 'The K-Box is currently in readonly mode. For maintenance reasons you cannot change or upload content.',
 
-    '500_title' => 'Error - K-Box',
+    '500_title' => 'Error',
     '500_text' => 'Something <strong>bad</strong><br/>and unexpected <strong>has happened</strong>. <br/>We are deeply sorry.',
 
-    '404_title' => 'Not Found on the K-Box',
-    '404_text' => '<strong>The page</strong><br/>you are looking for<br/><strong>does not exist</strong> anymore.',
+    '404_title' => 'Not Found',
+    '404_text' => '<strong>The page</strong> you are looking for <strong>does not exist</strong>.',
     
-    '401_title' => 'You cannot view the page - K-Box',
+    '401_title' => 'You cannot view the page',
     '401_text' => 'You <strong>cannot</strong> view the page.<br/> Please acquire the <strong>access</strong> permissions first.',
     
-    'login_title' => 'Please login - K-Box',
+    'login_title' => 'Please login',
     'login_text' => 'You need to be logged-in to view the document.',
     
     '403_title' => 'You do not have the permission to view the page',
     '403_text' => 'You <strong>cannot</strong> view the page.<br/> Please acquire the <strong>access</strong> permissions first.',
 
-    '405_title' => 'Method Not Allowed on the K-Box',
+    '405_title' => 'Method Not Allowed',
     '405_text' => 'Do not call me like this again.',
     
     '413_title' => 'Document Excessive File Size',
