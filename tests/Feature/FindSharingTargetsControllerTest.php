@@ -250,13 +250,13 @@ class FindSharingTargetsControllerTest extends TestCase
             tap(factory(User::class)->create(['name' => 'james o\'hara']), function ($u) {
                 $u->addCapabilities(Capability::$PARTNER);
             }),
-            tap(factory(User::class)->create(), function ($u) {
+            tap(factory(User::class)->create(['name' => 'james nolan']), function ($u) {
                 $u->addCapabilities(Capability::$PARTNER);
             }),
-            tap(factory(User::class)->create(), function ($u) {
+            tap(factory(User::class)->create(['name' => 'john nolan']), function ($u) {
                 $u->addCapabilities(Capability::$PARTNER);
             }),
-            tap(factory(User::class)->create(), function ($u) {
+            tap(factory(User::class)->create(['name' => 'jane nolan']), function ($u) {
                 $u->addCapabilities(Capability::$PARTNER);
             }),
         ]);
