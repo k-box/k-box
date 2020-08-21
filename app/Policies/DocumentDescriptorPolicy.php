@@ -2,6 +2,7 @@
 
 namespace KBox\Policies;
 
+use KBox\Capability;
 use KBox\User;
 use KBox\UserConnection;
 use KBox\DocumentDescriptor;
@@ -60,5 +61,18 @@ class DocumentDescriptorPolicy
         }
 
         return UserConnection::exists($user, $owner);
+    }
+
+    /**
+     * Determine whether the user can update the document.
+     *
+     * @param  \KBox\User  $user
+     * @param  \KBox\DocumentDescriptor  $document
+     * @return mixed
+     */
+    public function update(User $user, DocumentDescriptor $document)
+    {
+        return $user->can_capability(Capability::EDIT_DOCUMENT) &&
+               $document->isEditableBy($user);
     }
 }

@@ -20,6 +20,7 @@ use Klink\DmsAdapter\Exceptions\KlinkException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use KBox\DocumentGroups;
 use KBox\Exceptions\ForbiddenException;
+use KBox\Shared;
 use Klink\DmsAdapter\Fakes\FakeKlinkAdapter;
 
 /*
@@ -144,6 +145,13 @@ class DocumentsTest extends TestCase
         $doc = factory(DocumentDescriptor::class)->create([
             'owner_id' => $user->id,
             'file_id' => $file->id,
+        ]);
+
+        // make the document accessible to the other user
+        factory(Shared::class)->create([
+            'shareable_id' => $doc->getKey(),
+            'user_id' => $user->getKey(),
+            'sharedwith_id' => $user2->getKey(),
         ]);
 
         $user->delete();
@@ -558,6 +566,12 @@ class DocumentsTest extends TestCase
         
         $second_user = $this->createUser(Capability::$PARTNER);
         
+        factory(Shared::class)->create([
+            'shareable_id' => $doc->getKey(),
+            'user_id' => $user->getKey(),
+            'sharedwith_id' => $second_user->getKey(),
+        ]);
+        
         // make an edit to the document, save it and then reindex
         
         $url = route('documents.edit', $doc->id);
@@ -574,6 +588,60 @@ class DocumentsTest extends TestCase
         $doc = DocumentDescriptor::findOrFail($doc->id);
         
         $fake->assertDocumentIndexed($doc->uuid, 2);
+    }
+    
+    public function test_document_not_editable_by_user_without_access_to_document()
+    {
+        $fake = $this->withKlinkAdapterFake();
+        
+        $user = $this->createUser(Capability::$PROJECT_MANAGER);
+                
+        $file = factory(File::class)->create([
+            'user_id' => $user->id,
+            'original_uri' => ''
+        ]);
+        
+        $doc = factory(DocumentDescriptor::class)->create([
+            'owner_id' => $user->id,
+            'file_id' => $file->id,
+            'hash' => $file->hash,
+        ]);
+        
+        $second_user = $this->createUser(Capability::$PARTNER);
+        
+        $url = route('documents.edit', $doc->id);
+        
+        $response = $this->actingAs($second_user)->from($url)
+            ->put(route('documents.update', $doc->id), [
+                'title' => 'Document new Title',
+            ]);
+
+        $response->assertForbidden();
+    }
+    
+    public function test_document_edit_forbidden_if_user_without_access_to_document()
+    {
+        $fake = $this->withKlinkAdapterFake();
+        
+        $user = $this->createUser(Capability::$PROJECT_MANAGER);
+                
+        $file = factory(File::class)->create([
+            'user_id' => $user->id,
+            'original_uri' => ''
+        ]);
+        
+        $doc = factory(DocumentDescriptor::class)->create([
+            'owner_id' => $user->id,
+            'file_id' => $file->id,
+            'hash' => $file->hash,
+        ]);
+        
+        $second_user = $this->createUser(Capability::$PARTNER);
+        
+        $response = $this->actingAs($second_user)
+            ->get(route('documents.edit', $doc->id));
+
+        $response->assertForbidden();
     }
 
     public function testDocumentService_deleteDocument()
