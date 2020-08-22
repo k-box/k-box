@@ -1,13 +1,11 @@
 @extends('errors.http-error')
 
-@section('title')
-
-	{{trans('errors.500_title')}}
-
-@stop
+@push('title')
+{{trans('errors.500_title')}} &ndash;
+@endpush
 
 
-@section('content')
+@section('message')
 
 	{!!trans('errors.500_text')!!}
     

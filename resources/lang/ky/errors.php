@@ -65,19 +65,19 @@ return [
     'group_edit_else' => "Бул группага өзгөрттүүлөрдү киргизүү мүмкүн эмес",
 
     '503_title' => 'K-Box тейлөө',
-    '503_text' => '<strong>K-Box</strong> <br/><strong>техникалык тейлөөдө</strong><br/>',
+    '503_text' => '<strong>K-Box</strong> <strong>техникалык тейлөөдө</strong>',
 
-    '500_title' => 'Ката - K-Box',
-    '500_text' => '<strong>Күтүлбөгөн</strong><br/> <strong>ката кетти</strong><br/>',
+    '500_title' => 'Ката',
+    '500_text' => '<strong>Күтүлбөгөн</strong> <strong>ката кетти</strong>',
 
     '404_title' => 'K-Box-до табылган жок',
-    '404_text' => '<br/>Бул <br/><strong>баракча</strong> <strong>өчүрүлгөн</strong>',
+    '404_text' => '<br/>Бул <strong>баракча өчүрүлгөн</strong>',
     
     '401_title' => 'K-Box баракчасын көрө албайсыз',
-    '401_text' => '<strong>Бул баракчаны</strong> просмотреть страницу<br/> <strong>көрө албайсыз</strong>',
+    '401_text' => '<strong>Бул баракчаны</strong> просмотреть страницу <strong>көрө албайсыз</strong>',
 
     '403_title' => 'Бул баракчаны көрүүгө уруксатыңыз жок',
-    '403_text' => '<strong>Бул</strong> баракчаны көрө албайсыз, <br/>уруксатыңыз <strong>жок</strong>',
+    '403_text' => '<strong>Бул</strong> баракчаны көрө албайсыз, уруксатыңыз <strong>жок</strong>',
 
     '405_title' => 'Бул методту K-Box-то колдонууга мүмкүн эмес',
     '405_text' => 'Не называй меня больше так.',

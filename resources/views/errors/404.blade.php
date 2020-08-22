@@ -1,12 +1,10 @@
 @extends('errors.http-error')
 
-@section('title')
+@push('title')
+{{trans('errors.404_title')}} &ndash;
+@endpush
 
-	{{trans('errors.404_title')}}
-
-@stop
-
-@section('content')
+@section('message')
 
 	@if(!isset($error_message))
 
