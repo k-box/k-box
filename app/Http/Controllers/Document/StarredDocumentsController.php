@@ -56,6 +56,25 @@ class StarredDocumentsController extends Controller
 
         $has_starred = Starred::with('document')->ofUser($user->id)->count() > 0;
         
+        //Number of Items per page 
+
+        $items_per_page = (int)$user->optionItemsPerPage();
+
+        $requested_items_per_page = (int)$request->input('n', $items_per_page);
+
+        try {
+            if ($items_per_page !== $requested_items_per_page) {
+                $user->setOptionItemsPerPage($requested_items_per_page);
+                $items_per_page = $requested_items_per_page;
+            }
+        } catch (\Exception $limit_ex) {
+        }
+
+        $req->limit($items_per_page);
+        
+        // end 
+
+
         $results = ! $has_starred ? $this->getEmptyResult($req) : $this->search($req, function ($_request) use ($user) {
             $all_starred = Starred::with('document')->ofUser($user->id);
             

@@ -77,6 +77,11 @@
 		@endif
 
 		<div class="action__separator"></div>
+		@if(isset($range) && isset($search_replica_parameters))
+		<x-documents-limit  range="{{$range}}" :search_replica_parameters="$search_replica_parameters"/>
+		@else
+				<x-documents-limit />
+		@endif
 
 		@include('actions.list-switcher')
 
