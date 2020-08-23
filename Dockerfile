@@ -36,6 +36,12 @@ RUN \
 ## Generating the real K-Box image
 FROM php:7.2-fpm AS php
 
+LABEL maintainer="OneOffTech <info@oneofftech.xyz>" \
+  org.label-schema.name="klinktech/k-box" \
+  org.label-schema.description="Docker image for K-Box, a web-based application to manage documents, images, videos and geodata." \
+  org.label-schema.schema-version="1.0" \
+  org.label-schema.vcs-url="https://github.com/k-box/k-box"
+
 ## Default environment variables
 ENV KBOX_PHP_MAX_EXECUTION_TIME 120
 ENV KBOX_PHP_MAX_INPUT_TIME 120
@@ -164,4 +170,12 @@ WORKDIR /var/www/dms
 EXPOSE 80
 
 ENTRYPOINT ["/usr/local/bin/start.sh"]
+
+ARG BUILD_DATE
+ARG BUILD_VERSION
+ARG BUILD_COMMIT
+
+LABEL version=$BUILD_VERSION \
+  org.label-schema.build-date=$BUILD_DATE \
+  org.label-schema.vcs-ref=$BUILD_COMMIT
 
