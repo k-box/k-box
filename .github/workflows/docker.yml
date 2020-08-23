@@ -37,4 +37,6 @@ jobs:
     - name: Push the Docker image
       if: github.event_name == 'release'
       run: |
-        docker push $NAMESPACE_DOCKER_HUB:${{ env.IMAGE_VERSION }}
+        export IMAGE_TAG=${IMAGE_VERSION#v}
+        docker tag $NAMESPACE_DOCKER_HUB:$IMAGE_VERSION $NAMESPACE_DOCKER_HUB:$IMAGE_TAG
+        docker push $NAMESPACE_DOCKER_HUB:$IMAGE_TAG
