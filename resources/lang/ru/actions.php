@@ -138,4 +138,6 @@ return [
         'newest_first' => 'Недавние',
     ],
 
+    'contact_support' => 'Связаться со службой поддержки',
+    'more_information' => 'Дополнительная информация',
 ];

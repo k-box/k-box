@@ -26,6 +26,8 @@ return [
         'is_public_description' => 'Документ доступен для других организаций в K-Link сети',
         'trashed' => 'Документ находится в корзине',
         'klink_public_not_mine' => 'Нельзя внести изменения. Файл является ссылкой на документ, находящийся в открытом доступе в K-Link сети.',
+        'undisclosed_user' => '[undisclosed user]',
+        'undisclosed_user_hint' => 'Пользователь не захотел раскрывать свое имя'
     ],
 
     'page_title' => 'Документы',
@@ -136,7 +138,7 @@ return [
 
         'abstract_label' => 'Краткое содержание',
         'abstract_placeholder' => 'Краткое содержание',
-
+        'abstract_help' => 'Поддерживаемый формат  <a href="https://daringfireball.net/projects/markdown/syntax" target="_blank" rel="noopener">Markdown</a> format supported',
         'authors_label' => 'Авторы',
         'authors_help' => 'Авторы должны быть указаны через запятую со следующим форматом <code>имя фамилия &lt;mail@something.com&gt;</code>',
         'authors_placeholder' => 'Авторы документа (имя фамилия <mail@something.com>)',
@@ -234,10 +236,13 @@ return [
         'page_title' => 'Предварительный просмотр :document',
         'error' => 'Невозможно загрузить предварительный просмотр ":document".',
         'not_available' => 'Предварительный  просмотр невозможен для данного документа.',
+        'not_supported' => 'Предварительный просмотр для этого файла недоступен. Формат файла в настоящее время не поддерживается.',
         'google_file_disclaimer' => ':document это файл с Google Диска, поэтому вы не можете просмотреть его здесь. Откройте его на Google Диске.',
         'google_file_disclaimer_alt' => 'Это файл с Google Диска. Просмотр недоступен.',
         'open_in_google_drive_btn' => 'Открыть в Google Диске',
         'video_not_ready' => 'Видео в процессе обработки и будет доступно через несколько секунд.',
+        'file_not_ready' => 'K-Box обрабатывает файл. Во время обработки файла предварительный просмотр недоступен, повторите попытку позже.',
+        
     ],
 
     'versions' => [

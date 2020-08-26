@@ -13,6 +13,7 @@ return [
     'collections' => [
         'title'  => 'Коллексияҳо',
         'personal_title' => 'Коллексияҳои ман',
+        'shared_title' => 'Коллексияҳои бо ман муштараканшуда',
         'private_title' => 'Лоиҳаҳо',
         'description'   => 'Коллексия барои мураттаб кардани санадхои шумо кумак мекунад.',
         
@@ -32,6 +33,10 @@ return [
     'created_by' => 'Сохта шуд аз тарафи',
 
     'private_badge_label' => 'Коллексияҳои шахсӣ',
+
+    'group_icon_label' => 'Коллексияҳо',
+    'group_icon_label_personal' => 'Коллексияҳои шахсӣ',
+    'group_icon_label_project' => 'Коллексияҳои лоиҳа',
 
     'group_icon_label' => 'Коллексия',
 
@@ -64,6 +69,7 @@ return [
         'cannot_delete_general_error' => 'Унсурҳои мушаххасшуда сабт карда нашуд. Ҳеҷ чиз нест карда шудааст.',
         
         'forbidden_trash_personal_collection' => 'Коллексияи :collection -ро шумо насохтед, барои ин наметавонед онро дур кунед.',
+        'forbidden_delete_shared_collection' => '":collection" бо шумо муштараканшудааст, бинобар ин шумо наметавонед онро ба кутии партов партоед.',
         'forbidden_delete_personal_collection' => 'Коллексияи :collection - ро шумо насохтед, барои ин наметавонед онро нест кунед.',
         'forbidden_delete_collection' => 'Коллексия  :collection дур карда намешавад. Шумо ичозати амалиет гузаронидан аз болои ин коллексия надоред.',
         'forbidden_delete_project_collection' => 'Коллексия :collection дур карда намешавад чунки ин дар лоихае мебошад, ки Шумо ичозати тахрир карданро онро надоред.',
@@ -92,6 +98,7 @@ return [
             'personal_not_all_same_user_empty_cause' => 'Коллексияи ":collection" ба диагр чой кучонидан наметавонед, чунки Шумо онро насохтед',
             'no_project_collection_permission' => 'Шумо ичозати заруриро барои кучонидани коллексия надоред',
             'no_access_to_collection' => 'Шумо дастраси ба ин коллексия надоред',
+            'has_shares_to_non_members' => 'Баъзе истифодабарандагон, ки ба коллексия дастрасӣ доранд, аъзои лоиҳа нестанд. Ин коллексия то вақте ки ҳамаи истифодабарандагон ба лоиҳа дохил карда нашаванд, интиқол дода намешавад.',
         ],
     ],
     

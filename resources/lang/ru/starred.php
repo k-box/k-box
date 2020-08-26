@@ -27,5 +27,5 @@ return [
         'invalidargumentexception' => 'Невозможно добавить в Избранное. (:exception)',
 
     ],
-
+    'starred_in_trash' => 'Этот документ находится в корзине',
 ];

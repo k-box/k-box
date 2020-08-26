@@ -25,6 +25,8 @@ return [
     'cancel' => 'Катъ кардан',
     'done' => 'Ичро шуд',
 
+    'close' => 'Пӯшедан',
+
     'or_alt' => 'ё',
     'or' => 'ё :action',
 
@@ -137,4 +139,7 @@ return [
         'oldest_first' => 'Кӯҳнатарин',
         'newest_first' => 'Навтарин',
     ],
+
+    'contact_support' => 'Хадамоти дастгирӣ',
+    'more_information' => 'Маълумоти бештар',
 ];

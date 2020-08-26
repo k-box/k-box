@@ -101,6 +101,8 @@ return [
         'access_by_direct_share' => 'Прямой доступ',
         'access_by_project_membership' => 'Проект ":project"',
         'access_by_project_membership_hint' => 'У вас есть доступ к документу потому что вы участник проекта ":project"',
+        'cannot_add_users_because_of_project_collection' => 'Добавляйте новых участников в проект для совместного использования коллекции проектов.',
+
     ],
     'publiclinks' => [
         'public_link' => 'Открытая ссылка',

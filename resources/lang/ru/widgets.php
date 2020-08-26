@@ -34,6 +34,7 @@ return [
         'used' => ':used использовано из :total',
         'used_alt' => ':used использовано :total',
         'used_percentage' => ':used% использовано',
+        'used_single' => ':used использовано',
     
         'graph_labels' => [
             'documents' => 'Документы',
