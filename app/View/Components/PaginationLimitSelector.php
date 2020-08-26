@@ -5,7 +5,7 @@ namespace KBox\View\Components;
 use Illuminate\View\Component;
 use Illuminate\Support\Facades\Route;
 
-class DocumentsLimit extends Component
+class PaginationLimitSelector  extends Component
 {
     /**
      * Create a new component instance.
@@ -21,13 +21,21 @@ class DocumentsLimit extends Component
 
     public $search_replica_parameters;
 
-    public function __construct($range = "", $search_replica_parameters = [])
+    public $pageParams;
+
+    public function __construct($pageParams = "")
     {
         $this->routeName = $this->getRouteName();
-        $this->routeParamId = $this->getParamId();
-        $this->range = $range;
-        $this->search_replica_parameters = $search_replica_parameters;
 
+        $this->pageParams =array_merge(
+
+            $pageParams,
+            [
+                'group' => $this->getParamId(),
+                'search_replica_parameters' => request()->only('s')
+            ]
+
+        );
     }
 
     private function getRouteName(){
@@ -39,12 +47,13 @@ class DocumentsLimit extends Component
     private function getParamId(){
 
         if(! Route::current()->parameter('group')) {
-            return [];
+            return null;
         } 
 
-        return  ['group' => Route::current()->parameter('group')];
+        return  Route::current()->parameter('group');
 
     }
+    
     /**
      * Get the view / contents that represent the component.
      *
@@ -53,7 +62,7 @@ class DocumentsLimit extends Component
     public function render()
     {
 
-        return view('components.documents-limit');
+        return view('components.pagination-limit-selector');
     }
 
 }
