@@ -17,16 +17,18 @@ class PaginationLimitSelector  extends Component
     
     public $routeParamId;
 
-    public $range;
-
     public $search_replica_parameters;
 
     public $pageParams;
+    
+    public $optionItemsPerPage;
 
-    public function __construct($pageParams = "")
+    public function __construct($pageParams = [])
     {
         $this->routeName = $this->getRouteName();
 
+        $this->optionItemsPerPage = auth()->user()->optionItemsPerPage();
+        
         $this->pageParams =array_merge(
 
             $pageParams,
@@ -53,7 +55,7 @@ class PaginationLimitSelector  extends Component
         return  Route::current()->parameter('group');
 
     }
-    
+
     /**
      * Get the view / contents that represent the component.
      *
