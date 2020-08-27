@@ -7,6 +7,27 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- Appearance configuration to change login picture and color ([#419](https://github.com/k-box/k-box/pull/419))
+- Various components for copy to clipboard, submitting forms via ajax, implementing a select2 dialog ([#412](https://github.com/k-box/k-box/pull/412))
+- New layout for error pages ([#427](https://github.com/k-box/k-box/pull/427))
+- Automate release to Docker Hub via GitHub Actions ([#428](https://github.com/k-box/k-box/pull/428), [#429](https://github.com/k-box/k-box/pull/429))
+
+### Changed
+
+- Create collection dialog, introduce new mobile friendly design ([#412](https://github.com/k-box/k-box/pull/412))
+- Sharing dialog introduce new mobile friendly design and improve reactivity when sharing or unsharing ([#412](https://github.com/k-box/k-box/pull/412))
+- Refactor user management authorization via policies ([#414](https://github.com/k-box/k-box/pull/414))
+
+### Fixed
+
+- `artisan route:list` command not working due to use of abort helper ([#416](https://github.com/k-box/k-box/pull/416))
+- Authorization check for document editing ([#425](https://github.com/k-box/k-box/pull/425))
+
+### Deprecated
+### Removed
+
 ## [0.30.0] - 2020-08-08
 
 ### Added
@@ -21,6 +42,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Refactor projects authorization handling using policies ([#390](https://github.com/k-box/k-box/pull/390)
 - Modernize login screen ([#408](https://github.com/k-box/k-box/pull/408), [#396](https://github.com/k-box/k-box/issues/396))
 - Refactor mail settings page ([#401](https://github.com/k-box/k-box/pull/401)
+- Update video processing cli to version 0.6.0 ([#433](https://github.com/k-box/k-box/pull/433))
 
 ### Fixed
 
