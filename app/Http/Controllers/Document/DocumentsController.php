@@ -79,24 +79,6 @@ class DocumentsController extends Controller
         $all_query = DocumentDescriptor::local()->private()->ofUser($user->id);
         $personal_doc_id = $all_query->get()->map->uuid;
         
-        //Number of Items per page 
-
-        $items_per_page = (int)$user->optionItemsPerPage();
-
-        $requested_items_per_page = (int)$request->input('n', $items_per_page);
-
-        try {
-            if ($items_per_page !== $requested_items_per_page) {
-                $user->setOptionItemsPerPage($requested_items_per_page);
-                $items_per_page = $requested_items_per_page;
-            }
-        } catch (\Exception $limit_ex) {
-        }
-
-        $req->limit($items_per_page);
-        
-        //end
-
         $results = $this->search($req, function ($_request) use ($all_query, $personal_doc_id) {
             $_request->in($personal_doc_id);
             
@@ -156,24 +138,6 @@ class DocumentsController extends Controller
         $req = $this->searchRequestCreate($request);
         
         $req->visibility('private');
-
-        //Number of Items per page 
-
-        $items_per_page = (int)$auth_user->optionItemsPerPage();
-
-        $requested_items_per_page = (int)$request->input('n', $items_per_page);
-
-        try {
-            if ($items_per_page !== $requested_items_per_page) {
-                $auth_user->setOptionItemsPerPage($requested_items_per_page);
-                $items_per_page = $requested_items_per_page;
-            }
-        } catch (\Exception $limit_ex) {
-        }
-
-        $req->limit($items_per_page);
-        
-        // end  
         
         $all_shared = new Collection();
 

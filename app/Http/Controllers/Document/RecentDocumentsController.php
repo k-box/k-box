@@ -38,21 +38,8 @@ class RecentDocumentsController extends Controller
 
         $user_is_dms_manager = $user->isDMSManager();
 
-        $items_per_page = (int)$user->optionItemsPerPage();
-
-        $requested_items_per_page = (int)$request->input('n', $items_per_page);
-
         $order = $request->input('o', 'd') === 'a' ? 'ASC' : 'DESC';
 
-        try {
-            if ($items_per_page !== $requested_items_per_page) {
-                $user->setOptionItemsPerPage($requested_items_per_page);
-                $items_per_page = $requested_items_per_page;
-            }
-        } catch (\Exception $limit_ex) {
-        }
-
-        // future proof for when this option will be saved in the user profile
         $selected_range = $user->optionRecentRange();
 
         if ($selected_range !== $range) {
@@ -61,8 +48,6 @@ class RecentDocumentsController extends Controller
         }
 
         $req = $this->searchRequestCreate($request);
-
-        $req->limit($items_per_page);
 
         $from = $today;
         $to = Carbon::now();
