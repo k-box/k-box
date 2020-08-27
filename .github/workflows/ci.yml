@@ -66,12 +66,11 @@ jobs:
       
     - name: Prepare environment
       run: |
-        echo "::set-env name=CI_CACHE_DOMAIN::https://cache.oneofftech.xyz/"
         cp env.ci .env
         cp env.ci .env.testing
         mkdir ./storage/documents
         composer install --prefer-dist
-        composer run install-video-cli
+        composer run install-video-cli -- https://cache.oneofftech.xyz
         chmod +x ./bin/bin/packager-linux
         composer run install-content-cli
         composer run install-language-cli

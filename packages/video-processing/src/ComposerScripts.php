@@ -41,6 +41,14 @@ class ComposerScripts
     {
         try {
             $io = $event->getIO();
+
+            $args = $event->getArguments();
+
+            $ci_cache_domain = null;
+
+            if (! empty($args)) {
+                $ci_cache_domain = rtrim($args[0], '/').'/';
+            }
             
             $rfs = Factory::createRemoteFilesystem($io, $event->getComposer()->getConfig());
             
@@ -91,7 +99,7 @@ class ComposerScripts
                 $io->write('');
 
                 $executor = new ProcessExecutor($io, [
-                    'CI_CACHE_DOMAIN' => getenv('CI_CACHE_DOMAIN') ?? null
+                    'CI_CACHE_DOMAIN' => $ci_cache_domain
                 ]);
                 
                 $command_filename = $os!=='windows' ? './'.basename($fileName) : basename($fileName);
