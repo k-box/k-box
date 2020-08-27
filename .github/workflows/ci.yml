@@ -57,6 +57,12 @@ jobs:
       with:
         path: ~/.composer/cache/files
         key: dependencies-php-${{ matrix.php }}-composer-${{ hashFiles('composer.json') }}
+    
+    - name: Cache binaries
+      uses: actions/cache@v1
+      with:
+        path: bin
+        key: binaries-php-${{ matrix.php }}-composer-${{ hashFiles('composer.json') }}
       
     - name: Prepare environment
       run: |
