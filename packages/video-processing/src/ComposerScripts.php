@@ -5,7 +5,6 @@ namespace OneOffTech\VideoProcessing;
 use Composer\Factory;
 use Composer\Script\Event;
 use Composer\Downloader\TransportException;
-use Composer\Util\ProcessExecutor;
 
 class ComposerScripts
 {
@@ -42,6 +41,14 @@ class ComposerScripts
     {
         try {
             $io = $event->getIO();
+
+            $args = $event->getArguments();
+
+            $ci_cache_domain = null;
+
+            if (! empty($args)) {
+                $ci_cache_domain = rtrim($args[0], '/').'/';
+            }
             
             $rfs = Factory::createRemoteFilesystem($io, $event->getComposer()->getConfig());
             
@@ -91,7 +98,9 @@ class ComposerScripts
                 $io->write('Installing the video-processing-cli and its dependencies...');
                 $io->write('');
 
-                $executor = new ProcessExecutor($io);
+                $executor = new ProcessExecutor($io, [
+                    'CI_CACHE_DOMAIN' => $ci_cache_domain
+                ]);
                 
                 $command_filename = $os!=='windows' ? './'.basename($fileName) : basename($fileName);
                 
