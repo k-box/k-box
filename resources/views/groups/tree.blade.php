@@ -23,8 +23,12 @@
 						@include('groups.tree-item')
 						
 					@empty
+
+						<div class="empty empty--small">
 					
-						<p>{{trans('groups.collections.empty_private_msg')}}</p>
+							<p class="empty__description">{{trans('groups.collections.empty_private_msg')}}</p>
+
+						</div>
 						
 					@endforelse
 

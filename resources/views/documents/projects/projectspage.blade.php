@@ -26,21 +26,26 @@
 
 		@if(isset($empty_message))
 
-			<p>{!!$empty_message!!}</p>
+			<div class="empty">
+				<p class="empty__message">{!!$empty_message!!}</p>
+			</div>
 
 		@elseif($is_search_requested)
 
-			@if($search_terms==='*')
+			<div class="empty">
+				@if($search_terms==='*')
+					<p class="empty__message">{{ trans('search.no_results_generic') }}</p>
+				@else 
 
-				<p>{{ trans('search.no_results_generic') }}</p>
-			@else 
-
-				<p>{{ trans('search.no_results_for_term', ['term' => $search_terms]) }}</p>
-			@endif
+					<p class="empty__message">{{ trans('search.no_results_for_term', ['term' => $search_terms]) }}</p>
+				@endif
+			</div>
 
 		@else
 
-			<p>{{ trans('projects.no_projects') }}</p>
+			<div class="empty">
+				<p class="empty__message">{{ trans('projects.no_projects') }}</p>
+			</div>
 
 		@endif
 		
