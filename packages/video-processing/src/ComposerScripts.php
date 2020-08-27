@@ -91,7 +91,7 @@ class ComposerScripts
                 $io->write('');
 
                 $executor = new ProcessExecutor($io, [
-                    'CI_CACHE_DOMAIN' => env('CI_CACHE_DOMAIN', null)
+                    'CI_CACHE_DOMAIN' => getenv('CI_CACHE_DOMAIN') ?? null
                 ]);
                 
                 $command_filename = $os!=='windows' ? './'.basename($fileName) : basename($fileName);
