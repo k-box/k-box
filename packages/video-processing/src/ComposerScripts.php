@@ -5,7 +5,6 @@ namespace OneOffTech\VideoProcessing;
 use Composer\Factory;
 use Composer\Script\Event;
 use Composer\Downloader\TransportException;
-use Composer\Util\ProcessExecutor;
 
 class ComposerScripts
 {
@@ -91,7 +90,9 @@ class ComposerScripts
                 $io->write('Installing the video-processing-cli and its dependencies...');
                 $io->write('');
 
-                $executor = new ProcessExecutor($io);
+                $executor = new ProcessExecutor($io, [
+                    'CI_CACHE_DOMAIN' => env('CI_CACHE_DOMAIN', null)
+                ]);
                 
                 $command_filename = $os!=='windows' ? './'.basename($fileName) : basename($fileName);
                 
