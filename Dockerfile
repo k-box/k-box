@@ -4,7 +4,7 @@
 ##
 
 ## Grabbing required binaries for the video processing part
-FROM docker.klink.asia/images/video-processing-cli:0.5.3 AS videocli
+FROM oneofftech/video-processing-cli:0.6.0 AS videocli
 ## .. we just need this image so we can copy from it
 
 FROM klinktech/k-box-ci-pipeline-php:7.2 AS builder

@@ -60,6 +60,7 @@ jobs:
       
     - name: Prepare environment
       run: |
+        echo "::set-env name=CI_CACHE_DOMAIN::https://cache.oneofftech.xyz/"
         cp env.ci .env
         cp env.ci .env.testing
         mkdir ./storage/documents
