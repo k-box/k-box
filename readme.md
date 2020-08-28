@@ -1,9 +1,13 @@
 <p align="center"><img src="./public/k-box-logo.png" width="400"></p>
 
 <p align="center">
-<a href="https://github.com/k-box/k-box/actions?query=workflow%3ACI+branch%3Amaster+" target="_blank"><img src="https://github.com/k-box/k-box/workflows/CI/badge.svg" alt="Build Status"></a>
-<a href="https://github.com/k-box/k-box/releases/latest" target="_blank"><img alt="latest release" src="https://img.shields.io/github/v/release/k-box/k-box"></a>
-<img alt="License AGPL-3.0" src="https://img.shields.io/github/license/k-box/k-box"></a>
+<a href="https://github.com/k-box/k-box/actions?query=workflow%3ACI+branch%3Amaster+" target="_blank">
+    <img src="https://github.com/k-box/k-box/workflows/CI/badge.svg" alt="Build Status">
+</a>
+<a href="https://github.com/k-box/k-box/releases/latest" target="_blank">
+    <img alt="latest release" src="https://img.shields.io/github/v/release/k-box/k-box">
+</a>
+<img alt="License AGPL-3.0" src="https://img.shields.io/github/license/k-box/k-box">
 </p>
 
 # K-Box
@@ -16,7 +20,7 @@ If you find any issues with this application, please report them at the [issue t
 
 The upstream repository is at: https://github.com/k-box/k-box
 
-![](./public/k-box-screenshot.png)
+<p align="center"><img src="./public/k-box-screenshot.png" width="960"></p>
 
 ## Installation
 
@@ -59,10 +63,12 @@ Programmers may check out the [developers documentation](./docs/developer/index.
 
 The K-Box code is covered by unit tests. For more information see [Executing Unit Tests](./docs/developer/testing.md).
 
-## License
-
-![GNU AGPLv3 Image](https://www.gnu.org/graphics/agplv3-155x51.png)
-
-This program is Free Software: You can use, study, share and improve it at your will. Specifically you can redistribute and/or modify it under the terms of the [GNU Affero General Public License](./LICENSE.txt) version 3 as published by the Free Software Foundation.
+## Contributing
 
 **Your contribution is very welcome**. Find more information in our [contribution guide](./contributing.md).
+
+## License
+
+The K-Box is licensed under the [GNU Affero General Public License v3.0](./LICENSE.txt).
+
+This program is Free Software: You can use, study, share and improve it at your will. Specifically you can redistribute and/or modify it under the terms of the [AGPL 3.0 license](./LICENSE.txt).
