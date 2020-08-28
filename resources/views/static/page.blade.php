@@ -15,7 +15,7 @@
 
     <div class="h-5"></div>
 
-	<div class="max-w-4xl">
+	<div class="max-w-4xl md:mx-auto px-2 lg:px-0">
 
 		@component('components.markdown', ['class' => ''])
 			{!!$page_content!!}
