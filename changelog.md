@@ -24,6 +24,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 - `artisan route:list` command not working due to use of abort helper ([#416](https://github.com/k-box/k-box/pull/416))
 - Authorization check for document editing ([#425](https://github.com/k-box/k-box/pull/425))
+- Margins on static pages (e.g. help) when viewed on small screens ([#434](https://github.com/k-box/k-box/pull/434))
 
 ### Deprecated
 ### Removed
