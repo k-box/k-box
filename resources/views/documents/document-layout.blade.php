@@ -78,7 +78,7 @@
 
 		<div class="action__separator"></div>
 		
-		<x-pagination-limit-selector  :page-params="['range'=>$range ?? '']"/>
+		<x-pagination-limit-selector  :page-params="isset($range) && $range ? ['range'=> $range] : []"/>
 
 		@include('actions.list-switcher')
 
