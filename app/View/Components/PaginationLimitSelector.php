@@ -17,8 +17,6 @@ class PaginationLimitSelector  extends Component
     
     public $routeParamId;
 
-    public $search_replica_parameters;
-
     public $pageParams;
     
     public $optionItemsPerPage;
@@ -30,13 +28,10 @@ class PaginationLimitSelector  extends Component
         $this->optionItemsPerPage = auth()->user()->optionItemsPerPage();
         
         $this->pageParams =array_merge(
-
             $pageParams,
-            [
-                'group' => $this->getParamId(),
-                'search_replica_parameters' => request()->only('s')
-            ]
-
+            request()->only('s'),
+            $this->getParamId(),
+            
         );
     }
 
@@ -49,10 +44,10 @@ class PaginationLimitSelector  extends Component
     private function getParamId(){
 
         if(! Route::current()->parameter('group')) {
-            return null;
+            return [];
         } 
 
-        return  Route::current()->parameter('group');
+        return  ['group'=>Route::current()->parameter('group')];
 
     }
 

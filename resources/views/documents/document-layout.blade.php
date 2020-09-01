@@ -78,7 +78,7 @@
 
 		<div class="action__separator"></div>
 		
-		<x-pagination-limit-selector  :page-params="isset($range) && $range ? ['range'=> $range] : []"/>
+		<x-pagination-limit-selector  :page-params="array_merge(isset($range) && $range ? ['range'=> $range] : [],isset($current_visibility) && $current_visibility ? ['visibility'=> $current_visibility] : [])"/>
 
 		@include('actions.list-switcher')
 
