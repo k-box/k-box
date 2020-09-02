@@ -114,7 +114,7 @@ trait Searchable
         // need to find better way to implement this code
         $req = SearchRequest::create($request);
 
-        // Number of Items per page 
+        // Number of Items per page
 
         $items_per_page = (int)auth()->user()->optionItemsPerPage();
 
@@ -128,7 +128,7 @@ trait Searchable
         } catch (\Exception $limit_ex) {
         }
 
-       $req->limit($items_per_page);
+        $req->limit($items_per_page);
         
         // end
 

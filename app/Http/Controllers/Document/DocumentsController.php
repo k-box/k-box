@@ -134,7 +134,7 @@ class DocumentsController extends Controller
             
         $can_see_share = $auth_user->can_capability(Capability::RECEIVE_AND_SEE_SHARE);
 
-        $order = $request->input('o', 'd') === 'a' ? 'ASC' : 'DESC';       
+        $order = $request->input('o', 'd') === 'a' ? 'ASC' : 'DESC';
         $req = $this->searchRequestCreate($request);
         
         $req->visibility('private');

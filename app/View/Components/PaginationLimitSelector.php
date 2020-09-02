@@ -5,7 +5,7 @@ namespace KBox\View\Components;
 use Illuminate\View\Component;
 use Illuminate\Support\Facades\Route;
 
-class PaginationLimitSelector  extends Component
+class PaginationLimitSelector extends Component
 {
     /**
      * Create a new component instance.
@@ -30,25 +30,22 @@ class PaginationLimitSelector  extends Component
         $this->pageParams =array_merge(
             $pageParams,
             request()->only('s'),
-            $this->getParamId(),
-            
+            $this->getParamId()
         );
     }
 
-    private function getRouteName(){
-
+    private function getRouteName()
+    {
         return  Route::current()->getName();
-        
     }
 
-    private function getParamId(){
-
-        if(! Route::current()->parameter('group')) {
+    private function getParamId()
+    {
+        if (! Route::current()->parameter('group')) {
             return [];
-        } 
+        }
 
         return  ['group'=>Route::current()->parameter('group')];
-
     }
 
     /**
@@ -58,8 +55,6 @@ class PaginationLimitSelector  extends Component
      */
     public function render()
     {
-
         return view('components.pagination-limit-selector');
     }
-
 }
