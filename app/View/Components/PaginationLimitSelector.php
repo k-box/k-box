@@ -27,9 +27,16 @@ class PaginationLimitSelector extends Component
 
         $this->optionItemsPerPage = auth()->user()->optionItemsPerPage();
         
-        $this->pageParams =array_merge(
+        $this->pageParams = array_merge(
             $pageParams,
-            request()->only('s'),
+            request()->only([
+                // preserve search parameters if applied
+                's',
+                'properties_mime_type',
+                'properties_collections',
+                'properties_language',
+                'properties_tags'
+            ]),
             $this->getParamId()
         );
     }
