@@ -8,6 +8,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 
 ### Added
+### Changed
+### Fixed
+### Deprecated
+### Removed
+
+## [0.31.0] - 2020-09-02
+
+### Added
 
 - Appearance configuration to change login picture and color ([#419](https://github.com/k-box/k-box/pull/419))
 - Various components for copy to clipboard, submitting forms via ajax, implementing a select2 dialog ([#412](https://github.com/k-box/k-box/pull/412))
@@ -25,9 +33,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - `artisan route:list` command not working due to use of abort helper ([#416](https://github.com/k-box/k-box/pull/416))
 - Authorization check for document editing ([#425](https://github.com/k-box/k-box/pull/425))
 - Margins on static pages (e.g. help) when viewed on small screens ([#434](https://github.com/k-box/k-box/pull/434))
-
-### Deprecated
-### Removed
 
 ## [0.30.0] - 2020-08-08
 
