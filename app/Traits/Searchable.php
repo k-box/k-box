@@ -9,6 +9,7 @@ use Illuminate\Support\Collection;
 use Klink\DmsSearch\SearchService;
 use Illuminate\Support\Facades\DB;
 use KBox\Pagination\SearchResultsPaginator;
+use KSearchClient\Model\Search\Search;
 
 /**
  * Add support for faster access to search features
@@ -109,6 +110,28 @@ trait Searchable
     
     public function searchRequestCreate(Request $request = null)
     {
-        return SearchRequest::create($request);
+        
+        // need to find better way to implement this code
+        $req = SearchRequest::create($request);
+
+        // Number of Items per page
+
+        $items_per_page = (int)auth()->user()->optionItemsPerPage();
+
+        $requested_items_per_page = (int)$request->input('n', $items_per_page);
+
+        try {
+            if ($items_per_page !== $requested_items_per_page) {
+                auth()->user()->setOptionItemsPerPage($requested_items_per_page);
+                $items_per_page = $requested_items_per_page;
+            }
+        } catch (\Exception $limit_ex) {
+        }
+
+        $req->limit($items_per_page);
+        
+        // end
+
+        return $req;
     }
 }

@@ -112,7 +112,7 @@ class DocumentsController extends Controller
         $user = $auth->user();
 
         $all = $this->service->getUserTrash($user)->all();
-
+        
         return view('documents.trash', [
             'search_terms' => '',
             'pagetitle' => trans('documents.menu.trash'),
@@ -135,11 +135,10 @@ class DocumentsController extends Controller
         $can_see_share = $auth_user->can_capability(Capability::RECEIVE_AND_SEE_SHARE);
 
         $order = $request->input('o', 'd') === 'a' ? 'ASC' : 'DESC';
-        
         $req = $this->searchRequestCreate($request);
         
         $req->visibility('private');
-
+        
         $all_shared = new Collection();
 
         if ($can_see_share) {

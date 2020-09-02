@@ -19,11 +19,12 @@
 				<a href="{{ route('documents.recent', array_merge(['range' => 'currentmonth'], $search_replica_parameters)) }}" class="button @if($range==='currentmonth') button--selected @endif">{{ trans('documents.filtering.currentmonth') }}</a> 
 		</div>
 
-		<div class="page-actions__label" title="{{ trans('documents.filtering.items_per_page_hint') }}">
+		
+		{{-- <div class="page-actions__label" title="{{ trans('documents.filtering.items_per_page_hint') }}">
 				<a href="{{ route('documents.recent', array_merge(['range' => $range, 'n' => 12], $search_replica_parameters)) }}" class="button @if(auth()->user()->optionItemsPerPage() == 12) button--selected @endif">12</a>
 				<a href="{{ route('documents.recent', array_merge(['range' => $range, 'n' => 24], $search_replica_parameters)) }}" class="button @if(auth()->user()->optionItemsPerPage() == 24) button--selected @endif">24</a>
 				<a href="{{ route('documents.recent', array_merge(['range' => $range, 'n' => 50], $search_replica_parameters)) }}" class="button @if(auth()->user()->optionItemsPerPage() == 50) button--selected @endif">50</a>
-		</div>
+		</div> --}}
 	
 	</div>
 

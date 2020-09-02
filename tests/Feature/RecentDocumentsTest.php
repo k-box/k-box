@@ -308,9 +308,9 @@ class RecentDocumentsTest extends TestCase
         $response->assertViewIs('documents.recent');
         $response->assertViewHas('search_replica_parameters', ['s' => 'hello']);
 
-        $response->assertSee(route('documents.recent', ['range' => 'currentweek', 'n' => 12, 's' => 'hello']));
-        $response->assertSee(route('documents.recent', ['range' => 'currentweek', 'n' => 24, 's' => 'hello']));
-        $response->assertSee(route('documents.recent', ['range' => 'currentweek', 'n' => 50, 's' => 'hello']));
+        $response->assertSee(route('documents.recent', ['range' => 'currentweek', 's' => 'hello', 'n' => 12]));
+        $response->assertSee(route('documents.recent', ['range' => 'currentweek', 's' => 'hello', 'n' => 24]));
+        $response->assertSee(route('documents.recent', ['range' => 'currentweek', 's' => 'hello', 'n' => 50]));
         
         $response->assertSee(route('documents.recent', ['range' => 'today', 's' => 'hello']));
         $response->assertSee(route('documents.recent', ['range' => 'yesterday', 's' => 'hello']));

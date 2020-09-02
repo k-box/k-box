@@ -55,7 +55,7 @@ class StarredDocumentsController extends Controller
         $user = $auth->user();
 
         $has_starred = Starred::with('document')->ofUser($user->id)->count() > 0;
-        
+
         $results = ! $has_starred ? $this->getEmptyResult($req) : $this->search($req, function ($_request) use ($user) {
             $all_starred = Starred::with('document')->ofUser($user->id);
             
