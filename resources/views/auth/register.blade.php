@@ -36,6 +36,18 @@
             </div>      
         @endisset
 
+        <div class="mt-6">
+            <x-oneofftech-identity-link action="register" provider="gitlab" :parameters="isset($invite) ? ['invite' => $invite] : null" class="button button--primary"/>
+            
+            @error('gitlab')
+                <span class="field-error" role="alert">
+                    {{ $message }}
+                </span>
+			@enderror
+        </div>
+
+        <div class="h-5"></div>
+
         <div class=" mb-4">
             <label for="email" class="">{{trans('auth.email_label')}}</label>
 

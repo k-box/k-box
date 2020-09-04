@@ -9,7 +9,7 @@ public/build
 public/mix-manifest.json
 public/js/*
 public/css/*
-public/storage/*
+public/storage
 storage/documents/*
 storage/framework/testing
 tests/data/**/thumbnails

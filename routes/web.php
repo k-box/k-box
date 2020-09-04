@@ -491,3 +491,5 @@ Route::prefix('dms')->group(function () {
 
     Route::get('/{route}', 'DmsRoutesController@show')->where('route', '[A-Za-z0-9\-\_\/]+');
 });
+
+\Oneofftech\Identities\Facades\Identity::routes();

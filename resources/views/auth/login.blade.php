@@ -12,6 +12,19 @@
 			</div>
 		@endif
 
+        <div class="mt-6">
+
+			<x-oneofftech-identity-link action="login" provider="gitlab"  class="button button--primary"/>
+
+			@error('gitlab')
+                <span class="field-error" role="alert">
+                    {{ $message }}
+                </span>
+			@enderror
+		</div>
+		
+		<div class="h-5"></div>
+
 		<div class=" mb-4">
 			<label for="email">{{trans('auth.email_label')}}</label>
 			@if( isset($errors) && $errors->has('email') )
