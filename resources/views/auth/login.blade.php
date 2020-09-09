@@ -12,18 +12,26 @@
 			</div>
 		@endif
 
-        <div class="mt-6">
+        <div class=" mb-4">
 
-			<x-oneofftech-identity-link action="login" provider="gitlab"  class="button button--primary"/>
+			<div class="flex flex-no-wrap items-center max-w-lg mb-4">
+				<p class="mr-2 text-gray-600">{{ __('Sign in with') }}</p>
+				<div class="h-px w-1 flex-grow bg-gray-200"></div>
+			</div>
+
+			<x-oneofftech-identity-link action="login" provider="gitlab" label="Gitlab" class="button button--primary w-32"/>
 
 			@error('gitlab')
-                <span class="field-error" role="alert">
+                <div class="field-error mt-2" role="alert">
                     {{ $message }}
-                </span>
+                </div>
 			@enderror
 		</div>
-		
-		<div class="h-5"></div>
+
+		<div class="flex mb-4 flex-no-wrap items-center max-w-lg">
+			<p class="mr-2 text-gray-600">{{ __('or continue with') }}</p>
+			<div class="h-px w-1 flex-grow bg-gray-200"></div>
+		</div>
 
 		<div class=" mb-4">
 			<label for="email">{{trans('auth.email_label')}}</label>
