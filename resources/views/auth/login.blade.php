@@ -6,20 +6,9 @@
 
 		<h2 class="mb-4 text-2xl font-normal">{{ $welcome_string }}</h2>
 
-		@if (\KBox\Auth\Registration::isEnabled() && ! \KBox\Auth\Registration::requiresInvite())
-			<div class="mb-4">
-				{{ trans('auth.no_account') }}&nbsp;<a tabindex="4" class="" href="{{ route('register') }}">{{ trans('auth.register') }}</a>
-			</div>
-		@endif
-
         <div class=" mb-4">
 
-			<div class="flex flex-no-wrap items-center max-w-lg mb-4">
-				<p class="mr-2 text-gray-600">{{ __('Sign in with') }}</p>
-				<div class="h-px w-1 flex-grow bg-gray-200"></div>
-			</div>
-
-			<x-oneofftech-identity-link action="login" provider="gitlab" label="Gitlab" class="button button--primary w-32"/>
+			<x-oneofftech-identity-link action="login" provider="gitlab" class="button button--primary"/>
 
 			@error('gitlab')
                 <div class="field-error mt-2" role="alert">
@@ -28,8 +17,9 @@
 			@enderror
 		</div>
 
-		<div class="flex mb-4 flex-no-wrap items-center max-w-lg">
-			<p class="mr-2 text-gray-600">{{ __('or continue with') }}</p>
+		<div class="flex mb-4 flex-no-wrap items-center max-w-lg mx-auto lg:mx-0">
+			<div class="h-px w-1 lg:w-12 flex-grow lg:flex-grow-0 bg-gray-200"></div>
+			<p class="ml-2 mr-2 text-gray-600 font-medium">{{ trans('auth.or') }}</p>
 			<div class="h-px w-1 flex-grow bg-gray-200"></div>
 		</div>
 
@@ -68,4 +58,14 @@
 		</div>
 			
 	</form>
+
+	@if (\KBox\Auth\Registration::isEnabled() && ! \KBox\Auth\Registration::requiresInvite())
+		<div class="flex py-4 flex-no-wrap max-w-lg mx-auto lg:mx-0">
+			<div class="h-px w-1 flex-grow bg-gray-200"></div>
+		</div>
+
+		<div class="">
+			{{ trans('auth.no_account') }}&nbsp;<a tabindex="4" class="" href="{{ route('register') }}">{{ trans('auth.register') }}</a>
+		</div>
+	@endif
 @endsection

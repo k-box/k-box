@@ -12,11 +12,7 @@
 
 		<h2 class="mb-4 text-2xl font-normal">{{ trans('auth.create_account') }}</h2>
 
-        @if (Route::has('login'))
-            <div class="mb-4">
-                {{ trans('auth.have_account') }}&nbsp;<a  tabindex="6" class="" href="{{ route('login') }}">{{ trans('auth.login') }}</a>
-            </div>
-        @endif
+        
 
         @if(\KBox\Auth\Registration::requiresInvite() && ! (isset($invite) || old('invite', false)))
             <div class="c-message c-message--warning mt-2">
@@ -37,13 +33,8 @@
         @endisset
 
         <div class=" mb-4">
-
-			<div class="flex flex-no-wrap items-center max-w-lg mb-4">
-				<p class="mr-2 text-gray-600">{{ __('Sign up with') }}</p>
-				<div class="h-px w-1 flex-grow bg-gray-200"></div>
-            </div>
             
-            <x-oneofftech-identity-link action="register" provider="gitlab" label="Gitlab" :parameters="isset($invite) ? ['invite' => $invite] : null" class="button button--primary w-32"/>
+            <x-oneofftech-identity-link action="register" provider="gitlab" :parameters="isset($invite) ? ['invite' => $invite] : null" class="button button--primary"/>
             
             @error('gitlab')
                 <span class="field-error" role="alert">
@@ -52,8 +43,9 @@
 			@enderror
         </div>
 
-        <div class="flex mb-4 flex-no-wrap items-center max-w-lg">
-			<p class="mr-2 text-gray-600">{{ __('or continue with') }}</p>
+        <div class="flex mb-4 flex-no-wrap items-center max-w-lg mx-auto lg:mx-0">
+			<div class="h-px w-1 lg:w-12 flex-grow lg:flex-grow-0 bg-gray-200"></div>
+			<p class="ml-2 mr-2 text-gray-600 font-medium">{{ trans('auth.or') }}</p>
 			<div class="h-px w-1 flex-grow bg-gray-200"></div>
 		</div>
 
@@ -101,5 +93,15 @@
             </div>
         </div>
     </form>
+
+    @if (Route::has('login'))
+        <div class="flex py-4 flex-no-wrap max-w-lg mx-auto lg:mx-0">
+            <div class="h-px w-1 flex-grow bg-gray-200"></div>
+        </div>
+
+        <div class="">
+            {{ trans('auth.have_account') }}&nbsp;<a  tabindex="6" class="" href="{{ route('login') }}">{{ trans('auth.login') }}</a>
+        </div>
+    @endif
 
 @endsection
