@@ -11,8 +11,14 @@
 			<x-oneofftech-identity-link action="login" provider="gitlab" class="button button--primary"/>
 
 			@error('gitlab')
-                <div class="field-error mt-2" role="alert">
-                    {{ $message }}
+                <div class="field-error block mt-2" role="alert">
+					{{ $message }}
+					
+					@if ($message === trans('auth.not_found') && \KBox\Auth\Registration::isEnabled() && ! \KBox\Auth\Registration::requiresInvite())
+						<p>
+							<a class="text-white underline hover:text-white focus:text-white" href="{{ route('register') }}">{{ trans('auth.create_account') }}</a>
+						</p>
+					@endif
                 </div>
 			@enderror
 		</div>

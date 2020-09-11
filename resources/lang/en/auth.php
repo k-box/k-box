@@ -14,6 +14,7 @@ return [
     */
 
     'failed' => 'These credentials do not match our records.',
+    'not_found' => 'We could not find your account.',
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
 
     'email_label' => 'E-Mail',
