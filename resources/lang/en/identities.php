@@ -21,7 +21,7 @@ return [
         'message' => 'You will lose the ability to login via :Provider and use the offered integration. Existing data will be kept.',
         'registration_message' => 'This identity was used for sign-up.',
         'registration_with' => 'The account was registered with the email',
-        'registration_set_password' => 'Setup a password not to lose access',
+        'registration_set_password' => 'Setup a password to keep access',
 
 
         'confirm' => 'Unlink :Provider',
