@@ -13,6 +13,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Deprecated
 ### Removed
 
+## [0.31.1] - 2020-09-11
+
+### Added
+
+- Select the number of documents to show per page by @najiba-f ([#431](https://github.com/k-box/k-box/pull/431))
+
 ## [0.31.0] - 2020-09-02
 
 ### Added
