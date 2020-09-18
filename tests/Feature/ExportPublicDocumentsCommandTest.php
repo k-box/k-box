@@ -8,11 +8,13 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Storage;
 use KBox\DocumentDescriptor;
+use KBox\Documents\Facades\Files;
 use KBox\Project;
 use KBox\Publication;
 use KBox\RoutingHelpers;
 use KBox\User;
 use League\Csv\Reader;
+use ZipArchive;
 
 class ExportPublicDocumentsCommandTest extends TestCase
 {
@@ -175,8 +177,36 @@ class ExportPublicDocumentsCommandTest extends TestCase
         $expectedFile = "publications-$date.zip";
         
         Storage::disk('app')->assertExists($expectedFile);
+        
+        $entries = [];
 
-        $csv = Reader::createFromPath(Storage::disk('app')->path($expectedFile), 'r');
+        $zip = tap(new ZipArchive(), function ($z) use ($expectedFile) {
+            $z->open(Storage::disk('app')->path($expectedFile));
+        });
+
+        $csv_content = $zip->getFromName("publications-$date.csv");
+
+        $elementsInZipFile = $zip->count();
+
+        for ($i=0; $i < $elementsInZipFile; $i++) {
+            $entry = $zip->statIndex($i);
+            $entries[] = $entry['name'];
+        }
+
+        $zip->close();
+
+        $this->assertEquals(5, $elementsInZipFile);
+
+        $files = collect([
+            'readme.txt',
+            "publications-$date.csv",
+        ])->merge($publicDocuments->map(function ($d) {
+            return $d->file->created_at->format('Y/m').'/'.$d->file->uuid.'.'.Files::extensionFromType($d->file->mime_type);
+        }));
+
+        $this->assertEquals($files->toArray(), $entries);
+
+        $csv = Reader::createFromString($csv_content);
         $csv->setHeaderOffset(0); //set the CSV header offset
 
         $headers = $csv->getHeader();
@@ -199,7 +229,7 @@ class ExportPublicDocumentsCommandTest extends TestCase
             return [
                 'id' => $d->uuid,
                 'title' => $d->title,
-                'file' => $d->file->path,
+                'file' => $d->file->created_at->format('Y/m').'/'.$d->file->uuid.'.'.Files::extensionFromType($d->file->mime_type),
                 'publication_date' => $d->publication()->published_at->toDateTimeString(),
                 'license' => optional($d->copyright_usage)->name ?? 'Copyright',
                 'projects' => '',

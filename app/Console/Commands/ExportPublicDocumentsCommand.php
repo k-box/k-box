@@ -7,7 +7,7 @@ use KBox\DocumentDescriptor;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;
 use KBox\Documents\Facades\Files;
-use KBox\Http\Resources\DocumentDump;
+use KBox\File;
 use KBox\RoutingHelpers;
 use ZipArchive;
 
@@ -46,30 +46,38 @@ class ExportPublicDocumentsCommand extends Command
      */
     public function handle()
     {
-        $date = today()->toDateString();
         $onlyReport = $this->option('only-list');
 
         $this->info("Generating export...");
 
         if ($onlyReport) {
-            $name = "publications-$date.csv";
-            $csv_path = Storage::disk('app')->path($name);
+            $path = $this->getPath($this->getExportName('csv'));
 
-            $this->generateCsv($csv_path);
+            $this->generateCsv($path);
 
-            $this->info("Document list saved [{$name}].");
+            $this->info("Document list saved [{$path}].");
 
             return 0;
         }
 
-        $name = "publications-$date.zip";
-        $path = Storage::disk('app')->path($name);
+        $path = $this->getPath($this->getExportName('zip'));
 
         $this->generateDataPackage($path);
 
-        $this->info("Export saved [{$name}].");
+        $this->info("Export saved [{$path}].");
 
         return 0;
+    }
+
+    protected function getExportName($extension = 'zip')
+    {
+        $date = today()->toDateString();
+        return "publications-$date.$extension";
+    }
+
+    protected function getPath($name = null)
+    {
+        return Storage::disk('app')->path($name ?? $this->getExportName());
     }
 
     private function addReadme()
@@ -85,29 +93,58 @@ class ExportPublicDocumentsCommand extends Command
         $this->archiveHandle = new ZipArchive();
         $this->archiveHandle->open($path, ZipArchive::CREATE);
 
-        $this->addReadme();
-        $this->addDocuments();
-
-        $this->archiveHandle->close();
+        try {
+            $this->addReadme();
+            $this->addDocuments();
+        } finally {
+            if ($this->archiveHandle) {
+                $this->archiveHandle->close();
+            }
+        }
     }
 
     private function addDocuments()
     {
         $documents = $this->getDocuments();
 
-        $collection_json = DocumentDump::collection($documents)->toJson();
+        $graph = [];
+        $graph[] = ['id', 'title', 'file', 'publication_date', 'license' ,'projects', 'collections', 'hash', 'url'];
+
+        $documents->each(function ($d) use (&$graph) {
+            $graph[] = [
+                $d->uuid,
+                $d->title,
+                $this->filePathForZip($d->file),
+                $d->publication()->published_at->toDateTimeString(),
+                optional($d->copyright_usage)->name ?? 'Copyright',
+                $d->projects()->pluck('name')->join('.'),
+                $d->groups()->public()->pluck('name')->join('.'),
+                $d->hash,
+                RoutingHelpers::download($d),
+            ];
+        });
+
+        $writer = Writer::createFromString();
+
+        $writer->insertAll($graph);
 
         $this->archiveHandle->addFromString(
-            'documents.json',
-            $collection_json
+            $this->getExportName('csv'),
+            $writer->getContent()
         );
 
         foreach ($documents as $doc) {
             $this->archiveHandle->addFile(
                 $doc->file->absolute_path,
-                $doc->file->uuid.'.'.Files::extensionFromType($doc->file->mime_type)
+                $this->filePathForZip($doc->file)
+                //
             );
         }
+    }
+
+    private function filePathForZip(File $file)
+    {
+        return $file->created_at->format('Y/m').'/'.$file->uuid.'.'.Files::extensionFromType($file->mime_type);
     }
 
     private function getDocuments()
