@@ -13,6 +13,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Deprecated
 ### Removed
 
+## [0.31.2] - 2020-09-21
+
+### Added
+
+- Export documents published on K-Link as compressed zip archive ([#438](https://github.com/k-box/k-box/pull/438))
+
 ## [0.31.1] - 2020-09-11
 
 ### Added
