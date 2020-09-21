@@ -84,7 +84,7 @@ class ExportPublicDocumentsCommand extends Command
     {
         $this->archiveHandle->addFromString(
             'readme.txt',
-            'This archive contain the export of the documents published on K-Link by users of the K-Box.'
+            'This archive contain the export of the documents published on K-Link by users of the K-Box. The included CSV lists the documents and the available information. The CSV file is UTF-8 encoded.'
         );
     }
 
