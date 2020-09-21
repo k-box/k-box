@@ -36,6 +36,17 @@ class ExportPublicDocumentsCommandTest extends TestCase
                     'pending' => false,
                 ]));
             });
+            
+        $failedPublicDocuments = factory(DocumentDescriptor::class, 2)
+            ->create(['is_public' => true])
+            ->each(function ($document) use ($user) {
+                $document->publications()->save(new Publication([
+                    'published_by' => $user->getKey(),
+                    'published_at' => null,
+                    'failed_at' => now(),
+                    'pending' => false,
+                ]));
+            });
 
         $date = Carbon::today()->toDateString();
 

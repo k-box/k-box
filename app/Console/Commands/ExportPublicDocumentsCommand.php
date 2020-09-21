@@ -115,7 +115,7 @@ class ExportPublicDocumentsCommand extends Command
                 $d->uuid,
                 $d->title,
                 $this->filePathForZip($d->file),
-                $d->publication()->published_at->toDateTimeString(),
+                optional($d->publication()->published_at)->toDateTimeString(),
                 optional($d->copyright_usage)->name ?? 'Copyright',
                 $d->projects()->pluck('name')->join('.'),
                 $d->groups()->public()->pluck('name')->join('.'),
@@ -149,7 +149,9 @@ class ExportPublicDocumentsCommand extends Command
 
     private function getDocuments()
     {
-        return DocumentDescriptor::whereHas('publications')->with(['publications', 'file'])->orderBy('id')->get();
+        return DocumentDescriptor::whereHas('publications', function ($query) {
+            return $query->whereNotNull('published_at');
+        })->with(['publications', 'file'])->orderBy('id')->get();
     }
 
     private function generateReport()
@@ -164,7 +166,7 @@ class ExportPublicDocumentsCommand extends Command
                 $d->uuid,
                 $d->title,
                 $d->file->path,
-                $d->publication()->published_at->toDateTimeString(),
+                optional($d->publication()->published_at)->toDateTimeString(),
                 optional($d->copyright_usage)->name ?? 'Copyright',
                 $d->projects()->pluck('name')->join('.'),
                 $d->groups()->public()->pluck('name')->join('.'),
