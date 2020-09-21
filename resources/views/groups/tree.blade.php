@@ -31,7 +31,7 @@
 	
 		@if($user_can_edit_personal_groups || $user_can_see_private_groups)
 			<div class="navigation__actions" x-data="{}">
-				<button @click="$dispatch('dialog-show', { 'url': 'documents/groups/create', route: '{{ route('documents.groups.create') }}', 'params' : {isPrivate: true, group_context: {{$context_group ?? 'null' }}} })" class="navigation__action" title="{{trans('actions.create_collection_btn')}}">
+				<button @click="$dispatch('dialog-show', { 'url': 'documents/groups/create', route: '{{ route('documents.groups.create') }}', 'params' : {isPrivate: true} })" class="navigation__action" title="{{trans('actions.create_collection_btn')}}">
 					@materialicon('content', 'add_circle_outline', 'btn-icon')
 				</button>
 			</div>
