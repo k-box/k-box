@@ -17,16 +17,25 @@ class PublishDocumentJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    /**
+     * @var \KBox\Publication
+     */
     public $publication;
+
+    /**
+     * @var bool
+     */
+    public $force;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(Publication $publication)
+    public function __construct(Publication $publication, $force = false)
     {
         $this->publication = $publication;
+        $this->force = $force;
     }
 
     /**
@@ -40,8 +49,8 @@ class PublishDocumentJob implements ShouldQueue
 
         \Log::info("Publish Job handling for {$this->publication->id}: $document->uuid");
 
-        if ($this->publication->published && $this->publication->hasPendingPublications()) {
-            // Abort as publication is already happened or is in the process
+        if ($this->publication->published && ! $this->force) {
+            // Abort as publication is already happened
             return true;
         }
 
