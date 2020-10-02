@@ -495,7 +495,7 @@ class SharingControllerTest extends TestCase
         $this->withKlinkAdapterFake();
 
         $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
+            $u->addCapabilities(Capability::$PROJECT_MANAGER);
         });
         
         $user_target = tap(factory(User::class)->create(), function ($u) {
@@ -513,10 +513,11 @@ class SharingControllerTest extends TestCase
             'user_id' => $user->getKey(),
             'is_private' => true,
         ]);
-        $collection2 = $collection = factory(Group::class)->create([
+
+        $project = factory(Project::class)->create([
             'user_id' => $user->getKey(),
-            'is_private' => false,
         ]);
+        $collection2 = $project->collection;
 
         $response = $this->actingAs($user)->get(route('shares.create', [
             'collections' => [$collection1->id, $collection2->id],

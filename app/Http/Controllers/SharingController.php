@@ -169,9 +169,9 @@ class SharingController extends Controller
             }
         }
                   
-        foreach ($groups_input as $group) {
+        foreach ($groups as $group) {
            if (!$this->service->isCollectionAccessible($me, $group)) {
-                throw new ForbiddenException(trans('errors.401_title'), 401); 
+                throw new ForbiddenException(trans('groups.access.forbidden', $group), 401); 
             }
         }
         
