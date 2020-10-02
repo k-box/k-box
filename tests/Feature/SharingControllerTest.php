@@ -404,7 +404,7 @@ class SharingControllerTest extends TestCase
         });
         
         $user_target = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
+            $u->addCapabilities(Capability::$PROJECT_MANAGER);
         });
 
         $project = factory(Project::class)->create([
