@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Cache;
 use KBox\Traits\Searchable;
 use KBox\Events\ShareCreated;
 use Illuminate\Support\Facades\DB;
+use KBox\Exceptions\ForbiddenException;
 
 /**
  * Manage you personal shares
@@ -156,14 +157,24 @@ class SharingController extends Controller
         $groups_input = $request->input('collections', []);
         $documents_input = $request->input('documents', []);
 
+        //transform groups_input and documents_input into collections
         $groups_req = is_array($groups_input) ? $groups_input : array_filter(explode(',', $request->input('collections', '')));
-
         $documents_req = is_array($documents_input) ? $documents_input : array_filter(explode(',', $request->input('documents', '')));
-
         $documents = DocumentDescriptor::withTrashed()->whereIn('id', $documents_req)->get();
-
         $groups = Group::whereIn('id', $groups_req)->get();
 
+        foreach ($documents as $document) {
+            if (!$document->isAccessibleBy($me)) {
+               throw new ForbiddenException(trans('errors.401_title'), 401); 
+            }
+        }
+                  
+        foreach ($groups_input as $group) {
+           if (!$this->service->isCollectionAccessible($me, $group)) {
+                throw new ForbiddenException(trans('errors.401_title'), 401); 
+            }
+        }
+        
         $all_in = $documents->merge($groups);
         
         $first = $all_in->first();
@@ -209,6 +220,7 @@ class SharingController extends Controller
             $existing_shares = $first->shares()->sharedByMe($me)->where('sharedwith_type', \KBox\User::class)->get();
         }
         
+        //can be removed
         $can_share = $me->can_capability(Capability::SHARE_WITH_USERS);
         $can_make_public = $me->can_capability(Capability::PUBLISH_TO_KLINK);
         $is_project_manager = $me->isProjectManager();
