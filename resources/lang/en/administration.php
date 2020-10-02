@@ -103,7 +103,7 @@ return [
         'created_msg' => 'User created',
         'created_password_sent_msg' => 'User was successfully created. The password has been sent directly to the user\'s E-mail',
         'created_no_mail_msg' => 'User created. We could not send the password to the user\'s E-mail',
-        'edit_disabled_msg' => 'You cannnot modify your account capabilities. Profile configuration can also be made through the <a href=":profile_url">profile page</a>.',
+        'edit_disabled_msg' => 'You cannot modify your account capabilities. Profile configuration can also be made through the <a href=":profile_url">profile page</a>.',
         'disabled_msg' => 'User :name disabled',
         'enabled_msg' => 'User :name restored',
         'updated_msg' => 'User updated',
