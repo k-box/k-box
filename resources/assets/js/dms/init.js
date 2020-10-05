@@ -130,6 +130,25 @@ window.DMS = (function(_$, _nprogress, _rivets, _alert){
 		});
 	}
 
+	//bulk download
+	//set the responseType field of xhrFields to blob. Since the response will be a blob you don't have to create one.
+	function _postDown (url, params, success, error, full) {
+		
+		var extParams = _$.extend(params, {_token:_getToken()});
+
+		return $.ajax({
+		  url: (full) ? url : _getBase() + url,
+		  type: 'post',
+		  xhrFields: {
+			responseType: 'blob' 
+		 },
+		  data: extParams,
+		  success: success,
+		  error: error
+		});
+	}
+
+	
 	function _put (url, params, success, error) {
 		
 		var extParams = _$.extend(params, {_token:_getToken()});
@@ -242,6 +261,7 @@ window.DMS = (function(_$, _nprogress, _rivets, _alert){
 			put: _put,
 			del: _delete,
 			delete: _delete,
+			postDown: _postDown,
 		},
 
 		Paths : {
@@ -529,6 +549,11 @@ window.DMS = (function(_$, _nprogress, _rivets, _alert){
 					console.log('Calling Bulk.makePrivate', data);
 
 					module.Ajax.post(module.Paths.DOCUMENTS + '/makeprivate', data, success, error);
+				},
+				download: function(data, success, error){
+					console.log('Calling Bulk.getZip', data);
+
+					module.Ajax.postDown('getzip', data,success, error);
 				},
 
 			},

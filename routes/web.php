@@ -18,6 +18,8 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 */
 Route::get('/', ['as' => 'frontpage', 'uses' => 'WelcomeController@index']);
+Route::post('/getzip', ['as' => 'getzip', 'uses' => 'Document\BulkDownloadController@buildzip']);
+
 
 /*
 |--------------------------------------------------------------------------
