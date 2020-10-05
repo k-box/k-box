@@ -411,6 +411,8 @@ class SharingControllerTest extends TestCase
             'user_id' => $user_target->getKey(),
         ]);
 
+        $project->users()->save($user);
+
         $collection = $project->collection;
 
         $response = $this->actingAs($user)->get(route('shares.create', [

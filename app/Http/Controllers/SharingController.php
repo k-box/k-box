@@ -164,14 +164,14 @@ class SharingController extends Controller
         $groups = Group::whereIn('id', $groups_req)->get();
 
         foreach ($documents as $document) {
-            if (!$document->isAccessibleBy($me)) {
-               throw new ForbiddenException(trans('errors.401_title'), 401); 
+            if (! $document->isAccessibleBy($me)) {
+                throw new ForbiddenException(trans('errors.401_title'), 401);
             }
         }
                   
         foreach ($groups as $group) {
-           if (!$this->service->isCollectionAccessible($me, $group)) {
-                throw new ForbiddenException(trans('groups.access.forbidden', $group), 401); 
+            if (! $this->service->isCollectionAccessible($me, $group)) {
+                throw new ForbiddenException(trans('groups.access.forbidden', ['name' => $group->name]), 401);
             }
         }
         
