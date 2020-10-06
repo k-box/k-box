@@ -13,6 +13,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Deprecated
 ### Removed
 
+## [0.31.3] - 2020-09-22
+
+### Added
+
+- Publication retry command to retry failed publications on K-Link ([#441](https://github.com/k-box/k-box/pull/441))
+
+### Fixed
+
+- Prevent failed K-Link publication to cause export error ([#440](https://github.com/k-box/k-box/pull/440))
+- Create Collection button creates sub-collections when browsing a collection by @AlbinaMuzafarova ([#439](https://github.com/k-box/k-box/pull/439)) (regression)
+
 ## [0.31.2] - 2020-09-21
 
 ### Added
