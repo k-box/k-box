@@ -106,7 +106,12 @@
     align-items: center;
 }
 
-.preview__content, .preview__content video, .plyr {
+.preview__content {
+    
+    width: 100%;
+    max-width: 100%;
+}
+.preview__content video, .plyr {
     
     width: 100%;
     max-width: 100%;
