@@ -29,5 +29,7 @@ return [
     'no_account' => 'Нет аккаунта?',
     'have_account' => 'Уже есть аккаунт?',
     'have_login_and_password' => 'Уже есть логин и пароль?', // used on the password reset page to navigate back to the login page
+  
+    'invite_only_registration' => 'Для создания учетной записи требуется приглашение.',
 
 ];

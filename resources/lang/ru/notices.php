@@ -33,5 +33,10 @@ return [
     
     // upload blocked message for administrators
     'uploads_blocked_admin' => 'Функция загрузки новых файлов заблокирована, пожалуйста проверьте настройки',
+
+    'disabled_user' => '[disabled user]',
+
+    'coming_soon' => 'Скоро запуск',
+
 ];
 

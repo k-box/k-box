@@ -15,8 +15,11 @@ return [
 
     'upload' => [
         'simple' => 'Хатогии воридкуни :description',
+        'no_file_sent' => 'Файл фиристода нашуд',
         'filenamepolicy' => 'Файли :filename аз руйи Конвентсияи номнависӣ ногмгузори нашудааст.',
         'filealreadyexists' => ' Файли :filename алакай вучуд дорад.',
+        'file_not_uploaded' => 'Файл бор карда нашудааст, лутфан тафтиш кунед, ки андозаи он :max_size аз камтар аст .',
+
     ],
 
     'filealreadyexists' => [
@@ -65,6 +68,11 @@ return [
 
     '503_title' => 'Нигоҳдории',
     '503_text' => ' <strong>K-Box</strong> дар айни хол <strong>дар нигоҳдории аст</strong><br/><small> ва хеле зуд боз мегардад :)</small>',
+
+    '503-readonly_title' => 'K-Box is Readonly',
+    '503-readonly_text_styled' => '<strong>K-Box</strong> дар айни засон дар ҳолати <strong>readonly</strong> мебошад.<br/><small> Шумо наметавонед тағирот диҳед ё бор кунед.</small>',
+    '503-readonly_text' => 'K-Box дар айни засон дар ҳолати readonly мебошад.Шумо наметавонед тағирот диҳед ё бор кунед..',
+
 
     '500_title' => 'Хатогии',
     '500_text' => 'Ой! Чизе <strong>бад</strong> ва ғайричашмдошт <strong>рӯй дод</strong>, мо хеле мутаассифем.',

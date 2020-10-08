@@ -11,6 +11,8 @@ return [
     | done the login procedure
     |
     */
+
+    'project_edition' => 'Проектная версия',
     
     'welcome' => [
 
