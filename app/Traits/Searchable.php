@@ -116,13 +116,13 @@ trait Searchable
 
         // Number of Items per page
 
-        $items_per_page = (int)auth()->user()->optionItemsPerPage();
+        $items_per_page = (int)optional(auth()->user())->optionItemsPerPage() ?? 12;
 
         $requested_items_per_page = (int)$request->input('n', $items_per_page);
 
         try {
             if ($items_per_page !== $requested_items_per_page) {
-                auth()->user()->setOptionItemsPerPage($requested_items_per_page);
+                optional(auth()->user())->setOptionItemsPerPage($requested_items_per_page);
                 $items_per_page = $requested_items_per_page;
             }
         } catch (\Exception $limit_ex) {
