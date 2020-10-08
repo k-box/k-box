@@ -38,8 +38,7 @@ return [
     "different"            => "Поля :attribute и :other должны различаться.",
     "digits"               => "Длина цифрового поля :attribute должна быть :digits.",
     "digits_between"       => "Длина цифрового поля :attribute должна быть между :min и :max.",
-    'dimensions'           => ':attribute имеет недопустимые размеры изображения.
-    .',
+    'dimensions'           => ':attribute имеет недопустимые размеры изображения.',
     'distinct' => ':attribute поле имеет повторяющееся значение.',
     "email"                => ":attribute должна быть действительной",
     'ends_with' => ':attribute  должен заканчиваться одним из следующих символов: :values.',
