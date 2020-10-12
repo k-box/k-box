@@ -3629,16 +3629,16 @@
         },
         {
             "name": "oneofftech/laravel-connect-identity",
-            "version": "v0.1.1",
+            "version": "dev-connect-identity-to-existing-user",
             "source": {
                 "type": "git",
                 "url": "https://github.com/OneOffTech/laravel-connect-identity.git",
-                "reference": "581efc8533d4e0e05fc590ac8a04343254866896"
+                "reference": "a43e69593ce2847b8bfdb3309ca8071db4c99fc3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/OneOffTech/laravel-connect-identity/zipball/581efc8533d4e0e05fc590ac8a04343254866896",
-                "reference": "581efc8533d4e0e05fc590ac8a04343254866896",
+                "url": "https://api.github.com/repos/OneOffTech/laravel-connect-identity/zipball/a43e69593ce2847b8bfdb3309ca8071db4c99fc3",
+                "reference": "a43e69593ce2847b8bfdb3309ca8071db4c99fc3",
                 "shasum": ""
             },
             "require": {
@@ -3694,7 +3694,7 @@
                 "oauth",
                 "registration"
             ],
-            "time": "2020-09-07T11:20:28+00:00"
+            "time": "2020-10-08T12:27:21+00:00"
         },
         {
             "name": "oneofftech/laravel-tus-upload",
@@ -10898,7 +10898,8 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "oneofftech/k-link-streaming-upload-client": 20
+        "oneofftech/k-link-streaming-upload-client": 20,
+        "oneofftech/laravel-connect-identity": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,

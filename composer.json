@@ -68,7 +68,7 @@
 		"spatie/laravel-activitylog": "^3.1",
 		"spatie/yaml-front-matter": "^2.0",
 		"swiftmailer/swiftmailer": "~6.0",
-		"oneofftech/laravel-connect-identity": "^0.1"
+		"oneofftech/laravel-connect-identity": "dev-connect-identity-to-existing-user"
 	},
 	"require-dev": {
 		"barryvdh/laravel-ide-helper": "^2.6",
