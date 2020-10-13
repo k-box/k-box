@@ -6,6 +6,7 @@ use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use KBox\Console\Commands\AppearanceDownloadPictureCommand;
 use KBox\Console\Commands\ExportPublicDocumentsCommand;
+use KBox\Console\Commands\ExportProjectCommand;
 use KBox\Console\Commands\PurgeInvitesCommand;
 use KBox\Console\Commands\QuotaCheckCommand;
 use KBox\Console\Commands\RetryFailedPublicationsCommand;
@@ -48,6 +49,7 @@ class Kernel extends ConsoleKernel
         \KBox\Console\Commands\PurgeInvitesCommand::class,
         AppearanceDownloadPictureCommand::class,
         ExportPublicDocumentsCommand::class,
+        ExportProjectCommand::class,
         RetryFailedPublicationsCommand::class,
     ];
 

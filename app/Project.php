@@ -7,6 +7,7 @@ use KBox\Traits\LocalizableDateFields;
 use Illuminate\Database\Eloquent\Model;
 use Dyrynda\Database\Support\GeneratesUuid;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Support\Str;
 use KBox\Events\ProjectCreated;
 use KBox\Events\ProjectMembersAdded;
 use KBox\Events\ProjectMembersRemoved;
@@ -141,6 +142,11 @@ class Project extends Model
     public function documents()
     {
         return DocumentDescriptor::whereIn('id', $this->getDocumentsQuery());
+    }
+
+    public function getTitleSlugAttribute()
+    {
+        return Str::slug($this->title);
     }
 
     /**
