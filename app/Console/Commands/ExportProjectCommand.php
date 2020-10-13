@@ -149,7 +149,7 @@ class ExportProjectCommand extends Command
                 );
                 $this->archiveHandle->addFromString(
                     $f.'/'.$this->filePathForZip($doc->file, 'json'),
-                    $doc->toJson(),
+                    $doc->toJson()
                 );
             });
         }
