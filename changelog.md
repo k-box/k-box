@@ -13,6 +13,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Deprecated
 ### Removed
 
+## [0.31.4] - 2020-09-22
+
+### Changed
+
+- Update translation for Russian and Tajik languages by @najiba-f ([#446](https://github.com/k-box/k-box/pull/446))
+
+### Fixed
+
+- Improve accessibility check when sharing documents and collections by @AlbinaMuzafarova ([#443](https://github.com/k-box/k-box/pull/443))
+- Fix retrieve of number of documents per page when user not logged in ([#447](https://github.com/k-box/k-box/pull/447))
+- Fix markdown preview hide parts of a document ([#445](https://github.com/k-box/k-box/pull/445))
+
 ## [0.31.3] - 2020-09-22
 
 ### Added
