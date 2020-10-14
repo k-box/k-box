@@ -13,7 +13,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Deprecated
 ### Removed
 
-## [0.31.4] - 2020-09-22
+## [0.31.5] - 2020-10-14
+
+### Added
+
+- Project export command ([#448](https://github.com/k-box/k-box/pull/448))
+
+
+## [0.31.4] - 2020-10-13
 
 ### Changed
 
