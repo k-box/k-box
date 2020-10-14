@@ -90,9 +90,56 @@ class ExportProjectCommand extends Command
 
     private function addReadme()
     {
+        $text = <<<EOL
+This archive contain the export of the project "{$this->project->name}", i.e. the documents and collections, as folders and files. 
+
+You will find the following files and folders
+
+- "documents.csv" lists the documents contained in the export with the basic meta-data (title, folder, author, language,...).
+  The file is formatted according to the Comma Separated Value standard using the UTF-8 character encoding.
+- "project-abstract.txt" contain the description of the project, if added.
+- "{$this->project->name}" the folder containing the project files and sub-folders.
+
+### Opening documents.csv
+
+The file can be opened with Excel by double clicking it.
+Once open you will see all the text in the first column.
+
+For better viewing please consider to do the following actions:
+
+1. select the first column by clicking on the column header
+2. From the data menu choose the "Text to columns" action
+3. A wizard will be opened asking you some options
+4. On the first question choose "delimited" and press next
+5. The separator (or delimiter) is the comma, so check it and uncheck the others. You should see a preview below with two columns, one called id and the other title
+6. Press next until finish is the only action
+7. You should now see all the text correctly divided into columns
+8. From the data menu press "filter"
+9. This will add filters on the first row so you can quickly sort or find relevant information
+
+### The columns in documents.csv
+
+- "id": The unique identifier of the document
+- "title": The title of the document
+- "uploaded_at": When the document was added to the K-Box
+- "file": The location of the file inside the zip archive
+- "language": The recognized language of the document
+- "document_type": The format of the document, e.g. pdf-document, image, ...
+- "uploader": The user that uploaded the document
+- "authors": The authors, if added
+- "license": The license of the document
+- "projects": The project that contained the document
+- "collections": The collection under which the document was added
+- "hash": An alphanumeric string that can be used to verify that the content of the document was not altered
+- "url": The url of the document inside the K-Box
+
+The file might contain duplicates in the "id" column as the same document can be added to multiple collections.
+Each document is represented based on the folders it is added.
+EOL;
+        
         $this->archiveHandle->addFromString(
             'readme.txt',
-            'This archive contain the export of the documents and collections contained into "'.$this->project->name.'". The included CSV lists the documents and the available information. The CSV file is UTF-8 encoded.'
+            $text
         );
     }
 
@@ -125,12 +172,6 @@ class ExportProjectCommand extends Command
         $documents = $this->getDocuments();
 
         $graph = $this->generateReport();
-
-        // $graph[] = $this->getCsvHeaders();
-
-        // $documents->each(function ($d) use (&$graph) {
-        //     $graph[] = $this->convertDocumentDescritor($d);
-        // });
 
         $writer = Writer::createFromString();
 
