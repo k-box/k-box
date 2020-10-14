@@ -100,7 +100,7 @@ class ExportProjectCommand extends Command
     {
         $this->archiveHandle->addFromString(
             'project-abstract.txt',
-            $this->project->abstract
+            $this->project->description
         );
     }
 
@@ -227,8 +227,8 @@ class ExportProjectCommand extends Command
             $d->owner->name,
             $d->authors,
             optional($d->copyright_usage)->name ?? 'Copyright',
-            $d->projects()->pluck('name')->join('.'),
-            $d->groups()->public()->pluck('name')->join('.'),
+            $d->projects()->pluck('name')->unique()->join('/'),
+            $d->groups()->public()->pluck('name')->join('/'),
             $d->hash,
             RoutingHelpers::download($d),
         ];

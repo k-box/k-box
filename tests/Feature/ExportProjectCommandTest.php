@@ -43,6 +43,12 @@ class ExportProjectCommandTest extends TestCase
             });
         });
 
+        $doc = factory(DocumentDescriptor::class)->create();
+
+        $project->collection->documents()->save($doc);
+        $first_level->first()->documents()->save($doc);
+        $second_level->first()->documents()->save($doc);
+
         return $project;
     }
 
@@ -99,8 +105,8 @@ class ExportProjectCommandTest extends TestCase
                 'uploader' => $d->owner->name,
                 'authors' => $d->authors,
                 'license' => optional($d->copyright_usage)->name ?? 'Copyright',
-                'projects' => $d->projects()->pluck('name')->join('.'),
-                'collections' => $d->groups()->public()->pluck('name')->join('.'),
+                'projects' => $d->projects()->pluck('name')->unique()->join('/'),
+                'collections' => $d->groups()->public()->pluck('name')->join('/'),
                 'hash' => $d->hash,
                 'url' => RoutingHelpers::download($d),
             ];
@@ -113,17 +119,19 @@ class ExportProjectCommandTest extends TestCase
 
         $project = $this->createProject();
 
-        $documents = $project->documents()->get();
+        $documents = $project->documents()->orderBy('id')->get();
 
         $files_map = $documents->map(function ($d) {
             $collections = $d->groups->map(function ($g) {
                 return $g->ancestors()->get()->pluck('name')->merge($g->name)->join('/');
-            })->join('/').'/';
+            });
 
-            return [
-                $collections.$d->file->uuid.'.'.Files::extensionFromType($d->file->mime_type),
-                $collections.$d->file->uuid.'.json',
-            ];
+            return $collections->map(function ($c) use ($d) {
+                return [
+                    $c.'/'.$d->file->uuid.'.'.Files::extensionFromType($d->file->mime_type),
+                    $c.'/'.$d->file->uuid.'.json',
+                ];
+            });
         })->flatten();
 
         $date = Carbon::today()->toDateString();
@@ -153,6 +161,8 @@ class ExportProjectCommandTest extends TestCase
             $entries[] = $entry['name'];
         }
 
+        $abstract_file_content = $zip->getFromName("project-abstract.txt");
+
         $zip->close();
 
         $files = collect([
@@ -162,6 +172,7 @@ class ExportProjectCommandTest extends TestCase
         ])->merge($files_map);
 
         $this->assertEquals($files->toArray(), $entries);
+        $this->assertEquals($project->description, $abstract_file_content);
 
         $csv = Reader::createFromString($csv_content);
         $csv->setHeaderOffset(0); //set the CSV header offset
@@ -197,8 +208,8 @@ class ExportProjectCommandTest extends TestCase
                 'uploader' => $d->owner->name,
                 'authors' => $d->authors,
                 'license' => optional($d->copyright_usage)->name ?? 'Copyright',
-                'projects' => $d->projects()->pluck('name')->join('.'),
-                'collections' => $d->groups()->public()->pluck('name')->join('.'),
+                'projects' => $d->projects()->pluck('name')->unique()->join('/'),
+                'collections' => $d->groups()->public()->pluck('name')->join('/'),
                 'hash' => $d->hash,
                 'url' => RoutingHelpers::download($d),
             ];
