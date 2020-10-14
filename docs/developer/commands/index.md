@@ -20,6 +20,7 @@ Here are only listed the specific commands added by the K-Box:
 - `dms:sync`: Performs a synchronization of the documents from the DMS that do not 
   exists on the Core.
 - `dms:lang-publish`: Publish Javascript language files for RequireJS i18n plugin
+- [`export:project`](./export-project.md): Export a project as a zip archive
 - [`users:import`](./user-import-command.md): Import users from a CSV file
 - [`documents:check-latest-version`](./documents-check-latest-version.md): Check if 
   the latest version details of a Document are correctly reported in a document descriptor
