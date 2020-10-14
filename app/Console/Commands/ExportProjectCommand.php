@@ -91,33 +91,33 @@ class ExportProjectCommand extends Command
     private function addReadme()
     {
         $text = <<<EOL
-This archive contain the export of the project "{$this->project->name}", i.e. the documents and collections, as folders and files. 
+This archive contains the export of the "{$this->project->name}" project, i.e. the records and collections, as folders and files. 
 
 You will find the following files and folders
 
-- "documents.csv" lists the documents contained in the export with the basic meta-data (title, folder, author, language,...).
-  The file is formatted according to the Comma Separated Value standard using the UTF-8 character encoding.
-- "project-abstract.txt" contain the description of the project, if added.
-- "{$this->project->name}" the folder containing the project files and sub-folders.
+- "documents.csv" lists the documents contained in the export with the basic metadata (title, folder, author, language, ...).
+The file is formatted according to the Comma Separated Value standard using 8-character UTF encoding.
+- "project-abstract.txt" contains the description of the project, if added.
+- "{$this->project->name}" the folder containing the project files and subfolders.
 
-### Opening documents.csv
+### Open documents.csv
 
-The file can be opened with Excel by double clicking it.
-Once open you will see all the text in the first column.
+The file can be opened with Excel with a double click.
+Once opened you will see all the text in the first column.
 
-For better viewing please consider to do the following actions:
+For better viewing please consider doing the following actions:
 
-1. select the first column by clicking on the column header
-2. From the data menu choose the "Text to columns" action
-3. A wizard will be opened asking you some options
-4. On the first question choose "delimited" and press next
-5. The separator (or delimiter) is the comma, so check it and uncheck the others. You should see a preview below with two columns, one called id and the other title
-6. Press next until finish is the only action
-7. You should now see all the text correctly divided into columns
-8. From the data menu press "filter"
-9. This will add filters on the first row so you can quickly sort or find relevant information
+1. Select the first column by clicking on the column header
+2. From the data menu choose the action "Text to columns"
+3. A wizard will open that will ask you some options
+4. At the first question choose "delimited" and press "next"
+5. The separator (or delimiter) is the comma, so check it and deselect the others. You should see a preview below with two columns, one called "id" and the other "title"
+6. Press the "next" button until the only action is to finish
+7. Now you should see all the text correctly divided into columns
+8. From the data menu press "filter".
+9. This will add filters on the first line so that you can quickly sort or find the relevant information
 
-### The columns in documents.csv
+### Columns in documents.csv
 
 - "id": The unique identifier of the document
 - "title": The title of the document
@@ -125,16 +125,16 @@ For better viewing please consider to do the following actions:
 - "file": The location of the file inside the zip archive
 - "language": The recognized language of the document
 - "document_type": The format of the document, e.g. pdf-document, image, ...
-- "uploader": The user that uploaded the document
-- "authors": The authors, if added
+- "uploader": The user who uploaded the document
+- "authors": The document's author(s), if added
 - "license": The license of the document
 - "projects": The project that contained the document
-- "collections": The collection under which the document was added
-- "hash": An alphanumeric string that can be used to verify that the content of the document was not altered
+- "collections": The collection where the document was added
+- "hash": An alphanumeric string that can be used to verify that the content of the document has not been altered
 - "url": The url of the document inside the K-Box
 
-The file might contain duplicates in the "id" column as the same document can be added to multiple collections.
-Each document is represented based on the folders it is added.
+The file may contain duplicates in the "id" column, as the same document can be added to multiple collections.
+Each document is represented according to the folders that are added.
 EOL;
         
         $this->archiveHandle->addFromString(
