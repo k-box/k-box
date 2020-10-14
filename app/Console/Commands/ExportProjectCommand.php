@@ -91,7 +91,7 @@ class ExportProjectCommand extends Command
     private function addReadme()
     {
         $text = <<<EOL
-This archive contains the export of the "{$this->project->name}" project, i.e. the records and collections, as folders and files. 
+This archive contains the export of the "{$this->project->name}" project, i.e. the documents and collections, as folders and files. 
 
 You will find the following files and folders
 
