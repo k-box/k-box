@@ -6,8 +6,8 @@ use League\Csv\Writer;
 use KBox\DocumentDescriptor;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use KBox\Documents\Facades\Files;
-use KBox\File;
 use KBox\Project;
 use KBox\RoutingHelpers;
 use ZipArchive;
@@ -124,13 +124,13 @@ class ExportProjectCommand extends Command
     {
         $documents = $this->getDocuments();
 
-        $graph = [];
+        $graph = $this->generateReport();
 
-        $graph[] = $this->getCsvHeaders();
+        // $graph[] = $this->getCsvHeaders();
 
-        $documents->each(function ($d) use (&$graph) {
-            $graph[] = $this->convertDocumentDescritor($d);
-        });
+        // $documents->each(function ($d) use (&$graph) {
+        //     $graph[] = $this->convertDocumentDescritor($d);
+        // });
 
         $writer = Writer::createFromString();
 
@@ -145,10 +145,10 @@ class ExportProjectCommand extends Command
             $this->getFolders($doc)->each(function ($f) use ($doc) {
                 $this->archiveHandle->addFile(
                     $doc->file->absolute_path,
-                    $f.'/'.$this->filePathForZip($doc->file)
+                    $f.'/'.$this->filePathForZip($doc)
                 );
                 $this->archiveHandle->addFromString(
-                    $f.'/'.$this->filePathForZip($doc->file, 'json'),
+                    $f.'/'.$this->filePathForZip($doc, 'json'),
                     $doc->toJson()
                 );
             });
@@ -162,12 +162,14 @@ class ExportProjectCommand extends Command
         });
     }
 
-    private function filePathForZip(File $file, $extension = null)
+    private function filePathForZip(DocumentDescriptor $doc, $extension = null)
     {
+        $slug = Str::slug($doc->title);
+
         if (! is_null($extension)) {
-            return $file->uuid.'.'.$extension;
+            return $slug.'.'.$extension;
         }
-        return $file->uuid.'.'.Files::extensionFromType($file->mime_type);
+        return $slug.'.'.Files::extensionFromType($doc->file->mime_type);
     }
 
     private function getDocuments()
@@ -183,7 +185,9 @@ class ExportProjectCommand extends Command
         $graph[] = $this->getCsvHeaders();
 
         $public->each(function ($d) use (&$graph) {
-            $graph[] = $this->convertDocumentDescritor($d);
+            $this->convertDocumentDescritor($d)->each(function ($conv) use (&$graph) {
+                $graph[] = $conv;
+            });
         });
 
         return $graph;
@@ -217,20 +221,22 @@ class ExportProjectCommand extends Command
 
     private function convertDocumentDescritor(DocumentDescriptor $d)
     {
-        return [
-            $d->uuid,
-            $d->title,
-            optional($d->created_at)->toDateTimeString(),
-            $d->file->path,
-            $d->language,
-            $d->document_type,
-            $d->owner->name,
-            $d->authors,
-            optional($d->copyright_usage)->name ?? 'Copyright',
-            $d->projects()->pluck('name')->unique()->join('/'),
-            $d->groups()->public()->pluck('name')->join('/'),
-            $d->hash,
-            RoutingHelpers::download($d),
-        ];
+        return $this->getFolders($d)->map(function ($f) use ($d) {
+            return [
+                $d->uuid,
+                $d->title,
+                optional($d->created_at)->toDateTimeString(),
+                $f.'/'.$this->filePathForZip($d),
+                $d->language,
+                $d->document_type,
+                $d->owner->name,
+                $d->authors ?? '',
+                optional($d->copyright_usage)->name ?? 'Copyright',
+                $d->projects()->pluck('name')->unique()->join('/'),
+                $f,
+                $d->hash,
+                RoutingHelpers::download($d),
+            ];
+        });
     }
 }
