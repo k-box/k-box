@@ -198,9 +198,20 @@ EOL;
 
     private function getFolders(DocumentDescriptor $doc)
     {
-        return $doc->groups->map(function ($g) {
-            return $g->ancestors()->get()->pluck('name')->merge($g->name)->join('/');
-        });
+        return $doc->groups->map(function ($g) use ($doc) {
+            $ancestors = $g->ancestors()->public()->orderBy('depth', 'desc')->get();
+
+            if (! $ancestors->isEmpty() && ! $ancestors->first()->getProject()->is($this->project)) {
+                return null;
+            }
+            if ($ancestors->isEmpty() && ! $g->getProject()->is($this->project)) {
+                return null;
+            }
+
+            return $ancestors->pluck('name')->merge($g->name)->map(function ($c) {
+                return Str::slug($c);
+            })->join('/');
+        })->filter()->unique();
     }
 
     private function filePathForZip(DocumentDescriptor $doc, $extension = null)
@@ -215,7 +226,7 @@ EOL;
 
     private function getDocuments()
     {
-        return DocumentDescriptor::with(['owner', 'file'])->orderBy('id')->get();
+        return $this->project->documents()->get();
     }
 
     private function generateReport()
@@ -273,7 +284,7 @@ EOL;
                 $d->owner->name,
                 $d->authors ?? '',
                 optional($d->copyright_usage)->name ?? 'Copyright',
-                $d->projects()->pluck('name')->unique()->join('/'),
+                $d->projects()->pluck('name')->unique()->join(' + '),
                 $f,
                 $d->hash,
                 RoutingHelpers::download($d),
