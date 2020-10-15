@@ -22,42 +22,97 @@ class ExportProjectCommandTest extends TestCase
 
     private function createProject()
     {
-        $project = factory(Project::class)->create();
+        $project = factory(Project::class)->create([
+            'name' => 'project / root'
+        ]);
+        $project->collection->name = $project->name;
+        $project->collection->save();
 
-        $project->collection->documents()->save(factory(DocumentDescriptor::class)->create());
+        $documents = [
+            factory(DocumentDescriptor::class)->create(['title' => 'Document everywhere']),
+            factory(DocumentDescriptor::class)->create(['title' => 'Document 1 - Настройки географического расширения']),
+            factory(DocumentDescriptor::class)->create(['title' => 'Document 2']),
+            factory(DocumentDescriptor::class)->create(['title' => 'Document 3']),
+            factory(DocumentDescriptor::class)->create(['title' => 'Document 4']),
+            factory(DocumentDescriptor::class)->create(['title' => 'Document 5']),
+            factory(DocumentDescriptor::class)->create(['title' => 'Document 6']),
+            factory(DocumentDescriptor::class)->create(['title' => 'Document 7']),
+        ];
 
-        $first_level = tap(factory(Group::class, 2)->create([
+        $project->collection->documents()->save($documents[0]);
+        $project->collection->documents()->save($documents[1]);
+
+        $collection_a = factory(Group::class)->create([
+            'name' => 'level 1 - 1',
             'parent_id' => $project->collection->getKey()
-        ]), function ($s) {
-            $s->each(function ($g) {
-                $g->documents()->save(factory(DocumentDescriptor::class)->create());
-            });
-        });
+        ]);
 
-        $parent = $first_level->first()->getKey();
+        $collection_a->documents()->save($documents[2]);
+        $collection_a->documents()->save($documents[0]);
 
-        $second_level = tap(factory(Group::class, 2)->create([
-            'parent_id' => $parent
-        ]), function ($s) {
-            $s->each(function ($g) {
-                $g->documents()->save(factory(DocumentDescriptor::class)->create());
-            });
-        });
+        $collection_c = factory(Group::class)->create([
+            'name' => 'level 2 - 1',
+            'parent_id' => $collection_a->getKey()
+        ]);
+        $collection_c->documents()->save($documents[3]);
+        $collection_c->documents()->save($documents[0]);
+        $collection_c->documents()->save($documents[7]);
+        
+        $collection_d = factory(Group::class)->create([
+            'name' => 'level 2 - 2',
+            'parent_id' => $collection_a->getKey()
+        ]);
+        $collection_d->documents()->save($documents[4]);
+        $collection_d->documents()->save($documents[0]);
 
-        $doc = factory(DocumentDescriptor::class)->create();
+        $collection_b = factory(Group::class)->create([
+            'name' => 'level 1 - 2',
+            'parent_id' => $project->collection->getKey()
+        ]);
 
-        $project->collection->documents()->save($doc);
-        $first_level->first()->documents()->save($doc);
-        $second_level->first()->documents()->save($doc);
+        $collection_b->documents()->save($documents[5]);
+        $collection_b->documents()->save($documents[0]);
+        $collection_b->documents()->save($documents[7]);
+
+        // Second project
+        // created only to confirm that the export do not
+        // attempt to include other projects in case a
+        // document is part of collections under
+        // different projects
+        $second_project = factory(Project::class)->create([
+            'name' => 'project / other'
+        ]);
+        $second_project->collection->name = $second_project->name;
+        $second_project->collection->save();
+        $second_project->collection->documents()->save($documents[0]);
+        $second_project->collection->documents()->save($documents[6]);
+
+        // project / root [$documents[0], $documents[1]]
+        //   'level 1 - 1', [$documents[0], $documents[2]]
+        //     'level 2 - 1', [$documents[0], $documents[3], $documents[7]]
+        //     'level 2 - 2', [$documents[0], $documents[4]]
+        //   'level 1 - 2', [$documents[0], $documents[5], $documents[7]]
+        // project / other [$documents[0], $documents[6]]
 
         return $project;
     }
 
-    private function getFolders(DocumentDescriptor $doc)
+    private function getFolders(DocumentDescriptor $doc, Project $project)
     {
-        return $doc->groups->map(function ($g) {
-            return $g->ancestors()->get()->pluck('name')->merge($g->name)->join('/');
-        });
+        return $doc->groups->map(function ($g) use ($project) {
+            $ancestors = $g->ancestors()->public()->orderBy('depth', 'desc')->get();
+
+            if (! $ancestors->isEmpty() && ! $ancestors->first()->getProject()->is($project)) {
+                return null;
+            }
+            if ($ancestors->isEmpty() && ! $g->getProject()->is($project)) {
+                return null;
+            }
+
+            return $ancestors->pluck('name')->merge($g->name)->map(function ($c) {
+                return Str::slug($c);
+            })->join('/');
+        })->filter()->unique();
     }
 
     public function test_csv_with_document_listing_is_generated()
@@ -84,7 +139,7 @@ class ExportProjectCommandTest extends TestCase
 
         $headers = $csv->getHeader();
 
-        $records = collect($csv->getRecords())->values()->toArray();
+        $records = collect($csv->getRecords())->sortBy('id')->values()->toArray();
 
         $this->assertEquals([
             'id',
@@ -103,8 +158,8 @@ class ExportProjectCommandTest extends TestCase
         ], $headers);
 
         $expectedList = [];
-        $project->documents()->orderBy('id')->get()->each(function ($d) use (&$expectedList) {
-            $this->getFolders($d)->each(function ($f) use ($d, &$expectedList) {
+        $project->documents()->get()->each(function ($d) use (&$expectedList, $project) {
+            $this->getFolders($d, $project)->each(function ($f) use ($d, &$expectedList) {
                 $expectedList[] = [
                     'id' => $d->uuid,
                     'title' => $d->title,
@@ -113,9 +168,9 @@ class ExportProjectCommandTest extends TestCase
                     'language' => $d->language,
                     'document_type' => $d->document_type,
                     'uploader' => $d->owner->name,
-                    'authors' => $d->authors,
+                    'authors' => $d->authors ?? '',
                     'license' => optional($d->copyright_usage)->name ?? 'Copyright',
-                    'projects' => $d->projects()->pluck('name')->unique()->join('/'),
+                    'projects' => $d->projects()->pluck('name')->unique()->join(' + '),
                     'collections' => $f,
                     'hash' => $d->hash,
                     'url' => RoutingHelpers::download($d),
@@ -123,7 +178,7 @@ class ExportProjectCommandTest extends TestCase
             });
         });
 
-        $this->assertEquals($expectedList, $records);
+        $this->assertEquals(collect($expectedList)->sortBy('id')->values()->toArray(), $records);
     }
 
     public function test_project_export_include_files_and_folders()
@@ -180,11 +235,35 @@ class ExportProjectCommandTest extends TestCase
 
         $files = collect([
             'readme.txt',
-            "project-abstract.txt",
-            "documents.csv",
-        ])->merge($files_map);
+            'project-abstract.txt',
+            'documents.csv',
+            "project-root/document-everywhere.txt",
+            "project-root/document-everywhere.json",
+            "project-root/level-1-1/document-everywhere.txt",
+            "project-root/level-1-1/document-everywhere.json",
+            "project-root/level-1-1/level-2-1/document-everywhere.txt",
+            "project-root/level-1-1/level-2-1/document-everywhere.json",
+            "project-root/level-1-1/level-2-2/document-everywhere.txt",
+            "project-root/level-1-1/level-2-2/document-everywhere.json",
+            "project-root/level-1-2/document-everywhere.txt",
+            "project-root/level-1-2/document-everywhere.json",
+            "project-root/document-1-nastroiki-geograficeskogo-rassireniya.txt",
+            "project-root/document-1-nastroiki-geograficeskogo-rassireniya.json",
+            "project-root/level-1-1/document-2.txt",
+            "project-root/level-1-1/document-2.json",
+            "project-root/level-1-1/level-2-1/document-3.txt",
+            "project-root/level-1-1/level-2-1/document-3.json",
+            "project-root/level-1-1/level-2-2/document-4.txt",
+            "project-root/level-1-1/level-2-2/document-4.json",
+            "project-root/level-1-2/document-5.txt",
+            "project-root/level-1-2/document-5.json",
+            "project-root/level-1-1/level-2-1/document-7.txt",
+            "project-root/level-1-1/level-2-1/document-7.json",
+            "project-root/level-1-2/document-7.txt",
+            "project-root/level-1-2/document-7.json",
+        ])->sort()->values()->toArray();
 
-        $this->assertEquals($files->toArray(), $entries);
+        $this->assertEquals($files, collect($entries)->sort()->values()->toArray());
         $this->assertEquals($project->description, $abstract_file_content);
 
         $csv = Reader::createFromString($csv_content);
@@ -192,7 +271,7 @@ class ExportProjectCommandTest extends TestCase
 
         $headers = $csv->getHeader();
 
-        $records = collect($csv->getRecords())->values()->toArray();
+        $records = collect($csv->getRecords())->sortBy('id')->values()->toArray();
 
         $this->assertEquals([
             'id',
@@ -211,8 +290,8 @@ class ExportProjectCommandTest extends TestCase
         ], $headers);
 
         $expectedList = [];
-        $project->documents()->orderBy('id')->get()->each(function ($d) use (&$expectedList) {
-            $this->getFolders($d)->each(function ($f) use ($d, &$expectedList) {
+        $project->documents()->orderBy('id')->get()->each(function ($d) use (&$expectedList, $project) {
+            $this->getFolders($d, $project)->each(function ($f) use ($d, &$expectedList) {
                 $expectedList[] = [
                     'id' => $d->uuid,
                     'title' => $d->title,
@@ -221,9 +300,9 @@ class ExportProjectCommandTest extends TestCase
                     'language' => $d->language,
                     'document_type' => $d->document_type,
                     'uploader' => $d->owner->name,
-                    'authors' => $d->authors,
+                    'authors' => $d->authors ?? '',
                     'license' => optional($d->copyright_usage)->name ?? 'Copyright',
-                    'projects' => $d->projects()->pluck('name')->unique()->join('/'),
+                    'projects' => $d->projects()->pluck('name')->unique()->join(' + '),
                     'collections' => $f,
                     'hash' => $d->hash,
                     'url' => RoutingHelpers::download($d),
@@ -231,6 +310,6 @@ class ExportProjectCommandTest extends TestCase
             });
         });
 
-        $this->assertEquals($expectedList, $records);
+        $this->assertEquals(collect($expectedList)->sortBy('id')->values()->toArray(), $records);
     }
 }
