@@ -13,6 +13,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Deprecated
 ### Removed
 
+## [0.31.6] - 2020-10-15
+
+### Fixed
+
+- Fix error when exporting projects named with slash or containing as collections or documents ([#451](https://github.com/k-box/k-box/pull/451))
+- Fix duplicate files included into project export ([#451](https://github.com/k-box/k-box/pull/451))
+
 ## [0.31.5] - 2020-10-14
 
 ### Added
