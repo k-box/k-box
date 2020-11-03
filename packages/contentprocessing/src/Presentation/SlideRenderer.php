@@ -89,8 +89,7 @@ class SlideRenderer
             is_null($background) ? 'bg-white' : null,
             'mb-4',
             'overflow-hidden',
-            // 'max-w-6xl',
-            // 'w-full',
+            'mx-auto',
         ]);
 
         $master = $layout->getSlideMaster();
