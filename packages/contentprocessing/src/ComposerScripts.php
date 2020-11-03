@@ -10,7 +10,7 @@ use Composer\Downloader\TransportException;
 
 class ComposerScripts
 {
-    const DOWNLOAD_URL = 'https://xpdfreader-dl.s3.amazonaws.com/';
+    const DOWNLOAD_URL = 'https://dl.xpdfreader.com/';
 
     /**
      * Maps the OS family (according to PHP) to the required file
