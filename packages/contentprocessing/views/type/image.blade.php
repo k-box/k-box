@@ -1,1 +1,1 @@
-<img src="{{DmsRouting::download($document, $file)}}" alt="{{$document->title}}">
+<img class="mx-auto max-w-full" src="{{DmsRouting::download($document, $file)}}" alt="{{$document->title}}">

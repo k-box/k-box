@@ -2,17 +2,15 @@
 
 namespace KBox\Documents\Presentation;
 
+use Illuminate\Support\Str;
 use ReflectionClass;
 use PhpOffice\PhpPresentation\Slide;
 use PhpOffice\PhpPresentation\Shape\RichText;
-use PhpOffice\PhpPresentation\AbstractShape;
 use PhpOffice\PhpPresentation\Shape\Drawing;
-use PhpOffice\PhpPresentation\Shape\Group;
 use PhpOffice\PhpPresentation\Shape\Table;
 use PhpOffice\PhpPresentation\Shape\RichText\BreakElement;
 use PhpOffice\PhpPresentation\Shape\RichText\Paragraph;
 use PhpOffice\PhpPresentation\Shape\RichText\TextElement;
-use PhpOffice\PhpPresentation\Style\Alignment;
 use PhpOffice\PhpPresentation\Slide\Layout;
 use PhpOffice\PhpPresentation\Style\Font;
 use PhpOffice\PhpPresentation\Shape\Placeholder;
@@ -32,6 +30,10 @@ class SlideRenderer
      * @var int
      */
     private $slideIndex = 0;
+
+    private $width;
+
+    private $height;
 
     private $underline_styles = [
         Font::UNDERLINE_DASH => 'dashed',
@@ -57,80 +59,104 @@ class SlideRenderer
      *
      * @param int $index the index of the slide in all the presentation
      */
-    public function __construct(Slide $slide, $index = 0)
+    public function __construct(Slide $slide, $index = 0, $coordinates = [0, 0, 960, 540])
     {
         $this->slide = $slide;
 
         $this->slideIndex = $index;
+        
+        $this->coordinates = $coordinates;
+
+        $this->width = $coordinates[2];
+        $this->height = $coordinates[3];
     }
 
     public function render()
     {
+        $layout = $this->slide->getSlideLayout();
+
         $background = $this->getBackground();
-            
-        $slide_layout_class = 'slide-'.$this->toClassName($this->normalizeSlideLayout($this->slide->getSlideLayout()->getLayoutName()));
 
-        $style = $background;
-
-        if ($this->slide->getExtentX() > 0) {
-            $style .= ';width:'.$this->slide->getExtentX().'px';
-        }
+        $style = [
+            $background,
+            'width:72rem',
+            'height:40rem', // default 16:9 proportion
+        ];
         
-        if ($this->slide->getExtentY() > 0) {
-            $style .= ';height:'.$this->slide->getExtentY().'px';
-        }
+        $classes = array_filter([
+            'relative',
+            'text-black',
+            is_null($background) ? 'bg-white' : null,
+            'mb-4',
+            'overflow-hidden',
+            // 'max-w-6xl',
+            // 'w-full',
+        ]);
 
-        $html = '<div class="slide '.$slide_layout_class.'" id="slide'.$this->slideIndex.'" style="'.$style.'">'.PHP_EOL;
+        $master = $layout->getSlideMaster();
+        $masterShapeCollection = $master->getShapeCollection();
+
+        $masterPlaceholders = collect($masterShapeCollection)->mapWithKeys(function ($shp) {
+            $key = optional($shp->getPlaceholder())->getType() ?? $shp->getHashCode();
+            return [$key => $this->renderableShape($shp)];
+        });
 
         $layoutShapeCollection = $this->slide->getSlideLayout()->getShapeCollection();
 
-        foreach ($layoutShapeCollection as $oShape) {
-            if (! $oShape->isPlaceholder() && ! ($oShape instanceof RichText)) {
-                if ($oShape instanceof Group) {
-                    foreach ($oShape->getShapeCollection() as $oShapeChild) {
-                        $html .= $this->displayShapeInfo($oShapeChild);
-                    }
-                } else {
-                    $html .= $this->displayShapeInfo($oShape);
-                }
-            }
-        }
+        $layoutPlaceholders = collect($layoutShapeCollection)->mapWithKeys(function ($shp) {
+            $key = optional($shp->getPlaceholder())->getType() ?? $shp->getHashCode();
+            return [$key => $this->renderableShape($shp)];
+        });
 
-        foreach ($this->slide->getShapeCollection() as $oShape) {
-            if ($oShape instanceof Group) {
-                foreach ($oShape->getShapeCollection() as $oShapeChild) {
-                    $html .= $this->displayShapeInfo($oShapeChild);
-                }
+        $slideShapes = collect($this->slide->getShapeCollection())->mapWithKeys(function ($shp) use ($masterPlaceholders, $layoutPlaceholders) {
+            $key = optional($shp->getPlaceholder())->getType() ?? $shp->getHashCode();
+
+            $render = null;
+            if ($shp->isPlaceholder()) {
+                $render = $masterPlaceholders->get($key);
+                $render = $this->mergeRenderableShape($render, $layoutPlaceholders->get($key));
+                $render = $this->mergeRenderableShape($render, $this->renderableShape($shp));
             } else {
-                $html .= $this->displayShapeInfo($oShape);
+                $render = $this->renderableShape($shp);
             }
-        }
-        $html .= '</div>'.PHP_EOL;
 
-        return $html;
+            return [$key => $render];
+        });
+
+        $slideContentHtml = $masterPlaceholders->except(Placeholders::list())
+            ->merge($layoutPlaceholders->except(Placeholders::list()))
+            ->merge($slideShapes)
+            ->map(function ($value) {
+                if ($value['x'] < 0 || $value['y'] < 0) {
+                    return null;
+                }
+                return sprintf(
+                    '<div class="absolute" style="transform:translate(%1$spx, %2$spx);width:%3$spx;height:%4$spx;">%5$s</div>',
+                    $value['x'],
+                    $value['y'],
+                    $value['width'],
+                    $value['height'],
+                    $value['content']
+                );
+            })
+            ->filter()->values()
+            ->join('');
+
+        return sprintf(
+            '<div class="%1$s" id="slide-%2$s" style="%3$s">%4$s</div>',
+            implode(' ', $classes),
+            $this->slideIndex,
+            implode(';', $style),
+            $slideContentHtml
+        );
     }
 
     // ------------
 
-    private function getPlaceholder($type)
-    {
-        $layoutShapeCollection = $this->slide->getSlideLayout()->getShapeCollection();
-
-        $filtered = array_values(array_filter((array) $layoutShapeCollection, function ($shp) use ($type) {
-            return $shp->isPlaceholder() && $shp->getPlaceholder()->getType() == $type;
-        }));
-
-        if (count($filtered) > 0) {
-            return $filtered[0];
-        }
-
-        return null;
-    }
-
     private function getBackground()
     {
         $oBkg = $this->slide->getBackground();
-        $backgroundDetail = '';
+        $backgroundDetail = null;
         if ($oBkg instanceof Slide\AbstractBackground) {
             if ($oBkg instanceof Slide\Background\Color) {
                 $backgroundDetail = 'background:#'.$oBkg->getColor()->getRGB().';';
@@ -160,111 +186,37 @@ class SlideRenderer
         return $constName;
     }
 
-    protected function displayShapeInfo(AbstractShape $oShape)
-    {
-        $return = '';
-        
-        if ($oShape instanceof Drawing\Gd) {
-            $return .= $this->renderDrawingGd($oShape);
-        } elseif ($oShape instanceof Drawing) {
-            $return .= $this->renderDrawing($oShape);
-        } elseif ($oShape instanceof RichText) {
-            $return .= $this->renderRichText($oShape);
-        } elseif ($oShape instanceof Table) {
-            $return .= $this->renderTable($oShape);
-        } else {
-            // Add another shape
-            // $return .= '<span>Unknown shape '. get_class($oShape) .'</span>';
-        }
-
-        return $return;
-    }
-
     protected function renderDrawingGd(Drawing\Gd $shape)
     {
         if (is_null($shape)) {
-            return '';
+            return null;
         }
-        // $return = '<span>Name '.$shape->getName().'</span>';
-        // $return .= '<span>Description '.$shape->getDescription().'</span>';
-        ob_start();
-        call_user_func($shape->getRenderingFunction(), $shape->getImageResource());
-        $sShapeImgContents = ob_get_contents();
-        ob_end_clean();
-
-        // $return = '<div class="shape__info">';
-        // $return .= '<span>Name '.$shape->getName().'</span>';
-        // $return .= '<span>Description '.$shape->getDescription().'</span>';
-        // $return .= '<span>'. get_class($shape) .'</span>';
-        // $return .= '<span>Offset X '.$shape->getOffsetX().'</span>';
-        // $return .= '<span>Offset Y '.$shape->getOffsetY().'</span>';
-        // $return .= '<span>Height '.$shape->getHeight().'</span>';
-        // $return .= '<span>Width '.$shape->getWidth().'</span>';
-        // $return .= '<span>Rotation '.$shape->getRotation().'°</span>';
-        // $return .= '<span>Hyperlink '.ucfirst(var_export($shape->hasHyperlink(), true)).'</span>';
-        // $return .= '<span>IsPlaceholder ' . ($shape->isPlaceholder() ? 'true' : 'false') . '</span>';
-        // $return .= '</div>';
-
-        $style = 'position:absolute;z-index:0;left:'.$shape->getOffsetX().'px;top:'.$shape->getOffsetY().'px;';
-
-        // $return .= '<span>Mime-Type '.$shape->getMimeType().'</span>';
-        $return = '<img src="data:'.$shape->getMimeType().';base64,'.base64_encode($sShapeImgContents).'" style="'.$style.'" width="'.$shape->getWidth().'" height="'.$shape->getHeight().'">';
-        return $return;
-    }
-
-    protected function renderDrawing(Drawing $shape)
-    {
-        $return = '<span>Name '.$shape->getName().'</span>';
-        $return .= '<span>Description '.$shape->getDescription().'</span>';
-        return $return;
+        
+        $sShapeImgContents = $shape->getContents();
+        
+        return '<img class="m-0" src="data:'.$shape->getMimeType().';base64,'.base64_encode($sShapeImgContents).'" width="'.$shape->getWidth().'" height="'.$shape->getHeight().'">';
     }
     
     protected function renderRichText(RichText $shape)
     {
-
-        // $shape->isPlaceholder(); // indicates that the slide layout has some options for this shape
-
-        // $tooltip = '# of paragraphs '.count($shape->getParagraphs()).PHP_EOL.'class ' . get_class($shape);
-
         $style = '';
 
-        if ($shape->getOffsetX() > 0 || $shape->getOffsetY() > 0) {
-            $style .= 'position:absolute;z-index:1;left:'.$shape->getOffsetX().'px;top:'.$shape->getOffsetY().'px;';
-        }
-
-        if ($shape->getWidth() > 0 && $shape->getHeight() > 0) {
-            $style .= 'width:'.$shape->getWidth().'px;height:'.$shape->getHeight().'px';
-        }
-
-        $class = 'shape';
-        $placeholder_info='';
+        $class = '';
+        
         $placeholder = null;
         
         if ($shape->isPlaceholder()) {
-            $class .= ' shape-'.$this->toClassName($shape->getPlaceholder()->getType());
+            if ($shape->getPlaceholder()->getType() === Placeholder::PH_TYPE_TITLE) {
+                $class .='text-2xl font-bold';
+            };
 
-            $placeholder = $this->getPlaceholder($shape->getPlaceholder()->getType());
+            if ($shape->getPlaceholder()->getType() === Placeholder::PH_TYPE_BODY) {
+                $class .='text-lg';
+            };
 
-            $style = '';
-
-            if (! is_null($placeholder) && ($placeholder->getOffsetX() > 0 || $placeholder->getOffsetY() > 0)) {
-                $style .= 'position:absolute;z-index:1;left:'.$placeholder->getOffsetX().'px;top:'.$placeholder->getOffsetY().'px;';
-            }
-
-            if (! is_null($placeholder) && $placeholder->getWidth() > 0 && $placeholder->getHeight() > 0) {
-                $style .= 'width:'.$placeholder->getWidth().'px;height:'.$placeholder->getHeight().'px';
-            }
-    
-            // $tooltip .= ' placeholder: '.$shape->getPlaceholder()->getType();
-
-            if ($shape->getPlaceholder()->getType() == Placeholder::PH_TYPE_SLIDENUM) {
-                return '<div class="slide__number">'.$this->slideIndex.'</div>';
-            }
-
-            // the rich text element has paragraphs and so they need to be explored
-            
-            // $placeholder_info = '<span>Alignment Horizontal  Alignment::'.$this->getConstantName('\PhpOffice\PhpPresentation\Style\Alignment', $placeholder->getAlignment()->getHorizontal()).'</span>';
-            // $placeholder_info .= '<span>Alignment Vertical  Alignment::'.$this->getConstantName('\PhpOffice\PhpPresentation\Style\Alignment', $placeholder->getAlignment()->getVertical()).'</span>';
+            if ($shape->getPlaceholder()->getType() === Placeholder::PH_TYPE_FOOTER) {
+                $class .='text-sm';
+            };
         }
 
         $padding = 'padding:'.$shape->getInsetTop().'px '.$shape->getInsetRight().'px '.$shape->getInsetBottom().'px '.$shape->getInsetLeft().'px;';
@@ -281,6 +233,7 @@ class SlideRenderer
         $oParagraph = null;
         for ($i=0; $i < $paragraphCount; $i++) {
             $oParagraph = $paragraphs[$i];
+            
             if ($i < $placeholderParagraphsCount) {
                 $return .= $this->renderParagraph($oParagraph, $shape, $placeholderParagraphs[$i]);
             } else {
@@ -294,7 +247,7 @@ class SlideRenderer
 
     protected function renderParagraph(Paragraph $paragraph, RichText $shape, Paragraph $placeholder = null)
     {
-        $class = 'slide__paragraph';
+        $class = '';
         $paragraph_style = [];
         $return = '';
 
@@ -333,6 +286,10 @@ class SlideRenderer
                 }
                 if ($oRichText->getFont()->isStrikethrough()) {
                     $style[] = 'text-decoration:line-through';
+                }
+                
+                if (Str::startsWith($oRichText->getText(), "\t")) {
+                    $style[] = 'margin-left:2.5rem;display:inline-block;';
                 }
 
                 $innerText = '';
@@ -397,5 +354,62 @@ class SlideRenderer
     {
         $slug=preg_replace('/[^A-Za-z0-9-]+/', '-', $string);
         return strtolower($slug);
+    }
+
+    protected function renderableShape($shape)
+    {
+        $content = null;
+
+        if ($shape->isPlaceholder() && $shape->getPlaceholder()->getType() === Placeholder::PH_TYPE_SLIDENUM) {
+            $content = $this->slideIndex;
+        }
+
+        if ($shape instanceof Drawing\Gd) {
+            $content = $this->renderDrawingGd($shape);
+        } elseif ($shape instanceof RichText && ! ($shape->isPlaceholder() && $shape->getPlaceholder()->getType() === Placeholder::PH_TYPE_SLIDENUM)) {
+            $content = $this->renderRichText($shape);
+        } elseif ($shape instanceof Table) {
+            $content = $this->renderTable($shape);
+        }
+
+        return [
+            'container' => $shape->getContainer() ? [$shape->getContainer()->getOffsetX(), $shape->getContainer()->getOffsetY(), $shape->getContainer()->getExtentX(), $shape->getContainer()->getExtentY()] : null,
+            'x' => $shape->getOffsetX(),
+            'y' => $shape->getOffsetY(),
+            'width' => $shape->getWidth(),
+            'height' => $shape->getHeight(),
+            'rotation' => $shape->getRotation(),
+            'content' => $content,
+
+            'fill' => $shape->getFill(),
+            'border' => $shape->getBorder(),
+            'shadow' => $shape->getShadow(),
+            'hyperlink' => $shape->getHyperlink(),
+        ];
+    }
+
+    protected function mergeRenderableShape($shape1, $shape2)
+    {
+        if (is_null($shape1)) {
+            return $shape2;
+        }
+        if (is_null($shape2)) {
+            return $shape1;
+        }
+        
+        return [
+            'container' => null, // $shape1['container'] .'-'. $shape2['container'],
+            'x' => max($shape1['x'], $shape2['x']),
+            'y' => max($shape1['y'], $shape2['y']),
+            'width' => max($shape1['width'], $shape2['width']),
+            'height' => max($shape1['height'], $shape2['height']),
+            'rotation' => max($shape1['rotation'], $shape2['rotation']),
+            'content' => $shape2['content'],
+
+            'fill' => $shape2['fill'],
+            'border' => $shape2['border'],
+            'shadow' => $shape2['shadow'],
+            'hyperlink' => $shape2['hyperlink'],
+        ];
     }
 }
