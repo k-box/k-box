@@ -3,7 +3,7 @@
 ## Prerequisites
 
 - [Git](https://git-scm.com/)
-- [PHP](https://php.net/), `>= 7.2`
+- [PHP](https://php.net/), `>= 7.4`
 - [Composer](https://getcomposer.org/download/)
 - [Node.JS](https://nodejs.org/en/), `>= 12`
 - [Yarn](https://yarnpkg.com/en/), follow the [installation guide](https://yarnpkg.com/en/docs/install)
