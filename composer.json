@@ -34,8 +34,10 @@
     ],
 
 	"require": {
-		"php": "^7.2",
+		"php": "^7.4",
 		"ext-fileinfo": "*",
+		"ext-mbstring": "*",  
+        "ext-ctype": "*",
 		"avvertix/materialicons-laravel-bridge": "^1.0",
 		"doctrine/dbal": "^2.5",
 		"dyrynda/laravel-efficient-uuid": "^4.0",
@@ -81,6 +83,14 @@
 	"suggest": {
 		"ext-imagick": "For better image processing and PDF thumbnail support."
 	},
+	"replace": {  
+        "symfony/polyfill-ctype": "*",  
+        "symfony/polyfill-iconv": "*",  
+        "symfony/polyfill-mbstring": "*",  
+        "symfony/polyfill-php73": "*",
+        "symfony/polyfill-php72": "*",
+        "symfony/polyfill-php70": "*"
+    },
 	"autoload": {
 		"classmap": [
 			"database"
