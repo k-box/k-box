@@ -69,7 +69,7 @@ class BulkDownloadController extends Controller
                 
                 $zipSize = Zip::create('download.zip',$files_to_zip)->predictZipSize()/1000000;
                
-                if($zipSize < 50 ){
+                if($zipSize <50 ){
 
                     return Zip::create('download.zip',$files_to_zip)->response();  
 
@@ -91,7 +91,7 @@ class BulkDownloadController extends Controller
                 } 
 
                 return response($status, 200)
-                ->header('Content-Type', 'text/plain');
+                ->header('Content-Type', 'aplication/json');
               
 
         } catch (\Exception $kex) {

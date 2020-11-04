@@ -891,11 +891,13 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
    
                             if(status == 'success'){
 
+                                    console.log(respone.type);
+                                    
                                     if(respone.type=='text/plain') {
 
                                         const reader = new FileReader();
 
-                                        // This fires after the blob has been read/loaded.
+                                        // This files after the blob has been read/loaded.
                                         reader.addEventListener('loadend', (e) => {
                                             const text = e.srcElement.result;
                                             const data = JSON.parse(text);
@@ -905,7 +907,7 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
                                         reader.readAsText(respone);
                                         
                                     }else {
-                                        DMS.MessageBox.question('Download', 'Do you want to daonload ' + Number(respone.size/1000000).toFixed(3) + ' mb zip file?', 'Download', 'Cancel', function(choice){
+                                        DMS.MessageBox.question('Download', 'Do you want to download ' + Number(respone.size/1000000).toFixed(3) + ' mb zip file?', 'Download', 'Cancel', function(choice){
                                 
                                               if(choice){
                                                 const data = window.URL.createObjectURL(respone);
@@ -925,66 +927,10 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
                                 
     
                              }
-                            // else if(data.status && data.status === 'partial'){
-    
-                            //     DMS.MessageBox.warning( data.title, data.message);
-    
-                            // }
-                            // else if(data.message) { 
-                            //     DMS.MessageBox.error( Lang.trans('documents.bulk.add_to_error'), data.message);
-                            // }
-                            // DMS.MessageBox.question('Remove share', 'Remove the sharing from ' + count_msg + '?', 'Unshare!', 'Cancel', function(choice){
-                                
-                            //     if(choice){
-                            //         DMS.Services.Shared.remove(_.map(usable_documents, 'share'), function(data){
-                            //             //success
-                                        
-                            //             if(data.status && data.status==='ok'){
-                                            
-                            //                 DMS.MessageBox.success('Share removed', data.message);
-                                            
-                            //             }
-                            //             else if(data.message) {
-
-                            //                 DMS.MessageBox.error('Cannot remove shares', data.message);
-        
-                            //             }
-                                        
-                            //             DMS.navigateReload();
-                                        
-                                        
-                            //         }, function(obj, err, errText){
-                            //             //error
-                            //             if(obj.responseJSON && obj.responseJSON.status === 'error'){
-                            //                 DMS.MessageBox.error('Cannot remove share', obj.responseJSON.message);
-                            //             }
-                            //             else if(obj.responseJSON && obj.responseJSON.error){
-                            //                 DMS.MessageBox.error('Cannot remove share', obj.responseJSON.error);
-                            //             }
-                            //             else {
-                            //                 DMS.MessageBox.error('Cannot remove share', 'Cannot delete the specified shares.');
-                            //             }
-                            //         });
-
-                            //     }
-                            //     else {
-                            //         DMS.MessageBox.close();
-                            //     }
-                            //});
-                            //console.log(respone.type);   
-                            // const data = window.URL.createObjectURL(respone);
-                            // var link = document.createElement('a');
-                            // link.href = data;
-                            // link.download = "download.zip";
-                            // link.click();
-                            // setTimeout(function () {
-                            //     window.URL.revokeObjectURL(data);
-                            // }, 100)
-
-                        },
+                          },
                         function(response,status){
                             console.log("Error Status:"+status);
-                            console.log("Error Json:"+Object.keys(json));
+                            console.log("Error Json:"+response);
                         }                      
                         
                         )

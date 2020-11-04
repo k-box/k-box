@@ -89,6 +89,12 @@ return [
     'empty_msg_recent' => 'No documents for <strong>:range</strong>',
 
     'bulk' => [
+        'download' => 'Download',
+        'download_file_size_over.title' => 'Attention',
+        'download_file_size_over.message' => 'The zip file is more than 50Mb. When the download will complete, we will send you an email with a link',
+
+        'download_file_size_big.title' => 'Size is to big',
+        'download_file_size_big.message' => 'The zip file size is over 4G. K-box doesn\'t allow to download more than 4G zip file',
 
         'removed' => ':num file trashed.|:num files trashed.',
         

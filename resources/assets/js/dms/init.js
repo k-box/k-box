@@ -551,7 +551,7 @@ window.DMS = (function(_$, _nprogress, _rivets, _alert){
 					module.Ajax.post(module.Paths.DOCUMENTS + '/makeprivate', data, success, error);
 				},
 				download: function(data, success, error){
-					console.log('Calling Bulk.getZip', data);
+					console.log('Calling Documents.bulk', data);
 
 					module.Ajax.postDown('getzip', data,success, error);
 				},

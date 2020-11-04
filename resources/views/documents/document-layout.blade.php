@@ -69,7 +69,7 @@
 		@endif
 		<!--Bulk Download-->	
 		<button class="button ml-2" rv-on-click="download" rv-disabled="nothingIsSelected">
-			<span class="hidden md:inline ml-1">{{trans('bulk.download')}}</span>
+			<span class="hidden md:inline ml-1">{{trans('documents.bulk.download')}}</span>
 		</button>
 		<!-- End -->
 		@if($context!=='trash' && $context!=='shared' && $context!=='public' && $context!=='starred' && isset($can_delete_documents) && $can_delete_documents)

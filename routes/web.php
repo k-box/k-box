@@ -20,6 +20,12 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', ['as' => 'frontpage', 'uses' => 'WelcomeController@index']);
 Route::post('/getzip', ['as' => 'getzip', 'uses' => 'Document\BulkDownloadController@buildzip']);
 
+// bulk download documents
+
+// Route::post('/bulk-download', 
+//     ['as' => 'bulk-download',
+//     'uses' => 'Document\BulkDownloadController@buildzip'
+// ]);
 
 /*
 |--------------------------------------------------------------------------
@@ -98,6 +104,7 @@ Route::group(['as' => 'administration.', 'prefix' => 'administration'], function
 | ...
 |
 */
+
 
 // publish and unpublish routes
 
@@ -220,6 +227,7 @@ Route::group(['as' => 'documents.', 'prefix' => 'documents'], function () {
         'as' => 'bulk.copyto',
     ]);
 });
+
 
 Route::get('/documents/{document}/versions/{version}', [
     'uses' => 'Document\DocumentVersionsController@show',
