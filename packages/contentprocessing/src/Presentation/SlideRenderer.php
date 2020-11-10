@@ -129,12 +129,17 @@ class SlideRenderer
                 if ($value['x'] < 0 || $value['y'] < 0) {
                     return null;
                 }
+
+                $size = '';
+                if($value['width'] > 0 &&  $value['height'] > 0){
+                    $size = sprintf('width:%1$spx;height:%2$spx;', $value['width'], $value['height']);
+                }
+
                 return sprintf(
-                    '<div class="absolute" style="transform:translate(%1$spx, %2$spx);width:%3$spx;height:%4$spx;">%5$s</div>',
+                    '<div class="absolute" style="transform:translate(%1$spx, %2$spx);%3$s">%4$s</div>',
                     $value['x'],
                     $value['y'],
-                    $value['width'],
-                    $value['height'],
+                    $size,
                     $value['content']
                 );
             })
