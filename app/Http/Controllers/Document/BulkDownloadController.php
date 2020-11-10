@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use KBox\Http\Controllers\Controller;
 use Zip;
-use KBox\Http\Requests\BulkDownloadRequest;
 use KBox\DocumentDescriptor;
 use Illuminate\Contracts\Auth\Guard as AuthGuard;
 use Illuminate\Support\Facades\Storage;
@@ -43,12 +42,11 @@ class BulkDownloadController extends Controller
     { 
         $this->middleware('auth');
 
-        $this->service = $adapterService;
     }
 
     
     //
-    public function buildzip(AuthGuard $auth, BulkDownloadRequest $request){
+    public function buildzip(AuthGuard $auth, Request $request){
 
         try {
             \Log::info('Bulk  Download', ['params' => $request->all()]);
@@ -100,7 +98,7 @@ class BulkDownloadController extends Controller
             $status = ['status' => 'error', 'message' =>  trans('documents.bulk.download_error', ['error' => $kex->getMessage()])];
 
             if ($request->wantsJson()) {
-                return new JsonResponse($status, 422);
+                return new JsonResponse($status, 500);
             }
 
             return response('error');
