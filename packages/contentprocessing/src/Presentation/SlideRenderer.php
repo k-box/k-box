@@ -131,7 +131,7 @@ class SlideRenderer
                 }
 
                 $size = '';
-                if($value['width'] > 0 &&  $value['height'] > 0){
+                if ($value['width'] > 0 &&  $value['height'] > 0) {
                     $size = sprintf('width:%1$spx;height:%2$spx;', $value['width'], $value['height']);
                 }
 
