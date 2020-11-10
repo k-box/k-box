@@ -44,6 +44,13 @@ class PresentationPreview extends BasePreviewDriver implements Renderable
         return $this;
     }
 
+    public function __destruct()
+    {
+        if ($this->presentation) {
+            $this->presentation = null;
+        }
+    }
+
     public function preview(File $file) : Renderable
     {
         $this->load($file->absolute_path);
@@ -62,18 +69,23 @@ class PresentationPreview extends BasePreviewDriver implements Renderable
                     $this->toClassName($this->presentation->getLayout()->getDocumentLayout()));
 
         // Construct HTML
-        $html = '<section id="slides" class="presentation '.$layout_class.'">';
+        $html = '<section id="slides" class="presentation relative max-w-6xl w-full '.$layout_class.'">';
 
         $totalSlides = count($slides);
 
-        if ($totalSlides > 0) {
-            $slideIndex = 1;
+        $coordinatesReferenceSystem = [
+            0,
+            0,
+            $this->presentation->getLayout()->getCX(DocumentLayout::UNIT_PIXEL),
+            $this->presentation->getLayout()->getCY(DocumentLayout::UNIT_PIXEL),
+        ];
 
+        if ($totalSlides > 0) {
             $slide = null;
 
             for ($i=0; $i < $totalSlides; $i++) {
                 $slide = $slides[$i];
-                $html .= (new SlideRenderer($slide, $slideIndex++))->render();
+                $html .= (new SlideRenderer($slide, $i+1, $coordinatesReferenceSystem))->render();
             }
         }
 
