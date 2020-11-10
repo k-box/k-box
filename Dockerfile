@@ -7,7 +7,7 @@
 FROM oneofftech/video-processing-cli:0.6.0 AS videocli
 ## .. we just need this image so we can copy from it
 
-FROM klinktech/k-box-ci-pipeline-php:7.2 AS builder
+FROM klinktech/k-box-ci-pipeline-php:7.4 AS builder
 ## Installing the dependencies to be used in a later step.
 ## Will generate three directories:
 ## * /var/www/dms/bin/
@@ -34,7 +34,7 @@ RUN \
     yarn run production
 
 ## Generating the real K-Box image
-FROM php:7.2-fpm AS php
+FROM php:7.4-fpm AS php
 
 LABEL maintainer="OneOffTech <info@oneofftech.xyz>" \
   org.label-schema.name="klinktech/k-box" \
@@ -50,7 +50,7 @@ ENV KBOX_DIR /var/www/dms
 
 ## Install libraries, envsubst, supervisor and php modules
 RUN apt-get update -yqq && \
-    apt-get install -yqq \ 
+    apt-get install -yqq --no-install-recommends \ 
         locales \
         imagemagick  \
         libfreetype6-dev \
@@ -65,13 +65,15 @@ RUN apt-get update -yqq && \
         ghostscript \
         libmagickwand-dev \
     && docker-php-ext-install -j$(nproc) iconv \
-    && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
+    && docker-php-ext-configure gd --with-freetype=/usr/include/ --with-jpeg=/usr/include/ \
     && docker-php-ext-install -j$(nproc) gd \
     && docker-php-ext-install bz2 zip exif pdo_mysql bcmath pcntl opcache \
     && pecl channel-update pecl.php.net \
     && pecl install imagick \
     && docker-php-ext-enable imagick \
-    && sed -i -e 's/rights="none" pattern="PDF"/rights="read|write" pattern="PDF"/' /etc/ImageMagick-6/policy.xml \
+    # Ensure PDF support is enabled in Image Magick
+    && sed -i -e '/rights="none" pattern="{PS,PDF,XPS}"/ s#<!--##g;s#-->##g;' /etc/ImageMagick-6/policy.xml \
+    && sed -i -e 's/rights="none" pattern="{PS,PDF,XPS}"/rights="read|write" pattern="PDF"/' /etc/ImageMagick-6/policy.xml \
     && docker-php-source delete \
     && apt-get clean \
     && rm -r /var/lib/apt/lists/*
@@ -87,7 +89,7 @@ RUN locale-gen "en_US.UTF-8" \
 ### The installation procedure is heavily inspired from https://github.com/nginxinc/docker-nginx
 RUN set -e; \
 	NGINX_GPGKEY=573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62; \
-	NGINX_VERSION=1.16.1-1~buster; \
+	NGINX_VERSION=1.18.0-1~buster; \
 	found=''; \
 	apt-get update; \
 	apt-get install --no-install-recommends --no-install-suggests -y gnupg1 apt-transport-https ca-certificates; \
@@ -106,8 +108,6 @@ RUN set -e; \
 	&& apt-get install --no-install-recommends --no-install-suggests -y \
 						ca-certificates \
 						nginx=${NGINX_VERSION} \
-						# nginx-module-njs=${NJS_VERSION} \
-						# gettext-base \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
