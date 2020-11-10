@@ -194,6 +194,14 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
     }
 
 
+    //Bulk Dpwnload
+
+    function _bulkDownload (evt, vm) {
+
+    }
+
+    //
+
     function _bulkCopyTo(evt, vm){
 
         if(_Selection.isAnySelected()){
@@ -538,7 +546,7 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
 
     }
     
-    function _doMakePublic(params, changeTitles){
+    function _do(params, changeTitles){
         
         if(changeTitles){
             
@@ -836,11 +844,96 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
 
             share: function(evt, vm){
 
-
                 if(_Selection.isAnySelected()){
 
                     Share.open(_Selection.selection());
 
+                }
+                else{
+                    _alert( Lang.trans('actions.selection.at_least_one') );
+                }///
+                
+                evt.preventDefault();
+
+                return false;
+                
+            },
+// -- Bulk Download ---
+
+            download: function(evt, vm){
+
+                console.log("Download clicked...");
+
+                if(_Selection.isAnySelected()){
+
+                    var groups = [],
+                    documents = [];
+
+                    var count = _Selection.selectionCount();
+                    var currentSelection = _Selection.selection();
+
+
+                    var selectedGroup = vm.groupId;
+
+                    $.each(currentSelection, function(index, sel){
+
+                        if(sel.type === 'group'){
+                            groups.push(sel.id);
+                        }
+                        else{
+                            documents.push(sel.id);
+                        }
+
+                    });
+                    DMS.Services.Bulk.download(
+                        {documents:documents},
+                        function(respone,status){
+   
+                            if(status == 'success'){
+
+                                    console.log(respone.type);
+                                    
+                                    if(respone.type=='text/plain') {
+
+                                        const reader = new FileReader();
+
+                                        // This files after the blob has been read/loaded.
+                                        reader.addEventListener('loadend', (e) => {
+                                            const text = e.srcElement.result;
+                                            const data = JSON.parse(text);
+                                            DMS.MessageBox.warning(data.title, data.message); 
+                                        });
+                                        
+                                        reader.readAsText(respone);
+                                        
+                                    }else {
+                                        DMS.MessageBox.question('Download', 'Do you want to download ' + Number(respone.size/1000000).toFixed(3) + ' mb zip file?', 'Download', 'Cancel', function(choice){
+                                
+                                              if(choice){
+                                                const data = window.URL.createObjectURL(respone);
+                                                var link = document.createElement('a');
+                                                link.href = data;
+                                                link.download = "download.zip";
+                                                link.click();
+                                                setTimeout(function () {
+                                                    window.URL.revokeObjectURL(data);
+                                                }, 100)
+
+                                              }else {
+                                                DMS.MessageBox.close();
+                                              }
+                                    });
+                                    }
+                                
+    
+                             }
+                          },
+                        function(response,status){
+                            console.log("Error Status:"+status);
+                            console.log("Error Json:"+response);
+                        }                      
+                        
+                        )
                 }
                 else{
                     _alert( Lang.trans('actions.selection.at_least_one') );
@@ -852,6 +945,7 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
                 
             },
 
+///
             createGroup: function(evt, vm, groupId, isPrivate){
                 var params = undefined,
                     isPrivateRequest = isPrivate !== undefined || (evt.currentTarget && $(evt.currentTarget).data('isprivate') !== undefined);
@@ -1306,7 +1400,7 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
             },
 
             del: function(evt, vm){
-
+                console.log('Delllll')
                 if(_Selection.isAnySelected()){
 
                     var groups = [],

@@ -65,6 +65,7 @@
 		"rinvex/languages": "^1.1",
 		"spatie/laravel-activitylog": "^3.1",
 		"spatie/yaml-front-matter": "^2.0",
+		"stechstudio/laravel-zipstream": "^2.6",
 		"swiftmailer/swiftmailer": "~6.0"
 	},
 	"require-dev": {
