@@ -54,6 +54,7 @@ K-Box requires three redirect URIs because log in, registration and connection a
 Mark the application as `trusted` and `confidential` and select the following scopes:
 
 - `openid`
+- `read_user`
 - `profile`
 - `email`
 
