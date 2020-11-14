@@ -5,7 +5,6 @@ namespace KBox\Http\Controllers\Identities\Auth;
 use Illuminate\Http\Request;
 use KBox\User;
 use KBox\Http\Controllers\Controller;
-use KBox\Providers\RouteServiceProvider;
 use Oneofftech\Identities\Auth\ConnectUserIdentity;
 
 class ConnectController extends Controller
@@ -26,7 +25,6 @@ class ConnectController extends Controller
 
     protected $attributes = ['b'];
 
-
     /**
      * Create a new controller instance.
      *
@@ -37,12 +35,11 @@ class ConnectController extends Controller
         $this->middleware('auth');
     }
 
-
     protected function connected($user, $identity, array $attributes, Request $request)
     {
         $b = $attributes['b'] ?? null;
 
-        if($b === 'profile'){
+        if ($b === 'profile') {
             return redirect()->route('profile.identities.index')->with('flash_message', __(':Provider connected', ['provider' => $identity->provider]));
         }
 
