@@ -34,12 +34,14 @@
 		
 		{{trans('profile.profile')}}
 	</a>
-	<a href="{{ route('profile.identities.index') }}" class="navigation__item navigation__item--link @if(request()->is('*identities*')) navigation__item--current @endif">
-		
-		@materialicon('social', 'people', 'inline-block navigation__item__icon')
-		
-		{{trans('profile.identities')}}
-	</a>
+	@if(\KBox\Facades\Identity::isEnabled())
+		<a href="{{ route('profile.identities.index') }}" class="navigation__item navigation__item--link @if(request()->is('*identities*')) navigation__item--current @endif">
+			
+			@materialicon('social', 'people', 'inline-block navigation__item__icon')
+			
+			{{trans('profile.identities')}}
+		</a>
+	@endif
 	<a href="{{ route('profile.privacy.index') }}" class="navigation__item navigation__item--link @if(request()->is('*profile/privacy')) navigation__item--current @endif">
 		
 		@materialicon('hardware', 'security', 'inline-block navigation__item__icon')
