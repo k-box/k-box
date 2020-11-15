@@ -2,12 +2,14 @@
 
 namespace Tests;
 
-use PHPUnit\Framework\Assert;
+use Illuminate\Testing\Assert as PHPUnit;
 use Tests\Concerns\ClearDatabase;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Klink\DmsAdapter\Traits\MockKlinkAdapter;
 use Illuminate\Testing\TestResponse;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
+use Illuminate\Support\Arr;
 
 abstract class TestCase extends BaseTestCase
 {
@@ -26,7 +28,7 @@ abstract class TestCase extends BaseTestCase
         });
         
         TestResponse::macro('assertInstanceOf', function ($class) {
-            Assert::assertInstanceOf($class, $this->baseResponse);
+            PHPUnit::assertInstanceOf($class, $this->baseResponse);
         });
         
         TestResponse::macro('assertErrorView', function ($status_code) {
@@ -36,6 +38,32 @@ abstract class TestCase extends BaseTestCase
         
         TestResponse::macro('isView', function () {
             return isset($this->original) && $this->original instanceof View;
+        });
+
+        TestResponse::macro('assertViewHasModel', function ($key, $expected) {
+            $this->assertViewHas($key);
+            $found = $this->viewData($key);
+
+            PHPUnit::assertTrue($expected->is($found));
+        });
+
+        TestResponse::macro('assertViewHasModels', function ($key, $expected) {
+            $this->assertViewHas($key);
+            $found = $this->viewData($key);
+
+            $expected = collect(Arr::wrap($expected));
+
+            PHPUnit::assertInstanceOf(EloquentCollection::class, $found);
+
+            $foundIds = $found->map(function ($i) {
+                return $i->getKey();
+            });
+
+            $expectedIds = $expected->map(function ($i) {
+                return $i->getKey();
+            });
+
+            PHPUnit::assertEquals($expectedIds->toArray(), $foundIds->toArray());
         });
     }
 

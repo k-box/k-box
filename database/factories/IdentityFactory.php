@@ -40,6 +40,3 @@ $factory->state(Identity::class, 'registration', function (Faker $faker) {
     ];
 });
 
-$factory->afterCreatingState(User::class, 'admin', function ($user, $faker) {
-    $user->addCapabilities([Capability::MANAGE_KBOX]);
-});

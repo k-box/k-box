@@ -13,22 +13,20 @@
 
 	<div class=" mb-4">
 
-		<x-oneofftech-identity-link action="connect" :parameters="['b' => 'profile']" provider="gitlab" class="button button--primary"/>
+		@foreach ($availableProviders as $provider)
+			
+			<x-oneofftech-identity-link action="connect" :parameters="['b' => 'profile']" :provider="$provider" class="button" />
 
-		@error('gitlab')
-			<div class="field-error block mt-2" role="alert">
-				{{ $message }}
-				
-				@if ($message === trans('auth.not_found') && \KBox\Auth\Registration::isEnabled() && ! \KBox\Auth\Registration::requiresInvite())
-					<p>
-						<a class="text-white underline hover:text-white focus:text-white" href="{{ route('register') }}">{{ trans('auth.create_account') }}</a>
-					</p>
-				@endif
-			</div>
-		@enderror
+			@error($provider)
+				<div class="field-error block mt-2" role="alert">
+					{{ $message }}
+				</div>
+			@enderror
+		@endforeach
+
 	</div>
 
-	@foreach ($identities as $identity)
+	@forelse ($identities as $identity)
 
 		<div 
 			x-data="AsyncForm({question: false, deleting: false, deleted:false})"
@@ -36,7 +34,7 @@
 			x-show="!deleted"
 			 class="relative py-3 mb-2 flex justify-between {{ $loop->index % 2 === 0 ? '' : 'bg-gray-100' }} {{ ! $loop->last ? 'border-b border-gray-400' : '' }}" >
 
-			<div>
+			<div class="w-4/6">
 				<p class="font-bold">
 					{{ \Illuminate\Support\Str::ucfirst($identity->provider) }}
 				</p>
@@ -54,7 +52,14 @@
 				@endif
 			</div>
 
-			<div>
+			<div class="w-1/6">
+				<x-oneofftech-identity-link action="connect" label="{{ __('Link again') }}" :parameters="['b' => 'profile']" provider="gitlab" class="button"/>
+			</div>
+
+			<div class="w-1/6">
+
+
+
 				@can('delete', $identity)
 				
 					<form  action="{{ route('profile.identities.destroy', ['identity' => $identity->getKey()]) }}"
@@ -108,6 +113,18 @@
 			</div>
 		</div>
 
-	@endforeach
+	@empty
+			
+		@if(empty($availableProviders))
+			<div class="empty">
+				<p class="empty__message">{{ __('identities.not_available') }}</p>
+			</div>
+		@elseif($identities->isEmpty())
+			<div class="empty">
+				<p class="empty__message">{{ __('identities.nothing_connected') }}</p>
+			</div>
+		@endif
+
+	@endforelse
 
 @stop

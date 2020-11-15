@@ -18,7 +18,7 @@ return [
 
     'supported' => [
         'gitlab',
-        'dropbpx',
+        'dropbox',
     ],
 
 ];

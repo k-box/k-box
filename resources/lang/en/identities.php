@@ -4,6 +4,10 @@ return [
 
     'hint' => 'These are the third party services you connected or used for sign in or sign up on the K-Box. From this page you can manage the connection and see how we use your information.',
 
+    'not_available' => 'No connectable identities',
+    
+    'nothing_connected' => 'No identities connected yet',
+
     'providers' => [
 
     ],
