@@ -3631,16 +3631,16 @@
         },
         {
             "name": "oneofftech/laravel-connect-identity",
-            "version": "v0.2.0",
+            "version": "v0.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/OneOffTech/laravel-connect-identity.git",
-                "reference": "d2deb20274bf41b5855669f133f78d23cc21885a"
+                "reference": "abd7212bb7411fdc0fa463df0e88eb40e5072f19"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/OneOffTech/laravel-connect-identity/zipball/d2deb20274bf41b5855669f133f78d23cc21885a",
-                "reference": "d2deb20274bf41b5855669f133f78d23cc21885a",
+                "url": "https://api.github.com/repos/OneOffTech/laravel-connect-identity/zipball/abd7212bb7411fdc0fa463df0e88eb40e5072f19",
+                "reference": "abd7212bb7411fdc0fa463df0e88eb40e5072f19",
                 "shasum": ""
             },
             "require": {
@@ -3696,7 +3696,7 @@
                 "oauth",
                 "registration"
             ],
-            "time": "2020-11-13T11:20:56+00:00"
+            "time": "2020-11-15T20:19:12+00:00"
         },
         {
             "name": "oneofftech/laravel-tus-upload",
@@ -8831,6 +8831,7 @@
                 "faker",
                 "fixtures"
             ],
+            "abandoned": true,
             "time": "2019-12-12T13:22:17+00:00"
         },
         {
@@ -8925,7 +8926,8 @@
                 "plugin"
             ],
             "transport-options": {
-                "symlink": true
+                "symlink": true,
+                "relative": true
             }
         },
         {
