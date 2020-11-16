@@ -53,6 +53,13 @@ The next table shows the K-Box specific configuration parameters:
 | `KBOX_DEFAULT_STORAGE_QUOTA_THRESHOLD_NOTIFICATION`     |           | int  | 80        | The used threshold after which the user will be notified on the amount of free storage space. See [Storage](../administration/storage.md) |
 | `KBOX_APPEARANCE_PICTURE`   |           | string  | [image from Unsplash](https://images.unsplash.com/photo-1563654727148-d7e9d1ed2a86?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2850&q=80) | The url of the image to show on login and registration pages. See [Appearance](../administration/appearance.md) |
 | `KBOX_APPEARANCE_COLOR`     |           | string  | null        | The background color of the picture area on login and registration pages. See [Appearance](../administration/appearance.md) |
+| `KBOX_IDENTITIES_PROVIDERS`           |           | string  | null          | The list of third party identity providers that can be used for registration and log in. See [OAuth Authentication providers](../administration/authentication-oauth.md) |
+| `GITLAB_CLIENT_ID`                    |           | string  | null          | The Oauth Application ID for Gitlab (hosted or self-hosted) |
+| `GITLAB_CLIENT_SECRET`                |           | string  | null          | The Oauth Application secret for Gitlab |
+| `GITLAB_INSTANCE_URI`                 |           | string  | https://gitlab.com  | The URL of the Gitlab instance. Use in case of self-hosted Gitlab instance  |
+| `DROPBOX_CLIENT_ID`                   |           | string  | null          | The Oauth Application ID for Dropbox |
+| `DROPBOX_CLIENT_SECRET`               |           | string  | null          | The Oauth Application secret for Dropbox |
+
 
 > `KBOX_MAIL_*` parameters can be configured from the User Interface, see [Configuring E-Mail](../administration/mail.md).
 

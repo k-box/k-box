@@ -1,7 +1,7 @@
 ---
 Title: OAuth Authentication providers
 Description: user accounts management
-Since: master
+Since: next
 ---
 
 K-Box supports several different ways to authenticate, beyond the basic username/password authentication.
