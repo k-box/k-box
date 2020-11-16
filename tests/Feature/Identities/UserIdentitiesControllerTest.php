@@ -3,6 +3,7 @@
 namespace Tests\Feature\Identities;
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use KBox\Capability;
 use KBox\Identity;
 use KBox\User;
 use Tests\TestCase;
@@ -39,7 +40,30 @@ class UserIdentitiesControllerTest extends TestCase
         $response->assertViewHas('enabled', collect(['gitlab']));
         $response->assertViewHas('availableProviders', ['gitlab']);
 
+        $response->assertSee(trans('identities.connected_at'));
         $response->assertSee(trans('identities.registration'));
+    }
+
+    public function test_identities_page_shows_only_my_identities()
+    {
+        config(['identities.providers' => 'gitlab,dropbox']);
+
+        $user = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$PARTNER);
+            $u->markEmailAsVerified();
+        });
+
+        $identities = factory(Identity::class, 3)->create();
+
+        $response = $this->actingAs($user)->get(route('profile.identities.index'));
+
+        $response->assertStatus(200);
+
+        $response->assertViewHas('identities');
+        $this->assertTrue($response->viewData('identities')->isEmpty());
+
+        $response->assertDontSee(trans('identities.connected_at'));
+        $response->assertDontSee(trans('identities.registration'));
     }
 
     public function test_no_connected_identities_listed()
@@ -133,5 +157,26 @@ class UserIdentitiesControllerTest extends TestCase
             ->delete(route('profile.identities.destroy', $identity->getKey()));
 
         $response->assertForbidden();
+    }
+
+    public function test_identity_can_be_removed_via_ajax()
+    {
+        config(['identities.providers' => 'gitlab,dropbox']);
+
+        $user = tap(factory(User::class)->create(), function ($u) {
+            $u->addCapabilities(Capability::$PARTNER);
+            $u->markEmailAsVerified();
+        });
+
+        $identity = factory(Identity::class)->create([
+            'user_id' => $user->getKey()
+        ]);
+
+        $response = $this->actingAs($user)->json('DELETE', route('profile.identities.destroy', ['identity' => $identity->getKey()]));
+
+        $response->assertOk();
+        $response->assertJson($identity->toArray());
+
+        $this->assertNull($identity->fresh());
     }
 }
