@@ -32,16 +32,20 @@
             </div>      
         @endisset
 
-        <div class=" mb-4">
-            
-            <x-oneofftech-identity-link action="register" provider="gitlab" :parameters="isset($invite) ? ['invite' => $invite] : null" class="button button--primary"/>
-            
-            @error('gitlab')
-                <span class="field-error" role="alert">
-                    {{ $message }}
-                </span>
-			@enderror
-        </div>
+        @if(\KBox\Facades\Identity::isEnabled())
+            <div class=" mb-4">
+
+                @foreach (\KBox\Facades\Identity::enabledProviders() as $provider)
+                    <x-oneofftech-identity-link action="register" :provider="$provider" :parameters="isset($invite) ? ['invite' => $invite] : null" class="button button--primary"/>
+                    
+                    @error($provider)
+                        <span class="field-error" role="alert">
+                            {{ $message }}
+                        </span>
+                    @enderror
+                @endforeach
+            </div>
+        @endif
 
         <div class="flex mb-4 flex-no-wrap items-center max-w-lg mx-auto lg:mx-0">
 			<div class="h-px w-1 lg:w-12 flex-grow lg:flex-grow-0 bg-gray-200"></div>

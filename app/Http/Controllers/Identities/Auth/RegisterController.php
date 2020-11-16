@@ -44,6 +44,8 @@ class RegisterController extends Controller
     public function __construct()
     {
         $this->middleware('guest');
+
+        abort_if(! Registration::isEnabled(), 403, __('User registration is not active on this instance'));
     }
 
     /**
@@ -78,7 +80,6 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        logs()->info("Creation called", compact('data'));
         $user = User::create([
             'name' => $data['name'] ?? Str::before($data['email'], '@'),
             'email' => $data['email'],
@@ -98,8 +99,6 @@ class RegisterController extends Controller
                 $invite->accept($user);
             }
         }
-
-        logs()->info("Creation completed", ['user' => $user, 'capabilities' => $user->capabilities]);
 
         return $user;
     }
