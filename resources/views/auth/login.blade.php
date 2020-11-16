@@ -6,28 +6,32 @@
 
 		<h2 class="mb-4 text-2xl font-normal">{{ $welcome_string }}</h2>
 
-        <div class=" mb-4">
+        @if(\KBox\Facades\Identity::isEnabled())
+            <div class=" mb-4">
 
-			<x-oneofftech-identity-link action="login" provider="gitlab" class="button button--primary"/>
+                @foreach (\KBox\Facades\Identity::enabledProviders() as $provider)
+					<x-oneofftech-identity-link action="login" :provider="$provider" class="button button--primary"/>
 
-			@error('gitlab')
-                <div class="field-error block mt-2" role="alert">
-					{{ $message }}
-					
-					@if ($message === trans('auth.not_found') && \KBox\Auth\Registration::isEnabled() && ! \KBox\Auth\Registration::requiresInvite())
-						<p>
-							<a class="text-white underline hover:text-white focus:text-white" href="{{ route('register') }}">{{ trans('auth.create_account') }}</a>
-						</p>
-					@endif
-                </div>
-			@enderror
-		</div>
+					@error($provider)
+						<div class="field-error block mt-2" role="alert">
+							{{ $message }}
+							
+							@if ($message === trans('auth.not_found') && \KBox\Auth\Registration::isEnabled() && ! \KBox\Auth\Registration::requiresInvite())
+								<p>
+									<a class="text-white underline hover:text-white focus:text-white" href="{{ route('register') }}">{{ trans('auth.create_account') }}</a>
+								</p>
+							@endif
+						</div>
+					@enderror
+		        @endforeach
+            </div>
+			<div class="flex mb-4 flex-no-wrap items-center max-w-lg mx-auto lg:mx-0">
+				<div class="h-px w-1 lg:w-12 flex-grow lg:flex-grow-0 bg-gray-200"></div>
+				<p class="ml-2 mr-2 text-gray-600 font-medium">{{ trans('auth.or') }}</p>
+				<div class="h-px w-1 flex-grow bg-gray-200"></div>
+			</div>
+        @endif
 
-		<div class="flex mb-4 flex-no-wrap items-center max-w-lg mx-auto lg:mx-0">
-			<div class="h-px w-1 lg:w-12 flex-grow lg:flex-grow-0 bg-gray-200"></div>
-			<p class="ml-2 mr-2 text-gray-600 font-medium">{{ trans('auth.or') }}</p>
-			<div class="h-px w-1 flex-grow bg-gray-200"></div>
-		</div>
 
 		<div class=" mb-4">
 			<label for="email">{{trans('auth.email_label')}}</label>

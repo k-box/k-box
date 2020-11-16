@@ -5,6 +5,7 @@ namespace KBox\Http\Controllers\Identities\Auth;
 use KBox\HomeRoute;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
+use KBox\Facades\Identity;
 use KBox\Http\Controllers\Controller;
 use Oneofftech\Identities\Auth\AuthenticatesUsersWithIdentity;
 
@@ -39,6 +40,8 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest');
+
+        abort_if(! Identity::isEnabled(), 403, __('Log in via providers is not active on this instance'));
     }
 
     /**
