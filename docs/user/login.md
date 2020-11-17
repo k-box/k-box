@@ -11,9 +11,12 @@ You can log-in using email and password. For this purpose, an account must be pr
 
 ## Log-in with third party providers
 
-Your K-Box administrator enables OAuth login. If an OAuth service is enabled, click the icon for that service (i.e., Gitlab or Dropbox), and then follow the on-screen prompts to log-in.
+The K-Box administrator can decide to enable third party providers, also called OAuth services.
+If a third party provider is enabled, click the icon for that service (i.e., Gitlab or Dropbox), and then follow the on-screen prompts to log-in.
 
-Logging in is only allowed, if the account was created using the same provider.
+Logging in is allowed if the account was created using the same provider. If you 
+[connected multiple providers](./connect-identities.md) under your K-Box profile 
+all of them can be used for log in.
 
 ## Password recovery
 

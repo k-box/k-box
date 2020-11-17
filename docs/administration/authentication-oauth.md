@@ -10,12 +10,33 @@ The functionality is provided by [Connect Identity for Laravel](https://github.c
 and [Laravel Socialite](https://laravel.com/docs/socialite).
 
 Authentication providers enable quick registration of users. The K-Box retains a local user profile, created using
-the user data, email, name and avatar, provided by the authentication provider. The user's profile lifespan on the K-Box is independent of the profile on the Authentication provider, i.e. the user will be able to recover the access to the K-Box even if the account on the provider is blocked or deleted.
+the user data (email, name), provided by the authentication provider. The user's profile lifespan on the K-Box is independent of the profile on the Authentication provider, i.e. the user will be able to recover the access to the K-Box even if the account on the provider is blocked or deleted.
 
 These settings are covered by [_static configuration_](../developer/configuration.md) and require the K-Box
 restart to take effect.
 
 Below are brief descriptions of how to set up each provider.
+
+## Activating OAuth login/registration
+
+By default log in and registration with OAuth providers is disabled and must be explicitly configured.
+
+To activate the feature you have to specifying the providers you whish to use. This must be done
+in the [static configuration](../developer/configuration.md) by setting the `KBOX_IDENTITIES_PROVIDERS`
+environment variable.
+
+```env
+KBOX_IDENTITIES_PROVIDERS=gitlab
+```
+
+The variable accepts a comma-separated list of providers to enable.
+
+```env
+KBOX_IDENTITIES_PROVIDERS=gitlab,dropbox
+```
+
+Leaving it empty or set to null disables the feature (default value).
+
 
 ## Providers
 
@@ -23,18 +44,16 @@ The K-Box currently supports the following providers: [Gitlab](#gitlab) and [Dro
 
 ### Gitlab
 
-To allow Gitlab users to register or log in, an OAuth application needs to be configured.
+To allow Gitlab users to register or log in, an OAuth application needs to be configured on the Gitlab instance.
 A new application can be created under `Applications` in the 
 [user profile](https://gitlab.com/profile/applications) or in the 
 administration area. If you have a self-hosted Gitlab instance, we suggest to configure
-the application under the administration area.
+the application under Gitlab's administration area.
 
 > _note_ applications do not need to be reviewed by Gitlab to be used
 
-If you are creating the application from the administration panel, click `New Application`, while
-this is not necessary within the user profile that shows immediately the fields for
-a new application creation (at the bottom of the screen you will see previously authorized
-applications).
+If you are creating the application from the administration panel, click `New Application`, while 
+creating the application from your Gitlab user profile already shows the new application fields.
 
 > _wait_ remember that the K-Box must be reachable using HTTPS, unless you are using `localhost` for tests.
 
@@ -73,13 +92,11 @@ If you are using a self-hosted Gitlab instance you must specify its URL like:
 ```env
 GITLAB_INSTANCE_URI="https://mygitlab.domain/"
 ```
-Proceed now to [activate the provider](#activating-oauth-loginregistration) within the K-Box.
 
 ### Dropbox
 
-An OAuth application is required to allow Dropbox users to access or register on the K-Box.
-Creating a new application can be done from the Applications section in the 
-[Dropbox Developers portal](https://www.dropbox.com/developers/apps/).
+To allow Dropbox users to register or log in, an OAuth application needs to be configured 
+on the [Dropbox Developers portal](https://www.dropbox.com/developers/apps/).
 
 > _note_ applications might be subject to Dropbox approval
 
@@ -116,7 +133,7 @@ be reachable using HTTPS.
 The K-Box will receive a token that grants access to Dropbox on behalf of the user. 
 
 Keep `Short-lived` as `Access token expiration`. Using short lived tokens improves the security 
-of your Dropbox account.
+of user's Dropbox account.
 
 Under the `Permissions` section the suggested configuration, ticking only `account_info.read` 
 is enough for the authentication and registration flows.
@@ -127,27 +144,6 @@ Now copy the `App key` and `App secret` into the environment configuration (eith
 DROPBOX_CLIENT_ID="app key"
 DROPBOX_CLIENT_SECRET="App Secret"
 ```
-
-Proceed now to [activate the provider](#activating-oauth-loginregistration) within the K-Box.
-
-## Activating OAuth login/registration
-
-By default log in and registration with OAuth providers is disabled and must be explicitly configured.
-
-To activate the feature, you have to enable it by specifying the providers you whish to use, setting the
-`KBOX_IDENTITIES_PROVIDERS` environment variable.
-
-```env
-KBOX_IDENTITIES_PROVIDERS=gitlab
-```
-
-The variable accepts a comma-separated list of providers to enable.
-
-```env
-KBOX_IDENTITIES_PROVIDERS=gitlab,dropbox
-```
-
-Leaving it empty or set to null disables the feature (default value).
 
 ## Log in and registration
 
@@ -162,7 +158,7 @@ The external providers are therefore used for user registration and log in actio
 
 The two flows follow the same high level approach:
 
-1. User selects action
+1. User selects action (log in or register)
 2. User is redirected to provider to prove his/her identity (authentication)
 3. User gets redirected to K-Box
   - For registration, the K-Box pulls email, name and identifier as given by the provider and creates an account
