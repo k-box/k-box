@@ -887,45 +887,39 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
                     });
                     DMS.Services.Bulk.download(
                         {documents:documents},
-                        function(respone,status){
+                        function(response,status){
    
                             if(status == 'success'){
 
-                                    console.log(respone.type);
-                                    
-                                    if(respone.type=='text/plain') {
-
-                                        const reader = new FileReader();
-
-                                        // This files after the blob has been read/loaded.
-                                        reader.addEventListener('loadend', (e) => {
-                                            const text = e.srcElement.result;
-                                            const data = JSON.parse(text);
-                                            DMS.MessageBox.warning(data.title, data.message); 
-                                        });
+                                    console.log(response);
+                                    if(response.status="download"){
+                                        DMS.Services.Bulk.downloadZip(
+                                            {documents:documents},
+                                            function(responseData,status){
+                                                console.log(responseData);
+                                            DMS.MessageBox.question('Download', 'Do you want to download ' + Number(responseData.size/1000000).toFixed(3) + ' mb zip file?', 'Download', 'Cancel', function(choice){
                                         
-                                        reader.readAsText(respone);
-                                        
-                                    }else {
-                                        DMS.MessageBox.question('Download', 'Do you want to download ' + Number(respone.size/1000000).toFixed(3) + ' mb zip file?', 'Download', 'Cancel', function(choice){
-                                
-                                              if(choice){
-                                                const data = window.URL.createObjectURL(respone);
-                                                var link = document.createElement('a');
-                                                link.href = data;
-                                                link.download = "download.zip";
-                                                link.click();
-                                                setTimeout(function () {
-                                                    window.URL.revokeObjectURL(data);
-                                                }, 100)
+                                                    if(choice){
+                                                        const data = window.URL.createObjectURL(responseData);
+                                                        var link = document.createElement('a');
+                                                        link.href = data;
+                                                        link.download = "download.zip";
+                                                        link.click();
+                                                        setTimeout(function () {
+                                                            window.URL.revokeObjectURL(data);
+                                                        }, 100)
 
-                                              }else {
-                                                DMS.MessageBox.close();
-                                              }
-                                    });
-                                    }
-                                
-    
+                                                    }else {
+                                                        DMS.MessageBox.close();
+                                                    }
+                                            });
+                                            },
+                                            function(responseData,status){
+                                                console.log("Error Status:"+status);
+                                                console.log("Error Json:"+responseData);
+                                            } 
+                                        )
+                                    }                               
                              }
                           },
                         function(response,status){

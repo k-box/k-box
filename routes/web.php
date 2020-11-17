@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 */
 Route::get('/', ['as' => 'frontpage', 'uses' => 'WelcomeController@index']);
-Route::post('/getzip', ['as' => 'getzip', 'uses' => 'Document\BulkDownloadController@buildzip']);
+//Route::post('/documents-download', ['as' => 'document', 'uses' => 'Document\BulkDownloadController@buildzip']);
 
 // bulk download documents
 
@@ -226,8 +226,20 @@ Route::group(['as' => 'documents.', 'prefix' => 'documents'], function () {
         'uses' => 'Document\BulkController@copyTo',
         'as' => 'bulk.copyto',
     ]);
+    // Route::post('/documents-download', [
+    //     'as' => 'bulk.download', 
+    //     'uses' => 'Document\BulkDownloadController@buildzip'
+    // ]);
 });
 
+Route::post('/documents-download', [
+    'as' => 'documents.bulk.download', 
+    'uses' => 'Document\BulkDownloadController@validate'
+]);
+Route::post('/documents-download/get', [
+    'as' => 'documents.bulk.download.get', 
+    'uses' => 'Document\BulkDownloadController@buildzip'
+]);
 
 Route::get('/documents/{document}/versions/{version}', [
     'uses' => 'Document\DocumentVersionsController@show',

@@ -553,7 +553,12 @@ window.DMS = (function(_$, _nprogress, _rivets, _alert){
 				download: function(data, success, error){
 					console.log('Calling Documents.bulk', data);
 
-					module.Ajax.postDown('getzip', data,success, error);
+					module.Ajax.post('documents-download', data,success, error);
+				},
+				downloadZip: function(data, success, error){
+					console.log('Calling Documents.bulk', data);
+
+					module.Ajax.postDown('documents-download/get', data,success, error);
 				},
 
 			},
