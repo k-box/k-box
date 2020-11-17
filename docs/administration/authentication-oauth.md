@@ -21,7 +21,7 @@ Below are brief descriptions of how to set up each provider.
 
 By default log in and registration with OAuth providers is disabled and must be explicitly configured.
 
-To activate the feature you have to specifying the providers you whish to use. This must be done
+To activate the feature you have to specifying the providers you wish to use. This must be done
 in the [static configuration](../developer/configuration.md) by setting the `KBOX_IDENTITIES_PROVIDERS`
 environment variable.
 
