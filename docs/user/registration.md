@@ -35,7 +35,7 @@ After logging in for the first time, please go to your profile and change the pa
 If enabled, K-Box allows account creation via third party identity providers (e.g. Gitlab, Dropbox,...).
 
 On the registration page click on the provider of your choice. You will be redirected to the provider log-in page, e.g. Dropbox. You will be asked to authorize the `K-Box application` to read your user information. The only required
-information are _name_, _email_ and _avatar_. This information will be used to create a local K-Box account.
+information are _name_ and _email_. This information will be used to create a local K-Box account.
 
 You can manage the connected identities from your [profile](./connect-identities.md).
 
