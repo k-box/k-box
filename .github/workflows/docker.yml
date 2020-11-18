@@ -22,7 +22,7 @@ jobs:
     - name: Define image version
       run: |
         export REF_SLUG=$(echo "$GITHUB_REF" | tr "[:upper:]" "[:lower:]" | sed -r 's#refs/[^\/]*/##;s/[~\^]+//g;s/[^a-zA-Z0-9.]+/-/g;s/^-+\|-+$//g;s/^-*//;s/-*$//' | cut -c1-63)
-        echo "::set-env name=IMAGE_VERSION::${REF_SLUG}"
+        echo "IMAGE_VERSION=${REF_SLUG}" >> $GITHUB_ENV
     - name: Build the Docker image 
       run: |
         echo ${{ env.IMAGE_VERSION }}
