@@ -91,7 +91,6 @@ unit_test:
     MYSQL_PASSWORD: dms
   script:
     - php --ri imagick
-    - rm -f /usr/local/etc/php/conf.d/docker-php-ext-pcov.ini
     - cp env.ci .env
     - cp env.ci .env.testing
     - mkdir ./storage/documents

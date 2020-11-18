@@ -16,8 +16,7 @@ FROM klinktech/k-box-ci-pipeline-php:7.4 AS builder
 
 USER root
 RUN \
-    rm -f /usr/local/etc/php/conf.d/docker-php-ext-pcov.ini &&\
-    php -m
+    rm -f /usr/local/etc/php/conf.d/docker-php-ext-pcov.ini
 USER $IMAGE_USER
 
 COPY --chown=php:php . /var/www/html
@@ -36,7 +35,7 @@ RUN \
     composer run install-streaming-client
 RUN \
     yarn config set cache-folder .yarn && \
-    yarn install && \
+    yarn install --link-duplicates && \
     yarn run production
 
 ## Generating the real K-Box image
