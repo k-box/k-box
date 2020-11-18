@@ -14,6 +14,12 @@ FROM klinktech/k-box-ci-pipeline-php:7.4 AS builder
 ## * /var/www/dms/vendor/
 ## * /var/www/dms/public/
 
+USER root
+RUN \
+    rm -f /usr/local/etc/php/conf.d/docker-php-ext-pcov.ini &&\
+    php -m
+USER $IMAGE_USER
+
 COPY --chown=php:php . /var/www/html
 RUN \
     mkdir bin &&\
