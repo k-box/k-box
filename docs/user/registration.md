@@ -16,7 +16,7 @@ You can create an account by providing your email and password.
 
 The K-Box requires a verified email address, this can be done by simply clicking on the link sent to the registered email.
 
-K-Boxes can be configured to use custom parameters, therefore, each might restrict registration to invited users only or disable the manual registration. If you are unsure how to register, please contact your K-Box administrator.
+K-Boxes can be configured to use custom parameters. Thus, each might restrict registration to invited users only or disable the manual registration altogether. If you are unsure how to register, please contact your K-Box administrator.
 
 
 ## Registration by administrator
@@ -24,10 +24,10 @@ K-Boxes can be configured to use custom parameters, therefore, each might restri
 The administrator can [create accounts](../administration/users.md) on behalf of users. 
 
 You will receive an email with the account information and the generated password.
-On the first login you will be asked to confirm the email address. To do so you will
+On the first login you will be asked to confirm the email address. To do so, you will
 receive an email with a confirmation link. This ensures that the email address is valid.
 
-After logging in for the first time, please go to your profile and change the password.
+For enhanced security of your profile, please change your password after logging in for the first time,.
 
 
 ### Register using third party providers
