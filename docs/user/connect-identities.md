@@ -19,8 +19,10 @@ log in with that provider without inserting the email and password manually.
 
 ## Unlink an identity
 
-You can [unlink](#unlink-an-identity) the third party identity or revoke the K-Box authorization at any time.
+You can unlink the third party identity or revoke the K-Box authorization at any time.
 
 Under listed identity click the `Unlink` button and follow the on-screen messages.
 
-Once unlinked, you will be unable to use the identity for login or registration as the K-Box account will remain active.
+Once unlinked, you cannot use it anymore for login, but your K-Box account will remain active. 
+The user's profile lifespan on the K-Box is independent of the profile on the Authentication provider,
+i.e. you're still able to [recover the access](./login.md#password-recovery) to the K-Box.
