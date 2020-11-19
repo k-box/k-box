@@ -16,7 +16,7 @@ You can create an account by providing your email and password.
 
 The K-Box requires a verified email address, this can be done by simply clicking on the link sent to the registered email.
 
-K-Boxes can be configured to use custom parameters. Thus, each might restrict registration to invited users only or disable the manual registration altogether. If you are unsure how to register, please contact your K-Box administrator.
+K-Boxes can be configured to use custom parameters. Thus, each K-Box instance might restrict registration to invited users only or disable the manual registration altogether. If you are unsure how to register, please contact your K-Box administrator.
 
 
 ## Registration by administrator
