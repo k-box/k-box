@@ -55,7 +55,7 @@
 		"k-box/kbox-plugin-geo": "*",
 		"laravel/framework": "^7.15",
 		"laravel/tinker": "^2.0",
-		"laravel/ui": "^2.0",
+		"laravel/ui": "^2.1",
 		"league/csv": "^9.0",
 		"oneofftech/geoserver-client-php": "0.2.*",
 		"oneofftech/k-link-streaming-upload-client": "dev-master",
@@ -67,7 +67,8 @@
 		"rinvex/languages": "^1.1",
 		"spatie/laravel-activitylog": "^3.1",
 		"spatie/yaml-front-matter": "^2.0",
-		"swiftmailer/swiftmailer": "~6.0"
+		"swiftmailer/swiftmailer": "~6.0",
+		"oneofftech/laravel-connect-identity": "^0.2"
 	},
 	"require-dev": {
 		"barryvdh/laravel-ide-helper": "^2.6",

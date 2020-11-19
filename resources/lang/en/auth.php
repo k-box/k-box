@@ -14,6 +14,7 @@ return [
     */
 
     'failed' => 'These credentials do not match our records.',
+    'not_found' => 'We could not find your account.',
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
 
     'email_label' => 'E-Mail',
@@ -22,6 +23,7 @@ return [
     'remember_me' => 'Remember Me',
     'register' => 'Register',
     'logout' => 'Logout',
+    'or' => 'or',
 
     'create_account' => 'Create an account',
     'no_account' => 'Don\'t have an account?',

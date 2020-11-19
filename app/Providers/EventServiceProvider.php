@@ -100,6 +100,6 @@ class EventServiceProvider extends ServiceProvider
     {
         parent::boot();
 
-        //
+        \Oneofftech\Identities\Facades\Identity::events();
     }
 }

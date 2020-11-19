@@ -102,6 +102,8 @@ return [
 
         'view_trash' => 'View trash content',
 
-    ]
+    ],
+
+    'identities' => 'Connected identities',
 
 ];

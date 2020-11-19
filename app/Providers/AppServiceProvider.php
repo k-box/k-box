@@ -13,6 +13,7 @@ use KBox\DocumentsElaboration\DocumentElaborationManager;
 use KBox\Services\Quota;
 use Jenssegers\Date\Date as LocalizedDate;
 use KBox\Pages\Page;
+use Oneofftech\Identities\Facades\Identity;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -24,6 +25,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Identity::useNamespace("KBox\\");
+        Identity::useIdentityModel("KBox\\Identity");
+        Identity::useUserModel("KBox\\User");
+
         /**
          * Check if a non empty input value is NOT an array.
          * No additional parameters are supported

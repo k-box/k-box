@@ -14,6 +14,7 @@ use KBox\Notifications\ResetPasswordNotification;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use KBox\Traits\ScopeNullUuid;
 use KBox\Casts\UuidCast;
+use Oneofftech\Identities\WithIdentities;
 
 /**
  * The User model
@@ -55,7 +56,7 @@ use KBox\Casts\UuidCast;
  */
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use Notifiable, HasCapability, SoftDeletes, UserOptionsAccessor, CausesActivity, GeneratesUuid, ScopeNullUuid;
+    use Notifiable, HasCapability, SoftDeletes, UserOptionsAccessor, CausesActivity, GeneratesUuid, ScopeNullUuid, WithIdentities;
 
     const OPTION_LIST_TYPE = "list_style";
   
