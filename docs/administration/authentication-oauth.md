@@ -167,18 +167,18 @@ The two flows follow the same high level approach:
 
 It must be noted that the K-Box enforces the uniqueness of the email address, so
 if user attempts to register using two authentication providers that expose the same
-email address the second registration will fail. On the other end, if user has, for example,
+email address, the second registration will fail. On the other end, if user has, for example,
 both Gitlab and Dropbox accounts registered with different email addresses, the registration on the 
 K-Box done with both will succeed and the user will be given two separate K-Box accounts.
 
 ## Multiple connected providers
 
-Each user might have multiple identities provider connected. The K-Box allows all of them
+Each user might have multiple identities provider connected (given that functionality is enabled). The K-Box allows all of them
 to be used for the log in action.
 
 ## Recovering access to the K-Box in case the provider's account is blocked or deleted
 
-The K-Box stores a local account for users. Therefore, if user loses access to the external 
+Upon successful registration with external providers, K-Box stores a local account for user. The lifespan of the local account is independent of the connected identity. Therefore, if user loses access to the external 
 provider, s/he can still access the K-Box via username/password.
 
 To obtain the password, user must ask for the password recovery feature and input
