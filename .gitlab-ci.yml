@@ -2,10 +2,7 @@
 
 stages:
   - lint
-  - build_frontend
-  - build_laravel
   - test
-  - build_release
   - release
   - deploy
 
@@ -56,27 +53,6 @@ test-shell-syntax:
   tags:
     - docker
 
-laravel:
-  image: "klinktech/k-box-ci-pipeline-php:7.4"
-  tags:
-    - docker
-  stage: build_laravel
-  script:
-    - yarn config set cache-folder .yarn
-    - yarn
-    - yarn run production
-    - cp env.ci .env
-    - composer install --no-dev --prefer-dist
-    - composer run install-content-cli
-    - composer run install-language-cli
-    - composer run install-streaming-client
-  artifacts:
-    expire_in: 1 day
-    paths:
-      - bin/
-      - vendor/
-      - public/
-
 ## Testing
 
 unit_test:
@@ -94,6 +70,9 @@ unit_test:
     - cp env.ci .env
     - cp env.ci .env.testing
     - mkdir ./storage/documents
+    - yarn config set cache-folder .yarn
+    - yarn
+    - yarn run production
     - composer install --prefer-dist
     - composer run install-video-cli
     - chmod +x ./bin/bin/packager-linux
