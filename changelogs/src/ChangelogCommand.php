@@ -69,10 +69,10 @@ class ChangelogCommand extends Command
         $author = $this->ensureAuthorStartsWithAt($this->option('author') ?? $this->ask('Please specify the GitHub username of the author'));
 
         $yaml = <<<"yaml"
-        title: $title
+        title: "$title"
         issue: $issue
         merge_request: $mergeRequest
-        author: $author
+        author: "$author"
         type: $type
         yaml;
 

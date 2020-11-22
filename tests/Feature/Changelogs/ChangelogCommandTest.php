@@ -36,10 +36,10 @@ class ChangelogCommandTest extends TestCase
         $this->path = base_path('changelogs/unreleased/100-test-branch.yml');
 
         $expectedYaml = <<<'yaml'
-        title: Test add entry!
+        title: "Test add entry!"
         issue: 100
         merge_request: 
-        author: @octocat
+        author: "@octocat"
         type: changed
         yaml;
 
@@ -81,10 +81,10 @@ class ChangelogCommandTest extends TestCase
         file_put_contents($this->path, 'test');
 
         $expectedYaml = <<<'yaml'
-        title: Test add entry!
+        title: "Test add entry!"
         issue: 100
         merge_request: 
-        author: @octocat
+        author: "@octocat"
         type: changed
         yaml;
 
@@ -112,10 +112,10 @@ class ChangelogCommandTest extends TestCase
         $this->path = base_path('changelogs/unreleased/100-test-branch.yml');
 
         $expectedYaml = <<<'yaml'
-        title: Test add entry!
+        title: "Test add entry!"
         issue: 100
         merge_request: 
-        author: @octocat
+        author: "@octocat"
         type: changed
         yaml;
 
@@ -141,10 +141,10 @@ class ChangelogCommandTest extends TestCase
         $this->path = base_path('changelogs/unreleased/100-test-branch.yml');
 
         $expectedYaml = <<<'yaml'
-        title: Commit description (#161) (!162)
+        title: "Commit description (#161) (!162)"
         issue: 100
         merge_request: 162
-        author: 
+        author: ""
         type: changed
         yaml;
 
@@ -169,10 +169,10 @@ class ChangelogCommandTest extends TestCase
         $this->path = base_path('changelogs/unreleased/test-branch.yml');
 
         $expectedYaml = <<<'yaml'
-        title: Commit description (#161) (!162)
+        title: "Commit description (#161) (!162)"
         issue: 161
         merge_request: 162
-        author: 
+        author: ""
         type: changed
         yaml;
 
@@ -197,10 +197,10 @@ class ChangelogCommandTest extends TestCase
         $this->path = base_path('changelogs/unreleased/100-test-branch.yml');
 
         $expectedYaml = <<<'yaml'
-        title: A title
+        title: "A title"
         issue: 101
         merge_request: 102
-        author: @octocat
+        author: "@octocat"
         type: changed
         yaml;
 
