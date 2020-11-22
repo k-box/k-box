@@ -112,7 +112,8 @@
 	},
 	"autoload-dev": {
 		"psr-4": {
-            "Tests\\": "tests/"
+			"Tests\\": "tests/",
+			"KBox\\Changelog\\": "changelogs/src/"
         },
 		"classmap": [
 			"tests/TestCase.php"
