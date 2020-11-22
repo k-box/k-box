@@ -137,7 +137,7 @@ type:
 
 #### `--merge-request` or `-m`
 
-Use the **`--merge-request`** or **`-m`** argument to provide the
+Use the **`--merge-request`** or **`-m`** option to provide the
 `merge_request` value:
 
 ```plaintext
@@ -153,7 +153,7 @@ type:
 
 #### `--issue` or `-i`
 
-Use the **`--issue`** or **`-i`** argument to provide the
+Use the **`--issue`** or **`-i`** option to provide the
 `issue` value:
 
 ```plaintext
@@ -169,7 +169,7 @@ type:
 
 #### `--dry-run`
 
-Use the **`--dry-run`** argument to prevent actually writing anything:
+Use the **`--dry-run`** option to prevent actually writing anything:
 
 ```plaintext
 $ php artisan changelog --dry-run
@@ -184,7 +184,7 @@ type:
 
 #### `--author` or `-u`
 
-Use the **`--author`** or **`-u`** argument to fill in the `author` value:
+Use the **`--author`** or **`-u`** option to fill in the `author` value:
 
 ```plaintext
 $ php artisan changelog -u "octocat" 'Hey Jo, I added a feature to the K-Box!'
@@ -199,7 +199,7 @@ type:
 
 #### `--type` or `-t`
 
-Use the **`--type`** or **`-t`** argument to provide the `type` value:
+Use the **`--type`** or **`-t`** option to provide the `type` value:
 
 ```plaintext
 $ php artisan changelog 'Hey Jo, I added a feature to the K-Box!' -t added
