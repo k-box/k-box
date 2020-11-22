@@ -1,17 +1,16 @@
 # Changelog
 
-All notable changes to this project will be documented in this file.
+Lists all notable changes to the K-Box for each version.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) 
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## [Unreleased]
+**Note**: Changes for the unreleased section are handled via entries under 
+[changelogs/unreleased](./changelogs/unreleased). Please see the 
+[developer documentation](./docs/developer/changelog.md) for 
+instructions on adding your own entry.
 
-### Added
-### Changed
-### Fixed
-### Deprecated
-### Removed
+## [Unreleased]
 
 ## [0.31.6] - 2020-10-15
 
