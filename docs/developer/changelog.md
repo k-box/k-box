@@ -4,8 +4,10 @@ The [`CHANGELOG.md`](../../changelog.md) file track notable changes to
 the K-Box. The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 Each entry, or bullet point, in the Changelog file is generated from a single 
-data file in the `changelogs/unreleased` folder.
-The file is expected to be a YAML file in the following format:
+data file in the `changelogs/unreleased` folder while the 
+release is generated with the [`release` command](#generate-a-release-entry).
+
+Each entry file is expected to be a YAML file in the following format:
 
 ```yaml
 title: "A new important feature"
@@ -224,3 +226,35 @@ we [started brainstorming](https://github.com/k-box/k-box/issues/435).
 The discussion lead to the current solution of one file per entry,
 and then compiling the entries into the overall `CHANGELOG.md` file during the
 release process.
+
+## Generate a release entry
+
+Consolidating the changelog for a release can be done via the Artisan `release`
+command.
+
+Its simplest usage is to provide the value for the `version` number.
+
+```bash
+php artisan release 0.32.0
+```
+
+### Options
+
+| Option      | Shorthand | Purpose                                   |
+| ----------- | --------- | ----------------------------------------- |
+| `--dry-run` |           | Don't actually write anything, just print |
+
+#### `--dry-run`
+
+Use the **`--dry-run`** option to prevent actually writing anything:
+
+```plaintext
+$ php artisan release 0.32.0 --dry-run
+update changelog.md
+---
+## [0.32.0] - 2020-11-22
+
+### Added
+
+- Entry for added by @octocat ([#100](https://github.com/k-box/k-box/issues/100), [#2100](https://github.com/k-box/k-box/pull/2100))
+```

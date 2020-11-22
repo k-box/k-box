@@ -13,6 +13,7 @@ use KBox\DocumentsElaboration\DocumentElaborationManager;
 use KBox\Services\Quota;
 use Jenssegers\Date\Date as LocalizedDate;
 use KBox\Changelog\ChangelogCommand;
+use KBox\Changelog\ReleaseCommand;
 use KBox\Pages\Page;
 use Oneofftech\Identities\Facades\Identity;
 
@@ -149,6 +150,7 @@ class AppServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole() && $this->app->environment('local', 'testing')) {
             $this->commands([
                 ChangelogCommand::class,
+                ReleaseCommand::class,
             ]);
         }
     }
