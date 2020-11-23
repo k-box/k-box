@@ -25,3 +25,7 @@ bin/
 php-cs-fixer.phar
 _ide_helper.php
 .phpstorm.meta.php
+changelogs/*
+readme.md
+contributing.md
+changelog.md
