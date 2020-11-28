@@ -12,6 +12,21 @@ instructions on adding your own entry.
 
 ## [Unreleased]
 
+## [0.32] - 2020-11-28
+
+### Added
+
+- Log in and registration via external identity providers (e.g. Gitlab and Dropbox)  ([#422](https://github.com/k-box/k-box/issues/422), [#437](https://github.com/k-box/k-box/pull/437))
+
+### Changed
+
+- Allow project creation from the sidebar  ([#460](https://github.com/k-box/k-box/pull/460))
+
+### Deprecated
+
+- Support for Internet Explorer 11 and below
+- Video uploader using resumable protocol
+
 ## [0.31.6] - 2020-10-15
 
 ### Fixed
