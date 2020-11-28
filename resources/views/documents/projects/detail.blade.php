@@ -15,6 +15,8 @@
 <div class="c-panel__actions">
 	<a href="{{route('documents.groups.show', $project->collection->id)}}" class="button">{{ trans('projects.show_documents') }}</a>
 
+	<x-copy-button :links="[route('documents.groups.show', $project->collection->id)]" />
+
 	@if( flags('microsites') && !is_null( $project->microsite ) )
 		<a target="_blank" href="{{ route('projects.site', ['slug' => $project->microsite->slug]) }}" class="button">{{ trans('microsites.actions.view_site') }}</a>
 	@endif

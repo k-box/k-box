@@ -182,18 +182,20 @@
 
 			</div>
 
-			<div class=" mb-4">
+			<div class=" mb-4 flex items-center flex-wrap">
 				
 				@if(!$document->isRemoteWebPage())
 
 					@if($document->isFileUploadComplete())
 
-						<a href="{{DmsRouting::preview($document)}}" class="button">{!!trans('panels.open_btn')!!} </a>
+						<a href="{{DmsRouting::preview($document)}}" class="button mb-2 mr-2">{!!trans('panels.open_btn')!!} </a>
+
+						<x-copy-button :links="[DmsRouting::preview($document)]" class="mb-2" />
 
 					@endif
 
 					@if($document->isFileUploadComplete())
-						<a href="{{DmsRouting::download($document)}}" target="_blank" download="{{ $document->title }}" class="button">
+						<a href="{{DmsRouting::download($document)}}" target="_blank" download="{{ $document->title }}" class="button mb-2">
 							{{trans('panels.download_btn')}} 
 							({{KBox\Documents\Services\DocumentsService::extension_from_file($document->file)}}, {{KBox\Documents\Services\DocumentsService::human_filesize($document->file->size)}})
 						</a>

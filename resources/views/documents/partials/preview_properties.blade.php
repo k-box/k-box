@@ -21,6 +21,8 @@
 
 	@endif
 
+	<x-copy-button :links="[DmsRouting::preview($document, $version)]" class="my-4" />
+
 	<div class="js-license-details">
 		@include('documents.partials.license', ['license' => $document->copyright_usage, 'owner' => $document->copyright_owner])
 	</div>

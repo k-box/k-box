@@ -22,6 +22,8 @@
 </div>
 <div class="c-panel__actions">
 	<a href="{{route('documents.groups.show', $group->id)}}" class="button">{{ trans('projects.show_documents') }}</a>
+    
+    <x-copy-button :links="[route('documents.groups.show', $group->id)]" />
 </div>
 
 <div class="c-panel__data">
