@@ -111,7 +111,7 @@
     width: 100%;
     max-width: 100%;
 }
-.preview__content video, .plyr {
+.preview__content video, .preview__content .map, .plyr {
     
     width: 100%;
     max-width: 100%;
