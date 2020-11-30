@@ -12,7 +12,7 @@
         </div>
         
         <div class="flex">
-            <button class="button inline-flex  items-center mr-2" @click="copy" :class="{ 'bg-green-300 border-green-700': copied === true }" title="{{ trans('share.document_link_copy') }}">
+            <button type="button" class="button inline-flex  items-center mr-2" @click="copy" :class="{ 'bg-green-300 border-green-700': copied === true }" title="{{ trans('share.document_link_copy') }}">
                 <span class="" x-show="!copied">@materialicon('content', 'content_copy', '')</span>
                 <span class="" x-show="copied">@materialicon('action', 'done', '')</span>
                 <span class="hidden md:inline md:ml-1" x-show="!copied">{{ trans( count($links) == 1 ? 'share.document_link_copy' : 'share.document_link_copy_multiple') }}</span>

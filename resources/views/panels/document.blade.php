@@ -55,8 +55,9 @@
 	
 			@if(!is_null($item->file) )
 	           <?php $real_preview_link = DmsRouting::preview($item); ?>
-				<a href="{{DmsRouting::preview($item)}}" class="button button--primary" target="_blank">{!!trans('panels.open_btn')!!} </a>
+				<a href="{{ $real_preview_link }}" class="button button--primary" target="_blank">{!!trans('panels.open_btn')!!} </a>
 	
+				<x-copy-button :links="[$real_preview_link]" />
 			@endif
 	       
            <?php $real_download_link = DmsRouting::download($item); ?>
