@@ -59,7 +59,7 @@ class StarredTest extends TestCase
         
         $starred = factory(Starred::class, $starred_count)->create(['user_id' => $user->id]);
         
-        $response = $this->actingAs($user)->get(route('documents.starred.index'));
+        $response = $this->actingAs($user)->get(route('documents.starred.index').'?sc=update_date&o=d');
         
         $response->assertSuccessful();
         

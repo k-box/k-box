@@ -11,6 +11,7 @@ use KBox\DocumentDescriptor;
 use Illuminate\Http\Request;
 use KBox\Http\Controllers\Controller;
 use Illuminate\Contracts\Auth\Guard as AuthGuard;
+use KBox\Sorter;
 
 class RecentDocumentsController extends Controller
 {
@@ -60,7 +61,9 @@ class RecentDocumentsController extends Controller
             $from = $last_30_days;
         }
 
-        $documents = $this->getLastUpdatesQuery($user, $from, $to, $order);
+        $sorter = Sorter::fromRequest($request, 'document', 'update_date', 'd');
+
+        $documents = $this->getLastUpdatesQuery($user, $from, $to, $sorter);
 
         $req->visibility('private');
 
@@ -103,7 +106,9 @@ class RecentDocumentsController extends Controller
             'documents' => $grouped,
             'groupings' => array_keys($grouped->toArray()),
             'context' => 'recent',
-            'filter' => trans('documents.menu.recent')]);
+            'filter' => trans('documents.menu.recent'),
+            'sorting' => $sorter,
+        ]);
     }
 
     /**
@@ -114,8 +119,12 @@ class RecentDocumentsController extends Controller
      * @param Carbon\Carbon $to
      * @return \Illuminate\Database\Eloquent\Builder the query to execute to retrieve the updated documents
      */
-    private function getLastUpdatesQuery(User $user, Carbon $from, Carbon $to, $order = 'ASC')
+    private function getLastUpdatesQuery(User $user, Carbon $from, Carbon $to, Sorter $sorter)
     {
+        // this is used by internal queries, so we change
+        // the sort only if refers to updated_at column
+        $order = $sorter->column === 'updated_at' ? $sorter->order : 'DESC';
+
         $user_is_dms_manager = $user->isDMSManager();
 
         $document_ids = collect();
@@ -166,6 +175,6 @@ class RecentDocumentsController extends Controller
             ->where('updated_at', '>=', $from)
             ->where('updated_at', '<=', $to)
             ->take(config('dms.recent.limit'))
-            ->orderBy('updated_at', $order);
+            ->orderBy($sorter->column, $sorter->order);
     }
 }

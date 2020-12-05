@@ -5,6 +5,7 @@ namespace KBox;
 use Illuminate\Database\Eloquent\Model;
 use KBox\Traits\LocalizableDateFields;
 use Franzose\ClosureTable\Extensions\Collection as TreeableCollection;
+use Illuminate\Support\Str;
 
 use Carbon\Carbon;
 
@@ -217,5 +218,46 @@ class Shared extends Model
         $groups = static::sharedWithMe($user)->where('shareable_type', Group::class)->with('shareable')->get()->map->shareable;
 
         return TreeableCollection::make($groups->filter())->toTree();
+    }
+
+    public function scopeSortUsingSorter($query, Sorter $sorter)
+    {
+        if (Str::startsWith($sorter->column, 'shareable.')) {
+            $column = Str::after($sorter->column, '.');
+
+            $subQuery = DocumentDescriptor::select($column)
+                ->whereColumn('shareable_id', 'document_descriptors.id')
+                ->take(1);
+
+            if ($this->shareable_type === Group::class) {
+                $subQuery = Group::select('name')
+                    ->whereColumn('shareable_id', 'groups.id')
+                    ->take(1);
+
+                $column = 'name';
+            }
+
+            return $query
+                ->orderBy($subQuery, $sorter->order);
+        }
+
+        if (Str::startsWith($sorter->column, 'users.')) {
+            return $query->select($this->table.'.*')
+                ->join('users', 'user_id', '=', 'users.id')
+                ->orderBy($sorter->column, $sorter->order);
+        }
+
+        return $query->orderBy($sorter->column, $sorter->order);
+    }
+
+    public static function sortableFields()
+    {
+        return [
+            'shared_date' => ['created_at', 'date'],
+            'shared_by' => ['users.name', 'string'],
+            'update_date' => ['shareable.updated_at', 'date'],
+            'creation_date' => ['shareable.created_at', 'date'],
+            // 'name' => ['shareable.title', 'string'],
+        ];
     }
 }

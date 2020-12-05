@@ -13,6 +13,7 @@ use Klink\DmsSearch\SearchRequest;
 use Klink\DmsAdapter\Contracts\KlinkAdapter;
 use KBox\Documents\Services\DocumentsService;
 use KBox\Pagination\SearchResultsPaginator as Paginator;
+use KBox\Sorter;
 
 class StarredDocumentsController extends Controller
 {
@@ -54,10 +55,12 @@ class StarredDocumentsController extends Controller
         
         $user = $auth->user();
 
+        $sorter = Sorter::fromRequest($request, 'starred', 'update_date', 'd');
+
         $has_starred = Starred::with('document')->ofUser($user->id)->count() > 0;
 
-        $results = ! $has_starred ? $this->getEmptyResult($req) : $this->search($req, function ($_request) use ($user) {
-            $all_starred = Starred::with('document')->ofUser($user->id);
+        $results = ! $has_starred ? $this->getEmptyResult($req) : $this->search($req, function ($_request) use ($user, $sorter) {
+            $all_starred = Starred::with('document')->ofUser($user->id)->sortUsingSorter($sorter);
             
             $personal_doc_id = collect($all_starred->get()->map->document)->map->uuid;
 
@@ -85,7 +88,8 @@ class StarredDocumentsController extends Controller
             'search_terms' => $req->term,
             'facets' => $results && $has_starred ? $results->facets() : [],
             'filters' => $results && $has_starred ? $results->filters() : [],
-            'empty_message' => ($results->count()==0 && $req->term !== '*') ? trans('search.no_results_no_markup', ['term' => $req->term, 'collection' =>  trans('starred.page_title')])  : trans('starred.empty_message')
+            'empty_message' => ($results->count()==0 && $req->term !== '*') ? trans('search.no_results_no_markup', ['term' => $req->term, 'collection' =>  trans('starred.page_title')])  : trans('starred.empty_message'),
+            'sorting' => $sorter,
         ]);
     }
 

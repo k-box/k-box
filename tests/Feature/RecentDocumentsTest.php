@@ -182,7 +182,7 @@ class RecentDocumentsTest extends TestCase
             $this->createRecentDocument($user, $created_at->copy()->subHours(2)),
         ];
 
-        $url = route('documents.recent').'?o='.$option ;
+        $url = route('documents.recent').'?o='.$option.'&sc=update_date';
 
         $response = $this->actingAs($user)->get($url);
 

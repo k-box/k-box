@@ -29,6 +29,7 @@ use Illuminate\Support\Facades\Gate;
 use KBox\Documents\Properties\Presenter;
 use KBox\Events\DocumentVersionUploaded;
 use KBox\Exceptions\QuotaExceededException;
+use KBox\Sorter;
 
 class DocumentsController extends Controller
 {
@@ -77,6 +78,11 @@ class DocumentsController extends Controller
         $req->visibility('private');
 
         $all_query = DocumentDescriptor::local()->private()->ofUser($user->id);
+
+        $sorter = Sorter::fromRequest($request);
+
+        $all_query->orderBy($sorter->column, $sorter->order);
+
         $personal_doc_id = $all_query->get()->map->uuid;
         
         $results = $this->search($req, function ($_request) use ($all_query, $personal_doc_id) {
@@ -85,7 +91,7 @@ class DocumentsController extends Controller
             if ($_request->isPageRequested() && ! $_request->isSearchRequested()) {
                 $_request->setForceFacetsRequest();
                 
-                return $all_query->orderBy('title', 'ASC');
+                return $all_query;
             }
             
             return false; // force to execute a search on the core instead on the database
@@ -103,8 +109,9 @@ class DocumentsController extends Controller
             'current_visibility' => 'private',
             'is_personal' => true,
             'hint' => false,
-            'filter' => trans('documents.menu.personal')
-            ]);
+            'filter' => trans('documents.menu.personal'),
+            'sorting' => $sorter,
+        ]);
     }
 
     public function trash(AuthGuard $auth)
@@ -134,6 +141,8 @@ class DocumentsController extends Controller
             
         $can_see_share = $auth_user->can_capability(Capability::RECEIVE_AND_SEE_SHARE);
 
+        $sorter = Sorter::fromRequest($request, 'shared', 'shared_date', 'd');
+
         $order = $request->input('o', 'd') === 'a' ? 'ASC' : 'DESC';
         $req = $this->searchRequestCreate($request);
         
@@ -142,7 +151,9 @@ class DocumentsController extends Controller
         $all_shared = new Collection();
 
         if ($can_see_share) {
-            $all_single = Shared::sharedWithMe($auth_user)->with(['shareable', 'sharedwith'])->orderBy('created_at', $order)->get();
+            $all_single = Shared::sharedWithMe($auth_user)->with(['shareable', 'sharedwith'])
+                ->sortUsingSorter($sorter)
+                ->get();
             
             $all_shared = $all_single->unique()->filter(function ($s) {
                 return ! is_null($s->shareable);
@@ -181,7 +192,9 @@ class DocumentsController extends Controller
             'search_terms' => $req->term,
             'facets' => $with_me !== null && ! $all_shared->isEmpty() ? $with_me->facets() : [],
             'filters' => $with_me !== null && ! $all_shared->isEmpty() ? $with_me->filters() : [],
-            'empty_message' => trans('share.empty_message')]);
+            'empty_message' => trans('share.empty_message'),
+            'sorting' => $sorter,
+        ]);
     }
 
     /**
