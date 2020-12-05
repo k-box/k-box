@@ -38,7 +38,7 @@
 		"ext-fileinfo": "*",
 		"ext-mbstring": "*",  
         "ext-ctype": "*",
-		"avvertix/materialicons-laravel-bridge": "^1.0",
+		"avvertix/materialicons-laravel-bridge": "^2.1",
 		"doctrine/dbal": "^2.5",
 		"dyrynda/laravel-efficient-uuid": "^4.0",
 		"dyrynda/laravel-model-uuid": "~6.0",
