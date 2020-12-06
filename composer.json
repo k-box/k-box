@@ -99,7 +99,6 @@
 		"psr-4": {
 			"KBox\\": "app/",
 			"KBox\\Documents\\": "packages/contentprocessing/src/",
-            "Klink\\DmsMicrosites\\": "workbench/klink/dms-project-microsites/src/",
 			"OneOffTech\\VideoProcessing\\": "packages/video-processing/src/",
 			"OneOffTech\\LanguageGuesser\\": "packages/language-guesser/src/",
 			"OneOffTech\\Licenses\\": "packages/licenses/src/"

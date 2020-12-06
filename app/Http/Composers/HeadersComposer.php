@@ -68,7 +68,7 @@ class HeadersComposer
                        ! Str::startsWith($route_name, 'plugins') &&
                        ! Str::startsWith($route_name, 'uploads') &&
                        ! Str::startsWith($route_name, 'privacy') &&
-                       ! Str::startsWith($route_name, 'password') && ! Str::startsWith($route_name, 'microsite'));
+                       ! Str::startsWith($route_name, 'password'));
 
         $view->with('show_search', $show_search);
 

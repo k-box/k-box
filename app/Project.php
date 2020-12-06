@@ -27,7 +27,6 @@ use KBox\Casts\UuidCast;
  * @property int $collection_id
  * @property-read \KBox\Group $collection
  * @property-read \KBox\User $manager
- * @property-read \Klink\DmsMicrosites\Microsite $microsite
  * @property-read \Illuminate\Database\Eloquent\Collection|\KBox\User[] $users
  * @method static \Illuminate\Database\Query\Builder|\KBox\Project managedBy($user)
  * @method static \Illuminate\Database\Query\Builder|\KBox\Project whereAvatar($value)
@@ -104,14 +103,6 @@ class Project extends Model
     public function isManagedBy(User $user)
     {
         return $this->user_id === $user->getKey();
-    }
-    
-    /**
-     * The associated microsite
-     */
-    public function microsite()
-    {
-        return $this->hasOne('\Klink\DmsMicrosites\Microsite');
     }
     
     public function getDocumentsCount()

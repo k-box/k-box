@@ -164,18 +164,6 @@ Add them as members from project's [Edit page](https://github.com/k-box/k-box/bl
 
 Assign the account based on the [permissions](https://github.com/k-box/k-box/blob/master/docs/administration/permissions.md).
 
-[**4. What is a microsite?**](https://github.com/k-box/k-box/blob/master/docs/user/microsites.md#microsites)
-
-A one-pager for visitors to learn about your project. Can be compared with a Project business card.
-
-**5. What are the advantages of a microsite compared to normal website?** 
-
-1.  Microsite is hosted on your K-Box. No additional infrastructure needs to be managed;
-2.  K-Link search is already integrated.
-
-[**6. How to create a Project microsite?**](https://github.com/k-box/k-box/blob/master/docs/user/microsites.md#creating-a-microsite)
-
-Right-click on the project of interest on the Projects page and select “Details” option. Go to “Micrositebeta” and “Create microsite” button. Fill the respective fields on the new page and click to “Publish the Microsite” to finish.
 
 ### <a id="questions"></a>Questions/Suggestions
 

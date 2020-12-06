@@ -163,18 +163,6 @@ _Примечание:_ эти функции доступны только ад
 
 Выберите на основе [пользовательских прав](https://github.com/k-box/k-box/blob/master/docs/administration/permissions.md).
 
-[**4. Что такое микро-сайт?**](https://github.com/k-box/k-box/blob/master/docs/user/microsites.md#microsites)
-
- Одна веб-страница с описанием деятельности проекта.
-
-**5. Почему микро-сайт, а не веб-сайт?**
-
-Можно создать внутри K-Box. Не нужен отдельный хостинг. По умолчанию есть K-Link.
-
-[**6. Как создать микро-сайт проекта?**](https://github.com/k-box/k-box/blob/master/docs/user/microsites.md#creating-a-microsite)
-
-Правый клик на проекте, выберите «Детали». В разделе «Microsite» нажмите «Создать». 
-
 
 ### <a id="questions"></a>Вопросы/Предложения
 

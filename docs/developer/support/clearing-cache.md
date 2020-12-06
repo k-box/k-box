@@ -6,7 +6,6 @@ If a user is experiencing problems with:
 
 - Project lists not refreshing after being joined into a project
 - Collections list not refreshing after create, edit, delete
-- Microsite not refreshing
 
 is highly probable that the cache has not be updated for the specific user and so he/she is seeing an old version.
 

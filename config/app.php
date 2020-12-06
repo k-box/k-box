@@ -206,11 +206,6 @@ return [
          */
         GrahamCampbell\Markdown\MarkdownServiceProvider::class,
 
-        /**
-         * For rendering subviews and partial in a more clean way
-         */
-        Klink\DmsMicrosites\Providers\DmsMicrositesServiceProvider::class,
-
         Laravel\Tinker\TinkerServiceProvider::class,
 
         /*

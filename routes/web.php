@@ -333,18 +333,9 @@ Route::prefix('profile')->name('profile.')->group(function () {
 | Projects
 |--------------------------------------------------------------------------
 |
-| Handle the microsites visualization and edit
+|
 |
 */
-
-\Route::get('projects/{slug}/{language?}', [
-    'uses' => '\Klink\DmsMicrosites\Controllers\MicrositeController@show',
-    'as' => 'projects.site',
-])->where([
-    'slug' => '(?!create)[a-z\\-]+',
-    // slug cannot contain 'create' as generates a conflict with projects.create route
-     'language' => '^[a-z]{2}$'
-]);
 
 Route::post('projects/{id}/avatar', [
     'uses' => 'Projects\ProjectAvatarsController@store',
@@ -444,22 +435,6 @@ Route::prefix('consent')->name('consent.dialog.')->group(function () {
     Route::get('statistic', ['as' => 'statistic.show', 'uses' => 'StatisticConsentDialogController@show']);
     Route::put('statistic', ['as' => 'statistic.update', 'uses' => 'StatisticConsentDialogController@update']);
 });
-
-/*
-|--------------------------------------------------------------------------
-| Microsites
-|--------------------------------------------------------------------------
-|
-| Handle the microsites visualization and edit
-|
-*/
-
-Route::get('site/{slug}', [
-    'uses' => '\Klink\DmsMicrosites\Controllers\MicrositeController@show',
-    'as' => 'microsites.slug',
-]);
-
-Route::resource('microsites', '\Klink\DmsMicrosites\Controllers\MicrositeController');
 
 /*
 |--------------------------------------------------------------------------

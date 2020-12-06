@@ -126,7 +126,7 @@ class ProjectsPageController extends Controller
         $this->authorize('viewAny', Project::class);
 
         try {
-            $project = Project::findOrFail($id)->load(['users', 'manager', 'microsite']);
+            $project = Project::findOrFail($id)->load(['users', 'manager']);
     
             return view('documents.projects.detail', [
                 'pagetitle' => trans('projects.page_title_with_name', ['name' => $project->name]),
