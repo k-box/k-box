@@ -26,11 +26,6 @@ final class Flags
     const PLUGINS = 'plugins';
     
     /**
-     * The microsites feature flag
-     */
-    const MICROSITES = 'microsites';
-    
-    /**
      * Feature flag for notifications consent
      */
     const CONSENT_NOTIFICATIONS = 'consent_notifications';

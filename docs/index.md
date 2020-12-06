@@ -40,7 +40,6 @@ Internet Explorer 11. Internet Explorer version 9 and 10 are supported on best-e
 
 - [Duplicate documents management](./user/duplicates.md)
 - [File type detection](./user/document-types.md)
-- [Microsites](./user/microsites.md)
 
 ## Administration
 

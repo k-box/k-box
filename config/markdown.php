@@ -131,7 +131,7 @@ return [
     |
     */
 
-    'html_input' => 'allow', // it is set to allow to enable microsite customization
+    'html_input' => 'strip',
 
     /*
     |--------------------------------------------------------------------------

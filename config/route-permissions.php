@@ -118,16 +118,6 @@ return [
     'groups' => [
         'detail' => KBox\Capability::$CONTENT_MANAGER,
     ],
-    
-    'microsites' => [
-        'index' => ['all' => KBox\Capability::$PROJECT_MANAGER_LIMITED],
-        'create' => ['all' => KBox\Capability::$PROJECT_MANAGER_LIMITED],
-        'store' => ['all' => KBox\Capability::$PROJECT_MANAGER_LIMITED],
-        'show' => ['all' => KBox\Capability::$PROJECT_MANAGER_LIMITED],
-        'edit' => ['all' => KBox\Capability::$PROJECT_MANAGER_LIMITED],
-        'update' => ['all' => KBox\Capability::$PROJECT_MANAGER_LIMITED],
-        'destroy' => ['all' => KBox\Capability::$PROJECT_MANAGER_LIMITED],
-    ],
 
     /**
      * Administration routes

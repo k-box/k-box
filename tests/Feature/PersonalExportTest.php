@@ -13,13 +13,11 @@ use KBox\Capability;
 use KBox\PersonalExport;
 use KBox\DocumentDescriptor;
 use KBox\Documents\Facades\Files;
-use Klink\DmsMicrosites\Microsite;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Queue;
 use KBox\Events\PersonalExportCreated;
 use KBox\Jobs\PreparePersonalExportJob;
 use Illuminate\Support\Facades\Storage;
-use Klink\DmsMicrosites\MicrositeContent;
 use Illuminate\Support\Facades\Notification;
 use KBox\Notifications\PersonalExportReadyNotification;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -204,57 +202,6 @@ class PersonalExportTest extends TestCase
         $extension = Files::extensionFromType($file->mime_type);
         
         $this->assertContains("{$file->uuid}.$extension", $zipEntries);
-    }
-
-    public function test_project_manager_personal_export_include_microsite()
-    {
-        $disk = config('personal-export.disk');
-        $user = tap(factory(User::class)->create())->addCapabilities(Capability::$PARTNER);
-        $this->createExportableDataForUser($user);
-        $project = Project::managedBy($user->id)->first();
-        
-        Storage::fake($disk);
-        Event::fake();
-
-        $microsite = factory(Microsite::class)->create([
-            'project_id' => $project->id
-        ]);
-
-        MicrositeContent::create([
-            'microsite_id' => $microsite->id,
-            'language' => 'en',
-            'content' => 'the content in english',
-            'user_id' => $user->id,
-            'title' => 'a title',
-            'slug' => 'a-slug',
-            'type' => MicrositeContent::TYPE_PAGE,
-        ]);
-        MicrositeContent::create([
-            'microsite_id' => $microsite->id,
-            'language' => 'ru',
-            'content' => 'the content in russian',
-            'user_id' => $user->id,
-            'title' => 'a title',
-            'slug' => 'a-slug',
-            'type' => MicrositeContent::TYPE_PAGE,
-        ]);
-
-        $export_request = PersonalExport::requestNewExport($user);
-
-        $job = new PreparePersonalExportJob($export_request);
-
-        $job->handle();
-
-        Event::assertDispatched(PersonalExportCreated::class);
-        $export = PersonalExport::ofUser($user->id)->first();
-        $this->assertNotNull($export);
-        Storage::disk($disk)->assertExists($export->name);
-
-        $zipEntries = $this->getZipContentList(Storage::disk($disk)->path($export->name));
-
-        $this->assertContains("projects.json", $zipEntries);
-        $this->assertContains("site-a-slug-en.html", $zipEntries);
-        $this->assertContains("site-a-slug-ru.html", $zipEntries);
     }
 
     public function test_personal_export_notification_is_sent()

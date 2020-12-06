@@ -136,10 +136,6 @@ Vous pouvez uniquement dépublier des fichiers depuis la K-Box sur laquelle ils 
 
 Le processus pour modifier des fichiers publics est identique à celui pour modifier des fichiers privés. Veuillez cliquez sur votre fichier pour ouvrir son panneau d'information et cliquez sur "Modifier".  Vous pouvez alors modifier ses informations. Cliquez sur "Enregistrer" pour sauvegarder vos changements.
 
-[**16. Comment puis-je voir le microsite d'un projet?**](https://github.com/k-box/k-box/blob/master/docs/user/microsites.md#microsites)
-
-Veuillez cliquez sur "Projets", dans le menu de navigation, pour avoir une vue d'ensemble de tous les projets disponibles. Faites un clic-droit sur le projet qui vous intéresse cliquez sur "Détails". Le bouton "Voir le microsite" vous amène à sa page publique.
-
 
 ### <a id="my-collections-activities"></a>Mes collections
 
@@ -207,15 +203,7 @@ Pour que les utilisateurs puissent avoir accès au projet, le gestionnaire de pr
 
 Veuillez vous rendre sur la page "Projets" pout avoir une vue d'ensemble de tous les projets existants. Faites un clic-droit sur le projet qui vous intéresse et choisissez "Modifier" dans le menu.
 
-[**4. Comment puis-je créer un microsite de projet?**](https://github.com/k-box/k-box/blob/master/docs/user/microsites.md#creating-a-microsite) 
-
-Veuillez vous rendre sur la page "Projets" pout avoir une vue d'ensemble de tous les projets existants. Faites un clic-droit sur le projet qui vous intéresse et choisissez "Détails" dans le menu. Sur la nouvelle page vous verrez la section "Micrositebeta" et le bouton "Créer un microsite". Si vous cliquez dessus, une nouvelle page va s'ouvrir, où vous pouvez choisir le nom du microsite, un lien court vers le microsite (version conviviale de l'adresse), son logo et sa langue par défaut. Vous pouvez créer du contenu pour les versions anglaise et russe du microsite en replissant les champs respectifs. Cliquez sur le bouton "Publier le microsite".
-
-**5. Comment puis-je modifier un microsite de projet?** 
-
-Veuillez vous rendre sur la page "Projets" pout avoir une vue d'ensemble de tous les projets existants. Faites un clic-droit sur le projet qui vous intéresse et choisissez "Détails" dans le menu. Le bouton "Modifier le microsite", dans la section "Microsite" vous amène à la page de paramètres.
-
-**6. Je veux créer un utilisateur. Comment puis-je le faire?** 
+**4. Je veux créer un utilisateur. Comment puis-je le faire?** 
 
 Pour créer un utilisateur, veuillez vous rendre dans la fenêtre d'administration. Cliquez sur "Créer un utilisateur" et remplissez les champs. Afin d'attribuer les bons droits d'accès, veuillez identifier [le rôle](https://github.com/k-box/k-box/blob/master/docs/administration/permissions.md) de cet utilisateur dans les activités du projet:
 

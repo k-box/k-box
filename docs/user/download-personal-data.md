@@ -8,7 +8,7 @@ Description: How to download a copy of the data you uploaded to the K-Box
 The K-Box let you export all your personal data, plus the files you uploaded, as a single zip archive.
 
 The export will contain your user data, the documents uploaded (metadata and files), 
-the starred documents, the collections, your managed projects and the microsites.
+the starred documents, the collections and your managed projects.
 
 > **The export can only be generated after verifying your email address**
 

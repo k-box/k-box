@@ -264,7 +264,6 @@ window.DMS = (function(_$, _nprogress, _rivets, _alert){
 			SHARE_CREATE: 'shares/create',
 			STORAGE_REINDEX_ALL: 'administration/storage/reindexall',
 			USER_PROFILE_OPTIONS: 'profile/options',
-			MICROSITE: "microsites/{ID}",
 			
 			LICENSE_HELP: 'help/licenses',
 
@@ -679,12 +678,6 @@ window.DMS = (function(_$, _nprogress, _rivets, _alert){
 					module.Ajax.del(module.Paths.PROJECTS_API + '/' + id + "/avatar", success, error);
 				},
 			},
-
-			Microsite: {
-				delete :  function(id, success, error){
-					return module.Ajax.del(module.Paths.MICROSITE.replace('{ID}', id), success, error);
-				}
-			}
 
 
 		},

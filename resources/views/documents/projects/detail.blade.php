@@ -17,10 +17,6 @@
 
 	<x-copy-button :links="[route('documents.groups.show', $project->collection->id)]" />
 
-	@if( flags('microsites') && !is_null( $project->microsite ) )
-		<a target="_blank" href="{{ route('projects.site', ['slug' => $project->microsite->slug]) }}" class="button">{{ trans('microsites.actions.view_site') }}</a>
-	@endif
-
 	@if(auth()->check() && auth()->user()->id === $project->user_id )
 
 		<a href="{{route('projects.edit', $project->id)}}" class="button">{{ trans('projects.edit_button') }}</a>
@@ -44,47 +40,6 @@
 	<div class="c-panel__meta">
 		<span class="c-panel__label">{{trans('projects.labels.documents_count_label')}}</span>{{ trans_choice('projects.labels.documents_count', $project->getDocumentsCount(), ['count' => $project->getDocumentsCount()]) }}
 	</div>
-
-
-	@if(auth()->check() && flags('microsites') && (auth()->user()->id === $project->user_id || !is_null( $project->microsite )))
-
-	<div class="">
-		<h4 class="c-panel__section">{!! trans('microsites.labels.microsite') !!}</h4>
-			<span class="description block mb-4">{{trans('microsites.hints.what')}}</span>
-            
-            @if( is_null( $project->microsite ) && auth()->user()->id === $project->user_id)
-            
-                <p>
-                    <a id="microsite_create" href="{{ route('microsites.create', ['project' => $project->id]) }}" class="button">{{ trans('microsites.actions.create') }}</a>
-                    <span class="description">{{ trans('microsites.hints.create_for_project') }}</span>
-                </p>
-            
-            @else 
-            
-				@if( $project->microsite )
-					<p class="mb-2">
-						<a target="_blank" rel="nofollow noopener" href="{{ route('projects.site', ['slug' => $project->microsite->slug]) }}" class="button">{{ trans('microsites.actions.view_site') }}</a>
-					</p>
-				@endif
-
-				@if( auth()->user()->id === $project->user_id && $project->microsite)
-            
-					<p class="mb-2">
-						<a id="microsite_edit" href="{{ route('microsites.edit', $project->microsite->id) }}" class="button">{{ trans('microsites.actions.edit') }}</a>
-						<span class="description">{{ trans('microsites.hints.edit_microsite') }}</span>
-					</p>
-					
-					<p>
-						<a href="{{ route('microsites.destroy', $project->microsite->id) }}" data-project="{{$project->id}}" data-microsite="{{ $project->microsite->id }}" data-action="micrositeDelete" data-ask="{{ trans('microsites.actions.delete_ask', ['title' => $project->microsite->title]) }}" class="button button--danger">{{ trans('microsites.actions.delete') }}</a>
-						<span class="description">{{ trans('microsites.hints.delete_microsite') }}</span>
-					</p>
-
-				@endif
-            
-            @endif
-            
-		</div>
-	@endif
 
 	<div class="">
 		<h4 class="c-panel__section">{{ trans_choice('projects.labels.user_count', $project->users->count(), ['count' => $project->users->count()]) }}</h4>

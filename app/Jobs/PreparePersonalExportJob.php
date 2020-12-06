@@ -22,7 +22,6 @@ use Illuminate\Support\Facades\Storage;
 use KBox\Http\Resources\CollectionDump;
 use Illuminate\Queue\InteractsWithQueue;
 use KBox\Http\Resources\PublicationDump;
-use Klink\DmsMicrosites\MicrositeContent;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 
@@ -172,7 +171,6 @@ class PreparePersonalExportJob implements ShouldQueue
         $collection_json = ProjectDump::collection(
             Project::managedBy($this->export->user_id)
             ->with('collection')
-            ->with('microsite')
             ->get()
         )->toJson();
 
@@ -180,21 +178,5 @@ class PreparePersonalExportJob implements ShouldQueue
             'projects.json',
             $collection_json
         );
-
-        $this->addMicrositePages();
-    }
-
-    private function addMicrositePages()
-    {
-        $pages = MicrositeContent::where('user_id', $this->export->user_id)->where('type', MicrositeContent::TYPE_PAGE)->get();
-        $parser = app()->make('micrositeparser');
-
-        $pages->each(function ($page) use ($parser) {
-            $content = $parser->toHtml($page);
-            $this->archiveHandle->addFromString(
-                "site-{$page->slug}-{$page->language}.html",
-                $content
-            );
-        });
     }
 }
