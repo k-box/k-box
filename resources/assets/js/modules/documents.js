@@ -737,21 +737,29 @@ define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/s
             _updateBinds();
 
             // If the highlight parameter is present, 
-            // let's highlight the doc for a couple of seconds
+            // ensure that the item is visible and highlighted for some seconds
 
-            var highlight_doc = $("[data-id=" + getParameterByName('highlight') + "]");
-            highlight_doc.addClass('newly-created');
+            var highlightables = $("[data-id=" + getParameterByName('highlight') + "]");
 
-            if(typeof highlight_doc.scrollIntoViewIfNeeded === "function"){
-                highlight_doc.scrollIntoViewIfNeeded();
+            if(highlightables.length === 1){
+
+                var highlight_doc = highlightables[0];
+
+                var scrollIntoViewSupported = typeof highlight_doc.scrollIntoView === "function";
+    
+                if(scrollIntoViewSupported){
+                    setTimeout(function(){
+                        highlight_doc.scrollIntoView({behavior:'smooth'});
+                    }, 1);
+                }
+
+                highlightables.addClass('newly-created');
+                            
+                setTimeout(function(){
+                    highlightables.removeClass('newly-created');
+                }, scrollIntoViewSupported ? 2500 : 4000);
             }
-            else if(typeof highlight_doc.scrollIntoView === "function"){
-                highlight_doc.scrollIntoView();
-            }
-                        
-            setTimeout(function(){
-                highlight_doc.removeClass('newly-created');
-            }, 2500);
+
             
             if(module.context.filter !== 'sharing') {
                 attachContextMenu();
