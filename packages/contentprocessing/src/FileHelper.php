@@ -196,6 +196,7 @@ final class FileHelper
     private static $discardMimeTypes = [
         'application/CDFV2-corrupt',
         'application/CDFV2-encrypted',
+        'application/CDFV2-unknown',
         'application/CDFV2',
         'inode/x-empty',
     ];

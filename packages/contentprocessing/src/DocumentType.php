@@ -213,7 +213,6 @@ final class DocumentType
         'application/vnd.google-apps.form' => self::FORM,
 
         'application/octet-stream' => self::BINARY,
-        'application/octet-stream' => self::BINARY,
     ];
     
     /**
