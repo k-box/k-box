@@ -63,7 +63,7 @@ class Sorter
      *
      * @param Illuminate\Http\Request $request
      */
-    public static function fromRequest(Request $request, $entity = 'document', $defaultColumn = 'name', $defaultOrder = self::ORDER_ASCENDING)
+    public static function fromRequest(Request $request, $entity = 'document', $defaultColumn = 'update_date', $defaultOrder = self::ORDER_DESCENDING)
     {
         // TODO: maybe the defaults can be configured on the reference entity?
 

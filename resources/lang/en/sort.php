@@ -18,16 +18,16 @@ return [
         // d = descending
 
         'date' => [
-            'a' => 'Older to newer',
-            'd' => 'Newer to older',
+            'a' => 'Oldest first',
+            'd' => 'Newest first',
         ],
         'string' => [
             'a' => 'A to Z',
             'd' => 'Z to A',
         ],
         'number' => [
-            'a' => 'Smaller to larger',
-            'd' => 'Larger to smaller',
+            'a' => 'Smallest first',
+            'd' => 'Largest first',
         ],
     ],
 
