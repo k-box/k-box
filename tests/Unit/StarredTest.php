@@ -59,7 +59,7 @@ class StarredTest extends TestCase
         
         $starred = factory(Starred::class, $starred_count)->create(['user_id' => $user->id]);
         
-        $response = $this->actingAs($user)->get(route('documents.starred.index').'?sc=update_date&o=d');
+        $response = $this->actingAs($user)->get(route('documents.starred.index'));
         
         $response->assertSuccessful();
         
@@ -67,7 +67,7 @@ class StarredTest extends TestCase
         $response->assertViewHas('search_terms', '*');
         $response->assertDontSee('value="*"');
     
-        $response->assertViewHas('starred'); //has the key
+        $response->assertViewHas('starred');
         
         $starred_response = $response->data('starred');
         

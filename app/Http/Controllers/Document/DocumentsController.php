@@ -143,7 +143,6 @@ class DocumentsController extends Controller
 
         $sorter = Sorter::fromRequest($request, 'shared', 'shared_date', 'd');
 
-        $order = $request->input('o', 'd') === 'a' ? 'ASC' : 'DESC';
         $req = $this->searchRequestCreate($request);
         
         $req->visibility('private');
@@ -188,7 +187,6 @@ class DocumentsController extends Controller
             'context' => 'shared',
             'filter' => trans('documents.menu.shared'),
             'pagination' => $with_me,
-            'order' => $order,
             'search_terms' => $req->term,
             'facets' => $with_me !== null && ! $all_shared->isEmpty() ? $with_me->facets() : [],
             'filters' => $with_me !== null && ! $all_shared->isEmpty() ? $with_me->filters() : [],

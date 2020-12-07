@@ -99,7 +99,6 @@ class RecentDocumentsController extends Controller
             'search_replica_parameters' => $request->only('s'),
             'pagination' => $results,
             'range' => $selected_range,
-            'order' => $order,
             'info_message' => $user_is_dms_manager ? trans('documents.messages.recent_hint_dms_manager') : null,
             'list_style_current' => $user->optionListStyle(),
             'pagetitle' => trans('documents.menu.recent').' '.trans('documents.page_title'),

@@ -23,13 +23,13 @@ class SorterTest extends TestCase
     {
         $sorter = Sorter::fromRequest($this->makeRequest([]));
 
-        $this->assertEquals('title', $sorter->column);
-        $this->assertEquals('a', $sorter->direction);
-        $this->assertFalse($sorter->isDesc());
-        $this->assertTrue($sorter->isAsc());
-        $this->assertEquals('ASC', $sorter->order);
-        $this->assertEquals('string', $sorter->type);
-        $this->assertEquals('name', $sorter->field);
+        $this->assertEquals('updated_at', $sorter->column);
+        $this->assertEquals('d', $sorter->direction);
+        $this->assertEquals('DESC', $sorter->order);
+        $this->assertEquals('date', $sorter->type);
+        $this->assertEquals('update_date', $sorter->field);
+        $this->assertTrue($sorter->isDesc());
+        $this->assertFalse($sorter->isAsc());
     }
 
     public function test_descending_order_respected()
@@ -56,8 +56,8 @@ class SorterTest extends TestCase
         ]));
 
         $this->assertEquals('updated_at', $sorter->column);
-        $this->assertEquals('a', $sorter->direction);
-        $this->assertEquals('ASC', $sorter->order);
+        $this->assertEquals('d', $sorter->direction);
+        $this->assertEquals('DESC', $sorter->order);
         $this->assertEquals('date', $sorter->type);
         $this->assertEquals('update_date', $sorter->field);
     }
@@ -68,11 +68,11 @@ class SorterTest extends TestCase
             'sc' => 'mime_type',
         ]));
 
-        $this->assertEquals('title', $sorter->column);
-        $this->assertEquals('a', $sorter->direction);
-        $this->assertEquals('ASC', $sorter->order);
-        $this->assertEquals('string', $sorter->type);
-        $this->assertEquals('name', $sorter->field);
+        $this->assertEquals('updated_at', $sorter->column);
+        $this->assertEquals('d', $sorter->direction);
+        $this->assertEquals('DESC', $sorter->order);
+        $this->assertEquals('date', $sorter->type);
+        $this->assertEquals('update_date', $sorter->field);
     }
 
     public function field_data()
