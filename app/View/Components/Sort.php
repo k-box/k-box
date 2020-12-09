@@ -23,7 +23,7 @@ class Sort extends Component
     {
         $this->sorter = $sorter;
         $this->isSearch = $request->hasSearch();
-        $this->sortables = $this->processSortables($sorter->sortables);
+        $this->sortables = $this->processSortables(optional($sorter)->sortables);
     }
 
     /**
@@ -32,6 +32,10 @@ class Sort extends Component
      */
     private function processSortables($sortables)
     {
+        if (is_null($sortables)) {
+            return [];
+        }
+
         return collect($sortables)->mapWithKeys(function ($opts, $key) {
             return [$key => $this->isSearch ? ! empty($opts[2] ?? null) : ! empty($opts[0] ?? false)];
         })->toArray();
