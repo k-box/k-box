@@ -85,6 +85,7 @@ class KlinkSearchRequest
 		$params->filters = $this->convertToSolrFilterQuery($this->request->buildFilters());
 		$params->geo_location_filter = $this->request->buildSpatialFilters();
 		$params->aggregations = $this->request->buildAggregations();
+		$params->sort = $this->request->buildSortParams();
 		
 		return $params;
 	}

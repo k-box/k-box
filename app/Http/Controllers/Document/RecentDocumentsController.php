@@ -39,8 +39,6 @@ class RecentDocumentsController extends Controller
 
         $user_is_dms_manager = $user->isDMSManager();
 
-        $order = $request->input('o', 'd') === 'a' ? 'ASC' : 'DESC';
-
         $selected_range = $user->optionRecentRange();
 
         if ($selected_range !== $range) {
@@ -48,7 +46,9 @@ class RecentDocumentsController extends Controller
             $user->setOption(User::OPTION_RECENT_RANGE, $range);
         }
 
-        $req = $this->searchRequestCreate($request);
+        $sorter = Sorter::fromRequest($request, 'document', 'update_date', 'd');
+
+        $req = $request->search()->setSorter($sorter);
 
         $from = $today;
         $to = Carbon::now();
@@ -60,8 +60,6 @@ class RecentDocumentsController extends Controller
         } elseif ($selected_range === 'currentmonth') {
             $from = $last_30_days;
         }
-
-        $sorter = Sorter::fromRequest($request, 'document', 'update_date', 'd');
 
         $documents = $this->getLastUpdatesQuery($user, $from, $to, $sorter);
 
@@ -174,6 +172,6 @@ class RecentDocumentsController extends Controller
             ->where('updated_at', '>=', $from)
             ->where('updated_at', '<=', $to)
             ->take(config('dms.recent.limit'))
-            ->orderBy($sorter->column, $sorter->order);
+            ->orderBy($sorter->column ?? 'updated_at', $sorter->order ?? 'DESC');
     }
 }

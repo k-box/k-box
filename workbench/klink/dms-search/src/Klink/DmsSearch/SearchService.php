@@ -206,7 +206,7 @@ class SearchService
             return $pagination;
         }
         
-        \Log::error('Unexpected search results response', ['class' => get_class($results), 'results' => $results]);
+        \Log::error('Unexpected search results response', ['results' => $results]);
 
         return null;
     }
@@ -242,8 +242,6 @@ class SearchService
     public function aggregations(SearchRequest $request)
     {
         try {
-            // dump($request);
-
             // TODO: in some cases I want the facets to be bound 
             // to a filter to reduce the case that I see facets 
             // for all documents, but I'm in the starred section 

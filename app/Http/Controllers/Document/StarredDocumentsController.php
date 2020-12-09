@@ -49,13 +49,13 @@ class StarredDocumentsController extends Controller
      */
     public function index(Guard $auth, Request $request)
     {
-        $req = $this->searchRequestCreate($request);
+        $sorter = Sorter::fromRequest($request, 'starred', 'update_date', 'd');
+
+        $req = $request->search()->setSorter($sorter);
         
         $req->visibility('private');
         
         $user = $auth->user();
-
-        $sorter = Sorter::fromRequest($request, 'starred', 'update_date', 'd');
 
         $has_starred = Starred::with('document')->ofUser($user->id)->count() > 0;
 

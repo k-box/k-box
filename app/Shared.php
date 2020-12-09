@@ -222,6 +222,10 @@ class Shared extends Model
 
     public function scopeSortUsingSorter($query, Sorter $sorter)
     {
+        if (is_null($sorter->column)) {
+            return $query;
+        }
+        
         if (Str::startsWith($sorter->column, 'shareable.')) {
             $column = Str::after($sorter->column, '.');
 
@@ -253,10 +257,11 @@ class Shared extends Model
     public static function sortableFields()
     {
         return [
-            'shared_date' => ['created_at', 'date'],
-            'shared_by' => ['users.name', 'string'],
-            'update_date' => ['shareable.updated_at', 'date'],
-            'creation_date' => ['shareable.created_at', 'date'],
+            // field on the database, type, field on the search engine
+            'shared_date' => ['created_at', 'date', null],
+            'shared_by' => ['users.name', 'string', null],
+            'update_date' => ['shareable.updated_at', 'date', 'properties.updated_at'],
+            'creation_date' => ['shareable.created_at', 'date', 'properties.created_at'],
             // 'name' => ['shareable.title', 'string'],
         ];
     }

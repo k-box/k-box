@@ -129,7 +129,9 @@ class GroupsController extends Controller
      */
     public function show(AuthGuard $auth, Request $request, $id)
     {
-        $req = $this->searchRequestCreate($request);
+        $sorter = Sorter::fromRequest($request);
+
+        $req = $request->search()->setSorter($sorter);
         
         $req->visibility('private');
         
@@ -140,8 +142,6 @@ class GroupsController extends Controller
         if (! $this->service->isCollectionAccessible($user, $group)) {
             throw new ForbiddenException(trans('errors.401_title'), 401);
         }
-        
-        $sorter = Sorter::fromRequest($request);
         
         // GET the current $group and all sub-collections accessible by the User
         // Could be the case that a sub-collection is marked private?

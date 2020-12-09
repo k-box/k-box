@@ -72,19 +72,21 @@ class DocumentsController extends Controller
     public function index(AuthGuard $auth, Request $request, $visibility = 'private')
     {
         $user = $auth->user();
+
+        $sorter = Sorter::fromRequest($request);
         
-        $req = $this->searchRequestCreate($request);
+        $req = $request->search()->setSorter($sorter);
         
         $req->visibility('private');
 
         $all_query = DocumentDescriptor::local()->private()->ofUser($user->id);
-
-        $sorter = Sorter::fromRequest($request);
-
-        $all_query->orderBy($sorter->column, $sorter->order);
-
-        $personal_doc_id = $all_query->get()->map->uuid;
         
+        $personal_doc_id = $all_query->get()->map->uuid;
+
+        if (! $request->hasSearch()) {
+            $all_query->orderBy($sorter->column, $sorter->order);
+        }
+
         $results = $this->search($req, function ($_request) use ($all_query, $personal_doc_id) {
             $_request->in($personal_doc_id);
             
@@ -143,7 +145,7 @@ class DocumentsController extends Controller
 
         $sorter = Sorter::fromRequest($request, 'shared', 'shared_date', 'd');
 
-        $req = $this->searchRequestCreate($request);
+        $req = $request->search()->setSorter($sorter);
         
         $req->visibility('private');
         

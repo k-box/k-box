@@ -1,6 +1,5 @@
-@props(['sorter'])
-
 @if(!is_null($sorter ?? null))
+
     <div {{ $attributes->merge(['class' => 'relative']) }}  x-data="{ open: false }">
 
         <button type="button" @click="open = true" class="flex items-center button" title="{{ trans('sort.button') }}">

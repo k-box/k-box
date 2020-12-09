@@ -147,6 +147,7 @@ final class RoutingHelpers
         $params = request()->only([
             'visibility',
             'n',
+            's',
             'properties.mime_type',
             'properties.language',
             'properties.tags',

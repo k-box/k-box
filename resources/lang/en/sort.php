@@ -29,9 +29,14 @@ return [
             'a' => 'Smallest first',
             'd' => 'Largest first',
         ],
+        'relevance' => [
+            'a' => 'Least relevant first',
+            'd' => 'Most relevant first',
+        ],
     ],
 
     'labels' => [
+        'relevance' => 'Search relevance',
         'update_date' => 'Modified date',
         'name' => 'Name',
         'creation_date' => 'Creation date',

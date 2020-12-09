@@ -116,6 +116,10 @@ class Starred extends Model
 
     public function scopeSortUsingSorter($query, Sorter $sorter)
     {
+        if (is_null($sorter->column)) {
+            return $query;
+        }
+        
         if (Str::startsWith($sorter->column, 'document_descriptors.')) {
             return $query->select('starred.*')
                 ->join('document_descriptors', 'starred.document_id', '=', 'document_descriptors.id')
@@ -128,12 +132,13 @@ class Starred extends Model
     public static function sortableFields()
     {
         return [
-            'starred_date' => ['created_at', 'date'],
-            'update_date' => ['document_descriptors.updated_at', 'date'],
-            'creation_date' => ['document_descriptors.created_at', 'date'],
-            'name' => ['document_descriptors.title', 'string'],
-            'type' => ['document_descriptors.document_type', 'string'],
-            'language' => ['document_descriptors.language', 'string'],
+            // field on the database, type, field on the search engine
+            'starred_date' => ['created_at', 'date', null],
+            'update_date' => ['document_descriptors.updated_at', 'date', 'properties.updated_at'],
+            'creation_date' => ['document_descriptors.created_at', 'date', 'properties.created_at'],
+            'name' => ['document_descriptors.title', 'string', 'properties.title'],
+            'type' => ['document_descriptors.document_type', 'string', null],
+            'language' => ['document_descriptors.language', 'string', 'properties.language'],
         ];
     }
 }

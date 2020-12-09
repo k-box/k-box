@@ -744,11 +744,12 @@ class DocumentDescriptor extends Model
     public static function sortableFields()
     {
         return [
-            'update_date' => ['updated_at', 'date'],
-            'creation_date' => ['created_at', 'date'],
-            'name' => ['title', 'string'],
-            'type' => ['document_type', 'string'],
-            'language' => ['language', 'string'],
+            // field on the database, type, field on the search engine
+            'update_date' => ['updated_at', 'date', 'properties.updated_at'],
+            'creation_date' => ['created_at', 'date', 'properties.created_at'],
+            'name' => ['title', 'string', 'properties.title'],
+            'type' => ['document_type', 'string', null],
+            'language' => ['language', 'string', 'properties.language'],
         ];
     }
 }

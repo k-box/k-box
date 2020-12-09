@@ -28,15 +28,31 @@ class Sorter
     
     public $type = 'string';
 
-    protected function getFields($entity = null)
+    public $search = false;
+
+    public $defaultColumn = null;
+    public $defaultOrder = null;
+
+    protected function fetchFields($entity = null)
     {
         if ($entity==='starred') {
             return Starred::sortableFields();
         } elseif ($entity==='shared') {
             return Shared::sortableFields();
         }
-        
+
         return DocumentDescriptor::sortableFields();
+    }
+
+    protected function getFields($entity = null)
+    {
+        $entityFields = [];
+
+        if ($this->search) {
+            $entityFields['relevance'] = [null, 'relevance', '_score'];
+        }
+
+        return array_merge($entityFields, $this->fetchFields($entity));
     }
 
     public function ensureValidDirection($direction, $default = self::ORDER_ASCENDING)
@@ -68,6 +84,15 @@ class Sorter
         // TODO: maybe the defaults can be configured on the reference entity?
 
         $instance = new self;
+
+        $instance->defaultColumn = $defaultColumn;
+        $instance->defaultOrder = $defaultOrder;
+
+        if ($request->hasSearch()) {
+            $instance->search = true;
+            $defaultColumn = 'relevance';
+            $defaultOrder = self::ORDER_DESCENDING;
+        }
 
         $instance->sortables = $instance->getFields($entity);
 
