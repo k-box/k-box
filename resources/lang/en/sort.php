@@ -48,4 +48,6 @@ return [
   
     'button' => 'Sort by',
     'change_direction' => 'Change sorting direction',
+
+    'not_available' => 'Not available in the current context',
 ];

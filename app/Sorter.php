@@ -170,6 +170,36 @@ class Sorter
         return in_array($field, array_keys($this->sortables));
     }
 
+    public function isEnabledWithSearch($field)
+    {
+        if (empty($field)) {
+            return false;
+        }
+
+        $opts = $this->sortables[$field];
+
+        if (! $opts) {
+            return false;
+        }
+
+        return ! empty($opts[2] ?? null);
+    }
+
+    public function isEnabled($field)
+    {
+        if (empty($field)) {
+            return false;
+        }
+
+        $opts = $this->sortables[$field];
+
+        if (! $opts) {
+            return false;
+        }
+
+        return ! empty($opts[0] ?? null);
+    }
+
     /**
      * Build the URL for the change in the sorting configuration.
      * Retrieves the currently set request parameters, if any
