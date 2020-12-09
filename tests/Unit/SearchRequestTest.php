@@ -284,4 +284,17 @@ class SearchRequestTest extends TestCase
         $this->assertEquals($expected_field, $sortParams[0]->field);
         $this->assertEquals($expected_order, $sortParams[0]->order);
     }
+
+    public function test_sorting_parameters_handles_no_sorting_options()
+    {
+        $req = SearchRequest::create()
+            ->search('X')
+            ->setSorter(null);
+
+        $this->assertInstanceOf(SearchRequest::class, $req);
+
+        $sortParams = $req->buildSortParams();
+
+        $this->assertEmpty($sortParams);
+    }
 }

@@ -486,6 +486,10 @@ class SearchRequest
 
     public function buildSortParams()
     {
+        if(is_null($this->sorter)){
+            return [];
+        }
+        
         return  [tap(new SortParam(), function($sort){
 			$sort->field = self::$sortableMap[$this->sorter->field] ?? '_score';
             $sort->order = strtolower($this->sorter->order);
