@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use Carbon\Carbon;
 use KBox\User;
 use KBox\Starred;
 use Tests\TestCase;
@@ -46,18 +47,31 @@ class StarredTest extends TestCase
             $response->assertViewIs('errors.'.$expected_code);
         }
     }
+
+    protected function createRecentDocument(User $user, Carbon $date = null, $documentParams = [])
+    {
+        return factory(DocumentDescriptor::class)->create(array_merge([
+            'owner_id' => $user->id,
+            'created_at' => $date ?? Carbon::now(),
+            'updated_at' => $date ?? Carbon::now(),
+        ], $documentParams));
+    }
     
     public function test_starred_page_shows_starred_documents()
     {
-        $fake = $this->withKlinkAdapterFake();
-
-        $starred_count = 3;
+        $this->withKlinkAdapterFake();
         
         $user = tap(factory(User::class)->create(), function ($u) {
             $u->addCapabilities(Capability::$ADMIN);
         });
+
+        $created_at = Carbon::now();
         
-        $starred = factory(Starred::class, $starred_count)->create(['user_id' => $user->id]);
+        $starred = [
+            factory(Starred::class)->create(['user_id' => $user->id, 'document_id' => $this->createRecentDocument($user, $created_at)]),
+            factory(Starred::class)->create(['user_id' => $user->id, 'document_id' => $this->createRecentDocument($user, $created_at->copy()->subMinutes(10))]),
+            factory(Starred::class)->create(['user_id' => $user->id, 'document_id' => $this->createRecentDocument($user, $created_at->copy()->subHours(2))]),
+        ];
         
         $response = $this->actingAs($user)->get(route('documents.starred.index'));
         
@@ -71,9 +85,9 @@ class StarredTest extends TestCase
         
         $starred_response = $response->data('starred');
         
-        $this->assertEquals($starred_count, $starred_response->count());
+        $this->assertEquals(3, $starred_response->count());
         
-        $this->assertEquals($starred->first()->document_id, $starred_response->first()->document_id);
+        $this->assertEquals($starred[0]->document_id, $starred_response->first()->document_id);
     }
     
     public function test_add_star()
