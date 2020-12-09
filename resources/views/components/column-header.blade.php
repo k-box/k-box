@@ -1,8 +1,5 @@
 <div {{ $attributes->merge(['class' => 'relative flex']) }}>
-    
-
     @if($isSortable())
-
         <x-dropdown position="left-0" classes="">
 
             <x-slot name="panel">
