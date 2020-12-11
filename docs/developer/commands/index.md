@@ -27,6 +27,7 @@ Here are only listed the specific commands added by the K-Box:
 - `collections:clean-duplicates`: Clean the duplicated documents contained in a collection
 - `collections:list`: Performs actions on collections
 - [`lang:check`](./lang-check.md) Get the status of the localization in different languages
+- `file:fix-type`: Ensure all files have the correct mime type set
 - [`files:orphans`](./files-orphans.md): Find and remove orphan files, i.e. the one not linked
   to a document descriptor
 - `video:elaborate`: Trigger the video elaboration for the specified documents

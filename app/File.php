@@ -643,6 +643,26 @@ class File extends Model
     }
 
     /**
+     * Update the file type
+     *
+     * @return boolean mime type updated
+     */
+    public function updateMimeType()
+    {
+        list($mime, $documentType) = Files::recognize($this->absolute_path);
+        
+        $this->mime_type = $mime;
+        
+        if ($this->isDirty()) {
+            $this->timestamps = false;
+            $this->save();
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * Create a file given an upload
      *
      * @param \Illuminate\Http\UploadedFile $upload the file uploaded
