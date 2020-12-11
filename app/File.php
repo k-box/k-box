@@ -654,6 +654,7 @@ class File extends Model
         $this->mime_type = $mime;
         
         if ($this->isDirty()) {
+            $this->timestamps = false;
             $this->save();
             return true;
         }
