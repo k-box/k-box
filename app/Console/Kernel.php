@@ -9,6 +9,7 @@ use KBox\Console\Commands\ExportPublicDocumentsCommand;
 use KBox\Console\Commands\ExportProjectCommand;
 use KBox\Console\Commands\PurgeInvitesCommand;
 use KBox\Console\Commands\QuotaCheckCommand;
+use KBox\Console\Commands\RefreshFileMimeTypeCommand;
 use KBox\Console\Commands\RetryFailedPublicationsCommand;
 
 class Kernel extends ConsoleKernel
@@ -51,6 +52,7 @@ class Kernel extends ConsoleKernel
         ExportPublicDocumentsCommand::class,
         ExportProjectCommand::class,
         RetryFailedPublicationsCommand::class,
+        RefreshFileMimeTypeCommand::class,
     ];
 
     /**
