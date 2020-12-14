@@ -12,13 +12,25 @@
 		{{trans('documents.descriptor.name')}}
 	</x-column-header>
 
-	<x-column-header class="list__column" key="shared_by" :sort="$sorting ?? null">
-		{{trans('share.shared_by_label')}}
-	</x-column-header>
-	
-	<x-column-header class="list__column" key="shared_date" :sort="$sorting ?? null">
-		{{trans('share.shared_on')}}
-	</x-column-header>
+	@unless (request()->hasSearch())
+		<x-column-header class="list__column" key="shared_by" :sort="$sorting ?? null">
+			{{trans('share.shared_by_label')}}
+		</x-column-header>
+		
+		<x-column-header class="list__column" key="shared_date" :sort="$sorting ?? null">
+			{{trans('share.shared_on')}}
+		</x-column-header>
+	@endunless
+
+	@if (request()->hasSearch())
+		<x-column-header class="list__column list__column--hideable">
+			{{trans('documents.descriptor.added_by')}}
+		</x-column-header>
+		
+		<x-column-header class="list__column" key="update_date" :sort="$sorting ?? null">
+			{{trans('documents.descriptor.last_modified')}}
+		</x-column-header>
+	@endif
 	
 	<x-column-header class="list__column list__column--hideable">
 		{{trans('documents.descriptor.language')}}
