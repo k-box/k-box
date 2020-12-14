@@ -1,7 +1,7 @@
 ---
 Title: Connect and manage third party identities
 Description: 
-Since: next
+Since: 0.32
 ---
 
 The K-Box can allow the connection of third party services to your profile. These services

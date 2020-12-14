@@ -12,6 +12,13 @@ instructions on adding your own entry.
 
 ## [Unreleased]
 
+## [0.32.1] - 2020-12-14
+
+### Added
+
+- Quickly copy the link to a document, collection or project from the detail panel  ([#73](https://github.com/k-box/k-box/issues/73), [#464](https://github.com/k-box/k-box/pull/464))
+
+
 ## [0.32] - 2020-11-28
 
 ### Added
