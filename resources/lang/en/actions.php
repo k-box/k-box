@@ -134,12 +134,6 @@ return [
 
     'remove' => 'Remove',
 
-    'sort_by' => [
-        'label' => 'Sort by',
-        'oldest_first' => 'Oldest',
-        'newest_first' => 'Latest',
-    ],
-
     'contact_support' => 'Contact Support',
     'more_information' => 'More information',
 ];

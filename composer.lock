@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8fda7b7c89c6914b050241ff73d4c3d1",
+    "content-hash": "740bfea654d1fb908ddf22b5c2e1e62d",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -60,27 +60,28 @@
         },
         {
             "name": "avvertix/materialicons-laravel-bridge",
-            "version": "v1.0.1",
+            "version": "v2.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/avvertix/materialicons-laravel-bridge.git",
-                "reference": "c0ee20764f615d8474db71b302519cdf7be63fb7"
+                "reference": "855db7b8465f7f50d7362afc5688479b8b0704cb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/avvertix/materialicons-laravel-bridge/zipball/c0ee20764f615d8474db71b302519cdf7be63fb7",
-                "reference": "c0ee20764f615d8474db71b302519cdf7be63fb7",
+                "url": "https://api.github.com/repos/avvertix/materialicons-laravel-bridge/zipball/855db7b8465f7f50d7362afc5688479b8b0704cb",
+                "reference": "855db7b8465f7f50d7362afc5688479b8b0704cb",
                 "shasum": ""
             },
             "require": {
-                "illuminate/filesystem": "6.*|7.*",
-                "illuminate/support": "6.*|7.*",
-                "nothingworks/blade-svg": "0.3.4",
+                "blade-ui-kit/blade-icons": "^0.4|^0.5",
+                "illuminate/filesystem": "^7.14|8.*",
+                "illuminate/support": "^7.14|8.*",
                 "php": ">=7.2.5"
             },
             "require-dev": {
-                "mockery/mockery": "^1.1.0",
-                "phpunit/phpunit": "^8.5"
+                "mockery/mockery": "^1.3",
+                "orchestra/testbench": "^5.0|^6.0",
+                "phpunit/phpunit": "^8.0|^9.0"
             },
             "type": "library",
             "extra": {
@@ -109,7 +110,77 @@
                 }
             ],
             "description": "Material Design Icons packaged for easy SVG inlining in Laravel Blade templates",
-            "time": "2020-06-29T15:21:01+00:00"
+            "time": "2020-12-05T20:01:48+00:00"
+        },
+        {
+            "name": "blade-ui-kit/blade-icons",
+            "version": "0.5.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/blade-ui-kit/blade-icons.git",
+                "reference": "d6bb74cdf0420900d14c6bc2304e28d0463dd0a9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/blade-ui-kit/blade-icons/zipball/d6bb74cdf0420900d14c6bc2304e28d0463dd0a9",
+                "reference": "d6bb74cdf0420900d14c6bc2304e28d0463dd0a9",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/contracts": "^7.14|^8.0",
+                "illuminate/filesystem": "^7.14|^8.0",
+                "illuminate/support": "^7.14|^8.0",
+                "illuminate/view": "^7.14|^8.0",
+                "php": "^7.3|^8.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.3",
+                "orchestra/testbench": "^5.0|^6.0",
+                "phpunit/phpunit": "^8.0|^9.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "BladeUI\\Icons\\BladeIconsServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "BladeUI\\Icons\\": "src"
+                },
+                "files": [
+                    "src/helpers.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dries Vints",
+                    "email": "dries@vints.io",
+                    "homepage": "https://driesvints.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A package to easily make use of icons in your Laravel Blade views.",
+            "homepage": "https://github.com/blade-ui-kit/blade-icons",
+            "keywords": [
+                "blade",
+                "icons",
+                "laravel",
+                "svg"
+            ],
+            "funding": [
+                {
+                    "url": "https://github.com/driesvints",
+                    "type": "github"
+                }
+            ],
+            "time": "2020-11-05T20:40:53+00:00"
         },
         {
             "name": "brick/math",
@@ -3469,57 +3540,6 @@
                 "php"
             ],
             "time": "2020-06-03T07:24:19+00:00"
-        },
-        {
-            "name": "nothingworks/blade-svg",
-            "version": "v0.3.4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/adamwathan/blade-svg.git",
-                "reference": "600269d60efe52bf9fc2cc610b21744cd69425df"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/adamwathan/blade-svg/zipball/600269d60efe52bf9fc2cc610b21744cd69425df",
-                "reference": "600269d60efe52bf9fc2cc610b21744cd69425df",
-                "shasum": ""
-            },
-            "require": {
-                "illuminate/filesystem": "^5.3|^6.0|^7.0",
-                "illuminate/support": "^5.3|^6.0|^7.0"
-            },
-            "require-dev": {
-                "mockery/mockery": "^0.9.5",
-                "phpunit/phpunit": "^5.5"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "BladeSvg\\BladeSvgServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "BladeSvg\\": "src/"
-                },
-                "files": [
-                    "src/helpers.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Adam Wathan",
-                    "email": "adam.wathan@gmail.com"
-                }
-            ],
-            "abandoned": "blade-ui-kit/blade-icons",
-            "time": "2020-03-03T13:55:12+00:00"
         },
         {
             "name": "oneofftech/geoserver-client-php",

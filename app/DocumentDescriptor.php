@@ -388,6 +388,11 @@ class DocumentDescriptor extends Model
         return $query->where('owner_id', $owner_id);
     }
 
+    public function scopeSortUsing($query, Sorter $sorter)
+    {
+        return $query->orderBy($sorter->column, $sorter->order);
+    }
+
     /**
      * Get the documents that correspond to the given owner
      * @param  string|integer $id [description]
@@ -734,5 +739,17 @@ class DocumentDescriptor extends Model
     public function getLastErrorAttribute($value)
     {
         return is_null($value) ? null : json_decode($value);
+    }
+
+    public static function sortableFields()
+    {
+        return [
+            // field on the database, type, field on the search engine
+            'update_date' => ['updated_at', 'date', 'properties.updated_at'],
+            'creation_date' => ['created_at', 'date', 'properties.created_at'],
+            'name' => ['title', 'string', 'properties.title'],
+            'type' => ['document_type', 'string', null],
+            'language' => ['language', 'string', 'properties.language'],
+        ];
     }
 }

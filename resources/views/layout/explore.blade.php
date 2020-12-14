@@ -43,12 +43,23 @@
                         @yield('list_header')
 
                     @else
+
+                        <x-column-header class="list__column list__column--large" key="name" :sort="$sorting ?? null">
+                            {{trans('documents.descriptor.name')}}
+                        </x-column-header>
                         
-                        <div class="list__column list__column--large">{{trans('documents.descriptor.name')}}</div>
-                        <div class="list__column list__column--hideable">{{trans('documents.descriptor.added_by')}}</div>
+                        <x-column-header class="list__column list__column--hideable">
+                            {{trans('documents.descriptor.added_by')}}
+                        </x-column-header>
                         
-                        <div class="list__column">{{trans('documents.descriptor.last_modified')}}</div>
-                        <div class="list__column list__column--hideable">{{trans('documents.descriptor.language')}}</div>
+                        <x-column-header class="list__column" key="update_date" :sort="$sorting ?? null">
+                            {{trans('documents.descriptor.last_modified')}}
+                        </x-column-header>
+                        
+                        <x-column-header class="list__column list__column--hideable" key="language" :sort="$sorting ?? null">
+                            {{trans('documents.descriptor.language')}}
+                        </x-column-header>
+                        
                     @endif
                     
                 </div>

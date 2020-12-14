@@ -15,6 +15,7 @@ use Jenssegers\Date\Date as LocalizedDate;
 use KBox\Changelog\ChangelogCommand;
 use KBox\Changelog\ReleaseCommand;
 use KBox\Pages\Page;
+use Klink\DmsSearch\SearchRequest;
 use Oneofftech\Identities\Facades\Identity;
 
 class AppServiceProvider extends ServiceProvider
@@ -49,6 +50,38 @@ class AppServiceProvider extends ServiceProvider
             return $this->isMethod('get')
                    && network_enabled()
                    && Str::contains(strtolower($this->userAgent()), 'guzzlehttp');
+        });
+
+        /**
+         * Tells if the current request is a search request
+         */
+        Request::macro('hasSearch', function () {
+            return optional($this->search())->isSearchRequested() ?? false;
+        });
+
+        /**
+         * Get the @see SeachRequest instance generated from the current request
+         */
+        Request::macro('search', function () {
+            $req = SearchRequest::create($this);
+
+            // Number of Items per page
+
+            $items_per_page = (int)optional(auth()->user())->optionItemsPerPage() ?? 12;
+
+            $requested_items_per_page = (int)$this->input('n', $items_per_page);
+
+            try {
+                if ($items_per_page !== $requested_items_per_page) {
+                    optional(auth()->user())->setOptionItemsPerPage($requested_items_per_page);
+                    $items_per_page = $requested_items_per_page;
+                }
+            } catch (\Exception $limit_ex) {
+            }
+
+            $req->limit($items_per_page);
+
+            return $req;
         });
 
         /**

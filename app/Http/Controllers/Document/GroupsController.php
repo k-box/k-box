@@ -15,6 +15,7 @@ use KBox\Exceptions\CollectionMoveException;
 use Illuminate\Http\Request;
 use KBox\Traits\Searchable;
 use KBox\Exceptions\ForbiddenException;
+use KBox\Sorter;
 
 class GroupsController extends Controller
 {
@@ -128,7 +129,9 @@ class GroupsController extends Controller
      */
     public function show(AuthGuard $auth, Request $request, $id)
     {
-        $req = $this->searchRequestCreate($request);
+        $sorter = Sorter::fromRequest($request);
+
+        $req = $request->search()->setSorter($sorter);
         
         $req->visibility('private');
         
@@ -139,7 +142,6 @@ class GroupsController extends Controller
         if (! $this->service->isCollectionAccessible($user, $group)) {
             throw new ForbiddenException(trans('errors.401_title'), 401);
         }
-        // getCollectionsAccessibleByUser
         
         // GET the current $group and all sub-collections accessible by the User
         // Could be the case that a sub-collection is marked private?
@@ -149,13 +151,13 @@ class GroupsController extends Controller
             return $grp->toKlinkGroup();
         })->all());
         
-        $results = $this->search($req, function ($_request) use ($user, $group, $group_ids) {
+        $results = $this->search($req, function ($_request) use ($user, $group, $group_ids, $sorter) {
             $_request->on($group_ids);
             
             if ($_request->isPageRequested() && ! $_request->isSearchRequested()) {
                 $_request->setForceFacetsRequest();
 
-                return $group->documents;
+                return $group->documents()->orderBy($sorter->column, $sorter->order)->get();
             }
             
             // get all sub-collections for making the correct search request -> on(...)
@@ -185,7 +187,9 @@ class GroupsController extends Controller
             'search_terms' => $req->term,
             'facets' => $results ? $results->facets() : [],
             'filters' => $results ? $results->filters() : [],
-            'empty_message' => trans('documents.empty_msg', ['context' => $group->name]) ]);
+            'empty_message' => trans('documents.empty_msg', ['context' => $group->name]),
+            'sorting' => $sorter,
+        ]);
     }
 
     public function edit(AuthGuard $auth, $id)

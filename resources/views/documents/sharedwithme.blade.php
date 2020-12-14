@@ -6,24 +6,35 @@
 
 @stop
 
-@section('additional_filter_buttons')
-	
-
-	@unless(isset($is_search_requested) && $is_search_requested)
-		<div class="page-actions__label" title="{{ trans('actions.sort_by.label') }}">
-			<a href="?o=a" class="button @if(isset($order) && $order==='ASC') button--selected @endif">{{ trans('actions.sort_by.oldest_first') }}</a>
-			<a href="?o=d" class="button @if(isset($order) && $order==='DESC') button--selected @endif">{{ trans('actions.sort_by.newest_first') }}</a>
-		</div>
-	@endif
-		
-	
-@stop
 
 @section('list_header')
-	<div class="list__column list__column--large">{{trans('documents.descriptor.name')}}</div>
-	<div class="list__column">{{trans('share.shared_by_label')}}</div>
-	<div class="list__column">{{trans('share.shared_on')}}</div>
-	<div class="list__column">{{trans('documents.descriptor.language')}}</div>
+	<x-column-header class="list__column list__column--large" key="name" :sort="$sorting ?? null">
+		{{trans('documents.descriptor.name')}}
+	</x-column-header>
+
+	@unless (request()->hasSearch())
+		<x-column-header class="list__column" key="shared_by" :sort="$sorting ?? null">
+			{{trans('share.shared_by_label')}}
+		</x-column-header>
+		
+		<x-column-header class="list__column" key="shared_date" :sort="$sorting ?? null">
+			{{trans('share.shared_on')}}
+		</x-column-header>
+	@endunless
+
+	@if (request()->hasSearch())
+		<x-column-header class="list__column list__column--hideable">
+			{{trans('documents.descriptor.added_by')}}
+		</x-column-header>
+		
+		<x-column-header class="list__column" key="update_date" :sort="$sorting ?? null">
+			{{trans('documents.descriptor.last_modified')}}
+		</x-column-header>
+	@endif
+	
+	<x-column-header class="list__column list__column--hideable">
+		{{trans('documents.descriptor.language')}}
+	</x-column-header>
 @endsection
 
 @section('document_area')

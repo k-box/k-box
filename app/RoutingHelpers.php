@@ -2,6 +2,7 @@
 
 namespace KBox;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
 final class RoutingHelpers
@@ -138,5 +139,23 @@ final class RoutingHelpers
         $url_to_return = implode('&', $url_components);
 
         return (! Str::startsWith($url_to_return, '?') ? '?' : '').$url_to_return;
+    }
+
+    public static function safeCurrentUrl($extra = [])
+    {
+        $path = request()->getPathInfo();
+        $params = request()->only([
+            'visibility',
+            'n',
+            's',
+            'properties.mime_type',
+            'properties.language',
+            'properties.tags',
+            'properties.collections',
+            'sc',
+            'o',
+        ]);
+
+        return url($path).'?'.Arr::query(array_merge($params, $extra));
     }
 }

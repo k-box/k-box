@@ -9,6 +9,7 @@ use Illuminate\Support\Collection;
 use Klink\DmsSearch\SearchService;
 use Illuminate\Support\Facades\DB;
 use KBox\Pagination\SearchResultsPaginator;
+use KBox\Sorter;
 use KSearchClient\Model\Search\Search;
 
 /**
@@ -27,6 +28,7 @@ trait Searchable
     public function search(SearchRequest $request, \Closure $override = null)
     {
         // You can return false in $override to tell the system to use a normal search invocation
+        app()->instance(SearchRequest::class, $request);
         
         $override_response = (! is_null($override) && $override) ? $override($request) : false;
           
@@ -108,7 +110,7 @@ trait Searchable
         return app(SearchService::class)->aggregations($request);
     }
     
-    public function searchRequestCreate(Request $request = null)
+    public function searchRequestCreate(Request $request = null, ?Sorter $sorter = null)
     {
         
         // need to find better way to implement this code
@@ -129,6 +131,8 @@ trait Searchable
         }
 
         $req->limit($items_per_page);
+
+        $req->setSorter($sorter);
         
         // end
 

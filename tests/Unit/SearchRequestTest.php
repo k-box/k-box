@@ -11,6 +11,8 @@ use Klink\DmsSearch\SearchService;
 use Klink\DmsAdapter\KlinkFacetsBuilder;
 use Illuminate\Http\Request as HttpRequest;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use KBox\Sorter;
+use KSearchClient\Model\Search\SortParam;
 use Symfony\Component\HttpFoundation\Request as BaseRequest;
 
 class SearchRequestTest extends TestCase
@@ -246,5 +248,53 @@ class SearchRequestTest extends TestCase
                 'visibility' => 'public and 1>1',
             ]
         ));
+    }
+
+    public function sorting_parameters()
+    {
+        return [
+            ['relevance', 'a', '_score', 'asc'],
+            ['relevance', 'd', '_score', 'desc'],
+            ['update_date', 'd', 'properties.updated_at', 'desc'],
+            ['creation_date', 'd', 'properties.created_at', 'desc'],
+            ['name', 'd', 'properties.title', 'desc'],
+            ['language', 'd', 'properties.language', 'desc'],
+        ];
+    }
+
+    /**
+     * @dataProvider sorting_parameters
+     */
+    public function test_sorting_parameters($sc, $o, $expected_field, $expected_order)
+    {
+        $req = SearchRequest::create()
+            ->search('X')
+            ->setSorter(Sorter::fromRequest($this->createValidHttpRequest([
+                'sc' => $sc,
+                'o' => $o,
+                's' => 'X'
+            ])));
+
+        $this->assertInstanceOf(SearchRequest::class, $req);
+
+        $sortParams = $req->buildSortParams();
+
+        $this->assertContainsOnlyInstancesOf(SortParam::class, $sortParams);
+
+        $this->assertEquals($expected_field, $sortParams[0]->field);
+        $this->assertEquals($expected_order, $sortParams[0]->order);
+    }
+
+    public function test_sorting_parameters_handles_no_sorting_options()
+    {
+        $req = SearchRequest::create()
+            ->search('X')
+            ->setSorter(null);
+
+        $this->assertInstanceOf(SearchRequest::class, $req);
+
+        $sortParams = $req->buildSortParams();
+
+        $this->assertEmpty($sortParams);
     }
 }

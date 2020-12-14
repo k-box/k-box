@@ -182,13 +182,20 @@ class RecentDocumentsTest extends TestCase
             $this->createRecentDocument($user, $created_at->copy()->subHours(2)),
         ];
 
-        $url = route('documents.recent').'?o='.$option ;
+        $url = route('documents.recent').'?o='.$option.'&sc=update_date';
 
         $response = $this->actingAs($user)->get($url);
 
         $response->assertStatus(200);
         $response->assertViewIs('documents.recent');
-        $response->assertViewHas('order', $expected_value);
+
+        $sort = $response->viewData('sorting');
+
+        $this->assertEquals('updated_at', $sort->column);
+        $this->assertEquals($expected_value, $sort->order);
+        $this->assertEquals('date', $sort->type);
+        $this->assertEquals('update_date', $sort->field);
+        $this->assertEquals($option, $sort->direction);
 
         $original_response = $response->getOriginalContent();
         $listed_documents = $original_response['documents']->values()->collapse();

@@ -6,11 +6,13 @@ use Illuminate\Http\Request;
 use Klink\DmsAdapter\Geometries;
 use Illuminate\Support\Collection;
 use BadMethodCallException;
+use KBox\Sorter;
 use Klink\DmsAdapter\KlinkFacets;
 use Klink\DmsAdapter\KlinkFilters;
 use Klink\DmsAdapter\KlinkFacetsBuilder;
 use Klink\DmsAdapter\KlinkVisibilityType;
 use KSearchClient\Model\Search\BoundingBoxFilter;
+use KSearchClient\Model\Search\SortParam;
 
 /**
  * Search Request builder.
@@ -58,6 +60,20 @@ class SearchRequest
      * Only supported if search is not applied
      */
     protected $highlight = null;
+
+    /**
+     * @var \KBox\Sorter
+     */
+    protected $sorter = null;
+
+    protected static $sortableMap = [
+        'relevance' => '_score',
+        'update_date' => 'properties.updated_at',
+        'creation_date' => 'properties.created_at',
+        'name' => 'properties.title',
+        'type' => null,
+        'language' => 'properties.language',
+    ];
 
     public function __construct()
     {
@@ -193,6 +209,12 @@ class SearchRequest
     public function isSearchRequested()
     {
         return $this->is_search_request;
+    }
+
+    public function setSorter($sorter)
+    {
+        $this->sorter = $sorter;
+        return $this;
     }
     
     /**
@@ -460,6 +482,18 @@ class SearchRequest
         $coordinates = Geometries::ensureCoordinatesWithinAcceptableRange(is_array($spatial_filters) ? $spatial_filters : array_from($spatial_filters));
 
         return new BoundingBoxFilter(Geometries::boundingBoxFromArray($coordinates));
+    }
+
+    public function buildSortParams()
+    {
+        if(is_null($this->sorter)){
+            return [];
+        }
+        
+        return  [tap(new SortParam(), function($sort){
+			$sort->field = self::$sortableMap[$this->sorter->field] ?? '_score';
+            $sort->order = strtolower($this->sorter->order);
+		})];
     }
 
     

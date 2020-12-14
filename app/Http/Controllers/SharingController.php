@@ -21,6 +21,7 @@ use KBox\Traits\Searchable;
 use KBox\Events\ShareCreated;
 use Illuminate\Support\Facades\DB;
 use KBox\Exceptions\ForbiddenException;
+use KBox\Sorter;
 
 /**
  * Manage you personal shares
@@ -64,16 +65,19 @@ class SharingController extends Controller
      */
     public function index(AuthGuard $auth, Request $request)
     {
+
+        // TODO: update sorting options here
+
         $user = $auth->user();
         
-        $order = $request->input('o', 'd') === 'a' ? 'ASC' : 'DESC';
+        $sorter = Sorter::fromRequest($request, 'shared', 'shared_date', 'd');
         
         $req = $this->searchRequestCreate($request);
         
         $req->visibility('private');
         
-        $all = $this->search($req, function ($_request) use ($user, $order) {
-            $all_single = Shared::sharedWithMe($user)->orderBy('created_at', $order)->with(['shareable', 'sharedwith'])->get();
+        $all = $this->search($req, function ($_request) use ($user, $sorter) {
+            $all_single = Shared::sharedWithMe($user)->sortUsingSorter($sorter)->with(['shareable', 'sharedwith'])->get();
             
             $all_shared = $all_single->unique();
             
@@ -102,7 +106,7 @@ class SharingController extends Controller
             'context' => 'sharing',
             'current_visibility' => 'private',
             'pagination' => $all,
-            'order' => $order,
+            'sorting' => $sorter,
             'search_terms' => $req->term,
             'facets' => $all->facets(),
             'filters' => $all->filters(),

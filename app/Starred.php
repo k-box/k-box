@@ -3,6 +3,7 @@
 namespace KBox;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 /**
  * Represents a starred {@see DocumentDescriptor}
@@ -111,5 +112,33 @@ class Starred extends Model
     public static function getByDocumentAndUserId($document_id, $user_id)
     {
         return self::ofUser($user_id)->byDocumentId($document_id)->first();
+    }
+
+    public function scopeSortUsingSorter($query, Sorter $sorter)
+    {
+        if (is_null($sorter->column)) {
+            return $query;
+        }
+        
+        if (Str::startsWith($sorter->column, 'document_descriptors.')) {
+            return $query->select('starred.*')
+                ->join('document_descriptors', 'starred.document_id', '=', 'document_descriptors.id')
+                ->orderBy($sorter->column, $sorter->order);
+        }
+
+        return $query->orderBy($sorter->column, $sorter->order);
+    }
+
+    public static function sortableFields()
+    {
+        return [
+            // field on the database, type, field on the search engine
+            'starred_date' => ['created_at', 'date', null],
+            'update_date' => ['document_descriptors.updated_at', 'date', 'properties.updated_at'],
+            'creation_date' => ['document_descriptors.created_at', 'date', 'properties.created_at'],
+            'name' => ['document_descriptors.title', 'string', 'properties.title'],
+            'type' => ['document_descriptors.document_type', 'string', null],
+            'language' => ['document_descriptors.language', 'string', 'properties.language'],
+        ];
     }
 }
