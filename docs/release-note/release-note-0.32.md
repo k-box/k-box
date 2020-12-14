@@ -19,6 +19,7 @@ _It is important to note that this option is configurable and not enabled by def
 ## Other improvements
 
 - Allow project creation from the sidebar
+- Quickly copy the link to a document, collection or project from the detail panel
 
 
 ## Deprecation and removal

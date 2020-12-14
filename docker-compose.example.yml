@@ -62,7 +62,7 @@ services:
 
   ## The K-Box container
   kbox:
-    image: "klinktech/k-box:0.32.0"
+    image: "klinktech/k-box:0.32.1"
     environment:
       ## K-Box access
       KBOX_APP_URL: "http://localhost:8080/"
