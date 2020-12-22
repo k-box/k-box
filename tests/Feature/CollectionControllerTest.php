@@ -5,10 +5,12 @@ namespace Tests\Feature;
 use Tests\TestCase;
 use KBox\Capability;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Event;
 use KBox\Events\CollectionCreated;
 use KBox\Events\CollectionTrashed;
 use KBox\Group;
+use KBox\Jobs\ReindexCollection;
 use KBox\User;
 
 class CollectionControllerTest extends TestCase
@@ -17,6 +19,8 @@ class CollectionControllerTest extends TestCase
     
     public function test_move_from_project_to_personal_is_permitted()
     {
+        Bus::fake();
+
         $service = app('KBox\Documents\Services\DocumentsService');
 
         $project = factory(\KBox\Project::class)->create();
@@ -44,6 +48,10 @@ class CollectionControllerTest extends TestCase
         $response->assertJson([
             'id' => $collection->id
         ]);
+
+        Bus::assertDispatched(ReindexCollection::class, function ($job) use ($collection) {
+            return $job->collection->is($collection);
+        });
     }
 
     public function test_move_from_project_to_personal_is_blocked_when_collections_are_created_by_different_users()

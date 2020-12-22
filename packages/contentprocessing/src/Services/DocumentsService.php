@@ -32,6 +32,7 @@ use KBox\Jobs\ReindexDocument;
 use KBox\Documents\TrashContentResponse;
 use KBox\Events\DocumentsAddedToCollection;
 use KBox\Events\DocumentsRemovedFromCollection;
+use KBox\Jobs\ReindexCollection;
 
 class DocumentsService
 {
@@ -1220,12 +1221,16 @@ class DocumentsService
 
                 $group->makeRoot(0);
 
+                dispatch(new ReindexCollection($group));
+
                 return $group->fresh();
             }
 
             // move under a parent and no other child has the same name as the group I'm moving
             elseif (! $is_there_already && ! is_null($moveBelow)) {
                 $group->moveTo(0, $moveBelow);
+
+                dispatch(new ReindexCollection($group));
 
                 return $group->fresh();
             }
