@@ -73,10 +73,7 @@
 
 	</form>
 
-	<form method="post"  class="" action="{{route('profile.language.update')}}">
-		
-		{{ csrf_field() }}
-		{{ method_field('PUT') }}
+	<div>
 
 		<h4>{{trans('profile.language_section')}}</h4>
 
@@ -86,30 +83,14 @@
 			@if( $errors->has('language') )
 				<span class="field-error">{{ implode(",", $errors->get('language'))  }}</span>
 			@endif
+
+			<x-language-selector :current="$language" />
+
 			
-			<select class="form-select block mt-1" name="language" autocomplete="off">
-				{{-- 
-					autocomplete="off" force Firefox to not cache the selected value and use always the latest
-					https://stackoverflow.com/questions/10870567/firefox-not-refreshing-select-tag-on-page-refresh
-				--}}
-				<option value="en" @if($language=='en') selected @endif>{{trans('languages.en')}}</option>
-				<option value="ru" @if($language=='ru') selected @endif>{{trans('languages.ru')}}</option>
-				<option value="tg" @if($language=='tg') selected @endif>{{trans('languages.tg')}}</option>
-				<option value="fr" @if($language=='fr') selected @endif>{{trans('languages.fr')}}</option>
-				<option value="de" @if($language=='de') selected @endif>{{trans('languages.de')}}</option>
-				<option value="ky" @if($language=='ky') selected @endif>{{trans('languages.ky')}}</option>
-			</select>
-		</div>
-		
-		
-		<div class=" mb-4">
-			
-			<button type="submit" class="button">{{trans('profile.change_language_btn')}}</button>
 		</div>
 
 
-	</form>
+	</div>
 
-	
 
 @stop

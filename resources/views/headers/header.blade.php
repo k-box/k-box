@@ -41,6 +41,9 @@
 						<div class="mb-4">
 							<x-dropdown-link-item :label="$current_user_name" href="{{ $profile_url ?? route('profile.index') }}" />
 						</div>
+
+						<x-language-selector type="dropdown" class="mb-4 w-full" />
+
 						<ul class="">
 							<li>
 								<x-dropdown-link-item label="{{trans('profile.go_to_profile')}}" href="{{ $profile_url ?? route('profile.index') }}" />
