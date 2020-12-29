@@ -24,18 +24,16 @@ class ChangeUserLanguagePreferenceController extends Controller
 
         $user = $request->user();
 
-        if ($request->has(User::OPTION_LANGUAGE)) {
-            $user->setOption(User::OPTION_LANGUAGE, $request->get(User::OPTION_LANGUAGE));
-
-            $user->save();
-        }
+        $language = $request->get(User::OPTION_LANGUAGE);
+        $user->setOption(User::OPTION_LANGUAGE, $language);
+        $user->save();
 
         if ($request->wantsJson()) {
             return new JsonResponse(['status' => 'ok'], 200);
         }
-                
-        return redirect()->route('profile.index')->with([
-            'flash_message' => trans('profile.messages.language_changed')
+        
+        return redirect()->back()->with([
+            'flash_message' => trans('profile.messages.language_changed', [], $language)
         ]);
     }
 }
