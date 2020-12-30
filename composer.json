@@ -45,7 +45,7 @@
 		"fideloper/proxy": "^4.2",
 		"franzose/closure-table": "^6.0",
 		"fruitcake/laravel-cors": "^2.0",
-		"graham-campbell/markdown": "^11.0",
+		"graham-campbell/markdown": "^13.0",
 		"guzzlehttp/guzzle": "^6.3",
 		"intervention/image": "^2.4",
 		"jenssegers/agent": "^2.5",
