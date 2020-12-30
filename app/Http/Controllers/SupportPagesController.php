@@ -14,11 +14,9 @@ class SupportPagesController extends Controller
         
         $help_file_content = file_get_contents(@is_file($path) ? $path : $fallback);
 
-        $page_text = \Markdown::convertToHtml($help_file_content);
-
         return view('static.page', [
             'pagetitle' => trans('pages.help'),
-            'page_content' => $page_text]);
+            'page_content' => $help_file_content]);
     }
 
     /**

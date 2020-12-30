@@ -17,9 +17,7 @@
 
 	<div class="max-w-4xl md:mx-auto px-2 lg:px-0">
 
-		@component('components.markdown', ['class' => ''])
-			{!!$page_content!!}
-		@endcomponent
+		<x-markdown>{!! $page_content !!}</x-markdown>
 
 	</div>
 @stop
