@@ -3,6 +3,8 @@
 declare(strict_types=1);
 
 use League\CommonMark\Extension\ExternalLink\ExternalLinkExtension;
+use League\CommonMark\Extension\HeadingPermalink\HeadingPermalinkExtension;
+use League\CommonMark\Extension\DisallowedRawHTML\DisallowedRawHTMLExtension;
 
 /*
  * This file is part of Laravel Markdown.
@@ -45,6 +47,8 @@ return [
 
     'extensions' => [
         ExternalLinkExtension::class,
+        HeadingPermalinkExtension::class,
+        DisallowedRawHTMLExtension::class,
     ],
 
     /*
@@ -152,5 +156,11 @@ return [
     'external_link' => [
         'internal_hosts' => '', // is empty as we would like to have all links marked as external
         'open_in_new_window' => true,
+    ],
+
+    'heading_permalink' => [
+        'html_class' => 'markdown-header-link',
+        'id_prefix' => 'uc-',
+        'insert' => 'after',
     ],
 ];
