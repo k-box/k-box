@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 use League\CommonMark\Extension\ExternalLink\ExternalLinkExtension;
 use League\CommonMark\Extension\HeadingPermalink\HeadingPermalinkExtension;
 use League\CommonMark\Extension\DisallowedRawHTML\DisallowedRawHTMLExtension;
