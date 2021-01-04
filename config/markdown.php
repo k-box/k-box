@@ -2,7 +2,6 @@
 
 use League\CommonMark\Extension\ExternalLink\ExternalLinkExtension;
 use League\CommonMark\Extension\HeadingPermalink\HeadingPermalinkExtension;
-use League\CommonMark\Extension\DisallowedRawHTML\DisallowedRawHTMLExtension;
 
 /*
  * This file is part of Laravel Markdown.
@@ -46,7 +45,6 @@ return [
     'extensions' => [
         ExternalLinkExtension::class,
         HeadingPermalinkExtension::class,
-        // DisallowedRawHTMLExtension::class,
     ],
 
     /*
