@@ -34,7 +34,7 @@ class MarkdownPreviewTest extends TestCase
         $this->assertInstanceOf(Renderable::class, $preview);
         $this->assertNotNull($html);
         $this->assertNotEmpty($html);
-        $this->assertStringContainsString('<h1>This is</h1>', $html);
+        $this->assertStringContainsString('<h1>This is<a id="uc--this-is" href="#this-is" name="this-is" class="markdown-header-link" aria-hidden="true" title="Permalink">¶</a></h1>', $html);
         $this->assertStringContainsString('a <strong>Markdown</strong> file', $html);
         $this->assertStringContainsString('preview__render preview__render--text', $html);
     }
