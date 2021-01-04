@@ -23,9 +23,8 @@
 						
 						<div style="flex-basis:160px;text-align:right">{!! $license->icon ?? '' !!}</div>
 					</div>
-					@component('components.markdown', ['class' => ''])
-						{!! Markdown::convertToHtml($license->description) !!}
-					@endcomponent
+					
+					<x-markdown>{!! $license->description !!}</x-markdown>
 						
 					@if($license->license)
 						<div><a href="{{ $license->license }}" target="_blank" rel="noopener noreferrer nofollow">{{ trans('administration.documentlicenses.view_license') }}</a></div>

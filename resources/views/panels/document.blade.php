@@ -132,9 +132,8 @@
 <div class="meta abstract">
 	<h4 class="c-panel__section">{{trans('panels.abstract_section_title')}}</h4>
 
-	@component('components.markdown', ['class' => 'markdown--within bg-gray-100 p-1'])
-		{!! $item->abstract_html !!}
-	@endcomponent
+	<x-markdown class="markdown--within bg-gray-100 p-1">{!! $item->abstract !!}</x-markdown>
+	
 </div>
 
 @endif

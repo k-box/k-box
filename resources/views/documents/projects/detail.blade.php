@@ -26,8 +26,8 @@
 <div class="c-panel__data">
 
 	@if($project->description)
-		<div class="c-panel__meta">
-			{{$project->description}}
+		<div class="meta abstract">
+			<x-markdown class="markdown--within my-4">{!! $project->description !!}</x-markdown>
 		</div>
 	@endif
 

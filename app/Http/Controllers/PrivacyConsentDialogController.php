@@ -40,8 +40,8 @@ class PrivacyConsentDialogController extends Controller
 
         return view('consents.privacy', [
             'pagetitle' => trans('consent.privacy.dialog_title'),
-            'privacy_content' => $legal->html,
-            'summary_content' => $summary ? $summary->html : null
+            'privacy_content' => $legal->content,
+            'summary_content' => $summary ? $summary->content : null
         ]);
     }
 
