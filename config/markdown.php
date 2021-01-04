@@ -46,7 +46,7 @@ return [
     'extensions' => [
         ExternalLinkExtension::class,
         HeadingPermalinkExtension::class,
-        DisallowedRawHTMLExtension::class,
+        // DisallowedRawHTMLExtension::class,
     ],
 
     /*
