@@ -31,7 +31,7 @@
     "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
   },
   "dependencies": {
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "clipboard": "~1.7.1",
     "combokeys": "~2.4.6",
     "dropzone": "~4.3.0",
