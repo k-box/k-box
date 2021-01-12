@@ -20,12 +20,12 @@ class RecentDocumentsController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-
-        $this->middleware('capabilities');
     }
 
     public function index(AuthGuard $auth, Request $request, $range = 'currentweek')
     {
+        $this->authorize('viewAny', DocumentDescriptor::class);
+        
         $base_now = Carbon::now();
         $today = Carbon::today();
         $yesterday = Carbon::yesterday();

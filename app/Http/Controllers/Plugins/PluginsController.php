@@ -3,6 +3,7 @@
 namespace KBox\Http\Controllers\Plugins;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use KBox\Plugins\PluginManager;
 use KBox\Http\Controllers\Controller;
 
@@ -18,8 +19,6 @@ class PluginsController extends Controller
     public function __construct(PluginManager $manager)
     {
         $this->middleware('auth');
-
-        $this->middleware('capabilities');
         
         $this->middleware('flags:plugins');
 
@@ -33,6 +32,8 @@ class PluginsController extends Controller
      */
     public function index()
     {
+        Gate::authorize('manage-kbox');
+        
         return view('plugins.index', [
             'pagetitle' => trans('plugins.page_title'),
             'plugins' => $this->manager->plugins(),
@@ -70,6 +71,8 @@ class PluginsController extends Controller
      */
     public function update(Request $request, $id)
     {
+        Gate::authorize('manage-kbox');
+
         $this->manager->enable($id);
         
         return redirect()->route('administration.plugins.index')->with([
@@ -85,6 +88,8 @@ class PluginsController extends Controller
      */
     public function destroy($id)
     {
+        Gate::authorize('manage-kbox');
+        
         $this->manager->disable($id);
         
         return redirect()->route('administration.plugins.index')->with([

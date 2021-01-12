@@ -12,8 +12,6 @@ class DocumentVersionsController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-
-        $this->middleware('capabilities');
     }
 
     /**
@@ -62,6 +60,7 @@ class DocumentVersionsController extends Controller
         $version_to_remove = $versions->get($version_uuid);
         $version_to_remove_index = $versions_uuid_to_index->get($version_uuid);
 
+        $this->authorize('delete', $version_to_remove);
         // if revision_of is null it was the first version, so the version after revision_of must be set to null
 
         $version_to_apply = null;

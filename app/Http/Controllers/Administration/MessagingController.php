@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Mail;
 use KBox\Http\Controllers\Controller;
 use KBox\Http\Requests\CreateMessageRequest;
 use Illuminate\Contracts\Auth\Guard as AuthGuard;
+use Illuminate\Support\Facades\Gate;
 
 /**
  * Send Messages to the users
@@ -34,18 +35,6 @@ class MessagingController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-
-        $this->middleware('capabilities');
-    }
-
-    /**
-     * Show the list of ...
-     *
-     * @return Response
-     */
-    public function index(AuthGuard $auth)
-    {
-        return '';
     }
 
     /**
@@ -55,6 +44,8 @@ class MessagingController extends Controller
      */
     public function create(AuthGuard $auth)
     {
+        Gate::authorize('manage-kbox');
+        
         $me = $auth->user();
     
         $available_users = User::whereNotIn('id', [$me->id])->get();
@@ -76,6 +67,8 @@ class MessagingController extends Controller
      */
     public function store(AuthGuard $auth, CreateMessageRequest $request)
     {
+        Gate::authorize('manage-kbox');
+
         try {
             $me = $auth->user();
         
@@ -119,50 +112,5 @@ class MessagingController extends Controller
                 'error' => trans('messaging.message_error', ['error' => $ex->getMessage()])
             ]);
         }
-    }
-
-    /**
-     * Display the specified user.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function show($id)
-    {
-        return '';
-    }
-
-    /**
-     * Show the form for editing the specified user.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function edit($id)
-    {
-        return '';
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  int  $id the id of the user to update
-     * @param $request The request
-     * @return Response
-     */
-    public function update($id)
-    {
-        return '';
-    }
-
-    /**
-     * In this case disable the specified user.
-     *
-     * @param  int  $id the user id to be disabled
-     * @return Response
-     */
-    public function destroy($id)
-    {
-        return '';
     }
 }

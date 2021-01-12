@@ -4,6 +4,7 @@ namespace KBox\Http\Controllers\Administration\DocumentLicenses;
 
 use KBox\Option;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rule;
 use KBox\Http\Controllers\Controller;
 use OneOffTech\Licenses\Contracts\LicenseRepository;
@@ -15,14 +16,14 @@ class AvailableDocumentLicensesController extends Controller
     public function __construct(LicenseRepository $licenses)
     {
         $this->middleware('auth');
-
-        $this->middleware('capabilities');
         
         $this->licenses = $licenses;
     }
 
     public function update()
     {
+        Gate::authorize('manage-kbox');
+        
         $this->validate(request(), [
             'available_licenses' => [
                 'required',

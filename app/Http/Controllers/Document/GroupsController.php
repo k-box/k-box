@@ -36,8 +36,6 @@ class GroupsController extends Controller
     {
         $this->middleware('auth');
 
-        $this->middleware('capabilities');
-
         $this->service = $service;
     }
 
@@ -52,6 +50,7 @@ class GroupsController extends Controller
         
         $view_args = [];
 
+        $this->authorize('create', Group::class);
         // if context info is available
         
         $is_private = $request->input('isPrivate', true)  === "false" || $request->input('isPrivate', true)  === false  ? false: true;
@@ -83,6 +82,8 @@ class GroupsController extends Controller
     public function store(AuthGuard $auth, CreateGroupRequest $request)
     {
         try {
+            $this->authorize('create', Group::class);
+
             $group_name = e($request->input('name'));
 
             $color = $request->input('color', null);
@@ -138,10 +139,8 @@ class GroupsController extends Controller
         $user = $auth->user();
         
         $group = Group::findOrFail($id);
-        
-        if (! $this->service->isCollectionAccessible($user, $group)) {
-            throw new ForbiddenException(trans('errors.401_title'), 401);
-        }
+
+        $this->authorize('view', $group);
         
         // GET the current $group and all sub-collections accessible by the User
         // Could be the case that a sub-collection is marked private?
@@ -195,6 +194,8 @@ class GroupsController extends Controller
     public function edit(AuthGuard $auth, $id)
     {
         $selected_group = Group::findOrFail($id);
+
+        $this->authorize('update', $selected_group);
         
         if (! is_null($selected_group->project)) {
             return view('panels.prevent_edit', [
@@ -222,16 +223,18 @@ class GroupsController extends Controller
 
         try {
             $group = Group::findOrFail($id);
+
+            $this->authorize('update', $group);
             
             $user = $auth->user();
 
-            if (! $group->is_private && ! $auth->user()->can_capability(Capability::MANAGE_PROJECT_COLLECTIONS)) {
-                throw new ForbiddenException(trans('errors.group_edit_project'));
-            }
+            // if (! $group->is_private && ! $auth->user()->can_capability(Capability::MANAGE_PROJECT_COLLECTIONS)) {
+            //     throw new ForbiddenException(trans('errors.group_edit_project'));
+            // }
 
-            if (! $auth->user()->can_capability(Capability::MANAGE_OWN_GROUPS) && $group->user_id != $auth->user()->id) {
-                throw new ForbiddenException(trans('errors.group_edit_else'));
-            }
+            // if (! $auth->user()->can_capability(Capability::MANAGE_OWN_GROUPS) && $group->user_id != $auth->user()->id) {
+            //     throw new ForbiddenException(trans('errors.group_edit_else'));
+            // }
 
             $current_parent = $group->getParent();
 
@@ -323,12 +326,6 @@ class GroupsController extends Controller
             }
 
             return response($fe->getMessage(), 409);
-        } catch (\ExistsException $fe) {
-            if ($request->wantsJson()) {
-                return new JsonResponse(['error' => $fe->getMessage()], 500);
-            }
-
-            return response($fe->getMessage(), 500);
         }
     }
 
@@ -342,14 +339,15 @@ class GroupsController extends Controller
     {
         try {
             $selected_group = Group::withTrashed()->findOrFail($id);
+            $force = $request->input('force', false);
+
+            $this->authorize('delete', $selected_group);
 
             $user = $auth->user();
             
             if (! is_null($selected_group->project)) {
                 throw new \Exception(trans('projects.errors.prevent_delete_description'));
             }
-
-            $force = $request->input('force', false);
             
             if ($force && ! $user->can_capability(Capability::CLEAN_TRASH)) {
                 \Log::warning('User tried to force delete a collection without permission', ['user' => $user->id, 'document' => $id]);

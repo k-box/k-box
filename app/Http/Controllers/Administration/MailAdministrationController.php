@@ -10,6 +10,7 @@ use KBox\Http\Requests\MailSettingsRequest;
 use Illuminate\Support\Facades\Mail;
 use KBox\Mail\TestingMail;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 
 /**
  * Controller
@@ -33,12 +34,12 @@ class MailAdministrationController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-
-        $this->middleware('capabilities');
     }
 
     public function getIndex()
     {
+        Gate::authorize('manage-kbox');
+
         $mail_config = Arr::dot(config('mail'));
 
         $config = [];
@@ -56,6 +57,8 @@ class MailAdministrationController extends Controller
 
     public function postStore(MailSettingsRequest $request)
     {
+        Gate::authorize('manage-kbox');
+
         $server_fields = [
         'pretend' => 'mail.pretend',
         'host' => 'mail.host',
@@ -118,6 +121,8 @@ class MailAdministrationController extends Controller
 
     public function getTest()
     {
+        Gate::authorize('manage-kbox');
+        
         try {
             $res = Mail::to(config('mail.from.address'))->sendNow(new TestingMail());
 

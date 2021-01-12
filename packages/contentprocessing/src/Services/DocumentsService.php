@@ -837,7 +837,7 @@ class DocumentsService
                 $private_groups = \Cache::remember('dms_project_collections-'.$user->id, 60, function () use ($user) {
                     $managed_private_groups = null;
                         
-                    if ($user->isProjectManager()) {
+                    if ($user->can_capability(Capability::CREATE_PROJECTS)) {
                         $roots_project_of_user = $user->managedProjects()->with('collection')->get()->pluck('collection.id')->all();
                         
                         $managed_private_groups = Group::getProjectsTree()->filter(function ($item) use ($roots_project_of_user) {

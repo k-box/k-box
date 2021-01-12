@@ -7,6 +7,7 @@ use KBox\Http\Requests\SettingsSaveRequest;
 use KBox\Option;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Contracts\Auth\Guard as AuthGuard;
+use Illuminate\Support\Facades\Gate;
 
 /**
  * Controller
@@ -32,12 +33,12 @@ class SettingsAdministrationController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-
-        $this->middleware('capabilities');
     }
   
     public function index(AuthGuard $auth)
     {
+        Gate::authorize('manage-kbox');
+        
         $data = [
         'pagetitle' => trans('administration.menu.settings'),
         Option::PUBLIC_CORE_ENABLED => ! ! Option::option(Option::PUBLIC_CORE_ENABLED, false),
@@ -55,6 +56,8 @@ class SettingsAdministrationController extends Controller
   
     public function store(AuthGuard $auth, SettingsSaveRequest $request)
     {
+        Gate::authorize('manage-kbox');
+        
         try {
             if ($request->input('public-settings-save-btn', false) !== false) {
                 if ($request->has(Option::PUBLIC_CORE_URL) &&

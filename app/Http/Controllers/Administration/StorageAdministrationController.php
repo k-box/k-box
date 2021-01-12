@@ -9,6 +9,7 @@ use KBox\DocumentDescriptor;
 use KBox\Documents\Services\StorageService;
 use KBox\Http\Controllers\Controller;
 use Illuminate\Foundation\Bus\DispatchesJobs;
+use Illuminate\Support\Facades\Gate;
 
 /**
  * Controller
@@ -34,8 +35,6 @@ class StorageAdministrationController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-
-        $this->middleware('capabilities');
     }
 
     /**
@@ -45,6 +44,8 @@ class StorageAdministrationController extends Controller
      */
     public function getIndex(StorageService $storage)
     {
+        Gate::authorize('manage-kbox');
+        
         $data = [
         'used' => $storage->used(),
         'total' => $storage->total(),
@@ -98,6 +99,8 @@ class StorageAdministrationController extends Controller
      */
     public function getReindexAll()
     {
+        Gate::authorize('manage-kbox');
+
         $reindex = $this->getReindexExecutionStatus();
 
         return response()->json($reindex);
@@ -109,6 +112,8 @@ class StorageAdministrationController extends Controller
      */
     public function postReindexAll(Request $request)
     {
+        Gate::authorize('manage-kbox');
+
         $all_id = DocumentDescriptor::all(['id'])->map(function ($el) {
             return $el->id;
         });
@@ -139,6 +144,8 @@ class StorageAdministrationController extends Controller
      */
     public function postNaming(Request $request)
     {
+        Gate::authorize('manage-kbox');
+        
         if ($request->has('activate')) {
             $activate = ! ! $request->input('activate', null);
 

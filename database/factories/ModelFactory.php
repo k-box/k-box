@@ -29,7 +29,7 @@ $factory->define(KBox\File::class, function (Faker\Generator $faker) {
         'path' => $path,
         'mime_type' => 'text/plain',
         'user_id' => function () {
-            return factory(KBox\User::class)->create()->id;
+            return factory(KBox\User::class)->state('partner')->create()->id;
         },
         'size' => $faker->randomNumber(2),
         'original_uri' => '',
@@ -42,7 +42,7 @@ $factory->define(KBox\DocumentDescriptor::class, function (Faker\Generator $fake
     // $hash = $faker->sha256.''.$faker->sha256;
     $hash = hash_file('sha512', base_path('tests/data/example.txt'));
     
-    $user = isset($arguments['owner_id']) ? $arguments['owner_id'] : factory(KBox\User::class)->create()->id;
+    $user = isset($arguments['owner_id']) ? $arguments['owner_id'] : factory(KBox\User::class)->state('partner')->create()->id;
     
     $file = isset($arguments['file_id']) ? $arguments['file_id'] : factory(KBox\File::class)->create([
         'user_id' => $user,

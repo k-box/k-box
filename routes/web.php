@@ -27,7 +27,6 @@ Route::get('/', ['as' => 'frontpage', 'uses' => 'WelcomeController@index']);
 | ...
 |
 */
-Route::get('search/autocomplete', ['as' => 'search-autocomplete', 'uses' => 'SearchController@autocomplete']);
 Route::get('search', ['as' => 'search', 'uses' => 'SearchController@index']);
 
 /*
@@ -276,7 +275,7 @@ Route::get('shares/list-users', [
     'as' => 'shares.users',
 ]);
 
-Route::resource('shares', 'SharingController');
+Route::resource('shares', 'SharingController', ['only' => ['index', 'show', 'create', 'store', 'destroy']]);
 
 // Public links creation and management
 // is an extension of sharing with a new target type

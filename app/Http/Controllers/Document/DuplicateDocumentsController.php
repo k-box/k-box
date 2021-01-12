@@ -6,6 +6,7 @@ use DB;
 use Log;
 use Exception;
 use KBox\DuplicateDocument;
+use KBox\DocumentDescriptor;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use KBox\Http\Controllers\Controller;
@@ -20,8 +21,6 @@ class DuplicateDocumentsController extends Controller
     {
         $this->middleware('auth');
 
-        $this->middleware('capabilities');
-
         $this->service = $documentsService;
     }
 
@@ -33,6 +32,8 @@ class DuplicateDocumentsController extends Controller
     public function destroy(AuthGuard $auth, Request $request, $id)
     {
         $user = $auth->user();
+
+        $this->authorize('delete', DocumentDescriptor::class);
 
         $duplicate = DuplicateDocument::of($user)->find($id);
 

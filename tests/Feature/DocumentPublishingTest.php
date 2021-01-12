@@ -21,7 +21,7 @@ class DocumentPublishingTest extends TestCase
 
         $adapter = $this->withKlinkAdapterFake();
 
-        $user = factory(\KBox\User::class)->create();
+        $user = factory(\KBox\User::class)->state('project-manager')->create();
 
         $descriptor = factory(\KBox\DocumentDescriptor::class)->create();
         $response = $this->actingAs($user)->json('POST', '/published-documents', [
@@ -56,7 +56,7 @@ class DocumentPublishingTest extends TestCase
 
         $adapter = $this->withKlinkAdapterFake();
 
-        $user = factory(\KBox\User::class)->create();
+        $user = factory(\KBox\User::class)->state('project-manager')->create();
 
         $descriptor = factory(\KBox\DocumentDescriptor::class)->create(['is_public' => true]);
 

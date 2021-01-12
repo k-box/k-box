@@ -40,8 +40,7 @@ class IdentityControllerTest extends TestCase
         $response = $this->actingAs($user)->{$method}(route($route));
 
         if ($expected_status_code === 403) {
-            $response->assertStatus(200);
-            $response->assertViewIs('errors.403');
+            $response->assertForbidden();
         } else {
             $response->assertStatus($expected_status_code);
         }

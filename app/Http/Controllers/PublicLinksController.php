@@ -22,8 +22,6 @@ class PublicLinksController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-
-        $this->middleware('capabilities');
     }
 
     /**
@@ -38,6 +36,8 @@ class PublicLinksController extends Controller
         // create a shared
         // attach the PublicLink to the sharedwith morph field
         // return the link
+
+        $this->authorize('create', PublicLink::class);
 
         $user = $auth->user();
 
@@ -106,6 +106,8 @@ class PublicLinksController extends Controller
         $user = $auth->user();
 
         $link = PublicLink::findOrFail($id);
+
+        $this->authorize('update', $link);
         
         if ($user->id !== $link->user_id) {
             return new JsonResponse(['error' => trans('share.publiclinks.edit_forbidden_not_your')], 422);
@@ -144,6 +146,8 @@ class PublicLinksController extends Controller
 
         $link = PublicLink::findOrFail($id ?? $request->input('link'));
         
+        $this->authorize('delete', $link);
+
         if ($user->id !== $link->user_id) {
             return new JsonResponse(['error' => trans('share.publiclinks.delete_forbidden_not_your')], 422);
         }

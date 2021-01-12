@@ -9,6 +9,7 @@ use KBox\Support\SupportService;
 use KBox\Http\Controllers\Controller;
 use KBox\Http\Requests\AnalyticsSaveRequest;
 use Illuminate\Contracts\Auth\Guard as AuthGuard;
+use Illuminate\Support\Facades\Gate;
 
 class SupportController extends Controller
 {
@@ -21,12 +22,12 @@ class SupportController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-
-        $this->middleware('capabilities');
     }
   
     public function index(AuthGuard $auth)
     {
+        Gate::authorize('manage-kbox');
+        
         $data = [
             'pagetitle' => trans('administration.menu.support'),
             SupportService::SUPPORT_TOKEN => SupportService::token(),
@@ -37,6 +38,8 @@ class SupportController extends Controller
   
     public function update(AuthGuard $auth, AnalyticsSaveRequest $request)
     {
+        Gate::authorize('manage-kbox');
+        
         try {
             $validatedData = $request->validate([
                 SupportService::SUPPORT_TOKEN => 'nullable|sometimes|string',

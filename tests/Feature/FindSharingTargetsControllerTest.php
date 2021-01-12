@@ -8,14 +8,11 @@ use KBox\Shared;
 use Tests\TestCase;
 use KBox\Capability;
 use KBox\DocumentDescriptor;
-use Tests\Concerns\ClearDatabase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class FindSharingTargetsControllerTest extends TestCase
 {
     use DatabaseTransactions;
-
-    use ClearDatabase;
 
     public function test_target_search_requires_two_characters()
     {

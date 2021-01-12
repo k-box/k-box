@@ -5,6 +5,7 @@ namespace KBox\Http\Controllers\Administration\DocumentLicenses;
 use KBox\Option;
 use KBox\DocumentDescriptor;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use KBox\Jobs\ReindexDocument;
 use Illuminate\Validation\Rule;
 use KBox\Http\Controllers\Controller;
@@ -18,14 +19,14 @@ class DefaultDocumentLicensesController extends Controller
     public function __construct(LicenseRepository $licenses)
     {
         $this->middleware('auth');
-
-        $this->middleware('capabilities');
         
         $this->licenses = $licenses;
     }
 
     public function update()
     {
+        Gate::authorize('manage-kbox');
+        
         $selectable_licenses = Option::copyright_available_licenses()->pluck('id')->toArray();
  
         $this->validate(request(), [

@@ -61,7 +61,6 @@ class Kernel extends HttpKernel
         'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,
         'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
-        'capabilities' => \KBox\Http\Middleware\RedirectIfForbidden::class,
         'flags' => \KBox\Http\Middleware\VerifyFlag::class,
         'guest' => \KBox\Http\Middleware\RedirectIfAuthenticated::class,
         'password.confirm' => \Illuminate\Auth\Middleware\RequirePassword::class,

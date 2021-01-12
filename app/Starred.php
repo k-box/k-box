@@ -54,7 +54,7 @@ class Starred extends Model
      */
     public function user()
     {
-        return $this->hasOne(\KBox\User::class);
+        return $this->belongsTo(User::class);
     }
 
     /**
@@ -64,7 +64,7 @@ class Starred extends Model
      */
     public function document()
     {
-        return $this->belongsTo(\KBox\DocumentDescriptor::class, 'document_id')->withTrashed();
+        return $this->belongsTo(DocumentDescriptor::class, 'document_id')->withTrashed();
     }
 
     /**

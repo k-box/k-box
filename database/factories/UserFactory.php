@@ -39,3 +39,19 @@ $factory->state(User::class, 'admin', function (Faker $faker) {
 $factory->afterCreatingState(User::class, 'admin', function ($user, $faker) {
     $user->addCapabilities([Capability::MANAGE_KBOX]);
 });
+
+$factory->state(User::class, 'partner', function (Faker $faker) {
+    return [];
+});
+
+$factory->afterCreatingState(User::class, 'partner', function ($user, $faker) {
+    $user->addCapabilities(Capability::$PARTNER);
+});
+
+$factory->state(User::class, 'project-manager', function (Faker $faker) {
+    return [];
+});
+
+$factory->afterCreatingState(User::class, 'project-manager', function ($user, $faker) {
+    $user->addCapabilities(Capability::$PROJECT_MANAGER);
+});

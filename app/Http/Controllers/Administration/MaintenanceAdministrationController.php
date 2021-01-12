@@ -2,6 +2,7 @@
 
 namespace KBox\Http\Controllers\Administration;
 
+use Illuminate\Support\Facades\Gate;
 use KBox\Http\Controllers\Controller;
 use KBox\User;
 use KBox\Option;
@@ -29,12 +30,12 @@ class MaintenanceAdministrationController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-
-        $this->middleware('capabilities');
     }
 
     public function getIndex()
     {
+        Gate::authorize('manage-kbox');
+        
         $active = Option::option('dms.queuelistener.active', false);
 
         $isInError = Option::option('dms.queuelistener.errorState', false);

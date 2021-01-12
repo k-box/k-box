@@ -2,6 +2,7 @@
 
 namespace KBox\Http\Controllers\Administration\DocumentLicenses;
 
+use Illuminate\Support\Facades\Gate;
 use KBox\Option;
 use KBox\DocumentDescriptor;
 use KBox\Http\Controllers\Controller;
@@ -21,13 +22,13 @@ class DocumentLicensesController extends Controller
     {
         $this->middleware('auth');
 
-        $this->middleware('capabilities');
-
         $this->licenses = $licenses;
     }
 
     public function index()
     {
+        Gate::authorize('manage-kbox');
+        
         $this->licenses = app()->make(LicenseRepository::class);
 
         $selected_licenses = Option::copyright_available_licenses();

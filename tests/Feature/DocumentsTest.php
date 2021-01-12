@@ -36,7 +36,7 @@ class DocumentsTest extends TestCase
             [Capability::$ADMIN, true],
             [[Capability::MANAGE_KBOX], false],
             [Capability::$PROJECT_MANAGER, true],
-            [Capability::$PARTNER, false],
+            [Capability::$PARTNER, true],
         ];
     }
 
@@ -160,7 +160,11 @@ class DocumentsTest extends TestCase
         
         $response = $this->actingAs($user2)->get($url);
         
-        $response->assertOk();
+        if ($can_see) {
+            $response->assertOk();
+        } else {
+            $response->assertForbidden();
+        }
     }
     
     /**

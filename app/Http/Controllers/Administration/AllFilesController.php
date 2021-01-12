@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use KBox\Http\Controllers\Controller;
 use KBox\DocumentDescriptor;
 use Illuminate\Contracts\Auth\Guard as AuthGuard;
+use Illuminate\Support\Facades\Gate;
 use KBox\Traits\Searchable;
 use Klink\DmsAdapter\KlinkVisibilityType;
 
@@ -21,8 +22,6 @@ class AllFilesController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-
-        $this->middleware('capabilities');
     }
 
     /**
@@ -32,6 +31,8 @@ class AllFilesController extends Controller
      */
     public function index(AuthGuard $auth, Request $request, $visibility = 'private')
     {
+        Gate::authorize('manage-kbox');
+        
         $user = $auth->user();
 
         if (! $user->isDMSManager()) {

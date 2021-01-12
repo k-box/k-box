@@ -3,6 +3,7 @@
 namespace KBox\Http\Controllers;
 
 use KBox\Group;
+use KBox\DocumentDescriptor;
 use KBox\Documents\Services\DocumentsService;
 
 class UploadPageController extends Controller
@@ -12,8 +13,6 @@ class UploadPageController extends Controller
     public function __construct(DocumentsService $service)
     {
         $this->middleware('auth');
-
-        // $this->middleware('capabilities');
 
         $this->service = $service;
     }
@@ -26,6 +25,9 @@ class UploadPageController extends Controller
     public function index()
     {
         $user = request()->user();
+
+        $this->authorize('create', DocumentDescriptor::class);
+
         $request_target = request()->input('c', null);
 
         $target_data = [
