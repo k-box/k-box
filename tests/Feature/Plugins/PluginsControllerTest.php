@@ -44,6 +44,8 @@ class PluginsControllerTest extends TestCase
 
     public function test_non_admins_cannot_view_plugins_page()
     {
+        Flags::enable(Flags::PLUGINS);
+
         $user = tap(factory(User::class)->create(), function ($u) {
             $u->addCapabilities(Capability::$PROJECT_MANAGER);
         });
@@ -52,8 +54,7 @@ class PluginsControllerTest extends TestCase
 
         $response = $this->actingAs($user)->get($url);
         
-        $response->assertSuccessful();
-        $response->assertViewIs('errors.403');
+        $response->assertForbidden();
     }
 
     public function test_discovered_plugins_are_presented()

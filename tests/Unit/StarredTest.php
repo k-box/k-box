@@ -44,7 +44,7 @@ class StarredTest extends TestCase
             $response->assertSuccessful();
             $response->assertSee('Starred');
         } else {
-            $response->assertViewIs('errors.'.$expected_code);
+            $response->assertStatus($expected_code);
         }
     }
 
@@ -94,13 +94,14 @@ class StarredTest extends TestCase
     {
         $this->withKlinkAdapterFake();
         
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = factory(User::class)->state('partner')->create();
         
         $expected_count = Starred::count() + 1;
         
-        $doc = factory(DocumentDescriptor::class)->create(['owner_id' => $user->id]);
+        $doc = factory(DocumentDescriptor::class)->create([
+            'owner_id' => $user->getKey(),
+            'local_document_id' => 'stardoc',
+        ]);
         
         $response = $this->actingAs($user)->post(route('documents.starred.store'), [
             'descriptor' => $doc->local_document_id,

@@ -6,6 +6,7 @@ use KBox\Http\Controllers\Controller;
 use KBox\Http\Requests\ContactsSaveRequest;
 use KBox\Option;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 
 /**
  * Manage the K-Box Identity configuration
@@ -30,8 +31,6 @@ class IdentityController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-
-        $this->middleware('capabilities');
     }
 
     /**
@@ -41,6 +40,8 @@ class IdentityController extends Controller
     */
     public function index()
     {
+        Gate::authorize('manage-kbox');
+
         $contacts = Option::sectionAsArray('contact');
 
         $are_contacts_configured = Option::areContactsConfigured();
@@ -59,6 +60,8 @@ class IdentityController extends Controller
     */
     public function store(ContactsSaveRequest $request)
     {
+        Gate::authorize('manage-kbox');
+        
         try {
             $done = DB::transaction(function () use ($request) {
                 $fields = $request->only(['name','email','phone','website','image','address_street','address_locality','address_country','address_zip']);

@@ -14,7 +14,7 @@ class UploadPageTest extends TestCase
 
     public function test_upload_page_shows_private_target()
     {
-        $user = factory(\KBox\User::class)->create();
+        $user = factory(\KBox\User::class)->state('partner')->create();
 
         $this->disableExceptionHandling();
         
@@ -112,7 +112,7 @@ class UploadPageTest extends TestCase
     
     public function test_upload_page_shows_target_error()
     {
-        $user = factory(\KBox\User::class)->create();
+        $user = factory(\KBox\User::class)->state('partner')->create();
 
         $this->disableExceptionHandling();
 

@@ -3,6 +3,7 @@
 namespace KBox\Http\Controllers;
 
 use Exception;
+use KBox\Publication;
 use Illuminate\Http\Request;
 use KBox\DocumentDescriptor;
 use KBox\Exceptions\PublishingOperationInProgressException;
@@ -17,8 +18,6 @@ class PublishedDocumentsController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-
-        $this->middleware('capabilities');
     }
  
     /**
@@ -30,6 +29,8 @@ class PublishedDocumentsController extends Controller
     public function store(Request $request)
     {
         try {
+            $this->authorize('create', Publication::class);
+
             $document = DocumentDescriptor::findOrFail($request->input('document_id'));
 
             if ($document->hasPendingPublications()) {
@@ -53,6 +54,8 @@ class PublishedDocumentsController extends Controller
     public function destroy($id)
     {
         try {
+            $this->authorize('create', Publication::class);
+
             $document = DocumentDescriptor::findOrFail($id);
             
             if ($document->hasPendingPublications()) {

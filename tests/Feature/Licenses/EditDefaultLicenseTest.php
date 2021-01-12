@@ -17,7 +17,7 @@ class EditDefaultLicenseTest extends TestCase
 
     public function test_default_license_is_required()
     {
-        $user = factory(\KBox\User::class)->create();
+        $user = factory(\KBox\User::class)->state('admin')->create();
 
         $response = $this->actingAs($user)->from('/administration/licenses')->put('/administration/licenses/default', [
             'default_license' => ''
@@ -31,7 +31,7 @@ class EditDefaultLicenseTest extends TestCase
     
     public function test_license_is_a_string()
     {
-        $user = factory(\KBox\User::class)->create();
+        $user = factory(\KBox\User::class)->state('admin')->create();
 
         $response = $this->actingAs($user)->from('/administration/licenses')->put('/administration/licenses/default', [
             'default_license' => ['an', 'array']
@@ -45,7 +45,7 @@ class EditDefaultLicenseTest extends TestCase
 
     public function test_invalid_license_is_selected()
     {
-        $user = factory(\KBox\User::class)->create();
+        $user = factory(\KBox\User::class)->state('admin')->create();
 
         $response = $this->actingAs($user)->from('/administration/licenses')->put('/administration/licenses/default', [
             'default_license' => 'a-string'
@@ -62,7 +62,7 @@ class EditDefaultLicenseTest extends TestCase
         Option::put(Option::COPYRIGHT_AVAILABLE_LICENSES, '["PD", "C"]');
         Option::put(Option::COPYRIGHT_DEFAULT_LICENSE, null);
 
-        $user = factory(\KBox\User::class)->create();
+        $user = factory(\KBox\User::class)->state('admin')->create();
 
         $response = $this->actingAs($user)->from('/administration/licenses')->put('/administration/licenses/default', [
             'default_license' => 'CC-BY-4.0'
@@ -79,7 +79,7 @@ class EditDefaultLicenseTest extends TestCase
         Option::put(Option::COPYRIGHT_AVAILABLE_LICENSES, '["PD", "C", "CC-BY-4.0"]');
         Option::put(Option::COPYRIGHT_DEFAULT_LICENSE, null);
 
-        $user = factory(\KBox\User::class)->create();
+        $user = factory(\KBox\User::class)->state('admin')->create();
 
         $response = $this->actingAs($user)->from('/administration/licenses')->put('/administration/licenses/default', [
             'default_license' => 'CC-BY-4.0'
@@ -103,7 +103,7 @@ class EditDefaultLicenseTest extends TestCase
         Option::put(Option::COPYRIGHT_AVAILABLE_LICENSES, '["PD", "C", "CC-BY-4.0"]');
         Option::put(Option::COPYRIGHT_DEFAULT_LICENSE, null);
 
-        $user = factory(\KBox\User::class)->create();
+        $user = factory(\KBox\User::class)->state('admin')->create();
         $documents = factory(\KBox\DocumentDescriptor::class, 3)->create([
             'copyright_usage' => null,
         ]);
@@ -135,7 +135,7 @@ class EditDefaultLicenseTest extends TestCase
         Option::put(Option::COPYRIGHT_AVAILABLE_LICENSES, '["PD", "C", "CC-BY-4.0"]');
         Option::put(Option::COPYRIGHT_DEFAULT_LICENSE, null);
 
-        $user = factory(\KBox\User::class)->create();
+        $user = factory(\KBox\User::class)->state('admin')->create();
         $documents_without_license = factory(\KBox\DocumentDescriptor::class, 3)->create([
             'copyright_usage' => null,
         ]);

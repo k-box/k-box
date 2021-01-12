@@ -51,8 +51,6 @@ class SharingController extends Controller
     {
         $this->middleware('auth');
 
-        $this->middleware('capabilities');
-
         $this->service = $adapterService;
         
         $this->adapter = $adapter;
@@ -65,8 +63,7 @@ class SharingController extends Controller
      */
     public function index(AuthGuard $auth, Request $request)
     {
-
-        // TODO: update sorting options here
+        $this->authorize('viewAny', Shared::class);
 
         $user = $auth->user();
         
@@ -133,13 +130,14 @@ class SharingController extends Controller
             throw (new ModelNotFoundException)->setModel('KBox/Shared');
         }
 
+        $this->authorize('view', $share);
+
         $share = $share->load('shareable');
 
         if ($request->wantsJson()) {
             return new JsonResponse($share->toArray(), 200);
         }
 
-        $see_share = $auth->user()->can_capability(Capability::RECEIVE_AND_SEE_SHARE);
         $partner = $auth->user()->can_all_capabilities(Capability::$PARTNER);
 
         if (is_a($share->shareable, \KBox\Group::class)) {
@@ -156,6 +154,8 @@ class SharingController extends Controller
      */
     public function create(AuthGuard $auth, ShareDialogRequest $request)
     {
+        $this->authorize('create', Shared::class);
+
         $me = $auth->user();
 
         $groups_input = $request->input('collections', []);
@@ -224,11 +224,6 @@ class SharingController extends Controller
             $existing_shares = $first->shares()->sharedByMe($me)->where('sharedwith_type', \KBox\User::class)->get();
         }
         
-        //can be removed
-        $can_share = $me->can_capability(Capability::SHARE_WITH_USERS);
-        $can_make_public = $me->can_capability(Capability::PUBLISH_TO_KLINK);
-        $is_project_manager = $me->isProjectManager();
-
         // TODO: check if the document is in a personal collection only, or in a project collection
         $sharing_links = [];
 
@@ -282,6 +277,7 @@ class SharingController extends Controller
      */
     public function store(AuthGuard $auth, CreateShareRequest $request)
     {
+        $this->authorize('create', Shared::class);
 
         // with_users
         // groups
@@ -313,34 +309,12 @@ class SharingController extends Controller
 
         return view('panels.share_done', $status);
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function edit(AuthGuard $auth, $id)
-    {
-        // Share edit panel??!?!??!
-        //
-        return view('share.create', ['edit' => true]);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function update(AuthGuard $auth, CreateShareRequest $request, $id)
-    {
-        $share = Shared::findOrFail($id);
-    }
     
     private function _destroy($id)
     {
         $share = Shared::findOrFail($id);
+
+        $this->authorize('delete', $share);
 
         $user = $share->sharedwith;
 

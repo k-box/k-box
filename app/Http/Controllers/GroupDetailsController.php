@@ -21,8 +21,6 @@ class GroupDetailsController extends Controller
     {
         $this->middleware('auth');
 
-        $this->middleware('capabilities');
-
         $this->service = $service;
     }
 
@@ -35,10 +33,12 @@ class GroupDetailsController extends Controller
     public function show(Request $request, Group $group)
     {
         $user = $request->user();
+
+        $this->authorize('view', $group);
         
-        if (! $this->service->isCollectionAccessible($user, $group)) {
-            throw new ForbiddenException(trans('errors.401_title'), 401);
-        }
+        // if (! $this->service->isCollectionAccessible($user, $group)) {
+        //     throw new ForbiddenException(trans('errors.401_title'), 401);
+        // }
 
         $share_with = $group->shares()->sharedWithMe($user)->orderBy('created_at', 'ASC')->first();
         $share = $group->shares()->by($user)->orderBy('created_at', 'ASC')->exists();

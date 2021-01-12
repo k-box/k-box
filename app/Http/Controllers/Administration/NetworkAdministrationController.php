@@ -2,6 +2,7 @@
 
 namespace KBox\Http\Controllers\Administration;
 
+use Illuminate\Support\Facades\Gate;
 use KBox\Http\Controllers\Controller;
 use Klink\DmsAdapter\Contracts\KlinkAdapter;
 
@@ -21,8 +22,6 @@ class NetworkAdministrationController extends Controller
     {
         $this->middleware('auth');
 
-        $this->middleware('capabilities');
-
         $this->adapter = $adapter;
     }
 
@@ -31,6 +30,8 @@ class NetworkAdministrationController extends Controller
      */
     public function getIndex()
     {
+        Gate::authorize('manage-kbox');
+        
         $local = $this->adapter->canConnect('private');
       
         $info = [

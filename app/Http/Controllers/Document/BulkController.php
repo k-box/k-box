@@ -19,6 +19,7 @@ use Klink\DmsAdapter\KlinkVisibilityType;
 use KBox\Jobs\ReindexDocument;
 use Illuminate\Support\Facades\DB;
 use KBox\Jobs\CalculateUserUsedQuota;
+use KBox\Publication;
 
 class BulkController extends Controller
 {
@@ -47,8 +48,6 @@ class BulkController extends Controller
     public function __construct(\KBox\Documents\Services\DocumentsService $adapterService)
     {
         $this->middleware('auth');
-
-        $this->middleware('capabilities');
 
         $this->service = $adapterService;
     }
@@ -147,6 +146,8 @@ class BulkController extends Controller
             $user = $auth->user();
             
             \Log::info('Cleaning trash', ['triggered_by' => $user->id]);
+
+            $this->authorize('forceDelete', DocumentDescriptor::class);
             
             $all_that_can_be_deleted = $this->service->getUserTrash($user);
 
@@ -193,6 +194,8 @@ class BulkController extends Controller
     private function deleteSingle($user, $id, $force = false)
     {
         $descriptor = ($id instanceof DocumentDescriptor) ? $id : DocumentDescriptor::withTrashed()->findOrFail($id);
+
+        $this->authorize($force ? 'forceDelete' : 'delete', $descriptor);
             
         if ($descriptor->isPublic() && ! $user->can_capability(Capability::PUBLISH_TO_KLINK)) {
             \Log::warning('User tried to delete a public document without permission', ['user' => $user->id, 'document' => $id]);
@@ -217,6 +220,8 @@ class BulkController extends Controller
     {
         $group = ($id instanceof Group) ? $id : Group::withTrashed()->findOrFail($id);
         
+        $this->authorize('delete', $group);
+
         if ($force && ! $user->can_capability(Capability::CLEAN_TRASH)) {
             \Log::warning('User tried to force delete a group without permission', ['user' => $user->id, 'document' => $id]);
             throw new ForbiddenException(trans('documents.messages.delete_force_forbidden'), 2);
@@ -289,7 +294,6 @@ class BulkController extends Controller
      */
     public function copyTo(AuthGuard $auth, BulkMoveRequest $request)
     {
-
         // ids might be comma separated, single transaction
 
         \Log::info('Bulk CopyTo', ['params' => $request->all()]);
@@ -358,6 +362,8 @@ class BulkController extends Controller
         \Log::info('Bulk Make Public', ['params' => $request->all()]);
 
         try {
+            $this->authorize('create', Publication::class);
+
             $that = $this;
 
             $status = DB::transaction(function () use ($request, $that, $auth) {
@@ -409,6 +415,8 @@ class BulkController extends Controller
         \Log::info('Bulk Make Private', ['params' => $request->all()]);
 
         try {
+            $this->authorize('create', Publication::class);
+
             $that = $this;
 
             $status = DB::transaction(function () use ($request, $that, $auth) {

@@ -26,7 +26,6 @@ class CollectionsTest extends TestCase
         return [
             [Capability::$ADMIN],
             [Capability::$PROJECT_MANAGER],
-            [Capability::$PROJECT_MANAGER_LIMITED],
         ];
     }
 
@@ -103,13 +102,9 @@ class CollectionsTest extends TestCase
     
     public function testCollectionListing()
     {
-        $user1 = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PROJECT_MANAGER_LIMITED);
-        });
+        $user1 = factory(User::class)->state('project-manager')->create();
         
-        $user2 = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PROJECT_MANAGER_LIMITED);
-        });
+        $user2 = factory(User::class)->state('project-manager')->create();
         
         $user_admin = tap(factory(User::class)->create(), function ($u) {
             $u->addCapabilities(Capability::$ADMIN);

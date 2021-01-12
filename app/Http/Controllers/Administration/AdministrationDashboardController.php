@@ -3,6 +3,7 @@
 namespace KBox\Http\Controllers\Administration;
 
 use Exception;
+use Illuminate\Support\Facades\Gate;
 use KBox\Http\Controllers\Controller;
 use KBox\User;
 use KBox\Option;
@@ -30,13 +31,9 @@ class AdministrationDashboardController extends Controller
      *
      * @return void
      */
-    public function __construct(\KBox\Documents\Services\DocumentsService $documentsService)
+    public function __construct()
     {
         $this->middleware('auth');
-
-        $this->middleware('capabilities');
-
-        $this->documents = $documentsService;
     }
 
     /**
@@ -46,6 +43,8 @@ class AdministrationDashboardController extends Controller
      */
     public function index()
     {
+        Gate::authorize('manage-kbox');
+
         $notices = [];
         $config_errors = [];
 
@@ -72,8 +71,8 @@ class AdministrationDashboardController extends Controller
         }
     
         return view('administration.administration', [
-        'notices' => $notices,
-        'error_notices' => $config_errors,
+            'notices' => $notices,
+            'error_notices' => $config_errors,
         ]);
     }
 }

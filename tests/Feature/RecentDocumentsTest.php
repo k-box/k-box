@@ -6,7 +6,6 @@ use KBox\User;
 use Carbon\Carbon;
 use Tests\TestCase;
 use KBox\Capability;
-use Tests\Concerns\ClearDatabase;
 use Klink\DmsAdapter\KlinkSearchRequest;
 use Klink\DmsAdapter\KlinkSearchResults;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
@@ -14,7 +13,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class RecentDocumentsTest extends TestCase
 {
-    use ClearDatabase, DatabaseTransactions, WithoutMiddleware;
+    use DatabaseTransactions, WithoutMiddleware;
 
     public function recent_date_range_provider()
     {
@@ -49,8 +48,8 @@ class RecentDocumentsTest extends TestCase
     {
         $adapter = $this->withKlinkAdapterFake();
         
-        $user_sender = factory(\KBox\User::class)->create();
-        $user_receiver = factory(\KBox\User::class)->create();
+        $user_sender = factory(\KBox\User::class)->state('partner')->create();
+        $user_receiver = factory(\KBox\User::class)->state('partner')->create();
 
         $descriptor = factory(\KBox\DocumentDescriptor::class)->create();
 
@@ -333,7 +332,7 @@ class RecentDocumentsTest extends TestCase
 
         $adapter = $this->withKlinkAdapterFake();
 
-        $user = factory(\KBox\User::class)->create();
+        $user = factory(\KBox\User::class)->state('partner')->create();
 
         $descriptor = factory(\KBox\DocumentDescriptor::class)->create([
             'created_at' => Carbon::now()->subDays(2),

@@ -10,6 +10,7 @@ use KBox\Support\Analytics\Analytics;
 use KBox\Http\Controllers\Controller;
 use KBox\Http\Requests\AnalyticsSaveRequest;
 use Illuminate\Contracts\Auth\Guard as AuthGuard;
+use Illuminate\Support\Facades\Gate;
 
 class AnalyticsController extends Controller
 {
@@ -22,12 +23,12 @@ class AnalyticsController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-
-        $this->middleware('capabilities');
     }
   
     public function index(AuthGuard $auth)
     {
+        Gate::authorize('manage-kbox');
+        
         $data = [
             'pagetitle' => trans('administration.menu.analytics'),
             Analytics::ANALYTICS_TOKEN => Analytics::token(),
@@ -41,6 +42,8 @@ class AnalyticsController extends Controller
   
     public function update(AuthGuard $auth, AnalyticsSaveRequest $request)
     {
+        Gate::authorize('manage-kbox');
+
         try {
             if ($request->has(Analytics::ANALYTICS_TOKEN) && ! empty($request->input(Analytics::ANALYTICS_TOKEN, null))) {
                 Option::put(Analytics::ANALYTICS_TOKEN, e($request->input(Analytics::ANALYTICS_TOKEN, null)));

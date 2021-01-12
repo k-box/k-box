@@ -5,6 +5,7 @@ namespace KBox\Http\Controllers\Document;
 use Illuminate\Http\Request;
 use KBox\Http\Controllers\Controller;
 use Illuminate\Contracts\Auth\Guard as AuthGuard;
+use KBox\DocumentDescriptor;
 use KBox\Traits\Searchable;
 
 class PublicDocumentsController extends Controller
@@ -35,8 +36,6 @@ class PublicDocumentsController extends Controller
     {
         $this->middleware('auth');
 
-        $this->middleware('capabilities');
-
         $this->service = $adapterService;
     }
 
@@ -47,6 +46,8 @@ class PublicDocumentsController extends Controller
      */
     public function index(AuthGuard $auth, Request $request)
     {
+        $this->authorize('viewAny', DocumentDescriptor::class);
+        
         $user = $auth->user();
 
         $visibility = 'public';

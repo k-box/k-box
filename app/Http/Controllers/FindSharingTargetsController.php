@@ -8,6 +8,7 @@ use KBox\Capability;
 use KBox\DocumentDescriptor;
 use Illuminate\Http\Request;
 use KBox\Http\Resources\ShareTargetCollection;
+use KBox\Shared;
 
 class FindSharingTargetsController extends Controller
 {
@@ -19,8 +20,6 @@ class FindSharingTargetsController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-
-        $this->middleware('capabilities');
     }
 
     /**
@@ -30,6 +29,8 @@ class FindSharingTargetsController extends Controller
      */
     public function index(Request $request)
     {
+        $this->authorize('create', Shared::class);
+        
         $me = $request->user();
 
         $validatedData = $request->validate([

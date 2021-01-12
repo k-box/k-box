@@ -36,8 +36,6 @@ class StarredDocumentsController extends Controller
     {
         $this->middleware('auth');
 
-        $this->middleware('capabilities');
-
         $this->service = $adapterService;
         $this->documentsService = $documentsService;
     }
@@ -49,6 +47,8 @@ class StarredDocumentsController extends Controller
      */
     public function index(Guard $auth, Request $request)
     {
+        $this->authorize('viewAny', Starred::class);
+
         $sorter = Sorter::fromRequest($request, 'starred', 'update_date', 'd');
 
         $req = $request->search()->setSorter($sorter);
@@ -116,6 +116,8 @@ class StarredDocumentsController extends Controller
     {
         $star = Starred::with('document')->findOrFail($id);
 
+        $this->authorize('view', $star);
+
         return view('panels.document', ['item' => $star->document]);
     }
 
@@ -128,6 +130,8 @@ class StarredDocumentsController extends Controller
     {
         try {
             $doc = $this->documentsService->getDocument($starredRequest->descriptor, $starredRequest->visibility);
+
+            $this->authorize('create', [Starred::class, $doc]);
 
             $user_id = $auth->user()->id;
 
@@ -159,6 +163,8 @@ class StarredDocumentsController extends Controller
     public function destroy($id)
     {
         $star = Starred::findOrFail($id);
+        
+        $this->authorize('forceDelete', $star);
 
         $executed = $star->delete();
 

@@ -47,7 +47,7 @@ class DocumentVersionsTest extends TestCase
         $last_version->revision_of = $first_version->id;
         $last_version->save();
 
-        $response = $this->delete("/documents/$document->id/versions/$last_version->uuid");
+        $response = $this->actingAs($document->owner)->delete("/documents/$document->id/versions/$last_version->uuid");
 
         $response->assertRedirect("/documents/$document->id/edit");
 
@@ -77,7 +77,7 @@ class DocumentVersionsTest extends TestCase
         $last_version->revision_of = $first_version->id;
         $last_version->save();
 
-        $response = $this->delete("/documents/$document->id/versions/$first_version->uuid");
+        $response = $this->actingAs($document->owner)->delete("/documents/$document->id/versions/$first_version->uuid");
 
         $response->assertRedirect("/documents/$document->id/edit");
 
@@ -113,7 +113,7 @@ class DocumentVersionsTest extends TestCase
         $middle_version->revision_of = $first_version->id;
         $middle_version->save();
 
-        $response = $this->delete("/documents/$document->id/versions/$middle_version->uuid");
+        $response = $this->actingAs($document->owner)->delete("/documents/$document->id/versions/$middle_version->uuid");
 
         $response->assertRedirect("/documents/$document->id/edit");
 
@@ -168,7 +168,7 @@ class DocumentVersionsTest extends TestCase
         $middle_version->revision_of = $first_version->id;
         $middle_version->save();
 
-        $response = $this->put("/documents/$document->id/versions/$middle_version->uuid/restore");
+        $response = $this->actingAs($document->owner)->put("/documents/$document->id/versions/$middle_version->uuid/restore");
 
         $response->assertRedirect("/documents/$document->id/edit");
 
@@ -203,7 +203,7 @@ class DocumentVersionsTest extends TestCase
         $middle_version->revision_of = $first_version->id;
         $middle_version->save();
 
-        $response = $this->put("/documents/$document->id/versions/$first_version->uuid/restore");
+        $response = $this->actingAs($document->owner)->put("/documents/$document->id/versions/$first_version->uuid/restore");
 
         $response->assertRedirect("/documents/$document->id/edit");
 

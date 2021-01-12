@@ -18,6 +18,7 @@ use KBox\Exceptions\FileNamingException;
 use KBox\Exceptions\ForbiddenException;
 use Illuminate\Support\Collection;
 use Exception;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use KBox\Traits\Searchable;
 use KBox\Events\UploadCompleted;
@@ -57,9 +58,7 @@ class DocumentsController extends Controller
      */
     public function __construct(\KBox\Documents\Services\DocumentsService $adapterService)
     {
-        $this->middleware('auth', ['except' => ['showByKlinkId']]);
-
-        $this->middleware('capabilities', ['except' => ['showByKlinkId']]);
+        $this->middleware('auth');
 
         $this->service = $adapterService;
     }
@@ -71,6 +70,8 @@ class DocumentsController extends Controller
      */
     public function index(AuthGuard $auth, Request $request, $visibility = 'private')
     {
+        $this->authorize('viewAny', DocumentDescriptor::class);
+
         $user = $auth->user();
 
         $sorter = Sorter::fromRequest($request);
@@ -118,6 +119,8 @@ class DocumentsController extends Controller
 
     public function trash(AuthGuard $auth)
     {
+        $this->authorize('viewAny', DocumentDescriptor::class);
+
         $user = $auth->user();
 
         $all = $this->service->getUserTrash($user)->all();
@@ -134,6 +137,7 @@ class DocumentsController extends Controller
 
     public function sharedWithMe(AuthGuard $auth, Request $request)
     {
+        $this->authorize('viewAny', Shared::class);
         
         // $with_me = null; /*$by_me = null;*/
         
@@ -204,6 +208,8 @@ class DocumentsController extends Controller
      */
     public function create(AuthGuard $auth)
     {
+        $this->authorize('create', DocumentDescriptor::class);
+
         $user = $auth->user();
 
         $visibility = 'private';
@@ -230,6 +236,8 @@ class DocumentsController extends Controller
         // private visibility as default
 
         try {
+            $this->authorize('create', DocumentDescriptor::class);
+
             \Log::info('DocumentsController store', ['request' => $request->all(), 'user' => $auth->user()]);
 
             $uploadDocument = $request->hasFile('document') ? $request->file('document') : null;
@@ -361,6 +369,8 @@ class DocumentsController extends Controller
     {
         try {
             $document = DocumentDescriptor::withTrashed()->findOrFail($id);
+
+            $this->authorize('view', $document);
 
             if ($request->ajax()) {
                 return $this->_showPanel($document, $auth->user());
@@ -633,11 +643,13 @@ class DocumentsController extends Controller
         try {
             $user = $auth->user();
             
-            if (! $user->can_capability(Capability::DELETE_DOCUMENT)) {
+            $descriptor = DocumentDescriptor::withTrashed()->findOrFail($id);
+
+            try {
+                $this->authorize('delete', $descriptor);
+            } catch (AuthorizationException $ex) {
                 throw new ForbiddenException(trans('documents.messages.delete_forbidden'), 1);
             }
-            
-            $descriptor = DocumentDescriptor::withTrashed()->findOrFail($id);
 
             // TODO: if is a reference to a public document remove it if is not starred, shared or in a collection
             
@@ -648,9 +660,13 @@ class DocumentsController extends Controller
             
             $force = $request->input('force', false);
 
-            if ($force && ! $user->can_capability(Capability::CLEAN_TRASH)) {
-                \Log::warning('User tried to force delete a document without permission', ['user' => $user->id, 'document' => $id]);
-                throw new ForbiddenException(trans('documents.messages.delete_force_forbidden'), 2);
+            if ($force) {
+                try {
+                    $this->authorize('forceDelete', $descriptor);
+                } catch (AuthorizationException $ex) {
+                    \Log::warning('User tried to force delete a document without permission', ['user' => $user->id, 'document' => $id]);
+                    throw new ForbiddenException(trans('documents.messages.delete_force_forbidden'), 2);
+                }
             }
     
             \Log::info('Deleting Document', ['params' => $id]);

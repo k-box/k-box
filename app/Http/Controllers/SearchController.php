@@ -35,8 +35,6 @@ class SearchController extends Controller
      */
     public function __construct(\Klink\DmsSearch\SearchService $searchService)
     {
-        $this->middleware('auth', ['only' => ['autocomplete', 'recent']]);
-
         $this->service = $searchService;
     }
 
@@ -94,53 +92,5 @@ class SearchController extends Controller
             'facets' => $result_facets,
             'only_facets' => false,
             ]);
-    }
-
-    /**
-     * Ajax based route for getting the autocomplete for a search query while the user is typing
-     * @return Response
-     */
-    public function autocomplete(Request $request, Guard $auth)
-    {
-        $search_terms = e($request->input('s', null));
-
-        $recent = null;
-        $starred = null;
-
-        $uid = $auth->user()->id;
-
-        if (is_null($search_terms)) {
-            $recent = \KBox\RecentSearch::ofUser($uid)->take(5)->orderBy('updated_at', 'desc')->get();
-        } else {
-            $recent = \KBox\RecentSearch::ofUser($uid)->thatContains($search_terms)->take(5)->orderBy('updated_at', 'desc')->get();
-        }
-
-        if (! is_null($search_terms)) {
-            $starred = $auth->user()->starred()->whereHas('document', function ($query) use ($search_terms) {
-                $query->where('title', 'like', '%'.$search_terms.'%');
-            })->take(2)->orderBy('created_at', 'desc')->with('document')->get();
-        }
-
-        return response()->json([ 'recent' => $recent, 'starred' => $starred]);
-    }
-
-    /**
-     * Retrieve all the searches made by the logged-in user
-     * @param  Guard  $auth [description]
-     * @return RecentSearch[]       [description]
-     */
-    public function recent(Guard $auth, Request $request)
-    {
-        $recents = $auth->user()->searches()->get();
-
-        if ($request->wantsJson()) {
-            if (! is_null($recents)) {
-                return response()->json($recents);
-            } else {
-                return response('Error', 500);
-            }
-        } else {
-            return response('Expected JSON content-type for return', 400);
-        }
     }
 }
