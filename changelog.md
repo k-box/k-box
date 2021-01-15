@@ -12,6 +12,13 @@ instructions on adding your own entry.
 
 ## [Unreleased]
 
+## [0.32.2] - 2021-01-15
+
+### Changes
+
+- Upgrade Axios and Laravel to latest version
+
+
 ## [0.32.1] - 2020-12-14
 
 ### Added
