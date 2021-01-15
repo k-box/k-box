@@ -53,7 +53,7 @@
 		"k-box/example-plugin": "*",
 		"k-box/k-search-client-php": "3.4.*",
 		"k-box/kbox-plugin-geo": "*",
-		"laravel/framework": "^7.15",
+		"laravel/framework": "^7.30",
 		"laravel/tinker": "^2.0",
 		"laravel/ui": "^2.1",
 		"league/csv": "^9.0",
