@@ -43,12 +43,6 @@ class ComposerScripts
             $io = $event->getIO();
 
             $args = $event->getArguments();
-
-            $ci_cache_domain = null;
-
-            if (! empty($args)) {
-                $ci_cache_domain = rtrim($args[0], '/').'/';
-            }
             
             $rfs = Factory::createRemoteFilesystem($io, $event->getComposer()->getConfig());
             
@@ -98,9 +92,7 @@ class ComposerScripts
                 $io->write('Installing the video-processing-cli and its dependencies...');
                 $io->write('');
 
-                $executor = new ProcessExecutor($io, [
-                    'CI_CACHE_DOMAIN' => $ci_cache_domain
-                ]);
+                $executor = new ProcessExecutor($io);
                 
                 $command_filename = $os!=='windows' ? './'.basename($fileName) : basename($fileName);
                 
