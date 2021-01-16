@@ -78,7 +78,7 @@ jobs:
         cp env.ci .env.testing
         mkdir ./storage/documents
         composer install --prefer-dist
-        composer run install-video-cli -- https://cache.oneofftech.xyz
+        composer run install-video-cli
         chmod +x ./bin/bin/packager-linux
         composer run install-content-cli
         composer run install-language-cli
