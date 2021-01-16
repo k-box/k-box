@@ -12,6 +12,13 @@ instructions on adding your own entry.
 
 ## [Unreleased]
 
+## [0.32.3] - 2021-01-16
+
+### Changes
+
+- Dependencies update
+
+
 ## [0.32.2] - 2021-01-15
 
 ### Changes
