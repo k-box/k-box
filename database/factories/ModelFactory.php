@@ -96,7 +96,7 @@ $factory->define(KBox\Project::class, function (Faker\Generator $faker, $argumen
         'user_id' => $user->id,
         'name' => $project_title,
         'color' => 'f1c40f',
-        'group_type_id' => KBox\GroupType::getGenericType()->id,
+        'type' => KBox\Group::TYPE_PROJECT,
         'is_private' => false,
         'created_at' => isset($arguments['created_at']) ? $arguments['created_at'] : Carbon\Carbon::now(),
     ]);
@@ -161,7 +161,7 @@ $factory->define(KBox\Group::class, function (Faker\Generator $faker, $arguments
         },
         'name' => $faker->sentence,
         'color' => 'f1c40f',
-        'group_type_id' => KBox\GroupType::getGenericType()->id,
+        'type' => KBox\Group::TYPE_PERSONAL,
         'is_private' => false
     ];
 });

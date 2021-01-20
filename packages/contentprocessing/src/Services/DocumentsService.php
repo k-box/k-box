@@ -8,7 +8,6 @@ use KBox\File;
 use KBox\User;
 use KBox\Shared;
 use KBox\Group;
-use KBox\GroupType;
 use KBox\Capability;
 use KBox\Option;
 use KBox\Project;
@@ -1006,18 +1005,13 @@ class DocumentsService
      * @param  string         $color      The color to assign to the group (hex color without the initial #)
      * @param  Group|null     $parent     The parent Group if any
      * @param  boolean        $is_private If the group is user private or in a project (default true)
-     * @param  GroupType|null $type       The type of the group, default @see GroupType::getGenericType()
      * @return Group                     The instance of the created Group
      * @throws ForbiddenException If the user cannot manage own groups or in a project (if private is set to false)
      */
-    public function createGroup(User $user, $name, $color=null, Group $parent = null, $is_private = true, GroupType $type = null)
+    public function createGroup(User $user, $name, $color=null, Group $parent = null, $is_private = true)
     {
         if (! $user->can_capability(Capability::MANAGE_OWN_GROUPS) || (! $is_private && ! $user->can_capability(Capability::MANAGE_PROJECT_COLLECTIONS))) {
             throw new ForbiddenException("Permission denieded for performing the group creation.");
-        }
-
-        if (is_null($type)) {
-            $type = GroupType::getGenericType();
         }
 
         $already_exists = $this->checkIfGroupExists($user, $name, $parent, $is_private);
@@ -1030,9 +1024,9 @@ class DocumentsService
             'user_id' => $user->id,
             'name' => $name,
             'color' => $is_private ? '16a085' : 'f1c40f',
-            'group_type_id' => $type->id,
-            'is_private' => $is_private
-            ]);
+            'is_private' => $is_private,
+            'type' => $is_private ? Group::TYPE_PERSONAL : Group::TYPE_PROJECT,
+        ]);
 
         if (! is_null($parent)) {
             $parent->addChild($new_group);
@@ -1064,13 +1058,9 @@ class DocumentsService
      */
     public function createGroupsFromFolderPath(User $user, $folder, $merge = true, $make_private = false, Group $parent = null)
     {
-        $that = $this;
-
-        $type = GroupType::getFolderType();
-        
         $folder = str_replace('\\', '/', $folder);
 
-        return DB::transaction(function () use ($user, $folder, $merge, $type, $make_private, $parent) {
+        return DB::transaction(function () use ($user, $folder, $merge, $make_private, $parent) {
             $paths = array_values(array_filter(explode('/', $folder)));
 
             $count_paths = count($paths);
@@ -1088,7 +1078,7 @@ class DocumentsService
                 $exists = $search->count() > 0;
 
                 if (! $exists) {
-                    $parent_group = $this->createGroup($user, $dir, 'f1c40f', $parent_group, $make_private, $type);
+                    $parent_group = $this->createGroup($user, $dir, 'f1c40f', $parent_group, $make_private);
                     $group_collection = $parent_group->getChildren();
                 } else {
                     $parent_group = $search->first();
