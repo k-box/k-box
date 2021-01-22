@@ -2,8 +2,10 @@
 
 namespace Tests\Feature;
 
+use Illuminate\Console\OutputStyle;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Facades\Bus;
 use KBox\DocumentDescriptor;
 use KBox\Option;
 use KBox\Capability;
@@ -16,7 +18,10 @@ use Illuminate\Support\Facades\Storage;
 use KBox\Console\Commands\DmsUpdateCommand;
 use Illuminate\Support\Facades\DB;
 use KBox\Group;
+use KBox\Jobs\Updates\SynchronizeCollectionTypes;
 use KBox\Project;
+use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Output\NullOutput;
 use Tests\Concerns\ClearDatabase;
 
 class DmsUpdateCommandTest extends TestCase
@@ -460,5 +465,20 @@ class DmsUpdateCommandTest extends TestCase
         $this->assertNull(Capability::where('key', Capability::MANAGE_PEOPLE_GROUPS)->first());
         $this->assertNull(Capability::where('key', Capability::MANAGE_PERSONAL_PEOPLE_GROUPS)->first());
         $this->assertNull(Capability::where('key', Capability::SHARE_WITH_PRIVATE)->first());
+    }
+
+    public function test_post_update_jobs_dispatched()
+    {
+        $this->withKlinkAdapterMock();
+
+        Bus::fake();
+
+        $command = new DmsUpdateCommand();
+
+        $command->setOutput(new OutputStyle(new ArrayInput([]), new NullOutput()));
+
+        $this->invokePrivateMethod($command, 'executePostUpdateJobs');
+
+        Bus::assertDispatched(SynchronizeCollectionTypes::class);
     }
 }
