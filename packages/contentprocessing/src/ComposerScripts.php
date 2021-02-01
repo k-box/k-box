@@ -16,15 +16,15 @@ class ComposerScripts
      * Maps the OS family (according to PHP) to the required file
      */
     private static $file_for_os = [
-        'windows' => 'xpdf-tools-win-4.02.zip',
-        'linux' => 'xpdf-tools-linux-4.02.tar.gz',
-        'darwin' => 'xpdf-tools-mac-4.02.tar.gz'
+        'windows' => 'xpdf-tools-win-4.03.zip',
+        'linux' => 'xpdf-tools-linux-4.03.tar.gz',
+        'darwin' => 'xpdf-tools-mac-4.03.tar.gz'
     ];
 
     private static $version = [
-        'windows' => 'xpdf-tools-win-4.02',
-        'linux' => 'xpdf-tools-linux-4.02',
-        'darwin' => 'xpdf-tools-mac-4.02'
+        'windows' => 'xpdf-tools-win-4.03',
+        'linux' => 'xpdf-tools-linux-4.03',
+        'darwin' => 'xpdf-tools-mac-4.03'
     ];
 
     private static $architecture = 'bin64';
