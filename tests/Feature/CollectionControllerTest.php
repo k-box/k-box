@@ -224,7 +224,7 @@ class CollectionControllerTest extends TestCase
             "user_id" => $user->getKey(),
             "name" => "A collection for tests",
             "color" => "16a085",
-            "group_type_id" => 1,
+            "type" => 1,
             "is_private" => true,
             "position" => 0,
             "id" => $collection->getKey(),

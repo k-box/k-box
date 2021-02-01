@@ -16,11 +16,6 @@ class DatabaseSeeder extends Seeder
         Model::unguard();
 
         /**
-         * Seed the group types tabel
-         */
-        $this->call('GroupTypesTableSeeder');
-
-        /**
          * Seed the capabilities table for default capabilities to be associated to a user
          */
         $this->call('CapabilitiesTableSeeder');

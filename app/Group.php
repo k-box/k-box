@@ -23,7 +23,7 @@ use KBox\Casts\UuidCast;
  * @property string $deleted_at
  * @property string $color
  * @property string $is_private
- * @property int $group_type_id
+ * @property int $type
  * @property int $parent_id
  * @property int $position
  * @property int $real_depth
@@ -41,7 +41,6 @@ use KBox\Casts\UuidCast;
  * @method static \Illuminate\Database\Query\Builder|\KBox\Group whereColor($value)
  * @method static \Illuminate\Database\Query\Builder|\KBox\Group whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\KBox\Group whereDeletedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\KBox\Group whereGroupTypeId($value)
  * @method static \Illuminate\Database\Query\Builder|\KBox\Group whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\KBox\Group whereIsPrivate($value)
  * @method static \Illuminate\Database\Query\Builder|\KBox\Group whereName($value)
@@ -56,20 +55,17 @@ use KBox\Casts\UuidCast;
 class Group extends Entity
 {
 
-    // https://github.com/franzose/ClosureTable
+    /**
+     * Personal collection type. A personal collection of a user.
+     */
+    public const TYPE_PERSONAL = 1;
 
-    /*
-    id: bigIncrements
-    name: string
-    color: string (hex color)
-    created_at: date
-    updated_at: date
-    deleted_at: date
-    user_id: User
-    group_type_id: GroupType
-    parent_id: Group
-    is_private:boolean (default true)
-    */
+    /**
+     * Project collection type. A collection under a project.
+     */
+    public const TYPE_PROJECT = 2;
+
+    // https://github.com/franzose/ClosureTable
 
     use SoftDeletes, LocalizableDateFields, GeneratesUuid, ScopeNullUuid;
 
@@ -87,7 +83,7 @@ class Group extends Entity
      */
     protected $closure = GroupClosure::class;
 
-    protected $fillable = ['name','color', 'user_id','parent_id', 'group_type_id', 'is_private'];
+    protected $fillable = ['name','color', 'user_id','parent_id', 'type', 'is_private'];
 
     public $timestamps = true;
 
@@ -182,16 +178,38 @@ class Group extends Entity
         return $query->whereName($name);
     }
 
+    public function scopePersonal($query, $user_id)
+    {
+        return $query->where(function ($query) use ($user_id) {
+            $query->where('is_private', true)
+                      ->where('user_id', $user_id);
+        });
+    }
+
+    public function scopeProject($query)
+    {
+        return $query->where('is_private', false);
+    }
+
+    /**
+     * @deprecated use scopeProject
+     */
     public function scopePublic($query)
     {
         return $query->where('is_private', false);
     }
     
+    /**
+     * @deprecated use scopeProject
+     */
     public function scopeOrPublic($query)
     {
         return $query->orWhere('is_private', false);
     }
 
+    /**
+     * @deprecated use scopePersonal
+     */
     public function scopePrivate($query, $user_id)
     {
         return $query->where(function ($query) use ($user_id) {
@@ -200,6 +218,9 @@ class Group extends Entity
         });
     }
     
+    /**
+     * @deprecated use scopePersonal
+     */
     public function scopeOrPrivate($query, $user_id)
     {
         return $query->orWhere(function ($query) use ($user_id) {

@@ -5,7 +5,6 @@ namespace Tests\Unit;
 use Tests\TestCase;
 use DmsRouting;
 use KBox\Capability;
-use KBox\GroupType;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class UploadPageTest extends TestCase
@@ -92,7 +91,6 @@ class UploadPageTest extends TestCase
             'name' => 'That exact collection',
             'is_private' => true,
             'color' => '16a085',
-            'group_type_id' => GroupType::getGenericType()->id,
         ]);
         
         $collection_id = $collection->id;

@@ -14,9 +14,6 @@ Here the list of the main tables is proposed and described:
 - *groups*: stores the collections:
  - `is_private` attribute indicate if the collection is Personal to the user or not. If not is a project collection
  - `color`: is a 6 digit field that stores the Hex Color value without the leading `#` character
-- *group_types*: stores the different group types available. Group types values are stored at database seeding time. Possible values are:
- - `GroupType::GENERIC` : generic collection
- - `GroupType::FOLDER` : the collection was created starting from a physical folder on the filesystem
 - *shared*: stores the shared document descriptors and collections
 - *sessions*: stores the logged in sessions
 - *failded_jobs*: stores the failed async jobs
@@ -84,7 +81,7 @@ Groups are available at personal and project level:
 - project level groups are visible to members of the project
 - personal groups are visible only to the user that has created them
 
-The *groups*, *group_closure*, *group_types* and *document_groups* tables are responsible for handling the Collection concept inside the K-Box.
+The *groups*, *group_closure* and *document_groups* tables are responsible for handling the Collection concept inside the K-Box.
 
 The *groups* table is the main entry point as it stores the collections details for each users created collection.
 

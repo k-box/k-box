@@ -5,7 +5,6 @@ namespace Tests\Unit;
 use KBox\User;
 use KBox\File;
 use Carbon\Carbon;
-use KBox\GroupType;
 use Tests\TestCase;
 use KBox\Capability;
 use KBox\DocumentDescriptor;
@@ -72,7 +71,6 @@ class TusUploadStartedListenerTest extends TestCase
             'name' => 'That exact collection',
             'is_private' => true,
             'color' => '16a085',
-            'group_type_id' => GroupType::getGenericType()->id,
         ]);
 
         $started_event = $this->createEvent($user->id, $request_id, $collection->id);

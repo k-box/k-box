@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\DB;
 use KBox\Group;
 use KBox\Project;
 use Illuminate\Support\Str;
+use KBox\Jobs\Updates\SynchronizeCollectionTypes;
 
 class DmsUpdateCommand extends Command
 {
@@ -34,9 +35,13 @@ class DmsUpdateCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Perform the installation/update steps for the K-Link DMS.';
+    protected $description = 'Install or update a K-Box.';
 
     private $retry = 2;
+
+    private static $postUpdateJobs = [
+        SynchronizeCollectionTypes::class,
+    ];
 
     /**
      * Create a new command instance.
@@ -380,6 +385,9 @@ class DmsUpdateCommand extends Command
         $this->write('  <comment>Remove deleted capabilities...</comment>');
         $this->removeDeletedCapabilities();
 
+        $this->write('  <comment>Executing post update jobs...</comment>');
+        $this->executePostUpdateJobs();
+
         // check the installed db branch
         
         $b_option = Option::findByKey('branch');
@@ -688,5 +696,16 @@ class DmsUpdateCommand extends Command
         });
 
         Option::create(['key' => 'u_cap_cr_prj', 'value' => ''.config('dms.version')]);
+    }
+
+    /**
+     * Execute jobs with action required after an upgrade
+     */
+    private function executePostUpdateJobs()
+    {
+        foreach (self::$postUpdateJobs as $job) {
+            $this->write('  - '.basename($job));
+            dispatch_now(app()->make($job));
+        }
     }
 }
