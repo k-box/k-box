@@ -42,7 +42,7 @@ class ExportProjectCommandTest extends TestCase
         $project->collection->documents()->save($documents[0]);
         $project->collection->documents()->save($documents[1]);
 
-        $collection_a = factory(Group::class)->create([
+        $collection_a = factory(Group::class)->state('project')->create([
             'name' => 'level 1 - 1',
             'parent_id' => $project->collection->getKey()
         ]);
@@ -50,7 +50,7 @@ class ExportProjectCommandTest extends TestCase
         $collection_a->documents()->save($documents[2]);
         $collection_a->documents()->save($documents[0]);
 
-        $collection_c = factory(Group::class)->create([
+        $collection_c = factory(Group::class)->state('project')->create([
             'name' => 'level 2 - 1',
             'parent_id' => $collection_a->getKey()
         ]);
@@ -58,14 +58,14 @@ class ExportProjectCommandTest extends TestCase
         $collection_c->documents()->save($documents[0]);
         $collection_c->documents()->save($documents[7]);
         
-        $collection_d = factory(Group::class)->create([
+        $collection_d = factory(Group::class)->state('project')->create([
             'name' => 'level 2 - 2',
             'parent_id' => $collection_a->getKey()
         ]);
         $collection_d->documents()->save($documents[4]);
         $collection_d->documents()->save($documents[0]);
 
-        $collection_b = factory(Group::class)->create([
+        $collection_b = factory(Group::class)->state('project')->create([
             'name' => 'level 1 - 2',
             'parent_id' => $project->collection->getKey()
         ]);
@@ -100,7 +100,7 @@ class ExportProjectCommandTest extends TestCase
     private function getFolders(DocumentDescriptor $doc, Project $project)
     {
         return $doc->groups->map(function ($g) use ($project) {
-            $ancestors = $g->ancestors()->public()->orderBy('depth', 'desc')->get();
+            $ancestors = $g->ancestors()->projectCollections()->orderBy('depth', 'desc')->get();
 
             if (! $ancestors->isEmpty() && ! $ancestors->first()->getProject()->is($project)) {
                 return null;

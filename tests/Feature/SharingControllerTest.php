@@ -170,7 +170,7 @@ class SharingControllerTest extends TestCase
 
         $to_be_shared = factory(Group::class)->create([
             'user_id' => $user->getKey(),
-            'is_private' => true,
+            // 'is_private' => true,
         ]);
 
         $share = factory(Shared::class)->create([
@@ -199,9 +199,8 @@ class SharingControllerTest extends TestCase
             $u->addCapabilities(Capability::$PARTNER);
         });
 
-        $to_be_shared = factory(Group::class)->create([
+        $to_be_shared = factory(Group::class)->state('project')->create([
             'user_id' => $user->getKey(),
-            'is_private' => false,
         ]);
 
         $data = [
@@ -370,7 +369,7 @@ class SharingControllerTest extends TestCase
 
         $collection = factory(Group::class)->create([
             'user_id' => $user->getKey(),
-            'is_private' => true,
+            // 'is_private' => true,
         ]);
 
         $response = $this->actingAs($user)->get(route('shares.create', [
@@ -458,13 +457,13 @@ class SharingControllerTest extends TestCase
             'owner_id' => $user->getKey()
         ]);
 
-        $collection1 = $collection = factory(Group::class)->create([
+        $collection1 = factory(Group::class)->create([
             'user_id' => $user->getKey(),
-            'is_private' => true,
+            // 'is_private' => true,
         ]);
-        $collection2 = $collection = factory(Group::class)->create([
+        $collection2 = factory(Group::class)->create([
             'user_id' => $user->getKey(),
-            'is_private' => true,
+            // 'is_private' => true,
         ]);
 
         $response = $this->actingAs($user)->get(route('shares.create', [
@@ -511,9 +510,9 @@ class SharingControllerTest extends TestCase
             'owner_id' => $user->getKey()
         ]);
 
-        $collection1 = $collection = factory(Group::class)->create([
+        $collection1 = factory(Group::class)->create([
             'user_id' => $user->getKey(),
-            'is_private' => true,
+            // 'is_private' => true,
         ]);
 
         $project = factory(Project::class)->create([

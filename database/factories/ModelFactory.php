@@ -152,20 +152,6 @@ $factory->state(KBox\Shared::class, 'publiclink', function (Faker\Generator $fak
     ];
 });
 
-
-$factory->define(KBox\Group::class, function (Faker\Generator $faker, $arguments = []) {
-    
-    return [
-        'user_id' => function () {
-            return factory(KBox\User::class)->create()->id;
-        },
-        'name' => $faker->sentence,
-        'color' => 'f1c40f',
-        'type' => KBox\Group::TYPE_PERSONAL,
-        'is_private' => false
-    ];
-});
-
 $factory->define(KBox\DuplicateDocument::class, function (Faker\Generator $faker, $arguments = []) {
     
     // $hash = $faker->sha256.''.$faker->sha256;

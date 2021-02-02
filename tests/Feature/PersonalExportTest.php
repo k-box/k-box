@@ -47,7 +47,7 @@ class PersonalExportTest extends TestCase
 
         $collection = factory(Group::class)->create([
             'user_id' => $user->id,
-            'is_private' => true
+            // 'is_private' => true
         ]);
 
         return [

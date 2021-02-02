@@ -107,7 +107,7 @@ class StatisticsCommand extends Command
         $publication_made_per_day = Publication::where('created_at', '>=', $from)->where('created_at', '<=', $to)->select($date_field, $count_field)->groupBy('date')->orderBy('date')->get()->keyBy('date');
         $projects_created_per_day =  Project::where('created_at', '>=', $from)->where('created_at', '<=', $to)->select($date_field, $count_field)->groupBy('date')->orderBy('date')->get()->keyBy('date');
         $collections_created_per_day = Group::where('created_at', '>=', $from)->where('created_at', '<=', $to)->select($date_field, $count_field)->groupBy('date')->orderBy('date')->get()->keyBy('date');
-        $personal_collections_created_per_day = Group::where('is_private', true)->where('created_at', '>=', $from)->where('created_at', '<=', $to)->select($date_field, $count_field)->groupBy('date')->orderBy('date')->get()->keyBy('date');
+        $personal_collections_created_per_day = Group::type(Group::TYPE_PERSONAL)->where('created_at', '>=', $from)->where('created_at', '<=', $to)->select($date_field, $count_field)->groupBy('date')->orderBy('date')->get()->keyBy('date');
         $public_links_created_per_day = Shared::where('created_at', '>=', $from)->where('created_at', '<=', $to)->where('sharedwith_type', \KBox\PublicLink::class)->select($date_field, $count_field)->groupBy('date')->orderBy('date')->get()->keyBy('date');
         $shares_created_per_day = Shared::where('created_at', '>=', $from)->where('created_at', '<=', $to)->where('sharedwith_type', \KBox\User::class)->select($date_field, $count_field)->groupBy('date')->orderBy('date')->get()->keyBy('date');
 
@@ -156,7 +156,7 @@ class StatisticsCommand extends Command
             ['Registered users', User::count()],
             ['Projects', Project::count()],
             ['Collections', Group::count()],
-            ['Personal collections', Group::where('is_private', true)->count()],
+            ['Personal collections', Group::type(Group::TYPE_PERSONAL)->count()],
             ['Overall searches', RecentSearch::select(DB::raw('SUM(times + 1) as overall'))->first()->overall],
             ['Most used search keyword', $most_used_search ? "$most_used_search->terms, $most_used_search->total times" : ''],
         ];
@@ -175,7 +175,7 @@ class StatisticsCommand extends Command
             ['Registered users', User::where('created_at', '>=', $from)->where('created_at', '<=', $to)->count()],
             ['Projects', Project::where('created_at', '>=', $from)->where('created_at', '<=', $to)->count()],
             ['Collections', Group::where('created_at', '>=', $from)->where('created_at', '<=', $to)->count()],
-            ['Personal collections', Group::where('created_at', '>=', $from)->where('created_at', '<=', $to)->where('is_private', true)->count()],
+            ['Personal collections', Group::where('created_at', '>=', $from)->where('created_at', '<=', $to)->type(Group::TYPE_PERSONAL)->count()],
             ['Overall searches', RecentSearch::where('created_at', '>=', $from)->where('created_at', '<=', $to)->select(DB::raw('SUM(times + 1) as overall'))->first()->overall],
             ['Most used search keyword', $most_used_search ? "$most_used_search->terms, $most_used_search->total times" : ''],
         ];

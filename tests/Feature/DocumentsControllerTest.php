@@ -83,7 +83,6 @@ class DocumentsControllerTest extends TestCase
 
         $collection = factory(Group::class)->create([
             'user_id' => $user->id,
-            'is_private' => true,
         ]);
 
         $response = $this->actingAs($user)->json('POST', '/documents', [

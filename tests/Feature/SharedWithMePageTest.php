@@ -33,13 +33,11 @@ class SharedWithMePageTest extends TestCase
         
         $single_root_collection = factory(Group::class)->create([
             'user_id' => $collection_creator->getKey(),
-            'is_private' => true,
             'name' => 'root',
         ]);
         
         $root_collection = factory(Group::class)->create([
             'user_id' => $collection_creator->getKey(),
-            'is_private' => true,
             'name' => 'root',
         ]);
 
@@ -47,7 +45,6 @@ class SharedWithMePageTest extends TestCase
         
         $hierarchy_root_collection = factory(Group::class)->create([
             'user_id' => $collection_creator->getKey(),
-            'is_private' => true,
             'name' => 'root',
         ]);
 

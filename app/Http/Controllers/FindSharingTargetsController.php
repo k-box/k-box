@@ -55,7 +55,7 @@ class FindSharingTargetsController extends Controller
 
         $is_multiple_selection = ! empty($documents_input) && ! empty($groups_input);
 
-        if ($groups->where('is_private', false)->isNotEmpty()) {
+        if ($groups->where('type', Group::TYPE_PROJECT)->isNotEmpty()) {
             // if there is at least a project collection in the selection
             // return an empty list. See
             // https://github.com/k-box/k-box/pull/355#issuecomment-551448888

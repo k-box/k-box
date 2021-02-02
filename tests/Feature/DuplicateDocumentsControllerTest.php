@@ -164,7 +164,7 @@ class DuplicateDocumentsControllerTest extends TestCase
 
         $collection = factory(Group::class)->create([
             'user_id' => $user->id,
-            'is_private' => true,
+            // 'is_private' => true,
         ]);
 
         $existing_document = factory(DocumentDescriptor::class)->create([
@@ -203,12 +203,12 @@ class DuplicateDocumentsControllerTest extends TestCase
 
         $collection_for_existing = factory(Group::class)->create([
             'user_id' => $user->id,
-            'is_private' => true,
+            // 'is_private' => true,
         ]);
         
         $collection_for_duplicate = factory(Group::class)->create([
             'user_id' => $user->id,
-            'is_private' => true,
+            // 'is_private' => true,
         ]);
 
         $existing_document = factory(DocumentDescriptor::class)->create([

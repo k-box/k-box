@@ -119,7 +119,7 @@ class FileAlreadyExistsException extends Exception
                 'title' => e($this->existing_descriptor->title)
             ]);
         } elseif (! is_null($this->existing_descriptor->owner_id)) {
-            $collection = $this->existing_descriptor->groups()->public()->first();
+            $collection = $this->existing_descriptor->groups()->projectCollections()->first();
             $owner = $this->existing_descriptor->owner;
 
             if (! is_null($collection)) {

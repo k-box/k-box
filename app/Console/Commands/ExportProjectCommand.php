@@ -199,7 +199,7 @@ EOL;
     private function getFolders(DocumentDescriptor $doc)
     {
         return $doc->groups->map(function ($g) use ($doc) {
-            $ancestors = $g->ancestors()->public()->orderBy('depth', 'desc')->get();
+            $ancestors = $g->ancestors()->projectCollections()->orderBy('depth', 'desc')->get();
 
             if (! $ancestors->isEmpty() && ! $ancestors->first()->getProject()->is($this->project)) {
                 return null;
