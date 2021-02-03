@@ -284,16 +284,6 @@
                 "stream_filter_append",
                 "stream_filter_register"
             ],
-            "funding": [
-                {
-                    "url": "https://clue.engineering/support",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/clue",
-                    "type": "github"
-                }
-            ],
             "time": "2019-04-09T12:31:48+00:00"
         },
         {
@@ -977,23 +967,24 @@
         },
         {
             "name": "dyrynda/laravel-efficient-uuid",
-            "version": "4.0.1",
+            "version": "4.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/michaeldyrynda/laravel-efficient-uuid.git",
-                "reference": "ee74ca6d7d12dcdd38a0bf3a785d1f7aa343298b"
+                "reference": "cce671c7c4416347710a2fa1a8aa76c815a3564e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/michaeldyrynda/laravel-efficient-uuid/zipball/ee74ca6d7d12dcdd38a0bf3a785d1f7aa343298b",
-                "reference": "ee74ca6d7d12dcdd38a0bf3a785d1f7aa343298b",
+                "url": "https://api.github.com/repos/michaeldyrynda/laravel-efficient-uuid/zipball/cce671c7c4416347710a2fa1a8aa76c815a3564e",
+                "reference": "cce671c7c4416347710a2fa1a8aa76c815a3564e",
                 "shasum": ""
             },
             "require": {
                 "illuminate/container": "^7.0",
                 "illuminate/contracts": "^7.0",
                 "illuminate/database": "^7.0",
-                "php": "^7.2.5"
+                "php": "^7.2.5",
+                "ramsey/uuid": "^4.1"
             },
             "require-dev": {
                 "mockery/mockery": "^1.2.3",
@@ -1018,20 +1009,20 @@
                 }
             ],
             "description": "A package to extend Laravel migrations adding a more efficient storage of UUID fields in your database",
-            "time": "2020-03-08T03:17:58+00:00"
+            "time": "2020-08-09T12:19:14+00:00"
         },
         {
             "name": "dyrynda/laravel-model-uuid",
-            "version": "6.1.1",
+            "version": "6.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/michaeldyrynda/laravel-model-uuid.git",
-                "reference": "72edc230e9b160b344156fe581585230ec5e82a2"
+                "reference": "0792f4e986b60d0714e92971334a139f51902132"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/michaeldyrynda/laravel-model-uuid/zipball/72edc230e9b160b344156fe581585230ec5e82a2",
-                "reference": "72edc230e9b160b344156fe581585230ec5e82a2",
+                "url": "https://api.github.com/repos/michaeldyrynda/laravel-model-uuid/zipball/0792f4e986b60d0714e92971334a139f51902132",
+                "reference": "0792f4e986b60d0714e92971334a139f51902132",
                 "shasum": ""
             },
             "require": {
@@ -1039,10 +1030,10 @@
                 "illuminate/events": "^7.3",
                 "illuminate/support": "^7.3",
                 "php": "^7.2.5",
-                "ramsey/uuid": "^4.0"
+                "ramsey/uuid": "^4.1"
             },
             "require-dev": {
-                "dyrynda/laravel-efficient-uuid": "^4.0",
+                "dyrynda/laravel-efficient-uuid": "^4.1",
                 "nunomaduro/collision": "^4.1",
                 "orchestra/testbench": "^5.0",
                 "phpunit/phpunit": "^8.0"
@@ -1074,7 +1065,7 @@
                 "model",
                 "uuid"
             ],
-            "time": "2020-03-25T23:29:23+00:00"
+            "time": "2020-08-02T08:05:03+00:00"
         },
         {
             "name": "egulias/email-validator",
@@ -11005,12 +10996,12 @@
             "version": "1.9.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/webmozarts/assert.git",
+                "url": "https://github.com/webmozart/assert.git",
                 "reference": "9dc4f203e36f2b486149058bade43c851dd97451"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webmozarts/assert/zipball/9dc4f203e36f2b486149058bade43c851dd97451",
+                "url": "https://api.github.com/repos/webmozart/assert/zipball/9dc4f203e36f2b486149058bade43c851dd97451",
                 "reference": "9dc4f203e36f2b486149058bade43c851dd97451",
                 "shasum": ""
             },
