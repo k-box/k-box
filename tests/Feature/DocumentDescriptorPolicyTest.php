@@ -177,7 +177,6 @@ class DocumentDescriptorPolicyTest extends TestCase
 
         $collection = factory(Group::class)->create([
             'user_id' => $owner->id,
-            'is_private' => true
         ]);
         
         $descr = factory(DocumentDescriptor::class)->create([

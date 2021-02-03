@@ -63,7 +63,7 @@ class StatisticsCommandTest extends TestCase
         $previous_users = User::count();
         $previous_projects = Project::count();
         $previous_collections = Group::count();
-        $previous_personal_collections = Group::where('is_private', true)->count();
+        $previous_personal_collections = Group::type(Group::TYPE_PERSONAL)->count();
 
         $exitCode = Artisan::call('statistics', ['--summary' => true, '--overall' => true, '--influx' => true]);
 

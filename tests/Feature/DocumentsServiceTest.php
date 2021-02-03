@@ -179,7 +179,6 @@ class DocumentsServiceTest extends TestCase
 
         $collection = factory(Group::class)->create([
             'user_id' => $user->id,
-            'is_private' => true,
         ]);
 
         Event::fake([
@@ -224,7 +223,6 @@ class DocumentsServiceTest extends TestCase
 
         $collection = factory(Group::class)->create([
             'user_id' => $user->id,
-            'is_private' => true,
         ]);
 
         Event::fake([
@@ -266,7 +264,6 @@ class DocumentsServiceTest extends TestCase
 
         $collection = factory(Group::class)->create([
             'user_id' => $user->id,
-            'is_private' => true,
         ]);
 
         $collection->documents()->save($document, ['added_by' => $user->getKey()]);
@@ -306,7 +303,6 @@ class DocumentsServiceTest extends TestCase
 
         $collection = factory(Group::class)->create([
             'user_id' => $user->id,
-            'is_private' => true,
         ]);
 
         $documents->each(function ($document) use ($collection, $user) {
@@ -351,13 +347,11 @@ class DocumentsServiceTest extends TestCase
         
         $single_root_collection = factory(Group::class)->create([
             'user_id' => $collection_creator->getKey(),
-            'is_private' => true,
             'name' => 'root',
         ]);
         
         $root_collection = factory(Group::class)->create([
             'user_id' => $collection_creator->getKey(),
-            'is_private' => true,
             'name' => 'root',
         ]);
 
@@ -365,7 +359,6 @@ class DocumentsServiceTest extends TestCase
         
         $hierarchy_root_collection = factory(Group::class)->create([
             'user_id' => $collection_creator->getKey(),
-            'is_private' => true,
             'name' => 'root',
         ]);
 
@@ -423,13 +416,11 @@ class DocumentsServiceTest extends TestCase
         
         $single_root_collection = factory(Group::class)->create([
             'user_id' => $collection_creator->getKey(),
-            'is_private' => true,
             'name' => 'root',
         ]);
         
         $root_collection = factory(Group::class)->create([
             'user_id' => $collection_creator->getKey(),
-            'is_private' => true,
             'name' => 'root',
         ]);
 
@@ -437,7 +428,6 @@ class DocumentsServiceTest extends TestCase
         
         $hierarchy_root_collection = factory(Group::class)->create([
             'user_id' => $collection_creator->getKey(),
-            'is_private' => true,
             'name' => 'root',
         ]);
 

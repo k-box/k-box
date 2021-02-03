@@ -7,6 +7,7 @@ use KBox\Traits\LocalizableDateFields;
 use Franzose\ClosureTable\Models\Entity;
 use Dyrynda\Database\Support\GeneratesUuid;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Cache;
 use KBox\Events\CollectionCreated;
 use KBox\Events\CollectionTrashed;
 use KBox\Casts\UuidCast;
@@ -31,25 +32,23 @@ use KBox\Casts\UuidCast;
  * @property-read \KBox\Project $project
  * @property-read \Illuminate\Database\Eloquent\Collection|\KBox\Shared[] $shares
  * @property-read \KBox\User $user
- * @method static \Illuminate\Database\Query\Builder|\KBox\Group byName($name)
- * @method static \Illuminate\Database\Query\Builder|\KBox\Group ofType($type)
- * @method static \Illuminate\Database\Query\Builder|\KBox\Group orPrivate($user_id)
- * @method static \Illuminate\Database\Query\Builder|\KBox\Group orPublic()
- * @method static \Illuminate\Database\Query\Builder|\KBox\Group private($user_id)
- * @method static \Illuminate\Database\Query\Builder|\KBox\Group public()
- * @method static \Illuminate\Database\Query\Builder|\KBox\Group roots()
- * @method static \Illuminate\Database\Query\Builder|\KBox\Group whereColor($value)
- * @method static \Illuminate\Database\Query\Builder|\KBox\Group whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\KBox\Group whereDeletedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\KBox\Group whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\KBox\Group whereIsPrivate($value)
- * @method static \Illuminate\Database\Query\Builder|\KBox\Group whereName($value)
- * @method static \Illuminate\Database\Query\Builder|\KBox\Group whereParentId($value)
- * @method static \Illuminate\Database\Query\Builder|\KBox\Group wherePosition($value)
- * @method static \Illuminate\Database\Query\Builder|\KBox\Group whereRealDepth($value)
- * @method static \Illuminate\Database\Query\Builder|\KBox\Group whereUpdatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\KBox\Group whereUserId($value)
- * @method static \Illuminate\Database\Query\Builder|\KBox\Group withAllDescendants()
+ * @method static \Illuminate\Database\Query\Builder byName($name)
+ * @method static \Illuminate\Database\Query\Builder roots()
+ * @method static \Illuminate\Database\Query\Builder whereColor($value)
+ * @method static \Illuminate\Database\Query\Builder whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder whereDeletedAt($value)
+ * @method static \Illuminate\Database\Query\Builder whereId($value)
+ * @method static \Illuminate\Database\Query\Builder whereIsPrivate($value)
+ * @method static \Illuminate\Database\Query\Builder whereName($value)
+ * @method static \Illuminate\Database\Query\Builder whereParentId($value)
+ * @method static \Illuminate\Database\Query\Builder wherePosition($value)
+ * @method static \Illuminate\Database\Query\Builder whereRealDepth($value)
+ * @method static \Illuminate\Database\Query\Builder whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder whereUserId($value)
+ * @method static \Illuminate\Database\Query\Builder withAllDescendants()
+ * @method static \Illuminate\Database\Query\Builder personalCollections($user)
+ * @method static \Illuminate\Database\Query\Builder type($type)
+ * @method static \Illuminate\Database\Query\Builder projectCollections()
  * @mixin \Eloquent
  */
 class Group extends Entity
@@ -168,7 +167,14 @@ class Group extends Entity
         return $this->morphMany(\KBox\Shared::class, 'shareable');
     }
 
-    public function scopeOfType($query, $type)
+    /**
+     * Filter the collections of the specified type
+     *
+     * @param int $type the collection type
+     *
+     * @return \Illuminate\Database\Query\Builder
+     */
+    public function scopeType($query, $type)
     {
         return $query->whereType($type);
     }
@@ -178,57 +184,32 @@ class Group extends Entity
         return $query->whereName($name);
     }
 
-    public function scopePersonal($query, $user_id)
+    /**
+     * Filter only personal collections of a specific user
+     *
+     * @param int $user_id
+     */
+    public function scopePersonalCollections($query, $user_id)
     {
         return $query->where(function ($query) use ($user_id) {
-            $query->where('is_private', true)
-                      ->where('user_id', $user_id);
+            $query->type(self::TYPE_PERSONAL)
+                  ->where('user_id', $user_id);
         });
     }
 
-    public function scopeProject($query)
+    /**
+     * Filter only project collections
+     *
+     * Equal to {@see type} with Group::TYPE_PROJECT as value
+     */
+    public function scopeProjectCollections($query)
     {
-        return $query->where('is_private', false);
+        return $query->type(self::TYPE_PROJECT);
     }
 
     /**
-     * @deprecated use scopeProject
+     * Filter root collections (i.e. without parents)
      */
-    public function scopePublic($query)
-    {
-        return $query->where('is_private', false);
-    }
-    
-    /**
-     * @deprecated use scopeProject
-     */
-    public function scopeOrPublic($query)
-    {
-        return $query->orWhere('is_private', false);
-    }
-
-    /**
-     * @deprecated use scopePersonal
-     */
-    public function scopePrivate($query, $user_id)
-    {
-        return $query->where(function ($query) use ($user_id) {
-            $query->where('is_private', true)
-                      ->where('user_id', $user_id);
-        });
-    }
-    
-    /**
-     * @deprecated use scopePersonal
-     */
-    public function scopeOrPrivate($query, $user_id)
-    {
-        return $query->orWhere(function ($query) use ($user_id) {
-            $query->where('is_private', true)
-                      ->where('user_id', $user_id);
-        });
-    }
-
     public function scopeRoots($query)
     {
         return $query->whereNull('parent_id');
@@ -243,8 +224,7 @@ class Group extends Entity
         $columns = $instance->prepareTreeQueryColumns($columns);
 
         return $instance
-            ->where('is_private', '=', true)
-            ->where('user_id', '=', $user_id)
+            ->personalCollections($user_id)
             ->orderBy('name', 'asc')
             ->get($columns)->toTree();
     }
@@ -258,7 +238,7 @@ class Group extends Entity
         $columns = $instance->prepareTreeQueryColumns($columns);
 
         return $instance
-            ->where('is_private', '=', false)
+            ->projectCollections()
             ->orderBy('name', 'asc')
             ->get($columns)->toTree();
     }
@@ -282,7 +262,50 @@ class Group extends Entity
      */
     public function getIsPrivateAttribute($value)
     {
-        return filter_var($value, FILTER_VALIDATE_BOOLEAN);
+        if ($value) {
+            return filter_var($value, FILTER_VALIDATE_BOOLEAN);
+        }
+        return $this->type === self::TYPE_PERSONAL;
+    }
+
+    public function getIsProjectCollectionAttribute($value)
+    {
+        return $this->type === self::TYPE_PROJECT;
+    }
+
+    public function getIsPersonalCollectionAttribute($value)
+    {
+        return $this->type === self::TYPE_PERSONAL;
+    }
+
+    /**
+     * Transform the current collection into a project collection
+     *
+     * @return self
+     */
+    public function transformToProjectCollection()
+    {
+        $this->is_private = false;
+        $this->type = Group::TYPE_PROJECT;
+        $this->color = 'f1c40f';
+        $this->save();
+
+        return $this;
+    }
+
+    /**
+     * Transform the current project collection into a personal collection
+     *
+     * @return self
+     */
+    public function transformToPersonalCollection()
+    {
+        $this->is_private = true;
+        $this->type = Group::TYPE_PERSONAL;
+        $this->color = '16a085';
+        $this->save();
+
+        return $this;
     }
     
     public function isSharedWith($user)
@@ -292,7 +315,6 @@ class Group extends Entity
 
     public function getNameAttribute($value)
     {
-
         // some values can be escaped, like the single quote char ' to #039; and needs to be escaped
         return htmlspecialchars_decode($value, ENT_QUOTES);
     }
@@ -348,7 +370,7 @@ class Group extends Entity
             // we need to merge the childrens and permanently trash this collection instead of
             // simply move it to the trash, as it will fail due to the uniqueness constraint
 
-            $alreadyTrashed = $parent->getTrashedChildren()->where('name', $this->name)->where('is_private', $this->is_private)->first();
+            $alreadyTrashed = $parent->getTrashedChildren()->where('name', $this->name)->where('type', $this->type)->first();
             
             if ($alreadyTrashed) {
                 // what if $alreadyTrashed is personal, but of another user
@@ -384,7 +406,7 @@ class Group extends Entity
             // if the parent has children and within those there is one with the same name
             // we need to merge the childrens and permanently trash this collection instead of
             // restore it from the trash
-            $alreadyExisting = $parent->children(['*'])->where('name', $this->name)->where('is_private', $this->is_private)->first();
+            $alreadyExisting = $parent->children(['*'])->where('name', $this->name)->type($this->type)->first();
             
             if ($alreadyExisting) {
                 // what if $alreadyExisting is personal, but of another user
@@ -416,21 +438,17 @@ class Group extends Entity
         parent::boot();
 
         static::created(function ($group) {
-            if ($group->is_private) {
-                \Cache::forget('dms_personal_collections'.$group->user_id);
-            } else {
-                \Cache::forget('dms_project_collections-'.$group->user_id);
-            }
+            $prefix = $group->type === self::TYPE_PERSONAL ? 'dms_personal_collections' : 'dms_project_collections-';
+
+            Cache::forget("{$prefix}{$group->user_id}");
             
             return $group;
         });
         
         static::updated(function ($group) {
-            if ($group->is_private) {
-                \Cache::forget('dms_personal_collections'.$group->user_id);
-            } else {
-                \Cache::forget('dms_project_collections-'.$group->user_id);
-            }
+            $prefix = $group->type === self::TYPE_PERSONAL ? 'dms_personal_collections' : 'dms_project_collections-';
+
+            Cache::forget("{$prefix}{$group->user_id}");
             
             return $group;
         });

@@ -23,7 +23,6 @@ class GroupDetailsControllerTest extends TestCase
 
         $collection = factory(Group::class)->create([
             'user_id' => $user->getKey(),
-            'is_private' => true
         ]);
 
         $response = $this->actingAs($user)
@@ -45,9 +44,7 @@ class GroupDetailsControllerTest extends TestCase
             $u->addCapabilities(Capability::$PARTNER);
         });
 
-        $collection = factory(Group::class)->create([
-            'is_private' => true
-        ]);
+        $collection = factory(Group::class)->create();
 
         $response = $this->actingAs($user)
             ->get(route('groups.detail', $collection->getKey()));
@@ -94,7 +91,6 @@ class GroupDetailsControllerTest extends TestCase
 
         $collection = factory(Group::class)->create([
             'user_id' => $user->getKey(),
-            'is_private' => true
         ]);
 
         $share = factory(Shared::class)->create([

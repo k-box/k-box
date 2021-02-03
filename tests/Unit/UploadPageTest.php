@@ -6,6 +6,7 @@ use Tests\TestCase;
 use DmsRouting;
 use KBox\Capability;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use KBox\Group;
 
 class UploadPageTest extends TestCase
 {
@@ -89,7 +90,7 @@ class UploadPageTest extends TestCase
         
         $collection = $user->groups()->create([
             'name' => 'That exact collection',
-            'is_private' => true,
+            'type' => Group::TYPE_PERSONAL,
             'color' => '16a085',
         ]);
         

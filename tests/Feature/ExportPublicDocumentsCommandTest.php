@@ -155,7 +155,7 @@ class ExportPublicDocumentsCommandTest extends TestCase
                 'publication_date' => $d->publication()->published_at->toDateTimeString(),
                 'license' => optional($d->copyright_usage)->name ?? 'Copyright',
                 'projects' => $d->projects()->pluck('name')->join('.'),
-                'collections' => $d->groups()->public()->pluck('name')->join('.'),
+                'collections' => $d->groups()->projectCollections()->pluck('name')->join('.'),
                 'hash' => $d->hash,
                 'url' => RoutingHelpers::download($d),
             ];

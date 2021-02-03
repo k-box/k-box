@@ -231,7 +231,7 @@ class DocumentDescriptor extends Model
      */
     public function projects()
     {
-        $projects = $this->groups()->public()->with('project')->get();
+        $projects = $this->groups()->projectCollections()->with('project')->get();
 
         $projects = $projects->map(function ($el) {
             if (! $el->project) {

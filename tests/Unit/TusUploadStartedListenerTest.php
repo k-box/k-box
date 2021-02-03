@@ -12,6 +12,7 @@ use OneOffTech\TusUpload\TusUpload;
 use KBox\Listeners\TusUploadStartedHandler;
 use OneOffTech\TusUpload\Events\TusUploadStarted;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use KBox\Group;
 
 class TusUploadStartedListenerTest extends TestCase
 {
@@ -69,7 +70,7 @@ class TusUploadStartedListenerTest extends TestCase
 
         $collection = $user->groups()->create([
             'name' => 'That exact collection',
-            'is_private' => true,
+            'type' => Group::TYPE_PERSONAL,
             'color' => '16a085',
         ]);
 

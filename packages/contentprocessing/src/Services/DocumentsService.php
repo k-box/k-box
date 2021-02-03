@@ -767,14 +767,14 @@ class DocumentsService
         
         // get personal trashed collections
         if ($user->can_capability(Capability::MANAGE_OWN_GROUPS)) {
-            $private_trashed = Group::onlyTrashed()->private($user->id)->get();
+            $private_trashed = Group::onlyTrashed()->personalCollections($user->id)->get();
             $trashed_collections = $trashed_collections->merge($private_trashed);
         }
         
         // Get the project collections w.r.t. user capabilities
         if ($user_is_dms_manager) {
             // all possible project collection
-            $public_trashed = Group::onlyTrashed()->public()->get();
+            $public_trashed = Group::onlyTrashed()->projectCollections()->get();
             $trashed_collections = $trashed_collections->merge($public_trashed);
         } elseif ($user->isProjectManager()) {
             $projects = Project::with('collection');
@@ -797,7 +797,7 @@ class DocumentsService
                 
                 $descendants_array = Arr::pluck($descendants, $closure_table->getDescendantColumn());
                 
-                $project_trashed_collections = Group::onlyTrashed()->public()->whereIn('id', $descendants_array)->get();
+                $project_trashed_collections = Group::onlyTrashed()->projectCollections()->whereIn('id', $descendants_array)->get();
                 
                 $trashed_collections = $trashed_collections->merge($project_trashed_collections);
             }
@@ -970,10 +970,10 @@ class DocumentsService
     {
         
         // get private collections of the user
-        $private_groups = $document->groups()->private($user->id)->get();
+        $private_groups = $document->groups()->personalCollections($user->id)->get();
         
         // get project collections accessible wrt user profile
-        $public_groups = $document->groups()->public();
+        $public_groups = $document->groups()->projectCollections();
         
         if (! $user->isDMSManager()) {
             $project_collections_ids_method1 = $user->projects()->with('collection')->get()->merge($user->managedProjects()->with('collection')->get())->pluck('collection.id')->all();
@@ -1357,23 +1357,15 @@ class DocumentsService
             throw new ForbiddenException("Permission denieded for making the collection a project collection.");
         }
 
-        // change flag
-        $group->is_private = false;
-        $group->color = 'f1c40f';
-        $group->save();
-        // reindex all the documents in that group
+        $group->transformToProjectCollection();
 
         $this->reindexDocuments($group->documents);
 
         $group->getDescendants()->each(function ($c) {
-            $c->is_private = false;
-            $c->color = 'f1c40f';
-            $c->save();
+            $c->transformToProjectCollection();
 
             $this->reindexDocuments($c->documents);
         });
-
-        // TODO: make public also the sub-collections
         
         \Cache::forget('dms_personal_collections'.$user->id);
 
@@ -1397,24 +1389,17 @@ class DocumentsService
             throw new ForbiddenException(trans('groups.move.errors.no_access_to_collection'));
         }
         
-        // change flag
-        $group->is_private = true;
-        $group->color = '16a085';
-        $group->save();
+        $group->transformToPersonalCollection();
 
         $this->reindexDocuments($group->documents);
 
         $group->getDescendants()->each(function ($c) {
-            $c->is_private = true;
-            $c->color = '16a085';
-            $c->save();
+            $c->transformToPersonalCollection();
 
             $this->reindexDocuments($c->documents);
         });
         
-        \Cache::forget('dms_personal_collections'.$user->id);
-
-        // reindex all the documents in that group
+        \Cache::forget('dms_project_collections-'.$user->id);
 
         return true;
     }
@@ -1572,7 +1557,7 @@ class DocumentsService
             throw new ForbiddenException(trans('groups.move.errors.no_access_to_collection'));
         }
 
-        if ($parent && ! $parent->is_private) {
+        if ($parent && $parent->isProjectCollection) {
             $project = $parent->getProject();
             $members = $project->users()->get(['user_id'])->pluck('user_id')->merge($project->manager->getKey());
             

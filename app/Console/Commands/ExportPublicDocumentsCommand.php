@@ -118,7 +118,7 @@ class ExportPublicDocumentsCommand extends Command
                 optional($d->publication()->published_at)->toDateTimeString(),
                 optional($d->copyright_usage)->name ?? 'Copyright',
                 $d->projects()->pluck('name')->join('.'),
-                $d->groups()->public()->pluck('name')->join('.'),
+                $d->groups()->projectCollections()->pluck('name')->join('.'),
                 $d->hash,
                 RoutingHelpers::download($d),
             ];
@@ -169,7 +169,7 @@ class ExportPublicDocumentsCommand extends Command
                 optional($d->publication()->published_at)->toDateTimeString(),
                 optional($d->copyright_usage)->name ?? 'Copyright',
                 $d->projects()->pluck('name')->join('.'),
-                $d->groups()->public()->pluck('name')->join('.'),
+                $d->groups()->projectCollections()->pluck('name')->join('.'),
                 $d->hash,
                 RoutingHelpers::download($d),
             ];
