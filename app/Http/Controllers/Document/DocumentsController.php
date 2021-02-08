@@ -353,6 +353,7 @@ class DocumentsController extends Controller
 
         return view('panels.document', [
             'item' => $document,
+            'star_id' => $auth_user ? $document->getStar($auth_user) : null,
             'properties' => Presenter::for($document->file->properties),
             'access' => $access,
             'access_by_count' => isset($access_count_total) ? $access_count_total : 0

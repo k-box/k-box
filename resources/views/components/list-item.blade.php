@@ -76,7 +76,7 @@
                 @materialicon('toggle', 'star', ' star star--starred', ['title' => trans('starred.remove')])
                 @materialicon('toggle', 'star_border', ' star star--not-starred', ['title' => trans('starred.add')])
             </button> -->
-            <x-star-button :starID="$star" :documentID="$local_document_id" />
+            <x-star-button :starID="$star" :documentID="$local_document_id" class="item__star" />
 
             @if(isset($trashed) && $trashed)
 
