@@ -107,7 +107,7 @@ export default function(data) {
 			//if starred: remove star (and set starred to false), else add it and set starred to true
 			if(this.starred) {
 				this.inProgress = true; //starring in progress
-				_DMS.Services.Starred.remove(this.starID, function() {
+				DMS.Services.Starred.remove(this.starID, function() {
 					this.starred = false;					//set starred to false
 					this.starID = null;					//set starID to null
 					
@@ -122,7 +122,7 @@ export default function(data) {
 				
 			}else { //add star to the file
 				this.inProgress = true; //starring in progress
-				_DMS.Services.Starred.add({descriptor: this.documentID, visibility:'private'}, function(data){
+				DMS.Services.Starred.add({descriptor: this.documentID, visibility:'private'}, function(data){
 					
 					this.starred = true;				//set starred to true
 					if(data.id) { //if starred successful, assign starID to the value

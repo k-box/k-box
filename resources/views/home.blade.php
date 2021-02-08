@@ -26,7 +26,7 @@
 @section('scripts')
 
 	<script>
-	require(["modules/search_switcher", "modules/star"], function(SearchSwitcher, Star){
+	require(["modules/search_switcher"], function(SearchSwitcher){
 	});
 	</script>
 

@@ -3,8 +3,8 @@
 
 <button type="button" {{ $attributes->merge(['class' => 'button inline-flex items-center']) }} 
     x-data="Star({starID: '{{$starID}}', documentID: '{{$documentID}}'})" 
-    @click="star" 
-    :class="{ 'bg-green-300 border-green-700': starred === true, 'item__star--starring' : inProgress === true  }" <!-- TODO: check about coloring with Alessio -->  
+    x-on:click.stop="star" 
+    :class="{ 'bg-green-300 border-green-700': starred === true, 'item__star--starring' : inProgress === true  }"
     title="{{ trans('starred.add') }}"> <!-- TODO: check for appropriate default string for the button -->
 
         <!-- image effects of the button change depending on the state. TODO: find out appropriate params here -->

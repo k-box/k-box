@@ -4,7 +4,7 @@ import AsyncForm from "./components/asyncForm"
 import CopyToClipboard from "./components/copy"
 import KlinkSwitch from "./components/klinkSwitch"
 import Fragment from "./components/fragment"
-import Star from "./modules/star" 
+import Star from "./components/star" 
 
 window.Dialog = Dialog;
 window.AsyncForm = AsyncForm;
