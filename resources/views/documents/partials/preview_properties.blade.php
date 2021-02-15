@@ -5,7 +5,7 @@
 		<div class="stars">
 
 			{{-- @materialicon('toggle', 'star'){{trans_choice('starred.starred_count_alt', $stars_count, ['number' => $stars_count])}} --}}
-			<x-star-button :starID="$star_id" :documentID="$document->id" :count="$stars_count" />
+			<x-star-button :starID="$star_id" :documentID="$document->local_document_id" :count="$stars_count" />
 		</div>
 
 	@endif
