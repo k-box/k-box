@@ -66,7 +66,7 @@
         <div class="item__badges">
         <!-- potentially this part should be interesting for the preview panel -> preview_properties.blade.php -->
         @if(isset($starrable) && $starrable && isset($local_document_id) && (!isset($context) || (isset($context) && $context!=='trash')))
-        {{-- laravel blade comment <x-copy-button :links="[DmsRouting::preview($document, $version)]" class="my-4" /> --}}
+        
             <!-- <button data-action="star" 
                 class="item__star @if($is_public) item__star--public @endif @if( $starred ) item__star--starred @endif"
                 @if($star!== false) data-id="{{$star}}" @endif
