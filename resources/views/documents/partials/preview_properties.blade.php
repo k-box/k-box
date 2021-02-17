@@ -1,11 +1,10 @@
         
 <div class="file-properties">
 	{{-- this will be entered only once user is authenticated --}}
-	@if(isset($stars_count) && !$document->trashed())
+	@if(isset($stars_count) && isset($starrable) && $starrable && !$document->trashed())
 
-		<div class="stars">
+		<div class="item__badges">
 		
-			{{-- @materialicon('toggle', 'star'){{trans_choice('starred.starred_count_alt', $stars_count, ['number' => $stars_count])}} --}}
 			<x-star-button :starID="optional($document->getStar(auth()->user()))->id" :documentID="$document->local_document_id" :count="$stars_count" />
 		</div>
 
