@@ -1,3 +1,8 @@
+{{-- Anonymous component that handles star actions. Used on:
+    - documents area (list-item.blade.php)
+    - documents detail panel (properties.blade.php)
+    - document detail panel on the preview page (preview_properties.blade.php).
+    Properties required to be passed are star id, document id, and star count. --}}
 @props(['starID', 'documentID', 'count' => null])
 
 

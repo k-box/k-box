@@ -14,7 +14,7 @@
 		@if(isset($stars_count) && !$item->trashed())
 
 			<div class="stars">
-
+				{{-- anonymous component to handle star actions on the detail panel. Managed by star-button.blade.php --}}
 				<x-star-button :starID="$star_id" :documentID="$item->local_document_id" :count="$stars_count" />
 
 			</div>

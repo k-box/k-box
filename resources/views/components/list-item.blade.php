@@ -64,19 +64,9 @@
         </a>
         
         <div class="item__badges">
-        <!-- potentially this part should be interesting for the preview panel -> preview_properties.blade.php -->
         @if(isset($starrable) && $starrable && isset($local_document_id) && (!isset($context) || (isset($context) && $context!=='trash')))
-        
-            <!-- <button data-action="star" 
-                class="item__star @if($is_public) item__star--public @endif @if( $starred ) item__star--starred @endif"
-                @if($star!== false) data-id="{{$star}}" @endif
-                data-doc="{{$local_document_id}}" 
-                data-visibility="{{$visibility}}"
-                title="{{ $star!== false ? trans('starred.remove') : trans('starred.add') }}">
-                @materialicon('toggle', 'star', ' star star--starred', ['title' => trans('starred.remove')])
-                @materialicon('toggle', 'star_border', ' star star--not-starred', ['title' => trans('starred.add')])
-            </button> -->
-            <x-star-button :starID="$star" :documentID="$local_document_id" class="item__star" />
+        {{-- anonymous component to handle star actions on documents area. Managed by star-button.blade.php --}}
+        <x-star-button :starID="$star" :documentID="$local_document_id" class="item__star" />
 
             @if(isset($trashed) && $trashed)
 
