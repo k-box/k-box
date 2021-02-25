@@ -1,5 +1,5 @@
-define("modules/documents", ["require", "modernizr", "jquery", "DMS", "modules/star", "sweetalert", "modules/panels", "combokeys", 
-"modules/selection", "modules/minimalbind", "context", "lodash", 'language', "modules/share" ], function (_require, _modernizr, $, DMS, Star, _alert, Panels, _combokeys, _Selection, _rivets, _context, _, Lang, Share) {
+define("modules/documents", ["require", "modernizr", "jquery", "DMS",  "sweetalert", "modules/panels", "combokeys", 
+"modules/selection", "modules/minimalbind", "context", "lodash", 'language', "modules/share" ], function (_require, _modernizr, $, DMS, _alert, Panels, _combokeys, _Selection, _rivets, _context, _, Lang, Share) {
     
 	console.log('loading documents-page module...');
 

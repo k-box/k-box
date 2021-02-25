@@ -472,7 +472,8 @@ window.DMS = (function(_$, _nprogress, _rivets, _alert){
 		Services: {
 
 			Starred : {
-
+				//success is the function(data)
+				//error is also a function(err)
 				add: function(data, success, error){
 					
 					console.log('Calling Star.add');

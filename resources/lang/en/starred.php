@@ -26,6 +26,9 @@ return [
     'errors' => [
 
         'invalidargumentexception' => 'Sorry, I cannot add the star. (:exception)',
+        //add unable to add/remove star 
+        'unable_to_star' => 'Starring failed: unable to add to Starred. ',
+        'unable_to_unstar' => 'Starring failed: unable to remove from Starred.'
     ],
 
     'starred_in_trash' => 'This document is in the trash',

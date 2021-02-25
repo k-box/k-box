@@ -14,8 +14,8 @@
 		@if(isset($stars_count) && !$item->trashed())
 
 			<div class="stars">
-
-				@materialicon('toggle', 'star', 'button__icon'){{trans_choice('starred.starred_count_alt', $stars_count, ['number' => $stars_count])}}
+				{{-- anonymous component to handle star actions on the detail panel. Managed by star-button.blade.php --}}
+				<x-star-button :starID="$star_id" :documentID="$item->local_document_id" :count="$stars_count" />
 
 			</div>
 

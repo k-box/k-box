@@ -1,11 +1,12 @@
         
 <div class="file-properties">
+	{{-- this will be entered only once user is authenticated --}}
 	@if(isset($stars_count) && !$document->trashed())
 
 		<div class="stars">
-
-			@materialicon('toggle', 'star'){{trans_choice('starred.starred_count_alt', $stars_count, ['number' => $stars_count])}}
-
+			        
+			{{-- anonymous component to handle star actions on the preview page's details panel. Managed by star-button.blade.php --}}
+			<x-star-button :starID="optional($document->getStar(auth()->user()))->id" :documentID="$document->local_document_id" :count="$stars_count" />
 		</div>
 
 	@endif
