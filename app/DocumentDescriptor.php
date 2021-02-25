@@ -273,9 +273,9 @@ class DocumentDescriptor extends Model
     public function getStar($user_id = null)
     {
         if (is_null($user_id)) {
-            $user_id = $this->owner_id; 
+            $user_id = $this->owner_id;
         }
-        if($user_id instanceof User){
+        if ($user_id instanceof User) {
             $user_id = $user_id->id;
         }
         return $this->stars()->ofUser($user_id)->first();
