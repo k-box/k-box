@@ -7,7 +7,7 @@ Description: The landing page with content
 
 The K-Box is a web application designed for handling document management inside an Organization.
 
-> Latest version: **0.32.3** ([Release notes](./release-note/release-note-0.32.md))
+> Latest version: **0.33.0** ([Release notes](./release-note/release-note-0.33.md))
 
 #### Browser support
 

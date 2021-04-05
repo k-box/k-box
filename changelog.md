@@ -12,6 +12,26 @@ instructions on adding your own entry.
 
 ## [Unreleased]
 
+## [0.33.0] - 2021-04-05
+
+### Added
+
+- Add ability to star a document from the details panel and the preview by @AlbinaMuzafarova ([#486](https://github.com/k-box/k-box/pull/486))
+- Language selector under the profile menu  ([#30](https://github.com/k-box/k-box/issues/30), [#475](https://github.com/k-box/k-box/pull/475))
+- Add file mime type update command  ([#471](https://github.com/k-box/k-box/pull/471))
+- Sorting documents  ([#29](https://github.com/k-box/k-box/issues/29), [#469](https://github.com/k-box/k-box/pull/469))
+
+### Fixed
+
+- Highlighted element not visible  ([#57](https://github.com/k-box/k-box/issues/57), [#468](https://github.com/k-box/k-box/pull/468))
+- Fix documents in collection not reindex after move  ([#472](https://github.com/k-box/k-box/pull/472))
+- Support markdown in project description  ([#474](https://github.com/k-box/k-box/issues/474), [#476](https://github.com/k-box/k-box/pull/476))
+
+### Removed
+
+- Remove microsites  ([#462](https://github.com/k-box/k-box/issues/462), [#466](https://github.com/k-box/k-box/pull/466))
+
+
 ## [0.32.3] - 2021-01-16
 
 ### Changes
