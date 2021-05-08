@@ -35,7 +35,7 @@
     "combokeys": "~2.4.6",
     "dropzone": "~4.3.0",
     "es5-shim": "~4.5.9",
-    "handlebars": "^4.3.0",
+    "handlebars": "^4.7.7",
     "holmes.js": "^1.13.5",
     "html5shiv": "~3.7.3",
     "jquery": "~3.5.0",
