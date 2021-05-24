@@ -13,7 +13,7 @@
     "require": {
         "php": ">=7.1",
         "ext-zip": "*",
-        "oneofftech/geoserver-client-php": "0.2.*",
+        "oneofftech/geoserver-client-php": "0.3.*",
         "justinrainbow/json-schema": "^5.2",
         "proj4php/proj4php": "^2.0",
         "spinen/laravel-geometry": "^2.0"
