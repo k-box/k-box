@@ -44,7 +44,7 @@ class ComposerScripts
 
             $args = $event->getArguments();
             
-            $rfs = Factory::createRemoteFilesystem($io, $event->getComposer()->getConfig());
+            $rfs = Factory::createHttpDownloader($io, $event->getComposer()->getConfig());
             
             $os = strtolower(PHP_OS);
 
@@ -78,7 +78,7 @@ class ComposerScripts
             try {
                 $hostname = parse_url($url, PHP_URL_HOST);
                 
-                $rfs->copy($hostname, $url, $fileName, true);
+                $rfs->copy($url, $fileName);
 
                 if ($os!=='windows') {
                     // making sure the binary is executable
