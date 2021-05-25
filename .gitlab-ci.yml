@@ -78,7 +78,7 @@ unit_test:
     - chmod +x ./bin/bin/packager-linux
     - composer run install-content-cli
     - composer run install-language-cli
-    - composer run install-streaming-client
+    # - composer run install-streaming-client
     - php artisan view:clear
     - php artisan config:clear
     - php artisan route:clear
