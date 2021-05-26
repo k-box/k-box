@@ -16,8 +16,6 @@ class UploadPageTest extends TestCase
     {
         $user = factory(\KBox\User::class)->state('partner')->create();
 
-        $this->disableExceptionHandling();
-        
         $response = $this->actingAs($user)->get('/uploads');
 
         $response->assertStatus(200);
@@ -32,8 +30,6 @@ class UploadPageTest extends TestCase
     {
         $user = factory(\KBox\User::class)->create();
         $user->addCapabilities(Capability::$ADMIN);
-
-        $this->disableExceptionHandling();
 
         $project = factory(\KBox\Project::class)->create();
         
@@ -53,8 +49,6 @@ class UploadPageTest extends TestCase
     {
         $user = factory(\KBox\User::class)->create();
         $user->addCapabilities(Capability::$ADMIN);
-
-        $this->disableExceptionHandling();
 
         $project = factory(\KBox\Project::class)->create();
 
@@ -86,8 +80,6 @@ class UploadPageTest extends TestCase
 
         $user->addCapabilities(Capability::$ADMIN);
 
-        $this->disableExceptionHandling();
-        
         $collection = $user->groups()->create([
             'name' => 'That exact collection',
             'type' => Group::TYPE_PERSONAL,
@@ -112,8 +104,6 @@ class UploadPageTest extends TestCase
     public function test_upload_page_shows_target_error()
     {
         $user = factory(\KBox\User::class)->state('partner')->create();
-
-        $this->disableExceptionHandling();
 
         $project = factory(\KBox\Project::class)->create();
         

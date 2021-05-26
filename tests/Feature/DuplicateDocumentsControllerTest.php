@@ -39,8 +39,6 @@ class DuplicateDocumentsControllerTest extends TestCase
 
     public function test_duplicate_is_resolved_with_original_copy()
     {
-        $this->disableExceptionHandling();
-
         $adapter = $this->withKlinkAdapterFake();
 
         $user = factory(\KBox\User::class)->state('partner')->create();
@@ -60,8 +58,6 @@ class DuplicateDocumentsControllerTest extends TestCase
 
     public function test_existing_document_inherits_accessible_collections_when_resolving_duplicate()
     {
-        $this->disableExceptionHandling();
-        
         $service = app('KBox\Documents\Services\DocumentsService');
 
         $adapter = $this->withKlinkAdapterFake();
@@ -106,8 +102,6 @@ class DuplicateDocumentsControllerTest extends TestCase
 
     public function test_trashed_document_cannot_be_used_for_resolution()
     {
-        $this->disableExceptionHandling();
-
         $adapter = $this->withKlinkAdapterFake();
 
         $user = factory(\KBox\User::class)->state('partner')->create();
@@ -131,8 +125,6 @@ class DuplicateDocumentsControllerTest extends TestCase
 
     public function test_already_resolved_duplicates_cannot_be_resolved_again()
     {
-        $this->disableExceptionHandling();
-
         $adapter = $this->withKlinkAdapterFake();
 
         $user = factory(\KBox\User::class)->state('partner')->create();
@@ -156,8 +148,6 @@ class DuplicateDocumentsControllerTest extends TestCase
 
     public function test_duplicate_in_same_collection_can_be_resolved()
     {
-        $this->disableExceptionHandling();
-
         $adapter = $this->withKlinkAdapterFake();
 
         $user = factory(\KBox\User::class)->state('partner')->create();
@@ -195,8 +185,6 @@ class DuplicateDocumentsControllerTest extends TestCase
 
     public function test_duplicate_in_different_collections_can_be_resolved()
     {
-        $this->disableExceptionHandling();
-
         $adapter = $this->withKlinkAdapterFake();
 
         $user = factory(\KBox\User::class)->state('partner')->create();

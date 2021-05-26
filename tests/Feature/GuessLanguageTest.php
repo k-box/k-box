@@ -30,8 +30,7 @@ class GuessLanguageTest extends TestCase
 
     public function test_language_can_be_guessed_from_plain_text_file()
     {
-        $this->disableExceptionHandling();
-
+        
         // create descriptor with text file
         $descriptor = $this->generateDescriptorForFile(base_path('tests/data/example.txt'));
 
@@ -50,8 +49,7 @@ class GuessLanguageTest extends TestCase
     
     public function test_language_can_be_guessed_from_pdf()
     {
-        $this->disableExceptionHandling();
-
+        
         // create descriptor with text file
         $descriptor = $this->generateDescriptorForFile(base_path('tests/data/example.pdf'));
 
@@ -70,8 +68,7 @@ class GuessLanguageTest extends TestCase
     
     public function test_language_can_be_guessed_from_word()
     {
-        $this->disableExceptionHandling();
-
+        
         // create descriptor with text file
         $descriptor = $this->generateDescriptorForFile(base_path('tests/data/example-with-multiline.docx'));
 
@@ -90,8 +87,7 @@ class GuessLanguageTest extends TestCase
     
     public function test_language_can_be_guessed_from_presentation()
     {
-        $this->disableExceptionHandling();
-
+        
         // create descriptor with text file
         $descriptor = $this->generateDescriptorForFile(base_path('tests/data/example-presentation-simple.pptx'));
 
@@ -109,8 +105,7 @@ class GuessLanguageTest extends TestCase
     
     public function test_language_not_set_if_file_unsupported()
     {
-        $this->disableExceptionHandling();
-
+        
         // create descriptor with text file
         $descriptor = $this->generateDescriptorForFile(base_path('tests/data/video.mp4'));
 
@@ -127,8 +122,7 @@ class GuessLanguageTest extends TestCase
 
     public function test_language_not_guessed_if_already_specified()
     {
-        $this->disableExceptionHandling();
-
+        
         // create descriptor with text file
         $descriptor = $this->generateDescriptorForFile(base_path('tests/data/example.txt'));
         $descriptor->language = 'it';

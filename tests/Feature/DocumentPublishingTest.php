@@ -17,8 +17,6 @@ class DocumentPublishingTest extends TestCase
     {
         Storage::fake('local');
 
-        $this->disableExceptionHandling();
-
         $adapter = $this->withKlinkAdapterFake();
 
         $user = factory(\KBox\User::class)->state('project-manager')->create();
@@ -52,8 +50,6 @@ class DocumentPublishingTest extends TestCase
     {
         Storage::fake('local');
         
-        $this->disableExceptionHandling();
-
         $adapter = $this->withKlinkAdapterFake();
 
         $user = factory(\KBox\User::class)->state('project-manager')->create();
@@ -97,8 +93,6 @@ class DocumentPublishingTest extends TestCase
     {
         Storage::fake('local');
         
-        $this->disableExceptionHandling();
-
         $adapter = $this->withKlinkAdapterFake();
 
         $user = factory(\KBox\User::class)->create();

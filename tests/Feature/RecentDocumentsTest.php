@@ -328,8 +328,6 @@ class RecentDocumentsTest extends TestCase
 
     public function test_recent_includes_documents_with_new_file_version()
     {
-        $this->disableExceptionHandling();
-
         $adapter = $this->withKlinkAdapterFake();
 
         $user = factory(\KBox\User::class)->state('partner')->create();
@@ -372,7 +370,6 @@ class RecentDocumentsTest extends TestCase
 
     public function test_recent_includes_documents_in_project_i_have_access()
     {
-        $this->disableExceptionHandling();
         $adapter = $this->withKlinkAdapterFake();
 
         $manager = tap(factory(\KBox\User::class)->create())->addCapabilities(Capability::$PROJECT_MANAGER_LIMITED);
@@ -424,7 +421,6 @@ class RecentDocumentsTest extends TestCase
 
     public function test_recent_shows_partner_expected_documents_for_today()
     {
-        $this->disableExceptionHandling();
         $this->withKlinkAdapterFake();
 
         // create a project with 2 members + the manager
@@ -456,7 +452,6 @@ class RecentDocumentsTest extends TestCase
 
     public function test_recent_shows_partner_expected_documents_in_the_current_month()
     {
-        $this->disableExceptionHandling();
         $this->withKlinkAdapterFake();
 
         // create a project with 2 members + the manager
