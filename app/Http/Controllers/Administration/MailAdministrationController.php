@@ -124,7 +124,7 @@ class MailAdministrationController extends Controller
         Gate::authorize('manage-kbox');
         
         try {
-            $res = Mail::to(config('mail.from.address'))->sendNow(new TestingMail());
+            $res = Mail::to(config('mail.from.address'))->send(new TestingMail());
 
             return redirect()->route('administration.mail.index')->with([
                 'flash_message' => trans('administration.mail.test_success_msg', ['from' => config('mail.from.address')])
