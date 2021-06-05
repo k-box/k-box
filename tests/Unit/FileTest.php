@@ -167,6 +167,7 @@ class FileTest extends TestCase
         $file = (new File)->forceFill([
             'name' => 'something.txt',
             'path' => '2017/09/something.txt',
+            'hash' => 'a-hash',
             'uuid' => $uuid
         ]);
 
