@@ -14,9 +14,9 @@ class Kernel extends HttpKernel
      */
     protected $middleware = [
         // \App\Http\Middleware\TrustHosts::class,
-        \KBox\Http\Middleware\TrustedProxyMiddleware::class,
+        \KBox\Http\Middleware\TrustProxies::class,
         \Fruitcake\Cors\HandleCors::class,
-        \KBox\Http\Middleware\CheckForMaintenanceMode::class,
+        \KBox\Http\Middleware\PreventRequestsDuringMaintenance::class,
         \KBox\Http\Middleware\CheckForReadonlyMode::class,
         \KBox\Http\Middleware\PortRedirectMiddleware::class,
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
@@ -43,7 +43,7 @@ class Kernel extends HttpKernel
         ],
 
         'api' => [
-            'throttle:60,1',
+            'throttle:api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
     ];
