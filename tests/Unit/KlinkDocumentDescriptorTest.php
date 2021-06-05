@@ -36,7 +36,7 @@ class KlinkDocumentDescriptorTest extends TestCase
         $this->assertEquals('document', $data->type);
         $this->assertEquals($descriptor->uuid, $data->uuid);
         $this->assertEquals($descriptor->hash, $data->hash);
-        $this->assertRegExp('/http(.*)\/files\/(.*)\?t=(.*)/', $data->url);
+        $this->assertMatchesRegularExpression('/http(.*)\/files\/(.*)\?t=(.*)/', $data->url);
         $this->assertStringStartsWith('http:', $data->url);
         $this->assertEquals($descriptor->title, $data->properties->title);
         $this->assertEquals($descriptor->mime_type, $data->properties->mime_type);
@@ -71,7 +71,7 @@ class KlinkDocumentDescriptorTest extends TestCase
         $this->assertEquals('document', $data->type);
         $this->assertEquals($descriptor->uuid, $data->uuid);
         $this->assertEquals($descriptor->hash, $data->hash);
-        $this->assertRegExp('/http(.*)\/files\/(.*)\?t=(.*)/', $data->url);
+        $this->assertMatchesRegularExpression('/http(.*)\/files\/(.*)\?t=(.*)/', $data->url);
         $this->assertStringStartsWith('http:', $data->url);
         $this->assertEquals($descriptor->title, $data->properties->title);
         $this->assertEquals($descriptor->mime_type, $data->properties->mime_type);

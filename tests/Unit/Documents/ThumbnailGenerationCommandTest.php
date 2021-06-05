@@ -38,9 +38,9 @@ class ThumbnailGenerationCommandTest extends TestCase
         $output = Artisan::output();
         $this->assertEquals(0, $exitCode);
         
-        $this->assertRegExp('/Generating thumbnails/', $output);
-        $this->assertRegExp('/1 document/', $output);
-        $this->assertRegExp('/100/', $output);
+        $this->assertMatchesRegularExpression('/Generating thumbnails/', $output);
+        $this->assertMatchesRegularExpression('/1 document/', $output);
+        $this->assertMatchesRegularExpression('/100/', $output);
     }
 
     public function test_command_handles_non_existing_document()
