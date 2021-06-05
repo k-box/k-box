@@ -1,10 +1,8 @@
 <?php
 
-use Illuminate\Support\Str;
 use KBox\Plugins\PluginManager;
 use KBox\Services\ReadonlyMode;
 use KBox\Documents\Services\DocumentsService;
-
 
 if (! function_exists('support_token')) {
     /**
