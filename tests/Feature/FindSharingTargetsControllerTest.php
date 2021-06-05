@@ -262,7 +262,7 @@ class FindSharingTargetsControllerTest extends TestCase
             's' => 'o\'h',
         ]);
 
-        $expected_data = $targets->splice(1, 6)->map(function ($u) {
+        $expected_data = $targets->splice(0, 6)->map(function ($u) {
             return [
                 'id' => $u->id,
                 'name' => $u->name,
