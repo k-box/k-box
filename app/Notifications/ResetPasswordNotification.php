@@ -50,6 +50,7 @@ class ResetPasswordNotification extends Notification
         $language = $notifiable && is_a($notifiable, \KBox\User::class) ? $notifiable->optionLanguage(config('app.locale')) : config('app.locale');
 
         return (new MailMessage)
+            ->subject(trans('mail.password_reset_subject'))
             ->line(trans('mail.password_reset.you_are_receiving_because', [], '', $language)) // the [] is the argument that carries the placeholders substitution
             ->action(trans('mail.password_reset.reset_password', [], '', $language), url('password/reset', $this->token))
             ->salutation(trans('messaging.mail.do_not_reply', [], '', $language))
