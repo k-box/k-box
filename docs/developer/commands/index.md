@@ -4,7 +4,7 @@
 > K-Box instance.
 
 
-The K-Box command line suite of commands rely on the [Laravel Artisan CLI](https://laravel.com/docs/7.x/artisan).
+The K-Box command line suite of commands rely on the [Laravel Artisan CLI](https://laravel.com/docs/artisan).
 
 Here are only listed the specific commands added by the K-Box:
 
