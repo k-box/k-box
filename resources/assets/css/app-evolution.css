@@ -134,77 +134,8 @@ h6 {
 
 
 
-.markdown {
-    @apply text-gray-900 leading-normal;
-
-    > * + * {
-        @apply mt-4;
-    }
-
+.prose {
     
-    h1 {
-        @apply text-3xl;
-        @apply font-bold;
-        @apply leading-none;
-        
-    }
-  
-    h2 {
-        @apply text-2xl;
-        @apply font-bold;
-        @apply leading-tight;
-        
-    }
-
-    h3 {
-        @apply text-2xl;
-        @apply leading-snug;
-
-    }
-
-    h4 {
-        @apply text-xl;
-        @apply font-bold;
-        @apply leading-snug;
-    }
-
-    h5 {
-        @apply text-lg;
-        @apply font-bold;
-    }
-
-    h6 {
-        @apply text-base;
-        @apply font-bold;
-    }
-
-    ul {
-        @apply list-disc pl-6;
-
-        li + li {
-            @apply mt-2;
-        }
-    }
-
-    ol {
-        @apply list-decimal pl-6;
-
-        li + li {
-            @apply mt-2;
-        }
-    }
-
-    blockquote {
-        @apply bg-gray-200;
-        @apply p-2;
-    }
-
-    code {
-        @apply bg-gray-200;
-        @apply text-gray-900;
-        @apply p-1;
-    }
-
     .markdown-header-link {
         @apply opacity-0 transition-opacity ease-in-out duration-150;
     }

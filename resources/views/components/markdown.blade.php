@@ -1,3 +1,3 @@
-<div {{ $attributes->merge(['class' => 'markdown']) }}>
+<div {{ $attributes->merge(['class' => 'prose']) }}>
     {!! trim($convert($slot ?? $value)) !!}
 </div>
