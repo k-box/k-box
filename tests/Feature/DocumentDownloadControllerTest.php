@@ -17,7 +17,6 @@ class DocumentDownloadControllerTest extends TestCase
     
     public function test_download_for_document_in_project_when_user_has_access_to_the_project()
     {
-        $this->disableExceptionHandling();
         $this->withKlinkAdapterFake();
         
         $service = app('KBox\Documents\Services\DocumentsService');

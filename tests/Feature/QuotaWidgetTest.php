@@ -105,7 +105,7 @@ class QuotaWidgetTest extends TestCase
      * @param string $view the name of the view
      * @return \Illuminate\View\View
      */
-    private function view($view)
+    protected function view($view, array $data = [])
     {
         return tap(View::make($view), function ($v) {
             View::callComposer($v);

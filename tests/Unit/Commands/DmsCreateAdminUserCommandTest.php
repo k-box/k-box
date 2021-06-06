@@ -22,9 +22,9 @@ class DmsCreateAdminUserCommandTest extends TestCase
         $output = Artisan::output();
         $this->assertEquals(0, $exitCode);
         
-        $this->assertRegExp('/Administrator(.*)created/', $output);
-        $this->assertRegExp('/Set\ a\ password/', $output);
-        $this->assertRegExp('/http(.*)\/password\/reset\/(.*)?email='.urlencode($email).'/', $output);
+        $this->assertMatchesRegularExpression('/Administrator(.*)created/', $output);
+        $this->assertMatchesRegularExpression('/Set\ a\ password/', $output);
+        $this->assertMatchesRegularExpression('/http(.*)\/password\/reset\/(.*)?email='.urlencode($email).'/', $output);
 
         $this->assertNotNull(User::findByEmail($email));
     }
@@ -41,9 +41,9 @@ class DmsCreateAdminUserCommandTest extends TestCase
         $output = Artisan::output();
         $this->assertEquals(0, $exitCode);
         
-        $this->assertRegExp('/Administrator(.*)created/', $output);
-        $this->assertRegExp('/Set\ a\ password/', $output);
-        $this->assertRegExp('/http(.*)\/password\/reset\/(.*)?email='.urlencode($email).'/', $output);
+        $this->assertMatchesRegularExpression('/Administrator(.*)created/', $output);
+        $this->assertMatchesRegularExpression('/Set\ a\ password/', $output);
+        $this->assertMatchesRegularExpression('/http(.*)\/password\/reset\/(.*)?email='.urlencode($email).'/', $output);
 
         $this->assertNotNull(User::findByEmail($email));
     }
@@ -59,8 +59,8 @@ class DmsCreateAdminUserCommandTest extends TestCase
         $output = Artisan::output();
         $this->assertEquals(0, $exitCode);
         
-        $this->assertRegExp('/Administrator(.*)created/', $output);
-        $this->assertRegExp('/chosen\ password/', $output);
+        $this->assertMatchesRegularExpression('/Administrator(.*)created/', $output);
+        $this->assertMatchesRegularExpression('/chosen\ password/', $output);
 
         $this->assertNotNull(User::findByEmail($email));
     }
@@ -77,8 +77,8 @@ class DmsCreateAdminUserCommandTest extends TestCase
         $output = Artisan::output();
         $this->assertEquals(0, $exitCode);
         
-        $this->assertRegExp('/Administrator(.*)created/', $output);
-        $this->assertRegExp('/password(.*)generated(.*):\ (.*){8}\ /', $output);
+        $this->assertMatchesRegularExpression('/Administrator(.*)created/', $output);
+        $this->assertMatchesRegularExpression('/password(.*)generated(.*):\ (.*){8}\ /', $output);
 
         $this->assertNotNull(User::findByEmail($email));
     }

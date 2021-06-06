@@ -329,9 +329,7 @@ class UserAdministrationController extends Controller
         $this->authorize('update', $user);
 
         try {
-            $view = \Password::sendResetLink(['email' => $user->email, 'id' => $user->id], function ($m, $user, $token) {
-                $m->subject(trans('mail.password_reset_subject'));
-            });
+            $view = \Password::sendResetLink(['email' => $user->email, 'id' => $user->id]);
         
             if ($view == PasswordBrokerContract::INVALID_USER) {
                 return redirect()->back()->withErrors([

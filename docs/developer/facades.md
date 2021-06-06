@@ -18,4 +18,4 @@ This is a useful tool for quickly digging into the API documentation.
 
 ## Laravel Facades
 
-As the K-Box is based on Laravel, we suggest to read also the [Laravel Facade documentation](https://laravel.com/docs/7.x/facades).
+As the K-Box is based on Laravel, we suggest to read also the [Laravel Facade documentation](https://laravel.com/docs/facades).

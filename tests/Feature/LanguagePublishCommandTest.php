@@ -34,14 +34,14 @@ class LanguagePublishCommandTest extends TestCase
         
         $root_lang = $files->get(public_path('js/nls/lang.js'));
         
-        $this->assertRegExp('/ru/', $root_lang);
-        $this->assertRegExp('/validation.accepted/', $root_lang);
-        $this->assertRegExp('/define/', $root_lang);
+        $this->assertMatchesRegularExpression('/ru/', $root_lang);
+        $this->assertMatchesRegularExpression('/validation.accepted/', $root_lang);
+        $this->assertMatchesRegularExpression('/define/', $root_lang);
         
         $ru_lang = $files->get(public_path('js/nls/ru/lang.js'));
         
-        $this->assertRegExp('/validation.accepted/', $ru_lang);
-        $this->assertRegExp('/define/', $ru_lang);
+        $this->assertMatchesRegularExpression('/validation.accepted/', $ru_lang);
+        $this->assertMatchesRegularExpression('/define/', $ru_lang);
     }
     
     public function testInvalidSupportLocales()

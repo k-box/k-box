@@ -165,6 +165,6 @@ class ReleaseCommandTest extends TestCase
 
         $this->assertStringContainsString($expectedMarkdown, file_get_contents(base_path('changelog.md')));
 
-        $this->assertFileNotExists($this->paths[0]);
+        $this->assertFileDoesNotExist($this->paths[0]);
     }
 }

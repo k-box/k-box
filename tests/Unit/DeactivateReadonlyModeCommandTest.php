@@ -54,7 +54,7 @@ class DeactivateReadonlyModeCommandTest extends TestCase
             ->expectsOutput('Application is now live.')
             ->assertExitCode(0);
 
-        $this->assertFileNotExists($this->readonlyFilePath);
+        $this->assertFileDoesNotExist($this->readonlyFilePath);
         $this->assertFalse($service->isReadonlyActive());
     }
 

@@ -87,8 +87,6 @@ class UploadCompletedHandlerTest extends TestCase
 
     public function test_duplicate_found_is_raised_when_the_user_upload_a_document_that_is_in_a_project()
     {
-        $this->disableExceptionHandling();
-        
         $this->withKlinkAdapterFake();
         
         $service = app('KBox\Documents\Services\DocumentsService');
@@ -132,8 +130,6 @@ class UploadCompletedHandlerTest extends TestCase
 
     public function test_duplicate_found_not_dispatched_if_user_upload_again_a_old_revision_of_document()
     {
-        $this->disableExceptionHandling();
-        
         $this->withKlinkAdapterFake();
         
         $service = app('KBox\Documents\Services\DocumentsService');
@@ -182,7 +178,6 @@ class UploadCompletedHandlerTest extends TestCase
 
     public function test_calculate_used_quota_job_dispatched()
     {
-        $this->disableExceptionHandling();
         Bus::fake();
         $this->withKlinkAdapterFake();
         

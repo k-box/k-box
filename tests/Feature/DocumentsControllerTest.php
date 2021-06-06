@@ -196,8 +196,6 @@ class DocumentsControllerTest extends TestCase
 
     public function test_duplicate_actions_are_presented_on_document_edit_page()
     {
-        $this->disableExceptionHandling();
-
         Storage::fake('local');
 
         $adapter = $this->withKlinkAdapterFake();

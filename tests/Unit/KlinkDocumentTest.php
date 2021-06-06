@@ -20,7 +20,7 @@ class KlinkDocumentTest extends TestCase
 
         $data = $document->getDescriptor()->toData();
 
-        $this->assertRegExp('/http(.*)\/files\/(.*)\?t=(.*)/', $data->url);
+        $this->assertMatchesRegularExpression('/http(.*)\/files\/(.*)\?t=(.*)/', $data->url);
         $this->assertStringStartsWith('http:', $data->url);
     }
     
@@ -37,7 +37,7 @@ class KlinkDocumentTest extends TestCase
 
         $data = $document->getDescriptor()->toData();
 
-        $this->assertRegExp('/http(.*)\/files\/(.*)\?t=(.*)/', $data->url);
+        $this->assertMatchesRegularExpression('/http(.*)\/files\/(.*)\?t=(.*)/', $data->url);
         $this->assertStringStartsWith('http://docker.for.win.localhost:8000/', $data->url);
     }
     

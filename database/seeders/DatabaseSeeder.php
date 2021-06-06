@@ -1,5 +1,7 @@
 <?php
 
+namespace Database\Seeders;
+
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 
@@ -18,6 +20,6 @@ class DatabaseSeeder extends Seeder
         /**
          * Seed the capabilities table for default capabilities to be associated to a user
          */
-        $this->call('CapabilitiesTableSeeder');
+        $this->call(CapabilitiesTableSeeder::class);
     }
 }

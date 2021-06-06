@@ -79,9 +79,9 @@ class FindSharingTargetsController extends Controller
             })
             ->where(function ($query) use ($search_query) {
                 $query->where('email', e($search_query))
-                ->orWhere('users.name', 'like', '%'.$this->normalizeTerms($search_query).'%');
+                ->orWhere('name', 'like', '%'.$this->normalizeTerms($search_query).'%');
             })
-            ->orderBy('users.id', 'DESC') // since the ids are autoincrement it is equivalent to order for creation date
+            ->orderBy('id', 'ASC') // since the ids are autoincrement it is equivalent to order for creation date
             ->take(6);
 
         return new ShareTargetCollection($available_users->get());

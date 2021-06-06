@@ -39,7 +39,7 @@ The goals are:
 - Minify stylesheets and purge unused classes
 - Apply cache busting techniques
 
-We use [Webpack](http://github.com/webpack/webpack) on top of [Laravel Mix](https://laravel.com/docs/7.x/mix). 
+We use [Webpack](http://github.com/webpack/webpack) on top of [Laravel Mix](https://laravel.com/docs/mix). 
 
 As stated in the [developer installation](./developer-installation.md#frontend-build) guide, 
 the compiled files for the frontend are not commited in the GIT repository. 

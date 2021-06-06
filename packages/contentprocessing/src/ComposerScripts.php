@@ -2,6 +2,7 @@
 
 namespace KBox\Documents;
 
+use Exception;
 use PharData;
 use ZipArchive;
 use Composer\Factory;
@@ -54,17 +55,17 @@ class ComposerScripts
         try {
             $io = $event->getIO();
 
+            $io->write('Checking PDF tools...');
+
             $composer_config = $event->getComposer()->getConfig();
             
-            $rfs = Factory::createRemoteFilesystem($io, $composer_config);
+            $rfs = Factory::createHttpDownloader($io, $composer_config);
             
             $os = strtolower(PHP_OS);
 
             if (isset(static::$map[$os])) {
                 $os = static::$map[$os];
             }
-            
-            $io->write('Downloading PDF tools...');
             
             // grab the required version from the config
             
@@ -84,10 +85,12 @@ class ComposerScripts
             try {
                 // download archive
 
-                $hostname = parse_url($archive_url, PHP_URL_HOST);
-                
-                $rfs->copy($hostname, $archive_url, $fileName, true);
+                if (! file_exists($fileName)) {
+                    $io->write('Downloading PDF tools...');
 
+                    $rfs->copy($archive_url, $fileName);
+                }
+                
                 $io->write('');
                 $io->write('Installing PDF tools...');
 
@@ -140,7 +143,7 @@ class ComposerScripts
                 $io->writeError("    {$e->getMessage()}", true);
                 $io->writeError('');
             }
-        } catch (\Exception $ex) {
+        } catch (Exception $ex) {
             $io->writeError('');
             $io->writeError('    Failed to retrieve the content processing dependencies', true);
             $io->writeError("    {$ex->getMessage()}", true);
@@ -162,7 +165,7 @@ class ComposerScripts
             }));
 
             if (empty($interesting_headers)) {
-                throw new \Exception('Expecting to find the location of the artifact package, but got nothing');
+                throw new Exception('Expecting to find the location of the artifact package, but got nothing');
             }
 
             $location_header = array_pop($interesting_headers);

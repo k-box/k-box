@@ -31,8 +31,9 @@ RUN \
     mkdir -p "storage/logs" &&\
     composer install --no-dev --prefer-dist &&\
     composer run install-content-cli &&\
-    composer run install-language-cli &&\
-    composer run install-streaming-client
+    composer run install-language-cli 
+    # &&\
+    # composer run install-streaming-client
 RUN \
     yarn config set cache-folder .yarn && \
     yarn install --link-duplicates && \
