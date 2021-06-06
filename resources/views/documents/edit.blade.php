@@ -52,7 +52,7 @@
 	
     @endif
 
-	<div class="flex flex-col md:flex-row md:flex-wrap lg:flex-no-wrap">
+	<div class="flex flex-col md:flex-row md:flex-wrap lg:flex-nowrap">
 		<div class="pr-2 mt-4 mb-4 lg:mb-0 w-full md:w-1/2 lg:w-1/3 xl:w-2/4">
 	
 			@if( isset($errors) && $errors->has('title') )

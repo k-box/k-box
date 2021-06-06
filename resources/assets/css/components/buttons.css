@@ -37,7 +37,7 @@
 		@apply text-gray-900;
 		@apply outline-none;
 		@apply border-blue-700;
-		@apply shadow-outline-blue;
+		@apply focus:ring focus:ring-blue-500;
 		@apply z-10;
 	}
 
@@ -65,7 +65,7 @@
 		@apply text-white;
 		@apply outline-none;
 		@apply border-blue-700;
-		@apply shadow-outline-blue;
+		@apply focus:ring focus:ring-blue-500;
 	}
 
 	&:active {

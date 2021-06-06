@@ -30,7 +30,7 @@
 	
 	@if(!is_null($shares))
 
-	<div id="document-area" class="share-section shared-with-me clearfix">
+	<div id="document-area" class="share-section shared-with-me flow-root">
 
 	<div class="page-actions page-actions--shared-page">
 

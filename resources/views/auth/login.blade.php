@@ -25,7 +25,7 @@
 					@enderror
 		        @endforeach
             </div>
-			<div class="flex mb-4 flex-no-wrap items-center max-w-lg mx-auto lg:mx-0">
+			<div class="flex mb-4 flex-nowrap items-center max-w-lg mx-auto lg:mx-0">
 				<div class="h-px w-1 lg:w-12 flex-grow lg:flex-grow-0 bg-gray-200"></div>
 				<p class="ml-2 mr-2 text-gray-600 font-medium">{{ trans('auth.or') }}</p>
 				<div class="h-px w-1 flex-grow bg-gray-200"></div>
@@ -70,7 +70,7 @@
 	</form>
 
 	@if (\KBox\Auth\Registration::isEnabled() && ! \KBox\Auth\Registration::requiresInvite())
-		<div class="flex py-4 flex-no-wrap max-w-lg mx-auto lg:mx-0">
+		<div class="flex py-4 flex-nowrap max-w-lg mx-auto lg:mx-0">
 			<div class="h-px w-1 flex-grow bg-gray-200"></div>
 		</div>
 

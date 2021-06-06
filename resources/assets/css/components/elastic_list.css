@@ -13,7 +13,7 @@
 
 	@apply cursor-pointer;
 		
-	@apply whitespace-no-wrap;
+	@apply whitespace-nowrap;
 
 	@apply no-underline;
 

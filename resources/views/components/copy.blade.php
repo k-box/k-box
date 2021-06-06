@@ -4,7 +4,7 @@
 <div {{ $attributes->merge(['class' => '']) }} 
     x-data="CopyToClipboard({links: '{{ implode('&#13;&#10;', $links) }}'})">
 
-    <div class="form-input border-0 py-1 px-0 flex flex-no-wrap items-center">
+    <div class="form-input border-0 py-1 px-0 flex flex-nowrap items-center">
         
         <div class="flex-grow mr-2 min-w-0 truncate">
 
