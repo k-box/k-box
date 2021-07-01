@@ -27,7 +27,7 @@
 
 	@if($project->description)
 		<div class="meta abstract">
-			<x-markdown class="markdown--within my-4">{!! $project->description !!}</x-markdown>
+			<x-markdown class="prose prose-sm my-4">{!! $project->description !!}</x-markdown>
 		</div>
 	@endif
 

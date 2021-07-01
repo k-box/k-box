@@ -29,7 +29,7 @@
 
             @if(!is_null($summary_content))
 
-                <x-markdown class="markdown--within bg-gray-100 p-2">{!! $summary_content !!}</x-markdown>
+                <x-markdown class="bg-gray-100 p-2">{!! $summary_content !!}</x-markdown>
 
                 <p class="mt-4">
                     <a href="{{ route('privacy.legal') }}" target="_blank" rel="noopener noreferrer">{{ trans('consent.privacy.show_full_text') }}</a>
@@ -37,7 +37,7 @@
 
             @else 
 
-                <x-markdown class="markdown--within bg-gray-100 p-2">{!! $privacy_content !!}</x-markdown>
+                <x-markdown class="bg-gray-100 p-2">{!! $privacy_content !!}</x-markdown>
 
             @endif
 
