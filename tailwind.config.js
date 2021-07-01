@@ -3,7 +3,30 @@ const colors = require('tailwindcss/colors')
 
 
 module.exports = {
-  purge: false,
+  purge: {
+    content: [
+      './resources/**/*.php',
+      './resources/**/*.js',
+      './packages/**/*.php',
+      './packages/**/*.js',
+      './workbench/**/*.php',
+      './workbench/**/*.js',
+    ],
+    safelist: [
+        /item--selectable/,
+        /item--selected/,
+        /description/,
+        /c-panel/,
+        /c-cache/,
+        /select2/,
+        /dialog/,
+        /dropzone/,
+        /dz-drag/,
+        /preview/,
+        /leaflet/,
+        /map/,
+    ]
+  },
   theme: {
     extend: {
       colors: {
