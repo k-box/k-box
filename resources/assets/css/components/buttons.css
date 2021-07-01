@@ -99,24 +99,11 @@
 
 .button--selected {
 	@apply border-blue-700;
-	@apply bg-gray-100;
+	@apply bg-blue-50;
 	@apply text-blue-800;
 	@apply shadow-inner;
 	@apply relative;
 
-	&:after {
-		/* this is to obtain a slightly bigger bottom border without affecting the height of the button */
-		content: '';
-		@apply block;
-		@apply absolute;
-		
-		@apply bottom-0;
-		@apply h-px;
-		@apply w-11/12;
-		@apply bg-blue-700;
-		@apply rounded-b-md;
-		@apply overflow-hidden;
-	}
 }
 
 .button.danger, .button--danger {
