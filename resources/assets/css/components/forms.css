@@ -149,8 +149,6 @@ input[type="checkbox"] + label {
 	@apply mt-1;
 
 	.title {
-		/* .h3-typography; */
-
 		height: auto;
 		display: block;
 
