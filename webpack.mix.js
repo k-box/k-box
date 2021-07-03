@@ -5,7 +5,7 @@
  */
 
 const mix = require('laravel-mix');
-require('laravel-mix-purgecss');
+// require('laravel-mix-purgecss');
 
 // CSS ---------------------------------------------------------------------
 
@@ -86,24 +86,4 @@ mix.js("resources/assets/js/evolution-ie11.js", "public/js");
 
 // Tasks to run in production ----------------------------------------------
 
-mix.purgeCss({
-    enabled: mix.inProduction(),
-    whitelistPatterns: [
-        /item--selectable/,
-        /item--selected/,
-        /description/,
-        /c-panel/,
-        /c-cache/,
-        /select2/,
-        /dialog/,
-        /dropzone/,
-        /dz-drag/,
-        /preview/,
-        /leaflet/,
-        /map/,
-    ],
-
-    // Include any special characters you're using in this regular expression
-    defaultExtractor: content => content.match(/[\w-/.:]+(?<!:)/g) || []
-})
-.version()
+mix.version()

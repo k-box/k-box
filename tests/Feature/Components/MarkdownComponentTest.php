@@ -13,7 +13,7 @@ class MarkdownComponentTest extends TestCase
         );
 
         $expected = <<<'html'
-        <div class="markdown">
+        <div class="prose">
             <h2>a title<a id="uc--a-title" href="#a-title" name="a-title" class="markdown-header-link" aria-hidden="true" title="Permalink">¶</a></h2>
         </div>
         html;
@@ -28,7 +28,7 @@ class MarkdownComponentTest extends TestCase
         );
 
         $expected = <<<'html'
-        <div class="markdown additional-class">
+        <div class="prose additional-class">
             <h2>a title<a id="uc--a-title" href="#a-title" name="a-title" class="markdown-header-link" aria-hidden="true" title="Permalink">¶</a></h2>
         </div>
         html;
@@ -43,7 +43,7 @@ class MarkdownComponentTest extends TestCase
         );
 
         $expected = <<<'html'
-        <div class="markdown">
+        <div class="prose">
             
         </div>
         html;

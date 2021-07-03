@@ -1,5 +1,5 @@
 .breadcrumbs {
-    @apply whitespace-no-wrap;
+    @apply whitespace-nowrap;
     @apply relative;
 }
 

@@ -1,4 +1,4 @@
-<div class="switcher flex flex-no-wrap" id="list-switcher" data-list="#documents-list .list" data-current="{{$list_style_current}}">
+<div class="switcher flex flex-nowrap" id="list-switcher" data-list="#documents-list .list" data-current="{{$list_style_current}}">
 
 	<button data-list="details" class="button p-2 ml-0 rounded-r-none" title="{{trans('actions.switcher.details')}}">
 		@materialicon('action', 'view_list', 'inline-block')

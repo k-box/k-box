@@ -50,7 +50,7 @@
 	
 	@apply truncate;
 	@apply overflow-hidden;
-	@apply whitespace-no-wrap;
+	@apply whitespace-nowrap;
 	@apply no-underline;
 }
 

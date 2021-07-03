@@ -1,23 +1,48 @@
-const { blue, ...colors  } = require('@tailwindcss/ui/colors')
 const defaultTheme = require('tailwindcss/defaultTheme')
+const colors = require('tailwindcss/colors')
 
 
 module.exports = {
-  purge: false,
+  purge: {
+    content: [
+      './resources/**/*.php',
+      './resources/**/*.js',
+      './packages/**/*.php',
+      './packages/**/*.js',
+      './workbench/**/*.php',
+      './workbench/**/*.js',
+    ],
+    safelist: [
+        /item--selectable/,
+        /item--selected/,
+        /description/,
+        /c-panel/,
+        /c-cache/,
+        /select2/,
+        /dialog/,
+        /dropzone/,
+        /dz-drag/,
+        /preview/,
+        /leaflet/,
+        /map/,
+    ]
+  },
   theme: {
     extend: {
       colors: {
         accent: {
-          100: blue[100],
-          200: blue[200],
-          300: blue[300],
-          400: blue[400],
-          500: blue[500],
-          600: blue[600],
-          700: blue[700],
-          800: blue[800],
-          900: blue[900],
+          50: colors.blue[50],
+          100: colors.blue[100],
+          200: colors.blue[200],
+          300: colors.blue[300],
+          400: colors.blue[400],
+          500: colors.blue[500],
+          600: colors.blue[600],
+          700: colors.blue[700],
+          800: colors.blue[800],
+          900: colors.blue[900],
         },
+        orange: colors.orange,
         'success': '#A9E34B',
         'warning': '#FCC419',
         'error': '#e03131',
@@ -29,20 +54,13 @@ module.exports = {
         'page' : `calc(100vh - ${defaultTheme.spacing[12]})`,
       },
     },
-    customForms: theme => ({
-      default: {
-        'input, textarea, multiselect, select, checkbox': {
-          borderColor: theme('colors.gray.500'),
-        },
-      },
-    })
   },
-  // variants: {
-  //   opacity: ['responsive', 'hover', 'focus']
-  // },
+  variants: {
+    
+  },
   plugins: [
-    // require('@tailwindcss/custom-forms')
-    require('@tailwindcss/ui'),
+    require('@tailwindcss/forms'),
+    require('@tailwindcss/typography'),
   ],
   corePlugins: {
     container: false

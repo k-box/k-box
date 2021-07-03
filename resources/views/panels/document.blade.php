@@ -132,7 +132,7 @@
 <div class="meta abstract">
 	<h4 class="c-panel__section">{{trans('panels.abstract_section_title')}}</h4>
 
-	<x-markdown class="markdown--within bg-gray-100 p-1">{!! $item->abstract !!}</x-markdown>
+	<x-markdown class="bg-gray-100 p-1">{!! $item->abstract !!}</x-markdown>
 	
 </div>
 

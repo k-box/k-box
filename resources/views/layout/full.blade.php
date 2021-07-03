@@ -3,7 +3,7 @@
 @section('content')
 <div class="max-h-available-header relative">
 
-        <div class="py-2 border-b border-gray-400 text-sm flex flex-no-wrap">
+        <div class="py-2 border-b border-gray-400 text-sm flex flex-nowrap">
             <button title="{{ __('Open navigation sidebar') }}" class="js-drawer-trigger md:hidden mr-2 pr-2 inline-block hover:text-blue-500 focus:text-blue-700">
 				@materialicon('navigation', 'menu', 'fill-current m-0 p-0')
             </button>
@@ -18,7 +18,7 @@
         @endif
         
         @hasSection('action-menu')
-            <div id="action-bar" class="h-12 flex flex-no-wrap items-center py-1 actions js-drawer-action-bar mt-2">
+            <div id="action-bar" class="h-12 flex flex-nowrap items-center py-1 actions js-drawer-action-bar mt-2">
                 @yield('action-menu')
             </div>
         @endif
