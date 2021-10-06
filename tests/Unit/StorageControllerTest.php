@@ -16,6 +16,13 @@ class StorageControllerTest extends TestCase
     {
         $this->withKlinkAdapterFake();
 
+        $this->withExceptionHandling();
+
+        Option::put('dms.reindex.executing', false);
+        Option::put('dms.reindex.pending', 0);
+        Option::put('dms.reindex.completed', 0);
+        Option::put('dms.reindex.total', 0);
+
         $user = tap(factory(User::class)->create(), function ($u) {
             $u->addCapabilities(Capability::$ADMIN);
         });
