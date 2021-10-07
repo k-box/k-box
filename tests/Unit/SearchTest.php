@@ -7,11 +7,14 @@ use Tests\TestCase;
 use KBox\Traits\Searchable;
 use KBox\DocumentDescriptor;
 use Klink\DmsSearch\SearchRequest;
+use Illuminate\Http\Request as HttpRequest;
+use Symfony\Component\HttpFoundation\Request as BaseRequest;
 use Illuminate\Support\Collection;
 use KBox\Pagination\SearchResultsPaginator;
 use Klink\DmsAdapter\Fakes\FakeKlinkAdapter;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use KBox\Capability;
+use KBox\Sorter;
 use KBox\User;
 
 class SearchTest extends TestCase
@@ -182,7 +185,7 @@ class SearchTest extends TestCase
         $last_element = null;
 
         foreach ($document_names as $index => $title) {
-            $created = factory(\KBox\DocumentDescriptor::class)->create([
+            $created = factory(DocumentDescriptor::class)->create([
                 'title' => $title
             ]);
 
@@ -229,27 +232,36 @@ class SearchTest extends TestCase
         $this->assertEquals($interested_in->id, $first->id);
 
         // Now let's use a query builder instance instead of a Collection
-        $req = SearchRequest::create()
+
+        $requestForSorting = HttpRequest::createFromBase(
+            BaseRequest::create('http://search/', 'GET', [
+                'sc' => 'name',
+                'o' => 'a',
+            ])
+        );
+
+        $reqQuery = SearchRequest::create()
             ->limit($per_page)
+            ->setSorter(Sorter::fromRequest($requestForSorting))
             ->highlight($interested_in->id);
         
-        $docs = DocumentDescriptor::where('id', '>=', $first_element)->
+        $docsQuery = DocumentDescriptor::where('id', '>=', $first_element)->
                    where('id', '<=', $last_element)->orderBy('title', 'asc');
 
-        $results = $this->search($req, function ($_request) use ($docs) {
-            return $docs;
+        $resultsUsingQuery = $this->search($reqQuery, function ($_request) use ($docsQuery) {
+            return $docsQuery;
         });
 
-        $this->assertEquals($expected_page, $results->currentPage());
+        $this->assertEquals($expected_page, $resultsUsingQuery->currentPage());
         
-        $this->assertEquals($per_page, $results->perPage());
+        $this->assertEquals($per_page, $resultsUsingQuery->perPage());
 
-        $this->assertEquals($count, $results->total());
+        $this->assertEquals($count, $resultsUsingQuery->total());
         
-        $this->assertTrue($results->hasMorePages());
+        $this->assertTrue($resultsUsingQuery->hasMorePages());
 
-        $first = $results[$expected_position_in_page];
+        $firstUsingQuery = $resultsUsingQuery[$expected_position_in_page];
 
-        $this->assertEquals($interested_in->id, $first->id);
+        $this->assertEquals($interested_in->id, $firstUsingQuery->id);
     }
 }
