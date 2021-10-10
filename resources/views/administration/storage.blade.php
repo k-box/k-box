@@ -26,11 +26,11 @@
 
         <div class="widget widget-reindex hideable @if(!is_null($reindex)) visible @endif" id="import-status" rv-visible="isReindexing">
         
-            <p class="global" rv-text="status.status">{{ $reindex['status'] }}</p>
+            <p class="global" rv-text="status.status">{{ $reindex['status'] ?? '' }}</p>
 
 
             <div class="meter">
-                <div class="bar" rv-width="status.progress_percentage" style="width:{{$reindex['progress_percentage']}}%"></div>
+                <div class="bar" rv-width="status.progress_percentage" style="width:{{$reindex['progress_percentage'] ?? 0}}%"></div>
             </div>
 
         </div>
