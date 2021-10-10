@@ -74,7 +74,7 @@
                 x-data="AsyncForm()" 
                 x-on:submit.prevent="submit" 
                 @form-submitted="$dispatch('share-created', $event.detail || {});$dispatch('select-clear', {});"
-                class="flex" 
+                class="" 
                 action="{{route('shares.store')}}">
 
                 @csrf
@@ -83,23 +83,25 @@
                     <div class="c-message c-message--error" x-text="errors"></div>
                 </template>
 
-                <x-select2 name="users" 
-                    :documents="$documents"
-                    :collections="$groups"
-                    class="flex-grow"
-                    placeholder="{{ trans('share.dialog.select_users') }}" />
-
-                @foreach ($documents as $document)
-                    <input type="hidden" name="documents[]" value="{{ $document->getKey() }}">
-                @endforeach
-                @foreach ($groups as $group)
-                    <input type="hidden" name="groups[]" value="{{ $group->getKey() }}">
-                @endforeach
-            
-                <button type="submit" class="button items-center">
-                    <svg class="btn-icon mr-1" style="line-height: 38px;vertical-align: middle;margin-right: 6px;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-                    {{ trans('share.dialog.add_users') }}
-                </button>
+                <div class="flex">
+                    <x-select2 name="users" 
+                        :documents="$documents"
+                        :collections="$groups"
+                        class="flex-grow"
+                        placeholder="{{ trans('share.dialog.select_users') }}" />
+                    
+                    @foreach ($documents as $document)
+                        <input type="hidden" name="documents[]" value="{{ $document->getKey() }}">
+                    @endforeach
+                    @foreach ($groups as $group)
+                        <input type="hidden" name="groups[]" value="{{ $group->getKey() }}">
+                    @endforeach
+                    
+                    <button type="submit" class="button items-center">
+                        <svg class="btn-icon mr-1" style="line-height: 38px;vertical-align: middle;margin-right: 6px;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                        {{ trans('share.dialog.add_users') }}
+                    </button>
+                </div>
             </form>
         </div>
             
