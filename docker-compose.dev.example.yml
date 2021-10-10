@@ -9,7 +9,7 @@ networks:
 services:
   ## Database
   mariadb:
-    image: mariadb:10
+    image: mariadb:10.3
     environment:
       MYSQL_DATABASE: dms_test
       MYSQL_USER: dms
@@ -24,7 +24,7 @@ services:
 
   ## Database for unit tests
   # mariadb_test:
-  #   image: mariadb:10
+  #   image: mariadb:10.3
   #   environment:
   #     MYSQL_DATABASE: dms_test
   #     MYSQL_USER: dms

@@ -29,7 +29,7 @@ services:
       - "8081:80"
 
   database:
-    image: mariadb:10
+    image: mariadb:10.3
     environment:
       MYSQL_DATABASE: dms_test
       MYSQL_USER: dms
