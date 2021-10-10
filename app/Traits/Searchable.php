@@ -69,7 +69,7 @@ trait Searchable
 
                     $key = $row_count_query->select(DB::raw('@row:=@row+1 as row'), 'id')->get(['row', 'id'])
                           ->where('id', $to_highlight)->first()->row - 1; // row is base 1
-                      
+                    
                     $new_page = floor($key / $request->limit) + 1;
                 }
   
