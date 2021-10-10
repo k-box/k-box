@@ -30,7 +30,7 @@
     "production": "mix --production"
   },
   "dependencies": {
-    "axios": "^0.21.1",
+    "axios": "^0.21.2",
     "clipboard": "~1.7.1",
     "combokeys": "~2.4.6",
     "dropzone": "~4.3.0",
