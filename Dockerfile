@@ -14,6 +14,8 @@ FROM klinktech/k-box-ci-pipeline-php:7.4 AS builder
 ## * /var/www/dms/vendor/
 ## * /var/www/dms/public/
 
+LABEL kbox.builder="kbox"
+
 USER root
 RUN \
     rm -f /usr/local/etc/php/conf.d/docker-php-ext-pcov.ini
