@@ -7,15 +7,12 @@ use Tests\TestCase;
 use KBox\Capability;
 use KBox\RoutingHelpers;
 use KBox\DocumentDescriptor;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 /*
  * Test the RoutingHelpers class
 */
 class RoutingHelpersTest extends TestCase
 {
-    use DatabaseTransactions;
-    
     public function filter_search_data_provider()
     {
         return [

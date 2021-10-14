@@ -7,14 +7,12 @@ use Tests\TestCase;
 use KBox\DocumentDescriptor;
 use KBox\Documents\FileHelper;
 use Intervention\Image\Facades\Image as ImageFacade;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+
 use Illuminate\Support\Facades\Storage;
 use KBox\DocumentsElaboration\Actions\EnsureCorrectPictureOrientation;
 
 class EnsureCorrectPictureOrientationTest extends TestCase
 {
-    use DatabaseTransactions;
-
     private function createImageDescriptor($test_file)
     {
         Storage::fake('local');

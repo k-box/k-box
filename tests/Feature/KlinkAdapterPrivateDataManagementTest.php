@@ -7,12 +7,9 @@ use Klink\DmsAdapter\KlinkDocument;
 use Klink\DmsAdapter\KlinkSearchResultItem;
 use Klink\DmsAdapter\KlinkDocumentDescriptor;
 use Klink\DmsAdapter\Exceptions\KlinkException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class KlinkAdapterPrivateDataManagementTest extends TestCase
 {
-    use DatabaseTransactions;
-
     protected function setUp(): void
     {
         parent::setUp();

@@ -9,12 +9,9 @@ use KBox\Capability;
 use KBox\Mail\TestingMail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Artisan;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class MailAdministrationControllerTest extends TestCase
 {
-    use DatabaseTransactions;
-
     public function testMailIsEnabledWithLogDriver()
     {
         Option::remove('mail.host');

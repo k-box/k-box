@@ -10,15 +10,13 @@ use Klink\DmsSearch\SearchRequest;
 use Klink\DmsSearch\SearchService;
 use Klink\DmsAdapter\KlinkFacetsBuilder;
 use Illuminate\Http\Request as HttpRequest;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+
 use KBox\Sorter;
 use KSearchClient\Model\Search\SortParam;
 use Symfony\Component\HttpFoundation\Request as BaseRequest;
 
 class SearchRequestTest extends TestCase
 {
-    use DatabaseTransactions;
-
     private function createValidHttpRequest($params)
     {
         return HttpRequest::createFromBase(

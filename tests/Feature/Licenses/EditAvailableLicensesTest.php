@@ -6,11 +6,10 @@ use KBox\Option;
 use Tests\TestCase;
 use OneOffTech\Licenses\License;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class EditAvailableLicensesTest extends TestCase
 {
-    use DatabaseTransactions, WithoutMiddleware;
+    use  WithoutMiddleware;
 
     public function test_at_least_one_license_is_selected()
     {

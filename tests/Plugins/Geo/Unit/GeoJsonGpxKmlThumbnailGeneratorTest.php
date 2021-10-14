@@ -8,7 +8,7 @@ use Tests\TestCase;
 use KBox\Geo\Gdal\Gdal;
 use KBox\Documents\FileHelper;
 use KBox\Documents\Thumbnail\ThumbnailImage;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+
 use KBox\Geo\Thumbnails\GeoJsonGpxKmlThumbnailGenerator;
 
 /**
@@ -16,8 +16,6 @@ use KBox\Geo\Thumbnails\GeoJsonGpxKmlThumbnailGenerator;
  */
 class GeoJsonGpxKmlThumbnailGeneratorTest extends TestCase
 {
-    use DatabaseTransactions;
-
     protected function createFileForPath($path)
     {
         list($mimeType) = FileHelper::type($path);

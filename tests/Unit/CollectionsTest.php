@@ -10,12 +10,9 @@ use Tests\TestCase;
 use KBox\Capability;
 use KBox\Exceptions\ForbiddenException;
 use KBox\Documents\Services\DocumentsService;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class CollectionsTest extends TestCase
 {
-    use DatabaseTransactions;
-
     public function test_trashing_personal_collections_trash_also_descendants()
     {
         $service = app(DocumentsService::class);

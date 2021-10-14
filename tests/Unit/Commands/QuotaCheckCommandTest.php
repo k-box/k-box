@@ -4,12 +4,12 @@ namespace Tests\Unit\Commands;
 
 use Tests\TestCase;
 use Tests\Concerns\ClearDatabase;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+
 use KBox\User;
 
 class QuotaCheckCommandTest extends TestCase
 {
-    use ClearDatabase, DatabaseTransactions;
+    use ClearDatabase;
 
     public function test_quota_is_checked_for_all_users()
     {

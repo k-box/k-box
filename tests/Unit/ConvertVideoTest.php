@@ -8,13 +8,10 @@ use Tests\TestCase;
 use KBox\Jobs\ConvertVideo;
 use KBox\DocumentDescriptor;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Mockery;
 
 class ConvertVideoTest extends TestCase
 {
-    use DatabaseTransactions;
-
     protected function setUp(): void
     {
         parent::setUp();

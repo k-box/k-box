@@ -4,12 +4,9 @@ namespace Tests\Feature;
 
 use KBox\File;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class RefreshFileMimeTypeCommandTest extends TestCase
 {
-    use DatabaseTransactions;
-    
     public function test_file_mime_type_updated()
     {
         $file = factory(File::class)->create([

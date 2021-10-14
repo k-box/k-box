@@ -4,7 +4,7 @@ namespace Tests\Feature;
 
 use Carbon\Carbon;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Storage;
 use KBox\DocumentDescriptor;
@@ -18,8 +18,6 @@ use ZipArchive;
 
 class ExportPublicDocumentsCommandTest extends TestCase
 {
-    use DatabaseTransactions;
-    
     public function test_csv_with_document_listing_is_generated()
     {
         Storage::fake('app');

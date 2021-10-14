@@ -7,12 +7,9 @@ use Tests\TestCase;
 use Illuminate\Http\Request;
 use KBox\Http\Middleware\VerifyFlag;
 use Illuminate\Testing\TestResponse;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class VerifyFlagMiddlewareTest extends TestCase
 {
-    use DatabaseTransactions;
-
     public function test_request_denied_if_flag_disabled()
     {
         Flags::disable(Flags::PLUGINS);

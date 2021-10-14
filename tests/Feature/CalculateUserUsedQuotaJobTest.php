@@ -3,7 +3,7 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+
 use KBox\Capability;
 use KBox\File;
 use KBox\Jobs\CalculateUserUsedQuota;
@@ -12,8 +12,6 @@ use KBox\UserQuota;
 
 class CalculateUserUsedQuotaJobTest extends TestCase
 {
-    use DatabaseTransactions;
-
     public function test_user_used_quota_is_calculated()
     {
         $user = tap(factory(User::class)->create(), function ($u) {

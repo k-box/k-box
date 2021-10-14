@@ -7,12 +7,9 @@ use Tests\TestCase;
 use KBox\Events\FileDeleted;
 use KBox\Events\FileRestored;
 use Illuminate\Support\Facades\Event;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class FileEventsTest extends TestCase
 {
-    use DatabaseTransactions;
-    
     public function test_deleted_event_fired_for_file_trash()
     {
         Event::fake();

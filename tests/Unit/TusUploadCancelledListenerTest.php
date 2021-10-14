@@ -12,12 +12,9 @@ use KBox\DocumentDescriptor;
 use OneOffTech\TusUpload\TusUpload;
 use KBox\Listeners\TusUploadCancelledHandler;
 use OneOffTech\TusUpload\Events\TusUploadCancelled;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class TusUploadCancelledListenerTest extends TestCase
 {
-    use DatabaseTransactions;
-
     protected function setUp(): void
     {
         parent::setUp();

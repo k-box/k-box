@@ -6,12 +6,9 @@ use Tests\TestCase;
 use KBox\Option;
 use KBox\Facades\KlinkStreaming;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class KlinkStreamingTest extends TestCase
 {
-    use DatabaseTransactions;
-
     protected function setUp(): void
     {
         parent::setUp();

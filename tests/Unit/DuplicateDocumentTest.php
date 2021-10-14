@@ -7,12 +7,9 @@ use Tests\TestCase;
 use KBox\Capability;
 use KBox\RoutingHelpers;
 use KBox\DuplicateDocument;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class DuplicateDocumentTest extends TestCase
 {
-    use DatabaseTransactions;
-
     public function test_sent_return_true_when_notification_sent_at_has_a_value()
     {
         $d = (new DuplicateDocument())->forceFill([

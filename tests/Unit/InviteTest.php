@@ -5,7 +5,7 @@ namespace Tests\Unit;
 use Illuminate\Auth\Access\AuthorizationException;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+
 use Illuminate\Support\Facades\Event;
 use KBox\Capability;
 use KBox\Events\UserInviteAccepted;
@@ -17,8 +17,7 @@ use KBox\User;
 class InviteTest extends TestCase
 {
     use WithFaker;
-    use DatabaseTransactions;
-
+    
     public function test_invite_is_generated()
     {
         $user = tap(factory(User::class)->create(), function ($u) {

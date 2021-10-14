@@ -6,12 +6,9 @@ use KBox\User;
 use KBox\Option;
 use Tests\TestCase;
 use KBox\Capability;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class StorageControllerTest extends TestCase
 {
-    use DatabaseTransactions;
-    
     public function test_storage_administration_page_can_be_viewed()
     {
         $this->withKlinkAdapterFake();

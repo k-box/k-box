@@ -4,11 +4,10 @@ namespace Tests\Unit;
 
 use Tests\TestCase;
 use Tests\Concerns\ClearDatabase;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class KlinkApiControllerTest extends TestCase
 {
-    use ClearDatabase, DatabaseTransactions;
+    use ClearDatabase;
 
     public function test_klink_route_redirect_to_preview_with_uuid()
     {

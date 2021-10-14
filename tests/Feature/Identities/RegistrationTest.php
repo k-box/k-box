@@ -2,7 +2,6 @@
 
 namespace Tests\Feature\Identities;
 
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\Session;
 use KBox\Capability;
 use KBox\Invite;
@@ -15,8 +14,6 @@ use Tests\TestCase;
 
 class RegistrationTest extends TestCase
 {
-    use DatabaseTransactions;
-    
     public function test_social_registration_forbidden_if_registration_is_disabled()
     {
         config(['registration.enable' => false]);

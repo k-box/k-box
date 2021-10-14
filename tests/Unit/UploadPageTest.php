@@ -5,13 +5,11 @@ namespace Tests\Unit;
 use Tests\TestCase;
 use DmsRouting;
 use KBox\Capability;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+
 use KBox\Group;
 
 class UploadPageTest extends TestCase
 {
-    use DatabaseTransactions;
-
     public function test_upload_page_shows_private_target()
     {
         $user = factory(\KBox\User::class)->state('partner')->create();

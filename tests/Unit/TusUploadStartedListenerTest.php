@@ -11,13 +11,10 @@ use KBox\DocumentDescriptor;
 use OneOffTech\TusUpload\TusUpload;
 use KBox\Listeners\TusUploadStartedHandler;
 use OneOffTech\TusUpload\Events\TusUploadStarted;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use KBox\Group;
 
 class TusUploadStartedListenerTest extends TestCase
 {
-    use DatabaseTransactions;
-
     private function createEvent($userId = 1, $requestId = '14b1c4c77771671a8479bc0444bbc5ce', $collection = null)
     {
         $upload = TusUpload::forceCreate([

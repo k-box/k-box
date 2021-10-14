@@ -8,11 +8,10 @@ use Klink\DmsAdapter\KlinkSearchRequest;
 use Klink\DmsAdapter\KlinkSearchResults;
 use Klink\DmsAdapter\Fakes\FakeKlinkAdapter;
 use Klink\DmsAdapter\KlinkDocumentDescriptor;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class FakeKlinkAdapterTest extends TestCase
 {
-    use DatabaseTransactions; // because the model factories depends on the database for some fields
+    // because the model factories depends on the database for some fields
 
     public function test_add_document_increases_indexing_counter()
     {

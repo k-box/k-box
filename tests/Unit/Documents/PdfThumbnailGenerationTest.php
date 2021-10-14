@@ -8,7 +8,7 @@ use Tests\TestCase;
 use KBox\Documents\FileHelper;
 use KBox\Documents\Thumbnail\ThumbnailImage;
 use KBox\Documents\Thumbnail\PdfThumbnailGenerator;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+
 use Illuminate\Support\Facades\Storage;
 
 /**
@@ -16,8 +16,6 @@ use Illuminate\Support\Facades\Storage;
  */
 class PdfThumbnailGenerationTest extends TestCase
 {
-    use DatabaseTransactions;
-
     protected function createFileForPath($path)
     {
         list($mimeType) = FileHelper::type($path);

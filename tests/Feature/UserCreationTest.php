@@ -10,14 +10,13 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Notification;
 use KBox\Notifications\UserCreatedNotification;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 /**
  * Tests the UserAdministrationController::create and store
 */
 class UserCreationTest extends TestCase
 {
-    use DatabaseTransactions, WithoutMiddleware;
+    use  WithoutMiddleware;
 
     private function validParams($params)
     {

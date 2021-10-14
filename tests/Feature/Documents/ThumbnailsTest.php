@@ -6,12 +6,9 @@ use Tests\TestCase;
 use KBox\File;
 use KBox\Documents\Facades\Files;
 use KBox\Documents\Facades\Thumbnails;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class ThumbnailsTest extends TestCase
 {
-    use DatabaseTransactions;
-
     public function data_document_provider()
     {
         return [

@@ -3,7 +3,7 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+
 use Illuminate\Support\Facades\View;
 use KBox\Capability;
 use KBox\User;
@@ -11,8 +11,6 @@ use KBox\UserQuota;
 
 class QuotaWidgetTest extends TestCase
 {
-    use DatabaseTransactions;
-
     public function test_quota_widget_is_defined()
     {
         $this->assertTrue(View::exists('quota.widget'));

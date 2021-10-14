@@ -2,8 +2,6 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-
 use KBox\DocumentDescriptor;
 use KBox\Documents\Services\DocumentsService;
 use KBox\Jobs\PublishDocumentJob;
@@ -13,8 +11,6 @@ use Tests\TestCase;
 
 class PublishDocumentJobTest extends TestCase
 {
-    use DatabaseTransactions;
-
     public function test_failed_publications_can_be_retried()
     {
         $this->withKlinkAdapterFake();

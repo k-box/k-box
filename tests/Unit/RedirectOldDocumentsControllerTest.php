@@ -3,15 +3,13 @@
 namespace Tests\Unit;
 
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+
 use KBox\Capability;
 use KBox\DocumentDescriptor;
 use KBox\User;
 
 class RedirectOldDocumentsControllerTest extends TestCase
 {
-    use DatabaseTransactions;
-
     public function test_preview_page_reachable_using_old_institution_url()
     {
         $this->withKlinkAdapterFake();

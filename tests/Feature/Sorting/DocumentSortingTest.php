@@ -3,7 +3,7 @@
 namespace Tests\Feature\Sorting;
 
 use Carbon\Carbon;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+
 use KBox\Capability;
 use KBox\DocumentDescriptor;
 use KBox\Shared;
@@ -13,8 +13,6 @@ use Tests\TestCase;
 
 class DocumentSortingTest extends TestCase
 {
-    use DatabaseTransactions;
-
     public function sorting_direction()
     {
         return [

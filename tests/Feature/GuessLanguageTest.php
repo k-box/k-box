@@ -5,12 +5,9 @@ namespace Tests\Feature;
 use Tests\TestCase;
 use KBox\Documents\Facades\Files;
 use KBox\DocumentsElaboration\Actions\GuessLanguage;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class GuessLanguageTest extends TestCase
 {
-    use DatabaseTransactions;
-
     private function generateDescriptorForFile($path)
     {
         list($mime) = Files::recognize($path);

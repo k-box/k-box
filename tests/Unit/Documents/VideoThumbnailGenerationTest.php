@@ -8,12 +8,9 @@ use KBox\Documents\FileHelper;
 use Illuminate\Support\Facades\Storage;
 use KBox\Documents\Thumbnail\ThumbnailImage;
 use KBox\Documents\Thumbnail\VideoThumbnailGenerator;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class VideoThumbnailGenerationTest extends TestCase
 {
-    use DatabaseTransactions;
-
     protected function createFileForPath($path)
     {
         list($mimeType) = FileHelper::type($path);

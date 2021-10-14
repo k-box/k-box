@@ -10,12 +10,9 @@ use KBox\HomeRoute;
 use Tests\TestCase;
 use KBox\Capability;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class GetHomeRouteTest extends TestCase
 {
-    use DatabaseTransactions;
-
     public function expected_route_for_capabilities()
     {
         return [

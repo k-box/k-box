@@ -8,12 +8,9 @@ use Tests\TestCase;
 use KBox\Capability;
 use KBox\Publication;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class DocumentThumbnailControllerTest extends TestCase
 {
-    use DatabaseTransactions;
-    
     public function test_thumbnail_for_document_in_project_when_user_has_access_to_the_project()
     {
         $this->withKlinkAdapterFake();

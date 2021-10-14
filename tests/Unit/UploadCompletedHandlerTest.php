@@ -11,14 +11,14 @@ use Tests\Concerns\ClearDatabase;
 use Illuminate\Support\Facades\Event;
 use KBox\Events\FileDuplicateFoundEvent;
 use KBox\Listeners\UploadCompletedHandler;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+
 use Illuminate\Support\Facades\Bus;
 use KBox\DocumentsElaboration\Facades\DocumentElaboration;
 use KBox\Jobs\CalculateUserUsedQuota;
 
 class UploadCompletedHandlerTest extends TestCase
 {
-    use DatabaseTransactions, ClearDatabase;
+    use ClearDatabase;
 
     public function test_elaborate_document_is_dispatched()
     {

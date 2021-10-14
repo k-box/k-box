@@ -3,7 +3,6 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 use KBox\Capability;
 use KBox\User;
@@ -15,8 +14,6 @@ use Carbon\Carbon;
 
 class PublicLinksTest extends TestCase
 {
-    use DatabaseTransactions;
-
     public function user_provider()
     {
         return [

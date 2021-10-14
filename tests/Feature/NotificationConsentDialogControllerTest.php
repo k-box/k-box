@@ -9,12 +9,9 @@ use KBox\Consents;
 use Tests\TestCase;
 use KBox\Capability;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class NotificationConsentDialogControllerTest extends TestCase
 {
-    use DatabaseTransactions;
-
     public function test_dialog_can_be_dismissed()
     {
         Storage::fake('app');

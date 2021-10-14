@@ -7,12 +7,9 @@ use KBox\Project;
 use Tests\TestCase;
 use KBox\Capability;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class ProjectAvatarsTest extends TestCase
 {
-    use DatabaseTransactions;
-    
     public function expected_routes_provider()
     {
         return [

@@ -5,12 +5,9 @@ namespace Tests\Feature;
 use Markdown;
 use Tests\TestCase;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class TermsPageControllerTest extends TestCase
 {
-    use DatabaseTransactions;
-
     public function test_terms_page_is_presented_if_defined()
     {
         Storage::fake('app');

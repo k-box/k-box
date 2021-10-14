@@ -10,7 +10,7 @@ use KBox\Capability;
 use Tests\TestCase;
 use Illuminate\Support\Collection;
 use KBox\Documents\Services\DocumentsService;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+
 use KBox\DocumentDescriptor;
 use KBox\Exceptions\ForbiddenException;
 
@@ -19,8 +19,6 @@ use KBox\Exceptions\ForbiddenException;
 */
 class CollectionsTest extends TestCase
 {
-    use DatabaseTransactions;
-    
     public function user_provider_admin_project()
     {
         return [

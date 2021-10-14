@@ -4,14 +4,12 @@ namespace Tests\Feature;
 
 use KBox\User;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+
 use Illuminate\Support\Facades\Notification;
 use KBox\Notifications\ResetPasswordNotification;
 
 class UserAdministrationTest extends TestCase
 {
-    use DatabaseTransactions;
-
     public function test_admin_can_retrieve_users()
     {
         $user = factory(User::class)->states('admin')->create();

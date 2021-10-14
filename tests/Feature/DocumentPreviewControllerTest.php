@@ -7,13 +7,10 @@ use Carbon\Carbon;
 use Tests\TestCase;
 use KBox\Capability;
 use KBox\Publication;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class DocumentPreviewControllerTest extends TestCase
 {
-    use DatabaseTransactions;
-    
     public function test_preview_is_loaded_for_document_in_project_when_user_has_access_to_the_project()
     {
         $this->withKlinkAdapterFake();

@@ -4,7 +4,6 @@ namespace Tests\Feature;
 
 use Tests\TestCase;
 use KBox\Capability;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Event;
 use KBox\Events\CollectionCreated;
@@ -15,8 +14,6 @@ use KBox\User;
 
 class CollectionControllerTest extends TestCase
 {
-    use DatabaseTransactions;
-    
     public function test_move_from_project_to_personal_is_permitted()
     {
         Bus::fake();

@@ -4,7 +4,7 @@ namespace Tests\Feature;
 
 use Illuminate\Console\OutputStyle;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+
 use Illuminate\Support\Facades\Bus;
 use KBox\DocumentDescriptor;
 use KBox\Option;
@@ -26,7 +26,7 @@ use Tests\Concerns\ClearDatabase;
 
 class DmsUpdateCommandTest extends TestCase
 {
-    use DatabaseTransactions, ClearDatabase;
+    use ClearDatabase;
 
     protected function setUp(): void
     {

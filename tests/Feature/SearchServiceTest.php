@@ -7,13 +7,11 @@ use Klink\DmsSearch\SearchRequest;
 use Klink\DmsAdapter\KlinkSearchResults;
 use Klink\DmsAdapter\KlinkSearchRequest;
 use Illuminate\Http\Request as HttpRequest;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+
 use Symfony\Component\HttpFoundation\Request as BaseRequest;
 
 class SearchServiceTest extends TestCase
 {
-    use DatabaseTransactions;
-    
     private function createValidHttpRequest($params)
     {
         return HttpRequest::createFromBase(

@@ -2,14 +2,11 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use KBox\User;
 use Tests\TestCase;
 
 class AdministrationDashboardTest extends TestCase
 {
-    use DatabaseTransactions;
-    
     public function test_administrator_sees_admin_link_in_header()
     {
         $user = factory(User::class)->state('admin')->create();

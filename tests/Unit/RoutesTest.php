@@ -5,15 +5,12 @@ namespace Tests\Unit;
 use KBox\User;
 use Tests\TestCase;
 use KBox\Capability;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 /*
  * Basic tests of GET routes that requires the user to be authenticated or not
 */
 class RoutesTest extends TestCase
 {
-    use DatabaseTransactions;
-    
     public function routes_provider()
     {
         return [

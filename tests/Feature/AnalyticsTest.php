@@ -9,12 +9,9 @@ use KBox\Consent;
 use KBox\Option;
 use KBox\Consents;
 use KBox\Support\Analytics\Analytics;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class AnalyticsTest extends TestCase
 {
-    use DatabaseTransactions;
-
     public function test_tracking_not_included_for_guest_users()
     {
         $response = $this->get('/');

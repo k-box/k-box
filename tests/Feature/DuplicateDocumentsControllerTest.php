@@ -4,14 +4,12 @@ namespace Tests\Feature;
 
 use Tests\TestCase;
 use KBox\DuplicateDocument;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+
 use KBox\DocumentDescriptor;
 use KBox\Group;
 
 class DuplicateDocumentsControllerTest extends TestCase
 {
-    use DatabaseTransactions;
-
     private function createDuplicates($user, $count = 1, $options = [])
     {
         return factory(DuplicateDocument::class, $count)->create($options);

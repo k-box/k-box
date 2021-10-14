@@ -7,7 +7,6 @@ use KBox\Project;
 use Tests\TestCase;
 use KBox\Capability;
 use KBox\Traits\Searchable;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 /**
  * Test the Projects page for the Unified Search (routes documents.projects.*)
@@ -15,7 +14,6 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 class ProjectsPageControllerTest extends TestCase
 {
     use Searchable;
-    use DatabaseTransactions;
     
     public function expected_routes_provider()
     {

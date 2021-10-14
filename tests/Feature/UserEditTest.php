@@ -5,15 +5,12 @@ namespace Tests\Feature;
 use KBox\User;
 use Tests\TestCase;
 use KBox\Capability;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 /**
  * Tests the UserAdministrationController::edit and update
 */
 class UserEditTest extends TestCase
 {
-    use DatabaseTransactions;
-
     private function validUpdateParams(User $user, $params)
     {
         return array_merge([

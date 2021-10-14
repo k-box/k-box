@@ -8,7 +8,7 @@ use KBox\User;
 use KBox\Project;
 use KBox\Capability;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+
 use Illuminate\Support\Facades\Mail;
 use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\BufferedOutput;
@@ -21,8 +21,6 @@ use RuntimeException;
 */
 class UserImportCommandTest extends TestCase
 {
-    use DatabaseTransactions;
-    
     public function user_provider_for_editpage_public_checkbox_test()
     {
         return [

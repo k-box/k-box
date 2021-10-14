@@ -2,14 +2,11 @@
 
 namespace Tests\Feature\Identities;
 
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use KBox\User;
 use Tests\TestCase;
 
 class ConnectedIdentitiesMenuTest extends TestCase
 {
-    use DatabaseTransactions;
-    
     public function test_connected_identities_menu_is_visible()
     {
         config(['identities.providers' => 'gitlab']);

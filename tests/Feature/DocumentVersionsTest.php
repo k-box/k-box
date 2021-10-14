@@ -6,7 +6,7 @@ use KBox\File;
 use Tests\TestCase;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Event;
 use KBox\Capability;
@@ -18,7 +18,7 @@ use KBox\User;
 
 class DocumentVersionsTest extends TestCase
 {
-    use WithoutMiddleware, DatabaseTransactions;
+    use WithoutMiddleware;
 
     public function test_version_show_redirects_to_document_preview_route()
     {

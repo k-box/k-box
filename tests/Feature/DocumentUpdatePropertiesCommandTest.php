@@ -3,14 +3,12 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+
 use Artisan;
 use Illuminate\Support\Facades\Storage;
 
 class DocumentUpdatePropertiesCommandTest extends TestCase
 {
-    use DatabaseTransactions;
-
     public function test_that_document_update_command_updates_video_properties()
     {
         $this->withKlinkAdapterMock();

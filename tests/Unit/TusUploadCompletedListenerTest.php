@@ -14,12 +14,9 @@ use OneOffTech\TusUpload\TusUpload;
 use Illuminate\Support\Facades\Event;
 use KBox\Listeners\TusUploadCompletedHandler;
 use OneOffTech\TusUpload\Events\TusUploadCompleted;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class TusUploadCompletedListenerTest extends TestCase
 {
-    use DatabaseTransactions;
-
     protected function setUp(): void
     {
         parent::setUp();

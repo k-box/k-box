@@ -7,12 +7,9 @@ use KBox\DocumentDescriptor;
 use Illuminate\Support\Facades\Event;
 use KBox\Events\DocumentDescriptorDeleted;
 use KBox\Events\DocumentDescriptorRestored;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class DocumentDescriptorEventsTest extends TestCase
 {
-    use DatabaseTransactions;
-    
     public function test_deleted_event_fired_for_document_trash()
     {
         Event::fake();

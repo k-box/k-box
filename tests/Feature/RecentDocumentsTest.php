@@ -9,11 +9,10 @@ use KBox\Capability;
 use Klink\DmsAdapter\KlinkSearchRequest;
 use Klink\DmsAdapter\KlinkSearchResults;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class RecentDocumentsTest extends TestCase
 {
-    use DatabaseTransactions, WithoutMiddleware;
+    use  WithoutMiddleware;
 
     public function recent_date_range_provider()
     {

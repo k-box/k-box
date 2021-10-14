@@ -3,7 +3,7 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+
 use Illuminate\Support\Facades\Config;
 use KBox\Capability;
 use KBox\Invite;
@@ -11,8 +11,6 @@ use KBox\User;
 
 class InvitesControllerTest extends TestCase
 {
-    use DatabaseTransactions;
-    
     public function test_invites_are_listed()
     {
         $user = tap(factory(User::class)->create(), function ($u) {

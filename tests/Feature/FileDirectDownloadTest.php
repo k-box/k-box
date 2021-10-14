@@ -5,12 +5,12 @@ namespace Tests\Feature;
 use Tests\TestCase;
 use KBox\File;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class FileDirectDownloadTest extends TestCase
 {
-    use DatabaseTransactions, WithoutMiddleware;
+    use  WithoutMiddleware;
 
     public function test_file_downloaded_forbidden_without_token()
     {

@@ -2,7 +2,6 @@
 
 namespace Tests\Feature\Identities;
 
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use KBox\Capability;
 use KBox\Identity;
 use KBox\User;
@@ -10,8 +9,6 @@ use Tests\TestCase;
 
 class UserIdentitiesControllerTest extends TestCase
 {
-    use DatabaseTransactions;
-    
     public function test_authentication_required_to_visit_connected_identities_page()
     {
         $response = $this->get(route('profile.identities.index'));

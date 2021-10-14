@@ -8,12 +8,9 @@ use KBox\Starred;
 use Tests\TestCase;
 use KBox\Capability;
 use KBox\DocumentDescriptor;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class StarredTest extends TestCase
 {
-    use DatabaseTransactions;
-
     public function user_provider()
     {
         return [

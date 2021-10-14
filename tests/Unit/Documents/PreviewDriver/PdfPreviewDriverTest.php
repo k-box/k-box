@@ -6,14 +6,12 @@ use Tests\TestCase;
 use KBox\File;
 use KBox\DocumentDescriptor;
 use KBox\Documents\FileHelper;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+
 use KBox\Documents\Preview\PdfPreviewDriver;
 use Illuminate\Contracts\Support\Renderable;
 
 class PdfPreviewDriverTest extends TestCase
 {
-    use DatabaseTransactions;
-
     protected function createFileForPath($path)
     {
         list($mimeType) = FileHelper::type($path);

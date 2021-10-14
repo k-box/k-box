@@ -5,12 +5,9 @@ namespace Tests\Feature;
 use Tests\TestCase;
 use KBox\Facades\Quota;
 use KBox\Services\Quota as QuotaService;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class QuotaTest extends TestCase
 {
-    use DatabaseTransactions;
-
     public function quota_value_provider()
     {
         return [

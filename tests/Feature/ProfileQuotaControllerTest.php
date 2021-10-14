@@ -4,14 +4,12 @@ namespace Tests\Feature;
 
 use KBox\UserQuota;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+
 use Illuminate\Support\Facades\Queue;
 use KBox\Jobs\CalculateUserUsedQuota;
 
 class ProfileQuotaControllerTest extends TestCase
 {
-    use DatabaseTransactions;
-
     public function test_storage_profile_shows_current_status_when_user_quota_present()
     {
         $quota = factory(UserQuota::class)->create([

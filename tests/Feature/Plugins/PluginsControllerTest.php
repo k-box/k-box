@@ -11,13 +11,11 @@ use KBox\Plugins\PluginManifest;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Storage;
 use Klink\DmsAdapter\Traits\SwapInstance;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class PluginsControllerTest extends TestCase
 {
     use SwapInstance;
-    use DatabaseTransactions;
-
+    
     protected function setUp(): void
     {
         parent::setUp();

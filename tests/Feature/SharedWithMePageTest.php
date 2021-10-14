@@ -3,7 +3,7 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+
 use KBox\Capability;
 use KBox\Documents\Services\DocumentsService;
 use KBox\Group;
@@ -13,8 +13,6 @@ use KBox\User;
 
 class SharedWithMePageTest extends TestCase
 {
-    use DatabaseTransactions;
-
     public function test_shared_with_me_are_listed()
     {
         $this->withoutMiddleware();

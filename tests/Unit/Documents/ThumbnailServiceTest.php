@@ -13,14 +13,14 @@ use KBox\Documents\Services\ThumbnailsService;
 use KBox\Documents\Thumbnail\PdfThumbnailGenerator;
 use KBox\Documents\Thumbnail\ImageThumbnailGenerator;
 use KBox\Documents\Thumbnail\VideoThumbnailGenerator;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+
 use KBox\Documents\Exceptions\UnsupportedFileException;
 use KBox\Jobs\ThumbnailGenerationJob;
 use KBox\Documents\Contracts\ThumbnailGenerator as ThumbnailGeneratorContract;
 
 class ThumbnailServiceTest extends TestCase
 {
-    use DatabaseTransactions, SwapInstance;
+    use  SwapInstance;
 
     public function mime_type_and_fallback_thumbnail_provider()
     {

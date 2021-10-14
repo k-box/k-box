@@ -11,12 +11,9 @@ use Klink\DmsAdapter\KlinkSearchResultItem;
 use Klink\DmsAdapter\KlinkFacets;
 use Klink\DmsAdapter\KlinkFilters;
 use KSearchClient\Model\Search\AggregationResult;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class KlinkAdapterSearchTest extends TestCase
 {
-    use DatabaseTransactions;
-
     private $adapter = null;
 
     private $indexedDataUUIDs = null;

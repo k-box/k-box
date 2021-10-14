@@ -6,7 +6,7 @@ use KBox\File;
 use Tests\TestCase;
 use Illuminate\Support\Facades\DB;
 use KBox\Console\Commands\OrphanFilesCommand;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+
 use Illuminate\Support\Facades\Schema;
 use KBox\Capability;
 use KBox\DocumentDescriptor;
@@ -17,8 +17,6 @@ use KBox\User;
  */
 class OrphanFilesCommandTest extends TestCase
 {
-    use DatabaseTransactions;
-
     protected function setUp(): void
     {
         parent::setUp();

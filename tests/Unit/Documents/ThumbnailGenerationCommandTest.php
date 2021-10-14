@@ -4,7 +4,7 @@ namespace Tests\Unit\Documents;
 
 use Artisan;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+
 use KBox\File;
 use KBox\DocumentDescriptor;
 use KBox\Documents\Facades\Files;
@@ -12,8 +12,6 @@ use KBox\Console\Commands\ThumbnailGenerationCommand;
 
 class ThumbnailGenerationCommandTest extends TestCase
 {
-    use DatabaseTransactions;
-    
     public function testThumbnailGenerationConsole()
     {
         $real_path = base_path('tests/data/project-avatar.png');

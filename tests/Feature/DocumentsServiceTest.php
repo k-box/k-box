@@ -8,7 +8,7 @@ use Tests\TestCase;
 use KBox\Capability;
 use KBox\DocumentDescriptor;
 use Klink\DmsAdapter\KlinkVisibilityType;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+
 use Illuminate\Support\Facades\Event;
 use KBox\DocumentGroups;
 use KBox\Documents\Services\DocumentsService;
@@ -21,8 +21,6 @@ use KBox\Shared;
 */
 class DocumentsServiceTest extends TestCase
 {
-    use DatabaseTransactions;
-
     public function user_provider_no_guest()
     {
         return [

@@ -10,12 +10,9 @@ use Tests\TestCase;
 use KBox\Capability;
 use KBox\Publication;
 use KBox\DocumentDescriptor;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class DocumentEmbedControllerTest extends TestCase
 {
-    use DatabaseTransactions;
-    
     public function test_embed_is_loaded_for_document_in_project_when_user_has_access_to_the_project()
     {
         $this->withKlinkAdapterFake();

@@ -7,14 +7,14 @@ use KBox\Project;
 use Tests\TestCase;
 use KBox\Capability;
 use Tests\Concerns\ClearDatabase;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+
 use Illuminate\Support\Facades\Event;
 use KBox\Events\ProjectMembersAdded;
 use KBox\Events\ProjectMembersRemoved;
 
 class ProjectMembersTest extends TestCase
 {
-    use DatabaseTransactions, ClearDatabase;
+    use ClearDatabase;
 
     private function createUser($capabilities, $userParams = [])
     {

@@ -5,14 +5,12 @@ namespace Tests\Unit\Documents\PreviewDriver;
 use Tests\TestCase;
 use KBox\File;
 use KBox\Documents\FileHelper;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+
 use KBox\Documents\Preview\MarkdownPreview;
 use Illuminate\Contracts\Support\Renderable;
 
 class MarkdownPreviewTest extends TestCase
 {
-    use DatabaseTransactions;
-
     protected function createFileForPath($path)
     {
         list($mimeType) = FileHelper::type($path);

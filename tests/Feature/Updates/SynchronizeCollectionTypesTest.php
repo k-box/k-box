@@ -2,15 +2,12 @@
 
 namespace Tests\Feature\Updates;
 
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use KBox\Group;
 use KBox\Jobs\Updates\SynchronizeCollectionTypes;
 use Tests\TestCase;
 
 class SynchronizeCollectionTypesTest extends TestCase
 {
-    use DatabaseTransactions;
-    
     public function test_collection_type_applied()
     {
         $personalCollection = factory(Group::class)->create([

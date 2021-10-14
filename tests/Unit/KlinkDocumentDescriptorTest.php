@@ -9,12 +9,9 @@ use KSearchClient\Model\Data\Author;
 use KSearchClient\Model\Data\Properties\Video;
 use KSearchClient\Model\Data\Properties\Streaming;
 use Klink\DmsAdapter\KlinkDocumentDescriptor;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class KlinkDocumentDescriptorTest extends TestCase
 {
-    use DatabaseTransactions;
-
     public function test_private_document_descriptor_can_be_converted_to_ksearch_data()
     {
         $descriptor = factory(\KBox\DocumentDescriptor::class)->create([

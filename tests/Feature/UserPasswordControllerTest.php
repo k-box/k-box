@@ -7,12 +7,9 @@ use Tests\TestCase;
 use KBox\Capability;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Auth\Events\PasswordReset;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class UserPasswordControllerTest extends TestCase
 {
-    use DatabaseTransactions;
-
     public function capabilities_provider()
     {
         return [

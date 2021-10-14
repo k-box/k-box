@@ -4,7 +4,7 @@ namespace Tests\Feature;
 
 use Carbon\Carbon;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -18,8 +18,6 @@ use ZipArchive;
 
 class ExportProjectCommandTest extends TestCase
 {
-    use DatabaseTransactions;
-
     private function createProject()
     {
         $project = factory(Project::class)->create([

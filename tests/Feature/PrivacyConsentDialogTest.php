@@ -12,12 +12,9 @@ use KBox\Capability;
 use KBox\Pages\Page;
 use Spatie\Activitylog\Models\Activity;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class PrivacyConsentDialogTest extends TestCase
 {
-    use DatabaseTransactions;
-
     public function test_consent_dialog_is_presented_if_user_did_not_accept_privacy_policy()
     {
         Storage::fake('app');

@@ -14,11 +14,10 @@ use Illuminate\Support\Str;
 use KBox\DocumentDescriptor;
 use Tests\Concerns\ClearDatabase;
 use KBox\Console\Commands\StatisticsCommand;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class StatisticsCommandTest extends TestCase
 {
-    use ClearDatabase, DatabaseTransactions;
+    use ClearDatabase;
 
     public function test_overall_report_is_printed()
     {

@@ -4,15 +4,13 @@ namespace Tests\Feature;
 
 use Tests\TestCase;
 use KBox\DocumentDescriptor;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 /*
  * Test the DocumentsCheckDescriptorCommand
 */
 class DocumentsCheckDescriptorCommandTest extends TestCase
 {
-    use DatabaseTransactions;
-
+    
     /**
      * Test the check descriptor command with a set of wrongly saved documents
      */

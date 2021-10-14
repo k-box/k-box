@@ -9,14 +9,13 @@ use KBox\DuplicateDocument;
 use KBox\DocumentDescriptor;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+
 use KBox\DocumentGroups;
 use KBox\Group;
 
 class DocumentsControllerTest extends TestCase
 {
-    use DatabaseTransactions;
-
+    
     /**
      * Integration test of file upload via form.
      * It tests also the event and listeners pipeline after a file is uploaded

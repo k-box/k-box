@@ -6,13 +6,11 @@ use KBox\User;
 use Tests\TestCase;
 use KBox\Capability;
 use KBox\DocumentDescriptor;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+
 use Illuminate\Support\Facades\Storage;
 
 class OembedControllerTest extends TestCase
 {
-    use DatabaseTransactions;
-
     private function create_document()
     {
         Storage::fake('local');

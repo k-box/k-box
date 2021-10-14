@@ -20,12 +20,9 @@ use KBox\Jobs\PreparePersonalExportJob;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Notification;
 use KBox\Notifications\PersonalExportReadyNotification;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class PersonalExportTest extends TestCase
 {
-    use DatabaseTransactions;
-
     private function createExportableDataForUser($user)
     {
         $file = factory(File::class)->create([

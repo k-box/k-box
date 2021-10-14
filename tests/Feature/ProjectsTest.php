@@ -8,14 +8,14 @@ use Tests\TestCase;
 use KBox\Capability;
 use KBox\DocumentDescriptor;
 use Tests\Concerns\ClearDatabase;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+
 use Illuminate\Support\Facades\Event;
 use InvalidArgumentException;
 use KBox\Events\ProjectCreated;
 
 class ProjectsTest extends TestCase
 {
-    use DatabaseTransactions, ClearDatabase;
+    use ClearDatabase;
     
     public function expected_routes_provider()
     {

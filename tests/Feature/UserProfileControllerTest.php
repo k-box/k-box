@@ -5,12 +5,9 @@ namespace Tests\Feature;
 use KBox\User;
 use Tests\TestCase;
 use KBox\Capability;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class UserProfileControllerTest extends TestCase
 {
-    use DatabaseTransactions;
-
     public function capabilities_provider()
     {
         return [

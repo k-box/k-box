@@ -12,13 +12,11 @@ use KBox\Events\ShareCreated;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Notification;
 use KBox\Notifications\ShareCreatedNotification;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+
 use KBox\Project;
 
 class SharingControllerTest extends TestCase
 {
-    use DatabaseTransactions;
-
     public function document_share_links()
     {
         return [

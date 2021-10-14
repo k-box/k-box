@@ -7,12 +7,9 @@ use Tests\TestCase;
 use KBox\Capability;
 use KBox\Option;
 use KBox\Support\SupportService;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class SupportTest extends TestCase
 {
-    use DatabaseTransactions;
-
     public function test_support_not_active()
     {
         $response = $this->get('/');

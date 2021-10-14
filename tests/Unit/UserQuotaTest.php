@@ -3,7 +3,7 @@
 namespace Tests\Unit;
 
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Notification;
 use KBox\Notifications\QuotaFullNotification;
@@ -14,8 +14,6 @@ use KBox\UserQuota;
 
 class UserQuotaTest extends TestCase
 {
-    use DatabaseTransactions;
-
     public function quota_value_provider()
     {
         return [

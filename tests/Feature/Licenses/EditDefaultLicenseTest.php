@@ -9,11 +9,10 @@ use KBox\Jobs\ReindexDocument;
 use OneOffTech\Licenses\License;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class EditDefaultLicenseTest extends TestCase
 {
-    use DatabaseTransactions, WithoutMiddleware;
+    use  WithoutMiddleware;
 
     public function test_default_license_is_required()
     {

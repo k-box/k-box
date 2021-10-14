@@ -8,11 +8,10 @@ use KBox\Capability;
 use KBox\Geo\GeoService;
 use KBox\Plugins\PluginManager;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class GeoMapProvidersTest extends TestCase
 {
-    use DatabaseTransactions, WithoutMiddleware;
+    use  WithoutMiddleware;
 
     private $startConfig = null;
 

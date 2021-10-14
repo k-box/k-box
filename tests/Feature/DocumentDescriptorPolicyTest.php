@@ -11,11 +11,10 @@ use KBox\Capability;
 use KBox\DocumentDescriptor;
 use KBox\Policies\DocumentDescriptorPolicy;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class DocumentDescriptorPolicyTest extends TestCase
 {
-    use DatabaseTransactions, WithFaker;
+    use  WithFaker;
 
     public function test_deny_see_username()
     {

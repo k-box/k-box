@@ -3,7 +3,7 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+
 use Illuminate\Support\Facades\URL;
 use KBox\Capability;
 use KBox\Invite;
@@ -11,8 +11,6 @@ use KBox\User;
 
 class UserRegisterWithInviteTest extends TestCase
 {
-    use DatabaseTransactions;
-
     public function test_invite_info_presented_on_registration_form()
     {
         $invite = factory(Invite::class)->create();

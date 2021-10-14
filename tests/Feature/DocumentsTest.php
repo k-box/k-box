@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Storage;
 use KBox\Documents\Facades\Files;
 use Klink\DmsAdapter\KlinkVisibilityType;
 use Klink\DmsAdapter\Exceptions\KlinkException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+
 use KBox\DocumentGroups;
 use KBox\Exceptions\ForbiddenException;
 use KBox\Shared;
@@ -28,8 +28,6 @@ use Klink\DmsAdapter\Fakes\FakeKlinkAdapter;
 */
 class DocumentsTest extends TestCase
 {
-    use DatabaseTransactions;
-    
     public function user_provider_for_editpage_public_checkbox_test()
     {
         return [

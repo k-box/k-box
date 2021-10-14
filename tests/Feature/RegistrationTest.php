@@ -6,14 +6,12 @@ use KBox\User;
 use Tests\TestCase;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Auth\Notifications\VerifyEmail;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+
 use KBox\Auth\Registration;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class RegistrationTest extends TestCase
 {
-    use DatabaseTransactions;
-    
     public function test_user_can_see_register_page()
     {
         $response = $this->get('/register');

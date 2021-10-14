@@ -7,11 +7,10 @@ use Tests\TestCase;
 use KBox\Publication;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class DocumentPublishingTest extends TestCase
 {
-    use WithoutMiddleware, DatabaseTransactions;
+    use WithoutMiddleware;
     
     public function test_document_can_be_published()
     {

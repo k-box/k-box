@@ -6,12 +6,9 @@ use KBox\User;
 use KBox\Option;
 use Tests\TestCase;
 use KBox\Capability;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class IdentityControllerTest extends TestCase
 {
-    use DatabaseTransactions;
-
     public function protected_routes_provider()
     {
         return [

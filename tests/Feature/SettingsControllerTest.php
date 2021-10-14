@@ -6,12 +6,9 @@ use KBox\User;
 use KBox\Option;
 use Tests\TestCase;
 use KBox\Capability;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class SettingsControllerTest extends TestCase
 {
-    use DatabaseTransactions;
-    
     public function testSettingsIndex()
     {
         $user = tap(factory(User::class)->create(), function ($u) {

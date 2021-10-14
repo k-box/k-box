@@ -6,15 +6,13 @@ use Tests\TestCase;
 use KBox\Capability;
 use KBox\Exceptions\ForbiddenException;
 use KBox\Exceptions\CollectionMoveException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+
 use KBox\Project;
 use KBox\Shared;
 use KBox\User;
 
 class MoveCollectionsTest extends TestCase
 {
-    use DatabaseTransactions;
-
     private $documentService = null;
 
     protected function setUp(): void

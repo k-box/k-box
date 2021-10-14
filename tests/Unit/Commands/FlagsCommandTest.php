@@ -7,12 +7,10 @@ use KBox\Flags;
 use Tests\TestCase;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class FlagsCommandTest extends TestCase
 {
-    use DatabaseTransactions;
-
+    
     /**
      * Data provider with valid Flag names
      */

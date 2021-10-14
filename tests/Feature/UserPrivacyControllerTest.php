@@ -9,12 +9,9 @@ use KBox\Consents;
 use Tests\TestCase;
 use KBox\Capability;
 use Jenssegers\Date\Date as LocalizedDate;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class UserPrivacyControllerTest extends TestCase
 {
-    use DatabaseTransactions;
-
     public function test_privacy_page_shows_consent_status()
     {
         $user = tap(factory(User::class)->create(), function ($u) {

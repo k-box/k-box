@@ -5,12 +5,9 @@ namespace Tests\Unit;
 use Tests\TestCase;
 use Klink\DmsAdapter\KlinkDocument;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class KlinkDocumentTest extends TestCase
 {
-    use DatabaseTransactions;
-    
     public function test_url_to_private_file_is_generated()
     {
         $descriptor = factory(\KBox\DocumentDescriptor::class)->create();

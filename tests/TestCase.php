@@ -11,10 +11,13 @@ use Illuminate\Testing\TestResponse;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Support\Arr;
 use Illuminate\Testing\TestView;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 abstract class TestCase extends BaseTestCase
 {
-    use CreatesApplication, MockKlinkAdapter;
+    use CreatesApplication;
+    use MockKlinkAdapter;
+    use DatabaseTransactions;
 
     protected function setUp(): void
     {

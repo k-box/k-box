@@ -10,12 +10,9 @@ use KBox\Facades\KlinkStreaming;
 use Illuminate\Support\Facades\Storage;
 use KBox\Documents\Facades\Files;
 use KBox\Jobs\UpdatePublishedDocumentJob;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class VideoPublicationTest extends TestCase
 {
-    use DatabaseTransactions;
-
     protected function setUp(): void
     {
         parent::setUp();

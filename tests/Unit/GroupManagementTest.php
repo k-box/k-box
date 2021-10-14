@@ -9,13 +9,11 @@ use KBox\Capability;
 use Tests\Concerns\ClearDatabase;
 use KBox\Exceptions\ForbiddenException;
 use KBox\Documents\Services\DocumentsService;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class GroupManagementTest extends TestCase
 {
     use ClearDatabase;
-    use DatabaseTransactions;
-
+    
     private $service = null;
 
     private $user = null;

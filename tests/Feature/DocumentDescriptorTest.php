@@ -13,11 +13,10 @@ use KBox\Exceptions\FileNamingException;
 use Klink\DmsAdapter\KlinkVisibilityType;
 use Illuminate\Foundation\Testing\WithFaker;
 use Klink\DmsAdapter\Exceptions\KlinkException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class DocumentDescriptorTest extends TestCase
 {
-    use DatabaseTransactions, WithFaker;
+    use  WithFaker;
     
     public function visibility_provider()
     {

@@ -8,14 +8,12 @@ use KBox\Capability;
 use KBox\Events\UserInvited;
 use KBox\Notifications\InviteEmail;
 use KBox\User;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+
 use Illuminate\Support\Facades\Config;
 use KBox\Invite;
 
 class SendInviteTest extends TestCase
 {
-    use DatabaseTransactions;
-    
     public function test_invite_notification_sent()
     {
         $creator = tap(factory(User::class)->create(), function ($u) {

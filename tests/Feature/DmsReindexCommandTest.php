@@ -7,15 +7,12 @@ use Tests\TestCase;
 use KBox\User;
 use KBox\DocumentDescriptor;
 
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-
 /*
  * Test the DMSReindexCommand
 */
 class DmsReindexCommandTest extends TestCase
 {
-    use DatabaseTransactions;
-
+    
     // function that might be useful
 
     private function createDocuments($quantity = 5)

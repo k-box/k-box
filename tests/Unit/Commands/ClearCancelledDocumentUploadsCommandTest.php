@@ -9,12 +9,9 @@ use Tests\TestCase;
 use KBox\DocumentDescriptor;
 use Illuminate\Support\Facades\DB;
 use OneOffTech\TusUpload\TusUpload;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class ClearCancelledDocumentUploadsCommandTest extends TestCase
 {
-    use DatabaseTransactions;
-
     private function generateCancelledUploads($count = 3)
     {
         $user = factory(\KBox\User::class)->create();

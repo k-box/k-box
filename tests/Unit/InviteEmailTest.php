@@ -11,13 +11,11 @@ use KBox\Notifications\InviteEmail;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Notifications\Messages\MailMessage;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class InviteEmailTest extends TestCase
 {
     use WithFaker;
-    use DatabaseTransactions;
-
+    
     public function test_generic_invite_mail_message()
     {
         $creator_name = 'John';

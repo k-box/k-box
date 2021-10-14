@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Request as BaseRequest;
 use Illuminate\Support\Collection;
 use KBox\Pagination\SearchResultsPaginator;
 use Klink\DmsAdapter\Fakes\FakeKlinkAdapter;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+
 use KBox\Capability;
 use KBox\Sorter;
 use KBox\User;
@@ -20,7 +20,6 @@ use KBox\User;
 class SearchTest extends TestCase
 {
     use Searchable;
-    use DatabaseTransactions;
     
     public function testSearchStarred_all_override()
     {

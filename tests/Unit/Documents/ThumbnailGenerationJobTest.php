@@ -7,12 +7,9 @@ use Tests\TestCase;
 use KBox\Jobs\ThumbnailGenerationJob;
 use KBox\Documents\Facades\Thumbnails;
 use KBox\Documents\Services\ThumbnailsService;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class ThumbnailGenerationJobTest extends TestCase
 {
-    use DatabaseTransactions;
-    
     public function test_job_calls_thumbnails_generate()
     {
         Thumbnails::fake();

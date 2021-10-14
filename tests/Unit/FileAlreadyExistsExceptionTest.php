@@ -11,14 +11,13 @@ use KBox\Publication;
 use KBox\DocumentDescriptor;
 use Illuminate\Foundation\Testing\WithFaker;
 use KBox\Exceptions\FileAlreadyExistsException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 /*
  * Test the FileAlreadyExistsException for proper message rendering
 */
 class FileAlreadyExistsExceptionTest extends TestCase
 {
-    use DatabaseTransactions, WithFaker;
+    use  WithFaker;
 
     public function testFileAlreadyExistsConstruction()
     {

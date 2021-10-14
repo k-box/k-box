@@ -7,12 +7,9 @@ use Tests\TestCase;
 use KBox\Documents\FileHelper;
 use KBox\Documents\Thumbnail\ThumbnailImage;
 use KBox\Documents\Thumbnail\ImageThumbnailGenerator;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class ImageThumbnailsGenerationTest extends TestCase
 {
-    use DatabaseTransactions;
-
     protected function createFileForPath($path)
     {
         list($mimeType) = FileHelper::type($path);

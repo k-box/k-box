@@ -8,12 +8,9 @@ use KBox\Consents;
 use Tests\TestCase;
 use KBox\Capability;
 use Spatie\Activitylog\Models\Activity;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class ConsentTest extends TestCase
 {
-    use DatabaseTransactions;
-
     public function test_consent_agree_activity_is_logged()
     {
         $user = tap(factory(User::class)->create(), function ($u) {

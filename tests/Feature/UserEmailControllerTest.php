@@ -9,12 +9,9 @@ use KBox\Events\EmailChanged;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Auth\Notifications\VerifyEmail;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class UserEmailControllerTest extends TestCase
 {
-    use DatabaseTransactions;
-
     public function capabilities_provider()
     {
         return [

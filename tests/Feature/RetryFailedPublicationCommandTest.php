@@ -2,7 +2,6 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\Artisan;
 use KBox\DocumentDescriptor;
 use KBox\Publication;
@@ -11,8 +10,6 @@ use Tests\TestCase;
 
 class RetryFailedPublicationCommandTest extends TestCase
 {
-    use DatabaseTransactions;
-
     public function test_failed_publications_can_be_retried()
     {
         $this->withKlinkAdapterFake();

@@ -7,13 +7,11 @@ use KBox\Project;
 use Tests\TestCase;
 use KBox\Capability;
 use KBox\Traits\Searchable;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class ProjectsVisibilityTest extends TestCase
 {
     use Searchable;
-    use DatabaseTransactions;
-
+    
     private function createUser($capabilities, $userParams = [])
     {
         return tap(factory(User::class)->create($userParams))->addCapabilities($capabilities);

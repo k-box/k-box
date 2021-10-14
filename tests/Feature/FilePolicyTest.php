@@ -8,11 +8,10 @@ use Tests\TestCase;
 use KBox\Capability;
 use KBox\Policies\FilePolicy;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class FilePolicyTest extends TestCase
 {
-    use DatabaseTransactions, WithFaker;
+    use  WithFaker;
 
     public function test_deny_see_username()
     {
