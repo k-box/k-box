@@ -8,12 +8,13 @@ use Tests\TestCase;
 use KBox\Capability;
 use KBox\DocumentDescriptor;
 use Klink\DmsAdapter\KlinkVisibilityType;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use KBox\Project;
 use Illuminate\Support\Facades\Event;
 use KBox\DocumentGroups;
 use KBox\Documents\Services\DocumentsService;
 use KBox\Events\DocumentsAddedToCollection;
 use KBox\Events\DocumentsRemovedFromCollection;
+use KBox\File;
 use KBox\Shared;
 
 /*
@@ -21,8 +22,6 @@ use KBox\Shared;
 */
 class DocumentsServiceTest extends TestCase
 {
-    use DatabaseTransactions;
-
     public function user_provider_no_guest()
     {
         return [
@@ -43,17 +42,17 @@ class DocumentsServiceTest extends TestCase
 
         $user = $this->createUser($caps);
         
-        $doc = factory(\KBox\DocumentDescriptor::class)->create([
+        $doc = DocumentDescriptor::factory()->create([
             'owner_id' => $user->id
         ]);
 
-        $owned_project = factory(\KBox\Project::class)->create([
+        $owned_project = Project::factory()->create([
             'user_id' => $user->id,
         ]);
 
-        $other_project = factory(\KBox\Project::class)->create();
+        $other_project = Project::factory()->create();
 
-        $secondary_project = factory(\KBox\Project::class)->create();
+        $secondary_project = Project::factory()->create();
 
         $secondary_project->users()->save($user);
         
@@ -109,7 +108,7 @@ class DocumentsServiceTest extends TestCase
         // todo test add and reindex
         $user = $this->createUser(Capability::$ADMIN);
         
-        $file = factory(\KBox\File::class)->create([
+        $file = File::factory()->create([
             'user_id' => $user->id,
             'original_uri' => ''
         ]);
@@ -169,15 +168,13 @@ class DocumentsServiceTest extends TestCase
 
         $adapter = $this->withKlinkAdapterFake();
 
-        $user = tap(factory(\KBox\User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
+        $user = User::factory()->admin()->create();
 
-        $documents = factory(DocumentDescriptor::class, 3)->create([
+        $documents = DocumentDescriptor::factory()->count(3)->create([
             'owner_id' => $user->id,
         ]);
 
-        $collection = factory(Group::class)->create([
+        $collection = Group::factory()->create([
             'user_id' => $user->id,
         ]);
 
@@ -213,15 +210,13 @@ class DocumentsServiceTest extends TestCase
 
         $adapter = $this->withKlinkAdapterFake();
 
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
+        $user = User::factory()->admin()->create();
 
-        $document = factory(DocumentDescriptor::class)->create([
+        $document = DocumentDescriptor::factory()->create([
             'owner_id' => $user->id,
         ]);
 
-        $collection = factory(Group::class)->create([
+        $collection = Group::factory()->create([
             'user_id' => $user->id,
         ]);
 
@@ -254,15 +249,13 @@ class DocumentsServiceTest extends TestCase
 
         $adapter = $this->withKlinkAdapterFake();
 
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
+        $user = User::factory()->admin()->create();
 
-        $document = factory(DocumentDescriptor::class)->create([
+        $document = DocumentDescriptor::factory()->create([
             'owner_id' => $user->id,
         ]);
 
-        $collection = factory(Group::class)->create([
+        $collection = Group::factory()->create([
             'user_id' => $user->id,
         ]);
 
@@ -293,15 +286,13 @@ class DocumentsServiceTest extends TestCase
 
         $adapter = $this->withKlinkAdapterFake();
 
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
+        $user = User::factory()->admin()->create();
 
-        $documents = factory(DocumentDescriptor::class, 3)->create([
+        $documents = DocumentDescriptor::factory()->count(3)->create([
             'owner_id' => $user->id,
         ]);
 
-        $collection = factory(Group::class)->create([
+        $collection = Group::factory()->create([
             'user_id' => $user->id,
         ]);
 
@@ -335,57 +326,53 @@ class DocumentsServiceTest extends TestCase
 
         $adapter = $this->withKlinkAdapterFake();
 
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
         
-        $collection_creator = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $collection_creator = User::factory()->partner()->create();
 
         $service = app(DocumentsService::class);
         
-        $single_root_collection = factory(Group::class)->create([
+        $single_root_collection = Group::factory()->create([
             'user_id' => $collection_creator->getKey(),
             'name' => 'root',
         ]);
         
-        $root_collection = factory(Group::class)->create([
+        $root_collection = Group::factory()->create([
             'user_id' => $collection_creator->getKey(),
             'name' => 'root',
         ]);
 
         $single_sub_collection = $service->createGroup($collection_creator, 'under', null, $root_collection);
         
-        $hierarchy_root_collection = factory(Group::class)->create([
+        $hierarchy_root_collection = Group::factory()->create([
             'user_id' => $collection_creator->getKey(),
             'name' => 'root',
         ]);
 
         $hierarchy_sub_collection = $service->createGroup($collection_creator, 'under', null, $hierarchy_root_collection);
         
-        $first_share = factory(Shared::class)->create([
+        $first_share = Shared::factory()->create([
             'user_id' => $collection_creator->getKey(),
             'sharedwith_id' => $user->id,
             'shareable_type' => Group::class,
             'shareable_id' => $single_root_collection->getKey(),
         ]);
         
-        $second_share = factory(Shared::class)->create([
+        $second_share = Shared::factory()->create([
             'user_id' => $collection_creator->getKey(),
             'sharedwith_id' => $user->id,
             'shareable_type' => Group::class,
             'shareable_id' => $single_sub_collection->getKey(),
         ]);
         
-        $third_share = factory(Shared::class)->create([
+        $third_share = Shared::factory()->create([
             'user_id' => $collection_creator->getKey(),
             'sharedwith_id' => $user->id,
             'shareable_type' => Group::class,
             'shareable_id' => $hierarchy_root_collection->getKey(),
         ]);
         
-        $fourth_share = factory(Shared::class)->create([
+        $fourth_share = Shared::factory()->create([
             'user_id' => $collection_creator->getKey(),
             'sharedwith_id' => $user->id,
             'shareable_type' => Group::class,
@@ -404,36 +391,32 @@ class DocumentsServiceTest extends TestCase
 
         $adapter = $this->withKlinkAdapterFake();
 
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
         
-        $collection_creator = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $collection_creator = User::factory()->partner()->create();
 
         $service = app(DocumentsService::class);
         
-        $single_root_collection = factory(Group::class)->create([
+        $single_root_collection = Group::factory()->create([
             'user_id' => $collection_creator->getKey(),
             'name' => 'root',
         ]);
         
-        $root_collection = factory(Group::class)->create([
+        $root_collection = Group::factory()->create([
             'user_id' => $collection_creator->getKey(),
             'name' => 'root',
         ]);
 
         $single_sub_collection = $service->createGroup($collection_creator, 'under', null, $root_collection);
         
-        $hierarchy_root_collection = factory(Group::class)->create([
+        $hierarchy_root_collection = Group::factory()->create([
             'user_id' => $collection_creator->getKey(),
             'name' => 'root',
         ]);
 
         $hierarchy_sub_collection = $service->createGroup($collection_creator, 'under', null, $hierarchy_root_collection);
         
-        $first_share = factory(Shared::class)->create([
+        $first_share = Shared::factory()->create([
             'user_id' => $collection_creator->getKey(),
             'sharedwith_id' => $user->id,
             'shareable_type' => Group::class,
@@ -442,21 +425,21 @@ class DocumentsServiceTest extends TestCase
 
         $single_root_collection->delete();
         
-        $second_share = factory(Shared::class)->create([
+        $second_share = Shared::factory()->create([
             'user_id' => $collection_creator->getKey(),
             'sharedwith_id' => $user->id,
             'shareable_type' => Group::class,
             'shareable_id' => $single_sub_collection->getKey(),
         ]);
         
-        $third_share = factory(Shared::class)->create([
+        $third_share = Shared::factory()->create([
             'user_id' => $collection_creator->getKey(),
             'sharedwith_id' => $user->id,
             'shareable_type' => Group::class,
             'shareable_id' => $hierarchy_root_collection->getKey(),
         ]);
         
-        $fourth_share = factory(Shared::class)->create([
+        $fourth_share = Shared::factory()->create([
             'user_id' => $collection_creator->getKey(),
             'sharedwith_id' => $user->id,
             'shareable_type' => Group::class,
@@ -471,12 +454,12 @@ class DocumentsServiceTest extends TestCase
 
     private function createUser($capabilities, $userParams = [])
     {
-        return tap(factory(User::class)->create($userParams))->addCapabilities($capabilities);
+        return tap(User::factory()->create($userParams))->addCapabilities($capabilities);
     }
 
     private function createDocument(User $user, $visibility = 'private')
     {
-        return factory(DocumentDescriptor::class)->create([
+        return DocumentDescriptor::factory()->create([
             'owner_id' => $user->id,
             'visibility' => $visibility,
         ]);

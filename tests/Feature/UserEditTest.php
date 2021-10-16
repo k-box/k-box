@@ -5,15 +5,12 @@ namespace Tests\Feature;
 use KBox\User;
 use Tests\TestCase;
 use KBox\Capability;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 /**
  * Tests the UserAdministrationController::edit and update
 */
 class UserEditTest extends TestCase
 {
-    use DatabaseTransactions;
-
     private function validUpdateParams(User $user, $params)
     {
         return array_merge([
@@ -27,8 +24,8 @@ class UserEditTest extends TestCase
 
     public function test_admin_can_edit_user()
     {
-        $user = factory(User::class)->states('admin')->create();
-        $account = factory(User::class)->create();
+        $user = User::factory()->admin()->create();
+        $account = User::factory()->create();
         
         $response = $this->actingAs($user)
             ->get(route('administration.users.edit', ['user' => $account->getKey()]));
@@ -43,7 +40,7 @@ class UserEditTest extends TestCase
 
     public function test_admin_cannot_edit_own_permission()
     {
-        $user = factory(User::class)->states('admin')->create();
+        $user = User::factory()->admin()->create();
         
         $response = $this->actingAs($user)
             ->get(route('administration.users.edit', ['user' => $user->getKey()]));
@@ -58,8 +55,8 @@ class UserEditTest extends TestCase
     
     public function test_user_name_updated()
     {
-        $user = factory(User::class)->states('admin')->create();
-        $account = factory(User::class)->create();
+        $user = User::factory()->admin()->create();
+        $account = User::factory()->create();
 
         $response = $this->actingAs($user)
                     ->from(route('administration.users.edit', ['user' => $account->getKey()]))
@@ -83,8 +80,8 @@ class UserEditTest extends TestCase
     
     public function test_user_email_updated()
     {
-        $user = factory(User::class)->states('admin')->create();
-        $account = factory(User::class)->create();
+        $user = User::factory()->admin()->create();
+        $account = User::factory()->create();
 
         $response = $this->actingAs($user)
                     ->from(route('administration.users.edit', ['user' => $account->getKey()]))
@@ -108,8 +105,8 @@ class UserEditTest extends TestCase
     
     public function test_user_not_updated_if_email_already_taken()
     {
-        $user = factory(User::class)->states('admin')->create();
-        $account = factory(User::class)->create();
+        $user = User::factory()->admin()->create();
+        $account = User::factory()->create();
 
         $response = $this->actingAs($user)
                     ->from(route('administration.users.edit', ['user' => $account->getKey()]))

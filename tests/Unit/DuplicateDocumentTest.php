@@ -4,15 +4,14 @@ namespace Tests\Unit;
 
 use Carbon\Carbon;
 use Tests\TestCase;
-use KBox\Capability;
 use KBox\RoutingHelpers;
 use KBox\DuplicateDocument;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use KBox\User;
+use KBox\Project;
+use KBox\DocumentDescriptor;
 
 class DuplicateDocumentTest extends TestCase
 {
-    use DatabaseTransactions;
-
     public function test_sent_return_true_when_notification_sent_at_has_a_value()
     {
         $d = (new DuplicateDocument())->forceFill([
@@ -40,11 +39,9 @@ class DuplicateDocumentTest extends TestCase
 
     public function test_message_report_me_as_the_owner()
     {
-        $user = tap(factory(\KBox\User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
 
-        $duplicate = factory(DuplicateDocument::class)->create(['user_id' => $user->id]);
+        $duplicate = DuplicateDocument::factory()->create(['user_id' => $user->id]);
 
         $expected = trans('documents.duplicates.message_me_owner', [
             'duplicate_link' => RoutingHelpers::preview($duplicate->document),
@@ -58,11 +55,9 @@ class DuplicateDocumentTest extends TestCase
 
     public function test_message_report_user_as_the_owner()
     {
-        $user = tap(factory(\KBox\User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
 
-        $duplicate = factory(DuplicateDocument::class)->create();
+        $duplicate = DuplicateDocument::factory()->create();
 
         $doc = $duplicate->document;
         $doc->owner_id = $user->id;
@@ -85,20 +80,18 @@ class DuplicateDocumentTest extends TestCase
 
         $this->withKlinkAdapterFake();
         
-        $user = tap(factory(\KBox\User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
 
-        $project = tap(factory(\KBox\Project::class)->create(), function ($p) use ($user) {
+        $project = tap(Project::factory()->create(), function ($p) use ($user) {
             $p->users()->attach($user->id);
         });
 
         $manager = $project->manager;
 
-        $descriptor = factory(\KBox\DocumentDescriptor::class)->create([
+        $descriptor = DocumentDescriptor::factory()->create([
             'owner_id' => $manager->id
         ]);
-        $duplicateDescriptor = factory(\KBox\DocumentDescriptor::class)->create([
+        $duplicateDescriptor = DocumentDescriptor::factory()->create([
             'owner_id' => $user->id,
             'hash' => $descriptor->hash
         ]);
@@ -110,7 +103,7 @@ class DuplicateDocumentTest extends TestCase
 
         $service->addDocumentToGroup($manager, $descriptor, $project->collection);
         
-        $duplicate = factory(DuplicateDocument::class)->create([
+        $duplicate = DuplicateDocument::factory()->create([
             'user_id' => $user->id,
             'duplicate_document_id' => $duplicateDescriptor->id,
             'document_id' => $descriptor->id,

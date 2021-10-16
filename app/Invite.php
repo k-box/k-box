@@ -11,6 +11,7 @@ use Illuminate\Notifications\Notifiable;
 use KBox\Auth\Registration;
 use KBox\Notifications\InviteEmail;
 use Dyrynda\Database\Casts\EfficientUuid;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * Invite to register and account.
@@ -32,6 +33,7 @@ class Invite extends Model
 {
     use GeneratesUuid;
     use Notifiable;
+    use HasFactory;
 
     /**
      * The attributes that are mass assignable.

@@ -3,7 +3,7 @@
 namespace Tests\Unit;
 
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Notification;
 use KBox\Notifications\QuotaFullNotification;
@@ -14,8 +14,6 @@ use KBox\UserQuota;
 
 class UserQuotaTest extends TestCase
 {
-    use DatabaseTransactions;
-
     public function quota_value_provider()
     {
         return [
@@ -149,7 +147,7 @@ class UserQuotaTest extends TestCase
     {
         Notification::fake();
 
-        $quota = factory(UserQuota::class)->create([
+        $quota = UserQuota::factory()->create([
             'limit' => 100,
             'threshold' => 50,
             'used' => 1,
@@ -165,7 +163,7 @@ class UserQuotaTest extends TestCase
     {
         Notification::fake();
 
-        $quota = factory(UserQuota::class)->create([
+        $quota = UserQuota::factory()->create([
             'limit' => 100,
             'threshold' => 50,
             'used' => 52,
@@ -189,7 +187,7 @@ class UserQuotaTest extends TestCase
     {
         Notification::fake();
 
-        $quota = factory(UserQuota::class)->create([
+        $quota = UserQuota::factory()->create([
             'limit' => 100,
             'threshold' => 50,
             'used' => 99,
@@ -213,7 +211,7 @@ class UserQuotaTest extends TestCase
     {
         Notification::fake();
 
-        $quota = factory(UserQuota::class)->create([
+        $quota = UserQuota::factory()->create([
             'limit' => 100,
             'threshold' => 50,
             'used' => 99,
@@ -241,7 +239,7 @@ class UserQuotaTest extends TestCase
     {
         Notification::fake();
 
-        $quota = factory(UserQuota::class)->create([
+        $quota = UserQuota::factory()->create([
             'limit' => 100,
             'threshold' => 50,
             'used' => 99,

@@ -6,18 +6,14 @@ use KBox\User;
 use KBox\File;
 use Carbon\Carbon;
 use Tests\TestCase;
-use KBox\Capability;
 use Illuminate\Support\Str;
 use KBox\DocumentDescriptor;
 use OneOffTech\TusUpload\TusUpload;
 use KBox\Listeners\TusUploadCancelledHandler;
 use OneOffTech\TusUpload\Events\TusUploadCancelled;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class TusUploadCancelledListenerTest extends TestCase
 {
-    use DatabaseTransactions;
-
     protected function setUp(): void
     {
         parent::setUp();
@@ -87,9 +83,7 @@ class TusUploadCancelledListenerTest extends TestCase
     {
         $this->withKlinkAdapterFake();
 
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
+        $user = User::factory()->admin()->create();
 
         $request_id = 'REQUEST';
 

@@ -8,14 +8,14 @@ use Tests\TestCase;
 use KBox\Capability;
 use KBox\DocumentDescriptor;
 use Tests\Concerns\ClearDatabase;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+
 use Illuminate\Support\Facades\Event;
 use InvalidArgumentException;
 use KBox\Events\ProjectCreated;
 
 class ProjectsTest extends TestCase
 {
-    use DatabaseTransactions, ClearDatabase;
+    use ClearDatabase;
     
     public function expected_routes_provider()
     {
@@ -45,7 +45,7 @@ class ProjectsTest extends TestCase
 
     private function createUser($capabilities, $userParams = [])
     {
-        return tap(factory(User::class)->create($userParams))->addCapabilities($capabilities);
+        return tap(User::factory()->create($userParams))->addCapabilities($capabilities);
     }
     
     /**
@@ -170,7 +170,7 @@ class ProjectsTest extends TestCase
     {
         $user = $this->createUser(Capability::$PROJECT_MANAGER);
 
-        $project = factory(Project::class)->create([
+        $project = Project::factory()->create([
             'user_id' => $user->id
         ]);
 
@@ -212,7 +212,7 @@ class ProjectsTest extends TestCase
 
     public function test_project_can_be_edited_by_creator()
     {
-        $project = factory(Project::class)->create();
+        $project = Project::factory()->create();
         
         $user = $project->manager()->first();
 
@@ -235,7 +235,7 @@ class ProjectsTest extends TestCase
     
     public function test_admin_should_be_able_to_add_itself_as_project_member()
     {
-        $project = factory(Project::class)->create();
+        $project = Project::factory()->create();
         
         $user = $project->manager()->first();
 
@@ -260,7 +260,7 @@ class ProjectsTest extends TestCase
     
     public function test_other_project_manager_should_not_be_able_to_add_itself_as_project_members()
     {
-        $project = factory(Project::class)->create();
+        $project = Project::factory()->create();
         
         $user = $project->manager()->first();
 
@@ -273,7 +273,7 @@ class ProjectsTest extends TestCase
 
     public function test_project_can_be_updated_by_creator()
     {
-        $project = factory(Project::class)->create();
+        $project = Project::factory()->create();
 
         $user = $project->manager;
 
@@ -295,7 +295,7 @@ class ProjectsTest extends TestCase
 
     public function test_project_cannot_be_updated_by_project_member()
     {
-        $project = factory(Project::class)->create();
+        $project = Project::factory()->create();
 
         $memberUser = $this->createUser(Capability::$PARTNER);
 
@@ -317,12 +317,12 @@ class ProjectsTest extends TestCase
         $user = $this->createUser(Capability::$PROJECT_MANAGER_LIMITED);
 
         // manages project1
-        $project1 = factory(Project::class)->create(['user_id' => $user->id]);
+        $project1 = Project::factory()->create(['user_id' => $user->id]);
         // is added to project2
-        $project2 = factory(Project::class)->create();
+        $project2 = Project::factory()->create();
         $project2->users()->attach($user->id);
 
-        $project3 = factory(Project::class)->create();
+        $project3 = Project::factory()->create();
 
         $this->assertTrue(Project::isAccessibleBy($project1, $user), 'project 1 not accessible');
         $this->assertTrue(Project::isAccessibleBy($project2, $user), 'project 2 not accessible');
@@ -337,11 +337,11 @@ class ProjectsTest extends TestCase
         
         $service = app('KBox\Documents\Services\DocumentsService');
 
-        $document = factory(DocumentDescriptor::class)->create(['owner_id' => $user->id]);
-        $document2 = factory(DocumentDescriptor::class)->create(['owner_id' => $user->id]);
-        $document3 = factory(DocumentDescriptor::class)->create(['owner_id' => $user->id]);
+        $document = DocumentDescriptor::factory()->create(['owner_id' => $user->id]);
+        $document2 = DocumentDescriptor::factory()->create(['owner_id' => $user->id]);
+        $document3 = DocumentDescriptor::factory()->create(['owner_id' => $user->id]);
 
-        $project1 = factory(Project::class)->create(['user_id' => $user->id]);
+        $project1 = Project::factory()->create(['user_id' => $user->id]);
 
         $project1_child1 = $service->createGroup($user, 'project_child1', null, $project1->collection, false);
         $project1_child2 = $service->createGroup($user, 'project_child2', null, $project1_child1, false);

@@ -4,12 +4,9 @@ namespace Tests\Feature;
 
 use KBox\Option;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class ContactPageControllerTest extends TestCase
 {
-    use DatabaseTransactions;
-    
     public function testContactShowsFakeDataIfContactsAreNotConfigured()
     {
         // make sure contact information are not set

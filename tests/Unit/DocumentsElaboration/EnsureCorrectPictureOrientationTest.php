@@ -7,14 +7,12 @@ use Tests\TestCase;
 use KBox\DocumentDescriptor;
 use KBox\Documents\FileHelper;
 use Intervention\Image\Facades\Image as ImageFacade;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+
 use Illuminate\Support\Facades\Storage;
 use KBox\DocumentsElaboration\Actions\EnsureCorrectPictureOrientation;
 
 class EnsureCorrectPictureOrientationTest extends TestCase
 {
-    use DatabaseTransactions;
-
     private function createImageDescriptor($test_file)
     {
         Storage::fake('local');
@@ -23,13 +21,13 @@ class EnsureCorrectPictureOrientationTest extends TestCase
 
         list($mimeType) = FileHelper::type($test_file);
 
-        $file = factory(File::class)->create([
+        $file = File::factory()->create([
             'path' => Storage::disk('local')->path(basename($test_file)),
             'mime_type' => $mimeType,
             'hash' => hash_file('sha512', $test_file)
         ]);
 
-        return factory(DocumentDescriptor::class)->create([
+        return DocumentDescriptor::factory()->create([
             'file_id' => $file->getKey(),
             'mime_type' => $file->mime_type,
             'document_type' => 'image',

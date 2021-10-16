@@ -14,11 +14,10 @@ use Illuminate\Support\Str;
 use KBox\DocumentDescriptor;
 use Tests\Concerns\ClearDatabase;
 use KBox\Console\Commands\StatisticsCommand;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class StatisticsCommandTest extends TestCase
 {
-    use ClearDatabase, DatabaseTransactions;
+    use ClearDatabase;
 
     public function test_overall_report_is_printed()
     {
@@ -26,7 +25,7 @@ class StatisticsCommandTest extends TestCase
         $previous_files = File::count();
         $previous_users = User::count();
 
-        factory(\KBox\DocumentDescriptor::class, 6)->create();
+        DocumentDescriptor::factory()->count(6)->create();
         
         $exitCode = Artisan::call('statistics', ['--summary' => true, '--overall' => true]);
         
@@ -44,7 +43,7 @@ class StatisticsCommandTest extends TestCase
         $previous_files = File::count();
         $previous_users = User::count();
 
-        factory(\KBox\DocumentDescriptor::class, 6)->create();
+        DocumentDescriptor::factory()->count(6)->create();
 
         $exitCode = Artisan::call('statistics', ['--summary' => true]);
 
@@ -91,40 +90,40 @@ class StatisticsCommandTest extends TestCase
     {
         // create the expected dataset
         $users = [
-            factory(\KBox\User::class)->create(['created_at' => Carbon::createFromDate(null, 6, 1)]),
-            factory(\KBox\User::class)->create(['created_at' => Carbon::createFromDate(null, 6, 5)]),
-            factory(\KBox\User::class)->create(['created_at' => Carbon::createFromDate(null, 6, 8)]),
-            factory(\KBox\User::class)->create(['created_at' => Carbon::createFromDate(null, 6, 12)]),
+            User::factory()->create(['created_at' => Carbon::createFromDate(null, 6, 1)]),
+            User::factory()->create(['created_at' => Carbon::createFromDate(null, 6, 5)]),
+            User::factory()->create(['created_at' => Carbon::createFromDate(null, 6, 8)]),
+            User::factory()->create(['created_at' => Carbon::createFromDate(null, 6, 12)]),
         ];
 
         $files = [
-            factory(\KBox\File::class)->create(['created_at' => Carbon::createFromDate(null, 6, 1), 'user_id' => $users[0]->id]),
-            factory(\KBox\File::class)->create(['created_at' => Carbon::createFromDate(null, 6, 5), 'user_id' => $users[1]->id]),
-            factory(\KBox\File::class)->create(['created_at' => Carbon::createFromDate(null, 6, 8), 'user_id' => $users[2]->id]),
-            factory(\KBox\File::class)->create(['created_at' => Carbon::createFromDate(null, 6, 12), 'user_id' => $users[3]->id]),
+            File::factory()->create(['created_at' => Carbon::createFromDate(null, 6, 1), 'user_id' => $users[0]->id]),
+            File::factory()->create(['created_at' => Carbon::createFromDate(null, 6, 5), 'user_id' => $users[1]->id]),
+            File::factory()->create(['created_at' => Carbon::createFromDate(null, 6, 8), 'user_id' => $users[2]->id]),
+            File::factory()->create(['created_at' => Carbon::createFromDate(null, 6, 12), 'user_id' => $users[3]->id]),
         ];
         
         $docs = [
-            factory(\KBox\DocumentDescriptor::class)->create(['created_at' => Carbon::createFromDate(null, 6, 1), 'file_id' => $files[0]->id, 'owner_id' => $users[0]->id]),
-            factory(\KBox\DocumentDescriptor::class)->create(['created_at' => Carbon::createFromDate(null, 6, 5), 'file_id' => $files[1]->id, 'owner_id' => $users[1]->id]),
-            factory(\KBox\DocumentDescriptor::class)->create(['created_at' => Carbon::createFromDate(null, 6, 8), 'file_id' => $files[2]->id, 'owner_id' => $users[2]->id]),
-            factory(\KBox\DocumentDescriptor::class)->create(['created_at' => Carbon::createFromDate(null, 6, 12), 'file_id' => $files[3]->id, 'owner_id' => $users[3]->id]),
+            DocumentDescriptor::factory()->create(['created_at' => Carbon::createFromDate(null, 6, 1), 'file_id' => $files[0]->id, 'owner_id' => $users[0]->id]),
+            DocumentDescriptor::factory()->create(['created_at' => Carbon::createFromDate(null, 6, 5), 'file_id' => $files[1]->id, 'owner_id' => $users[1]->id]),
+            DocumentDescriptor::factory()->create(['created_at' => Carbon::createFromDate(null, 6, 8), 'file_id' => $files[2]->id, 'owner_id' => $users[2]->id]),
+            DocumentDescriptor::factory()->create(['created_at' => Carbon::createFromDate(null, 6, 12), 'file_id' => $files[3]->id, 'owner_id' => $users[3]->id]),
         ];
 
-        $publiclink = factory(Shared::class)->states('publiclink')->create([
+        $publiclink = Shared::factory()->publiclink()->create([
             'created_at' => Carbon::createFromDate(null, 6, 9),
             'shareable_id' => $docs[0]->id,
             'user_id' => $users[0]->id,
             ]);
         
-        $share = factory(Shared::class)->create([
+        $share = Shared::factory()->create([
             'created_at' => Carbon::createFromDate(null, 6, 8),
             'shareable_id' => $docs[0]->id,
             'sharedwith_id' => $users[1]->id,
             'user_id' => $users[0]->id,
             ]);
             
-        $project = factory(Project::class)->create([
+        $project = Project::factory()->create([
             'created_at' => Carbon::createFromDate(null, 6, 8),
             'user_id' => $users[1]->id,
         ]);

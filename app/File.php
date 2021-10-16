@@ -19,6 +19,7 @@ use KBox\Events\FileRestored;
 use KBox\Traits\ScopeNullUuid;
 use Illuminate\Support\Str;
 use Dyrynda\Database\Casts\EfficientUuid;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * The representation of a File on disk
@@ -72,6 +73,7 @@ use Dyrynda\Database\Casts\EfficientUuid;
 class File extends Model
 {
     use SoftDeletes, GeneratesUuid, ScopeNullUuid;
+    use HasFactory;
 
     /**
      * The database table used by the model.

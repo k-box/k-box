@@ -4,18 +4,14 @@ namespace Tests\Unit;
 
 use KBox\User;
 use Tests\TestCase;
-use KBox\Capability;
 use KBox\RoutingHelpers;
 use KBox\DocumentDescriptor;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 /*
  * Test the RoutingHelpers class
 */
 class RoutingHelpersTest extends TestCase
 {
-    use DatabaseTransactions;
-    
     public function filter_search_data_provider()
     {
         return [
@@ -40,10 +36,8 @@ class RoutingHelpersTest extends TestCase
 
     public function test_document_download_url_generation()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
-        $document = factory(DocumentDescriptor::class)->create(['owner_id' => $user->id]);
+        $user = User::factory()->admin()->create();
+        $document = DocumentDescriptor::factory()->create(['owner_id' => $user->id]);
 
         $url = RoutingHelpers::download($document);
 
@@ -56,10 +50,8 @@ class RoutingHelpersTest extends TestCase
     
     public function test_document_embed_url_generation()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
-        $document = factory(DocumentDescriptor::class)->create(['owner_id' => $user->id]);
+        $user = User::factory()->admin()->create();
+        $document = DocumentDescriptor::factory()->create(['owner_id' => $user->id]);
 
         $url = RoutingHelpers::embed($document);
 
@@ -72,10 +64,8 @@ class RoutingHelpersTest extends TestCase
 
     public function test_document_preview_url_generation()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
-        $document = factory(DocumentDescriptor::class)->create(['owner_id' => $user->id]);
+        $user = User::factory()->admin()->create();
+        $document = DocumentDescriptor::factory()->create(['owner_id' => $user->id]);
 
         $url = RoutingHelpers::preview($document);
 
@@ -88,10 +78,8 @@ class RoutingHelpersTest extends TestCase
 
     public function test_document_thumbnail_url_generation()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
-        $document = factory(DocumentDescriptor::class)->create(['owner_id' => $user->id]);
+        $user = User::factory()->admin()->create();
+        $document = DocumentDescriptor::factory()->create(['owner_id' => $user->id]);
 
         $url = RoutingHelpers::thumbnail($document);
 

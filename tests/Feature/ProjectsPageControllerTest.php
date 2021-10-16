@@ -7,7 +7,6 @@ use KBox\Project;
 use Tests\TestCase;
 use KBox\Capability;
 use KBox\Traits\Searchable;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 /**
  * Test the Projects page for the Unified Search (routes documents.projects.*)
@@ -15,7 +14,6 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 class ProjectsPageControllerTest extends TestCase
 {
     use Searchable;
-    use DatabaseTransactions;
     
     public function expected_routes_provider()
     {
@@ -40,7 +38,7 @@ class ProjectsPageControllerTest extends TestCase
 
     private function createUser($capabilities, $userParams = [])
     {
-        return tap(factory(User::class)->create($userParams))->addCapabilities($capabilities);
+        return tap(User::factory()->create($userParams))->addCapabilities($capabilities);
     }
 
     /**
@@ -74,7 +72,7 @@ class ProjectsPageControllerTest extends TestCase
             $user = $this->createUser($caps);
             
             if (strpos($route, 'show') !== false) {
-                $project = factory(Project::class)->create(['user_id' => $user->id]);
+                $project = Project::factory()->create(['user_id' => $user->id]);
                 
                 $params = ['project' => $project->id];
             } else {
@@ -113,8 +111,8 @@ class ProjectsPageControllerTest extends TestCase
 
         $user = $this->createUser(Capability::$PROJECT_MANAGER_LIMITED);
 
-        $managed_project = factory(Project::class)->create(['user_id' => $user->id]);
-        $project = factory(Project::class)->create();
+        $managed_project = Project::factory()->create(['user_id' => $user->id]);
+        $project = Project::factory()->create();
         $project->users()->attach($user->id);
 
         $url = route('documents.projects.index');

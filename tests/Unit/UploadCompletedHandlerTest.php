@@ -4,26 +4,27 @@ namespace Tests\Unit;
 
 use KBox\File;
 use Tests\TestCase;
-use KBox\Capability;
 use KBox\DocumentDescriptor;
 use KBox\Events\UploadCompleted;
 use Tests\Concerns\ClearDatabase;
 use Illuminate\Support\Facades\Event;
 use KBox\Events\FileDuplicateFoundEvent;
 use KBox\Listeners\UploadCompletedHandler;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+
 use Illuminate\Support\Facades\Bus;
 use KBox\DocumentsElaboration\Facades\DocumentElaboration;
 use KBox\Jobs\CalculateUserUsedQuota;
+use KBox\Project;
+use KBox\User;
 
 class UploadCompletedHandlerTest extends TestCase
 {
-    use DatabaseTransactions, ClearDatabase;
+    use ClearDatabase;
 
     public function test_elaborate_document_is_dispatched()
     {
         DocumentElaboration::fake();
-        $descriptor = factory(DocumentDescriptor::class)->create();
+        $descriptor = DocumentDescriptor::factory()->create();
         $user = $descriptor->owner;
 
         $uploadCompleteEvent = new UploadCompleted($descriptor, $user);
@@ -38,7 +39,7 @@ class UploadCompletedHandlerTest extends TestCase
     public function test_descriptor_status_is_updated()
     {
         DocumentElaboration::fake();
-        $descriptor = factory(DocumentDescriptor::class)->create([
+        $descriptor = DocumentDescriptor::factory()->create([
             'status' =>  DocumentDescriptor::STATUS_UPLOADING
         ]);
         $user = $descriptor->owner;
@@ -61,10 +62,10 @@ class UploadCompletedHandlerTest extends TestCase
 
     public function test_duplicate_found_is_raised_when_the_user_upload_the_same_document_twice()
     {
-        $descriptor = factory(DocumentDescriptor::class)->create();
+        $descriptor = DocumentDescriptor::factory()->create();
         $user = $descriptor->owner;
 
-        $duplicate = factory(DocumentDescriptor::class)->create([
+        $duplicate = DocumentDescriptor::factory()->create([
             'hash' => $descriptor->hash,
             'owner_id' => $user->id
         ]);
@@ -91,22 +92,20 @@ class UploadCompletedHandlerTest extends TestCase
         
         $service = app('KBox\Documents\Services\DocumentsService');
         
-        $user = tap(factory(\KBox\User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
 
-        $project = tap(factory(\KBox\Project::class)->create(), function ($p) use ($user) {
+        $project = tap(Project::factory()->create(), function ($p) use ($user) {
             $p->users()->attach($user->id);
         });
 
         $manager = $project->manager;
 
-        $descriptor = factory(\KBox\DocumentDescriptor::class)->create([
+        $descriptor = DocumentDescriptor::factory()->create([
             'owner_id' => $manager->id
         ]);
         $service->addDocumentToGroup($manager, $descriptor, $project->collection);
         
-        $duplicate = factory(DocumentDescriptor::class)->create([
+        $duplicate = DocumentDescriptor::factory()->create([
             'hash' => $descriptor->hash,
             'owner_id' => $user->id
         ]);
@@ -134,19 +133,15 @@ class UploadCompletedHandlerTest extends TestCase
         
         $service = app('KBox\Documents\Services\DocumentsService');
         
-        $user = tap(factory(\KBox\User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PROJECT_MANAGER);
-        });
+        $user = User::factory()->projectManager()->create();
         
-        $userForDuplicate = tap(factory(\KBox\User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PROJECT_MANAGER);
-        });
+        $userForDuplicate = User::factory()->projectManager()->create();
 
-        $document = factory(\KBox\DocumentDescriptor::class)->create(['owner_id' => $user->id, 'is_public' => false]);
+        $document = DocumentDescriptor::factory()->create(['owner_id' => $user->id, 'is_public' => false]);
 
         $last_version = $document->file;
 
-        $first_version = factory(\KBox\File::class)->create([
+        $first_version = File::factory()->create([
             'mime_type' => 'text/html',
             'hash' => 'new_hash'
         ]);
@@ -154,12 +149,12 @@ class UploadCompletedHandlerTest extends TestCase
         $last_version->revision_of = $first_version->id;
         $last_version->save();
 
-        $duplicateFile = factory(File::class)->create([
+        $duplicateFile = File::factory()->create([
             'hash' => $first_version->hash,
             'user_id' => $userForDuplicate->id
         ]);
 
-        $duplicate = factory(DocumentDescriptor::class)->create([
+        $duplicate = DocumentDescriptor::factory()->create([
             'hash' => $first_version->hash,
             'owner_id' => $userForDuplicate->id,
             'file_id' => $duplicateFile->id
@@ -183,19 +178,15 @@ class UploadCompletedHandlerTest extends TestCase
         
         $service = app('KBox\Documents\Services\DocumentsService');
         
-        $user = tap(factory(\KBox\User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PROJECT_MANAGER);
-        });
+        $user = User::factory()->projectManager()->create();
         
-        $userForDuplicate = tap(factory(\KBox\User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PROJECT_MANAGER);
-        });
+        $userForDuplicate = User::factory()->projectManager()->create();
 
-        $document = factory(\KBox\DocumentDescriptor::class)->create(['owner_id' => $user->id, 'is_public' => false]);
+        $document = DocumentDescriptor::factory()->create(['owner_id' => $user->id, 'is_public' => false]);
 
         $last_version = $document->file;
 
-        $first_version = factory(\KBox\File::class)->create([
+        $first_version = File::factory()->create([
             'mime_type' => 'text/html',
             'hash' => 'new_hash'
         ]);
@@ -203,12 +194,12 @@ class UploadCompletedHandlerTest extends TestCase
         $last_version->revision_of = $first_version->id;
         $last_version->save();
 
-        $duplicateFile = factory(File::class)->create([
+        $duplicateFile = File::factory()->create([
             'hash' => $first_version->hash,
             'user_id' => $userForDuplicate->id
         ]);
 
-        $duplicate = factory(DocumentDescriptor::class)->create([
+        $duplicate = DocumentDescriptor::factory()->create([
             'hash' => $first_version->hash,
             'owner_id' => $userForDuplicate->id,
             'file_id' => $duplicateFile->id

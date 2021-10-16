@@ -4,7 +4,7 @@ namespace Tests\Feature;
 
 use Carbon\Carbon;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Storage;
 use KBox\DocumentDescriptor;
@@ -18,16 +18,14 @@ use ZipArchive;
 
 class ExportPublicDocumentsCommandTest extends TestCase
 {
-    use DatabaseTransactions;
-    
     public function test_csv_with_document_listing_is_generated()
     {
         Storage::fake('app');
 
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
-        $privateDocuments = factory(DocumentDescriptor::class, 3)->create();
-        $publicDocuments = factory(DocumentDescriptor::class, 3)
+        $privateDocuments = DocumentDescriptor::factory()->count(3)->create();
+        $publicDocuments = DocumentDescriptor::factory()->count(3)
             ->create(['is_public' => true])
             ->each(function ($document) use ($user) {
                 $document->publications()->save(new Publication([
@@ -37,7 +35,7 @@ class ExportPublicDocumentsCommandTest extends TestCase
                 ]));
             });
             
-        $failedPublicDocuments = factory(DocumentDescriptor::class, 2)
+        $failedPublicDocuments = DocumentDescriptor::factory()->count(2)
             ->create(['is_public' => true])
             ->each(function ($document) use ($user) {
                 $document->publications()->save(new Publication([
@@ -98,12 +96,12 @@ class ExportPublicDocumentsCommandTest extends TestCase
     {
         Storage::fake('app');
 
-        $user = factory(User::class)->create();
-        $project = factory(Project::class)->create(['user_id' => $user->id]);
-        $project2 = factory(Project::class)->create(['user_id' => $user->id]);
+        $user = User::factory()->create();
+        $project = Project::factory()->create(['user_id' => $user->id]);
+        $project2 = Project::factory()->create(['user_id' => $user->id]);
 
-        $privateDocuments = factory(DocumentDescriptor::class, 3)->create();
-        $publicDocuments = factory(DocumentDescriptor::class, 3)
+        $privateDocuments = DocumentDescriptor::factory()->count(3)->create();
+        $publicDocuments = DocumentDescriptor::factory()->count(3)
             ->create(['is_public' => true])
             ->each(function ($document) use ($user, $project, $project2) {
                 $document->publications()->save(new Publication([
@@ -166,10 +164,10 @@ class ExportPublicDocumentsCommandTest extends TestCase
     {
         Storage::fake('app');
 
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
-        $privateDocuments = factory(DocumentDescriptor::class, 3)->create();
-        $publicDocuments = factory(DocumentDescriptor::class, 3)
+        $privateDocuments = DocumentDescriptor::factory()->count(3)->create();
+        $publicDocuments = DocumentDescriptor::factory()->count(3)
             ->create(['is_public' => true])
             ->each(function ($document) use ($user) {
                 $document->publications()->save(new Publication([

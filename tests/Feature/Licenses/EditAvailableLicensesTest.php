@@ -6,15 +6,15 @@ use KBox\Option;
 use Tests\TestCase;
 use OneOffTech\Licenses\License;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use KBox\User;
 
 class EditAvailableLicensesTest extends TestCase
 {
-    use DatabaseTransactions, WithoutMiddleware;
+    use  WithoutMiddleware;
 
     public function test_at_least_one_license_is_selected()
     {
-        $user = factory(\KBox\User::class)->state('admin')->create();
+        $user = User::factory()->admin()->create();
 
         $response = $this->actingAs($user)->from('/administration/licenses')->put('/administration/licenses/available', [
             'available_licenses' => ''
@@ -28,7 +28,7 @@ class EditAvailableLicensesTest extends TestCase
     
     public function test_array_is_required_for_available_license_selection()
     {
-        $user = factory(\KBox\User::class)->state('admin')->create();
+        $user = User::factory()->admin()->create();
 
         $response = $this->actingAs($user)->from('/administration/licenses')->put('/administration/licenses/available', [
             'available_licenses' => 'a-string'
@@ -42,7 +42,7 @@ class EditAvailableLicensesTest extends TestCase
 
     public function test_invalid_license_is_selected()
     {
-        $user = factory(\KBox\User::class)->state('admin')->create();
+        $user = User::factory()->admin()->create();
 
         $response = $this->actingAs($user)->from('/administration/licenses')->put('/administration/licenses/available', [
             'available_licenses' => ['a-string']
@@ -58,7 +58,7 @@ class EditAvailableLicensesTest extends TestCase
     {
         Option::put(Option::COPYRIGHT_AVAILABLE_LICENSES, 'null');
 
-        $user = factory(\KBox\User::class)->state('admin')->create();
+        $user = User::factory()->admin()->create();
 
         $response = $this->actingAs($user)->from('/administration/licenses')->put('/administration/licenses/available', [
             'available_licenses' => ['C', 'PD', 'CC-BY-4.0']

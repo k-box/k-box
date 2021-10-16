@@ -3,24 +3,19 @@
 namespace Tests\Unit;
 
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use KBox\Capability;
+
 use KBox\DocumentDescriptor;
 use KBox\User;
 
 class RedirectOldDocumentsControllerTest extends TestCase
 {
-    use DatabaseTransactions;
-
     public function test_preview_page_reachable_using_old_institution_url()
     {
         $this->withKlinkAdapterFake();
         
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
         
-        $doc = factory(DocumentDescriptor::class)->create([
+        $doc = DocumentDescriptor::factory()->create([
             'owner_id' => $user->id,
             'local_document_id' => '789456123a'
         ]);
@@ -37,15 +32,11 @@ class RedirectOldDocumentsControllerTest extends TestCase
     {
         $this->withKlinkAdapterFake();
         
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
         
-        $another_user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $another_user = User::factory()->partner()->create();
         
-        $doc = factory(DocumentDescriptor::class)->create(['owner_id' => $user->id]);
+        $doc = DocumentDescriptor::factory()->create(['owner_id' => $user->id]);
         
         $response = $this->actingAs($another_user)->get(route('documents.by-klink-id', [
             'institution' => 'whatever',

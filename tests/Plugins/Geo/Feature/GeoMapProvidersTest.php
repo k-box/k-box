@@ -8,11 +8,10 @@ use KBox\Capability;
 use KBox\Geo\GeoService;
 use KBox\Plugins\PluginManager;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class GeoMapProvidersTest extends TestCase
 {
-    use DatabaseTransactions, WithoutMiddleware;
+    use  WithoutMiddleware;
 
     private $startConfig = null;
 
@@ -88,7 +87,7 @@ class GeoMapProvidersTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         $user->addCapabilities(Capability::$ADMIN);
         
@@ -119,7 +118,7 @@ class GeoMapProvidersTest extends TestCase
 
     public function test_tile_provider_cannot_be_created_if_parameters_are_invalid()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         $user->addCapabilities(Capability::$ADMIN);
         
@@ -162,7 +161,7 @@ class GeoMapProvidersTest extends TestCase
             $service->config(['map' => $initial]);
         }
         
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         
         $user->addCapabilities(Capability::$ADMIN);
         
@@ -208,7 +207,7 @@ class GeoMapProvidersTest extends TestCase
             $service->config(['map' => $initial]);
         }
         
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         
         $user->addCapabilities(Capability::$ADMIN);
         
@@ -229,7 +228,7 @@ class GeoMapProvidersTest extends TestCase
 
         $initial = $service->config('map')['default'];
         
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         
         $user->addCapabilities(Capability::$ADMIN);
         
@@ -253,7 +252,7 @@ class GeoMapProvidersTest extends TestCase
 
         $initial = $service->config('map')['default'];
         
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         
         $user->addCapabilities(Capability::$ADMIN);
         
@@ -274,7 +273,7 @@ class GeoMapProvidersTest extends TestCase
 
         $initial = $service->config('map')['providers'];
         
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         
         $user->addCapabilities(Capability::$ADMIN);
         
@@ -298,7 +297,7 @@ class GeoMapProvidersTest extends TestCase
 
         $initial = $service->config('map')['providers'];
         
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         
         $user->addCapabilities(Capability::$ADMIN);
         
@@ -322,7 +321,7 @@ class GeoMapProvidersTest extends TestCase
 
         $initial = $service->config('map')['providers'];
         
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         
         $user->addCapabilities(Capability::$ADMIN);
 
@@ -344,7 +343,7 @@ class GeoMapProvidersTest extends TestCase
 
         $initial = $service->config('map')['providers'];
         
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         
         $user->addCapabilities(Capability::$ADMIN);
 
@@ -363,7 +362,7 @@ class GeoMapProvidersTest extends TestCase
 
         $initial = $service->config('map')['default'];
         
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         
         $user->addCapabilities(Capability::$ADMIN);
         

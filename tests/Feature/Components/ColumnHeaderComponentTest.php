@@ -2,7 +2,6 @@
 
 namespace Tests\Feature\Components;
 
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 use KBox\Sorter;
 use Illuminate\Http\Request;
@@ -10,8 +9,6 @@ use Symfony\Component\HttpFoundation\Request as BaseRequest;
 
 class ColumnHeaderComponentTest extends TestCase
 {
-    use DatabaseTransactions;
-
     private function makeRequest($params)
     {
         return Request::createFromBase(

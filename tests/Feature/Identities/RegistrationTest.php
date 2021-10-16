@@ -2,9 +2,7 @@
 
 namespace Tests\Feature\Identities;
 
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\Session;
-use KBox\Capability;
 use KBox\Invite;
 use KBox\User;
 use SocialiteProviders\GitLab\Provider;
@@ -15,8 +13,6 @@ use Tests\TestCase;
 
 class RegistrationTest extends TestCase
 {
-    use DatabaseTransactions;
-    
     public function test_social_registration_forbidden_if_registration_is_disabled()
     {
         config(['registration.enable' => false]);
@@ -64,11 +60,9 @@ class RegistrationTest extends TestCase
 
         $this->withoutExceptionHandling();
 
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
 
-        $invite = factory(Invite::class)->create([
+        $invite = Invite::factory()->create([
             'creator_id' => $user->id
         ]);
         

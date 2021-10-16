@@ -9,12 +9,9 @@ use KBox\Events\EmailChanged;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Auth\Notifications\VerifyEmail;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class UserEmailControllerTest extends TestCase
 {
-    use DatabaseTransactions;
-
     public function capabilities_provider()
     {
         return [
@@ -30,7 +27,7 @@ class UserEmailControllerTest extends TestCase
      */
     public function test_email_change_page_is_reachable($capabilities)
     {
-        $user = tap(factory(User::class)->create(), function ($u) use ($capabilities) {
+        $user = tap(User::factory()->create(), function ($u) use ($capabilities) {
             $u->addCapabilities($capabilities);
         });
         
@@ -45,8 +42,7 @@ class UserEmailControllerTest extends TestCase
         Notification::fake();
         Event::fake();
 
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
+        $user = tap(User::factory()->partner()->create(), function ($u) {
             $u->markEmailAsVerified();
         });
 
@@ -79,9 +75,7 @@ class UserEmailControllerTest extends TestCase
     
     public function test_change_refused_if_new_email_do_not_pass_validation()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
         
         $response = $this->from(route('profile.email.index'))->actingAs($user)->put(route('profile.email.update'), [
             'email' => $user->email,

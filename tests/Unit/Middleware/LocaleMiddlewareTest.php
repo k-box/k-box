@@ -7,12 +7,9 @@ use KBox\User;
 use Tests\TestCase;
 use Illuminate\Http\Request;
 use KBox\Http\Middleware\Locale;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class LocaleMiddlewareTest extends TestCase
 {
-    use DatabaseTransactions;
-
     public function test_configured_language_is_selected_if_no_preference_is_specified()
     {
         config(['app.locale' => 'de']);
@@ -41,7 +38,7 @@ class LocaleMiddlewareTest extends TestCase
 
     public function test_user_language_is_selected_if_no_preference_is_specified()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         $user->setOption(User::OPTION_LANGUAGE, 'fr');
 
@@ -75,7 +72,7 @@ class LocaleMiddlewareTest extends TestCase
     {
         config(['app.locale' => 'de']);
 
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         $user->setOption(User::OPTION_LANGUAGE, 'fr');
 
@@ -128,7 +125,7 @@ class LocaleMiddlewareTest extends TestCase
     {
         config(['app.locale' => $default_language]);
 
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         $user->setOption(User::OPTION_LANGUAGE, null);
 
@@ -169,7 +166,7 @@ class LocaleMiddlewareTest extends TestCase
     {
         config(['app.locale' => 'en']);
 
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         $user->setOption(User::OPTION_LANGUAGE, null);
 

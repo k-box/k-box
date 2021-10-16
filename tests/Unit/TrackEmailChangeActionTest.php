@@ -4,20 +4,14 @@ namespace Tests\Unit;
 
 use KBox\User;
 use Tests\TestCase;
-use KBox\Capability;
 use KBox\Events\EmailChanged;
 use Illuminate\Support\Facades\Event;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class TrackEmailChangeActionTest extends TestCase
 {
-    use DatabaseTransactions;
-
     public function test_email_changed_action_is_tracked_into_security_log()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
 
         event(new EmailChanged($user, 'old@example.com', $user->email));
 

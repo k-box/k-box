@@ -3,18 +3,15 @@
 namespace Tests\Unit;
 
 use Tests\TestCase;
-use KBox\Capability;
 use KBox\Exceptions\ForbiddenException;
 use KBox\Exceptions\CollectionMoveException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+
 use KBox\Project;
 use KBox\Shared;
 use KBox\User;
 
 class MoveCollectionsTest extends TestCase
 {
-    use DatabaseTransactions;
-
     private $documentService = null;
 
     protected function setUp(): void
@@ -26,11 +23,9 @@ class MoveCollectionsTest extends TestCase
 
     public function test_move_from_project_to_personal_is_denied_if_user_not_member_of_project()
     {
-        $project = factory(\KBox\Project::class)->create();
+        $project = Project::factory()->create();
 
-        $user = tap(factory(\KBox\User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
         
         $collection = $this->documentService->createGroup($user, 'personal', null, $project->collection, false);
         $collection_container = $this->documentService->createGroup($user, 'personal-container', null);
@@ -47,11 +42,9 @@ class MoveCollectionsTest extends TestCase
 
     public function test_move_from_project_to_personal_is_permitted()
     {
-        $project = factory(\KBox\Project::class)->create();
+        $project = Project::factory()->create();
 
-        $user = tap(factory(\KBox\User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
 
         $project->users()->attach($user);
         
@@ -74,11 +67,9 @@ class MoveCollectionsTest extends TestCase
 
     public function test_move_from_project_to_personal_is_blocked_when_collections_are_created_by_different_users()
     {
-        $user = tap(factory(\KBox\User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
         
-        $project = tap(factory(\KBox\Project::class)->create(), function ($p) use ($user) {
+        $project = tap(Project::factory()->create(), function ($p) use ($user) {
             $p->users()->attach($user);
         });
         
@@ -104,11 +95,9 @@ class MoveCollectionsTest extends TestCase
 
     public function test_move_from_personal_to_project()
     {
-        $project = factory(\KBox\Project::class)->create();
+        $project = Project::factory()->create();
 
-        $user = tap(factory(\KBox\User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PROJECT_MANAGER);
-        });
+        $user = User::factory()->projectManager()->create();
 
         $project->users()->attach($user);
         
@@ -131,11 +120,9 @@ class MoveCollectionsTest extends TestCase
 
     public function test_move_from_personal_to_project_is_denied_if_user_do_not_have_access_to_project()
     {
-        $project = factory(\KBox\Project::class)->create();
+        $project = Project::factory()->create();
 
-        $user = tap(factory(\KBox\User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PROJECT_MANAGER);
-        });
+        $user = User::factory()->projectManager()->create();
         
         $collection = $this->documentService->createGroup($user, 'personal');
         $collection_under = $this->documentService->createGroup($user, 'personal-sub-collection', null, $collection);
@@ -153,17 +140,15 @@ class MoveCollectionsTest extends TestCase
 
     public function test_move_from_personal_to_project_denied_if_collection_has_shares_to_non_members()
     {
-        $project = factory(Project::class)->create();
+        $project = Project::factory()->create();
 
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PROJECT_MANAGER);
-        });
+        $user = User::factory()->projectManager()->create();
 
         $project->users()->attach($user);
         
         $collection = $this->documentService->createGroup($user, 'personal');
 
-        $share = factory(Shared::class)->create([
+        $share = Shared::factory()->create([
             'shareable_id' => $collection->getKey(),
             'shareable_type' => get_class($collection),
         ]);

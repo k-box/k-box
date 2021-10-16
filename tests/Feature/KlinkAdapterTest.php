@@ -6,12 +6,9 @@ use Tests\TestCase;
 use KBox\Option;
 use Klink\DmsAdapter\KlinkAdapter;
 use Klink\DmsAdapter\KlinkVisibilityType;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class KlinkAdapterTest extends TestCase
 {
-    use DatabaseTransactions;
-
     protected function setUp(): void
     {
         if (empty(getenv('DMS_CORE_ADDRESS'))) {

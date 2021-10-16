@@ -4,25 +4,20 @@ namespace Tests\Feature;
 
 use Tests\TestCase;
 use Illuminate\Support\Facades\Notification;
-use KBox\Capability;
 use KBox\Events\UserInvited;
 use KBox\Notifications\InviteEmail;
 use KBox\User;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+
 use Illuminate\Support\Facades\Config;
 use KBox\Invite;
 
 class SendInviteTest extends TestCase
 {
-    use DatabaseTransactions;
-    
     public function test_invite_notification_sent()
     {
-        $creator = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $creator = User::factory()->partner()->create();
 
-        $invite = factory(Invite::class)->create([
+        $invite = Invite::factory()->create([
             'email' => 'john@kbox.kbox'
         ]);
         
@@ -44,11 +39,9 @@ class SendInviteTest extends TestCase
 
     public function test_invite_notification_not_sent_if_already_accepted()
     {
-        $creator = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $creator = User::factory()->partner()->create();
 
-        $invite = factory(Invite::class)->create([
+        $invite = Invite::factory()->create([
             'email' => 'john@kbox.kbox',
             'accepted_at' => now(),
             'user_id' => $creator->getKey(),
@@ -70,11 +63,9 @@ class SendInviteTest extends TestCase
 
     public function test_invite_notification_not_sent_if_expired()
     {
-        $creator = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $creator = User::factory()->partner()->create();
 
-        $invite = factory(Invite::class)->create([
+        $invite = Invite::factory()->create([
             'email' => 'john@kbox.kbox',
             'expire_at' => now()->subDays(1),
             'user_id' => $creator->getKey(),
@@ -100,11 +91,9 @@ class SendInviteTest extends TestCase
             'registration.enable' => false,
         ]);
 
-        $creator = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $creator = User::factory()->partner()->create();
 
-        $invite = factory(Invite::class)->create([
+        $invite = Invite::factory()->create([
             'email' => 'john@kbox.kbox',
             'accepted_at' => now(),
             'user_id' => $creator->getKey(),
@@ -126,7 +115,7 @@ class SendInviteTest extends TestCase
 
     public function test_user_invited_listener_send_notification()
     {
-        $invite = factory(Invite::class)->create([
+        $invite = Invite::factory()->create([
             'email' => 'john@kbox.kbox'
         ]);
 
@@ -142,11 +131,9 @@ class SendInviteTest extends TestCase
 
     public function test_user_invited_listener_do_nothing_if_invite_already_accepted()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
 
-        $invite = factory(Invite::class)->create([
+        $invite = Invite::factory()->create([
             'email' => 'john@kbox.kbox',
             'accepted_at' => now(),
             'user_id' => $user->getKey(),
@@ -170,11 +157,9 @@ class SendInviteTest extends TestCase
 
         Config::set('registration.enable', false);
 
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
 
-        $invite = factory(Invite::class)->create([
+        $invite = Invite::factory()->create([
             'email' => 'john@kbox.kbox',
             'accepted_at' => now(),
             'user_id' => $user->getKey(),
@@ -192,7 +177,7 @@ class SendInviteTest extends TestCase
 
     public function test_user_invited_listener_do_nothing_if_invite_creator_is_disabled()
     {
-        $invite = factory(Invite::class)->create([
+        $invite = Invite::factory()->create([
             'email' => 'john@kbox.kbox',
         ]);
 

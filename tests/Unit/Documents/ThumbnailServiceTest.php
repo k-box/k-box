@@ -13,14 +13,14 @@ use KBox\Documents\Services\ThumbnailsService;
 use KBox\Documents\Thumbnail\PdfThumbnailGenerator;
 use KBox\Documents\Thumbnail\ImageThumbnailGenerator;
 use KBox\Documents\Thumbnail\VideoThumbnailGenerator;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+
 use KBox\Documents\Exceptions\UnsupportedFileException;
 use KBox\Jobs\ThumbnailGenerationJob;
 use KBox\Documents\Contracts\ThumbnailGenerator as ThumbnailGeneratorContract;
 
 class ThumbnailServiceTest extends TestCase
 {
-    use DatabaseTransactions, SwapInstance;
+    use  SwapInstance;
 
     public function mime_type_and_fallback_thumbnail_provider()
     {
@@ -119,7 +119,7 @@ class ThumbnailServiceTest extends TestCase
 
     public function test_generator_usage()
     {
-        $file = factory(File::class)->create([
+        $file = File::factory()->create([
             'path' => __DIR__.'/../../data/example.txt',
             'mime_type' => 'ateam/mad'
         ]);
@@ -133,7 +133,7 @@ class ThumbnailServiceTest extends TestCase
     
     public function test_unsupported_exception_thrown_if_file_not_supported()
     {
-        $file = factory(File::class)->create([
+        $file = File::factory()->create([
             'mime_type' => 'ateam/mad'
         ]);
 
@@ -167,7 +167,7 @@ class ThumbnailServiceTest extends TestCase
         config(['contentprocessing.queue' => 'custom']);
         $this->swap(ThumbnailsService::class, new ThumbnailsService());
 
-        $file = factory(File::class)->create([
+        $file = File::factory()->create([
             'mime_type' => 'ateam/mad'
         ]);
         

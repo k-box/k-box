@@ -5,13 +5,9 @@ namespace Tests\Feature;
 use KBox\User;
 use KBox\Option;
 use Tests\TestCase;
-use KBox\Capability;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class KlinkGuestSearchTest extends TestCase
 {
-    use DatabaseTransactions;
-
     public function test_search_not_presented_on_login_page_if_guest_search_disabled()
     {
         config(['dms.are_guest_public_search_enabled' => false]);
@@ -68,9 +64,7 @@ class KlinkGuestSearchTest extends TestCase
         Option::option(Option::PUBLIC_CORE_ENABLED, false);
         config(['dms.are_guest_public_search_enabled' => true]);
 
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
         
         $response = $this->actingAs($user)->get('/search');
 

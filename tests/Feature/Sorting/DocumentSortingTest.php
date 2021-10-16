@@ -3,7 +3,7 @@
 namespace Tests\Feature\Sorting;
 
 use Carbon\Carbon;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+
 use KBox\Capability;
 use KBox\DocumentDescriptor;
 use KBox\Shared;
@@ -13,8 +13,6 @@ use Tests\TestCase;
 
 class DocumentSortingTest extends TestCase
 {
-    use DatabaseTransactions;
-
     public function sorting_direction()
     {
         return [
@@ -30,7 +28,7 @@ class DocumentSortingTest extends TestCase
     {
         $this->withKlinkAdapterFake();
 
-        $user = tap(factory(User::class)->create())->addCapabilities(Capability::$PARTNER);
+        $user = tap(User::factory()->create())->addCapabilities(Capability::$PARTNER);
 
         $created_at = Carbon::now();
 
@@ -79,7 +77,7 @@ class DocumentSortingTest extends TestCase
 
     protected function createRecentDocument(User $user, Carbon $date = null, $documentParams = [])
     {
-        return factory(DocumentDescriptor::class)->create(array_merge([
+        return DocumentDescriptor::factory()->create(array_merge([
             'owner_id' => $user->id,
             'created_at' => $date ?? Carbon::now(),
             'updated_at' => $date ?? Carbon::now(),
@@ -90,7 +88,7 @@ class DocumentSortingTest extends TestCase
     {
         $this->withKlinkAdapterFake();
 
-        $user = tap(factory(User::class)->create())->addCapabilities(Capability::$PARTNER);
+        $user = tap(User::factory()->create())->addCapabilities(Capability::$PARTNER);
 
         $created_at = Carbon::now();
 
@@ -101,7 +99,7 @@ class DocumentSortingTest extends TestCase
         ];
 
         foreach ($expected_documents as $doc) {
-            factory(Starred::class)->create([
+            Starred::factory()->create([
                 'user_id' => $user->getKey(),
                 'document_id' => $doc->getKey(),
             ]);
@@ -138,7 +136,7 @@ class DocumentSortingTest extends TestCase
     {
         $this->withKlinkAdapterFake();
 
-        $user = tap(factory(User::class)->create())->addCapabilities(Capability::$PARTNER);
+        $user = tap(User::factory()->create())->addCapabilities(Capability::$PARTNER);
 
         $expected_documents = [
             $this->createRecentDocument($user, null, ['title' => 'a']),
@@ -147,7 +145,7 @@ class DocumentSortingTest extends TestCase
         ];
 
         foreach ($expected_documents as $doc) {
-            factory(Starred::class)->create([
+            Starred::factory()->create([
                 'user_id' => $user->getKey(),
                 'document_id' => $doc->getKey(),
             ]);
@@ -184,7 +182,7 @@ class DocumentSortingTest extends TestCase
     {
         $this->withKlinkAdapterFake();
 
-        $user = tap(factory(User::class)->create())->addCapabilities(Capability::$PARTNER);
+        $user = tap(User::factory()->create())->addCapabilities(Capability::$PARTNER);
 
         $expected_documents = [
             $this->createRecentDocument($user, null, ['title' => 'a']),
@@ -193,17 +191,17 @@ class DocumentSortingTest extends TestCase
         ];
 
         $expected_shares = [
-            factory(Shared::class)->create([
+            Shared::factory()->create([
                 'sharedwith_id' => $user->getKey(),
                 'shareable_id' => $expected_documents[0]->getKey(),
                 'created_at' => now()->subMinutes(10)
             ]),
-            factory(Shared::class)->create([
+            Shared::factory()->create([
                 'sharedwith_id' => $user->getKey(),
                 'shareable_id' => $expected_documents[1]->getKey(),
                 'created_at' => now()
             ]),
-            factory(Shared::class)->create([
+            Shared::factory()->create([
                 'sharedwith_id' => $user->getKey(),
                 'shareable_id' => $expected_documents[2]->getKey(),
                 'created_at' => now()->subMinutes(20)
@@ -241,7 +239,7 @@ class DocumentSortingTest extends TestCase
     {
         $this->withKlinkAdapterFake();
 
-        $user = tap(factory(User::class)->create())->addCapabilities(Capability::$PARTNER);
+        $user = tap(User::factory()->create())->addCapabilities(Capability::$PARTNER);
 
         $expected_documents = [
             $this->createRecentDocument($user, null, ['title' => 'a']),
@@ -250,23 +248,23 @@ class DocumentSortingTest extends TestCase
         ];
 
         $sharee = [
-            factory(User::class)->create(['name' => 'alexander']),
-            factory(User::class)->create(['name' => 'luca']),
-            factory(User::class)->create(['name' => 'manfred']),
+            User::factory()->create(['name' => 'alexander']),
+            User::factory()->create(['name' => 'luca']),
+            User::factory()->create(['name' => 'manfred']),
         ];
 
         $expected_shares = [
-            factory(Shared::class)->create([
+            Shared::factory()->create([
                 'sharedwith_id' => $user->getKey(),
                 'shareable_id' => $expected_documents[0]->getKey(),
                 'user_id' => $sharee[0]->getKey(),
             ]),
-            factory(Shared::class)->create([
+            Shared::factory()->create([
                 'sharedwith_id' => $user->getKey(),
                 'shareable_id' => $expected_documents[1]->getKey(),
                 'user_id' => $sharee[1]->getKey(),
             ]),
-            factory(Shared::class)->create([
+            Shared::factory()->create([
                 'sharedwith_id' => $user->getKey(),
                 'shareable_id' => $expected_documents[2]->getKey(),
                 'user_id' => $sharee[2]->getKey(),

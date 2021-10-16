@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Cache;
 use KBox\Events\CollectionCreated;
 use KBox\Events\CollectionTrashed;
 use KBox\Casts\UuidCast;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * A collection of document descriptors
@@ -67,6 +68,7 @@ class Group extends Entity
     // https://github.com/franzose/ClosureTable
 
     use SoftDeletes, LocalizableDateFields, GeneratesUuid, ScopeNullUuid;
+    use HasFactory;
 
     /**
      * The table associated with the model.

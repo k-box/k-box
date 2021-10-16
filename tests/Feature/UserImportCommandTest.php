@@ -8,7 +8,7 @@ use KBox\User;
 use KBox\Project;
 use KBox\Capability;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+
 use Illuminate\Support\Facades\Mail;
 use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\BufferedOutput;
@@ -21,8 +21,6 @@ use RuntimeException;
 */
 class UserImportCommandTest extends TestCase
 {
-    use DatabaseTransactions;
-    
     public function user_provider_for_editpage_public_checkbox_test()
     {
         return [
@@ -52,18 +50,16 @@ class UserImportCommandTest extends TestCase
     
     public function testDmsUserImportCommandWithValidFileAndFiveColumns()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
+        $user = User::factory()->admin()->create();
         
         Mail::shouldReceive('queue')->times(4)->withAnyArgs();
         
         // create a Project called "test"
-        $test = factory(Project::class)->create(['name' => 'test']);
+        $test = Project::factory()->create(['name' => 'test']);
         // create a Project called "secondary"
-        $secondary = factory(Project::class)->create(['name' => 'secondary']);
+        $secondary = Project::factory()->create(['name' => 'secondary']);
         // create a project called "lead by"
-        $lead_by = factory(Project::class)->create(['name' => 'lead by']);
+        $lead_by = Project::factory()->create(['name' => 'lead by']);
         
         $output = new BufferedOutput;
         
@@ -109,9 +105,7 @@ class UserImportCommandTest extends TestCase
     
     public function testDmsUserImportCommandWithValidFileWithThreeColumns()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
+        $user = User::factory()->admin()->create();
         
         Mail::shouldReceive('queue')->times(6)->withAnyArgs();
 
@@ -136,9 +130,7 @@ class UserImportCommandTest extends TestCase
     
     public function testDmsUserImportCommandWithWrongColumnsInFile()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
+        $user = User::factory()->admin()->create();
 
         $this->expectException(Exception::class);
         $this->expectExceptionMessage('Wrong column name, expecting manage project or manage or manage-projects or manage-project found k-linker at index 3');

@@ -11,11 +11,10 @@ use KBox\Documents\TypeIdentification;
 use Illuminate\Support\Facades\Storage;
 use KBox\Documents\Services\FileService;
 use Klink\DmsAdapter\Traits\SwapInstance;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class FileServiceTest extends TestCase
 {
-    use DatabaseTransactions, SwapInstance;
+    use  SwapInstance;
 
     public function test_identifier_registration_throws_if_non_existing_class_is_passed()
     {

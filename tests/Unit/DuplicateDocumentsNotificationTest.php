@@ -4,26 +4,21 @@ namespace Tests\Unit;
 
 use Carbon\Carbon;
 use Tests\TestCase;
-use KBox\Capability;
 use KBox\DuplicateDocument;
 use Illuminate\Support\Facades\Mail;
 use KBox\Events\FileDuplicateFoundEvent;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use KBox\User;
 use KBox\Notifications\DuplicateDocumentsNotification;
 
 class DuplicateDocumentsNotificationTest extends TestCase
 {
-    use DatabaseTransactions;
-
     public function test_notification_is_sent_and_duplicates_marked_as_sent()
     {
         Notification::fake();
 
-        $user = tap(factory(\KBox\User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
 
         $duplicate = $this->createDuplicates($user)->first();
 
@@ -48,9 +43,7 @@ class DuplicateDocumentsNotificationTest extends TestCase
     {
         Notification::fake();
 
-        $user = tap(factory(\KBox\User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
 
         $duplicates = $this->createDuplicates($user, 2, ['notification_sent_at' => Carbon::now()]);
 
@@ -69,9 +62,7 @@ class DuplicateDocumentsNotificationTest extends TestCase
     public function test_notification_includes_newer_duplicates()
     {
         Notification::fake();
-        $user = tap(factory(\KBox\User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
 
         $duplicates = $this->createDuplicates($user, 3, ['user_id' => $user->id]);
 
@@ -99,9 +90,7 @@ class DuplicateDocumentsNotificationTest extends TestCase
         Notification::fake();
         Mail::fake();
 
-        $user = tap(factory(\KBox\User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
 
         $duplicates = $this->createDuplicates($user, 3, ['user_id' => $user->id]);
 
@@ -126,6 +115,6 @@ class DuplicateDocumentsNotificationTest extends TestCase
 
     private function createDuplicates($user, $count = 1, $options = [])
     {
-        return factory(DuplicateDocument::class, $count)->create($options);
+        return DuplicateDocument::factory()->count($count)->create($options);
     }
 }

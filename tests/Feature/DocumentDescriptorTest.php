@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use KBox\User;
+use KBox\File;
 use KBox\Project;
 use Carbon\Carbon;
 use Tests\TestCase;
@@ -13,11 +14,10 @@ use KBox\Exceptions\FileNamingException;
 use Klink\DmsAdapter\KlinkVisibilityType;
 use Illuminate\Foundation\Testing\WithFaker;
 use Klink\DmsAdapter\Exceptions\KlinkException;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class DocumentDescriptorTest extends TestCase
 {
-    use DatabaseTransactions, WithFaker;
+    use  WithFaker;
     
     public function visibility_provider()
     {
@@ -56,7 +56,7 @@ class DocumentDescriptorTest extends TestCase
      */
     public function testLastErrorStoreAndRetrieve($obj, $expected_property_in_deserialized_object, $expected_value_for_type)
     {
-        $descr = factory(DocumentDescriptor::class)->make();
+        $descr = DocumentDescriptor::factory()->make();
         $descr->last_error = $obj;
         $saved = $descr->save();
         
@@ -81,7 +81,7 @@ class DocumentDescriptorTest extends TestCase
     {
         $mock = $this->withKlinkAdapterMock();
         
-        $file = factory(\KBox\File::class)->make();
+        $file = File::factory()->make();
         
         $service = app('KBox\Documents\Services\DocumentsService');
 
@@ -105,7 +105,7 @@ class DocumentDescriptorTest extends TestCase
     {
         $mock = $this->withKlinkAdapterMock();
 
-        $doc = factory(DocumentDescriptor::class)->make();
+        $doc = DocumentDescriptor::factory()->make();
         
         $service = app('KBox\Documents\Services\DocumentsService');
 
@@ -144,8 +144,8 @@ class DocumentDescriptorTest extends TestCase
         $personal1 = $this->createCollection($user);
         $personal2 = $this->createCollection($user);
         
-        $project1 = factory(Project::class)->create();
-        $project2 = factory(Project::class)->create();
+        $project1 = Project::factory()->create();
+        $project2 = Project::factory()->create();
 
         $project_collection = $this->createProjectCollection($user, $project2);
 
@@ -246,12 +246,12 @@ class DocumentDescriptorTest extends TestCase
 
     private function createUser($capabilities, $userParams = [])
     {
-        return tap(factory(User::class)->create($userParams))->addCapabilities($capabilities);
+        return tap(User::factory()->create($userParams))->addCapabilities($capabilities);
     }
 
     private function createDocument(User $user, $visibility = 'private')
     {
-        return factory(DocumentDescriptor::class)->create([
+        return DocumentDescriptor::factory()->create([
             'owner_id' => $user->id,
             'visibility' => $visibility,
         ]);

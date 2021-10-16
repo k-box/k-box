@@ -7,6 +7,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use KBox\Notifications\QuotaFullNotification;
 use KBox\Notifications\QuotaLimitNotification;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  *
@@ -27,6 +28,8 @@ use KBox\Notifications\QuotaLimitNotification;
  */
 class UserQuota extends Model
 {
+    use HasFactory;
+    
     const FULL_THRESHOLD = 99;
     
     protected $dates = [

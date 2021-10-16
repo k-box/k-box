@@ -7,19 +7,13 @@ use KBox\Flags;
 use KBox\Consent;
 use KBox\Consents;
 use Tests\TestCase;
-use KBox\Capability;
 use Jenssegers\Date\Date as LocalizedDate;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class UserPrivacyControllerTest extends TestCase
 {
-    use DatabaseTransactions;
-
     public function test_privacy_page_shows_consent_status()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
+        $user = User::factory()->admin()->create();
 
         Flags::enable(Flags::CONSENT_NOTIFICATIONS);
 
@@ -47,9 +41,7 @@ class UserPrivacyControllerTest extends TestCase
 
     public function test_notification_consent_can_be_given()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
+        $user = User::factory()->admin()->create();
 
         Flags::enable(Flags::CONSENT_NOTIFICATIONS);
 
@@ -71,9 +63,7 @@ class UserPrivacyControllerTest extends TestCase
     
     public function test_notification_consent_can_be_removed()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
+        $user = User::factory()->admin()->create();
 
         Flags::enable(Flags::CONSENT_NOTIFICATIONS);
 
@@ -95,9 +85,7 @@ class UserPrivacyControllerTest extends TestCase
 
     public function test_statistic_consent_can_be_given()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
+        $user = User::factory()->admin()->create();
 
         Flags::enable(Flags::CONSENT_NOTIFICATIONS);
 
@@ -119,9 +107,7 @@ class UserPrivacyControllerTest extends TestCase
     
     public function test_statistic_consent_can_be_removed()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
+        $user = User::factory()->admin()->create();
 
         Consent::agree($user, Consents::STATISTIC);
 

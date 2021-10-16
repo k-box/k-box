@@ -7,16 +7,14 @@ use KBox\Project;
 use Tests\TestCase;
 use KBox\Capability;
 use KBox\Traits\Searchable;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class ProjectsVisibilityTest extends TestCase
 {
     use Searchable;
-    use DatabaseTransactions;
-
+    
     private function createUser($capabilities, $userParams = [])
     {
-        return tap(factory(User::class)->create($userParams))->addCapabilities($capabilities);
+        return tap(User::factory()->create($userParams))->addCapabilities($capabilities);
     }
 
     public function test_projects_are_not_reported_on_sidebar_if_user_is_a_partner_without_projects()
@@ -36,7 +34,7 @@ class ProjectsVisibilityTest extends TestCase
     {
         config(['dms.hide_projects_if_empty' => true]);
 
-        $project = factory(Project::class)->create();
+        $project = Project::factory()->create();
 
         $user = $this->createUser(Capability::$PARTNER);
 

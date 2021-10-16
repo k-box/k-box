@@ -4,19 +4,14 @@ namespace Tests\Unit;
 
 use KBox\User;
 use Tests\TestCase;
-use KBox\Capability;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Support\Facades\Event;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class TrackEmailVerificationTest extends TestCase
 {
-    use DatabaseTransactions;
-
     public function test_email_changed_action_is_tracked_into_security_log()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
+        $user = tap(User::factory()->partner()->create(), function ($u) {
             $u->markEmailAsVerified();
         });
 

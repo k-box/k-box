@@ -7,12 +7,9 @@ use Tests\TestCase;
 use KBox\Capability;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Auth\Events\PasswordReset;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class UserPasswordControllerTest extends TestCase
 {
-    use DatabaseTransactions;
-
     public function capabilities_provider()
     {
         return [
@@ -28,7 +25,7 @@ class UserPasswordControllerTest extends TestCase
      */
     public function test_password_change_page_is_reachable($capabilities)
     {
-        $user = tap(factory(User::class)->create(), function ($u) use ($capabilities) {
+        $user = tap(User::factory()->create(), function ($u) use ($capabilities) {
             $u->addCapabilities($capabilities);
             $u->markEmailAsVerified();
         });
@@ -41,7 +38,7 @@ class UserPasswordControllerTest extends TestCase
     
     public function test_password_change_possible_only_if_email_is_verified()
     {
-        $user = tap(factory(User::class)->create([
+        $user = tap(User::factory()->create([
             'email_verified_at' => null
         ]), function ($u) {
             $u->addCapabilities(Capability::$PARTNER);
@@ -56,7 +53,7 @@ class UserPasswordControllerTest extends TestCase
     {
         Event::fake();
 
-        $user = tap(factory(User::class)->create(), function ($u) {
+        $user = tap(User::factory()->create(), function ($u) {
             $u->addCapabilities(Capability::$PARTNER);
             $u->markEmailAsVerified();
         });
@@ -83,8 +80,7 @@ class UserPasswordControllerTest extends TestCase
     
     public function test_change_refused_if_new_password_do_not_pass_validation()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
+        $user = tap(User::factory()->partner()->create(), function ($u) {
             $u->markEmailAsVerified();
         });
 

@@ -1,42 +1,48 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+namespace Database\Factories;
 
-use KBox\User;
+use Illuminate\Database\Eloquent\Factories\Factory;
 use KBox\Identity;
-use Illuminate\Support\Str;
-use Faker\Generator as Faker;
-use KBox\Capability;
+use KBox\User;
 
-/*
-|--------------------------------------------------------------------------
-| Model Factories
-|--------------------------------------------------------------------------
-|
-| This directory should contain each of the model factory definitions for
-| your application. Factories provide a convenient way to generate new
-| model instances for testing / seeding your application's database.
-|
-*/
+class IdentityFactory extends Factory
+{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = Identity::class;
 
-$factory->define(Identity::class, function (Faker $faker) {
-    return [
-        'user_id' =>  function () {
-            return factory(User::class)->create()->id;
-        },
-        'provider_id' => $faker->uuid,
-        'provider' => $faker->randomElement(['gitlab', 'dropbox']),
-        'token' => $faker->sha256,
-        'refresh_token' => null,
-        'expires_at' => null,
-        'registration' => false,
-    ];
-});
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+        return [
+            'user_id' => function () {
+                return User::factory();
+            },
+            'provider_id' => $this->faker->uuid,
+            'provider' => $this->faker->randomElement(['gitlab', 'dropbox']),
+            'token' => $this->faker->sha256,
+            'refresh_token' => null,
+            'expires_at' => null,
+            'registration' => false,
+        ];
+    }
 
-$factory->state(Identity::class, 'registration', function (Faker $faker) {
+
+    public function registration()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'registration' => true,
+            ];
+        });
+    }
     
-    return [
-        'registration' => true,
-    ];
-});
-
+}

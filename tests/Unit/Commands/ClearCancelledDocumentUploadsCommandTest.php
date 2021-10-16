@@ -8,16 +8,14 @@ use KBox\File;
 use Tests\TestCase;
 use KBox\DocumentDescriptor;
 use Illuminate\Support\Facades\DB;
+use KBox\User;
 use OneOffTech\TusUpload\TusUpload;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class ClearCancelledDocumentUploadsCommandTest extends TestCase
 {
-    use DatabaseTransactions;
-
     private function generateCancelledUploads($count = 3)
     {
-        $user = factory(\KBox\User::class)->create();
+        $user = User::factory()->create();
         
         $uploads = [];
 
@@ -83,7 +81,7 @@ class ClearCancelledDocumentUploadsCommandTest extends TestCase
         $previous_files = File::withTrashed()->count();
         DB::table('tus_uploads_queue')->truncate();
 
-        $doc_that_should_remain = factory(\KBox\DocumentDescriptor::class)->create();
+        $doc_that_should_remain = DocumentDescriptor::factory()->create();
         $uploads = $this->generateCancelledUploads(3);
 
         $exitCode = Artisan::call('documents:clear-cancelled', []);

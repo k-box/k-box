@@ -9,17 +9,14 @@ use KBox\Geo\Gdal\Gdal;
 use KBox\Documents\FileHelper;
 use KBox\Documents\Thumbnail\ThumbnailImage;
 use KBox\Geo\Thumbnails\GeoTiffThumbnailGenerator;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class GeoTiffThumbnailGeneratorTest extends TestCase
 {
-    use DatabaseTransactions;
-
     protected function createFileForPath($path)
     {
         list($mimeType) = FileHelper::type($path);
 
-        return factory(File::class)->create([
+        return File::factory()->create([
             'path' => $path,
             'mime_type' => $mimeType
         ]);

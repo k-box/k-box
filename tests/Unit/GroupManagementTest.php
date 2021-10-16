@@ -5,17 +5,14 @@ namespace Tests\Unit;
 use KBox\User;
 use KBox\Group;
 use Tests\TestCase;
-use KBox\Capability;
 use Tests\Concerns\ClearDatabase;
 use KBox\Exceptions\ForbiddenException;
 use KBox\Documents\Services\DocumentsService;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class GroupManagementTest extends TestCase
 {
     use ClearDatabase;
-    use DatabaseTransactions;
-
+    
     private $service = null;
 
     private $user = null;
@@ -101,9 +98,7 @@ class GroupManagementTest extends TestCase
             B   C        C   G
                D  E
         */
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
+        $user = User::factory()->admin()->create();
         $tree = $this->createTestGroupTree($user, $this->service);
 
         $this->assertEquals(8, Group::all()->count());
@@ -141,9 +136,7 @@ class GroupManagementTest extends TestCase
 
     public function testGroupUpdate()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
+        $user = User::factory()->admin()->create();
         
         $a = $this->service->createGroup($user, 'a');
 
@@ -163,9 +156,7 @@ class GroupManagementTest extends TestCase
 
     public function testGroupUpdateForbidden($value = '')
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
+        $user = User::factory()->admin()->create();
         
         $a = $this->service->createGroup($user, 'a');
 
@@ -180,9 +171,7 @@ class GroupManagementTest extends TestCase
 
     public function testGroupCreationFromFolder()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
+        $user = User::factory()->admin()->create();
         
         $group = $this->service->createGroupsFromFolderPath($user, '/pretty/path/for/example/');
 
@@ -197,9 +186,7 @@ class GroupManagementTest extends TestCase
     
     public function testGroupCreationFromFolderWithSingleFolder()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
+        $user = User::factory()->admin()->create();
         
         $group = $this->service->createGroupsFromFolderPath($user, 'example/');
 
@@ -208,9 +195,7 @@ class GroupManagementTest extends TestCase
 
     public function testGroupCreationFromFolderTwice()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
+        $user = User::factory()->admin()->create();
         
         $group = $this->service->createGroupsFromFolderPath($user, '/pretty/path/for/example/');
         $group = $this->service->createGroupsFromFolderPath($user, '/pretty/path/for/example/');
@@ -223,9 +208,7 @@ class GroupManagementTest extends TestCase
      */
     public function testGroupCopyBaseCases()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
+        $user = User::factory()->admin()->create();
 
         $tree = $this->createTestGroupTree($user, $this->service);
 
@@ -262,9 +245,7 @@ class GroupManagementTest extends TestCase
 
     public function testGroupCopyAdvancedCases()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
+        $user = User::factory()->admin()->create();
         
         $tree = $this->createTestGroupTree($user, $this->service);
 
@@ -286,9 +267,7 @@ class GroupManagementTest extends TestCase
      */
     public function testGroupMovesBaseCases()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
+        $user = User::factory()->admin()->create();
         
         $tree = $this->createTestGroupTree($user, $this->service);
 
@@ -330,9 +309,7 @@ class GroupManagementTest extends TestCase
      */
     public function testGroupMovesAdvancedCases()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
+        $user = User::factory()->admin()->create();
 
         $tree = $this->createTestGroupTree($user, $this->service);
 
@@ -359,9 +336,7 @@ class GroupManagementTest extends TestCase
 
     public function testGroupMoveForbidden()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
+        $user = User::factory()->admin()->create();
 
         $tree = $this->createTestGroupTree($user, $this->service);
         
@@ -375,9 +350,7 @@ class GroupManagementTest extends TestCase
 
     public function testGroupCopyForbidden()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
+        $user = User::factory()->admin()->create();
 
         $tree = $this->createTestGroupTree($user, $this->service);
         
@@ -391,9 +364,7 @@ class GroupManagementTest extends TestCase
 
     public function testCanCopyOrMoveGroup()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
+        $user = User::factory()->admin()->create();
 
         $tree = $this->createTestGroupTree($user, $this->service);
         

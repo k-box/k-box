@@ -6,9 +6,8 @@ use KBox\File;
 use Tests\TestCase;
 use Illuminate\Support\Facades\DB;
 use KBox\Console\Commands\OrphanFilesCommand;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+
 use Illuminate\Support\Facades\Schema;
-use KBox\Capability;
 use KBox\DocumentDescriptor;
 use KBox\User;
 
@@ -17,8 +16,6 @@ use KBox\User;
  */
 class OrphanFilesCommandTest extends TestCase
 {
-    use DatabaseTransactions;
-
     protected function setUp(): void
     {
         parent::setUp();
@@ -33,12 +30,10 @@ class OrphanFilesCommandTest extends TestCase
      */
     private function createSomeDocumentsAndFiles()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
+        $user = User::factory()->admin()->create();
 
         // generate 3 document descriptors with file
-        $docs = factory(DocumentDescriptor::class, 3)->create();
+        $docs = DocumentDescriptor::factory()->count(3)->create();
 
         // add a file revision to the last generated document
         $document3 = $docs->last();
@@ -47,7 +42,7 @@ class OrphanFilesCommandTest extends TestCase
         $destination = storage_path('documents/example-document.pdf');
         copy($template, $destination);
 
-        $revision = factory(File::class)->create([
+        $revision = File::factory()->create([
             'user_id' => $user->id,
             'original_uri' => '',
             'path' => $destination,
@@ -59,7 +54,7 @@ class OrphanFilesCommandTest extends TestCase
         $document3->save();
 
         // create an orphan file
-        $orphan = factory(File::class)->create([
+        $orphan = File::factory()->create([
             'user_id' => $user->id,
             'original_uri' => '',
             'path' => $destination,
@@ -67,12 +62,12 @@ class OrphanFilesCommandTest extends TestCase
         ]);
         
         // trash a document with its related file
-        $to_be_trashed = factory(DocumentDescriptor::class)->create();
+        $to_be_trashed = DocumentDescriptor::factory()->create();
         $to_be_trashed->file->delete();
         $to_be_trashed->delete();
 
         // orphan file that is already trashed
-        $deleted_orphan = factory(File::class)->create([
+        $deleted_orphan = File::factory()->create([
             'user_id' => $user->id,
             'original_uri' => '',
             'path' => $destination,

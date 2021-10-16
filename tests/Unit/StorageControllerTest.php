@@ -5,13 +5,9 @@ namespace Tests\Unit;
 use KBox\User;
 use KBox\Option;
 use Tests\TestCase;
-use KBox\Capability;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class StorageControllerTest extends TestCase
 {
-    use DatabaseTransactions;
-    
     public function test_storage_administration_page_can_be_viewed()
     {
         $this->withKlinkAdapterFake();
@@ -23,9 +19,7 @@ class StorageControllerTest extends TestCase
         Option::put('dms.reindex.completed', 0);
         Option::put('dms.reindex.total', 0);
 
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
+        $user = User::factory()->admin()->create();
         
         $response = $this->actingAs($user)->get(route('administration.storage.index'));
 
@@ -37,9 +31,7 @@ class StorageControllerTest extends TestCase
     {
         $this->withKlinkAdapterFake();
 
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
+        $user = User::factory()->admin()->create();
 
         $response = $this->actingAs($user)->get(route('administration.storage.index'));
 

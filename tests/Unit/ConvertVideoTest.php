@@ -8,13 +8,10 @@ use Tests\TestCase;
 use KBox\Jobs\ConvertVideo;
 use KBox\DocumentDescriptor;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Mockery;
 
 class ConvertVideoTest extends TestCase
 {
-    use DatabaseTransactions;
-
     protected function setUp(): void
     {
         parent::setUp();
@@ -38,7 +35,7 @@ class ConvertVideoTest extends TestCase
 
         Storage::fake('local');
 
-        $descriptor = factory(\KBox\DocumentDescriptor::class)->create();
+        $descriptor = DocumentDescriptor::factory()->create();
 
         dispatch(new ConvertVideo($descriptor));
 
@@ -60,9 +57,9 @@ class ConvertVideoTest extends TestCase
         // copy a test file to the file storage
         Storage::disk('local')->put($file_path, file_get_contents(base_path('tests/data/video.mp4')));
 
-        $user_id = factory(User::class)->create()->id;
+        $user_id = User::factory()->create()->id;
 
-        $file = factory(File::class)->create([
+        $file = File::factory()->create([
             'name' => "AVIDEO.mp4",
             'hash' => hash_file('sha512', Storage::disk('local')->path($file_path)),
             'path' => $file_path,
@@ -73,7 +70,7 @@ class ConvertVideoTest extends TestCase
             'upload_completed_at' => \Carbon\Carbon::now()
         ]);
 
-        $descriptor = factory(DocumentDescriptor::class)->create([
+        $descriptor = DocumentDescriptor::factory()->create([
             'local_document_id' => substr($file->hash, 0, 6),
             'title' => "AVIDEO.mp4",
             'hash' => $file->hash,

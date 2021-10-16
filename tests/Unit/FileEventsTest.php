@@ -7,16 +7,13 @@ use Tests\TestCase;
 use KBox\Events\FileDeleted;
 use KBox\Events\FileRestored;
 use Illuminate\Support\Facades\Event;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class FileEventsTest extends TestCase
 {
-    use DatabaseTransactions;
-    
     public function test_deleted_event_fired_for_file_trash()
     {
         Event::fake();
-        $file = factory(File::class)->create();
+        $file = File::factory()->create();
         $this->actingAs($file->user);
 
         $file->delete();
@@ -28,7 +25,7 @@ class FileEventsTest extends TestCase
     
     public function test_deleted_event_fired_for_file_delete()
     {
-        $file = factory(File::class)->create();
+        $file = File::factory()->create();
 
         Event::fake();
 
@@ -43,7 +40,7 @@ class FileEventsTest extends TestCase
     
     public function test_restored_event_fired_for_trashed_file()
     {
-        $file = factory(File::class)->create();
+        $file = File::factory()->create();
         
         Event::fake();
 
@@ -58,7 +55,7 @@ class FileEventsTest extends TestCase
     
     public function test_restored_event_get_current_authenticated_user()
     {
-        $file = factory(File::class)->create();
+        $file = File::factory()->create();
         
         Event::fake();
         

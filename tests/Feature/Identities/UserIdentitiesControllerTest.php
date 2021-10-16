@@ -2,7 +2,6 @@
 
 namespace Tests\Feature\Identities;
 
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use KBox\Capability;
 use KBox\Identity;
 use KBox\User;
@@ -10,8 +9,6 @@ use Tests\TestCase;
 
 class UserIdentitiesControllerTest extends TestCase
 {
-    use DatabaseTransactions;
-    
     public function test_authentication_required_to_visit_connected_identities_page()
     {
         $response = $this->get(route('profile.identities.index'));
@@ -23,9 +20,9 @@ class UserIdentitiesControllerTest extends TestCase
     {
         config(['identities.providers' => 'gitlab']);
 
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
-        $identity = factory(Identity::class)->state('registration')->create([
+        $identity = Identity::factory()->registration()->create([
             'user_id' => $user->getKey(),
             'provider' => 'gitlab',
         ]);
@@ -48,12 +45,12 @@ class UserIdentitiesControllerTest extends TestCase
     {
         config(['identities.providers' => 'gitlab,dropbox']);
 
-        $user = tap(factory(User::class)->create(), function ($u) {
+        $user = tap(User::factory()->create(), function ($u) {
             $u->addCapabilities(Capability::$PARTNER);
             $u->markEmailAsVerified();
         });
 
-        $identities = factory(Identity::class, 3)->create();
+        $identities = Identity::factory()->count(3)->create();
 
         $response = $this->actingAs($user)->get(route('profile.identities.index'));
 
@@ -70,7 +67,7 @@ class UserIdentitiesControllerTest extends TestCase
     {
         config(['identities.providers' => 'gitlab']);
 
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         $response = $this->actingAs($user)
             ->get(route('profile.identities.index'));
@@ -89,7 +86,7 @@ class UserIdentitiesControllerTest extends TestCase
     {
         config(['identities.providers' => null]);
 
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         $response = $this->actingAs($user)
             ->get(route('profile.identities.index'));
@@ -101,9 +98,9 @@ class UserIdentitiesControllerTest extends TestCase
     {
         config(['identities.providers' => 'gitlab']);
 
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
-        $identity = factory(Identity::class)->state('registration')->create([
+        $identity = Identity::factory()->registration()->create([
             'user_id' => $user->getKey(),
             'provider' => 'gitlab',
         ]);
@@ -119,9 +116,9 @@ class UserIdentitiesControllerTest extends TestCase
     {
         config(['identities.providers' => 'gitlab']);
 
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
-        $identity = factory(Identity::class)->state('registration')->create([
+        $identity = Identity::factory()->registration()->create([
             'user_id' => $user->getKey(),
             'provider' => 'gitlab',
         ]);
@@ -143,11 +140,11 @@ class UserIdentitiesControllerTest extends TestCase
     {
         config(['identities.providers' => 'gitlab']);
 
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         
-        $otherUser = factory(User::class)->create();
+        $otherUser = User::factory()->create();
 
-        $identity = factory(Identity::class)->state('registration')->create([
+        $identity = Identity::factory()->registration()->create([
             'user_id' => $user->getKey(),
             'provider' => 'gitlab',
         ]);
@@ -163,12 +160,11 @@ class UserIdentitiesControllerTest extends TestCase
     {
         config(['identities.providers' => 'gitlab,dropbox']);
 
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
+        $user = tap(User::factory()->partner()->create(), function ($u) {
             $u->markEmailAsVerified();
         });
 
-        $identity = factory(Identity::class)->create([
+        $identity = Identity::factory()->create([
             'user_id' => $user->getKey()
         ]);
 

@@ -8,12 +8,9 @@ use KBox\Starred;
 use Tests\TestCase;
 use KBox\Capability;
 use KBox\DocumentDescriptor;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class StarredTest extends TestCase
 {
-    use DatabaseTransactions;
-
     public function user_provider()
     {
         return [
@@ -32,11 +29,11 @@ class StarredTest extends TestCase
     {
         $this->withKlinkAdapterFake();
         
-        $user = tap(factory(User::class)->create(), function ($u) use ($caps) {
+        $user = tap(User::factory()->create(), function ($u) use ($caps) {
             $u->addCapabilities($caps);
         });
         
-        $starred = factory(Starred::class, 3)->create(['user_id' => $user->id]);
+        $starred = Starred::factory()->count(3)->create(['user_id' => $user->id]);
         
         $response = $this->actingAs($user)->get(route('documents.starred.index'));
              
@@ -50,7 +47,7 @@ class StarredTest extends TestCase
 
     protected function createRecentDocument(User $user, Carbon $date = null, $documentParams = [])
     {
-        return factory(DocumentDescriptor::class)->create(array_merge([
+        return DocumentDescriptor::factory()->create(array_merge([
             'owner_id' => $user->id,
             'created_at' => $date ?? Carbon::now(),
             'updated_at' => $date ?? Carbon::now(),
@@ -61,16 +58,14 @@ class StarredTest extends TestCase
     {
         $this->withKlinkAdapterFake();
         
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
+        $user = User::factory()->admin()->create();
 
         $created_at = Carbon::now();
         
         $starred = [
-            factory(Starred::class)->create(['user_id' => $user->id, 'document_id' => $this->createRecentDocument($user, $created_at)]),
-            factory(Starred::class)->create(['user_id' => $user->id, 'document_id' => $this->createRecentDocument($user, $created_at->copy()->subMinutes(10))]),
-            factory(Starred::class)->create(['user_id' => $user->id, 'document_id' => $this->createRecentDocument($user, $created_at->copy()->subHours(2))]),
+            Starred::factory()->create(['user_id' => $user->id, 'document_id' => $this->createRecentDocument($user, $created_at)]),
+            Starred::factory()->create(['user_id' => $user->id, 'document_id' => $this->createRecentDocument($user, $created_at->copy()->subMinutes(10))]),
+            Starred::factory()->create(['user_id' => $user->id, 'document_id' => $this->createRecentDocument($user, $created_at->copy()->subHours(2))]),
         ];
         
         $response = $this->actingAs($user)->get(route('documents.starred.index'));
@@ -94,11 +89,11 @@ class StarredTest extends TestCase
     {
         $this->withKlinkAdapterFake();
         
-        $user = factory(User::class)->state('partner')->create();
+        $user = User::factory()->partner()->create();
         
         $expected_count = Starred::count() + 1;
         
-        $doc = factory(DocumentDescriptor::class)->create([
+        $doc = DocumentDescriptor::factory()->create([
             'owner_id' => $user->getKey(),
             'local_document_id' => 'stardoc',
         ]);
@@ -118,13 +113,11 @@ class StarredTest extends TestCase
     
     public function test_remove_star()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
         
         $expected_count = Starred::count();
         
-        $starred = factory(Starred::class)->create(['user_id' => $user->id]);
+        $starred = Starred::factory()->create(['user_id' => $user->id]);
         
         $response = $this->actingAs($user)->delete(
             route('documents.starred.destroy', [
@@ -144,11 +137,9 @@ class StarredTest extends TestCase
     {
         $this->withKlinkAdapterFake();
         
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
         
-        $starred = factory(Starred::class, 3)->create(['user_id' => $user->id]);
+        $starred = Starred::factory()->count(3)->create(['user_id' => $user->id]);
 
         $starred->first()->document->delete();
 
@@ -161,13 +152,11 @@ class StarredTest extends TestCase
     {
         $this->withKlinkAdapterFake();
         
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
         
         $expected_count = Starred::count();
         
-        $starred = factory(Starred::class)->create(['user_id' => $user->id]);
+        $starred = Starred::factory()->create(['user_id' => $user->id]);
 
         $starred->document->delete();
 

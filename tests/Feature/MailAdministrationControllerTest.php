@@ -5,16 +5,12 @@ namespace Tests\Feature;
 use KBox\User;
 use KBox\Option;
 use Tests\TestCase;
-use KBox\Capability;
 use KBox\Mail\TestingMail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Artisan;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class MailAdministrationControllerTest extends TestCase
 {
-    use DatabaseTransactions;
-
     public function testMailIsEnabledWithLogDriver()
     {
         Option::remove('mail.host');
@@ -72,9 +68,7 @@ class MailAdministrationControllerTest extends TestCase
 
         $adapter = $this->withKlinkAdapterFake();
 
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
+        $user = User::factory()->admin()->create();
 
         $this->assertTrue(Option::isMailEnabled());
 
@@ -103,9 +97,7 @@ class MailAdministrationControllerTest extends TestCase
 
         $adapter = $this->withKlinkAdapterFake();
 
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
+        $user = User::factory()->admin()->create();
 
         $this->assertTrue(Option::isMailEnabled());
 
@@ -131,9 +123,7 @@ class MailAdministrationControllerTest extends TestCase
 
         $adapter = $this->withKlinkAdapterFake();
 
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
+        $user = User::factory()->admin()->create();
 
         $response = $this->actingAs($user)
             ->from(route('administration.mail.index'))
@@ -170,9 +160,7 @@ class MailAdministrationControllerTest extends TestCase
 
         $adapter = $this->withKlinkAdapterFake();
 
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
+        $user = User::factory()->admin()->create();
 
         $this->assertTrue(Option::isMailEnabled());
 
@@ -198,9 +186,7 @@ class MailAdministrationControllerTest extends TestCase
 
         $adapter = $this->withKlinkAdapterFake();
 
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
+        $user = User::factory()->admin()->create();
 
         $this->assertFalse(Option::isMailEnabled());
 

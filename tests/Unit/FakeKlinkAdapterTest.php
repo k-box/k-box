@@ -2,17 +2,17 @@
 
 namespace Tests\Unit;
 
+use KBox\DocumentDescriptor;
 use Tests\TestCase;
 use Klink\DmsAdapter\KlinkDocument;
 use Klink\DmsAdapter\KlinkSearchRequest;
 use Klink\DmsAdapter\KlinkSearchResults;
 use Klink\DmsAdapter\Fakes\FakeKlinkAdapter;
 use Klink\DmsAdapter\KlinkDocumentDescriptor;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class FakeKlinkAdapterTest extends TestCase
 {
-    use DatabaseTransactions; // because the model factories depends on the database for some fields
+    // because the model factories depends on the database for some fields
 
     public function test_add_document_increases_indexing_counter()
     {
@@ -102,7 +102,7 @@ class FakeKlinkAdapterTest extends TestCase
 
     private function generateKlinkDocument($visibility, $content = 'document content')
     {
-        $descriptor = factory(\KBox\DocumentDescriptor::class)->make([
+        $descriptor = DocumentDescriptor::factory()->make([
             'uuid' => "39613931-3436-4066-2d31-3533322d3466"
         ]);
         return new KlinkDocument(KlinkDocumentDescriptor::make($descriptor, $visibility), $content);

@@ -4,21 +4,19 @@ namespace Tests\Feature;
 
 use Tests\TestCase;
 use KBox\DocumentDescriptor;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 /*
  * Test the DocumentsCheckDescriptorCommand
 */
 class DocumentsCheckDescriptorCommandTest extends TestCase
 {
-    use DatabaseTransactions;
-
+    
     /**
      * Test the check descriptor command with a set of wrongly saved documents
      */
     public function testCheckDescriptorOnNonUpdatedDocuments()
     {
-        $doc = factory(DocumentDescriptor::class)->create([
+        $doc = DocumentDescriptor::factory()->create([
             'is_public' => false,
             'language' => 'en',
             'document_type' => 'image',
@@ -44,7 +42,7 @@ class DocumentsCheckDescriptorCommandTest extends TestCase
 
     public function testCheckDescriptorOnNonExistingDocument()
     {
-        $doc = factory(DocumentDescriptor::class)->create();
+        $doc = DocumentDescriptor::factory()->create();
 
         $doc->forceDelete();
 

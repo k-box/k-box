@@ -4,7 +4,7 @@ namespace Tests\Feature;
 
 use Carbon\Carbon;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -18,31 +18,29 @@ use ZipArchive;
 
 class ExportProjectCommandTest extends TestCase
 {
-    use DatabaseTransactions;
-
     private function createProject()
     {
-        $project = factory(Project::class)->create([
+        $project = Project::factory()->create([
             'name' => 'project / root'
         ]);
         $project->collection->name = $project->name;
         $project->collection->save();
 
         $documents = [
-            factory(DocumentDescriptor::class)->create(['title' => 'Document everywhere']),
-            factory(DocumentDescriptor::class)->create(['title' => 'Document 1 - Настройки географического расширения']),
-            factory(DocumentDescriptor::class)->create(['title' => 'Document 2']),
-            factory(DocumentDescriptor::class)->create(['title' => 'Document 3']),
-            factory(DocumentDescriptor::class)->create(['title' => 'Document 4']),
-            factory(DocumentDescriptor::class)->create(['title' => 'Document 5']),
-            factory(DocumentDescriptor::class)->create(['title' => 'Document 6']),
-            factory(DocumentDescriptor::class)->create(['title' => 'Document 7']),
+            DocumentDescriptor::factory()->create(['title' => 'Document everywhere']),
+            DocumentDescriptor::factory()->create(['title' => 'Document 1 - Настройки географического расширения']),
+            DocumentDescriptor::factory()->create(['title' => 'Document 2']),
+            DocumentDescriptor::factory()->create(['title' => 'Document 3']),
+            DocumentDescriptor::factory()->create(['title' => 'Document 4']),
+            DocumentDescriptor::factory()->create(['title' => 'Document 5']),
+            DocumentDescriptor::factory()->create(['title' => 'Document 6']),
+            DocumentDescriptor::factory()->create(['title' => 'Document 7']),
         ];
 
         $project->collection->documents()->save($documents[0]);
         $project->collection->documents()->save($documents[1]);
 
-        $collection_a = factory(Group::class)->state('project')->create([
+        $collection_a = Group::factory()->project()->create([
             'name' => 'level 1 - 1',
             'parent_id' => $project->collection->getKey()
         ]);
@@ -50,7 +48,7 @@ class ExportProjectCommandTest extends TestCase
         $collection_a->documents()->save($documents[2]);
         $collection_a->documents()->save($documents[0]);
 
-        $collection_c = factory(Group::class)->state('project')->create([
+        $collection_c = Group::factory()->project()->create([
             'name' => 'level 2 - 1',
             'parent_id' => $collection_a->getKey()
         ]);
@@ -58,14 +56,14 @@ class ExportProjectCommandTest extends TestCase
         $collection_c->documents()->save($documents[0]);
         $collection_c->documents()->save($documents[7]);
         
-        $collection_d = factory(Group::class)->state('project')->create([
+        $collection_d = Group::factory()->project()->create([
             'name' => 'level 2 - 2',
             'parent_id' => $collection_a->getKey()
         ]);
         $collection_d->documents()->save($documents[4]);
         $collection_d->documents()->save($documents[0]);
 
-        $collection_b = factory(Group::class)->state('project')->create([
+        $collection_b = Group::factory()->project()->create([
             'name' => 'level 1 - 2',
             'parent_id' => $project->collection->getKey()
         ]);
@@ -79,7 +77,7 @@ class ExportProjectCommandTest extends TestCase
         // attempt to include other projects in case a
         // document is part of collections under
         // different projects
-        $second_project = factory(Project::class)->create([
+        $second_project = Project::factory()->create([
             'name' => 'project / other'
         ]);
         $second_project->collection->name = $second_project->name;

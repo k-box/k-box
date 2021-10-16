@@ -12,15 +12,13 @@ use Symfony\Component\HttpFoundation\Request as BaseRequest;
 use Illuminate\Support\Collection;
 use KBox\Pagination\SearchResultsPaginator;
 use Klink\DmsAdapter\Fakes\FakeKlinkAdapter;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use KBox\Capability;
+
 use KBox\Sorter;
 use KBox\User;
 
 class SearchTest extends TestCase
 {
     use Searchable;
-    use DatabaseTransactions;
     
     public function testSearchStarred_all_override()
     {
@@ -28,11 +26,9 @@ class SearchTest extends TestCase
 
         // add some documents and star them
         
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
+        $user = User::factory()->admin()->create();
         
-        $starred = factory(DocumentDescriptor::class, 3)
+        $starred = DocumentDescriptor::factory()->count(3)
             ->create()
             ->each(function ($doc) use ($user) {
                 $doc->stars()->create(['user_id' => $user->id]);
@@ -112,7 +108,7 @@ class SearchTest extends TestCase
             return FakeKlinkAdapter::generateFacetsResponse($facets, $visibility, $term);
         });
 
-        $docs = factory(DocumentDescriptor::class, $count)->create();
+        $docs = DocumentDescriptor::factory()->count($count)->create();
 
         $interested_in = $docs->last();
         
@@ -185,7 +181,7 @@ class SearchTest extends TestCase
         $last_element = null;
 
         foreach ($document_names as $index => $title) {
-            $created = factory(DocumentDescriptor::class)->create([
+            $created = DocumentDescriptor::factory()->create([
                 'title' => $title
             ]);
 

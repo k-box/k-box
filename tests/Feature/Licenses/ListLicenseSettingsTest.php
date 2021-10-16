@@ -4,15 +4,13 @@ namespace Tests\Feature\Licenses;
 
 use Tests\TestCase;
 use KBox\Capability;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use KBox\User;
 
 class ListLicenseSettingsTest extends TestCase
 {
-    use DatabaseTransactions;
-
     public function test_available_licenses_are_presented()
     {
-        $user = factory(\KBox\User::class)->create();
+        $user = User::factory()->create();
 
         $user->addCapabilities(Capability::$ADMIN);
 

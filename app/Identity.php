@@ -3,11 +3,12 @@
 namespace KBox;
 
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Oneofftech\Identities\Facades\Identity as IdentityFacade;
 
 class Identity extends Model
 {
+    use HasFactory;
 
     /**
      * @var array

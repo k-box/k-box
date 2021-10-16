@@ -2,17 +2,14 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use KBox\User;
 use Tests\TestCase;
 
 class AdministrationDashboardTest extends TestCase
 {
-    use DatabaseTransactions;
-    
     public function test_administrator_sees_admin_link_in_header()
     {
-        $user = factory(User::class)->state('admin')->create();
+        $user = User::factory()->admin()->create();
 
         $response = $this
             ->actingAs($user)
@@ -25,7 +22,7 @@ class AdministrationDashboardTest extends TestCase
 
     public function test_administrator_sees_dashboard()
     {
-        $user = factory(User::class)->state('admin')->create();
+        $user = User::factory()->admin()->create();
 
         $response = $this
             ->actingAs($user)
@@ -43,7 +40,7 @@ class AdministrationDashboardTest extends TestCase
 
     public function test_access_denied_for_non_administrators()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         $response = $this
             ->actingAs($user)

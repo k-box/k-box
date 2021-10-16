@@ -3,8 +3,6 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
-use KBox\Capability;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Event;
 use KBox\Events\CollectionCreated;
@@ -12,22 +10,19 @@ use KBox\Events\CollectionTrashed;
 use KBox\Group;
 use KBox\Jobs\ReindexCollection;
 use KBox\User;
+use KBox\Project;
 
 class CollectionControllerTest extends TestCase
 {
-    use DatabaseTransactions;
-    
     public function test_move_from_project_to_personal_is_permitted()
     {
         Bus::fake();
 
         $service = app('KBox\Documents\Services\DocumentsService');
 
-        $project = factory(\KBox\Project::class)->create();
+        $project = Project::factory()->create();
 
-        $user = tap(factory(\KBox\User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PROJECT_MANAGER);
-        });
+        $user = User::factory()->projectManager()->create();
 
         $project->users()->attach($user);
         
@@ -58,11 +53,9 @@ class CollectionControllerTest extends TestCase
     {
         $service = app('KBox\Documents\Services\DocumentsService');
 
-        $user = tap(factory(\KBox\User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
         
-        $project = tap(factory(\KBox\Project::class)->create(), function ($p) use ($user) {
+        $project = tap(Project::factory()->create(), function ($p) use ($user) {
             $p->users()->attach($user);
         });
         
@@ -92,11 +85,9 @@ class CollectionControllerTest extends TestCase
     {
         $service = app('KBox\Documents\Services\DocumentsService');
 
-        $project = factory(\KBox\Project::class)->create();
+        $project = Project::factory()->create();
 
-        $user = tap(factory(\KBox\User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PROJECT_MANAGER);
-        });
+        $user = User::factory()->projectManager()->create();
 
         $project->users()->attach($user);
         
@@ -122,9 +113,7 @@ class CollectionControllerTest extends TestCase
     {
         $service = app('KBox\Documents\Services\DocumentsService');
 
-        $user = tap(factory(\KBox\User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PROJECT_MANAGER);
-        });
+        $user = User::factory()->projectManager()->create();
         
         $collection = $service->createGroup($user, 'personal');
         $collection_under = $service->createGroup($user, 'personal-sub-collection', null, $collection);
@@ -149,11 +138,9 @@ class CollectionControllerTest extends TestCase
     {
         $service = app('KBox\Documents\Services\DocumentsService');
 
-        $user = tap(factory(\KBox\User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PROJECT_MANAGER);
-        });
+        $user = User::factory()->projectManager()->create();
 
-        $project = factory(\KBox\Project::class)->create();
+        $project = Project::factory()->create();
         
         $collection = $project->collection;
         $collection_under = $service->createGroup($user, 'personal-sub-collection', null, $collection, false);
@@ -178,11 +165,9 @@ class CollectionControllerTest extends TestCase
     {
         $service = app('KBox\Documents\Services\DocumentsService');
 
-        $user = tap(factory(\KBox\User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PROJECT_MANAGER);
-        });
+        $user = User::factory()->projectManager()->create();
 
-        $project = factory(\KBox\Project::class)->create();
+        $project = Project::factory()->create();
         
         $collection = $service->createGroup($user, 'personal');
         $collection_under = $service->createGroup($user, 'personal-sub-collection', null, $collection);
@@ -206,9 +191,7 @@ class CollectionControllerTest extends TestCase
     {
         Event::fake();
  
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PROJECT_MANAGER);
-        });
+        $user = User::factory()->projectManager()->create();
 
         $response = $this
             ->actingAs($user)
@@ -237,11 +220,9 @@ class CollectionControllerTest extends TestCase
     
     public function test_collection_is_trashed()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
+        $user = User::factory()->admin()->create();
 
-        $collection = factory(Group::class)->create([
+        $collection = Group::factory()->create([
             'user_id' => $user->getKey(),
         ]);
 

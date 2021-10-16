@@ -5,12 +5,9 @@ namespace Tests\Feature;
 use KBox\User;
 use Tests\TestCase;
 use KBox\Capability;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class UserOptionsControllerTest extends TestCase
 {
-    use DatabaseTransactions;
-    
     public function capabilities()
     {
         return [
@@ -47,7 +44,7 @@ class UserOptionsControllerTest extends TestCase
      */
     public function testUserProfileOptions($cap, $option, $values)
     {
-        $user = tap(factory(User::class)->create(), function ($u) use ($cap) {
+        $user = tap(User::factory()->create(), function ($u) use ($cap) {
             $u->addCapabilities($cap);
         });
         
@@ -67,18 +64,14 @@ class UserOptionsControllerTest extends TestCase
 
     public function testOptionPersonalInProjectFilters()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
+        $user = User::factory()->admin()->create();
 
         $this->assertFalse($user->optionPersonalInProjectFilters());
     }
 
     public function testOptionItemsPerPage()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
+        $user = User::factory()->admin()->create();
 
         $this->assertEquals(config('dms.items_per_page'), $user->optionItemsPerPage());
 

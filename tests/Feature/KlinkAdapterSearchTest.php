@@ -11,12 +11,10 @@ use Klink\DmsAdapter\KlinkSearchResultItem;
 use Klink\DmsAdapter\KlinkFacets;
 use Klink\DmsAdapter\KlinkFilters;
 use KSearchClient\Model\Search\AggregationResult;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use KBox\DocumentDescriptor;
 
 class KlinkAdapterSearchTest extends TestCase
 {
-    use DatabaseTransactions;
-
     private $adapter = null;
 
     private $indexedDataUUIDs = null;
@@ -36,7 +34,7 @@ class KlinkAdapterSearchTest extends TestCase
 
         $this->indexedDataUUIDs = collect();
 
-        $descriptors = factory(\KBox\DocumentDescriptor::class, 5)->create();
+        $descriptors = DocumentDescriptor::factory()->count(5)->create();
         
         $descriptors->each(function ($descriptor) {
             $response = $this->adapter->addDocument(

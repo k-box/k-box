@@ -2,7 +2,6 @@
 
 namespace Tests\Feature\Sorting;
 
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 use Illuminate\Http\Request;
 use KBox\Sorter;
@@ -10,8 +9,6 @@ use Symfony\Component\HttpFoundation\Request as BaseRequest;
 
 class SorterTest extends TestCase
 {
-    use DatabaseTransactions;
-
     private function makeRequest($params)
     {
         return Request::createFromBase(

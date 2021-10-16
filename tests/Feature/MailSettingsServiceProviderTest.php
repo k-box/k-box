@@ -3,14 +3,14 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+
 use KBox\Option;
 use KBox\Providers\SettingsServiceProvider;
 use Tests\Concerns\ClearDatabase;
 
 class MailSettingsServiceProviderTest extends TestCase
 {
-    use DatabaseTransactions, ClearDatabase;
+    use ClearDatabase;
     
     public function test_settings_provider_use_configuration_persisted_in_database()
     {

@@ -6,12 +6,9 @@ use KBox\User;
 use KBox\Option;
 use Tests\TestCase;
 use KBox\Capability;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class IdentityControllerTest extends TestCase
 {
-    use DatabaseTransactions;
-
     public function protected_routes_provider()
     {
         return [
@@ -33,7 +30,7 @@ class IdentityControllerTest extends TestCase
      */
     public function testContactsControllerAuth($capabilities, $route, $method, $expected_status_code)
     {
-        $user = tap(factory(User::class)->create(), function ($u) use ($capabilities) {
+        $user = tap(User::factory()->create(), function ($u) use ($capabilities) {
             $u->addCapabilities($capabilities);
         });
         
@@ -51,9 +48,7 @@ class IdentityControllerTest extends TestCase
         // make sure contact information are not set
         Option::where('key', 'LIKE', 'contact.%')->delete();
 
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
+        $user = User::factory()->admin()->create();
 
         $response = $this->actingAs($user)->get(route('administration.index'));
 
@@ -65,9 +60,7 @@ class IdentityControllerTest extends TestCase
         // make sure contact information are not set
         Option::where('key', 'LIKE', 'contact.%')->delete();
 
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
+        $user = User::factory()->admin()->create();
 
         $response = $this->actingAs($user)
                          ->from(route('administration.identity.index'))
@@ -124,9 +117,7 @@ class IdentityControllerTest extends TestCase
         // make sure contact information are not set
         Option::where('key', 'LIKE', 'contact.%')->delete();
 
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
+        $user = User::factory()->admin()->create();
 
         $response = $this->actingAs($user)
                          ->from(route('administration.identity.index'))
@@ -169,9 +160,7 @@ class IdentityControllerTest extends TestCase
         // make sure contact information are not set
         Option::where('key', 'LIKE', 'contact.%')->delete();
 
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
+        $user = User::factory()->admin()->create();
 
         $response = $this->actingAs($user)
                          ->from(route('administration.identity.index'))

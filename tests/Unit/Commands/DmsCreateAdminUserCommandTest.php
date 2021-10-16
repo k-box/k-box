@@ -5,12 +5,9 @@ namespace Tests\Unit\Commands;
 use Artisan;
 use KBox\User;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class DmsCreateAdminUserCommandTest extends TestCase
 {
-    use DatabaseTransactions;
-
     public function test_admin_user_is_created_and_reset_link_is_returned()
     {
         $email = 'admin@kbox.local';

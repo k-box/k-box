@@ -6,7 +6,6 @@ use KBox\User;
 use KBox\File;
 use Carbon\Carbon;
 use Tests\TestCase;
-use KBox\Capability;
 use Illuminate\Support\Str;
 use KBox\DocumentDescriptor;
 use KBox\Events\UploadCompleted;
@@ -14,12 +13,9 @@ use OneOffTech\TusUpload\TusUpload;
 use Illuminate\Support\Facades\Event;
 use KBox\Listeners\TusUploadCompletedHandler;
 use OneOffTech\TusUpload\Events\TusUploadCompleted;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class TusUploadCompletedListenerTest extends TestCase
 {
-    use DatabaseTransactions;
-
     protected function setUp(): void
     {
         parent::setUp();
@@ -92,9 +88,7 @@ class TusUploadCompletedListenerTest extends TestCase
 
         Event::fake([UploadCompleted::class]);
 
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
+        $user = User::factory()->admin()->create();
 
         $request_id = 'REQUEST';
 

@@ -7,12 +7,9 @@ use KBox\Project;
 use Tests\TestCase;
 use KBox\Capability;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class ProjectAvatarsTest extends TestCase
 {
-    use DatabaseTransactions;
-    
     public function expected_routes_provider()
     {
         return [
@@ -60,7 +57,7 @@ class ProjectAvatarsTest extends TestCase
 
     private function createUser($capabilities, $userParams = [])
     {
-        return tap(factory(User::class)->create($userParams))->addCapabilities($capabilities);
+        return tap(User::factory()->create($userParams))->addCapabilities($capabilities);
     }
      
     /**
@@ -89,7 +86,7 @@ class ProjectAvatarsTest extends TestCase
     {
         $user = $this->createUser($caps);
         
-        $project = factory(Project::class)->create([
+        $project = Project::factory()->create([
             'avatar' => base_path('tests/data/project-avatar.png')
         ]);
 
@@ -109,7 +106,7 @@ class ProjectAvatarsTest extends TestCase
     {
         $user = $this->createUser($caps);
         
-        $project = factory(Project::class)->create([
+        $project = Project::factory()->create([
             'avatar' => base_path('tests/data/project-avatar.png')
         ]);
 
@@ -120,7 +117,7 @@ class ProjectAvatarsTest extends TestCase
     
     public function testProjectAvatarStore()
     {
-        $project = factory(Project::class)->create();
+        $project = Project::factory()->create();
 
         $params = [
             'id' => $project->id,
@@ -144,7 +141,7 @@ class ProjectAvatarsTest extends TestCase
     
     public function testProjectAvatarStoreForbidden()
     {
-        $project = factory(Project::class)->create();
+        $project = Project::factory()->create();
     
         $params = [
             'id' => $project->id,
@@ -166,7 +163,7 @@ class ProjectAvatarsTest extends TestCase
     {
         copy(base_path('tests/data/project-avatar.png'), storage_path('app/projects/avatars/project-avatar.png'));
 
-        $project = factory(Project::class)->create([
+        $project = Project::factory()->create([
             'avatar' => storage_path('app/projects/avatars/project-avatar.png')
         ]);
 
@@ -186,7 +183,7 @@ class ProjectAvatarsTest extends TestCase
 
     public function testProjectAvatarDeleteForbidden()
     {
-        $project = factory(Project::class)->create([
+        $project = Project::factory()->create([
             'avatar' => storage_path('app/projects/avatars/project-avatar.png')
         ]);
 

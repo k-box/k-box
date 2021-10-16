@@ -3,12 +3,9 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class LanguagePublishCommandTest extends TestCase
 {
-    use DatabaseTransactions;
-
     public function testJsLangCreation()
     {
         $this->withoutExceptionHandling();

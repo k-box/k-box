@@ -4,12 +4,9 @@ namespace Tests\Unit;
 
 use Tests\TestCase;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class CustomValidationRulesTest extends TestCase
 {
-    use DatabaseTransactions;
-    
     public function values_that_will_cause_the_validator_to_fail()
     {
         

@@ -2,8 +2,6 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-
 use KBox\DocumentDescriptor;
 use KBox\Documents\Services\DocumentsService;
 use KBox\Jobs\PublishDocumentJob;
@@ -13,15 +11,13 @@ use Tests\TestCase;
 
 class PublishDocumentJobTest extends TestCase
 {
-    use DatabaseTransactions;
-
     public function test_failed_publications_can_be_retried()
     {
         $this->withKlinkAdapterFake();
 
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
-        $document = factory(DocumentDescriptor::class)->create([
+        $document = DocumentDescriptor::factory()->create([
             'is_public' => true
         ]);
             
@@ -43,9 +39,9 @@ class PublishDocumentJobTest extends TestCase
     {
         $this->withKlinkAdapterFake();
 
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
-        $document = factory(DocumentDescriptor::class)->create([
+        $document = DocumentDescriptor::factory()->create([
             'is_public' => true
         ]);
 
@@ -70,9 +66,9 @@ class PublishDocumentJobTest extends TestCase
     {
         $this->withKlinkAdapterFake();
 
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
-        $document = factory(DocumentDescriptor::class)->create([
+        $document = DocumentDescriptor::factory()->create([
             'is_public' => false
         ]);
             

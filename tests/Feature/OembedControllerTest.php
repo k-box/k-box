@@ -4,26 +4,21 @@ namespace Tests\Feature;
 
 use KBox\User;
 use Tests\TestCase;
-use KBox\Capability;
 use KBox\DocumentDescriptor;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+
 use Illuminate\Support\Facades\Storage;
 
 class OembedControllerTest extends TestCase
 {
-    use DatabaseTransactions;
-
     private function create_document()
     {
         Storage::fake('local');
         
         $this->withKlinkAdapterFake();
 
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
 
-        $document = factory(DocumentDescriptor::class)->create(['owner_id' => $user->id]);
+        $document = DocumentDescriptor::factory()->create(['owner_id' => $user->id]);
         $document->document_uri = null;
         $document->save();
 

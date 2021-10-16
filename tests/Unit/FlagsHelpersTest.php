@@ -5,12 +5,9 @@ namespace Tests\Unit;
 use KBox\Flags;
 use Tests\TestCase;
 use Illuminate\Support\Str;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class FlagsHelpersTest extends TestCase
 {
-    use DatabaseTransactions;
-
     public function valid_constant_flags_provider()
     {
         return [

@@ -3,19 +3,16 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+
 use Illuminate\Support\Facades\URL;
-use KBox\Capability;
 use KBox\Invite;
 use KBox\User;
 
 class UserRegisterWithInviteTest extends TestCase
 {
-    use DatabaseTransactions;
-
     public function test_invite_info_presented_on_registration_form()
     {
-        $invite = factory(Invite::class)->create();
+        $invite = Invite::factory()->create();
 
         $response = $this->get(URL::signedRoute('register', [
             'i' => $invite->uuid,
@@ -33,7 +30,7 @@ class UserRegisterWithInviteTest extends TestCase
     
     public function test_invite_denied_if_expired()
     {
-        $invite = factory(Invite::class)->create([
+        $invite = Invite::factory()->create([
             'expire_at' => now(),
         ]);
 
@@ -54,11 +51,9 @@ class UserRegisterWithInviteTest extends TestCase
     
     public function test_invite_denied_if_already_accepted()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
 
-        $invite = factory(Invite::class)->create([
+        $invite = Invite::factory()->create([
             'accepted_at' => now(),
             'user_id' => $user->id,
         ]);
@@ -80,7 +75,7 @@ class UserRegisterWithInviteTest extends TestCase
     
     public function test_invite_denied_if_deleted()
     {
-        $invite = factory(Invite::class)->create();
+        $invite = Invite::factory()->create();
 
         $invite->delete();
 
@@ -102,7 +97,7 @@ class UserRegisterWithInviteTest extends TestCase
     
     public function test_invite_denied_if_signature_cannot_be_verified()
     {
-        $invite = factory(Invite::class)->create();
+        $invite = Invite::factory()->create();
 
         $response = $this->get(URL::signedRoute('register', [
             'i' => $invite->uuid.'in',
@@ -122,7 +117,7 @@ class UserRegisterWithInviteTest extends TestCase
     
     public function test_user_connected_to_invite_after_registration()
     {
-        $invite = factory(Invite::class)->create();
+        $invite = Invite::factory()->create();
 
         $response = $this->get(URL::signedRoute('register', [
             'i' => $invite->uuid.'in',
@@ -151,7 +146,7 @@ class UserRegisterWithInviteTest extends TestCase
     
     public function test_user_can_use_a_different_email_address()
     {
-        $invite = factory(Invite::class)->create();
+        $invite = Invite::factory()->create();
 
         $response = $this->get(URL::signedRoute('register', [
             'i' => $invite->uuid.'in',

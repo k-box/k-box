@@ -5,7 +5,7 @@ namespace Tests\Unit;
 use Illuminate\Auth\Access\AuthorizationException;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+
 use Illuminate\Support\Facades\Event;
 use KBox\Capability;
 use KBox\Events\UserInviteAccepted;
@@ -17,13 +17,10 @@ use KBox\User;
 class InviteTest extends TestCase
 {
     use WithFaker;
-    use DatabaseTransactions;
-
+    
     public function test_invite_is_generated()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
 
         Event::fake([
             UserInvited::class
@@ -47,11 +44,9 @@ class InviteTest extends TestCase
     
     public function test_invite_actionable_is_stored()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
 
-        $project = factory(Project::class)->create([
+        $project = Project::factory()->create([
             'user_id' => $user->id,
         ]);
 
@@ -77,7 +72,7 @@ class InviteTest extends TestCase
 
     public function test_invite_generation_denied_if_user_dont_have_verified_email()
     {
-        $user = tap(factory(User::class)->create(['email_verified_at' => null]), function ($u) {
+        $user = tap(User::factory()->create(['email_verified_at' => null]), function ($u) {
             $u->addCapabilities(Capability::$PARTNER);
         });
 
@@ -92,9 +87,9 @@ class InviteTest extends TestCase
 
     public function test_invite_is_accepted()
     {
-        $invite = factory(Invite::class)->create();
+        $invite = Invite::factory()->create();
         
-        $user = tap(factory(User::class)->create(['email' => $invite->email]), function ($u) {
+        $user = tap(User::factory()->create(['email' => $invite->email]), function ($u) {
             $u->addCapabilities(Capability::$PARTNER);
         });
 
@@ -115,7 +110,7 @@ class InviteTest extends TestCase
 
     public function test_invite_can_be_marked_as_notified()
     {
-        $invite = factory(Invite::class)->create();
+        $invite = Invite::factory()->create();
 
         $notified_invite = $invite->markNotified();
 
@@ -124,7 +119,7 @@ class InviteTest extends TestCase
 
     public function test_invite_can_be_marked_as_errored()
     {
-        $invite = factory(Invite::class)->create();
+        $invite = Invite::factory()->create();
 
         $errored_invite = $invite->markErrored();
 
@@ -133,7 +128,7 @@ class InviteTest extends TestCase
 
     public function test_invite_is_expired()
     {
-        $invite = factory(Invite::class)->create([
+        $invite = Invite::factory()->create([
             'expire_at' => now()->subDays(config('invite.expiration') + 1)
         ]);
 
@@ -142,8 +137,8 @@ class InviteTest extends TestCase
     
     public function test_expired_invites_can_be_retrieved()
     {
-        $valid_invites = factory(Invite::class, 2)->create();
-        $expired_invites = factory(Invite::class, 2)->create([
+        $valid_invites = Invite::factory()->count(2)->create();
+        $expired_invites = Invite::factory()->count(2)->create([
             'expire_at' => now()->subDays(config('invite.expiration') + 1)
         ]);
 

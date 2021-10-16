@@ -3,8 +3,7 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use KBox\Capability;
+
 use KBox\Documents\Services\DocumentsService;
 use KBox\Group;
 use KBox\Project;
@@ -13,15 +12,11 @@ use KBox\User;
 
 class GroupDetailsControllerTest extends TestCase
 {
-    use DatabaseTransactions;
-
     public function test_details_for_personal_collection()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
 
-        $collection = factory(Group::class)->create([
+        $collection = Group::factory()->create([
             'user_id' => $user->getKey(),
         ]);
 
@@ -40,11 +35,9 @@ class GroupDetailsControllerTest extends TestCase
 
     public function test_details_forbidden_if_collection_not_mine()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
 
-        $collection = factory(Group::class)->create();
+        $collection = Group::factory()->create();
 
         $response = $this->actingAs($user)
             ->get(route('groups.detail', $collection->getKey()));
@@ -56,11 +49,9 @@ class GroupDetailsControllerTest extends TestCase
     {
         $service = app(DocumentsService::class);
 
-        $project = factory(Project::class)->create();
+        $project = Project::factory()->create();
 
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
 
         $project->users()->attach($user);
         
@@ -81,19 +72,15 @@ class GroupDetailsControllerTest extends TestCase
 
     public function test_details_for_shared_collection()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
         
-        $shared_with = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $shared_with = User::factory()->partner()->create();
 
-        $collection = factory(Group::class)->create([
+        $collection = Group::factory()->create([
             'user_id' => $user->getKey(),
         ]);
 
-        $share = factory(Shared::class)->create([
+        $share = Shared::factory()->create([
             'user_id' => $user->getKey(),
             'shareable_id' => $collection->getKey(),
             'shareable_type' => get_class($collection),

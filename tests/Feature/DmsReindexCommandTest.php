@@ -7,20 +7,17 @@ use Tests\TestCase;
 use KBox\User;
 use KBox\DocumentDescriptor;
 
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-
 /*
  * Test the DMSReindexCommand
 */
 class DmsReindexCommandTest extends TestCase
 {
-    use DatabaseTransactions;
-
+    
     // function that might be useful
 
     private function createDocuments($quantity = 5)
     {
-        $docs = factory(DocumentDescriptor::class, $quantity)->create([
+        $docs = DocumentDescriptor::factory()->count($quantity)->create([
             'is_public' => false,
             'language' => null
         ]);

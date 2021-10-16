@@ -5,13 +5,9 @@ namespace Tests\Unit;
 use KBox\User;
 use KBox\Option;
 use Tests\TestCase;
-use KBox\Capability;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class NetworkAdministrationControllerTest extends TestCase
 {
-    use DatabaseTransactions;
-
     public function testNetworkPositiveConnection()
     {
         Option::put(Option::PUBLIC_CORE_ENABLED, true);
@@ -21,9 +17,7 @@ class NetworkAdministrationControllerTest extends TestCase
         $adapter->shouldReceive('isNetworkEnabled')->never();
         $adapter->shouldReceive('canConnect')->andReturn(['status' => 'ok']);
 
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
+        $user = User::factory()->admin()->create();
 
         $response = $this->actingAs($user)->get(route('administration.network.index'));
 
@@ -42,9 +36,7 @@ class NetworkAdministrationControllerTest extends TestCase
         $adapter->shouldReceive('isNetworkEnabled')->never();
         $adapter->shouldReceive('canConnect')->andReturn(['status' => 'error', 'error' => 'An error message']);
 
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
+        $user = User::factory()->admin()->create();
 
         $response = $this->actingAs($user)->get(route('administration.network.index'));
 

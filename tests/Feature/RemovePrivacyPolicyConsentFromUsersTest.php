@@ -8,15 +8,12 @@ use KBox\Consents;
 use Tests\TestCase;
 use KBox\Events\PrivacyPolicyUpdated;
 use KBox\Listeners\RemovePrivacyPolicyConsentFromUsers;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class RemovePrivacyPolicyConsentFromUsersTest extends TestCase
 {
-    use DatabaseTransactions;
-
     public function test_privacy_consent_is_removed_from_user()
     {
-        $users = factory(User::class, 2)->create()->each(function ($u) {
+        $users = User::factory()->count(2)->create()->each(function ($u) {
             Consent::agree($u, Consents::PRIVACY);
         });
 

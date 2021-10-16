@@ -4,7 +4,7 @@ namespace Tests\Unit\Documents;
 
 use Artisan;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+
 use KBox\File;
 use KBox\DocumentDescriptor;
 use KBox\Documents\Facades\Files;
@@ -12,13 +12,11 @@ use KBox\Console\Commands\ThumbnailGenerationCommand;
 
 class ThumbnailGenerationCommandTest extends TestCase
 {
-    use DatabaseTransactions;
-    
     public function testThumbnailGenerationConsole()
     {
         $real_path = base_path('tests/data/project-avatar.png');
         list($mime, $documentType) = Files::recognize($real_path);
-        $file = factory(File::class)->create([
+        $file = File::factory()->create([
             'name' => basename($real_path),
             'hash' => Files::hash($real_path),
             'path' => $real_path,
@@ -26,7 +24,7 @@ class ThumbnailGenerationCommandTest extends TestCase
             'size' => filesize($real_path),
         ]);
         
-        $document = factory(DocumentDescriptor::class)->create([
+        $document = DocumentDescriptor::factory()->create([
             'owner_id' => $file->user_id,
             'file_id' => $file->id,
         ]);

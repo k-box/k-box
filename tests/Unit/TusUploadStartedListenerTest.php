@@ -6,18 +6,14 @@ use KBox\User;
 use KBox\File;
 use Carbon\Carbon;
 use Tests\TestCase;
-use KBox\Capability;
 use KBox\DocumentDescriptor;
 use OneOffTech\TusUpload\TusUpload;
 use KBox\Listeners\TusUploadStartedHandler;
 use OneOffTech\TusUpload\Events\TusUploadStarted;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use KBox\Group;
 
 class TusUploadStartedListenerTest extends TestCase
 {
-    use DatabaseTransactions;
-
     private function createEvent($userId = 1, $requestId = '14b1c4c77771671a8479bc0444bbc5ce', $collection = null)
     {
         $upload = TusUpload::forceCreate([
@@ -38,9 +34,7 @@ class TusUploadStartedListenerTest extends TestCase
     {
         $this->withKlinkAdapterFake();
 
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
+        $user = User::factory()->admin()->create();
 
         $request_id = 'REQUEST';
 
@@ -62,9 +56,7 @@ class TusUploadStartedListenerTest extends TestCase
     {
         $this->withKlinkAdapterFake();
 
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
+        $user = User::factory()->admin()->create();
 
         $request_id = 'REQUEST';
 

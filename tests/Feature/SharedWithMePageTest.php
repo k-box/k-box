@@ -3,8 +3,7 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use KBox\Capability;
+
 use KBox\Documents\Services\DocumentsService;
 use KBox\Group;
 use KBox\Pagination\SearchResultsPaginator;
@@ -13,44 +12,38 @@ use KBox\User;
 
 class SharedWithMePageTest extends TestCase
 {
-    use DatabaseTransactions;
-
     public function test_shared_with_me_are_listed()
     {
         $this->withoutMiddleware();
 
         $adapter = $this->withKlinkAdapterFake();
 
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
         
-        $collection_creator = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $collection_creator = User::factory()->partner()->create();
 
         $service = app(DocumentsService::class);
         
-        $single_root_collection = factory(Group::class)->create([
+        $single_root_collection = Group::factory()->create([
             'user_id' => $collection_creator->getKey(),
             'name' => 'root',
         ]);
         
-        $root_collection = factory(Group::class)->create([
+        $root_collection = Group::factory()->create([
             'user_id' => $collection_creator->getKey(),
             'name' => 'root',
         ]);
 
         $single_sub_collection = $service->createGroup($collection_creator, 'under', null, $root_collection);
         
-        $hierarchy_root_collection = factory(Group::class)->create([
+        $hierarchy_root_collection = Group::factory()->create([
             'user_id' => $collection_creator->getKey(),
             'name' => 'root',
         ]);
 
         $hierarchy_sub_collection = $service->createGroup($collection_creator, 'under', null, $hierarchy_root_collection);
         
-        $first_share = factory(Shared::class)->create([
+        $first_share = Shared::factory()->create([
             'user_id' => $collection_creator->getKey(),
             'sharedwith_id' => $user->id,
             'shareable_type' => Group::class,
@@ -59,21 +52,21 @@ class SharedWithMePageTest extends TestCase
 
         $single_root_collection->delete();
         
-        $second_share = factory(Shared::class)->create([
+        $second_share = Shared::factory()->create([
             'user_id' => $collection_creator->getKey(),
             'sharedwith_id' => $user->id,
             'shareable_type' => Group::class,
             'shareable_id' => $single_sub_collection->getKey(),
         ]);
         
-        $third_share = factory(Shared::class)->create([
+        $third_share = Shared::factory()->create([
             'user_id' => $collection_creator->getKey(),
             'sharedwith_id' => $user->id,
             'shareable_type' => Group::class,
             'shareable_id' => $hierarchy_root_collection->getKey(),
         ]);
         
-        $fourth_share = factory(Shared::class)->create([
+        $fourth_share = Shared::factory()->create([
             'user_id' => $collection_creator->getKey(),
             'sharedwith_id' => $user->id,
             'shareable_type' => Group::class,

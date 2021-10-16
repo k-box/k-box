@@ -6,12 +6,9 @@ use Tests\TestCase;
 use KBox\File;
 use KBox\Documents\Facades\Files;
 use KBox\Documents\Facades\Thumbnails;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class ThumbnailsTest extends TestCase
 {
-    use DatabaseTransactions;
-
     public function data_document_provider()
     {
         return [
@@ -49,7 +46,7 @@ class ThumbnailsTest extends TestCase
         
         list($mime, $documentType) = Files::recognize($real_path);
 
-        $file = factory(File::class)->create([
+        $file = File::factory()->create([
             'name' => basename($real_path),
             'hash' => Files::hash($real_path),
             'path' => $real_path,

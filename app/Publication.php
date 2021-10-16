@@ -4,12 +4,15 @@ namespace KBox;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * Represent the detail of a publication action made on a specific DocumentDescriptor
  */
 class Publication extends Model
 {
+    use HasFactory;
+    
     const STATUS_QUEUED = 'queued';
     // const STATUS_PROCESSING = 'processing';
     const STATUS_PUBLISHING = 'publishing';

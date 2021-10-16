@@ -9,7 +9,6 @@ use ZipArchive;
 use KBox\Starred;
 use KBox\Project;
 use Tests\TestCase;
-use KBox\Capability;
 use KBox\PersonalExport;
 use KBox\DocumentDescriptor;
 use KBox\Documents\Facades\Files;
@@ -20,32 +19,29 @@ use KBox\Jobs\PreparePersonalExportJob;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Notification;
 use KBox\Notifications\PersonalExportReadyNotification;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class PersonalExportTest extends TestCase
 {
-    use DatabaseTransactions;
-
     private function createExportableDataForUser($user)
     {
-        $file = factory(File::class)->create([
+        $file = File::factory()->create([
             'user_id' => $user->id,
             'original_uri' => '',
         ]);
         
-        $doc = factory(DocumentDescriptor::class)->create([
+        $doc = DocumentDescriptor::factory()->create([
             'owner_id' => $user->id,
             'file_id' => $file->id,
         ]);
 
-        $starred = factory(Starred::class)->create([
+        $starred = Starred::factory()->create([
             'user_id' => $user->id,
             'document_id' => $doc->id,
         ]);
 
-        $project = factory(Project::class)->create(['user_id' => $user->id]);
+        $project = Project::factory()->create(['user_id' => $user->id]);
 
-        $collection = factory(Group::class)->create([
+        $collection = Group::factory()->create([
             'user_id' => $user->id,
             // 'is_private' => true
         ]);
@@ -75,7 +71,7 @@ class PersonalExportTest extends TestCase
     public function test_personal_export_can_be_requested()
     {
         Queue::fake();
-        $user = tap(factory(User::class)->create())->addCapabilities(Capability::$PARTNER);
+        $user = User::factory()->partner()->create();
 
         $url = route('profile.data-export.store');
 
@@ -95,15 +91,15 @@ class PersonalExportTest extends TestCase
     public function test_personal_export_cannot_be_requested_twice_within_60_minutes()
     {
         Queue::fake();
-        $user = tap(factory(User::class)->create())->addCapabilities(Capability::$PARTNER);
+        $user = User::factory()->partner()->create();
 
-        $pending_export = factory(PersonalExport::class)->create([
+        $pending_export = PersonalExport::factory()->create([
             'user_id' => $user->id,
             'created_at' => now()->subMinute(),
             'purge_at' => now()->addMinutes(15)
         ]);
         
-        $last_completed_export = factory(PersonalExport::class)->create([
+        $last_completed_export = PersonalExport::factory()->create([
             'user_id' => $user->id,
             'created_at' => now()->subMinute(),
             'generated_at' => now(),
@@ -123,12 +119,12 @@ class PersonalExportTest extends TestCase
 
     public function test_personal_exports_can_be_listed()
     {
-        $user = tap(factory(User::class)->create())->addCapabilities(Capability::$PARTNER);
+        $user = User::factory()->partner()->create();
 
-        $export = factory(PersonalExport::class)->create([
+        $export = PersonalExport::factory()->create([
             'user_id' => $user->id,
         ]);
-        $expired_export = factory(PersonalExport::class)->create([
+        $expired_export = PersonalExport::factory()->create([
             'user_id' => $user->id,
             'purge_at' => now()->subMinutes(5)
         ]);
@@ -150,9 +146,9 @@ class PersonalExportTest extends TestCase
 
     public function test_exports_can_be_downloaded()
     {
-        $user = tap(factory(User::class)->create())->addCapabilities(Capability::$PARTNER);
+        $user = User::factory()->partner()->create();
 
-        $export = factory(PersonalExport::class)->create([
+        $export = PersonalExport::factory()->create([
             'user_id' => $user->id,
             'generated_at' => now()->subMinute(),
             'purge_at' => now()->addMinutes(5)
@@ -172,7 +168,7 @@ class PersonalExportTest extends TestCase
     public function test_personal_export_is_created()
     {
         $disk = config('personal-export.disk');
-        $user = tap(factory(User::class)->create())->addCapabilities(Capability::$PARTNER);
+        $user = User::factory()->partner()->create();
         list($file) = $this->createExportableDataForUser($user);
         
         Storage::fake($disk);
@@ -208,9 +204,9 @@ class PersonalExportTest extends TestCase
     {
         Notification::fake();
 
-        $user = tap(factory(User::class)->create())->addCapabilities(Capability::$PARTNER);
+        $user = User::factory()->partner()->create();
 
-        $export = factory(PersonalExport::class)->create([
+        $export = PersonalExport::factory()->create([
             'user_id' => $user->id,
         ]);
 
@@ -227,12 +223,12 @@ class PersonalExportTest extends TestCase
 
     public function test_expired_personal_export_are_purged()
     {
-        $user = tap(factory(User::class)->create())->addCapabilities(Capability::$PARTNER);
+        $user = User::factory()->partner()->create();
 
-        $export = factory(PersonalExport::class)->create([
+        $export = PersonalExport::factory()->create([
             'user_id' => $user->id,
         ]);
-        $expired_export = factory(PersonalExport::class)->create([
+        $expired_export = PersonalExport::factory()->create([
             'user_id' => $user->id,
             'purge_at' => now()->subMinutes(5)
         ]);
@@ -248,11 +244,11 @@ class PersonalExportTest extends TestCase
     {
         $disk = config('personal-export.disk');
         Storage::fake($disk);
-        $user = tap(factory(User::class)->create())->addCapabilities(Capability::$PARTNER);
+        $user = User::factory()->partner()->create();
 
         Storage::disk($disk)->put('export.zip', 'content');
 
-        $pending_export = factory(PersonalExport::class)->create([
+        $pending_export = PersonalExport::factory()->create([
             'user_id' => $user->id,
             'created_at' => now()->subMinute(),
             'purge_at' => now()->addMinutes(15),

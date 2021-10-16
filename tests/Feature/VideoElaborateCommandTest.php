@@ -3,14 +3,14 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+
 use Artisan;
 use Illuminate\Support\Facades\Storage;
+use KBox\DocumentDescriptor;
+use KBox\File;
 
 class VideoElaborateCommandTest extends TestCase
 {
-    use DatabaseTransactions;
-
     protected function setUp(): void
     {
         parent::setUp();
@@ -33,7 +33,7 @@ class VideoElaborateCommandTest extends TestCase
             file_get_contents(base_path('tests/data/video.mp4'))
         );
         
-        $file = factory(\KBox\File::class)->create([
+        $file = File::factory()->create([
             'path' => Storage::disk('local')->path($path),
             'mime_type' => 'video/mp4',
             'properties' => null,
@@ -41,7 +41,7 @@ class VideoElaborateCommandTest extends TestCase
 
         Storage::disk('local')->assertExists("2017/11/video.mp4");
 
-        $doc = factory(\KBox\DocumentDescriptor::class)->create([
+        $doc = DocumentDescriptor::factory()->create([
             "mime_type" => 'video/mp4',
             'file_id' => $file->id
         ]);

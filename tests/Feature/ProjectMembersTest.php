@@ -7,18 +7,18 @@ use KBox\Project;
 use Tests\TestCase;
 use KBox\Capability;
 use Tests\Concerns\ClearDatabase;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+
 use Illuminate\Support\Facades\Event;
 use KBox\Events\ProjectMembersAdded;
 use KBox\Events\ProjectMembersRemoved;
 
 class ProjectMembersTest extends TestCase
 {
-    use DatabaseTransactions, ClearDatabase;
+    use ClearDatabase;
 
     private function createUser($capabilities, $userParams = [])
     {
-        return tap(factory(User::class)->create($userParams))->addCapabilities($capabilities);
+        return tap(User::factory()->create($userParams))->addCapabilities($capabilities);
     }
     
     public function test_members_can_be_added()
@@ -66,7 +66,7 @@ class ProjectMembersTest extends TestCase
             $this->createUser(Capability::$PARTNER),
         ]);
         
-        $project = factory(Project::class)->create([
+        $project = Project::factory()->create([
             'user_id' => $user->getKey()
         ]);
 

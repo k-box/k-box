@@ -6,9 +6,12 @@ use Carbon\Carbon;
 use Illuminate\Support\HtmlString;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Contracts\Support\Htmlable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class DuplicateDocument extends Model implements Htmlable
 {
+    use HasFactory;
+    
     protected $table = 'duplicate_descriptors';
     
     protected $dates = ['notification_sent_at', 'resolved_at'];

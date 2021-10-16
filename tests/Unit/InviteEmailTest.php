@@ -11,24 +11,22 @@ use KBox\Notifications\InviteEmail;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Notifications\Messages\MailMessage;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class InviteEmailTest extends TestCase
 {
     use WithFaker;
-    use DatabaseTransactions;
-
+    
     public function test_generic_invite_mail_message()
     {
         $creator_name = 'John';
 
-        $user = tap(factory(User::class)->create([
+        $user = tap(User::factory()->create([
             'name' => $creator_name,
         ]), function ($u) {
             $u->addCapabilities(Capability::$PARTNER);
         });
 
-        $invite = factory(Invite::class)->create([
+        $invite = Invite::factory()->create([
             'creator_id' => $user->id,
         ]);
 
@@ -52,17 +50,17 @@ class InviteEmailTest extends TestCase
     {
         $creator_name = 'John';
 
-        $user = tap(factory(User::class)->create([
+        $user = tap(User::factory()->create([
             'name' => $creator_name,
         ]), function ($u) {
             $u->addCapabilities(Capability::$PARTNER);
         });
 
-        $project = factory(Project::class)->create([
+        $project = Project::factory()->create([
             'user_id' => $user->id,
         ]);
 
-        $invite = factory(Invite::class)->create([
+        $invite = Invite::factory()->create([
             'creator_id' => $user->id,
             'actionable_id' => $project->id,
             'actionable_type' => get_class($project),
@@ -88,13 +86,13 @@ class InviteEmailTest extends TestCase
     {
         $creator_name = 'John';
 
-        $user = tap(factory(User::class)->create([
+        $user = tap(User::factory()->create([
             'name' => $creator_name,
         ]), function ($u) {
             $u->addCapabilities(Capability::$PARTNER);
         });
 
-        $invite = factory(Invite::class)->create([
+        $invite = Invite::factory()->create([
             'creator_id' => $user->id,
         ]);
 

@@ -1,24 +1,47 @@
 <?php
 
+namespace Database\Factories;
+
+use Illuminate\Database\Eloquent\Factories\Factory;
 use KBox\User;
 use KBox\Group;
-use Faker\Generator as Faker;
 
-$factory->define(Group::class, function (Faker $faker, $arguments = []) {
-    return [
-        'user_id' => function () {
-            return factory(User::class)->create()->id;
-        },
-        'name' => $faker->sentence,
-        'color' => 'f1c40f',
-        'type' => Group::TYPE_PERSONAL,
-        'is_private' => true
-    ];
-});
+class GroupFactory extends Factory
+{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = Group::class;
 
-$factory->state(Group::class, 'project', function (Faker $faker) { 
-    return [
-        'type' => Group::TYPE_PROJECT,
-        'is_private' => false
-    ];
-});
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+        return [
+            'user_id' => function () {
+                return User::factory();
+            },
+            'name' => $this->faker->sentence,
+            'color' => 'f1c40f',
+            'type' => Group::TYPE_PERSONAL,
+            'is_private' => true
+        ];
+    }
+
+
+    public function project()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'type' => Group::TYPE_PROJECT,
+                'is_private' => false,
+            ];
+        });
+    }
+    
+}
