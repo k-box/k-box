@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use KBox\DocumentDescriptor;
 use KBox\File;
@@ -26,13 +27,14 @@ class DocumentDescriptorFactory extends Factory
         $hash = hash_file('sha512', base_path('tests/data/example.txt'));
         
         return [
+            'owner_id' => User::factory()->partner(),
             'local_document_id' => substr($hash, 0, 6),
             'title' => $this->faker->sentence,
             'hash' => $hash,
             'document_uri' => $this->faker->url,
             'thumbnail_uri' => $this->faker->imageUrl,
             'mime_type' => 'text/plain',
-            'visibility' => $arguments['visibility'] ?? 'private',
+            'visibility' => 'private',
             'document_type' => 'document',
             'user_owner' => 'some user <usr@user.com>',
             'user_uploader' => 'some user <usr@user.com>',
@@ -40,12 +42,11 @@ class DocumentDescriptorFactory extends Factory
             'language' => $this->faker->languageCode,
             'file_id' => function (array $attributes) {
                 return File::factory([
-                    'user_id' => $attributes['owner_id'],
+                    'user_id' => User::find($attributes['owner_id'])->id,
                     'original_uri' => '',
-                    'upload_completed_at' => \Carbon\Carbon::now()
+                    'upload_completed_at' => Carbon::now()
                 ]);
             },
-            'owner_id' => User::factory()->partner(),
             'status' => DocumentDescriptor::STATUS_COMPLETED,
             'copyright_usage' => 'PD',
             'copyright_owner' => collect([

@@ -8,6 +8,7 @@ use KBox\File;
 use Tests\TestCase;
 use KBox\DocumentDescriptor;
 use Illuminate\Support\Facades\DB;
+use KBox\User;
 use OneOffTech\TusUpload\TusUpload;
 
 class ClearCancelledDocumentUploadsCommandTest extends TestCase

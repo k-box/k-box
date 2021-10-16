@@ -92,9 +92,9 @@ class CollectionsTest extends TestCase
     
     public function testCollectionListing()
     {
-        $user1 = User::factory()->state('project-manager')->create();
+        $user1 = User::factory()->projectManager()->create();
         
-        $user2 = User::factory()->state('project-manager')->create();
+        $user2 = User::factory()->projectManager()->create();
         
         $user_admin = User::factory()->admin()->create();
         

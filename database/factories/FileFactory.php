@@ -35,7 +35,7 @@ class FileFactory extends Factory
             'hash' => hash_file('sha512', $path),
             'path' => $path,
             'mime_type' => 'text/plain',
-            'user_id' => function () {
+            'user_id' => function (array $attributes) {
                 return User::factory()->partner();
             },
             'size' => $this->faker->randomNumber(2),

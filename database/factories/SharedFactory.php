@@ -38,7 +38,9 @@ class SharedFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'sharedwith_id' => PublicLink::factory(['user_id' => $attributes['user_id']]),
+                'sharedwith_id' => function(array $attributes){
+                    return PublicLink::factory(['user_id' => $attributes['user_id']]);
+                },
                 'sharedwith_type' => PublicLink::class
             ];
         });
