@@ -54,7 +54,6 @@
 		"k-box/k-search-client-php": "3.4.*",
 		"k-box/kbox-plugin-geo": "*",
 		"laravel/framework": "^8.12",
-		"laravel/legacy-factories": "^1.1",
 		"laravel/tinker": "^2.5",
 		"laravel/ui": "^3.0",
 		"league/csv": "^9.0",
@@ -94,15 +93,13 @@
         "symfony/polyfill-php70": "*"
     },
 	"autoload": {
-		"classmap": [
-			"database/factories"
-		],
 		"psr-4": {
 			"KBox\\": "app/",
 			"KBox\\Documents\\": "packages/contentprocessing/src/",
 			"OneOffTech\\VideoProcessing\\": "packages/video-processing/src/",
 			"OneOffTech\\LanguageGuesser\\": "packages/language-guesser/src/",
 			"OneOffTech\\Licenses\\": "packages/licenses/src/",
+			"Database\\Factories\\": "database/factories/",
 			"Database\\Seeders\\": "database/seeders/"
 		},
 		"psr-0": {
