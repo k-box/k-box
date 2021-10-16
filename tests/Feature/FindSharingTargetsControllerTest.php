@@ -341,7 +341,7 @@ class FindSharingTargetsControllerTest extends TestCase
 
         $user = User::factory()->partner()->create();
 
-        $collection = factory(Group::class)->create([
+        $collection = Group::factory()->create([
             'user_id' => $user->getKey(),
             // 'is_private' => true
         ]);
@@ -395,7 +395,7 @@ class FindSharingTargetsControllerTest extends TestCase
 
         $user = User::factory()->partner()->create();
 
-        $collection = factory(Group::class)->state('project')->create([
+        $collection = Group::factory()->project()->create([
             'user_id' => $user->getKey(),
         ]);
 
@@ -426,7 +426,7 @@ class FindSharingTargetsControllerTest extends TestCase
             'owner_id' => $user->getKey()
         ]);
 
-        $collection = factory(Group::class)->create([
+        $collection = Group::factory()->create([
             'user_id' => $user->getKey(),
             // 'is_private' => true
         ]);
@@ -480,7 +480,7 @@ class FindSharingTargetsControllerTest extends TestCase
             'owner_id' => $user->getKey()
         ]);
 
-        $collection = factory(Group::class)->state('project')->create([
+        $collection = Group::factory()->project()->create([
             'user_id' => $user->getKey(),
         ]);
 

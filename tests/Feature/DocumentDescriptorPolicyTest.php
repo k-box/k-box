@@ -145,7 +145,7 @@ class DocumentDescriptorPolicyTest extends TestCase
 
         $owner = User::factory()->partner()->create();
 
-        $collection = factory(Group::class)->create([
+        $collection = Group::factory()->create([
             'user_id' => $owner->id,
         ]);
         

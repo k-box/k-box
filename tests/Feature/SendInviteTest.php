@@ -17,7 +17,7 @@ class SendInviteTest extends TestCase
     {
         $creator = User::factory()->partner()->create();
 
-        $invite = factory(Invite::class)->create([
+        $invite = Invite::factory()->create([
             'email' => 'john@kbox.kbox'
         ]);
         
@@ -41,7 +41,7 @@ class SendInviteTest extends TestCase
     {
         $creator = User::factory()->partner()->create();
 
-        $invite = factory(Invite::class)->create([
+        $invite = Invite::factory()->create([
             'email' => 'john@kbox.kbox',
             'accepted_at' => now(),
             'user_id' => $creator->getKey(),
@@ -65,7 +65,7 @@ class SendInviteTest extends TestCase
     {
         $creator = User::factory()->partner()->create();
 
-        $invite = factory(Invite::class)->create([
+        $invite = Invite::factory()->create([
             'email' => 'john@kbox.kbox',
             'expire_at' => now()->subDays(1),
             'user_id' => $creator->getKey(),
@@ -93,7 +93,7 @@ class SendInviteTest extends TestCase
 
         $creator = User::factory()->partner()->create();
 
-        $invite = factory(Invite::class)->create([
+        $invite = Invite::factory()->create([
             'email' => 'john@kbox.kbox',
             'accepted_at' => now(),
             'user_id' => $creator->getKey(),
@@ -115,7 +115,7 @@ class SendInviteTest extends TestCase
 
     public function test_user_invited_listener_send_notification()
     {
-        $invite = factory(Invite::class)->create([
+        $invite = Invite::factory()->create([
             'email' => 'john@kbox.kbox'
         ]);
 
@@ -133,7 +133,7 @@ class SendInviteTest extends TestCase
     {
         $user = User::factory()->partner()->create();
 
-        $invite = factory(Invite::class)->create([
+        $invite = Invite::factory()->create([
             'email' => 'john@kbox.kbox',
             'accepted_at' => now(),
             'user_id' => $user->getKey(),
@@ -159,7 +159,7 @@ class SendInviteTest extends TestCase
 
         $user = User::factory()->partner()->create();
 
-        $invite = factory(Invite::class)->create([
+        $invite = Invite::factory()->create([
             'email' => 'john@kbox.kbox',
             'accepted_at' => now(),
             'user_id' => $user->getKey(),
@@ -177,7 +177,7 @@ class SendInviteTest extends TestCase
 
     public function test_user_invited_listener_do_nothing_if_invite_creator_is_disabled()
     {
-        $invite = factory(Invite::class)->create([
+        $invite = Invite::factory()->create([
             'email' => 'john@kbox.kbox',
         ]);
 

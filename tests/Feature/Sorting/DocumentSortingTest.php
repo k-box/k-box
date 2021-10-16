@@ -99,7 +99,7 @@ class DocumentSortingTest extends TestCase
         ];
 
         foreach ($expected_documents as $doc) {
-            factory(Starred::class)->create([
+            Starred::factory()->create([
                 'user_id' => $user->getKey(),
                 'document_id' => $doc->getKey(),
             ]);
@@ -145,7 +145,7 @@ class DocumentSortingTest extends TestCase
         ];
 
         foreach ($expected_documents as $doc) {
-            factory(Starred::class)->create([
+            Starred::factory()->create([
                 'user_id' => $user->getKey(),
                 'document_id' => $doc->getKey(),
             ]);

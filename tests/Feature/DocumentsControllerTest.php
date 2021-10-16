@@ -80,7 +80,7 @@ class DocumentsControllerTest extends TestCase
             $u->addCapabilities(Capability::$ADMIN);
         });
 
-        $collection = factory(Group::class)->create([
+        $collection = Group::factory()->create([
             'user_id' => $user->id,
         ]);
 

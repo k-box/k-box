@@ -150,7 +150,7 @@ class DuplicateDocumentsControllerTest extends TestCase
 
         $user = factory(\KBox\User::class)->partner()->create();
 
-        $collection = factory(Group::class)->create([
+        $collection = Group::factory()->create([
             'user_id' => $user->id,
             // 'is_private' => true,
         ]);
@@ -187,12 +187,12 @@ class DuplicateDocumentsControllerTest extends TestCase
 
         $user = factory(\KBox\User::class)->partner()->create();
 
-        $collection_for_existing = factory(Group::class)->create([
+        $collection_for_existing = Group::factory()->create([
             'user_id' => $user->id,
             // 'is_private' => true,
         ]);
         
-        $collection_for_duplicate = factory(Group::class)->create([
+        $collection_for_duplicate = Group::factory()->create([
             'user_id' => $user->id,
             // 'is_private' => true,
         ]);

@@ -63,9 +63,9 @@ class StarredTest extends TestCase
         $created_at = Carbon::now();
         
         $starred = [
-            factory(Starred::class)->create(['user_id' => $user->id, 'document_id' => $this->createRecentDocument($user, $created_at)]),
-            factory(Starred::class)->create(['user_id' => $user->id, 'document_id' => $this->createRecentDocument($user, $created_at->copy()->subMinutes(10))]),
-            factory(Starred::class)->create(['user_id' => $user->id, 'document_id' => $this->createRecentDocument($user, $created_at->copy()->subHours(2))]),
+            Starred::factory()->create(['user_id' => $user->id, 'document_id' => $this->createRecentDocument($user, $created_at)]),
+            Starred::factory()->create(['user_id' => $user->id, 'document_id' => $this->createRecentDocument($user, $created_at->copy()->subMinutes(10))]),
+            Starred::factory()->create(['user_id' => $user->id, 'document_id' => $this->createRecentDocument($user, $created_at->copy()->subHours(2))]),
         ];
         
         $response = $this->actingAs($user)->get(route('documents.starred.index'));
@@ -117,7 +117,7 @@ class StarredTest extends TestCase
         
         $expected_count = Starred::count();
         
-        $starred = factory(Starred::class)->create(['user_id' => $user->id]);
+        $starred = Starred::factory()->create(['user_id' => $user->id]);
         
         $response = $this->actingAs($user)->delete(
             route('documents.starred.destroy', [
@@ -156,7 +156,7 @@ class StarredTest extends TestCase
         
         $expected_count = Starred::count();
         
-        $starred = factory(Starred::class)->create(['user_id' => $user->id]);
+        $starred = Starred::factory()->create(['user_id' => $user->id]);
 
         $starred->document->delete();
 

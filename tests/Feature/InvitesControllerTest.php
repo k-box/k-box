@@ -72,7 +72,7 @@ class InvitesControllerTest extends TestCase
     {
         $user = User::factory()->partner()->create();
 
-        $invite = factory(Invite::class)->create([
+        $invite = Invite::factory()->create([
             'creator_id' => $user->id,
             'email' => 'john@kbox.kbox',
         ]);
@@ -94,7 +94,7 @@ class InvitesControllerTest extends TestCase
     {
         $user = User::factory()->partner()->create();
 
-        $invite = factory(Invite::class)->create([
+        $invite = Invite::factory()->create([
             'creator_id' => $user->id
         ]);
 
@@ -115,7 +115,7 @@ class InvitesControllerTest extends TestCase
     {
         $user = User::factory()->partner()->create();
 
-        $invite = factory(Invite::class)->create();
+        $invite = Invite::factory()->create();
 
         $response = $this->actingAs($user)
             ->from(route('profile.invite.index'))

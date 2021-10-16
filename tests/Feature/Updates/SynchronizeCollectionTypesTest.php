@@ -10,12 +10,12 @@ class SynchronizeCollectionTypesTest extends TestCase
 {
     public function test_collection_type_applied()
     {
-        $personalCollection = factory(Group::class)->create([
+        $personalCollection = Group::factory()->create([
             'is_private' => true,
             'type' => 0,
         ]);
 
-        $projectCollection = factory(Group::class)->create([
+        $projectCollection = Group::factory()->create([
             'is_private' => false,
             'type' => 0,
         ]);

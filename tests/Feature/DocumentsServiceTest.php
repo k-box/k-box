@@ -175,7 +175,7 @@ class DocumentsServiceTest extends TestCase
             'owner_id' => $user->id,
         ]);
 
-        $collection = factory(Group::class)->create([
+        $collection = Group::factory()->create([
             'user_id' => $user->id,
         ]);
 
@@ -217,7 +217,7 @@ class DocumentsServiceTest extends TestCase
             'owner_id' => $user->id,
         ]);
 
-        $collection = factory(Group::class)->create([
+        $collection = Group::factory()->create([
             'user_id' => $user->id,
         ]);
 
@@ -256,7 +256,7 @@ class DocumentsServiceTest extends TestCase
             'owner_id' => $user->id,
         ]);
 
-        $collection = factory(Group::class)->create([
+        $collection = Group::factory()->create([
             'user_id' => $user->id,
         ]);
 
@@ -293,7 +293,7 @@ class DocumentsServiceTest extends TestCase
             'owner_id' => $user->id,
         ]);
 
-        $collection = factory(Group::class)->create([
+        $collection = Group::factory()->create([
             'user_id' => $user->id,
         ]);
 
@@ -333,19 +333,19 @@ class DocumentsServiceTest extends TestCase
 
         $service = app(DocumentsService::class);
         
-        $single_root_collection = factory(Group::class)->create([
+        $single_root_collection = Group::factory()->create([
             'user_id' => $collection_creator->getKey(),
             'name' => 'root',
         ]);
         
-        $root_collection = factory(Group::class)->create([
+        $root_collection = Group::factory()->create([
             'user_id' => $collection_creator->getKey(),
             'name' => 'root',
         ]);
 
         $single_sub_collection = $service->createGroup($collection_creator, 'under', null, $root_collection);
         
-        $hierarchy_root_collection = factory(Group::class)->create([
+        $hierarchy_root_collection = Group::factory()->create([
             'user_id' => $collection_creator->getKey(),
             'name' => 'root',
         ]);
@@ -398,19 +398,19 @@ class DocumentsServiceTest extends TestCase
 
         $service = app(DocumentsService::class);
         
-        $single_root_collection = factory(Group::class)->create([
+        $single_root_collection = Group::factory()->create([
             'user_id' => $collection_creator->getKey(),
             'name' => 'root',
         ]);
         
-        $root_collection = factory(Group::class)->create([
+        $root_collection = Group::factory()->create([
             'user_id' => $collection_creator->getKey(),
             'name' => 'root',
         ]);
 
         $single_sub_collection = $service->createGroup($collection_creator, 'under', null, $root_collection);
         
-        $hierarchy_root_collection = factory(Group::class)->create([
+        $hierarchy_root_collection = Group::factory()->create([
             'user_id' => $collection_creator->getKey(),
             'name' => 'root',
         ]);

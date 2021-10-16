@@ -164,7 +164,7 @@ class UserIdentitiesControllerTest extends TestCase
             $u->markEmailAsVerified();
         });
 
-        $identity = factory(Identity::class)->create([
+        $identity = Identity::factory()->create([
             'user_id' => $user->getKey()
         ]);
 

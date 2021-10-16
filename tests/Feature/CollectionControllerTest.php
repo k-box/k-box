@@ -234,7 +234,7 @@ class CollectionControllerTest extends TestCase
     {
         $user = User::factory()->admin()->create();
 
-        $collection = factory(Group::class)->create([
+        $collection = Group::factory()->create([
             'user_id' => $user->getKey(),
         ]);
 

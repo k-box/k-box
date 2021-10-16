@@ -16,7 +16,7 @@ class GroupDetailsControllerTest extends TestCase
     {
         $user = User::factory()->partner()->create();
 
-        $collection = factory(Group::class)->create([
+        $collection = Group::factory()->create([
             'user_id' => $user->getKey(),
         ]);
 
@@ -37,7 +37,7 @@ class GroupDetailsControllerTest extends TestCase
     {
         $user = User::factory()->partner()->create();
 
-        $collection = factory(Group::class)->create();
+        $collection = Group::factory()->create();
 
         $response = $this->actingAs($user)
             ->get(route('groups.detail', $collection->getKey()));
@@ -76,7 +76,7 @@ class GroupDetailsControllerTest extends TestCase
         
         $shared_with = User::factory()->partner()->create();
 
-        $collection = factory(Group::class)->create([
+        $collection = Group::factory()->create([
             'user_id' => $user->getKey(),
         ]);
 

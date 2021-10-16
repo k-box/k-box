@@ -62,7 +62,7 @@ class RegistrationTest extends TestCase
 
         $user = User::factory()->partner()->create();
 
-        $invite = factory(Invite::class)->create([
+        $invite = Invite::factory()->create([
             'creator_id' => $user->id
         ]);
         

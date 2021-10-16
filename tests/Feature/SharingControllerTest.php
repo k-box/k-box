@@ -154,7 +154,7 @@ class SharingControllerTest extends TestCase
             $u->addCapabilities($target_capabilities);
         });
 
-        $to_be_shared = factory(Group::class)->create([
+        $to_be_shared = Group::factory()->create([
             'user_id' => $user->getKey(),
             // 'is_private' => true,
         ]);
@@ -181,7 +181,7 @@ class SharingControllerTest extends TestCase
         
         $user_target = User::factory()->partner()->create();
 
-        $to_be_shared = factory(Group::class)->state('project')->create([
+        $to_be_shared = Group::factory()->project()->create([
             'user_id' => $user->getKey(),
         ]);
 
@@ -329,7 +329,7 @@ class SharingControllerTest extends TestCase
         
         $user_target = User::factory()->partner()->create();
 
-        $collection = factory(Group::class)->create([
+        $collection = Group::factory()->create([
             'user_id' => $user->getKey(),
             // 'is_private' => true,
         ]);
@@ -411,11 +411,11 @@ class SharingControllerTest extends TestCase
             'owner_id' => $user->getKey()
         ]);
 
-        $collection1 = factory(Group::class)->create([
+        $collection1 = Group::factory()->create([
             'user_id' => $user->getKey(),
             // 'is_private' => true,
         ]);
-        $collection2 = factory(Group::class)->create([
+        $collection2 = Group::factory()->create([
             'user_id' => $user->getKey(),
             // 'is_private' => true,
         ]);
@@ -460,7 +460,7 @@ class SharingControllerTest extends TestCase
             'owner_id' => $user->getKey()
         ]);
 
-        $collection1 = factory(Group::class)->create([
+        $collection1 = Group::factory()->create([
             'user_id' => $user->getKey(),
             // 'is_private' => true,
         ]);

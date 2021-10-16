@@ -26,7 +26,7 @@ class InviteEmailTest extends TestCase
             $u->addCapabilities(Capability::$PARTNER);
         });
 
-        $invite = factory(Invite::class)->create([
+        $invite = Invite::factory()->create([
             'creator_id' => $user->id,
         ]);
 
@@ -60,7 +60,7 @@ class InviteEmailTest extends TestCase
             'user_id' => $user->id,
         ]);
 
-        $invite = factory(Invite::class)->create([
+        $invite = Invite::factory()->create([
             'creator_id' => $user->id,
             'actionable_id' => $project->id,
             'actionable_type' => get_class($project),
@@ -92,7 +92,7 @@ class InviteEmailTest extends TestCase
             $u->addCapabilities(Capability::$PARTNER);
         });
 
-        $invite = factory(Invite::class)->create([
+        $invite = Invite::factory()->create([
             'creator_id' => $user->id,
         ]);
 
