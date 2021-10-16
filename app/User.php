@@ -15,6 +15,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use KBox\Traits\ScopeNullUuid;
 use KBox\Casts\UuidCast;
 use Oneofftech\Identities\WithIdentities;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * The User model
@@ -57,6 +58,7 @@ use Oneofftech\Identities\WithIdentities;
 class User extends Authenticatable implements MustVerifyEmail
 {
     use Notifiable, HasCapability, SoftDeletes, UserOptionsAccessor, CausesActivity, GeneratesUuid, ScopeNullUuid, WithIdentities;
+    use HasFactory;
 
     const OPTION_LIST_TYPE = "list_style";
   

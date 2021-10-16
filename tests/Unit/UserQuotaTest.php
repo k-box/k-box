@@ -147,7 +147,7 @@ class UserQuotaTest extends TestCase
     {
         Notification::fake();
 
-        $quota = factory(UserQuota::class)->create([
+        $quota = UserQuota::factory()->create([
             'limit' => 100,
             'threshold' => 50,
             'used' => 1,
@@ -163,7 +163,7 @@ class UserQuotaTest extends TestCase
     {
         Notification::fake();
 
-        $quota = factory(UserQuota::class)->create([
+        $quota = UserQuota::factory()->create([
             'limit' => 100,
             'threshold' => 50,
             'used' => 52,
@@ -187,7 +187,7 @@ class UserQuotaTest extends TestCase
     {
         Notification::fake();
 
-        $quota = factory(UserQuota::class)->create([
+        $quota = UserQuota::factory()->create([
             'limit' => 100,
             'threshold' => 50,
             'used' => 99,
@@ -211,7 +211,7 @@ class UserQuotaTest extends TestCase
     {
         Notification::fake();
 
-        $quota = factory(UserQuota::class)->create([
+        $quota = UserQuota::factory()->create([
             'limit' => 100,
             'threshold' => 50,
             'used' => 99,
@@ -239,7 +239,7 @@ class UserQuotaTest extends TestCase
     {
         Notification::fake();
 
-        $quota = factory(UserQuota::class)->create([
+        $quota = UserQuota::factory()->create([
             'limit' => 100,
             'threshold' => 50,
             'used' => 99,
