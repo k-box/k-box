@@ -96,4 +96,4 @@ jobs:
         php artisan config:clear
         php artisan route:clear
         php artisan migrate --env=testing --seed --force
-        vendor/bin/phpunit
+        vendor/bin/phpunit --debug
