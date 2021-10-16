@@ -30,13 +30,13 @@ class DuplicateDocumentFactory extends Factory
             'user_id' => User::factory(),
             'duplicate_document_id' => function (array $attributes) use ($hash){
                 return DocumentDescriptor::factory([
-                    'user_id' => $attributes['user_id'],
+                    'owner_id' => $attributes['user_id'],
                     'hash' => $hash,
                 ]);
             },
             'document_id' => function (array $attributes) use ($hash){
                 return DocumentDescriptor::factory([
-                    'user_id' => $attributes['user_id'],
+                    'owner_id' => $attributes['user_id'],
                     'hash' => $hash,
                 ]);
             },
