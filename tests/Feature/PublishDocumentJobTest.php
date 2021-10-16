@@ -17,7 +17,7 @@ class PublishDocumentJobTest extends TestCase
 
         $user = User::factory()->create();
 
-        $document = factory(DocumentDescriptor::class)->create([
+        $document = DocumentDescriptor::factory()->create([
             'is_public' => true
         ]);
             
@@ -41,7 +41,7 @@ class PublishDocumentJobTest extends TestCase
 
         $user = User::factory()->create();
 
-        $document = factory(DocumentDescriptor::class)->create([
+        $document = DocumentDescriptor::factory()->create([
             'is_public' => true
         ]);
 
@@ -68,7 +68,7 @@ class PublishDocumentJobTest extends TestCase
 
         $user = User::factory()->create();
 
-        $document = factory(DocumentDescriptor::class)->create([
+        $document = DocumentDescriptor::factory()->create([
             'is_public' => false
         ]);
             

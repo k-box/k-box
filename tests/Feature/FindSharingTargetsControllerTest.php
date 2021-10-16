@@ -63,7 +63,7 @@ class FindSharingTargetsControllerTest extends TestCase
 
         $user = User::factory()->partner()->create();
 
-        $document = factory(DocumentDescriptor::class)->create([
+        $document = DocumentDescriptor::factory()->create([
             'owner_id' => $user->getKey()
         ]);
         
@@ -94,7 +94,7 @@ class FindSharingTargetsControllerTest extends TestCase
 
         $user = User::factory()->partner()->create();
 
-        $document = factory(DocumentDescriptor::class)->create([
+        $document = DocumentDescriptor::factory()->create([
             'owner_id' => $user->getKey()
         ]);
         
@@ -128,7 +128,7 @@ class FindSharingTargetsControllerTest extends TestCase
 
         $user = User::factory()->partner()->create();
 
-        $document = factory(DocumentDescriptor::class)->create([
+        $document = DocumentDescriptor::factory()->create([
             'owner_id' => $user->getKey()
         ]);
         
@@ -157,7 +157,7 @@ class FindSharingTargetsControllerTest extends TestCase
 
         $user = User::factory()->partner()->create();
 
-        $document = factory(DocumentDescriptor::class)->create([
+        $document = DocumentDescriptor::factory()->create([
             'owner_id' => $user->getKey()
         ]);
         
@@ -294,7 +294,7 @@ class FindSharingTargetsControllerTest extends TestCase
 
         $user = User::factory()->partner()->create();
 
-        $document = factory(DocumentDescriptor::class)->create([
+        $document = DocumentDescriptor::factory()->create([
             'owner_id' => $user->getKey()
         ]);
 
@@ -310,7 +310,7 @@ class FindSharingTargetsControllerTest extends TestCase
             }),
         ]);
 
-        $share = factory(Shared::class)->create([
+        $share = Shared::factory()->create([
             'user_id' => $user->getKey(),
             'sharedwith_id' => $targets->first()->getKey(),
             'shareable_id' => $document->getKey(),
@@ -358,7 +358,7 @@ class FindSharingTargetsControllerTest extends TestCase
             }),
         ]);
 
-        $share = factory(Shared::class)->create([
+        $share = Shared::factory()->create([
             'user_id' => $user->getKey(),
             'sharedwith_id' => $targets->first()->getKey(),
             'shareable_id' => $collection->getKey(),
@@ -422,7 +422,7 @@ class FindSharingTargetsControllerTest extends TestCase
 
         $user = User::factory()->partner()->create();
 
-        $document = factory(DocumentDescriptor::class)->create([
+        $document = DocumentDescriptor::factory()->create([
             'owner_id' => $user->getKey()
         ]);
 
@@ -443,7 +443,7 @@ class FindSharingTargetsControllerTest extends TestCase
             }),
         ]);
 
-        $share = factory(Shared::class)->create([
+        $share = Shared::factory()->create([
             'user_id' => $user->getKey(),
             'sharedwith_id' => $targets->first()->getKey(),
             'shareable_id' => $collection->getKey(),
@@ -476,7 +476,7 @@ class FindSharingTargetsControllerTest extends TestCase
 
         $user = User::factory()->partner()->create();
 
-        $document = factory(DocumentDescriptor::class)->create([
+        $document = DocumentDescriptor::factory()->create([
             'owner_id' => $user->getKey()
         ]);
 
@@ -496,7 +496,7 @@ class FindSharingTargetsControllerTest extends TestCase
             }),
         ]);
 
-        $share = factory(Shared::class)->create([
+        $share = Shared::factory()->create([
             'user_id' => $user->getKey(),
             'sharedwith_id' => $targets->first()->getKey(),
             'shareable_id' => $collection->getKey(),

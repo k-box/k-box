@@ -37,7 +37,7 @@ class RoutingHelpersTest extends TestCase
     public function test_document_download_url_generation()
     {
         $user = User::factory()->admin()->create();
-        $document = factory(DocumentDescriptor::class)->create(['owner_id' => $user->id]);
+        $document = DocumentDescriptor::factory()->create(['owner_id' => $user->id]);
 
         $url = RoutingHelpers::download($document);
 
@@ -51,7 +51,7 @@ class RoutingHelpersTest extends TestCase
     public function test_document_embed_url_generation()
     {
         $user = User::factory()->admin()->create();
-        $document = factory(DocumentDescriptor::class)->create(['owner_id' => $user->id]);
+        $document = DocumentDescriptor::factory()->create(['owner_id' => $user->id]);
 
         $url = RoutingHelpers::embed($document);
 
@@ -65,7 +65,7 @@ class RoutingHelpersTest extends TestCase
     public function test_document_preview_url_generation()
     {
         $user = User::factory()->admin()->create();
-        $document = factory(DocumentDescriptor::class)->create(['owner_id' => $user->id]);
+        $document = DocumentDescriptor::factory()->create(['owner_id' => $user->id]);
 
         $url = RoutingHelpers::preview($document);
 
@@ -79,7 +79,7 @@ class RoutingHelpersTest extends TestCase
     public function test_document_thumbnail_url_generation()
     {
         $user = User::factory()->admin()->create();
-        $document = factory(DocumentDescriptor::class)->create(['owner_id' => $user->id]);
+        $document = DocumentDescriptor::factory()->create(['owner_id' => $user->id]);
 
         $url = RoutingHelpers::thumbnail($document);
 

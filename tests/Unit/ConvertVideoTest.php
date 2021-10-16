@@ -59,7 +59,7 @@ class ConvertVideoTest extends TestCase
 
         $user_id = User::factory()->create()->id;
 
-        $file = factory(File::class)->create([
+        $file = File::factory()->create([
             'name' => "AVIDEO.mp4",
             'hash' => hash_file('sha512', Storage::disk('local')->path($file_path)),
             'path' => $file_path,
@@ -70,7 +70,7 @@ class ConvertVideoTest extends TestCase
             'upload_completed_at' => \Carbon\Carbon::now()
         ]);
 
-        $descriptor = factory(DocumentDescriptor::class)->create([
+        $descriptor = DocumentDescriptor::factory()->create([
             'local_document_id' => substr($file->hash, 0, 6),
             'title' => "AVIDEO.mp4",
             'hash' => $file->hash,

@@ -14,7 +14,7 @@ class FileDirectDownloadTest extends TestCase
 
     public function test_file_downloaded_forbidden_without_token()
     {
-        $file = factory(File::class)->create();
+        $file = File::factory()->create();
 
         $response = $this->get('/files/'.$file->uuid);
 
@@ -23,7 +23,7 @@ class FileDirectDownloadTest extends TestCase
 
     public function test_file_downloaded_forbidden_with_invalid_token()
     {
-        $file = factory(File::class)->create();
+        $file = File::factory()->create();
 
         $response = $this->get('/files/'.$file->uuid.'?t=hello');
 
@@ -32,7 +32,7 @@ class FileDirectDownloadTest extends TestCase
 
     public function test_file_can_be_downloaded_given_uuid()
     {
-        $file = factory(File::class)->create();
+        $file = File::factory()->create();
 
         // generate a link to it with the temporary token
 

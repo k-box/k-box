@@ -46,7 +46,7 @@ class InviteTest extends TestCase
     {
         $user = User::factory()->partner()->create();
 
-        $project = factory(Project::class)->create([
+        $project = Project::factory()->create([
             'user_id' => $user->id,
         ]);
 

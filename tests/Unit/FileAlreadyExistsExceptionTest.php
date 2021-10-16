@@ -50,7 +50,7 @@ class FileAlreadyExistsExceptionTest extends TestCase
     {
         $user = User::factory()->admin()->create();
 
-        $doc = factory(DocumentDescriptor::class)->create([
+        $doc = DocumentDescriptor::factory()->create([
             'owner_id' => null,
             'file_id' => null,
             'hash' => 'hash',
@@ -172,14 +172,14 @@ class FileAlreadyExistsExceptionTest extends TestCase
 
         copy($template, $destination);
 
-        $file = factory(File::class)->create([
+        $file = File::factory()->create([
             'user_id' => $user->id,
             'original_uri' => '',
             'path' => $destination,
             'hash' => hash_file('sha512', $destination)
         ]);
         
-        $doc = factory(DocumentDescriptor::class)->create([
+        $doc = DocumentDescriptor::factory()->create([
             'owner_id' => $user->id,
             'file_id' => $file->id,
             'hash' => $file->hash,

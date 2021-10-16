@@ -19,7 +19,7 @@ class DocumentEmbedControllerTest extends TestCase
         
         $service = app('KBox\Documents\Services\DocumentsService');
 
-        $project = factory(Project::class)->create();
+        $project = Project::factory()->create();
 
         $manager = $project->manager;
 
@@ -27,7 +27,7 @@ class DocumentEmbedControllerTest extends TestCase
         
         $project->users()->attach($user->id);
 
-        $document = factory(DocumentDescriptor::class)->create(['owner_id' => $manager->id]);
+        $document = DocumentDescriptor::factory()->create(['owner_id' => $manager->id]);
         $service->addDocumentToGroup($manager, $document, $project->collection);
         
         $url = route('documents.embed', ['uuid' => $document->uuid]);
@@ -45,13 +45,13 @@ class DocumentEmbedControllerTest extends TestCase
         
         $service = app('KBox\Documents\Services\DocumentsService');
 
-        $project = factory(Project::class)->create();
+        $project = Project::factory()->create();
 
         $manager = $project->manager;
 
         $user = User::factory()->partner()->create();
 
-        $document = factory(DocumentDescriptor::class)->create(['owner_id' => $manager->id]);
+        $document = DocumentDescriptor::factory()->create(['owner_id' => $manager->id]);
         $service->addDocumentToGroup($manager, $document, $project->collection);
         
         $url = route('documents.embed', ['uuid' => $document->uuid]);
@@ -68,7 +68,7 @@ class DocumentEmbedControllerTest extends TestCase
         });
         $user_accessing_the_document = User::factory()->partner()->create();
 
-        $document = factory(DocumentDescriptor::class)->create(['owner_id' => $user->id]);
+        $document = DocumentDescriptor::factory()->create(['owner_id' => $user->id]);
 
         $document->shares()->create([
             'user_id' => $user->id,
@@ -89,7 +89,7 @@ class DocumentEmbedControllerTest extends TestCase
         $user = User::factory()->projectManager()->create();
         $user_accessing_the_document = User::factory()->partner()->create();
 
-        $document = factory(DocumentDescriptor::class)->create(['owner_id' => $user->id, 'is_public' => true]);
+        $document = DocumentDescriptor::factory()->create(['owner_id' => $user->id, 'is_public' => true]);
         
         Publication::unguard(); // as fields are not mass assignable
         
@@ -113,7 +113,7 @@ class DocumentEmbedControllerTest extends TestCase
 
         $service = app('KBox\Documents\Services\DocumentsService');
 
-        $document = factory(DocumentDescriptor::class)->create(['owner_id' => $user->id, 'is_public' => true]);
+        $document = DocumentDescriptor::factory()->create(['owner_id' => $user->id, 'is_public' => true]);
 
         Publication::unguard(); // as fields are not mass assignable
         
@@ -121,7 +121,7 @@ class DocumentEmbedControllerTest extends TestCase
             'published_at' => Carbon::now()
         ]);
 
-        $project1 = factory(Project::class)->create(['user_id' => $user->id]);
+        $project1 = Project::factory()->create(['user_id' => $user->id]);
         $project1->users()->attach($user_accessing_the_document->id);
 
         $project1_child1 = $project1->collection;
@@ -139,7 +139,7 @@ class DocumentEmbedControllerTest extends TestCase
         $user = User::factory()->projectManager()->create();
         $user_accessing_the_document = User::factory()->partner()->create();
 
-        $document = factory(DocumentDescriptor::class)->create(['owner_id' => $user->id]);
+        $document = DocumentDescriptor::factory()->create(['owner_id' => $user->id]);
 
         $url = route('documents.embed', ['uuid' => $document->uuid]);
 
@@ -152,7 +152,7 @@ class DocumentEmbedControllerTest extends TestCase
     {
         $user = User::factory()->projectManager()->create();
 
-        $document = factory(DocumentDescriptor::class)->create(['owner_id' => $user->id, 'is_public' => false]);
+        $document = DocumentDescriptor::factory()->create(['owner_id' => $user->id, 'is_public' => false]);
 
         $url = route('documents.embed', ['uuid' => $document->uuid]);
 
@@ -170,9 +170,9 @@ class DocumentEmbedControllerTest extends TestCase
         
         $service = app('KBox\Documents\Services\DocumentsService');
 
-        $document = factory(DocumentDescriptor::class)->create(['owner_id' => $user->id]);
+        $document = DocumentDescriptor::factory()->create(['owner_id' => $user->id]);
 
-        $project1 = factory(Project::class)->create(['user_id' => $user->id]);
+        $project1 = Project::factory()->create(['user_id' => $user->id]);
         $project1->users()->attach($user_accessing_the_document->id);
 
         $project1_child1 = $project1->collection;
@@ -194,7 +194,7 @@ class DocumentEmbedControllerTest extends TestCase
         $user = User::factory()->projectManager()->create();
         $user_accessing_the_document = User::factory()->partner()->create();
 
-        $document = factory(DocumentDescriptor::class)->create(['owner_id' => $user->id, 'is_public' => false]);
+        $document = DocumentDescriptor::factory()->create(['owner_id' => $user->id, 'is_public' => false]);
 
         $url = route('documents.embed', ['uuid' => $document->uuid]);
 
@@ -208,7 +208,7 @@ class DocumentEmbedControllerTest extends TestCase
         $user = User::factory()->projectManager()->create();
         $user_accessing_the_document = User::factory()->partner()->create();
 
-        $document = factory(DocumentDescriptor::class)->create(['owner_id' => $user->id, 'is_public' => false]);
+        $document = DocumentDescriptor::factory()->create(['owner_id' => $user->id, 'is_public' => false]);
 
         $url = route('documents.embed', ['uuid' => $document->uuid]);
 
@@ -221,7 +221,7 @@ class DocumentEmbedControllerTest extends TestCase
     {
         $user = User::factory()->projectManager()->create();
         
-        $document = factory(DocumentDescriptor::class)->create(['owner_id' => $user->id, 'is_public' => false]);
+        $document = DocumentDescriptor::factory()->create(['owner_id' => $user->id, 'is_public' => false]);
         
         $document->file_id = null;
         $document->save();
@@ -237,11 +237,11 @@ class DocumentEmbedControllerTest extends TestCase
     {
         $user = User::factory()->projectManager()->create();
 
-        $document = factory(DocumentDescriptor::class)->create(['owner_id' => $user->id, 'is_public' => false]);
+        $document = DocumentDescriptor::factory()->create(['owner_id' => $user->id, 'is_public' => false]);
 
         $last_version = $document->file;
 
-        $first_version = factory(File::class)->create([
+        $first_version = File::factory()->create([
             'mime_type' => 'text/html',
         ]);
 

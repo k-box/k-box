@@ -151,7 +151,7 @@ class MoveCollectionsTest extends TestCase
 
     public function test_move_from_personal_to_project_denied_if_collection_has_shares_to_non_members()
     {
-        $project = factory(Project::class)->create();
+        $project = Project::factory()->create();
 
         $user = User::factory()->projectManager()->create();
 
@@ -159,7 +159,7 @@ class MoveCollectionsTest extends TestCase
         
         $collection = $this->documentService->createGroup($user, 'personal');
 
-        $share = factory(Shared::class)->create([
+        $share = Shared::factory()->create([
             'shareable_id' => $collection->getKey(),
             'shareable_type' => get_class($collection),
         ]);

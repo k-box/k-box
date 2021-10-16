@@ -66,7 +66,7 @@ class ProjectMembersTest extends TestCase
             $this->createUser(Capability::$PARTNER),
         ]);
         
-        $project = factory(Project::class)->create([
+        $project = Project::factory()->create([
             'user_id' => $user->getKey()
         ]);
 

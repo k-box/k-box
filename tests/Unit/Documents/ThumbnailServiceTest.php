@@ -119,7 +119,7 @@ class ThumbnailServiceTest extends TestCase
 
     public function test_generator_usage()
     {
-        $file = factory(File::class)->create([
+        $file = File::factory()->create([
             'path' => __DIR__.'/../../data/example.txt',
             'mime_type' => 'ateam/mad'
         ]);
@@ -133,7 +133,7 @@ class ThumbnailServiceTest extends TestCase
     
     public function test_unsupported_exception_thrown_if_file_not_supported()
     {
-        $file = factory(File::class)->create([
+        $file = File::factory()->create([
             'mime_type' => 'ateam/mad'
         ]);
 
@@ -167,7 +167,7 @@ class ThumbnailServiceTest extends TestCase
         config(['contentprocessing.queue' => 'custom']);
         $this->swap(ThumbnailsService::class, new ThumbnailsService());
 
-        $file = factory(File::class)->create([
+        $file = File::factory()->create([
             'mime_type' => 'ateam/mad'
         ]);
         

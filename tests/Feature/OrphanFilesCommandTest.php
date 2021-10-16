@@ -42,7 +42,7 @@ class OrphanFilesCommandTest extends TestCase
         $destination = storage_path('documents/example-document.pdf');
         copy($template, $destination);
 
-        $revision = factory(File::class)->create([
+        $revision = File::factory()->create([
             'user_id' => $user->id,
             'original_uri' => '',
             'path' => $destination,
@@ -54,7 +54,7 @@ class OrphanFilesCommandTest extends TestCase
         $document3->save();
 
         // create an orphan file
-        $orphan = factory(File::class)->create([
+        $orphan = File::factory()->create([
             'user_id' => $user->id,
             'original_uri' => '',
             'path' => $destination,
@@ -62,12 +62,12 @@ class OrphanFilesCommandTest extends TestCase
         ]);
         
         // trash a document with its related file
-        $to_be_trashed = factory(DocumentDescriptor::class)->create();
+        $to_be_trashed = DocumentDescriptor::factory()->create();
         $to_be_trashed->file->delete();
         $to_be_trashed->delete();
 
         // orphan file that is already trashed
-        $deleted_orphan = factory(File::class)->create([
+        $deleted_orphan = File::factory()->create([
             'user_id' => $user->id,
             'original_uri' => '',
             'path' => $destination,

@@ -129,7 +129,7 @@ class PublicLinksTest extends TestCase
 
     public function testDeletePublicLink()
     {
-        $share = factory(Shared::class)->states('publiclink')->create();
+        $share = Shared::factory()->publiclink()->create();
 
         $user = $share->user;
 
@@ -148,7 +148,7 @@ class PublicLinksTest extends TestCase
 
     public function testDeletePublicLinkIsNotPossibleByOtherUser()
     {
-        $share = factory(Shared::class)->states('publiclink')->create();
+        $share = Shared::factory()->publiclink()->create();
 
         $creator = $share->user;
         $creator->addCapabilities(Capability::$PARTNER);
@@ -168,7 +168,7 @@ class PublicLinksTest extends TestCase
 
     public function testUpdatePublicLink()
     {
-        $share = factory(Shared::class)->states('publiclink')->create();
+        $share = Shared::factory()->publiclink()->create();
 
         $user = $share->user;
 
@@ -203,7 +203,7 @@ class PublicLinksTest extends TestCase
 
     public function testPublicUrlRedirectToPreview()
     {
-        $share = factory(Shared::class)->states('publiclink')->create();
+        $share = Shared::factory()->publiclink()->create();
 
         $url = $share->sharedwith->url;
         $expected_redirect = RoutingHelpers::preview($share->shareable);
@@ -215,7 +215,7 @@ class PublicLinksTest extends TestCase
 
     private function createDocument(User $user, $visibility = 'private')
     {
-        return factory(DocumentDescriptor::class)->create([
+        return DocumentDescriptor::factory()->create([
             'owner_id' => $user->id,
             'visibility' => $visibility,
         ]);

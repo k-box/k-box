@@ -155,11 +155,11 @@ class DuplicateDocumentsControllerTest extends TestCase
             // 'is_private' => true,
         ]);
 
-        $existing_document = factory(DocumentDescriptor::class)->create([
+        $existing_document = DocumentDescriptor::factory()->create([
             'owner_id' => $user->id,
         ]);
 
-        $duplicate_document = factory(DocumentDescriptor::class)->create([
+        $duplicate_document = DocumentDescriptor::factory()->create([
             'owner_id' => $user->id,
         ]);
 
@@ -197,11 +197,11 @@ class DuplicateDocumentsControllerTest extends TestCase
             // 'is_private' => true,
         ]);
 
-        $existing_document = factory(DocumentDescriptor::class)->create([
+        $existing_document = DocumentDescriptor::factory()->create([
             'owner_id' => $user->id,
         ]);
 
-        $duplicate_document = factory(DocumentDescriptor::class)->create([
+        $duplicate_document = DocumentDescriptor::factory()->create([
             'owner_id' => $user->id,
         ]);
 

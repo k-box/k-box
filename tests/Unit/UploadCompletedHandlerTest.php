@@ -23,7 +23,7 @@ class UploadCompletedHandlerTest extends TestCase
     public function test_elaborate_document_is_dispatched()
     {
         DocumentElaboration::fake();
-        $descriptor = factory(DocumentDescriptor::class)->create();
+        $descriptor = DocumentDescriptor::factory()->create();
         $user = $descriptor->owner;
 
         $uploadCompleteEvent = new UploadCompleted($descriptor, $user);
@@ -38,7 +38,7 @@ class UploadCompletedHandlerTest extends TestCase
     public function test_descriptor_status_is_updated()
     {
         DocumentElaboration::fake();
-        $descriptor = factory(DocumentDescriptor::class)->create([
+        $descriptor = DocumentDescriptor::factory()->create([
             'status' =>  DocumentDescriptor::STATUS_UPLOADING
         ]);
         $user = $descriptor->owner;
@@ -61,10 +61,10 @@ class UploadCompletedHandlerTest extends TestCase
 
     public function test_duplicate_found_is_raised_when_the_user_upload_the_same_document_twice()
     {
-        $descriptor = factory(DocumentDescriptor::class)->create();
+        $descriptor = DocumentDescriptor::factory()->create();
         $user = $descriptor->owner;
 
-        $duplicate = factory(DocumentDescriptor::class)->create([
+        $duplicate = DocumentDescriptor::factory()->create([
             'hash' => $descriptor->hash,
             'owner_id' => $user->id
         ]);
@@ -106,7 +106,7 @@ class UploadCompletedHandlerTest extends TestCase
         ]);
         $service->addDocumentToGroup($manager, $descriptor, $project->collection);
         
-        $duplicate = factory(DocumentDescriptor::class)->create([
+        $duplicate = DocumentDescriptor::factory()->create([
             'hash' => $descriptor->hash,
             'owner_id' => $user->id
         ]);
@@ -154,12 +154,12 @@ class UploadCompletedHandlerTest extends TestCase
         $last_version->revision_of = $first_version->id;
         $last_version->save();
 
-        $duplicateFile = factory(File::class)->create([
+        $duplicateFile = File::factory()->create([
             'hash' => $first_version->hash,
             'user_id' => $userForDuplicate->id
         ]);
 
-        $duplicate = factory(DocumentDescriptor::class)->create([
+        $duplicate = DocumentDescriptor::factory()->create([
             'hash' => $first_version->hash,
             'owner_id' => $userForDuplicate->id,
             'file_id' => $duplicateFile->id
@@ -203,12 +203,12 @@ class UploadCompletedHandlerTest extends TestCase
         $last_version->revision_of = $first_version->id;
         $last_version->save();
 
-        $duplicateFile = factory(File::class)->create([
+        $duplicateFile = File::factory()->create([
             'hash' => $first_version->hash,
             'user_id' => $userForDuplicate->id
         ]);
 
-        $duplicate = factory(DocumentDescriptor::class)->create([
+        $duplicate = DocumentDescriptor::factory()->create([
             'hash' => $first_version->hash,
             'owner_id' => $userForDuplicate->id,
             'file_id' => $duplicateFile->id

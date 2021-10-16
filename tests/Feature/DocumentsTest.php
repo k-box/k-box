@@ -4,7 +4,6 @@ namespace Tests\Feature;
 
 use Klink\DmsAdapter\KlinkSearchRequest;
 use Klink\DmsAdapter\KlinkSearchResults;
-use Laracasts\TestDummy\Factory;
 use KBox\User;
 use KBox\File;
 use KBox\Capability;
@@ -97,12 +96,12 @@ class DocumentsTest extends TestCase
         
         $user = $this->createUser(Capability::$ADMIN);
         
-        $file = factory(File::class)->create([
+        $file = File::factory()->create([
             'user_id' => $user->id,
             'original_uri' => ''
         ]);
         
-        $doc = factory(DocumentDescriptor::class)->create([
+        $doc = DocumentDescriptor::factory()->create([
             'owner_id' => $user->id,
             'file_id' => $file->id,
         ]);
@@ -135,18 +134,18 @@ class DocumentsTest extends TestCase
         $user = $this->createUser($caps);
         $user2 = $this->createUser($caps);
         
-        $file = factory(File::class)->create([
+        $file = File::factory()->create([
             'user_id' => $user->id,
             'original_uri' => ''
         ]);
         
-        $doc = factory(DocumentDescriptor::class)->create([
+        $doc = DocumentDescriptor::factory()->create([
             'owner_id' => $user->id,
             'file_id' => $file->id,
         ]);
 
         // make the document accessible to the other user
-        factory(Shared::class)->create([
+        Shared::factory()->create([
             'shareable_id' => $doc->getKey(),
             'user_id' => $user->getKey(),
             'sharedwith_id' => $user2->getKey(),
@@ -179,12 +178,12 @@ class DocumentsTest extends TestCase
         
         $user = $this->createUser($caps);
         
-        $file = factory(File::class)->create([
+        $file = File::factory()->create([
             'user_id' => $user->id,
             'original_uri' => ''
         ]);
         
-        $doc = factory(DocumentDescriptor::class)->create([
+        $doc = DocumentDescriptor::factory()->create([
             'owner_id' => $user->id,
             'file_id' => $file->id,
             'copyright_usage' => 'C',
@@ -212,12 +211,12 @@ class DocumentsTest extends TestCase
 
         $user = $this->createUser($caps);
         
-        $file = factory(File::class)->create([
+        $file = File::factory()->create([
             'user_id' => $user->id,
             'original_uri' => ''
         ]);
         
-        $doc = factory(DocumentDescriptor::class)->create([
+        $doc = DocumentDescriptor::factory()->create([
             'owner_id' => $user->id,
             'file_id' => $file->id,
             'is_public' => true,
@@ -251,12 +250,12 @@ class DocumentsTest extends TestCase
 
         $user = $this->createUser($caps);
         
-        $file = factory(File::class)->create([
+        $file = File::factory()->create([
             'user_id' => $user->id,
             'original_uri' => ''
         ]);
         
-        $doc = factory(DocumentDescriptor::class)->create([
+        $doc = DocumentDescriptor::factory()->create([
             'owner_id' => $user->id,
             'file_id' => $file->id,
             'is_public' => true,
@@ -287,12 +286,12 @@ class DocumentsTest extends TestCase
 
         $user = $this->createUser(Capability::$PARTNER);
         
-        $file = factory(File::class)->create([
+        $file = File::factory()->create([
             'user_id' => $user->id,
             'original_uri' => ''
         ]);
         
-        $doc = factory(DocumentDescriptor::class)->create([
+        $doc = DocumentDescriptor::factory()->create([
             'owner_id' => $user->id,
             'file_id' => $file->id,
             'hash' => $file->hash,
@@ -340,12 +339,12 @@ class DocumentsTest extends TestCase
             'password' => bcrypt($user_password)
         ]);
         
-        $file = factory(File::class)->create([
+        $file = File::factory()->create([
             'user_id' => $user->id,
             'original_uri' => ''
         ]);
         
-        $doc = factory(DocumentDescriptor::class)->create([
+        $doc = DocumentDescriptor::factory()->create([
             'owner_id' => $user->id,
             'file_id' => $file->id
         ]);
@@ -380,12 +379,12 @@ class DocumentsTest extends TestCase
             'password' => bcrypt($user_password)
         ]);
         
-        $file = factory(File::class)->create([
+        $file = File::factory()->create([
             'user_id' => $user->id,
             'original_uri' => ''
         ]);
         
-        $doc = factory(DocumentDescriptor::class)->create([
+        $doc = DocumentDescriptor::factory()->create([
             'owner_id' => $user->id,
             'file_id' => $file->id
         ]);
@@ -420,12 +419,12 @@ class DocumentsTest extends TestCase
             'password' => bcrypt($user_password)
         ]);
         
-        $file = factory(File::class)->create([
+        $file = File::factory()->create([
             'user_id' => $user->id,
             'original_uri' => ''
         ]);
         
-        $doc = factory(DocumentDescriptor::class)->create([
+        $doc = DocumentDescriptor::factory()->create([
             'owner_id' => $user->id,
             'file_id' => $file->id
         ]);
@@ -464,12 +463,12 @@ class DocumentsTest extends TestCase
             'password' => bcrypt($user_password)
         ]);
         
-        $file = factory(File::class)->create([
+        $file = File::factory()->create([
             'user_id' => $owner->id,
             'original_uri' => ''
         ]);
         
-        $doc = factory(DocumentDescriptor::class)->create([
+        $doc = DocumentDescriptor::factory()->create([
             'owner_id' => $owner->id,
             'file_id' => $file->id
         ]);
@@ -494,12 +493,12 @@ class DocumentsTest extends TestCase
     {
         $user = $this->createUser(Capability::$PROJECT_MANAGER);
         
-        $file = factory(File::class)->create([
+        $file = File::factory()->create([
             'user_id' => $user->id,
             'original_uri' => ''
         ]);
         
-        $doc = factory(DocumentDescriptor::class)->create([
+        $doc = DocumentDescriptor::factory()->create([
             'owner_id' => $user->id,
             'file_id' => $file->id,
             'hash' => $file->hash,
@@ -541,12 +540,12 @@ class DocumentsTest extends TestCase
         
         $user = $this->createUser(Capability::$PROJECT_MANAGER);
                 
-        $file = factory(File::class)->create([
+        $file = File::factory()->create([
             'user_id' => $user->id,
             'original_uri' => ''
         ]);
         
-        $doc = factory(DocumentDescriptor::class)->create([
+        $doc = DocumentDescriptor::factory()->create([
             'owner_id' => $user->id,
             'file_id' => $file->id,
             'hash' => $file->hash,
@@ -568,7 +567,7 @@ class DocumentsTest extends TestCase
         
         $second_user = $this->createUser(Capability::$PARTNER);
         
-        factory(Shared::class)->create([
+        Shared::factory()->create([
             'shareable_id' => $doc->getKey(),
             'user_id' => $user->getKey(),
             'sharedwith_id' => $second_user->getKey(),
@@ -598,12 +597,12 @@ class DocumentsTest extends TestCase
         
         $user = $this->createUser(Capability::$PROJECT_MANAGER);
                 
-        $file = factory(File::class)->create([
+        $file = File::factory()->create([
             'user_id' => $user->id,
             'original_uri' => ''
         ]);
         
-        $doc = factory(DocumentDescriptor::class)->create([
+        $doc = DocumentDescriptor::factory()->create([
             'owner_id' => $user->id,
             'file_id' => $file->id,
             'hash' => $file->hash,
@@ -627,12 +626,12 @@ class DocumentsTest extends TestCase
         
         $user = $this->createUser(Capability::$PROJECT_MANAGER);
                 
-        $file = factory(File::class)->create([
+        $file = File::factory()->create([
             'user_id' => $user->id,
             'original_uri' => ''
         ]);
         
-        $doc = factory(DocumentDescriptor::class)->create([
+        $doc = DocumentDescriptor::factory()->create([
             'owner_id' => $user->id,
             'file_id' => $file->id,
             'hash' => $file->hash,
@@ -845,14 +844,14 @@ class DocumentsTest extends TestCase
         
         $file = $descr->file;
 
-        $revision_of_revision = factory(File::class)->create([
+        $revision_of_revision = File::factory()->create([
             'user_id' => $user->id,
             'original_uri' => '',
             'path' => $file->path,
             'revision_of' => null,
         ]);
 
-        $revision = factory(File::class)->create([
+        $revision = File::factory()->create([
             'user_id' => $user->id,
             'original_uri' => '',
             'path' => $file->path,
@@ -967,7 +966,7 @@ class DocumentsTest extends TestCase
 
     private function createDocument(User $user, $visibility = 'private')
     {
-        return factory(DocumentDescriptor::class)->create([
+        return DocumentDescriptor::factory()->create([
             'owner_id' => $user->id,
             'visibility' => $visibility,
         ]);

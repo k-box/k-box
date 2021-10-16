@@ -53,7 +53,7 @@ class CollectionsTest extends TestCase
             $user->addCapabilities(Capability::$PARTNER);
         });
 
-        $project = factory(Project::class)->create([
+        $project = Project::factory()->create([
             'user_id' => $manager->id
         ]);
 
@@ -90,7 +90,7 @@ class CollectionsTest extends TestCase
             $user->addCapabilities(Capability::$PARTNER);
         });
 
-        $project = factory(Project::class)->create([
+        $project = Project::factory()->create([
             'user_id' => $manager->id
         ]);
         $project->users()->attach($user);
@@ -125,7 +125,7 @@ class CollectionsTest extends TestCase
             $user->addCapabilities(Capability::$PARTNER);
         });
 
-        $project = factory(Project::class)->create([
+        $project = Project::factory()->create([
             'user_id' => $manager->id
         ]);
         $project->users()->attach($user);
@@ -154,7 +154,7 @@ class CollectionsTest extends TestCase
             $user->addCapabilities(Capability::$PARTNER);
         });
 
-        $project = factory(Project::class)->create([
+        $project = Project::factory()->create([
             'user_id' => $manager->id
         ]);
         $project->users()->attach($user);
@@ -467,7 +467,7 @@ class CollectionsTest extends TestCase
             $user->addCapabilities(Capability::$PARTNER);
         });
 
-        $project = factory(Project::class)->create(['user_id' => $creator->id]);
+        $project = Project::factory()->create(['user_id' => $creator->id]);
 
         //create a hierarchy
         $collection_level_one = $service->createGroup($creator, 'collection_level_one', null, $project->collection, false);
@@ -511,7 +511,7 @@ class CollectionsTest extends TestCase
             $user->addCapabilities(Capability::$PARTNER);
         });
 
-        $project = factory(Project::class)->create(['user_id' => $creator->id]);
+        $project = Project::factory()->create(['user_id' => $creator->id]);
 
         $collection_level_one = $service->createGroup($creator, 'collection_level_one', null, $project->collection, false);
         $collection_level_three = $service->createGroup($creator, 'collection_level_three', null, $collection_level_one, false);
@@ -532,13 +532,13 @@ class CollectionsTest extends TestCase
             $user->addCapabilities(Capability::$PARTNER);
         });
 
-        $project = factory(Project::class)->create(['user_id' => $creator->id]);
+        $project = Project::factory()->create(['user_id' => $creator->id]);
 
         $collection_level_one = $service->createGroup($creator, 'collection_level_one', null, null, true);
         $collection_level_two = $service->createGroup($creator, 'collection_level_two', null, $collection_level_one, true);
         $collection_level_three = $service->createGroup($creator, 'collection_level_four', null, $collection_level_two, true);
 
-        $share = factory(Shared::class)->create([
+        $share = Shared::factory()->create([
             'user_id' => $creator->id,
             'shareable_id' => $collection_level_two->id,
             'shareable_type' => Group::class,

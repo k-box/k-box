@@ -225,7 +225,7 @@ class DmsUpdateCommandTest extends TestCase
         $this->withKlinkAdapterMock();
 
         $groups = factory(Project::class, 11)->create(['uuid' => "00000000-0000-0000-0000-000000000000"]);
-        $v3_groups = factory(Project::class)->create(['uuid' => "39613931-3436-3066-2d31-3533322d3466"]);
+        $v3_groups = Project::factory()->create(['uuid' => "39613931-3436-3066-2d31-3533322d3466"]);
 
         $user_ids = $groups->pluck('id')->toArray();
         

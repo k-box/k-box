@@ -100,9 +100,9 @@ class CollectionsTest extends TestCase
         
         // $users = [$user1, $user2];
         
-        $projectA = factory(Project::class)->create(['user_id' => $user1->id]);
-        $projectB = factory(Project::class)->create(['user_id' => $user1->id]);
-        $projectC = factory(Project::class)->create(['user_id' => $user2->id]);
+        $projectA = Project::factory()->create(['user_id' => $user1->id]);
+        $projectB = Project::factory()->create(['user_id' => $user1->id]);
+        $projectC = Project::factory()->create(['user_id' => $user2->id]);
         
         $service = app(DocumentsService::class);
         
@@ -250,7 +250,7 @@ class CollectionsTest extends TestCase
         
         // create a project
         
-        $project = factory(Project::class)->create();
+        $project = Project::factory()->create();
         
         $user = $project->manager()->first();
         
@@ -265,9 +265,9 @@ class CollectionsTest extends TestCase
         
         $this->assertTrue($accessible, 'Collection is not accessible by the creator');
         
-        $projectA = factory(Project::class)->create(['user_id' => $user->id]);
-        $projectB = factory(Project::class)->create(['user_id' => $user->id]);
-        $projectC = factory(Project::class)->create(['user_id' => $user->id]);
+        $projectA = Project::factory()->create(['user_id' => $user->id]);
+        $projectB = Project::factory()->create(['user_id' => $user->id]);
+        $projectC = Project::factory()->create(['user_id' => $user->id]);
         
         $collection2 = $service->createGroup($user, 'sub-sub-collection name', null, $collection, false);
         
@@ -327,11 +327,11 @@ class CollectionsTest extends TestCase
         $service = app(DocumentsService::class);
         
         // create one document
-        $doc = factory(DocumentDescriptor::class)->create([
+        $doc = DocumentDescriptor::factory()->create([
             'owner_id' => $user->id
         ]);
         
-        $doc2 = factory(DocumentDescriptor::class)->create([
+        $doc2 = DocumentDescriptor::factory()->create([
             'owner_id' => $user->id
         ]);
         
@@ -381,7 +381,7 @@ class CollectionsTest extends TestCase
         $service = app(DocumentsService::class);
         
         // create one document
-        $doc = factory(DocumentDescriptor::class)->create([
+        $doc = DocumentDescriptor::factory()->create([
             'owner_id' => $user->id
         ]);
         

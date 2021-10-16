@@ -14,7 +14,7 @@ class ThumbnailGenerationJobTest extends TestCase
     {
         Thumbnails::fake();
 
-        $file = factory(File::class)->make([
+        $file = File::factory()->make([
             'path' => __DIR__.'/../../data/project-avatar.png',
             'mime_type' => 'image/png'
         ]);

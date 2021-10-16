@@ -16,7 +16,7 @@ class DocumentsCheckDescriptorCommandTest extends TestCase
      */
     public function testCheckDescriptorOnNonUpdatedDocuments()
     {
-        $doc = factory(DocumentDescriptor::class)->create([
+        $doc = DocumentDescriptor::factory()->create([
             'is_public' => false,
             'language' => 'en',
             'document_type' => 'image',
@@ -42,7 +42,7 @@ class DocumentsCheckDescriptorCommandTest extends TestCase
 
     public function testCheckDescriptorOnNonExistingDocument()
     {
-        $doc = factory(DocumentDescriptor::class)->create();
+        $doc = DocumentDescriptor::factory()->create();
 
         $doc->forceDelete();
 

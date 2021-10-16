@@ -19,7 +19,7 @@ class DocumentDescriptorPolicyTest extends TestCase
     {
         $user = User::factory()->partner()->create();
 
-        $descr = factory(DocumentDescriptor::class)->create();
+        $descr = DocumentDescriptor::factory()->create();
 
         $can = (new DocumentDescriptorPolicy())->see_owner($user, $descr);
 
@@ -30,7 +30,7 @@ class DocumentDescriptorPolicyTest extends TestCase
     {
         $user = User::factory()->partner()->create();
 
-        $descr = factory(DocumentDescriptor::class)->create();
+        $descr = DocumentDescriptor::factory()->create();
 
         $descr->owner->delete();
 
@@ -41,7 +41,7 @@ class DocumentDescriptorPolicyTest extends TestCase
 
     public function test_allow_see_username()
     {
-        $descr = factory(DocumentDescriptor::class)->create();
+        $descr = DocumentDescriptor::factory()->create();
 
         $can = (new DocumentDescriptorPolicy())->see_owner($descr->owner, $descr);
 
@@ -52,7 +52,7 @@ class DocumentDescriptorPolicyTest extends TestCase
     {
         $user = User::factory()->admin()->create();
 
-        $descr = factory(DocumentDescriptor::class)->create();
+        $descr = DocumentDescriptor::factory()->create();
 
         $can = (new DocumentDescriptorPolicy())->see_owner($user, $descr);
 
@@ -63,7 +63,7 @@ class DocumentDescriptorPolicyTest extends TestCase
     {
         // create project
         $manager = User::factory()->projectManager()->create();
-        $project = factory(Project::class)->create(['user_id' => $manager->id]);
+        $project = Project::factory()->create(['user_id' => $manager->id]);
 
         // add member
         $member_one = User::factory()->partner()->create();
@@ -74,7 +74,7 @@ class DocumentDescriptorPolicyTest extends TestCase
         $project->users()->attach($member_two->id);
 
         // upload doc using second member
-        $descr = factory(DocumentDescriptor::class)->create(['owner_id' => $member_two->id]);
+        $descr = DocumentDescriptor::factory()->create(['owner_id' => $member_two->id]);
 
         //add doc to collection
         $project->collection->documents()->save($descr);
@@ -92,10 +92,10 @@ class DocumentDescriptorPolicyTest extends TestCase
     {
         // create project
         $manager = User::factory()->projectManager()->create();
-        $project = factory(Project::class)->create(['user_id' => $manager->id]);
+        $project = Project::factory()->create(['user_id' => $manager->id]);
         
         $manager_two = User::factory()->projectManager()->create();
-        $project_two = factory(Project::class)->create(['user_id' => $manager_two->id]);
+        $project_two = Project::factory()->create(['user_id' => $manager_two->id]);
 
         // add member
         $member_one = User::factory()->partner()->create();
@@ -110,7 +110,7 @@ class DocumentDescriptorPolicyTest extends TestCase
         $project_two->users()->attach($member_three->id);
 
         // upload doc
-        $descr = factory(DocumentDescriptor::class)->create(['owner_id' => $member_three->id]);
+        $descr = DocumentDescriptor::factory()->create(['owner_id' => $member_three->id]);
 
         //add doc to collection
         $project_two->collection->documents()->save($descr);
@@ -128,9 +128,9 @@ class DocumentDescriptorPolicyTest extends TestCase
     {
         $user = User::factory()->partner()->create();
         
-        $descr = factory(DocumentDescriptor::class)->create();
+        $descr = DocumentDescriptor::factory()->create();
 
-        factory(Shared::class)->create([
+        Shared::factory()->create([
             'user_id' => $descr->owner->id,
             'shareable_id' => $descr->id,
             'sharedwith_id' => $user->id,
@@ -149,13 +149,13 @@ class DocumentDescriptorPolicyTest extends TestCase
             'user_id' => $owner->id,
         ]);
         
-        $descr = factory(DocumentDescriptor::class)->create([
+        $descr = DocumentDescriptor::factory()->create([
             'owner_id' => $owner->id
         ]);
 
         $collection->documents()->attach($descr->id);
 
-        $share = factory(Shared::class)->create([
+        $share = Shared::factory()->create([
             'user_id' => $descr->owner->id,
             'shareable_id' => $collection->id,
             'shareable_type' => get_class($collection),

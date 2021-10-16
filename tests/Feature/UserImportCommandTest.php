@@ -55,11 +55,11 @@ class UserImportCommandTest extends TestCase
         Mail::shouldReceive('queue')->times(4)->withAnyArgs();
         
         // create a Project called "test"
-        $test = factory(Project::class)->create(['name' => 'test']);
+        $test = Project::factory()->create(['name' => 'test']);
         // create a Project called "secondary"
-        $secondary = factory(Project::class)->create(['name' => 'secondary']);
+        $secondary = Project::factory()->create(['name' => 'secondary']);
         // create a project called "lead by"
-        $lead_by = factory(Project::class)->create(['name' => 'lead by']);
+        $lead_by = Project::factory()->create(['name' => 'lead by']);
         
         $output = new BufferedOutput;
         

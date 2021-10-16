@@ -15,7 +15,7 @@ class AudioPreviewDriverTest extends TestCase
     {
         list($mimeType) = FileHelper::type($path);
 
-        return factory(File::class)->create([
+        return File::factory()->create([
             'path' => $path,
             'mime_type' => $mimeType
         ]);
@@ -27,7 +27,7 @@ class AudioPreviewDriverTest extends TestCase
 
         $file = $this->createFileForPath($path);
 
-        $document = factory(DocumentDescriptor::class)->create([
+        $document = DocumentDescriptor::factory()->create([
             'file_id' => $file->id,
             'mime_type' => $file->mime_type
         ]);

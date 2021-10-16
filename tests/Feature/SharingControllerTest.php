@@ -45,7 +45,7 @@ class SharingControllerTest extends TestCase
         
         $user_target = User::factory()->partner()->create();
 
-        $document = factory(DocumentDescriptor::class)->create([
+        $document = DocumentDescriptor::factory()->create([
             'owner_id' => $user->getKey()
         ]);
 
@@ -85,7 +85,7 @@ class SharingControllerTest extends TestCase
         
         $user_target = User::factory()->partner()->create();
 
-        $document = factory(DocumentDescriptor::class)->create([
+        $document = DocumentDescriptor::factory()->create([
             'owner_id' => $user->getKey()
         ]);
 
@@ -120,11 +120,11 @@ class SharingControllerTest extends TestCase
             $u->addCapabilities($target_capabilities);
         });
 
-        $to_be_shared = factory(DocumentDescriptor::class)->create([
+        $to_be_shared = DocumentDescriptor::factory()->create([
             'owner_id' => $user->getKey()
         ]);
 
-        $share = factory(Shared::class)->create([
+        $share = Shared::factory()->create([
             'user_id' => $user->getKey(),
             'sharedwith_id' => $user_target->getKey(),
             'shareable_id' => $to_be_shared->getKey(),
@@ -159,7 +159,7 @@ class SharingControllerTest extends TestCase
             // 'is_private' => true,
         ]);
 
-        $share = factory(Shared::class)->create([
+        $share = Shared::factory()->create([
             'user_id' => $user->getKey(),
             'sharedwith_id' => $user_target->getKey(),
             'shareable_id' => $to_be_shared->getKey(),
@@ -206,7 +206,7 @@ class SharingControllerTest extends TestCase
         
         $user_target = User::factory()->partner()->create();
 
-        $document = factory(DocumentDescriptor::class)->create([
+        $document = DocumentDescriptor::factory()->create([
             'owner_id' => $user->getKey()
         ]);
 
@@ -236,7 +236,7 @@ class SharingControllerTest extends TestCase
         
         $user_target = User::factory()->partner()->create();
 
-        $share = factory(Shared::class)->create([
+        $share = Shared::factory()->create([
             'user_id' => $user->id,
             'sharedwith_id' => $user_target->id,
         ]);
@@ -253,7 +253,7 @@ class SharingControllerTest extends TestCase
 
         $user = User::factory()->partner()->create();
 
-        $document = factory(DocumentDescriptor::class)->create([
+        $document = DocumentDescriptor::factory()->create([
             'owner_id' => $user->getKey()
         ]);
         
@@ -289,10 +289,10 @@ class SharingControllerTest extends TestCase
 
         $user = User::factory()->partner()->create();
 
-        $document1 = factory(DocumentDescriptor::class)->create([
+        $document1 = DocumentDescriptor::factory()->create([
             'owner_id' => $user->getKey()
         ]);
-        $document2 = factory(DocumentDescriptor::class)->create([
+        $document2 = DocumentDescriptor::factory()->create([
             'owner_id' => $user->getKey()
         ]);
         
@@ -364,7 +364,7 @@ class SharingControllerTest extends TestCase
         
         $user_target = User::factory()->projectManager()->create();
 
-        $project = factory(Project::class)->create([
+        $project = Project::factory()->create([
             'user_id' => $user_target->getKey(),
         ]);
 
@@ -404,10 +404,10 @@ class SharingControllerTest extends TestCase
         
         $user_target = User::factory()->partner()->create();
 
-        $document1 = factory(DocumentDescriptor::class)->create([
+        $document1 = DocumentDescriptor::factory()->create([
             'owner_id' => $user->getKey()
         ]);
-        $document2 = factory(DocumentDescriptor::class)->create([
+        $document2 = DocumentDescriptor::factory()->create([
             'owner_id' => $user->getKey()
         ]);
 
@@ -453,10 +453,10 @@ class SharingControllerTest extends TestCase
         
         $user_target = User::factory()->partner()->create();
 
-        $document1 = factory(DocumentDescriptor::class)->create([
+        $document1 = DocumentDescriptor::factory()->create([
             'owner_id' => $user->getKey()
         ]);
-        $document2 = factory(DocumentDescriptor::class)->create([
+        $document2 = DocumentDescriptor::factory()->create([
             'owner_id' => $user->getKey()
         ]);
 
@@ -465,7 +465,7 @@ class SharingControllerTest extends TestCase
             // 'is_private' => true,
         ]);
 
-        $project = factory(Project::class)->create([
+        $project = Project::factory()->create([
             'user_id' => $user->getKey(),
         ]);
         $collection2 = $project->collection;

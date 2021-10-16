@@ -213,7 +213,7 @@ class DocumentsServiceTest extends TestCase
 
         $user = User::factory()->admin()->create();
 
-        $document = factory(DocumentDescriptor::class)->create([
+        $document = DocumentDescriptor::factory()->create([
             'owner_id' => $user->id,
         ]);
 
@@ -252,7 +252,7 @@ class DocumentsServiceTest extends TestCase
 
         $user = User::factory()->admin()->create();
 
-        $document = factory(DocumentDescriptor::class)->create([
+        $document = DocumentDescriptor::factory()->create([
             'owner_id' => $user->id,
         ]);
 
@@ -352,28 +352,28 @@ class DocumentsServiceTest extends TestCase
 
         $hierarchy_sub_collection = $service->createGroup($collection_creator, 'under', null, $hierarchy_root_collection);
         
-        $first_share = factory(Shared::class)->create([
+        $first_share = Shared::factory()->create([
             'user_id' => $collection_creator->getKey(),
             'sharedwith_id' => $user->id,
             'shareable_type' => Group::class,
             'shareable_id' => $single_root_collection->getKey(),
         ]);
         
-        $second_share = factory(Shared::class)->create([
+        $second_share = Shared::factory()->create([
             'user_id' => $collection_creator->getKey(),
             'sharedwith_id' => $user->id,
             'shareable_type' => Group::class,
             'shareable_id' => $single_sub_collection->getKey(),
         ]);
         
-        $third_share = factory(Shared::class)->create([
+        $third_share = Shared::factory()->create([
             'user_id' => $collection_creator->getKey(),
             'sharedwith_id' => $user->id,
             'shareable_type' => Group::class,
             'shareable_id' => $hierarchy_root_collection->getKey(),
         ]);
         
-        $fourth_share = factory(Shared::class)->create([
+        $fourth_share = Shared::factory()->create([
             'user_id' => $collection_creator->getKey(),
             'sharedwith_id' => $user->id,
             'shareable_type' => Group::class,
@@ -417,7 +417,7 @@ class DocumentsServiceTest extends TestCase
 
         $hierarchy_sub_collection = $service->createGroup($collection_creator, 'under', null, $hierarchy_root_collection);
         
-        $first_share = factory(Shared::class)->create([
+        $first_share = Shared::factory()->create([
             'user_id' => $collection_creator->getKey(),
             'sharedwith_id' => $user->id,
             'shareable_type' => Group::class,
@@ -426,21 +426,21 @@ class DocumentsServiceTest extends TestCase
 
         $single_root_collection->delete();
         
-        $second_share = factory(Shared::class)->create([
+        $second_share = Shared::factory()->create([
             'user_id' => $collection_creator->getKey(),
             'sharedwith_id' => $user->id,
             'shareable_type' => Group::class,
             'shareable_id' => $single_sub_collection->getKey(),
         ]);
         
-        $third_share = factory(Shared::class)->create([
+        $third_share = Shared::factory()->create([
             'user_id' => $collection_creator->getKey(),
             'sharedwith_id' => $user->id,
             'shareable_type' => Group::class,
             'shareable_id' => $hierarchy_root_collection->getKey(),
         ]);
         
-        $fourth_share = factory(Shared::class)->create([
+        $fourth_share = Shared::factory()->create([
             'user_id' => $collection_creator->getKey(),
             'sharedwith_id' => $user->id,
             'shareable_type' => Group::class,
@@ -460,7 +460,7 @@ class DocumentsServiceTest extends TestCase
 
     private function createDocument(User $user, $visibility = 'private')
     {
-        return factory(DocumentDescriptor::class)->create([
+        return DocumentDescriptor::factory()->create([
             'owner_id' => $user->id,
             'visibility' => $visibility,
         ]);

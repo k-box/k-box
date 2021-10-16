@@ -110,20 +110,20 @@ class StatisticsCommandTest extends TestCase
             factory(\KBox\DocumentDescriptor::class)->create(['created_at' => Carbon::createFromDate(null, 6, 12), 'file_id' => $files[3]->id, 'owner_id' => $users[3]->id]),
         ];
 
-        $publiclink = factory(Shared::class)->states('publiclink')->create([
+        $publiclink = Shared::factory()->publiclink()->create([
             'created_at' => Carbon::createFromDate(null, 6, 9),
             'shareable_id' => $docs[0]->id,
             'user_id' => $users[0]->id,
             ]);
         
-        $share = factory(Shared::class)->create([
+        $share = Shared::factory()->create([
             'created_at' => Carbon::createFromDate(null, 6, 8),
             'shareable_id' => $docs[0]->id,
             'sharedwith_id' => $users[1]->id,
             'user_id' => $users[0]->id,
             ]);
             
-        $project = factory(Project::class)->create([
+        $project = Project::factory()->create([
             'created_at' => Carbon::createFromDate(null, 6, 8),
             'user_id' => $users[1]->id,
         ]);

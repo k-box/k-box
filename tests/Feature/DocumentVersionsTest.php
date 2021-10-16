@@ -229,7 +229,7 @@ class DocumentVersionsTest extends TestCase
 
         $quota = Quota::user($user);
         
-        $document = factory(DocumentDescriptor::class)->create([
+        $document = DocumentDescriptor::factory()->create([
             'owner_id' => $user->id
         ]);
 
@@ -251,7 +251,7 @@ class DocumentVersionsTest extends TestCase
 
         $user = User::factory()->admin()->create();
         
-        $document = factory(DocumentDescriptor::class)->create([
+        $document = DocumentDescriptor::factory()->create([
             'owner_id' => $user->id
         ]);
 

@@ -47,7 +47,7 @@ class StarredTest extends TestCase
 
     protected function createRecentDocument(User $user, Carbon $date = null, $documentParams = [])
     {
-        return factory(DocumentDescriptor::class)->create(array_merge([
+        return DocumentDescriptor::factory()->create(array_merge([
             'owner_id' => $user->id,
             'created_at' => $date ?? Carbon::now(),
             'updated_at' => $date ?? Carbon::now(),
@@ -93,7 +93,7 @@ class StarredTest extends TestCase
         
         $expected_count = Starred::count() + 1;
         
-        $doc = factory(DocumentDescriptor::class)->create([
+        $doc = DocumentDescriptor::factory()->create([
             'owner_id' => $user->getKey(),
             'local_document_id' => 'stardoc',
         ]);

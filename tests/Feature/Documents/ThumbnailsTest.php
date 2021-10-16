@@ -46,7 +46,7 @@ class ThumbnailsTest extends TestCase
         
         list($mime, $documentType) = Files::recognize($real_path);
 
-        $file = factory(File::class)->create([
+        $file = File::factory()->create([
             'name' => basename($real_path),
             'hash' => Files::hash($real_path),
             'path' => $real_path,

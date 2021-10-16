@@ -34,7 +34,7 @@ class ProjectsVisibilityTest extends TestCase
     {
         config(['dms.hide_projects_if_empty' => true]);
 
-        $project = factory(Project::class)->create();
+        $project = Project::factory()->create();
 
         $user = $this->createUser(Capability::$PARTNER);
 

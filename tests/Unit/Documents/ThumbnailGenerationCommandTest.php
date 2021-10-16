@@ -16,7 +16,7 @@ class ThumbnailGenerationCommandTest extends TestCase
     {
         $real_path = base_path('tests/data/project-avatar.png');
         list($mime, $documentType) = Files::recognize($real_path);
-        $file = factory(File::class)->create([
+        $file = File::factory()->create([
             'name' => basename($real_path),
             'hash' => Files::hash($real_path),
             'path' => $real_path,
@@ -24,7 +24,7 @@ class ThumbnailGenerationCommandTest extends TestCase
             'size' => filesize($real_path),
         ]);
         
-        $document = factory(DocumentDescriptor::class)->create([
+        $document = DocumentDescriptor::factory()->create([
             'owner_id' => $file->user_id,
             'file_id' => $file->id,
         ]);

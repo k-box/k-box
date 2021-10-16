@@ -97,8 +97,8 @@ class ExportPublicDocumentsCommandTest extends TestCase
         Storage::fake('app');
 
         $user = User::factory()->create();
-        $project = factory(Project::class)->create(['user_id' => $user->id]);
-        $project2 = factory(Project::class)->create(['user_id' => $user->id]);
+        $project = Project::factory()->create(['user_id' => $user->id]);
+        $project2 = Project::factory()->create(['user_id' => $user->id]);
 
         $privateDocuments = factory(DocumentDescriptor::class, 3)->create();
         $publicDocuments = factory(DocumentDescriptor::class, 3)

@@ -18,7 +18,7 @@ class OembedControllerTest extends TestCase
 
         $user = User::factory()->partner()->create();
 
-        $document = factory(DocumentDescriptor::class)->create(['owner_id' => $user->id]);
+        $document = DocumentDescriptor::factory()->create(['owner_id' => $user->id]);
         $document->document_uri = null;
         $document->save();
 

@@ -56,7 +56,7 @@ class InviteEmailTest extends TestCase
             $u->addCapabilities(Capability::$PARTNER);
         });
 
-        $project = factory(Project::class)->create([
+        $project = Project::factory()->create([
             'user_id' => $user->id,
         ]);
 

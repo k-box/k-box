@@ -20,7 +20,7 @@ class GeoJsonGpxKmlThumbnailGeneratorTest extends TestCase
     {
         list($mimeType) = FileHelper::type($path);
 
-        return factory(File::class)->create([
+        return File::factory()->create([
             'path' => $path,
             'mime_type' => $mimeType
         ]);

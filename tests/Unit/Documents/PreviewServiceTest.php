@@ -99,7 +99,7 @@ class PreviewServiceTest extends TestCase
 
     public function test_generator_usage()
     {
-        $file = factory(File::class)->create([
+        $file = File::factory()->create([
             'path' => __DIR__.'/../../data/example.txt',
             'mime_type' => 'ateam/mad'
         ]);
@@ -113,7 +113,7 @@ class PreviewServiceTest extends TestCase
     
     public function test_unsupported_exception_thrown_if_file_not_supported()
     {
-        $file = factory(File::class)->create([
+        $file = File::factory()->create([
             'mime_type' => 'ateam/mad'
         ]);
 

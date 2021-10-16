@@ -9,7 +9,7 @@ class RefreshFileMimeTypeCommandTest extends TestCase
 {
     public function test_file_mime_type_updated()
     {
-        $file = factory(File::class)->create([
+        $file = File::factory()->create([
             'mime_type' => 'audio/mpeg',
             'path' => base_path('tests/data/audio.mp3')
         ]);
@@ -27,7 +27,7 @@ class RefreshFileMimeTypeCommandTest extends TestCase
     
     public function test_file_mime_type_update_when_single_file_specified()
     {
-        $file = factory(File::class)->create([
+        $file = File::factory()->create([
             'mime_type' => 'application/json',
         ]);
 
@@ -46,7 +46,7 @@ class RefreshFileMimeTypeCommandTest extends TestCase
     
     public function test_file_mime_type_update_not_required()
     {
-        $file = factory(File::class)->create([
+        $file = File::factory()->create([
             'mime_type' => 'text/plain',
         ]);
 

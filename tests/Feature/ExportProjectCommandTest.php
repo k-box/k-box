@@ -20,21 +20,21 @@ class ExportProjectCommandTest extends TestCase
 {
     private function createProject()
     {
-        $project = factory(Project::class)->create([
+        $project = Project::factory()->create([
             'name' => 'project / root'
         ]);
         $project->collection->name = $project->name;
         $project->collection->save();
 
         $documents = [
-            factory(DocumentDescriptor::class)->create(['title' => 'Document everywhere']),
-            factory(DocumentDescriptor::class)->create(['title' => 'Document 1 - Настройки географического расширения']),
-            factory(DocumentDescriptor::class)->create(['title' => 'Document 2']),
-            factory(DocumentDescriptor::class)->create(['title' => 'Document 3']),
-            factory(DocumentDescriptor::class)->create(['title' => 'Document 4']),
-            factory(DocumentDescriptor::class)->create(['title' => 'Document 5']),
-            factory(DocumentDescriptor::class)->create(['title' => 'Document 6']),
-            factory(DocumentDescriptor::class)->create(['title' => 'Document 7']),
+            DocumentDescriptor::factory()->create(['title' => 'Document everywhere']),
+            DocumentDescriptor::factory()->create(['title' => 'Document 1 - Настройки географического расширения']),
+            DocumentDescriptor::factory()->create(['title' => 'Document 2']),
+            DocumentDescriptor::factory()->create(['title' => 'Document 3']),
+            DocumentDescriptor::factory()->create(['title' => 'Document 4']),
+            DocumentDescriptor::factory()->create(['title' => 'Document 5']),
+            DocumentDescriptor::factory()->create(['title' => 'Document 6']),
+            DocumentDescriptor::factory()->create(['title' => 'Document 7']),
         ];
 
         $project->collection->documents()->save($documents[0]);
@@ -77,7 +77,7 @@ class ExportProjectCommandTest extends TestCase
         // attempt to include other projects in case a
         // document is part of collections under
         // different projects
-        $second_project = factory(Project::class)->create([
+        $second_project = Project::factory()->create([
             'name' => 'project / other'
         ]);
         $second_project->collection->name = $second_project->name;

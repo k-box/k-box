@@ -49,7 +49,7 @@ class GroupDetailsControllerTest extends TestCase
     {
         $service = app(DocumentsService::class);
 
-        $project = factory(Project::class)->create();
+        $project = Project::factory()->create();
 
         $user = User::factory()->partner()->create();
 
@@ -80,7 +80,7 @@ class GroupDetailsControllerTest extends TestCase
             'user_id' => $user->getKey(),
         ]);
 
-        $share = factory(Shared::class)->create([
+        $share = Shared::factory()->create([
             'user_id' => $user->getKey(),
             'shareable_id' => $collection->getKey(),
             'shareable_type' => get_class($collection),

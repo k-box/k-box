@@ -72,7 +72,7 @@ class ProjectsPageControllerTest extends TestCase
             $user = $this->createUser($caps);
             
             if (strpos($route, 'show') !== false) {
-                $project = factory(Project::class)->create(['user_id' => $user->id]);
+                $project = Project::factory()->create(['user_id' => $user->id]);
                 
                 $params = ['project' => $project->id];
             } else {
@@ -111,8 +111,8 @@ class ProjectsPageControllerTest extends TestCase
 
         $user = $this->createUser(Capability::$PROJECT_MANAGER_LIMITED);
 
-        $managed_project = factory(Project::class)->create(['user_id' => $user->id]);
-        $project = factory(Project::class)->create();
+        $managed_project = Project::factory()->create(['user_id' => $user->id]);
+        $project = Project::factory()->create();
         $project->users()->attach($user->id);
 
         $url = route('documents.projects.index');

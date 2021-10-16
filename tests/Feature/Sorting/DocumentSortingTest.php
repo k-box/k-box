@@ -77,7 +77,7 @@ class DocumentSortingTest extends TestCase
 
     protected function createRecentDocument(User $user, Carbon $date = null, $documentParams = [])
     {
-        return factory(DocumentDescriptor::class)->create(array_merge([
+        return DocumentDescriptor::factory()->create(array_merge([
             'owner_id' => $user->id,
             'created_at' => $date ?? Carbon::now(),
             'updated_at' => $date ?? Carbon::now(),
@@ -191,17 +191,17 @@ class DocumentSortingTest extends TestCase
         ];
 
         $expected_shares = [
-            factory(Shared::class)->create([
+            Shared::factory()->create([
                 'sharedwith_id' => $user->getKey(),
                 'shareable_id' => $expected_documents[0]->getKey(),
                 'created_at' => now()->subMinutes(10)
             ]),
-            factory(Shared::class)->create([
+            Shared::factory()->create([
                 'sharedwith_id' => $user->getKey(),
                 'shareable_id' => $expected_documents[1]->getKey(),
                 'created_at' => now()
             ]),
-            factory(Shared::class)->create([
+            Shared::factory()->create([
                 'sharedwith_id' => $user->getKey(),
                 'shareable_id' => $expected_documents[2]->getKey(),
                 'created_at' => now()->subMinutes(20)
@@ -254,17 +254,17 @@ class DocumentSortingTest extends TestCase
         ];
 
         $expected_shares = [
-            factory(Shared::class)->create([
+            Shared::factory()->create([
                 'sharedwith_id' => $user->getKey(),
                 'shareable_id' => $expected_documents[0]->getKey(),
                 'user_id' => $sharee[0]->getKey(),
             ]),
-            factory(Shared::class)->create([
+            Shared::factory()->create([
                 'sharedwith_id' => $user->getKey(),
                 'shareable_id' => $expected_documents[1]->getKey(),
                 'user_id' => $sharee[1]->getKey(),
             ]),
-            factory(Shared::class)->create([
+            Shared::factory()->create([
                 'sharedwith_id' => $user->getKey(),
                 'shareable_id' => $expected_documents[2]->getKey(),
                 'user_id' => $sharee[2]->getKey(),

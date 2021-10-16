@@ -181,7 +181,7 @@ class SearchTest extends TestCase
         $last_element = null;
 
         foreach ($document_names as $index => $title) {
-            $created = factory(DocumentDescriptor::class)->create([
+            $created = DocumentDescriptor::factory()->create([
                 'title' => $title
             ]);
 

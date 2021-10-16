@@ -15,7 +15,7 @@ class RedirectOldDocumentsControllerTest extends TestCase
         
         $user = User::factory()->partner()->create();
         
-        $doc = factory(DocumentDescriptor::class)->create([
+        $doc = DocumentDescriptor::factory()->create([
             'owner_id' => $user->id,
             'local_document_id' => '789456123a'
         ]);
@@ -36,7 +36,7 @@ class RedirectOldDocumentsControllerTest extends TestCase
         
         $another_user = User::factory()->partner()->create();
         
-        $doc = factory(DocumentDescriptor::class)->create(['owner_id' => $user->id]);
+        $doc = DocumentDescriptor::factory()->create(['owner_id' => $user->id]);
         
         $response = $this->actingAs($another_user)->get(route('documents.by-klink-id', [
             'institution' => 'whatever',

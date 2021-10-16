@@ -16,7 +16,7 @@ class FilePolicyTest extends TestCase
     {
         $user = User::factory()->partner()->create();
 
-        $file = factory(File::class)->create();
+        $file = File::factory()->create();
 
         $can = (new FilePolicy())->see_uploader($user, $file);
 
@@ -25,7 +25,7 @@ class FilePolicyTest extends TestCase
     
     public function test_uploader_not_visible_if_user_trashed()
     {
-        $file = factory(File::class)->create();
+        $file = File::factory()->create();
         $user = $file->user;
 
         $file->user->delete();
@@ -37,7 +37,7 @@ class FilePolicyTest extends TestCase
     
     public function test_file_uploader_can_be_seen()
     {
-        $file = factory(File::class)->create();
+        $file = File::factory()->create();
 
         $can = (new FilePolicy())->see_uploader($file->user, $file);
 
