@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use KBox\Traits\LocalizableDateFields;
 use Franzose\ClosureTable\Extensions\Collection as TreeableCollection;
 use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 use Carbon\Carbon;
 
@@ -49,6 +50,8 @@ use Carbon\Carbon;
 class Shared extends Model
 {
     use LocalizableDateFields;
+    use HasFactory;
+    
     /*
     id: bigIncrements
     created_at: date

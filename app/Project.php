@@ -12,6 +12,7 @@ use KBox\Events\ProjectCreated;
 use KBox\Events\ProjectMembersAdded;
 use KBox\Events\ProjectMembersRemoved;
 use KBox\Casts\UuidCast;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * The project concept.
@@ -42,6 +43,7 @@ use KBox\Casts\UuidCast;
 class Project extends Model
 {
     use LocalizableDateFields, GeneratesUuid, ScopeNullUuid;
+    use HasFactory;
 
     protected $dispatchesEvents = [
         'created' => ProjectCreated::class,

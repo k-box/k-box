@@ -4,6 +4,7 @@ namespace KBox;
 
 use Illuminate\Database\Eloquent\Model;
 use KBox\Traits\LocalizableDateFields;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * PublicLink. A type target of a share.
@@ -32,6 +33,7 @@ use KBox\Traits\LocalizableDateFields;
 class PublicLink extends Model
 {
     use LocalizableDateFields;
+    use HasFactory;
 
     protected $table = 'publiclinks';
 

@@ -17,6 +17,7 @@ use KBox\Events\DocumentDescriptorRestored;
 use KBox\Traits\ScopeNullUuid;
 use Illuminate\Support\Str;
 use KBox\Casts\UuidCast;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * A Document Descriptor
@@ -88,6 +89,7 @@ use KBox\Casts\UuidCast;
 class DocumentDescriptor extends Model
 {
     use SoftDeletes, LocalizableDateFields, GeneratesUuid, Publishable, ScopeNullUuid;
+    use HasFactory;
 
     /**
      * Indicate that the document, reference by a DocumentDescriptor, has not yet been indexed

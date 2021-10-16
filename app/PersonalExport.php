@@ -6,10 +6,12 @@ use Ramsey\Uuid\Uuid;
 use KBox\Traits\LocalizableDateFields;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class PersonalExport extends Model
 {
     use LocalizableDateFields;
+    use HasFactory;
 
     protected $fillable = [
         'user_id', 'name', 'purge_at',
