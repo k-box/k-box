@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\Storage;
 use KBox\Documents\Facades\Files;
 use KBox\Jobs\UpdatePublishedDocumentJob;
 use KBox\User;
-use KBox\Project;
 use KBox\DocumentDescriptor;
 use KBox\File;
 

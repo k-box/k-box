@@ -3,7 +3,6 @@
 namespace Tests\Unit;
 
 use Tests\TestCase;
-use KBox\Capability;
 use KBox\Exceptions\ForbiddenException;
 use KBox\Exceptions\CollectionMoveException;
 

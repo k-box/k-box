@@ -4,16 +4,12 @@ namespace Tests\Unit;
 
 use Carbon\Carbon;
 use Tests\TestCase;
-use KBox\Capability;
 use KBox\DuplicateDocument;
 use Illuminate\Support\Facades\Mail;
 use KBox\Events\FileDuplicateFoundEvent;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
 use KBox\User;
-use KBox\Project;
-use KBox\DocumentDescriptor;
-use KBox\File;
 use KBox\Notifications\DuplicateDocumentsNotification;
 
 class DuplicateDocumentsNotificationTest extends TestCase

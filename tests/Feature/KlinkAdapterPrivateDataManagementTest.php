@@ -7,8 +7,6 @@ use Klink\DmsAdapter\KlinkDocument;
 use Klink\DmsAdapter\KlinkSearchResultItem;
 use Klink\DmsAdapter\KlinkDocumentDescriptor;
 use Klink\DmsAdapter\Exceptions\KlinkException;
-use KBox\User;
-use KBox\Project;
 use KBox\DocumentDescriptor;
 
 class KlinkAdapterPrivateDataManagementTest extends TestCase

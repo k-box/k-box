@@ -3,7 +3,6 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
-use KBox\Capability;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Event;
 use KBox\Events\CollectionCreated;

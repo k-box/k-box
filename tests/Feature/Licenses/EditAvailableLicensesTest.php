@@ -7,8 +7,6 @@ use Tests\TestCase;
 use OneOffTech\Licenses\License;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use KBox\User;
-use KBox\Project;
-use KBox\DocumentDescriptor;
 
 class EditAvailableLicensesTest extends TestCase
 {

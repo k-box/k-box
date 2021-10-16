@@ -14,7 +14,6 @@ use KBox\Events\DocumentVersionUploaded;
 use KBox\Events\UploadCompleted;
 use KBox\Facades\Quota;
 use KBox\User;
-use KBox\Project;
 
 class DocumentVersionsTest extends TestCase
 {

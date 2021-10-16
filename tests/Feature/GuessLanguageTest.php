@@ -5,8 +5,6 @@ namespace Tests\Feature;
 use Tests\TestCase;
 use KBox\Documents\Facades\Files;
 use KBox\DocumentsElaboration\Actions\GuessLanguage;
-use KBox\User;
-use KBox\Project;
 use KBox\File;
 use KBox\DocumentDescriptor;
 

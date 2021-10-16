@@ -10,7 +10,6 @@ use OneOffTech\Licenses\License;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use KBox\User;
-use KBox\Project;
 
 class EditDefaultLicenseTest extends TestCase
 {

@@ -11,8 +11,6 @@ use Klink\DmsAdapter\KlinkSearchResultItem;
 use Klink\DmsAdapter\KlinkFacets;
 use Klink\DmsAdapter\KlinkFilters;
 use KSearchClient\Model\Search\AggregationResult;
-use KBox\User;
-use KBox\Project;
 use KBox\DocumentDescriptor;
 
 class KlinkAdapterSearchTest extends TestCase

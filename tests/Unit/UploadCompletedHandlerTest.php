@@ -4,7 +4,6 @@ namespace Tests\Unit;
 
 use KBox\File;
 use Tests\TestCase;
-use KBox\Capability;
 use KBox\DocumentDescriptor;
 use KBox\Events\UploadCompleted;
 use Tests\Concerns\ClearDatabase;

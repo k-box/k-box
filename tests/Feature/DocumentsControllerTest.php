@@ -4,12 +4,10 @@ namespace Tests\Feature;
 
 use KBox\User;
 use Tests\TestCase;
-use KBox\Capability;
 use KBox\DuplicateDocument;
 use KBox\DocumentDescriptor;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
-use KBox\Project;
 use KBox\DocumentGroups;
 use KBox\Group;
 

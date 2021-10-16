@@ -6,8 +6,6 @@ use Tests\TestCase;
 
 use Artisan;
 use Illuminate\Support\Facades\Storage;
-use KBox\User;
-use KBox\Project;
 use KBox\DocumentDescriptor;
 use KBox\File;
 

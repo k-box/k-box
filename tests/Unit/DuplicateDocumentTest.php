@@ -4,13 +4,11 @@ namespace Tests\Unit;
 
 use Carbon\Carbon;
 use Tests\TestCase;
-use KBox\Capability;
 use KBox\RoutingHelpers;
 use KBox\DuplicateDocument;
 use KBox\User;
 use KBox\Project;
 use KBox\DocumentDescriptor;
-use KBox\File;
 
 class DuplicateDocumentTest extends TestCase
 {
