@@ -52,7 +52,7 @@ class UserFactory extends Factory
                 
             ];
         })->afterCreating(function (User $user) {
-            $user->addCapabilities([Capability::$PARTNER]);
+            $user->addCapabilities(Capability::$PARTNER);
         });
     }
     
@@ -63,7 +63,7 @@ class UserFactory extends Factory
                 
             ];
         })->afterCreating(function (User $user) {
-            $user->addCapabilities([Capability::$PROJECT_MANAGER]);
+            $user->addCapabilities(Capability::$PROJECT_MANAGER);
         });
     }
     
