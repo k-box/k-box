@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use KBox\DocumentDescriptor;
 use Tests\TestCase;
 use Klink\DmsAdapter\KlinkDocument;
 use Klink\DmsAdapter\KlinkSearchRequest;

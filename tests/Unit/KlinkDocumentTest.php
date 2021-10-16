@@ -5,6 +5,8 @@ namespace Tests\Unit;
 use Tests\TestCase;
 use Klink\DmsAdapter\KlinkDocument;
 use Illuminate\Support\Facades\Storage;
+use KBox\DocumentDescriptor;
+use KBox\File;
 
 class KlinkDocumentTest extends TestCase
 {

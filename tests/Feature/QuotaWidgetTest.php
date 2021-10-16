@@ -20,7 +20,7 @@ class QuotaWidgetTest extends TestCase
     {
         $user = tap(User::factory()->create())->addCapabilities(Capability::$PARTNER);
 
-        $quota = factory(UserQuota::class)->create([
+        $quota = UserQuota::factory()->create([
             'user_id' => $user->id,
             'limit' => 2048,
             'threshold' => 50,
@@ -40,7 +40,7 @@ class QuotaWidgetTest extends TestCase
     {
         $user = tap(User::factory()->create())->addCapabilities(Capability::$PARTNER);
 
-        $quota = factory(UserQuota::class)->create([
+        $quota = UserQuota::factory()->create([
             'user_id' => $user->id,
             'limit' => 2048,
             'threshold' => 50,
@@ -60,7 +60,7 @@ class QuotaWidgetTest extends TestCase
     {
         $user = tap(User::factory()->create())->addCapabilities(Capability::$PARTNER);
 
-        $quota = factory(UserQuota::class)->create([
+        $quota = UserQuota::factory()->create([
             'user_id' => $user->id,
             'limit' => 2048,
             'threshold' => 50,
@@ -84,7 +84,7 @@ class QuotaWidgetTest extends TestCase
     {
         $user = tap(User::factory()->create())->addCapabilities(Capability::$PARTNER);
 
-        $quota = factory(UserQuota::class)->create([
+        $quota = UserQuota::factory()->create([
             'user_id' => $user->id,
             'limit' => 2048,
             'threshold' => 50,

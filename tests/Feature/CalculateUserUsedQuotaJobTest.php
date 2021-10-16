@@ -15,7 +15,7 @@ class CalculateUserUsedQuotaJobTest extends TestCase
     {
         $user = User::factory()->partner()->create();
 
-        $files = factory(File::class, 5)->create([
+        $files = File::factory()->count(5)->create([
             'user_id' => $user->id,
             'size' => 4
         ]);

@@ -12,7 +12,7 @@ class ProfileQuotaControllerTest extends TestCase
 {
     public function test_storage_profile_shows_current_status_when_user_quota_present()
     {
-        $quota = factory(UserQuota::class)->create([
+        $quota = UserQuota::factory()->create([
             'limit' => 100,
             'threshold' => 50,
             'used' => 1,
@@ -50,7 +50,7 @@ class ProfileQuotaControllerTest extends TestCase
     
     public function test_storage_profile_shows_unlimited_info()
     {
-        $quota = factory(UserQuota::class)->create([
+        $quota = UserQuota::factory()->create([
             'limit' => 100,
             'threshold' => 50,
             'used' => 1,
@@ -89,7 +89,7 @@ class ProfileQuotaControllerTest extends TestCase
     
     public function test_threshold_change_is_denied_for_unlimited()
     {
-        $quota = factory(UserQuota::class)->create([
+        $quota = UserQuota::factory()->create([
             'limit' => 100,
             'threshold' => 50,
             'used' => 1,
@@ -131,7 +131,7 @@ class ProfileQuotaControllerTest extends TestCase
      */
     public function test_threshold_change_is_denied_with_unacceptable_value($value)
     {
-        $quota = factory(UserQuota::class)->create([
+        $quota = UserQuota::factory()->create([
             'limit' => 100,
             'threshold' => 50,
             'used' => 1,
@@ -154,7 +154,7 @@ class ProfileQuotaControllerTest extends TestCase
     {
         Queue::fake();
 
-        $quota = factory(UserQuota::class)->create([
+        $quota = UserQuota::factory()->create([
             'limit' => 100,
             'threshold' => 50,
             'used' => 1,

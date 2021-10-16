@@ -33,7 +33,7 @@ class StarredTest extends TestCase
             $u->addCapabilities($caps);
         });
         
-        $starred = factory(Starred::class, 3)->create(['user_id' => $user->id]);
+        $starred = Starred::factory()->count(3)->create(['user_id' => $user->id]);
         
         $response = $this->actingAs($user)->get(route('documents.starred.index'));
              
@@ -139,7 +139,7 @@ class StarredTest extends TestCase
         
         $user = User::factory()->partner()->create();
         
-        $starred = factory(Starred::class, 3)->create(['user_id' => $user->id]);
+        $starred = Starred::factory()->count(3)->create(['user_id' => $user->id]);
 
         $starred->first()->document->delete();
 

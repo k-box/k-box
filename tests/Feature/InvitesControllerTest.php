@@ -14,8 +14,8 @@ class InvitesControllerTest extends TestCase
     {
         $user = User::factory()->partner()->create();
 
-        $other_invites = factory(Invite::class, 2)->create();
-        $my_invites = factory(Invite::class, 2)->create([
+        $other_invites = Invite::factory()->count(2)->create();
+        $my_invites = Invite::factory()->count(2)->create([
             'creator_id' => $user->id
         ]);
 
@@ -148,8 +148,8 @@ class InvitesControllerTest extends TestCase
     {
         $user = User::factory()->partner()->create();
 
-        $other_invites = factory(Invite::class, 2)->create();
-        $my_invites = factory(Invite::class, 2)->create([
+        $other_invites = Invite::factory()->count(2)->create();
+        $my_invites = Invite::factory()->count(2)->create([
             'creator_id' => $user->id
         ]);
 

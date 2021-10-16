@@ -5,8 +5,8 @@ namespace Tests\Unit;
 use Tests\TestCase;
 use DmsRouting;
 use KBox\Capability;
-
 use KBox\Group;
+use KBox\User;
 
 class UploadPageTest extends TestCase
 {

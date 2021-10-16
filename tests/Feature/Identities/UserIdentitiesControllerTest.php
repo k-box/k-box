@@ -22,7 +22,7 @@ class UserIdentitiesControllerTest extends TestCase
 
         $user = User::factory()->create();
 
-        $identity = factory(Identity::class)->state('registration')->create([
+        $identity = Identity::factory()->registration()->create([
             'user_id' => $user->getKey(),
             'provider' => 'gitlab',
         ]);
@@ -50,7 +50,7 @@ class UserIdentitiesControllerTest extends TestCase
             $u->markEmailAsVerified();
         });
 
-        $identities = factory(Identity::class, 3)->create();
+        $identities = Identity::factory()->count(3)->create();
 
         $response = $this->actingAs($user)->get(route('profile.identities.index'));
 
@@ -100,7 +100,7 @@ class UserIdentitiesControllerTest extends TestCase
 
         $user = User::factory()->create();
 
-        $identity = factory(Identity::class)->state('registration')->create([
+        $identity = Identity::factory()->registration()->create([
             'user_id' => $user->getKey(),
             'provider' => 'gitlab',
         ]);
@@ -118,7 +118,7 @@ class UserIdentitiesControllerTest extends TestCase
 
         $user = User::factory()->create();
 
-        $identity = factory(Identity::class)->state('registration')->create([
+        $identity = Identity::factory()->registration()->create([
             'user_id' => $user->getKey(),
             'provider' => 'gitlab',
         ]);
@@ -144,7 +144,7 @@ class UserIdentitiesControllerTest extends TestCase
         
         $otherUser = User::factory()->create();
 
-        $identity = factory(Identity::class)->state('registration')->create([
+        $identity = Identity::factory()->registration()->create([
             'user_id' => $user->getKey(),
             'provider' => 'gitlab',
         ]);

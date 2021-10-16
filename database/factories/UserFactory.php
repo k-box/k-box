@@ -37,8 +37,7 @@ class UserFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'name' => 'admin',
-                'email' => 'admin@klink.local',
+                
             ];
         })->afterCreating(function (User $user) {
             $user->addCapabilities(Capability::$ADMIN);

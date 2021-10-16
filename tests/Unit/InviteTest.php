@@ -137,8 +137,8 @@ class InviteTest extends TestCase
     
     public function test_expired_invites_can_be_retrieved()
     {
-        $valid_invites = factory(Invite::class, 2)->create();
-        $expired_invites = factory(Invite::class, 2)->create([
+        $valid_invites = Invite::factory()->count(2)->create();
+        $expired_invites = Invite::factory()->count(2)->create([
             'expire_at' => now()->subDays(config('invite.expiration') + 1)
         ]);
 
