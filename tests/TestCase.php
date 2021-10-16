@@ -77,13 +77,13 @@ abstract class TestCase extends BaseTestCase
 
     protected function setUpTraits()
     {
-        parent::setUpTraits();
-
         $uses = array_flip(class_uses_recursive(static::class));
 
         if (isset($uses[ClearDatabase::class])) {
             $this->clearDatabase();
         }
+        
+        parent::setUpTraits();
 
         return $uses;
     }
