@@ -13,7 +13,7 @@ class QuotaCheckCommandTest extends TestCase
 
     public function test_quota_is_checked_for_all_users()
     {
-        $users = factory(User::class, 10)->create();
+        $users = User::factory()->count(10)->create();
 
         $this->artisan('quota:check')
             ->assertExitCode(0);
@@ -26,7 +26,7 @@ class QuotaCheckCommandTest extends TestCase
     
     public function test_quota_is_checked_for_specified_users()
     {
-        $users = factory(User::class, 5)->create();
+        $users = User::factory()->count(5)->create();
 
         $arguments = $users->take(2)->mapWithKeys(function ($u) {
             return ['-u' => $u->id];

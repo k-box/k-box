@@ -13,7 +13,6 @@ use Illuminate\Support\Collection;
 use KBox\Pagination\SearchResultsPaginator;
 use Klink\DmsAdapter\Fakes\FakeKlinkAdapter;
 
-use KBox\Capability;
 use KBox\Sorter;
 use KBox\User;
 
@@ -27,9 +26,7 @@ class SearchTest extends TestCase
 
         // add some documents and star them
         
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
+        $user = User::factory()->admin()->create();
         
         $starred = factory(DocumentDescriptor::class, 3)
             ->create()

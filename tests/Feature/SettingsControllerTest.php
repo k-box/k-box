@@ -5,15 +5,12 @@ namespace Tests\Feature;
 use KBox\User;
 use KBox\Option;
 use Tests\TestCase;
-use KBox\Capability;
 
 class SettingsControllerTest extends TestCase
 {
     public function testSettingsIndex()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
+        $user = User::factory()->admin()->create();
         
         $response = $this->actingAs($user)
                          ->get(route('administration.settings.index'));
@@ -33,9 +30,7 @@ class SettingsControllerTest extends TestCase
 
     public function test_network_settings_are_stored()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
+        $user = User::factory()->admin()->create();
 
         $adapter = $this->withKlinkAdapterMock();
         
@@ -69,9 +64,7 @@ class SettingsControllerTest extends TestCase
         
         $adapter->shouldReceive('test')->andReturn(['status' => 'ok']);
         
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
+        $user = User::factory()->admin()->create();
         
         $response = $this->actingAs($user)
             ->from(route('administration.settings.index'))

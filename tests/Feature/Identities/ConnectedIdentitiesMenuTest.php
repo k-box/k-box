@@ -11,7 +11,7 @@ class ConnectedIdentitiesMenuTest extends TestCase
     {
         config(['identities.providers' => 'gitlab']);
 
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         $response = $this->actingAs($user)
             ->get(route('profile.index'));
@@ -25,7 +25,7 @@ class ConnectedIdentitiesMenuTest extends TestCase
     {
         config(['identities.providers' => null]);
 
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         $response = $this->actingAs($user)
             ->get(route('profile.index'));

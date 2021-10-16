@@ -15,7 +15,7 @@ class PublishDocumentJobTest extends TestCase
     {
         $this->withKlinkAdapterFake();
 
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         $document = factory(DocumentDescriptor::class)->create([
             'is_public' => true
@@ -39,7 +39,7 @@ class PublishDocumentJobTest extends TestCase
     {
         $this->withKlinkAdapterFake();
 
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         $document = factory(DocumentDescriptor::class)->create([
             'is_public' => true
@@ -66,7 +66,7 @@ class PublishDocumentJobTest extends TestCase
     {
         $this->withKlinkAdapterFake();
 
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         $document = factory(DocumentDescriptor::class)->create([
             'is_public' => false

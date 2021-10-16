@@ -4,7 +4,6 @@ namespace Tests\Feature;
 
 use KBox\User;
 use Tests\TestCase;
-use KBox\Capability;
 use KBox\Option;
 use KBox\Support\SupportService;
 
@@ -68,9 +67,7 @@ class SupportTest extends TestCase
             'support.providers.uservoice.token' => 'AAAAA',
         ]);
 
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
 
         $response = $this->actingAs($user)->get(route('contact'));
 
@@ -86,9 +83,7 @@ class SupportTest extends TestCase
             'support.providers.uservoice.token' => 'AAAAA',
         ]);
 
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
+        $user = User::factory()->admin()->create();
         
         $response = $this->actingAs($user)
                          ->get(route('administration.support.index'));
@@ -106,9 +101,7 @@ class SupportTest extends TestCase
 
         Option::put(SupportService::SUPPORT_TOKEN, 'AAAAA');
 
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
+        $user = User::factory()->admin()->create();
         
         $response = $this->actingAs($user)
                          ->get(route('administration.support.index'));
@@ -119,9 +112,7 @@ class SupportTest extends TestCase
 
     public function test_support_setting_are_saved()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
+        $user = User::factory()->admin()->create();
         
         $response = $this->actingAs($user)
                          ->from(route('administration.support.index'))
@@ -157,9 +148,7 @@ class SupportTest extends TestCase
             'support.providers.mail.address' => 'k-box@k-box.local',
         ]);
 
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
+        $user = User::factory()->admin()->create();
         
         $response = $this->actingAs($user)
                          ->get(route('administration.support.index'));

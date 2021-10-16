@@ -7,7 +7,6 @@ use KBox\Group;
 use KBox\Shared;
 use KBox\Project;
 use Tests\TestCase;
-use KBox\Capability;
 use KBox\DocumentDescriptor;
 use KBox\Policies\DocumentDescriptorPolicy;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -18,9 +17,7 @@ class DocumentDescriptorPolicyTest extends TestCase
 
     public function test_deny_see_username()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
 
         $descr = factory(DocumentDescriptor::class)->create();
 
@@ -31,9 +28,7 @@ class DocumentDescriptorPolicyTest extends TestCase
     
     public function test_deny_if_user_is_trashed()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
 
         $descr = factory(DocumentDescriptor::class)->create();
 
@@ -55,9 +50,7 @@ class DocumentDescriptorPolicyTest extends TestCase
 
     public function test_allow_see_username_for_admin()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
+        $user = User::factory()->admin()->create();
 
         $descr = factory(DocumentDescriptor::class)->create();
 
@@ -69,21 +62,15 @@ class DocumentDescriptorPolicyTest extends TestCase
     public function test_project_member_is_allowed_to_see_username_if_uploader_is_member_of_project()
     {
         // create project
-        $manager = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PROJECT_MANAGER);
-        });
+        $manager = User::factory()->projectManager()->create();
         $project = factory(Project::class)->create(['user_id' => $manager->id]);
 
         // add member
-        $member_one = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $member_one = User::factory()->partner()->create();
         $project->users()->attach($member_one->id);
 
         // add second member
-        $member_two = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $member_two = User::factory()->partner()->create();
         $project->users()->attach($member_two->id);
 
         // upload doc using second member
@@ -104,32 +91,22 @@ class DocumentDescriptorPolicyTest extends TestCase
     public function test_member_of_other_project_is_not_allowed_to_see_username_if_document_uploaded_in_another_project()
     {
         // create project
-        $manager = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PROJECT_MANAGER);
-        });
+        $manager = User::factory()->projectManager()->create();
         $project = factory(Project::class)->create(['user_id' => $manager->id]);
         
-        $manager_two = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PROJECT_MANAGER);
-        });
+        $manager_two = User::factory()->projectManager()->create();
         $project_two = factory(Project::class)->create(['user_id' => $manager_two->id]);
 
         // add member
-        $member_one = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $member_one = User::factory()->partner()->create();
         $project->users()->attach($member_one->id);
 
         // add members to second project
-        $member_two = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $member_two = User::factory()->partner()->create();
         $project_two->users()->attach($member_two->id);
         $project->users()->attach($member_two->id);
         
-        $member_three = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $member_three = User::factory()->partner()->create();
         $project_two->users()->attach($member_three->id);
 
         // upload doc
@@ -149,9 +126,7 @@ class DocumentDescriptorPolicyTest extends TestCase
     
     public function test_direct_document_share_give_permission_to_see_owner()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
         
         $descr = factory(DocumentDescriptor::class)->create();
 
@@ -166,13 +141,9 @@ class DocumentDescriptorPolicyTest extends TestCase
     
     public function test_collection_share_give_permission_to_see_owner()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
 
-        $owner = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $owner = User::factory()->partner()->create();
 
         $collection = factory(Group::class)->create([
             'user_id' => $owner->id,

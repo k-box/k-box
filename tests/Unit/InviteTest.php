@@ -20,9 +20,7 @@ class InviteTest extends TestCase
     
     public function test_invite_is_generated()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
 
         Event::fake([
             UserInvited::class
@@ -46,9 +44,7 @@ class InviteTest extends TestCase
     
     public function test_invite_actionable_is_stored()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
 
         $project = factory(Project::class)->create([
             'user_id' => $user->id,
@@ -76,7 +72,7 @@ class InviteTest extends TestCase
 
     public function test_invite_generation_denied_if_user_dont_have_verified_email()
     {
-        $user = tap(factory(User::class)->create(['email_verified_at' => null]), function ($u) {
+        $user = tap(User::factory()->create(['email_verified_at' => null]), function ($u) {
             $u->addCapabilities(Capability::$PARTNER);
         });
 
@@ -93,7 +89,7 @@ class InviteTest extends TestCase
     {
         $invite = factory(Invite::class)->create();
         
-        $user = tap(factory(User::class)->create(['email' => $invite->email]), function ($u) {
+        $user = tap(User::factory()->create(['email' => $invite->email]), function ($u) {
             $u->addCapabilities(Capability::$PARTNER);
         });
 

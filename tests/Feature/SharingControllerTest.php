@@ -41,13 +41,9 @@ class SharingControllerTest extends TestCase
     {
         $this->withKlinkAdapterFake();
 
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
         
-        $user_target = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user_target = User::factory()->partner()->create();
 
         $document = factory(DocumentDescriptor::class)->create([
             'owner_id' => $user->getKey()
@@ -85,13 +81,9 @@ class SharingControllerTest extends TestCase
 
         Notification::fake();
 
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
         
-        $user_target = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user_target = User::factory()->partner()->create();
 
         $document = factory(DocumentDescriptor::class)->create([
             'owner_id' => $user->getKey()
@@ -122,11 +114,9 @@ class SharingControllerTest extends TestCase
     {
         $this->withKlinkAdapterFake();
 
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
         
-        $user_target = tap(factory(User::class)->create(), function ($u) use ($target_capabilities) {
+        $user_target = tap(User::factory()->create(), function ($u) use ($target_capabilities) {
             $u->addCapabilities($target_capabilities);
         });
 
@@ -158,11 +148,9 @@ class SharingControllerTest extends TestCase
     {
         $this->withKlinkAdapterFake();
 
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
         
-        $user_target = tap(factory(User::class)->create(), function ($u) use ($target_capabilities) {
+        $user_target = tap(User::factory()->create(), function ($u) use ($target_capabilities) {
             $u->addCapabilities($target_capabilities);
         });
 
@@ -189,13 +177,9 @@ class SharingControllerTest extends TestCase
     {
         $this->withKlinkAdapterFake();
 
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
         
-        $user_target = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user_target = User::factory()->partner()->create();
 
         $to_be_shared = factory(Group::class)->state('project')->create([
             'user_id' => $user->getKey(),
@@ -218,13 +202,9 @@ class SharingControllerTest extends TestCase
     {
         $this->withKlinkAdapterFake();
 
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
         
-        $user_target = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user_target = User::factory()->partner()->create();
 
         $document = factory(DocumentDescriptor::class)->create([
             'owner_id' => $user->getKey()
@@ -252,13 +232,9 @@ class SharingControllerTest extends TestCase
     {
         $this->withKlinkAdapterFake();
 
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
         
-        $user_target = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user_target = User::factory()->partner()->create();
 
         $share = factory(Shared::class)->create([
             'user_id' => $user->id,
@@ -275,17 +251,13 @@ class SharingControllerTest extends TestCase
     {
         $this->withKlinkAdapterFake();
 
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
 
         $document = factory(DocumentDescriptor::class)->create([
             'owner_id' => $user->getKey()
         ]);
         
-        $user_target = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user_target = User::factory()->partner()->create();
 
         $response = $this->actingAs($user)->get(route('shares.create', [
             'collections' => [],
@@ -315,9 +287,7 @@ class SharingControllerTest extends TestCase
     {
         $this->withKlinkAdapterFake();
 
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
 
         $document1 = factory(DocumentDescriptor::class)->create([
             'owner_id' => $user->getKey()
@@ -326,9 +296,7 @@ class SharingControllerTest extends TestCase
             'owner_id' => $user->getKey()
         ]);
         
-        $user_target = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user_target = User::factory()->partner()->create();
 
         $response = $this->actingAs($user)->get(route('shares.create', [
             'collections' => [],
@@ -357,13 +325,9 @@ class SharingControllerTest extends TestCase
     {
         $this->withKlinkAdapterFake();
 
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
         
-        $user_target = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user_target = User::factory()->partner()->create();
 
         $collection = factory(Group::class)->create([
             'user_id' => $user->getKey(),
@@ -396,13 +360,9 @@ class SharingControllerTest extends TestCase
     {
         $this->withKlinkAdapterFake();
 
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
         
-        $user_target = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PROJECT_MANAGER);
-        });
+        $user_target = User::factory()->projectManager()->create();
 
         $project = factory(Project::class)->create([
             'user_id' => $user_target->getKey(),
@@ -440,13 +400,9 @@ class SharingControllerTest extends TestCase
     {
         $this->withKlinkAdapterFake();
 
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
         
-        $user_target = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user_target = User::factory()->partner()->create();
 
         $document1 = factory(DocumentDescriptor::class)->create([
             'owner_id' => $user->getKey()
@@ -493,13 +449,9 @@ class SharingControllerTest extends TestCase
     {
         $this->withKlinkAdapterFake();
 
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PROJECT_MANAGER);
-        });
+        $user = User::factory()->projectManager()->create();
         
-        $user_target = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user_target = User::factory()->partner()->create();
 
         $document1 = factory(DocumentDescriptor::class)->create([
             'owner_id' => $user->getKey()

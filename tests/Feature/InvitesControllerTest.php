@@ -5,7 +5,6 @@ namespace Tests\Feature;
 use Tests\TestCase;
 
 use Illuminate\Support\Facades\Config;
-use KBox\Capability;
 use KBox\Invite;
 use KBox\User;
 
@@ -13,9 +12,7 @@ class InvitesControllerTest extends TestCase
 {
     public function test_invites_are_listed()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
 
         $other_invites = factory(Invite::class, 2)->create();
         $my_invites = factory(Invite::class, 2)->create([
@@ -43,9 +40,7 @@ class InvitesControllerTest extends TestCase
     
     public function test_user_can_create_invite()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
 
         $response = $this->actingAs($user)
             ->from(route('profile.invite.create'))
@@ -64,9 +59,7 @@ class InvitesControllerTest extends TestCase
     
     public function test_invite_create_page_loads()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
 
         $response = $this->actingAs($user)
             ->get(route('profile.invite.create'));
@@ -77,9 +70,7 @@ class InvitesControllerTest extends TestCase
     
     public function test_user_can_invite_same_person_once()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
 
         $invite = factory(Invite::class)->create([
             'creator_id' => $user->id,
@@ -101,9 +92,7 @@ class InvitesControllerTest extends TestCase
     
     public function test_user_can_delete_own_invite()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
 
         $invite = factory(Invite::class)->create([
             'creator_id' => $user->id
@@ -124,9 +113,7 @@ class InvitesControllerTest extends TestCase
     
     public function test_user_cannot_delete_others_invite()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
 
         $invite = factory(Invite::class)->create();
 
@@ -159,9 +146,7 @@ class InvitesControllerTest extends TestCase
 
     public function test_create_invite_button_visible()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
 
         $other_invites = factory(Invite::class, 2)->create();
         $my_invites = factory(Invite::class, 2)->create([

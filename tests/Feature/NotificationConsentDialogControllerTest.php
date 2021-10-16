@@ -7,7 +7,6 @@ use KBox\Consent;
 use KBox\Flags;
 use KBox\Consents;
 use Tests\TestCase;
-use KBox\Capability;
 use Illuminate\Support\Facades\Storage;
 
 class NotificationConsentDialogControllerTest extends TestCase
@@ -18,9 +17,7 @@ class NotificationConsentDialogControllerTest extends TestCase
 
         Flags::enable(Flags::CONSENT_NOTIFICATIONS);
 
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
 
         Consent::agree($user, Consents::PRIVACY);
 
@@ -35,9 +32,7 @@ class NotificationConsentDialogControllerTest extends TestCase
     {
         Storage::fake('app');
 
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
 
         Consent::agree($user, Consents::PRIVACY);
 
@@ -50,9 +45,7 @@ class NotificationConsentDialogControllerTest extends TestCase
 
     public function test_dialog_can_be_accepted_and_redirects_to_statistic_consent()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
 
         Consent::agree($user, Consents::PRIVACY);
 
@@ -69,9 +62,7 @@ class NotificationConsentDialogControllerTest extends TestCase
 
     public function test_dialog_can_be_accepted_and_redirects_to_user_home()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
 
         Consent::agree($user, Consents::PRIVACY);
         Consent::agree($user, Consents::STATISTIC);

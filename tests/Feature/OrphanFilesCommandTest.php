@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\DB;
 use KBox\Console\Commands\OrphanFilesCommand;
 
 use Illuminate\Support\Facades\Schema;
-use KBox\Capability;
 use KBox\DocumentDescriptor;
 use KBox\User;
 
@@ -31,9 +30,7 @@ class OrphanFilesCommandTest extends TestCase
      */
     private function createSomeDocumentsAndFiles()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
+        $user = User::factory()->admin()->create();
 
         // generate 3 document descriptors with file
         $docs = factory(DocumentDescriptor::class, 3)->create();

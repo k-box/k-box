@@ -29,7 +29,7 @@ class StarredTest extends TestCase
     {
         $this->withKlinkAdapterFake();
         
-        $user = tap(factory(User::class)->create(), function ($u) use ($caps) {
+        $user = tap(User::factory()->create(), function ($u) use ($caps) {
             $u->addCapabilities($caps);
         });
         
@@ -58,9 +58,7 @@ class StarredTest extends TestCase
     {
         $this->withKlinkAdapterFake();
         
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
+        $user = User::factory()->admin()->create();
 
         $created_at = Carbon::now();
         
@@ -91,7 +89,7 @@ class StarredTest extends TestCase
     {
         $this->withKlinkAdapterFake();
         
-        $user = factory(User::class)->state('partner')->create();
+        $user = User::factory()->partner()->create();
         
         $expected_count = Starred::count() + 1;
         
@@ -115,9 +113,7 @@ class StarredTest extends TestCase
     
     public function test_remove_star()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
         
         $expected_count = Starred::count();
         
@@ -141,9 +137,7 @@ class StarredTest extends TestCase
     {
         $this->withKlinkAdapterFake();
         
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
         
         $starred = factory(Starred::class, 3)->create(['user_id' => $user->id]);
 
@@ -158,9 +152,7 @@ class StarredTest extends TestCase
     {
         $this->withKlinkAdapterFake();
         
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
         
         $expected_count = Starred::count();
         

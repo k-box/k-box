@@ -19,7 +19,7 @@ class PrivacyConsentDialogTest extends TestCase
     {
         Storage::fake('app');
 
-        $user = tap(factory(User::class)->create([
+        $user = tap(User::factory()->create([
             'email' => 'jane@example.com',
             'password' => bcrypt('jane-super-secret')
         ]), function ($u) {
@@ -52,7 +52,7 @@ class PrivacyConsentDialogTest extends TestCase
 
     public function test_consent_dialog_not_presented_if_user_agreed_to_privacy_policy()
     {
-        $user = tap(factory(User::class)->create([
+        $user = tap(User::factory()->create([
             'email' => 'jane@example.com',
             'password' => bcrypt('jane-super-secret')
         ]), function ($u) {
@@ -86,9 +86,7 @@ class PrivacyConsentDialogTest extends TestCase
 
     public function test_consent_dialog_redirects_if_user_gave_consent_and_no_other_consents_are_pending()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
 
         Consent::agree($user, Consents::PRIVACY);
         Consent::agree($user, Consents::NOTIFICATION);
@@ -106,9 +104,7 @@ class PrivacyConsentDialogTest extends TestCase
 
     public function test_privacy_be_agreed_from_consent_dialog()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
 
         Consent::agree($user, Consents::NOTIFICATION);
         Consent::agree($user, Consents::STATISTIC);
@@ -137,9 +133,7 @@ class PrivacyConsentDialogTest extends TestCase
 
     public function test_agree_to_privacy_redirect_to_notification_consent_dialog()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
         
         Flags::enable(Flags::CONSENT_NOTIFICATIONS);
         
@@ -156,9 +150,7 @@ class PrivacyConsentDialogTest extends TestCase
     
     public function test_agree_to_privacy_redirect_to_statistic_consent_if_notification_is_disabled()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
 
         $url = route('consent.dialog.privacy.update');
         $expected_url = route('consent.dialog.statistic.show');
@@ -173,9 +165,7 @@ class PrivacyConsentDialogTest extends TestCase
 
     public function test_agree_to_privacy_redirect_to_statistic_consent_dialog()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
 
         Consent::agree($user, Consents::NOTIFICATION);
 

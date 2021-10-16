@@ -211,9 +211,7 @@ class DocumentsServiceTest extends TestCase
 
         $adapter = $this->withKlinkAdapterFake();
 
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
+        $user = User::factory()->admin()->create();
 
         $document = factory(DocumentDescriptor::class)->create([
             'owner_id' => $user->id,
@@ -252,9 +250,7 @@ class DocumentsServiceTest extends TestCase
 
         $adapter = $this->withKlinkAdapterFake();
 
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
+        $user = User::factory()->admin()->create();
 
         $document = factory(DocumentDescriptor::class)->create([
             'owner_id' => $user->id,
@@ -291,9 +287,7 @@ class DocumentsServiceTest extends TestCase
 
         $adapter = $this->withKlinkAdapterFake();
 
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
+        $user = User::factory()->admin()->create();
 
         $documents = factory(DocumentDescriptor::class, 3)->create([
             'owner_id' => $user->id,
@@ -333,13 +327,9 @@ class DocumentsServiceTest extends TestCase
 
         $adapter = $this->withKlinkAdapterFake();
 
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
         
-        $collection_creator = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $collection_creator = User::factory()->partner()->create();
 
         $service = app(DocumentsService::class);
         
@@ -402,13 +392,9 @@ class DocumentsServiceTest extends TestCase
 
         $adapter = $this->withKlinkAdapterFake();
 
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
         
-        $collection_creator = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $collection_creator = User::factory()->partner()->create();
 
         $service = app(DocumentsService::class);
         
@@ -469,7 +455,7 @@ class DocumentsServiceTest extends TestCase
 
     private function createUser($capabilities, $userParams = [])
     {
-        return tap(factory(User::class)->create($userParams))->addCapabilities($capabilities);
+        return tap(User::factory()->create($userParams))->addCapabilities($capabilities);
     }
 
     private function createDocument(User $user, $visibility = 'private')

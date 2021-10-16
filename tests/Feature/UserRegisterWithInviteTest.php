@@ -5,7 +5,6 @@ namespace Tests\Feature;
 use Tests\TestCase;
 
 use Illuminate\Support\Facades\URL;
-use KBox\Capability;
 use KBox\Invite;
 use KBox\User;
 
@@ -52,9 +51,7 @@ class UserRegisterWithInviteTest extends TestCase
     
     public function test_invite_denied_if_already_accepted()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
 
         $invite = factory(Invite::class)->create([
             'accepted_at' => now(),

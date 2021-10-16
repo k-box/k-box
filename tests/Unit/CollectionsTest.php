@@ -17,7 +17,7 @@ class CollectionsTest extends TestCase
     {
         $service = app(DocumentsService::class);
         
-        $user = tap(factory(User::class)->create(), function ($user) {
+        $user = tap(User::factory()->create(), function ($user) {
             $user->addCapabilities(Capability::$PARTNER);
         });
     
@@ -46,10 +46,10 @@ class CollectionsTest extends TestCase
     {
         $service = app(DocumentsService::class);
         
-        $manager = tap(factory(User::class)->create(), function ($user) {
+        $manager = tap(User::factory()->create(), function ($user) {
             $user->addCapabilities(Capability::$PROJECT_MANAGER_LIMITED);
         });
-        $user = tap(factory(User::class)->create(), function ($user) {
+        $user = tap(User::factory()->create(), function ($user) {
             $user->addCapabilities(Capability::$PARTNER);
         });
 
@@ -83,10 +83,10 @@ class CollectionsTest extends TestCase
     {
         $service = app(DocumentsService::class);
         
-        $manager = tap(factory(User::class)->create(), function ($user) {
+        $manager = tap(User::factory()->create(), function ($user) {
             $user->addCapabilities(Capability::$PROJECT_MANAGER_LIMITED);
         });
-        $user = tap(factory(User::class)->create(), function ($user) {
+        $user = tap(User::factory()->create(), function ($user) {
             $user->addCapabilities(Capability::$PARTNER);
         });
 
@@ -118,10 +118,10 @@ class CollectionsTest extends TestCase
     {
         $service = app(DocumentsService::class);
         
-        $manager = tap(factory(User::class)->create(), function ($user) {
+        $manager = tap(User::factory()->create(), function ($user) {
             $user->addCapabilities(Capability::$PROJECT_MANAGER_LIMITED);
         });
-        $user = tap(factory(User::class)->create(), function ($user) {
+        $user = tap(User::factory()->create(), function ($user) {
             $user->addCapabilities(Capability::$PARTNER);
         });
 
@@ -147,10 +147,10 @@ class CollectionsTest extends TestCase
     {
         $service = app(DocumentsService::class);
         
-        $manager = tap(factory(User::class)->create(), function ($user) {
+        $manager = tap(User::factory()->create(), function ($user) {
             $user->addCapabilities(Capability::$PROJECT_MANAGER_LIMITED);
         });
-        $user = tap(factory(User::class)->create(), function ($user) {
+        $user = tap(User::factory()->create(), function ($user) {
             $user->addCapabilities(Capability::$PARTNER);
         });
 
@@ -179,10 +179,10 @@ class CollectionsTest extends TestCase
     {
         $service = app(DocumentsService::class);
         
-        $creator = tap(factory(User::class)->create(), function ($user) {
+        $creator = tap(User::factory()->create(), function ($user) {
             $user->addCapabilities(Capability::$PARTNER);
         });
-        $user = tap(factory(User::class)->create(), function ($user) {
+        $user = tap(User::factory()->create(), function ($user) {
             $user->addCapabilities(Capability::$PARTNER);
         });
             
@@ -208,10 +208,10 @@ class CollectionsTest extends TestCase
     {
         $service = app(DocumentsService::class);
         
-        $creator = tap(factory(User::class)->create(), function ($user) {
+        $creator = tap(User::factory()->create(), function ($user) {
             $user->addCapabilities(Capability::$PARTNER);
         });
-        $user = tap(factory(User::class)->create(), function ($user) {
+        $user = tap(User::factory()->create(), function ($user) {
             $user->addCapabilities(Capability::$PARTNER);
         });
             
@@ -239,10 +239,10 @@ class CollectionsTest extends TestCase
     {
         $service = app(DocumentsService::class);
         
-        $creator = tap(factory(User::class)->create(), function ($user) {
+        $creator = tap(User::factory()->create(), function ($user) {
             $user->addCapabilities(Capability::$PARTNER);
         });
-        $user = tap(factory(User::class)->create(), function ($user) {
+        $user = tap(User::factory()->create(), function ($user) {
             $user->addCapabilities(Capability::$PARTNER);
         });
         
@@ -267,10 +267,10 @@ class CollectionsTest extends TestCase
     {
         $service = app(DocumentsService::class);
         
-        $creator = tap(factory(User::class)->create(), function ($user) {
+        $creator = tap(User::factory()->create(), function ($user) {
             $user->addCapabilities(Capability::$PARTNER);
         });
-        $user = tap(factory(User::class)->create(), function ($user) {
+        $user = tap(User::factory()->create(), function ($user) {
             $user->addCapabilities(Capability::$PARTNER);
         });
             
@@ -293,10 +293,10 @@ class CollectionsTest extends TestCase
     {
         $service = app(DocumentsService::class);
         
-        $creator = tap(factory(User::class)->create(), function ($user) {
+        $creator = tap(User::factory()->create(), function ($user) {
             $user->addCapabilities(Capability::$PARTNER);
         });
-        $user = tap(factory(User::class)->create(), function ($user) {
+        $user = tap(User::factory()->create(), function ($user) {
             $user->addCapabilities(Capability::$PARTNER);
         });
             
@@ -327,10 +327,10 @@ class CollectionsTest extends TestCase
     {
         $service = app(DocumentsService::class);
         
-        $creator = tap(factory(User::class)->create(), function ($user) {
+        $creator = tap(User::factory()->create(), function ($user) {
             $user->addCapabilities(Capability::$PARTNER);
         });
-        $user = tap(factory(User::class)->create(), function ($user) {
+        $user = tap(User::factory()->create(), function ($user) {
             $user->addCapabilities(Capability::$PARTNER);
         });
             
@@ -362,7 +362,7 @@ class CollectionsTest extends TestCase
     {
         $service = app(DocumentsService::class);
         
-        $creator = tap(factory(User::class)->create(), function ($user) {
+        $creator = tap(User::factory()->create(), function ($user) {
             $user->addCapabilities(Capability::$PARTNER);
         });
             
@@ -388,7 +388,7 @@ class CollectionsTest extends TestCase
     {
         $service = app(DocumentsService::class);
         
-        $creator = tap(factory(User::class)->create(), function ($user) {
+        $creator = tap(User::factory()->create(), function ($user) {
             $user->addCapabilities(Capability::$PARTNER);
         });
             
@@ -417,10 +417,10 @@ class CollectionsTest extends TestCase
     {
         $service = app(DocumentsService::class);
         
-        $creator = tap(factory(User::class)->create(), function ($user) {
+        $creator = tap(User::factory()->create(), function ($user) {
             $user->addCapabilities(Capability::$PARTNER);
         });
-        $user = tap(factory(User::class)->create(), function ($user) {
+        $user = tap(User::factory()->create(), function ($user) {
             $user->addCapabilities(Capability::$PARTNER);
         });
             
@@ -460,10 +460,10 @@ class CollectionsTest extends TestCase
     {
         $service = app(DocumentsService::class);
         
-        $creator = tap(factory(User::class)->create(), function ($user) {
+        $creator = tap(User::factory()->create(), function ($user) {
             $user->addCapabilities(Capability::$PROJECT_MANAGER);
         });
-        $user = tap(factory(User::class)->create(), function ($user) {
+        $user = tap(User::factory()->create(), function ($user) {
             $user->addCapabilities(Capability::$PARTNER);
         });
 
@@ -504,10 +504,10 @@ class CollectionsTest extends TestCase
     {
         $service = app(DocumentsService::class);
         
-        $creator = tap(factory(User::class)->create(), function ($user) {
+        $creator = tap(User::factory()->create(), function ($user) {
             $user->addCapabilities(Capability::$PROJECT_MANAGER);
         });
-        $user = tap(factory(User::class)->create(), function ($user) {
+        $user = tap(User::factory()->create(), function ($user) {
             $user->addCapabilities(Capability::$PARTNER);
         });
 
@@ -525,10 +525,10 @@ class CollectionsTest extends TestCase
     {
         $service = app(DocumentsService::class);
         
-        $creator = tap(factory(User::class)->create(), function ($user) {
+        $creator = tap(User::factory()->create(), function ($user) {
             $user->addCapabilities(Capability::$PROJECT_MANAGER);
         });
-        $user = tap(factory(User::class)->create(), function ($user) {
+        $user = tap(User::factory()->create(), function ($user) {
             $user->addCapabilities(Capability::$PARTNER);
         });
 

@@ -4,7 +4,6 @@ namespace Tests\Feature;
 
 use Tests\TestCase;
 
-use KBox\Capability;
 use KBox\File;
 use KBox\Jobs\CalculateUserUsedQuota;
 use KBox\User;
@@ -14,9 +13,7 @@ class CalculateUserUsedQuotaJobTest extends TestCase
 {
     public function test_user_used_quota_is_calculated()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
 
         $files = factory(File::class, 5)->create([
             'user_id' => $user->id,

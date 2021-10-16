@@ -5,7 +5,6 @@ namespace Tests\Unit;
 use KBox\User;
 use KBox\Option;
 use Tests\TestCase;
-use KBox\Capability;
 
 class StorageControllerTest extends TestCase
 {
@@ -20,9 +19,7 @@ class StorageControllerTest extends TestCase
         Option::put('dms.reindex.completed', 0);
         Option::put('dms.reindex.total', 0);
 
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
+        $user = User::factory()->admin()->create();
         
         $response = $this->actingAs($user)->get(route('administration.storage.index'));
 
@@ -34,9 +31,7 @@ class StorageControllerTest extends TestCase
     {
         $this->withKlinkAdapterFake();
 
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
+        $user = User::factory()->admin()->create();
 
         $response = $this->actingAs($user)->get(route('administration.storage.index'));
 

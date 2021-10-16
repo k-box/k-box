@@ -15,17 +15,11 @@ class FindSharingTargetsControllerTest extends TestCase
     {
         $this->withKlinkAdapterFake();
 
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
         
-        $user_target = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user_target = User::factory()->partner()->create();
 
-        $other_target = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $other_target = User::factory()->partner()->create();
 
         $response = $this->actingAs($user)->json('POST', route('shares.targets.find'), [
             's' => 'a',
@@ -41,17 +35,11 @@ class FindSharingTargetsControllerTest extends TestCase
     {
         $this->withKlinkAdapterFake();
 
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
         
-        $user_target = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user_target = User::factory()->partner()->create();
 
-        $other_target = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $other_target = User::factory()->partner()->create();
 
         $response = $this->actingAs($user)->json('POST', route('shares.targets.find'), [
             's' => $user_target->email,
@@ -73,21 +61,15 @@ class FindSharingTargetsControllerTest extends TestCase
     {
         $this->withKlinkAdapterFake();
 
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
 
         $document = factory(DocumentDescriptor::class)->create([
             'owner_id' => $user->getKey()
         ]);
         
-        $user_target = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user_target = User::factory()->partner()->create();
 
-        $other_target = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $other_target = User::factory()->partner()->create();
 
         $response = $this->actingAs($user)->json('POST', route('shares.targets.find'), [
             's' => $user_target->email,
@@ -110,23 +92,19 @@ class FindSharingTargetsControllerTest extends TestCase
     {
         $this->withKlinkAdapterFake();
 
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
 
         $document = factory(DocumentDescriptor::class)->create([
             'owner_id' => $user->getKey()
         ]);
         
-        $user_target = tap(factory(User::class)->create([
+        $user_target = tap(User::factory()->create([
             'name' => 'juliet o\'hara'
         ]), function ($u) {
             $u->addCapabilities(Capability::$PARTNER);
         });
 
-        $other_target = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $other_target = User::factory()->partner()->create();
 
         $response = $this->actingAs($user)->json('POST', route('shares.targets.find'), [
             's' => 'j o\'h',
@@ -148,23 +126,19 @@ class FindSharingTargetsControllerTest extends TestCase
     {
         $this->withKlinkAdapterFake();
 
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
 
         $document = factory(DocumentDescriptor::class)->create([
             'owner_id' => $user->getKey()
         ]);
         
-        $user_target = tap(factory(User::class)->create([
+        $user_target = tap(User::factory()->create([
             'name' => 'juliet'
         ]), function ($u) {
             $u->addCapabilities(Capability::$PARTNER);
         });
 
-        $other_target = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $other_target = User::factory()->partner()->create();
 
         $response = $this->actingAs($user)->json('POST', route('shares.targets.find'), [
             's' => "jul'; DROP TABLE users;",
@@ -181,23 +155,19 @@ class FindSharingTargetsControllerTest extends TestCase
     {
         $this->withKlinkAdapterFake();
 
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
 
         $document = factory(DocumentDescriptor::class)->create([
             'owner_id' => $user->getKey()
         ]);
         
-        $user_target = tap(factory(User::class)->create([
+        $user_target = tap(User::factory()->create([
             'name' => 'juliet'
         ]), function ($u) {
             $u->addCapabilities(Capability::$PARTNER);
         });
 
-        $other_target = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $other_target = User::factory()->partner()->create();
 
         $response = $this->actingAs($user)->json('POST', route('shares.targets.find'), [
             's' => urlencode('jul%iet'),
@@ -218,39 +188,37 @@ class FindSharingTargetsControllerTest extends TestCase
 
     public function test_targets_are_returned_in_the_correct_order()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
 
         $targets = collect([
-            tap(factory(User::class)->create(['name' => 'juliet o\'hara']), function ($u) {
+            tap(User::factory()->create(['name' => 'juliet o\'hara']), function ($u) {
                 $u->addCapabilities(Capability::$PARTNER);
             }),
-            tap(factory(User::class)->create(['name' => 'spencer o\'hara']), function ($u) {
+            tap(User::factory()->create(['name' => 'spencer o\'hara']), function ($u) {
                 $u->addCapabilities(Capability::$PARTNER);
             }),
-            tap(factory(User::class)->create(['name' => 'henry o\'hara']), function ($u) {
+            tap(User::factory()->create(['name' => 'henry o\'hara']), function ($u) {
                 $u->addCapabilities(Capability::$PARTNER);
             }),
-            tap(factory(User::class)->create(['name' => 'barton o\'hara']), function ($u) {
+            tap(User::factory()->create(['name' => 'barton o\'hara']), function ($u) {
                 $u->addCapabilities(Capability::$PARTNER);
             }),
-            tap(factory(User::class)->create(['name' => 'carlton o\'hara']), function ($u) {
+            tap(User::factory()->create(['name' => 'carlton o\'hara']), function ($u) {
                 $u->addCapabilities(Capability::$PARTNER);
             }),
-            tap(factory(User::class)->create(['name' => 'john o\'hara']), function ($u) {
+            tap(User::factory()->create(['name' => 'john o\'hara']), function ($u) {
                 $u->addCapabilities(Capability::$PARTNER);
             }),
-            tap(factory(User::class)->create(['name' => 'james o\'hara']), function ($u) {
+            tap(User::factory()->create(['name' => 'james o\'hara']), function ($u) {
                 $u->addCapabilities(Capability::$PARTNER);
             }),
-            tap(factory(User::class)->create(['name' => 'james nolan']), function ($u) {
+            tap(User::factory()->create(['name' => 'james nolan']), function ($u) {
                 $u->addCapabilities(Capability::$PARTNER);
             }),
-            tap(factory(User::class)->create(['name' => 'john nolan']), function ($u) {
+            tap(User::factory()->create(['name' => 'john nolan']), function ($u) {
                 $u->addCapabilities(Capability::$PARTNER);
             }),
-            tap(factory(User::class)->create(['name' => 'jane nolan']), function ($u) {
+            tap(User::factory()->create(['name' => 'jane nolan']), function ($u) {
                 $u->addCapabilities(Capability::$PARTNER);
             }),
         ]);
@@ -275,30 +243,28 @@ class FindSharingTargetsControllerTest extends TestCase
 
     public function test_already_selected_users_can_be_excluded()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
 
         $targets = collect([
-            tap(factory(User::class)->create(['name' => 'juliet o\'hara']), function ($u) {
+            tap(User::factory()->create(['name' => 'juliet o\'hara']), function ($u) {
                 $u->addCapabilities(Capability::$PARTNER);
             }),
-            tap(factory(User::class)->create(['name' => 'spencer o\'hara']), function ($u) {
+            tap(User::factory()->create(['name' => 'spencer o\'hara']), function ($u) {
                 $u->addCapabilities(Capability::$PARTNER);
             }),
-            tap(factory(User::class)->create(['name' => 'henry o\'hara']), function ($u) {
+            tap(User::factory()->create(['name' => 'henry o\'hara']), function ($u) {
                 $u->addCapabilities(Capability::$PARTNER);
             }),
-            tap(factory(User::class)->create(['name' => 'barton o\'hara']), function ($u) {
+            tap(User::factory()->create(['name' => 'barton o\'hara']), function ($u) {
                 $u->addCapabilities(Capability::$PARTNER);
             }),
-            tap(factory(User::class)->create(['name' => 'carlton o\'hara']), function ($u) {
+            tap(User::factory()->create(['name' => 'carlton o\'hara']), function ($u) {
                 $u->addCapabilities(Capability::$PARTNER);
             }),
-            tap(factory(User::class)->create(['name' => 'john o\'hara']), function ($u) {
+            tap(User::factory()->create(['name' => 'john o\'hara']), function ($u) {
                 $u->addCapabilities(Capability::$PARTNER);
             }),
-            tap(factory(User::class)->create(['name' => 'james o\'hara']), function ($u) {
+            tap(User::factory()->create(['name' => 'james o\'hara']), function ($u) {
                 $u->addCapabilities(Capability::$PARTNER);
             }),
         ]);
@@ -326,22 +292,20 @@ class FindSharingTargetsControllerTest extends TestCase
     {
         $this->withKlinkAdapterFake();
 
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
 
         $document = factory(DocumentDescriptor::class)->create([
             'owner_id' => $user->getKey()
         ]);
 
         $targets = collect([
-            tap(factory(User::class)->create(['name' => 'juliet o\'hara']), function ($u) {
+            tap(User::factory()->create(['name' => 'juliet o\'hara']), function ($u) {
                 $u->addCapabilities(Capability::$PARTNER);
             }),
-            tap(factory(User::class)->create(['name' => 'spencer o\'hara']), function ($u) {
+            tap(User::factory()->create(['name' => 'spencer o\'hara']), function ($u) {
                 $u->addCapabilities(Capability::$PARTNER);
             }),
-            tap(factory(User::class)->create(['name' => 'henry o\'hara']), function ($u) {
+            tap(User::factory()->create(['name' => 'henry o\'hara']), function ($u) {
                 $u->addCapabilities(Capability::$PARTNER);
             }),
         ]);
@@ -375,9 +339,7 @@ class FindSharingTargetsControllerTest extends TestCase
     {
         $this->withKlinkAdapterFake();
 
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
 
         $collection = factory(Group::class)->create([
             'user_id' => $user->getKey(),
@@ -385,13 +347,13 @@ class FindSharingTargetsControllerTest extends TestCase
         ]);
 
         $targets = collect([
-            tap(factory(User::class)->create(['name' => 'juliet o\'hara']), function ($u) {
+            tap(User::factory()->create(['name' => 'juliet o\'hara']), function ($u) {
                 $u->addCapabilities(Capability::$PARTNER);
             }),
-            tap(factory(User::class)->create(['name' => 'spencer o\'hara']), function ($u) {
+            tap(User::factory()->create(['name' => 'spencer o\'hara']), function ($u) {
                 $u->addCapabilities(Capability::$PARTNER);
             }),
-            tap(factory(User::class)->create(['name' => 'henry o\'hara']), function ($u) {
+            tap(User::factory()->create(['name' => 'henry o\'hara']), function ($u) {
                 $u->addCapabilities(Capability::$PARTNER);
             }),
         ]);
@@ -431,16 +393,14 @@ class FindSharingTargetsControllerTest extends TestCase
 
         $this->withKlinkAdapterFake();
 
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
 
         $collection = factory(Group::class)->state('project')->create([
             'user_id' => $user->getKey(),
         ]);
 
         $targets = collect([
-            tap(factory(User::class)->create(['name' => 'juliet o\'hara']), function ($u) {
+            tap(User::factory()->create(['name' => 'juliet o\'hara']), function ($u) {
                 $u->addCapabilities(Capability::$PARTNER);
             }),
         ]);
@@ -460,9 +420,7 @@ class FindSharingTargetsControllerTest extends TestCase
     {
         $this->withKlinkAdapterFake();
 
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
 
         $document = factory(DocumentDescriptor::class)->create([
             'owner_id' => $user->getKey()
@@ -474,13 +432,13 @@ class FindSharingTargetsControllerTest extends TestCase
         ]);
 
         $targets = collect([
-            tap(factory(User::class)->create(['name' => 'juliet o\'hara']), function ($u) {
+            tap(User::factory()->create(['name' => 'juliet o\'hara']), function ($u) {
                 $u->addCapabilities(Capability::$PARTNER);
             }),
-            tap(factory(User::class)->create(['name' => 'spencer o\'hara']), function ($u) {
+            tap(User::factory()->create(['name' => 'spencer o\'hara']), function ($u) {
                 $u->addCapabilities(Capability::$PARTNER);
             }),
-            tap(factory(User::class)->create(['name' => 'henry o\'hara']), function ($u) {
+            tap(User::factory()->create(['name' => 'henry o\'hara']), function ($u) {
                 $u->addCapabilities(Capability::$PARTNER);
             }),
         ]);
@@ -516,9 +474,7 @@ class FindSharingTargetsControllerTest extends TestCase
     {
         $this->withKlinkAdapterFake();
 
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
 
         $document = factory(DocumentDescriptor::class)->create([
             'owner_id' => $user->getKey()
@@ -529,13 +485,13 @@ class FindSharingTargetsControllerTest extends TestCase
         ]);
 
         $targets = collect([
-            tap(factory(User::class)->create(['name' => 'juliet o\'hara']), function ($u) {
+            tap(User::factory()->create(['name' => 'juliet o\'hara']), function ($u) {
                 $u->addCapabilities(Capability::$PARTNER);
             }),
-            tap(factory(User::class)->create(['name' => 'spencer o\'hara']), function ($u) {
+            tap(User::factory()->create(['name' => 'spencer o\'hara']), function ($u) {
                 $u->addCapabilities(Capability::$PARTNER);
             }),
-            tap(factory(User::class)->create(['name' => 'henry o\'hara']), function ($u) {
+            tap(User::factory()->create(['name' => 'henry o\'hara']), function ($u) {
                 $u->addCapabilities(Capability::$PARTNER);
             }),
         ]);

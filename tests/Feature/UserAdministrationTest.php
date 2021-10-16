@@ -12,7 +12,7 @@ class UserAdministrationTest extends TestCase
 {
     public function test_admin_can_retrieve_users()
     {
-        $user = factory(User::class)->states('admin')->create();
+        $user = User::factory()->admin()->create();
         
         $response = $this->actingAs($user)
             ->get(route('administration.users.index'));
@@ -26,7 +26,7 @@ class UserAdministrationTest extends TestCase
 
     public function test_non_admin_cannot_retrieve_users()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         
         $response = $this->actingAs($user)
                     ->get(route('administration.users.index'));
@@ -36,8 +36,8 @@ class UserAdministrationTest extends TestCase
 
     public function test_admin_can_disable_users()
     {
-        $user = factory(User::class)->states('admin')->create();
-        $userToDisable = factory(User::class)->create();
+        $user = User::factory()->admin()->create();
+        $userToDisable = User::factory()->create();
         
         $response = $this->actingAs($user)
             ->from(route('administration.users.index'))
@@ -51,8 +51,8 @@ class UserAdministrationTest extends TestCase
 
     public function test_admin_can_activate_a_disabled_user()
     {
-        $user = factory(User::class)->states('admin')->create();
-        $userToRestore = factory(User::class)->create(['deleted_at' => now()]);
+        $user = User::factory()->admin()->create();
+        $userToRestore = User::factory()->create(['deleted_at' => now()]);
         
         $response = $this->actingAs($user)
             ->from(route('administration.users.index'))
@@ -66,8 +66,8 @@ class UserAdministrationTest extends TestCase
 
     public function test_restore_available_only_to_admin_users()
     {
-        $user = factory(User::class)->create();
-        $userToRestore = factory(User::class)->create(['deleted_at' => now()]);
+        $user = User::factory()->create();
+        $userToRestore = User::factory()->create(['deleted_at' => now()]);
         
         $response = $this->actingAs($user)
             ->from(route('administration.users.index'))
@@ -78,7 +78,7 @@ class UserAdministrationTest extends TestCase
 
     public function test_user_cannot_disable_itself()
     {
-        $user = factory(User::class)->states('admin')->create();
+        $user = User::factory()->admin()->create();
         
         $response = $this->actingAs($user)
             ->from(route('administration.users.index'))
@@ -91,8 +91,8 @@ class UserAdministrationTest extends TestCase
 
     public function test_non_admin_cannot_disable_users()
     {
-        $user = factory(User::class)->create();
-        $userToDisable = factory(User::class)->create();
+        $user = User::factory()->create();
+        $userToDisable = User::factory()->create();
         
         $response = $this->actingAs($user)
             ->from(route('administration.users.index'))
@@ -103,8 +103,8 @@ class UserAdministrationTest extends TestCase
 
     public function test_admin_can_see_user()
     {
-        $user = factory(User::class)->states('admin')->create();
-        $account = factory(User::class)->create();
+        $user = User::factory()->admin()->create();
+        $account = User::factory()->create();
         
         $response = $this->actingAs($user)
             ->get(route('administration.users.show', ['user' => $account->getKey()]));
@@ -119,8 +119,8 @@ class UserAdministrationTest extends TestCase
     {
         Notification::fake();
 
-        $user = factory(User::class)->states('admin')->create();
-        $userToReset = factory(User::class)->create();
+        $user = User::factory()->admin()->create();
+        $userToReset = User::factory()->create();
         
         $response = $this->actingAs($user)
             ->from(route('administration.users.index'))
@@ -134,8 +134,8 @@ class UserAdministrationTest extends TestCase
     
     public function test_oly_admin_allowed_to_trigger_password_reset_requests()
     {
-        $user = factory(User::class)->create();
-        $userToReset = factory(User::class)->create();
+        $user = User::factory()->create();
+        $userToReset = User::factory()->create();
         
         $response = $this->actingAs($user)
             ->from(route('administration.users.index'))

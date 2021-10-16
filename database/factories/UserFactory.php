@@ -41,7 +41,7 @@ class UserFactory extends Factory
                 'email' => 'admin@klink.local',
             ];
         })->afterCreating(function (User $user) {
-            $user->addCapabilities([Capability::MANAGE_KBOX]);
+            $user->addCapabilities(Capability::$ADMIN);
         });
     }
     

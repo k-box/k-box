@@ -9,7 +9,6 @@ use Illuminate\Foundation\Testing\WithoutMiddleware;
 
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Event;
-use KBox\Capability;
 use KBox\DocumentDescriptor;
 use KBox\Events\DocumentVersionUploaded;
 use KBox\Events\UploadCompleted;
@@ -226,9 +225,7 @@ class DocumentVersionsTest extends TestCase
             'quota.user' => 1024, // bytes
         ]);
 
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
+        $user = User::factory()->admin()->create();
 
         $quota = Quota::user($user);
         
@@ -252,9 +249,7 @@ class DocumentVersionsTest extends TestCase
         Storage::fake('local');
         $this->withKlinkAdapterFake();
 
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
+        $user = User::factory()->admin()->create();
         
         $document = factory(DocumentDescriptor::class)->create([
             'owner_id' => $user->id

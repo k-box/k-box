@@ -245,7 +245,7 @@ class DocumentDescriptorTest extends TestCase
 
     private function createUser($capabilities, $userParams = [])
     {
-        return tap(factory(User::class)->create($userParams))->addCapabilities($capabilities);
+        return tap(User::factory()->create($userParams))->addCapabilities($capabilities);
     }
 
     private function createDocument(User $user, $visibility = 'private')

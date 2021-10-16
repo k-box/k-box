@@ -44,9 +44,7 @@ class CollectionsTest extends TestCase
      */
     public function testSeePersonalCollectionLoginRequired()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
+        $user = User::factory()->admin()->create();
         
         $service = app(DocumentsService::class);
         
@@ -61,9 +59,7 @@ class CollectionsTest extends TestCase
     {
         $this->withKlinkAdapterFake();
         
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
+        $user = User::factory()->admin()->create();
         
         $service = app(DocumentsService::class);
         
@@ -80,13 +76,9 @@ class CollectionsTest extends TestCase
     
     public function testSeePersonalCollectionAccessDenieded()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
+        $user = User::factory()->admin()->create();
         
-        $user_not_owner = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user_not_owner = User::factory()->partner()->create();
         
         $service = app(DocumentsService::class);
         
@@ -100,13 +92,11 @@ class CollectionsTest extends TestCase
     
     public function testCollectionListing()
     {
-        $user1 = factory(User::class)->state('project-manager')->create();
+        $user1 = User::factory()->state('project-manager')->create();
         
-        $user2 = factory(User::class)->state('project-manager')->create();
+        $user2 = User::factory()->state('project-manager')->create();
         
-        $user_admin = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
+        $user_admin = User::factory()->admin()->create();
         
         // $users = [$user1, $user2];
         
@@ -192,7 +182,7 @@ class CollectionsTest extends TestCase
         $project_collection_names = ['pz', 'pa', 'pd', 'pb', 'pcc', 'pca', 'pk'];
         $project_expected_collection_names = ['pa', 'pb', 'pca', 'pcc', 'pd', 'pk', 'pz'];
 
-        $user = tap(factory(User::class)->create(), function ($u) use ($caps) {
+        $user = tap(User::factory()->create(), function ($u) use ($caps) {
             $u->addCapabilities($caps);
         });
 
@@ -285,9 +275,7 @@ class CollectionsTest extends TestCase
         
         $this->assertTrue($accessible, 'Collection is not accessible by the creator');
         
-        $user_admin = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
+        $user_admin = User::factory()->admin()->create();
         
         $collection3 = $service->createGroup($user, 'by admin', null, $project_collection, false);
         
@@ -295,9 +283,7 @@ class CollectionsTest extends TestCase
         
         $this->assertTrue($accessible, 'Collection is not accessible by the creator');
         
-        $partner = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $partner = User::factory()->partner()->create();
         
         $accessible = $service->isCollectionAccessible($partner, $collection);
         $this->assertFalse($accessible, 'Collection 1 is accessible by Partner user not added to the project');
@@ -320,9 +306,7 @@ class CollectionsTest extends TestCase
     
     public function testCollectionCacheForUserUpdate()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
+        $user = User::factory()->admin()->create();
         
         $service = app(DocumentsService::class);
         
@@ -338,9 +322,7 @@ class CollectionsTest extends TestCase
     
     public function testBulkCopyToCollection()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
+        $user = User::factory()->admin()->create();
         
         $service = app(DocumentsService::class);
         
@@ -394,9 +376,7 @@ class CollectionsTest extends TestCase
     
     public function testDmsCollectionsCleanDuplicatesCommand()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
+        $user = User::factory()->admin()->create();
         
         $service = app(DocumentsService::class);
         
@@ -430,9 +410,7 @@ class CollectionsTest extends TestCase
 
     public function testDocumentService_deleteGroup()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
 
         $group = $this->createCollection($user, true, 3);
 
@@ -465,12 +443,8 @@ class CollectionsTest extends TestCase
 
     public function testDocumentService_deleteGroup_forbidden()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
-        $user2 = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
+        $user2 = User::factory()->partner()->create();
 
         $doc = $this->createCollection($user);
 
@@ -483,9 +457,7 @@ class CollectionsTest extends TestCase
 
     public function testCollectionDelete()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
 
         $doc = $this->createCollection($user);
 
@@ -509,9 +481,7 @@ class CollectionsTest extends TestCase
 
     public function testDocumentService_permanentlyDeleteGroup()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PROJECT_MANAGER);
-        });
+        $user = User::factory()->projectManager()->create();
         
         $group = $this->createCollection($user, true, 3);
 
@@ -546,13 +516,9 @@ class CollectionsTest extends TestCase
 
     public function testDocumentService_permanentlyDeleteGroup_forbidden()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PROJECT_MANAGER);
-        });
+        $user = User::factory()->projectManager()->create();
         
-        $user2 = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user2 = User::factory()->partner()->create();
         
         $group = $this->createCollection($user, false);
 
@@ -567,9 +533,7 @@ class CollectionsTest extends TestCase
 
     public function testGroupForceDelete()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PROJECT_MANAGER);
-        });
+        $user = User::factory()->projectManager()->create();
 
         $group = $this->createCollection($user);
 

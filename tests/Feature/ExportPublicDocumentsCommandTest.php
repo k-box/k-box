@@ -22,7 +22,7 @@ class ExportPublicDocumentsCommandTest extends TestCase
     {
         Storage::fake('app');
 
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         $privateDocuments = factory(DocumentDescriptor::class, 3)->create();
         $publicDocuments = factory(DocumentDescriptor::class, 3)
@@ -96,7 +96,7 @@ class ExportPublicDocumentsCommandTest extends TestCase
     {
         Storage::fake('app');
 
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         $project = factory(Project::class)->create(['user_id' => $user->id]);
         $project2 = factory(Project::class)->create(['user_id' => $user->id]);
 
@@ -164,7 +164,7 @@ class ExportPublicDocumentsCommandTest extends TestCase
     {
         Storage::fake('app');
 
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         $privateDocuments = factory(DocumentDescriptor::class, 3)->create();
         $publicDocuments = factory(DocumentDescriptor::class, 3)

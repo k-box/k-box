@@ -4,7 +4,6 @@ namespace Tests\Feature;
 
 use Tests\TestCase;
 
-use KBox\Capability;
 use KBox\Documents\Services\DocumentsService;
 use KBox\Group;
 use KBox\Project;
@@ -15,9 +14,7 @@ class GroupDetailsControllerTest extends TestCase
 {
     public function test_details_for_personal_collection()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
 
         $collection = factory(Group::class)->create([
             'user_id' => $user->getKey(),
@@ -38,9 +35,7 @@ class GroupDetailsControllerTest extends TestCase
 
     public function test_details_forbidden_if_collection_not_mine()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
 
         $collection = factory(Group::class)->create();
 
@@ -56,9 +51,7 @@ class GroupDetailsControllerTest extends TestCase
 
         $project = factory(Project::class)->create();
 
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
 
         $project->users()->attach($user);
         
@@ -79,13 +72,9 @@ class GroupDetailsControllerTest extends TestCase
 
     public function test_details_for_shared_collection()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
         
-        $shared_with = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $shared_with = User::factory()->partner()->create();
 
         $collection = factory(Group::class)->create([
             'user_id' => $user->getKey(),

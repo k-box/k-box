@@ -28,7 +28,7 @@ class DocumentSortingTest extends TestCase
     {
         $this->withKlinkAdapterFake();
 
-        $user = tap(factory(User::class)->create())->addCapabilities(Capability::$PARTNER);
+        $user = tap(User::factory()->create())->addCapabilities(Capability::$PARTNER);
 
         $created_at = Carbon::now();
 
@@ -88,7 +88,7 @@ class DocumentSortingTest extends TestCase
     {
         $this->withKlinkAdapterFake();
 
-        $user = tap(factory(User::class)->create())->addCapabilities(Capability::$PARTNER);
+        $user = tap(User::factory()->create())->addCapabilities(Capability::$PARTNER);
 
         $created_at = Carbon::now();
 
@@ -136,7 +136,7 @@ class DocumentSortingTest extends TestCase
     {
         $this->withKlinkAdapterFake();
 
-        $user = tap(factory(User::class)->create())->addCapabilities(Capability::$PARTNER);
+        $user = tap(User::factory()->create())->addCapabilities(Capability::$PARTNER);
 
         $expected_documents = [
             $this->createRecentDocument($user, null, ['title' => 'a']),
@@ -182,7 +182,7 @@ class DocumentSortingTest extends TestCase
     {
         $this->withKlinkAdapterFake();
 
-        $user = tap(factory(User::class)->create())->addCapabilities(Capability::$PARTNER);
+        $user = tap(User::factory()->create())->addCapabilities(Capability::$PARTNER);
 
         $expected_documents = [
             $this->createRecentDocument($user, null, ['title' => 'a']),
@@ -239,7 +239,7 @@ class DocumentSortingTest extends TestCase
     {
         $this->withKlinkAdapterFake();
 
-        $user = tap(factory(User::class)->create())->addCapabilities(Capability::$PARTNER);
+        $user = tap(User::factory()->create())->addCapabilities(Capability::$PARTNER);
 
         $expected_documents = [
             $this->createRecentDocument($user, null, ['title' => 'a']),
@@ -248,9 +248,9 @@ class DocumentSortingTest extends TestCase
         ];
 
         $sharee = [
-            factory(User::class)->create(['name' => 'alexander']),
-            factory(User::class)->create(['name' => 'luca']),
-            factory(User::class)->create(['name' => 'manfred']),
+            User::factory()->create(['name' => 'alexander']),
+            User::factory()->create(['name' => 'luca']),
+            User::factory()->create(['name' => 'manfred']),
         ];
 
         $expected_shares = [

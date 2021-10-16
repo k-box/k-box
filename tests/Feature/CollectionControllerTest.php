@@ -203,9 +203,7 @@ class CollectionControllerTest extends TestCase
     {
         Event::fake();
  
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PROJECT_MANAGER);
-        });
+        $user = User::factory()->projectManager()->create();
 
         $response = $this
             ->actingAs($user)
@@ -234,9 +232,7 @@ class CollectionControllerTest extends TestCase
     
     public function test_collection_is_trashed()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
+        $user = User::factory()->admin()->create();
 
         $collection = factory(Group::class)->create([
             'user_id' => $user->getKey(),

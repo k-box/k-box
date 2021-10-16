@@ -4,7 +4,6 @@ namespace Tests\Feature;
 
 use KBox\User;
 use Tests\TestCase;
-use KBox\Capability;
 use KBox\Consent;
 use KBox\Option;
 use KBox\Consents;
@@ -26,9 +25,7 @@ class AnalyticsTest extends TestCase
             'analytics.token' => 'aaaa'
         ]);
 
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->admin()->create();
         Consent::withdraw($user, Consents::STATISTIC);
 
         $response = $this->get('/');
@@ -43,9 +40,7 @@ class AnalyticsTest extends TestCase
             'analytics.token' => 'aaaa'
         ]);
 
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->admin()->create();
         Consent::agree($user, Consents::STATISTIC);
 
         $response = $this->actingAs($user)->get(route('contact'));
@@ -61,9 +56,7 @@ class AnalyticsTest extends TestCase
             'analytics.services.matomo.domain' => 'https://example.analytics',
         ]);
 
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->admin()->create();
         Consent::agree($user, Consents::STATISTIC);
 
         $response = $this->actingAs($user)->get(route('contact'));
@@ -84,9 +77,7 @@ class AnalyticsTest extends TestCase
             'analytics.services.matomo.domain' => '',
         ]);
 
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->admin()->create();
         Consent::agree($user, Consents::STATISTIC);
 
         $response = $this->actingAs($user)->get(route('contact'));
@@ -102,9 +93,7 @@ class AnalyticsTest extends TestCase
             'analytics.service' => 'google-analytics',
         ]);
 
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->admin()->create();
         Consent::agree($user, Consents::STATISTIC);
 
         $response = $this->actingAs($user)->get(route('contact'));
@@ -124,9 +113,7 @@ class AnalyticsTest extends TestCase
             'analytics.services.matomo.domain' => 'https://example.analytics',
         ]);
 
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
+        $user = User::factory()->admin()->create();
         
         $response = $this->actingAs($user)
                          ->get(route('administration.analytics.index'));
@@ -146,9 +133,7 @@ class AnalyticsTest extends TestCase
 
         Option::put(Analytics::ANALYTICS_TOKEN, 'aaaa');
 
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
+        $user = User::factory()->admin()->create();
         
         $response = $this->actingAs($user)
                          ->get(route('administration.analytics.index'));
@@ -162,9 +147,7 @@ class AnalyticsTest extends TestCase
 
     public function test_analytics_setting_are_saved()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
+        $user = User::factory()->admin()->create();
         
         $response = $this->actingAs($user)
                          ->from(route('administration.analytics.index'))
@@ -193,9 +176,7 @@ class AnalyticsTest extends TestCase
     
     public function test_analytics_domain_https_is_handled()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
+        $user = User::factory()->admin()->create();
         
         $response = $this->actingAs($user)
                          ->from(route('administration.analytics.index'))

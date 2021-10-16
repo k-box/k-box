@@ -4,7 +4,6 @@ namespace Tests\Unit;
 
 use Tests\TestCase;
 
-use KBox\Capability;
 use KBox\DocumentDescriptor;
 use KBox\User;
 
@@ -14,9 +13,7 @@ class RedirectOldDocumentsControllerTest extends TestCase
     {
         $this->withKlinkAdapterFake();
         
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
         
         $doc = factory(DocumentDescriptor::class)->create([
             'owner_id' => $user->id,
@@ -35,13 +32,9 @@ class RedirectOldDocumentsControllerTest extends TestCase
     {
         $this->withKlinkAdapterFake();
         
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
         
-        $another_user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $another_user = User::factory()->partner()->create();
         
         $doc = factory(DocumentDescriptor::class)->create(['owner_id' => $user->id]);
         

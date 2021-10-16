@@ -57,7 +57,7 @@ class ConvertVideoTest extends TestCase
         // copy a test file to the file storage
         Storage::disk('local')->put($file_path, file_get_contents(base_path('tests/data/video.mp4')));
 
-        $user_id = factory(User::class)->create()->id;
+        $user_id = User::factory()->create()->id;
 
         $file = factory(File::class)->create([
             'name' => "AVIDEO.mp4",

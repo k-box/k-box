@@ -5,7 +5,6 @@ namespace Tests\Feature\Plugins;
 use KBox\User;
 use KBox\Flags;
 use Tests\TestCase;
-use KBox\Capability;
 use KBox\Plugins\PluginManager;
 use KBox\Plugins\PluginManifest;
 use Illuminate\Filesystem\Filesystem;
@@ -44,9 +43,7 @@ class PluginsControllerTest extends TestCase
     {
         Flags::enable(Flags::PLUGINS);
 
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PROJECT_MANAGER);
-        });
+        $user = User::factory()->projectManager()->create();
 
         $url = route('administration.plugins.index');
 
@@ -59,9 +56,7 @@ class PluginsControllerTest extends TestCase
     {
         Flags::enable(Flags::PLUGINS);
         
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
+        $user = User::factory()->admin()->create();
 
         $url = route('administration.plugins.index');
 
@@ -80,9 +75,7 @@ class PluginsControllerTest extends TestCase
     {
         $this->withoutMiddleware();
 
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
+        $user = User::factory()->admin()->create();
 
         $url = route('administration.plugins.update', 'k-box-unittest-demo-plugin');
 
@@ -101,9 +94,7 @@ class PluginsControllerTest extends TestCase
         $this->withoutMiddleware();
         $manager = resolve(PluginManager::class);
 
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
+        $user = User::factory()->admin()->create();
 
         $manager->enable('k-box-unittest-demo-plugin');
 

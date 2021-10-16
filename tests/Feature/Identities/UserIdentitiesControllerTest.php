@@ -20,7 +20,7 @@ class UserIdentitiesControllerTest extends TestCase
     {
         config(['identities.providers' => 'gitlab']);
 
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         $identity = factory(Identity::class)->state('registration')->create([
             'user_id' => $user->getKey(),
@@ -45,7 +45,7 @@ class UserIdentitiesControllerTest extends TestCase
     {
         config(['identities.providers' => 'gitlab,dropbox']);
 
-        $user = tap(factory(User::class)->create(), function ($u) {
+        $user = tap(User::factory()->create(), function ($u) {
             $u->addCapabilities(Capability::$PARTNER);
             $u->markEmailAsVerified();
         });
@@ -67,7 +67,7 @@ class UserIdentitiesControllerTest extends TestCase
     {
         config(['identities.providers' => 'gitlab']);
 
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         $response = $this->actingAs($user)
             ->get(route('profile.identities.index'));
@@ -86,7 +86,7 @@ class UserIdentitiesControllerTest extends TestCase
     {
         config(['identities.providers' => null]);
 
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         $response = $this->actingAs($user)
             ->get(route('profile.identities.index'));
@@ -98,7 +98,7 @@ class UserIdentitiesControllerTest extends TestCase
     {
         config(['identities.providers' => 'gitlab']);
 
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         $identity = factory(Identity::class)->state('registration')->create([
             'user_id' => $user->getKey(),
@@ -116,7 +116,7 @@ class UserIdentitiesControllerTest extends TestCase
     {
         config(['identities.providers' => 'gitlab']);
 
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         $identity = factory(Identity::class)->state('registration')->create([
             'user_id' => $user->getKey(),
@@ -140,9 +140,9 @@ class UserIdentitiesControllerTest extends TestCase
     {
         config(['identities.providers' => 'gitlab']);
 
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         
-        $otherUser = factory(User::class)->create();
+        $otherUser = User::factory()->create();
 
         $identity = factory(Identity::class)->state('registration')->create([
             'user_id' => $user->getKey(),
@@ -160,8 +160,7 @@ class UserIdentitiesControllerTest extends TestCase
     {
         config(['identities.providers' => 'gitlab,dropbox']);
 
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
+        $user = tap(User::factory()->partner()->create(), function ($u) {
             $u->markEmailAsVerified();
         });
 

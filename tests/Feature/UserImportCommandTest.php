@@ -50,9 +50,7 @@ class UserImportCommandTest extends TestCase
     
     public function testDmsUserImportCommandWithValidFileAndFiveColumns()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
+        $user = User::factory()->admin()->create();
         
         Mail::shouldReceive('queue')->times(4)->withAnyArgs();
         
@@ -107,9 +105,7 @@ class UserImportCommandTest extends TestCase
     
     public function testDmsUserImportCommandWithValidFileWithThreeColumns()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
+        $user = User::factory()->admin()->create();
         
         Mail::shouldReceive('queue')->times(6)->withAnyArgs();
 
@@ -134,9 +130,7 @@ class UserImportCommandTest extends TestCase
     
     public function testDmsUserImportCommandWithWrongColumnsInFile()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
+        $user = User::factory()->admin()->create();
 
         $this->expectException(Exception::class);
         $this->expectExceptionMessage('Wrong column name, expecting manage project or manage or manage-projects or manage-project found k-linker at index 3');

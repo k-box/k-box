@@ -6,7 +6,6 @@ use KBox\User;
 use KBox\Consent;
 use KBox\Consents;
 use Tests\TestCase;
-use KBox\Capability;
 use Illuminate\Support\Facades\Storage;
 
 class StatisticConsentDialogControllerTest extends TestCase
@@ -15,9 +14,7 @@ class StatisticConsentDialogControllerTest extends TestCase
     {
         Storage::fake('app');
 
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
 
         Consent::agree($user, Consents::PRIVACY);
 
@@ -29,9 +26,7 @@ class StatisticConsentDialogControllerTest extends TestCase
 
     public function test_dialog_can_be_fully_accepted()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
 
         Consent::agree($user, Consents::PRIVACY);
 

@@ -18,7 +18,7 @@ class ProjectMembersTest extends TestCase
 
     private function createUser($capabilities, $userParams = [])
     {
-        return tap(factory(User::class)->create($userParams))->addCapabilities($capabilities);
+        return tap(User::factory()->create($userParams))->addCapabilities($capabilities);
     }
     
     public function test_members_can_be_added()

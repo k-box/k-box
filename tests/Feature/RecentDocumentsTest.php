@@ -47,8 +47,8 @@ class RecentDocumentsTest extends TestCase
     {
         $adapter = $this->withKlinkAdapterFake();
         
-        $user_sender = factory(\KBox\User::class)->state('partner')->create();
-        $user_receiver = factory(\KBox\User::class)->state('partner')->create();
+        $user_sender = factory(\KBox\User::class)->partner()->create();
+        $user_receiver = factory(\KBox\User::class)->partner()->create();
 
         $descriptor = factory(\KBox\DocumentDescriptor::class)->create();
 
@@ -329,7 +329,7 @@ class RecentDocumentsTest extends TestCase
     {
         $adapter = $this->withKlinkAdapterFake();
 
-        $user = factory(\KBox\User::class)->state('partner')->create();
+        $user = factory(\KBox\User::class)->partner()->create();
 
         $descriptor = factory(\KBox\DocumentDescriptor::class)->create([
             'created_at' => Carbon::now()->subDays(2),

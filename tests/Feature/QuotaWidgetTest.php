@@ -18,7 +18,7 @@ class QuotaWidgetTest extends TestCase
 
     public function test_quota_widget_is_present_on_the_page()
     {
-        $user = tap(factory(User::class)->create())->addCapabilities(Capability::$PARTNER);
+        $user = tap(User::factory()->create())->addCapabilities(Capability::$PARTNER);
 
         $quota = factory(UserQuota::class)->create([
             'user_id' => $user->id,
@@ -38,7 +38,7 @@ class QuotaWidgetTest extends TestCase
 
     public function test_quota_widget_not_show_if_unlimited()
     {
-        $user = tap(factory(User::class)->create())->addCapabilities(Capability::$PARTNER);
+        $user = tap(User::factory()->create())->addCapabilities(Capability::$PARTNER);
 
         $quota = factory(UserQuota::class)->create([
             'user_id' => $user->id,
@@ -58,7 +58,7 @@ class QuotaWidgetTest extends TestCase
 
     public function test_quota_widget_composer()
     {
-        $user = tap(factory(User::class)->create())->addCapabilities(Capability::$PARTNER);
+        $user = tap(User::factory()->create())->addCapabilities(Capability::$PARTNER);
 
         $quota = factory(UserQuota::class)->create([
             'user_id' => $user->id,
@@ -82,7 +82,7 @@ class QuotaWidgetTest extends TestCase
     
     public function test_quota_widget_composer_skip_if_not_authenticated()
     {
-        $user = tap(factory(User::class)->create())->addCapabilities(Capability::$PARTNER);
+        $user = tap(User::factory()->create())->addCapabilities(Capability::$PARTNER);
 
         $quota = factory(UserQuota::class)->create([
             'user_id' => $user->id,

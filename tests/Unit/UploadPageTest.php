@@ -12,7 +12,7 @@ class UploadPageTest extends TestCase
 {
     public function test_upload_page_shows_private_target()
     {
-        $user = factory(\KBox\User::class)->state('partner')->create();
+        $user = factory(\KBox\User::class)->partner()->create();
 
         $response = $this->actingAs($user)->get('/uploads');
 
@@ -101,7 +101,7 @@ class UploadPageTest extends TestCase
     
     public function test_upload_page_shows_target_error()
     {
-        $user = factory(\KBox\User::class)->state('partner')->create();
+        $user = factory(\KBox\User::class)->partner()->create();
 
         $project = factory(\KBox\Project::class)->create();
         

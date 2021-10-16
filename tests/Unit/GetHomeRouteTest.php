@@ -53,7 +53,7 @@ class GetHomeRouteTest extends TestCase
     {
         Storage::fake('app');
 
-        $user = tap(factory(User::class)->create(['name' => 'canary']), function ($u) use ($capabilities) {
+        $user = tap(User::factory()->create(['name' => 'canary']), function ($u) use ($capabilities) {
             $u->addCapabilities($capabilities);
         });
 
@@ -72,7 +72,7 @@ class GetHomeRouteTest extends TestCase
     {
         Storage::fake('app');
         
-        $user = tap(factory(User::class)->create(['name' => 'canary']), function ($u) use ($capabilities) {
+        $user = tap(User::factory()->create(['name' => 'canary']), function ($u) use ($capabilities) {
             $u->addCapabilities($capabilities);
         });
 
@@ -89,7 +89,7 @@ class GetHomeRouteTest extends TestCase
      */
     public function test_user_home_route_respect_flags($capabilities, $flag, $route)
     {
-        $user = tap(factory(User::class)->create(['name' => 'canary']), function ($u) use ($capabilities) {
+        $user = tap(User::factory()->create(['name' => 'canary']), function ($u) use ($capabilities) {
             $u->addCapabilities($capabilities);
         });
 

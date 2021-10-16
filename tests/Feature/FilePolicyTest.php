@@ -5,7 +5,6 @@ namespace Tests\Feature;
 use KBox\File;
 use KBox\User;
 use Tests\TestCase;
-use KBox\Capability;
 use KBox\Policies\FilePolicy;
 use Illuminate\Foundation\Testing\WithFaker;
 
@@ -15,9 +14,7 @@ class FilePolicyTest extends TestCase
 
     public function test_deny_see_username()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
 
         $file = factory(File::class)->create();
 

@@ -20,7 +20,7 @@ class InviteEmailTest extends TestCase
     {
         $creator_name = 'John';
 
-        $user = tap(factory(User::class)->create([
+        $user = tap(User::factory()->create([
             'name' => $creator_name,
         ]), function ($u) {
             $u->addCapabilities(Capability::$PARTNER);
@@ -50,7 +50,7 @@ class InviteEmailTest extends TestCase
     {
         $creator_name = 'John';
 
-        $user = tap(factory(User::class)->create([
+        $user = tap(User::factory()->create([
             'name' => $creator_name,
         ]), function ($u) {
             $u->addCapabilities(Capability::$PARTNER);
@@ -86,7 +86,7 @@ class InviteEmailTest extends TestCase
     {
         $creator_name = 'John';
 
-        $user = tap(factory(User::class)->create([
+        $user = tap(User::factory()->create([
             'name' => $creator_name,
         ]), function ($u) {
             $u->addCapabilities(Capability::$PARTNER);

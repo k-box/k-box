@@ -6,16 +6,13 @@ use KBox\User;
 use KBox\Consent;
 use KBox\Consents;
 use Tests\TestCase;
-use KBox\Capability;
 use Spatie\Activitylog\Models\Activity;
 
 class ConsentTest extends TestCase
 {
     public function test_consent_agree_activity_is_logged()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
 
         Consent::agree($user, Consents::PRIVACY);
 
@@ -34,9 +31,7 @@ class ConsentTest extends TestCase
     
     public function test_consent_withdrawal_activity_is_logged()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
         Consent::agree($user, Consents::PRIVACY);
 
         Consent::withdraw($user, Consents::PRIVACY);

@@ -6,7 +6,6 @@ use KBox\User;
 use KBox\File;
 use Carbon\Carbon;
 use Tests\TestCase;
-use KBox\Capability;
 use KBox\DocumentDescriptor;
 use OneOffTech\TusUpload\TusUpload;
 use KBox\Listeners\TusUploadStartedHandler;
@@ -35,9 +34,7 @@ class TusUploadStartedListenerTest extends TestCase
     {
         $this->withKlinkAdapterFake();
 
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
+        $user = User::factory()->admin()->create();
 
         $request_id = 'REQUEST';
 
@@ -59,9 +56,7 @@ class TusUploadStartedListenerTest extends TestCase
     {
         $this->withKlinkAdapterFake();
 
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
+        $user = User::factory()->admin()->create();
 
         $request_id = 'REQUEST';
 

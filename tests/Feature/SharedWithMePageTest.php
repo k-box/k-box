@@ -4,7 +4,6 @@ namespace Tests\Feature;
 
 use Tests\TestCase;
 
-use KBox\Capability;
 use KBox\Documents\Services\DocumentsService;
 use KBox\Group;
 use KBox\Pagination\SearchResultsPaginator;
@@ -19,13 +18,9 @@ class SharedWithMePageTest extends TestCase
 
         $adapter = $this->withKlinkAdapterFake();
 
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
         
-        $collection_creator = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $collection_creator = User::factory()->partner()->create();
 
         $service = app(DocumentsService::class);
         

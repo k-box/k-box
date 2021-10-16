@@ -23,7 +23,7 @@ class UserProfileControllerTest extends TestCase
      */
     public function test_profile_page_is_reachable($capabilities)
     {
-        $user = tap(factory(User::class)->create(), function ($u) use ($capabilities) {
+        $user = tap(User::factory()->create(), function ($u) use ($capabilities) {
             $u->addCapabilities($capabilities);
         });
         
@@ -35,9 +35,7 @@ class UserProfileControllerTest extends TestCase
 
     public function test_current_requested_language_is_visible()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
         
         $response = $this
             ->withHeaders([
@@ -53,8 +51,7 @@ class UserProfileControllerTest extends TestCase
     
     public function test_user_set_language_is_visible()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
+        $user = tap(User::factory()->partner()->create(), function ($u) {
             $u->options()->create([
                 'key' => User::OPTION_LANGUAGE,
                 'value' => 'fr'
@@ -73,9 +70,7 @@ class UserProfileControllerTest extends TestCase
     
     public function test_user_can_change_name()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
 
         $old_name = $user->name;
         $new_name = 'albert';
@@ -95,12 +90,8 @@ class UserProfileControllerTest extends TestCase
     
     public function test_user_cannot_change_name_to_another_existing_username()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
-        $existing_user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
+        $existing_user = User::factory()->partner()->create();
         
         $response = $this->from(route('profile.index'))->actingAs($user)->put(route('profile.update'), [
             'name' => $existing_user->name,
@@ -113,7 +104,7 @@ class UserProfileControllerTest extends TestCase
     
     public function test_user_can_change_organization()
     {
-        $user = tap(factory(User::class)->create([
+        $user = tap(User::factory()->create([
             'organization_name' => 'Org',
             'organization_website' => 'www.org.com',
         ]), function ($u) {
@@ -142,7 +133,7 @@ class UserProfileControllerTest extends TestCase
     
     public function test_user_can_clear_organization_details()
     {
-        $user = tap(factory(User::class)->create([
+        $user = tap(User::factory()->create([
             'organization_name' => 'Org',
             'organization_website' => 'www.org.com',
         ]), function ($u) {

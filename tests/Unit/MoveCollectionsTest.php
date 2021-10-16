@@ -153,9 +153,7 @@ class MoveCollectionsTest extends TestCase
     {
         $project = factory(Project::class)->create();
 
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PROJECT_MANAGER);
-        });
+        $user = User::factory()->projectManager()->create();
 
         $project->users()->attach($user);
         

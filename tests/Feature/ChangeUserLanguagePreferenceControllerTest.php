@@ -23,7 +23,7 @@ class ChangeUserLanguagePreferenceControllerTest extends TestCase
      */
     public function test_language_preference_can_be_changed_for_user($capabilities, $value)
     {
-        $user = tap(factory(User::class)->create(), function ($u) use ($capabilities) {
+        $user = tap(User::factory()->create(), function ($u) use ($capabilities) {
             $u->addCapabilities($capabilities);
         });
         
@@ -43,9 +43,7 @@ class ChangeUserLanguagePreferenceControllerTest extends TestCase
 
     public function test_language_preference_redirect_to_previous_page()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
         
         $response = $this->actingAs($user)
             ->from(route('documents.index'))
@@ -63,9 +61,7 @@ class ChangeUserLanguagePreferenceControllerTest extends TestCase
 
     public function test_language_preference_do_not_accept_invalid_language()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
         
         $response = $this->actingAs($user)->json('PUT', route('profile.language.update'), [
             User::OPTION_LANGUAGE => 'uz',
@@ -81,9 +77,7 @@ class ChangeUserLanguagePreferenceControllerTest extends TestCase
 
     public function test_language_preference_refuses_unknown_object()
     {
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
         
         $response = $this->actingAs($user)->json('PUT', route('profile.language.update'), [
             'User::OPTION_LANGUAGE' => 'uz',

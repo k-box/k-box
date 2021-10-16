@@ -3,7 +3,6 @@
 namespace Tests\Feature\Identities;
 
 use Illuminate\Support\Facades\Session;
-use KBox\Capability;
 use KBox\Invite;
 use KBox\User;
 use SocialiteProviders\GitLab\Provider;
@@ -61,9 +60,7 @@ class RegistrationTest extends TestCase
 
         $this->withoutExceptionHandling();
 
-        $user = tap(factory(User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
 
         $invite = factory(Invite::class)->create([
             'creator_id' => $user->id
