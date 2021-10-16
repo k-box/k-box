@@ -8,12 +8,13 @@ use Tests\TestCase;
 use KBox\Capability;
 use KBox\DocumentDescriptor;
 use Klink\DmsAdapter\KlinkVisibilityType;
-
+use KBox\Project;
 use Illuminate\Support\Facades\Event;
 use KBox\DocumentGroups;
 use KBox\Documents\Services\DocumentsService;
 use KBox\Events\DocumentsAddedToCollection;
 use KBox\Events\DocumentsRemovedFromCollection;
+use KBox\File;
 use KBox\Shared;
 
 /*
@@ -41,17 +42,17 @@ class DocumentsServiceTest extends TestCase
 
         $user = $this->createUser($caps);
         
-        $doc = factory(\KBox\DocumentDescriptor::class)->create([
+        $doc = DocumentDescriptor::factory()->create([
             'owner_id' => $user->id
         ]);
 
-        $owned_project = factory(\KBox\Project::class)->create([
+        $owned_project = Project::factory()->create([
             'user_id' => $user->id,
         ]);
 
-        $other_project = factory(\KBox\Project::class)->create();
+        $other_project = Project::factory()->create();
 
-        $secondary_project = factory(\KBox\Project::class)->create();
+        $secondary_project = Project::factory()->create();
 
         $secondary_project->users()->save($user);
         
@@ -107,7 +108,7 @@ class DocumentsServiceTest extends TestCase
         // todo test add and reindex
         $user = $this->createUser(Capability::$ADMIN);
         
-        $file = factory(\KBox\File::class)->create([
+        $file = File::factory()->create([
             'user_id' => $user->id,
             'original_uri' => ''
         ]);
@@ -167,11 +168,9 @@ class DocumentsServiceTest extends TestCase
 
         $adapter = $this->withKlinkAdapterFake();
 
-        $user = tap(factory(\KBox\User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
+        $user = User::factory()->admin()->create();
 
-        $documents = factory(DocumentDescriptor::class, 3)->create([
+        $documents = DocumentDescriptor::factory()->count(3)->create([
             'owner_id' => $user->id,
         ]);
 
@@ -289,7 +288,7 @@ class DocumentsServiceTest extends TestCase
 
         $user = User::factory()->admin()->create();
 
-        $documents = factory(DocumentDescriptor::class, 3)->create([
+        $documents = DocumentDescriptor::factory()->count(3)->create([
             'owner_id' => $user->id,
         ]);
 

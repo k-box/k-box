@@ -5,18 +5,22 @@ namespace Tests\Feature;
 use Tests\TestCase;
 use KBox\Documents\Facades\Files;
 use KBox\DocumentsElaboration\Actions\GuessLanguage;
+use KBox\User;
+use KBox\Project;
+use KBox\File;
+use KBox\DocumentDescriptor;
 
 class GuessLanguageTest extends TestCase
 {
     private function generateDescriptorForFile($path)
     {
         list($mime) = Files::recognize($path);
-        $file = factory(\KBox\File::class)->create([
+        $file = File::factory()->create([
             'hash' => hash_file('sha512', $path),
             'path' => $path,
             'mime_type' => $mime,
         ]);
-        $descriptor = factory(\KBox\DocumentDescriptor::class)->create([
+        $descriptor = DocumentDescriptor::factory()->create([
             'file_id' => $file->id,
             'language' => null,
             'abstract' => null,

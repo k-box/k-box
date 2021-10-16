@@ -6,18 +6,20 @@ use Tests\TestCase;
 use KBox\DuplicateDocument;
 
 use KBox\DocumentDescriptor;
+use KBox\User;
 use KBox\Group;
+use KBox\Project;
 
 class DuplicateDocumentsControllerTest extends TestCase
 {
     private function createDuplicates($user, $count = 1, $options = [])
     {
-        return factory(DuplicateDocument::class, $count)->create($options);
+        return DuplicateDocument::factory()->count($count)->create($options);
     }
 
     public function test_duplicate_resolution_is_only_available_to_the_authenticated_users()
     {
-        $user = factory(\KBox\User::class)->partner()->create();
+        $user = User::factory()->partner()->create();
         
         $response = $this->json('DELETE', route('duplicates.destroy', 1));
 
@@ -26,9 +28,9 @@ class DuplicateDocumentsControllerTest extends TestCase
     
     public function test_duplicate_resolution_is_only_available_to_the_user_that_created_the_duplicate()
     {
-        $user = factory(\KBox\User::class)->partner()->create();
+        $user = User::factory()->partner()->create();
         
-        $duplicate = factory(DuplicateDocument::class)->create();
+        $duplicate = DuplicateDocument::factory()->create();
 
         $response = $this->actingAs($user)->json('DELETE', route('duplicates.destroy', $duplicate->id));
 
@@ -39,7 +41,7 @@ class DuplicateDocumentsControllerTest extends TestCase
     {
         $adapter = $this->withKlinkAdapterFake();
 
-        $user = factory(\KBox\User::class)->partner()->create();
+        $user = User::factory()->partner()->create();
         
         $duplicate = $this->createDuplicates($user, 1, ['user_id' => $user->id])->first();
 
@@ -60,18 +62,18 @@ class DuplicateDocumentsControllerTest extends TestCase
 
         $adapter = $this->withKlinkAdapterFake();
 
-        $user = factory(\KBox\User::class)->partner()->create();
+        $user = User::factory()->partner()->create();
 
-        $project = tap(factory(\KBox\Project::class)->create(), function ($p) use ($user) {
+        $project = tap(Project::factory()->create(), function ($p) use ($user) {
             $p->users()->attach($user->id);
         });
 
         $manager = $project->manager;
 
-        $descriptor = factory(\KBox\DocumentDescriptor::class)->create([
+        $descriptor = DocumentDescriptor::factory()->create([
             'owner_id' => $manager->id
         ]);
-        $duplicateDescriptor = factory(\KBox\DocumentDescriptor::class)->create([
+        $duplicateDescriptor = DocumentDescriptor::factory()->create([
             'owner_id' => $manager->id,
             'hash' => $descriptor->hash
         ]);
@@ -83,7 +85,7 @@ class DuplicateDocumentsControllerTest extends TestCase
 
         $service->addDocumentToGroup($manager, $descriptor, $project->collection);
         
-        $duplicate = factory(DuplicateDocument::class)->create([
+        $duplicate = DuplicateDocument::factory()->create([
             'user_id' => $user->id,
             'duplicate_document_id' => $duplicateDescriptor->id,
             'document_id' => $descriptor->id,
@@ -102,7 +104,7 @@ class DuplicateDocumentsControllerTest extends TestCase
     {
         $adapter = $this->withKlinkAdapterFake();
 
-        $user = factory(\KBox\User::class)->partner()->create();
+        $user = User::factory()->partner()->create();
         
         $duplicate = $this->createDuplicates($user, 1, ['user_id' => $user->id])->first();
 
@@ -125,7 +127,7 @@ class DuplicateDocumentsControllerTest extends TestCase
     {
         $adapter = $this->withKlinkAdapterFake();
 
-        $user = factory(\KBox\User::class)->partner()->create();
+        $user = User::factory()->partner()->create();
         
         $duplicate = $this->createDuplicates($user, 1, ['user_id' => $user->id])->first();
         $duplicate->resolved = true;
@@ -148,7 +150,7 @@ class DuplicateDocumentsControllerTest extends TestCase
     {
         $adapter = $this->withKlinkAdapterFake();
 
-        $user = factory(\KBox\User::class)->partner()->create();
+        $user = User::factory()->partner()->create();
 
         $collection = Group::factory()->create([
             'user_id' => $user->id,
@@ -166,7 +168,7 @@ class DuplicateDocumentsControllerTest extends TestCase
         $collection->documents()->save($existing_document);
         $collection->documents()->save($duplicate_document);
 
-        $duplicate = factory(DuplicateDocument::class)->create([
+        $duplicate = DuplicateDocument::factory()->create([
             'user_id' => $user->id,
             'document_id' => $existing_document->id,
             'duplicate_document_id' => $duplicate_document->id,
@@ -185,7 +187,7 @@ class DuplicateDocumentsControllerTest extends TestCase
     {
         $adapter = $this->withKlinkAdapterFake();
 
-        $user = factory(\KBox\User::class)->partner()->create();
+        $user = User::factory()->partner()->create();
 
         $collection_for_existing = Group::factory()->create([
             'user_id' => $user->id,
@@ -208,7 +210,7 @@ class DuplicateDocumentsControllerTest extends TestCase
         $collection_for_existing->documents()->save($existing_document);
         $collection_for_duplicate->documents()->save($duplicate_document);
 
-        $duplicate = factory(DuplicateDocument::class)->create([
+        $duplicate = DuplicateDocument::factory()->create([
             'user_id' => $user->id,
             'document_id' => $existing_document->id,
             'duplicate_document_id' => $duplicate_document->id,

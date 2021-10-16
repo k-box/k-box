@@ -14,6 +14,7 @@ use KBox\Events\DocumentVersionUploaded;
 use KBox\Events\UploadCompleted;
 use KBox\Facades\Quota;
 use KBox\User;
+use KBox\Project;
 
 class DocumentVersionsTest extends TestCase
 {
@@ -23,7 +24,7 @@ class DocumentVersionsTest extends TestCase
     {
         Storage::fake('local');
 
-        $document = factory(\KBox\DocumentDescriptor::class)->create();
+        $document = DocumentDescriptor::factory()->create();
 
         $response = $this->get("/documents/$document->id/versions/100");
 
@@ -35,11 +36,11 @@ class DocumentVersionsTest extends TestCase
         Storage::fake('local');
         $adapter = $this->withKlinkAdapterFake();
         
-        $document = factory(\KBox\DocumentDescriptor::class)->create();
+        $document = DocumentDescriptor::factory()->create();
         
         $last_version = $document->file;
 
-        $first_version = factory(\KBox\File::class)->create([
+        $first_version = File::factory()->create([
             'mime_type' => 'text/html',
         ]);
 
@@ -65,11 +66,11 @@ class DocumentVersionsTest extends TestCase
         Storage::fake('local');
         $adapter = $this->withKlinkAdapterFake();
         
-        $document = factory(\KBox\DocumentDescriptor::class)->create();
+        $document = DocumentDescriptor::factory()->create();
         
         $last_version = $document->file;
 
-        $first_version = factory(\KBox\File::class)->create([
+        $first_version = File::factory()->create([
             'mime_type' => 'text/html',
         ]);
 
@@ -94,15 +95,15 @@ class DocumentVersionsTest extends TestCase
         Storage::fake('local');
         $adapter = $this->withKlinkAdapterFake();
         
-        $document = factory(\KBox\DocumentDescriptor::class)->create();
+        $document = DocumentDescriptor::factory()->create();
         
         $last_version = $document->file;
 
-        $first_version = factory(\KBox\File::class)->create([
+        $first_version = File::factory()->create([
             'mime_type' => 'text/html',
         ]);
         
-        $middle_version = factory(\KBox\File::class)->create([
+        $middle_version = File::factory()->create([
             'mime_type' => 'text/html',
         ]);
 
@@ -128,13 +129,13 @@ class DocumentVersionsTest extends TestCase
     {
         Storage::fake('local');
         
-        $old_revision = factory(\KBox\File::class)->create();
+        $old_revision = File::factory()->create();
         
-        $mid_revision = factory(\KBox\File::class)->create([
+        $mid_revision = File::factory()->create([
             'revision_of' => $old_revision->id,
         ]);
         
-        $new_revision = factory(\KBox\File::class)->create([
+        $new_revision = File::factory()->create([
             'revision_of' => $mid_revision->id,
         ]);
 
@@ -149,15 +150,15 @@ class DocumentVersionsTest extends TestCase
         Storage::fake('local');
         $adapter = $this->withKlinkAdapterFake();
         
-        $document = factory(\KBox\DocumentDescriptor::class)->create();
+        $document = DocumentDescriptor::factory()->create();
         
         $last_version = $document->file;
 
-        $first_version = factory(\KBox\File::class)->create([
+        $first_version = File::factory()->create([
             'mime_type' => 'text/html',
         ]);
         
-        $middle_version = factory(\KBox\File::class)->create([
+        $middle_version = File::factory()->create([
             'mime_type' => 'text/html',
         ]);
 
@@ -184,15 +185,15 @@ class DocumentVersionsTest extends TestCase
         Storage::fake('local');
         $adapter = $this->withKlinkAdapterFake();
         
-        $document = factory(\KBox\DocumentDescriptor::class)->create();
+        $document = DocumentDescriptor::factory()->create();
         
         $last_version = $document->file;
 
-        $first_version = factory(\KBox\File::class)->create([
+        $first_version = File::factory()->create([
             'mime_type' => 'text/html',
         ]);
         
-        $middle_version = factory(\KBox\File::class)->create([
+        $middle_version = File::factory()->create([
             'mime_type' => 'text/html',
         ]);
 

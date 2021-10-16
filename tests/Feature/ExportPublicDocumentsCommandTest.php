@@ -24,8 +24,8 @@ class ExportPublicDocumentsCommandTest extends TestCase
 
         $user = User::factory()->create();
 
-        $privateDocuments = factory(DocumentDescriptor::class, 3)->create();
-        $publicDocuments = factory(DocumentDescriptor::class, 3)
+        $privateDocuments = DocumentDescriptor::factory()->count(3)->create();
+        $publicDocuments = DocumentDescriptor::factory()->count(3)
             ->create(['is_public' => true])
             ->each(function ($document) use ($user) {
                 $document->publications()->save(new Publication([
@@ -35,7 +35,7 @@ class ExportPublicDocumentsCommandTest extends TestCase
                 ]));
             });
             
-        $failedPublicDocuments = factory(DocumentDescriptor::class, 2)
+        $failedPublicDocuments = DocumentDescriptor::factory()->count(2)
             ->create(['is_public' => true])
             ->each(function ($document) use ($user) {
                 $document->publications()->save(new Publication([
@@ -100,8 +100,8 @@ class ExportPublicDocumentsCommandTest extends TestCase
         $project = Project::factory()->create(['user_id' => $user->id]);
         $project2 = Project::factory()->create(['user_id' => $user->id]);
 
-        $privateDocuments = factory(DocumentDescriptor::class, 3)->create();
-        $publicDocuments = factory(DocumentDescriptor::class, 3)
+        $privateDocuments = DocumentDescriptor::factory()->count(3)->create();
+        $publicDocuments = DocumentDescriptor::factory()->count(3)
             ->create(['is_public' => true])
             ->each(function ($document) use ($user, $project, $project2) {
                 $document->publications()->save(new Publication([
@@ -166,8 +166,8 @@ class ExportPublicDocumentsCommandTest extends TestCase
 
         $user = User::factory()->create();
 
-        $privateDocuments = factory(DocumentDescriptor::class, 3)->create();
-        $publicDocuments = factory(DocumentDescriptor::class, 3)
+        $privateDocuments = DocumentDescriptor::factory()->count(3)->create();
+        $publicDocuments = DocumentDescriptor::factory()->count(3)
             ->create(['is_public' => true])
             ->each(function ($document) use ($user) {
                 $document->publications()->save(new Publication([

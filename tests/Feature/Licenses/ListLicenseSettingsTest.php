@@ -4,12 +4,16 @@ namespace Tests\Feature\Licenses;
 
 use Tests\TestCase;
 use KBox\Capability;
+use KBox\User;
+use KBox\Project;
+use KBox\DocumentDescriptor;
+use KBox\File;
 
 class ListLicenseSettingsTest extends TestCase
 {
     public function test_available_licenses_are_presented()
     {
-        $user = factory(\KBox\User::class)->create();
+        $user = User::factory()->create();
 
         $user->addCapabilities(Capability::$ADMIN);
 

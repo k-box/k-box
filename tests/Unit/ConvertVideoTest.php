@@ -35,7 +35,7 @@ class ConvertVideoTest extends TestCase
 
         Storage::fake('local');
 
-        $descriptor = factory(\KBox\DocumentDescriptor::class)->create();
+        $descriptor = DocumentDescriptor::factory()->create();
 
         dispatch(new ConvertVideo($descriptor));
 

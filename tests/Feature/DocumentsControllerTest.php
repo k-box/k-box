@@ -9,7 +9,7 @@ use KBox\DuplicateDocument;
 use KBox\DocumentDescriptor;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
-
+use KBox\Project;
 use KBox\DocumentGroups;
 use KBox\Group;
 
@@ -28,9 +28,7 @@ class DocumentsControllerTest extends TestCase
 
         $adapter = $this->withKlinkAdapterFake();
 
-        $user = tap(factory(\KBox\User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
+        $user = User::factory()->admin()->create();
 
         $response = $this->actingAs($user)->json('POST', '/documents', [
             'document' => UploadedFile::fake()->create('document.pdf', 10)
@@ -76,9 +74,7 @@ class DocumentsControllerTest extends TestCase
 
         $adapter = $this->withKlinkAdapterFake();
 
-        $user = tap(factory(\KBox\User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$ADMIN);
-        });
+        $user = User::factory()->admin()->create();
 
         $collection = Group::factory()->create([
             'user_id' => $user->id,
@@ -159,9 +155,7 @@ class DocumentsControllerTest extends TestCase
 
         $adapter = $this->withKlinkAdapterFake();
 
-        $user = tap(factory(\KBox\User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
         
         $duplicates = $this->createDuplicates($user, 1, ['user_id' => $user->id]);
 
@@ -178,9 +172,7 @@ class DocumentsControllerTest extends TestCase
 
         $adapter = $this->withKlinkAdapterFake();
 
-        $user = tap(factory(\KBox\User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
         
         $duplicates = $this->createDuplicates($user);
 
@@ -197,9 +189,7 @@ class DocumentsControllerTest extends TestCase
 
         $adapter = $this->withKlinkAdapterFake();
 
-        $user = tap(factory(\KBox\User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
         
         $duplicate = $this->createDuplicates($user, 1, ['user_id' => $user->id])->first();
 
@@ -213,6 +203,6 @@ class DocumentsControllerTest extends TestCase
 
     private function createDuplicates($user, $count = 1, $options = [])
     {
-        return factory(DuplicateDocument::class, $count)->create($options);
+        return DuplicateDocument::factory()->count($count)->create($options);
     }
 }

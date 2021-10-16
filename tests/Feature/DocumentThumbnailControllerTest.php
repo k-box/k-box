@@ -7,7 +7,11 @@ use Carbon\Carbon;
 use Tests\TestCase;
 use KBox\Capability;
 use KBox\Publication;
+use KBox\Project;
+use KBox\User;
+use KBox\DocumentDescriptor;
 use Illuminate\Support\Facades\Storage;
+use KBox\File;
 
 class DocumentThumbnailControllerTest extends TestCase
 {
@@ -17,17 +21,15 @@ class DocumentThumbnailControllerTest extends TestCase
         
         $service = app('KBox\Documents\Services\DocumentsService');
 
-        $project = factory(\KBox\Project::class)->create();
+        $project = Project::factory()->create();
 
         $manager = $project->manager;
 
-        $user = tap(factory(\KBox\User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
         
         $project->users()->attach($user->id);
 
-        $document = factory(\KBox\DocumentDescriptor::class)->create(['owner_id' => $manager->id]);
+        $document = DocumentDescriptor::factory()->create(['owner_id' => $manager->id]);
         $service->addDocumentToGroup($manager, $document, $project->collection);
         
         $url = route('documents.thumbnail', ['uuid' => $document->uuid]);
@@ -45,15 +47,13 @@ class DocumentThumbnailControllerTest extends TestCase
         
         $service = app('KBox\Documents\Services\DocumentsService');
 
-        $project = factory(\KBox\Project::class)->create();
+        $project = Project::factory()->create();
 
         $manager = $project->manager;
 
-        $user = tap(factory(\KBox\User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
 
-        $document = factory(\KBox\DocumentDescriptor::class)->create(['owner_id' => $manager->id]);
+        $document = DocumentDescriptor::factory()->create(['owner_id' => $manager->id]);
         $service->addDocumentToGroup($manager, $document, $project->collection);
         
         $url = route('documents.thumbnail', ['uuid' => $document->uuid]);
@@ -65,14 +65,12 @@ class DocumentThumbnailControllerTest extends TestCase
 
     public function test_thumbnail_for_shared_document()
     {
-        $user = tap(factory(\KBox\User::class)->create(), function ($u) {
+        $user = tap(User::factory()->create(), function ($u) {
             $u->addCapabilities(Capability::$PROJECT_MANAGER_LIMITED);
         });
-        $user_accessing_the_document = tap(factory(\KBox\User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user_accessing_the_document = User::factory()->partner()->create();
 
-        $document = factory(\KBox\DocumentDescriptor::class)->create(['owner_id' => $user->id]);
+        $document = DocumentDescriptor::factory()->create(['owner_id' => $user->id]);
 
         $document->shares()->create([
             'user_id' => $user->id,
@@ -92,14 +90,10 @@ class DocumentThumbnailControllerTest extends TestCase
 
     public function test_public_document_can_be_thumbnailed_after_login()
     {
-        $user = tap(factory(\KBox\User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PROJECT_MANAGER);
-        });
-        $user_accessing_the_document = tap(factory(\KBox\User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->projectManager()->create();
+        $user_accessing_the_document = User::factory()->partner()->create();
 
-        $document = factory(\KBox\DocumentDescriptor::class)->create(['owner_id' => $user->id, 'is_public' => true]);
+        $document = DocumentDescriptor::factory()->create(['owner_id' => $user->id, 'is_public' => true]);
         
         Publication::unguard(); // as fields are not mass assignable
         
@@ -120,16 +114,12 @@ class DocumentThumbnailControllerTest extends TestCase
     {
         $this->withKlinkAdapterFake();
 
-        $user = tap(factory(\KBox\User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PROJECT_MANAGER);
-        });
-        $user_accessing_the_document = tap(factory(\KBox\User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->projectManager()->create();
+        $user_accessing_the_document = User::factory()->partner()->create();
 
         $service = app('KBox\Documents\Services\DocumentsService');
 
-        $document = factory(\KBox\DocumentDescriptor::class)->create(['owner_id' => $user->id, 'is_public' => true]);
+        $document = DocumentDescriptor::factory()->create(['owner_id' => $user->id, 'is_public' => true]);
 
         Publication::unguard(); // as fields are not mass assignable
         
@@ -137,7 +127,7 @@ class DocumentThumbnailControllerTest extends TestCase
             'published_at' => Carbon::now()
         ]);
 
-        $project1 = factory(\KBox\Project::class)->create(['user_id' => $user->id]);
+        $project1 = Project::factory()->create(['user_id' => $user->id]);
         $project1->users()->attach($user_accessing_the_document->id);
 
         $project1_child1 = $project1->collection;
@@ -154,14 +144,10 @@ class DocumentThumbnailControllerTest extends TestCase
     
     public function test_accessing_the_thumbnail_of_a_document_of_another_user_is_denied()
     {
-        $user = tap(factory(\KBox\User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PROJECT_MANAGER);
-        });
-        $user_accessing_the_document = tap(factory(\KBox\User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->projectManager()->create();
+        $user_accessing_the_document = User::factory()->partner()->create();
 
-        $document = factory(\KBox\DocumentDescriptor::class)->create(['owner_id' => $user->id]);
+        $document = DocumentDescriptor::factory()->create(['owner_id' => $user->id]);
 
         $url = route('documents.thumbnail', ['uuid' => $document->uuid]);
 
@@ -172,11 +158,9 @@ class DocumentThumbnailControllerTest extends TestCase
 
     public function test_user_can_retrieve_thumbnail_of_own_document()
     {
-        $user = tap(factory(\KBox\User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PROJECT_MANAGER);
-        });
+        $user = User::factory()->projectManager()->create();
 
-        $document = factory(\KBox\DocumentDescriptor::class)->create(['owner_id' => $user->id, 'is_public' => false]);
+        $document = DocumentDescriptor::factory()->create(['owner_id' => $user->id, 'is_public' => false]);
 
         $url = route('documents.thumbnail', ['uuid' => $document->uuid]);
 
@@ -191,18 +175,14 @@ class DocumentThumbnailControllerTest extends TestCase
     {
         $this->withKlinkAdapterFake();
 
-        $user = tap(factory(\KBox\User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PROJECT_MANAGER);
-        });
-        $user_accessing_the_document = tap(factory(\KBox\User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->projectManager()->create();
+        $user_accessing_the_document = User::factory()->partner()->create();
         
         $service = app('KBox\Documents\Services\DocumentsService');
 
-        $document = factory(\KBox\DocumentDescriptor::class)->create(['owner_id' => $user->id]);
+        $document = DocumentDescriptor::factory()->create(['owner_id' => $user->id]);
 
-        $project1 = factory(\KBox\Project::class)->create(['user_id' => $user->id]);
+        $project1 = Project::factory()->create(['user_id' => $user->id]);
         $project1->users()->attach($user_accessing_the_document->id);
 
         $project1_child1 = $project1->collection;
@@ -220,14 +200,10 @@ class DocumentThumbnailControllerTest extends TestCase
 
     public function test_redirect_to_login_if_document_not_accessible_and_user_not_authenticated()
     {
-        $user = tap(factory(\KBox\User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PROJECT_MANAGER);
-        });
-        $user_accessing_the_document = tap(factory(\KBox\User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->projectManager()->create();
+        $user_accessing_the_document = User::factory()->partner()->create();
 
-        $document = factory(\KBox\DocumentDescriptor::class)->create(['owner_id' => $user->id, 'is_public' => false]);
+        $document = DocumentDescriptor::factory()->create(['owner_id' => $user->id, 'is_public' => false]);
 
         $url = route('documents.thumbnail', ['uuid' => $document->uuid]);
 
@@ -238,14 +214,10 @@ class DocumentThumbnailControllerTest extends TestCase
 
     public function test_forbidden_return_if_the_document_is_not_accessible_and_the_user_is_logged_in()
     {
-        $user = tap(factory(\KBox\User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PROJECT_MANAGER);
-        });
-        $user_accessing_the_document = tap(factory(\KBox\User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->projectManager()->create();
+        $user_accessing_the_document = User::factory()->partner()->create();
 
-        $document = factory(\KBox\DocumentDescriptor::class)->create(['owner_id' => $user->id, 'is_public' => false]);
+        $document = DocumentDescriptor::factory()->create(['owner_id' => $user->id, 'is_public' => false]);
 
         $url = route('documents.thumbnail', ['uuid' => $document->uuid]);
 
@@ -256,11 +228,9 @@ class DocumentThumbnailControllerTest extends TestCase
 
     public function test_not_found_is_handled()
     {
-        $user = tap(factory(\KBox\User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PROJECT_MANAGER);
-        });
+        $user = User::factory()->projectManager()->create();
         
-        $document = factory(\KBox\DocumentDescriptor::class)->create(['owner_id' => $user->id, 'is_public' => false]);
+        $document = DocumentDescriptor::factory()->create(['owner_id' => $user->id, 'is_public' => false]);
         
         $document->file_id = null;
         $document->save();
@@ -276,11 +246,9 @@ class DocumentThumbnailControllerTest extends TestCase
     {
         Option::put(Option::PUBLIC_CORE_ENABLED, true);
 
-        $user = tap(factory(\KBox\User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PROJECT_MANAGER);
-        });
+        $user = User::factory()->projectManager()->create();
 
-        $document = factory(\KBox\DocumentDescriptor::class)->create(['owner_id' => $user->id, 'is_public' => true]);
+        $document = DocumentDescriptor::factory()->create(['owner_id' => $user->id, 'is_public' => true]);
         
         Publication::unguard(); // as fields are not mass assignable
         
@@ -301,11 +269,11 @@ class DocumentThumbnailControllerTest extends TestCase
         Storage::fake('local');
         $adapter = $this->withKlinkAdapterFake();
         
-        $document = factory(\KBox\DocumentDescriptor::class)->create();
+        $document = DocumentDescriptor::factory()->create();
         
         $last_version = $document->file;
 
-        $first_version = factory(\KBox\File::class)->create([
+        $first_version = File::factory()->create([
             'mime_type' => 'text/html',
         ]);
 
@@ -325,11 +293,11 @@ class DocumentThumbnailControllerTest extends TestCase
         Storage::fake('local');
         $adapter = $this->withKlinkAdapterFake();
         
-        $document = factory(\KBox\DocumentDescriptor::class)->create();
+        $document = DocumentDescriptor::factory()->create();
         
         $last_version = $document->file;
 
-        $first_version = factory(\KBox\File::class)->create([
+        $first_version = File::factory()->create([
             'mime_type' => 'text/html',
         ]);
 

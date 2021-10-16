@@ -7,6 +7,8 @@ use Tests\TestCase;
 use KBox\Publication;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
+use KBox\DocumentDescriptor;
+use KBox\User;
 
 class DocumentPublishingTest extends TestCase
 {
@@ -18,9 +20,9 @@ class DocumentPublishingTest extends TestCase
 
         $adapter = $this->withKlinkAdapterFake();
 
-        $user = factory(\KBox\User::class)->state('project-manager')->create();
+        $user = User::factory()->projectManager()->create();
 
-        $descriptor = factory(\KBox\DocumentDescriptor::class)->create();
+        $descriptor = DocumentDescriptor::factory()->create();
         $response = $this->actingAs($user)->json('POST', '/published-documents', [
             'document_id' => $descriptor->id
             ]);
@@ -51,9 +53,9 @@ class DocumentPublishingTest extends TestCase
         
         $adapter = $this->withKlinkAdapterFake();
 
-        $user = factory(\KBox\User::class)->state('project-manager')->create();
+        $user = User::factory()->projectManager()->create();
 
-        $descriptor = factory(\KBox\DocumentDescriptor::class)->create(['is_public' => true]);
+        $descriptor = DocumentDescriptor::factory()->create(['is_public' => true]);
 
         Publication::unguard(); // as fields are not mass assignable
         
@@ -94,9 +96,9 @@ class DocumentPublishingTest extends TestCase
         
         $adapter = $this->withKlinkAdapterFake();
 
-        $user = factory(\KBox\User::class)->create();
+        $user = User::factory()->create();
 
-        $descriptor = factory(\KBox\DocumentDescriptor::class)->create(['is_public' => true]);
+        $descriptor = DocumentDescriptor::factory()->create(['is_public' => true]);
 
         Publication::unguard(); // as fields are not mass assignable
         
@@ -135,7 +137,7 @@ class DocumentPublishingTest extends TestCase
      */
     public function test_not_valid_copyright_owner_is_reported($owner)
     {
-        $descriptor = factory(\KBox\DocumentDescriptor::class)->create([
+        $descriptor = DocumentDescriptor::factory()->create([
             'copyright_owner' => collect($owner),
         ]);
 
@@ -157,7 +159,7 @@ class DocumentPublishingTest extends TestCase
      */
     public function test_valid_copyright_owner_is_reported($owner)
     {
-        $descriptor = factory(\KBox\DocumentDescriptor::class)->create([
+        $descriptor = DocumentDescriptor::factory()->create([
             'copyright_owner' => collect($owner),
         ]);
 

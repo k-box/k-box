@@ -10,7 +10,7 @@ class KlinkDocumentTest extends TestCase
 {
     public function test_url_to_private_file_is_generated()
     {
-        $descriptor = factory(\KBox\DocumentDescriptor::class)->create();
+        $descriptor = DocumentDescriptor::factory()->create();
 
         $file = $descriptor->file;
         $document = new KlinkDocument($descriptor->toKlinkDocumentDescriptor(), 'file content');
@@ -27,7 +27,7 @@ class KlinkDocumentTest extends TestCase
             'app.internal_url' => 'http://docker.for.win.localhost:8000/'
         ]);
 
-        $descriptor = factory(\KBox\DocumentDescriptor::class)->create();
+        $descriptor = DocumentDescriptor::factory()->create();
 
         $file = $descriptor->file;
         $document = new KlinkDocument($descriptor->toKlinkDocumentDescriptor(), 'file content');
@@ -40,7 +40,7 @@ class KlinkDocumentTest extends TestCase
     
     public function test_url_to_public_file_is_generated()
     {
-        $descriptor = factory(\KBox\DocumentDescriptor::class)->create([
+        $descriptor = DocumentDescriptor::factory()->create([
             'document_uri' => 'https://some.location/1'
         ]);
 
@@ -55,7 +55,7 @@ class KlinkDocumentTest extends TestCase
     
     public function test_document_data_returns_null_for_supported_data()
     {
-        $descriptor = factory(\KBox\DocumentDescriptor::class)->create([
+        $descriptor = DocumentDescriptor::factory()->create([
             'mime_type' => 'application/pdf'
         ]);
         $file = $descriptor->file;
@@ -79,7 +79,7 @@ class KlinkDocumentTest extends TestCase
         
         $hash = hash_file('sha512', $storage->path($filename));
 
-        $file = factory(\KBox\File::class)->create([
+        $file = File::factory()->create([
             'name' => $filename,
             'hash' => $hash,
             'path' => $filename,
@@ -87,7 +87,7 @@ class KlinkDocumentTest extends TestCase
             'size' => $storage->size($filename),
         ]);
         
-        $descriptor = factory(\KBox\DocumentDescriptor::class)->create([
+        $descriptor = DocumentDescriptor::factory()->create([
             'hash' => $hash,
             'mime_type' => 'image/png',
             'file_id' => $file->id,
@@ -109,7 +109,7 @@ class KlinkDocumentTest extends TestCase
 
         $hash = hash_file('sha512', $storage->path($filename));
         
-        $file = factory(\KBox\File::class)->create([
+        $file = File::factory()->create([
             'name' => $filename,
             'hash' => $hash,
             'path' => $filename,
@@ -117,7 +117,7 @@ class KlinkDocumentTest extends TestCase
             'size' => $storage->size($filename),
         ]);
         
-        $descriptor = factory(\KBox\DocumentDescriptor::class)->create([
+        $descriptor = DocumentDescriptor::factory()->create([
             'hash' => $hash,
             'mime_type' => 'text/plain',
             'file_id' => $file->id,

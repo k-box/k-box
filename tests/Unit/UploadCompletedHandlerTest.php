@@ -15,6 +15,8 @@ use KBox\Listeners\UploadCompletedHandler;
 use Illuminate\Support\Facades\Bus;
 use KBox\DocumentsElaboration\Facades\DocumentElaboration;
 use KBox\Jobs\CalculateUserUsedQuota;
+use KBox\Project;
+use KBox\User;
 
 class UploadCompletedHandlerTest extends TestCase
 {
@@ -91,17 +93,15 @@ class UploadCompletedHandlerTest extends TestCase
         
         $service = app('KBox\Documents\Services\DocumentsService');
         
-        $user = tap(factory(\KBox\User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
 
-        $project = tap(factory(\KBox\Project::class)->create(), function ($p) use ($user) {
+        $project = tap(Project::factory()->create(), function ($p) use ($user) {
             $p->users()->attach($user->id);
         });
 
         $manager = $project->manager;
 
-        $descriptor = factory(\KBox\DocumentDescriptor::class)->create([
+        $descriptor = DocumentDescriptor::factory()->create([
             'owner_id' => $manager->id
         ]);
         $service->addDocumentToGroup($manager, $descriptor, $project->collection);
@@ -134,19 +134,15 @@ class UploadCompletedHandlerTest extends TestCase
         
         $service = app('KBox\Documents\Services\DocumentsService');
         
-        $user = tap(factory(\KBox\User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PROJECT_MANAGER);
-        });
+        $user = User::factory()->projectManager()->create();
         
-        $userForDuplicate = tap(factory(\KBox\User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PROJECT_MANAGER);
-        });
+        $userForDuplicate = User::factory()->projectManager()->create();
 
-        $document = factory(\KBox\DocumentDescriptor::class)->create(['owner_id' => $user->id, 'is_public' => false]);
+        $document = DocumentDescriptor::factory()->create(['owner_id' => $user->id, 'is_public' => false]);
 
         $last_version = $document->file;
 
-        $first_version = factory(\KBox\File::class)->create([
+        $first_version = File::factory()->create([
             'mime_type' => 'text/html',
             'hash' => 'new_hash'
         ]);
@@ -183,19 +179,15 @@ class UploadCompletedHandlerTest extends TestCase
         
         $service = app('KBox\Documents\Services\DocumentsService');
         
-        $user = tap(factory(\KBox\User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PROJECT_MANAGER);
-        });
+        $user = User::factory()->projectManager()->create();
         
-        $userForDuplicate = tap(factory(\KBox\User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PROJECT_MANAGER);
-        });
+        $userForDuplicate = User::factory()->projectManager()->create();
 
-        $document = factory(\KBox\DocumentDescriptor::class)->create(['owner_id' => $user->id, 'is_public' => false]);
+        $document = DocumentDescriptor::factory()->create(['owner_id' => $user->id, 'is_public' => false]);
 
         $last_version = $document->file;
 
-        $first_version = factory(\KBox\File::class)->create([
+        $first_version = File::factory()->create([
             'mime_type' => 'text/html',
             'hash' => 'new_hash'
         ]);

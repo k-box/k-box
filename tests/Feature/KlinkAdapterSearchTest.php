@@ -11,6 +11,9 @@ use Klink\DmsAdapter\KlinkSearchResultItem;
 use Klink\DmsAdapter\KlinkFacets;
 use Klink\DmsAdapter\KlinkFilters;
 use KSearchClient\Model\Search\AggregationResult;
+use KBox\User;
+use KBox\Project;
+use KBox\DocumentDescriptor;
 
 class KlinkAdapterSearchTest extends TestCase
 {
@@ -33,7 +36,7 @@ class KlinkAdapterSearchTest extends TestCase
 
         $this->indexedDataUUIDs = collect();
 
-        $descriptors = factory(\KBox\DocumentDescriptor::class, 5)->create();
+        $descriptors = DocumentDescriptor::factory()->count(5)->create();
         
         $descriptors->each(function ($descriptor) {
             $response = $this->adapter->addDocument(

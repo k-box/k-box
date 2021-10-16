@@ -9,6 +9,9 @@ use KBox\Capability;
 use Klink\DmsAdapter\KlinkSearchRequest;
 use Klink\DmsAdapter\KlinkSearchResults;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
+use KBox\Project;
+use KBox\DocumentDescriptor;
+use KBox\File;
 
 class RecentDocumentsTest extends TestCase
 {
@@ -47,10 +50,10 @@ class RecentDocumentsTest extends TestCase
     {
         $adapter = $this->withKlinkAdapterFake();
         
-        $user_sender = factory(\KBox\User::class)->partner()->create();
-        $user_receiver = factory(\KBox\User::class)->partner()->create();
+        $user_sender = User::factory()->partner()->create();
+        $user_receiver = User::factory()->partner()->create();
 
-        $descriptor = factory(\KBox\DocumentDescriptor::class)->create();
+        $descriptor = DocumentDescriptor::factory()->create();
 
         $share = $descriptor->shares()->create([
             'user_id' => $user_sender->id,
@@ -244,7 +247,7 @@ class RecentDocumentsTest extends TestCase
         $doc = null;
         
         // create a project using $user2, add 1 document in the project
-        $project1 = factory(\KBox\Project::class)->create(['user_id' => $user2->id]);
+        $project1 = Project::factory()->create(['user_id' => $user2->id]);
         $project1->users()->attach($user->id);
         $doc = $this->createDocument($user2);
         $service = app('KBox\Documents\Services\DocumentsService');
@@ -293,7 +296,7 @@ class RecentDocumentsTest extends TestCase
 
     public function test_recent_support_search_parameters()
     {
-        $docs = factory(\KBox\DocumentDescriptor::class, 10)->create();
+        $docs = DocumentDescriptor::factory()->count(10)->create();
 
         $adapter = $this->withKlinkAdapterFake();
 
@@ -329,9 +332,9 @@ class RecentDocumentsTest extends TestCase
     {
         $adapter = $this->withKlinkAdapterFake();
 
-        $user = factory(\KBox\User::class)->partner()->create();
+        $user = User::factory()->partner()->create();
 
-        $descriptor = factory(\KBox\DocumentDescriptor::class)->create([
+        $descriptor = DocumentDescriptor::factory()->create([
             'created_at' => Carbon::now()->subDays(2),
             'updated_at' => Carbon::now()->subDays(2),
             'owner_id' => $user->id
@@ -339,7 +342,7 @@ class RecentDocumentsTest extends TestCase
 
         $current_file_version = $descriptor->file;
 
-        $new_file_version = factory(\KBox\File::class)->create([
+        $new_file_version = File::factory()->create([
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
             'revision_of' => $current_file_version->id,
@@ -371,16 +374,16 @@ class RecentDocumentsTest extends TestCase
     {
         $adapter = $this->withKlinkAdapterFake();
 
-        $manager = tap(factory(\KBox\User::class)->create())->addCapabilities(Capability::$PROJECT_MANAGER_LIMITED);
-        $user = tap(factory(\KBox\User::class)->create())->addCapabilities(Capability::$PARTNER);
+        $manager = tap(User::factory()->create())->addCapabilities(Capability::$PROJECT_MANAGER_LIMITED);
+        $user = tap(User::factory()->create())->addCapabilities(Capability::$PARTNER);
 
-        $project = factory(\KBox\Project::class)->create([
+        $project = Project::factory()->create([
             'user_id' => $manager->id
         ]);
 
         $project->users()->attach($user->id);
 
-        $descriptor = factory(\KBox\DocumentDescriptor::class)->create([
+        $descriptor = DocumentDescriptor::factory()->create([
             'created_at' => Carbon::now()->subDays(2),
             'updated_at' => Carbon::now()->subDays(2),
             'owner_id' => $manager->id
@@ -390,7 +393,7 @@ class RecentDocumentsTest extends TestCase
 
         $current_file_version = $descriptor->file;
 
-        $new_file_version = factory(\KBox\File::class)->create([
+        $new_file_version = File::factory()->create([
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
             'revision_of' => $current_file_version->id,
@@ -487,12 +490,12 @@ class RecentDocumentsTest extends TestCase
 
     private function createUser($capabilities, $userParams = [])
     {
-        return tap(factory(\KBox\User::class)->create($userParams))->addCapabilities($capabilities);
+        return tap(User::factory()->create($userParams))->addCapabilities($capabilities);
     }
 
     protected function createDocument(User $user, $visibility = 'private')
     {
-        return factory(\KBox\DocumentDescriptor::class)->create([
+        return DocumentDescriptor::factory()->create([
             'owner_id' => $user->id,
             'is_public' => $visibility === 'private' ? false : true,
         ]);
@@ -500,7 +503,7 @@ class RecentDocumentsTest extends TestCase
 
     protected function createRecentDocuments($count, User $user, Carbon $date = null, $documentParams = [])
     {
-        return factory(\KBox\DocumentDescriptor::class, $count)->create(array_merge([
+        return DocumentDescriptor::factory()->count($count)->create(array_merge([
             'owner_id' => $user->id,
             'created_at' => $date ?? Carbon::now(),
             'updated_at' => $date ?? Carbon::now(),
@@ -509,7 +512,7 @@ class RecentDocumentsTest extends TestCase
 
     protected function createRecentDocument(User $user, Carbon $date = null, $documentParams = [])
     {
-        return factory(\KBox\DocumentDescriptor::class)->create(array_merge([
+        return DocumentDescriptor::factory()->create(array_merge([
             'owner_id' => $user->id,
             'created_at' => $date ?? Carbon::now(),
             'updated_at' => $date ?? Carbon::now(),
@@ -522,7 +525,7 @@ class RecentDocumentsTest extends TestCase
         $member_user = $this->createUser(Capability::$PARTNER);
         $manager = $this->createUser(Capability::$PROJECT_MANAGER_LIMITED);
 
-        $project = factory(\KBox\Project::class)->create([
+        $project = Project::factory()->create([
             'user_id' => $manager->id
         ]);
 

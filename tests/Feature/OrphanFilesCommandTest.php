@@ -33,7 +33,7 @@ class OrphanFilesCommandTest extends TestCase
         $user = User::factory()->admin()->create();
 
         // generate 3 document descriptors with file
-        $docs = factory(DocumentDescriptor::class, 3)->create();
+        $docs = DocumentDescriptor::factory()->count(3)->create();
 
         // add a file revision to the last generated document
         $document3 = $docs->last();

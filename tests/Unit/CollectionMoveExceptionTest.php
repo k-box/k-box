@@ -38,7 +38,7 @@ class CollectionMoveExceptionTest extends TestCase
     public function test_multiple_cause_collection_is_reported()
     {
         $collection = Group::factory()->make(['user_id' => 10]);
-        $causes = factory(\KBox\Group::class, 3)->make(['user_id' => 11]);
+        $causes = Group::factory()->count(3)->make(['user_id' => 11]);
 
         $exception = new CollectionMoveException($collection, CollectionMoveException::REASON_NOT_ALL_SAME_USER, $causes);
 

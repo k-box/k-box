@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use KBox\User;
+use KBox\File;
 use KBox\Project;
 use Carbon\Carbon;
 use Tests\TestCase;
@@ -80,7 +81,7 @@ class DocumentDescriptorTest extends TestCase
     {
         $mock = $this->withKlinkAdapterMock();
         
-        $file = factory(\KBox\File::class)->make();
+        $file = File::factory()->make();
         
         $service = app('KBox\Documents\Services\DocumentsService');
 

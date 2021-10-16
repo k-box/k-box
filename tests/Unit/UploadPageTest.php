@@ -12,7 +12,7 @@ class UploadPageTest extends TestCase
 {
     public function test_upload_page_shows_private_target()
     {
-        $user = factory(\KBox\User::class)->partner()->create();
+        $user = User::factory()->partner()->create();
 
         $response = $this->actingAs($user)->get('/uploads');
 
@@ -26,10 +26,10 @@ class UploadPageTest extends TestCase
     
     public function test_upload_page_shows_project_target()
     {
-        $user = factory(\KBox\User::class)->create();
+        $user = User::factory()->create();
         $user->addCapabilities(Capability::$ADMIN);
 
-        $project = factory(\KBox\Project::class)->create();
+        $project = Project::factory()->create();
         
         $collection_id = $project->collection->id;
 
@@ -45,10 +45,10 @@ class UploadPageTest extends TestCase
     
     public function test_upload_page_shows_project_collection_target()
     {
-        $user = factory(\KBox\User::class)->create();
+        $user = User::factory()->create();
         $user->addCapabilities(Capability::$ADMIN);
 
-        $project = factory(\KBox\Project::class)->create();
+        $project = Project::factory()->create();
 
         $service = app('KBox\Documents\Services\DocumentsService');
         
@@ -74,7 +74,7 @@ class UploadPageTest extends TestCase
     
     public function test_upload_page_shows_collection_target()
     {
-        $user = factory(\KBox\User::class)->create();
+        $user = User::factory()->create();
 
         $user->addCapabilities(Capability::$ADMIN);
 
@@ -101,9 +101,9 @@ class UploadPageTest extends TestCase
     
     public function test_upload_page_shows_target_error()
     {
-        $user = factory(\KBox\User::class)->partner()->create();
+        $user = User::factory()->partner()->create();
 
-        $project = factory(\KBox\Project::class)->create();
+        $project = Project::factory()->create();
         
         $collection_id = $project->collection->id;
 

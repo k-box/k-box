@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use KBox\DocumentDescriptor;
 use Tests\TestCase;
 use Tests\Concerns\ClearDatabase;
 
@@ -13,7 +14,7 @@ class KlinkApiControllerTest extends TestCase
     {
         $this->withKlinkAdapterFake();
 
-        $document = factory(\KBox\DocumentDescriptor::class)->create();
+        $document = DocumentDescriptor::factory()->create();
         
         $url = route('klink_api', ['id' => $document->local_document_id, 'action' => 'document']);
 
@@ -26,7 +27,7 @@ class KlinkApiControllerTest extends TestCase
     {
         $this->withKlinkAdapterFake();
 
-        $document = factory(\KBox\DocumentDescriptor::class)->create();
+        $document = DocumentDescriptor::factory()->create();
 
         $url = route('klink_api', ['id' => $document->local_document_id, 'action' => 'download']);
 
@@ -38,7 +39,7 @@ class KlinkApiControllerTest extends TestCase
     {
         $this->withKlinkAdapterFake();
 
-        $document = factory(\KBox\DocumentDescriptor::class)->create();
+        $document = DocumentDescriptor::factory()->create();
 
         $url = route('klink_api', ['id' => $document->local_document_id, 'action' => 'thumbnail']);
 

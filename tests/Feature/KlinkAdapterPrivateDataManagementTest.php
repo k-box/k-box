@@ -7,6 +7,9 @@ use Klink\DmsAdapter\KlinkDocument;
 use Klink\DmsAdapter\KlinkSearchResultItem;
 use Klink\DmsAdapter\KlinkDocumentDescriptor;
 use Klink\DmsAdapter\Exceptions\KlinkException;
+use KBox\User;
+use KBox\Project;
+use KBox\DocumentDescriptor;
 
 class KlinkAdapterPrivateDataManagementTest extends TestCase
 {
@@ -23,7 +26,7 @@ class KlinkAdapterPrivateDataManagementTest extends TestCase
 
     public function test_document_descriptor_is_added()
     {
-        $descriptor = factory(\KBox\DocumentDescriptor::class)->create();
+        $descriptor = DocumentDescriptor::factory()->create();
 
         $adapter = app('klinkadapter');
 
@@ -69,7 +72,7 @@ class KlinkAdapterPrivateDataManagementTest extends TestCase
 
     public function test_add_document_report_indexing_timeout()
     {
-        $descriptor = factory(\KBox\DocumentDescriptor::class)->create([
+        $descriptor = DocumentDescriptor::factory()->create([
             'mime_type' => 'application/pdf'
         ]);
             

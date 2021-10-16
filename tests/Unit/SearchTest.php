@@ -28,7 +28,7 @@ class SearchTest extends TestCase
         
         $user = User::factory()->admin()->create();
         
-        $starred = factory(DocumentDescriptor::class, 3)
+        $starred = DocumentDescriptor::factory()->count(3)
             ->create()
             ->each(function ($doc) use ($user) {
                 $doc->stars()->create(['user_id' => $user->id]);
@@ -108,7 +108,7 @@ class SearchTest extends TestCase
             return FakeKlinkAdapter::generateFacetsResponse($facets, $visibility, $term);
         });
 
-        $docs = factory(DocumentDescriptor::class, $count)->create();
+        $docs = DocumentDescriptor::factory()->count($count)->create();
 
         $interested_in = $docs->last();
         

@@ -17,7 +17,7 @@ class DmsReindexCommandTest extends TestCase
 
     private function createDocuments($quantity = 5)
     {
-        $docs = factory(DocumentDescriptor::class, $quantity)->create([
+        $docs = DocumentDescriptor::factory()->count($quantity)->create([
             'is_public' => false,
             'language' => null
         ]);

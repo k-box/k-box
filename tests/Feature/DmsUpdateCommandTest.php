@@ -45,8 +45,8 @@ class DmsUpdateCommandTest extends TestCase
     {
         $this->withKlinkAdapterMock();
 
-        $docs = factory(\KBox\DocumentDescriptor::class, 11)->create(['uuid' => "00000000-0000-0000-0000-000000000000"]);
-        $v3_docs = factory(\KBox\DocumentDescriptor::class)->create(['uuid' => "39613931-3436-3066-2d31-3533322d3466"]);
+        $docs = DocumentDescriptor::factory()->count(11)->create(['uuid' => "00000000-0000-0000-0000-000000000000"]);
+        $v3_docs = DocumentDescriptor::factory()->create(['uuid' => "39613931-3436-3066-2d31-3533322d3466"]);
 
         $doc_ids = $docs->pluck('id')->toArray();
         
@@ -82,7 +82,7 @@ class DmsUpdateCommandTest extends TestCase
     public function test_old_publications_are_migrated_to_the_publications_table()
     {
         Publication::all()->each->delete();
-        $docs = factory(\KBox\DocumentDescriptor::class, 3)->create(['is_public' => true]);
+        $docs = DocumentDescriptor::factory()->count(3)->create(['is_public' => true]);
         $ids = $docs->pluck('id');
 
         $command = new DmsUpdateCommand();
@@ -104,8 +104,8 @@ class DmsUpdateCommandTest extends TestCase
     {
         $this->withKlinkAdapterMock();
 
-        $files = factory(\KBox\File::class, 11)->create(['uuid' => "00000000-0000-0000-0000-000000000000"]);
-        $v3_files = factory(\KBox\File::class)->create(['uuid' => "39613931-3436-3066-2d31-3533322d3466"]);
+        $files = File::factory()->count(11)->create(['uuid' => "00000000-0000-0000-0000-000000000000"]);
+        $v3_files = File::factory()->create(['uuid' => "39613931-3436-3066-2d31-3533322d3466"]);
 
         $file_ids = $files->pluck('id')->toArray();
         
@@ -224,7 +224,7 @@ class DmsUpdateCommandTest extends TestCase
     {
         $this->withKlinkAdapterMock();
 
-        $groups = factory(Project::class, 11)->create(['uuid' => "00000000-0000-0000-0000-000000000000"]);
+        $groups = Project::factory()->count(11)->create(['uuid' => "00000000-0000-0000-0000-000000000000"]);
         $v3_groups = Project::factory()->create(['uuid' => "39613931-3436-3066-2d31-3533322d3466"]);
 
         $user_ids = $groups->pluck('id')->toArray();
@@ -276,7 +276,7 @@ class DmsUpdateCommandTest extends TestCase
             file_get_contents(base_path('tests/data/video.mp4'))
         );
         
-        $file = factory(\KBox\File::class)->create([
+        $file = File::factory()->create([
             'path' => $path,
             'mime_type' => 'video/mp4'
         ]);
@@ -310,7 +310,7 @@ class DmsUpdateCommandTest extends TestCase
             file_get_contents(base_path('tests/data/video.mp4'))
         );
         
-        $file = factory(\KBox\File::class)->create([
+        $file = File::factory()->create([
             'path' => Storage::disk('local')->path($path),
             'mime_type' => 'video/mp4'
         ]);
@@ -341,7 +341,7 @@ class DmsUpdateCommandTest extends TestCase
         
         Storage::disk('local')->makeDirectory("2017/11/$uuid/");
         
-        $file = factory(\KBox\File::class)->create([
+        $file = File::factory()->create([
             'path' => Storage::disk('local')->path($path),
             'mime_type' => 'video/mp4',
             'uuid' => $uuid

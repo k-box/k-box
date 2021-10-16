@@ -7,6 +7,10 @@ use Carbon\Carbon;
 use Tests\TestCase;
 use KBox\Capability;
 use KBox\Publication;
+use KBox\User;
+use KBox\Project;
+use KBox\DocumentDescriptor;
+use KBox\File;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class DocumentPreviewControllerTest extends TestCase
@@ -17,17 +21,15 @@ class DocumentPreviewControllerTest extends TestCase
         
         $service = app('KBox\Documents\Services\DocumentsService');
 
-        $project = factory(\KBox\Project::class)->create();
+        $project = Project::factory()->create();
 
         $manager = $project->manager;
 
-        $user = tap(factory(\KBox\User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
         
         $project->users()->attach($user->id);
 
-        $document = factory(\KBox\DocumentDescriptor::class)->create(['owner_id' => $manager->id]);
+        $document = DocumentDescriptor::factory()->create(['owner_id' => $manager->id]);
         $service->addDocumentToGroup($manager, $document, $project->collection);
         
         $url = route('documents.preview', ['uuid' => $document->uuid]);
@@ -45,15 +47,13 @@ class DocumentPreviewControllerTest extends TestCase
         
         $service = app('KBox\Documents\Services\DocumentsService');
 
-        $project = factory(\KBox\Project::class)->create();
+        $project = Project::factory()->create();
 
         $manager = $project->manager;
 
-        $user = tap(factory(\KBox\User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->partner()->create();
 
-        $document = factory(\KBox\DocumentDescriptor::class)->create(['owner_id' => $manager->id]);
+        $document = DocumentDescriptor::factory()->create(['owner_id' => $manager->id]);
         $service->addDocumentToGroup($manager, $document, $project->collection);
         
         $url = route('documents.preview', ['uuid' => $document->uuid]);
@@ -65,14 +65,12 @@ class DocumentPreviewControllerTest extends TestCase
 
     public function test_preview_is_loaded_for_shared_document()
     {
-        $user = tap(factory(\KBox\User::class)->create(), function ($u) {
+        $user = tap(User::factory()->create(), function ($u) {
             $u->addCapabilities(Capability::$PROJECT_MANAGER_LIMITED);
         });
-        $user_accessing_the_document = tap(factory(\KBox\User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user_accessing_the_document = User::factory()->partner()->create();
 
-        $document = factory(\KBox\DocumentDescriptor::class)->create(['owner_id' => $user->id]);
+        $document = DocumentDescriptor::factory()->create(['owner_id' => $user->id]);
 
         $document->shares()->create([
             'user_id' => $user->id,
@@ -90,14 +88,10 @@ class DocumentPreviewControllerTest extends TestCase
 
     public function test_public_document_can_be_previewed_after_login()
     {
-        $user = tap(factory(\KBox\User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PROJECT_MANAGER);
-        });
-        $user_accessing_the_document = tap(factory(\KBox\User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->projectManager()->create();
+        $user_accessing_the_document = User::factory()->partner()->create();
 
-        $document = factory(\KBox\DocumentDescriptor::class)->create(['owner_id' => $user->id, 'is_public' => true]);
+        $document = DocumentDescriptor::factory()->create(['owner_id' => $user->id, 'is_public' => true]);
         
         Publication::unguard(); // as fields are not mass assignable
         
@@ -116,16 +110,12 @@ class DocumentPreviewControllerTest extends TestCase
     {
         $this->withKlinkAdapterFake();
 
-        $user = tap(factory(\KBox\User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PROJECT_MANAGER);
-        });
-        $user_accessing_the_document = tap(factory(\KBox\User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->projectManager()->create();
+        $user_accessing_the_document = User::factory()->partner()->create();
 
         $service = app('KBox\Documents\Services\DocumentsService');
 
-        $document = factory(\KBox\DocumentDescriptor::class)->create(['owner_id' => $user->id, 'is_public' => true]);
+        $document = DocumentDescriptor::factory()->create(['owner_id' => $user->id, 'is_public' => true]);
 
         Publication::unguard(); // as fields are not mass assignable
         
@@ -133,7 +123,7 @@ class DocumentPreviewControllerTest extends TestCase
             'published_at' => Carbon::now()
         ]);
 
-        $project1 = factory(\KBox\Project::class)->create(['user_id' => $user->id]);
+        $project1 = Project::factory()->create(['user_id' => $user->id]);
         $project1->users()->attach($user_accessing_the_document->id);
 
         $project1_child1 = $project1->collection;
@@ -148,14 +138,10 @@ class DocumentPreviewControllerTest extends TestCase
     
     public function test_document_cannot_be_previewed_if_personal_of_another_user()
     {
-        $user = tap(factory(\KBox\User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PROJECT_MANAGER);
-        });
-        $user_accessing_the_document = tap(factory(\KBox\User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->projectManager()->create();
+        $user_accessing_the_document = User::factory()->partner()->create();
 
-        $document = factory(\KBox\DocumentDescriptor::class)->create(['owner_id' => $user->id]);
+        $document = DocumentDescriptor::factory()->create(['owner_id' => $user->id]);
 
         $url = route('documents.preview', ['uuid' => $document->uuid]);
 
@@ -166,11 +152,9 @@ class DocumentPreviewControllerTest extends TestCase
 
     public function test_user_can_preview_own_document()
     {
-        $user = tap(factory(\KBox\User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PROJECT_MANAGER);
-        });
+        $user = User::factory()->projectManager()->create();
 
-        $document = factory(\KBox\DocumentDescriptor::class)->create(['owner_id' => $user->id, 'is_public' => false]);
+        $document = DocumentDescriptor::factory()->create(['owner_id' => $user->id, 'is_public' => false]);
 
         $url = route('documents.preview', ['uuid' => $document->uuid]);
 
@@ -183,18 +167,14 @@ class DocumentPreviewControllerTest extends TestCase
     {
         $this->withKlinkAdapterFake();
 
-        $user = tap(factory(\KBox\User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PROJECT_MANAGER);
-        });
-        $user_accessing_the_document = tap(factory(\KBox\User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->projectManager()->create();
+        $user_accessing_the_document = User::factory()->partner()->create();
         
         $service = app('KBox\Documents\Services\DocumentsService');
 
-        $document = factory(\KBox\DocumentDescriptor::class)->create(['owner_id' => $user->id]);
+        $document = DocumentDescriptor::factory()->create(['owner_id' => $user->id]);
 
-        $project1 = factory(\KBox\Project::class)->create(['user_id' => $user->id]);
+        $project1 = Project::factory()->create(['user_id' => $user->id]);
         $project1->users()->attach($user_accessing_the_document->id);
 
         $project1_child1 = $project1->collection;
@@ -213,14 +193,10 @@ class DocumentPreviewControllerTest extends TestCase
 
     public function test_redirect_to_login_if_document_not_accessible_and_user_not_authenticated()
     {
-        $user = tap(factory(\KBox\User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PROJECT_MANAGER);
-        });
-        $user_accessing_the_document = tap(factory(\KBox\User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->projectManager()->create();
+        $user_accessing_the_document = User::factory()->partner()->create();
 
-        $document = factory(\KBox\DocumentDescriptor::class)->create(['owner_id' => $user->id, 'is_public' => false]);
+        $document = DocumentDescriptor::factory()->create(['owner_id' => $user->id, 'is_public' => false]);
 
         $url = route('documents.preview', ['uuid' => $document->uuid]);
 
@@ -232,14 +208,10 @@ class DocumentPreviewControllerTest extends TestCase
 
     public function test_forbidden_return_if_the_document_is_not_accessible_and_the_user_is_logged_in()
     {
-        $user = tap(factory(\KBox\User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PROJECT_MANAGER);
-        });
-        $user_accessing_the_document = tap(factory(\KBox\User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->projectManager()->create();
+        $user_accessing_the_document = User::factory()->partner()->create();
 
-        $document = factory(\KBox\DocumentDescriptor::class)->create(['owner_id' => $user->id, 'is_public' => false]);
+        $document = DocumentDescriptor::factory()->create(['owner_id' => $user->id, 'is_public' => false]);
 
         $url = route('documents.preview', ['uuid' => $document->uuid]);
 
@@ -250,11 +222,9 @@ class DocumentPreviewControllerTest extends TestCase
 
     public function test_not_found_page_is_returned_if_file_is_trashed()
     {
-        $user = tap(factory(\KBox\User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PROJECT_MANAGER);
-        });
+        $user = User::factory()->projectManager()->create();
         
-        $document = factory(\KBox\DocumentDescriptor::class)->create(['owner_id' => $user->id, 'is_public' => false]);
+        $document = DocumentDescriptor::factory()->create(['owner_id' => $user->id, 'is_public' => false]);
         
         $document->file_id = null;
         $document->save();
@@ -270,11 +240,9 @@ class DocumentPreviewControllerTest extends TestCase
     {
         Option::put(Option::PUBLIC_CORE_ENABLED, true);
 
-        $user = tap(factory(\KBox\User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PROJECT_MANAGER);
-        });
+        $user = User::factory()->projectManager()->create();
 
-        $document = factory(\KBox\DocumentDescriptor::class)->create(['owner_id' => $user->id, 'is_public' => true]);
+        $document = DocumentDescriptor::factory()->create(['owner_id' => $user->id, 'is_public' => true]);
         
         Publication::unguard(); // as fields are not mass assignable
         
@@ -292,15 +260,13 @@ class DocumentPreviewControllerTest extends TestCase
 
     public function test_preview_specific_file_version_is_possible()
     {
-        $user = tap(factory(\KBox\User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PROJECT_MANAGER);
-        });
+        $user = User::factory()->projectManager()->create();
 
-        $document = factory(\KBox\DocumentDescriptor::class)->create(['owner_id' => $user->id, 'is_public' => false]);
+        $document = DocumentDescriptor::factory()->create(['owner_id' => $user->id, 'is_public' => false]);
 
         $last_version = $document->file;
 
-        $first_version = factory(\KBox\File::class)->create([
+        $first_version = File::factory()->create([
             'mime_type' => 'text/html',
         ]);
 
@@ -317,11 +283,9 @@ class DocumentPreviewControllerTest extends TestCase
 
     public function test_edit_button_present_on_public_document_if_user_can_edit()
     {
-        $user = tap(factory(\KBox\User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PROJECT_MANAGER);
-        });
+        $user = User::factory()->projectManager()->create();
 
-        $document = factory(\KBox\DocumentDescriptor::class)->create(['owner_id' => $user->id, 'is_public' => true]);
+        $document = DocumentDescriptor::factory()->create(['owner_id' => $user->id, 'is_public' => true]);
         
         Publication::unguard(); // as fields are not mass assignable
         
@@ -339,14 +303,10 @@ class DocumentPreviewControllerTest extends TestCase
 
     public function test_edit_button_not_present_on_public_document_if_user_cannot_edit()
     {
-        $user = tap(factory(\KBox\User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PROJECT_MANAGER);
-        });
-        $user_accessing_the_document = tap(factory(\KBox\User::class)->create(), function ($u) {
-            $u->addCapabilities(Capability::$PARTNER);
-        });
+        $user = User::factory()->projectManager()->create();
+        $user_accessing_the_document = User::factory()->partner()->create();
 
-        $document = factory(\KBox\DocumentDescriptor::class)->create(['owner_id' => $user->id, 'is_public' => true]);
+        $document = DocumentDescriptor::factory()->create(['owner_id' => $user->id, 'is_public' => true]);
         
         Publication::unguard(); // as fields are not mass assignable
         
