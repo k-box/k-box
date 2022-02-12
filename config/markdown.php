@@ -144,7 +144,7 @@ return [
     |
     */
 
-    'allow_unsafe_links' => true,
+    'allow_unsafe_links' => false,
 
     /*
      * Configuration related to ExternalLinkExtension
