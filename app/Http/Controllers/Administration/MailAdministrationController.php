@@ -4,7 +4,7 @@ namespace KBox\Http\Controllers\Administration;
 
 use KBox\Http\Controllers\Controller;
 use KBox\Option;
-use Config;
+use Exception;
 use Illuminate\Support\Arr;
 use KBox\Http\Requests\MailSettingsRequest;
 use Illuminate\Support\Facades\Mail;
@@ -124,6 +124,10 @@ class MailAdministrationController extends Controller
         Gate::authorize('manage-kbox');
         
         try {
+            if (! Option::isMailEnabled()) {
+                throw new Exception(trans('validation.required', ['attribute' => ('administration.mail.from_address')]));
+            }
+
             $res = Mail::to(config('mail.from.address'))->send(new TestingMail());
 
             return redirect()->route('administration.mail.index')->with([

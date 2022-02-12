@@ -3,7 +3,6 @@
 namespace KBox\DocumentsElaboration\Testing\Fakes;
 
 use KBox\DocumentDescriptor;
-use Illuminate\Contracts\Queue\Queue;
 use PHPUnit\Framework\Assert as PHPUnit;
 use KBox\DocumentsElaboration\DocumentElaborationManager;
 

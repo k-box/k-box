@@ -3,7 +3,6 @@
 namespace KBox\Http\Controllers\Document;
 
 use Log;
-use Illuminate\Http\Request;
 use KBox\DocumentDescriptor;
 use KBox\Jobs\ReindexDocument;
 use Illuminate\Http\JsonResponse;

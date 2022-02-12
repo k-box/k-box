@@ -3,7 +3,6 @@
 namespace KBox\Http\Middleware;
 
 use App;
-use Config;
 use Session;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;

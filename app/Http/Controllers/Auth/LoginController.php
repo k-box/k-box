@@ -2,7 +2,6 @@
 
 namespace KBox\Http\Controllers\Auth;
 
-use Config;
 use KBox\Option;
 use KBox\HomeRoute;
 use Illuminate\Http\Request;

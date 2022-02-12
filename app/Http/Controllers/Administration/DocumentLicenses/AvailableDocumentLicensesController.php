@@ -3,7 +3,6 @@
 namespace KBox\Http\Controllers\Administration\DocumentLicenses;
 
 use KBox\Option;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rule;
 use KBox\Http\Controllers\Controller;

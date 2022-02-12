@@ -15,7 +15,6 @@ use KBox\Documents\Facades\Files;
 use KBox\Http\Resources\StarredDump;
 use KBox\Http\Resources\ProjectDump;
 use KBox\Http\Resources\DocumentDump;
-use Illuminate\Support\Facades\Event;
 use KBox\Events\PersonalExportCreated;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Storage;

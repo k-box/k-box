@@ -4,7 +4,6 @@ namespace Tests\Unit;
 
 use KBox\User;
 use Tests\TestCase;
-use Illuminate\Support\Facades\Event;
 use Illuminate\Auth\Events\PasswordReset;
 
 class TrackPasswordResetActionTest extends TestCase

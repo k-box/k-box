@@ -4,7 +4,6 @@ namespace KBox\Http\Controllers\Administration\DocumentLicenses;
 
 use KBox\Option;
 use KBox\DocumentDescriptor;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use KBox\Jobs\ReindexDocument;
 use Illuminate\Validation\Rule;

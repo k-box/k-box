@@ -197,6 +197,6 @@ class MailAdministrationControllerTest extends TestCase
             'mail_send' => trans('administration.mail.test_failure_msg'),
         ]);
 
-        Mail::assertNotSent(TestingMail::class);
+        Mail::assertNothingOutgoing();
     }
 }

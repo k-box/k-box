@@ -5,7 +5,6 @@ namespace Tests\Unit;
 use KBox\User;
 use Tests\TestCase;
 use Illuminate\Auth\Events\Verified;
-use Illuminate\Support\Facades\Event;
 
 class TrackEmailVerificationTest extends TestCase
 {

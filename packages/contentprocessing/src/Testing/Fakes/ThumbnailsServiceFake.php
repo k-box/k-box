@@ -3,7 +3,6 @@
 namespace KBox\Documents\Testing\Fakes;
 
 use KBox\File;
-use Illuminate\Contracts\Queue\Queue;
 use PHPUnit\Framework\Assert as PHPUnit;
 use KBox\Documents\Services\ThumbnailsService;
 

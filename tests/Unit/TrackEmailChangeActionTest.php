@@ -5,7 +5,6 @@ namespace Tests\Unit;
 use KBox\User;
 use Tests\TestCase;
 use KBox\Events\EmailChanged;
-use Illuminate\Support\Facades\Event;
 
 class TrackEmailChangeActionTest extends TestCase
 {

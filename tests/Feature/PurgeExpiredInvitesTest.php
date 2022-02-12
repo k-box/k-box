@@ -4,7 +4,6 @@ namespace Tests\Feature;
 
 use Tests\TestCase;
 
-use Illuminate\Support\Facades\Config;
 use KBox\Invite;
 use KBox\Jobs\PurgeExpiredInvites;
 

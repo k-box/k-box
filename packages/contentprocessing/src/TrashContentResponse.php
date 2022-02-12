@@ -3,7 +3,6 @@
 namespace KBox\Documents;
 
 use Illuminate\Support\Collection;
-use Illuminate\Pagination\LengthAwarePaginator as Paginator;
 
 /**
  * What's in the users trash, but a little bit structured.
