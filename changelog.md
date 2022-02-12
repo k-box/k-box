@@ -12,6 +12,20 @@ instructions on adding your own entry.
 
 ## [Unreleased]
 
+## [0.33.1] - 2022-02-12
+
+### Changes
+
+- Upgrade to Laravel 8 ([#497](https://github.com/k-box/k-box/pull/497))
+- Upgrade to Tailwind 2 ([#499](https://github.com/k-box/k-box/pull/499))
+- Various dependencies update
+
+### Fixed
+
+- Handling of reindex state under admin storage page ([#503](https://github.com/k-box/k-box/pull/503))
+- Fix layout of error message when adding new users to a share ([#506](https://github.com/k-box/k-box/pull/506))
+
+
 ## [0.33.0] - 2021-04-05
 
 ### Added
