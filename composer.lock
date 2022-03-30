@@ -1818,16 +1818,16 @@
         },
         {
             "name": "guzzlehttp/psr7",
-            "version": "2.1.0",
+            "version": "2.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/psr7.git",
-                "reference": "089edd38f5b8abba6cb01567c2a8aaa47cec4c72"
+                "reference": "c94a94f120803a18554c1805ef2e539f8285f9a2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/psr7/zipball/089edd38f5b8abba6cb01567c2a8aaa47cec4c72",
-                "reference": "089edd38f5b8abba6cb01567c2a8aaa47cec4c72",
+                "url": "https://api.github.com/repos/guzzle/psr7/zipball/c94a94f120803a18554c1805ef2e539f8285f9a2",
+                "reference": "c94a94f120803a18554c1805ef2e539f8285f9a2",
                 "shasum": ""
             },
             "require": {
@@ -1851,7 +1851,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.1-dev"
+                    "dev-master": "2.2-dev"
                 }
             },
             "autoload": {
@@ -1913,7 +1913,7 @@
             ],
             "support": {
                 "issues": "https://github.com/guzzle/psr7/issues",
-                "source": "https://github.com/guzzle/psr7/tree/2.1.0"
+                "source": "https://github.com/guzzle/psr7/tree/2.2.1"
             },
             "funding": [
                 {
@@ -1929,7 +1929,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-10-06T17:43:30+00:00"
+            "time": "2022-03-20T21:55:58+00:00"
         },
         {
             "name": "intervention/image",
@@ -2457,11 +2457,11 @@
         },
         {
             "name": "k-box/example-plugin",
-            "version": "dev-master",
+            "version": "dev-main",
             "dist": {
                 "type": "path",
                 "url": "plugins/example",
-                "reference": "73ce8d83058d58a0273068aae5125ebb29da8156"
+                "reference": "beee6d49946af3bbf81d4a39006e27c59bef82a2"
             },
             "require": {
                 "php": ">=7.1"
@@ -2583,11 +2583,11 @@
         },
         {
             "name": "k-box/kbox-plugin-geo",
-            "version": "dev-master",
+            "version": "dev-main",
             "dist": {
                 "type": "path",
                 "url": "plugins/geo",
-                "reference": "0e20ab4f298c6d3b4ed7b22012ddcf5d426eefc8"
+                "reference": "57dd44d0cd2ff26de28f2a6731c93d66abbdd952"
             },
             "require": {
                 "ext-zip": "*",
@@ -9762,11 +9762,11 @@
         },
         {
             "name": "k-box/unittest-demo-plugin",
-            "version": "dev-master",
+            "version": "dev-main",
             "dist": {
                 "type": "path",
                 "url": "tests/fixtures/plugins/example",
-                "reference": "c1b1bee81b8d28dc9529c5227cdfa53d15e887d4"
+                "reference": "001be0a2ecffba72bef7626107cf84fabab0d31d"
             },
             "require": {
                 "php": ">=7.1"
@@ -11991,5 +11991,5 @@
         "ext-ctype": "*"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.1.0"
+    "plugin-api-version": "2.2.0"
 }
