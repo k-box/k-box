@@ -7,7 +7,7 @@
 FROM oneofftech/video-processing-cli:0.6.0 AS videocli
 ## .. we just need this image so we can copy from it
 
-FROM klinktech/k-box-ci-pipeline-php:7.4 AS builder
+FROM klinktechnology/k-box-ci-pipeline-php:7.4 AS builder
 ## Installing the dependencies to be used in a later step.
 ## Will generate three directories:
 ## * /var/www/dms/bin/
@@ -45,7 +45,7 @@ RUN \
 FROM php:7.4-fpm AS php
 
 LABEL maintainer="OneOffTech <info@oneofftech.xyz>" \
-  org.label-schema.name="klinktech/k-box" \
+  org.label-schema.name="klinktechnology/k-box" \
   org.label-schema.description="Docker image for K-Box, a web-based application to manage documents, images, videos and geodata." \
   org.label-schema.schema-version="1.0" \
   org.label-schema.vcs-url="https://github.com/k-box/k-box"

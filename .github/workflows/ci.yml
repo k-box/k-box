@@ -13,7 +13,7 @@ jobs:
     name: Tests PHP ${{ matrix.php }}
     runs-on: ubuntu-latest
     container: 
-      image: klinktech/k-box-ci-pipeline-php:${{ matrix.php }}
+      image: klinktechnology/k-box-ci-pipeline-php:${{ matrix.php }}
       options: --user root 
 
     services:
@@ -29,13 +29,13 @@ jobs:
           - 3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
       engine:
-        image: klinktech/k-search-engine:1.0.1
+        image: klinktechnology/k-search-engine:1.0.1
         env:
           KLINK_SOLR_MYHOST: engine
         ports:
           - 8983
       ksearch:
-        image: klinktech/k-search:3.6.0-2
+        image: klinktechnology/k-search:3.6.0-2
         env:
           SOLR_HOST: engine # this is the external address of Solr
           SOLR_CORE: k-search # this is the Solr index name

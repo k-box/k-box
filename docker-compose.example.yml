@@ -18,7 +18,7 @@ services:
 
   ## The Search Engine service
   engine:
-    image: "klinktech/k-search-engine:1.0.1"
+    image: "klinktechnology/k-search-engine:1.0.1"
     volumes:
       - "./storage/index:/opt/solr/k-search/k-search/data"
     expose:
@@ -31,7 +31,7 @@ services:
 
   ## The Search Engine API
   ksearch:
-    image: "klinktech/k-search:3.6.0-2"
+    image: "klinktechnology/k-search:3.6.0-2"
     environment:
       ## Further datails about K-Search configuration in https://github.com/k-box/k-search
       ## Solr search configuration
@@ -62,7 +62,7 @@ services:
 
   ## The K-Box container
   kbox:
-    image: "klinktech/k-box:0.33.1"
+    image: "klinktechnology/k-box:0.33.1"
     environment:
       ## K-Box access
       KBOX_APP_URL: "http://localhost:8080/"

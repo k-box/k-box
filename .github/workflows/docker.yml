@@ -13,7 +13,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      NAMESPACE_DOCKER_HUB: 'klinktech/k-box'
+      NAMESPACE_DOCKER_HUB: 'klinktechnology/k-box'
       COMMIT_SHA: ${{github.sha}}
     steps:
     - uses: actions/checkout@v2
