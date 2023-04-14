@@ -112,7 +112,7 @@ If _Who has Access_ is set to `Anyone with link can access`, go ahead and send t
 
 **1. What is a K-Link Network?**
 
-See [https://k-link.technology/](https://k-link.technology/)
+See [https://oneofftech.xyz/k-link/](https://oneofftech.xyz/k-link/)
 
 [**2. How to publish a file?**](https://github.com/k-box/k-box/blob/master/docs/user/publish.md#to-publish)
 

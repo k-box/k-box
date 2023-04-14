@@ -68,4 +68,4 @@ The K-Box architecture is based on components:
 
 The K-Box (web) Application is the user facing part, while the K-Search offers the full text based retrieval of documents.
 
-> For more information take a look on the [K-Link Technology website](https://k-link.technology/technology.html#k-box)
+> For more information take a look on the [K-Link Technology website](https://oneofftech.xyz/k-link/)

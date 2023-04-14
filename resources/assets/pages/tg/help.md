@@ -121,7 +121,7 @@
 
 **1. K-Link чист?**
 
-[https://k-link.technology/](https://k-link.technology/)
+[https://oneofftech.xyz/k-link/](https://oneofftech.xyz/k-link/)
 
 **2. Чӣ тавр ман ба система кӯмак расонам, то ки санадро пайдо кунад?**
 

@@ -6,7 +6,7 @@ Description: user documentation
 
 ### K-Link Network
 
-K-Link technology allows users to organize themselves in public or closed networks for easier sharing of relevant information and files. More information and examples on the [official K-Link Technology](https://k-link.technology) website.
+K-Link technology allows users to organize themselves in public or closed networks for easier sharing of relevant information and files. More information and examples on the [official K-Link Technology](https://oneofftech.xyz/k-link/) website.
 
 ### To publish
 

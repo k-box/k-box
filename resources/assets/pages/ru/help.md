@@ -103,7 +103,7 @@ _Примечание:_ может сделать только загрузив�
 
 **1. Что такое K-Link?**
 
-См. [https://k-link.technology/](https://k-link.technology/).
+См. [https://oneofftech.xyz/k-link/](https://oneofftech.xyz/k-link/).
 
 [**2. Как выложить документ в сеть?**](https://github.com/k-box/k-box/blob/master/docs/user/publish.md#to-publish)
 

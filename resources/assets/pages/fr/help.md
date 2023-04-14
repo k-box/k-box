@@ -116,7 +116,7 @@ Dans le cas où votre fichier n'est pas accessible par d'autres, veuillez vérif
 **12. Qu'est-ce qu'un réseau K-Link?**
 
 La technologie K-Link permet à des utilisateurs de s'organiser en réseaux privés ou publics pour faciliter l'échange d'information et de documents.
-See [https://k-link.technology/](https://k-link.technology/).
+See [https://oneofftech.xyz/k-link/](https://oneofftech.xyz/k-link/).
 
 **13. Je veux rendre un fichier trouvable sur le réseau K-Link. Comment puis-je le faire?**
 
