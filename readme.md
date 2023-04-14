@@ -14,7 +14,7 @@
 
 The digital tool for projects in the field: Web-based application to manage documents, images, videos and geodata. It contains a full content search, a translated interface into several languages and it connects easily to the K-Link services.
 
-**[Visit the K-Link.technology website](http://k-link.technology)** for more information!
+**[Visit the K-Link technology website](https://oneofftech.xyz/k-link/)** for more information!
 
 If you find any issues with this application, please report them at the [issue tracker](./issues). Contributions are both encouraged and appreciated. If you would like to contribute, please check the website for more information.
 
